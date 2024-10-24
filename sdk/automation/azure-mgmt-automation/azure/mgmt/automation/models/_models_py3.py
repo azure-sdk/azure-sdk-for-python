@@ -9,7 +9,7 @@
 
 import datetime
 import sys
-from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
+from typing import Any, Dict, List, Literal, Optional, TYPE_CHECKING, Union
 
 from .. import _serialization
 
@@ -17,10 +17,6 @@ if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
     from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
-if sys.version_info >= (3, 8):
-    from typing import Literal  # pylint: disable=no-name-in-module, ungrouped-imports
-else:
-    from typing_extensions import Literal  # type: ignore  # pylint: disable=ungrouped-imports
 
 if TYPE_CHECKING:
     # pylint: disable=unused-import,ungrouped-imports
@@ -76,8 +72,8 @@ class Activity(_serialization.Model):
         creation_time: Optional[datetime.datetime] = None,
         last_modified_time: Optional[datetime.datetime] = None,
         description: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword id: Gets or sets the id of the resource.
         :paramtype id: str
@@ -119,7 +115,9 @@ class ActivityListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.Activity"]] = None, next_link: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, value: Optional[List["_models.Activity"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: Gets or sets a list of activities.
         :paramtype value: list[~azure.mgmt.automation.models.Activity]
@@ -145,7 +143,7 @@ class ActivityOutputType(_serialization.Model):
         "type": {"key": "type", "type": "str"},
     }
 
-    def __init__(self, *, name: Optional[str] = None, type: Optional[str] = None, **kwargs):
+    def __init__(self, *, name: Optional[str] = None, type: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword name: Gets or sets the name of the activity output type.
         :paramtype name: str
@@ -218,8 +216,8 @@ class ActivityParameter(_serialization.Model):
         value_from_remaining_arguments: Optional[bool] = None,
         description: Optional[str] = None,
         validation_set: Optional[List["_models.ActivityParameterValidationSet"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Gets or sets the name of the activity parameter.
         :paramtype name: str
@@ -281,8 +279,12 @@ class ActivityParameterSet(_serialization.Model):
     }
 
     def __init__(
-        self, *, name: Optional[str] = None, parameters: Optional[List["_models.ActivityParameter"]] = None, **kwargs
-    ):
+        self,
+        *,
+        name: Optional[str] = None,
+        parameters: Optional[List["_models.ActivityParameter"]] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Gets or sets the name of the activity parameter set.
         :paramtype name: str
@@ -305,7 +307,7 @@ class ActivityParameterValidationSet(_serialization.Model):
         "member_value": {"key": "memberValue", "type": "str"},
     }
 
-    def __init__(self, *, member_value: Optional[str] = None, **kwargs):
+    def __init__(self, *, member_value: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword member_value: Gets or sets the name of the activity parameter validation set member.
         :paramtype member_value: str
@@ -338,8 +340,8 @@ class AdvancedSchedule(_serialization.Model):
         week_days: Optional[List[str]] = None,
         month_days: Optional[List[int]] = None,
         monthly_occurrences: Optional[List["_models.AdvancedScheduleMonthlyOccurrence"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword week_days: Days of the week that the job should execute on.
         :paramtype week_days: list[str]
@@ -373,8 +375,12 @@ class AdvancedScheduleMonthlyOccurrence(_serialization.Model):
     }
 
     def __init__(
-        self, *, occurrence: Optional[int] = None, day: Optional[Union[str, "_models.ScheduleDay"]] = None, **kwargs
-    ):
+        self,
+        *,
+        occurrence: Optional[int] = None,
+        day: Optional[Union[str, "_models.ScheduleDay"]] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword occurrence: Occurrence of the week within the month. Must be between 1 and 5.
         :paramtype occurrence: int
@@ -415,8 +421,8 @@ class AgentRegistration(_serialization.Model):
         endpoint: Optional[str] = None,
         keys: Optional["_models.AgentRegistrationKeys"] = None,
         id: Optional[str] = None,  # pylint: disable=redefined-builtin
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword dsc_meta_configuration: Gets or sets the dsc meta configuration.
         :paramtype dsc_meta_configuration: str
@@ -448,7 +454,7 @@ class AgentRegistrationKeys(_serialization.Model):
         "secondary": {"key": "secondary", "type": "str"},
     }
 
-    def __init__(self, *, primary: Optional[str] = None, secondary: Optional[str] = None, **kwargs):
+    def __init__(self, *, primary: Optional[str] = None, secondary: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword primary: Gets or sets the primary key.
         :paramtype primary: str
@@ -463,7 +469,7 @@ class AgentRegistrationKeys(_serialization.Model):
 class AgentRegistrationRegenerateKeyParameter(_serialization.Model):
     """The parameters supplied to the regenerate keys operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar key_name: Gets or sets the agent registration key name - primary or secondary. Required.
      Known values are: "primary" and "secondary".
@@ -478,7 +484,7 @@ class AgentRegistrationRegenerateKeyParameter(_serialization.Model):
         "key_name": {"key": "keyName", "type": "str"},
     }
 
-    def __init__(self, *, key_name: Union[str, "_models.AgentRegistrationKeyName"], **kwargs):
+    def __init__(self, *, key_name: Union[str, "_models.AgentRegistrationKeyName"], **kwargs: Any) -> None:
         """
         :keyword key_name: Gets or sets the agent registration key name - primary or secondary.
          Required. Known values are: "primary" and "secondary".
@@ -489,52 +495,68 @@ class AgentRegistrationRegenerateKeyParameter(_serialization.Model):
 
 
 class Resource(_serialization.Model):
-    """The core properties of ARM resources.
+    """Common fields that are returned in the response for all Azure Resource Manager resources.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Fully qualified resource Id for the resource.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: The type of the resource.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.automation.models.SystemData
     """
 
     _validation = {
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
+        "system_data": {"readonly": True},
     }
 
     _attribute_map = {
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
         self.name = None
         self.type = None
+        self.system_data = None
 
 
 class TrackedResource(Resource):
-    """The resource model definition for a ARM tracked top level resource.
+    """The resource model definition for an Azure Resource Manager tracked top level resource which
+    has 'tags' and a 'location'.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Fully qualified resource Id for the resource.
+    All required parameters must be populated in order to send to server.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: The type of the resource.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.automation.models.SystemData
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
-    :ivar location: The Azure Region where the resource lives.
+    :ivar location: The geo-location where the resource lives. Required.
     :vartype location: str
     """
 
@@ -542,21 +564,24 @@ class TrackedResource(Resource):
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "location": {"required": True},
     }
 
     _attribute_map = {
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
         "tags": {"key": "tags", "type": "{str}"},
         "location": {"key": "location", "type": "str"},
     }
 
-    def __init__(self, *, tags: Optional[Dict[str, str]] = None, location: Optional[str] = None, **kwargs):
+    def __init__(self, *, location: str, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
-        :keyword location: The Azure Region where the resource lives.
+        :keyword location: The geo-location where the resource lives. Required.
         :paramtype location: str
         """
         super().__init__(**kwargs)
@@ -569,22 +594,27 @@ class AutomationAccount(TrackedResource):  # pylint: disable=too-many-instance-a
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Fully qualified resource Id for the resource.
+    All required parameters must be populated in order to send to server.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: The type of the resource.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.automation.models.SystemData
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
-    :ivar location: The Azure Region where the resource lives.
+    :ivar location: The geo-location where the resource lives. Required.
     :vartype location: str
     :ivar etag: Gets or sets the etag of the resource.
     :vartype etag: str
     :ivar identity: Identity for the resource.
     :vartype identity: ~azure.mgmt.automation.models.Identity
-    :ivar system_data: Resource system metadata.
-    :vartype system_data: ~azure.mgmt.automation.models.SystemData
     :ivar sku: Gets or sets the SKU of account.
     :vartype sku: ~azure.mgmt.automation.models.Sku
     :ivar last_modified_by: Gets or sets the last modified by.
@@ -618,6 +648,7 @@ class AutomationAccount(TrackedResource):  # pylint: disable=too-many-instance-a
         "name": {"readonly": True},
         "type": {"readonly": True},
         "system_data": {"readonly": True},
+        "location": {"required": True},
         "state": {"readonly": True},
         "creation_time": {"readonly": True},
         "last_modified_time": {"readonly": True},
@@ -627,11 +658,11 @@ class AutomationAccount(TrackedResource):  # pylint: disable=too-many-instance-a
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
         "tags": {"key": "tags", "type": "{str}"},
         "location": {"key": "location", "type": "str"},
         "etag": {"key": "etag", "type": "str"},
         "identity": {"key": "identity", "type": "Identity"},
-        "system_data": {"key": "systemData", "type": "SystemData"},
         "sku": {"key": "properties.sku", "type": "Sku"},
         "last_modified_by": {"key": "properties.lastModifiedBy", "type": "str"},
         "state": {"key": "properties.state", "type": "str"},
@@ -651,8 +682,8 @@ class AutomationAccount(TrackedResource):  # pylint: disable=too-many-instance-a
     def __init__(
         self,
         *,
+        location: str,
         tags: Optional[Dict[str, str]] = None,
-        location: Optional[str] = None,
         etag: Optional[str] = None,
         identity: Optional["_models.Identity"] = None,
         sku: Optional["_models.Sku"] = None,
@@ -663,12 +694,12 @@ class AutomationAccount(TrackedResource):  # pylint: disable=too-many-instance-a
         public_network_access: Optional[bool] = None,
         disable_local_auth: Optional[bool] = None,
         automation_hybrid_service_url: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
-        :keyword location: The Azure Region where the resource lives.
+        :keyword location: The geo-location where the resource lives. Required.
         :paramtype location: str
         :keyword etag: Gets or sets the etag of the resource.
         :paramtype etag: str
@@ -699,7 +730,6 @@ class AutomationAccount(TrackedResource):  # pylint: disable=too-many-instance-a
         super().__init__(tags=tags, location=location, **kwargs)
         self.etag = etag
         self.identity = identity
-        self.system_data = None
         self.sku = sku
         self.last_modified_by = last_modified_by
         self.state = None
@@ -713,7 +743,7 @@ class AutomationAccount(TrackedResource):  # pylint: disable=too-many-instance-a
         self.automation_hybrid_service_url = automation_hybrid_service_url
 
 
-class AutomationAccountCreateOrUpdateParameters(_serialization.Model):
+class AutomationAccountCreateOrUpdateParameters(_serialization.Model):  # pylint: disable=name-too-long
     """The parameters supplied to the create or update automation account operation.
 
     :ivar name: Gets or sets name of the resource.
@@ -757,8 +787,8 @@ class AutomationAccountCreateOrUpdateParameters(_serialization.Model):
         encryption: Optional["_models.EncryptionProperties"] = None,
         public_network_access: Optional[bool] = None,
         disable_local_auth: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Gets or sets name of the resource.
         :paramtype name: str
@@ -805,8 +835,12 @@ class AutomationAccountListResult(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.AutomationAccount"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self,
+        *,
+        value: Optional[List["_models.AutomationAccount"]] = None,
+        next_link: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword value: Gets or sets list of accounts.
         :paramtype value: list[~azure.mgmt.automation.models.AutomationAccount]
@@ -862,8 +896,8 @@ class AutomationAccountUpdateParameters(_serialization.Model):
         encryption: Optional["_models.EncryptionProperties"] = None,
         public_network_access: Optional[bool] = None,
         disable_local_auth: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Gets or sets the name of the resource.
         :paramtype name: str
@@ -918,8 +952,8 @@ class AzureQueryProperties(_serialization.Model):
         scope: Optional[List[str]] = None,
         locations: Optional[List[str]] = None,
         tag_settings: Optional["_models.TagSettingsProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword scope: List of Subscription or Resource Group ARM Ids.
         :paramtype scope: list[str]
@@ -935,33 +969,23 @@ class AzureQueryProperties(_serialization.Model):
 
 
 class ProxyResource(Resource):
-    """ARM proxy resource.
+    """The resource model definition for a Azure Resource Manager proxy resource. It will not have
+    tags and a location.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Fully qualified resource Id for the resource.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: The type of the resource.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.automation.models.SystemData
     """
-
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-    }
-
-    def __init__(self, **kwargs):
-        """ """
-        super().__init__(**kwargs)
 
 
 class Certificate(ProxyResource):
@@ -969,12 +993,17 @@ class Certificate(ProxyResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Fully qualified resource Id for the resource.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: The type of the resource.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.automation.models.SystemData
     :ivar thumbprint: Gets the thumbprint of the certificate.
     :vartype thumbprint: str
     :ivar expiry_time: Gets the expiry time of the certificate.
@@ -993,6 +1022,7 @@ class Certificate(ProxyResource):
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
+        "system_data": {"readonly": True},
         "thumbprint": {"readonly": True},
         "expiry_time": {"readonly": True},
         "is_exportable": {"readonly": True},
@@ -1004,6 +1034,7 @@ class Certificate(ProxyResource):
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
         "thumbprint": {"key": "properties.thumbprint", "type": "str"},
         "expiry_time": {"key": "properties.expiryTime", "type": "iso-8601"},
         "is_exportable": {"key": "properties.isExportable", "type": "bool"},
@@ -1012,7 +1043,7 @@ class Certificate(ProxyResource):
         "description": {"key": "properties.description", "type": "str"},
     }
 
-    def __init__(self, *, description: Optional[str] = None, **kwargs):
+    def __init__(self, *, description: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword description: Gets or sets the description.
         :paramtype description: str
@@ -1029,7 +1060,7 @@ class Certificate(ProxyResource):
 class CertificateCreateOrUpdateParameters(_serialization.Model):
     """The parameters supplied to the create or update or replace certificate operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: Gets or sets the name of the certificate. Required.
     :vartype name: str
@@ -1064,8 +1095,8 @@ class CertificateCreateOrUpdateParameters(_serialization.Model):
         description: Optional[str] = None,
         thumbprint: Optional[str] = None,
         is_exportable: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Gets or sets the name of the certificate. Required.
         :paramtype name: str
@@ -1101,8 +1132,8 @@ class CertificateListResult(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.Certificate"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self, *, value: Optional[List["_models.Certificate"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: Gets or sets a list of certificates.
         :paramtype value: list[~azure.mgmt.automation.models.Certificate]
@@ -1128,7 +1159,7 @@ class CertificateUpdateParameters(_serialization.Model):
         "description": {"key": "properties.description", "type": "str"},
     }
 
-    def __init__(self, *, name: Optional[str] = None, description: Optional[str] = None, **kwargs):
+    def __init__(self, *, name: Optional[str] = None, description: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword name: Gets or sets the name of the certificate.
         :paramtype name: str
@@ -1145,12 +1176,17 @@ class Connection(ProxyResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Fully qualified resource Id for the resource.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: The type of the resource.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.automation.models.SystemData
     :ivar connection_type: Gets or sets the connectionType of the connection.
     :vartype connection_type: ~azure.mgmt.automation.models.ConnectionTypeAssociationProperty
     :ivar field_definition_values: Gets the field definition values of the connection.
@@ -1167,6 +1203,7 @@ class Connection(ProxyResource):
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
+        "system_data": {"readonly": True},
         "field_definition_values": {"readonly": True},
         "creation_time": {"readonly": True},
         "last_modified_time": {"readonly": True},
@@ -1176,6 +1213,7 @@ class Connection(ProxyResource):
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
         "connection_type": {"key": "properties.connectionType", "type": "ConnectionTypeAssociationProperty"},
         "field_definition_values": {"key": "properties.fieldDefinitionValues", "type": "{str}"},
         "creation_time": {"key": "properties.creationTime", "type": "iso-8601"},
@@ -1188,8 +1226,8 @@ class Connection(ProxyResource):
         *,
         connection_type: Optional["_models.ConnectionTypeAssociationProperty"] = None,
         description: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword connection_type: Gets or sets the connectionType of the connection.
         :paramtype connection_type: ~azure.mgmt.automation.models.ConnectionTypeAssociationProperty
@@ -1207,7 +1245,7 @@ class Connection(ProxyResource):
 class ConnectionCreateOrUpdateParameters(_serialization.Model):
     """The parameters supplied to the create or update connection operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: Gets or sets the name of the connection. Required.
     :vartype name: str
@@ -1238,8 +1276,8 @@ class ConnectionCreateOrUpdateParameters(_serialization.Model):
         connection_type: "_models.ConnectionTypeAssociationProperty",
         description: Optional[str] = None,
         field_definition_values: Optional[Dict[str, str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Gets or sets the name of the connection. Required.
         :paramtype name: str
@@ -1273,8 +1311,8 @@ class ConnectionListResult(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.Connection"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self, *, value: Optional[List["_models.Connection"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: Gets or sets a list of connection.
         :paramtype value: list[~azure.mgmt.automation.models.Connection]
@@ -1334,8 +1372,8 @@ class ConnectionType(_serialization.Model):
         is_global: Optional[bool] = None,
         last_modified_time: Optional[datetime.datetime] = None,
         description: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword is_global: Gets or sets a Boolean value to indicate if the connection type is global.
         :paramtype is_global: bool
@@ -1366,7 +1404,7 @@ class ConnectionTypeAssociationProperty(_serialization.Model):
         "name": {"key": "name", "type": "str"},
     }
 
-    def __init__(self, *, name: Optional[str] = None, **kwargs):
+    def __init__(self, *, name: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword name: Gets or sets the name of the connection type.
         :paramtype name: str
@@ -1378,7 +1416,7 @@ class ConnectionTypeAssociationProperty(_serialization.Model):
 class ConnectionTypeCreateOrUpdateParameters(_serialization.Model):
     """The parameters supplied to the create or update connection type operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: Gets or sets the name of the connection type. Required.
     :vartype name: str
@@ -1405,8 +1443,8 @@ class ConnectionTypeCreateOrUpdateParameters(_serialization.Model):
         name: str,
         field_definitions: Dict[str, "_models.FieldDefinition"],
         is_global: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Gets or sets the name of the connection type. Required.
         :paramtype name: str
@@ -1437,8 +1475,8 @@ class ConnectionTypeListResult(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.ConnectionType"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self, *, value: Optional[List["_models.ConnectionType"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: Gets or sets a list of connection types.
         :paramtype value: list[~azure.mgmt.automation.models.ConnectionType]
@@ -1473,8 +1511,8 @@ class ConnectionUpdateParameters(_serialization.Model):
         name: Optional[str] = None,
         description: Optional[str] = None,
         field_definition_values: Optional[Dict[str, str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Gets or sets the name of the connection.
         :paramtype name: str
@@ -1492,7 +1530,7 @@ class ConnectionUpdateParameters(_serialization.Model):
 class ContentHash(_serialization.Model):
     """Definition of the runbook property type.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar algorithm: Gets or sets the content hash algorithm used to hash the content. Required.
     :vartype algorithm: str
@@ -1510,7 +1548,7 @@ class ContentHash(_serialization.Model):
         "value": {"key": "value", "type": "str"},
     }
 
-    def __init__(self, *, algorithm: str, value: str, **kwargs):
+    def __init__(self, *, algorithm: str, value: str, **kwargs: Any) -> None:
         """
         :keyword algorithm: Gets or sets the content hash algorithm used to hash the content. Required.
         :paramtype algorithm: str
@@ -1525,7 +1563,7 @@ class ContentHash(_serialization.Model):
 class ContentLink(_serialization.Model):
     """Definition of the content link.
 
-    :ivar uri: Gets or sets the uri of the runbook content.
+    :ivar uri: Gets or sets the uri of content.
     :vartype uri: str
     :ivar content_hash: Gets or sets the hash.
     :vartype content_hash: ~azure.mgmt.automation.models.ContentHash
@@ -1545,10 +1583,10 @@ class ContentLink(_serialization.Model):
         uri: Optional[str] = None,
         content_hash: Optional["_models.ContentHash"] = None,
         version: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
-        :keyword uri: Gets or sets the uri of the runbook content.
+        :keyword uri: Gets or sets the uri of content.
         :paramtype uri: str
         :keyword content_hash: Gets or sets the hash.
         :paramtype content_hash: ~azure.mgmt.automation.models.ContentHash
@@ -1589,8 +1627,8 @@ class ContentSource(_serialization.Model):
         type: Optional[Union[str, "_models.ContentSourceType"]] = None,
         value: Optional[str] = None,
         version: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword hash: Gets or sets the hash.
         :paramtype hash: ~azure.mgmt.automation.models.ContentHash
@@ -1615,12 +1653,17 @@ class Credential(ProxyResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Fully qualified resource Id for the resource.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: The type of the resource.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.automation.models.SystemData
     :ivar user_name: Gets the user name of the credential.
     :vartype user_name: str
     :ivar creation_time: Gets the creation time.
@@ -1635,6 +1678,7 @@ class Credential(ProxyResource):
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
+        "system_data": {"readonly": True},
         "user_name": {"readonly": True},
         "creation_time": {"readonly": True},
         "last_modified_time": {"readonly": True},
@@ -1644,13 +1688,14 @@ class Credential(ProxyResource):
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
         "user_name": {"key": "properties.userName", "type": "str"},
         "creation_time": {"key": "properties.creationTime", "type": "iso-8601"},
         "last_modified_time": {"key": "properties.lastModifiedTime", "type": "iso-8601"},
         "description": {"key": "properties.description", "type": "str"},
     }
 
-    def __init__(self, *, description: Optional[str] = None, **kwargs):
+    def __init__(self, *, description: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword description: Gets or sets the description.
         :paramtype description: str
@@ -1665,7 +1710,7 @@ class Credential(ProxyResource):
 class CredentialCreateOrUpdateParameters(_serialization.Model):
     """The parameters supplied to the create or update credential operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: Gets or sets the name of the credential. Required.
     :vartype name: str
@@ -1690,7 +1735,9 @@ class CredentialCreateOrUpdateParameters(_serialization.Model):
         "description": {"key": "properties.description", "type": "str"},
     }
 
-    def __init__(self, *, name: str, user_name: str, password: str, description: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, name: str, user_name: str, password: str, description: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword name: Gets or sets the name of the credential. Required.
         :paramtype name: str
@@ -1723,8 +1770,8 @@ class CredentialListResult(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.Credential"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self, *, value: Optional[List["_models.Credential"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: Gets or sets a list of credentials.
         :paramtype value: list[~azure.mgmt.automation.models.Credential]
@@ -1763,8 +1810,8 @@ class CredentialUpdateParameters(_serialization.Model):
         user_name: Optional[str] = None,
         password: Optional[str] = None,
         description: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Gets or sets the name of the credential.
         :paramtype name: str
@@ -1830,8 +1877,8 @@ class DeletedAutomationAccount(_serialization.Model):
         automation_account_resource_id: Optional[str] = None,
         automation_account_id: Optional[str] = None,
         location_properties_location: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword id: The resource id.
         :paramtype id: str
@@ -1870,13 +1917,122 @@ class DeletedAutomationAccountListResult(_serialization.Model):
         "value": {"key": "value", "type": "[DeletedAutomationAccount]"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.DeletedAutomationAccount"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.DeletedAutomationAccount"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: Gets or sets the list of deleted automation accounts.
         :paramtype value: list[~azure.mgmt.automation.models.DeletedAutomationAccount]
         """
         super().__init__(**kwargs)
         self.value = value
+
+
+class DeletedRunbook(_serialization.Model):
+    """Definition of deleted runbook.
+
+    :ivar id: The resource id.
+    :vartype id: str
+    :ivar name: Gets or sets name of the resource.
+    :vartype name: str
+    :ivar location: Gets or sets the location of the resource.
+    :vartype location: str
+    :ivar runbook_id: Gets or sets the Runbook Id.
+    :vartype runbook_id: str
+    :ivar runbook_type: Type of the runbook.
+    :vartype runbook_type: str
+    :ivar runtime: Gets or sets runtime of the runbook.
+    :vartype runtime: str
+    :ivar runtime_environment: Environment of the runbook.
+    :vartype runtime_environment: str
+    :ivar creation_time: Gets or sets the creation time.
+    :vartype creation_time: ~datetime.datetime
+    :ivar deletion_time: Gets or sets the last modified time.
+    :vartype deletion_time: ~datetime.datetime
+    """
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "location": {"key": "location", "type": "str"},
+        "runbook_id": {"key": "properties.runbookId", "type": "str"},
+        "runbook_type": {"key": "properties.runbookType", "type": "str"},
+        "runtime": {"key": "properties.runtime", "type": "str"},
+        "runtime_environment": {"key": "properties.runtimeEnvironment", "type": "str"},
+        "creation_time": {"key": "properties.creationTime", "type": "iso-8601"},
+        "deletion_time": {"key": "properties.deletionTime", "type": "iso-8601"},
+    }
+
+    def __init__(
+        self,
+        *,
+        id: Optional[str] = None,  # pylint: disable=redefined-builtin
+        name: Optional[str] = None,
+        location: Optional[str] = None,
+        runbook_id: Optional[str] = None,
+        runbook_type: Optional[str] = None,
+        runtime: Optional[str] = None,
+        runtime_environment: Optional[str] = None,
+        creation_time: Optional[datetime.datetime] = None,
+        deletion_time: Optional[datetime.datetime] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword id: The resource id.
+        :paramtype id: str
+        :keyword name: Gets or sets name of the resource.
+        :paramtype name: str
+        :keyword location: Gets or sets the location of the resource.
+        :paramtype location: str
+        :keyword runbook_id: Gets or sets the Runbook Id.
+        :paramtype runbook_id: str
+        :keyword runbook_type: Type of the runbook.
+        :paramtype runbook_type: str
+        :keyword runtime: Gets or sets runtime of the runbook.
+        :paramtype runtime: str
+        :keyword runtime_environment: Environment of the runbook.
+        :paramtype runtime_environment: str
+        :keyword creation_time: Gets or sets the creation time.
+        :paramtype creation_time: ~datetime.datetime
+        :keyword deletion_time: Gets or sets the last modified time.
+        :paramtype deletion_time: ~datetime.datetime
+        """
+        super().__init__(**kwargs)
+        self.id = id
+        self.name = name
+        self.location = location
+        self.runbook_id = runbook_id
+        self.runbook_type = runbook_type
+        self.runtime = runtime
+        self.runtime_environment = runtime_environment
+        self.creation_time = creation_time
+        self.deletion_time = deletion_time
+
+
+class DeletedRunbookListResult(_serialization.Model):
+    """The response model for the list deleted runbook.
+
+    :ivar value: List of deleted runbooks in automation account.
+    :vartype value: list[~azure.mgmt.automation.models.DeletedRunbook]
+    :ivar next_link: Gets or sets the next link.
+    :vartype next_link: str
+    """
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[DeletedRunbook]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self, *, value: Optional[List["_models.DeletedRunbook"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: List of deleted runbooks in automation account.
+        :paramtype value: list[~azure.mgmt.automation.models.DeletedRunbook]
+        :keyword next_link: Gets or sets the next link.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = next_link
 
 
 class Dimension(_serialization.Model):
@@ -1893,7 +2049,7 @@ class Dimension(_serialization.Model):
         "display_name": {"key": "displayName", "type": "str"},
     }
 
-    def __init__(self, *, name: Optional[str] = None, display_name: Optional[str] = None, **kwargs):
+    def __init__(self, *, name: Optional[str] = None, display_name: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword name: The name of the dimension.
         :paramtype name: str
@@ -1905,241 +2061,27 @@ class Dimension(_serialization.Model):
         self.display_name = display_name
 
 
-class DscCompilationJob(ProxyResource):  # pylint: disable=too-many-instance-attributes
-    """Definition of the Dsc Compilation job.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar id: Fully qualified resource Id for the resource.
-    :vartype id: str
-    :ivar name: The name of the resource.
-    :vartype name: str
-    :ivar type: The type of the resource.
-    :vartype type: str
-    :ivar configuration: Gets or sets the configuration.
-    :vartype configuration: ~azure.mgmt.automation.models.DscConfigurationAssociationProperty
-    :ivar started_by: Gets the compilation job started by.
-    :vartype started_by: str
-    :ivar job_id: Gets the id of the job.
-    :vartype job_id: str
-    :ivar creation_time: Gets the creation time of the job.
-    :vartype creation_time: ~datetime.datetime
-    :ivar provisioning_state: The current provisioning state of the job. Known values are:
-     "Failed", "Succeeded", "Suspended", and "Processing".
-    :vartype provisioning_state: str or ~azure.mgmt.automation.models.JobProvisioningState
-    :ivar run_on: Gets or sets the runOn which specifies the group name where the job is to be
-     executed.
-    :vartype run_on: str
-    :ivar status: Gets or sets the status of the job. Known values are: "New", "Activating",
-     "Running", "Completed", "Failed", "Stopped", "Blocked", "Suspended", "Disconnected",
-     "Suspending", "Stopping", "Resuming", and "Removing".
-    :vartype status: str or ~azure.mgmt.automation.models.JobStatus
-    :ivar status_details: Gets or sets the status details of the job.
-    :vartype status_details: str
-    :ivar start_time: Gets the start time of the job.
-    :vartype start_time: ~datetime.datetime
-    :ivar end_time: Gets the end time of the job.
-    :vartype end_time: ~datetime.datetime
-    :ivar exception: Gets the exception of the job.
-    :vartype exception: str
-    :ivar last_modified_time: Gets the last modified time of the job.
-    :vartype last_modified_time: ~datetime.datetime
-    :ivar last_status_modified_time: Gets the last status modified time of the job.
-    :vartype last_status_modified_time: ~datetime.datetime
-    :ivar parameters: Gets or sets the parameters of the job.
-    :vartype parameters: dict[str, str]
-    """
-
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-        "started_by": {"readonly": True},
-        "job_id": {"readonly": True},
-        "creation_time": {"readonly": True},
-        "start_time": {"readonly": True},
-        "end_time": {"readonly": True},
-        "exception": {"readonly": True},
-        "last_modified_time": {"readonly": True},
-        "last_status_modified_time": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "configuration": {"key": "properties.configuration", "type": "DscConfigurationAssociationProperty"},
-        "started_by": {"key": "properties.startedBy", "type": "str"},
-        "job_id": {"key": "properties.jobId", "type": "str"},
-        "creation_time": {"key": "properties.creationTime", "type": "iso-8601"},
-        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
-        "run_on": {"key": "properties.runOn", "type": "str"},
-        "status": {"key": "properties.status", "type": "str"},
-        "status_details": {"key": "properties.statusDetails", "type": "str"},
-        "start_time": {"key": "properties.startTime", "type": "iso-8601"},
-        "end_time": {"key": "properties.endTime", "type": "iso-8601"},
-        "exception": {"key": "properties.exception", "type": "str"},
-        "last_modified_time": {"key": "properties.lastModifiedTime", "type": "iso-8601"},
-        "last_status_modified_time": {"key": "properties.lastStatusModifiedTime", "type": "iso-8601"},
-        "parameters": {"key": "properties.parameters", "type": "{str}"},
-    }
-
-    def __init__(
-        self,
-        *,
-        configuration: Optional["_models.DscConfigurationAssociationProperty"] = None,
-        provisioning_state: Optional[Union[str, "_models.JobProvisioningState"]] = None,
-        run_on: Optional[str] = None,
-        status: Optional[Union[str, "_models.JobStatus"]] = None,
-        status_details: Optional[str] = None,
-        parameters: Optional[Dict[str, str]] = None,
-        **kwargs
-    ):
-        """
-        :keyword configuration: Gets or sets the configuration.
-        :paramtype configuration: ~azure.mgmt.automation.models.DscConfigurationAssociationProperty
-        :keyword provisioning_state: The current provisioning state of the job. Known values are:
-         "Failed", "Succeeded", "Suspended", and "Processing".
-        :paramtype provisioning_state: str or ~azure.mgmt.automation.models.JobProvisioningState
-        :keyword run_on: Gets or sets the runOn which specifies the group name where the job is to be
-         executed.
-        :paramtype run_on: str
-        :keyword status: Gets or sets the status of the job. Known values are: "New", "Activating",
-         "Running", "Completed", "Failed", "Stopped", "Blocked", "Suspended", "Disconnected",
-         "Suspending", "Stopping", "Resuming", and "Removing".
-        :paramtype status: str or ~azure.mgmt.automation.models.JobStatus
-        :keyword status_details: Gets or sets the status details of the job.
-        :paramtype status_details: str
-        :keyword parameters: Gets or sets the parameters of the job.
-        :paramtype parameters: dict[str, str]
-        """
-        super().__init__(**kwargs)
-        self.configuration = configuration
-        self.started_by = None
-        self.job_id = None
-        self.creation_time = None
-        self.provisioning_state = provisioning_state
-        self.run_on = run_on
-        self.status = status
-        self.status_details = status_details
-        self.start_time = None
-        self.end_time = None
-        self.exception = None
-        self.last_modified_time = None
-        self.last_status_modified_time = None
-        self.parameters = parameters
-
-
-class DscCompilationJobCreateParameters(_serialization.Model):
-    """The parameters supplied to the create compilation job operation.
-
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar name: Gets or sets name of the resource.
-    :vartype name: str
-    :ivar location: Gets or sets the location of the resource.
-    :vartype location: str
-    :ivar tags: Gets or sets the tags attached to the resource.
-    :vartype tags: dict[str, str]
-    :ivar configuration: Gets or sets the configuration. Required.
-    :vartype configuration: ~azure.mgmt.automation.models.DscConfigurationAssociationProperty
-    :ivar parameters: Gets or sets the parameters of the job.
-    :vartype parameters: dict[str, str]
-    :ivar increment_node_configuration_build: If a new build version of NodeConfiguration is
-     required.
-    :vartype increment_node_configuration_build: bool
-    """
-
-    _validation = {
-        "configuration": {"required": True},
-    }
-
-    _attribute_map = {
-        "name": {"key": "name", "type": "str"},
-        "location": {"key": "location", "type": "str"},
-        "tags": {"key": "tags", "type": "{str}"},
-        "configuration": {"key": "properties.configuration", "type": "DscConfigurationAssociationProperty"},
-        "parameters": {"key": "properties.parameters", "type": "{str}"},
-        "increment_node_configuration_build": {"key": "properties.incrementNodeConfigurationBuild", "type": "bool"},
-    }
-
-    def __init__(
-        self,
-        *,
-        configuration: "_models.DscConfigurationAssociationProperty",
-        name: Optional[str] = None,
-        location: Optional[str] = None,
-        tags: Optional[Dict[str, str]] = None,
-        parameters: Optional[Dict[str, str]] = None,
-        increment_node_configuration_build: Optional[bool] = None,
-        **kwargs
-    ):
-        """
-        :keyword name: Gets or sets name of the resource.
-        :paramtype name: str
-        :keyword location: Gets or sets the location of the resource.
-        :paramtype location: str
-        :keyword tags: Gets or sets the tags attached to the resource.
-        :paramtype tags: dict[str, str]
-        :keyword configuration: Gets or sets the configuration. Required.
-        :paramtype configuration: ~azure.mgmt.automation.models.DscConfigurationAssociationProperty
-        :keyword parameters: Gets or sets the parameters of the job.
-        :paramtype parameters: dict[str, str]
-        :keyword increment_node_configuration_build: If a new build version of NodeConfiguration is
-         required.
-        :paramtype increment_node_configuration_build: bool
-        """
-        super().__init__(**kwargs)
-        self.name = name
-        self.location = location
-        self.tags = tags
-        self.configuration = configuration
-        self.parameters = parameters
-        self.increment_node_configuration_build = increment_node_configuration_build
-
-
-class DscCompilationJobListResult(_serialization.Model):
-    """The response model for the list job operation.
-
-    :ivar value: Gets or sets a list of Dsc Compilation jobs.
-    :vartype value: list[~azure.mgmt.automation.models.DscCompilationJob]
-    :ivar next_link: Gets or sets the next link.
-    :vartype next_link: str
-    """
-
-    _attribute_map = {
-        "value": {"key": "value", "type": "[DscCompilationJob]"},
-        "next_link": {"key": "nextLink", "type": "str"},
-    }
-
-    def __init__(
-        self, *, value: Optional[List["_models.DscCompilationJob"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
-        """
-        :keyword value: Gets or sets a list of Dsc Compilation jobs.
-        :paramtype value: list[~azure.mgmt.automation.models.DscCompilationJob]
-        :keyword next_link: Gets or sets the next link.
-        :paramtype next_link: str
-        """
-        super().__init__(**kwargs)
-        self.value = value
-        self.next_link = next_link
-
-
 class DscConfiguration(TrackedResource):  # pylint: disable=too-many-instance-attributes
     """Definition of the configuration type.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Fully qualified resource Id for the resource.
+    All required parameters must be populated in order to send to server.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: The type of the resource.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.automation.models.SystemData
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
-    :ivar location: The Azure Region where the resource lives.
+    :ivar location: The geo-location where the resource lives. Required.
     :vartype location: str
     :ivar etag: Gets or sets the etag of the resource.
     :vartype etag: str
@@ -2171,12 +2113,15 @@ class DscConfiguration(TrackedResource):  # pylint: disable=too-many-instance-at
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "location": {"required": True},
     }
 
     _attribute_map = {
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
         "tags": {"key": "tags", "type": "{str}"},
         "location": {"key": "location", "type": "str"},
         "etag": {"key": "etag", "type": "str"},
@@ -2195,8 +2140,8 @@ class DscConfiguration(TrackedResource):  # pylint: disable=too-many-instance-at
     def __init__(
         self,
         *,
+        location: str,
         tags: Optional[Dict[str, str]] = None,
-        location: Optional[str] = None,
         etag: Optional[str] = None,
         provisioning_state: Optional[Literal["Succeeded"]] = None,
         job_count: Optional[int] = None,
@@ -2208,12 +2153,12 @@ class DscConfiguration(TrackedResource):  # pylint: disable=too-many-instance-at
         last_modified_time: Optional[datetime.datetime] = None,
         node_configuration_count: Optional[int] = None,
         description: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
-        :keyword location: The Azure Region where the resource lives.
+        :keyword location: The geo-location where the resource lives. Required.
         :paramtype location: str
         :keyword etag: Gets or sets the etag of the resource.
         :paramtype etag: str
@@ -2265,7 +2210,7 @@ class DscConfigurationAssociationProperty(_serialization.Model):
         "name": {"key": "name", "type": "str"},
     }
 
-    def __init__(self, *, name: Optional[str] = None, **kwargs):
+    def __init__(self, *, name: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword name: Gets or sets the name of the Dsc configuration.
         :paramtype name: str
@@ -2277,7 +2222,7 @@ class DscConfigurationAssociationProperty(_serialization.Model):
 class DscConfigurationCreateOrUpdateParameters(_serialization.Model):
     """The parameters supplied to the create or update configuration operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: Gets or sets name of the resource.
     :vartype name: str
@@ -2323,8 +2268,8 @@ class DscConfigurationCreateOrUpdateParameters(_serialization.Model):
         log_progress: Optional[bool] = None,
         parameters: Optional[Dict[str, "_models.DscConfigurationParameter"]] = None,
         description: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Gets or sets name of the resource.
         :paramtype name: str
@@ -2377,8 +2322,8 @@ class DscConfigurationListResult(_serialization.Model):
         value: Optional[List["_models.DscConfiguration"]] = None,
         next_link: Optional[str] = None,
         total_count: Optional[int] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword value: Gets or sets a list of configurations.
         :paramtype value: list[~azure.mgmt.automation.models.DscConfiguration]
@@ -2421,8 +2366,8 @@ class DscConfigurationParameter(_serialization.Model):
         is_mandatory: Optional[bool] = None,
         position: Optional[int] = None,
         default_value: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword type: Gets or sets the type of the parameter.
         :paramtype type: str
@@ -2480,8 +2425,8 @@ class DscConfigurationUpdateParameters(_serialization.Model):
         source: Optional["_models.ContentSource"] = None,
         parameters: Optional[Dict[str, "_models.DscConfigurationParameter"]] = None,
         description: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Gets or sets name of the resource.
         :paramtype name: str
@@ -2551,8 +2496,8 @@ class DscMetaConfiguration(_serialization.Model):
         certificate_id: Optional[str] = None,
         refresh_frequency_mins: Optional[int] = None,
         allow_module_overwrite: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword configuration_mode_frequency_mins: Gets or sets the ConfigurationModeFrequencyMins
          value of the meta configuration.
@@ -2590,12 +2535,17 @@ class DscNode(ProxyResource):  # pylint: disable=too-many-instance-attributes
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Fully qualified resource Id for the resource.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: The type of the resource.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.automation.models.SystemData
     :ivar last_seen: Gets or sets the last seen time of the node.
     :vartype last_seen: ~datetime.datetime
     :ivar registration_time: Gets or sets the registration time of the node.
@@ -2624,12 +2574,14 @@ class DscNode(ProxyResource):  # pylint: disable=too-many-instance-attributes
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
+        "system_data": {"readonly": True},
     }
 
     _attribute_map = {
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
         "last_seen": {"key": "properties.lastSeen", "type": "iso-8601"},
         "registration_time": {"key": "properties.registrationTime", "type": "iso-8601"},
         "ip": {"key": "properties.ip", "type": "str"},
@@ -2658,8 +2610,8 @@ class DscNode(ProxyResource):  # pylint: disable=too-many-instance-attributes
         total_count: Optional[int] = None,
         extension_handler: Optional[List["_models.DscNodeExtensionHandlerAssociationProperty"]] = None,
         name_properties_node_configuration_name: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword last_seen: Gets or sets the last seen time of the node.
         :paramtype last_seen: ~datetime.datetime
@@ -2702,12 +2654,17 @@ class DscNodeConfiguration(ProxyResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Fully qualified resource Id for the resource.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: The type of the resource.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.automation.models.SystemData
     :ivar last_modified_time: Gets or sets the last modified time.
     :vartype last_modified_time: ~datetime.datetime
     :ivar creation_time: Gets or sets creation time.
@@ -2727,12 +2684,14 @@ class DscNodeConfiguration(ProxyResource):
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
+        "system_data": {"readonly": True},
     }
 
     _attribute_map = {
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
         "last_modified_time": {"key": "properties.lastModifiedTime", "type": "iso-8601"},
         "creation_time": {"key": "properties.creationTime", "type": "iso-8601"},
         "configuration": {"key": "properties.configuration", "type": "DscConfigurationAssociationProperty"},
@@ -2750,8 +2709,8 @@ class DscNodeConfiguration(ProxyResource):
         source: Optional[str] = None,
         node_count: Optional[int] = None,
         increment_node_configuration_build: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword last_modified_time: Gets or sets the last modified time.
         :paramtype last_modified_time: ~datetime.datetime
@@ -2776,7 +2735,7 @@ class DscNodeConfiguration(ProxyResource):
         self.increment_node_configuration_build = increment_node_configuration_build
 
 
-class DscNodeConfigurationCreateOrUpdateParameters(_serialization.Model):
+class DscNodeConfigurationCreateOrUpdateParameters(_serialization.Model):  # pylint: disable=name-too-long
     """The parameters supplied to the create or update node configuration operation.
 
     :ivar name: Name of the node configuration.
@@ -2808,8 +2767,8 @@ class DscNodeConfigurationCreateOrUpdateParameters(_serialization.Model):
         source: Optional["_models.ContentSource"] = None,
         configuration: Optional["_models.DscConfigurationAssociationProperty"] = None,
         increment_node_configuration_build: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Name of the node configuration.
         :paramtype name: str
@@ -2854,8 +2813,8 @@ class DscNodeConfigurationListResult(_serialization.Model):
         value: Optional[List["_models.DscNodeConfiguration"]] = None,
         next_link: Optional[str] = None,
         total_count: Optional[int] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword value: Gets or sets a list of Dsc node configurations.
         :paramtype value: list[~azure.mgmt.automation.models.DscNodeConfiguration]
@@ -2870,7 +2829,7 @@ class DscNodeConfigurationListResult(_serialization.Model):
         self.total_count = total_count
 
 
-class DscNodeExtensionHandlerAssociationProperty(_serialization.Model):
+class DscNodeExtensionHandlerAssociationProperty(_serialization.Model):  # pylint: disable=name-too-long
     """The dsc extensionHandler property associated with the node.
 
     :ivar name: Gets or sets the name of the extension handler.
@@ -2884,7 +2843,7 @@ class DscNodeExtensionHandlerAssociationProperty(_serialization.Model):
         "version": {"key": "version", "type": "str"},
     }
 
-    def __init__(self, *, name: Optional[str] = None, version: Optional[str] = None, **kwargs):
+    def __init__(self, *, name: Optional[str] = None, version: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword name: Gets or sets the name of the extension handler.
         :paramtype name: str
@@ -2919,8 +2878,8 @@ class DscNodeListResult(_serialization.Model):
         value: Optional[List["_models.DscNode"]] = None,
         next_link: Optional[str] = None,
         total_count: Optional[int] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword value: Gets or sets a list of dsc nodes.
         :paramtype value: list[~azure.mgmt.automation.models.DscNode]
@@ -3023,8 +2982,8 @@ class DscNodeReport(_serialization.Model):  # pylint: disable=too-many-instance-
         i_pv6_addresses: Optional[List[str]] = None,
         number_of_resources: Optional[int] = None,
         raw_errors: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword end_time: Gets or sets the end time of the node report.
         :paramtype end_time: ~datetime.datetime
@@ -3103,8 +3062,8 @@ class DscNodeReportListResult(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.DscNodeReport"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self, *, value: Optional[List["_models.DscNodeReport"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: Gets or sets a list of dsc node reports.
         :paramtype value: list[~azure.mgmt.automation.models.DscNodeReport]
@@ -3135,8 +3094,8 @@ class DscNodeUpdateParameters(_serialization.Model):
         *,
         node_id: Optional[str] = None,
         properties: Optional["_models.DscNodeUpdateParametersProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword node_id: Gets or sets the id of the dsc node.
         :paramtype node_id: str
@@ -3159,7 +3118,7 @@ class DscNodeUpdateParametersProperties(_serialization.Model):
         "name": {"key": "nodeConfiguration.name", "type": "str"},
     }
 
-    def __init__(self, *, name: Optional[str] = None, **kwargs):
+    def __init__(self, *, name: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword name: Gets or sets the name of the dsc node configuration.
         :paramtype name: str
@@ -3203,8 +3162,8 @@ class DscReportError(_serialization.Model):
         error_message: Optional[str] = None,
         locale: Optional[str] = None,
         error_details: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword error_source: Gets or sets the source of the error.
         :paramtype error_source: str
@@ -3280,8 +3239,8 @@ class DscReportResource(_serialization.Model):
         status: Optional[str] = None,
         duration_in_seconds: Optional[float] = None,
         start_date: Optional[datetime.datetime] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword resource_id: Gets or sets the ID of the resource.
         :paramtype resource_id: str
@@ -3329,7 +3288,7 @@ class DscReportResourceNavigation(_serialization.Model):
         "resource_id": {"key": "resourceId", "type": "str"},
     }
 
-    def __init__(self, *, resource_id: Optional[str] = None, **kwargs):
+    def __init__(self, *, resource_id: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword resource_id: Gets or sets the ID of the resource to navigate to.
         :paramtype resource_id: str
@@ -3362,8 +3321,8 @@ class EncryptionProperties(_serialization.Model):
         key_vault_properties: Optional["_models.KeyVaultProperties"] = None,
         key_source: Optional[Union[str, "_models.EncryptionKeySourceType"]] = None,
         identity: Optional["_models.EncryptionPropertiesIdentity"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword key_vault_properties: Key vault properties.
         :paramtype key_vault_properties: ~azure.mgmt.automation.models.KeyVaultProperties
@@ -3384,7 +3343,7 @@ class EncryptionPropertiesIdentity(_serialization.Model):
 
     :ivar user_assigned_identity: The user identity used for CMK. It will be an ARM resource id in
      the form:
-     '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+     '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.  # pylint: disable=line-too-long
     :vartype user_assigned_identity: JSON
     """
 
@@ -3392,11 +3351,11 @@ class EncryptionPropertiesIdentity(_serialization.Model):
         "user_assigned_identity": {"key": "userAssignedIdentity", "type": "object"},
     }
 
-    def __init__(self, *, user_assigned_identity: Optional[JSON] = None, **kwargs):
+    def __init__(self, *, user_assigned_identity: Optional[JSON] = None, **kwargs: Any) -> None:
         """
         :keyword user_assigned_identity: The user identity used for CMK. It will be an ARM resource id
          in the form:
-         '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+         '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.  # pylint: disable=line-too-long
         :paramtype user_assigned_identity: JSON
         """
         super().__init__(**kwargs)
@@ -3417,7 +3376,7 @@ class ErrorResponse(_serialization.Model):
         "message": {"key": "message", "type": "str"},
     }
 
-    def __init__(self, *, code: Optional[str] = None, message: Optional[str] = None, **kwargs):
+    def __init__(self, *, code: Optional[str] = None, message: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword code: Error code.
         :paramtype code: str
@@ -3432,7 +3391,7 @@ class ErrorResponse(_serialization.Model):
 class FieldDefinition(_serialization.Model):
     """Definition of the connection fields.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar is_encrypted: Gets or sets the isEncrypted flag of the connection field definition.
     :vartype is_encrypted: bool
@@ -3452,7 +3411,9 @@ class FieldDefinition(_serialization.Model):
         "type": {"key": "type", "type": "str"},
     }
 
-    def __init__(self, *, type: str, is_encrypted: Optional[bool] = None, is_optional: Optional[bool] = None, **kwargs):
+    def __init__(
+        self, *, type: str, is_encrypted: Optional[bool] = None, is_optional: Optional[bool] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword is_encrypted: Gets or sets the isEncrypted flag of the connection field definition.
         :paramtype is_encrypted: bool
@@ -3486,8 +3447,8 @@ class GraphicalRunbookContent(_serialization.Model):
         *,
         raw_content: Optional["_models.RawGraphicalRunbookContent"] = None,
         graph_runbook_json: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword raw_content: Raw graphical Runbook content.
         :paramtype raw_content: ~azure.mgmt.automation.models.RawGraphicalRunbookContent
@@ -3499,19 +3460,28 @@ class GraphicalRunbookContent(_serialization.Model):
         self.graph_runbook_json = graph_runbook_json
 
 
-class HybridRunbookWorker(Resource):
+class HybridRunbookWorker(TrackedResource):  # pylint: disable=too-many-instance-attributes
     """Definition of hybrid runbook worker.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Fully qualified resource Id for the resource.
+    All required parameters must be populated in order to send to server.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: The type of the resource.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
-    :ivar system_data: Resource system metadata.
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
     :vartype system_data: ~azure.mgmt.automation.models.SystemData
+    :ivar tags: Resource tags.
+    :vartype tags: dict[str, str]
+    :ivar location: The geo-location where the resource lives. Required.
+    :vartype location: str
     :ivar ip: Gets or sets the assigned machine IP address.
     :vartype ip: str
     :ivar registered_date_time: Gets or sets the registration time of the worker machine.
@@ -3531,6 +3501,7 @@ class HybridRunbookWorker(Resource):
         "name": {"readonly": True},
         "type": {"readonly": True},
         "system_data": {"readonly": True},
+        "location": {"required": True},
     }
 
     _attribute_map = {
@@ -3538,6 +3509,8 @@ class HybridRunbookWorker(Resource):
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
         "system_data": {"key": "systemData", "type": "SystemData"},
+        "tags": {"key": "tags", "type": "{str}"},
+        "location": {"key": "location", "type": "str"},
         "ip": {"key": "properties.ip", "type": "str"},
         "registered_date_time": {"key": "properties.registeredDateTime", "type": "iso-8601"},
         "last_seen_date_time": {"key": "properties.lastSeenDateTime", "type": "iso-8601"},
@@ -3549,15 +3522,21 @@ class HybridRunbookWorker(Resource):
     def __init__(
         self,
         *,
+        location: str,
+        tags: Optional[Dict[str, str]] = None,
         ip: Optional[str] = None,
         registered_date_time: Optional[datetime.datetime] = None,
         last_seen_date_time: Optional[datetime.datetime] = None,
         vm_resource_id: Optional[str] = None,
         worker_type: Optional[Union[str, "_models.WorkerType"]] = None,
         worker_name: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
+        :keyword tags: Resource tags.
+        :paramtype tags: dict[str, str]
+        :keyword location: The geo-location where the resource lives. Required.
+        :paramtype location: str
         :keyword ip: Gets or sets the assigned machine IP address.
         :paramtype ip: str
         :keyword registered_date_time: Gets or sets the registration time of the worker machine.
@@ -3571,8 +3550,7 @@ class HybridRunbookWorker(Resource):
         :keyword worker_name: Name of the HybridWorker.
         :paramtype worker_name: str
         """
-        super().__init__(**kwargs)
-        self.system_data = None
+        super().__init__(tags=tags, location=location, **kwargs)
         self.ip = ip
         self.registered_date_time = registered_date_time
         self.last_seen_date_time = last_seen_date_time
@@ -3584,42 +3562,55 @@ class HybridRunbookWorker(Resource):
 class HybridRunbookWorkerCreateParameters(_serialization.Model):
     """The parameters supplied to the create hybrid runbook worker operation.
 
+    Variables are only populated by the server, and will be ignored when sending a request.
+
     :ivar name: Gets or sets the name of the resource.
     :vartype name: str
     :ivar vm_resource_id: Azure Resource Manager Id for a virtual machine.
     :vartype vm_resource_id: str
     """
 
+    _validation = {
+        "name": {"readonly": True},
+    }
+
     _attribute_map = {
         "name": {"key": "name", "type": "str"},
         "vm_resource_id": {"key": "properties.vmResourceId", "type": "str"},
     }
 
-    def __init__(self, *, name: Optional[str] = None, vm_resource_id: Optional[str] = None, **kwargs):
+    def __init__(self, *, vm_resource_id: Optional[str] = None, **kwargs: Any) -> None:
         """
-        :keyword name: Gets or sets the name of the resource.
-        :paramtype name: str
         :keyword vm_resource_id: Azure Resource Manager Id for a virtual machine.
         :paramtype vm_resource_id: str
         """
         super().__init__(**kwargs)
-        self.name = name
+        self.name = None
         self.vm_resource_id = vm_resource_id
 
 
-class HybridRunbookWorkerGroup(Resource):
+class HybridRunbookWorkerGroup(TrackedResource):
     """Definition of hybrid runbook worker group.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Fully qualified resource Id for the resource.
+    All required parameters must be populated in order to send to server.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: The type of the resource.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
-    :ivar system_data: Resource system metadata.
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
     :vartype system_data: ~azure.mgmt.automation.models.SystemData
+    :ivar tags: Resource tags.
+    :vartype tags: dict[str, str]
+    :ivar location: The geo-location where the resource lives. Required.
+    :vartype location: str
     :ivar group_type: Type of the HybridWorkerGroup. Known values are: "User" and "System".
     :vartype group_type: str or ~azure.mgmt.automation.models.GroupTypeEnum
     :ivar credential: Sets the credential of a worker group.
@@ -3631,6 +3622,7 @@ class HybridRunbookWorkerGroup(Resource):
         "name": {"readonly": True},
         "type": {"readonly": True},
         "system_data": {"readonly": True},
+        "location": {"required": True},
     }
 
     _attribute_map = {
@@ -3638,6 +3630,8 @@ class HybridRunbookWorkerGroup(Resource):
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
         "system_data": {"key": "systemData", "type": "SystemData"},
+        "tags": {"key": "tags", "type": "{str}"},
+        "location": {"key": "location", "type": "str"},
         "group_type": {"key": "properties.groupType", "type": "str"},
         "credential": {"key": "properties.credential", "type": "RunAsCredentialAssociationProperty"},
     }
@@ -3645,23 +3639,28 @@ class HybridRunbookWorkerGroup(Resource):
     def __init__(
         self,
         *,
+        location: str,
+        tags: Optional[Dict[str, str]] = None,
         group_type: Optional[Union[str, "_models.GroupTypeEnum"]] = None,
         credential: Optional["_models.RunAsCredentialAssociationProperty"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
+        :keyword tags: Resource tags.
+        :paramtype tags: dict[str, str]
+        :keyword location: The geo-location where the resource lives. Required.
+        :paramtype location: str
         :keyword group_type: Type of the HybridWorkerGroup. Known values are: "User" and "System".
         :paramtype group_type: str or ~azure.mgmt.automation.models.GroupTypeEnum
         :keyword credential: Sets the credential of a worker group.
         :paramtype credential: ~azure.mgmt.automation.models.RunAsCredentialAssociationProperty
         """
-        super().__init__(**kwargs)
-        self.system_data = None
+        super().__init__(tags=tags, location=location, **kwargs)
         self.group_type = group_type
         self.credential = credential
 
 
-class HybridRunbookWorkerGroupCreateOrUpdateParameters(_serialization.Model):
+class HybridRunbookWorkerGroupCreateOrUpdateParameters(_serialization.Model):  # pylint: disable=name-too-long
     """The parameters supplied to the create hybrid runbook worker group operation.
 
     :ivar name: Gets or sets the name of the resource.
@@ -3680,8 +3679,8 @@ class HybridRunbookWorkerGroupCreateOrUpdateParameters(_serialization.Model):
         *,
         name: Optional[str] = None,
         credential: Optional["_models.RunAsCredentialAssociationProperty"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Gets or sets the name of the resource.
         :paramtype name: str
@@ -3712,8 +3711,8 @@ class HybridRunbookWorkerGroupsListResult(_serialization.Model):
         *,
         value: Optional[List["_models.HybridRunbookWorkerGroup"]] = None,
         next_link: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword value: Gets or sets a list of hybrid runbook worker groups.
         :paramtype value: list[~azure.mgmt.automation.models.HybridRunbookWorkerGroup]
@@ -3736,7 +3735,7 @@ class HybridRunbookWorkerMoveParameters(_serialization.Model):
         "hybrid_runbook_worker_group_name": {"key": "hybridRunbookWorkerGroupName", "type": "str"},
     }
 
-    def __init__(self, *, hybrid_runbook_worker_group_name: Optional[str] = None, **kwargs):
+    def __init__(self, *, hybrid_runbook_worker_group_name: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword hybrid_runbook_worker_group_name: Gets or sets the target hybrid runbook worker group.
         :paramtype hybrid_runbook_worker_group_name: str
@@ -3760,8 +3759,12 @@ class HybridRunbookWorkersListResult(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.HybridRunbookWorker"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self,
+        *,
+        value: Optional[List["_models.HybridRunbookWorker"]] = None,
+        next_link: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword value: Gets or sets a list of hybrid runbook workers.
         :paramtype value: list[~azure.mgmt.automation.models.HybridRunbookWorker]
@@ -3778,7 +3781,7 @@ class Identity(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar principal_id: The principal ID of resource identity.
+    :ivar principal_id: The principal ID of resource identity. The value must be an UUID.
     :vartype principal_id: str
     :ivar tenant_id: The tenant ID of resource.
     :vartype tenant_id: str
@@ -3787,7 +3790,7 @@ class Identity(_serialization.Model):
     :vartype type: str or ~azure.mgmt.automation.models.ResourceIdentityType
     :ivar user_assigned_identities: The list of user identities associated with the resource. The
      user identity dictionary key references will be ARM resource ids in the form:
-     '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+     '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.  # pylint: disable=line-too-long
     :vartype user_assigned_identities: dict[str,
      ~azure.mgmt.automation.models.UserAssignedIdentitiesProperties]
     """
@@ -3809,15 +3812,15 @@ class Identity(_serialization.Model):
         *,
         type: Optional[Union[str, "_models.ResourceIdentityType"]] = None,
         user_assigned_identities: Optional[Dict[str, "_models.UserAssignedIdentitiesProperties"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword type: The identity type. Known values are: "SystemAssigned", "UserAssigned",
          "SystemAssigned, UserAssigned", and "None".
         :paramtype type: str or ~azure.mgmt.automation.models.ResourceIdentityType
         :keyword user_assigned_identities: The list of user identities associated with the resource.
          The user identity dictionary key references will be ARM resource ids in the form:
-         '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+         '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.  # pylint: disable=line-too-long
         :paramtype user_assigned_identities: dict[str,
          ~azure.mgmt.automation.models.UserAssignedIdentitiesProperties]
         """
@@ -3833,12 +3836,17 @@ class Job(ProxyResource):  # pylint: disable=too-many-instance-attributes
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Fully qualified resource Id for the resource.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: The type of the resource.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.automation.models.SystemData
     :ivar runbook: Gets or sets the runbook.
     :vartype runbook: ~azure.mgmt.automation.models.RunbookAssociationProperty
     :ivar started_by: Gets or sets the job started by.
@@ -3846,6 +3854,8 @@ class Job(ProxyResource):  # pylint: disable=too-many-instance-attributes
     :ivar run_on: Gets or sets the runOn which specifies the group name where the job is to be
      executed.
     :vartype run_on: str
+    :ivar job_runtime_environment: Runtime Environment Property.
+    :vartype job_runtime_environment: ~azure.mgmt.automation.models.JobRuntimeEnvironment
     :ivar job_id: Gets or sets the id of the job.
     :vartype job_id: str
     :ivar creation_time: Gets or sets the creation time of the job.
@@ -3877,15 +3887,19 @@ class Job(ProxyResource):  # pylint: disable=too-many-instance-attributes
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "provisioning_state": {"readonly": True},
     }
 
     _attribute_map = {
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
         "runbook": {"key": "properties.runbook", "type": "RunbookAssociationProperty"},
         "started_by": {"key": "properties.startedBy", "type": "str"},
         "run_on": {"key": "properties.runOn", "type": "str"},
+        "job_runtime_environment": {"key": "properties.jobRuntimeEnvironment", "type": "JobRuntimeEnvironment"},
         "job_id": {"key": "properties.jobId", "type": "str"},
         "creation_time": {"key": "properties.creationTime", "type": "iso-8601"},
         "status": {"key": "properties.status", "type": "str"},
@@ -3905,6 +3919,7 @@ class Job(ProxyResource):  # pylint: disable=too-many-instance-attributes
         runbook: Optional["_models.RunbookAssociationProperty"] = None,
         started_by: Optional[str] = None,
         run_on: Optional[str] = None,
+        job_runtime_environment: Optional["_models.JobRuntimeEnvironment"] = None,
         job_id: Optional[str] = None,
         creation_time: Optional[datetime.datetime] = None,
         status: Optional[Union[str, "_models.JobStatus"]] = None,
@@ -3915,9 +3930,8 @@ class Job(ProxyResource):  # pylint: disable=too-many-instance-attributes
         last_modified_time: Optional[datetime.datetime] = None,
         last_status_modified_time: Optional[datetime.datetime] = None,
         parameters: Optional[Dict[str, str]] = None,
-        provisioning_state: Optional[Union[str, "_models.JobProvisioningState"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword runbook: Gets or sets the runbook.
         :paramtype runbook: ~azure.mgmt.automation.models.RunbookAssociationProperty
@@ -3926,6 +3940,8 @@ class Job(ProxyResource):  # pylint: disable=too-many-instance-attributes
         :keyword run_on: Gets or sets the runOn which specifies the group name where the job is to be
          executed.
         :paramtype run_on: str
+        :keyword job_runtime_environment: Runtime Environment Property.
+        :paramtype job_runtime_environment: ~azure.mgmt.automation.models.JobRuntimeEnvironment
         :keyword job_id: Gets or sets the id of the job.
         :paramtype job_id: str
         :keyword creation_time: Gets or sets the creation time of the job.
@@ -3948,14 +3964,12 @@ class Job(ProxyResource):  # pylint: disable=too-many-instance-attributes
         :paramtype last_status_modified_time: ~datetime.datetime
         :keyword parameters: Gets or sets the parameters of the job.
         :paramtype parameters: dict[str, str]
-        :keyword provisioning_state: The current provisioning state of the job. Known values are:
-         "Failed", "Succeeded", "Suspended", and "Processing".
-        :paramtype provisioning_state: str or ~azure.mgmt.automation.models.JobProvisioningState
         """
         super().__init__(**kwargs)
         self.runbook = runbook
         self.started_by = started_by
         self.run_on = run_on
+        self.job_runtime_environment = job_runtime_environment
         self.job_id = job_id
         self.creation_time = creation_time
         self.status = status
@@ -3966,7 +3980,7 @@ class Job(ProxyResource):  # pylint: disable=too-many-instance-attributes
         self.last_modified_time = last_modified_time
         self.last_status_modified_time = last_status_modified_time
         self.parameters = parameters
-        self.provisioning_state = provisioning_state
+        self.provisioning_state = None
 
 
 class JobCollectionItem(ProxyResource):  # pylint: disable=too-many-instance-attributes
@@ -3974,16 +3988,23 @@ class JobCollectionItem(ProxyResource):  # pylint: disable=too-many-instance-att
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Fully qualified resource Id for the resource.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: The type of the resource.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.automation.models.SystemData
     :ivar runbook: The runbook association.
     :vartype runbook: ~azure.mgmt.automation.models.RunbookAssociationProperty
     :ivar job_id: The id of the job.
     :vartype job_id: str
+    :ivar started_by: Gets or sets the job started by.
+    :vartype started_by: str
     :ivar creation_time: The creation time of the job.
     :vartype creation_time: ~datetime.datetime
     :ivar status: The status of the job. Known values are: "New", "Activating", "Running",
@@ -3998,6 +4019,8 @@ class JobCollectionItem(ProxyResource):  # pylint: disable=too-many-instance-att
     :vartype last_modified_time: ~datetime.datetime
     :ivar provisioning_state: The provisioning state of a resource.
     :vartype provisioning_state: str
+    :ivar job_runtime_environment: Runtime Environment Property.
+    :vartype job_runtime_environment: ~azure.mgmt.automation.models.JobRuntimeEnvironment
     :ivar run_on: Specifies the runOn group name where the job was executed.
     :vartype run_on: str
     """
@@ -4006,8 +4029,10 @@ class JobCollectionItem(ProxyResource):  # pylint: disable=too-many-instance-att
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
+        "system_data": {"readonly": True},
         "runbook": {"readonly": True},
         "job_id": {"readonly": True},
+        "started_by": {"readonly": True},
         "creation_time": {"readonly": True},
         "status": {"readonly": True},
         "start_time": {"readonly": True},
@@ -4020,31 +4045,44 @@ class JobCollectionItem(ProxyResource):  # pylint: disable=too-many-instance-att
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
         "runbook": {"key": "properties.runbook", "type": "RunbookAssociationProperty"},
         "job_id": {"key": "properties.jobId", "type": "str"},
+        "started_by": {"key": "properties.startedBy", "type": "str"},
         "creation_time": {"key": "properties.creationTime", "type": "iso-8601"},
         "status": {"key": "properties.status", "type": "str"},
         "start_time": {"key": "properties.startTime", "type": "iso-8601"},
         "end_time": {"key": "properties.endTime", "type": "iso-8601"},
         "last_modified_time": {"key": "properties.lastModifiedTime", "type": "iso-8601"},
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
+        "job_runtime_environment": {"key": "properties.jobRuntimeEnvironment", "type": "JobRuntimeEnvironment"},
         "run_on": {"key": "properties.runOn", "type": "str"},
     }
 
-    def __init__(self, *, run_on: Optional[str] = None, **kwargs):
+    def __init__(
+        self,
+        *,
+        job_runtime_environment: Optional["_models.JobRuntimeEnvironment"] = None,
+        run_on: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
         """
+        :keyword job_runtime_environment: Runtime Environment Property.
+        :paramtype job_runtime_environment: ~azure.mgmt.automation.models.JobRuntimeEnvironment
         :keyword run_on: Specifies the runOn group name where the job was executed.
         :paramtype run_on: str
         """
         super().__init__(**kwargs)
         self.runbook = None
         self.job_id = None
+        self.started_by = None
         self.creation_time = None
         self.status = None
         self.start_time = None
         self.end_time = None
         self.last_modified_time = None
         self.provisioning_state = None
+        self.job_runtime_environment = job_runtime_environment
         self.run_on = run_on
 
 
@@ -4072,8 +4110,8 @@ class JobCreateParameters(_serialization.Model):
         runbook: Optional["_models.RunbookAssociationProperty"] = None,
         parameters: Optional[Dict[str, str]] = None,
         run_on: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword runbook: Gets or sets the runbook.
         :paramtype runbook: ~azure.mgmt.automation.models.RunbookAssociationProperty
@@ -4109,7 +4147,7 @@ class JobListResultV2(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.JobCollectionItem"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.JobCollectionItem"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: List of jobs.
         :paramtype value: list[~azure.mgmt.automation.models.JobCollectionItem]
@@ -4136,10 +4174,30 @@ class JobNavigation(_serialization.Model):
         "id": {"key": "id", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
+
+
+class JobRuntimeEnvironment(_serialization.Model):
+    """The runbook property associated with the entity.
+
+    :ivar runtime_environment_name: Name of Runtime Environment.
+    :vartype runtime_environment_name: str
+    """
+
+    _attribute_map = {
+        "runtime_environment_name": {"key": "runtimeEnvironmentName", "type": "str"},
+    }
+
+    def __init__(self, *, runtime_environment_name: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword runtime_environment_name: Name of Runtime Environment.
+        :paramtype runtime_environment_name: str
+        """
+        super().__init__(**kwargs)
+        self.runtime_environment_name = runtime_environment_name
 
 
 class JobSchedule(_serialization.Model):
@@ -4190,8 +4248,8 @@ class JobSchedule(_serialization.Model):
         runbook: Optional["_models.RunbookAssociationProperty"] = None,
         run_on: Optional[str] = None,
         parameters: Optional[Dict[str, str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword job_schedule_id: Gets or sets the id of job schedule.
         :paramtype job_schedule_id: str
@@ -4218,7 +4276,7 @@ class JobSchedule(_serialization.Model):
 class JobScheduleCreateParameters(_serialization.Model):
     """The parameters supplied to the create job schedule operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar schedule: Gets or sets the schedule. Required.
     :vartype schedule: ~azure.mgmt.automation.models.ScheduleAssociationProperty
@@ -4249,8 +4307,8 @@ class JobScheduleCreateParameters(_serialization.Model):
         runbook: "_models.RunbookAssociationProperty",
         run_on: Optional[str] = None,
         parameters: Optional[Dict[str, str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword schedule: Gets or sets the schedule. Required.
         :paramtype schedule: ~azure.mgmt.automation.models.ScheduleAssociationProperty
@@ -4283,8 +4341,8 @@ class JobScheduleListResult(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.JobSchedule"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self, *, value: Optional[List["_models.JobSchedule"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: Gets or sets a list of job schedules.
         :paramtype value: list[~azure.mgmt.automation.models.JobSchedule]
@@ -4336,8 +4394,8 @@ class JobStream(_serialization.Model):
         stream_text: Optional[str] = None,
         summary: Optional[str] = None,
         value: Optional[Dict[str, JSON]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword id: Gets or sets the id of the resource.
         :paramtype id: str
@@ -4379,7 +4437,9 @@ class JobStreamListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.JobStream"]] = None, next_link: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, value: Optional[List["_models.JobStream"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: A list of job streams.
         :paramtype value: list[~azure.mgmt.automation.models.JobStream]
@@ -4416,7 +4476,7 @@ class Key(_serialization.Model):
         "value": {"key": "Value", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.key_name = None
@@ -4435,7 +4495,7 @@ class KeyListResult(_serialization.Model):
         "keys": {"key": "keys", "type": "[Key]"},
     }
 
-    def __init__(self, *, keys: Optional[List["_models.Key"]] = None, **kwargs):
+    def __init__(self, *, keys: Optional[List["_models.Key"]] = None, **kwargs: Any) -> None:
         """
         :keyword keys: Lists the automation keys.
         :paramtype keys: list[~azure.mgmt.automation.models.Key]
@@ -4467,8 +4527,8 @@ class KeyVaultProperties(_serialization.Model):
         keyvault_uri: Optional[str] = None,
         key_name: Optional[str] = None,
         key_version: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword keyvault_uri: The URI of the key vault key used to encrypt data.
         :paramtype keyvault_uri: str
@@ -4500,7 +4560,7 @@ class LinkedWorkspace(_serialization.Model):
         "id": {"key": "id", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -4535,8 +4595,8 @@ class LinuxProperties(_serialization.Model):
         excluded_package_name_masks: Optional[List[str]] = None,
         included_package_name_masks: Optional[List[str]] = None,
         reboot_setting: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword included_package_classifications: Update classifications included in the software
          update configuration. Known values are: "Unclassified", "Critical", "Security", and "Other".
@@ -4579,8 +4639,8 @@ class LogSpecification(_serialization.Model):
         name: Optional[str] = None,
         display_name: Optional[str] = None,
         blob_duration: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: The name of the specification.
         :paramtype name: str
@@ -4630,8 +4690,8 @@ class MetricSpecification(_serialization.Model):
         unit: Optional[str] = None,
         aggregation_type: Optional[str] = None,
         dimensions: Optional[List["_models.Dimension"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: The name of the metric.
         :paramtype name: str
@@ -4660,15 +4720,22 @@ class Module(TrackedResource):  # pylint: disable=too-many-instance-attributes
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Fully qualified resource Id for the resource.
+    All required parameters must be populated in order to send to server.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: The type of the resource.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.automation.models.SystemData
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
-    :ivar location: The Azure Region where the resource lives.
+    :ivar location: The geo-location where the resource lives. Required.
     :vartype location: str
     :ivar etag: Gets or sets the etag of the resource.
     :vartype etag: str
@@ -4704,12 +4771,15 @@ class Module(TrackedResource):  # pylint: disable=too-many-instance-attributes
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "location": {"required": True},
     }
 
     _attribute_map = {
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
         "tags": {"key": "tags", "type": "{str}"},
         "location": {"key": "location", "type": "str"},
         "etag": {"key": "etag", "type": "str"},
@@ -4729,8 +4799,8 @@ class Module(TrackedResource):  # pylint: disable=too-many-instance-attributes
     def __init__(
         self,
         *,
+        location: str,
         tags: Optional[Dict[str, str]] = None,
-        location: Optional[str] = None,
         etag: Optional[str] = None,
         is_global: Optional[bool] = None,
         version: Optional[str] = None,
@@ -4743,12 +4813,12 @@ class Module(TrackedResource):  # pylint: disable=too-many-instance-attributes
         last_modified_time: Optional[datetime.datetime] = None,
         description: Optional[str] = None,
         is_composite: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
-        :keyword location: The Azure Region where the resource lives.
+        :keyword location: The geo-location where the resource lives. Required.
         :paramtype location: str
         :keyword etag: Gets or sets the etag of the resource.
         :paramtype etag: str
@@ -4797,7 +4867,7 @@ class Module(TrackedResource):  # pylint: disable=too-many-instance-attributes
 class ModuleCreateOrUpdateParameters(_serialization.Model):
     """The parameters supplied to the create or update module operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: Gets or sets name of the resource.
     :vartype name: str
@@ -4827,8 +4897,8 @@ class ModuleCreateOrUpdateParameters(_serialization.Model):
         name: Optional[str] = None,
         location: Optional[str] = None,
         tags: Optional[Dict[str, str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Gets or sets name of the resource.
         :paramtype name: str
@@ -4860,7 +4930,7 @@ class ModuleErrorInfo(_serialization.Model):
         "message": {"key": "message", "type": "str"},
     }
 
-    def __init__(self, *, code: Optional[str] = None, message: Optional[str] = None, **kwargs):
+    def __init__(self, *, code: Optional[str] = None, message: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword code: Gets or sets the error code.
         :paramtype code: str
@@ -4886,7 +4956,9 @@ class ModuleListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.Module"]] = None, next_link: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, value: Optional[List["_models.Module"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: Gets or sets a list of modules.
         :paramtype value: list[~azure.mgmt.automation.models.Module]
@@ -4925,8 +4997,8 @@ class ModuleUpdateParameters(_serialization.Model):
         location: Optional[str] = None,
         tags: Optional[Dict[str, str]] = None,
         content_link: Optional["_models.ContentLink"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Gets or sets name of the resource.
         :paramtype name: str
@@ -4959,8 +5031,8 @@ class NodeCount(_serialization.Model):
     }
 
     def __init__(
-        self, *, name: Optional[str] = None, properties: Optional["_models.NodeCountProperties"] = None, **kwargs
-    ):
+        self, *, name: Optional[str] = None, properties: Optional["_models.NodeCountProperties"] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword name: Gets the name of a count type.
         :paramtype name: str
@@ -4983,7 +5055,7 @@ class NodeCountProperties(_serialization.Model):
         "count": {"key": "count", "type": "int"},
     }
 
-    def __init__(self, *, count: Optional[int] = None, **kwargs):
+    def __init__(self, *, count: Optional[int] = None, **kwargs: Any) -> None:
         """
         :keyword count: Gets the count for the name.
         :paramtype count: int
@@ -5007,8 +5079,8 @@ class NodeCounts(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.NodeCount"]] = None, total_count: Optional[int] = None, **kwargs
-    ):
+        self, *, value: Optional[List["_models.NodeCount"]] = None, total_count: Optional[int] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: Gets an array of counts.
         :paramtype value: list[~azure.mgmt.automation.models.NodeCount]
@@ -5034,7 +5106,9 @@ class NonAzureQueryProperties(_serialization.Model):
         "workspace_id": {"key": "workspaceId", "type": "str"},
     }
 
-    def __init__(self, *, function_alias: Optional[str] = None, workspace_id: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, function_alias: Optional[str] = None, workspace_id: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword function_alias: Log Analytics Saved Search name.
         :paramtype function_alias: str
@@ -5077,8 +5151,8 @@ class Operation(_serialization.Model):
         display: Optional["_models.OperationDisplay"] = None,
         origin: Optional[str] = None,
         service_specification: Optional["_models.OperationPropertiesFormatServiceSpecification"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Operation name: {provider}/{resource}/{operation}.
         :paramtype name: str
@@ -5124,8 +5198,8 @@ class OperationDisplay(_serialization.Model):
         resource: Optional[str] = None,
         operation: Optional[str] = None,
         description: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword provider: Service provider: Microsoft.Automation.
         :paramtype provider: str
@@ -5154,7 +5228,7 @@ class OperationListResult(_serialization.Model):
         "value": {"key": "value", "type": "[Operation]"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.Operation"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.Operation"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: List of Automation operations supported by the Automation resource provider.
         :paramtype value: list[~azure.mgmt.automation.models.Operation]
@@ -5163,7 +5237,7 @@ class OperationListResult(_serialization.Model):
         self.value = value
 
 
-class OperationPropertiesFormatServiceSpecification(_serialization.Model):
+class OperationPropertiesFormatServiceSpecification(_serialization.Model):  # pylint: disable=name-too-long
     """Specification of the service.
 
     :ivar metric_specifications: Operation service specification.
@@ -5182,8 +5256,8 @@ class OperationPropertiesFormatServiceSpecification(_serialization.Model):
         *,
         metric_specifications: Optional[List["_models.MetricSpecification"]] = None,
         log_specifications: Optional[List["_models.LogSpecification"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword metric_specifications: Operation service specification.
         :paramtype metric_specifications: list[~azure.mgmt.automation.models.MetricSpecification]
@@ -5195,17 +5269,252 @@ class OperationPropertiesFormatServiceSpecification(_serialization.Model):
         self.log_specifications = log_specifications
 
 
+class Package(TrackedResource):  # pylint: disable=too-many-instance-attributes
+    """Definition of the Package type.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.automation.models.SystemData
+    :ivar tags: Resource tags.
+    :vartype tags: dict[str, str]
+    :ivar location: The geo-location where the resource lives. Required.
+    :vartype location: str
+    :ivar default: Gets or sets the isGlobal flag of the package.
+    :vartype default: bool
+    :ivar version: Gets or sets the version of the Package.
+    :vartype version: str
+    :ivar size_in_bytes: Gets or sets the size in bytes of the Package.
+    :vartype size_in_bytes: int
+    :ivar provisioning_state: Gets or sets the provisioning state of the Package. Known values are:
+     "Created", "Creating", "StartingImportModuleRunbook", "RunningImportModuleRunbook",
+     "ContentRetrieved", "ContentDownloaded", "ContentValidated", "ConnectionTypeImported",
+     "ContentStored", "ModuleDataStored", "ActivitiesStored", "ModuleImportRunbookComplete",
+     "Succeeded", "Failed", "Canceled", and "Updating".
+    :vartype provisioning_state: str or ~azure.mgmt.automation.models.PackageProvisioningState
+    :ivar content_link: Gets or sets the contentLink of the Package.
+    :vartype content_link: ~azure.mgmt.automation.models.ContentLink
+    :ivar error: Gets or sets the error info of the Package.
+    :vartype error: ~azure.mgmt.automation.models.PackageErrorInfo
+    :ivar all_of: Metadata pertaining to creation and last modification of the resource.
+    :vartype all_of: ~azure.mgmt.automation.models.SystemData
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "location": {"required": True},
+        "provisioning_state": {"readonly": True},
+        "all_of": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "tags": {"key": "tags", "type": "{str}"},
+        "location": {"key": "location", "type": "str"},
+        "default": {"key": "properties.default", "type": "bool"},
+        "version": {"key": "properties.version", "type": "str"},
+        "size_in_bytes": {"key": "properties.sizeInBytes", "type": "int"},
+        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
+        "content_link": {"key": "properties.contentLink", "type": "ContentLink"},
+        "error": {"key": "properties.error", "type": "PackageErrorInfo"},
+        "all_of": {"key": "properties.allOf", "type": "SystemData"},
+    }
+
+    def __init__(
+        self,
+        *,
+        location: str,
+        tags: Optional[Dict[str, str]] = None,
+        default: Optional[bool] = None,
+        version: Optional[str] = None,
+        size_in_bytes: Optional[int] = None,
+        content_link: Optional["_models.ContentLink"] = None,
+        error: Optional["_models.PackageErrorInfo"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword tags: Resource tags.
+        :paramtype tags: dict[str, str]
+        :keyword location: The geo-location where the resource lives. Required.
+        :paramtype location: str
+        :keyword default: Gets or sets the isGlobal flag of the package.
+        :paramtype default: bool
+        :keyword version: Gets or sets the version of the Package.
+        :paramtype version: str
+        :keyword size_in_bytes: Gets or sets the size in bytes of the Package.
+        :paramtype size_in_bytes: int
+        :keyword content_link: Gets or sets the contentLink of the Package.
+        :paramtype content_link: ~azure.mgmt.automation.models.ContentLink
+        :keyword error: Gets or sets the error info of the Package.
+        :paramtype error: ~azure.mgmt.automation.models.PackageErrorInfo
+        """
+        super().__init__(tags=tags, location=location, **kwargs)
+        self.default = default
+        self.version = version
+        self.size_in_bytes = size_in_bytes
+        self.provisioning_state = None
+        self.content_link = content_link
+        self.error = error
+        self.all_of = None
+
+
+class PackageCreateOrUpdateParameters(_serialization.Model):
+    """The parameters supplied to the create or update package operation.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar all_of: The resource model definition for an Azure Resource Manager tracked top level
+     resource which has 'tags' and a 'location'.
+    :vartype all_of: ~azure.mgmt.automation.models.TrackedResource
+    :ivar content_link: Gets or sets the package content link. Required.
+    :vartype content_link: ~azure.mgmt.automation.models.ContentLink
+    """
+
+    _validation = {
+        "content_link": {"required": True},
+    }
+
+    _attribute_map = {
+        "all_of": {"key": "allOf", "type": "TrackedResource"},
+        "content_link": {"key": "properties.contentLink", "type": "ContentLink"},
+    }
+
+    def __init__(
+        self, *, content_link: "_models.ContentLink", all_of: Optional["_models.TrackedResource"] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword all_of: The resource model definition for an Azure Resource Manager tracked top level
+         resource which has 'tags' and a 'location'.
+        :paramtype all_of: ~azure.mgmt.automation.models.TrackedResource
+        :keyword content_link: Gets or sets the package content link. Required.
+        :paramtype content_link: ~azure.mgmt.automation.models.ContentLink
+        """
+        super().__init__(**kwargs)
+        self.all_of = all_of
+        self.content_link = content_link
+
+
+class PackageErrorInfo(_serialization.Model):
+    """Definition of the package error info type.
+
+    :ivar code: Package import error code.
+    :vartype code: str
+    :ivar message: Package import error message.
+    :vartype message: str
+    """
+
+    _attribute_map = {
+        "code": {"key": "code", "type": "str"},
+        "message": {"key": "message", "type": "str"},
+    }
+
+    def __init__(self, *, code: Optional[str] = None, message: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword code: Package import error code.
+        :paramtype code: str
+        :keyword message: Package import error message.
+        :paramtype message: str
+        """
+        super().__init__(**kwargs)
+        self.code = code
+        self.message = message
+
+
+class PackageListResult(_serialization.Model):
+    """The response model for the list runtime environments operation.
+
+    :ivar value: list of the Packages of the runtime environment.
+    :vartype value: list[~azure.mgmt.automation.models.Package]
+    :ivar next_link: Gets the next link.
+    :vartype next_link: str
+    """
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[Package]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self, *, value: Optional[List["_models.Package"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: list of the Packages of the runtime environment.
+        :paramtype value: list[~azure.mgmt.automation.models.Package]
+        :keyword next_link: Gets the next link.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = next_link
+
+
+class PackageUpdateParameters(_serialization.Model):
+    """The parameters supplied to the update package operation.
+
+    :ivar all_of: The resource model definition for an Azure Resource Manager tracked top level
+     resource which has 'tags' and a 'location'.
+    :vartype all_of: ~azure.mgmt.automation.models.TrackedResource
+    :ivar content_link: Gets or sets the package content link.
+    :vartype content_link: ~azure.mgmt.automation.models.ContentLink
+    """
+
+    _attribute_map = {
+        "all_of": {"key": "allOf", "type": "TrackedResource"},
+        "content_link": {"key": "properties.contentLink", "type": "ContentLink"},
+    }
+
+    def __init__(
+        self,
+        *,
+        all_of: Optional["_models.TrackedResource"] = None,
+        content_link: Optional["_models.ContentLink"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword all_of: The resource model definition for an Azure Resource Manager tracked top level
+         resource which has 'tags' and a 'location'.
+        :paramtype all_of: ~azure.mgmt.automation.models.TrackedResource
+        :keyword content_link: Gets or sets the package content link.
+        :paramtype content_link: ~azure.mgmt.automation.models.ContentLink
+        """
+        super().__init__(**kwargs)
+        self.all_of = all_of
+        self.content_link = content_link
+
+
 class PrivateEndpointConnection(ProxyResource):
     """A private endpoint connection.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Fully qualified resource Id for the resource.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: The type of the resource.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.automation.models.SystemData
     :ivar private_endpoint: Private endpoint which the connection belongs to.
     :vartype private_endpoint: ~azure.mgmt.automation.models.PrivateEndpointProperty
     :ivar group_ids: Gets the groupIds.
@@ -5220,12 +5529,14 @@ class PrivateEndpointConnection(ProxyResource):
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
+        "system_data": {"readonly": True},
     }
 
     _attribute_map = {
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
         "private_endpoint": {"key": "properties.privateEndpoint", "type": "PrivateEndpointProperty"},
         "group_ids": {"key": "properties.groupIds", "type": "[str]"},
         "private_link_service_connection_state": {
@@ -5240,8 +5551,8 @@ class PrivateEndpointConnection(ProxyResource):
         private_endpoint: Optional["_models.PrivateEndpointProperty"] = None,
         group_ids: Optional[List[str]] = None,
         private_link_service_connection_state: Optional["_models.PrivateLinkServiceConnectionStateProperty"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword private_endpoint: Private endpoint which the connection belongs to.
         :paramtype private_endpoint: ~azure.mgmt.automation.models.PrivateEndpointProperty
@@ -5269,7 +5580,7 @@ class PrivateEndpointConnectionListResult(_serialization.Model):
         "value": {"key": "value", "type": "[PrivateEndpointConnection]"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.PrivateEndpointConnection"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.PrivateEndpointConnection"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: Array of private endpoint connections.
         :paramtype value: list[~azure.mgmt.automation.models.PrivateEndpointConnection]
@@ -5289,7 +5600,7 @@ class PrivateEndpointProperty(_serialization.Model):
         "id": {"key": "id", "type": "str"},
     }
 
-    def __init__(self, *, id: Optional[str] = None, **kwargs):  # pylint: disable=redefined-builtin
+    def __init__(self, *, id: Optional[str] = None, **kwargs: Any) -> None:  # pylint: disable=redefined-builtin
         """
         :keyword id: Resource id of the private endpoint.
         :paramtype id: str
@@ -5303,12 +5614,17 @@ class PrivateLinkResource(ProxyResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Fully qualified resource Id for the resource.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: The type of the resource.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.automation.models.SystemData
     :ivar group_id: The private link resource group id.
     :vartype group_id: str
     :ivar required_members: The private link resource required member names.
@@ -5319,6 +5635,7 @@ class PrivateLinkResource(ProxyResource):
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
+        "system_data": {"readonly": True},
         "group_id": {"readonly": True},
         "required_members": {"readonly": True},
     }
@@ -5327,11 +5644,12 @@ class PrivateLinkResource(ProxyResource):
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
         "group_id": {"key": "properties.groupId", "type": "str"},
         "required_members": {"key": "properties.requiredMembers", "type": "[str]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.group_id = None
@@ -5349,7 +5667,7 @@ class PrivateLinkResourceListResult(_serialization.Model):
         "value": {"key": "value", "type": "[PrivateLinkResource]"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.PrivateLinkResource"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.PrivateLinkResource"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: Array of private link resources.
         :paramtype value: list[~azure.mgmt.automation.models.PrivateLinkResource]
@@ -5358,7 +5676,7 @@ class PrivateLinkResourceListResult(_serialization.Model):
         self.value = value
 
 
-class PrivateLinkServiceConnectionStateProperty(_serialization.Model):
+class PrivateLinkServiceConnectionStateProperty(_serialization.Model):  # pylint: disable=name-too-long
     """Connection State of the Private Endpoint Connection.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -5382,7 +5700,7 @@ class PrivateLinkServiceConnectionStateProperty(_serialization.Model):
         "actions_required": {"key": "actionsRequired", "type": "str"},
     }
 
-    def __init__(self, *, status: Optional[str] = None, description: Optional[str] = None, **kwargs):
+    def __init__(self, *, status: Optional[str] = None, description: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword status: The private link service connection status.
         :paramtype status: str
@@ -5398,7 +5716,7 @@ class PrivateLinkServiceConnectionStateProperty(_serialization.Model):
 class PythonPackageCreateParameters(_serialization.Model):
     """The parameters supplied to the create or update module operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar tags: Gets or sets the tags attached to the resource.
     :vartype tags: dict[str, str]
@@ -5415,7 +5733,9 @@ class PythonPackageCreateParameters(_serialization.Model):
         "content_link": {"key": "properties.contentLink", "type": "ContentLink"},
     }
 
-    def __init__(self, *, content_link: "_models.ContentLink", tags: Optional[Dict[str, str]] = None, **kwargs):
+    def __init__(
+        self, *, content_link: "_models.ContentLink", tags: Optional[Dict[str, str]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword tags: Gets or sets the tags attached to the resource.
         :paramtype tags: dict[str, str]
@@ -5438,7 +5758,7 @@ class PythonPackageUpdateParameters(_serialization.Model):
         "tags": {"key": "tags", "type": "{str}"},
     }
 
-    def __init__(self, *, tags: Optional[Dict[str, str]] = None, **kwargs):
+    def __init__(self, *, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
         """
         :keyword tags: Gets or sets the tags attached to the resource.
         :paramtype tags: dict[str, str]
@@ -5471,8 +5791,8 @@ class RawGraphicalRunbookContent(_serialization.Model):
         schema_version: Optional[str] = None,
         runbook_definition: Optional[str] = None,
         runbook_type: Optional[Union[str, "_models.GraphRunbookType"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword schema_version: Schema version of the serializer.
         :paramtype schema_version: str
@@ -5499,7 +5819,7 @@ class RunAsCredentialAssociationProperty(_serialization.Model):
         "name": {"key": "name", "type": "str"},
     }
 
-    def __init__(self, *, name: Optional[str] = None, **kwargs):
+    def __init__(self, *, name: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword name: Gets or sets the name of the credential.
         :paramtype name: str
@@ -5513,21 +5833,30 @@ class Runbook(TrackedResource):  # pylint: disable=too-many-instance-attributes
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Fully qualified resource Id for the resource.
+    All required parameters must be populated in order to send to server.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: The type of the resource.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.automation.models.SystemData
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
-    :ivar location: The Azure Region where the resource lives.
+    :ivar location: The geo-location where the resource lives. Required.
     :vartype location: str
     :ivar etag: Gets or sets the etag of the resource.
     :vartype etag: str
+    :ivar runtime_environment: Runtime Environment of the runbook execution.
+    :vartype runtime_environment: str
     :ivar runbook_type: Gets or sets the type of the runbook. Known values are: "Script", "Graph",
      "PowerShellWorkflow", "PowerShell", "GraphPowerShellWorkflow", "GraphPowerShell", "Python2",
-     and "Python3".
+     "Python3", "Python", and "PowerShell72".
     :vartype runbook_type: str or ~azure.mgmt.automation.models.RunbookTypeEnum
     :ivar publish_content_link: Gets or sets the published runbook content link.
     :vartype publish_content_link: ~azure.mgmt.automation.models.ContentLink
@@ -5565,15 +5894,19 @@ class Runbook(TrackedResource):  # pylint: disable=too-many-instance-attributes
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "location": {"required": True},
     }
 
     _attribute_map = {
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
         "tags": {"key": "tags", "type": "{str}"},
         "location": {"key": "location", "type": "str"},
         "etag": {"key": "etag", "type": "str"},
+        "runtime_environment": {"key": "properties.runtimeEnvironment", "type": "str"},
         "runbook_type": {"key": "properties.runbookType", "type": "str"},
         "publish_content_link": {"key": "properties.publishContentLink", "type": "ContentLink"},
         "state": {"key": "properties.state", "type": "str"},
@@ -5594,9 +5927,10 @@ class Runbook(TrackedResource):  # pylint: disable=too-many-instance-attributes
     def __init__(
         self,
         *,
+        location: str,
         tags: Optional[Dict[str, str]] = None,
-        location: Optional[str] = None,
         etag: Optional[str] = None,
+        runtime_environment: Optional[str] = None,
         runbook_type: Optional[Union[str, "_models.RunbookTypeEnum"]] = None,
         publish_content_link: Optional["_models.ContentLink"] = None,
         state: Optional[Union[str, "_models.RunbookState"]] = None,
@@ -5612,18 +5946,20 @@ class Runbook(TrackedResource):  # pylint: disable=too-many-instance-attributes
         creation_time: Optional[datetime.datetime] = None,
         last_modified_time: Optional[datetime.datetime] = None,
         description: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
-        :keyword location: The Azure Region where the resource lives.
+        :keyword location: The geo-location where the resource lives. Required.
         :paramtype location: str
         :keyword etag: Gets or sets the etag of the resource.
         :paramtype etag: str
+        :keyword runtime_environment: Runtime Environment of the runbook execution.
+        :paramtype runtime_environment: str
         :keyword runbook_type: Gets or sets the type of the runbook. Known values are: "Script",
          "Graph", "PowerShellWorkflow", "PowerShell", "GraphPowerShellWorkflow", "GraphPowerShell",
-         "Python2", and "Python3".
+         "Python2", "Python3", "Python", and "PowerShell72".
         :paramtype runbook_type: str or ~azure.mgmt.automation.models.RunbookTypeEnum
         :keyword publish_content_link: Gets or sets the published runbook content link.
         :paramtype publish_content_link: ~azure.mgmt.automation.models.ContentLink
@@ -5658,6 +5994,7 @@ class Runbook(TrackedResource):  # pylint: disable=too-many-instance-attributes
         """
         super().__init__(tags=tags, location=location, **kwargs)
         self.etag = etag
+        self.runtime_environment = runtime_environment
         self.runbook_type = runbook_type
         self.publish_content_link = publish_content_link
         self.state = state
@@ -5686,7 +6023,7 @@ class RunbookAssociationProperty(_serialization.Model):
         "name": {"key": "name", "type": "str"},
     }
 
-    def __init__(self, *, name: Optional[str] = None, **kwargs):
+    def __init__(self, *, name: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword name: Gets or sets the name of the runbook.
         :paramtype name: str
@@ -5698,7 +6035,7 @@ class RunbookAssociationProperty(_serialization.Model):
 class RunbookCreateOrUpdateDraftParameters(_serialization.Model):
     """The parameters supplied to the create or update runbook operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar runbook_content: Content of the Runbook. Required.
     :vartype runbook_content: str
@@ -5712,7 +6049,7 @@ class RunbookCreateOrUpdateDraftParameters(_serialization.Model):
         "runbook_content": {"key": "runbookContent", "type": "str"},
     }
 
-    def __init__(self, *, runbook_content: str, **kwargs):
+    def __init__(self, *, runbook_content: str, **kwargs: Any) -> None:
         """
         :keyword runbook_content: Content of the Runbook. Required.
         :paramtype runbook_content: str
@@ -5724,15 +6061,17 @@ class RunbookCreateOrUpdateDraftParameters(_serialization.Model):
 class RunbookCreateOrUpdateDraftProperties(_serialization.Model):
     """The parameters supplied to the create or update draft runbook properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar log_verbose: Gets or sets verbose log option.
     :vartype log_verbose: bool
     :ivar log_progress: Gets or sets progress log option.
     :vartype log_progress: bool
+    :ivar runtime_environment: Environment of the runbook.
+    :vartype runtime_environment: str
     :ivar runbook_type: Gets or sets the type of the runbook. Required. Known values are: "Script",
      "Graph", "PowerShellWorkflow", "PowerShell", "GraphPowerShellWorkflow", "GraphPowerShell",
-     "Python2", and "Python3".
+     "Python2", "Python3", "Python", and "PowerShell72".
     :vartype runbook_type: str or ~azure.mgmt.automation.models.RunbookTypeEnum
     :ivar draft: Gets or sets the draft runbook properties. Required.
     :vartype draft: ~azure.mgmt.automation.models.RunbookDraft
@@ -5750,6 +6089,7 @@ class RunbookCreateOrUpdateDraftProperties(_serialization.Model):
     _attribute_map = {
         "log_verbose": {"key": "logVerbose", "type": "bool"},
         "log_progress": {"key": "logProgress", "type": "bool"},
+        "runtime_environment": {"key": "runtimeEnvironment", "type": "str"},
         "runbook_type": {"key": "runbookType", "type": "str"},
         "draft": {"key": "draft", "type": "RunbookDraft"},
         "description": {"key": "description", "type": "str"},
@@ -5763,18 +6103,21 @@ class RunbookCreateOrUpdateDraftProperties(_serialization.Model):
         draft: "_models.RunbookDraft",
         log_verbose: Optional[bool] = None,
         log_progress: Optional[bool] = None,
+        runtime_environment: Optional[str] = None,
         description: Optional[str] = None,
         log_activity_trace: Optional[int] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword log_verbose: Gets or sets verbose log option.
         :paramtype log_verbose: bool
         :keyword log_progress: Gets or sets progress log option.
         :paramtype log_progress: bool
+        :keyword runtime_environment: Environment of the runbook.
+        :paramtype runtime_environment: str
         :keyword runbook_type: Gets or sets the type of the runbook. Required. Known values are:
          "Script", "Graph", "PowerShellWorkflow", "PowerShell", "GraphPowerShellWorkflow",
-         "GraphPowerShell", "Python2", and "Python3".
+         "GraphPowerShell", "Python2", "Python3", "Python", and "PowerShell72".
         :paramtype runbook_type: str or ~azure.mgmt.automation.models.RunbookTypeEnum
         :keyword draft: Gets or sets the draft runbook properties. Required.
         :paramtype draft: ~azure.mgmt.automation.models.RunbookDraft
@@ -5786,16 +6129,17 @@ class RunbookCreateOrUpdateDraftProperties(_serialization.Model):
         super().__init__(**kwargs)
         self.log_verbose = log_verbose
         self.log_progress = log_progress
+        self.runtime_environment = runtime_environment
         self.runbook_type = runbook_type
         self.draft = draft
         self.description = description
         self.log_activity_trace = log_activity_trace
 
 
-class RunbookCreateOrUpdateParameters(_serialization.Model):
+class RunbookCreateOrUpdateParameters(_serialization.Model):  # pylint: disable=too-many-instance-attributes
     """The parameters supplied to the create or update runbook operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: Gets or sets the name of the resource.
     :vartype name: str
@@ -5807,9 +6151,11 @@ class RunbookCreateOrUpdateParameters(_serialization.Model):
     :vartype log_verbose: bool
     :ivar log_progress: Gets or sets progress log option.
     :vartype log_progress: bool
+    :ivar runtime_environment: Environment of the runbook.
+    :vartype runtime_environment: str
     :ivar runbook_type: Gets or sets the type of the runbook. Required. Known values are: "Script",
      "Graph", "PowerShellWorkflow", "PowerShell", "GraphPowerShellWorkflow", "GraphPowerShell",
-     "Python2", and "Python3".
+     "Python2", "Python3", "Python", and "PowerShell72".
     :vartype runbook_type: str or ~azure.mgmt.automation.models.RunbookTypeEnum
     :ivar draft: Gets or sets the draft runbook properties.
     :vartype draft: ~azure.mgmt.automation.models.RunbookDraft
@@ -5831,6 +6177,7 @@ class RunbookCreateOrUpdateParameters(_serialization.Model):
         "tags": {"key": "tags", "type": "{str}"},
         "log_verbose": {"key": "properties.logVerbose", "type": "bool"},
         "log_progress": {"key": "properties.logProgress", "type": "bool"},
+        "runtime_environment": {"key": "properties.runtimeEnvironment", "type": "str"},
         "runbook_type": {"key": "properties.runbookType", "type": "str"},
         "draft": {"key": "properties.draft", "type": "RunbookDraft"},
         "publish_content_link": {"key": "properties.publishContentLink", "type": "ContentLink"},
@@ -5847,12 +6194,13 @@ class RunbookCreateOrUpdateParameters(_serialization.Model):
         tags: Optional[Dict[str, str]] = None,
         log_verbose: Optional[bool] = None,
         log_progress: Optional[bool] = None,
+        runtime_environment: Optional[str] = None,
         draft: Optional["_models.RunbookDraft"] = None,
         publish_content_link: Optional["_models.ContentLink"] = None,
         description: Optional[str] = None,
         log_activity_trace: Optional[int] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Gets or sets the name of the resource.
         :paramtype name: str
@@ -5864,9 +6212,11 @@ class RunbookCreateOrUpdateParameters(_serialization.Model):
         :paramtype log_verbose: bool
         :keyword log_progress: Gets or sets progress log option.
         :paramtype log_progress: bool
+        :keyword runtime_environment: Environment of the runbook.
+        :paramtype runtime_environment: str
         :keyword runbook_type: Gets or sets the type of the runbook. Required. Known values are:
          "Script", "Graph", "PowerShellWorkflow", "PowerShell", "GraphPowerShellWorkflow",
-         "GraphPowerShell", "Python2", and "Python3".
+         "GraphPowerShell", "Python2", "Python3", "Python", and "PowerShell72".
         :paramtype runbook_type: str or ~azure.mgmt.automation.models.RunbookTypeEnum
         :keyword draft: Gets or sets the draft runbook properties.
         :paramtype draft: ~azure.mgmt.automation.models.RunbookDraft
@@ -5883,6 +6233,7 @@ class RunbookCreateOrUpdateParameters(_serialization.Model):
         self.tags = tags
         self.log_verbose = log_verbose
         self.log_progress = log_progress
+        self.runtime_environment = runtime_environment
         self.runbook_type = runbook_type
         self.draft = draft
         self.publish_content_link = publish_content_link
@@ -5925,8 +6276,8 @@ class RunbookDraft(_serialization.Model):
         last_modified_time: Optional[datetime.datetime] = None,
         parameters: Optional[Dict[str, "_models.RunbookParameter"]] = None,
         output_types: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword in_edit: Gets or sets whether runbook is in edit mode.
         :paramtype in_edit: bool
@@ -5962,7 +6313,7 @@ class RunbookDraftUndoEditResult(_serialization.Model):
      "LengthRequired", "PreconditionFailed", "RequestEntityTooLarge", "RequestUriTooLong",
      "UnsupportedMediaType", "RequestedRangeNotSatisfiable", "ExpectationFailed", "UpgradeRequired",
      "InternalServerError", "NotImplemented", "BadGateway", "ServiceUnavailable", "GatewayTimeout",
-     and "HttpVersionNotSupported".
+     "HttpVersionNotSupported", and "Continue".
     :vartype status_code: str or ~azure.mgmt.automation.models.HttpStatusCode
     :ivar request_id:
     :vartype request_id: str
@@ -5978,8 +6329,8 @@ class RunbookDraftUndoEditResult(_serialization.Model):
         *,
         status_code: Optional[Union[str, "_models.HttpStatusCode"]] = None,
         request_id: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword status_code: Known values are: "Continue", "SwitchingProtocols", "OK", "Created",
          "Accepted", "NonAuthoritativeInformation", "NoContent", "ResetContent", "PartialContent",
@@ -5990,7 +6341,7 @@ class RunbookDraftUndoEditResult(_serialization.Model):
          "LengthRequired", "PreconditionFailed", "RequestEntityTooLarge", "RequestUriTooLong",
          "UnsupportedMediaType", "RequestedRangeNotSatisfiable", "ExpectationFailed", "UpgradeRequired",
          "InternalServerError", "NotImplemented", "BadGateway", "ServiceUnavailable", "GatewayTimeout",
-         and "HttpVersionNotSupported".
+         "HttpVersionNotSupported", and "Continue".
         :paramtype status_code: str or ~azure.mgmt.automation.models.HttpStatusCode
         :keyword request_id:
         :paramtype request_id: str
@@ -6014,7 +6365,9 @@ class RunbookListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.Runbook"]] = None, next_link: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, value: Optional[List["_models.Runbook"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: Gets or sets a list of runbooks.
         :paramtype value: list[~azure.mgmt.automation.models.Runbook]
@@ -6054,8 +6407,8 @@ class RunbookParameter(_serialization.Model):
         is_mandatory: Optional[bool] = None,
         position: Optional[int] = None,
         default_value: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword type: Gets or sets the type of the parameter.
         :paramtype type: str
@@ -6113,8 +6466,8 @@ class RunbookUpdateParameters(_serialization.Model):
         log_verbose: Optional[bool] = None,
         log_progress: Optional[bool] = None,
         log_activity_trace: Optional[int] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Gets or sets the name of the resource.
         :paramtype name: str
@@ -6141,17 +6494,169 @@ class RunbookUpdateParameters(_serialization.Model):
         self.log_activity_trace = log_activity_trace
 
 
+class RuntimeEnvironment(TrackedResource):
+    """Definition of the Runtime Environment type.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.automation.models.SystemData
+    :ivar tags: Resource tags.
+    :vartype tags: dict[str, str]
+    :ivar location: The geo-location where the resource lives. Required.
+    :vartype location: str
+    :ivar default_packages: List of Default packages for Environment.
+    :vartype default_packages: dict[str, str]
+    :ivar description: Gets or sets the description.
+    :vartype description: str
+    :ivar language: Language of Runtime Environment.
+    :vartype language: str
+    :ivar version: Version of Language.
+    :vartype version: str
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "location": {"required": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "tags": {"key": "tags", "type": "{str}"},
+        "location": {"key": "location", "type": "str"},
+        "default_packages": {"key": "properties.defaultPackages", "type": "{str}"},
+        "description": {"key": "properties.description", "type": "str"},
+        "language": {"key": "properties.runtime.language", "type": "str"},
+        "version": {"key": "properties.runtime.version", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        location: str,
+        tags: Optional[Dict[str, str]] = None,
+        default_packages: Optional[Dict[str, str]] = None,
+        description: Optional[str] = None,
+        language: Optional[str] = None,
+        version: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword tags: Resource tags.
+        :paramtype tags: dict[str, str]
+        :keyword location: The geo-location where the resource lives. Required.
+        :paramtype location: str
+        :keyword default_packages: List of Default packages for Environment.
+        :paramtype default_packages: dict[str, str]
+        :keyword description: Gets or sets the description.
+        :paramtype description: str
+        :keyword language: Language of Runtime Environment.
+        :paramtype language: str
+        :keyword version: Version of Language.
+        :paramtype version: str
+        """
+        super().__init__(tags=tags, location=location, **kwargs)
+        self.default_packages = default_packages
+        self.description = description
+        self.language = language
+        self.version = version
+
+
+class RuntimeEnvironmentListResult(_serialization.Model):
+    """List of all the  Runtime Environments of automation account.
+
+    :ivar value: list of RuntimeEnvironment.
+    :vartype value: list[~azure.mgmt.automation.models.RuntimeEnvironment]
+    :ivar next_link: Gets or sets the next link.
+    :vartype next_link: str
+    """
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[RuntimeEnvironment]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        value: Optional[List["_models.RuntimeEnvironment"]] = None,
+        next_link: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: list of RuntimeEnvironment.
+        :paramtype value: list[~azure.mgmt.automation.models.RuntimeEnvironment]
+        :keyword next_link: Gets or sets the next link.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = next_link
+
+
+class RuntimeEnvironmentUpdateParameters(_serialization.Model):
+    """The parameters supplied to the update automation account operation.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar system_data: Metadata pertaining to creation and last modification of the resource.
+    :vartype system_data: ~azure.mgmt.automation.models.SystemData
+    :ivar default_packages: List of Default packages for Environment.
+    :vartype default_packages: dict[str, str]
+    """
+
+    _validation = {
+        "system_data": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "default_packages": {"key": "properties.defaultPackages", "type": "{str}"},
+    }
+
+    def __init__(self, *, default_packages: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
+        """
+        :keyword default_packages: List of Default packages for Environment.
+        :paramtype default_packages: dict[str, str]
+        """
+        super().__init__(**kwargs)
+        self.system_data = None
+        self.default_packages = default_packages
+
+
 class Schedule(ProxyResource):  # pylint: disable=too-many-instance-attributes
     """Definition of the schedule.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Fully qualified resource Id for the resource.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: The type of the resource.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.automation.models.SystemData
     :ivar start_time: Gets or sets the start time of the schedule.
     :vartype start_time: ~datetime.datetime
     :ivar start_time_offset_minutes: Gets the start time's offset in minutes.
@@ -6187,6 +6692,7 @@ class Schedule(ProxyResource):  # pylint: disable=too-many-instance-attributes
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
+        "system_data": {"readonly": True},
         "start_time_offset_minutes": {"readonly": True},
     }
 
@@ -6194,6 +6700,7 @@ class Schedule(ProxyResource):  # pylint: disable=too-many-instance-attributes
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
         "start_time": {"key": "properties.startTime", "type": "iso-8601"},
         "start_time_offset_minutes": {"key": "properties.startTimeOffsetMinutes", "type": "float"},
         "expiry_time": {"key": "properties.expiryTime", "type": "iso-8601"},
@@ -6226,8 +6733,8 @@ class Schedule(ProxyResource):  # pylint: disable=too-many-instance-attributes
         creation_time: Optional[datetime.datetime] = None,
         last_modified_time: Optional[datetime.datetime] = None,
         description: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword start_time: Gets or sets the start time of the schedule.
         :paramtype start_time: ~datetime.datetime
@@ -6285,7 +6792,7 @@ class ScheduleAssociationProperty(_serialization.Model):
         "name": {"key": "name", "type": "str"},
     }
 
-    def __init__(self, *, name: Optional[str] = None, **kwargs):
+    def __init__(self, *, name: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword name: Gets or sets the name of the Schedule.
         :paramtype name: str
@@ -6297,7 +6804,7 @@ class ScheduleAssociationProperty(_serialization.Model):
 class ScheduleCreateOrUpdateParameters(_serialization.Model):
     """The parameters supplied to the create or update schedule operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: Gets or sets the name of the Schedule. Required.
     :vartype name: str
@@ -6346,8 +6853,8 @@ class ScheduleCreateOrUpdateParameters(_serialization.Model):
         interval: Optional[Any] = None,
         time_zone: Optional[str] = None,
         advanced_schedule: Optional["_models.AdvancedSchedule"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Gets or sets the name of the Schedule. Required.
         :paramtype name: str
@@ -6392,7 +6899,9 @@ class ScheduleListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.Schedule"]] = None, next_link: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, value: Optional[List["_models.Schedule"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: Gets or sets a list of schedules.
         :paramtype value: list[~azure.mgmt.automation.models.Schedule]
@@ -6427,8 +6936,8 @@ class ScheduleUpdateParameters(_serialization.Model):
         name: Optional[str] = None,
         description: Optional[str] = None,
         is_enabled: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Gets or sets the name of the Schedule.
         :paramtype name: str
@@ -6446,7 +6955,7 @@ class ScheduleUpdateParameters(_serialization.Model):
 class Sku(_serialization.Model):
     """The account SKU.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: Gets or sets the SKU name of the account. Required. Known values are: "Free" and
      "Basic".
@@ -6473,8 +6982,8 @@ class Sku(_serialization.Model):
         name: Union[str, "_models.SkuNameEnum"],
         family: Optional[str] = None,
         capacity: Optional[int] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Gets or sets the SKU name of the account. Required. Known values are: "Free" and
          "Basic".
@@ -6495,7 +7004,7 @@ class SoftwareUpdateConfiguration(_serialization.Model):  # pylint: disable=too-
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: Resource name.
     :vartype name: str
@@ -6560,8 +7069,8 @@ class SoftwareUpdateConfiguration(_serialization.Model):  # pylint: disable=too-
         schedule_info: "_models.SUCScheduleProperties",
         error: Optional["_models.ErrorResponse"] = None,
         tasks: Optional["_models.SoftwareUpdateConfigurationTasks"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword update_configuration: update specific properties for the Software update
          configuration. Required.
@@ -6588,7 +7097,7 @@ class SoftwareUpdateConfiguration(_serialization.Model):  # pylint: disable=too-
         self.tasks = tasks
 
 
-class SoftwareUpdateConfigurationCollectionItem(_serialization.Model):
+class SoftwareUpdateConfigurationCollectionItem(_serialization.Model):  # pylint: disable=name-too-long
     """Software update configuration collection item properties.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -6648,8 +7157,8 @@ class SoftwareUpdateConfigurationCollectionItem(_serialization.Model):
         frequency: Optional[Union[str, "_models.ScheduleFrequency"]] = None,
         start_time: Optional[datetime.datetime] = None,
         next_run: Optional[datetime.datetime] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword update_configuration: Update specific properties of the software update configuration.
         :paramtype update_configuration: ~azure.mgmt.automation.models.UpdateConfiguration
@@ -6687,7 +7196,9 @@ class SoftwareUpdateConfigurationListResult(_serialization.Model):
         "value": {"key": "value", "type": "[SoftwareUpdateConfigurationCollectionItem]"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.SoftwareUpdateConfigurationCollectionItem"]] = None, **kwargs):
+    def __init__(
+        self, *, value: Optional[List["_models.SoftwareUpdateConfigurationCollectionItem"]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: outer object returned when listing all software update configurations.
         :paramtype value: list[~azure.mgmt.automation.models.SoftwareUpdateConfigurationCollectionItem]
@@ -6788,8 +7299,8 @@ class SoftwareUpdateConfigurationMachineRun(_serialization.Model):  # pylint: di
         software_update_configuration: Optional["_models.UpdateConfigurationNavigation"] = None,
         job: Optional["_models.JobNavigation"] = None,
         error: Optional["_models.ErrorResponse"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword software_update_configuration: software update configuration triggered this run.
         :paramtype software_update_configuration:
@@ -6820,7 +7331,7 @@ class SoftwareUpdateConfigurationMachineRun(_serialization.Model):  # pylint: di
         self.error = error
 
 
-class SoftwareUpdateConfigurationMachineRunListResult(_serialization.Model):
+class SoftwareUpdateConfigurationMachineRunListResult(_serialization.Model):  # pylint: disable=name-too-long
     """result of listing all software update configuration machine runs.
 
     :ivar value: outer object returned when listing all software update configuration machine runs.
@@ -6839,8 +7350,8 @@ class SoftwareUpdateConfigurationMachineRunListResult(_serialization.Model):
         *,
         value: Optional[List["_models.SoftwareUpdateConfigurationMachineRun"]] = None,
         next_link: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword value: outer object returned when listing all software update configuration machine
          runs.
@@ -6933,8 +7444,8 @@ class SoftwareUpdateConfigurationRun(_serialization.Model):  # pylint: disable=t
         *,
         software_update_configuration: Optional["_models.UpdateConfigurationNavigation"] = None,
         tasks: Optional["_models.SoftwareUpdateConfigurationRunTasks"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword software_update_configuration: software update configuration triggered this run.
         :paramtype software_update_configuration:
@@ -6979,8 +7490,8 @@ class SoftwareUpdateConfigurationRunListResult(_serialization.Model):
         *,
         value: Optional[List["_models.SoftwareUpdateConfigurationRun"]] = None,
         next_link: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword value: outer object returned when listing all software update configuration runs.
         :paramtype value: list[~azure.mgmt.automation.models.SoftwareUpdateConfigurationRun]
@@ -6992,7 +7503,7 @@ class SoftwareUpdateConfigurationRunListResult(_serialization.Model):
         self.next_link = next_link
 
 
-class SoftwareUpdateConfigurationRunTaskProperties(_serialization.Model):
+class SoftwareUpdateConfigurationRunTaskProperties(_serialization.Model):  # pylint: disable=name-too-long
     """Task properties of the software update configuration.
 
     :ivar status: The status of the task.
@@ -7010,8 +7521,8 @@ class SoftwareUpdateConfigurationRunTaskProperties(_serialization.Model):
     }
 
     def __init__(
-        self, *, status: Optional[str] = None, source: Optional[str] = None, job_id: Optional[str] = None, **kwargs
-    ):
+        self, *, status: Optional[str] = None, source: Optional[str] = None, job_id: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword status: The status of the task.
         :paramtype status: str
@@ -7045,8 +7556,8 @@ class SoftwareUpdateConfigurationRunTasks(_serialization.Model):
         *,
         pre_task: Optional["_models.SoftwareUpdateConfigurationRunTaskProperties"] = None,
         post_task: Optional["_models.SoftwareUpdateConfigurationRunTaskProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword pre_task: Pre task properties.
         :paramtype pre_task: ~azure.mgmt.automation.models.SoftwareUpdateConfigurationRunTaskProperties
@@ -7078,8 +7589,8 @@ class SoftwareUpdateConfigurationTasks(_serialization.Model):
         *,
         pre_task: Optional["_models.TaskProperties"] = None,
         post_task: Optional["_models.TaskProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword pre_task: Pre task properties.
         :paramtype pre_task: ~azure.mgmt.automation.models.TaskProperties
@@ -7096,12 +7607,17 @@ class SourceControl(ProxyResource):  # pylint: disable=too-many-instance-attribu
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Fully qualified resource Id for the resource.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: The type of the resource.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.automation.models.SystemData
     :ivar repo_url: The repo url of the source control.
     :vartype repo_url: str
     :ivar branch: The repo branch of the source control. Include branch as empty string for
@@ -7128,12 +7644,14 @@ class SourceControl(ProxyResource):  # pylint: disable=too-many-instance-attribu
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
+        "system_data": {"readonly": True},
     }
 
     _attribute_map = {
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
         "repo_url": {"key": "properties.repoUrl", "type": "str"},
         "branch": {"key": "properties.branch", "type": "str"},
         "folder_path": {"key": "properties.folderPath", "type": "str"},
@@ -7157,8 +7675,8 @@ class SourceControl(ProxyResource):  # pylint: disable=too-many-instance-attribu
         description: Optional[str] = None,
         creation_time: Optional[datetime.datetime] = None,
         last_modified_time: Optional[datetime.datetime] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword repo_url: The repo url of the source control.
         :paramtype repo_url: str
@@ -7245,8 +7763,8 @@ class SourceControlCreateOrUpdateParameters(_serialization.Model):
         source_type: Optional[Union[str, "_models.SourceType"]] = None,
         security_token: Optional["_models.SourceControlSecurityTokenProperties"] = None,
         description: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword repo_url: The repo url of the source control.
         :paramtype repo_url: str
@@ -7293,8 +7811,8 @@ class SourceControlListResult(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.SourceControl"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self, *, value: Optional[List["_models.SourceControl"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: The list of source controls.
         :paramtype value: list[~azure.mgmt.automation.models.SourceControl]
@@ -7335,8 +7853,8 @@ class SourceControlSecurityTokenProperties(_serialization.Model):
         access_token: Optional[str] = None,
         refresh_token: Optional[str] = None,
         token_type: Optional[Union[str, "_models.TokenType"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword access_token: The access token.
         :paramtype access_token: str
@@ -7405,8 +7923,8 @@ class SourceControlSyncJob(_serialization.Model):
         source_control_sync_job_id: Optional[str] = None,
         provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None,
         sync_type: Optional[Union[str, "_models.SyncType"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword source_control_sync_job_id: The source control sync job id.
         :paramtype source_control_sync_job_id: str
@@ -7477,8 +7995,8 @@ class SourceControlSyncJobById(_serialization.Model):
         provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None,
         sync_type: Optional[Union[str, "_models.SyncType"]] = None,
         exception: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword id: The id of the job.
         :paramtype id: str
@@ -7506,7 +8024,7 @@ class SourceControlSyncJobById(_serialization.Model):
 class SourceControlSyncJobCreateParameters(_serialization.Model):
     """The parameters supplied to the create source control sync job operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar commit_id: The commit id of the source control sync job. If not syncing to a commitId,
      enter an empty string. Required.
@@ -7521,7 +8039,7 @@ class SourceControlSyncJobCreateParameters(_serialization.Model):
         "commit_id": {"key": "properties.commitId", "type": "str"},
     }
 
-    def __init__(self, *, commit_id: str, **kwargs):
+    def __init__(self, *, commit_id: str, **kwargs: Any) -> None:
         """
         :keyword commit_id: The commit id of the source control sync job. If not syncing to a commitId,
          enter an empty string. Required.
@@ -7546,8 +8064,12 @@ class SourceControlSyncJobListResult(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.SourceControlSyncJob"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self,
+        *,
+        value: Optional[List["_models.SourceControlSyncJob"]] = None,
+        next_link: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword value: The list of source control sync jobs.
         :paramtype value: list[~azure.mgmt.automation.models.SourceControlSyncJob]
@@ -7595,8 +8117,8 @@ class SourceControlSyncJobStream(_serialization.Model):
         source_control_sync_job_stream_id: Optional[str] = None,
         summary: Optional[str] = None,
         stream_type: Optional[Union[str, "_models.StreamType"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword source_control_sync_job_stream_id: The sync job stream id.
         :paramtype source_control_sync_job_stream_id: str
@@ -7657,8 +8179,8 @@ class SourceControlSyncJobStreamById(_serialization.Model):
         stream_type: Optional[Union[str, "_models.StreamType"]] = None,
         stream_text: Optional[str] = None,
         value: Optional[Dict[str, JSON]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword source_control_sync_job_stream_id: The sync job stream id.
         :paramtype source_control_sync_job_stream_id: str
@@ -7701,7 +8223,7 @@ class SourceControlSyncJobStreamsListBySyncJob(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.SourceControlSyncJobStream"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.SourceControlSyncJobStream"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: The list of source control sync job streams.
         :paramtype value: list[~azure.mgmt.automation.models.SourceControlSyncJobStream]
@@ -7746,8 +8268,8 @@ class SourceControlUpdateParameters(_serialization.Model):
         publish_runbook: Optional[bool] = None,
         security_token: Optional["_models.SourceControlSecurityTokenProperties"] = None,
         description: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword branch: The repo branch of the source control.
         :paramtype branch: str
@@ -7804,7 +8326,7 @@ class Statistics(_serialization.Model):
         "id": {"key": "id", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.counter_property = None
@@ -7825,7 +8347,7 @@ class StatisticsListResult(_serialization.Model):
         "value": {"key": "value", "type": "[Statistics]"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.Statistics"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.Statistics"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: Gets or sets a list of statistics.
         :paramtype value: list[~azure.mgmt.automation.models.Statistics]
@@ -7907,8 +8429,8 @@ class SUCScheduleProperties(_serialization.Model):  # pylint: disable=too-many-i
         creation_time: Optional[datetime.datetime] = None,
         last_modified_time: Optional[datetime.datetime] = None,
         description: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword start_time: Gets or sets the start time of the schedule.
         :paramtype start_time: ~datetime.datetime
@@ -7992,8 +8514,8 @@ class SystemData(_serialization.Model):
         last_modified_by: Optional[str] = None,
         last_modified_by_type: Optional[Union[str, "_models.CreatedByType"]] = None,
         last_modified_at: Optional[datetime.datetime] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword created_by: The identity that created the resource.
         :paramtype created_by: str
@@ -8039,8 +8561,8 @@ class TagSettingsProperties(_serialization.Model):
         *,
         tags: Optional[Dict[str, List[str]]] = None,
         filter_operator: Optional[Union[str, "_models.TagOperators"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: Dictionary of tags with its list of values.
         :paramtype tags: dict[str, list[str]]
@@ -8072,8 +8594,8 @@ class TargetProperties(_serialization.Model):
         *,
         azure_queries: Optional[List["_models.AzureQueryProperties"]] = None,
         non_azure_queries: Optional[List["_models.NonAzureQueryProperties"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword azure_queries: List of Azure queries in the software update configuration.
         :paramtype azure_queries: list[~azure.mgmt.automation.models.AzureQueryProperties]
@@ -8099,7 +8621,9 @@ class TaskProperties(_serialization.Model):
         "source": {"key": "source", "type": "str"},
     }
 
-    def __init__(self, *, parameters: Optional[Dict[str, str]] = None, source: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, parameters: Optional[Dict[str, str]] = None, source: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword parameters: Gets or sets the parameters of the task.
         :paramtype parameters: dict[str, str]
@@ -8167,8 +8691,8 @@ class TestJob(_serialization.Model):  # pylint: disable=too-many-instance-attrib
         last_status_modified_time: Optional[datetime.datetime] = None,
         parameters: Optional[Dict[str, str]] = None,
         log_activity_trace: Optional[int] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword creation_time: Gets or sets the creation time of the test job.
         :paramtype creation_time: ~datetime.datetime
@@ -8216,24 +8740,37 @@ class TestJobCreateParameters(_serialization.Model):
     :ivar run_on: Gets or sets the runOn which specifies the group name where the job is to be
      executed.
     :vartype run_on: str
+    :ivar runtime_environment: The runtime Environment Name on which job needs to be tested.
+    :vartype runtime_environment: str
     """
 
     _attribute_map = {
         "parameters": {"key": "parameters", "type": "{str}"},
         "run_on": {"key": "runOn", "type": "str"},
+        "runtime_environment": {"key": "runtimeEnvironment", "type": "str"},
     }
 
-    def __init__(self, *, parameters: Optional[Dict[str, str]] = None, run_on: Optional[str] = None, **kwargs):
+    def __init__(
+        self,
+        *,
+        parameters: Optional[Dict[str, str]] = None,
+        run_on: Optional[str] = None,
+        runtime_environment: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword parameters: Gets or sets the parameters of the test job.
         :paramtype parameters: dict[str, str]
         :keyword run_on: Gets or sets the runOn which specifies the group name where the job is to be
          executed.
         :paramtype run_on: str
+        :keyword runtime_environment: The runtime Environment Name on which job needs to be tested.
+        :paramtype runtime_environment: str
         """
         super().__init__(**kwargs)
         self.parameters = parameters
         self.run_on = run_on
+        self.runtime_environment = runtime_environment
 
 
 class TypeField(_serialization.Model):
@@ -8250,7 +8787,7 @@ class TypeField(_serialization.Model):
         "type": {"key": "type", "type": "str"},
     }
 
-    def __init__(self, *, name: Optional[str] = None, type: Optional[str] = None, **kwargs):
+    def __init__(self, *, name: Optional[str] = None, type: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword name: Gets or sets the name of the field.
         :paramtype name: str
@@ -8273,7 +8810,7 @@ class TypeFieldListResult(_serialization.Model):
         "value": {"key": "value", "type": "[TypeField]"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.TypeField"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.TypeField"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: Gets or sets a list of fields.
         :paramtype value: list[~azure.mgmt.automation.models.TypeField]
@@ -8285,7 +8822,7 @@ class TypeFieldListResult(_serialization.Model):
 class UpdateConfiguration(_serialization.Model):
     """Update specific properties of the software update configuration.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar operating_system: operating system of target machines. Required. Known values are:
      "Windows" and "Linux".
@@ -8331,8 +8868,8 @@ class UpdateConfiguration(_serialization.Model):
         azure_virtual_machines: Optional[List[str]] = None,
         non_azure_computer_names: Optional[List[str]] = None,
         targets: Optional["_models.TargetProperties"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword operating_system: operating system of target machines. Required. Known values are:
          "Windows" and "Linux".
@@ -8381,7 +8918,7 @@ class UpdateConfigurationNavigation(_serialization.Model):
         "name": {"key": "name", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.name = None
@@ -8422,8 +8959,8 @@ class Usage(_serialization.Model):
         current_value: Optional[float] = None,
         limit: Optional[int] = None,
         throttle_status: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword id: Gets or sets the id of the resource.
         :paramtype id: str
@@ -8461,7 +8998,7 @@ class UsageCounterName(_serialization.Model):
         "localized_value": {"key": "localizedValue", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[str] = None, localized_value: Optional[str] = None, **kwargs):
+    def __init__(self, *, value: Optional[str] = None, localized_value: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword value: Gets or sets the usage counter name.
         :paramtype value: str
@@ -8484,7 +9021,7 @@ class UsageListResult(_serialization.Model):
         "value": {"key": "value", "type": "[Usage]"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.Usage"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.Usage"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: Gets or sets usage.
         :paramtype value: list[~azure.mgmt.automation.models.Usage]
@@ -8514,7 +9051,7 @@ class UserAssignedIdentitiesProperties(_serialization.Model):
         "client_id": {"key": "clientId", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.principal_id = None
@@ -8526,12 +9063,17 @@ class Variable(ProxyResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Fully qualified resource Id for the resource.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: The type of the resource.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.automation.models.SystemData
     :ivar value: Gets or sets the value of the variable.
     :vartype value: str
     :ivar is_encrypted: Gets or sets the encrypted flag of the variable.
@@ -8548,12 +9090,14 @@ class Variable(ProxyResource):
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
+        "system_data": {"readonly": True},
     }
 
     _attribute_map = {
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
         "value": {"key": "properties.value", "type": "str"},
         "is_encrypted": {"key": "properties.isEncrypted", "type": "bool"},
         "creation_time": {"key": "properties.creationTime", "type": "iso-8601"},
@@ -8569,8 +9113,8 @@ class Variable(ProxyResource):
         creation_time: Optional[datetime.datetime] = None,
         last_modified_time: Optional[datetime.datetime] = None,
         description: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword value: Gets or sets the value of the variable.
         :paramtype value: str
@@ -8594,7 +9138,7 @@ class Variable(ProxyResource):
 class VariableCreateOrUpdateParameters(_serialization.Model):
     """The parameters supplied to the create or update variable operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: Gets or sets the name of the variable. Required.
     :vartype name: str
@@ -8624,8 +9168,8 @@ class VariableCreateOrUpdateParameters(_serialization.Model):
         value: Optional[str] = None,
         description: Optional[str] = None,
         is_encrypted: Optional[bool] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Gets or sets the name of the variable. Required.
         :paramtype name: str
@@ -8657,7 +9201,9 @@ class VariableListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.Variable"]] = None, next_link: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, value: Optional[List["_models.Variable"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: Gets or sets a list of variables.
         :paramtype value: list[~azure.mgmt.automation.models.Variable]
@@ -8687,8 +9233,13 @@ class VariableUpdateParameters(_serialization.Model):
     }
 
     def __init__(
-        self, *, name: Optional[str] = None, value: Optional[str] = None, description: Optional[str] = None, **kwargs
-    ):
+        self,
+        *,
+        name: Optional[str] = None,
+        value: Optional[str] = None,
+        description: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Gets or sets the name of the variable.
         :paramtype name: str
@@ -8708,12 +9259,17 @@ class Watcher(Resource):  # pylint: disable=too-many-instance-attributes
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Fully qualified resource Id for the resource.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: The type of the resource.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.automation.models.SystemData
     :ivar etag: Gets or sets the etag of the resource.
     :vartype etag: str
     :ivar tags: Resource tags.
@@ -8746,6 +9302,7 @@ class Watcher(Resource):  # pylint: disable=too-many-instance-attributes
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
+        "system_data": {"readonly": True},
         "status": {"readonly": True},
         "creation_time": {"readonly": True},
         "last_modified_time": {"readonly": True},
@@ -8756,6 +9313,7 @@ class Watcher(Resource):  # pylint: disable=too-many-instance-attributes
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
         "etag": {"key": "etag", "type": "str"},
         "tags": {"key": "tags", "type": "{str}"},
         "location": {"key": "location", "type": "str"},
@@ -8781,8 +9339,8 @@ class Watcher(Resource):  # pylint: disable=too-many-instance-attributes
         script_parameters: Optional[Dict[str, str]] = None,
         script_run_on: Optional[str] = None,
         description: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword etag: Gets or sets the etag of the resource.
         :paramtype etag: str
@@ -8833,7 +9391,9 @@ class WatcherListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.Watcher"]] = None, next_link: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, value: Optional[List["_models.Watcher"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: Gets or sets a list of watchers.
         :paramtype value: list[~azure.mgmt.automation.models.Watcher]
@@ -8860,7 +9420,9 @@ class WatcherUpdateParameters(_serialization.Model):
         "execution_frequency_in_seconds": {"key": "properties.executionFrequencyInSeconds", "type": "int"},
     }
 
-    def __init__(self, *, name: Optional[str] = None, execution_frequency_in_seconds: Optional[int] = None, **kwargs):
+    def __init__(
+        self, *, name: Optional[str] = None, execution_frequency_in_seconds: Optional[int] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword name: Gets or sets the name of the resource.
         :paramtype name: str
@@ -8878,12 +9440,17 @@ class Webhook(ProxyResource):  # pylint: disable=too-many-instance-attributes
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Fully qualified resource Id for the resource.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: The type of the resource.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.automation.models.SystemData
     :ivar is_enabled: Gets or sets the value of the enabled flag of the webhook.
     :vartype is_enabled: bool
     :ivar uri: Gets or sets the webhook uri.
@@ -8913,12 +9480,14 @@ class Webhook(ProxyResource):  # pylint: disable=too-many-instance-attributes
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
+        "system_data": {"readonly": True},
     }
 
     _attribute_map = {
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
         "is_enabled": {"key": "properties.isEnabled", "type": "bool"},
         "uri": {"key": "properties.uri", "type": "str"},
         "expiry_time": {"key": "properties.expiryTime", "type": "iso-8601"},
@@ -8946,8 +9515,8 @@ class Webhook(ProxyResource):  # pylint: disable=too-many-instance-attributes
         last_modified_time: Optional[datetime.datetime] = None,
         last_modified_by: Optional[str] = None,
         description: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword is_enabled: Gets or sets the value of the enabled flag of the webhook.
         :paramtype is_enabled: bool
@@ -8990,7 +9559,7 @@ class Webhook(ProxyResource):  # pylint: disable=too-many-instance-attributes
 class WebhookCreateOrUpdateParameters(_serialization.Model):
     """The parameters supplied to the create or update webhook operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: Gets or sets the name of the webhook. Required.
     :vartype name: str
@@ -9032,8 +9601,8 @@ class WebhookCreateOrUpdateParameters(_serialization.Model):
         parameters: Optional[Dict[str, str]] = None,
         runbook: Optional["_models.RunbookAssociationProperty"] = None,
         run_on: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Gets or sets the name of the webhook. Required.
         :paramtype name: str
@@ -9074,7 +9643,9 @@ class WebhookListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.Webhook"]] = None, next_link: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, value: Optional[List["_models.Webhook"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: Gets or sets a list of webhooks.
         :paramtype value: list[~azure.mgmt.automation.models.Webhook]
@@ -9117,8 +9688,8 @@ class WebhookUpdateParameters(_serialization.Model):
         run_on: Optional[str] = None,
         parameters: Optional[Dict[str, str]] = None,
         description: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Gets or sets the name of the webhook.
         :paramtype name: str
@@ -9170,8 +9741,8 @@ class WindowsProperties(_serialization.Model):
         excluded_kb_numbers: Optional[List[str]] = None,
         included_kb_numbers: Optional[List[str]] = None,
         reboot_setting: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword included_update_classifications: Update classification included in the software update
          configuration. A comma separated string with required values. Known values are: "Unclassified",

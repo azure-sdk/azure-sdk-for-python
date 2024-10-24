@@ -8,9 +8,12 @@
 
 from copy import deepcopy
 from typing import Any, TYPE_CHECKING
+from typing_extensions import Self
 
+from azure.core.pipeline import policies
 from azure.core.rest import HttpRequest, HttpResponse
 from azure.mgmt.core import ARMPipelineClient
+from azure.mgmt.core.policies import ARMAutoResourceProviderRegistrationPolicy
 
 from . import models as _models
 from ._configuration import AutomationClientConfiguration
@@ -25,8 +28,6 @@ from .operations import (
     ConnectionTypeOperations,
     CredentialOperations,
     DeletedAutomationAccountsOperations,
-    DscCompilationJobOperations,
-    DscCompilationJobStreamOperations,
     DscConfigurationOperations,
     DscNodeConfigurationOperations,
     DscNodeOperations,
@@ -43,12 +44,14 @@ from .operations import (
     NodeReportsOperations,
     ObjectDataTypesOperations,
     Operations,
+    PackageOperations,
     PrivateEndpointConnectionsOperations,
     PrivateLinkResourcesOperations,
     Python2PackageOperations,
     Python3PackageOperations,
     RunbookDraftOperations,
     RunbookOperations,
+    RuntimeEnvironmentsOperations,
     ScheduleOperations,
     SoftwareUpdateConfigurationMachineRunsOperations,
     SoftwareUpdateConfigurationRunsOperations,
@@ -75,9 +78,15 @@ class AutomationClient(
 ):  # pylint: disable=client-accepts-api-version-keyword,too-many-instance-attributes
     """Automation Client.
 
-    :ivar private_endpoint_connections: PrivateEndpointConnectionsOperations operations
-    :vartype private_endpoint_connections:
-     azure.mgmt.automation.operations.PrivateEndpointConnectionsOperations
+    :ivar node_count_information: NodeCountInformationOperations operations
+    :vartype node_count_information:
+     azure.mgmt.automation.operations.NodeCountInformationOperations
+    :ivar software_update_configurations: SoftwareUpdateConfigurationsOperations operations
+    :vartype software_update_configurations:
+     azure.mgmt.automation.operations.SoftwareUpdateConfigurationsOperations
+    :ivar deleted_automation_accounts: DeletedAutomationAccountsOperations operations
+    :vartype deleted_automation_accounts:
+     azure.mgmt.automation.operations.DeletedAutomationAccountsOperations
     :ivar private_link_resources: PrivateLinkResourcesOperations operations
     :vartype private_link_resources:
      azure.mgmt.automation.operations.PrivateLinkResourcesOperations
@@ -88,24 +97,6 @@ class AutomationClient(
     :vartype dsc_node: azure.mgmt.automation.operations.DscNodeOperations
     :ivar node_reports: NodeReportsOperations operations
     :vartype node_reports: azure.mgmt.automation.operations.NodeReportsOperations
-    :ivar dsc_compilation_job: DscCompilationJobOperations operations
-    :vartype dsc_compilation_job: azure.mgmt.automation.operations.DscCompilationJobOperations
-    :ivar dsc_compilation_job_stream: DscCompilationJobStreamOperations operations
-    :vartype dsc_compilation_job_stream:
-     azure.mgmt.automation.operations.DscCompilationJobStreamOperations
-    :ivar node_count_information: NodeCountInformationOperations operations
-    :vartype node_count_information:
-     azure.mgmt.automation.operations.NodeCountInformationOperations
-    :ivar watcher: WatcherOperations operations
-    :vartype watcher: azure.mgmt.automation.operations.WatcherOperations
-    :ivar software_update_configurations: SoftwareUpdateConfigurationsOperations operations
-    :vartype software_update_configurations:
-     azure.mgmt.automation.operations.SoftwareUpdateConfigurationsOperations
-    :ivar webhook: WebhookOperations operations
-    :vartype webhook: azure.mgmt.automation.operations.WebhookOperations
-    :ivar deleted_automation_accounts: DeletedAutomationAccountsOperations operations
-    :vartype deleted_automation_accounts:
-     azure.mgmt.automation.operations.DeletedAutomationAccountsOperations
     :ivar automation_account: AutomationAccountOperations operations
     :vartype automation_account: azure.mgmt.automation.operations.AutomationAccountOperations
     :ivar statistics: StatisticsOperations operations
@@ -151,6 +142,11 @@ class AutomationClient(
     :vartype fields: azure.mgmt.automation.operations.FieldsOperations
     :ivar operations: Operations operations
     :vartype operations: azure.mgmt.automation.operations.Operations
+    :ivar package: PackageOperations operations
+    :vartype package: azure.mgmt.automation.operations.PackageOperations
+    :ivar private_endpoint_connections: PrivateEndpointConnectionsOperations operations
+    :vartype private_endpoint_connections:
+     azure.mgmt.automation.operations.PrivateEndpointConnectionsOperations
     :ivar python2_package: Python2PackageOperations operations
     :vartype python2_package: azure.mgmt.automation.operations.Python2PackageOperations
     :ivar python3_package: Python3PackageOperations operations
@@ -163,6 +159,8 @@ class AutomationClient(
     :vartype test_job_streams: azure.mgmt.automation.operations.TestJobStreamsOperations
     :ivar test_job: TestJobOperations operations
     :vartype test_job: azure.mgmt.automation.operations.TestJobOperations
+    :ivar runtime_environments: RuntimeEnvironmentsOperations operations
+    :vartype runtime_environments: azure.mgmt.automation.operations.RuntimeEnvironmentsOperations
     :ivar schedule: ScheduleOperations operations
     :vartype schedule: azure.mgmt.automation.operations.ScheduleOperations
     :ivar software_update_configuration_machine_runs:
@@ -182,6 +180,10 @@ class AutomationClient(
      azure.mgmt.automation.operations.SourceControlSyncJobStreamsOperations
     :ivar variable: VariableOperations operations
     :vartype variable: azure.mgmt.automation.operations.VariableOperations
+    :ivar watcher: WatcherOperations operations
+    :vartype watcher: azure.mgmt.automation.operations.WatcherOperations
+    :ivar webhook: WebhookOperations operations
+    :vartype webhook: azure.mgmt.automation.operations.WebhookOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials.TokenCredential
     :param subscription_id: Gets subscription credentials which uniquely identify Microsoft Azure
@@ -189,6 +191,9 @@ class AutomationClient(
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
+    :keyword api_version: Api Version. Default value is "2024-10-23". Note that overriding this
+     default value may result in unsupported behavior.
+    :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
      Retry-After header is present.
     """
@@ -201,13 +206,37 @@ class AutomationClient(
         **kwargs: Any
     ) -> None:
         self._config = AutomationClientConfiguration(credential=credential, subscription_id=subscription_id, **kwargs)
-        self._client = ARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
+        _policies = kwargs.pop("policies", None)
+        if _policies is None:
+            _policies = [
+                policies.RequestIdPolicy(**kwargs),
+                self._config.headers_policy,
+                self._config.user_agent_policy,
+                self._config.proxy_policy,
+                policies.ContentDecodePolicy(**kwargs),
+                ARMAutoResourceProviderRegistrationPolicy(),
+                self._config.redirect_policy,
+                self._config.retry_policy,
+                self._config.authentication_policy,
+                self._config.custom_hook_policy,
+                self._config.logging_policy,
+                policies.DistributedTracingPolicy(**kwargs),
+                policies.SensitiveHeaderCleanupPolicy(**kwargs) if self._config.redirect_policy else None,
+                self._config.http_logging_policy,
+            ]
+        self._client: ARMPipelineClient = ARMPipelineClient(base_url=base_url, policies=_policies, **kwargs)
 
         client_models = {k: v for k, v in _models.__dict__.items() if isinstance(v, type)}
         self._serialize = Serializer(client_models)
         self._deserialize = Deserializer(client_models)
         self._serialize.client_side_validation = False
-        self.private_endpoint_connections = PrivateEndpointConnectionsOperations(
+        self.node_count_information = NodeCountInformationOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.software_update_configurations = SoftwareUpdateConfigurationsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.deleted_automation_accounts = DeletedAutomationAccountsOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
         self.private_link_resources = PrivateLinkResourcesOperations(
@@ -218,23 +247,6 @@ class AutomationClient(
         )
         self.dsc_node = DscNodeOperations(self._client, self._config, self._serialize, self._deserialize)
         self.node_reports = NodeReportsOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.dsc_compilation_job = DscCompilationJobOperations(
-            self._client, self._config, self._serialize, self._deserialize
-        )
-        self.dsc_compilation_job_stream = DscCompilationJobStreamOperations(
-            self._client, self._config, self._serialize, self._deserialize
-        )
-        self.node_count_information = NodeCountInformationOperations(
-            self._client, self._config, self._serialize, self._deserialize
-        )
-        self.watcher = WatcherOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.software_update_configurations = SoftwareUpdateConfigurationsOperations(
-            self._client, self._config, self._serialize, self._deserialize
-        )
-        self.webhook = WebhookOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.deleted_automation_accounts = DeletedAutomationAccountsOperations(
-            self._client, self._config, self._serialize, self._deserialize
-        )
         self.automation_account = AutomationAccountOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
@@ -270,12 +282,19 @@ class AutomationClient(
         )
         self.fields = FieldsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.operations = Operations(self._client, self._config, self._serialize, self._deserialize)
+        self.package = PackageOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.private_endpoint_connections = PrivateEndpointConnectionsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
         self.python2_package = Python2PackageOperations(self._client, self._config, self._serialize, self._deserialize)
         self.python3_package = Python3PackageOperations(self._client, self._config, self._serialize, self._deserialize)
         self.runbook_draft = RunbookDraftOperations(self._client, self._config, self._serialize, self._deserialize)
         self.runbook = RunbookOperations(self._client, self._config, self._serialize, self._deserialize)
         self.test_job_streams = TestJobStreamsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.test_job = TestJobOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.runtime_environments = RuntimeEnvironmentsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
         self.schedule = ScheduleOperations(self._client, self._config, self._serialize, self._deserialize)
         self.software_update_configuration_machine_runs = SoftwareUpdateConfigurationMachineRunsOperations(
             self._client, self._config, self._serialize, self._deserialize
@@ -291,8 +310,10 @@ class AutomationClient(
             self._client, self._config, self._serialize, self._deserialize
         )
         self.variable = VariableOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.watcher = WatcherOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.webhook = WebhookOperations(self._client, self._config, self._serialize, self._deserialize)
 
-    def _send_request(self, request: HttpRequest, **kwargs: Any) -> HttpResponse:
+    def _send_request(self, request: HttpRequest, *, stream: bool = False, **kwargs: Any) -> HttpResponse:
         """Runs the network request through the client's chained policies.
 
         >>> from azure.core.rest import HttpRequest
@@ -312,14 +333,14 @@ class AutomationClient(
 
         request_copy = deepcopy(request)
         request_copy.url = self._client.format_url(request_copy.url)
-        return self._client.send_request(request_copy, **kwargs)
+        return self._client.send_request(request_copy, stream=stream, **kwargs)  # type: ignore
 
     def close(self) -> None:
         self._client.close()
 
-    def __enter__(self) -> "AutomationClient":
+    def __enter__(self) -> Self:
         self._client.__enter__()
         return self
 
-    def __exit__(self, *exc_details) -> None:
+    def __exit__(self, *exc_details: Any) -> None:
         self._client.__exit__(*exc_details)

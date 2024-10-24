@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.automation import AutomationClient
 
 """
@@ -29,14 +30,13 @@ def main():
         subscription_id="subid",
     )
 
-    response = client.dsc_node.delete(
+    client.dsc_node.delete(
         resource_group_name="rg",
         automation_account_name="myAutomationAccount9",
         node_id="e1243a76-a9bd-432f-bde3-ad8f317ee786",
     )
-    print(response)
 
 
-# x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/preview/2020-01-13-preview/examples/deleteDscNode.json
+# x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2024-10-23/examples/deleteDscNode.json
 if __name__ == "__main__":
     main()
