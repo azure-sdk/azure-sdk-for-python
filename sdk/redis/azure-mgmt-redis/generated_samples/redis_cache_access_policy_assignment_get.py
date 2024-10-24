@@ -38,6 +38,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-03-01/examples/RedisCacheAccessPolicyAssignmentGet.json
+# x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/preview/2024-04-01-preview/examples/RedisCacheAccessPolicyAssignmentGet.json
 if __name__ == "__main__":
     main()
