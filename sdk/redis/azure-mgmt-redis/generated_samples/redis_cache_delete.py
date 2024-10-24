@@ -36,6 +36,6 @@ def main():
     ).result()
 
 
-# x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2024-03-01/examples/RedisCacheDelete.json
+# x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/preview/2024-04-01-preview/examples/RedisCacheDelete.json
 if __name__ == "__main__":
     main()
