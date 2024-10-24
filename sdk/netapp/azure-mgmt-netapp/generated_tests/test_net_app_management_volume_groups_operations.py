@@ -80,10 +80,10 @@ class TestNetAppManagementVolumeGroupsOperations(AzureMgmtRecordedTestCase):
                         "dataProtection": {
                             "backup": {"backupPolicyId": "str", "backupVaultId": "str", "policyEnforced": bool},
                             "replication": {
-                                "remoteVolumeResourceId": "str",
                                 "endpointType": "str",
                                 "remotePath": {"externalHostName": "str", "serverName": "str", "volumeName": "str"},
                                 "remoteVolumeRegion": "str",
+                                "remoteVolumeResourceId": "str",
                                 "replicationId": "str",
                                 "replicationSchedule": "str",
                             },
