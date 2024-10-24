@@ -6,8 +6,6 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from typing import Any, IO, Union
-
 from azure.identity import DefaultAzureCredential
 
 from azure.mgmt.appplatform import AppPlatformManagementClient
@@ -36,6 +34,7 @@ def main():
         resource_group_name="myResourceGroup",
         service_name="myservice",
         resource={
+            "identity": {"type": "SystemAssigned"},
             "location": "eastus",
             "properties": {},
             "sku": {"name": "S0", "tier": "Standard"},
@@ -45,6 +44,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/stable/2023-12-01/examples/Services_Update.json
+# x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2024-05-01-preview/examples/Services_Update.json
 if __name__ == "__main__":
     main()
