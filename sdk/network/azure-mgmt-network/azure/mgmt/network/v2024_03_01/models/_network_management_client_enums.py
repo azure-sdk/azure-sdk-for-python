@@ -112,14 +112,6 @@ class ApplicationGatewayFirewallUserSessionVariable(str, Enum, metaclass=CaseIns
     NONE = "None"
 
 
-class ApplicationGatewayLoadDistributionAlgorithm(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Load Distribution Algorithm enums."""
-
-    ROUND_ROBIN = "RoundRobin"
-    LEAST_CONNECTIONS = "LeastConnections"
-    IP_HASH = "IpHash"
-
-
 class ApplicationGatewayOperationalState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Operational state of the application gateway resource."""
 

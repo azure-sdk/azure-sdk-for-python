@@ -238,10 +238,6 @@ class ApplicationGateway(Resource):  # pylint: disable=too-many-instance-attribu
     :ivar force_firewall_policy_association: If true, associates a firewall policy with an
      application gateway regardless whether the policy differs from the WAF Config.
     :vartype force_firewall_policy_association: bool
-    :ivar load_distribution_policies: Load distribution policies of the application gateway
-     resource.
-    :vartype load_distribution_policies:
-     list[~azure.mgmt.network.models.ApplicationGatewayLoadDistributionPolicy]
     :ivar global_configuration: Global Configuration.
     :vartype global_configuration:
      ~azure.mgmt.network.models.ApplicationGatewayGlobalConfiguration
@@ -351,10 +347,6 @@ class ApplicationGateway(Resource):  # pylint: disable=too-many-instance-attribu
             "type": "[ApplicationGatewayCustomError]",
         },
         "force_firewall_policy_association": {"key": "properties.forceFirewallPolicyAssociation", "type": "bool"},
-        "load_distribution_policies": {
-            "key": "properties.loadDistributionPolicies",
-            "type": "[ApplicationGatewayLoadDistributionPolicy]",
-        },
         "global_configuration": {
             "key": "properties.globalConfiguration",
             "type": "ApplicationGatewayGlobalConfiguration",
@@ -401,7 +393,6 @@ class ApplicationGateway(Resource):  # pylint: disable=too-many-instance-attribu
         private_link_configurations: Optional[List["_models.ApplicationGatewayPrivateLinkConfiguration"]] = None,
         custom_error_configurations: Optional[List["_models.ApplicationGatewayCustomError"]] = None,
         force_firewall_policy_association: Optional[bool] = None,
-        load_distribution_policies: Optional[List["_models.ApplicationGatewayLoadDistributionPolicy"]] = None,
         global_configuration: Optional["_models.ApplicationGatewayGlobalConfiguration"] = None,
         **kwargs: Any
     ) -> None:
@@ -527,10 +518,6 @@ class ApplicationGateway(Resource):  # pylint: disable=too-many-instance-attribu
         :keyword force_firewall_policy_association: If true, associates a firewall policy with an
          application gateway regardless whether the policy differs from the WAF Config.
         :paramtype force_firewall_policy_association: bool
-        :keyword load_distribution_policies: Load distribution policies of the application gateway
-         resource.
-        :paramtype load_distribution_policies:
-         list[~azure.mgmt.network.models.ApplicationGatewayLoadDistributionPolicy]
         :keyword global_configuration: Global Configuration.
         :paramtype global_configuration:
          ~azure.mgmt.network.models.ApplicationGatewayGlobalConfiguration
@@ -572,7 +559,6 @@ class ApplicationGateway(Resource):  # pylint: disable=too-many-instance-attribu
         self.provisioning_state = None
         self.custom_error_configurations = custom_error_configurations
         self.force_firewall_policy_association = force_firewall_policy_association
-        self.load_distribution_policies = load_distribution_policies
         self.global_configuration = global_configuration
         self.default_predefined_ssl_policy = None
 
@@ -1250,8 +1236,6 @@ class ApplicationGatewayPathRule(SubResource):  # pylint: disable=too-many-insta
     :vartype redirect_configuration: ~azure.mgmt.network.models.SubResource
     :ivar rewrite_rule_set: Rewrite rule set resource of URL path map path rule.
     :vartype rewrite_rule_set: ~azure.mgmt.network.models.SubResource
-    :ivar load_distribution_policy: Load Distribution Policy resource of URL path map path rule.
-    :vartype load_distribution_policy: ~azure.mgmt.network.models.SubResource
     :ivar provisioning_state: The provisioning state of the path rule resource. Known values are:
      "Succeeded", "Updating", "Deleting", and "Failed".
     :vartype provisioning_state: str or ~azure.mgmt.network.models.ProvisioningState
@@ -1275,7 +1259,6 @@ class ApplicationGatewayPathRule(SubResource):  # pylint: disable=too-many-insta
         "backend_http_settings": {"key": "properties.backendHttpSettings", "type": "SubResource"},
         "redirect_configuration": {"key": "properties.redirectConfiguration", "type": "SubResource"},
         "rewrite_rule_set": {"key": "properties.rewriteRuleSet", "type": "SubResource"},
-        "load_distribution_policy": {"key": "properties.loadDistributionPolicy", "type": "SubResource"},
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
         "firewall_policy": {"key": "properties.firewallPolicy", "type": "SubResource"},
     }
@@ -1290,7 +1273,6 @@ class ApplicationGatewayPathRule(SubResource):  # pylint: disable=too-many-insta
         backend_http_settings: Optional["_models.SubResource"] = None,
         redirect_configuration: Optional["_models.SubResource"] = None,
         rewrite_rule_set: Optional["_models.SubResource"] = None,
-        load_distribution_policy: Optional["_models.SubResource"] = None,
         firewall_policy: Optional["_models.SubResource"] = None,
         **kwargs: Any
     ) -> None:
@@ -1309,8 +1291,6 @@ class ApplicationGatewayPathRule(SubResource):  # pylint: disable=too-many-insta
         :paramtype redirect_configuration: ~azure.mgmt.network.models.SubResource
         :keyword rewrite_rule_set: Rewrite rule set resource of URL path map path rule.
         :paramtype rewrite_rule_set: ~azure.mgmt.network.models.SubResource
-        :keyword load_distribution_policy: Load Distribution Policy resource of URL path map path rule.
-        :paramtype load_distribution_policy: ~azure.mgmt.network.models.SubResource
         :keyword firewall_policy: Reference to the FirewallPolicy resource.
         :paramtype firewall_policy: ~azure.mgmt.network.models.SubResource
         """
@@ -1323,7 +1303,6 @@ class ApplicationGatewayPathRule(SubResource):  # pylint: disable=too-many-insta
         self.backend_http_settings = backend_http_settings
         self.redirect_configuration = redirect_configuration
         self.rewrite_rule_set = rewrite_rule_set
-        self.load_distribution_policy = load_distribution_policy
         self.provisioning_state = None
         self.firewall_policy = firewall_policy
 
@@ -1513,8 +1492,6 @@ class ApplicationGatewayRequestRoutingRule(SubResource):  # pylint: disable=too-
     :vartype rewrite_rule_set: ~azure.mgmt.network.models.SubResource
     :ivar redirect_configuration: Redirect configuration resource of the application gateway.
     :vartype redirect_configuration: ~azure.mgmt.network.models.SubResource
-    :ivar load_distribution_policy: Load Distribution Policy resource of the application gateway.
-    :vartype load_distribution_policy: ~azure.mgmt.network.models.SubResource
     :ivar provisioning_state: The provisioning state of the request routing rule resource. Known
      values are: "Succeeded", "Updating", "Deleting", and "Failed".
     :vartype provisioning_state: str or ~azure.mgmt.network.models.ProvisioningState
@@ -1540,7 +1517,6 @@ class ApplicationGatewayRequestRoutingRule(SubResource):  # pylint: disable=too-
         "url_path_map": {"key": "properties.urlPathMap", "type": "SubResource"},
         "rewrite_rule_set": {"key": "properties.rewriteRuleSet", "type": "SubResource"},
         "redirect_configuration": {"key": "properties.redirectConfiguration", "type": "SubResource"},
-        "load_distribution_policy": {"key": "properties.loadDistributionPolicy", "type": "SubResource"},
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
     }
 
@@ -1557,7 +1533,6 @@ class ApplicationGatewayRequestRoutingRule(SubResource):  # pylint: disable=too-
         url_path_map: Optional["_models.SubResource"] = None,
         rewrite_rule_set: Optional["_models.SubResource"] = None,
         redirect_configuration: Optional["_models.SubResource"] = None,
-        load_distribution_policy: Optional["_models.SubResource"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -1582,9 +1557,6 @@ class ApplicationGatewayRequestRoutingRule(SubResource):  # pylint: disable=too-
         :paramtype rewrite_rule_set: ~azure.mgmt.network.models.SubResource
         :keyword redirect_configuration: Redirect configuration resource of the application gateway.
         :paramtype redirect_configuration: ~azure.mgmt.network.models.SubResource
-        :keyword load_distribution_policy: Load Distribution Policy resource of the application
-         gateway.
-        :paramtype load_distribution_policy: ~azure.mgmt.network.models.SubResource
         """
         super().__init__(id=id, **kwargs)
         self.name = name
@@ -1598,7 +1570,6 @@ class ApplicationGatewayRequestRoutingRule(SubResource):  # pylint: disable=too-
         self.url_path_map = url_path_map
         self.rewrite_rule_set = rewrite_rule_set
         self.redirect_configuration = redirect_configuration
-        self.load_distribution_policy = load_distribution_policy
         self.provisioning_state = None
 
 class ApplicationGatewaySku(_serialization.Model):
@@ -1734,7 +1705,7 @@ class ApplicationGatewaySslCertificate(SubResource):
         self.key_vault_secret_id = key_vault_secret_id
         self.provisioning_state = None
 
-class ApplicationGatewayUrlPathMap(SubResource):  # pylint: disable=too-many-instance-attributes
+class ApplicationGatewayUrlPathMap(SubResource):
     """UrlPathMaps give a url path to the backend mapping information for PathBasedRouting.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1755,9 +1726,6 @@ class ApplicationGatewayUrlPathMap(SubResource):  # pylint: disable=too-many-ins
     :vartype default_rewrite_rule_set: ~azure.mgmt.network.models.SubResource
     :ivar default_redirect_configuration: Default redirect configuration resource of URL path map.
     :vartype default_redirect_configuration: ~azure.mgmt.network.models.SubResource
-    :ivar default_load_distribution_policy: Default Load Distribution Policy resource of URL path
-     map.
-    :vartype default_load_distribution_policy: ~azure.mgmt.network.models.SubResource
     :ivar path_rules: Path rule of URL path map resource.
     :vartype path_rules: list[~azure.mgmt.network.models.ApplicationGatewayPathRule]
     :ivar provisioning_state: The provisioning state of the URL path map resource. Known values
@@ -1780,7 +1748,6 @@ class ApplicationGatewayUrlPathMap(SubResource):  # pylint: disable=too-many-ins
         "default_backend_http_settings": {"key": "properties.defaultBackendHttpSettings", "type": "SubResource"},
         "default_rewrite_rule_set": {"key": "properties.defaultRewriteRuleSet", "type": "SubResource"},
         "default_redirect_configuration": {"key": "properties.defaultRedirectConfiguration", "type": "SubResource"},
-        "default_load_distribution_policy": {"key": "properties.defaultLoadDistributionPolicy", "type": "SubResource"},
         "path_rules": {"key": "properties.pathRules", "type": "[ApplicationGatewayPathRule]"},
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
     }
@@ -1794,7 +1761,6 @@ class ApplicationGatewayUrlPathMap(SubResource):  # pylint: disable=too-many-ins
         default_backend_http_settings: Optional["_models.SubResource"] = None,
         default_rewrite_rule_set: Optional["_models.SubResource"] = None,
         default_redirect_configuration: Optional["_models.SubResource"] = None,
-        default_load_distribution_policy: Optional["_models.SubResource"] = None,
         path_rules: Optional[List["_models.ApplicationGatewayPathRule"]] = None,
         **kwargs: Any
     ) -> None:
@@ -1812,9 +1778,6 @@ class ApplicationGatewayUrlPathMap(SubResource):  # pylint: disable=too-many-ins
         :keyword default_redirect_configuration: Default redirect configuration resource of URL path
          map.
         :paramtype default_redirect_configuration: ~azure.mgmt.network.models.SubResource
-        :keyword default_load_distribution_policy: Default Load Distribution Policy resource of URL
-         path map.
-        :paramtype default_load_distribution_policy: ~azure.mgmt.network.models.SubResource
         :keyword path_rules: Path rule of URL path map resource.
         :paramtype path_rules: list[~azure.mgmt.network.models.ApplicationGatewayPathRule]
         """
@@ -1826,7 +1789,6 @@ class ApplicationGatewayUrlPathMap(SubResource):  # pylint: disable=too-many-ins
         self.default_backend_http_settings = default_backend_http_settings
         self.default_rewrite_rule_set = default_rewrite_rule_set
         self.default_redirect_configuration = default_redirect_configuration
-        self.default_load_distribution_policy = default_load_distribution_policy
         self.path_rules = path_rules
         self.provisioning_state = None
 

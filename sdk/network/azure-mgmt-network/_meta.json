@@ -1,12 +1,12 @@
 {
-  "commit": "d79d73bea550b643c312dde6a7e817840c1ac914",
+  "commit": "4efc18c56383b2b879e5a61817fbc641db3f0276",
   "repository_url": "https://github.com/Azure/azure-rest-api-specs",
   "autorest": "3.10.2",
   "use": [
     "@autorest/python@6.19.0",
     "@autorest/modelerfour@4.27.0"
   ],
-  "autorest_command": "autorest specification/network/resource-manager/readme.md --generate-sample=True --generate-test=True --include-x-ms-examples-original-file=True --python --python-sdks-folder=/home/vsts/work/1/azure-sdk-for-python/sdk --use=@autorest/python@6.19.0 --use=@autorest/modelerfour@4.27.0 --version=3.10.2 --version-tolerant=False",
+  "autorest_command": "autorest specification/network/resource-manager/readme.md --generate-sample=True --generate-test=True --include-x-ms-examples-original-file=True --python --python-sdks-folder=/mnt/vss/_work/1/s/azure-sdk-for-python/sdk --use=@autorest/python@6.19.0 --use=@autorest/modelerfour@4.27.0 --version=3.10.2 --version-tolerant=False",
   "readme": "specification/network/resource-manager/readme.md",
   "package-2015-06split": "2019-06-13 02:17:06 +0300 f0f79bfa8191ac30cfb0f87665411769bd2063a6 Microsoft.Network/stable/2015-06-15/virtualNetworkGateway.json",
   "package-2017-10": "2019-06-13 02:23:37 +0300 e19543a6a361096e5ca11a42424a39025fd008fa Microsoft.Network/stable/2017-10-01/applicationGateway.json",
@@ -37,5 +37,5 @@
   "package-2023-09": "2024-08-05 12:54:01 +0800 0699892cadd5825057a797244d8b704e6529631d Microsoft.Network/stable/2023-09-01/ipAllocation.json",
   "package-2023-11": "2024-08-05 18:42:45 -0700 9fc2f7eda170fad2fe721788d2824e572a6c4c38 Microsoft.Network/stable/2023-11-01/securityPartnerProvider.json",
   "package-2024-01": "2024-09-09 15:04:01 -0700 1ad29756bd141a47cac770140105a706d065ae1b Microsoft.Network/preview/2024-01-01-preview/networkVerifier.json",
-  "package-2024-03": "2024-08-27 11:05:40 +0530 5164430697eba3c27388fe9112de8eba40f85664 Microsoft.Network/stable/2024-03-01/vmssPublicIpAddress.json"
+  "package-2024-03": "2024-10-24 18:17:17 +0000 1ca21455b62aef4e1fc71f3fe0f4b778fbdd52b7 Microsoft.Network/stable/2024-03-01/applicationGateway.json"
 }

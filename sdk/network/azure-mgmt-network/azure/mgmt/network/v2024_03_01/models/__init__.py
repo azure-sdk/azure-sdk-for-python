@@ -54,8 +54,6 @@ from ._models_py3 import ApplicationGatewayHttpListener
 from ._models_py3 import ApplicationGatewayIPConfiguration
 from ._models_py3 import ApplicationGatewayListResult
 from ._models_py3 import ApplicationGatewayListener
-from ._models_py3 import ApplicationGatewayLoadDistributionPolicy
-from ._models_py3 import ApplicationGatewayLoadDistributionTarget
 from ._models_py3 import ApplicationGatewayOnDemandProbe
 from ._models_py3 import ApplicationGatewayPathRule
 from ._models_py3 import ApplicationGatewayPrivateEndpointConnection
@@ -749,7 +747,6 @@ from ._network_management_client_enums import ApplicationGatewayCustomErrorStatu
 from ._network_management_client_enums import ApplicationGatewayFirewallMode
 from ._network_management_client_enums import ApplicationGatewayFirewallRateLimitDuration
 from ._network_management_client_enums import ApplicationGatewayFirewallUserSessionVariable
-from ._network_management_client_enums import ApplicationGatewayLoadDistributionAlgorithm
 from ._network_management_client_enums import ApplicationGatewayOperationalState
 from ._network_management_client_enums import ApplicationGatewayProtocol
 from ._network_management_client_enums import ApplicationGatewayRedirectType
@@ -1026,8 +1023,6 @@ __all__ = [
     "ApplicationGatewayIPConfiguration",
     "ApplicationGatewayListResult",
     "ApplicationGatewayListener",
-    "ApplicationGatewayLoadDistributionPolicy",
-    "ApplicationGatewayLoadDistributionTarget",
     "ApplicationGatewayOnDemandProbe",
     "ApplicationGatewayPathRule",
     "ApplicationGatewayPrivateEndpointConnection",
@@ -1718,7 +1713,6 @@ __all__ = [
     "ApplicationGatewayFirewallMode",
     "ApplicationGatewayFirewallRateLimitDuration",
     "ApplicationGatewayFirewallUserSessionVariable",
-    "ApplicationGatewayLoadDistributionAlgorithm",
     "ApplicationGatewayOperationalState",
     "ApplicationGatewayProtocol",
     "ApplicationGatewayRedirectType",
