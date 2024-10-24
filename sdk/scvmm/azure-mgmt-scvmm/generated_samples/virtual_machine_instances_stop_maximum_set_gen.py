@@ -6,8 +6,6 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from typing import Any, IO, Union
-
 from azure.identity import DefaultAzureCredential
 
 from azure.mgmt.scvmm import ScVmmMgmtClient
@@ -34,10 +32,9 @@ def main():
 
     client.virtual_machine_instances.begin_stop(
         resource_uri="gtgclehcbsyave",
-        body={"skipShutdown": "true"},
     ).result()
 
 
-# x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/stable/2023-10-07/examples/VirtualMachineInstances_Stop_MaximumSet_Gen.json
+# x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/stable/2024-06-01/examples/VirtualMachineInstances_Stop_MaximumSet_Gen.json
 if __name__ == "__main__":
     main()
