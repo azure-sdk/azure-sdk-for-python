@@ -23,6 +23,7 @@ from ._models_py3 import GroupQuotaDetails
 from ._models_py3 import GroupQuotaDetailsName
 from ._models_py3 import GroupQuotaLimit
 from ._models_py3 import GroupQuotaLimitList
+from ._models_py3 import GroupQuotaLimitListProperties
 from ._models_py3 import GroupQuotaList
 from ._models_py3 import GroupQuotaRequestBase
 from ._models_py3 import GroupQuotaRequestBaseProperties
@@ -83,6 +84,7 @@ from ._models_py3 import SubscriptionGroupQuotaAssignment
 from ._models_py3 import SubscriptionQuotaAllocationRequestList
 from ._models_py3 import SubscriptionQuotaAllocations
 from ._models_py3 import SubscriptionQuotaAllocationsList
+from ._models_py3 import SubscriptionQuotaAllocationsListProperties
 from ._models_py3 import SubscriptionQuotaAllocationsStatusList
 from ._models_py3 import SubscriptionQuotaDetails
 from ._models_py3 import SubscriptionQuotaDetailsName
@@ -122,6 +124,7 @@ __all__ = [
     "GroupQuotaDetailsName",
     "GroupQuotaLimit",
     "GroupQuotaLimitList",
+    "GroupQuotaLimitListProperties",
     "GroupQuotaList",
     "GroupQuotaRequestBase",
     "GroupQuotaRequestBaseProperties",
@@ -182,6 +185,7 @@ __all__ = [
     "SubscriptionQuotaAllocationRequestList",
     "SubscriptionQuotaAllocations",
     "SubscriptionQuotaAllocationsList",
+    "SubscriptionQuotaAllocationsListProperties",
     "SubscriptionQuotaAllocationsStatusList",
     "SubscriptionQuotaDetails",
     "SubscriptionQuotaDetailsName",
