@@ -17,6 +17,38 @@ if TYPE_CHECKING:
     from .. import models as _models
 
 
+class BillingInfoResponse(_serialization.Model):
+    """Marketplace Subscription and Organization details to which resource gets billed into.
+
+    :ivar marketplace_saas_info: Marketplace Subscription details.
+    :vartype marketplace_saas_info: ~azure.mgmt.datadog.models.MarketplaceSaaSInfo
+    :ivar partner_billing_entity: Partner Billing Entity details: Organization Info.
+    :vartype partner_billing_entity: ~azure.mgmt.datadog.models.PartnerBillingEntity
+    """
+
+    _attribute_map = {
+        "marketplace_saas_info": {"key": "marketplaceSaasInfo", "type": "MarketplaceSaaSInfo"},
+        "partner_billing_entity": {"key": "partnerBillingEntity", "type": "PartnerBillingEntity"},
+    }
+
+    def __init__(
+        self,
+        *,
+        marketplace_saas_info: Optional["_models.MarketplaceSaaSInfo"] = None,
+        partner_billing_entity: Optional["_models.PartnerBillingEntity"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword marketplace_saas_info: Marketplace Subscription details.
+        :paramtype marketplace_saas_info: ~azure.mgmt.datadog.models.MarketplaceSaaSInfo
+        :keyword partner_billing_entity: Partner Billing Entity details: Organization Info.
+        :paramtype partner_billing_entity: ~azure.mgmt.datadog.models.PartnerBillingEntity
+        """
+        super().__init__(**kwargs)
+        self.marketplace_saas_info = marketplace_saas_info
+        self.partner_billing_entity = partner_billing_entity
+
+
 class CreateResourceSupportedProperties(_serialization.Model):
     """Datadog resource can be created or not properties.
 
@@ -67,28 +99,6 @@ class CreateResourceSupportedResponse(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.properties = properties
-
-
-class CreateResourceSupportedResponseList(_serialization.Model):
-    """CreateResourceSupportedResponseList.
-
-    :ivar value:
-    :vartype value: list[~azure.mgmt.datadog.models.CreateResourceSupportedResponse]
-    """
-
-    _attribute_map = {
-        "value": {"key": "value", "type": "[CreateResourceSupportedResponse]"},
-    }
-
-    def __init__(
-        self, *, value: Optional[List["_models.CreateResourceSupportedResponse"]] = None, **kwargs: Any
-    ) -> None:
-        """
-        :keyword value:
-        :paramtype value: list[~azure.mgmt.datadog.models.CreateResourceSupportedResponse]
-        """
-        super().__init__(**kwargs)
-        self.value = value
 
 
 class DatadogAgreementProperties(_serialization.Model):
@@ -247,7 +257,7 @@ class DatadogAgreementResourceListResponse(_serialization.Model):
 class DatadogApiKey(_serialization.Model):
     """DatadogApiKey.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar created_by: The user that created the API key.
     :vartype created_by: str
@@ -501,7 +511,7 @@ class DatadogMonitorResource(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: ARM id of the monitor resource.
     :vartype id: str
@@ -651,8 +661,7 @@ class DatadogMonitorResourceUpdateParameters(_serialization.Model):
 
 
 class DatadogOrganizationProperties(_serialization.Model):
-    """Specify the Datadog organization name. In the case of linking to existing organizations, Id,
-    ApiKey, and Applicationkey is required as well.
+    """Datadog organization properties.
 
     :ivar name: Name of the Datadog organization.
     :vartype name: str
@@ -672,8 +681,6 @@ class DatadogOrganizationProperties(_serialization.Model):
     :ivar enterprise_app_id: The Id of the Enterprise App used for Single sign on.
     :vartype enterprise_app_id: str
     :ivar cspm: The configuration which describes the state of cloud security posture management.
-     This collects configuration information for all resources in a subscription and track
-     conformance to industry benchmarks.
     :vartype cspm: bool
     """
 
@@ -722,8 +729,7 @@ class DatadogOrganizationProperties(_serialization.Model):
         :keyword enterprise_app_id: The Id of the Enterprise App used for Single sign on.
         :paramtype enterprise_app_id: str
         :keyword cspm: The configuration which describes the state of cloud security posture
-         management. This collects configuration information for all resources in a subscription and
-         track conformance to industry benchmarks.
+         management.
         :paramtype cspm: bool
         """
         super().__init__(**kwargs)
@@ -776,7 +782,6 @@ class DatadogSingleSignOnProperties(_serialization.Model):
     """
 
     _validation = {
-        "provisioning_state": {"readonly": True},
         "single_sign_on_url": {"readonly": True},
     }
 
@@ -790,11 +795,15 @@ class DatadogSingleSignOnProperties(_serialization.Model):
     def __init__(
         self,
         *,
+        provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None,
         single_sign_on_state: Optional[Union[str, "_models.SingleSignOnStates"]] = None,
         enterprise_app_id: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
+        :keyword provisioning_state: Known values are: "Accepted", "Creating", "Updating", "Deleting",
+         "Succeeded", "Failed", "Canceled", "Deleted", and "NotSpecified".
+        :paramtype provisioning_state: str or ~azure.mgmt.datadog.models.ProvisioningState
         :keyword single_sign_on_state: Various states of the SSO resource. Known values are: "Initial",
          "Enable", "Disable", and "Existing".
         :paramtype single_sign_on_state: str or ~azure.mgmt.datadog.models.SingleSignOnStates
@@ -802,7 +811,7 @@ class DatadogSingleSignOnProperties(_serialization.Model):
         :paramtype enterprise_app_id: str
         """
         super().__init__(**kwargs)
-        self.provisioning_state = None
+        self.provisioning_state = provisioning_state
         self.single_sign_on_state = single_sign_on_state
         self.enterprise_app_id = enterprise_app_id
         self.single_sign_on_url = None
@@ -1028,8 +1037,7 @@ class IdentityProperties(_serialization.Model):
     :vartype principal_id: str
     :ivar tenant_id: The tenant ID of resource.
     :vartype tenant_id: str
-    :ivar type: Specifies the identity type of the Datadog Monitor. At this time the only allowed
-     value is 'SystemAssigned'. Known values are: "SystemAssigned" and "UserAssigned".
+    :ivar type: Identity type. Known values are: "SystemAssigned" and "UserAssigned".
     :vartype type: str or ~azure.mgmt.datadog.models.ManagedIdentityTypes
     """
 
@@ -1046,8 +1054,7 @@ class IdentityProperties(_serialization.Model):
 
     def __init__(self, *, type: Optional[Union[str, "_models.ManagedIdentityTypes"]] = None, **kwargs: Any) -> None:
         """
-        :keyword type: Specifies the identity type of the Datadog Monitor. At this time the only
-         allowed value is 'SystemAssigned'. Known values are: "SystemAssigned" and "UserAssigned".
+        :keyword type: Identity type. Known values are: "SystemAssigned" and "UserAssigned".
         :paramtype type: str or ~azure.mgmt.datadog.models.ManagedIdentityTypes
         """
         super().__init__(**kwargs)
@@ -1061,19 +1068,31 @@ class LinkedResource(_serialization.Model):
 
     :ivar id: The ARM id of the linked resource.
     :vartype id: str
+    :ivar location: The location of the linked resource.
+    :vartype location: str
     """
 
     _attribute_map = {
         "id": {"key": "id", "type": "str"},
+        "location": {"key": "location", "type": "str"},
     }
 
-    def __init__(self, *, id: Optional[str] = None, **kwargs: Any) -> None:  # pylint: disable=redefined-builtin
+    def __init__(
+        self,
+        *,
+        id: Optional[str] = None,  # pylint: disable=redefined-builtin
+        location: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword id: The ARM id of the linked resource.
         :paramtype id: str
+        :keyword location: The location of the linked resource.
+        :paramtype location: str
         """
         super().__init__(**kwargs)
         self.id = id
+        self.location = location
 
 
 class LinkedResourceListResponse(_serialization.Model):
@@ -1158,6 +1177,63 @@ class LogRules(_serialization.Model):
         self.send_subscription_logs = send_subscription_logs
         self.send_resource_logs = send_resource_logs
         self.filtering_tags = filtering_tags
+
+
+class MarketplaceSaaSInfo(_serialization.Model):
+    """Marketplace SAAS Info of the resource.
+
+    :ivar marketplace_subscription_id: Marketplace Subscription Id. This is a GUID-formatted
+     string.
+    :vartype marketplace_subscription_id: str
+    :ivar marketplace_name: Marketplace Subscription Details: SAAS Name.
+    :vartype marketplace_name: str
+    :ivar marketplace_status: Marketplace Subscription Details: SaaS Subscription Status.
+    :vartype marketplace_status: str
+    :ivar billed_azure_subscription_id: The Azure Subscription ID to which the Marketplace
+     Subscription belongs and gets billed into.
+    :vartype billed_azure_subscription_id: str
+    :ivar subscribed: Flag specifying if the Marketplace status is subscribed or not.
+    :vartype subscribed: bool
+    """
+
+    _attribute_map = {
+        "marketplace_subscription_id": {"key": "marketplaceSubscriptionId", "type": "str"},
+        "marketplace_name": {"key": "marketplaceName", "type": "str"},
+        "marketplace_status": {"key": "marketplaceStatus", "type": "str"},
+        "billed_azure_subscription_id": {"key": "billedAzureSubscriptionId", "type": "str"},
+        "subscribed": {"key": "subscribed", "type": "bool"},
+    }
+
+    def __init__(
+        self,
+        *,
+        marketplace_subscription_id: Optional[str] = None,
+        marketplace_name: Optional[str] = None,
+        marketplace_status: Optional[str] = None,
+        billed_azure_subscription_id: Optional[str] = None,
+        subscribed: Optional[bool] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword marketplace_subscription_id: Marketplace Subscription Id. This is a GUID-formatted
+         string.
+        :paramtype marketplace_subscription_id: str
+        :keyword marketplace_name: Marketplace Subscription Details: SAAS Name.
+        :paramtype marketplace_name: str
+        :keyword marketplace_status: Marketplace Subscription Details: SaaS Subscription Status.
+        :paramtype marketplace_status: str
+        :keyword billed_azure_subscription_id: The Azure Subscription ID to which the Marketplace
+         Subscription belongs and gets billed into.
+        :paramtype billed_azure_subscription_id: str
+        :keyword subscribed: Flag specifying if the Marketplace status is subscribed or not.
+        :paramtype subscribed: bool
+        """
+        super().__init__(**kwargs)
+        self.marketplace_subscription_id = marketplace_subscription_id
+        self.marketplace_name = marketplace_name
+        self.marketplace_status = marketplace_status
+        self.billed_azure_subscription_id = billed_azure_subscription_id
+        self.subscribed = subscribed
 
 
 class MetricRules(_serialization.Model):
@@ -1365,28 +1441,6 @@ class MonitoredSubscriptionProperties(_serialization.Model):
         self.properties = properties
 
 
-class MonitoredSubscriptionPropertiesList(_serialization.Model):
-    """MonitoredSubscriptionPropertiesList.
-
-    :ivar value:
-    :vartype value: list[~azure.mgmt.datadog.models.MonitoredSubscriptionProperties]
-    """
-
-    _attribute_map = {
-        "value": {"key": "value", "type": "[MonitoredSubscriptionProperties]"},
-    }
-
-    def __init__(
-        self, *, value: Optional[List["_models.MonitoredSubscriptionProperties"]] = None, **kwargs: Any
-    ) -> None:
-        """
-        :keyword value:
-        :paramtype value: list[~azure.mgmt.datadog.models.MonitoredSubscriptionProperties]
-        """
-        super().__init__(**kwargs)
-        self.value = value
-
-
 class MonitoringTagRules(_serialization.Model):
     """Capture logs and metrics of Azure resources based on ARM tags.
 
@@ -1467,8 +1521,6 @@ class MonitoringTagRulesListResponse(_serialization.Model):
 class MonitoringTagRulesProperties(_serialization.Model):
     """Definition of the properties for a TagRules resource.
 
-    Variables are only populated by the server, and will be ignored when sending a request.
-
     :ivar provisioning_state: Known values are: "Accepted", "Creating", "Updating", "Deleting",
      "Succeeded", "Failed", "Canceled", "Deleted", and "NotSpecified".
     :vartype provisioning_state: str or ~azure.mgmt.datadog.models.ProvisioningState
@@ -1478,40 +1530,49 @@ class MonitoringTagRulesProperties(_serialization.Model):
     :vartype metric_rules: ~azure.mgmt.datadog.models.MetricRules
     :ivar automuting: Configuration to enable/disable auto-muting flag.
     :vartype automuting: bool
+    :ivar custom_metrics: Configuration to enable/disable custom metrics. If enabled, custom
+     metrics from app insights will be sent.
+    :vartype custom_metrics: bool
     """
-
-    _validation = {
-        "provisioning_state": {"readonly": True},
-    }
 
     _attribute_map = {
         "provisioning_state": {"key": "provisioningState", "type": "str"},
         "log_rules": {"key": "logRules", "type": "LogRules"},
         "metric_rules": {"key": "metricRules", "type": "MetricRules"},
         "automuting": {"key": "automuting", "type": "bool"},
+        "custom_metrics": {"key": "customMetrics", "type": "bool"},
     }
 
     def __init__(
         self,
         *,
+        provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None,
         log_rules: Optional["_models.LogRules"] = None,
         metric_rules: Optional["_models.MetricRules"] = None,
         automuting: Optional[bool] = None,
+        custom_metrics: Optional[bool] = None,
         **kwargs: Any
     ) -> None:
         """
+        :keyword provisioning_state: Known values are: "Accepted", "Creating", "Updating", "Deleting",
+         "Succeeded", "Failed", "Canceled", "Deleted", and "NotSpecified".
+        :paramtype provisioning_state: str or ~azure.mgmt.datadog.models.ProvisioningState
         :keyword log_rules: Set of rules for sending logs for the Monitor resource.
         :paramtype log_rules: ~azure.mgmt.datadog.models.LogRules
         :keyword metric_rules: Set of rules for sending metrics for the Monitor resource.
         :paramtype metric_rules: ~azure.mgmt.datadog.models.MetricRules
         :keyword automuting: Configuration to enable/disable auto-muting flag.
         :paramtype automuting: bool
+        :keyword custom_metrics: Configuration to enable/disable custom metrics. If enabled, custom
+         metrics from app insights will be sent.
+        :paramtype custom_metrics: bool
         """
         super().__init__(**kwargs)
-        self.provisioning_state = None
+        self.provisioning_state = provisioning_state
         self.log_rules = log_rules
         self.metric_rules = metric_rules
         self.automuting = automuting
+        self.custom_metrics = custom_metrics
 
 
 class MonitorProperties(_serialization.Model):
@@ -1530,12 +1591,10 @@ class MonitorProperties(_serialization.Model):
      values are: "Provisioning", "Active", "Suspended", and "Unsubscribed".
     :vartype marketplace_subscription_status: str or
      ~azure.mgmt.datadog.models.MarketplaceSubscriptionStatus
-    :ivar datadog_organization_properties: Specify the Datadog organization name. In the case of
-     linking to existing organizations, Id, ApiKey, and Applicationkey is required as well.
+    :ivar datadog_organization_properties: Datadog organization properties.
     :vartype datadog_organization_properties:
      ~azure.mgmt.datadog.models.DatadogOrganizationProperties
-    :ivar user_info: Includes name, email and optionally, phone number. User Information can't be
-     null.
+    :ivar user_info: User info.
     :vartype user_info: ~azure.mgmt.datadog.models.UserInfo
     :ivar liftr_resource_category: Known values are: "Unknown" and "MonitorLogs".
     :vartype liftr_resource_category: str or ~azure.mgmt.datadog.models.LiftrResourceCategories
@@ -1544,7 +1603,6 @@ class MonitorProperties(_serialization.Model):
     """
 
     _validation = {
-        "provisioning_state": {"readonly": True},
         "marketplace_subscription_status": {"readonly": True},
         "liftr_resource_category": {"readonly": True},
         "liftr_resource_preference": {"readonly": True},
@@ -1566,25 +1624,27 @@ class MonitorProperties(_serialization.Model):
     def __init__(
         self,
         *,
+        provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None,
         monitoring_status: Union[str, "_models.MonitoringStatus"] = "Enabled",
         datadog_organization_properties: Optional["_models.DatadogOrganizationProperties"] = None,
         user_info: Optional["_models.UserInfo"] = None,
         **kwargs: Any
     ) -> None:
         """
+        :keyword provisioning_state: Known values are: "Accepted", "Creating", "Updating", "Deleting",
+         "Succeeded", "Failed", "Canceled", "Deleted", and "NotSpecified".
+        :paramtype provisioning_state: str or ~azure.mgmt.datadog.models.ProvisioningState
         :keyword monitoring_status: Flag specifying if the resource monitoring is enabled or disabled.
          Known values are: "Enabled" and "Disabled".
         :paramtype monitoring_status: str or ~azure.mgmt.datadog.models.MonitoringStatus
-        :keyword datadog_organization_properties: Specify the Datadog organization name. In the case of
-         linking to existing organizations, Id, ApiKey, and Applicationkey is required as well.
+        :keyword datadog_organization_properties: Datadog organization properties.
         :paramtype datadog_organization_properties:
          ~azure.mgmt.datadog.models.DatadogOrganizationProperties
-        :keyword user_info: Includes name, email and optionally, phone number. User Information can't
-         be null.
+        :keyword user_info: User info.
         :paramtype user_info: ~azure.mgmt.datadog.models.UserInfo
         """
         super().__init__(**kwargs)
-        self.provisioning_state = None
+        self.provisioning_state = provisioning_state
         self.monitoring_status = monitoring_status
         self.marketplace_subscription_status = None
         self.datadog_organization_properties = datadog_organization_properties
@@ -1599,9 +1659,7 @@ class MonitorUpdateProperties(_serialization.Model):
     :ivar monitoring_status: Flag specifying if the resource monitoring is enabled or disabled.
      Known values are: "Enabled" and "Disabled".
     :vartype monitoring_status: str or ~azure.mgmt.datadog.models.MonitoringStatus
-    :ivar cspm: The new cloud security posture management value of the monitor resource. This
-     collects configuration information for all resources in a subscription and track conformance to
-     industry benchmarks.
+    :ivar cspm: The new cspm value of the monitor resource.
     :vartype cspm: bool
     """
 
@@ -1621,9 +1679,7 @@ class MonitorUpdateProperties(_serialization.Model):
         :keyword monitoring_status: Flag specifying if the resource monitoring is enabled or disabled.
          Known values are: "Enabled" and "Disabled".
         :paramtype monitoring_status: str or ~azure.mgmt.datadog.models.MonitoringStatus
-        :keyword cspm: The new cloud security posture management value of the monitor resource. This
-         collects configuration information for all resources in a subscription and track conformance to
-         industry benchmarks.
+        :keyword cspm: The new cspm value of the monitor resource.
         :paramtype cspm: bool
         """
         super().__init__(**kwargs)
@@ -1744,13 +1800,51 @@ class OperationResult(_serialization.Model):
         self.is_data_action = is_data_action
 
 
+class PartnerBillingEntity(_serialization.Model):
+    """Partner Billing details associated with the resource.
+
+    :ivar id: The Datadog Organization Id.
+    :vartype id: str
+    :ivar name: The Datadog Organization Name.
+    :vartype name: str
+    :ivar partner_entity_uri: Link to the datadog organization page.
+    :vartype partner_entity_uri: str
+    """
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "partner_entity_uri": {"key": "partnerEntityUri", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        id: Optional[str] = None,  # pylint: disable=redefined-builtin
+        name: Optional[str] = None,
+        partner_entity_uri: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword id: The Datadog Organization Id.
+        :paramtype id: str
+        :keyword name: The Datadog Organization Name.
+        :paramtype name: str
+        :keyword partner_entity_uri: Link to the datadog organization page.
+        :paramtype partner_entity_uri: str
+        """
+        super().__init__(**kwargs)
+        self.id = id
+        self.name = name
+        self.partner_entity_uri = partner_entity_uri
+
+
 class ResourceSku(_serialization.Model):
     """ResourceSku.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar name: Name of the SKU in {PlanId} format. For Terraform, the only allowed value is
-     'linking'. Required.
+    :ivar name: Name of the SKU. Required.
     :vartype name: str
     """
 
@@ -1764,8 +1858,7 @@ class ResourceSku(_serialization.Model):
 
     def __init__(self, *, name: str, **kwargs: Any) -> None:
         """
-        :keyword name: Name of the SKU in {PlanId} format. For Terraform, the only allowed value is
-         'linking'. Required.
+        :keyword name: Name of the SKU. Required.
         :paramtype name: str
         """
         super().__init__(**kwargs)
@@ -1871,7 +1964,7 @@ class SystemData(_serialization.Model):
 
 
 class UserInfo(_serialization.Model):
-    """Includes name, email and optionally, phone number. User Information can't be null.
+    """User info.
 
     :ivar name: Name of the user.
     :vartype name: str

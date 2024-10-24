@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.datadog import MicrosoftDatadogClient
 
 """
@@ -33,10 +34,9 @@ def main():
         resource_group_name="myResourceGroup",
         monitor_name="myMonitor",
     )
-    for item in response:
-        print(item)
+    print(response)
 
 
-# x-ms-original-file: specification/datadog/resource-manager/Microsoft.Datadog/stable/2023-01-01/examples/MonitoredSubscriptions_List.json
+# x-ms-original-file: specification/datadog/resource-manager/Microsoft.Datadog/stable/2023-10-20/examples/MonitoredSubscriptions_List.json
 if __name__ == "__main__":
     main()

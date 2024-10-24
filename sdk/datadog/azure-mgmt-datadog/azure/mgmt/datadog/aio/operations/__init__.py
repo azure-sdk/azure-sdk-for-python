@@ -10,6 +10,7 @@ from ._marketplace_agreements_operations import MarketplaceAgreementsOperations
 from ._creation_supported_operations import CreationSupportedOperations
 from ._monitors_operations import MonitorsOperations
 from ._operations import Operations
+from ._billing_info_operations import BillingInfoOperations
 from ._tag_rules_operations import TagRulesOperations
 from ._single_sign_on_configurations_operations import SingleSignOnConfigurationsOperations
 from ._monitored_subscriptions_operations import MonitoredSubscriptionsOperations
@@ -23,6 +24,7 @@ __all__ = [
     "CreationSupportedOperations",
     "MonitorsOperations",
     "Operations",
+    "BillingInfoOperations",
     "TagRulesOperations",
     "SingleSignOnConfigurationsOperations",
     "MonitoredSubscriptionsOperations",
