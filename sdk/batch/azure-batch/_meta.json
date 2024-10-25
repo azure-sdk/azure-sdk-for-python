@@ -1,0 +1,6 @@
+{
+  "commit": "c5dfd03337be0e5f4a6dd4ed66e3e00ae73f8918",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/batch/Azure.Batch",
+  "@azure-tools/typespec-python": "0.36.1"
+}
