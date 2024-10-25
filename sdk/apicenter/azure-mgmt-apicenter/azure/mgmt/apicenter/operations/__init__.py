@@ -7,9 +7,11 @@
 # --------------------------------------------------------------------------
 
 from ._operations import Operations
+from ._deleted_services_operations import DeletedServicesOperations
 from ._services_operations import ServicesOperations
 from ._metadata_schemas_operations import MetadataSchemasOperations
 from ._workspaces_operations import WorkspacesOperations
+from ._api_sources_operations import ApiSourcesOperations
 from ._apis_operations import ApisOperations
 from ._deployments_operations import DeploymentsOperations
 from ._api_versions_operations import ApiVersionsOperations
@@ -22,9 +24,11 @@ from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
     "Operations",
+    "DeletedServicesOperations",
     "ServicesOperations",
     "MetadataSchemasOperations",
     "WorkspacesOperations",
+    "ApiSourcesOperations",
     "ApisOperations",
     "DeploymentsOperations",
     "ApiVersionsOperations",
