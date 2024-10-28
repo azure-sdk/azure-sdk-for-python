@@ -44,31 +44,9 @@ _SERIALIZER = Serializer()
 _SERIALIZER.client_side_validation = False
 
 
-def build_list_request(subscription_id: str, **kwargs: Any) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-10-01-preview"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = kwargs.pop("template_url", "/subscriptions/{subscriptionId}/providers/Microsoft.Dashboard/grafana")
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_list_by_resource_group_request(resource_group_name: str, subscription_id: str, **kwargs: Any) -> HttpRequest:
+def build_list_request(
+    resource_group_name: str, workspace_name: str, subscription_id: str, **kwargs: Any
+) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
@@ -78,12 +56,15 @@ def build_list_by_resource_group_request(resource_group_name: str, subscription_
     # Construct URL
     _url = kwargs.pop(
         "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/integrationFabrics",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
         "resourceGroupName": _SERIALIZER.url(
             "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
+        ),
+        "workspaceName": _SERIALIZER.url(
+            "workspace_name", workspace_name, "str", pattern=r"^[a-zA-Z][a-z0-9A-Z-]{0,28}[a-z0-9A-Z]$"
         ),
     }
 
@@ -99,7 +80,7 @@ def build_list_by_resource_group_request(resource_group_name: str, subscription_
 
 
 def build_get_request(
-    resource_group_name: str, workspace_name: str, subscription_id: str, **kwargs: Any
+    resource_group_name: str, workspace_name: str, integration_fabric_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
@@ -110,7 +91,7 @@ def build_get_request(
     # Construct URL
     _url = kwargs.pop(
         "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/integrationFabrics/{integrationFabricName}",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
@@ -119,6 +100,12 @@ def build_get_request(
         ),
         "workspaceName": _SERIALIZER.url(
             "workspace_name", workspace_name, "str", pattern=r"^[a-zA-Z][a-z0-9A-Z-]{0,28}[a-z0-9A-Z]$"
+        ),
+        "integrationFabricName": _SERIALIZER.url(
+            "integration_fabric_name",
+            integration_fabric_name,
+            "str",
+            pattern=r"^[a-zA-Z][a-z0-9A-Z-]{0,18}[a-z0-9A-Z]$",
         ),
     }
 
@@ -134,7 +121,7 @@ def build_get_request(
 
 
 def build_create_request(
-    resource_group_name: str, workspace_name: str, subscription_id: str, **kwargs: Any
+    resource_group_name: str, workspace_name: str, integration_fabric_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
@@ -146,7 +133,7 @@ def build_create_request(
     # Construct URL
     _url = kwargs.pop(
         "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/integrationFabrics/{integrationFabricName}",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
@@ -155,6 +142,12 @@ def build_create_request(
         ),
         "workspaceName": _SERIALIZER.url(
             "workspace_name", workspace_name, "str", pattern=r"^[a-zA-Z][a-z0-9A-Z-]{0,28}[a-z0-9A-Z]$"
+        ),
+        "integrationFabricName": _SERIALIZER.url(
+            "integration_fabric_name",
+            integration_fabric_name,
+            "str",
+            pattern=r"^[a-zA-Z][a-z0-9A-Z-]{0,18}[a-z0-9A-Z]$",
         ),
     }
 
@@ -172,7 +165,7 @@ def build_create_request(
 
 
 def build_update_request(
-    resource_group_name: str, workspace_name: str, subscription_id: str, **kwargs: Any
+    resource_group_name: str, workspace_name: str, integration_fabric_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
@@ -184,7 +177,7 @@ def build_update_request(
     # Construct URL
     _url = kwargs.pop(
         "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/integrationFabrics/{integrationFabricName}",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
@@ -193,6 +186,12 @@ def build_update_request(
         ),
         "workspaceName": _SERIALIZER.url(
             "workspace_name", workspace_name, "str", pattern=r"^[a-zA-Z][a-z0-9A-Z-]{0,28}[a-z0-9A-Z]$"
+        ),
+        "integrationFabricName": _SERIALIZER.url(
+            "integration_fabric_name",
+            integration_fabric_name,
+            "str",
+            pattern=r"^[a-zA-Z][a-z0-9A-Z-]{0,18}[a-z0-9A-Z]$",
         ),
     }
 
@@ -210,7 +209,7 @@ def build_update_request(
 
 
 def build_delete_request(
-    resource_group_name: str, workspace_name: str, subscription_id: str, **kwargs: Any
+    resource_group_name: str, workspace_name: str, integration_fabric_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
@@ -221,7 +220,7 @@ def build_delete_request(
     # Construct URL
     _url = kwargs.pop(
         "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/integrationFabrics/{integrationFabricName}",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
@@ -230,6 +229,12 @@ def build_delete_request(
         ),
         "workspaceName": _SERIALIZER.url(
             "workspace_name", workspace_name, "str", pattern=r"^[a-zA-Z][a-z0-9A-Z-]{0,28}[a-z0-9A-Z]$"
+        ),
+        "integrationFabricName": _SERIALIZER.url(
+            "integration_fabric_name",
+            integration_fabric_name,
+            "str",
+            pattern=r"^[a-zA-Z][a-z0-9A-Z-]{0,18}[a-z0-9A-Z]$",
         ),
     }
 
@@ -244,84 +249,14 @@ def build_delete_request(
     return HttpRequest(method="DELETE", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_check_enterprise_details_request(
-    resource_group_name: str, workspace_name: str, subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-10-01-preview"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = kwargs.pop(
-        "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/checkEnterpriseDetails",
-    )  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
-        "resourceGroupName": _SERIALIZER.url(
-            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
-        ),
-        "workspaceName": _SERIALIZER.url(
-            "workspace_name", workspace_name, "str", pattern=r"^[a-zA-Z][a-z0-9A-Z-]{0,28}[a-z0-9A-Z]$"
-        ),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_fetch_available_plugins_request(
-    resource_group_name: str, workspace_name: str, subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-10-01-preview"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = kwargs.pop(
-        "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/fetchAvailablePlugins",
-    )  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
-        "resourceGroupName": _SERIALIZER.url(
-            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
-        ),
-        "workspaceName": _SERIALIZER.url(
-            "workspace_name", workspace_name, "str", pattern=r"^[a-zA-Z][a-z0-9A-Z-]{0,28}[a-z0-9A-Z]$"
-        ),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-class GrafanaOperations:
+class IntegrationFabricsOperations:
     """
     .. warning::
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
         :class:`~azure.mgmt.dashboard.DashboardManagementClient`'s
-        :attr:`grafana` attribute.
+        :attr:`integration_fabrics` attribute.
     """
 
     models = _models
@@ -334,20 +269,25 @@ class GrafanaOperations:
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
     @distributed_trace
-    def list(self, **kwargs: Any) -> Iterable["_models.ManagedGrafana"]:
-        """List all resources of workspaces for Grafana under the specified subscription.
+    def list(
+        self, resource_group_name: str, workspace_name: str, **kwargs: Any
+    ) -> Iterable["_models.IntegrationFabric"]:
+        """list.
 
-        List all resources of workspaces for Grafana under the specified subscription.
-
-        :return: An iterator like instance of either ManagedGrafana or the result of cls(response)
-        :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.dashboard.models.ManagedGrafana]
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param workspace_name: The workspace name of Azure Managed Grafana. Required.
+        :type workspace_name: str
+        :return: An iterator like instance of either IntegrationFabric or the result of cls(response)
+        :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.dashboard.models.IntegrationFabric]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.ManagedGrafanaListResponse] = kwargs.pop("cls", None)
+        cls: ClsType[_models.IntegrationFabricListResponse] = kwargs.pop("cls", None)
 
         error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
@@ -361,87 +301,8 @@ class GrafanaOperations:
             if not next_link:
 
                 _request = build_list_request(
-                    subscription_id=self._config.subscription_id,
-                    api_version=api_version,
-                    headers=_headers,
-                    params=_params,
-                )
-                _request.url = self._client.format_url(_request.url)
-
-            else:
-                # make call to next link with the client's api-version
-                _parsed_next_link = urllib.parse.urlparse(next_link)
-                _next_request_params = case_insensitive_dict(
-                    {
-                        key: [urllib.parse.quote(v) for v in value]
-                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
-                    }
-                )
-                _next_request_params["api-version"] = self._config.api_version
-                _request = HttpRequest(
-                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
-                )
-                _request.url = self._client.format_url(_request.url)
-                _request.method = "GET"
-            return _request
-
-        def extract_data(pipeline_response):
-            deserialized = self._deserialize("ManagedGrafanaListResponse", pipeline_response)
-            list_of_elem = deserialized.value
-            if cls:
-                list_of_elem = cls(list_of_elem)  # type: ignore
-            return deserialized.next_link or None, iter(list_of_elem)
-
-        def get_next(next_link=None):
-            _request = prepare_request(next_link)
-
-            _stream = False
-            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                _request, stream=_stream, **kwargs
-            )
-            response = pipeline_response.http_response
-
-            if response.status_code not in [200]:
-                map_error(status_code=response.status_code, response=response, error_map=error_map)
-                error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
-                raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
-
-            return pipeline_response
-
-        return ItemPaged(get_next, extract_data)
-
-    @distributed_trace
-    def list_by_resource_group(self, resource_group_name: str, **kwargs: Any) -> Iterable["_models.ManagedGrafana"]:
-        """List all resources of workspaces for Grafana under the specified resource group.
-
-        List all resources of workspaces for Grafana under the specified resource group.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :return: An iterator like instance of either ManagedGrafana or the result of cls(response)
-        :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.dashboard.models.ManagedGrafana]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.ManagedGrafanaListResponse] = kwargs.pop("cls", None)
-
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        def prepare_request(next_link=None):
-            if not next_link:
-
-                _request = build_list_by_resource_group_request(
                     resource_group_name=resource_group_name,
+                    workspace_name=workspace_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
                     headers=_headers,
@@ -467,7 +328,7 @@ class GrafanaOperations:
             return _request
 
         def extract_data(pipeline_response):
-            deserialized = self._deserialize("ManagedGrafanaListResponse", pipeline_response)
+            deserialized = self._deserialize("IntegrationFabricListResponse", pipeline_response)
             list_of_elem = deserialized.value
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
@@ -492,18 +353,20 @@ class GrafanaOperations:
         return ItemPaged(get_next, extract_data)
 
     @distributed_trace
-    def get(self, resource_group_name: str, workspace_name: str, **kwargs: Any) -> _models.ManagedGrafana:
-        """Get the properties of a specific workspace for Grafana resource.
-
-        Get the properties of a specific workspace for Grafana resource.
+    def get(
+        self, resource_group_name: str, workspace_name: str, integration_fabric_name: str, **kwargs: Any
+    ) -> _models.IntegrationFabric:
+        """get.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param workspace_name: The workspace name of Azure Managed Grafana. Required.
         :type workspace_name: str
-        :return: ManagedGrafana or the result of cls(response)
-        :rtype: ~azure.mgmt.dashboard.models.ManagedGrafana
+        :param integration_fabric_name: The integration fabric name of Azure Managed Grafana. Required.
+        :type integration_fabric_name: str
+        :return: IntegrationFabric or the result of cls(response)
+        :rtype: ~azure.mgmt.dashboard.models.IntegrationFabric
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping[int, Type[HttpResponseError]] = {
@@ -518,11 +381,12 @@ class GrafanaOperations:
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.ManagedGrafana] = kwargs.pop("cls", None)
+        cls: ClsType[_models.IntegrationFabric] = kwargs.pop("cls", None)
 
         _request = build_get_request(
             resource_group_name=resource_group_name,
             workspace_name=workspace_name,
+            integration_fabric_name=integration_fabric_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
             headers=_headers,
@@ -542,7 +406,7 @@ class GrafanaOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("ManagedGrafana", pipeline_response.http_response)
+        deserialized = self._deserialize("IntegrationFabric", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -553,7 +417,8 @@ class GrafanaOperations:
         self,
         resource_group_name: str,
         workspace_name: str,
-        request_body_parameters: Union[_models.ManagedGrafana, IO[bytes]],
+        integration_fabric_name: str,
+        request_body_parameters: Union[_models.IntegrationFabric, IO[bytes]],
         **kwargs: Any
     ) -> Iterator[bytes]:
         error_map: MutableMapping[int, Type[HttpResponseError]] = {
@@ -577,11 +442,12 @@ class GrafanaOperations:
         if isinstance(request_body_parameters, (IOBase, bytes)):
             _content = request_body_parameters
         else:
-            _json = self._serialize.body(request_body_parameters, "ManagedGrafana")
+            _json = self._serialize.body(request_body_parameters, "IntegrationFabric")
 
         _request = build_create_request(
             resource_group_name=resource_group_name,
             workspace_name=workspace_name,
+            integration_fabric_name=integration_fabric_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
             content_type=content_type,
@@ -627,30 +493,29 @@ class GrafanaOperations:
         self,
         resource_group_name: str,
         workspace_name: str,
-        request_body_parameters: _models.ManagedGrafana,
+        integration_fabric_name: str,
+        request_body_parameters: _models.IntegrationFabric,
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> LROPoller[_models.ManagedGrafana]:
-        """Create or update a workspace for Grafana resource. This API is idempotent, so user can either
-        create a new grafana or update an existing grafana.
-
-        Create or update a workspace for Grafana resource. This API is idempotent, so user can either
-        create a new grafana or update an existing grafana.
+    ) -> LROPoller[_models.IntegrationFabric]:
+        """create.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param workspace_name: The workspace name of Azure Managed Grafana. Required.
         :type workspace_name: str
+        :param integration_fabric_name: The integration fabric name of Azure Managed Grafana. Required.
+        :type integration_fabric_name: str
         :param request_body_parameters: Required.
-        :type request_body_parameters: ~azure.mgmt.dashboard.models.ManagedGrafana
+        :type request_body_parameters: ~azure.mgmt.dashboard.models.IntegrationFabric
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of LROPoller that returns either ManagedGrafana or the result of
+        :return: An instance of LROPoller that returns either IntegrationFabric or the result of
          cls(response)
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.dashboard.models.ManagedGrafana]
+        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.dashboard.models.IntegrationFabric]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -659,30 +524,29 @@ class GrafanaOperations:
         self,
         resource_group_name: str,
         workspace_name: str,
+        integration_fabric_name: str,
         request_body_parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> LROPoller[_models.ManagedGrafana]:
-        """Create or update a workspace for Grafana resource. This API is idempotent, so user can either
-        create a new grafana or update an existing grafana.
-
-        Create or update a workspace for Grafana resource. This API is idempotent, so user can either
-        create a new grafana or update an existing grafana.
+    ) -> LROPoller[_models.IntegrationFabric]:
+        """create.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param workspace_name: The workspace name of Azure Managed Grafana. Required.
         :type workspace_name: str
+        :param integration_fabric_name: The integration fabric name of Azure Managed Grafana. Required.
+        :type integration_fabric_name: str
         :param request_body_parameters: Required.
         :type request_body_parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of LROPoller that returns either ManagedGrafana or the result of
+        :return: An instance of LROPoller that returns either IntegrationFabric or the result of
          cls(response)
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.dashboard.models.ManagedGrafana]
+        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.dashboard.models.IntegrationFabric]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -691,25 +555,25 @@ class GrafanaOperations:
         self,
         resource_group_name: str,
         workspace_name: str,
-        request_body_parameters: Union[_models.ManagedGrafana, IO[bytes]],
+        integration_fabric_name: str,
+        request_body_parameters: Union[_models.IntegrationFabric, IO[bytes]],
         **kwargs: Any
-    ) -> LROPoller[_models.ManagedGrafana]:
-        """Create or update a workspace for Grafana resource. This API is idempotent, so user can either
-        create a new grafana or update an existing grafana.
-
-        Create or update a workspace for Grafana resource. This API is idempotent, so user can either
-        create a new grafana or update an existing grafana.
+    ) -> LROPoller[_models.IntegrationFabric]:
+        """create.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param workspace_name: The workspace name of Azure Managed Grafana. Required.
         :type workspace_name: str
-        :param request_body_parameters: Is either a ManagedGrafana type or a IO[bytes] type. Required.
-        :type request_body_parameters: ~azure.mgmt.dashboard.models.ManagedGrafana or IO[bytes]
-        :return: An instance of LROPoller that returns either ManagedGrafana or the result of
+        :param integration_fabric_name: The integration fabric name of Azure Managed Grafana. Required.
+        :type integration_fabric_name: str
+        :param request_body_parameters: Is either a IntegrationFabric type or a IO[bytes] type.
+         Required.
+        :type request_body_parameters: ~azure.mgmt.dashboard.models.IntegrationFabric or IO[bytes]
+        :return: An instance of LROPoller that returns either IntegrationFabric or the result of
          cls(response)
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.dashboard.models.ManagedGrafana]
+        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.dashboard.models.IntegrationFabric]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -717,7 +581,7 @@ class GrafanaOperations:
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.ManagedGrafana] = kwargs.pop("cls", None)
+        cls: ClsType[_models.IntegrationFabric] = kwargs.pop("cls", None)
         polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
@@ -725,6 +589,7 @@ class GrafanaOperations:
             raw_result = self._create_initial(
                 resource_group_name=resource_group_name,
                 workspace_name=workspace_name,
+                integration_fabric_name=integration_fabric_name,
                 request_body_parameters=request_body_parameters,
                 api_version=api_version,
                 content_type=content_type,
@@ -737,7 +602,7 @@ class GrafanaOperations:
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):
-            deserialized = self._deserialize("ManagedGrafana", pipeline_response.http_response)
+            deserialized = self._deserialize("IntegrationFabric", pipeline_response.http_response)
             if cls:
                 return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
@@ -751,99 +616,24 @@ class GrafanaOperations:
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller[_models.ManagedGrafana].from_continuation_token(
+            return LROPoller[_models.IntegrationFabric].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller[_models.ManagedGrafana](
+        return LROPoller[_models.IntegrationFabric](
             self._client, raw_result, get_long_running_output, polling_method  # type: ignore
         )
 
-    @overload
-    def update(
+    def _update_initial(
         self,
         resource_group_name: str,
         workspace_name: str,
-        request_body_parameters: _models.ManagedGrafanaUpdateParameters,
-        *,
-        content_type: str = "application/json",
+        integration_fabric_name: str,
+        request_body_parameters: Union[_models.IntegrationFabricUpdateParameters, IO[bytes]],
         **kwargs: Any
-    ) -> _models.ManagedGrafana:
-        """Update a workspace for Grafana resource.
-
-        Update a workspace for Grafana resource.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param workspace_name: The workspace name of Azure Managed Grafana. Required.
-        :type workspace_name: str
-        :param request_body_parameters: Required.
-        :type request_body_parameters: ~azure.mgmt.dashboard.models.ManagedGrafanaUpdateParameters
-        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :return: ManagedGrafana or the result of cls(response)
-        :rtype: ~azure.mgmt.dashboard.models.ManagedGrafana
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @overload
-    def update(
-        self,
-        resource_group_name: str,
-        workspace_name: str,
-        request_body_parameters: IO[bytes],
-        *,
-        content_type: str = "application/json",
-        **kwargs: Any
-    ) -> _models.ManagedGrafana:
-        """Update a workspace for Grafana resource.
-
-        Update a workspace for Grafana resource.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param workspace_name: The workspace name of Azure Managed Grafana. Required.
-        :type workspace_name: str
-        :param request_body_parameters: Required.
-        :type request_body_parameters: IO[bytes]
-        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :return: ManagedGrafana or the result of cls(response)
-        :rtype: ~azure.mgmt.dashboard.models.ManagedGrafana
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @distributed_trace
-    def update(
-        self,
-        resource_group_name: str,
-        workspace_name: str,
-        request_body_parameters: Union[_models.ManagedGrafanaUpdateParameters, IO[bytes]],
-        **kwargs: Any
-    ) -> _models.ManagedGrafana:
-        """Update a workspace for Grafana resource.
-
-        Update a workspace for Grafana resource.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param workspace_name: The workspace name of Azure Managed Grafana. Required.
-        :type workspace_name: str
-        :param request_body_parameters: Is either a ManagedGrafanaUpdateParameters type or a IO[bytes]
-         type. Required.
-        :type request_body_parameters: ~azure.mgmt.dashboard.models.ManagedGrafanaUpdateParameters or
-         IO[bytes]
-        :return: ManagedGrafana or the result of cls(response)
-        :rtype: ~azure.mgmt.dashboard.models.ManagedGrafana
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
+    ) -> Iterator[bytes]:
         error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
@@ -857,7 +647,7 @@ class GrafanaOperations:
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.ManagedGrafana] = kwargs.pop("cls", None)
+        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
 
         content_type = content_type or "application/json"
         _json = None
@@ -865,11 +655,12 @@ class GrafanaOperations:
         if isinstance(request_body_parameters, (IOBase, bytes)):
             _content = request_body_parameters
         else:
-            _json = self._serialize.body(request_body_parameters, "ManagedGrafanaUpdateParameters")
+            _json = self._serialize.body(request_body_parameters, "IntegrationFabricUpdateParameters")
 
         _request = build_update_request(
             resource_group_name=resource_group_name,
             workspace_name=workspace_name,
+            integration_fabric_name=integration_fabric_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
             content_type=content_type,
@@ -880,7 +671,8 @@ class GrafanaOperations:
         )
         _request.url = self._client.format_url(_request.url)
 
-        _stream = False
+        _decompress = kwargs.pop("decompress", True)
+        _stream = True
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
@@ -888,24 +680,167 @@ class GrafanaOperations:
         response = pipeline_response.http_response
 
         if response.status_code not in [200, 202]:
+            try:
+                response.read()  # Load the body in memory and close the socket
+            except (StreamConsumedError, StreamClosedError):
+                pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         response_headers = {}
         if response.status_code == 202:
-            response_headers["Azure-AsyncOperation"] = self._deserialize(
-                "str", response.headers.get("Azure-AsyncOperation")
-            )
+            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
 
-        deserialized = self._deserialize("ManagedGrafana", pipeline_response.http_response)
+        deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
 
         if cls:
             return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
         return deserialized  # type: ignore
 
-    def _delete_initial(self, resource_group_name: str, workspace_name: str, **kwargs: Any) -> Iterator[bytes]:
+    @overload
+    def begin_update(
+        self,
+        resource_group_name: str,
+        workspace_name: str,
+        integration_fabric_name: str,
+        request_body_parameters: _models.IntegrationFabricUpdateParameters,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> LROPoller[_models.IntegrationFabric]:
+        """update.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param workspace_name: The workspace name of Azure Managed Grafana. Required.
+        :type workspace_name: str
+        :param integration_fabric_name: The integration fabric name of Azure Managed Grafana. Required.
+        :type integration_fabric_name: str
+        :param request_body_parameters: Required.
+        :type request_body_parameters: ~azure.mgmt.dashboard.models.IntegrationFabricUpdateParameters
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: An instance of LROPoller that returns either IntegrationFabric or the result of
+         cls(response)
+        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.dashboard.models.IntegrationFabric]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    def begin_update(
+        self,
+        resource_group_name: str,
+        workspace_name: str,
+        integration_fabric_name: str,
+        request_body_parameters: IO[bytes],
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> LROPoller[_models.IntegrationFabric]:
+        """update.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param workspace_name: The workspace name of Azure Managed Grafana. Required.
+        :type workspace_name: str
+        :param integration_fabric_name: The integration fabric name of Azure Managed Grafana. Required.
+        :type integration_fabric_name: str
+        :param request_body_parameters: Required.
+        :type request_body_parameters: IO[bytes]
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: An instance of LROPoller that returns either IntegrationFabric or the result of
+         cls(response)
+        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.dashboard.models.IntegrationFabric]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace
+    def begin_update(
+        self,
+        resource_group_name: str,
+        workspace_name: str,
+        integration_fabric_name: str,
+        request_body_parameters: Union[_models.IntegrationFabricUpdateParameters, IO[bytes]],
+        **kwargs: Any
+    ) -> LROPoller[_models.IntegrationFabric]:
+        """update.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param workspace_name: The workspace name of Azure Managed Grafana. Required.
+        :type workspace_name: str
+        :param integration_fabric_name: The integration fabric name of Azure Managed Grafana. Required.
+        :type integration_fabric_name: str
+        :param request_body_parameters: Is either a IntegrationFabricUpdateParameters type or a
+         IO[bytes] type. Required.
+        :type request_body_parameters: ~azure.mgmt.dashboard.models.IntegrationFabricUpdateParameters
+         or IO[bytes]
+        :return: An instance of LROPoller that returns either IntegrationFabric or the result of
+         cls(response)
+        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.dashboard.models.IntegrationFabric]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.IntegrationFabric] = kwargs.pop("cls", None)
+        polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
+        lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
+        cont_token: Optional[str] = kwargs.pop("continuation_token", None)
+        if cont_token is None:
+            raw_result = self._update_initial(
+                resource_group_name=resource_group_name,
+                workspace_name=workspace_name,
+                integration_fabric_name=integration_fabric_name,
+                request_body_parameters=request_body_parameters,
+                api_version=api_version,
+                content_type=content_type,
+                cls=lambda x, y, z: x,
+                headers=_headers,
+                params=_params,
+                **kwargs
+            )
+            raw_result.http_response.read()  # type: ignore
+        kwargs.pop("error_map", None)
+
+        def get_long_running_output(pipeline_response):
+            deserialized = self._deserialize("IntegrationFabric", pipeline_response.http_response)
+            if cls:
+                return cls(pipeline_response, deserialized, {})  # type: ignore
+            return deserialized
+
+        if polling is True:
+            polling_method: PollingMethod = cast(
+                PollingMethod, ARMPolling(lro_delay, lro_options={"final-state-via": "azure-async-operation"}, **kwargs)
+            )
+        elif polling is False:
+            polling_method = cast(PollingMethod, NoPolling())
+        else:
+            polling_method = polling
+        if cont_token:
+            return LROPoller[_models.IntegrationFabric].from_continuation_token(
+                polling_method=polling_method,
+                continuation_token=cont_token,
+                client=self._client,
+                deserialization_callback=get_long_running_output,
+            )
+        return LROPoller[_models.IntegrationFabric](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
+
+    def _delete_initial(
+        self, resource_group_name: str, workspace_name: str, integration_fabric_name: str, **kwargs: Any
+    ) -> Iterator[bytes]:
         error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
@@ -923,6 +858,7 @@ class GrafanaOperations:
         _request = build_delete_request(
             resource_group_name=resource_group_name,
             workspace_name=workspace_name,
+            integration_fabric_name=integration_fabric_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
             headers=_headers,
@@ -938,7 +874,7 @@ class GrafanaOperations:
 
         response = pipeline_response.http_response
 
-        if response.status_code not in [200, 202, 204]:
+        if response.status_code not in [202, 204]:
             try:
                 response.read()  # Load the body in memory and close the socket
             except (StreamConsumedError, StreamClosedError):
@@ -949,9 +885,7 @@ class GrafanaOperations:
 
         response_headers = {}
         if response.status_code == 202:
-            response_headers["Azure-AsyncOperation"] = self._deserialize(
-                "str", response.headers.get("Azure-AsyncOperation")
-            )
+            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
 
         deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
 
@@ -961,16 +895,18 @@ class GrafanaOperations:
         return deserialized  # type: ignore
 
     @distributed_trace
-    def begin_delete(self, resource_group_name: str, workspace_name: str, **kwargs: Any) -> LROPoller[None]:
-        """Delete a workspace for Grafana resource.
-
-        Delete a workspace for Grafana resource.
+    def begin_delete(
+        self, resource_group_name: str, workspace_name: str, integration_fabric_name: str, **kwargs: Any
+    ) -> LROPoller[None]:
+        """delete.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param workspace_name: The workspace name of Azure Managed Grafana. Required.
         :type workspace_name: str
+        :param integration_fabric_name: The integration fabric name of Azure Managed Grafana. Required.
+        :type integration_fabric_name: str
         :return: An instance of LROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -987,6 +923,7 @@ class GrafanaOperations:
             raw_result = self._delete_initial(
                 resource_group_name=resource_group_name,
                 workspace_name=workspace_name,
+                integration_fabric_name=integration_fabric_name,
                 api_version=api_version,
                 cls=lambda x, y, z: x,
                 headers=_headers,
@@ -1016,121 +953,3 @@ class GrafanaOperations:
                 deserialization_callback=get_long_running_output,
             )
         return LROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    @distributed_trace
-    def check_enterprise_details(
-        self, resource_group_name: str, workspace_name: str, **kwargs: Any
-    ) -> _models.EnterpriseDetails:
-        """Retrieve enterprise add-on details information.
-
-        Retrieve enterprise add-on details information.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param workspace_name: The workspace name of Azure Managed Grafana. Required.
-        :type workspace_name: str
-        :return: EnterpriseDetails or the result of cls(response)
-        :rtype: ~azure.mgmt.dashboard.models.EnterpriseDetails
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.EnterpriseDetails] = kwargs.pop("cls", None)
-
-        _request = build_check_enterprise_details_request(
-            resource_group_name=resource_group_name,
-            workspace_name=workspace_name,
-            subscription_id=self._config.subscription_id,
-            api_version=api_version,
-            headers=_headers,
-            params=_params,
-        )
-        _request.url = self._client.format_url(_request.url)
-
-        _stream = False
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            _request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
-            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
-
-        deserialized = self._deserialize("EnterpriseDetails", pipeline_response.http_response)
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
-
-        return deserialized  # type: ignore
-
-    @distributed_trace
-    def fetch_available_plugins(
-        self, resource_group_name: str, workspace_name: str, **kwargs: Any
-    ) -> _models.GrafanaAvailablePluginListResponse:
-        """fetch_available_plugins.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param workspace_name: The workspace name of Azure Managed Grafana. Required.
-        :type workspace_name: str
-        :return: GrafanaAvailablePluginListResponse or the result of cls(response)
-        :rtype: ~azure.mgmt.dashboard.models.GrafanaAvailablePluginListResponse
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.GrafanaAvailablePluginListResponse] = kwargs.pop("cls", None)
-
-        _request = build_fetch_available_plugins_request(
-            resource_group_name=resource_group_name,
-            workspace_name=workspace_name,
-            subscription_id=self._config.subscription_id,
-            api_version=api_version,
-            headers=_headers,
-            params=_params,
-        )
-        _request.url = self._client.format_url(_request.url)
-
-        _stream = False
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            _request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
-            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
-
-        deserialized = self._deserialize("GrafanaAvailablePluginListResponse", pipeline_response.http_response)
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
-
-        return deserialized  # type: ignore

@@ -15,7 +15,7 @@ from azure.mgmt.dashboard import DashboardManagementClient
     pip install azure-identity
     pip install azure-mgmt-dashboard
 # USAGE
-    python grafana_get.py
+    python integration_fabrics_list.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -30,13 +30,14 @@ def main():
         subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.grafana.get(
+    response = client.integration_fabrics.list(
         resource_group_name="myResourceGroup",
         workspace_name="myWorkspace",
     )
-    print(response)
+    for item in response:
+        print(item)
 
 
-# x-ms-original-file: specification/dashboard/resource-manager/Microsoft.Dashboard/preview/2023-10-01-preview/examples/Grafana_Get.json
+# x-ms-original-file: specification/dashboard/resource-manager/Microsoft.Dashboard/preview/2023-10-01-preview/examples/IntegrationFabrics_List.json
 if __name__ == "__main__":
     main()

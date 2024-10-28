@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.dashboard import DashboardManagementClient
 
 """
@@ -49,7 +50,9 @@ def main():
                         "skipVerify": True,
                         "startTLSPolicy": "OpportunisticStartTLS",
                         "user": "username",
-                    }
+                    },
+                    "snapshots": {"externalEnabled": True},
+                    "users": {"viewersCanEdit": True},
                 },
                 "grafanaIntegrations": {
                     "azureMonitorWorkspaceIntegrations": [
@@ -70,6 +73,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/dashboard/resource-manager/Microsoft.Dashboard/stable/2023-09-01/examples/Grafana_Create.json
+# x-ms-original-file: specification/dashboard/resource-manager/Microsoft.Dashboard/preview/2023-10-01-preview/examples/Grafana_Create.json
 if __name__ == "__main__":
     main()
