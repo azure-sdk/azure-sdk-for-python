@@ -4392,6 +4392,9 @@ class NetworkInterface(Resource):  # pylint: disable=too-many-instance-attribute
     :ivar vnet_encryption_supported: Whether the virtual machine this nic is attached to supports
      encryption.
     :vartype vnet_encryption_supported: bool
+    :ivar default_outbound_connectivity_enabled: Whether default outbound connectivity for nic was
+     configured or not.
+    :vartype default_outbound_connectivity_enabled: bool
     :ivar enable_accelerated_networking: If the network interface is configured for accelerated
      networking. Not applicable to VM sizes which require accelerated networking.
     :vartype enable_accelerated_networking: bool
@@ -4440,6 +4443,7 @@ class NetworkInterface(Resource):  # pylint: disable=too-many-instance-attribute
         "mac_address": {"readonly": True},
         "primary": {"readonly": True},
         "vnet_encryption_supported": {"readonly": True},
+        "default_outbound_connectivity_enabled": {"readonly": True},
         "hosted_workloads": {"readonly": True},
         "dscp_configuration": {"readonly": True},
         "resource_guid": {"readonly": True},
@@ -4463,6 +4467,10 @@ class NetworkInterface(Resource):  # pylint: disable=too-many-instance-attribute
         "mac_address": {"key": "properties.macAddress", "type": "str"},
         "primary": {"key": "properties.primary", "type": "bool"},
         "vnet_encryption_supported": {"key": "properties.vnetEncryptionSupported", "type": "bool"},
+        "default_outbound_connectivity_enabled": {
+            "key": "properties.defaultOutboundConnectivityEnabled",
+            "type": "bool",
+        },
         "enable_accelerated_networking": {"key": "properties.enableAcceleratedNetworking", "type": "bool"},
         "disable_tcp_state_tracking": {"key": "properties.disableTcpStateTracking", "type": "bool"},
         "enable_ip_forwarding": {"key": "properties.enableIPForwarding", "type": "bool"},
@@ -4555,6 +4563,7 @@ class NetworkInterface(Resource):  # pylint: disable=too-many-instance-attribute
         self.mac_address = None
         self.primary = None
         self.vnet_encryption_supported = None
+        self.default_outbound_connectivity_enabled = None
         self.enable_accelerated_networking = enable_accelerated_networking
         self.disable_tcp_state_tracking = disable_tcp_state_tracking
         self.enable_ip_forwarding = enable_ip_forwarding
