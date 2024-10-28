@@ -1,0 +1,6 @@
+{
+  "commit": "20b8ba31ffb3814d9001ad9618dc48bf3def925d",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/monitor/Ingestion",
+  "@azure-tools/typespec-python": "0.36.1"
+}
