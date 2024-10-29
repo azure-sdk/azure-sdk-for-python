@@ -1,0 +1,6 @@
+{
+  "commit": "9cf8593a2fc6c5b51131df50e739f1462cf67275",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/storage/Microsoft.BlobStorage",
+  "@azure-tools/typespec-python": "0.36.1"
+}
