@@ -25,7 +25,7 @@ class TestContainerAppsAPIDaprComponentsOperationsAsync(AzureMgmtRecordedTestCas
         response = self.client.dapr_components.list(
             resource_group_name=resource_group.name,
             environment_name="str",
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -38,7 +38,7 @@ class TestContainerAppsAPIDaprComponentsOperationsAsync(AzureMgmtRecordedTestCas
             resource_group_name=resource_group.name,
             environment_name="str",
             component_name="str",
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         )
 
         # please add some check logic here by yourself
@@ -52,18 +52,21 @@ class TestContainerAppsAPIDaprComponentsOperationsAsync(AzureMgmtRecordedTestCas
             environment_name="str",
             component_name="str",
             dapr_component_envelope={
-                "componentType": "str",
                 "id": "str",
-                "ignoreErrors": False,
-                "initTimeout": "str",
-                "metadata": [{"name": "str", "secretRef": "str", "value": "str"}],
                 "name": "str",
-                "scopes": ["str"],
-                "secretStoreComponent": "str",
-                "secrets": [{"identity": "str", "keyVaultUrl": "str", "name": "str", "value": "str"}],
-                "serviceComponentBind": [
-                    {"metadata": {"name": "str", "value": "str"}, "name": "str", "serviceId": "str"}
-                ],
+                "properties": {
+                    "componentType": "str",
+                    "ignoreErrors": False,
+                    "initTimeout": "str",
+                    "metadata": [{"name": "str", "secretRef": "str", "value": "str"}],
+                    "scopes": ["str"],
+                    "secretStoreComponent": "str",
+                    "secrets": [{"identity": "str", "keyVaultUrl": "str", "name": "str", "value": "str"}],
+                    "serviceComponentBind": [
+                        {"metadata": {"name": "str", "value": "str"}, "name": "str", "serviceId": "str"}
+                    ],
+                    "version": "str",
+                },
                 "systemData": {
                     "createdAt": "2020-02-20 00:00:00",
                     "createdBy": "str",
@@ -73,9 +76,8 @@ class TestContainerAppsAPIDaprComponentsOperationsAsync(AzureMgmtRecordedTestCas
                     "lastModifiedByType": "str",
                 },
                 "type": "str",
-                "version": "str",
             },
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         )
 
         # please add some check logic here by yourself
@@ -88,7 +90,7 @@ class TestContainerAppsAPIDaprComponentsOperationsAsync(AzureMgmtRecordedTestCas
             resource_group_name=resource_group.name,
             environment_name="str",
             component_name="str",
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         )
 
         # please add some check logic here by yourself
@@ -101,7 +103,7 @@ class TestContainerAppsAPIDaprComponentsOperationsAsync(AzureMgmtRecordedTestCas
             resource_group_name=resource_group.name,
             environment_name="str",
             component_name="str",
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         )
 
         # please add some check logic here by yourself

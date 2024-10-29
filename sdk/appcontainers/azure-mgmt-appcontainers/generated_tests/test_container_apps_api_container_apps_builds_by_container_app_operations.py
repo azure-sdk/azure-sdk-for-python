@@ -24,7 +24,7 @@ class TestContainerAppsAPIContainerAppsBuildsByContainerAppOperations(AzureMgmtR
         response = self.client.container_apps_builds_by_container_app.list(
             resource_group_name=resource_group.name,
             container_app_name="str",
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself

@@ -25,7 +25,7 @@ class TestContainerAppsAPIDaprComponentResiliencyPoliciesOperations(AzureMgmtRec
             resource_group_name=resource_group.name,
             environment_name="str",
             component_name="str",
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -39,7 +39,7 @@ class TestContainerAppsAPIDaprComponentResiliencyPoliciesOperations(AzureMgmtRec
             environment_name="str",
             component_name="str",
             name="str",
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         )
 
         # please add some check logic here by yourself
@@ -82,7 +82,7 @@ class TestContainerAppsAPIDaprComponentResiliencyPoliciesOperations(AzureMgmtRec
                 },
                 "type": "str",
             },
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         )
 
         # please add some check logic here by yourself
@@ -96,7 +96,7 @@ class TestContainerAppsAPIDaprComponentResiliencyPoliciesOperations(AzureMgmtRec
             environment_name="str",
             component_name="str",
             name="str",
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         )
 
         # please add some check logic here by yourself
