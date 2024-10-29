@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.databox import DataBoxManagementClient
 
 """
@@ -33,6 +34,7 @@ def main():
         location="westus",
         validate_address={
             "deviceType": "DataBox",
+            "model": "DataBox",
             "shippingAddress": {
                 "addressType": "Commercial",
                 "city": "XXXX XXXX",
@@ -49,6 +51,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/ValidateAddressPost.json
+# x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/preview/2024-03-01-preview/examples/ValidateAddressPost.json
 if __name__ == "__main__":
     main()

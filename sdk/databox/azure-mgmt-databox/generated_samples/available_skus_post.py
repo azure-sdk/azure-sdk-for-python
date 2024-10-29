@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.databox import DataBoxManagementClient
 
 """
@@ -38,6 +39,6 @@ def main():
         print(item)
 
 
-# x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/AvailableSkusPost.json
+# x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/preview/2024-03-01-preview/examples/AvailableSkusPost.json
 if __name__ == "__main__":
     main()

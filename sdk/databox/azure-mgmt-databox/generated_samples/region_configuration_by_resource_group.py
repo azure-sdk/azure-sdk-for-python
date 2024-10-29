@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.databox import DataBoxManagementClient
 
 """
@@ -33,12 +34,13 @@ def main():
         resource_group_name="YourResourceGroupName",
         location="westus",
         region_configuration_request={
-            "scheduleAvailabilityRequest": {"skuName": "DataBox", "storageLocation": "westus"}
+            "deviceCapabilityRequest": {"model": "DataBoxDisk", "skuName": "DataBoxDisk"},
+            "scheduleAvailabilityRequest": {"model": "DataBox", "skuName": "DataBox", "storageLocation": "westus"},
         },
     )
     print(response)
 
 
-# x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/RegionConfigurationByResourceGroup.json
+# x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/preview/2024-03-01-preview/examples/RegionConfigurationByResourceGroup.json
 if __name__ == "__main__":
     main()

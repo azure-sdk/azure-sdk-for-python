@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.databox import DataBoxManagementClient
 
 """
@@ -66,12 +67,12 @@ def main():
                 },
                 "transferType": "ImportToAzure",
             },
-            "sku": {"name": "DataBox"},
+            "sku": {"model": "DataBox", "name": "DataBox"},
         },
     ).result()
     print(response)
 
 
-# x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/JobsCreateDevicePassword.json
+# x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/preview/2024-03-01-preview/examples/JobsCreateDevicePassword.json
 if __name__ == "__main__":
     main()

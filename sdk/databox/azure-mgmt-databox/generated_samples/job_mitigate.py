@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.databox import DataBoxManagementClient
 
 """
@@ -29,16 +30,15 @@ def main():
         subscription_id="YourSubscriptionId",
     )
 
-    response = client.mitigate(
+    client.mitigate(
         job_name="TestJobName1",
         resource_group_name="YourResourceGroupName",
         mitigate_job_request={
             "serialNumberCustomerResolutionMap": {"testDISK-1": "MoveToCleanUpDevice", "testDISK-2": "Resume"}
         },
     )
-    print(response)
 
 
-# x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/stable/2022-12-01/examples/JobMitigate.json
+# x-ms-original-file: specification/databox/resource-manager/Microsoft.DataBox/preview/2024-03-01-preview/examples/JobMitigate.json
 if __name__ == "__main__":
     main()
