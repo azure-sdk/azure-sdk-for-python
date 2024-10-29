@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.edgeorder import EdgeOrderManagementClient
 
 """
@@ -26,12 +27,12 @@ from azure.mgmt.edgeorder import EdgeOrderManagementClient
 def main():
     client = EdgeOrderManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="YourSubscriptionId",
+        subscription_id="eb5dc900-6186-49d8-b7d7-febd866fdc1d",
     )
 
-    response = client.begin_update_address(
-        address_name="TestAddressName2",
+    response = client.addresses.begin_update(
         resource_group_name="YourResourceGroupName",
+        address_name="TestAddressName2",
         address_update_parameter={
             "properties": {
                 "contactDetails": {
@@ -57,6 +58,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/edgeorder/resource-manager/Microsoft.EdgeOrder/stable/2021-12-01/examples/UpdateAddress.json
+# x-ms-original-file: specification/edgeorder/resource-manager/Microsoft.EdgeOrder/stable/2024-02-01/examples/UpdateAddress.json
 if __name__ == "__main__":
     main()

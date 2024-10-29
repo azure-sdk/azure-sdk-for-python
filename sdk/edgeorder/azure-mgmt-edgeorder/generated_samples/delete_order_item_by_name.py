@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.edgeorder import EdgeOrderManagementClient
 
 """
@@ -26,16 +27,15 @@ from azure.mgmt.edgeorder import EdgeOrderManagementClient
 def main():
     client = EdgeOrderManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="YourSubscriptionId",
+        subscription_id="eb5dc900-6186-49d8-b7d7-febd866fdc1d",
     )
 
-    response = client.begin_delete_order_item_by_name(
-        order_item_name="TestOrderItemName3",
+    client.order_items.begin_delete(
         resource_group_name="YourResourceGroupName",
+        order_item_name="TestOrderItemName3",
     ).result()
-    print(response)
 
 
-# x-ms-original-file: specification/edgeorder/resource-manager/Microsoft.EdgeOrder/stable/2021-12-01/examples/DeleteOrderItemByName.json
+# x-ms-original-file: specification/edgeorder/resource-manager/Microsoft.EdgeOrder/stable/2024-02-01/examples/DeleteOrderItemByName.json
 if __name__ == "__main__":
     main()

@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.edgeorder import EdgeOrderManagementClient
 
 """
@@ -26,17 +27,16 @@ from azure.mgmt.edgeorder import EdgeOrderManagementClient
 def main():
     client = EdgeOrderManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="YourSubscriptionId",
+        subscription_id="eb5dc900-6186-49d8-b7d7-febd866fdc1d",
     )
 
-    response = client.cancel_order_item(
-        order_item_name="TestOrderItemName3",
+    client.order_items.cancel(
         resource_group_name="YourResourceGroupName",
+        order_item_name="TestOrderItemName3",
         cancellation_reason={"reason": "Order cancelled"},
     )
-    print(response)
 
 
-# x-ms-original-file: specification/edgeorder/resource-manager/Microsoft.EdgeOrder/stable/2021-12-01/examples/CancelOrderItem.json
+# x-ms-original-file: specification/edgeorder/resource-manager/Microsoft.EdgeOrder/stable/2024-02-01/examples/CancelOrderItem.json
 if __name__ == "__main__":
     main()

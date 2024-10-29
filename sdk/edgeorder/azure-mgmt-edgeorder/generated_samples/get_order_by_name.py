@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.edgeorder import EdgeOrderManagementClient
 
 """
@@ -26,17 +27,17 @@ from azure.mgmt.edgeorder import EdgeOrderManagementClient
 def main():
     client = EdgeOrderManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="YourSubscriptionId",
+        subscription_id="eb5dc900-6186-49d8-b7d7-febd866fdc1d",
     )
 
-    response = client.get_order_by_name(
-        order_name="TestOrderName3",
+    response = client.orders.get(
         resource_group_name="YourResourceGroupName",
         location="eastus",
+        order_name="TestOrderName3",
     )
     print(response)
 
 
-# x-ms-original-file: specification/edgeorder/resource-manager/Microsoft.EdgeOrder/stable/2021-12-01/examples/GetOrderByName.json
+# x-ms-original-file: specification/edgeorder/resource-manager/Microsoft.EdgeOrder/stable/2024-02-01/examples/GetOrderByName.json
 if __name__ == "__main__":
     main()

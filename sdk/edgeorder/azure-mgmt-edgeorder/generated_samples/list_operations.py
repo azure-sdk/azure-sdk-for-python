@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.edgeorder import EdgeOrderManagementClient
 
 """
@@ -29,11 +30,11 @@ def main():
         subscription_id="SUBSCRIPTION_ID",
     )
 
-    response = client.list_operations()
+    response = client.operations.list()
     for item in response:
         print(item)
 
 
-# x-ms-original-file: specification/edgeorder/resource-manager/Microsoft.EdgeOrder/stable/2021-12-01/examples/ListOperations.json
+# x-ms-original-file: specification/edgeorder/resource-manager/Microsoft.EdgeOrder/stable/2024-02-01/examples/ListOperations.json
 if __name__ == "__main__":
     main()

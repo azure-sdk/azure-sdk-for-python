@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.edgeorder import EdgeOrderManagementClient
 
 """
@@ -26,27 +27,25 @@ from azure.mgmt.edgeorder import EdgeOrderManagementClient
 def main():
     client = EdgeOrderManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="YourSubscriptionId",
+        subscription_id="eb5dc900-6186-49d8-b7d7-febd866fdc1d",
     )
 
-    response = client.list_configurations(
+    response = client.products_and_configurations.list_configurations(
         configurations_request={
-            "configurationFilters": [
-                {
-                    "filterableProperty": [{"supportedValues": ["US"], "type": "ShipToCountries"}],
-                    "hierarchyInformation": {
-                        "productFamilyName": "azurestackedge",
-                        "productLineName": "azurestackedge",
-                        "productName": "azurestackedgegpu",
-                    },
-                }
-            ]
+            "configurationFilter": {
+                "filterableProperty": [{"supportedValues": ["US"], "type": "ShipToCountries"}],
+                "hierarchyInformation": {
+                    "productFamilyName": "azurestackedge",
+                    "productLineName": "azurestackedge",
+                    "productName": "azurestackedgegpu",
+                },
+            }
         },
     )
     for item in response:
         print(item)
 
 
-# x-ms-original-file: specification/edgeorder/resource-manager/Microsoft.EdgeOrder/stable/2021-12-01/examples/ListConfigurations.json
+# x-ms-original-file: specification/edgeorder/resource-manager/Microsoft.EdgeOrder/stable/2024-02-01/examples/ListConfigurations.json
 if __name__ == "__main__":
     main()

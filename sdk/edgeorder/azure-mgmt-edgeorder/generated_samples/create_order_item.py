@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.edgeorder import EdgeOrderManagementClient
 
 """
@@ -26,12 +27,12 @@ from azure.mgmt.edgeorder import EdgeOrderManagementClient
 def main():
     client = EdgeOrderManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="YourSubscriptionId",
+        subscription_id="eb5dc900-6186-49d8-b7d7-febd866fdc1d",
     )
 
-    response = client.begin_create_order_item(
-        order_item_name="TestOrderItemName2",
+    response = client.order_items.begin_create(
         resource_group_name="YourResourceGroupName",
+        order_item_name="TestOrderItemName2",
         order_item_resource={
             "location": "eastus",
             "properties": {
@@ -55,7 +56,7 @@ def main():
                         },
                     }
                 },
-                "orderId": "/subscriptions/YourSubscriptionId/resourceGroups/YourResourceGroupName/providers/Microsoft.EdgeOrder/locations/eastus/orders/TestOrderName2",
+                "orderId": "/subscriptions/eb5dc900-6186-49d8-b7d7-febd866fdc1d/resourceGroups/YourResourceGroupName/providers/Microsoft.EdgeOrder/locations/eastus/orders/TestOrderName2",
                 "orderItemDetails": {
                     "orderItemType": "Purchase",
                     "preferences": {"transportPreferences": {"preferredShipmentType": "MicrosoftManaged"}},
@@ -74,6 +75,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/edgeorder/resource-manager/Microsoft.EdgeOrder/stable/2021-12-01/examples/CreateOrderItem.json
+# x-ms-original-file: specification/edgeorder/resource-manager/Microsoft.EdgeOrder/stable/2024-02-01/examples/CreateOrderItem.json
 if __name__ == "__main__":
     main()
