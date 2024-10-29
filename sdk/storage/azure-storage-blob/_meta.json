@@ -1,0 +1,6 @@
+{
+  "commit": "9e20a84f2bd17e28282cb7fc4f32c9db2dbe3b3f",
+  "repository_url": "https://github.com/test-repo-billy/azure-rest-api-specs",
+  "typespec_src": "specification/storage/Microsoft.BlobStroage",
+  "@azure-tools/typespec-python": "0.31.1"
+}
