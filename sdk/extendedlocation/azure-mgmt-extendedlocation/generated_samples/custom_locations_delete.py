@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.extendedlocation import CustomLocations
 
 """
@@ -29,13 +30,12 @@ def main():
         subscription_id="11111111-2222-3333-4444-555555555555",
     )
 
-    response = client.custom_locations.begin_delete(
+    client.custom_locations.begin_delete(
         resource_group_name="testresourcegroup",
         resource_name="customLocation01",
     ).result()
-    print(response)
 
 
-# x-ms-original-file: specification/extendedlocation/resource-manager/Microsoft.ExtendedLocation/stable/2021-08-15/examples/CustomLocationsDelete.json
+# x-ms-original-file: specification/extendedlocation/resource-manager/Microsoft.ExtendedLocation/preview/2021-08-31-preview/examples/CustomLocationsDelete.json
 if __name__ == "__main__":
     main()
