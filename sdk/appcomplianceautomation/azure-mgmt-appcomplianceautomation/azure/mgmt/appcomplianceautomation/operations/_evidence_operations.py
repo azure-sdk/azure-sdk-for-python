@@ -21,15 +21,13 @@ from azure.core.exceptions import (
 )
 from azure.core.paging import ItemPaged
 from azure.core.pipeline import PipelineResponse
-from azure.core.pipeline.transport import HttpResponse
-from azure.core.rest import HttpRequest
+from azure.core.rest import HttpRequest, HttpResponse
 from azure.core.tracing.decorator import distributed_trace
 from azure.core.utils import case_insensitive_dict
 from azure.mgmt.core.exceptions import ARMErrorFormat
 
 from .. import models as _models
 from .._serialization import Serializer
-from .._vendor import _convert_request
 
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
@@ -307,7 +305,6 @@ class EvidenceOperations:
                     headers=_headers,
                     params=_params,
                 )
-                _request = _convert_request(_request)
                 _request.url = self._client.format_url(_request.url)
 
             else:
@@ -323,7 +320,6 @@ class EvidenceOperations:
                 _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                _request = _convert_request(_request)
                 _request.url = self._client.format_url(_request.url)
                 _request.method = "GET"
             return _request
@@ -386,7 +382,6 @@ class EvidenceOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -401,7 +396,7 @@ class EvidenceOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("EvidenceResource", pipeline_response)
+        deserialized = self._deserialize("EvidenceResource", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -413,7 +408,7 @@ class EvidenceOperations:
         self,
         report_name: str,
         evidence_name: str,
-        properties: _models.EvidenceResource,
+        resource: _models.EvidenceResource,
         offer_guid: Optional[str] = None,
         report_creator_tenant_id: Optional[str] = None,
         *,
@@ -426,8 +421,8 @@ class EvidenceOperations:
         :type report_name: str
         :param evidence_name: The evidence name. Required.
         :type evidence_name: str
-        :param properties: Parameters for the create or update operation. Required.
-        :type properties: ~azure.mgmt.appcomplianceautomation.models.EvidenceResource
+        :param resource: Parameters for the create or update operation. Required.
+        :type resource: ~azure.mgmt.appcomplianceautomation.models.EvidenceResource
         :param offer_guid: The offerGuid which mapping to the reports. Default value is None.
         :type offer_guid: str
         :param report_creator_tenant_id: The tenant id of the report creator. Default value is None.
@@ -445,7 +440,7 @@ class EvidenceOperations:
         self,
         report_name: str,
         evidence_name: str,
-        properties: IO[bytes],
+        resource: IO[bytes],
         offer_guid: Optional[str] = None,
         report_creator_tenant_id: Optional[str] = None,
         *,
@@ -458,8 +453,8 @@ class EvidenceOperations:
         :type report_name: str
         :param evidence_name: The evidence name. Required.
         :type evidence_name: str
-        :param properties: Parameters for the create or update operation. Required.
-        :type properties: IO[bytes]
+        :param resource: Parameters for the create or update operation. Required.
+        :type resource: IO[bytes]
         :param offer_guid: The offerGuid which mapping to the reports. Default value is None.
         :type offer_guid: str
         :param report_creator_tenant_id: The tenant id of the report creator. Default value is None.
@@ -477,7 +472,7 @@ class EvidenceOperations:
         self,
         report_name: str,
         evidence_name: str,
-        properties: Union[_models.EvidenceResource, IO[bytes]],
+        resource: Union[_models.EvidenceResource, IO[bytes]],
         offer_guid: Optional[str] = None,
         report_creator_tenant_id: Optional[str] = None,
         **kwargs: Any
@@ -488,9 +483,9 @@ class EvidenceOperations:
         :type report_name: str
         :param evidence_name: The evidence name. Required.
         :type evidence_name: str
-        :param properties: Parameters for the create or update operation. Is either a EvidenceResource
+        :param resource: Parameters for the create or update operation. Is either a EvidenceResource
          type or a IO[bytes] type. Required.
-        :type properties: ~azure.mgmt.appcomplianceautomation.models.EvidenceResource or IO[bytes]
+        :type resource: ~azure.mgmt.appcomplianceautomation.models.EvidenceResource or IO[bytes]
         :param offer_guid: The offerGuid which mapping to the reports. Default value is None.
         :type offer_guid: str
         :param report_creator_tenant_id: The tenant id of the report creator. Default value is None.
@@ -517,10 +512,10 @@ class EvidenceOperations:
         content_type = content_type or "application/json"
         _json = None
         _content = None
-        if isinstance(properties, (IOBase, bytes)):
-            _content = properties
+        if isinstance(resource, (IOBase, bytes)):
+            _content = resource
         else:
-            _json = self._serialize.body(properties, "EvidenceResource")
+            _json = self._serialize.body(resource, "EvidenceResource")
 
         _request = build_create_or_update_request(
             report_name=report_name,
@@ -534,7 +529,6 @@ class EvidenceOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -549,11 +543,7 @@ class EvidenceOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        if response.status_code == 200:
-            deserialized = self._deserialize("EvidenceResource", pipeline_response)
-
-        if response.status_code == 201:
-            deserialized = self._deserialize("EvidenceResource", pipeline_response)
+        deserialized = self._deserialize("EvidenceResource", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -595,7 +585,6 @@ class EvidenceOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -719,7 +708,6 @@ class EvidenceOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -734,7 +722,7 @@ class EvidenceOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("EvidenceFileDownloadResponse", pipeline_response)
+        deserialized = self._deserialize("EvidenceFileDownloadResponse", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore

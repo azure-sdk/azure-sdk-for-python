@@ -21,15 +21,13 @@ from azure.core.exceptions import (
 )
 from azure.core.paging import ItemPaged
 from azure.core.pipeline import PipelineResponse
-from azure.core.pipeline.transport import HttpResponse
-from azure.core.rest import HttpRequest
+from azure.core.rest import HttpRequest, HttpResponse
 from azure.core.tracing.decorator import distributed_trace
 from azure.core.utils import case_insensitive_dict
 from azure.mgmt.core.exceptions import ARMErrorFormat
 
 from .. import models as _models
 from .._serialization import Serializer
-from .._vendor import _convert_request
 
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
@@ -293,7 +291,6 @@ class WebhookOperations:
                     headers=_headers,
                     params=_params,
                 )
-                _request = _convert_request(_request)
                 _request.url = self._client.format_url(_request.url)
 
             else:
@@ -309,7 +306,6 @@ class WebhookOperations:
                 _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                _request = _convert_request(_request)
                 _request.url = self._client.format_url(_request.url)
                 _request.method = "GET"
             return _request
@@ -372,7 +368,6 @@ class WebhookOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -387,7 +382,7 @@ class WebhookOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("WebhookResource", pipeline_response)
+        deserialized = self._deserialize("WebhookResource", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -399,7 +394,7 @@ class WebhookOperations:
         self,
         report_name: str,
         webhook_name: str,
-        properties: _models.WebhookResource,
+        resource: _models.WebhookResource,
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -411,8 +406,8 @@ class WebhookOperations:
         :type report_name: str
         :param webhook_name: Webhook Name. Required.
         :type webhook_name: str
-        :param properties: Parameters for the create or update operation. Required.
-        :type properties: ~azure.mgmt.appcomplianceautomation.models.WebhookResource
+        :param resource: Parameters for the create or update operation. Required.
+        :type resource: ~azure.mgmt.appcomplianceautomation.models.WebhookResource
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
@@ -426,7 +421,7 @@ class WebhookOperations:
         self,
         report_name: str,
         webhook_name: str,
-        properties: IO[bytes],
+        resource: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -438,8 +433,8 @@ class WebhookOperations:
         :type report_name: str
         :param webhook_name: Webhook Name. Required.
         :type webhook_name: str
-        :param properties: Parameters for the create or update operation. Required.
-        :type properties: IO[bytes]
+        :param resource: Parameters for the create or update operation. Required.
+        :type resource: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
@@ -450,7 +445,7 @@ class WebhookOperations:
 
     @distributed_trace
     def create_or_update(
-        self, report_name: str, webhook_name: str, properties: Union[_models.WebhookResource, IO[bytes]], **kwargs: Any
+        self, report_name: str, webhook_name: str, resource: Union[_models.WebhookResource, IO[bytes]], **kwargs: Any
     ) -> _models.WebhookResource:
         """Create a new AppComplianceAutomation webhook or update an exiting AppComplianceAutomation
         webhook.
@@ -459,9 +454,9 @@ class WebhookOperations:
         :type report_name: str
         :param webhook_name: Webhook Name. Required.
         :type webhook_name: str
-        :param properties: Parameters for the create or update operation. Is either a WebhookResource
+        :param resource: Parameters for the create or update operation. Is either a WebhookResource
          type or a IO[bytes] type. Required.
-        :type properties: ~azure.mgmt.appcomplianceautomation.models.WebhookResource or IO[bytes]
+        :type resource: ~azure.mgmt.appcomplianceautomation.models.WebhookResource or IO[bytes]
         :return: WebhookResource or the result of cls(response)
         :rtype: ~azure.mgmt.appcomplianceautomation.models.WebhookResource
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -484,10 +479,10 @@ class WebhookOperations:
         content_type = content_type or "application/json"
         _json = None
         _content = None
-        if isinstance(properties, (IOBase, bytes)):
-            _content = properties
+        if isinstance(resource, (IOBase, bytes)):
+            _content = resource
         else:
-            _json = self._serialize.body(properties, "WebhookResource")
+            _json = self._serialize.body(resource, "WebhookResource")
 
         _request = build_create_or_update_request(
             report_name=report_name,
@@ -499,7 +494,6 @@ class WebhookOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -514,11 +508,7 @@ class WebhookOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        if response.status_code == 200:
-            deserialized = self._deserialize("WebhookResource", pipeline_response)
-
-        if response.status_code == 201:
-            deserialized = self._deserialize("WebhookResource", pipeline_response)
+        deserialized = self._deserialize("WebhookResource", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -631,7 +621,6 @@ class WebhookOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -646,7 +635,7 @@ class WebhookOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("WebhookResource", pipeline_response)
+        deserialized = self._deserialize("WebhookResource", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -688,7 +677,6 @@ class WebhookOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
