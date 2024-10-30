@@ -1,0 +1,6 @@
+{
+  "commit": "4e710bb5fe4d8ce9ed461420f054deae4b6b216d",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/compute/Diagnostic.Management",
+  "@azure-tools/typespec-python": "0.36.1"
+}
