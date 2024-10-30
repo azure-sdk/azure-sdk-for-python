@@ -1,0 +1,4 @@
+directory: specification/compute/Gallery.Management
+commit: 4e710bb5fe4d8ce9ed461420f054deae4b6b216d
+repo: Azure/azure-rest-api-specs
+additionalDirectories: 
