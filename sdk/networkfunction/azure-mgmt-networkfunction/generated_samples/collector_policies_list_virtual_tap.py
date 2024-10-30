@@ -15,7 +15,7 @@ from azure.mgmt.networkfunction import TrafficCollectorMgmtClient
     pip install azure-identity
     pip install azure-mgmt-networkfunction
 # USAGE
-    python collector_policy_update_tags.py
+    python collector_policies_list_virtual_tap.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -30,15 +30,14 @@ def main():
         subscription_id="subid",
     )
 
-    response = client.collector_policies.update_tags(
+    response = client.collector_policies.list(
         resource_group_name="rg1",
         azure_traffic_collector_name="atc",
-        collector_policy_name="cp1",
-        parameters={"tags": {"key1": "value1", "key2": "value2"}},
     )
-    print(response)
+    for item in response:
+        print(item)
 
 
-# x-ms-original-file: specification/networkfunction/resource-manager/Microsoft.NetworkFunction/stable/2024-12-01/examples/CollectorPolicyUpdateTags.json
+# x-ms-original-file: specification/networkfunction/resource-manager/Microsoft.NetworkFunction/stable/2024-12-01/examples/CollectorPoliciesListVirtualTap.json
 if __name__ == "__main__":
     main()

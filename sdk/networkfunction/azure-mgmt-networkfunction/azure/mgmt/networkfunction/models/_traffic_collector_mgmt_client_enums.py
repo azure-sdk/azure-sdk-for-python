@@ -16,6 +16,7 @@ class ApiVersionParameter(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     TWO_THOUSAND_TWENTY_TWO05_01 = "2022-05-01"
     TWO_THOUSAND_TWENTY_TWO08_01 = "2022-08-01"
     TWO_THOUSAND_TWENTY_TWO11_01 = "2022-11-01"
+    TWO_THOUSAND_TWENTY_FOUR12_01 = "2024-12-01"
 
 
 class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -37,12 +38,14 @@ class EmissionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Emission format type."""
 
     IPFIX = "IPFIX"
+    FLOW_LOGS = "FlowLogs"
 
 
 class IngestionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The ingestion type."""
 
     IPFIX = "IPFIX"
+    VIRTUAL_TAP = "VirtualTap"
 
 
 class ProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):

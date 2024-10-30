@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.networkfunction import TrafficCollectorMgmtClient
 
 """
@@ -29,13 +30,12 @@ def main():
         subscription_id="subid",
     )
 
-    response = client.azure_traffic_collectors.begin_delete(
+    client.azure_traffic_collectors.begin_delete(
         resource_group_name="rg1",
         azure_traffic_collector_name="atc",
     ).result()
-    print(response)
 
 
-# x-ms-original-file: specification/networkfunction/resource-manager/Microsoft.NetworkFunction/stable/2022-11-01/examples/AzureTrafficCollectorDelete.json
+# x-ms-original-file: specification/networkfunction/resource-manager/Microsoft.NetworkFunction/stable/2024-12-01/examples/AzureTrafficCollectorDelete.json
 if __name__ == "__main__":
     main()
