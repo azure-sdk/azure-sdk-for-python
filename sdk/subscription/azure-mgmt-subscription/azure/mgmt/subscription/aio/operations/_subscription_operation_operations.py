@@ -24,7 +24,7 @@ from azure.core.utils import case_insensitive_dict
 from azure.mgmt.core.exceptions import ARMErrorFormat
 
 from ... import models as _models
-from ...operations._billing_account_operations import build_get_policy_request
+from ...operations._subscription_operation_operations import build_get_request
 
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
@@ -34,14 +34,14 @@ T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
 
-class BillingAccountOperations:
+class SubscriptionOperationOperations:
     """
     .. warning::
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
         :class:`~azure.mgmt.subscription.aio.SubscriptionClient`'s
-        :attr:`billing_account` attribute.
+        :attr:`subscription_operation` attribute.
     """
 
     models = _models
@@ -54,13 +54,14 @@ class BillingAccountOperations:
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
     @distributed_trace_async
-    async def get_policy(self, billing_account_id: str, **kwargs: Any) -> _models.BillingAccountPoliciesResponse:
-        """Get Billing Account Policy.
+    async def get(self, operation_id: str, **kwargs: Any) -> Optional[_models.SubscriptionCreationResult]:
+        """Get the status of the pending Microsoft.Subscription API operations.
 
-        :param billing_account_id: Billing Account Id. Required.
-        :type billing_account_id: str
-        :return: BillingAccountPoliciesResponse or the result of cls(response)
-        :rtype: ~azure.mgmt.subscription.models.BillingAccountPoliciesResponse
+        :param operation_id: The operation ID, which can be found from the Location field in the
+         generate recommendation response header. Required.
+        :type operation_id: str
+        :return: SubscriptionCreationResult or None or the result of cls(response)
+        :rtype: ~azure.mgmt.subscription.models.SubscriptionCreationResult or None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping[int, Type[HttpResponseError]] = {
@@ -75,10 +76,10 @@ class BillingAccountOperations:
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-10-01"))
-        cls: ClsType[_models.BillingAccountPoliciesResponse] = kwargs.pop("cls", None)
+        cls: ClsType[Optional[_models.SubscriptionCreationResult]] = kwargs.pop("cls", None)
 
-        _request = build_get_policy_request(
-            billing_account_id=billing_account_id,
+        _request = build_get_request(
+            operation_id=operation_id,
             api_version=api_version,
             headers=_headers,
             params=_params,
@@ -92,14 +93,21 @@ class BillingAccountOperations:
 
         response = pipeline_response.http_response
 
-        if response.status_code not in [200]:
+        if response.status_code not in [200, 202]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponseBody, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("BillingAccountPoliciesResponse", pipeline_response.http_response)
+        deserialized = None
+        response_headers = {}
+        if response.status_code == 200:
+            deserialized = self._deserialize("SubscriptionCreationResult", pipeline_response.http_response)
+
+        if response.status_code == 202:
+            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
 
         if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
         return deserialized  # type: ignore
