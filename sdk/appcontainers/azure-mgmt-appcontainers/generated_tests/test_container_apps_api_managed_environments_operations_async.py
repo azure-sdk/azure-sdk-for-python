@@ -23,7 +23,7 @@ class TestContainerAppsAPIManagedEnvironmentsOperationsAsync(AzureMgmtRecordedTe
     @recorded_by_proxy_async
     async def test_list_by_subscription(self, resource_group):
         response = self.client.managed_environments.list_by_subscription(
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -34,7 +34,7 @@ class TestContainerAppsAPIManagedEnvironmentsOperationsAsync(AzureMgmtRecordedTe
     async def test_list_by_resource_group(self, resource_group):
         response = self.client.managed_environments.list_by_resource_group(
             resource_group_name=resource_group.name,
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -46,7 +46,7 @@ class TestContainerAppsAPIManagedEnvironmentsOperationsAsync(AzureMgmtRecordedTe
         response = await self.client.managed_environments.get(
             resource_group_name=resource_group.name,
             environment_name="str",
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         )
 
         # please add some check logic here by yourself
@@ -70,6 +70,7 @@ class TestContainerAppsAPIManagedEnvironmentsOperationsAsync(AzureMgmtRecordedTe
                             "sharedKey": "str",
                         },
                     },
+                    "availabilityZones": ["str"],
                     "customDomainConfiguration": {
                         "certificateKeyVaultProperties": {"identity": "str", "keyVaultUrl": "str"},
                         "certificatePassword": "str",
@@ -169,7 +170,7 @@ class TestContainerAppsAPIManagedEnvironmentsOperationsAsync(AzureMgmtRecordedTe
                     ],
                     "zoneRedundant": bool,
                 },
-                api_version="2024-08-02-preview",
+                api_version="2024-10-02-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -183,7 +184,7 @@ class TestContainerAppsAPIManagedEnvironmentsOperationsAsync(AzureMgmtRecordedTe
             await self.client.managed_environments.begin_delete(
                 resource_group_name=resource_group.name,
                 environment_name="str",
-                api_version="2024-08-02-preview",
+                api_version="2024-10-02-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -208,6 +209,7 @@ class TestContainerAppsAPIManagedEnvironmentsOperationsAsync(AzureMgmtRecordedTe
                             "sharedKey": "str",
                         },
                     },
+                    "availabilityZones": ["str"],
                     "customDomainConfiguration": {
                         "certificateKeyVaultProperties": {"identity": "str", "keyVaultUrl": "str"},
                         "certificatePassword": "str",
@@ -307,7 +309,7 @@ class TestContainerAppsAPIManagedEnvironmentsOperationsAsync(AzureMgmtRecordedTe
                     ],
                     "zoneRedundant": bool,
                 },
-                api_version="2024-08-02-preview",
+                api_version="2024-10-02-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -320,7 +322,7 @@ class TestContainerAppsAPIManagedEnvironmentsOperationsAsync(AzureMgmtRecordedTe
         response = await self.client.managed_environments.get_auth_token(
             resource_group_name=resource_group.name,
             environment_name="str",
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         )
 
         # please add some check logic here by yourself
@@ -332,7 +334,7 @@ class TestContainerAppsAPIManagedEnvironmentsOperationsAsync(AzureMgmtRecordedTe
         response = self.client.managed_environments.list_workload_profile_states(
             resource_group_name=resource_group.name,
             environment_name="str",
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself

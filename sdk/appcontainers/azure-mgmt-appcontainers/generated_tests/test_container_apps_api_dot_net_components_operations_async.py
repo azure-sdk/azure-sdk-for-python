@@ -25,7 +25,7 @@ class TestContainerAppsAPIDotNetComponentsOperationsAsync(AzureMgmtRecordedTestC
         response = self.client.dot_net_components.list(
             resource_group_name=resource_group.name,
             environment_name="str",
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -38,7 +38,7 @@ class TestContainerAppsAPIDotNetComponentsOperationsAsync(AzureMgmtRecordedTestC
             resource_group_name=resource_group.name,
             environment_name="str",
             name="str",
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         )
 
         # please add some check logic here by yourself
@@ -69,7 +69,7 @@ class TestContainerAppsAPIDotNetComponentsOperationsAsync(AzureMgmtRecordedTestC
                     },
                     "type": "str",
                 },
-                api_version="2024-08-02-preview",
+                api_version="2024-10-02-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -101,7 +101,7 @@ class TestContainerAppsAPIDotNetComponentsOperationsAsync(AzureMgmtRecordedTestC
                     },
                     "type": "str",
                 },
-                api_version="2024-08-02-preview",
+                api_version="2024-10-02-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -116,7 +116,7 @@ class TestContainerAppsAPIDotNetComponentsOperationsAsync(AzureMgmtRecordedTestC
                 resource_group_name=resource_group.name,
                 environment_name="str",
                 name="str",
-                api_version="2024-08-02-preview",
+                api_version="2024-10-02-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 

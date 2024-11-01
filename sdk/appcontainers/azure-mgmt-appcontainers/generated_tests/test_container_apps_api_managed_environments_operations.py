@@ -22,7 +22,7 @@ class TestContainerAppsAPIManagedEnvironmentsOperations(AzureMgmtRecordedTestCas
     @recorded_by_proxy
     def test_list_by_subscription(self, resource_group):
         response = self.client.managed_environments.list_by_subscription(
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -33,7 +33,7 @@ class TestContainerAppsAPIManagedEnvironmentsOperations(AzureMgmtRecordedTestCas
     def test_list_by_resource_group(self, resource_group):
         response = self.client.managed_environments.list_by_resource_group(
             resource_group_name=resource_group.name,
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -45,7 +45,7 @@ class TestContainerAppsAPIManagedEnvironmentsOperations(AzureMgmtRecordedTestCas
         response = self.client.managed_environments.get(
             resource_group_name=resource_group.name,
             environment_name="str",
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         )
 
         # please add some check logic here by yourself
@@ -64,6 +64,7 @@ class TestContainerAppsAPIManagedEnvironmentsOperations(AzureMgmtRecordedTestCas
                     "destination": "str",
                     "logAnalyticsConfiguration": {"customerId": "str", "dynamicJsonColumns": bool, "sharedKey": "str"},
                 },
+                "availabilityZones": ["str"],
                 "customDomainConfiguration": {
                     "certificateKeyVaultProperties": {"identity": "str", "keyVaultUrl": "str"},
                     "certificatePassword": "str",
@@ -163,7 +164,7 @@ class TestContainerAppsAPIManagedEnvironmentsOperations(AzureMgmtRecordedTestCas
                 ],
                 "zoneRedundant": bool,
             },
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -175,7 +176,7 @@ class TestContainerAppsAPIManagedEnvironmentsOperations(AzureMgmtRecordedTestCas
         response = self.client.managed_environments.begin_delete(
             resource_group_name=resource_group.name,
             environment_name="str",
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -194,6 +195,7 @@ class TestContainerAppsAPIManagedEnvironmentsOperations(AzureMgmtRecordedTestCas
                     "destination": "str",
                     "logAnalyticsConfiguration": {"customerId": "str", "dynamicJsonColumns": bool, "sharedKey": "str"},
                 },
+                "availabilityZones": ["str"],
                 "customDomainConfiguration": {
                     "certificateKeyVaultProperties": {"identity": "str", "keyVaultUrl": "str"},
                     "certificatePassword": "str",
@@ -293,7 +295,7 @@ class TestContainerAppsAPIManagedEnvironmentsOperations(AzureMgmtRecordedTestCas
                 ],
                 "zoneRedundant": bool,
             },
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -305,7 +307,7 @@ class TestContainerAppsAPIManagedEnvironmentsOperations(AzureMgmtRecordedTestCas
         response = self.client.managed_environments.get_auth_token(
             resource_group_name=resource_group.name,
             environment_name="str",
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         )
 
         # please add some check logic here by yourself
@@ -317,7 +319,7 @@ class TestContainerAppsAPIManagedEnvironmentsOperations(AzureMgmtRecordedTestCas
         response = self.client.managed_environments.list_workload_profile_states(
             resource_group_name=resource_group.name,
             environment_name="str",
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
