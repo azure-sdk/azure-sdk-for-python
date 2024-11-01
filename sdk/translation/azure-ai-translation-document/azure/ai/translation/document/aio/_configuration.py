@@ -30,15 +30,16 @@ class DocumentTranslationClientConfiguration:  # pylint: disable=too-many-instan
      AzureKeyCredential type or a TokenCredential type. Required.
     :type credential: ~azure.core.credentials.AzureKeyCredential or
      ~azure.core.credentials_async.AsyncTokenCredential
-    :keyword api_version: The API version to use for this operation. Default value is "2024-05-01".
-     Note that overriding this default value may result in unsupported behavior.
+    :keyword api_version: The API version to use for this operation. Default value is
+     "2024-11-15-preview". Note that overriding this default value may result in unsupported
+     behavior.
     :paramtype api_version: str
     """
 
     def __init__(
         self, endpoint: str, credential: Union[AzureKeyCredential, "AsyncTokenCredential"], **kwargs: Any
     ) -> None:
-        api_version: str = kwargs.pop("api_version", "2024-05-01")
+        api_version: str = kwargs.pop("api_version", "2024-11-15-preview")
 
         if endpoint is None:
             raise ValueError("Parameter 'endpoint' must not be None.")
@@ -87,15 +88,16 @@ class SingleDocumentTranslationClientConfiguration:  # pylint: disable=too-many-
      AzureKeyCredential type or a TokenCredential type. Required.
     :type credential: ~azure.core.credentials.AzureKeyCredential or
      ~azure.core.credentials_async.AsyncTokenCredential
-    :keyword api_version: The API version to use for this operation. Default value is "2024-05-01".
-     Note that overriding this default value may result in unsupported behavior.
+    :keyword api_version: The API version to use for this operation. Default value is
+     "2024-11-15-preview". Note that overriding this default value may result in unsupported
+     behavior.
     :paramtype api_version: str
     """
 
     def __init__(
         self, endpoint: str, credential: Union[AzureKeyCredential, "AsyncTokenCredential"], **kwargs: Any
     ) -> None:
-        api_version: str = kwargs.pop("api_version", "2024-05-01")
+        api_version: str = kwargs.pop("api_version", "2024-11-15-preview")
 
         if endpoint is None:
             raise ValueError("Parameter 'endpoint' must not be None.")

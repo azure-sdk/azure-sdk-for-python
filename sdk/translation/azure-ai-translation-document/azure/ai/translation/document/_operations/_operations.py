@@ -34,6 +34,7 @@ from azure.core.utils import case_insensitive_dict
 from .. import _model_base, models as _models
 from .._model_base import SdkJSONEncoder, _deserialize
 from .._serialization import Serializer
+from .._validation import api_version_validation
 from .._vendor import (
     DocumentTranslationClientMixinABC,
     SingleDocumentTranslationClientMixinABC,
@@ -59,7 +60,7 @@ def build_document_translation__begin_translation_request(  # pylint: disable=na
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-11-15-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -91,7 +92,7 @@ def build_document_translation_list_translation_statuses_request(  # pylint: dis
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-11-15-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -132,7 +133,7 @@ def build_document_translation_get_document_status_request(  # pylint: disable=n
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-11-15-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -159,7 +160,7 @@ def build_document_translation_get_translation_status_request(  # pylint: disabl
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-11-15-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -185,7 +186,7 @@ def build_document_translation_cancel_translation_request(  # pylint: disable=na
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-11-15-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -221,7 +222,7 @@ def build_document_translation_list_document_statuses_request(  # pylint: disabl
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-11-15-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -267,7 +268,7 @@ def build_document_translation_get_supported_formats_request(  # pylint: disable
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-11-15-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -290,12 +291,13 @@ def build_single_document_translation_translate_request(  # pylint: disable=name
     source_language: Optional[str] = None,
     category: Optional[str] = None,
     allow_fallback: Optional[bool] = None,
+    translate_text_within_image: Optional[bool] = None,
     **kwargs: Any,
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-11-15-preview"))
     accept = _headers.pop("Accept", "application/octet-stream")
 
     # Construct URL
@@ -310,6 +312,10 @@ def build_single_document_translation_translate_request(  # pylint: disable=name
         _params["category"] = _SERIALIZER.query("category", category, "str")
     if allow_fallback is not None:
         _params["allowFallback"] = _SERIALIZER.query("allow_fallback", allow_fallback, "bool")
+    if translate_text_within_image is not None:
+        _params["translateTextWithinImage"] = _SERIALIZER.query(
+            "translate_text_within_image", translate_text_within_image, "bool"
+        )
 
     # Construct headers
     _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
@@ -1243,6 +1249,7 @@ class SingleDocumentTranslationClientOperationsMixin(  # pylint: disable=name-to
         source_language: Optional[str] = None,
         category: Optional[str] = None,
         allow_fallback: Optional[bool] = None,
+        translate_text_within_image: Optional[bool] = None,
         **kwargs: Any,
     ) -> Iterator[bytes]:
         """Submit a single document translation request to the Document Translation service.
@@ -1273,6 +1280,9 @@ class SingleDocumentTranslationClientOperationsMixin(  # pylint: disable=name-to
          when a custom system doesn't exist.
          Possible values are: true (default) or false. Default value is None.
         :paramtype allow_fallback: bool
+        :keyword translate_text_within_image: Optional boolean parameter to translate text within an
+         image in the document. Default value is None.
+        :paramtype translate_text_within_image: bool
         :return: Iterator[bytes]
         :rtype: Iterator[bytes]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1287,6 +1297,7 @@ class SingleDocumentTranslationClientOperationsMixin(  # pylint: disable=name-to
         source_language: Optional[str] = None,
         category: Optional[str] = None,
         allow_fallback: Optional[bool] = None,
+        translate_text_within_image: Optional[bool] = None,
         **kwargs: Any,
     ) -> Iterator[bytes]:
         """Submit a single document translation request to the Document Translation service.
@@ -1317,12 +1328,18 @@ class SingleDocumentTranslationClientOperationsMixin(  # pylint: disable=name-to
          when a custom system doesn't exist.
          Possible values are: true (default) or false. Default value is None.
         :paramtype allow_fallback: bool
+        :keyword translate_text_within_image: Optional boolean parameter to translate text within an
+         image in the document. Default value is None.
+        :paramtype translate_text_within_image: bool
         :return: Iterator[bytes]
         :rtype: Iterator[bytes]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @distributed_trace
+    @api_version_validation(
+        params_added_on={"2024-11-15-preview": ["translate_text_within_image"]},
+    )
     def translate(
         self,
         body: Union[_models.DocumentTranslateContent, JSON],
@@ -1331,6 +1348,7 @@ class SingleDocumentTranslationClientOperationsMixin(  # pylint: disable=name-to
         source_language: Optional[str] = None,
         category: Optional[str] = None,
         allow_fallback: Optional[bool] = None,
+        translate_text_within_image: Optional[bool] = None,
         **kwargs: Any,
     ) -> Iterator[bytes]:
         """Submit a single document translation request to the Document Translation service.
@@ -1362,6 +1380,9 @@ class SingleDocumentTranslationClientOperationsMixin(  # pylint: disable=name-to
          when a custom system doesn't exist.
          Possible values are: true (default) or false. Default value is None.
         :paramtype allow_fallback: bool
+        :keyword translate_text_within_image: Optional boolean parameter to translate text within an
+         image in the document. Default value is None.
+        :paramtype translate_text_within_image: bool
         :return: Iterator[bytes]
         :rtype: Iterator[bytes]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1389,6 +1410,7 @@ class SingleDocumentTranslationClientOperationsMixin(  # pylint: disable=name-to
             source_language=source_language,
             category=category,
             allow_fallback=allow_fallback,
+            translate_text_within_image=translate_text_within_image,
             api_version=self._config.api_version,
             files=_files,
             data=_data,
@@ -1417,6 +1439,13 @@ class SingleDocumentTranslationClientOperationsMixin(  # pylint: disable=name-to
             raise HttpResponseError(response=response)
 
         response_headers = {}
+        response_headers["x-metered-usage"] = self._deserialize("int", response.headers.get("x-metered-usage"))
+        response_headers["x-metered-usage-image-scan-count-pass"] = self._deserialize(
+            "int", response.headers.get("x-metered-usage-image-scan-count-pass")
+        )
+        response_headers["x-metered-usage-image-scan-count-fail"] = self._deserialize(
+            "int", response.headers.get("x-metered-usage-image-scan-count-fail")
+        )
         response_headers["x-ms-client-request-id"] = self._deserialize(
             "str", response.headers.get("x-ms-client-request-id")
         )
