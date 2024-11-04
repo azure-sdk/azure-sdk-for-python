@@ -1,0 +1,6 @@
+{
+  "commit": "d5d0e675561bb66fe2c958870ae9131f06997ec4",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/translation/Azure.AI.DocumentTranslation",
+  "@azure-tools/typespec-python": "0.36.1"
+}
