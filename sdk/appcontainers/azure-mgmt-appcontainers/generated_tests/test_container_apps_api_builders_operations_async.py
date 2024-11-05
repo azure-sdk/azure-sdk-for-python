@@ -23,7 +23,7 @@ class TestContainerAppsAPIBuildersOperationsAsync(AzureMgmtRecordedTestCase):
     @recorded_by_proxy_async
     async def test_list_by_subscription(self, resource_group):
         response = self.client.builders.list_by_subscription(
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -34,7 +34,7 @@ class TestContainerAppsAPIBuildersOperationsAsync(AzureMgmtRecordedTestCase):
     async def test_list_by_resource_group(self, resource_group):
         response = self.client.builders.list_by_resource_group(
             resource_group_name=resource_group.name,
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -46,7 +46,7 @@ class TestContainerAppsAPIBuildersOperationsAsync(AzureMgmtRecordedTestCase):
         response = await self.client.builders.get(
             resource_group_name=resource_group.name,
             builder_name="str",
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         )
 
         # please add some check logic here by yourself
@@ -83,7 +83,7 @@ class TestContainerAppsAPIBuildersOperationsAsync(AzureMgmtRecordedTestCase):
                     "tags": {"str": "str"},
                     "type": "str",
                 },
-                api_version="2024-08-02-preview",
+                api_version="2024-10-02-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -107,7 +107,7 @@ class TestContainerAppsAPIBuildersOperationsAsync(AzureMgmtRecordedTestCase):
                     },
                     "tags": {"str": "str"},
                 },
-                api_version="2024-08-02-preview",
+                api_version="2024-10-02-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -121,7 +121,7 @@ class TestContainerAppsAPIBuildersOperationsAsync(AzureMgmtRecordedTestCase):
             await self.client.builders.begin_delete(
                 resource_group_name=resource_group.name,
                 builder_name="str",
-                api_version="2024-08-02-preview",
+                api_version="2024-10-02-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 

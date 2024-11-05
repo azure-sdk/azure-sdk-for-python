@@ -54,6 +54,8 @@ from ._models_py3 import ClientRegistration
 from ._models_py3 import Configuration
 from ._models_py3 import ConnectedEnvironment
 from ._models_py3 import ConnectedEnvironmentCollection
+from ._models_py3 import ConnectedEnvironmentDaprComponent
+from ._models_py3 import ConnectedEnvironmentDaprComponentsCollection
 from ._models_py3 import ConnectedEnvironmentStorage
 from ._models_py3 import ConnectedEnvironmentStorageProperties
 from ._models_py3 import ConnectedEnvironmentStoragesCollection
@@ -151,6 +153,15 @@ from ._models_py3 import HeaderMatch
 from ._models_py3 import HttpConnectionPool
 from ._models_py3 import HttpGet
 from ._models_py3 import HttpRetryPolicy
+from ._models_py3 import HttpRoute
+from ._models_py3 import HttpRouteAction
+from ._models_py3 import HttpRouteConfig
+from ._models_py3 import HttpRouteConfigCollection
+from ._models_py3 import HttpRouteConfigProperties
+from ._models_py3 import HttpRouteMatch
+from ._models_py3 import HttpRouteProvisioningErrors
+from ._models_py3 import HttpRouteRule
+from ._models_py3 import HttpRouteTarget
 from ._models_py3 import HttpScaleRule
 from ._models_py3 import HttpSettings
 from ._models_py3 import HttpSettingsRoutes
@@ -187,6 +198,10 @@ from ._models_py3 import JobTemplate
 from ._models_py3 import JobsCollection
 from ._models_py3 import JwtClaimChecks
 from ._models_py3 import KedaConfiguration
+from ._models_py3 import LabelHistory
+from ._models_py3 import LabelHistoryCollection
+from ._models_py3 import LabelHistoryProperties
+from ._models_py3 import LabelHistoryRecordItem
 from ._models_py3 import ListUsagesResult
 from ._models_py3 import LogAnalyticsConfiguration
 from ._models_py3 import LoggerSetting
@@ -195,6 +210,8 @@ from ._models_py3 import Login
 from ._models_py3 import LoginRoutes
 from ._models_py3 import LoginScopes
 from ._models_py3 import LogsConfiguration
+from ._models_py3 import MaintenanceConfigurationCollection
+from ._models_py3 import MaintenanceConfigurationResource
 from ._models_py3 import ManagedCertificate
 from ._models_py3 import ManagedCertificateCollection
 from ._models_py3 import ManagedCertificatePatch
@@ -207,6 +224,7 @@ from ._models_py3 import ManagedEnvironmentStorage
 from ._models_py3 import ManagedEnvironmentStorageProperties
 from ._models_py3 import ManagedEnvironmentStoragesCollection
 from ._models_py3 import ManagedEnvironmentsCollection
+from ._models_py3 import ManagedIdentitySetting
 from ._models_py3 import ManagedServiceIdentity
 from ._models_py3 import MetricsConfiguration
 from ._models_py3 import Mtls
@@ -255,6 +273,7 @@ from ._models_py3 import ScaleConfiguration
 from ._models_py3 import ScaleRule
 from ._models_py3 import ScaleRuleAuth
 from ._models_py3 import ScgRoute
+from ._models_py3 import ScheduledEntry
 from ._models_py3 import Secret
 from ._models_py3 import SecretVolumeItem
 from ._models_py3 import SecretsCollection
@@ -317,10 +336,13 @@ from ._container_apps_api_client_enums import BuilderProvisioningState
 from ._container_apps_api_client_enums import CertificateProvisioningState
 from ._container_apps_api_client_enums import CertificateType
 from ._container_apps_api_client_enums import CheckNameAvailabilityReason
+from ._container_apps_api_client_enums import ConnectedEnvironmentDaprComponentProvisioningState
 from ._container_apps_api_client_enums import ConnectedEnvironmentProvisioningState
+from ._container_apps_api_client_enums import ConnectedEnvironmentStorageProvisioningState
 from ._container_apps_api_client_enums import ContainerAppContainerRunningState
 from ._container_apps_api_client_enums import ContainerAppProvisioningState
 from ._container_apps_api_client_enums import ContainerAppReplicaRunningState
+from ._container_apps_api_client_enums import ContainerAppRunningStatus
 from ._container_apps_api_client_enums import ContainerType
 from ._container_apps_api_client_enums import CookieExpirationConvention
 from ._container_apps_api_client_enums import CreatedByType
@@ -332,6 +354,7 @@ from ._container_apps_api_client_enums import EnvironmentProvisioningState
 from ._container_apps_api_client_enums import ExecutionType
 from ._container_apps_api_client_enums import ExtendedLocationTypes
 from ._container_apps_api_client_enums import ForwardProxyConvention
+from ._container_apps_api_client_enums import HttpRouteProvisioningState
 from ._container_apps_api_client_enums import IdentitySettingsLifeCycle
 from ._container_apps_api_client_enums import ImageType
 from ._container_apps_api_client_enums import IngressClientCertificateMode
@@ -366,6 +389,7 @@ from ._container_apps_api_client_enums import StorageType
 from ._container_apps_api_client_enums import TriggerType
 from ._container_apps_api_client_enums import Type
 from ._container_apps_api_client_enums import UnauthenticatedClientActionV2
+from ._container_apps_api_client_enums import WeekDay
 from ._container_apps_api_client_enums import WorkflowHealthState
 from ._container_apps_api_client_enums import WorkflowState
 from ._patch import __all__ as _patch_all
@@ -421,6 +445,8 @@ __all__ = [
     "Configuration",
     "ConnectedEnvironment",
     "ConnectedEnvironmentCollection",
+    "ConnectedEnvironmentDaprComponent",
+    "ConnectedEnvironmentDaprComponentsCollection",
     "ConnectedEnvironmentStorage",
     "ConnectedEnvironmentStorageProperties",
     "ConnectedEnvironmentStoragesCollection",
@@ -518,6 +544,15 @@ __all__ = [
     "HttpConnectionPool",
     "HttpGet",
     "HttpRetryPolicy",
+    "HttpRoute",
+    "HttpRouteAction",
+    "HttpRouteConfig",
+    "HttpRouteConfigCollection",
+    "HttpRouteConfigProperties",
+    "HttpRouteMatch",
+    "HttpRouteProvisioningErrors",
+    "HttpRouteRule",
+    "HttpRouteTarget",
     "HttpScaleRule",
     "HttpSettings",
     "HttpSettingsRoutes",
@@ -554,6 +589,10 @@ __all__ = [
     "JobsCollection",
     "JwtClaimChecks",
     "KedaConfiguration",
+    "LabelHistory",
+    "LabelHistoryCollection",
+    "LabelHistoryProperties",
+    "LabelHistoryRecordItem",
     "ListUsagesResult",
     "LogAnalyticsConfiguration",
     "LoggerSetting",
@@ -562,6 +601,8 @@ __all__ = [
     "LoginRoutes",
     "LoginScopes",
     "LogsConfiguration",
+    "MaintenanceConfigurationCollection",
+    "MaintenanceConfigurationResource",
     "ManagedCertificate",
     "ManagedCertificateCollection",
     "ManagedCertificatePatch",
@@ -574,6 +615,7 @@ __all__ = [
     "ManagedEnvironmentStorageProperties",
     "ManagedEnvironmentStoragesCollection",
     "ManagedEnvironmentsCollection",
+    "ManagedIdentitySetting",
     "ManagedServiceIdentity",
     "MetricsConfiguration",
     "Mtls",
@@ -622,6 +664,7 @@ __all__ = [
     "ScaleRule",
     "ScaleRuleAuth",
     "ScgRoute",
+    "ScheduledEntry",
     "Secret",
     "SecretVolumeItem",
     "SecretsCollection",
@@ -683,10 +726,13 @@ __all__ = [
     "CertificateProvisioningState",
     "CertificateType",
     "CheckNameAvailabilityReason",
+    "ConnectedEnvironmentDaprComponentProvisioningState",
     "ConnectedEnvironmentProvisioningState",
+    "ConnectedEnvironmentStorageProvisioningState",
     "ContainerAppContainerRunningState",
     "ContainerAppProvisioningState",
     "ContainerAppReplicaRunningState",
+    "ContainerAppRunningStatus",
     "ContainerType",
     "CookieExpirationConvention",
     "CreatedByType",
@@ -698,6 +744,7 @@ __all__ = [
     "ExecutionType",
     "ExtendedLocationTypes",
     "ForwardProxyConvention",
+    "HttpRouteProvisioningState",
     "IdentitySettingsLifeCycle",
     "ImageType",
     "IngressClientCertificateMode",
@@ -732,6 +779,7 @@ __all__ = [
     "TriggerType",
     "Type",
     "UnauthenticatedClientActionV2",
+    "WeekDay",
     "WorkflowHealthState",
     "WorkflowState",
 ]

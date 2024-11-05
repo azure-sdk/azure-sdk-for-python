@@ -24,7 +24,7 @@ class TestContainerAppsAPIDotNetComponentsOperations(AzureMgmtRecordedTestCase):
         response = self.client.dot_net_components.list(
             resource_group_name=resource_group.name,
             environment_name="str",
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -37,7 +37,7 @@ class TestContainerAppsAPIDotNetComponentsOperations(AzureMgmtRecordedTestCase):
             resource_group_name=resource_group.name,
             environment_name="str",
             name="str",
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         )
 
         # please add some check logic here by yourself
@@ -67,7 +67,7 @@ class TestContainerAppsAPIDotNetComponentsOperations(AzureMgmtRecordedTestCase):
                 },
                 "type": "str",
             },
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -97,7 +97,7 @@ class TestContainerAppsAPIDotNetComponentsOperations(AzureMgmtRecordedTestCase):
                 },
                 "type": "str",
             },
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -110,7 +110,7 @@ class TestContainerAppsAPIDotNetComponentsOperations(AzureMgmtRecordedTestCase):
             resource_group_name=resource_group.name,
             environment_name="str",
             name="str",
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
