@@ -46,11 +46,11 @@ class ErrorResponse(_serialization.Model):
 class LocalizableString(_serialization.Model):
     """The localizable string class.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar value: the invariant value. Required.
+    :ivar value: The invariant value. Required.
     :vartype value: str
-    :ivar localized_value: the locale specific value.
+    :ivar localized_value: The display name.
     :vartype localized_value: str
     """
 
@@ -65,9 +65,9 @@ class LocalizableString(_serialization.Model):
 
     def __init__(self, *, value: str, localized_value: Optional[str] = None, **kwargs: Any) -> None:
         """
-        :keyword value: the invariant value. Required.
+        :keyword value: The invariant value. Required.
         :paramtype value: str
-        :keyword localized_value: the locale specific value.
+        :keyword localized_value: The display name.
         :paramtype localized_value: str
         """
         super().__init__(**kwargs)
@@ -78,9 +78,9 @@ class LocalizableString(_serialization.Model):
 class MetadataValue(_serialization.Model):
     """Represents a metric metadata value.
 
-    :ivar name: the name of the metadata.
+    :ivar name: The name of the metadata.
     :vartype name: ~azure.mgmt.monitor.v2018_01_01.models.LocalizableString
-    :ivar value: the value of the metadata.
+    :ivar value: The value of the metadata.
     :vartype value: str
     """
 
@@ -93,9 +93,9 @@ class MetadataValue(_serialization.Model):
         self, *, name: Optional["_models.LocalizableString"] = None, value: Optional[str] = None, **kwargs: Any
     ) -> None:
         """
-        :keyword name: the name of the metadata.
+        :keyword name: The name of the metadata.
         :paramtype name: ~azure.mgmt.monitor.v2018_01_01.models.LocalizableString
-        :keyword value: the value of the metadata.
+        :keyword value: The value of the metadata.
         :paramtype value: str
         """
         super().__init__(**kwargs)
@@ -106,13 +106,13 @@ class MetadataValue(_serialization.Model):
 class Metric(_serialization.Model):
     """The result data of a query.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar id: the metric Id. Required.
+    :ivar id: The metric Id. Required.
     :vartype id: str
-    :ivar type: the resource type of the metric resource. Required.
+    :ivar type: The resource type of the metric resource. Required.
     :vartype type: str
-    :ivar name: the name and the display name of the metric, i.e. it is localizable string.
+    :ivar name: The name and the display name of the metric, i.e. it is localizable string.
      Required.
     :vartype name: ~azure.mgmt.monitor.v2018_01_01.models.LocalizableString
     :ivar display_description: Detailed description of this metric.
@@ -125,7 +125,7 @@ class Metric(_serialization.Model):
      "CountPerSecond", "BytesPerSecond", "Percent", "MilliSeconds", "ByteSeconds", "Unspecified",
      "Cores", "MilliCores", "NanoCores", and "BitsPerSecond".
     :vartype unit: str or ~azure.mgmt.monitor.v2018_01_01.models.MetricUnit
-    :ivar timeseries: the time series returned when a data query is performed. Required.
+    :ivar timeseries: The time series returned when a data query is performed. Required.
     :vartype timeseries: list[~azure.mgmt.monitor.v2018_01_01.models.TimeSeriesElement]
     """
 
@@ -162,11 +162,11 @@ class Metric(_serialization.Model):
         **kwargs: Any
     ) -> None:
         """
-        :keyword id: the metric Id. Required.
+        :keyword id: The metric Id. Required.
         :paramtype id: str
-        :keyword type: the resource type of the metric resource. Required.
+        :keyword type: The resource type of the metric resource. Required.
         :paramtype type: str
-        :keyword name: the name and the display name of the metric, i.e. it is localizable string.
+        :keyword name: The name and the display name of the metric, i.e. it is localizable string.
          Required.
         :paramtype name: ~azure.mgmt.monitor.v2018_01_01.models.LocalizableString
         :keyword display_description: Detailed description of this metric.
@@ -179,7 +179,7 @@ class Metric(_serialization.Model):
          "CountPerSecond", "BytesPerSecond", "Percent", "MilliSeconds", "ByteSeconds", "Unspecified",
          "Cores", "MilliCores", "NanoCores", and "BitsPerSecond".
         :paramtype unit: str or ~azure.mgmt.monitor.v2018_01_01.models.MetricUnit
-        :keyword timeseries: the time series returned when a data query is performed. Required.
+        :keyword timeseries: The time series returned when a data query is performed. Required.
         :paramtype timeseries: list[~azure.mgmt.monitor.v2018_01_01.models.TimeSeriesElement]
         """
         super().__init__(**kwargs)
@@ -361,7 +361,7 @@ class MetricDefinition(_serialization.Model):  # pylint: disable=too-many-instan
 class MetricDefinitionCollection(_serialization.Model):
     """Represents collection of metric definitions.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: the values for the metric definitions. Required.
     :vartype value: list[~azure.mgmt.monitor.v2018_01_01.models.MetricDefinition]
@@ -387,19 +387,19 @@ class MetricDefinitionCollection(_serialization.Model):
 class MetricValue(_serialization.Model):
     """Represents a metric value.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar time_stamp: the timestamp for the metric value in ISO 8601 format. Required.
+    :ivar time_stamp: The timestamp for the metric value in ISO 8601 format. Required.
     :vartype time_stamp: ~datetime.datetime
-    :ivar average: the average value in the time range.
+    :ivar average: The average value in the time range.
     :vartype average: float
-    :ivar minimum: the least value in the time range.
+    :ivar minimum: The least value in the time range.
     :vartype minimum: float
-    :ivar maximum: the greatest value in the time range.
+    :ivar maximum: The greatest value in the time range.
     :vartype maximum: float
-    :ivar total: the sum of all of the values in the time range.
+    :ivar total: The sum of all of the values in the time range.
     :vartype total: float
-    :ivar count: the number of samples in the time range. Can be used to determine the number of
+    :ivar count: The number of samples in the time range. Can be used to determine the number of
      values that contributed to the average value.
     :vartype count: float
     """
@@ -429,17 +429,17 @@ class MetricValue(_serialization.Model):
         **kwargs: Any
     ) -> None:
         """
-        :keyword time_stamp: the timestamp for the metric value in ISO 8601 format. Required.
+        :keyword time_stamp: The timestamp for the metric value in ISO 8601 format. Required.
         :paramtype time_stamp: ~datetime.datetime
-        :keyword average: the average value in the time range.
+        :keyword average: The average value in the time range.
         :paramtype average: float
-        :keyword minimum: the least value in the time range.
+        :keyword minimum: The least value in the time range.
         :paramtype minimum: float
-        :keyword maximum: the greatest value in the time range.
+        :keyword maximum: The greatest value in the time range.
         :paramtype maximum: float
-        :keyword total: the sum of all of the values in the time range.
+        :keyword total: The sum of all of the values in the time range.
         :paramtype total: float
-        :keyword count: the number of samples in the time range. Can be used to determine the number of
+        :keyword count: The number of samples in the time range. Can be used to determine the number of
          values that contributed to the average value.
         :paramtype count: float
         """
@@ -455,7 +455,7 @@ class MetricValue(_serialization.Model):
 class Response(_serialization.Model):
     """The response to a metrics query.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar cost: The integer value representing the relative cost of the query.
     :vartype cost: int
@@ -463,10 +463,12 @@ class Response(_serialization.Model):
      datetimes concatenated, separated by '/'.  This may be adjusted in the future and returned back
      from what was originally requested. Required.
     :vartype timespan: str
-    :ivar interval: The interval (window size) for which the metric data was returned in.  This may
-     be adjusted in the future and returned back from what was originally requested.  This is not
-     present if a metadata request was made.
-    :vartype interval: ~datetime.timedelta
+    :ivar interval: The interval (window size) for which the metric data was returned in ISO 8601
+     duration format with a special case for 'FULL' value that returns single datapoint for entire
+     time span requested (\\ *Examples: PT15M, PT1H, P1D, FULL*\\ ).
+     This may be adjusted and different from what was originally requested if
+     AutoAdjustTimegrain=true is specified. This is not present if a metadata request was made.
+    :vartype interval: str
     :ivar namespace: The namespace of the metrics being queried.
     :vartype namespace: str
     :ivar resourceregion: The region of the resource being queried for metrics.
@@ -484,7 +486,7 @@ class Response(_serialization.Model):
     _attribute_map = {
         "cost": {"key": "cost", "type": "int"},
         "timespan": {"key": "timespan", "type": "str"},
-        "interval": {"key": "interval", "type": "duration"},
+        "interval": {"key": "interval", "type": "str"},
         "namespace": {"key": "namespace", "type": "str"},
         "resourceregion": {"key": "resourceregion", "type": "str"},
         "value": {"key": "value", "type": "[Metric]"},
@@ -496,7 +498,7 @@ class Response(_serialization.Model):
         timespan: str,
         value: List["_models.Metric"],
         cost: Optional[int] = None,
-        interval: Optional[datetime.timedelta] = None,
+        interval: Optional[str] = None,
         namespace: Optional[str] = None,
         resourceregion: Optional[str] = None,
         **kwargs: Any
@@ -508,10 +510,12 @@ class Response(_serialization.Model):
          datetimes concatenated, separated by '/'.  This may be adjusted in the future and returned back
          from what was originally requested. Required.
         :paramtype timespan: str
-        :keyword interval: The interval (window size) for which the metric data was returned in.  This
-         may be adjusted in the future and returned back from what was originally requested.  This is
-         not present if a metadata request was made.
-        :paramtype interval: ~datetime.timedelta
+        :keyword interval: The interval (window size) for which the metric data was returned in ISO
+         8601 duration format with a special case for 'FULL' value that returns single datapoint for
+         entire time span requested (\\ *Examples: PT15M, PT1H, P1D, FULL*\\ ).
+         This may be adjusted and different from what was originally requested if
+         AutoAdjustTimegrain=true is specified. This is not present if a metadata request was made.
+        :paramtype interval: str
         :keyword namespace: The namespace of the metrics being queried.
         :paramtype namespace: str
         :keyword resourceregion: The region of the resource being queried for metrics.
@@ -531,7 +535,7 @@ class Response(_serialization.Model):
 class TimeSeriesElement(_serialization.Model):
     """A time series result type. The discriminator value is always TimeSeries in this case.
 
-    :ivar metadatavalues: the metadata values returned if $filter was specified in the call.
+    :ivar metadatavalues: The metadata values returned if $filter was specified in the call.
     :vartype metadatavalues: list[~azure.mgmt.monitor.v2018_01_01.models.MetadataValue]
     :ivar data: An array of data points representing the metric values.  This is only returned if a
      result type of data is specified.
@@ -551,7 +555,7 @@ class TimeSeriesElement(_serialization.Model):
         **kwargs: Any
     ) -> None:
         """
-        :keyword metadatavalues: the metadata values returned if $filter was specified in the call.
+        :keyword metadatavalues: The metadata values returned if $filter was specified in the call.
         :paramtype metadatavalues: list[~azure.mgmt.monitor.v2018_01_01.models.MetadataValue]
         :keyword data: An array of data points representing the metric values.  This is only returned
          if a result type of data is specified.
