@@ -15,7 +15,7 @@ from azure.mgmt.loadtesting import LoadTestMgmtClient
     pip install azure-identity
     pip install azure-mgmt-loadtesting
 # USAGE
-    python load_tests_list_outbound_network_dependencies_endpoints.py
+    python quotas_check_availability.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -30,14 +30,21 @@ def main():
         subscription_id="SUBSCRIPTION_ID",
     )
 
-    response = client.outbound_network_dependencies_endpoints(
-        resource_group_name="default-azureloadtest-japaneast",
-        load_test_name="sampleloadtest",
+    response = client.check_availability_quota(
+        location="westus",
+        quota_bucket_name="testQuotaBucket",
+        quota_bucket_request={
+            "properties": {
+                "currentQuota": 40,
+                "currentUsage": 20,
+                "dimensions": {"location": "westus", "subscriptionId": "testsubscriptionId"},
+                "newQuota": 50,
+            }
+        },
     )
-    for item in response:
-        print(item)
+    print(response)
 
 
-# x-ms-original-file: 2023-12-01-preview/LoadTests_ListOutboundNetworkDependenciesEndpoints.json
+# x-ms-original-file: 2023-12-01-preview/Quotas_CheckAvailability.json
 if __name__ == "__main__":
     main()

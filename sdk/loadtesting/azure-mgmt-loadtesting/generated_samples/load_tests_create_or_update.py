@@ -15,7 +15,7 @@ from azure.mgmt.loadtesting import LoadTestMgmtClient
     pip install azure-identity
     pip install azure-mgmt-loadtesting
 # USAGE
-    python load_tests_delete.py
+    python load_tests_create_or_update.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -30,12 +30,33 @@ def main():
         subscription_id="SUBSCRIPTION_ID",
     )
 
-    client.begin_delete_loadtest(
+    response = client.begin_create_or_update_loadtest(
         resource_group_name="dummyrg",
         load_test_name="myLoadTest",
+        load_test_resource={
+            "identity": {
+                "type": "SystemAssigned,UserAssigned",
+                "userAssignedIdentities": {
+                    "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/dummyrg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1": {}
+                },
+            },
+            "location": "westus",
+            "properties": {
+                "description": "This is new load test resource",
+                "encryption": {
+                    "identity": {
+                        "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/dummyrg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1",
+                        "type": "UserAssigned",
+                    },
+                    "keyUrl": "https://dummy.vault.azure.net/keys/dummykey1",
+                },
+            },
+            "tags": {"Team": "Dev Exp"},
+        },
     ).result()
+    print(response)
 
 
-# x-ms-original-file: 2023-12-01-preview/LoadTests_Delete.json
+# x-ms-original-file: 2023-12-01-preview/LoadTests_CreateOrUpdate.json
 if __name__ == "__main__":
     main()
