@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.nginx import NginxManagementClient
 
 """
@@ -26,6 +27,7 @@ from azure.mgmt.nginx import NginxManagementClient
 def main():
     client = NginxManagementClient(
         credential=DefaultAzureCredential(),
+        api_key_name="API_KEY_NAME",
         subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
@@ -37,6 +39,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-01-01-preview/examples/Certificates_Get.json
+# x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-11-01-preview/examples/Certificates_Get.json
 if __name__ == "__main__":
     main()

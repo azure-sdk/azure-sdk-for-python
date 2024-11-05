@@ -12,24 +12,37 @@ from ._models_py3 import AnalysisDiagnostic
 from ._models_py3 import AnalysisResult
 from ._models_py3 import AnalysisResultData
 from ._models_py3 import AutoUpgradeProfile
+from ._models_py3 import DiagnosticItem
 from ._models_py3 import ErrorAdditionalInfo
 from ._models_py3 import ErrorDetail
+from ._models_py3 import ErrorResponse
 from ._models_py3 import IdentityProperties
 from ._models_py3 import NginxCertificate
 from ._models_py3 import NginxCertificateErrorResponseBody
 from ._models_py3 import NginxCertificateListResponse
 from ._models_py3 import NginxCertificateProperties
-from ._models_py3 import NginxConfiguration
 from ._models_py3 import NginxConfigurationFile
 from ._models_py3 import NginxConfigurationListResponse
 from ._models_py3 import NginxConfigurationPackage
-from ._models_py3 import NginxConfigurationProperties
+from ._models_py3 import NginxConfigurationProtectedFileRequest
+from ._models_py3 import NginxConfigurationProtectedFileResponse
+from ._models_py3 import NginxConfigurationRequest
+from ._models_py3 import NginxConfigurationRequestProperties
+from ._models_py3 import NginxConfigurationResponse
+from ._models_py3 import NginxConfigurationResponseProperties
 from ._models_py3 import NginxDeployment
+from ._models_py3 import NginxDeploymentApiKeyListResponse
+from ._models_py3 import NginxDeploymentApiKeyRequest
+from ._models_py3 import NginxDeploymentApiKeyRequestProperties
+from ._models_py3 import NginxDeploymentApiKeyResponse
+from ._models_py3 import NginxDeploymentApiKeyResponseProperties
 from ._models_py3 import NginxDeploymentListResponse
 from ._models_py3 import NginxDeploymentProperties
+from ._models_py3 import NginxDeploymentPropertiesNginxAppProtect
 from ._models_py3 import NginxDeploymentScalingProperties
 from ._models_py3 import NginxDeploymentUpdateParameters
 from ._models_py3 import NginxDeploymentUpdateProperties
+from ._models_py3 import NginxDeploymentUpdatePropertiesNginxAppProtect
 from ._models_py3 import NginxDeploymentUserProfile
 from ._models_py3 import NginxFrontendIPConfiguration
 from ._models_py3 import NginxLogging
@@ -41,15 +54,20 @@ from ._models_py3 import NginxStorageAccount
 from ._models_py3 import OperationDisplay
 from ._models_py3 import OperationListResult
 from ._models_py3 import OperationResult
-from ._models_py3 import ResourceProviderDefaultErrorResponse
 from ._models_py3 import ResourceSku
 from ._models_py3 import ScaleProfile
 from ._models_py3 import ScaleProfileCapacity
 from ._models_py3 import SystemData
 from ._models_py3 import UserIdentityProperties
+from ._models_py3 import WebApplicationFirewallComponentVersions
+from ._models_py3 import WebApplicationFirewallPackage
+from ._models_py3 import WebApplicationFirewallSettings
+from ._models_py3 import WebApplicationFirewallStatus
 
+from ._nginx_management_client_enums import ActivationState
 from ._nginx_management_client_enums import CreatedByType
 from ._nginx_management_client_enums import IdentityType
+from ._nginx_management_client_enums import Level
 from ._nginx_management_client_enums import NginxPrivateIPAllocationMethod
 from ._nginx_management_client_enums import ProvisioningState
 from ._patch import __all__ as _patch_all
@@ -63,24 +81,37 @@ __all__ = [
     "AnalysisResult",
     "AnalysisResultData",
     "AutoUpgradeProfile",
+    "DiagnosticItem",
     "ErrorAdditionalInfo",
     "ErrorDetail",
+    "ErrorResponse",
     "IdentityProperties",
     "NginxCertificate",
     "NginxCertificateErrorResponseBody",
     "NginxCertificateListResponse",
     "NginxCertificateProperties",
-    "NginxConfiguration",
     "NginxConfigurationFile",
     "NginxConfigurationListResponse",
     "NginxConfigurationPackage",
-    "NginxConfigurationProperties",
+    "NginxConfigurationProtectedFileRequest",
+    "NginxConfigurationProtectedFileResponse",
+    "NginxConfigurationRequest",
+    "NginxConfigurationRequestProperties",
+    "NginxConfigurationResponse",
+    "NginxConfigurationResponseProperties",
     "NginxDeployment",
+    "NginxDeploymentApiKeyListResponse",
+    "NginxDeploymentApiKeyRequest",
+    "NginxDeploymentApiKeyRequestProperties",
+    "NginxDeploymentApiKeyResponse",
+    "NginxDeploymentApiKeyResponseProperties",
     "NginxDeploymentListResponse",
     "NginxDeploymentProperties",
+    "NginxDeploymentPropertiesNginxAppProtect",
     "NginxDeploymentScalingProperties",
     "NginxDeploymentUpdateParameters",
     "NginxDeploymentUpdateProperties",
+    "NginxDeploymentUpdatePropertiesNginxAppProtect",
     "NginxDeploymentUserProfile",
     "NginxFrontendIPConfiguration",
     "NginxLogging",
@@ -92,14 +123,19 @@ __all__ = [
     "OperationDisplay",
     "OperationListResult",
     "OperationResult",
-    "ResourceProviderDefaultErrorResponse",
     "ResourceSku",
     "ScaleProfile",
     "ScaleProfileCapacity",
     "SystemData",
     "UserIdentityProperties",
+    "WebApplicationFirewallComponentVersions",
+    "WebApplicationFirewallPackage",
+    "WebApplicationFirewallSettings",
+    "WebApplicationFirewallStatus",
+    "ActivationState",
     "CreatedByType",
     "IdentityType",
+    "Level",
     "NginxPrivateIPAllocationMethod",
     "ProvisioningState",
 ]

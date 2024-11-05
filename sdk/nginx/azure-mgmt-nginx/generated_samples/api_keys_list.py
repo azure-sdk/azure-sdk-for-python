@@ -15,7 +15,7 @@ from azure.mgmt.nginx import NginxManagementClient
     pip install azure-identity
     pip install azure-mgmt-nginx
 # USAGE
-    python deployments_list.py
+    python api_keys_list.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -31,11 +31,14 @@ def main():
         subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.deployments.list()
+    response = client.api_keys.list(
+        resource_group_name="myResourceGroup",
+        deployment_name="myDeployment",
+    )
     for item in response:
         print(item)
 
 
-# x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-11-01-preview/examples/Deployments_List.json
+# x-ms-original-file: specification/nginx/resource-manager/NGINX.NGINXPLUS/preview/2024-11-01-preview/examples/ApiKeys_List.json
 if __name__ == "__main__":
     main()
