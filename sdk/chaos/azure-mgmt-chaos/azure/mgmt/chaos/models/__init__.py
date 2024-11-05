@@ -6,22 +6,15 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from ._models_py3 import Action
 from ._models_py3 import ActionStatus
+from ._models_py3 import Branch
 from ._models_py3 import BranchStatus
 from ._models_py3 import Capability
 from ._models_py3 import CapabilityListResult
 from ._models_py3 import CapabilityType
 from ._models_py3 import CapabilityTypeListResult
 from ._models_py3 import CapabilityTypePropertiesRuntimeProperties
-from ._models_py3 import ChaosExperimentAction
-from ._models_py3 import ChaosExperimentBranch
-from ._models_py3 import ChaosExperimentStep
-from ._models_py3 import ChaosTargetFilter
-from ._models_py3 import ChaosTargetListSelector
-from ._models_py3 import ChaosTargetQuerySelector
-from ._models_py3 import ChaosTargetSelector
-from ._models_py3 import ChaosTargetSimpleFilter
-from ._models_py3 import ChaosTargetSimpleFilterParameters
 from ._models_py3 import ContinuousAction
 from ._models_py3 import DelayAction
 from ._models_py3 import DiscreteAction
@@ -39,13 +32,20 @@ from ._models_py3 import ExperimentExecutionListResult
 from ._models_py3 import ExperimentExecutionProperties
 from ._models_py3 import ExperimentListResult
 from ._models_py3 import ExperimentUpdate
+from ._models_py3 import Filter
 from ._models_py3 import KeyValuePair
+from ._models_py3 import ListSelector
 from ._models_py3 import Operation
 from ._models_py3 import OperationDisplay
 from ._models_py3 import OperationListResult
 from ._models_py3 import OperationStatus
+from ._models_py3 import QuerySelector
 from ._models_py3 import Resource
 from ._models_py3 import ResourceIdentity
+from ._models_py3 import Selector
+from ._models_py3 import SimpleFilter
+from ._models_py3 import SimpleFilterParameters
+from ._models_py3 import Step
 from ._models_py3 import StepStatus
 from ._models_py3 import SystemData
 from ._models_py3 import Target
@@ -69,22 +69,15 @@ from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
+    "Action",
     "ActionStatus",
+    "Branch",
     "BranchStatus",
     "Capability",
     "CapabilityListResult",
     "CapabilityType",
     "CapabilityTypeListResult",
     "CapabilityTypePropertiesRuntimeProperties",
-    "ChaosExperimentAction",
-    "ChaosExperimentBranch",
-    "ChaosExperimentStep",
-    "ChaosTargetFilter",
-    "ChaosTargetListSelector",
-    "ChaosTargetQuerySelector",
-    "ChaosTargetSelector",
-    "ChaosTargetSimpleFilter",
-    "ChaosTargetSimpleFilterParameters",
     "ContinuousAction",
     "DelayAction",
     "DiscreteAction",
@@ -102,13 +95,20 @@ __all__ = [
     "ExperimentExecutionProperties",
     "ExperimentListResult",
     "ExperimentUpdate",
+    "Filter",
     "KeyValuePair",
+    "ListSelector",
     "Operation",
     "OperationDisplay",
     "OperationListResult",
     "OperationStatus",
+    "QuerySelector",
     "Resource",
     "ResourceIdentity",
+    "Selector",
+    "SimpleFilter",
+    "SimpleFilterParameters",
+    "Step",
     "StepStatus",
     "SystemData",
     "Target",

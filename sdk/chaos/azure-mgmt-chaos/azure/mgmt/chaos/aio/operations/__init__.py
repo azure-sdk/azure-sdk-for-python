@@ -9,10 +9,10 @@
 from ._capabilities_operations import CapabilitiesOperations
 from ._capability_types_operations import CapabilityTypesOperations
 from ._experiments_operations import ExperimentsOperations
-from ._operation_statuses_operations import OperationStatusesOperations
 from ._operations import Operations
-from ._target_types_operations import TargetTypesOperations
+from ._operation_statuses_operations import OperationStatusesOperations
 from ._targets_operations import TargetsOperations
+from ._target_types_operations import TargetTypesOperations
 
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
@@ -22,10 +22,10 @@ __all__ = [
     "CapabilitiesOperations",
     "CapabilityTypesOperations",
     "ExperimentsOperations",
-    "OperationStatusesOperations",
     "Operations",
-    "TargetTypesOperations",
+    "OperationStatusesOperations",
     "TargetsOperations",
+    "TargetTypesOperations",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
 _patch_sdk()
