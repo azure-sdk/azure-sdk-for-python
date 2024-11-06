@@ -166,8 +166,8 @@ class DiskDetachOptionTypes(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     detachment attempt of the data disk did not complete due to an unexpected failure from the
     virtual machine and the disk is still not released then use force-detach as a last resort
     option to detach the disk forcibly from the VM. All writes might not have been flushed when
-    using this detach behavior. **This feature is still in preview** mode. To force-detach a data
-    disk update toBeDetached to 'true' along with setting detachOption: 'ForceDetach'.
+    using this detach behavior. To force-detach a data disk update toBeDetached to 'true' along
+    with setting detachOption: 'ForceDetach'.
     """
 
     FORCE_DETACH = "ForceDetach"
@@ -183,6 +183,12 @@ class DomainNameLabelScopeTypes(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     SUBSCRIPTION_REUSE = "SubscriptionReuse"
     RESOURCE_GROUP_REUSE = "ResourceGroupReuse"
     NO_REUSE = "NoReuse"
+
+
+class Enum56(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Enum56."""
+
+    PROPERTIES = "Properties"
 
 
 class ExecutionState(str, Enum, metaclass=CaseInsensitiveEnumMeta):

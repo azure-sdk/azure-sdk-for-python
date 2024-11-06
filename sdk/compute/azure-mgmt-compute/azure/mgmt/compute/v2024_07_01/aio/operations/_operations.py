@@ -130,6 +130,7 @@ from ...operations._operations import (
     build_virtual_machine_images_list_publishers_request,
     build_virtual_machine_images_list_request,
     build_virtual_machine_images_list_skus_request,
+    build_virtual_machine_images_list_with_properties_request,
     build_virtual_machine_run_commands_create_or_update_request,
     build_virtual_machine_run_commands_delete_request,
     build_virtual_machine_run_commands_get_by_virtual_machine_request,
@@ -12647,6 +12648,86 @@ class VirtualMachineImagesOperations:
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
         deserialized = self._deserialize("VmImagesInEdgeZoneListResult", pipeline_response.http_response)
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
+
+    @distributed_trace_async
+    async def list_with_properties(
+        self,
+        location: str,
+        publisher_name: str,
+        offer: str,
+        skus: str,
+        *,
+        expand: Union[str, _models.Enum56],
+        top: Optional[int] = None,
+        orderby: Optional[str] = None,
+        **kwargs: Any
+    ) -> List[_models.VirtualMachineImage]:
+        """list_with_properties.
+
+        :param location: The name of a supported Azure region. Required.
+        :type location: str
+        :param publisher_name: A valid image publisher. Required.
+        :type publisher_name: str
+        :param offer: A valid image publisher offer. Required.
+        :type offer: str
+        :param skus: A valid image SKU. Required.
+        :type skus: str
+        :keyword expand: The expand expression to apply on the operation. "Properties" Required.
+        :paramtype expand: str or ~azure.mgmt.compute.v2024_07_01.models.Enum56
+        :keyword top: Default value is None.
+        :paramtype top: int
+        :keyword orderby: Default value is None.
+        :paramtype orderby: str
+        :return: list of VirtualMachineImage or the result of cls(response)
+        :rtype: list[~azure.mgmt.compute.v2024_07_01.models.VirtualMachineImage]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2024-07-01"))
+        cls: ClsType[List[_models.VirtualMachineImage]] = kwargs.pop("cls", None)
+
+        _request = build_virtual_machine_images_list_with_properties_request(
+            location=location,
+            publisher_name=publisher_name,
+            offer=offer,
+            skus=skus,
+            subscription_id=self._config.subscription_id,
+            expand=expand,
+            top=top,
+            orderby=orderby,
+            api_version=api_version,
+            headers=_headers,
+            params=_params,
+        )
+        _request.url = self._client.format_url(_request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
+
+        deserialized = self._deserialize("[VirtualMachineImage]", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore

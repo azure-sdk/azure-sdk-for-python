@@ -301,6 +301,7 @@ from ._compute_management_client_enums import DiskCreateOptionTypes
 from ._compute_management_client_enums import DiskDeleteOptionTypes
 from ._compute_management_client_enums import DiskDetachOptionTypes
 from ._compute_management_client_enums import DomainNameLabelScopeTypes
+from ._compute_management_client_enums import Enum56
 from ._compute_management_client_enums import ExecutionState
 from ._compute_management_client_enums import ExpandTypeForListVMs
 from ._compute_management_client_enums import ExpandTypesForGetCapacityReservationGroups
@@ -669,6 +670,7 @@ __all__ = [
     "DiskDeleteOptionTypes",
     "DiskDetachOptionTypes",
     "DomainNameLabelScopeTypes",
+    "Enum56",
     "ExecutionState",
     "ExpandTypeForListVMs",
     "ExpandTypesForGetCapacityReservationGroups",

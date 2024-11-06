@@ -94,3 +94,18 @@ class TestComputeManagementVirtualMachineImagesOperations(AzureMgmtRecordedTestC
 
         # please add some check logic here by yourself
         # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy
+    def test_list_with_properties(self, resource_group):
+        response = self.client.virtual_machine_images.list_with_properties(
+            location="str",
+            publisher_name="str",
+            offer="str",
+            skus="str",
+            expand="str",
+            api_version="2024-07-01",
+        )
+
+        # please add some check logic here by yourself
+        # ...
