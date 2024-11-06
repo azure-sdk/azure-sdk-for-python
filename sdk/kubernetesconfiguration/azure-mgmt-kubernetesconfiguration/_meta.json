@@ -1,12 +1,12 @@
 {
-  "commit": "1e8766756bb5c13fa573b0a33ab7d9438837c380",
+  "commit": "32b029f8aea93366edda42e160bb2af888b211bf",
   "repository_url": "https://github.com/Azure/azure-rest-api-specs",
-  "autorest": "3.9.7",
+  "autorest": "3.10.2",
   "use": [
-    "@autorest/python@6.7.1",
-    "@autorest/modelerfour@4.26.2"
+    "@autorest/python@6.19.0",
+    "@autorest/modelerfour@4.27.0"
   ],
-  "autorest_command": "autorest specification/kubernetesconfiguration/resource-manager/readme.md --generate-sample=True --include-x-ms-examples-original-file=True --python --python-sdks-folder=/home/vsts/work/1/azure-sdk-for-python/sdk --use=@autorest/python@6.7.1 --use=@autorest/modelerfour@4.26.2 --version=3.9.7 --version-tolerant=False",
+  "autorest_command": "autorest specification/kubernetesconfiguration/resource-manager/readme.md --generate-sample=True --generate-test=True --include-x-ms-examples-original-file=True --python --python-sdks-folder=/mnt/vss/_work/1/s/azure-sdk-for-python/sdk --use=@autorest/python@6.19.0 --use=@autorest/modelerfour@4.27.0 --version=3.10.2 --version-tolerant=False",
   "readme": "specification/kubernetesconfiguration/resource-manager/readme.md",
   "package-2023-05": "2023-05-16 19:49:17 -0700 433f115ecea40137ec80dfc0217582ccc52bbd37 Microsoft.KubernetesConfiguration/stable/2023-05-01/operations.json",
   "package-2022-11": "2022-11-11 23:31:05 -0800 d11245bcaa06b6d87db179c903ba4b049adf1bf2 Microsoft.KubernetesConfiguration/stable/2022-11-01/operations.json",
@@ -21,5 +21,6 @@
   "package-2021-03": "2021-05-18 22:08:36 -0700 4c386840e640f23e0a37a0c5d846b279bddbeb87 Microsoft.KubernetesConfiguration/stable/2021-03-01/kubernetesconfiguration.json",
   "package-preview-2020-10": "2021-01-18 17:57:05 -0800 3e3a9ce769a182a238fca1d68e5c6f3c4f8776a2 Microsoft.KubernetesConfiguration/preview/2020-10-01-preview/kubernetesconfiguration.json",
   "package-2020-07-01-preview": "2021-02-28 19:57:07 -0800 dc55d8cee70349bcd0b6782598bcffb86068d49e Microsoft.KubernetesConfiguration/preview/2020-07-01-preview/kubernetesconfiguration.json",
-  "package-2019-11-01-preview": "2020-05-04 11:38:46 -0700 9cac27e3d0c71d159286ff598227bf997858d0cd Microsoft.KubernetesConfiguration/preview/2019-11-01-preview/kubernetesconfiguration.json"
+  "package-2019-11-01-preview": "2020-05-04 11:38:46 -0700 9cac27e3d0c71d159286ff598227bf997858d0cd Microsoft.KubernetesConfiguration/preview/2019-11-01-preview/kubernetesconfiguration.json",
+  "package-preview-2024-04-only": "2024-03-28 17:25:03 -0700 d1a948683237bc0c9848bf1b39c494cf5dcfddac Microsoft.KubernetesConfiguration/preview/2024-04-01-preview/fluxconfiguration.json"
 }
