@@ -2027,7 +2027,7 @@ class DocumentLanguage(_model_base.Model):
 
     :ivar locale: Detected language.  Value may an ISO 639-1 language code (ex. "en", "fr")
      or BCP 47 language tag (ex. "zh-Hans"). Required.
-    :vartype locale: str
+    :vartype locale: int
     :ivar spans: Location of the text elements in the concatenated content the language applies
      to. Required.
     :vartype spans: list[~azure.ai.documentintelligence.models.DocumentSpan]
@@ -2035,7 +2035,7 @@ class DocumentLanguage(_model_base.Model):
     :vartype confidence: float
     """
 
-    locale: str = rest_field()
+    locale: int = rest_field()
     """Detected language.  Value may an ISO 639-1 language code (ex. \"en\", \"fr\")
      or BCP 47 language tag (ex. \"zh-Hans\"). Required."""
     spans: List["_models.DocumentSpan"] = rest_field()
@@ -2048,7 +2048,7 @@ class DocumentLanguage(_model_base.Model):
     def __init__(
         self,
         *,
-        locale: str,
+        locale: int,
         spans: List["_models.DocumentSpan"],
         confidence: float,
     ): ...
