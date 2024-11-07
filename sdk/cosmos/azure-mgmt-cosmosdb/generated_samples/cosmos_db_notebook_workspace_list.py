@@ -27,7 +27,7 @@ from azure.mgmt.cosmosdb import CosmosDBManagementClient
 def main():
     client = CosmosDBManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="subid",
+        subscription_id="ffffffff-ffff-ffff-ffff-ffffffffffff",
     )
 
     response = client.notebook_workspaces.list_by_database_account(
@@ -38,6 +38,6 @@ def main():
         print(item)
 
 
-# x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-09-01-preview/examples/CosmosDBNotebookWorkspaceList.json
+# x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2024-11-15/examples/CosmosDBNotebookWorkspaceList.json
 if __name__ == "__main__":
     main()
