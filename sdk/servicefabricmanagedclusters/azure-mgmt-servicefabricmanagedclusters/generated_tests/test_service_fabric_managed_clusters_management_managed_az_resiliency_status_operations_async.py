@@ -25,7 +25,7 @@ class TestServiceFabricManagedClustersManagementManagedAzResiliencyStatusOperati
         response = await self.client.managed_az_resiliency_status.get(
             resource_group_name=resource_group.name,
             cluster_name="str",
-            api_version="2024-06-01-preview",
+            api_version="2024-09-01-preview",
         )
 
         # please add some check logic here by yourself

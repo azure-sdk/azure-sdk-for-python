@@ -25,7 +25,7 @@ class TestServiceFabricManagedClustersManagementManagedClusterVersionOperationsA
         response = await self.client.managed_cluster_version.get(
             location="str",
             cluster_version="str",
-            api_version="2024-06-01-preview",
+            api_version="2024-09-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -38,7 +38,7 @@ class TestServiceFabricManagedClustersManagementManagedClusterVersionOperationsA
             location="str",
             environment="str",
             cluster_version="str",
-            api_version="2024-06-01-preview",
+            api_version="2024-09-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -49,7 +49,7 @@ class TestServiceFabricManagedClustersManagementManagedClusterVersionOperationsA
     async def test_list(self, resource_group):
         response = await self.client.managed_cluster_version.list(
             location="str",
-            api_version="2024-06-01-preview",
+            api_version="2024-09-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -61,7 +61,7 @@ class TestServiceFabricManagedClustersManagementManagedClusterVersionOperationsA
         response = await self.client.managed_cluster_version.list_by_environment(
             location="str",
             environment="str",
-            api_version="2024-06-01-preview",
+            api_version="2024-09-01-preview",
         )
 
         # please add some check logic here by yourself

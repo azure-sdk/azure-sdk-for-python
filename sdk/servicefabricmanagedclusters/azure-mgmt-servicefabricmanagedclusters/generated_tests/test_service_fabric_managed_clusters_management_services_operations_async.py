@@ -27,7 +27,7 @@ class TestServiceFabricManagedClustersManagementServicesOperationsAsync(AzureMgm
             cluster_name="str",
             application_name="str",
             service_name="str",
-            api_version="2024-06-01-preview",
+            api_version="2024-09-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -58,7 +58,7 @@ class TestServiceFabricManagedClustersManagementServicesOperationsAsync(AzureMgm
                     "tags": {"str": "str"},
                     "type": "str",
                 },
-                api_version="2024-06-01-preview",
+                api_version="2024-09-01-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -74,7 +74,7 @@ class TestServiceFabricManagedClustersManagementServicesOperationsAsync(AzureMgm
             application_name="str",
             service_name="str",
             parameters={"tags": {"str": "str"}},
-            api_version="2024-06-01-preview",
+            api_version="2024-09-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -89,7 +89,7 @@ class TestServiceFabricManagedClustersManagementServicesOperationsAsync(AzureMgm
                 cluster_name="str",
                 application_name="str",
                 service_name="str",
-                api_version="2024-06-01-preview",
+                api_version="2024-09-01-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -103,7 +103,7 @@ class TestServiceFabricManagedClustersManagementServicesOperationsAsync(AzureMgm
             resource_group_name=resource_group.name,
             cluster_name="str",
             application_name="str",
-            api_version="2024-06-01-preview",
+            api_version="2024-09-01-preview",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself

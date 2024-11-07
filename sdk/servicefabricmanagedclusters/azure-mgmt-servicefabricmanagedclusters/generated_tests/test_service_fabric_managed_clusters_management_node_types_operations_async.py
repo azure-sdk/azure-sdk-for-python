@@ -25,7 +25,7 @@ class TestServiceFabricManagedClustersManagementNodeTypesOperationsAsync(AzureMg
         response = self.client.node_types.list_by_managed_clusters(
             resource_group_name=resource_group.name,
             cluster_name="str",
-            api_version="2024-06-01-preview",
+            api_version="2024-09-01-preview",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -40,7 +40,7 @@ class TestServiceFabricManagedClustersManagementNodeTypesOperationsAsync(AzureMg
                 cluster_name="str",
                 node_type_name="str",
                 parameters={"force": bool, "nodes": ["str"], "updateType": "str"},
-                api_version="2024-06-01-preview",
+                api_version="2024-09-01-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -56,7 +56,7 @@ class TestServiceFabricManagedClustersManagementNodeTypesOperationsAsync(AzureMg
                 cluster_name="str",
                 node_type_name="str",
                 parameters={"force": bool, "nodes": ["str"], "updateType": "str"},
-                api_version="2024-06-01-preview",
+                api_version="2024-09-01-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -72,7 +72,7 @@ class TestServiceFabricManagedClustersManagementNodeTypesOperationsAsync(AzureMg
                 cluster_name="str",
                 node_type_name="str",
                 parameters={"force": bool, "nodes": ["str"], "updateType": "str"},
-                api_version="2024-06-01-preview",
+                api_version="2024-09-01-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -86,7 +86,7 @@ class TestServiceFabricManagedClustersManagementNodeTypesOperationsAsync(AzureMg
             resource_group_name=resource_group.name,
             cluster_name="str",
             node_type_name="str",
-            api_version="2024-06-01-preview",
+            api_version="2024-09-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -241,7 +241,7 @@ class TestServiceFabricManagedClustersManagementNodeTypesOperationsAsync(AzureMg
                     "vmSize": "str",
                     "zones": ["str"],
                 },
-                api_version="2024-06-01-preview",
+                api_version="2024-09-01-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -250,14 +250,16 @@ class TestServiceFabricManagedClustersManagementNodeTypesOperationsAsync(AzureMg
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_update(self, resource_group):
-        response = await self.client.node_types.update(
-            resource_group_name=resource_group.name,
-            cluster_name="str",
-            node_type_name="str",
-            parameters={"sku": {"capacity": 0, "name": "str", "tier": "str"}, "tags": {"str": "str"}},
-            api_version="2024-06-01-preview",
-        )
+    async def test_begin_update(self, resource_group):
+        response = await (
+            await self.client.node_types.begin_update(
+                resource_group_name=resource_group.name,
+                cluster_name="str",
+                node_type_name="str",
+                parameters={"sku": {"capacity": 0, "name": "str", "tier": "str"}, "tags": {"str": "str"}},
+                api_version="2024-09-01-preview",
+            )
+        ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
         # ...
@@ -270,7 +272,7 @@ class TestServiceFabricManagedClustersManagementNodeTypesOperationsAsync(AzureMg
                 resource_group_name=resource_group.name,
                 cluster_name="str",
                 node_type_name="str",
-                api_version="2024-06-01-preview",
+                api_version="2024-09-01-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
