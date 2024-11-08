@@ -1,5 +1,5 @@
 # coding=utf-8
-# pylint: disable=too-many-lines, line-too-long
+# pylint: disable=too-many-lines
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -115,7 +115,7 @@ class AgeMismatchInference(RadiologyInsightsInference, discriminator="ageMismatc
 
 class Element(_model_base.Model):
     """The base definition for all elements contained inside a resource.
-    Based on `FHIR Element <https://www.hl7.org/fhir/R4/element.html>`__.
+    Based on `FHIR Element <https://www.hl7.org/fhir/R4/element.html>`_.
 
     :ivar id: Unique id for inter-element referencing.
     :vartype id: str
@@ -635,7 +635,7 @@ class DomainResource(Resource):
 
 class Extension(Element):  # pylint: disable=too-many-instance-attributes
     """Base for all elements
-    Based on `FHIR Element <https://www.hl7.org/fhir/datatypes.html#Element>`_.
+    Based on `FHIR Element <https://www.hl7.org/fhir/R4/element.html>`_.
 
 
     :ivar url: Source of the definition for the extension code - a logical name or a URL. Required.

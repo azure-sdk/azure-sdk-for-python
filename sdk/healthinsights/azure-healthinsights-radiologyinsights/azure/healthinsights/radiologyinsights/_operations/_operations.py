@@ -52,7 +52,7 @@ def build_radiology_insights_infer_radiology_insights_request(  # pylint: disabl
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-04-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-08-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
