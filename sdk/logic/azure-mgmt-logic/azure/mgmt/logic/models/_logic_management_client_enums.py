@@ -271,6 +271,7 @@ class ParameterType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     ARRAY = "Array"
     OBJECT = "Object"
     SECURE_OBJECT = "SecureObject"
+    INT_ENUM = "Int"
 
 
 class PartnerType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -291,6 +292,13 @@ class RecurrenceFrequency(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     WEEK = "Week"
     MONTH = "Month"
     YEAR = "Year"
+
+
+class SasAuthenticationPolicyState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The SAS authentication policy state."""
+
+    ENABLED = "Enabled"
+    DISABLED = "Disabled"
 
 
 class SchemaType(str, Enum, metaclass=CaseInsensitiveEnumMeta):

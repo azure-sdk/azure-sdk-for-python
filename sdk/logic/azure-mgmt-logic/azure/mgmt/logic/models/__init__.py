@@ -150,6 +150,7 @@ from ._models_py3 import Response
 from ._models_py3 import RetryHistory
 from ._models_py3 import RunActionCorrelation
 from ._models_py3 import RunCorrelation
+from ._models_py3 import SasAuthenticationPolicy
 from ._models_py3 import SetTriggerStateActionDefinition
 from ._models_py3 import Sku
 from ._models_py3 import SubResource
@@ -240,6 +241,7 @@ from ._logic_management_client_enums import OpenAuthenticationProviderType
 from ._logic_management_client_enums import ParameterType
 from ._logic_management_client_enums import PartnerType
 from ._logic_management_client_enums import RecurrenceFrequency
+from ._logic_management_client_enums import SasAuthenticationPolicyState
 from ._logic_management_client_enums import SchemaType
 from ._logic_management_client_enums import SegmentTerminatorSuffix
 from ._logic_management_client_enums import SigningAlgorithm
@@ -259,7 +261,7 @@ from ._logic_management_client_enums import X12CharacterSet
 from ._logic_management_client_enums import X12DateFormat
 from ._logic_management_client_enums import X12TimeFormat
 from ._patch import __all__ as _patch_all
-from ._patch import *  # type: ignore # pylint: disable=unused-wildcard-import
+from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
@@ -407,6 +409,7 @@ __all__ = [
     "RetryHistory",
     "RunActionCorrelation",
     "RunCorrelation",
+    "SasAuthenticationPolicy",
     "SetTriggerStateActionDefinition",
     "Sku",
     "SubResource",
@@ -496,6 +499,7 @@ __all__ = [
     "ParameterType",
     "PartnerType",
     "RecurrenceFrequency",
+    "SasAuthenticationPolicyState",
     "SchemaType",
     "SegmentTerminatorSuffix",
     "SigningAlgorithm",
