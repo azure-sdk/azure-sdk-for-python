@@ -10,6 +10,26 @@ from enum import Enum
 from azure.core import CaseInsensitiveEnumMeta
 
 
+class AzureFileShareAccessTier(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """learn more at:
+    https://learn.microsoft.com/en-us/rest/api/storagerp/file-shares/create?tabs=HTTP#shareaccesstier.
+    """
+
+    COOL = "cool"
+    HOT = "hot"
+    PREMIUM = "premium"
+    TRANSACTIONOPTIMIZED = "transactionoptimized"
+
+
+class AzureFileShareAccessType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Specifies how Container Groups can access the Azure file share i.e. all CG will share same
+    Azure file share or going to have exclusive file share.
+    """
+
+    SHARED = "Shared"
+    EXCLUSIVE = "Exclusive"
+
+
 class ContainerGroupIpAddressType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Specifies if the IP is exposed to the public internet or private VNET."""
 
@@ -48,6 +68,7 @@ class ContainerGroupRestartPolicy(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 class ContainerGroupSku(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The container group SKU."""
 
+    NOT_SPECIFIED = "NotSpecified"
     STANDARD = "Standard"
     DEDICATED = "Dedicated"
     CONFIDENTIAL = "Confidential"
@@ -65,6 +86,15 @@ class ContainerNetworkProtocol(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     TCP = "TCP"
     UDP = "UDP"
+
+
+class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The type of identity that created the resource."""
+
+    USER = "User"
+    APPLICATION = "Application"
+    MANAGED_IDENTITY = "ManagedIdentity"
+    KEY = "Key"
 
 
 class DnsNameLabelReusePolicy(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -98,6 +128,25 @@ class LogAnalyticsLogType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     CONTAINER_INSIGHTS = "ContainerInsights"
     CONTAINER_INSTANCE_LOGS = "ContainerInstanceLogs"
+
+
+class NGroupProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The provisioning state, which only appears in the response."""
+
+    CREATING = "Creating"
+    UPDATING = "Updating"
+    FAILED = "Failed"
+    SUCCEEDED = "Succeeded"
+    CANCELED = "Canceled"
+    DELETING = "Deleting"
+    MIGRATING = "Migrating"
+
+
+class NGroupUpdateMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """NGroupUpdateMode."""
+
+    MANUAL = "Manual"
+    ROLLING = "Rolling"
 
 
 class OperatingSystemTypes(str, Enum, metaclass=CaseInsensitiveEnumMeta):

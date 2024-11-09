@@ -51,7 +51,7 @@ def build_list_logs_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-01-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-11-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -61,9 +61,7 @@ def build_list_logs_request(
     )  # pylint: disable=line-too-long
     path_format_arguments = {
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url(
-            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
-        ),
+        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
         "containerGroupName": _SERIALIZER.url("container_group_name", container_group_name, "str"),
         "containerName": _SERIALIZER.url("container_name", container_name, "str"),
     }
@@ -89,7 +87,7 @@ def build_execute_command_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-01-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-11-01-preview"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -100,9 +98,7 @@ def build_execute_command_request(
     )  # pylint: disable=line-too-long
     path_format_arguments = {
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url(
-            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
-        ),
+        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
         "containerGroupName": _SERIALIZER.url("container_group_name", container_group_name, "str"),
         "containerName": _SERIALIZER.url("container_name", container_name, "str"),
     }
@@ -126,7 +122,7 @@ def build_attach_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-01-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-11-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -136,9 +132,7 @@ def build_attach_request(
     )  # pylint: disable=line-too-long
     path_format_arguments = {
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url(
-            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
-        ),
+        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
         "containerGroupName": _SERIALIZER.url("container_group_name", container_group_name, "str"),
         "containerName": _SERIALIZER.url("container_name", container_name, "str"),
     }
@@ -188,8 +182,7 @@ class ContainersOperations:
         Get the logs for a specified container instance in a specified resource group and container
         group.
 
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
+        :param resource_group_name: The name of the resource group. Required.
         :type resource_group_name: str
         :param container_group_name: The name of the container group. Required.
         :type container_group_name: str
@@ -266,8 +259,7 @@ class ContainersOperations:
         Executes a command for a specific container instance in a specified resource group and
         container group.
 
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
+        :param resource_group_name: The name of the resource group. Required.
         :type resource_group_name: str
         :param container_group_name: The name of the container group. Required.
         :type container_group_name: str
@@ -299,8 +291,7 @@ class ContainersOperations:
         Executes a command for a specific container instance in a specified resource group and
         container group.
 
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
+        :param resource_group_name: The name of the resource group. Required.
         :type resource_group_name: str
         :param container_group_name: The name of the container group. Required.
         :type container_group_name: str
@@ -330,8 +321,7 @@ class ContainersOperations:
         Executes a command for a specific container instance in a specified resource group and
         container group.
 
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
+        :param resource_group_name: The name of the resource group. Required.
         :type resource_group_name: str
         :param container_group_name: The name of the container group. Required.
         :type container_group_name: str
@@ -409,8 +399,7 @@ class ContainersOperations:
         Attach to the output stream of a specific container instance in a specified resource group and
         container group.
 
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
+        :param resource_group_name: The name of the resource group. Required.
         :type resource_group_name: str
         :param container_group_name: The name of the container group. Required.
         :type container_group_name: str

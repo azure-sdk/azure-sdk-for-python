@@ -6,6 +6,9 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from ._models_py3 import ApiEntityReference
+from ._models_py3 import ApplicationGateway
+from ._models_py3 import ApplicationGatewayBackendAddressPool
 from ._models_py3 import AzureFileVolume
 from ._models_py3 import CachedImages
 from ._models_py3 import CachedImagesListResult
@@ -14,7 +17,6 @@ from ._models_py3 import CapabilitiesCapabilities
 from ._models_py3 import CapabilitiesListResult
 from ._models_py3 import CloudErrorBody
 from ._models_py3 import ConfidentialComputeProperties
-from ._models_py3 import ConfigMap
 from ._models_py3 import Container
 from ._models_py3 import ContainerAttachResponse
 from ._models_py3 import ContainerExec
@@ -28,8 +30,7 @@ from ._models_py3 import ContainerGroupListResult
 from ._models_py3 import ContainerGroupProfile
 from ._models_py3 import ContainerGroupProfileListResult
 from ._models_py3 import ContainerGroupProfilePatch
-from ._models_py3 import ContainerGroupProfileProperties
-from ._models_py3 import ContainerGroupProfileReferenceDefinition
+from ._models_py3 import ContainerGroupProfileStub
 from ._models_py3 import ContainerGroupProperties
 from ._models_py3 import ContainerGroupPropertiesInstanceView
 from ._models_py3 import ContainerGroupSubnetId
@@ -40,9 +41,17 @@ from ._models_py3 import ContainerPropertiesInstanceView
 from ._models_py3 import ContainerState
 from ._models_py3 import DeploymentExtensionSpec
 from ._models_py3 import DnsConfiguration
+from ._models_py3 import ElasticProfile
+from ._models_py3 import ElasticProfileContainerGroupNamingPolicy
+from ._models_py3 import ElasticProfileContainerGroupNamingPolicyGuidNamingPolicy
 from ._models_py3 import EncryptionProperties
 from ._models_py3 import EnvironmentVariable
+from ._models_py3 import ErrorAdditionalInfo
+from ._models_py3 import ErrorDetail
+from ._models_py3 import ErrorResponse
 from ._models_py3 import Event
+from ._models_py3 import FileShare
+from ._models_py3 import FileShareProperties
 from ._models_py3 import GitRepoVolume
 from ._models_py3 import GpuResource
 from ._models_py3 import HttpHeader
@@ -50,19 +59,36 @@ from ._models_py3 import ImageRegistryCredential
 from ._models_py3 import InitContainerDefinition
 from ._models_py3 import InitContainerPropertiesDefinitionInstanceView
 from ._models_py3 import IpAddress
+from ._models_py3 import LoadBalancer
+from ._models_py3 import LoadBalancerBackendAddressPool
 from ._models_py3 import LogAnalytics
 from ._models_py3 import Logs
+from ._models_py3 import NGroup
+from ._models_py3 import NGroupCGPropertyContainer
+from ._models_py3 import NGroupCGPropertyContainerProperties
+from ._models_py3 import NGroupCGPropertyVolume
+from ._models_py3 import NGroupContainerGroupProperties
+from ._models_py3 import NGroupIdentity
+from ._models_py3 import NGroupSkus
+from ._models_py3 import NGroupsListResult
+from ._models_py3 import NGroupsSkusList
+from ._models_py3 import NetworkProfile
 from ._models_py3 import Operation
 from ._models_py3 import OperationDisplay
 from ._models_py3 import OperationListResult
+from ._models_py3 import PlacementProfile
 from ._models_py3 import Port
 from ._models_py3 import Resource
 from ._models_py3 import ResourceLimits
 from ._models_py3 import ResourceRequests
 from ._models_py3 import ResourceRequirements
+from ._models_py3 import SecretReference
 from ._models_py3 import SecurityContextCapabilitiesDefinition
 from ._models_py3 import SecurityContextDefinition
-from ._models_py3 import StandbyPoolProfileDefinition
+from ._models_py3 import StorageProfile
+from ._models_py3 import SystemData
+from ._models_py3 import UpdateProfile
+from ._models_py3 import UpdateProfileRollingUpdateProfile
 from ._models_py3 import Usage
 from ._models_py3 import UsageListResult
 from ._models_py3 import UsageName
@@ -70,6 +96,8 @@ from ._models_py3 import UserAssignedIdentities
 from ._models_py3 import Volume
 from ._models_py3 import VolumeMount
 
+from ._container_instance_management_client_enums import AzureFileShareAccessTier
+from ._container_instance_management_client_enums import AzureFileShareAccessType
 from ._container_instance_management_client_enums import ContainerGroupIpAddressType
 from ._container_instance_management_client_enums import ContainerGroupNetworkProtocol
 from ._container_instance_management_client_enums import ContainerGroupPriority
@@ -77,9 +105,12 @@ from ._container_instance_management_client_enums import ContainerGroupRestartPo
 from ._container_instance_management_client_enums import ContainerGroupSku
 from ._container_instance_management_client_enums import ContainerInstanceOperationsOrigin
 from ._container_instance_management_client_enums import ContainerNetworkProtocol
+from ._container_instance_management_client_enums import CreatedByType
 from ._container_instance_management_client_enums import DnsNameLabelReusePolicy
 from ._container_instance_management_client_enums import GpuSku
 from ._container_instance_management_client_enums import LogAnalyticsLogType
+from ._container_instance_management_client_enums import NGroupProvisioningState
+from ._container_instance_management_client_enums import NGroupUpdateMode
 from ._container_instance_management_client_enums import OperatingSystemTypes
 from ._container_instance_management_client_enums import ResourceIdentityType
 from ._container_instance_management_client_enums import Scheme
@@ -88,6 +119,9 @@ from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
+    "ApiEntityReference",
+    "ApplicationGateway",
+    "ApplicationGatewayBackendAddressPool",
     "AzureFileVolume",
     "CachedImages",
     "CachedImagesListResult",
@@ -96,7 +130,6 @@ __all__ = [
     "CapabilitiesListResult",
     "CloudErrorBody",
     "ConfidentialComputeProperties",
-    "ConfigMap",
     "Container",
     "ContainerAttachResponse",
     "ContainerExec",
@@ -110,8 +143,7 @@ __all__ = [
     "ContainerGroupProfile",
     "ContainerGroupProfileListResult",
     "ContainerGroupProfilePatch",
-    "ContainerGroupProfileProperties",
-    "ContainerGroupProfileReferenceDefinition",
+    "ContainerGroupProfileStub",
     "ContainerGroupProperties",
     "ContainerGroupPropertiesInstanceView",
     "ContainerGroupSubnetId",
@@ -122,9 +154,17 @@ __all__ = [
     "ContainerState",
     "DeploymentExtensionSpec",
     "DnsConfiguration",
+    "ElasticProfile",
+    "ElasticProfileContainerGroupNamingPolicy",
+    "ElasticProfileContainerGroupNamingPolicyGuidNamingPolicy",
     "EncryptionProperties",
     "EnvironmentVariable",
+    "ErrorAdditionalInfo",
+    "ErrorDetail",
+    "ErrorResponse",
     "Event",
+    "FileShare",
+    "FileShareProperties",
     "GitRepoVolume",
     "GpuResource",
     "HttpHeader",
@@ -132,25 +172,44 @@ __all__ = [
     "InitContainerDefinition",
     "InitContainerPropertiesDefinitionInstanceView",
     "IpAddress",
+    "LoadBalancer",
+    "LoadBalancerBackendAddressPool",
     "LogAnalytics",
     "Logs",
+    "NGroup",
+    "NGroupCGPropertyContainer",
+    "NGroupCGPropertyContainerProperties",
+    "NGroupCGPropertyVolume",
+    "NGroupContainerGroupProperties",
+    "NGroupIdentity",
+    "NGroupSkus",
+    "NGroupsListResult",
+    "NGroupsSkusList",
+    "NetworkProfile",
     "Operation",
     "OperationDisplay",
     "OperationListResult",
+    "PlacementProfile",
     "Port",
     "Resource",
     "ResourceLimits",
     "ResourceRequests",
     "ResourceRequirements",
+    "SecretReference",
     "SecurityContextCapabilitiesDefinition",
     "SecurityContextDefinition",
-    "StandbyPoolProfileDefinition",
+    "StorageProfile",
+    "SystemData",
+    "UpdateProfile",
+    "UpdateProfileRollingUpdateProfile",
     "Usage",
     "UsageListResult",
     "UsageName",
     "UserAssignedIdentities",
     "Volume",
     "VolumeMount",
+    "AzureFileShareAccessTier",
+    "AzureFileShareAccessType",
     "ContainerGroupIpAddressType",
     "ContainerGroupNetworkProtocol",
     "ContainerGroupPriority",
@@ -158,9 +217,12 @@ __all__ = [
     "ContainerGroupSku",
     "ContainerInstanceOperationsOrigin",
     "ContainerNetworkProtocol",
+    "CreatedByType",
     "DnsNameLabelReusePolicy",
     "GpuSku",
     "LogAnalyticsLogType",
+    "NGroupProvisioningState",
+    "NGroupUpdateMode",
     "OperatingSystemTypes",
     "ResourceIdentityType",
     "Scheme",

@@ -14,15 +14,14 @@ AZURE_LOCATION = "eastus"
 
 
 @pytest.mark.skip("you may need to update the auto-generated test case before run it")
-class TestContainerInstanceManagementLocationOperations(AzureMgmtRecordedTestCase):
+class TestContainerInstanceManagementCGProfilesOperations(AzureMgmtRecordedTestCase):
     def setup_method(self, method):
         self.client = self.create_mgmt_client(ContainerInstanceManagementClient)
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_usage(self, resource_group):
-        response = self.client.location.list_usage(
-            location="str",
+    def test_list_by_subscription(self, resource_group):
+        response = self.client.cg_profiles.list_by_subscription(
             api_version="2024-11-01-preview",
         )
         result = [r for r in response]
@@ -31,20 +30,9 @@ class TestContainerInstanceManagementLocationOperations(AzureMgmtRecordedTestCas
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_cached_images(self, resource_group):
-        response = self.client.location.list_cached_images(
-            location="str",
-            api_version="2024-11-01-preview",
-        )
-        result = [r for r in response]
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
-    def test_list_capabilities(self, resource_group):
-        response = self.client.location.list_capabilities(
-            location="str",
+    def test_list_by_resource_group(self, resource_group):
+        response = self.client.cg_profiles.list_by_resource_group(
+            resource_group_name=resource_group.name,
             api_version="2024-11-01-preview",
         )
         result = [r for r in response]

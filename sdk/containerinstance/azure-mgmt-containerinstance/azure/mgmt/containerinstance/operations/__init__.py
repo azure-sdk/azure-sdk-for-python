@@ -11,8 +11,9 @@ from ._operations import Operations
 from ._location_operations import LocationOperations
 from ._containers_operations import ContainersOperations
 from ._subnet_service_association_link_operations import SubnetServiceAssociationLinkOperations
-from ._container_group_profiles_operations import ContainerGroupProfilesOperations
-from ._container_group_profile_operations import ContainerGroupProfileOperations
+from ._ngroups_operations import NGroupsOperations
+from ._cg_profiles_operations import CGProfilesOperations
+from ._cg_profile_operations import CGProfileOperations
 
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
@@ -24,8 +25,9 @@ __all__ = [
     "LocationOperations",
     "ContainersOperations",
     "SubnetServiceAssociationLinkOperations",
-    "ContainerGroupProfilesOperations",
-    "ContainerGroupProfileOperations",
+    "NGroupsOperations",
+    "CGProfilesOperations",
+    "CGProfileOperations",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
 _patch_sdk()

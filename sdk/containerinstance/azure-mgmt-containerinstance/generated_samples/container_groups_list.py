@@ -27,7 +27,7 @@ from azure.mgmt.containerinstance import ContainerInstanceManagementClient
 def main():
     client = ContainerInstanceManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="00000000-0000-0000-0000-000000000000",
+        subscription_id="subid",
     )
 
     response = client.container_groups.list()
@@ -35,6 +35,6 @@ def main():
         print(item)
 
 
-# x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/preview/2024-05-01-preview/examples/ContainerGroupsList.json
+# x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/preview/2024-11-01-preview/examples/ContainerGroupsList.json
 if __name__ == "__main__":
     main()
