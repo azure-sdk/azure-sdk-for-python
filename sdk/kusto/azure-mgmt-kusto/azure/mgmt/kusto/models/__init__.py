@@ -13,6 +13,9 @@ from ._models_py3 import AttachedDatabaseConfigurationsCheckNameRequest
 from ._models_py3 import AzureCapacity
 from ._models_py3 import AzureResourceSku
 from ._models_py3 import AzureSku
+from ._models_py3 import CalloutPoliciesList
+from ._models_py3 import CalloutPolicy
+from ._models_py3 import CalloutPolicyToRemove
 from ._models_py3 import CheckNameRequest
 from ._models_py3 import CheckNameResult
 from ._models_py3 import Cluster
@@ -51,7 +54,9 @@ from ._models_py3 import ErrorResponse
 from ._models_py3 import EventGridDataConnection
 from ._models_py3 import EventHubDataConnection
 from ._models_py3 import FollowerDatabaseDefinition
+from ._models_py3 import FollowerDatabaseDefinitionGet
 from ._models_py3 import FollowerDatabaseListResult
+from ._models_py3 import FollowerDatabaseListResultGet
 from ._models_py3 import Identity
 from ._models_py3 import IotHubDataConnection
 from ._models_py3 import KeyVaultProperties
@@ -102,6 +107,7 @@ from ._kusto_management_client_enums import AzureSkuName
 from ._kusto_management_client_enums import AzureSkuTier
 from ._kusto_management_client_enums import BlobStorageEventType
 from ._kusto_management_client_enums import CallerRole
+from ._kusto_management_client_enums import CalloutType
 from ._kusto_management_client_enums import ClusterNetworkAccessFlag
 from ._kusto_management_client_enums import ClusterPrincipalRole
 from ._kusto_management_client_enums import Compression
@@ -122,16 +128,20 @@ from ._kusto_management_client_enums import Language
 from ._kusto_management_client_enums import LanguageExtensionImageName
 from ._kusto_management_client_enums import LanguageExtensionName
 from ._kusto_management_client_enums import MigrationClusterRole
+from ._kusto_management_client_enums import OutboundAccess
+from ._kusto_management_client_enums import PrincipalPermissionsAction
 from ._kusto_management_client_enums import PrincipalType
 from ._kusto_management_client_enums import PrincipalsModificationKind
 from ._kusto_management_client_enums import ProvisioningState
 from ._kusto_management_client_enums import PublicIPType
 from ._kusto_management_client_enums import PublicNetworkAccess
 from ._kusto_management_client_enums import Reason
+from ._kusto_management_client_enums import ScriptLevel
 from ._kusto_management_client_enums import State
 from ._kusto_management_client_enums import Status
 from ._kusto_management_client_enums import Type
 from ._kusto_management_client_enums import VnetState
+from ._kusto_management_client_enums import ZoneStatus
 from ._patch import __all__ as _patch_all
 from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
@@ -144,6 +154,9 @@ __all__ = [
     "AzureCapacity",
     "AzureResourceSku",
     "AzureSku",
+    "CalloutPoliciesList",
+    "CalloutPolicy",
+    "CalloutPolicyToRemove",
     "CheckNameRequest",
     "CheckNameResult",
     "Cluster",
@@ -182,7 +195,9 @@ __all__ = [
     "EventGridDataConnection",
     "EventHubDataConnection",
     "FollowerDatabaseDefinition",
+    "FollowerDatabaseDefinitionGet",
     "FollowerDatabaseListResult",
+    "FollowerDatabaseListResultGet",
     "Identity",
     "IotHubDataConnection",
     "KeyVaultProperties",
@@ -232,6 +247,7 @@ __all__ = [
     "AzureSkuTier",
     "BlobStorageEventType",
     "CallerRole",
+    "CalloutType",
     "ClusterNetworkAccessFlag",
     "ClusterPrincipalRole",
     "Compression",
@@ -252,16 +268,20 @@ __all__ = [
     "LanguageExtensionImageName",
     "LanguageExtensionName",
     "MigrationClusterRole",
+    "OutboundAccess",
+    "PrincipalPermissionsAction",
     "PrincipalType",
     "PrincipalsModificationKind",
     "ProvisioningState",
     "PublicIPType",
     "PublicNetworkAccess",
     "Reason",
+    "ScriptLevel",
     "State",
     "Status",
     "Type",
     "VnetState",
+    "ZoneStatus",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
 _patch_sdk()
