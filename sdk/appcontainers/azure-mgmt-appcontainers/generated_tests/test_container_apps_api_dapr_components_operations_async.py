@@ -25,7 +25,7 @@ class TestContainerAppsAPIDaprComponentsOperationsAsync(AzureMgmtRecordedTestCas
         response = self.client.dapr_components.list(
             resource_group_name=resource_group.name,
             environment_name="str",
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -38,7 +38,7 @@ class TestContainerAppsAPIDaprComponentsOperationsAsync(AzureMgmtRecordedTestCas
             resource_group_name=resource_group.name,
             environment_name="str",
             component_name="str",
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         )
 
         # please add some check logic here by yourself
@@ -75,7 +75,7 @@ class TestContainerAppsAPIDaprComponentsOperationsAsync(AzureMgmtRecordedTestCas
                 "type": "str",
                 "version": "str",
             },
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         )
 
         # please add some check logic here by yourself
@@ -88,7 +88,7 @@ class TestContainerAppsAPIDaprComponentsOperationsAsync(AzureMgmtRecordedTestCas
             resource_group_name=resource_group.name,
             environment_name="str",
             component_name="str",
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         )
 
         # please add some check logic here by yourself
@@ -101,7 +101,7 @@ class TestContainerAppsAPIDaprComponentsOperationsAsync(AzureMgmtRecordedTestCas
             resource_group_name=resource_group.name,
             environment_name="str",
             component_name="str",
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         )
 
         # please add some check logic here by yourself

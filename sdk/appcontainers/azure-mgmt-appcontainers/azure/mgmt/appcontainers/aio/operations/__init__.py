@@ -22,6 +22,7 @@ from ._container_apps_operations import ContainerAppsOperations
 from ._container_apps_builds_by_container_app_operations import ContainerAppsBuildsByContainerAppOperations
 from ._container_apps_builds_operations import ContainerAppsBuildsOperations
 from ._container_apps_patches_operations import ContainerAppsPatchesOperations
+from ._container_apps_label_history_operations import ContainerAppsLabelHistoryOperations
 from ._container_apps_revisions_operations import ContainerAppsRevisionsOperations
 from ._container_apps_revision_replicas_operations import ContainerAppsRevisionReplicasOperations
 from ._container_apps_diagnostics_operations import ContainerAppsDiagnosticsOperations
@@ -46,6 +47,8 @@ from ._managed_environment_private_link_resources_operations import ManagedEnvir
 from ._dapr_component_resiliency_policies_operations import DaprComponentResiliencyPoliciesOperations
 from ._dapr_components_operations import DaprComponentsOperations
 from ._dapr_subscriptions_operations import DaprSubscriptionsOperations
+from ._http_route_config_operations import HttpRouteConfigOperations
+from ._maintenance_configurations_operations import MaintenanceConfigurationsOperations
 from ._managed_environments_storages_operations import ManagedEnvironmentsStoragesOperations
 from ._container_apps_session_pools_operations import ContainerAppsSessionPoolsOperations
 from ._container_apps_source_controls_operations import ContainerAppsSourceControlsOperations
@@ -73,6 +76,7 @@ __all__ = [
     "ContainerAppsBuildsByContainerAppOperations",
     "ContainerAppsBuildsOperations",
     "ContainerAppsPatchesOperations",
+    "ContainerAppsLabelHistoryOperations",
     "ContainerAppsRevisionsOperations",
     "ContainerAppsRevisionReplicasOperations",
     "ContainerAppsDiagnosticsOperations",
@@ -95,6 +99,8 @@ __all__ = [
     "DaprComponentResiliencyPoliciesOperations",
     "DaprComponentsOperations",
     "DaprSubscriptionsOperations",
+    "HttpRouteConfigOperations",
+    "MaintenanceConfigurationsOperations",
     "ManagedEnvironmentsStoragesOperations",
     "ContainerAppsSessionPoolsOperations",
     "ContainerAppsSourceControlsOperations",
