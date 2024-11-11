@@ -6,5 +6,4 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from ._container_service_client import ContainerServiceClient
-__all__ = ['ContainerServiceClient']
+VERSION = "1.0.0b1"
