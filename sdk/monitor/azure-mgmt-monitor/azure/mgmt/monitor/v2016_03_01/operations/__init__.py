@@ -7,7 +7,6 @@
 # --------------------------------------------------------------------------
 
 from ._alert_rule_incidents_operations import AlertRuleIncidentsOperations
-from ._alert_rules_operations import AlertRulesOperations
 from ._log_profiles_operations import LogProfilesOperations
 from ._metric_definitions_operations import MetricDefinitionsOperations
 
@@ -17,7 +16,6 @@ from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
     "AlertRuleIncidentsOperations",
-    "AlertRulesOperations",
     "LogProfilesOperations",
     "MetricDefinitionsOperations",
 ]
