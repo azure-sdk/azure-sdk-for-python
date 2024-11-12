@@ -1063,11 +1063,7 @@ class DisasterRecoveryConfigsOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        if response.status_code == 200:
-            deserialized = self._deserialize("ArmDisasterRecovery", pipeline_response.http_response)
-
-        if response.status_code == 201:
-            deserialized = self._deserialize("ArmDisasterRecovery", pipeline_response.http_response)
+        deserialized = self._deserialize("ArmDisasterRecovery", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore

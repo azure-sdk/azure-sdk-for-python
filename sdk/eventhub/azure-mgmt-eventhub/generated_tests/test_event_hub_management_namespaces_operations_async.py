@@ -21,20 +21,9 @@ class TestEventHubManagementNamespacesOperationsAsync(AzureMgmtRecordedTestCase)
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_check_name_availability(self, resource_group):
-        response = await self.client.namespaces.check_name_availability(
-            parameters={"name": "str"},
-            api_version="2015-08-01",
-        )
-
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy_async
-    async def test_list_by_subscription(self, resource_group):
-        response = self.client.namespaces.list_by_subscription(
-            api_version="2015-08-01",
+    async def test_list(self, resource_group):
+        response = self.client.namespaces.list(
+            api_version="2024-01-01",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -45,7 +34,7 @@ class TestEventHubManagementNamespacesOperationsAsync(AzureMgmtRecordedTestCase)
     async def test_list_by_resource_group(self, resource_group):
         response = self.client.namespaces.list_by_resource_group(
             resource_group_name=resource_group.name,
-            api_version="2015-08-01",
+            api_version="2024-01-01",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -59,18 +48,74 @@ class TestEventHubManagementNamespacesOperationsAsync(AzureMgmtRecordedTestCase)
                 resource_group_name=resource_group.name,
                 namespace_name="str",
                 parameters={
-                    "location": "str",
+                    "alternateName": "str",
+                    "clusterArmId": "str",
                     "createdAt": "2020-02-20 00:00:00",
-                    "enabled": bool,
+                    "disableLocalAuth": bool,
+                    "encryption": {
+                        "keySource": "Microsoft.KeyVault",
+                        "keyVaultProperties": [
+                            {
+                                "identity": {"userAssignedIdentity": "str"},
+                                "keyName": "str",
+                                "keyVaultUri": "str",
+                                "keyVersion": "str",
+                            }
+                        ],
+                        "requireInfrastructureEncryption": bool,
+                    },
+                    "id": "str",
+                    "identity": {
+                        "principalId": "str",
+                        "tenantId": "str",
+                        "type": "str",
+                        "userAssignedIdentities": {"str": {"clientId": "str", "principalId": "str"}},
+                    },
+                    "isAutoInflateEnabled": bool,
+                    "kafkaEnabled": bool,
+                    "location": "str",
+                    "maximumThroughputUnits": 0,
                     "metricId": "str",
+                    "minimumTlsVersion": "str",
+                    "name": "str",
+                    "privateEndpointConnections": [
+                        {
+                            "id": "str",
+                            "location": "str",
+                            "name": "str",
+                            "privateEndpoint": {"id": "str"},
+                            "privateLinkServiceConnectionState": {"description": "str", "status": "str"},
+                            "provisioningState": "str",
+                            "systemData": {
+                                "createdAt": "2020-02-20 00:00:00",
+                                "createdBy": "str",
+                                "createdByType": "str",
+                                "lastModifiedAt": "2020-02-20 00:00:00",
+                                "lastModifiedBy": "str",
+                                "lastModifiedByType": "str",
+                            },
+                            "type": "str",
+                        }
+                    ],
                     "provisioningState": "str",
+                    "publicNetworkAccess": "Enabled",
                     "serviceBusEndpoint": "str",
-                    "sku": {"tier": "str", "capacity": 0, "name": "str"},
+                    "sku": {"name": "str", "capacity": 0, "tier": "str"},
                     "status": "str",
+                    "systemData": {
+                        "createdAt": "2020-02-20 00:00:00",
+                        "createdBy": "str",
+                        "createdByType": "str",
+                        "lastModifiedAt": "2020-02-20 00:00:00",
+                        "lastModifiedBy": "str",
+                        "lastModifiedByType": "str",
+                    },
                     "tags": {"str": "str"},
+                    "type": "str",
                     "updatedAt": "2020-02-20 00:00:00",
+                    "zoneRedundant": bool,
                 },
-                api_version="2015-08-01",
+                api_version="2024-01-01",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -84,7 +129,7 @@ class TestEventHubManagementNamespacesOperationsAsync(AzureMgmtRecordedTestCase)
             await self.client.namespaces.begin_delete(
                 resource_group_name=resource_group.name,
                 namespace_name="str",
-                api_version="2015-08-01",
+                api_version="2024-01-01",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -97,7 +142,7 @@ class TestEventHubManagementNamespacesOperationsAsync(AzureMgmtRecordedTestCase)
         response = await self.client.namespaces.get(
             resource_group_name=resource_group.name,
             namespace_name="str",
-            api_version="2015-08-01",
+            api_version="2024-01-01",
         )
 
         # please add some check logic here by yourself
@@ -109,8 +154,130 @@ class TestEventHubManagementNamespacesOperationsAsync(AzureMgmtRecordedTestCase)
         response = await self.client.namespaces.update(
             resource_group_name=resource_group.name,
             namespace_name="str",
-            parameters={"sku": {"tier": "str", "capacity": 0, "name": "str"}, "tags": {"str": "str"}},
-            api_version="2015-08-01",
+            parameters={
+                "alternateName": "str",
+                "clusterArmId": "str",
+                "createdAt": "2020-02-20 00:00:00",
+                "disableLocalAuth": bool,
+                "encryption": {
+                    "keySource": "Microsoft.KeyVault",
+                    "keyVaultProperties": [
+                        {
+                            "identity": {"userAssignedIdentity": "str"},
+                            "keyName": "str",
+                            "keyVaultUri": "str",
+                            "keyVersion": "str",
+                        }
+                    ],
+                    "requireInfrastructureEncryption": bool,
+                },
+                "id": "str",
+                "identity": {
+                    "principalId": "str",
+                    "tenantId": "str",
+                    "type": "str",
+                    "userAssignedIdentities": {"str": {"clientId": "str", "principalId": "str"}},
+                },
+                "isAutoInflateEnabled": bool,
+                "kafkaEnabled": bool,
+                "location": "str",
+                "maximumThroughputUnits": 0,
+                "metricId": "str",
+                "minimumTlsVersion": "str",
+                "name": "str",
+                "privateEndpointConnections": [
+                    {
+                        "id": "str",
+                        "location": "str",
+                        "name": "str",
+                        "privateEndpoint": {"id": "str"},
+                        "privateLinkServiceConnectionState": {"description": "str", "status": "str"},
+                        "provisioningState": "str",
+                        "systemData": {
+                            "createdAt": "2020-02-20 00:00:00",
+                            "createdBy": "str",
+                            "createdByType": "str",
+                            "lastModifiedAt": "2020-02-20 00:00:00",
+                            "lastModifiedBy": "str",
+                            "lastModifiedByType": "str",
+                        },
+                        "type": "str",
+                    }
+                ],
+                "provisioningState": "str",
+                "publicNetworkAccess": "Enabled",
+                "serviceBusEndpoint": "str",
+                "sku": {"name": "str", "capacity": 0, "tier": "str"},
+                "status": "str",
+                "systemData": {
+                    "createdAt": "2020-02-20 00:00:00",
+                    "createdBy": "str",
+                    "createdByType": "str",
+                    "lastModifiedAt": "2020-02-20 00:00:00",
+                    "lastModifiedBy": "str",
+                    "lastModifiedByType": "str",
+                },
+                "tags": {"str": "str"},
+                "type": "str",
+                "updatedAt": "2020-02-20 00:00:00",
+                "zoneRedundant": bool,
+            },
+            api_version="2024-01-01",
+        )
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy_async
+    async def test_create_or_update_network_rule_set(self, resource_group):
+        response = await self.client.namespaces.create_or_update_network_rule_set(
+            resource_group_name=resource_group.name,
+            namespace_name="str",
+            parameters={
+                "defaultAction": "str",
+                "id": "str",
+                "ipRules": [{"action": "str", "ipMask": "str"}],
+                "location": "str",
+                "name": "str",
+                "publicNetworkAccess": "Enabled",
+                "systemData": {
+                    "createdAt": "2020-02-20 00:00:00",
+                    "createdBy": "str",
+                    "createdByType": "str",
+                    "lastModifiedAt": "2020-02-20 00:00:00",
+                    "lastModifiedBy": "str",
+                    "lastModifiedByType": "str",
+                },
+                "trustedServiceAccessEnabled": bool,
+                "type": "str",
+                "virtualNetworkRules": [{"ignoreMissingVnetServiceEndpoint": bool, "subnet": {"id": "str"}}],
+            },
+            api_version="2024-01-01",
+        )
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy_async
+    async def test_get_network_rule_set(self, resource_group):
+        response = await self.client.namespaces.get_network_rule_set(
+            resource_group_name=resource_group.name,
+            namespace_name="str",
+            api_version="2024-01-01",
+        )
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy_async
+    async def test_list_network_rule_set(self, resource_group):
+        response = await self.client.namespaces.list_network_rule_set(
+            resource_group_name=resource_group.name,
+            namespace_name="str",
+            api_version="2024-01-01",
         )
 
         # please add some check logic here by yourself
@@ -122,7 +289,7 @@ class TestEventHubManagementNamespacesOperationsAsync(AzureMgmtRecordedTestCase)
         response = self.client.namespaces.list_authorization_rules(
             resource_group_name=resource_group.name,
             namespace_name="str",
-            api_version="2015-08-01",
+            api_version="2024-01-01",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -135,8 +302,22 @@ class TestEventHubManagementNamespacesOperationsAsync(AzureMgmtRecordedTestCase)
             resource_group_name=resource_group.name,
             namespace_name="str",
             authorization_rule_name="str",
-            parameters={"location": "str", "name": "str", "rights": ["str"]},
-            api_version="2015-08-01",
+            parameters={
+                "id": "str",
+                "location": "str",
+                "name": "str",
+                "rights": ["str"],
+                "systemData": {
+                    "createdAt": "2020-02-20 00:00:00",
+                    "createdBy": "str",
+                    "createdByType": "str",
+                    "lastModifiedAt": "2020-02-20 00:00:00",
+                    "lastModifiedBy": "str",
+                    "lastModifiedByType": "str",
+                },
+                "type": "str",
+            },
+            api_version="2024-01-01",
         )
 
         # please add some check logic here by yourself
@@ -149,7 +330,7 @@ class TestEventHubManagementNamespacesOperationsAsync(AzureMgmtRecordedTestCase)
             resource_group_name=resource_group.name,
             namespace_name="str",
             authorization_rule_name="str",
-            api_version="2015-08-01",
+            api_version="2024-01-01",
         )
 
         # please add some check logic here by yourself
@@ -162,7 +343,7 @@ class TestEventHubManagementNamespacesOperationsAsync(AzureMgmtRecordedTestCase)
             resource_group_name=resource_group.name,
             namespace_name="str",
             authorization_rule_name="str",
-            api_version="2015-08-01",
+            api_version="2024-01-01",
         )
 
         # please add some check logic here by yourself
@@ -175,7 +356,7 @@ class TestEventHubManagementNamespacesOperationsAsync(AzureMgmtRecordedTestCase)
             resource_group_name=resource_group.name,
             namespace_name="str",
             authorization_rule_name="str",
-            api_version="2015-08-01",
+            api_version="2024-01-01",
         )
 
         # please add some check logic here by yourself
@@ -188,8 +369,19 @@ class TestEventHubManagementNamespacesOperationsAsync(AzureMgmtRecordedTestCase)
             resource_group_name=resource_group.name,
             namespace_name="str",
             authorization_rule_name="str",
-            parameters={"policykey": "str"},
-            api_version="2015-08-01",
+            parameters={"keyType": "str", "key": "str"},
+            api_version="2024-01-01",
+        )
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy_async
+    async def test_check_name_availability(self, resource_group):
+        response = await self.client.namespaces.check_name_availability(
+            parameters={"name": "str"},
+            api_version="2024-01-01",
         )
 
         # please add some check logic here by yourself

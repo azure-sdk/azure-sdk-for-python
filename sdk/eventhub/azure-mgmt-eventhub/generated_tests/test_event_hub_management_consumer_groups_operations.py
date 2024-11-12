@@ -27,15 +27,23 @@ class TestEventHubManagementConsumerGroupsOperations(AzureMgmtRecordedTestCase):
             event_hub_name="str",
             consumer_group_name="str",
             parameters={
-                "location": "str",
                 "createdAt": "2020-02-20 00:00:00",
-                "eventHubPath": "str",
+                "id": "str",
+                "location": "str",
                 "name": "str",
+                "systemData": {
+                    "createdAt": "2020-02-20 00:00:00",
+                    "createdBy": "str",
+                    "createdByType": "str",
+                    "lastModifiedAt": "2020-02-20 00:00:00",
+                    "lastModifiedBy": "str",
+                    "lastModifiedByType": "str",
+                },
                 "type": "str",
                 "updatedAt": "2020-02-20 00:00:00",
                 "userMetadata": "str",
             },
-            api_version="2015-08-01",
+            api_version="2024-01-01",
         )
 
         # please add some check logic here by yourself
@@ -49,7 +57,7 @@ class TestEventHubManagementConsumerGroupsOperations(AzureMgmtRecordedTestCase):
             namespace_name="str",
             event_hub_name="str",
             consumer_group_name="str",
-            api_version="2015-08-01",
+            api_version="2024-01-01",
         )
 
         # please add some check logic here by yourself
@@ -63,7 +71,7 @@ class TestEventHubManagementConsumerGroupsOperations(AzureMgmtRecordedTestCase):
             namespace_name="str",
             event_hub_name="str",
             consumer_group_name="str",
-            api_version="2015-08-01",
+            api_version="2024-01-01",
         )
 
         # please add some check logic here by yourself
@@ -71,12 +79,12 @@ class TestEventHubManagementConsumerGroupsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_all(self, resource_group):
-        response = self.client.consumer_groups.list_all(
+    def test_list_by_event_hub(self, resource_group):
+        response = self.client.consumer_groups.list_by_event_hub(
             resource_group_name=resource_group.name,
             namespace_name="str",
             event_hub_name="str",
-            api_version="2015-08-01",
+            api_version="2024-01-01",
         )
         result = [r for r in response]
         # please add some check logic here by yourself

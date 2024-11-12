@@ -25,7 +25,7 @@ class TestEventHubManagementDisasterRecoveryConfigsOperations(AzureMgmtRecordedT
             resource_group_name=resource_group.name,
             namespace_name="str",
             alias="str",
-            api_version="2017-04-01",
+            api_version="2024-01-01",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -39,7 +39,7 @@ class TestEventHubManagementDisasterRecoveryConfigsOperations(AzureMgmtRecordedT
             namespace_name="str",
             alias="str",
             authorization_rule_name="str",
-            api_version="2017-04-01",
+            api_version="2024-01-01",
         )
 
         # please add some check logic here by yourself
@@ -53,7 +53,7 @@ class TestEventHubManagementDisasterRecoveryConfigsOperations(AzureMgmtRecordedT
             namespace_name="str",
             alias="str",
             authorization_rule_name="str",
-            api_version="2017-04-01",
+            api_version="2024-01-01",
         )
 
         # please add some check logic here by yourself
@@ -66,7 +66,7 @@ class TestEventHubManagementDisasterRecoveryConfigsOperations(AzureMgmtRecordedT
             resource_group_name=resource_group.name,
             namespace_name="str",
             parameters={"name": "str"},
-            api_version="2017-04-01",
+            api_version="2024-01-01",
         )
 
         # please add some check logic here by yourself
@@ -78,7 +78,7 @@ class TestEventHubManagementDisasterRecoveryConfigsOperations(AzureMgmtRecordedT
         response = self.client.disaster_recovery_configs.list(
             resource_group_name=resource_group.name,
             namespace_name="str",
-            api_version="2017-04-01",
+            api_version="2024-01-01",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -94,14 +94,23 @@ class TestEventHubManagementDisasterRecoveryConfigsOperations(AzureMgmtRecordedT
             parameters={
                 "alternateName": "str",
                 "id": "str",
+                "location": "str",
                 "name": "str",
                 "partnerNamespace": "str",
                 "pendingReplicationOperationsCount": 0,
                 "provisioningState": "str",
                 "role": "str",
+                "systemData": {
+                    "createdAt": "2020-02-20 00:00:00",
+                    "createdBy": "str",
+                    "createdByType": "str",
+                    "lastModifiedAt": "2020-02-20 00:00:00",
+                    "lastModifiedBy": "str",
+                    "lastModifiedByType": "str",
+                },
                 "type": "str",
             },
-            api_version="2017-04-01",
+            api_version="2024-01-01",
         )
 
         # please add some check logic here by yourself
@@ -114,7 +123,7 @@ class TestEventHubManagementDisasterRecoveryConfigsOperations(AzureMgmtRecordedT
             resource_group_name=resource_group.name,
             namespace_name="str",
             alias="str",
-            api_version="2017-04-01",
+            api_version="2024-01-01",
         )
 
         # please add some check logic here by yourself
@@ -127,7 +136,7 @@ class TestEventHubManagementDisasterRecoveryConfigsOperations(AzureMgmtRecordedT
             resource_group_name=resource_group.name,
             namespace_name="str",
             alias="str",
-            api_version="2017-04-01",
+            api_version="2024-01-01",
         )
 
         # please add some check logic here by yourself
@@ -140,7 +149,7 @@ class TestEventHubManagementDisasterRecoveryConfigsOperations(AzureMgmtRecordedT
             resource_group_name=resource_group.name,
             namespace_name="str",
             alias="str",
-            api_version="2017-04-01",
+            api_version="2024-01-01",
         )
 
         # please add some check logic here by yourself
@@ -153,7 +162,7 @@ class TestEventHubManagementDisasterRecoveryConfigsOperations(AzureMgmtRecordedT
             resource_group_name=resource_group.name,
             namespace_name="str",
             alias="str",
-            api_version="2017-04-01",
+            api_version="2024-01-01",
         )
 
         # please add some check logic here by yourself
