@@ -45,7 +45,7 @@ def build_list_by_cluster_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-01-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -57,7 +57,9 @@ def build_list_by_cluster_request(
         "resourceGroupName": _SERIALIZER.url(
             "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
-        "clusterName": _SERIALIZER.url("cluster_name", cluster_name, "str", pattern=r"^[A-Za-z0-9]{1,60}$"),
+        "clusterName": _SERIALIZER.url(
+            "cluster_name", cluster_name, "str", pattern=r"^(?=.{1,60}$)[A-Za-z0-9]+(-[A-Za-z0-9]+)*$"
+        ),
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
     }
 
@@ -95,12 +97,14 @@ class PrivateLinkResourcesOperations:
     def list_by_cluster(
         self, resource_group_name: str, cluster_name: str, **kwargs: Any
     ) -> Iterable["_models.PrivateLinkResource"]:
-        """Gets the private link resources that need to be created for a Redis Enterprise cluster.
+        """Gets the private link resources that need to be created for a RedisEnterprise cluster.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param cluster_name: The name of the Redis Enterprise cluster. Required.
+        :param cluster_name: The name of the Redis Enterprise cluster. Name must be 1-60 characters
+         long. Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+         consecutive hyphens. Required.
         :type cluster_name: str
         :return: An iterator like instance of either PrivateLinkResource or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.redisenterprise.models.PrivateLinkResource]
