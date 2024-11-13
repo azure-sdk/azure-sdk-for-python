@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines,too-many-statements
+# pylint: disable=too-many-lines
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -9,7 +9,7 @@
 from io import IOBase
 import json
 import sys
-from typing import Any, Callable, Dict, IO, Iterable, List, Optional, Type, TypeVar, Union, overload
+from typing import Any, Callable, Dict, IO, Iterable, List, Optional, TypeVar, Union, overload
 import urllib.parse
 
 from azure.core.exceptions import (
@@ -36,7 +36,7 @@ from .._serialization import Serializer
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
 JSON = MutableMapping[str, Any]  # pylint: disable=unsubscriptable-object
@@ -49,7 +49,7 @@ def build_operations_list_request(**kwargs: Any) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-08-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -71,7 +71,7 @@ def build_scheduled_actions_virtual_machines_submit_deallocate_request(  # pylin
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-08-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -101,7 +101,7 @@ def build_scheduled_actions_virtual_machines_submit_hibernate_request(  # pylint
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-08-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -131,7 +131,7 @@ def build_scheduled_actions_virtual_machines_submit_start_request(  # pylint: di
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-08-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -161,7 +161,7 @@ def build_scheduled_actions_virtual_machines_execute_deallocate_request(  # pyli
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-08-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -191,7 +191,7 @@ def build_scheduled_actions_virtual_machines_execute_hibernate_request(  # pylin
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-08-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -221,7 +221,7 @@ def build_scheduled_actions_virtual_machines_execute_start_request(  # pylint: d
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-08-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -251,7 +251,7 @@ def build_scheduled_actions_virtual_machines_get_operation_status_request(  # py
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-08-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -281,7 +281,7 @@ def build_scheduled_actions_virtual_machines_cancel_operations_request(  # pylin
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-08-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -311,7 +311,7 @@ def build_scheduled_actions_virtual_machines_get_operation_errors_request(  # py
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-08-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -364,7 +364,7 @@ class Operations:
 
         cls: ClsType[List[_models.Operation]] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {  # pylint: disable=unsubscriptable-object
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -534,7 +534,7 @@ class ScheduledActionsOperations:
         :rtype: ~azure.mgmt.computeschedule.models.DeallocateResourceOperationResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {  # pylint: disable=unsubscriptable-object
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -678,7 +678,7 @@ class ScheduledActionsOperations:
         :rtype: ~azure.mgmt.computeschedule.models.HibernateResourceOperationResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {  # pylint: disable=unsubscriptable-object
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -818,7 +818,7 @@ class ScheduledActionsOperations:
         :rtype: ~azure.mgmt.computeschedule.models.StartResourceOperationResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {  # pylint: disable=unsubscriptable-object
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -962,7 +962,7 @@ class ScheduledActionsOperations:
         :rtype: ~azure.mgmt.computeschedule.models.DeallocateResourceOperationResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {  # pylint: disable=unsubscriptable-object
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1106,7 +1106,7 @@ class ScheduledActionsOperations:
         :rtype: ~azure.mgmt.computeschedule.models.HibernateResourceOperationResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {  # pylint: disable=unsubscriptable-object
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1246,7 +1246,7 @@ class ScheduledActionsOperations:
         :rtype: ~azure.mgmt.computeschedule.models.StartResourceOperationResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {  # pylint: disable=unsubscriptable-object
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1390,7 +1390,7 @@ class ScheduledActionsOperations:
         :rtype: ~azure.mgmt.computeschedule.models.GetOperationStatusResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {  # pylint: disable=unsubscriptable-object
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1534,7 +1534,7 @@ class ScheduledActionsOperations:
         :rtype: ~azure.mgmt.computeschedule.models.CancelOperationsResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {  # pylint: disable=unsubscriptable-object
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1682,7 +1682,7 @@ class ScheduledActionsOperations:
         :rtype: ~azure.mgmt.computeschedule.models.GetOperationErrorsResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {  # pylint: disable=unsubscriptable-object
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
