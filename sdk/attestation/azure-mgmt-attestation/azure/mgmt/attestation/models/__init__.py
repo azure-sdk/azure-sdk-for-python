@@ -11,17 +11,23 @@ from ._models_py3 import AttestationProviderListResult
 from ._models_py3 import AttestationServiceCreationParams
 from ._models_py3 import AttestationServiceCreationSpecificParams
 from ._models_py3 import AttestationServicePatchParams
+from ._models_py3 import AttestationServicePatchSpecificParams
 from ._models_py3 import CloudErrorBody
 from ._models_py3 import JSONWebKey
 from ._models_py3 import JSONWebKeySet
+from ._models_py3 import LogSpecification
 from ._models_py3 import OperationList
+from ._models_py3 import OperationProperties
 from ._models_py3 import OperationsDefinition
 from ._models_py3 import OperationsDisplayDefinition
 from ._models_py3 import PrivateEndpoint
 from ._models_py3 import PrivateEndpointConnection
 from ._models_py3 import PrivateEndpointConnectionListResult
+from ._models_py3 import PrivateLinkResource
+from ._models_py3 import PrivateLinkResourceListResult
 from ._models_py3 import PrivateLinkServiceConnectionState
 from ._models_py3 import Resource
+from ._models_py3 import ServiceSpecification
 from ._models_py3 import SystemData
 from ._models_py3 import TrackedResource
 
@@ -29,8 +35,10 @@ from ._attestation_management_client_enums import AttestationServiceStatus
 from ._attestation_management_client_enums import CreatedByType
 from ._attestation_management_client_enums import PrivateEndpointConnectionProvisioningState
 from ._attestation_management_client_enums import PrivateEndpointServiceConnectionStatus
+from ._attestation_management_client_enums import PublicNetworkAccessType
+from ._attestation_management_client_enums import TpmAttestationAuthenticationType
 from ._patch import __all__ as _patch_all
-from ._patch import *  # type: ignore # pylint: disable=unused-wildcard-import
+from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
@@ -39,23 +47,31 @@ __all__ = [
     "AttestationServiceCreationParams",
     "AttestationServiceCreationSpecificParams",
     "AttestationServicePatchParams",
+    "AttestationServicePatchSpecificParams",
     "CloudErrorBody",
     "JSONWebKey",
     "JSONWebKeySet",
+    "LogSpecification",
     "OperationList",
+    "OperationProperties",
     "OperationsDefinition",
     "OperationsDisplayDefinition",
     "PrivateEndpoint",
     "PrivateEndpointConnection",
     "PrivateEndpointConnectionListResult",
+    "PrivateLinkResource",
+    "PrivateLinkResourceListResult",
     "PrivateLinkServiceConnectionState",
     "Resource",
+    "ServiceSpecification",
     "SystemData",
     "TrackedResource",
     "AttestationServiceStatus",
     "CreatedByType",
     "PrivateEndpointConnectionProvisioningState",
     "PrivateEndpointServiceConnectionStatus",
+    "PublicNetworkAccessType",
+    "TpmAttestationAuthenticationType",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
 _patch_sdk()
