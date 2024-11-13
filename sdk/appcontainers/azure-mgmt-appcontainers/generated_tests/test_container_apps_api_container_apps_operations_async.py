@@ -23,7 +23,7 @@ class TestContainerAppsAPIContainerAppsOperationsAsync(AzureMgmtRecordedTestCase
     @recorded_by_proxy_async
     async def test_list_by_subscription(self, resource_group):
         response = self.client.container_apps.list_by_subscription(
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -34,7 +34,7 @@ class TestContainerAppsAPIContainerAppsOperationsAsync(AzureMgmtRecordedTestCase
     async def test_list_by_resource_group(self, resource_group):
         response = self.client.container_apps.list_by_resource_group(
             resource_group_name=resource_group.name,
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -46,7 +46,7 @@ class TestContainerAppsAPIContainerAppsOperationsAsync(AzureMgmtRecordedTestCase
         response = await self.client.container_apps.get(
             resource_group_name=resource_group.name,
             container_app_name="str",
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         )
 
         # please add some check logic here by yourself
@@ -73,7 +73,7 @@ class TestContainerAppsAPIContainerAppsOperationsAsync(AzureMgmtRecordedTestCase
                             "httpReadBufferSize": 0,
                             "logLevel": "str",
                         },
-                        "identitySettings": [{"identity": "str", "lifecycle": "All"}],
+                        "identitySettings": [{"identity": "str", "lifecycle": "str"}],
                         "ingress": {
                             "additionalPortMappings": [{"external": bool, "targetPort": 0, "exposedPort": 0}],
                             "allowInsecure": False,
@@ -103,6 +103,7 @@ class TestContainerAppsAPIContainerAppsOperationsAsync(AzureMgmtRecordedTestCase
                         "registries": [
                             {"identity": "str", "passwordSecretRef": "str", "server": "str", "username": "str"}
                         ],
+                        "revisionTransitionThreshold": 0,
                         "runtime": {
                             "dotnet": {"autoConfigureDataProtection": bool},
                             "java": {
@@ -115,6 +116,7 @@ class TestContainerAppsAPIContainerAppsOperationsAsync(AzureMgmtRecordedTestCase
                         },
                         "secrets": [{"identity": "str", "keyVaultUrl": "str", "name": "str", "value": "str"}],
                         "service": {"type": "str"},
+                        "targetLabel": "str",
                     },
                     "customDomainVerificationId": "str",
                     "deploymentErrors": "str",
@@ -138,6 +140,7 @@ class TestContainerAppsAPIContainerAppsOperationsAsync(AzureMgmtRecordedTestCase
                     "outboundIpAddresses": ["str"],
                     "patchingConfiguration": {"patchingMode": "str"},
                     "provisioningState": "str",
+                    "runningStatus": "str",
                     "systemData": {
                         "createdAt": "2020-02-20 00:00:00",
                         "createdBy": "str",
@@ -175,7 +178,7 @@ class TestContainerAppsAPIContainerAppsOperationsAsync(AzureMgmtRecordedTestCase
                                         "type": "str",
                                     }
                                 ],
-                                "resources": {"cpu": 0.0, "ephemeralStorage": "str", "memory": "str"},
+                                "resources": {"cpu": 0.0, "ephemeralStorage": "str", "gpu": 0.0, "memory": "str"},
                                 "volumeMounts": [{"mountPath": "str", "subPath": "str", "volumeName": "str"}],
                             }
                         ],
@@ -187,7 +190,7 @@ class TestContainerAppsAPIContainerAppsOperationsAsync(AzureMgmtRecordedTestCase
                                 "image": "str",
                                 "imageType": "str",
                                 "name": "str",
-                                "resources": {"cpu": 0.0, "ephemeralStorage": "str", "memory": "str"},
+                                "resources": {"cpu": 0.0, "ephemeralStorage": "str", "gpu": 0.0, "memory": "str"},
                                 "volumeMounts": [{"mountPath": "str", "subPath": "str", "volumeName": "str"}],
                             }
                         ],
@@ -243,7 +246,7 @@ class TestContainerAppsAPIContainerAppsOperationsAsync(AzureMgmtRecordedTestCase
                     "type": "str",
                     "workloadProfileName": "str",
                 },
-                api_version="2024-08-02-preview",
+                api_version="2024-10-02-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -257,7 +260,7 @@ class TestContainerAppsAPIContainerAppsOperationsAsync(AzureMgmtRecordedTestCase
             await self.client.container_apps.begin_delete(
                 resource_group_name=resource_group.name,
                 container_app_name="str",
-                api_version="2024-08-02-preview",
+                api_version="2024-10-02-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -285,7 +288,7 @@ class TestContainerAppsAPIContainerAppsOperationsAsync(AzureMgmtRecordedTestCase
                             "httpReadBufferSize": 0,
                             "logLevel": "str",
                         },
-                        "identitySettings": [{"identity": "str", "lifecycle": "All"}],
+                        "identitySettings": [{"identity": "str", "lifecycle": "str"}],
                         "ingress": {
                             "additionalPortMappings": [{"external": bool, "targetPort": 0, "exposedPort": 0}],
                             "allowInsecure": False,
@@ -315,6 +318,7 @@ class TestContainerAppsAPIContainerAppsOperationsAsync(AzureMgmtRecordedTestCase
                         "registries": [
                             {"identity": "str", "passwordSecretRef": "str", "server": "str", "username": "str"}
                         ],
+                        "revisionTransitionThreshold": 0,
                         "runtime": {
                             "dotnet": {"autoConfigureDataProtection": bool},
                             "java": {
@@ -327,6 +331,7 @@ class TestContainerAppsAPIContainerAppsOperationsAsync(AzureMgmtRecordedTestCase
                         },
                         "secrets": [{"identity": "str", "keyVaultUrl": "str", "name": "str", "value": "str"}],
                         "service": {"type": "str"},
+                        "targetLabel": "str",
                     },
                     "customDomainVerificationId": "str",
                     "deploymentErrors": "str",
@@ -350,6 +355,7 @@ class TestContainerAppsAPIContainerAppsOperationsAsync(AzureMgmtRecordedTestCase
                     "outboundIpAddresses": ["str"],
                     "patchingConfiguration": {"patchingMode": "str"},
                     "provisioningState": "str",
+                    "runningStatus": "str",
                     "systemData": {
                         "createdAt": "2020-02-20 00:00:00",
                         "createdBy": "str",
@@ -387,7 +393,7 @@ class TestContainerAppsAPIContainerAppsOperationsAsync(AzureMgmtRecordedTestCase
                                         "type": "str",
                                     }
                                 ],
-                                "resources": {"cpu": 0.0, "ephemeralStorage": "str", "memory": "str"},
+                                "resources": {"cpu": 0.0, "ephemeralStorage": "str", "gpu": 0.0, "memory": "str"},
                                 "volumeMounts": [{"mountPath": "str", "subPath": "str", "volumeName": "str"}],
                             }
                         ],
@@ -399,7 +405,7 @@ class TestContainerAppsAPIContainerAppsOperationsAsync(AzureMgmtRecordedTestCase
                                 "image": "str",
                                 "imageType": "str",
                                 "name": "str",
-                                "resources": {"cpu": 0.0, "ephemeralStorage": "str", "memory": "str"},
+                                "resources": {"cpu": 0.0, "ephemeralStorage": "str", "gpu": 0.0, "memory": "str"},
                                 "volumeMounts": [{"mountPath": "str", "subPath": "str", "volumeName": "str"}],
                             }
                         ],
@@ -455,7 +461,7 @@ class TestContainerAppsAPIContainerAppsOperationsAsync(AzureMgmtRecordedTestCase
                     "type": "str",
                     "workloadProfileName": "str",
                 },
-                api_version="2024-08-02-preview",
+                api_version="2024-10-02-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -468,7 +474,7 @@ class TestContainerAppsAPIContainerAppsOperationsAsync(AzureMgmtRecordedTestCase
         response = await self.client.container_apps.list_custom_host_name_analysis(
             resource_group_name=resource_group.name,
             container_app_name="str",
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         )
 
         # please add some check logic here by yourself
@@ -480,7 +486,7 @@ class TestContainerAppsAPIContainerAppsOperationsAsync(AzureMgmtRecordedTestCase
         response = await self.client.container_apps.list_secrets(
             resource_group_name=resource_group.name,
             container_app_name="str",
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         )
 
         # please add some check logic here by yourself
@@ -492,7 +498,7 @@ class TestContainerAppsAPIContainerAppsOperationsAsync(AzureMgmtRecordedTestCase
         response = await self.client.container_apps.get_auth_token(
             resource_group_name=resource_group.name,
             container_app_name="str",
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         )
 
         # please add some check logic here by yourself
@@ -505,7 +511,7 @@ class TestContainerAppsAPIContainerAppsOperationsAsync(AzureMgmtRecordedTestCase
             await self.client.container_apps.begin_start(
                 resource_group_name=resource_group.name,
                 container_app_name="str",
-                api_version="2024-08-02-preview",
+                api_version="2024-10-02-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -519,7 +525,7 @@ class TestContainerAppsAPIContainerAppsOperationsAsync(AzureMgmtRecordedTestCase
             await self.client.container_apps.begin_stop(
                 resource_group_name=resource_group.name,
                 container_app_name="str",
-                api_version="2024-08-02-preview",
+                api_version="2024-10-02-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 

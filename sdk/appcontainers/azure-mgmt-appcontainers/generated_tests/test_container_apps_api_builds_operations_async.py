@@ -26,7 +26,7 @@ class TestContainerAppsAPIBuildsOperationsAsync(AzureMgmtRecordedTestCase):
             resource_group_name=resource_group.name,
             builder_name="str",
             build_name="str",
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         )
 
         # please add some check logic here by yourself
@@ -72,7 +72,7 @@ class TestContainerAppsAPIBuildsOperationsAsync(AzureMgmtRecordedTestCase):
                     "type": "str",
                     "uploadEndpoint": "str",
                 },
-                api_version="2024-08-02-preview",
+                api_version="2024-10-02-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -87,7 +87,7 @@ class TestContainerAppsAPIBuildsOperationsAsync(AzureMgmtRecordedTestCase):
                 resource_group_name=resource_group.name,
                 builder_name="str",
                 build_name="str",
-                api_version="2024-08-02-preview",
+                api_version="2024-10-02-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 

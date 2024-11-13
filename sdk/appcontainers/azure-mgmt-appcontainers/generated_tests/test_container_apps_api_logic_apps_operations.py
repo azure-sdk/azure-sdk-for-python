@@ -25,7 +25,7 @@ class TestContainerAppsAPILogicAppsOperations(AzureMgmtRecordedTestCase):
             resource_group_name=resource_group.name,
             container_app_name="str",
             logic_app_name="str",
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         )
 
         # please add some check logic here by yourself
@@ -52,7 +52,7 @@ class TestContainerAppsAPILogicAppsOperations(AzureMgmtRecordedTestCase):
                 },
                 "type": "str",
             },
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         )
 
         # please add some check logic here by yourself
@@ -65,7 +65,7 @@ class TestContainerAppsAPILogicAppsOperations(AzureMgmtRecordedTestCase):
             resource_group_name=resource_group.name,
             container_app_name="str",
             logic_app_name="str",
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         )
 
         # please add some check logic here by yourself
@@ -78,7 +78,7 @@ class TestContainerAppsAPILogicAppsOperations(AzureMgmtRecordedTestCase):
             resource_group_name=resource_group.name,
             container_app_name="str",
             logic_app_name="str",
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -92,7 +92,7 @@ class TestContainerAppsAPILogicAppsOperations(AzureMgmtRecordedTestCase):
             container_app_name="str",
             logic_app_name="str",
             workflow_name="str",
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         )
 
         # please add some check logic here by yourself
@@ -105,7 +105,7 @@ class TestContainerAppsAPILogicAppsOperations(AzureMgmtRecordedTestCase):
             resource_group_name=resource_group.name,
             container_app_name="str",
             logic_app_name="str",
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         )
 
         # please add some check logic here by yourself
@@ -118,7 +118,7 @@ class TestContainerAppsAPILogicAppsOperations(AzureMgmtRecordedTestCase):
             resource_group_name=resource_group.name,
             container_app_name="str",
             logic_app_name="str",
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         )
 
         # please add some check logic here by yourself
@@ -133,7 +133,7 @@ class TestContainerAppsAPILogicAppsOperations(AzureMgmtRecordedTestCase):
             logic_app_name="str",
             x_ms_logic_apps_proxy_path="str",
             x_ms_logic_apps_proxy_method="str",
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         )
 
         # please add some check logic here by yourself
