@@ -24,7 +24,7 @@ class TestContainerInstanceManagementLocationOperationsAsync(AzureMgmtRecordedTe
     async def test_list_usage(self, resource_group):
         response = self.client.location.list_usage(
             location="str",
-            api_version="2024-05-01-preview",
+            api_version="2024-11-01-preview",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -35,7 +35,7 @@ class TestContainerInstanceManagementLocationOperationsAsync(AzureMgmtRecordedTe
     async def test_list_cached_images(self, resource_group):
         response = self.client.location.list_cached_images(
             location="str",
-            api_version="2024-05-01-preview",
+            api_version="2024-11-01-preview",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -46,7 +46,7 @@ class TestContainerInstanceManagementLocationOperationsAsync(AzureMgmtRecordedTe
     async def test_list_capabilities(self, resource_group):
         response = self.client.location.list_capabilities(
             location="str",
-            api_version="2024-05-01-preview",
+            api_version="2024-11-01-preview",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself

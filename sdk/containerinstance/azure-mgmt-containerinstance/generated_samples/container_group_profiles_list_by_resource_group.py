@@ -30,13 +30,13 @@ def main():
         subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.container_group_profiles.list_by_resource_group(
+    response = client.cg_profiles.list_by_resource_group(
         resource_group_name="demo",
     )
     for item in response:
         print(item)
 
 
-# x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/preview/2024-05-01-preview/examples/ContainerGroupProfilesListByResourceGroup.json
+# x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/preview/2024-11-01-preview/examples/ContainerGroupProfilesListByResourceGroup.json
 if __name__ == "__main__":
     main()

@@ -43,7 +43,7 @@ def build_list_usage_request(location: str, subscription_id: str, **kwargs: Any)
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-01-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-11-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -71,7 +71,7 @@ def build_list_cached_images_request(location: str, subscription_id: str, **kwar
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-01-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-11-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -99,7 +99,7 @@ def build_list_capabilities_request(location: str, subscription_id: str, **kwarg
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-01-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-11-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
