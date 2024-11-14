@@ -8,7 +8,7 @@
 # --------------------------------------------------------------------------
 from io import IOBase
 import sys
-from typing import Any, Callable, Dict, IO, Iterable, Literal, Optional, Type, TypeVar, Union, cast, overload
+from typing import Any, Callable, Dict, IO, Iterable, Iterator, Literal, Optional, Type, TypeVar, Union, cast, overload
 import urllib.parse
 
 from azure.core.exceptions import (
@@ -17,13 +17,14 @@ from azure.core.exceptions import (
     ResourceExistsError,
     ResourceNotFoundError,
     ResourceNotModifiedError,
+    StreamClosedError,
+    StreamConsumedError,
     map_error,
 )
 from azure.core.paging import ItemPaged
 from azure.core.pipeline import PipelineResponse
-from azure.core.pipeline.transport import HttpResponse
 from azure.core.polling import LROPoller, NoPolling, PollingMethod
-from azure.core.rest import HttpRequest
+from azure.core.rest import HttpRequest, HttpResponse
 from azure.core.tracing.decorator import distributed_trace
 from azure.core.utils import case_insensitive_dict
 from azure.mgmt.core.exceptions import ARMErrorFormat
@@ -31,7 +32,6 @@ from azure.mgmt.core.polling.arm_polling import ARMPolling
 
 from .. import models as _models
 from ..._serialization import Serializer
-from .._vendor import _convert_request
 
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
@@ -699,7 +699,6 @@ class BlobContainersOperations:
                     headers=_headers,
                     params=_params,
                 )
-                _request = _convert_request(_request)
                 _request.url = self._client.format_url(_request.url)
 
             else:
@@ -715,7 +714,6 @@ class BlobContainersOperations:
                 _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                _request = _convert_request(_request)
                 _request.url = self._client.format_url(_request.url)
                 _request.method = "GET"
             return _request
@@ -885,7 +883,6 @@ class BlobContainersOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -899,11 +896,7 @@ class BlobContainersOperations:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
-        if response.status_code == 200:
-            deserialized = self._deserialize("BlobContainer", pipeline_response)
-
-        if response.status_code == 201:
-            deserialized = self._deserialize("BlobContainer", pipeline_response)
+        deserialized = self._deserialize("BlobContainer", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -1048,7 +1041,6 @@ class BlobContainersOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -1062,7 +1054,7 @@ class BlobContainersOperations:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("BlobContainer", pipeline_response)
+        deserialized = self._deserialize("BlobContainer", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -1114,7 +1106,6 @@ class BlobContainersOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -1128,7 +1119,7 @@ class BlobContainersOperations:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("BlobContainer", pipeline_response)
+        deserialized = self._deserialize("BlobContainer", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -1180,7 +1171,6 @@ class BlobContainersOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -1338,7 +1328,6 @@ class BlobContainersOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -1352,7 +1341,7 @@ class BlobContainersOperations:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("LegalHold", pipeline_response)
+        deserialized = self._deserialize("LegalHold", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -1497,7 +1486,6 @@ class BlobContainersOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -1511,7 +1499,7 @@ class BlobContainersOperations:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("LegalHold", pipeline_response)
+        deserialized = self._deserialize("LegalHold", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -1679,7 +1667,6 @@ class BlobContainersOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -1696,7 +1683,7 @@ class BlobContainersOperations:
         response_headers = {}
         response_headers["ETag"] = self._deserialize("str", response.headers.get("ETag"))
 
-        deserialized = self._deserialize("ImmutabilityPolicy", pipeline_response)
+        deserialized = self._deserialize("ImmutabilityPolicy", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, response_headers)  # type: ignore
@@ -1761,7 +1748,6 @@ class BlobContainersOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -1778,7 +1764,7 @@ class BlobContainersOperations:
         response_headers = {}
         response_headers["ETag"] = self._deserialize("str", response.headers.get("ETag"))
 
-        deserialized = self._deserialize("ImmutabilityPolicy", pipeline_response)
+        deserialized = self._deserialize("ImmutabilityPolicy", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, response_headers)  # type: ignore
@@ -1840,7 +1826,6 @@ class BlobContainersOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -1857,7 +1842,7 @@ class BlobContainersOperations:
         response_headers = {}
         response_headers["ETag"] = self._deserialize("str", response.headers.get("ETag"))
 
-        deserialized = self._deserialize("ImmutabilityPolicy", pipeline_response)
+        deserialized = self._deserialize("ImmutabilityPolicy", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, response_headers)  # type: ignore
@@ -1915,7 +1900,6 @@ class BlobContainersOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -1932,7 +1916,7 @@ class BlobContainersOperations:
         response_headers = {}
         response_headers["ETag"] = self._deserialize("str", response.headers.get("ETag"))
 
-        deserialized = self._deserialize("ImmutabilityPolicy", pipeline_response)
+        deserialized = self._deserialize("ImmutabilityPolicy", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, response_headers)  # type: ignore
@@ -2101,7 +2085,6 @@ class BlobContainersOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -2118,7 +2101,7 @@ class BlobContainersOperations:
         response_headers = {}
         response_headers["ETag"] = self._deserialize("str", response.headers.get("ETag"))
 
-        deserialized = self._deserialize("ImmutabilityPolicy", pipeline_response)
+        deserialized = self._deserialize("ImmutabilityPolicy", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, response_headers)  # type: ignore
@@ -2266,7 +2249,6 @@ class BlobContainersOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -2280,16 +2262,16 @@ class BlobContainersOperations:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("LeaseContainerResponse", pipeline_response)
+        deserialized = self._deserialize("LeaseContainerResponse", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
 
         return deserialized  # type: ignore
 
-    def _object_level_worm_initial(  # pylint: disable=inconsistent-return-statements
+    def _object_level_worm_initial(
         self, resource_group_name: str, account_name: str, container_name: str, **kwargs: Any
-    ) -> None:
+    ) -> Iterator[bytes]:
         error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
@@ -2302,7 +2284,7 @@ class BlobContainersOperations:
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-01-01"))
-        cls: ClsType[None] = kwargs.pop("cls", None)
+        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
 
         _request = build_object_level_worm_request(
             resource_group_name=resource_group_name,
@@ -2313,10 +2295,10 @@ class BlobContainersOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
-        _stream = False
+        _decompress = kwargs.pop("decompress", True)
+        _stream = True
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
@@ -2324,11 +2306,19 @@ class BlobContainersOperations:
         response = pipeline_response.http_response
 
         if response.status_code not in [200, 202]:
+            try:
+                response.read()  # Load the body in memory and close the socket
+            except (StreamConsumedError, StreamClosedError):
+                pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
+        deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
+
         if cls:
-            return cls(pipeline_response, None, {})  # type: ignore
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
 
     @distributed_trace
     def begin_object_level_worm(
@@ -2364,7 +2354,7 @@ class BlobContainersOperations:
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
         if cont_token is None:
-            raw_result = self._object_level_worm_initial(  # type: ignore
+            raw_result = self._object_level_worm_initial(
                 resource_group_name=resource_group_name,
                 account_name=account_name,
                 container_name=container_name,
@@ -2374,6 +2364,7 @@ class BlobContainersOperations:
                 params=_params,
                 **kwargs
             )
+            raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements

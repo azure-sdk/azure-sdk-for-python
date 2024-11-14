@@ -8,7 +8,7 @@
 # --------------------------------------------------------------------------
 from io import IOBase
 import sys
-from typing import Any, Callable, Dict, IO, Iterable, Literal, Optional, Type, TypeVar, Union, cast, overload
+from typing import Any, Callable, Dict, IO, Iterable, Iterator, Literal, Optional, Type, TypeVar, Union, cast, overload
 import urllib.parse
 
 from azure.core.exceptions import (
@@ -17,13 +17,14 @@ from azure.core.exceptions import (
     ResourceExistsError,
     ResourceNotFoundError,
     ResourceNotModifiedError,
+    StreamClosedError,
+    StreamConsumedError,
     map_error,
 )
 from azure.core.paging import ItemPaged
 from azure.core.pipeline import PipelineResponse
-from azure.core.pipeline.transport import HttpResponse
 from azure.core.polling import LROPoller, NoPolling, PollingMethod
-from azure.core.rest import HttpRequest
+from azure.core.rest import HttpRequest, HttpResponse
 from azure.core.tracing.decorator import distributed_trace
 from azure.core.utils import case_insensitive_dict
 from azure.mgmt.core.exceptions import ARMErrorFormat
@@ -31,7 +32,6 @@ from azure.mgmt.core.polling.arm_polling import ARMPolling
 
 from .. import models as _models
 from ..._serialization import Serializer
-from .._vendor import _convert_request
 
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
@@ -681,7 +681,6 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -695,7 +694,7 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("CheckNameAvailabilityResult", pipeline_response)
+        deserialized = self._deserialize("CheckNameAvailabilityResult", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -708,7 +707,7 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         account_name: str,
         parameters: Union[_models.StorageAccountCreateParameters, IO[bytes]],
         **kwargs: Any
-    ) -> Optional[_models.StorageAccount]:
+    ) -> Iterator[bytes]:
         error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
@@ -722,7 +721,7 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2021-08-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[Optional[_models.StorageAccount]] = kwargs.pop("cls", None)
+        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
 
         content_type = content_type or "application/json"
         _json = None
@@ -743,10 +742,10 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
-        _stream = False
+        _decompress = kwargs.pop("decompress", True)
+        _stream = True
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
@@ -754,12 +753,14 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         response = pipeline_response.http_response
 
         if response.status_code not in [200, 202]:
+            try:
+                response.read()  # Load the body in memory and close the socket
+            except (StreamConsumedError, StreamClosedError):
+                pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
-        deserialized = None
-        if response.status_code == 200:
-            deserialized = self._deserialize("StorageAccount", pipeline_response)
+        deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -882,10 +883,11 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
                 params=_params,
                 **kwargs
             )
+            raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):
-            deserialized = self._deserialize("StorageAccount", pipeline_response)
+            deserialized = self._deserialize("StorageAccount", pipeline_response.http_response)
             if cls:
                 return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
@@ -946,7 +948,6 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -1014,7 +1015,6 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -1028,7 +1028,7 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("StorageAccount", pipeline_response)
+        deserialized = self._deserialize("StorageAccount", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -1173,7 +1173,6 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -1187,7 +1186,7 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("StorageAccount", pipeline_response)
+        deserialized = self._deserialize("StorageAccount", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -1226,7 +1225,6 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
                     headers=_headers,
                     params=_params,
                 )
-                _request = _convert_request(_request)
                 _request.url = self._client.format_url(_request.url)
 
             else:
@@ -1242,7 +1240,6 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
                 _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                _request = _convert_request(_request)
                 _request.url = self._client.format_url(_request.url)
                 _request.method = "GET"
             return _request
@@ -1307,7 +1304,6 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
                     headers=_headers,
                     params=_params,
                 )
-                _request = _convert_request(_request)
                 _request.url = self._client.format_url(_request.url)
 
             else:
@@ -1323,7 +1319,6 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
                 _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                _request = _convert_request(_request)
                 _request.url = self._client.format_url(_request.url)
                 _request.method = "GET"
             return _request
@@ -1396,7 +1391,6 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -1410,7 +1404,7 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("StorageAccountListKeysResult", pipeline_response)
+        deserialized = self._deserialize("StorageAccountListKeysResult", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -1538,7 +1532,6 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -1552,7 +1545,7 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("StorageAccountListKeysResult", pipeline_response)
+        deserialized = self._deserialize("StorageAccountListKeysResult", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -1677,7 +1670,6 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -1691,7 +1683,7 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("ListAccountSasResponse", pipeline_response)
+        deserialized = self._deserialize("ListAccountSasResponse", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -1814,7 +1806,6 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -1828,16 +1819,14 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("ListServiceSasResponse", pipeline_response)
+        deserialized = self._deserialize("ListServiceSasResponse", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
 
         return deserialized  # type: ignore
 
-    def _failover_initial(  # pylint: disable=inconsistent-return-statements
-        self, resource_group_name: str, account_name: str, **kwargs: Any
-    ) -> None:
+    def _failover_initial(self, resource_group_name: str, account_name: str, **kwargs: Any) -> Iterator[bytes]:
         error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
@@ -1850,7 +1839,7 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2021-08-01"))
-        cls: ClsType[None] = kwargs.pop("cls", None)
+        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
 
         _request = build_failover_request(
             resource_group_name=resource_group_name,
@@ -1860,10 +1849,10 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
-        _stream = False
+        _decompress = kwargs.pop("decompress", True)
+        _stream = True
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
@@ -1871,11 +1860,19 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         response = pipeline_response.http_response
 
         if response.status_code not in [200, 202]:
+            try:
+                response.read()  # Load the body in memory and close the socket
+            except (StreamConsumedError, StreamClosedError):
+                pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
+        deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
+
         if cls:
-            return cls(pipeline_response, None, {})  # type: ignore
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
 
     @distributed_trace
     def begin_failover(self, resource_group_name: str, account_name: str, **kwargs: Any) -> LROPoller[None]:
@@ -1903,7 +1900,7 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
         if cont_token is None:
-            raw_result = self._failover_initial(  # type: ignore
+            raw_result = self._failover_initial(
                 resource_group_name=resource_group_name,
                 account_name=account_name,
                 api_version=api_version,
@@ -1912,6 +1909,7 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
                 params=_params,
                 **kwargs
             )
+            raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
@@ -1935,9 +1933,9 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
             )
         return LROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
-    def _hierarchical_namespace_migration_initial(  # pylint: disable=inconsistent-return-statements,name-too-long
+    def _hierarchical_namespace_migration_initial(  # pylint: disable=name-too-long
         self, resource_group_name: str, account_name: str, request_type: str, **kwargs: Any
-    ) -> None:
+    ) -> Iterator[bytes]:
         error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
@@ -1950,7 +1948,7 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2021-08-01"))
-        cls: ClsType[None] = kwargs.pop("cls", None)
+        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
 
         _request = build_hierarchical_namespace_migration_request(
             resource_group_name=resource_group_name,
@@ -1961,10 +1959,10 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
-        _stream = False
+        _decompress = kwargs.pop("decompress", True)
+        _stream = True
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
@@ -1972,12 +1970,20 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         response = pipeline_response.http_response
 
         if response.status_code not in [200, 202]:
+            try:
+                response.read()  # Load the body in memory and close the socket
+            except (StreamConsumedError, StreamClosedError):
+                pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
+        deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
+
         if cls:
-            return cls(pipeline_response, None, {})  # type: ignore
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
 
     @distributed_trace
     def begin_hierarchical_namespace_migration(
@@ -2010,7 +2016,7 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
         if cont_token is None:
-            raw_result = self._hierarchical_namespace_migration_initial(  # type: ignore
+            raw_result = self._hierarchical_namespace_migration_initial(
                 resource_group_name=resource_group_name,
                 account_name=account_name,
                 request_type=request_type,
@@ -2020,6 +2026,7 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
                 params=_params,
                 **kwargs
             )
+            raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
@@ -2043,9 +2050,9 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
             )
         return LROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
-    def _abort_hierarchical_namespace_migration_initial(  # pylint: disable=inconsistent-return-statements,name-too-long
+    def _abort_hierarchical_namespace_migration_initial(  # pylint: disable=name-too-long
         self, resource_group_name: str, account_name: str, **kwargs: Any
-    ) -> None:
+    ) -> Iterator[bytes]:
         error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
@@ -2058,7 +2065,7 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2021-08-01"))
-        cls: ClsType[None] = kwargs.pop("cls", None)
+        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
 
         _request = build_abort_hierarchical_namespace_migration_request(
             resource_group_name=resource_group_name,
@@ -2068,10 +2075,10 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
-        _stream = False
+        _decompress = kwargs.pop("decompress", True)
+        _stream = True
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
@@ -2079,12 +2086,20 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         response = pipeline_response.http_response
 
         if response.status_code not in [200, 202]:
+            try:
+                response.read()  # Load the body in memory and close the socket
+            except (StreamConsumedError, StreamClosedError):
+                pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
+        deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
+
         if cls:
-            return cls(pipeline_response, None, {})  # type: ignore
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
 
     @distributed_trace
     def begin_abort_hierarchical_namespace_migration(  # pylint: disable=name-too-long
@@ -2112,7 +2127,7 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
         if cont_token is None:
-            raw_result = self._abort_hierarchical_namespace_migration_initial(  # type: ignore
+            raw_result = self._abort_hierarchical_namespace_migration_initial(
                 resource_group_name=resource_group_name,
                 account_name=account_name,
                 api_version=api_version,
@@ -2121,6 +2136,7 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
                 params=_params,
                 **kwargs
             )
+            raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
@@ -2150,7 +2166,7 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         account_name: str,
         parameters: Union[_models.BlobRestoreParameters, IO[bytes]],
         **kwargs: Any
-    ) -> _models.BlobRestoreStatus:
+    ) -> Iterator[bytes]:
         error_map: MutableMapping[int, Type[HttpResponseError]] = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
@@ -2164,7 +2180,7 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2021-08-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.BlobRestoreStatus] = kwargs.pop("cls", None)
+        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
 
         content_type = content_type or "application/json"
         _json = None
@@ -2185,10 +2201,10 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
-        _stream = False
+        _decompress = kwargs.pop("decompress", True)
+        _stream = True
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
@@ -2196,14 +2212,14 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
         response = pipeline_response.http_response
 
         if response.status_code not in [200, 202]:
+            try:
+                response.read()  # Load the body in memory and close the socket
+            except (StreamConsumedError, StreamClosedError):
+                pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
-        if response.status_code == 200:
-            deserialized = self._deserialize("BlobRestoreStatus", pipeline_response)
-
-        if response.status_code == 202:
-            deserialized = self._deserialize("BlobRestoreStatus", pipeline_response)
+        deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -2316,10 +2332,11 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
                 params=_params,
                 **kwargs
             )
+            raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):
-            deserialized = self._deserialize("BlobRestoreStatus", pipeline_response)
+            deserialized = self._deserialize("BlobRestoreStatus", pipeline_response.http_response)
             if cls:
                 return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
@@ -2382,7 +2399,6 @@ class StorageAccountsOperations:  # pylint: disable=too-many-public-methods
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
