@@ -24,7 +24,7 @@ class TestContainerAppsAPIBuildsByBuilderResourceOperations(AzureMgmtRecordedTes
         response = self.client.builds_by_builder_resource.list(
             resource_group_name=resource_group.name,
             builder_name="str",
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself

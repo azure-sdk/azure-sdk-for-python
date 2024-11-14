@@ -27,7 +27,7 @@ class TestContainerAppsAPIFunctionsExtensionOperationsAsync(AzureMgmtRecordedTes
             container_app_name="str",
             revision_name="str",
             function_app_name="str",
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         )
 
         # please add some check logic here by yourself

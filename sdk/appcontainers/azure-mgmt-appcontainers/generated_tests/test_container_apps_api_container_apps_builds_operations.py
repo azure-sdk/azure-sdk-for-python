@@ -25,7 +25,7 @@ class TestContainerAppsAPIContainerAppsBuildsOperations(AzureMgmtRecordedTestCas
             resource_group_name=resource_group.name,
             container_app_name="str",
             build_name="str",
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         )
 
         # please add some check logic here by yourself
@@ -38,7 +38,7 @@ class TestContainerAppsAPIContainerAppsBuildsOperations(AzureMgmtRecordedTestCas
             resource_group_name=resource_group.name,
             container_app_name="str",
             build_name="str",
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
