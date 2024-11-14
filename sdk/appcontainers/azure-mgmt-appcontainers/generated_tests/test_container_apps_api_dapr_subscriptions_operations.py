@@ -24,7 +24,7 @@ class TestContainerAppsAPIDaprSubscriptionsOperations(AzureMgmtRecordedTestCase)
         response = self.client.dapr_subscriptions.list(
             resource_group_name=resource_group.name,
             environment_name="str",
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -37,7 +37,7 @@ class TestContainerAppsAPIDaprSubscriptionsOperations(AzureMgmtRecordedTestCase)
             resource_group_name=resource_group.name,
             environment_name="str",
             name="str",
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         )
 
         # please add some check logic here by yourself
@@ -70,7 +70,7 @@ class TestContainerAppsAPIDaprSubscriptionsOperations(AzureMgmtRecordedTestCase)
                 "topic": "str",
                 "type": "str",
             },
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         )
 
         # please add some check logic here by yourself
@@ -83,7 +83,7 @@ class TestContainerAppsAPIDaprSubscriptionsOperations(AzureMgmtRecordedTestCase)
             resource_group_name=resource_group.name,
             environment_name="str",
             name="str",
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         )
 
         # please add some check logic here by yourself

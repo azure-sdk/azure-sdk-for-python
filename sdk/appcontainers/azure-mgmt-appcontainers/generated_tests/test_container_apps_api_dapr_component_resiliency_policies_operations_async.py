@@ -26,7 +26,7 @@ class TestContainerAppsAPIDaprComponentResiliencyPoliciesOperationsAsync(AzureMg
             resource_group_name=resource_group.name,
             environment_name="str",
             component_name="str",
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -40,7 +40,7 @@ class TestContainerAppsAPIDaprComponentResiliencyPoliciesOperationsAsync(AzureMg
             environment_name="str",
             component_name="str",
             name="str",
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         )
 
         # please add some check logic here by yourself
@@ -83,7 +83,7 @@ class TestContainerAppsAPIDaprComponentResiliencyPoliciesOperationsAsync(AzureMg
                 },
                 "type": "str",
             },
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         )
 
         # please add some check logic here by yourself
@@ -97,7 +97,7 @@ class TestContainerAppsAPIDaprComponentResiliencyPoliciesOperationsAsync(AzureMg
             environment_name="str",
             component_name="str",
             name="str",
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         )
 
         # please add some check logic here by yourself
