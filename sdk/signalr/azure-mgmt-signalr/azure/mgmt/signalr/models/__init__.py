@@ -6,6 +6,9 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from ._models_py3 import ApplicationFirewallSettings
+from ._models_py3 import ClientConnectionCountRule
+from ._models_py3 import ClientTrafficControlRule
 from ._models_py3 import CustomCertificate
 from ._models_py3 import CustomCertificateList
 from ._models_py3 import CustomDomain
@@ -65,12 +68,20 @@ from ._models_py3 import Sku
 from ._models_py3 import SkuCapacity
 from ._models_py3 import SkuList
 from ._models_py3 import SystemData
+from ._models_py3 import ThrottleByJwtCustomClaimRule
+from ._models_py3 import ThrottleByJwtSignatureRule
+from ._models_py3 import ThrottleByUserIdRule
 from ._models_py3 import TrackedResource
+from ._models_py3 import TrafficThrottleByJwtCustomClaimRule
+from ._models_py3 import TrafficThrottleByJwtSignatureRule
+from ._models_py3 import TrafficThrottleByUserIdRule
 from ._models_py3 import UpstreamAuthSettings
 from ._models_py3 import UpstreamTemplate
 from ._models_py3 import UserAssignedIdentityProperty
 
 from ._signal_rmanagement_client_enums import ACLAction
+from ._signal_rmanagement_client_enums import ClientConnectionCountRuleDiscriminator
+from ._signal_rmanagement_client_enums import ClientTrafficControlRuleDiscriminator
 from ._signal_rmanagement_client_enums import CreatedByType
 from ._signal_rmanagement_client_enums import FeatureFlags
 from ._signal_rmanagement_client_enums import KeyType
@@ -88,6 +99,9 @@ from ._patch import *  # pylint: disable=unused-wildcard-import
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
+    "ApplicationFirewallSettings",
+    "ClientConnectionCountRule",
+    "ClientTrafficControlRule",
     "CustomCertificate",
     "CustomCertificateList",
     "CustomDomain",
@@ -147,11 +161,19 @@ __all__ = [
     "SkuCapacity",
     "SkuList",
     "SystemData",
+    "ThrottleByJwtCustomClaimRule",
+    "ThrottleByJwtSignatureRule",
+    "ThrottleByUserIdRule",
     "TrackedResource",
+    "TrafficThrottleByJwtCustomClaimRule",
+    "TrafficThrottleByJwtSignatureRule",
+    "TrafficThrottleByUserIdRule",
     "UpstreamAuthSettings",
     "UpstreamTemplate",
     "UserAssignedIdentityProperty",
     "ACLAction",
+    "ClientConnectionCountRuleDiscriminator",
+    "ClientTrafficControlRuleDiscriminator",
     "CreatedByType",
     "FeatureFlags",
     "KeyType",

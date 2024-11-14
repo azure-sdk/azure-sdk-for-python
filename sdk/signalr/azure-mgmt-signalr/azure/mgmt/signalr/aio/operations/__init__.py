@@ -14,6 +14,9 @@ from ._signal_rcustom_domains_operations import SignalRCustomDomainsOperations
 from ._signal_rprivate_endpoint_connections_operations import SignalRPrivateEndpointConnectionsOperations
 from ._signal_rprivate_link_resources_operations import SignalRPrivateLinkResourcesOperations
 from ._signal_rreplicas_operations import SignalRReplicasOperations
+from ._signal_rreplica_shared_private_link_resources_operations import (
+    SignalRReplicaSharedPrivateLinkResourcesOperations,
+)
 from ._signal_rshared_private_link_resources_operations import SignalRSharedPrivateLinkResourcesOperations
 
 from ._patch import __all__ as _patch_all
@@ -29,6 +32,7 @@ __all__ = [
     "SignalRPrivateEndpointConnectionsOperations",
     "SignalRPrivateLinkResourcesOperations",
     "SignalRReplicasOperations",
+    "SignalRReplicaSharedPrivateLinkResourcesOperations",
     "SignalRSharedPrivateLinkResourcesOperations",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])
