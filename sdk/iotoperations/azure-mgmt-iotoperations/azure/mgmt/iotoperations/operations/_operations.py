@@ -51,7 +51,7 @@ def build_operations_list_request(**kwargs: Any) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-11-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -72,7 +72,7 @@ def build_instance_get_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-11-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -101,7 +101,7 @@ def build_instance_create_or_update_request(
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-11-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -132,7 +132,7 @@ def build_instance_update_request(
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-11-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -162,7 +162,7 @@ def build_instance_delete_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-11-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -190,7 +190,7 @@ def build_instance_list_by_resource_group_request(  # pylint: disable=name-too-l
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-11-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -219,7 +219,7 @@ def build_instance_list_by_subscription_request(  # pylint: disable=name-too-lon
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-11-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -245,7 +245,7 @@ def build_broker_get_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-11-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -275,7 +275,7 @@ def build_broker_create_or_update_request(
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-11-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -306,7 +306,7 @@ def build_broker_delete_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-11-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -335,7 +335,7 @@ def build_broker_list_by_resource_group_request(  # pylint: disable=name-too-lon
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-11-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -368,7 +368,7 @@ def build_broker_listener_get_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-11-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -404,7 +404,7 @@ def build_broker_listener_create_or_update_request(  # pylint: disable=name-too-
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-11-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -441,7 +441,7 @@ def build_broker_listener_delete_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-11-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -471,7 +471,7 @@ def build_broker_listener_list_by_resource_group_request(  # pylint: disable=nam
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-11-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -505,7 +505,7 @@ def build_broker_authentication_get_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-11-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -541,7 +541,7 @@ def build_broker_authentication_create_or_update_request(  # pylint: disable=nam
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-11-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -578,7 +578,7 @@ def build_broker_authentication_delete_request(  # pylint: disable=name-too-long
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-11-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -608,7 +608,7 @@ def build_broker_authentication_list_by_resource_group_request(  # pylint: disab
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-11-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -642,7 +642,7 @@ def build_broker_authorization_get_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-11-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -678,7 +678,7 @@ def build_broker_authorization_create_or_update_request(  # pylint: disable=name
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-11-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -715,7 +715,7 @@ def build_broker_authorization_delete_request(  # pylint: disable=name-too-long
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-11-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -745,7 +745,7 @@ def build_broker_authorization_list_by_resource_group_request(  # pylint: disabl
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-11-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -774,7 +774,7 @@ def build_dataflow_profile_get_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-11-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -804,7 +804,7 @@ def build_dataflow_profile_create_or_update_request(  # pylint: disable=name-too
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-11-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -835,7 +835,7 @@ def build_dataflow_profile_delete_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-11-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -864,7 +864,7 @@ def build_dataflow_profile_list_by_resource_group_request(  # pylint: disable=na
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-11-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -897,7 +897,7 @@ def build_dataflow_get_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-11-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -933,7 +933,7 @@ def build_dataflow_create_or_update_request(
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-11-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -970,7 +970,7 @@ def build_dataflow_delete_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-11-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -1000,7 +1000,7 @@ def build_dataflow_list_by_resource_group_request(  # pylint: disable=name-too-l
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-11-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -1029,7 +1029,7 @@ def build_dataflow_endpoint_get_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-11-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -1059,7 +1059,7 @@ def build_dataflow_endpoint_create_or_update_request(  # pylint: disable=name-to
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-11-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -1090,7 +1090,7 @@ def build_dataflow_endpoint_delete_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-11-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -1119,7 +1119,7 @@ def build_dataflow_endpoint_list_by_resource_group_request(  # pylint: disable=n
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-11-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
