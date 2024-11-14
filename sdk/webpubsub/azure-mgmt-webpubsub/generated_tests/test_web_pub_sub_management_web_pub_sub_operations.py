@@ -24,7 +24,7 @@ class TestWebPubSubManagementWebPubSubOperations(AzureMgmtRecordedTestCase):
         response = self.client.web_pub_sub.check_name_availability(
             location="str",
             parameters={"name": "str", "type": "str"},
-            api_version="2024-03-01",
+            api_version="2024-10-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -34,7 +34,7 @@ class TestWebPubSubManagementWebPubSubOperations(AzureMgmtRecordedTestCase):
     @recorded_by_proxy
     def test_list_by_subscription(self, resource_group):
         response = self.client.web_pub_sub.list_by_subscription(
-            api_version="2024-03-01",
+            api_version="2024-10-01-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -45,7 +45,7 @@ class TestWebPubSubManagementWebPubSubOperations(AzureMgmtRecordedTestCase):
     def test_list_by_resource_group(self, resource_group):
         response = self.client.web_pub_sub.list_by_resource_group(
             resource_group_name=resource_group.name,
-            api_version="2024-03-01",
+            api_version="2024-10-01-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -57,7 +57,7 @@ class TestWebPubSubManagementWebPubSubOperations(AzureMgmtRecordedTestCase):
         response = self.client.web_pub_sub.get(
             resource_group_name=resource_group.name,
             resource_name="str",
-            api_version="2024-03-01",
+            api_version="2024-10-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -71,6 +71,10 @@ class TestWebPubSubManagementWebPubSubOperations(AzureMgmtRecordedTestCase):
             resource_name="str",
             parameters={
                 "location": "str",
+                "applicationFirewall": {
+                    "clientConnectionCountRules": ["client_connection_count_rule"],
+                    "clientTrafficControlRules": ["client_traffic_control_rule"],
+                },
                 "disableAadAuth": False,
                 "disableLocalAuth": False,
                 "externalIP": "str",
@@ -124,6 +128,7 @@ class TestWebPubSubManagementWebPubSubOperations(AzureMgmtRecordedTestCase):
                 "serverPort": 0,
                 "sharedPrivateLinkResources": [
                     {
+                        "fqdns": ["str"],
                         "groupId": "str",
                         "id": "str",
                         "name": "str",
@@ -157,7 +162,7 @@ class TestWebPubSubManagementWebPubSubOperations(AzureMgmtRecordedTestCase):
                 "type": "str",
                 "version": "str",
             },
-            api_version="2024-03-01",
+            api_version="2024-10-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -169,7 +174,7 @@ class TestWebPubSubManagementWebPubSubOperations(AzureMgmtRecordedTestCase):
         response = self.client.web_pub_sub.begin_delete(
             resource_group_name=resource_group.name,
             resource_name="str",
-            api_version="2024-03-01",
+            api_version="2024-10-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -183,6 +188,10 @@ class TestWebPubSubManagementWebPubSubOperations(AzureMgmtRecordedTestCase):
             resource_name="str",
             parameters={
                 "location": "str",
+                "applicationFirewall": {
+                    "clientConnectionCountRules": ["client_connection_count_rule"],
+                    "clientTrafficControlRules": ["client_traffic_control_rule"],
+                },
                 "disableAadAuth": False,
                 "disableLocalAuth": False,
                 "externalIP": "str",
@@ -236,6 +245,7 @@ class TestWebPubSubManagementWebPubSubOperations(AzureMgmtRecordedTestCase):
                 "serverPort": 0,
                 "sharedPrivateLinkResources": [
                     {
+                        "fqdns": ["str"],
                         "groupId": "str",
                         "id": "str",
                         "name": "str",
@@ -269,7 +279,7 @@ class TestWebPubSubManagementWebPubSubOperations(AzureMgmtRecordedTestCase):
                 "type": "str",
                 "version": "str",
             },
-            api_version="2024-03-01",
+            api_version="2024-10-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -281,7 +291,7 @@ class TestWebPubSubManagementWebPubSubOperations(AzureMgmtRecordedTestCase):
         response = self.client.web_pub_sub.list_keys(
             resource_group_name=resource_group.name,
             resource_name="str",
-            api_version="2024-03-01",
+            api_version="2024-10-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -294,7 +304,7 @@ class TestWebPubSubManagementWebPubSubOperations(AzureMgmtRecordedTestCase):
             resource_group_name=resource_group.name,
             resource_name="str",
             parameters={"keyType": "str"},
-            api_version="2024-03-01",
+            api_version="2024-10-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -307,7 +317,7 @@ class TestWebPubSubManagementWebPubSubOperations(AzureMgmtRecordedTestCase):
             resource_group_name=resource_group.name,
             resource_name="str",
             replica_name="str",
-            api_version="2024-03-01",
+            api_version="2024-10-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -319,7 +329,7 @@ class TestWebPubSubManagementWebPubSubOperations(AzureMgmtRecordedTestCase):
         response = self.client.web_pub_sub.begin_restart(
             resource_group_name=resource_group.name,
             resource_name="str",
-            api_version="2024-03-01",
+            api_version="2024-10-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -331,7 +341,7 @@ class TestWebPubSubManagementWebPubSubOperations(AzureMgmtRecordedTestCase):
         response = self.client.web_pub_sub.list_skus(
             resource_group_name=resource_group.name,
             resource_name="str",
-            api_version="2024-03-01",
+            api_version="2024-10-01-preview",
         )
 
         # please add some check logic here by yourself

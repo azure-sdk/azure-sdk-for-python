@@ -85,7 +85,7 @@ class WebPubSubOperations:
     ) -> _models.NameAvailability:
         """Checks that the resource name is valid and is not already in use.
 
-        :param location: the region. Required.
+        :param location: The region. Required.
         :type location: str
         :param parameters: Parameters supplied to the operation. Required.
         :type parameters: ~azure.mgmt.webpubsub.models.NameAvailabilityParameters
@@ -103,7 +103,7 @@ class WebPubSubOperations:
     ) -> _models.NameAvailability:
         """Checks that the resource name is valid and is not already in use.
 
-        :param location: the region. Required.
+        :param location: The region. Required.
         :type location: str
         :param parameters: Parameters supplied to the operation. Required.
         :type parameters: IO[bytes]
@@ -121,7 +121,7 @@ class WebPubSubOperations:
     ) -> _models.NameAvailability:
         """Checks that the resource name is valid and is not already in use.
 
-        :param location: the region. Required.
+        :param location: The region. Required.
         :type location: str
         :param parameters: Parameters supplied to the operation. Is either a NameAvailabilityParameters
          type or a IO[bytes] type. Required.

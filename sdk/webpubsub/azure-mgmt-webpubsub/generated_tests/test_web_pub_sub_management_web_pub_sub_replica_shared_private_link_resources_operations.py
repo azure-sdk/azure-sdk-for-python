@@ -25,7 +25,7 @@ class TestWebPubSubManagementWebPubSubReplicaSharedPrivateLinkResourcesOperation
             resource_group_name=resource_group.name,
             resource_name="str",
             replica_name="str",
-            api_version="2024-03-01",
+            api_version="2024-10-01-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -39,7 +39,7 @@ class TestWebPubSubManagementWebPubSubReplicaSharedPrivateLinkResourcesOperation
             resource_name="str",
             replica_name="str",
             shared_private_link_resource_name="str",
-            api_version="2024-03-01",
+            api_version="2024-10-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -54,6 +54,7 @@ class TestWebPubSubManagementWebPubSubReplicaSharedPrivateLinkResourcesOperation
             replica_name="str",
             shared_private_link_resource_name="str",
             parameters={
+                "fqdns": ["str"],
                 "groupId": "str",
                 "id": "str",
                 "name": "str",
@@ -71,7 +72,7 @@ class TestWebPubSubManagementWebPubSubReplicaSharedPrivateLinkResourcesOperation
                 },
                 "type": "str",
             },
-            api_version="2024-03-01",
+            api_version="2024-10-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself

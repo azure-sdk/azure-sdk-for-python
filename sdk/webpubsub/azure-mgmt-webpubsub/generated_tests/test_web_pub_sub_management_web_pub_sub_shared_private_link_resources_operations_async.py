@@ -25,7 +25,7 @@ class TestWebPubSubManagementWebPubSubSharedPrivateLinkResourcesOperationsAsync(
         response = self.client.web_pub_sub_shared_private_link_resources.list(
             resource_group_name=resource_group.name,
             resource_name="str",
-            api_version="2024-03-01",
+            api_version="2024-10-01-preview",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -38,7 +38,7 @@ class TestWebPubSubManagementWebPubSubSharedPrivateLinkResourcesOperationsAsync(
             shared_private_link_resource_name="str",
             resource_group_name=resource_group.name,
             resource_name="str",
-            api_version="2024-03-01",
+            api_version="2024-10-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -53,6 +53,7 @@ class TestWebPubSubManagementWebPubSubSharedPrivateLinkResourcesOperationsAsync(
                 resource_group_name=resource_group.name,
                 resource_name="str",
                 parameters={
+                    "fqdns": ["str"],
                     "groupId": "str",
                     "id": "str",
                     "name": "str",
@@ -70,7 +71,7 @@ class TestWebPubSubManagementWebPubSubSharedPrivateLinkResourcesOperationsAsync(
                     },
                     "type": "str",
                 },
-                api_version="2024-03-01",
+                api_version="2024-10-01-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -85,7 +86,7 @@ class TestWebPubSubManagementWebPubSubSharedPrivateLinkResourcesOperationsAsync(
                 shared_private_link_resource_name="str",
                 resource_group_name=resource_group.name,
                 resource_name="str",
-                api_version="2024-03-01",
+                api_version="2024-10-01-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 

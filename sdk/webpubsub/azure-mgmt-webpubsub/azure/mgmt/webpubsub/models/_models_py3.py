@@ -17,6 +17,118 @@ if TYPE_CHECKING:
     from .. import models as _models
 
 
+class ApplicationFirewallSettings(_serialization.Model):
+    """Application firewall settings for the resource.
+
+    :ivar client_connection_count_rules: Rules to control the client connection count.
+    :vartype client_connection_count_rules:
+     list[~azure.mgmt.webpubsub.models.ClientConnectionCountRule]
+    :ivar client_traffic_control_rules: Rules to control the client traffic.
+    :vartype client_traffic_control_rules:
+     list[~azure.mgmt.webpubsub.models.ClientTrafficControlRule]
+    """
+
+    _validation = {
+        "client_connection_count_rules": {"max_items": 10, "min_items": 0},
+        "client_traffic_control_rules": {"max_items": 10, "min_items": 0},
+    }
+
+    _attribute_map = {
+        "client_connection_count_rules": {"key": "clientConnectionCountRules", "type": "[ClientConnectionCountRule]"},
+        "client_traffic_control_rules": {"key": "clientTrafficControlRules", "type": "[ClientTrafficControlRule]"},
+    }
+
+    def __init__(
+        self,
+        *,
+        client_connection_count_rules: Optional[List["_models.ClientConnectionCountRule"]] = None,
+        client_traffic_control_rules: Optional[List["_models.ClientTrafficControlRule"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword client_connection_count_rules: Rules to control the client connection count.
+        :paramtype client_connection_count_rules:
+         list[~azure.mgmt.webpubsub.models.ClientConnectionCountRule]
+        :keyword client_traffic_control_rules: Rules to control the client traffic.
+        :paramtype client_traffic_control_rules:
+         list[~azure.mgmt.webpubsub.models.ClientTrafficControlRule]
+        """
+        super().__init__(**kwargs)
+        self.client_connection_count_rules = client_connection_count_rules
+        self.client_traffic_control_rules = client_traffic_control_rules
+
+
+class ClientConnectionCountRule(_serialization.Model):
+    """A base class for client connection count rules.
+
+    You probably want to use the sub-classes and not this class directly. Known sub-classes are:
+    ThrottleByJwtCustomClaimRule, ThrottleByJwtSignatureRule, ThrottleByUserIdRule
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar type: Required. Known values are: "ThrottleByJwtSignatureRule", "ThrottleByUserIdRule",
+     and "ThrottleByJwtCustomClaimRule".
+    :vartype type: str or ~azure.mgmt.webpubsub.models.ClientConnectionCountRuleDiscriminator
+    """
+
+    _validation = {
+        "type": {"required": True},
+    }
+
+    _attribute_map = {
+        "type": {"key": "type", "type": "str"},
+    }
+
+    _subtype_map = {
+        "type": {
+            "ThrottleByJwtCustomClaimRule": "ThrottleByJwtCustomClaimRule",
+            "ThrottleByJwtSignatureRule": "ThrottleByJwtSignatureRule",
+            "ThrottleByUserIdRule": "ThrottleByUserIdRule",
+        }
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.type: Optional[str] = None
+
+
+class ClientTrafficControlRule(_serialization.Model):
+    """A base class for client traffic control rules.
+
+    You probably want to use the sub-classes and not this class directly. Known sub-classes are:
+    TrafficThrottleByJwtCustomClaimRule, TrafficThrottleByJwtSignatureRule,
+    TrafficThrottleByUserIdRule
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar type: Required. Known values are: "TrafficThrottleByJwtSignatureRule",
+     "TrafficThrottleByUserIdRule", and "TrafficThrottleByJwtCustomClaimRule".
+    :vartype type: str or ~azure.mgmt.webpubsub.models.ClientTrafficControlRuleDiscriminator
+    """
+
+    _validation = {
+        "type": {"required": True},
+    }
+
+    _attribute_map = {
+        "type": {"key": "type", "type": "str"},
+    }
+
+    _subtype_map = {
+        "type": {
+            "TrafficThrottleByJwtCustomClaimRule": "TrafficThrottleByJwtCustomClaimRule",
+            "TrafficThrottleByJwtSignatureRule": "TrafficThrottleByJwtSignatureRule",
+            "TrafficThrottleByUserIdRule": "TrafficThrottleByUserIdRule",
+        }
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.type: Optional[str] = None
+
+
 class Resource(_serialization.Model):
     """Common fields that are returned in the response for all Azure Resource Manager resources.
 
@@ -422,11 +534,15 @@ class EventHandler(_serialization.Model):
 
     All required parameters must be populated in order to send to server.
 
-    :ivar url_template: Gets or sets the EventHandler URL template. You can use a predefined
-     parameter {hub} and {event} inside the template, the value of the EventHandler URL is
-     dynamically calculated when the client request comes in.
-     For example, UrlTemplate can be ``http://example.com/api/{hub}/{event}``. The host part can't
-     contains parameters. Required.
+    :ivar url_template: Gets or sets the URL template for the event handler. The actual URL is
+     calculated when the corresponding event is triggered.
+     The template supports predefined parameters syntax: ``{event}``\\ , ``{hub}``\\ , and KeyVault
+     reference syntax ``{@Microsoft.KeyVault(SecretUri=_your_secret_identifier_)}``
+     For example, if the template is ``http://example.com/api/{event}``\\ , when ``connect`` event
+     is triggered, a POST request will be sent to the URL ``http://example.com/chat/api/connect``.
+     Note: Parameters are not allowed in the hostname of the URL, and curly brackets ``{}`` are
+     reserved for parameter syntax only. If your URL path contains literal curly brackets, please
+     URL-encode them to ensure proper handling. Required.
     :vartype url_template: str
     :ivar user_event_pattern: Gets or sets the matching pattern for event names.
      There are 3 kinds of patterns supported:
@@ -465,11 +581,15 @@ class EventHandler(_serialization.Model):
         **kwargs: Any
     ) -> None:
         """
-        :keyword url_template: Gets or sets the EventHandler URL template. You can use a predefined
-         parameter {hub} and {event} inside the template, the value of the EventHandler URL is
-         dynamically calculated when the client request comes in.
-         For example, UrlTemplate can be ``http://example.com/api/{hub}/{event}``. The host part can't
-         contains parameters. Required.
+        :keyword url_template: Gets or sets the URL template for the event handler. The actual URL is
+         calculated when the corresponding event is triggered.
+         The template supports predefined parameters syntax: ``{event}``\\ , ``{hub}``\\ , and KeyVault
+         reference syntax ``{@Microsoft.KeyVault(SecretUri=_your_secret_identifier_)}``
+         For example, if the template is ``http://example.com/api/{event}``\\ , when ``connect`` event
+         is triggered, a POST request will be sent to the URL ``http://example.com/chat/api/connect``.
+         Note: Parameters are not allowed in the hostname of the URL, and curly brackets ``{}`` are
+         reserved for parameter syntax only. If your URL path contains literal curly brackets, please
+         URL-encode them to ensure proper handling. Required.
         :paramtype url_template: str
         :keyword user_event_pattern: Gets or sets the matching pattern for event names.
          There are 3 kinds of patterns supported:
@@ -531,7 +651,7 @@ class EventHubEndpoint(EventListenerEndpoint):
     :ivar type: Required. "EventHub"
     :vartype type: str or ~azure.mgmt.webpubsub.models.EventListenerEndpointDiscriminator
     :ivar fully_qualified_namespace: The fully qualified namespace name of the Event Hub resource.
-     For example, "example.servicebus.windows.net". Required.
+     Required.
     :vartype fully_qualified_namespace: str
     :ivar event_hub_name: The name of the Event Hub. Required.
     :vartype event_hub_name: str
@@ -552,7 +672,7 @@ class EventHubEndpoint(EventListenerEndpoint):
     def __init__(self, *, fully_qualified_namespace: str, event_hub_name: str, **kwargs: Any) -> None:
         """
         :keyword fully_qualified_namespace: The fully qualified namespace name of the Event Hub
-         resource. For example, "example.servicebus.windows.net". Required.
+         resource. Required.
         :paramtype fully_qualified_namespace: str
         :keyword event_hub_name: The name of the Event Hub. Required.
         :paramtype event_hub_name: str
@@ -2070,6 +2190,8 @@ class SharedPrivateLinkResource(ProxyResource):
     :ivar request_message: The request message for requesting approval of the shared private link
      resource.
     :vartype request_message: str
+    :ivar fqdns: A list of FQDNs for third party private link service.
+    :vartype fqdns: list[str]
     :ivar status: Status of the shared private link resource. Known values are: "Pending",
      "Approved", "Rejected", "Disconnected", and "Timeout".
     :vartype status: str or ~azure.mgmt.webpubsub.models.SharedPrivateLinkResourceStatus
@@ -2093,6 +2215,7 @@ class SharedPrivateLinkResource(ProxyResource):
         "private_link_resource_id": {"key": "properties.privateLinkResourceId", "type": "str"},
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
         "request_message": {"key": "properties.requestMessage", "type": "str"},
+        "fqdns": {"key": "properties.fqdns", "type": "[str]"},
         "status": {"key": "properties.status", "type": "str"},
     }
 
@@ -2102,6 +2225,7 @@ class SharedPrivateLinkResource(ProxyResource):
         group_id: Optional[str] = None,
         private_link_resource_id: Optional[str] = None,
         request_message: Optional[str] = None,
+        fqdns: Optional[List[str]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -2114,12 +2238,15 @@ class SharedPrivateLinkResource(ProxyResource):
         :keyword request_message: The request message for requesting approval of the shared private
          link resource.
         :paramtype request_message: str
+        :keyword fqdns: A list of FQDNs for third party private link service.
+        :paramtype fqdns: list[str]
         """
         super().__init__(**kwargs)
         self.group_id = group_id
         self.private_link_resource_id = private_link_resource_id
         self.provisioning_state = None
         self.request_message = request_message
+        self.fqdns = fqdns
         self.status = None
 
 
@@ -2445,6 +2572,286 @@ class SystemData(_serialization.Model):
         self.last_modified_by = last_modified_by
         self.last_modified_by_type = last_modified_by_type
         self.last_modified_at = last_modified_at
+
+
+class ThrottleByJwtCustomClaimRule(ClientConnectionCountRule):
+    """Throttle the client connection by a custom JWT claim.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar type: Required. Known values are: "ThrottleByJwtSignatureRule", "ThrottleByUserIdRule",
+     and "ThrottleByJwtCustomClaimRule".
+    :vartype type: str or ~azure.mgmt.webpubsub.models.ClientConnectionCountRuleDiscriminator
+    :ivar claim_name: The name of the claim in the JWT token. The client connection with the same
+     claim value will be aggregated. If the claim is not found in the token, the connection will be
+     allowed. Required.
+    :vartype claim_name: str
+    :ivar max_count: Maximum connection count allowed for the same Jwt claim value. Clients with
+     the same Jwt claim will get rejected if the connection count exceeds this value. Default value
+     is 20.
+    :vartype max_count: int
+    """
+
+    _validation = {
+        "type": {"required": True},
+        "claim_name": {"required": True},
+        "max_count": {"maximum": 2147483647, "minimum": 0},
+    }
+
+    _attribute_map = {
+        "type": {"key": "type", "type": "str"},
+        "claim_name": {"key": "claimName", "type": "str"},
+        "max_count": {"key": "maxCount", "type": "int"},
+    }
+
+    def __init__(self, *, claim_name: str, max_count: int = 20, **kwargs: Any) -> None:
+        """
+        :keyword claim_name: The name of the claim in the JWT token. The client connection with the
+         same claim value will be aggregated. If the claim is not found in the token, the connection
+         will be allowed. Required.
+        :paramtype claim_name: str
+        :keyword max_count: Maximum connection count allowed for the same Jwt claim value. Clients with
+         the same Jwt claim will get rejected if the connection count exceeds this value. Default value
+         is 20.
+        :paramtype max_count: int
+        """
+        super().__init__(**kwargs)
+        self.type: str = "ThrottleByJwtCustomClaimRule"
+        self.claim_name = claim_name
+        self.max_count = max_count
+
+
+class ThrottleByJwtSignatureRule(ClientConnectionCountRule):
+    """Throttle the client connection by the JWT signature.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar type: Required. Known values are: "ThrottleByJwtSignatureRule", "ThrottleByUserIdRule",
+     and "ThrottleByJwtCustomClaimRule".
+    :vartype type: str or ~azure.mgmt.webpubsub.models.ClientConnectionCountRuleDiscriminator
+    :ivar max_count: Maximum connection count allowed for the same JWT signature. Clients with the
+     same JWT signature will get rejected if the connection count exceeds this value. Default value
+     is 20.
+    :vartype max_count: int
+    """
+
+    _validation = {
+        "type": {"required": True},
+        "max_count": {"maximum": 2147483647, "minimum": 0},
+    }
+
+    _attribute_map = {
+        "type": {"key": "type", "type": "str"},
+        "max_count": {"key": "maxCount", "type": "int"},
+    }
+
+    def __init__(self, *, max_count: int = 20, **kwargs: Any) -> None:
+        """
+        :keyword max_count: Maximum connection count allowed for the same JWT signature. Clients with
+         the same JWT signature will get rejected if the connection count exceeds this value. Default
+         value is 20.
+        :paramtype max_count: int
+        """
+        super().__init__(**kwargs)
+        self.type: str = "ThrottleByJwtSignatureRule"
+        self.max_count = max_count
+
+
+class ThrottleByUserIdRule(ClientConnectionCountRule):
+    """Throttle the client connection by the user ID.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar type: Required. Known values are: "ThrottleByJwtSignatureRule", "ThrottleByUserIdRule",
+     and "ThrottleByJwtCustomClaimRule".
+    :vartype type: str or ~azure.mgmt.webpubsub.models.ClientConnectionCountRuleDiscriminator
+    :ivar max_count: Maximum connection count allowed for the same user ID. Clients with the same
+     user ID will get rejected if the connection count exceeds this value. Default value is 20.
+    :vartype max_count: int
+    """
+
+    _validation = {
+        "type": {"required": True},
+        "max_count": {"maximum": 2147483647, "minimum": 0},
+    }
+
+    _attribute_map = {
+        "type": {"key": "type", "type": "str"},
+        "max_count": {"key": "maxCount", "type": "int"},
+    }
+
+    def __init__(self, *, max_count: int = 20, **kwargs: Any) -> None:
+        """
+        :keyword max_count: Maximum connection count allowed for the same user ID. Clients with the
+         same user ID will get rejected if the connection count exceeds this value. Default value is 20.
+        :paramtype max_count: int
+        """
+        super().__init__(**kwargs)
+        self.type: str = "ThrottleByUserIdRule"
+        self.max_count = max_count
+
+
+class TrafficThrottleByJwtCustomClaimRule(ClientTrafficControlRule):
+    """Throttle the client traffic by a custom JWT claim.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar type: Required. Known values are: "TrafficThrottleByJwtSignatureRule",
+     "TrafficThrottleByUserIdRule", and "TrafficThrottleByJwtCustomClaimRule".
+    :vartype type: str or ~azure.mgmt.webpubsub.models.ClientTrafficControlRuleDiscriminator
+    :ivar claim_name: The name of the claim in the JWT token. The message bytes with the same claim
+     value will be aggregated. If the claim is not found in the token, the rule will be skipped.
+     Required.
+    :vartype claim_name: str
+    :ivar max_inbound_message_bytes: Maximum accumulated inbound message bytes allowed for the same
+     JWT signature within a time window. Clients with the same JWT claim will get disconnected if
+     the message bytes exceeds this value. Default value is 1GB.
+    :vartype max_inbound_message_bytes: int
+    :ivar aggregation_window_in_seconds: The aggregation window for the message bytes. The message
+     bytes will be aggregated in this window and be reset after the window. Default value is 60
+     seconds.
+    :vartype aggregation_window_in_seconds: int
+    """
+
+    _validation = {
+        "type": {"required": True},
+        "claim_name": {"required": True},
+        "max_inbound_message_bytes": {"minimum": 0},
+        "aggregation_window_in_seconds": {"maximum": 3600, "minimum": 10},
+    }
+
+    _attribute_map = {
+        "type": {"key": "type", "type": "str"},
+        "claim_name": {"key": "claimName", "type": "str"},
+        "max_inbound_message_bytes": {"key": "maxInboundMessageBytes", "type": "int"},
+        "aggregation_window_in_seconds": {"key": "aggregationWindowInSeconds", "type": "int"},
+    }
+
+    def __init__(
+        self,
+        *,
+        claim_name: str,
+        max_inbound_message_bytes: Optional[int] = None,
+        aggregation_window_in_seconds: int = 60,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword claim_name: The name of the claim in the JWT token. The message bytes with the same
+         claim value will be aggregated. If the claim is not found in the token, the rule will be
+         skipped. Required.
+        :paramtype claim_name: str
+        :keyword max_inbound_message_bytes: Maximum accumulated inbound message bytes allowed for the
+         same JWT signature within a time window. Clients with the same JWT claim will get disconnected
+         if the message bytes exceeds this value. Default value is 1GB.
+        :paramtype max_inbound_message_bytes: int
+        :keyword aggregation_window_in_seconds: The aggregation window for the message bytes. The
+         message bytes will be aggregated in this window and be reset after the window. Default value is
+         60 seconds.
+        :paramtype aggregation_window_in_seconds: int
+        """
+        super().__init__(**kwargs)
+        self.type: str = "TrafficThrottleByJwtCustomClaimRule"
+        self.claim_name = claim_name
+        self.max_inbound_message_bytes = max_inbound_message_bytes
+        self.aggregation_window_in_seconds = aggregation_window_in_seconds
+
+
+class TrafficThrottleByJwtSignatureRule(ClientTrafficControlRule):
+    """Throttle the client traffic by the JWT signature.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar type: Required. Known values are: "TrafficThrottleByJwtSignatureRule",
+     "TrafficThrottleByUserIdRule", and "TrafficThrottleByJwtCustomClaimRule".
+    :vartype type: str or ~azure.mgmt.webpubsub.models.ClientTrafficControlRuleDiscriminator
+    :ivar max_inbound_message_bytes: Maximum accumulated inbound message bytes allowed for the same
+     JWT signature within a time window. Clients with the same JWT signature will get disconnected
+     if the message bytes exceeds this value. Default value is 1GB.
+    :vartype max_inbound_message_bytes: int
+    :ivar aggregation_window_in_seconds: The aggregation window for the message bytes. The message
+     bytes will be aggregated in this window and be reset after the window. Default value is 60
+     seconds.
+    :vartype aggregation_window_in_seconds: int
+    """
+
+    _validation = {
+        "type": {"required": True},
+        "max_inbound_message_bytes": {"minimum": 0},
+        "aggregation_window_in_seconds": {"maximum": 3600, "minimum": 10},
+    }
+
+    _attribute_map = {
+        "type": {"key": "type", "type": "str"},
+        "max_inbound_message_bytes": {"key": "maxInboundMessageBytes", "type": "int"},
+        "aggregation_window_in_seconds": {"key": "aggregationWindowInSeconds", "type": "int"},
+    }
+
+    def __init__(
+        self, *, max_inbound_message_bytes: Optional[int] = None, aggregation_window_in_seconds: int = 60, **kwargs: Any
+    ) -> None:
+        """
+        :keyword max_inbound_message_bytes: Maximum accumulated inbound message bytes allowed for the
+         same JWT signature within a time window. Clients with the same JWT signature will get
+         disconnected if the message bytes exceeds this value. Default value is 1GB.
+        :paramtype max_inbound_message_bytes: int
+        :keyword aggregation_window_in_seconds: The aggregation window for the message bytes. The
+         message bytes will be aggregated in this window and be reset after the window. Default value is
+         60 seconds.
+        :paramtype aggregation_window_in_seconds: int
+        """
+        super().__init__(**kwargs)
+        self.type: str = "TrafficThrottleByJwtSignatureRule"
+        self.max_inbound_message_bytes = max_inbound_message_bytes
+        self.aggregation_window_in_seconds = aggregation_window_in_seconds
+
+
+class TrafficThrottleByUserIdRule(ClientTrafficControlRule):
+    """Throttle the client traffic by the user ID.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar type: Required. Known values are: "TrafficThrottleByJwtSignatureRule",
+     "TrafficThrottleByUserIdRule", and "TrafficThrottleByJwtCustomClaimRule".
+    :vartype type: str or ~azure.mgmt.webpubsub.models.ClientTrafficControlRuleDiscriminator
+    :ivar max_inbound_message_bytes: Maximum accumulated inbound message bytes allowed for the same
+     user ID within a time window. Clients with the same user ID will get disconnected if the
+     message bytes exceeds this value. Default value is 1GB.
+    :vartype max_inbound_message_bytes: int
+    :ivar aggregation_window_in_seconds: The aggregation window for the message bytes. The message
+     bytes will be aggregated in this window and be reset after the window. Default value is 60
+     seconds.
+    :vartype aggregation_window_in_seconds: int
+    """
+
+    _validation = {
+        "type": {"required": True},
+        "max_inbound_message_bytes": {"minimum": 0},
+        "aggregation_window_in_seconds": {"maximum": 3600, "minimum": 10},
+    }
+
+    _attribute_map = {
+        "type": {"key": "type", "type": "str"},
+        "max_inbound_message_bytes": {"key": "maxInboundMessageBytes", "type": "int"},
+        "aggregation_window_in_seconds": {"key": "aggregationWindowInSeconds", "type": "int"},
+    }
+
+    def __init__(
+        self, *, max_inbound_message_bytes: Optional[int] = None, aggregation_window_in_seconds: int = 60, **kwargs: Any
+    ) -> None:
+        """
+        :keyword max_inbound_message_bytes: Maximum accumulated inbound message bytes allowed for the
+         same user ID within a time window. Clients with the same user ID will get disconnected if the
+         message bytes exceeds this value. Default value is 1GB.
+        :paramtype max_inbound_message_bytes: int
+        :keyword aggregation_window_in_seconds: The aggregation window for the message bytes. The
+         message bytes will be aggregated in this window and be reset after the window. Default value is
+         60 seconds.
+        :paramtype aggregation_window_in_seconds: int
+        """
+        super().__init__(**kwargs)
+        self.type: str = "TrafficThrottleByUserIdRule"
+        self.max_inbound_message_bytes = max_inbound_message_bytes
+        self.aggregation_window_in_seconds = aggregation_window_in_seconds
 
 
 class UpstreamAuthSettings(_serialization.Model):
@@ -2810,6 +3217,8 @@ class WebPubSubResource(TrackedResource):  # pylint: disable=too-many-instance-a
     :vartype resource_log_configuration: ~azure.mgmt.webpubsub.models.ResourceLogConfiguration
     :ivar network_ac_ls: Network ACLs for the resource.
     :vartype network_ac_ls: ~azure.mgmt.webpubsub.models.WebPubSubNetworkACLs
+    :ivar application_firewall: Application firewall settings for the resource.
+    :vartype application_firewall: ~azure.mgmt.webpubsub.models.ApplicationFirewallSettings
     :ivar public_network_access: Enable or disable public network access. Default to "Enabled".
      When it's Enabled, network ACLs still apply.
      When it's Disabled, public network access is always disabled no matter what you set in network
@@ -2886,6 +3295,7 @@ class WebPubSubResource(TrackedResource):  # pylint: disable=too-many-instance-a
             "type": "ResourceLogConfiguration",
         },
         "network_ac_ls": {"key": "properties.networkACLs", "type": "WebPubSubNetworkACLs"},
+        "application_firewall": {"key": "properties.applicationFirewall", "type": "ApplicationFirewallSettings"},
         "public_network_access": {"key": "properties.publicNetworkAccess", "type": "str"},
         "disable_local_auth": {"key": "properties.disableLocalAuth", "type": "bool"},
         "disable_aad_auth": {"key": "properties.disableAadAuth", "type": "bool"},
@@ -2906,6 +3316,7 @@ class WebPubSubResource(TrackedResource):  # pylint: disable=too-many-instance-a
         live_trace_configuration: Optional["_models.LiveTraceConfiguration"] = None,
         resource_log_configuration: Optional["_models.ResourceLogConfiguration"] = None,
         network_ac_ls: Optional["_models.WebPubSubNetworkACLs"] = None,
+        application_firewall: Optional["_models.ApplicationFirewallSettings"] = None,
         public_network_access: str = "Enabled",
         disable_local_auth: bool = False,
         disable_aad_auth: bool = False,
@@ -2935,6 +3346,8 @@ class WebPubSubResource(TrackedResource):  # pylint: disable=too-many-instance-a
         :paramtype resource_log_configuration: ~azure.mgmt.webpubsub.models.ResourceLogConfiguration
         :keyword network_ac_ls: Network ACLs for the resource.
         :paramtype network_ac_ls: ~azure.mgmt.webpubsub.models.WebPubSubNetworkACLs
+        :keyword application_firewall: Application firewall settings for the resource.
+        :paramtype application_firewall: ~azure.mgmt.webpubsub.models.ApplicationFirewallSettings
         :keyword public_network_access: Enable or disable public network access. Default to "Enabled".
          When it's Enabled, network ACLs still apply.
          When it's Disabled, public network access is always disabled no matter what you set in network
@@ -2979,6 +3392,7 @@ class WebPubSubResource(TrackedResource):  # pylint: disable=too-many-instance-a
         self.live_trace_configuration = live_trace_configuration
         self.resource_log_configuration = resource_log_configuration
         self.network_ac_ls = network_ac_ls
+        self.application_firewall = application_firewall
         self.public_network_access = public_network_access
         self.disable_local_auth = disable_local_auth
         self.disable_aad_auth = disable_aad_auth

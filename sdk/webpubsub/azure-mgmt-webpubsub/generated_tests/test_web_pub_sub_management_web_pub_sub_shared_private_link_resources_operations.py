@@ -24,7 +24,7 @@ class TestWebPubSubManagementWebPubSubSharedPrivateLinkResourcesOperations(Azure
         response = self.client.web_pub_sub_shared_private_link_resources.list(
             resource_group_name=resource_group.name,
             resource_name="str",
-            api_version="2024-03-01",
+            api_version="2024-10-01-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -37,7 +37,7 @@ class TestWebPubSubManagementWebPubSubSharedPrivateLinkResourcesOperations(Azure
             shared_private_link_resource_name="str",
             resource_group_name=resource_group.name,
             resource_name="str",
-            api_version="2024-03-01",
+            api_version="2024-10-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -51,6 +51,7 @@ class TestWebPubSubManagementWebPubSubSharedPrivateLinkResourcesOperations(Azure
             resource_group_name=resource_group.name,
             resource_name="str",
             parameters={
+                "fqdns": ["str"],
                 "groupId": "str",
                 "id": "str",
                 "name": "str",
@@ -68,7 +69,7 @@ class TestWebPubSubManagementWebPubSubSharedPrivateLinkResourcesOperations(Azure
                 },
                 "type": "str",
             },
-            api_version="2024-03-01",
+            api_version="2024-10-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -81,7 +82,7 @@ class TestWebPubSubManagementWebPubSubSharedPrivateLinkResourcesOperations(Azure
             shared_private_link_resource_name="str",
             resource_group_name=resource_group.name,
             resource_name="str",
-            api_version="2024-03-01",
+            api_version="2024-10-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
