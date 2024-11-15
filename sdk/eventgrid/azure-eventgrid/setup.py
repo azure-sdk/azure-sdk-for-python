@@ -13,7 +13,7 @@ from setuptools import setup, find_packages
 
 
 PACKAGE_NAME = "azure-eventgrid"
-PACKAGE_PPRINT_NAME = "Azure Event Grid"
+PACKAGE_PPRINT_NAME = "Azure Event Grid System Events"
 
 # a-b-c => a/b/c
 package_folder_path = PACKAGE_NAME.replace("-", "/")
@@ -38,7 +38,7 @@ setup(
     url="https://github.com/Azure/azure-sdk-for-python/tree/main/sdk",
     keywords="azure, azure sdk",
     classifiers=[
-        "Development Status :: 5 - Production/Stable",
+        "Development Status :: 4 - Beta",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3 :: Only",
         "Programming Language :: Python :: 3",
