@@ -1,5 +1,5 @@
-# coding=utf-8
 # pylint: disable=too-many-lines
+# coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -16,10 +16,9 @@ from .. import _serialization
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 JSON = MutableMapping[str, Any]  # pylint: disable=unsubscriptable-object
 
@@ -925,7 +924,7 @@ class AzureResource(_serialization.Model):
         self.tags = None
 
 
-class BatchAccount(AzureResource):  # pylint: disable=too-many-instance-attributes
+class BatchAccount(AzureResource):
     """Contains information about an Azure Batch account.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1503,7 +1502,7 @@ class BatchPoolIdentity(_serialization.Model):
         self.user_assigned_identities = user_assigned_identities
 
 
-class Certificate(AzureProxyResource):  # pylint: disable=too-many-instance-attributes
+class Certificate(AzureProxyResource):
     """Contains information about a certificate.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -3021,8 +3020,8 @@ class InboundNatPool(_serialization.Model):
     :ivar protocol: The protocol of the endpoint. Required. Known values are: "TCP" and "UDP".
     :vartype protocol: str or ~azure.mgmt.batch.models.InboundEndpointProtocol
     :ivar backend_port: This must be unique within a Batch pool. Acceptable values are between 1
-     and 65535 except for 22, 3389, 29876 and 29877 as these are reserved. If any reserved values
-     are provided the request fails with HTTP status code 400. Required.
+     and 65535 except for 29876 and 29877 as these are reserved. If any reserved values are provided
+     the request fails with HTTP status code 400. Required.
     :vartype backend_port: int
     :ivar frontend_port_range_start: Acceptable values range between 1 and 65534 except ports from
      50000 to 55000 which are reserved. All ranges within a pool must be distinct and cannot
@@ -3079,8 +3078,8 @@ class InboundNatPool(_serialization.Model):
         :keyword protocol: The protocol of the endpoint. Required. Known values are: "TCP" and "UDP".
         :paramtype protocol: str or ~azure.mgmt.batch.models.InboundEndpointProtocol
         :keyword backend_port: This must be unique within a Batch pool. Acceptable values are between 1
-         and 65535 except for 22, 3389, 29876 and 29877 as these are reserved. If any reserved values
-         are provided the request fails with HTTP status code 400. Required.
+         and 65535 except for 29876 and 29877 as these are reserved. If any reserved values are provided
+         the request fails with HTTP status code 400. Required.
         :paramtype backend_port: int
         :keyword frontend_port_range_start: Acceptable values range between 1 and 65534 except ports
          from 50000 to 55000 which are reserved. All ranges within a pool must be distinct and cannot
@@ -3587,9 +3586,8 @@ class NetworkConfiguration(_serialization.Model):
      communication to the compute nodes in the specified subnet is denied by an NSG, then the Batch
      service will set the state of the compute nodes to unusable. If the specified VNet has any
      associated Network Security Groups (NSG), then a few reserved system ports must be enabled for
-     inbound communication. Enable ports 29876 and 29877, as well as port 22 for Linux and port 3389
-     for Windows. Also enable outbound connections to Azure Storage on port 443. For more details
-     see:
+     inbound communication，including ports 29876 and 29877. Also enable outbound connections to
+     Azure Storage on port 443. For more details see:
      https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration.
     :vartype subnet_id: str
     :ivar dynamic_vnet_assignment_scope: The scope of dynamic vnet assignment. Known values are:
@@ -3641,9 +3639,8 @@ class NetworkConfiguration(_serialization.Model):
          communication to the compute nodes in the specified subnet is denied by an NSG, then the Batch
          service will set the state of the compute nodes to unusable. If the specified VNet has any
          associated Network Security Groups (NSG), then a few reserved system ports must be enabled for
-         inbound communication. Enable ports 29876 and 29877, as well as port 22 for Linux and port 3389
-         for Windows. Also enable outbound connections to Azure Storage on port 443. For more details
-         see:
+         inbound communication，including ports 29876 and 29877. Also enable outbound connections to
+         Azure Storage on port 443. For more details see:
          https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration.
         :paramtype subnet_id: str
         :keyword dynamic_vnet_assignment_scope: The scope of dynamic vnet assignment. Known values are:
@@ -4383,7 +4380,7 @@ class OutboundEnvironmentEndpointCollection(_serialization.Model):
         self.next_link = next_link
 
 
-class Pool(AzureProxyResource):  # pylint: disable=too-many-instance-attributes
+class Pool(AzureProxyResource):
     """Contains information about a pool.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -6162,7 +6159,7 @@ class UserIdentity(_serialization.Model):
         self.auto_user = auto_user
 
 
-class VirtualMachineConfiguration(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class VirtualMachineConfiguration(_serialization.Model):
     """The configuration for compute nodes in a pool based on the Azure Virtual Machines
     infrastructure.
 
