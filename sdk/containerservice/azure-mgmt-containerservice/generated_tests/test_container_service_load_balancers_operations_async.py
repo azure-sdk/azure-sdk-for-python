@@ -21,11 +21,11 @@ class TestContainerServiceLoadBalancersOperationsAsync(AzureMgmtRecordedTestCase
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_by_managed_cluster(self, resource_group):
+    async def test_load_balancers_list_by_managed_cluster(self, resource_group):
         response = self.client.load_balancers.list_by_managed_cluster(
             resource_group_name=resource_group.name,
             resource_name="str",
-            api_version="2024-03-02-preview",
+            api_version="2024-10-02-preview",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -33,12 +33,12 @@ class TestContainerServiceLoadBalancersOperationsAsync(AzureMgmtRecordedTestCase
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get(self, resource_group):
+    async def test_load_balancers_get(self, resource_group):
         response = await self.client.load_balancers.get(
             resource_group_name=resource_group.name,
             resource_name="str",
             load_balancer_name="str",
-            api_version="2024-03-02-preview",
+            api_version="2024-10-02-preview",
         )
 
         # please add some check logic here by yourself
@@ -46,12 +46,12 @@ class TestContainerServiceLoadBalancersOperationsAsync(AzureMgmtRecordedTestCase
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_create_or_update(self, resource_group):
+    async def test_load_balancers_create_or_update(self, resource_group):
         response = await self.client.load_balancers.create_or_update(
             resource_group_name=resource_group.name,
             resource_name="str",
             load_balancer_name="str",
-            api_version="2024-03-02-preview",
+            api_version="2024-10-02-preview",
         )
 
         # please add some check logic here by yourself
@@ -59,13 +59,13 @@ class TestContainerServiceLoadBalancersOperationsAsync(AzureMgmtRecordedTestCase
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_delete(self, resource_group):
+    async def test_load_balancers_begin_delete(self, resource_group):
         response = await (
             await self.client.load_balancers.begin_delete(
                 resource_group_name=resource_group.name,
                 resource_name="str",
                 load_balancer_name="str",
-                api_version="2024-03-02-preview",
+                api_version="2024-10-02-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 

@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines,too-many-statements
+# pylint: disable=too-many-lines
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8,7 +8,7 @@
 # --------------------------------------------------------------------------
 from io import IOBase
 import sys
-from typing import Any, AsyncIterable, AsyncIterator, Callable, Dict, IO, Optional, Type, TypeVar, Union, cast, overload
+from typing import Any, AsyncIterable, AsyncIterator, Callable, Dict, IO, Optional, TypeVar, Union, cast, overload
 import urllib.parse
 
 from azure.core.async_paging import AsyncItemPaged, AsyncList
@@ -60,7 +60,7 @@ from ...operations._managed_clusters_operations import (
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -102,7 +102,7 @@ class ManagedClustersOperations:  # pylint: disable=too-many-public-methods
         :rtype: ~azure.mgmt.containerservice.v2023_01_02_preview.models.OSOptionProfile
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -165,7 +165,7 @@ class ManagedClustersOperations:  # pylint: disable=too-many-public-methods
         )
         cls: ClsType[_models.ManagedClusterListResult] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -249,7 +249,7 @@ class ManagedClustersOperations:  # pylint: disable=too-many-public-methods
         )
         cls: ClsType[_models.ManagedClusterListResult] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -327,7 +327,7 @@ class ManagedClustersOperations:  # pylint: disable=too-many-public-methods
         :rtype: ~azure.mgmt.containerservice.v2023_01_02_preview.models.ManagedClusterUpgradeProfile
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -393,7 +393,7 @@ class ManagedClustersOperations:  # pylint: disable=too-many-public-methods
         :rtype: ~azure.mgmt.containerservice.v2023_01_02_preview.models.ManagedClusterAccessProfile
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -457,7 +457,7 @@ class ManagedClustersOperations:  # pylint: disable=too-many-public-methods
         :rtype: ~azure.mgmt.containerservice.v2023_01_02_preview.models.CredentialResults
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -531,7 +531,7 @@ class ManagedClustersOperations:  # pylint: disable=too-many-public-methods
         :rtype: ~azure.mgmt.containerservice.v2023_01_02_preview.models.CredentialResults
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -596,7 +596,7 @@ class ManagedClustersOperations:  # pylint: disable=too-many-public-methods
         :rtype: ~azure.mgmt.containerservice.v2023_01_02_preview.models.CredentialResults
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -656,7 +656,7 @@ class ManagedClustersOperations:  # pylint: disable=too-many-public-methods
         :rtype: ~azure.mgmt.containerservice.v2023_01_02_preview.models.ManagedCluster
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -707,7 +707,7 @@ class ManagedClustersOperations:  # pylint: disable=too-many-public-methods
         parameters: Union[_models.ManagedCluster, IO[bytes]],
         **kwargs: Any
     ) -> AsyncIterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -913,7 +913,7 @@ class ManagedClustersOperations:  # pylint: disable=too-many-public-methods
         parameters: Union[_models.TagsObject, IO[bytes]],
         **kwargs: Any
     ) -> AsyncIterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1119,7 +1119,7 @@ class ManagedClustersOperations:  # pylint: disable=too-many-public-methods
         ignore_pod_disruption_budget: Optional[bool] = None,
         **kwargs: Any
     ) -> AsyncIterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1247,7 +1247,7 @@ class ManagedClustersOperations:  # pylint: disable=too-many-public-methods
         parameters: Union[_models.ManagedClusterServicePrincipalProfile, IO[bytes]],
         **kwargs: Any
     ) -> AsyncIterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1451,7 +1451,7 @@ class ManagedClustersOperations:  # pylint: disable=too-many-public-methods
         parameters: Union[_models.ManagedClusterAADProfile, IO[bytes]],
         **kwargs: Any
     ) -> AsyncIterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1656,7 +1656,7 @@ class ManagedClustersOperations:  # pylint: disable=too-many-public-methods
     async def _abort_latest_operation_initial(
         self, resource_group_name: str, resource_name: str, **kwargs: Any
     ) -> AsyncIterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1778,7 +1778,7 @@ class ManagedClustersOperations:  # pylint: disable=too-many-public-methods
     async def _rotate_cluster_certificates_initial(
         self, resource_group_name: str, resource_name: str, **kwargs: Any
     ) -> AsyncIterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1896,7 +1896,7 @@ class ManagedClustersOperations:  # pylint: disable=too-many-public-methods
     async def _rotate_service_account_signing_keys_initial(  # pylint: disable=name-too-long
         self, resource_group_name: str, resource_name: str, **kwargs: Any
     ) -> AsyncIterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -2011,7 +2011,7 @@ class ManagedClustersOperations:  # pylint: disable=too-many-public-methods
         return AsyncLROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     async def _stop_initial(self, resource_group_name: str, resource_name: str, **kwargs: Any) -> AsyncIterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -2128,7 +2128,7 @@ class ManagedClustersOperations:  # pylint: disable=too-many-public-methods
         return AsyncLROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     async def _start_initial(self, resource_group_name: str, resource_name: str, **kwargs: Any) -> AsyncIterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -2248,7 +2248,7 @@ class ManagedClustersOperations:  # pylint: disable=too-many-public-methods
         request_payload: Union[_models.RunCommandRequest, IO[bytes]],
         **kwargs: Any
     ) -> AsyncIterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -2479,7 +2479,7 @@ class ManagedClustersOperations:  # pylint: disable=too-many-public-methods
         :rtype: ~azure.mgmt.containerservice.v2023_01_02_preview.models.RunCommandResult or None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -2534,6 +2534,7 @@ class ManagedClustersOperations:  # pylint: disable=too-many-public-methods
     def list_outbound_network_dependencies_endpoints(  # pylint: disable=name-too-long
         self, resource_group_name: str, resource_name: str, **kwargs: Any
     ) -> AsyncIterable["_models.OutboundEnvironmentEndpoint"]:
+        # pylint: disable=line-too-long
         """Gets a list of egress endpoints (network endpoints of all outbound dependencies) in the
         specified managed cluster.
 
@@ -2559,7 +2560,7 @@ class ManagedClustersOperations:  # pylint: disable=too-many-public-methods
         )
         cls: ClsType[_models.OutboundEnvironmentEndpointCollection] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
