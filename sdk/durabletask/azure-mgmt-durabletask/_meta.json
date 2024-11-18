@@ -1,0 +1,6 @@
+{
+  "commit": "9257f207b534a22f33617d37a52346b518b363bb",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/durabletask/DurableTask.Management",
+  "@azure-tools/typespec-python": "0.36.4"
+}
