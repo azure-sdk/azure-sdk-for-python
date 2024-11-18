@@ -1,0 +1,6 @@
+{
+  "commit": "8dffa5a5466520f790559c7390ecef7c782f4cf3",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/connectedcache/ConnectedCache.Management",
+  "@azure-tools/typespec-python": "0.36.4"
+}
