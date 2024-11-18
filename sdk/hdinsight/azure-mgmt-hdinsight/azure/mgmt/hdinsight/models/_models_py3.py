@@ -1,5 +1,5 @@
-# coding=utf-8
 # pylint: disable=too-many-lines
+# coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -16,10 +16,9 @@ from .. import _serialization
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 JSON = MutableMapping[str, Any]  # pylint: disable=unsubscriptable-object
 
@@ -352,7 +351,7 @@ class ApplicationListResult(_serialization.Model):
         self.next_link = None
 
 
-class ApplicationProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class ApplicationProperties(_serialization.Model):
     """The HDInsight cluster application GET response.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1267,7 +1266,7 @@ class ClusterCreateParametersExtended(_serialization.Model):
         self.identity = identity
 
 
-class ClusterCreateProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class ClusterCreateProperties(_serialization.Model):
     """The cluster create parameters.
 
     :ivar cluster_version: The version of the cluster.
@@ -1600,7 +1599,7 @@ class ClusterDiskEncryptionParameters(_serialization.Model):
         self.key_version = key_version
 
 
-class ClusterGetProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class ClusterGetProperties(_serialization.Model):
     """The properties of cluster.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1983,7 +1982,8 @@ class ClusterPatchParameters(_serialization.Model):
 
     :ivar tags: The resource tags.
     :vartype tags: dict[str, str]
-    :ivar identity: The identity of the cluster, if configured.
+    :ivar identity: The identity of the cluster, if configured. Setting this property will override
+     the existing identity configuration of the cluster.
     :vartype identity: ~azure.mgmt.hdinsight.models.ClusterIdentity
     """
 
@@ -2002,7 +2002,8 @@ class ClusterPatchParameters(_serialization.Model):
         """
         :keyword tags: The resource tags.
         :paramtype tags: dict[str, str]
-        :keyword identity: The identity of the cluster, if configured.
+        :keyword identity: The identity of the cluster, if configured. Setting this property will
+         override the existing identity configuration of the cluster.
         :paramtype identity: ~azure.mgmt.hdinsight.models.ClusterIdentity
         """
         super().__init__(**kwargs)
@@ -2503,6 +2504,8 @@ class GatewaySettings(_serialization.Model):
     :vartype user_name: str
     :ivar password: The gateway settings user password.
     :vartype password: str
+    :ivar entra_users: List of Entra user emails for gateway access.
+    :vartype entra_users: list[str]
     """
 
     _validation = {
@@ -2515,14 +2518,19 @@ class GatewaySettings(_serialization.Model):
         "is_credential_enabled": {"key": "restAuthCredential\\.isEnabled", "type": "str"},
         "user_name": {"key": "restAuthCredential\\.username", "type": "str"},
         "password": {"key": "restAuthCredential\\.password", "type": "str"},
+        "entra_users": {"key": "entraUsers", "type": "[str]"},
     }
 
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
+    def __init__(self, *, entra_users: Optional[List[str]] = None, **kwargs: Any) -> None:
+        """
+        :keyword entra_users: List of Entra user emails for gateway access.
+        :paramtype entra_users: list[str]
+        """
         super().__init__(**kwargs)
         self.is_credential_enabled = None
         self.user_name = None
         self.password = None
+        self.entra_users = entra_users
 
 
 class HardwareProfile(_serialization.Model):
@@ -2801,7 +2809,7 @@ class LocalizedName(_serialization.Model):
         self.localized_value = localized_value
 
 
-class MetricSpecifications(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class MetricSpecifications(_serialization.Model):
     """The details of metric specifications.
 
     :ivar name: The name of the metric specification.
@@ -3672,7 +3680,7 @@ class ResourceId(_serialization.Model):
         self.id = id
 
 
-class Role(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class Role(_serialization.Model):
     """Describes a role on the cluster.
 
     :ivar name: The name of the role.
@@ -3822,7 +3830,7 @@ class RuntimeScriptAction(_serialization.Model):
         self.application_name = None
 
 
-class RuntimeScriptActionDetail(RuntimeScriptAction):  # pylint: disable=too-many-instance-attributes
+class RuntimeScriptActionDetail(RuntimeScriptAction):
     """The execution details of a script action.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -4455,7 +4463,8 @@ class UpdateClusterIdentityCertificateParameters(_serialization.Model):  # pylin
 
 
 class UpdateGatewaySettingsParameters(_serialization.Model):
-    """The update gateway settings request parameters.
+    """The update gateway settings request parameters. Plz note either basic or entraUsers should be
+    selected at a time.
 
     :ivar is_credential_enabled: Indicates whether or not the gateway settings based authorization
      is enabled.
@@ -4464,12 +4473,15 @@ class UpdateGatewaySettingsParameters(_serialization.Model):
     :vartype user_name: str
     :ivar password: The gateway settings user password.
     :vartype password: str
+    :ivar entra_users: List of Entra user emails for gateway access.
+    :vartype entra_users: list[str]
     """
 
     _attribute_map = {
         "is_credential_enabled": {"key": "restAuthCredential\\.isEnabled", "type": "bool"},
         "user_name": {"key": "restAuthCredential\\.username", "type": "str"},
         "password": {"key": "restAuthCredential\\.password", "type": "str"},
+        "entra_users": {"key": "entraUsers", "type": "[str]"},
     }
 
     def __init__(
@@ -4478,6 +4490,7 @@ class UpdateGatewaySettingsParameters(_serialization.Model):
         is_credential_enabled: bool = True,
         user_name: Optional[str] = None,
         password: Optional[str] = None,
+        entra_users: Optional[List[str]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -4488,11 +4501,14 @@ class UpdateGatewaySettingsParameters(_serialization.Model):
         :paramtype user_name: str
         :keyword password: The gateway settings user password.
         :paramtype password: str
+        :keyword entra_users: List of Entra user emails for gateway access.
+        :paramtype entra_users: list[str]
         """
         super().__init__(**kwargs)
         self.is_credential_enabled = is_credential_enabled
         self.user_name = user_name
         self.password = password
+        self.entra_users = entra_users
 
 
 class Usage(_serialization.Model):

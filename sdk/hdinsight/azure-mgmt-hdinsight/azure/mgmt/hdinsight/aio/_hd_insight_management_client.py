@@ -33,11 +33,10 @@ from .operations import (
 )
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from azure.core.credentials_async import AsyncTokenCredential
 
 
-class HDInsightManagementClient:  # pylint: disable=client-accepts-api-version-keyword,too-many-instance-attributes
+class HDInsightManagementClient:  # pylint: disable=too-many-instance-attributes
     """HDInsight Management Client.
 
     :ivar applications: ApplicationsOperations operations

@@ -21,7 +21,7 @@ class TestHDInsightManagementLocationsOperationsAsync(AzureMgmtRecordedTestCase)
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get_capabilities(self, resource_group):
+    async def test_locations_get_capabilities(self, resource_group):
         response = await self.client.locations.get_capabilities(
             location="str",
             api_version="2024-08-01-preview",
@@ -32,7 +32,7 @@ class TestHDInsightManagementLocationsOperationsAsync(AzureMgmtRecordedTestCase)
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_usages(self, resource_group):
+    async def test_locations_list_usages(self, resource_group):
         response = await self.client.locations.list_usages(
             location="str",
             api_version="2024-08-01-preview",
@@ -43,7 +43,7 @@ class TestHDInsightManagementLocationsOperationsAsync(AzureMgmtRecordedTestCase)
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_billing_specs(self, resource_group):
+    async def test_locations_list_billing_specs(self, resource_group):
         response = await self.client.locations.list_billing_specs(
             location="str",
             api_version="2024-08-01-preview",
@@ -54,7 +54,7 @@ class TestHDInsightManagementLocationsOperationsAsync(AzureMgmtRecordedTestCase)
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get_azure_async_operation_status(self, resource_group):
+    async def test_locations_get_azure_async_operation_status(self, resource_group):
         response = await self.client.locations.get_azure_async_operation_status(
             location="str",
             operation_id="str",
@@ -66,7 +66,7 @@ class TestHDInsightManagementLocationsOperationsAsync(AzureMgmtRecordedTestCase)
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_check_name_availability(self, resource_group):
+    async def test_locations_check_name_availability(self, resource_group):
         response = await self.client.locations.check_name_availability(
             location="str",
             parameters={"name": "str", "type": "str"},
@@ -78,7 +78,7 @@ class TestHDInsightManagementLocationsOperationsAsync(AzureMgmtRecordedTestCase)
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_validate_cluster_create_request(self, resource_group):
+    async def test_locations_validate_cluster_create_request(self, resource_group):
         response = await self.client.locations.validate_cluster_create_request(
             location="str",
             parameters={
