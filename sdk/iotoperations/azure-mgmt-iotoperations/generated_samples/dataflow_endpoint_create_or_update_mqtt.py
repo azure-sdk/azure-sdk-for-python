@@ -59,6 +59,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: 2024-09-15-preview/DataflowEndpoint_CreateOrUpdate_MQTT.json
+# x-ms-original-file: 2025-01-01-preview/DataflowEndpoint_CreateOrUpdate_MQTT.json
 if __name__ == "__main__":
     main()

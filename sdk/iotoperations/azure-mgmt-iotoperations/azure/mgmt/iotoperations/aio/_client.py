@@ -22,9 +22,11 @@ from .operations import (
     BrokerAuthorizationOperations,
     BrokerListenerOperations,
     BrokerOperations,
+    BrokersOperations,
     DataflowEndpointOperations,
     DataflowOperations,
     DataflowProfileOperations,
+    DataflowsOperations,
     InstanceOperations,
     Operations,
 )
@@ -36,6 +38,10 @@ if TYPE_CHECKING:
 class IoTOperationsMgmtClient:  # pylint: disable=too-many-instance-attributes
     """Microsoft.IoTOperations Resource Provider management API.
 
+    :ivar brokers: BrokersOperations operations
+    :vartype brokers: azure.mgmt.iotoperations.aio.operations.BrokersOperations
+    :ivar dataflows: DataflowsOperations operations
+    :vartype dataflows: azure.mgmt.iotoperations.aio.operations.DataflowsOperations
     :ivar operations: Operations operations
     :vartype operations: azure.mgmt.iotoperations.aio.operations.Operations
     :ivar instance: InstanceOperations operations
@@ -63,7 +69,7 @@ class IoTOperationsMgmtClient:  # pylint: disable=too-many-instance-attributes
     :param base_url: Service host. Default value is "https://management.azure.com".
     :type base_url: str
     :keyword api_version: The API version to use for this operation. Default value is
-     "2024-09-15-preview". Note that overriding this default value may result in unsupported
+     "2025-01-01-preview". Note that overriding this default value may result in unsupported
      behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
@@ -104,6 +110,8 @@ class IoTOperationsMgmtClient:  # pylint: disable=too-many-instance-attributes
         self._serialize = Serializer()
         self._deserialize = Deserializer()
         self._serialize.client_side_validation = False
+        self.brokers = BrokersOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.dataflows = DataflowsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.operations = Operations(self._client, self._config, self._serialize, self._deserialize)
         self.instance = InstanceOperations(self._client, self._config, self._serialize, self._deserialize)
         self.broker = BrokerOperations(self._client, self._config, self._serialize, self._deserialize)

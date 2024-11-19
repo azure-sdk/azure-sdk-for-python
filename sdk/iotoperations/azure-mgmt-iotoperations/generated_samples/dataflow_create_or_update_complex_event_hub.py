@@ -95,6 +95,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: 2024-09-15-preview/Dataflow_CreateOrUpdate_ComplexEventHub.json
+# x-ms-original-file: 2025-01-01-preview/Dataflow_CreateOrUpdate_ComplexEventHub.json
 if __name__ == "__main__":
     main()

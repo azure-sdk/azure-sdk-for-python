@@ -78,6 +78,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: 2024-09-15-preview/BrokerAuthorization_CreateOrUpdate_Complex.json
+# x-ms-original-file: 2025-01-01-preview/BrokerAuthorization_CreateOrUpdate_Complex.json
 if __name__ == "__main__":
     main()

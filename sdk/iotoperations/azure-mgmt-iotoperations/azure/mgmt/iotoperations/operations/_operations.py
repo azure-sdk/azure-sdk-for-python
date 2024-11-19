@@ -51,7 +51,7 @@ def build_operations_list_request(**kwargs: Any) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-01-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -72,7 +72,7 @@ def build_instance_get_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-01-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -101,7 +101,7 @@ def build_instance_create_or_update_request(
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-01-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -132,7 +132,7 @@ def build_instance_update_request(
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-01-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -162,7 +162,7 @@ def build_instance_delete_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-01-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -190,7 +190,7 @@ def build_instance_list_by_resource_group_request(  # pylint: disable=name-too-l
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-01-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -219,7 +219,7 @@ def build_instance_list_by_subscription_request(  # pylint: disable=name-too-lon
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-01-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -245,7 +245,7 @@ def build_broker_get_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-01-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -275,7 +275,7 @@ def build_broker_create_or_update_request(
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-01-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -306,7 +306,7 @@ def build_broker_delete_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-01-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -335,7 +335,7 @@ def build_broker_list_by_resource_group_request(  # pylint: disable=name-too-lon
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-01-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -368,7 +368,7 @@ def build_broker_listener_get_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-01-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -404,7 +404,7 @@ def build_broker_listener_create_or_update_request(  # pylint: disable=name-too-
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-01-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -441,7 +441,7 @@ def build_broker_listener_delete_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-01-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -471,7 +471,7 @@ def build_broker_listener_list_by_resource_group_request(  # pylint: disable=nam
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-01-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -505,7 +505,7 @@ def build_broker_authentication_get_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-01-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -541,7 +541,7 @@ def build_broker_authentication_create_or_update_request(  # pylint: disable=nam
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-01-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -578,7 +578,7 @@ def build_broker_authentication_delete_request(  # pylint: disable=name-too-long
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-01-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -608,7 +608,7 @@ def build_broker_authentication_list_by_resource_group_request(  # pylint: disab
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-01-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -642,7 +642,7 @@ def build_broker_authorization_get_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-01-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -678,7 +678,7 @@ def build_broker_authorization_create_or_update_request(  # pylint: disable=name
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-01-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -715,7 +715,7 @@ def build_broker_authorization_delete_request(  # pylint: disable=name-too-long
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-01-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -745,7 +745,7 @@ def build_broker_authorization_list_by_resource_group_request(  # pylint: disabl
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-01-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -774,7 +774,7 @@ def build_dataflow_profile_get_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-01-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -804,7 +804,7 @@ def build_dataflow_profile_create_or_update_request(  # pylint: disable=name-too
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-01-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -835,7 +835,7 @@ def build_dataflow_profile_delete_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-01-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -864,7 +864,7 @@ def build_dataflow_profile_list_by_resource_group_request(  # pylint: disable=na
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-01-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -897,7 +897,7 @@ def build_dataflow_get_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-01-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -933,7 +933,7 @@ def build_dataflow_create_or_update_request(
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-01-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -970,7 +970,7 @@ def build_dataflow_delete_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-01-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -1000,7 +1000,7 @@ def build_dataflow_list_by_resource_group_request(  # pylint: disable=name-too-l
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-01-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -1029,7 +1029,7 @@ def build_dataflow_endpoint_get_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-01-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -1059,7 +1059,7 @@ def build_dataflow_endpoint_create_or_update_request(  # pylint: disable=name-to
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-01-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -1090,7 +1090,7 @@ def build_dataflow_endpoint_delete_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-01-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -1119,7 +1119,7 @@ def build_dataflow_endpoint_list_by_resource_group_request(  # pylint: disable=n
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-01-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -1139,6 +1139,42 @@ def build_dataflow_endpoint_list_by_resource_group_request(  # pylint: disable=n
     _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+class BrokersOperations:
+    """
+    .. warning::
+        **DO NOT** instantiate this class directly.
+
+        Instead, you should access the following operations through
+        :class:`~azure.mgmt.iotoperations.IoTOperationsMgmtClient`'s
+        :attr:`brokers` attribute.
+    """
+
+    def __init__(self, *args, **kwargs):
+        input_args = list(args)
+        self._client = input_args.pop(0) if input_args else kwargs.pop("client")
+        self._config = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
+        self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
+
+
+class DataflowsOperations:
+    """
+    .. warning::
+        **DO NOT** instantiate this class directly.
+
+        Instead, you should access the following operations through
+        :class:`~azure.mgmt.iotoperations.IoTOperationsMgmtClient`'s
+        :attr:`dataflows` attribute.
+    """
+
+    def __init__(self, *args, **kwargs):
+        input_args = list(args)
+        self._client = input_args.pop(0) if input_args else kwargs.pop("client")
+        self._config = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
+        self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
 
 class Operations:
@@ -2577,8 +2613,8 @@ class BrokerListenerOperations:
     @distributed_trace
     def get(
         self, resource_group_name: str, instance_name: str, broker_name: str, listener_name: str, **kwargs: Any
-    ) -> _models.BrokerListenerResource:
-        """Get a BrokerListenerResource.
+    ) -> _models.ListenerResource:
+        """Get a ListenerResource.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
@@ -2589,8 +2625,8 @@ class BrokerListenerOperations:
         :type broker_name: str
         :param listener_name: Name of Instance broker listener resource. Required.
         :type listener_name: str
-        :return: BrokerListenerResource. The BrokerListenerResource is compatible with MutableMapping
-        :rtype: ~azure.mgmt.iotoperations.models.BrokerListenerResource
+        :return: ListenerResource. The ListenerResource is compatible with MutableMapping
+        :rtype: ~azure.mgmt.iotoperations.models.ListenerResource
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -2604,7 +2640,7 @@ class BrokerListenerOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[_models.BrokerListenerResource] = kwargs.pop("cls", None)
+        cls: ClsType[_models.ListenerResource] = kwargs.pop("cls", None)
 
         _request = build_broker_listener_get_request(
             resource_group_name=resource_group_name,
@@ -2641,7 +2677,7 @@ class BrokerListenerOperations:
         if _stream:
             deserialized = response.iter_bytes()
         else:
-            deserialized = _deserialize(_models.BrokerListenerResource, response.json())
+            deserialized = _deserialize(_models.ListenerResource, response.json())
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -2654,7 +2690,7 @@ class BrokerListenerOperations:
         instance_name: str,
         broker_name: str,
         listener_name: str,
-        resource: Union[_models.BrokerListenerResource, JSON, IO[bytes]],
+        resource: Union[_models.ListenerResource, JSON, IO[bytes]],
         **kwargs: Any
     ) -> Iterator[bytes]:
         error_map: MutableMapping = {
@@ -2732,12 +2768,12 @@ class BrokerListenerOperations:
         instance_name: str,
         broker_name: str,
         listener_name: str,
-        resource: _models.BrokerListenerResource,
+        resource: _models.ListenerResource,
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> LROPoller[_models.BrokerListenerResource]:
-        """Create a BrokerListenerResource.
+    ) -> LROPoller[_models.ListenerResource]:
+        """Create a ListenerResource.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
@@ -2749,13 +2785,13 @@ class BrokerListenerOperations:
         :param listener_name: Name of Instance broker listener resource. Required.
         :type listener_name: str
         :param resource: Resource create parameters. Required.
-        :type resource: ~azure.mgmt.iotoperations.models.BrokerListenerResource
+        :type resource: ~azure.mgmt.iotoperations.models.ListenerResource
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of LROPoller that returns BrokerListenerResource. The
-         BrokerListenerResource is compatible with MutableMapping
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.iotoperations.models.BrokerListenerResource]
+        :return: An instance of LROPoller that returns ListenerResource. The ListenerResource is
+         compatible with MutableMapping
+        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.iotoperations.models.ListenerResource]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -2770,8 +2806,8 @@ class BrokerListenerOperations:
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> LROPoller[_models.BrokerListenerResource]:
-        """Create a BrokerListenerResource.
+    ) -> LROPoller[_models.ListenerResource]:
+        """Create a ListenerResource.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
@@ -2787,9 +2823,9 @@ class BrokerListenerOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of LROPoller that returns BrokerListenerResource. The
-         BrokerListenerResource is compatible with MutableMapping
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.iotoperations.models.BrokerListenerResource]
+        :return: An instance of LROPoller that returns ListenerResource. The ListenerResource is
+         compatible with MutableMapping
+        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.iotoperations.models.ListenerResource]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -2804,8 +2840,8 @@ class BrokerListenerOperations:
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> LROPoller[_models.BrokerListenerResource]:
-        """Create a BrokerListenerResource.
+    ) -> LROPoller[_models.ListenerResource]:
+        """Create a ListenerResource.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
@@ -2821,9 +2857,9 @@ class BrokerListenerOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of LROPoller that returns BrokerListenerResource. The
-         BrokerListenerResource is compatible with MutableMapping
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.iotoperations.models.BrokerListenerResource]
+        :return: An instance of LROPoller that returns ListenerResource. The ListenerResource is
+         compatible with MutableMapping
+        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.iotoperations.models.ListenerResource]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -2834,10 +2870,10 @@ class BrokerListenerOperations:
         instance_name: str,
         broker_name: str,
         listener_name: str,
-        resource: Union[_models.BrokerListenerResource, JSON, IO[bytes]],
+        resource: Union[_models.ListenerResource, JSON, IO[bytes]],
         **kwargs: Any
-    ) -> LROPoller[_models.BrokerListenerResource]:
-        """Create a BrokerListenerResource.
+    ) -> LROPoller[_models.ListenerResource]:
+        """Create a ListenerResource.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
@@ -2848,19 +2884,19 @@ class BrokerListenerOperations:
         :type broker_name: str
         :param listener_name: Name of Instance broker listener resource. Required.
         :type listener_name: str
-        :param resource: Resource create parameters. Is one of the following types:
-         BrokerListenerResource, JSON, IO[bytes] Required.
-        :type resource: ~azure.mgmt.iotoperations.models.BrokerListenerResource or JSON or IO[bytes]
-        :return: An instance of LROPoller that returns BrokerListenerResource. The
-         BrokerListenerResource is compatible with MutableMapping
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.iotoperations.models.BrokerListenerResource]
+        :param resource: Resource create parameters. Is one of the following types: ListenerResource,
+         JSON, IO[bytes] Required.
+        :type resource: ~azure.mgmt.iotoperations.models.ListenerResource or JSON or IO[bytes]
+        :return: An instance of LROPoller that returns ListenerResource. The ListenerResource is
+         compatible with MutableMapping
+        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.iotoperations.models.ListenerResource]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = kwargs.pop("params", {}) or {}
 
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.BrokerListenerResource] = kwargs.pop("cls", None)
+        cls: ClsType[_models.ListenerResource] = kwargs.pop("cls", None)
         polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
@@ -2882,7 +2918,7 @@ class BrokerListenerOperations:
 
         def get_long_running_output(pipeline_response):
             response = pipeline_response.http_response
-            deserialized = _deserialize(_models.BrokerListenerResource, response.json())
+            deserialized = _deserialize(_models.ListenerResource, response.json())
             if cls:
                 return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
@@ -2900,13 +2936,13 @@ class BrokerListenerOperations:
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller[_models.BrokerListenerResource].from_continuation_token(
+            return LROPoller[_models.ListenerResource].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller[_models.BrokerListenerResource](
+        return LROPoller[_models.ListenerResource](
             self._client, raw_result, get_long_running_output, polling_method  # type: ignore
         )
 
@@ -2973,7 +3009,7 @@ class BrokerListenerOperations:
     def begin_delete(
         self, resource_group_name: str, instance_name: str, broker_name: str, listener_name: str, **kwargs: Any
     ) -> LROPoller[None]:
-        """Delete a BrokerListenerResource.
+        """Delete a ListenerResource.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
@@ -3037,8 +3073,8 @@ class BrokerListenerOperations:
     @distributed_trace
     def list_by_resource_group(
         self, resource_group_name: str, instance_name: str, broker_name: str, **kwargs: Any
-    ) -> Iterable["_models.BrokerListenerResource"]:
-        """List BrokerListenerResource resources by BrokerResource.
+    ) -> Iterable["_models.ListenerResource"]:
+        """List ListenerResource resources by BrokerResource.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
@@ -3047,14 +3083,14 @@ class BrokerListenerOperations:
         :type instance_name: str
         :param broker_name: Name of broker. Required.
         :type broker_name: str
-        :return: An iterator like instance of BrokerListenerResource
-        :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.iotoperations.models.BrokerListenerResource]
+        :return: An iterator like instance of ListenerResource
+        :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.iotoperations.models.ListenerResource]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[List[_models.BrokerListenerResource]] = kwargs.pop("cls", None)
+        cls: ClsType[List[_models.ListenerResource]] = kwargs.pop("cls", None)
 
         error_map: MutableMapping = {
             401: ClientAuthenticationError,
@@ -3107,7 +3143,7 @@ class BrokerListenerOperations:
 
         def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.BrokerListenerResource], deserialized["value"])
+            list_of_elem = _deserialize(List[_models.ListenerResource], deserialized["value"])
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
             return deserialized.get("nextLink") or None, iter(list_of_elem)
@@ -3151,8 +3187,8 @@ class BrokerAuthenticationOperations:
     @distributed_trace
     def get(
         self, resource_group_name: str, instance_name: str, broker_name: str, authentication_name: str, **kwargs: Any
-    ) -> _models.BrokerAuthenticationResource:
-        """Get a BrokerAuthenticationResource.
+    ) -> _models.AuthenticationResource:
+        """Get a AuthenticationResource.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
@@ -3163,9 +3199,8 @@ class BrokerAuthenticationOperations:
         :type broker_name: str
         :param authentication_name: Name of Instance broker authentication resource. Required.
         :type authentication_name: str
-        :return: BrokerAuthenticationResource. The BrokerAuthenticationResource is compatible with
-         MutableMapping
-        :rtype: ~azure.mgmt.iotoperations.models.BrokerAuthenticationResource
+        :return: AuthenticationResource. The AuthenticationResource is compatible with MutableMapping
+        :rtype: ~azure.mgmt.iotoperations.models.AuthenticationResource
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -3179,7 +3214,7 @@ class BrokerAuthenticationOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[_models.BrokerAuthenticationResource] = kwargs.pop("cls", None)
+        cls: ClsType[_models.AuthenticationResource] = kwargs.pop("cls", None)
 
         _request = build_broker_authentication_get_request(
             resource_group_name=resource_group_name,
@@ -3216,7 +3251,7 @@ class BrokerAuthenticationOperations:
         if _stream:
             deserialized = response.iter_bytes()
         else:
-            deserialized = _deserialize(_models.BrokerAuthenticationResource, response.json())
+            deserialized = _deserialize(_models.AuthenticationResource, response.json())
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -3229,7 +3264,7 @@ class BrokerAuthenticationOperations:
         instance_name: str,
         broker_name: str,
         authentication_name: str,
-        resource: Union[_models.BrokerAuthenticationResource, JSON, IO[bytes]],
+        resource: Union[_models.AuthenticationResource, JSON, IO[bytes]],
         **kwargs: Any
     ) -> Iterator[bytes]:
         error_map: MutableMapping = {
@@ -3307,12 +3342,12 @@ class BrokerAuthenticationOperations:
         instance_name: str,
         broker_name: str,
         authentication_name: str,
-        resource: _models.BrokerAuthenticationResource,
+        resource: _models.AuthenticationResource,
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> LROPoller[_models.BrokerAuthenticationResource]:
-        """Create a BrokerAuthenticationResource.
+    ) -> LROPoller[_models.AuthenticationResource]:
+        """Create a AuthenticationResource.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
@@ -3324,14 +3359,13 @@ class BrokerAuthenticationOperations:
         :param authentication_name: Name of Instance broker authentication resource. Required.
         :type authentication_name: str
         :param resource: Resource create parameters. Required.
-        :type resource: ~azure.mgmt.iotoperations.models.BrokerAuthenticationResource
+        :type resource: ~azure.mgmt.iotoperations.models.AuthenticationResource
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of LROPoller that returns BrokerAuthenticationResource. The
-         BrokerAuthenticationResource is compatible with MutableMapping
-        :rtype:
-         ~azure.core.polling.LROPoller[~azure.mgmt.iotoperations.models.BrokerAuthenticationResource]
+        :return: An instance of LROPoller that returns AuthenticationResource. The
+         AuthenticationResource is compatible with MutableMapping
+        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.iotoperations.models.AuthenticationResource]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -3346,8 +3380,8 @@ class BrokerAuthenticationOperations:
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> LROPoller[_models.BrokerAuthenticationResource]:
-        """Create a BrokerAuthenticationResource.
+    ) -> LROPoller[_models.AuthenticationResource]:
+        """Create a AuthenticationResource.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
@@ -3363,10 +3397,9 @@ class BrokerAuthenticationOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of LROPoller that returns BrokerAuthenticationResource. The
-         BrokerAuthenticationResource is compatible with MutableMapping
-        :rtype:
-         ~azure.core.polling.LROPoller[~azure.mgmt.iotoperations.models.BrokerAuthenticationResource]
+        :return: An instance of LROPoller that returns AuthenticationResource. The
+         AuthenticationResource is compatible with MutableMapping
+        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.iotoperations.models.AuthenticationResource]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -3381,8 +3414,8 @@ class BrokerAuthenticationOperations:
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> LROPoller[_models.BrokerAuthenticationResource]:
-        """Create a BrokerAuthenticationResource.
+    ) -> LROPoller[_models.AuthenticationResource]:
+        """Create a AuthenticationResource.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
@@ -3398,10 +3431,9 @@ class BrokerAuthenticationOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of LROPoller that returns BrokerAuthenticationResource. The
-         BrokerAuthenticationResource is compatible with MutableMapping
-        :rtype:
-         ~azure.core.polling.LROPoller[~azure.mgmt.iotoperations.models.BrokerAuthenticationResource]
+        :return: An instance of LROPoller that returns AuthenticationResource. The
+         AuthenticationResource is compatible with MutableMapping
+        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.iotoperations.models.AuthenticationResource]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -3412,10 +3444,10 @@ class BrokerAuthenticationOperations:
         instance_name: str,
         broker_name: str,
         authentication_name: str,
-        resource: Union[_models.BrokerAuthenticationResource, JSON, IO[bytes]],
+        resource: Union[_models.AuthenticationResource, JSON, IO[bytes]],
         **kwargs: Any
-    ) -> LROPoller[_models.BrokerAuthenticationResource]:
-        """Create a BrokerAuthenticationResource.
+    ) -> LROPoller[_models.AuthenticationResource]:
+        """Create a AuthenticationResource.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
@@ -3427,20 +3459,18 @@ class BrokerAuthenticationOperations:
         :param authentication_name: Name of Instance broker authentication resource. Required.
         :type authentication_name: str
         :param resource: Resource create parameters. Is one of the following types:
-         BrokerAuthenticationResource, JSON, IO[bytes] Required.
-        :type resource: ~azure.mgmt.iotoperations.models.BrokerAuthenticationResource or JSON or
-         IO[bytes]
-        :return: An instance of LROPoller that returns BrokerAuthenticationResource. The
-         BrokerAuthenticationResource is compatible with MutableMapping
-        :rtype:
-         ~azure.core.polling.LROPoller[~azure.mgmt.iotoperations.models.BrokerAuthenticationResource]
+         AuthenticationResource, JSON, IO[bytes] Required.
+        :type resource: ~azure.mgmt.iotoperations.models.AuthenticationResource or JSON or IO[bytes]
+        :return: An instance of LROPoller that returns AuthenticationResource. The
+         AuthenticationResource is compatible with MutableMapping
+        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.iotoperations.models.AuthenticationResource]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = kwargs.pop("params", {}) or {}
 
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.BrokerAuthenticationResource] = kwargs.pop("cls", None)
+        cls: ClsType[_models.AuthenticationResource] = kwargs.pop("cls", None)
         polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
@@ -3462,7 +3492,7 @@ class BrokerAuthenticationOperations:
 
         def get_long_running_output(pipeline_response):
             response = pipeline_response.http_response
-            deserialized = _deserialize(_models.BrokerAuthenticationResource, response.json())
+            deserialized = _deserialize(_models.AuthenticationResource, response.json())
             if cls:
                 return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
@@ -3480,13 +3510,13 @@ class BrokerAuthenticationOperations:
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller[_models.BrokerAuthenticationResource].from_continuation_token(
+            return LROPoller[_models.AuthenticationResource].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller[_models.BrokerAuthenticationResource](
+        return LROPoller[_models.AuthenticationResource](
             self._client, raw_result, get_long_running_output, polling_method  # type: ignore
         )
 
@@ -3553,7 +3583,7 @@ class BrokerAuthenticationOperations:
     def begin_delete(
         self, resource_group_name: str, instance_name: str, broker_name: str, authentication_name: str, **kwargs: Any
     ) -> LROPoller[None]:
-        """Delete a BrokerAuthenticationResource.
+        """Delete a AuthenticationResource.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
@@ -3617,8 +3647,8 @@ class BrokerAuthenticationOperations:
     @distributed_trace
     def list_by_resource_group(
         self, resource_group_name: str, instance_name: str, broker_name: str, **kwargs: Any
-    ) -> Iterable["_models.BrokerAuthenticationResource"]:
-        """List BrokerAuthenticationResource resources by BrokerResource.
+    ) -> Iterable["_models.AuthenticationResource"]:
+        """List AuthenticationResource resources by BrokerResource.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
@@ -3627,15 +3657,14 @@ class BrokerAuthenticationOperations:
         :type instance_name: str
         :param broker_name: Name of broker. Required.
         :type broker_name: str
-        :return: An iterator like instance of BrokerAuthenticationResource
-        :rtype:
-         ~azure.core.paging.ItemPaged[~azure.mgmt.iotoperations.models.BrokerAuthenticationResource]
+        :return: An iterator like instance of AuthenticationResource
+        :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.iotoperations.models.AuthenticationResource]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[List[_models.BrokerAuthenticationResource]] = kwargs.pop("cls", None)
+        cls: ClsType[List[_models.AuthenticationResource]] = kwargs.pop("cls", None)
 
         error_map: MutableMapping = {
             401: ClientAuthenticationError,
@@ -3688,7 +3717,7 @@ class BrokerAuthenticationOperations:
 
         def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.BrokerAuthenticationResource], deserialized["value"])
+            list_of_elem = _deserialize(List[_models.AuthenticationResource], deserialized["value"])
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
             return deserialized.get("nextLink") or None, iter(list_of_elem)
@@ -3732,8 +3761,8 @@ class BrokerAuthorizationOperations:
     @distributed_trace
     def get(
         self, resource_group_name: str, instance_name: str, broker_name: str, authorization_name: str, **kwargs: Any
-    ) -> _models.BrokerAuthorizationResource:
-        """Get a BrokerAuthorizationResource.
+    ) -> _models.AuthorizationResource:
+        """Get a AuthorizationResource.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
@@ -3744,9 +3773,8 @@ class BrokerAuthorizationOperations:
         :type broker_name: str
         :param authorization_name: Name of Instance broker authorization resource. Required.
         :type authorization_name: str
-        :return: BrokerAuthorizationResource. The BrokerAuthorizationResource is compatible with
-         MutableMapping
-        :rtype: ~azure.mgmt.iotoperations.models.BrokerAuthorizationResource
+        :return: AuthorizationResource. The AuthorizationResource is compatible with MutableMapping
+        :rtype: ~azure.mgmt.iotoperations.models.AuthorizationResource
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -3760,7 +3788,7 @@ class BrokerAuthorizationOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[_models.BrokerAuthorizationResource] = kwargs.pop("cls", None)
+        cls: ClsType[_models.AuthorizationResource] = kwargs.pop("cls", None)
 
         _request = build_broker_authorization_get_request(
             resource_group_name=resource_group_name,
@@ -3797,7 +3825,7 @@ class BrokerAuthorizationOperations:
         if _stream:
             deserialized = response.iter_bytes()
         else:
-            deserialized = _deserialize(_models.BrokerAuthorizationResource, response.json())
+            deserialized = _deserialize(_models.AuthorizationResource, response.json())
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -3810,7 +3838,7 @@ class BrokerAuthorizationOperations:
         instance_name: str,
         broker_name: str,
         authorization_name: str,
-        resource: Union[_models.BrokerAuthorizationResource, JSON, IO[bytes]],
+        resource: Union[_models.AuthorizationResource, JSON, IO[bytes]],
         **kwargs: Any
     ) -> Iterator[bytes]:
         error_map: MutableMapping = {
@@ -3888,12 +3916,12 @@ class BrokerAuthorizationOperations:
         instance_name: str,
         broker_name: str,
         authorization_name: str,
-        resource: _models.BrokerAuthorizationResource,
+        resource: _models.AuthorizationResource,
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> LROPoller[_models.BrokerAuthorizationResource]:
-        """Create a BrokerAuthorizationResource.
+    ) -> LROPoller[_models.AuthorizationResource]:
+        """Create a AuthorizationResource.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
@@ -3905,14 +3933,13 @@ class BrokerAuthorizationOperations:
         :param authorization_name: Name of Instance broker authorization resource. Required.
         :type authorization_name: str
         :param resource: Resource create parameters. Required.
-        :type resource: ~azure.mgmt.iotoperations.models.BrokerAuthorizationResource
+        :type resource: ~azure.mgmt.iotoperations.models.AuthorizationResource
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of LROPoller that returns BrokerAuthorizationResource. The
-         BrokerAuthorizationResource is compatible with MutableMapping
-        :rtype:
-         ~azure.core.polling.LROPoller[~azure.mgmt.iotoperations.models.BrokerAuthorizationResource]
+        :return: An instance of LROPoller that returns AuthorizationResource. The AuthorizationResource
+         is compatible with MutableMapping
+        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.iotoperations.models.AuthorizationResource]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -3927,8 +3954,8 @@ class BrokerAuthorizationOperations:
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> LROPoller[_models.BrokerAuthorizationResource]:
-        """Create a BrokerAuthorizationResource.
+    ) -> LROPoller[_models.AuthorizationResource]:
+        """Create a AuthorizationResource.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
@@ -3944,10 +3971,9 @@ class BrokerAuthorizationOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of LROPoller that returns BrokerAuthorizationResource. The
-         BrokerAuthorizationResource is compatible with MutableMapping
-        :rtype:
-         ~azure.core.polling.LROPoller[~azure.mgmt.iotoperations.models.BrokerAuthorizationResource]
+        :return: An instance of LROPoller that returns AuthorizationResource. The AuthorizationResource
+         is compatible with MutableMapping
+        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.iotoperations.models.AuthorizationResource]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -3962,8 +3988,8 @@ class BrokerAuthorizationOperations:
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> LROPoller[_models.BrokerAuthorizationResource]:
-        """Create a BrokerAuthorizationResource.
+    ) -> LROPoller[_models.AuthorizationResource]:
+        """Create a AuthorizationResource.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
@@ -3979,10 +4005,9 @@ class BrokerAuthorizationOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of LROPoller that returns BrokerAuthorizationResource. The
-         BrokerAuthorizationResource is compatible with MutableMapping
-        :rtype:
-         ~azure.core.polling.LROPoller[~azure.mgmt.iotoperations.models.BrokerAuthorizationResource]
+        :return: An instance of LROPoller that returns AuthorizationResource. The AuthorizationResource
+         is compatible with MutableMapping
+        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.iotoperations.models.AuthorizationResource]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -3993,10 +4018,10 @@ class BrokerAuthorizationOperations:
         instance_name: str,
         broker_name: str,
         authorization_name: str,
-        resource: Union[_models.BrokerAuthorizationResource, JSON, IO[bytes]],
+        resource: Union[_models.AuthorizationResource, JSON, IO[bytes]],
         **kwargs: Any
-    ) -> LROPoller[_models.BrokerAuthorizationResource]:
-        """Create a BrokerAuthorizationResource.
+    ) -> LROPoller[_models.AuthorizationResource]:
+        """Create a AuthorizationResource.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
@@ -4008,20 +4033,18 @@ class BrokerAuthorizationOperations:
         :param authorization_name: Name of Instance broker authorization resource. Required.
         :type authorization_name: str
         :param resource: Resource create parameters. Is one of the following types:
-         BrokerAuthorizationResource, JSON, IO[bytes] Required.
-        :type resource: ~azure.mgmt.iotoperations.models.BrokerAuthorizationResource or JSON or
-         IO[bytes]
-        :return: An instance of LROPoller that returns BrokerAuthorizationResource. The
-         BrokerAuthorizationResource is compatible with MutableMapping
-        :rtype:
-         ~azure.core.polling.LROPoller[~azure.mgmt.iotoperations.models.BrokerAuthorizationResource]
+         AuthorizationResource, JSON, IO[bytes] Required.
+        :type resource: ~azure.mgmt.iotoperations.models.AuthorizationResource or JSON or IO[bytes]
+        :return: An instance of LROPoller that returns AuthorizationResource. The AuthorizationResource
+         is compatible with MutableMapping
+        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.iotoperations.models.AuthorizationResource]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = kwargs.pop("params", {}) or {}
 
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.BrokerAuthorizationResource] = kwargs.pop("cls", None)
+        cls: ClsType[_models.AuthorizationResource] = kwargs.pop("cls", None)
         polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
@@ -4043,7 +4066,7 @@ class BrokerAuthorizationOperations:
 
         def get_long_running_output(pipeline_response):
             response = pipeline_response.http_response
-            deserialized = _deserialize(_models.BrokerAuthorizationResource, response.json())
+            deserialized = _deserialize(_models.AuthorizationResource, response.json())
             if cls:
                 return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
@@ -4061,13 +4084,13 @@ class BrokerAuthorizationOperations:
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller[_models.BrokerAuthorizationResource].from_continuation_token(
+            return LROPoller[_models.AuthorizationResource].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller[_models.BrokerAuthorizationResource](
+        return LROPoller[_models.AuthorizationResource](
             self._client, raw_result, get_long_running_output, polling_method  # type: ignore
         )
 
@@ -4134,7 +4157,7 @@ class BrokerAuthorizationOperations:
     def begin_delete(
         self, resource_group_name: str, instance_name: str, broker_name: str, authorization_name: str, **kwargs: Any
     ) -> LROPoller[None]:
-        """Delete a BrokerAuthorizationResource.
+        """Delete a AuthorizationResource.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
@@ -4198,8 +4221,8 @@ class BrokerAuthorizationOperations:
     @distributed_trace
     def list_by_resource_group(
         self, resource_group_name: str, instance_name: str, broker_name: str, **kwargs: Any
-    ) -> Iterable["_models.BrokerAuthorizationResource"]:
-        """List BrokerAuthorizationResource resources by BrokerResource.
+    ) -> Iterable["_models.AuthorizationResource"]:
+        """List AuthorizationResource resources by BrokerResource.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
@@ -4208,15 +4231,14 @@ class BrokerAuthorizationOperations:
         :type instance_name: str
         :param broker_name: Name of broker. Required.
         :type broker_name: str
-        :return: An iterator like instance of BrokerAuthorizationResource
-        :rtype:
-         ~azure.core.paging.ItemPaged[~azure.mgmt.iotoperations.models.BrokerAuthorizationResource]
+        :return: An iterator like instance of AuthorizationResource
+        :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.iotoperations.models.AuthorizationResource]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[List[_models.BrokerAuthorizationResource]] = kwargs.pop("cls", None)
+        cls: ClsType[List[_models.AuthorizationResource]] = kwargs.pop("cls", None)
 
         error_map: MutableMapping = {
             401: ClientAuthenticationError,
@@ -4269,7 +4291,7 @@ class BrokerAuthorizationOperations:
 
         def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.BrokerAuthorizationResource], deserialized["value"])
+            list_of_elem = _deserialize(List[_models.AuthorizationResource], deserialized["value"])
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
             return deserialized.get("nextLink") or None, iter(list_of_elem)

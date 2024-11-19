@@ -19,8 +19,8 @@ class ActionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Actions are for internal-only APIs."""
 
 
-class BrokerAuthenticationMethod(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Broker Authentication Mode."""
+class AuthenticationMethod(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Authentication Mode."""
 
     CUSTOM = "Custom"
     """Custom authentication configuration."""
