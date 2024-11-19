@@ -1,5 +1,5 @@
-# coding=utf-8
 # pylint: disable=too-many-lines
+# coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -13,14 +13,13 @@ from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 from .. import _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
 class ApplicationServerConfiguration(_serialization.Model):
     """Gets or sets the application server configuration.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar subnet_id: The subnet id. Required.
     :vartype subnet_id: str
@@ -140,7 +139,7 @@ class ApplicationServerVmDetails(_serialization.Model):
 class CentralServerConfiguration(_serialization.Model):
     """Gets or sets the central server configuration.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar subnet_id: The subnet id. Required.
     :vartype subnet_id: str
@@ -278,7 +277,7 @@ class FileShareConfiguration(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     CreateAndMountFileShareConfiguration, MountFileShareConfiguration, SkipFileShareConfiguration
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar configuration_type: The type of file share config. Required. Known values are: "Skip",
      "CreateAndMount", and "Mount".
@@ -313,7 +312,7 @@ class CreateAndMountFileShareConfiguration(FileShareConfiguration):
     to place the transport directory in. The storage account and fileshare will be auto-created by
     the ACSS and doesn’t need to pre-created.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar configuration_type: The type of file share config. Required. Known values are: "Skip",
      "CreateAndMount", and "Mount".
@@ -356,7 +355,7 @@ class CreateAndMountFileShareConfiguration(FileShareConfiguration):
 class DatabaseConfiguration(_serialization.Model):
     """Gets or sets the database configuration.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar database_type: The database type. Known values are: "HANA" and "DB2".
     :vartype database_type: str or ~azure.mgmt.workloads.models.SAPDatabaseType
@@ -506,7 +505,7 @@ class ProviderSpecificProperties(_serialization.Model):
     PrometheusHaClusterProviderInstanceProperties, PrometheusOSProviderInstanceProperties,
     HanaDbProviderInstanceProperties, SapNetWeaverProviderInstanceProperties
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar provider_type: The provider type. For example, the value can be SapHana. Required.
     :vartype provider_type: str
@@ -540,7 +539,7 @@ class ProviderSpecificProperties(_serialization.Model):
 class DB2ProviderInstanceProperties(ProviderSpecificProperties):
     """Gets or sets the DB2 provider properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar provider_type: The provider type. For example, the value can be SapHana. Required.
     :vartype provider_type: str
@@ -663,7 +662,7 @@ class SAPConfiguration(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     DeploymentConfiguration, DeploymentWithOSConfiguration, DiscoveryConfiguration
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar configuration_type: The configuration Type. Required. Known values are: "Deployment",
      "Discovery", and "DeploymentWithOSConfig".
@@ -695,7 +694,7 @@ class SAPConfiguration(_serialization.Model):
 class DeploymentConfiguration(SAPConfiguration):
     """Deployment Configuration.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar configuration_type: The configuration Type. Required. Known values are: "Deployment",
      "Discovery", and "DeploymentWithOSConfig".
@@ -746,7 +745,7 @@ class DeploymentConfiguration(SAPConfiguration):
 class DeploymentWithOSConfiguration(SAPConfiguration):
     """Deployment along with OS Configuration.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar configuration_type: The configuration Type. Required. Known values are: "Deployment",
      "Discovery", and "DeploymentWithOSConfig".
@@ -806,7 +805,7 @@ class DiscoveryConfiguration(SAPConfiguration):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar configuration_type: The configuration Type. Required. Known values are: "Deployment",
      "Discovery", and "DeploymentWithOSConfig".
@@ -816,7 +815,7 @@ class DiscoveryConfiguration(SAPConfiguration):
     :ivar managed_rg_storage_account_name: The custom storage account name for the storage account
      created by the service in the managed resource group created as part of VIS
      deployment.:code:`<br>`:code:`<br>`Refer to the storage account naming rules `here
-     <https://learn.microsoft.com/azure/azure-resource-manager/management/resource-name-rules#microsoftstorage>`_.:code:`<br>`:code:`<br>`If
+     <https://learn.microsoft.com/azure/azure-resource-manager/management/resource-name-rules#microsoftstorage>`_.:code:`<br>`:code:`<br>`If  # pylint: disable=line-too-long
      not provided, the service will create the storage account with a random name.
     :vartype managed_rg_storage_account_name: str
     :ivar app_location: The geo-location where the SAP system exists.
@@ -849,7 +848,7 @@ class DiscoveryConfiguration(SAPConfiguration):
         :keyword managed_rg_storage_account_name: The custom storage account name for the storage
          account created by the service in the managed resource group created as part of VIS
          deployment.:code:`<br>`:code:`<br>`Refer to the storage account naming rules `here
-         <https://learn.microsoft.com/azure/azure-resource-manager/management/resource-name-rules#microsoftstorage>`_.:code:`<br>`:code:`<br>`If
+         <https://learn.microsoft.com/azure/azure-resource-manager/management/resource-name-rules#microsoftstorage>`_.:code:`<br>`:code:`<br>`If  # pylint: disable=line-too-long
          not provided, the service will create the storage account with a random name.
         :paramtype managed_rg_storage_account_name: str
         """
@@ -1311,7 +1310,7 @@ class SoftwareConfiguration(_serialization.Model):
     ExternalInstallationSoftwareConfiguration, SAPInstallWithoutOSConfigSoftwareConfiguration,
     ServiceInitiatedSoftwareConfiguration
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar software_installation_type: The SAP software installation Type. Required. Known values
      are: "ServiceInitiated", "SAPInstallWithoutOSConfig", and "External".
@@ -1341,11 +1340,11 @@ class SoftwareConfiguration(_serialization.Model):
         self.software_installation_type: Optional[str] = None
 
 
-class ExternalInstallationSoftwareConfiguration(SoftwareConfiguration):
+class ExternalInstallationSoftwareConfiguration(SoftwareConfiguration):  # pylint: disable=name-too-long
     """The SAP Software configuration Input when the software is installed externally outside the
     service.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar software_installation_type: The SAP software installation Type. Required. Known values
      are: "ServiceInitiated", "SAPInstallWithoutOSConfig", and "External".
@@ -1405,10 +1404,10 @@ class GatewayServerProperties(_serialization.Model):
         self.health = None
 
 
-class HanaDbProviderInstanceProperties(ProviderSpecificProperties):  # pylint: disable=too-many-instance-attributes
+class HanaDbProviderInstanceProperties(ProviderSpecificProperties):
     """Gets or sets the provider properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar provider_type: The provider type. For example, the value can be SapHana. Required.
     :vartype provider_type: str
@@ -1515,7 +1514,7 @@ class HanaDbProviderInstanceProperties(ProviderSpecificProperties):  # pylint: d
 class HighAvailabilityConfiguration(_serialization.Model):
     """Gets or sets the high availability configuration.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar high_availability_type: The high availability type. Required. Known values are:
      "AvailabilitySet" and "AvailabilityZone".
@@ -1543,7 +1542,7 @@ class HighAvailabilityConfiguration(_serialization.Model):
 class HighAvailabilitySoftwareConfiguration(_serialization.Model):
     """Gets or sets the HA software configuration.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar fencing_client_id: The fencing client id. Required.
     :vartype fencing_client_id: str
@@ -1641,7 +1640,7 @@ class InfrastructureConfiguration(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     SingleServerConfiguration, ThreeTierConfiguration
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar deployment_type: The type of SAP deployment, single server or Three tier. Required. Known
      values are: "SingleServer" and "ThreeTier".
@@ -1682,7 +1681,7 @@ class OSConfiguration(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     LinuxConfiguration, WindowsConfiguration
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar os_type: The OS Type. Required. Known values are: "Linux" and "Windows".
     :vartype os_type: str or ~azure.mgmt.workloads.models.OSType
@@ -1710,7 +1709,7 @@ class LinuxConfiguration(OSConfiguration):
     Azure-Endorsed Distributions
     <https://docs.microsoft.com/azure/virtual-machines/linux/endorsed-distros>`_.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar os_type: The OS Type. Required. Known values are: "Linux" and "Windows".
     :vartype os_type: str or ~azure.mgmt.workloads.models.OSType
@@ -1924,7 +1923,7 @@ class Resource(_serialization.Model):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1965,10 +1964,10 @@ class TrackedResource(Resource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -2013,15 +2012,15 @@ class TrackedResource(Resource):
         self.location = location
 
 
-class Monitor(TrackedResource):  # pylint: disable=too-many-instance-attributes
+class Monitor(TrackedResource):
     """SAP monitor info on Azure (ARM properties and SAP monitor properties).
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -2201,32 +2200,12 @@ class MonitorPropertiesErrors(Error):
     :vartype inner_error: ~azure.mgmt.workloads.models.ErrorInnerError
     """
 
-    _validation = {
-        "code": {"readonly": True},
-        "message": {"readonly": True},
-        "target": {"readonly": True},
-        "details": {"readonly": True},
-        "inner_error": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "code": {"key": "code", "type": "str"},
-        "message": {"key": "message", "type": "str"},
-        "target": {"key": "target", "type": "str"},
-        "details": {"key": "details", "type": "[Error]"},
-        "inner_error": {"key": "innerError", "type": "ErrorInnerError"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-
 
 class MountFileShareConfiguration(FileShareConfiguration):
     """Gets or sets the file share configuration where the transport directory fileshare already
     exists, and user wishes to mount the fileshare as a part of the create infra flow.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar configuration_type: The type of file share config. Required. Known values are: "Skip",
      "CreateAndMount", and "Mount".
@@ -2267,7 +2246,7 @@ class MountFileShareConfiguration(FileShareConfiguration):
 class MsSqlServerProviderInstanceProperties(ProviderSpecificProperties):
     """Gets or sets the SQL server provider properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar provider_type: The provider type. For example, the value can be SapHana. Required.
     :vartype provider_type: str
@@ -2530,7 +2509,7 @@ class OperationsContent(Resource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -2615,7 +2594,7 @@ class OperationsContent(Resource):
 class OperationsDefinition(_serialization.Model):
     """Properties of an Operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: Name of the operation. Required.
     :vartype name: str
@@ -2683,7 +2662,7 @@ class OperationsDefinition(_serialization.Model):
         self.properties = properties
 
 
-class OperationsDefinitionArrayResponseWithContinuation(_serialization.Model):
+class OperationsDefinitionArrayResponseWithContinuation(_serialization.Model):  # pylint: disable=name-too-long
     """Defines the workload operation definition response.
 
     :ivar value: Defines the workload operation definition response properties.
@@ -2718,7 +2697,7 @@ class OperationsDefinitionArrayResponseWithContinuation(_serialization.Model):
 class OperationsDisplayDefinition(_serialization.Model):
     """Defines the workload operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar provider: Defines the workload provider. Required.
     :vartype provider: str
@@ -2765,7 +2744,7 @@ class OperationsDisplayDefinition(_serialization.Model):
 class OperationsDefinitionDisplay(OperationsDisplayDefinition):
     """Display information of the operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar provider: Defines the workload provider. Required.
     :vartype provider: str
@@ -2777,38 +2756,11 @@ class OperationsDefinitionDisplay(OperationsDisplayDefinition):
     :vartype description: str
     """
 
-    _validation = {
-        "provider": {"required": True},
-        "resource": {"required": True},
-        "operation": {"required": True},
-        "description": {"required": True},
-    }
-
-    _attribute_map = {
-        "provider": {"key": "provider", "type": "str"},
-        "resource": {"key": "resource", "type": "str"},
-        "operation": {"key": "operation", "type": "str"},
-        "description": {"key": "description", "type": "str"},
-    }
-
-    def __init__(self, *, provider: str, resource: str, operation: str, description: str, **kwargs: Any) -> None:
-        """
-        :keyword provider: Defines the workload provider. Required.
-        :paramtype provider: str
-        :keyword resource: Defines the workload resource. Required.
-        :paramtype resource: str
-        :keyword operation: Defines the workload operation. Required.
-        :paramtype operation: str
-        :keyword description: Describes the workload operation. Required.
-        :paramtype description: str
-        """
-        super().__init__(provider=provider, resource=resource, operation=operation, description=description, **kwargs)
-
 
 class OperationStatusResult(_serialization.Model):
     """The current status of an async operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified ID for the async operation.
     :vartype id: str
@@ -2906,7 +2858,7 @@ class OSProfile(_serialization.Model):
      characters :code:`<br>`:code:`<br>` **Max-length (Linux):** 72 characters
      :code:`<br>`:code:`<br>` **Complexity requirements:** 3 out of 4 conditions below need to be
      fulfilled :code:`<br>` Has lower characters :code:`<br>`Has upper characters :code:`<br>` Has a
-     digit :code:`<br>` Has a special character (Regex match [\W_]) :code:`<br>`:code:`<br>`
+     digit :code:`<br>` Has a special character (Regex match [\\W_]) :code:`<br>`:code:`<br>`
      **Disallowed values:** "abc@123", "P@$$w0rd", "P@ssw0rd", "P@ssword123", "Pa$$word",
      "pass@word1", "Password!", "Password1", "Password22", "iloveyou!" :code:`<br>`:code:`<br>` For
      resetting the password, see `How to reset the Remote Desktop service or its login password in a
@@ -2951,7 +2903,7 @@ class OSProfile(_serialization.Model):
          characters :code:`<br>`:code:`<br>` **Max-length (Linux):** 72 characters
          :code:`<br>`:code:`<br>` **Complexity requirements:** 3 out of 4 conditions below need to be
          fulfilled :code:`<br>` Has lower characters :code:`<br>`Has upper characters :code:`<br>` Has a
-         digit :code:`<br>` Has a special character (Regex match [\W_]) :code:`<br>`:code:`<br>`
+         digit :code:`<br>` Has a special character (Regex match [\\W_]) :code:`<br>`:code:`<br>`
          **Disallowed values:** "abc@123", "P@$$w0rd", "P@ssw0rd", "P@ssword123", "Pa$$word",
          "pass@word1", "Password!", "Password1", "Password22", "iloveyou!" :code:`<br>`:code:`<br>` For
          resetting the password, see `How to reset the Remote Desktop service or its login password in a
@@ -3003,10 +2955,10 @@ class OsSapConfiguration(_serialization.Model):
         self.sap_fqdn = sap_fqdn
 
 
-class PrometheusHaClusterProviderInstanceProperties(ProviderSpecificProperties):
+class PrometheusHaClusterProviderInstanceProperties(ProviderSpecificProperties):  # pylint: disable=name-too-long
     """Gets or sets the PrometheusHaCluster provider properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar provider_type: The provider type. For example, the value can be SapHana. Required.
     :vartype provider_type: str
@@ -3080,7 +3032,7 @@ class PrometheusHaClusterProviderInstanceProperties(ProviderSpecificProperties):
 class PrometheusOSProviderInstanceProperties(ProviderSpecificProperties):
     """Gets or sets the PrometheusOS provider properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar provider_type: The provider type. For example, the value can be SapHana. Required.
     :vartype provider_type: str
@@ -3144,7 +3096,7 @@ class ProxyResource(Resource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -3156,24 +3108,6 @@ class ProxyResource(Resource):
     :vartype system_data: ~azure.mgmt.workloads.models.SystemData
     """
 
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-        "system_data": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "system_data": {"key": "systemData", "type": "SystemData"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-
 
 class ProviderInstance(ProxyResource):
     """A provider instance associated with SAP monitor.
@@ -3181,7 +3115,7 @@ class ProviderInstance(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -3293,36 +3227,16 @@ class ProviderInstancePropertiesErrors(Error):
     :vartype inner_error: ~azure.mgmt.workloads.models.ErrorInnerError
     """
 
-    _validation = {
-        "code": {"readonly": True},
-        "message": {"readonly": True},
-        "target": {"readonly": True},
-        "details": {"readonly": True},
-        "inner_error": {"readonly": True},
-    }
 
-    _attribute_map = {
-        "code": {"key": "code", "type": "str"},
-        "message": {"key": "message", "type": "str"},
-        "target": {"key": "target", "type": "str"},
-        "details": {"key": "details", "type": "[Error]"},
-        "inner_error": {"key": "innerError", "type": "ErrorInnerError"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-
-
-class SAPApplicationServerInstance(TrackedResource):  # pylint: disable=too-many-instance-attributes
+class SAPApplicationServerInstance(TrackedResource):
     """Define the SAP Application Server Instance resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -3480,7 +3394,7 @@ class SAPApplicationServerInstanceList(_serialization.Model):
 class SAPAvailabilityZoneDetailsRequest(_serialization.Model):
     """The SAP request to get list of availability zones.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar app_location: The geo-location where the SAP resources will be created. Required.
     :vartype app_location: str
@@ -3608,15 +3522,15 @@ class SAPCentralInstanceList(_serialization.Model):
         self.next_link = next_link
 
 
-class SAPCentralServerInstance(TrackedResource):  # pylint: disable=too-many-instance-attributes
+class SAPCentralServerInstance(TrackedResource):
     """Define the SAP Central Services Instance resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -3755,15 +3669,15 @@ class SAPCentralServerInstance(TrackedResource):  # pylint: disable=too-many-ins
         self.errors = None
 
 
-class SAPDatabaseInstance(TrackedResource):  # pylint: disable=too-many-instance-attributes
+class SAPDatabaseInstance(TrackedResource):
     """Define the Database resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -3924,7 +3838,7 @@ class SAPDiskConfiguration(_serialization.Model):
 class SAPDiskConfigurationsRequest(_serialization.Model):
     """The SAP request to get list of disk configurations.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar app_location: The geo-location where the SAP resources will be created. Required.
     :vartype app_location: str
@@ -4026,11 +3940,11 @@ class SAPDiskConfigurationsResult(_serialization.Model):
         self.volume_configurations = volume_configurations
 
 
-class SAPInstallWithoutOSConfigSoftwareConfiguration(SoftwareConfiguration):
+class SAPInstallWithoutOSConfigSoftwareConfiguration(SoftwareConfiguration):  # pylint: disable=name-too-long
     """The SAP Software configuration Input when the software is to be installed by service without OS
     Configurations.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar software_installation_type: The SAP software installation Type. Required. Known values
      are: "ServiceInitiated", "SAPInstallWithoutOSConfig", and "External".
@@ -4099,7 +4013,7 @@ class SapLandscapeMonitor(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -4299,12 +4213,10 @@ class SapLandscapeMonitorSidMapping(_serialization.Model):
         self.top_sid = top_sid
 
 
-class SapNetWeaverProviderInstanceProperties(
-    ProviderSpecificProperties
-):  # pylint: disable=too-many-instance-attributes
+class SapNetWeaverProviderInstanceProperties(ProviderSpecificProperties):
     """Gets or sets the provider properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar provider_type: The provider type. For example, the value can be SapHana. Required.
     :vartype provider_type: str
@@ -4411,7 +4323,7 @@ class SapNetWeaverProviderInstanceProperties(
 class SAPSizingRecommendationRequest(_serialization.Model):
     """The SAP Sizing Recommendation request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar app_location: The geo-location where the resource is to be created. Required.
     :vartype app_location: str
@@ -4515,7 +4427,7 @@ class SAPSizingRecommendationResult(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     SingleServerRecommendationResult, ThreeTierRecommendationResult
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar deployment_type: The type of SAP deployment, single server or Three tier. Required. Known
      values are: "SingleServer" and "ThreeTier".
@@ -4608,7 +4520,7 @@ class SAPSupportedSku(_serialization.Model):
 class SAPSupportedSkusRequest(_serialization.Model):
     """The SAP request to get list of supported SKUs.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar app_location: The geo-location where the resource is to be created. Required.
     :vartype app_location: str
@@ -4685,15 +4597,15 @@ class SAPSupportedSkusRequest(_serialization.Model):
         self.high_availability_type = high_availability_type
 
 
-class SAPVirtualInstance(TrackedResource):  # pylint: disable=too-many-instance-attributes
+class SAPVirtualInstance(TrackedResource):
     """Define the Virtual Instance for SAP solutions resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -4882,7 +4794,7 @@ class SAPVirtualInstanceList(_serialization.Model):
 class ServiceInitiatedSoftwareConfiguration(SoftwareConfiguration):
     """The SAP Software configuration Input when the software is to be installed by service.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar software_installation_type: The SAP software installation Type. Required. Known values
      are: "ServiceInitiated", "SAPInstallWithoutOSConfig", and "External".
@@ -5006,7 +4918,7 @@ class SingleServerConfiguration(InfrastructureConfiguration):
     infrastructure, please see `here
     <https://go.microsoft.com/fwlink/?linkid=2212611&clcid=0x409>`_.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar deployment_type: The type of SAP deployment, single server or Three tier. Required. Known
      values are: "SingleServer" and "ThreeTier".
@@ -5097,7 +5009,7 @@ class SingleServerCustomResourceNames(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     SingleServerFullResourceNames
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar naming_pattern_type: The pattern type to be used for resource naming. Required.
      "FullResourceName"
@@ -5124,7 +5036,7 @@ class SingleServerFullResourceNames(SingleServerCustomResourceNames):
     """The resource name object where the specified values will be full resource names of the
     corresponding resources in a single server SAP system.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar naming_pattern_type: The pattern type to be used for resource naming. Required.
      "FullResourceName"
@@ -5157,7 +5069,7 @@ class SingleServerFullResourceNames(SingleServerCustomResourceNames):
 class SingleServerRecommendationResult(SAPSizingRecommendationResult):
     """The recommended configuration for a single server SAP system.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar deployment_type: The type of SAP deployment, single server or Three tier. Required. Known
      values are: "SingleServer" and "ThreeTier".
@@ -5189,7 +5101,7 @@ class SkipFileShareConfiguration(FileShareConfiguration):
     """Gets or sets the file share configuration for scenarios where transport directory fileshare is
     not created or required.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar configuration_type: The type of file share config. Required. Known values are: "Skip",
      "CreateAndMount", and "Mount".
@@ -5456,7 +5368,7 @@ class ThreeTierConfiguration(InfrastructureConfiguration):
     infrastructure, please see `here
     <https://go.microsoft.com/fwlink/?linkid=2212611&clcid=0x409>`_.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar deployment_type: The type of SAP deployment, single server or Three tier. Required. Known
      values are: "SingleServer" and "ThreeTier".
@@ -5552,7 +5464,7 @@ class ThreeTierCustomResourceNames(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     ThreeTierFullResourceNames
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar naming_pattern_type: The pattern type to be used for resource naming. Required.
      "FullResourceName"
@@ -5579,7 +5491,7 @@ class ThreeTierFullResourceNames(ThreeTierCustomResourceNames):
     """The resource name object where the specified values will be full resource names of the
     corresponding resources in a three tier SAP system.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar naming_pattern_type: The pattern type to be used for resource naming. Required.
      "FullResourceName"
@@ -5643,7 +5555,7 @@ class ThreeTierFullResourceNames(ThreeTierCustomResourceNames):
 class ThreeTierRecommendationResult(SAPSizingRecommendationResult):
     """The recommended configuration for a three tier SAP system.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar deployment_type: The type of SAP deployment, single server or Three tier. Required. Known
      values are: "SingleServer" and "ThreeTier".
@@ -5869,7 +5781,7 @@ class UserAssignedServiceIdentity(_serialization.Model):
     """A pre-created user assigned identity with appropriate roles assigned. To learn more on identity
     and roles required, visit the ACSS how-to-guide.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar type: Type of manage identity. Required. Known values are: "None" and "UserAssigned".
     :vartype type: str or ~azure.mgmt.workloads.models.ManagedServiceIdentityType
@@ -5908,7 +5820,7 @@ class UserAssignedServiceIdentity(_serialization.Model):
 class VirtualMachineConfiguration(_serialization.Model):
     """Defines the virtual machine configuration.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar vm_size: The virtual machine size. Required.
     :vartype vm_size: str
@@ -6033,7 +5945,7 @@ class VirtualMachineResourceNames(_serialization.Model):
 class WindowsConfiguration(OSConfiguration):
     """Specifies Windows operating system settings on the virtual machine.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar os_type: The OS Type. Required. Known values are: "Linux" and "Windows".
     :vartype os_type: str or ~azure.mgmt.workloads.models.OSType
