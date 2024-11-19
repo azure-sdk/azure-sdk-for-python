@@ -1,0 +1,6 @@
+{
+  "commit": "3c1e72af9c848a98c929ec965a3767768b993eee",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/workloads/Workloads.SAPMonitor.Management",
+  "@azure-tools/typespec-python": "0.36.4"
+}
