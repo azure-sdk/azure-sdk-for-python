@@ -1,5 +1,5 @@
-# coding=utf-8
 # pylint: disable=too-many-lines
+# coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -13,7 +13,6 @@ from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 from .. import _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
@@ -409,7 +408,7 @@ class AutonomousDatabaseBackupListResult(_serialization.Model):
         self.next_link = next_link
 
 
-class AutonomousDatabaseBackupProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class AutonomousDatabaseBackupProperties(_serialization.Model):
     """AutonomousDatabaseBackup resource model.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -436,7 +435,7 @@ class AutonomousDatabaseBackupProperties(_serialization.Model):  # pylint: disab
      "Deleting", "Failed", and "Updating".
     :vartype lifecycle_state: str or
      ~azure.mgmt.oracledatabase.models.AutonomousDatabaseBackupLifecycleState
-    :ivar retention_period_in_days: Retention period, in days, for long-term backups.
+    :ivar retention_period_in_days: Retention period, in days.
     :vartype retention_period_in_days: int
     :ivar size_in_tbs: The backup size in terabytes (TB).
     :vartype size_in_tbs: float
@@ -463,7 +462,6 @@ class AutonomousDatabaseBackupProperties(_serialization.Model):  # pylint: disab
         "is_restorable": {"readonly": True},
         "lifecycle_details": {"readonly": True},
         "lifecycle_state": {"readonly": True},
-        "retention_period_in_days": {"maximum": 3650, "minimum": 60},
         "size_in_tbs": {"readonly": True},
         "time_available_til": {"readonly": True},
         "time_started": {"readonly": True},
@@ -498,7 +496,7 @@ class AutonomousDatabaseBackupProperties(_serialization.Model):  # pylint: disab
         :keyword display_name: The user-friendly name for the backup. The name does not have to be
          unique.
         :paramtype display_name: str
-        :keyword retention_period_in_days: Retention period, in days, for long-term backups.
+        :keyword retention_period_in_days: Retention period, in days.
         :paramtype retention_period_in_days: int
         """
         super().__init__(**kwargs)
@@ -523,7 +521,7 @@ class AutonomousDatabaseBackupProperties(_serialization.Model):  # pylint: disab
 class AutonomousDatabaseBackupUpdate(_serialization.Model):
     """The type used for update operations of the AutonomousDatabaseBackup.
 
-    :ivar properties: The updatable properties of the AutonomousDatabaseBackup.
+    :ivar properties: The resource-specific properties for this resource.
     :vartype properties: ~azure.mgmt.oracledatabase.models.AutonomousDatabaseBackupUpdateProperties
     """
 
@@ -535,7 +533,7 @@ class AutonomousDatabaseBackupUpdate(_serialization.Model):
         self, *, properties: Optional["_models.AutonomousDatabaseBackupUpdateProperties"] = None, **kwargs: Any
     ) -> None:
         """
-        :keyword properties: The updatable properties of the AutonomousDatabaseBackup.
+        :keyword properties: The resource-specific properties for this resource.
         :paramtype properties:
          ~azure.mgmt.oracledatabase.models.AutonomousDatabaseBackupUpdateProperties
         """
@@ -546,13 +544,9 @@ class AutonomousDatabaseBackupUpdate(_serialization.Model):
 class AutonomousDatabaseBackupUpdateProperties(_serialization.Model):
     """The updatable properties of the AutonomousDatabaseBackup.
 
-    :ivar retention_period_in_days: Retention period, in days, for long-term backups.
+    :ivar retention_period_in_days: Retention period, in days.
     :vartype retention_period_in_days: int
     """
-
-    _validation = {
-        "retention_period_in_days": {"maximum": 3650, "minimum": 60},
-    }
 
     _attribute_map = {
         "retention_period_in_days": {"key": "retentionPeriodInDays", "type": "int"},
@@ -560,18 +554,19 @@ class AutonomousDatabaseBackupUpdateProperties(_serialization.Model):
 
     def __init__(self, *, retention_period_in_days: Optional[int] = None, **kwargs: Any) -> None:
         """
-        :keyword retention_period_in_days: Retention period, in days, for long-term backups.
+        :keyword retention_period_in_days: Retention period, in days.
         :paramtype retention_period_in_days: int
         """
         super().__init__(**kwargs)
         self.retention_period_in_days = retention_period_in_days
 
 
-class AutonomousDatabaseBaseProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class AutonomousDatabaseBaseProperties(_serialization.Model):
     """Autonomous Database base resource model.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
-    AutonomousDatabaseCloneProperties, AutonomousDatabaseProperties
+    AutonomousDatabaseCloneProperties, AutonomousDatabaseFromBackupTimestampProperties,
+    AutonomousDatabaseCrossRegionDisasterRecoveryProperties, AutonomousDatabaseProperties
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -579,8 +574,8 @@ class AutonomousDatabaseBaseProperties(_serialization.Model):  # pylint: disable
 
     :ivar admin_password: Admin password.
     :vartype admin_password: str
-    :ivar data_base_type: Database type to be created. Required. Known values are: "Regular" and
-     "Clone".
+    :ivar data_base_type: Database type to be created. Required. Known values are: "Regular",
+     "Clone", "CloneFromBackupTimestamp", and "CrossRegionDisasterRecovery".
     :vartype data_base_type: str or ~azure.mgmt.oracledatabase.models.DataBaseType
     :ivar autonomous_maintenance_schedule_type: The maintenance schedule type of the Autonomous
      Database Serverless. Known values are: "Early" and "Regular".
@@ -615,14 +610,13 @@ class AutonomousDatabaseBaseProperties(_serialization.Model):  # pylint: disable
     :ivar is_auto_scaling_for_storage_enabled: Indicates if auto scaling is enabled for the
      Autonomous Database storage.
     :vartype is_auto_scaling_for_storage_enabled: bool
-    :ivar peer_db_ids: The list of `OCIDs
-     <https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm>`_ of standby databases
-     located in Autonomous Data Guard remote regions that are associated with the source database.
-     Note that for Autonomous Database Serverless instances, standby databases located in the same
-     region as the source primary database do not have OCIDs.
+    :ivar peer_db_ids: The list of Azure resource IDs of standby databases located in Autonomous
+     Data Guard remote regions that are associated with the source database. Note that for
+     Autonomous Database Serverless instances, standby databases located in the same region as the
+     source primary database do not have Azure IDs.
     :vartype peer_db_ids: list[str]
-    :ivar peer_db_id: The database OCID of the Disaster Recovery peer database, which is located in
-     a different region from the current peer database.
+    :ivar peer_db_id: The Azure resource ID of the Disaster Recovery peer database, which is
+     located in a different region from the current peer database.
     :vartype peer_db_id: str
     :ivar is_local_data_guard_enabled: Indicates whether the Autonomous Database has local or
      called in-region Data Guard enabled.
@@ -637,6 +631,12 @@ class AutonomousDatabaseBaseProperties(_serialization.Model):  # pylint: disable
      switchover. Known values are: "Adg" and "BackupBased".
     :vartype local_disaster_recovery_type: str or
      ~azure.mgmt.oracledatabase.models.DisasterRecoveryType
+    :ivar time_disaster_recovery_role_changed: The date and time the Disaster Recovery role was
+     switched for the standby Autonomous Database.
+    :vartype time_disaster_recovery_role_changed: ~datetime.datetime
+    :ivar remote_disaster_recovery_configuration: Indicates remote disaster recovery configuration.
+    :vartype remote_disaster_recovery_configuration:
+     ~azure.mgmt.oracledatabase.models.DisasterRecoveryConfigurationDetails
     :ivar local_standby_db: Local Autonomous Disaster Recovery standby database details.
     :vartype local_standby_db: ~azure.mgmt.oracledatabase.models.AutonomousDatabaseStandbySummary
     :ivar failed_data_recovery_in_seconds: Indicates the number of seconds of data loss for a Data
@@ -801,6 +801,8 @@ class AutonomousDatabaseBaseProperties(_serialization.Model):  # pylint: disable
         "peer_db_id": {"max_length": 255, "min_length": 1},
         "is_remote_data_guard_enabled": {"readonly": True},
         "local_disaster_recovery_type": {"readonly": True},
+        "time_disaster_recovery_role_changed": {"readonly": True},
+        "remote_disaster_recovery_configuration": {"readonly": True},
         "local_standby_db": {"readonly": True},
         "failed_data_recovery_in_seconds": {"readonly": True},
         "ncharacter_set": {"max_length": 255, "min_length": 1},
@@ -863,6 +865,11 @@ class AutonomousDatabaseBaseProperties(_serialization.Model):  # pylint: disable
         "is_local_data_guard_enabled": {"key": "isLocalDataGuardEnabled", "type": "bool"},
         "is_remote_data_guard_enabled": {"key": "isRemoteDataGuardEnabled", "type": "bool"},
         "local_disaster_recovery_type": {"key": "localDisasterRecoveryType", "type": "str"},
+        "time_disaster_recovery_role_changed": {"key": "timeDisasterRecoveryRoleChanged", "type": "iso-8601"},
+        "remote_disaster_recovery_configuration": {
+            "key": "remoteDisasterRecoveryConfiguration",
+            "type": "DisasterRecoveryConfigurationDetails",
+        },
         "local_standby_db": {"key": "localStandbyDb", "type": "AutonomousDatabaseStandbySummary"},
         "failed_data_recovery_in_seconds": {"key": "failedDataRecoveryInSeconds", "type": "int"},
         "is_mtls_connection_required": {"key": "isMtlsConnectionRequired", "type": "bool"},
@@ -927,7 +934,12 @@ class AutonomousDatabaseBaseProperties(_serialization.Model):  # pylint: disable
     }
 
     _subtype_map = {
-        "data_base_type": {"Clone": "AutonomousDatabaseCloneProperties", "Regular": "AutonomousDatabaseProperties"}
+        "data_base_type": {
+            "Clone": "AutonomousDatabaseCloneProperties",
+            "CloneFromBackupTimestamp": "AutonomousDatabaseFromBackupTimestampProperties",
+            "CrossRegionDisasterRecovery": "AutonomousDatabaseCrossRegionDisasterRecoveryProperties",
+            "Regular": "AutonomousDatabaseProperties",
+        }
     }
 
     def __init__(  # pylint: disable=too-many-locals
@@ -1005,8 +1017,8 @@ class AutonomousDatabaseBaseProperties(_serialization.Model):  # pylint: disable
         :keyword is_auto_scaling_for_storage_enabled: Indicates if auto scaling is enabled for the
          Autonomous Database storage.
         :paramtype is_auto_scaling_for_storage_enabled: bool
-        :keyword peer_db_id: The database OCID of the Disaster Recovery peer database, which is located
-         in a different region from the current peer database.
+        :keyword peer_db_id: The Azure resource ID of the Disaster Recovery peer database, which is
+         located in a different region from the current peer database.
         :paramtype peer_db_id: str
         :keyword is_local_data_guard_enabled: Indicates whether the Autonomous Database has local or
          called in-region Data Guard enabled.
@@ -1083,6 +1095,8 @@ class AutonomousDatabaseBaseProperties(_serialization.Model):  # pylint: disable
         self.is_local_data_guard_enabled = is_local_data_guard_enabled
         self.is_remote_data_guard_enabled = None
         self.local_disaster_recovery_type = None
+        self.time_disaster_recovery_role_changed = None
+        self.remote_disaster_recovery_configuration = None
         self.local_standby_db = None
         self.failed_data_recovery_in_seconds = None
         self.is_mtls_connection_required = is_mtls_connection_required
@@ -1224,8 +1238,6 @@ class AutonomousDatabaseCharacterSetListResult(_serialization.Model):
 class AutonomousDatabaseCharacterSetProperties(_serialization.Model):
     """AutonomousDatabaseCharacterSet resource model.
 
-    Variables are only populated by the server, and will be ignored when sending a request.
-
     All required parameters must be populated in order to send to server.
 
     :ivar character_set: The Oracle Autonomous Database supported character sets. Required.
@@ -1233,22 +1245,23 @@ class AutonomousDatabaseCharacterSetProperties(_serialization.Model):
     """
 
     _validation = {
-        "character_set": {"required": True, "readonly": True, "max_length": 255, "min_length": 1},
+        "character_set": {"required": True, "max_length": 255, "min_length": 1},
     }
 
     _attribute_map = {
         "character_set": {"key": "characterSet", "type": "str"},
     }
 
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
+    def __init__(self, *, character_set: str, **kwargs: Any) -> None:
+        """
+        :keyword character_set: The Oracle Autonomous Database supported character sets. Required.
+        :paramtype character_set: str
+        """
         super().__init__(**kwargs)
-        self.character_set = None
+        self.character_set = character_set
 
 
-class AutonomousDatabaseCloneProperties(
-    AutonomousDatabaseBaseProperties
-):  # pylint: disable=too-many-instance-attributes
+class AutonomousDatabaseCloneProperties(AutonomousDatabaseBaseProperties):
     """Autonomous Database clone resource model.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1257,8 +1270,8 @@ class AutonomousDatabaseCloneProperties(
 
     :ivar admin_password: Admin password.
     :vartype admin_password: str
-    :ivar data_base_type: Database type to be created. Required. Known values are: "Regular" and
-     "Clone".
+    :ivar data_base_type: Database type to be created. Required. Known values are: "Regular",
+     "Clone", "CloneFromBackupTimestamp", and "CrossRegionDisasterRecovery".
     :vartype data_base_type: str or ~azure.mgmt.oracledatabase.models.DataBaseType
     :ivar autonomous_maintenance_schedule_type: The maintenance schedule type of the Autonomous
      Database Serverless. Known values are: "Early" and "Regular".
@@ -1293,14 +1306,13 @@ class AutonomousDatabaseCloneProperties(
     :ivar is_auto_scaling_for_storage_enabled: Indicates if auto scaling is enabled for the
      Autonomous Database storage.
     :vartype is_auto_scaling_for_storage_enabled: bool
-    :ivar peer_db_ids: The list of `OCIDs
-     <https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm>`_ of standby databases
-     located in Autonomous Data Guard remote regions that are associated with the source database.
-     Note that for Autonomous Database Serverless instances, standby databases located in the same
-     region as the source primary database do not have OCIDs.
+    :ivar peer_db_ids: The list of Azure resource IDs of standby databases located in Autonomous
+     Data Guard remote regions that are associated with the source database. Note that for
+     Autonomous Database Serverless instances, standby databases located in the same region as the
+     source primary database do not have Azure IDs.
     :vartype peer_db_ids: list[str]
-    :ivar peer_db_id: The database OCID of the Disaster Recovery peer database, which is located in
-     a different region from the current peer database.
+    :ivar peer_db_id: The Azure resource ID of the Disaster Recovery peer database, which is
+     located in a different region from the current peer database.
     :vartype peer_db_id: str
     :ivar is_local_data_guard_enabled: Indicates whether the Autonomous Database has local or
      called in-region Data Guard enabled.
@@ -1315,6 +1327,12 @@ class AutonomousDatabaseCloneProperties(
      switchover. Known values are: "Adg" and "BackupBased".
     :vartype local_disaster_recovery_type: str or
      ~azure.mgmt.oracledatabase.models.DisasterRecoveryType
+    :ivar time_disaster_recovery_role_changed: The date and time the Disaster Recovery role was
+     switched for the standby Autonomous Database.
+    :vartype time_disaster_recovery_role_changed: ~datetime.datetime
+    :ivar remote_disaster_recovery_configuration: Indicates remote disaster recovery configuration.
+    :vartype remote_disaster_recovery_configuration:
+     ~azure.mgmt.oracledatabase.models.DisasterRecoveryConfigurationDetails
     :ivar local_standby_db: Local Autonomous Disaster Recovery standby database details.
     :vartype local_standby_db: ~azure.mgmt.oracledatabase.models.AutonomousDatabaseStandbySummary
     :ivar failed_data_recovery_in_seconds: Indicates the number of seconds of data loss for a Data
@@ -1468,8 +1486,8 @@ class AutonomousDatabaseCloneProperties(
      "BackupFromTimestamp", "CloneToRefreshable", "CrossRegionDataguard", and
      "CrossRegionDisasterRecovery".
     :vartype source: str or ~azure.mgmt.oracledatabase.models.SourceType
-    :ivar source_id: The Azure ID of the Autonomous Database that was cloned to create the current
-     Autonomous Database. Required.
+    :ivar source_id: The Azure resource ID of the Autonomous Database that was cloned to create the
+     current Autonomous Database. Required.
     :vartype source_id: str
     :ivar clone_type: The Autonomous Database clone type. Required. Known values are: "Full" and
      "Metadata".
@@ -1504,6 +1522,8 @@ class AutonomousDatabaseCloneProperties(
         "peer_db_id": {"max_length": 255, "min_length": 1},
         "is_remote_data_guard_enabled": {"readonly": True},
         "local_disaster_recovery_type": {"readonly": True},
+        "time_disaster_recovery_role_changed": {"readonly": True},
+        "remote_disaster_recovery_configuration": {"readonly": True},
         "local_standby_db": {"readonly": True},
         "failed_data_recovery_in_seconds": {"readonly": True},
         "ncharacter_set": {"max_length": 255, "min_length": 1},
@@ -1571,6 +1591,11 @@ class AutonomousDatabaseCloneProperties(
         "is_local_data_guard_enabled": {"key": "isLocalDataGuardEnabled", "type": "bool"},
         "is_remote_data_guard_enabled": {"key": "isRemoteDataGuardEnabled", "type": "bool"},
         "local_disaster_recovery_type": {"key": "localDisasterRecoveryType", "type": "str"},
+        "time_disaster_recovery_role_changed": {"key": "timeDisasterRecoveryRoleChanged", "type": "iso-8601"},
+        "remote_disaster_recovery_configuration": {
+            "key": "remoteDisasterRecoveryConfiguration",
+            "type": "DisasterRecoveryConfigurationDetails",
+        },
         "local_standby_db": {"key": "localStandbyDb", "type": "AutonomousDatabaseStandbySummary"},
         "failed_data_recovery_in_seconds": {"key": "failedDataRecoveryInSeconds", "type": "int"},
         "is_mtls_connection_required": {"key": "isMtlsConnectionRequired", "type": "bool"},
@@ -1722,8 +1747,8 @@ class AutonomousDatabaseCloneProperties(
         :keyword is_auto_scaling_for_storage_enabled: Indicates if auto scaling is enabled for the
          Autonomous Database storage.
         :paramtype is_auto_scaling_for_storage_enabled: bool
-        :keyword peer_db_id: The database OCID of the Disaster Recovery peer database, which is located
-         in a different region from the current peer database.
+        :keyword peer_db_id: The Azure resource ID of the Disaster Recovery peer database, which is
+         located in a different region from the current peer database.
         :paramtype peer_db_id: str
         :keyword is_local_data_guard_enabled: Indicates whether the Autonomous Database has local or
          called in-region Data Guard enabled.
@@ -1782,8 +1807,8 @@ class AutonomousDatabaseCloneProperties(
          "BackupFromId", "BackupFromTimestamp", "CloneToRefreshable", "CrossRegionDataguard", and
          "CrossRegionDisasterRecovery".
         :paramtype source: str or ~azure.mgmt.oracledatabase.models.SourceType
-        :keyword source_id: The Azure ID of the Autonomous Database that was cloned to create the
-         current Autonomous Database. Required.
+        :keyword source_id: The Azure resource ID of the Autonomous Database that was cloned to create
+         the current Autonomous Database. Required.
         :paramtype source_id: str
         :keyword clone_type: The Autonomous Database clone type. Required. Known values are: "Full" and
          "Metadata".
@@ -1842,6 +1867,1193 @@ class AutonomousDatabaseCloneProperties(
         self.refreshable_model = refreshable_model
         self.refreshable_status = None
         self.time_until_reconnect_clone_enabled = time_until_reconnect_clone_enabled
+
+
+class AutonomousDatabaseCrossRegionDisasterRecoveryProperties(
+    AutonomousDatabaseBaseProperties
+):  # pylint: disable=name-too-long
+    """Autonomous Database Cross Region Disaster Recovery resource model.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar admin_password: Admin password.
+    :vartype admin_password: str
+    :ivar data_base_type: Database type to be created. Required. Known values are: "Regular",
+     "Clone", "CloneFromBackupTimestamp", and "CrossRegionDisasterRecovery".
+    :vartype data_base_type: str or ~azure.mgmt.oracledatabase.models.DataBaseType
+    :ivar autonomous_maintenance_schedule_type: The maintenance schedule type of the Autonomous
+     Database Serverless. Known values are: "Early" and "Regular".
+    :vartype autonomous_maintenance_schedule_type: str or
+     ~azure.mgmt.oracledatabase.models.AutonomousMaintenanceScheduleType
+    :ivar character_set: The character set for the autonomous database.
+    :vartype character_set: str
+    :ivar compute_count: The compute amount (CPUs) available to the database.
+    :vartype compute_count: float
+    :ivar compute_model: The compute model of the Autonomous Database. Known values are: "ECPU" and
+     "OCPU".
+    :vartype compute_model: str or ~azure.mgmt.oracledatabase.models.ComputeModel
+    :ivar cpu_core_count: The number of CPU cores to be made available to the database.
+    :vartype cpu_core_count: int
+    :ivar customer_contacts: Customer Contacts.
+    :vartype customer_contacts: list[~azure.mgmt.oracledatabase.models.CustomerContact]
+    :ivar data_storage_size_in_tbs: The quantity of data in the database, in terabytes.
+    :vartype data_storage_size_in_tbs: int
+    :ivar data_storage_size_in_gbs: The size, in gigabytes, of the data volume that will be created
+     and attached to the database.
+    :vartype data_storage_size_in_gbs: int
+    :ivar db_version: A valid Oracle Database version for Autonomous Database.
+    :vartype db_version: str
+    :ivar db_workload: The Autonomous Database workload type. Known values are: "OLTP", "DW",
+     "AJD", and "APEX".
+    :vartype db_workload: str or ~azure.mgmt.oracledatabase.models.WorkloadType
+    :ivar display_name: The user-friendly name for the Autonomous Database.
+    :vartype display_name: str
+    :ivar is_auto_scaling_enabled: Indicates if auto scaling is enabled for the Autonomous Database
+     CPU core count.
+    :vartype is_auto_scaling_enabled: bool
+    :ivar is_auto_scaling_for_storage_enabled: Indicates if auto scaling is enabled for the
+     Autonomous Database storage.
+    :vartype is_auto_scaling_for_storage_enabled: bool
+    :ivar peer_db_ids: The list of Azure resource IDs of standby databases located in Autonomous
+     Data Guard remote regions that are associated with the source database. Note that for
+     Autonomous Database Serverless instances, standby databases located in the same region as the
+     source primary database do not have Azure IDs.
+    :vartype peer_db_ids: list[str]
+    :ivar peer_db_id: The Azure resource ID of the Disaster Recovery peer database, which is
+     located in a different region from the current peer database.
+    :vartype peer_db_id: str
+    :ivar is_local_data_guard_enabled: Indicates whether the Autonomous Database has local or
+     called in-region Data Guard enabled.
+    :vartype is_local_data_guard_enabled: bool
+    :ivar is_remote_data_guard_enabled: Indicates whether the Autonomous Database has Cross Region
+     Data Guard enabled.
+    :vartype is_remote_data_guard_enabled: bool
+    :ivar local_disaster_recovery_type: Indicates the local disaster recovery (DR) type of the
+     Autonomous Database Serverless instance.Autonomous Data Guard (ADG) DR type provides business
+     critical DR with a faster recovery time objective (RTO) during failover or
+     switchover.Backup-based DR type provides lower cost DR with a slower RTO during failover or
+     switchover. Known values are: "Adg" and "BackupBased".
+    :vartype local_disaster_recovery_type: str or
+     ~azure.mgmt.oracledatabase.models.DisasterRecoveryType
+    :ivar time_disaster_recovery_role_changed: The date and time the Disaster Recovery role was
+     switched for the standby Autonomous Database.
+    :vartype time_disaster_recovery_role_changed: ~datetime.datetime
+    :ivar remote_disaster_recovery_configuration: Indicates remote disaster recovery configuration.
+    :vartype remote_disaster_recovery_configuration:
+     ~azure.mgmt.oracledatabase.models.DisasterRecoveryConfigurationDetails
+    :ivar local_standby_db: Local Autonomous Disaster Recovery standby database details.
+    :vartype local_standby_db: ~azure.mgmt.oracledatabase.models.AutonomousDatabaseStandbySummary
+    :ivar failed_data_recovery_in_seconds: Indicates the number of seconds of data loss for a Data
+     Guard failover.
+    :vartype failed_data_recovery_in_seconds: int
+    :ivar is_mtls_connection_required: Specifies if the Autonomous Database requires mTLS
+     connections.
+    :vartype is_mtls_connection_required: bool
+    :ivar is_preview_version_with_service_terms_accepted: Specifies if the Autonomous Database
+     preview version is being provisioned.
+    :vartype is_preview_version_with_service_terms_accepted: bool
+    :ivar license_model: The Oracle license model that applies to the Oracle Autonomous Database.
+     The default is LICENSE_INCLUDED. Known values are: "LicenseIncluded" and "BringYourOwnLicense".
+    :vartype license_model: str or ~azure.mgmt.oracledatabase.models.LicenseModel
+    :ivar ncharacter_set: The character set for the Autonomous Database.
+    :vartype ncharacter_set: str
+    :ivar lifecycle_details: Additional information about the current lifecycle state.
+    :vartype lifecycle_details: str
+    :ivar provisioning_state: Azure resource provisioning state. Known values are: "Succeeded",
+     "Failed", "Canceled", and "Provisioning".
+    :vartype provisioning_state: str or
+     ~azure.mgmt.oracledatabase.models.AzureResourceProvisioningState
+    :ivar lifecycle_state: Views lifecycleState. Known values are: "Provisioning", "Available",
+     "Stopping", "Stopped", "Starting", "Terminating", "Terminated", "Unavailable",
+     "RestoreInProgress", "RestoreFailed", "BackupInProgress", "ScaleInProgress",
+     "AvailableNeedsAttention", "Updating", "MaintenanceInProgress", "Restarting", "Recreating",
+     "RoleChangeInProgress", "Upgrading", "Inaccessible", and "Standby".
+    :vartype lifecycle_state: str or
+     ~azure.mgmt.oracledatabase.models.AutonomousDatabaseLifecycleState
+    :ivar scheduled_operations: The list of scheduled operations.
+    :vartype scheduled_operations: ~azure.mgmt.oracledatabase.models.ScheduledOperationsType
+    :ivar private_endpoint_ip: The private endpoint Ip address for the resource.
+    :vartype private_endpoint_ip: str
+    :ivar private_endpoint_label: The resource's private endpoint label.
+    :vartype private_endpoint_label: str
+    :ivar oci_url: HTTPS link to OCI resources exposed to Azure Customer via Azure Interface.
+    :vartype oci_url: str
+    :ivar subnet_id: Client subnet.
+    :vartype subnet_id: str
+    :ivar vnet_id: VNET for network connectivity.
+    :vartype vnet_id: str
+    :ivar time_created: The date and time that the database was created.
+    :vartype time_created: ~datetime.datetime
+    :ivar time_maintenance_begin: The date and time when maintenance will begin.
+    :vartype time_maintenance_begin: ~datetime.datetime
+    :ivar time_maintenance_end: The date and time when maintenance will end.
+    :vartype time_maintenance_end: ~datetime.datetime
+    :ivar actual_used_data_storage_size_in_tbs: The current amount of storage in use for user and
+     system data, in terabytes (TB).
+    :vartype actual_used_data_storage_size_in_tbs: float
+    :ivar allocated_storage_size_in_tbs: The amount of storage currently allocated for the database
+     tables and billed for, rounded up.
+    :vartype allocated_storage_size_in_tbs: float
+    :ivar apex_details: Information about Oracle APEX Application Development.
+    :vartype apex_details: ~azure.mgmt.oracledatabase.models.ApexDetailsType
+    :ivar available_upgrade_versions: List of Oracle Database versions available for a database
+     upgrade. If there are no version upgrades available, this list is empty.
+    :vartype available_upgrade_versions: list[str]
+    :ivar connection_strings: The connection string used to connect to the Autonomous Database.
+    :vartype connection_strings: ~azure.mgmt.oracledatabase.models.ConnectionStringType
+    :ivar connection_urls: The URLs for accessing Oracle Application Express (APEX) and SQL
+     Developer Web with a browser from a Compute instance within your VCN or that has a direct
+     connection to your VCN.
+    :vartype connection_urls: ~azure.mgmt.oracledatabase.models.ConnectionUrlType
+    :ivar data_safe_status: Status of the Data Safe registration for this Autonomous Database.
+     Known values are: "Registering", "Registered", "Deregistering", "NotRegistered", and "Failed".
+    :vartype data_safe_status: str or ~azure.mgmt.oracledatabase.models.DataSafeStatusType
+    :ivar database_edition: The Oracle Database Edition that applies to the Autonomous databases.
+     Known values are: "StandardEdition" and "EnterpriseEdition".
+    :vartype database_edition: str or ~azure.mgmt.oracledatabase.models.DatabaseEditionType
+    :ivar autonomous_database_id: Autonomous Database ID.
+    :vartype autonomous_database_id: str
+    :ivar in_memory_area_in_gbs: The area assigned to In-Memory tables in Autonomous Database.
+    :vartype in_memory_area_in_gbs: int
+    :ivar next_long_term_backup_time_stamp: The date and time when the next long-term backup would
+     be created.
+    :vartype next_long_term_backup_time_stamp: ~datetime.datetime
+    :ivar long_term_backup_schedule: Details for the long-term backup schedule.
+    :vartype long_term_backup_schedule:
+     ~azure.mgmt.oracledatabase.models.LongTermBackUpScheduleDetails
+    :ivar is_preview: Indicates if the Autonomous Database version is a preview version.
+    :vartype is_preview: bool
+    :ivar local_adg_auto_failover_max_data_loss_limit: Parameter that allows users to select an
+     acceptable maximum data loss limit in seconds, up to which Automatic Failover will be triggered
+     when necessary for a Local Autonomous Data Guard.
+    :vartype local_adg_auto_failover_max_data_loss_limit: int
+    :ivar memory_per_oracle_compute_unit_in_gbs: The amount of memory (in GBs) enabled per ECPU or
+     OCPU.
+    :vartype memory_per_oracle_compute_unit_in_gbs: int
+    :ivar open_mode: Indicates the Autonomous Database mode. Known values are: "ReadOnly" and
+     "ReadWrite".
+    :vartype open_mode: str or ~azure.mgmt.oracledatabase.models.OpenModeType
+    :ivar operations_insights_status: Status of Operations Insights for this Autonomous Database.
+     Known values are: "Enabling", "Enabled", "Disabling", "NotEnabled", "FailedEnabling", and
+     "FailedDisabling".
+    :vartype operations_insights_status: str or
+     ~azure.mgmt.oracledatabase.models.OperationsInsightsStatusType
+    :ivar permission_level: The Autonomous Database permission level. Known values are:
+     "Restricted" and "Unrestricted".
+    :vartype permission_level: str or ~azure.mgmt.oracledatabase.models.PermissionLevelType
+    :ivar private_endpoint: The private endpoint for the resource.
+    :vartype private_endpoint: str
+    :ivar provisionable_cpus: An array of CPU values that an Autonomous Database can be scaled to.
+    :vartype provisionable_cpus: list[int]
+    :ivar role: The Data Guard role of the Autonomous Container Database or Autonomous Database, if
+     Autonomous Data Guard is enabled. Known values are: "Primary", "Standby", "DisabledStandby",
+     "BackupCopy", and "SnapshotStandby".
+    :vartype role: str or ~azure.mgmt.oracledatabase.models.RoleType
+    :ivar service_console_url: The URL of the Service Console for the Autonomous Database.
+    :vartype service_console_url: str
+    :ivar sql_web_developer_url: The SQL Web Developer URL for the Oracle Autonomous Database.
+    :vartype sql_web_developer_url: str
+    :ivar supported_regions_to_clone_to: The list of regions that support the creation of an
+     Autonomous Database clone or an Autonomous Data Guard standby database.
+    :vartype supported_regions_to_clone_to: list[str]
+    :ivar time_data_guard_role_changed: The date and time the Autonomous Data Guard role was
+     switched for the Autonomous Database.
+    :vartype time_data_guard_role_changed: str
+    :ivar time_deletion_of_free_autonomous_database: The date and time the Always Free database
+     will be automatically deleted because of inactivity.
+    :vartype time_deletion_of_free_autonomous_database: str
+    :ivar time_local_data_guard_enabled: The date and time that Autonomous Data Guard was enabled
+     for an Autonomous Database where the standby was provisioned in the same region as the primary
+     database.
+    :vartype time_local_data_guard_enabled: str
+    :ivar time_of_last_failover: The timestamp of the last failover operation.
+    :vartype time_of_last_failover: str
+    :ivar time_of_last_refresh: The date and time when last refresh happened.
+    :vartype time_of_last_refresh: str
+    :ivar time_of_last_refresh_point: The refresh point timestamp (UTC).
+    :vartype time_of_last_refresh_point: str
+    :ivar time_of_last_switchover: The timestamp of the last switchover operation for the
+     Autonomous Database.
+    :vartype time_of_last_switchover: str
+    :ivar time_reclamation_of_free_autonomous_database: The date and time the Always Free database
+     will be stopped because of inactivity.
+    :vartype time_reclamation_of_free_autonomous_database: str
+    :ivar used_data_storage_size_in_gbs: The storage space consumed by Autonomous Database in GBs.
+    :vartype used_data_storage_size_in_gbs: int
+    :ivar used_data_storage_size_in_tbs: The amount of storage that has been used, in terabytes.
+    :vartype used_data_storage_size_in_tbs: int
+    :ivar ocid: Database ocid.
+    :vartype ocid: str
+    :ivar backup_retention_period_in_days: Retention period, in days, for long-term backups.
+    :vartype backup_retention_period_in_days: int
+    :ivar whitelisted_ips: The client IP access control list (ACL). This is an array of CIDR
+     notations and/or IP addresses. Values should be separate strings, separated by commas. Example:
+     ['1.1.1.1','1.1.1.0/24','1.1.2.25'].
+    :vartype whitelisted_ips: list[str]
+    :ivar source: The source of the database. Required. Default value is
+     "CrossRegionDisasterRecovery".
+    :vartype source: str
+    :ivar source_id: The Azure resource ID of the source Autonomous Database that will be used to
+     create a new peer database for the DR association. Required.
+    :vartype source_id: str
+    :ivar source_location: The name of the region where source Autonomous Database exists.
+    :vartype source_location: str
+    :ivar source_ocid: The source database ocid.
+    :vartype source_ocid: str
+    :ivar remote_disaster_recovery_type: Indicates the cross-region disaster recovery (DR) type of
+     the standby Autonomous Database Serverless instance. Autonomous Data Guard (ADG) DR type
+     provides business critical DR with a faster recovery time objective (RTO) during failover or
+     switchover. Backup-based DR type provides lower cost DR with a slower RTO during failover or
+     switchover. Required. Known values are: "Adg" and "BackupBased".
+    :vartype remote_disaster_recovery_type: str or
+     ~azure.mgmt.oracledatabase.models.DisasterRecoveryType
+    :ivar is_replicate_automatic_backups: If true, 7 days worth of backups are replicated across
+     regions for Cross-Region ADB or Backup-Based DR between Primary and Standby. If false, the
+     backups taken on the Primary are not replicated to the Standby database.
+    :vartype is_replicate_automatic_backups: bool
+    """
+
+    _validation = {
+        "data_base_type": {"required": True},
+        "character_set": {"max_length": 255, "min_length": 1},
+        "compute_count": {"maximum": 512, "minimum": 0.1},
+        "cpu_core_count": {"maximum": 128, "minimum": 1},
+        "data_storage_size_in_tbs": {"maximum": 384, "minimum": 1},
+        "data_storage_size_in_gbs": {"maximum": 393216, "minimum": 20},
+        "db_version": {"max_length": 255, "min_length": 1},
+        "display_name": {"max_length": 255, "min_length": 1},
+        "peer_db_ids": {"readonly": True},
+        "peer_db_id": {"max_length": 255, "min_length": 1},
+        "is_remote_data_guard_enabled": {"readonly": True},
+        "local_disaster_recovery_type": {"readonly": True},
+        "time_disaster_recovery_role_changed": {"readonly": True},
+        "remote_disaster_recovery_configuration": {"readonly": True},
+        "local_standby_db": {"readonly": True},
+        "failed_data_recovery_in_seconds": {"readonly": True},
+        "ncharacter_set": {"max_length": 255, "min_length": 1},
+        "lifecycle_details": {"readonly": True},
+        "provisioning_state": {"readonly": True},
+        "lifecycle_state": {"readonly": True},
+        "oci_url": {"readonly": True},
+        "time_created": {"readonly": True},
+        "time_maintenance_begin": {"readonly": True},
+        "time_maintenance_end": {"readonly": True},
+        "actual_used_data_storage_size_in_tbs": {"readonly": True},
+        "allocated_storage_size_in_tbs": {"readonly": True},
+        "apex_details": {"readonly": True},
+        "available_upgrade_versions": {"readonly": True},
+        "connection_strings": {"readonly": True},
+        "connection_urls": {"readonly": True},
+        "data_safe_status": {"readonly": True},
+        "in_memory_area_in_gbs": {"readonly": True},
+        "next_long_term_backup_time_stamp": {"readonly": True},
+        "is_preview": {"readonly": True},
+        "local_adg_auto_failover_max_data_loss_limit": {"maximum": 3600, "minimum": 0},
+        "memory_per_oracle_compute_unit_in_gbs": {"readonly": True},
+        "operations_insights_status": {"readonly": True},
+        "private_endpoint": {"readonly": True},
+        "provisionable_cpus": {"readonly": True},
+        "service_console_url": {"readonly": True, "max_length": 255, "min_length": 10},
+        "sql_web_developer_url": {"readonly": True, "max_length": 2048, "min_length": 10},
+        "supported_regions_to_clone_to": {"readonly": True, "max_items": 50, "min_items": 0},
+        "time_data_guard_role_changed": {"readonly": True},
+        "time_deletion_of_free_autonomous_database": {"readonly": True},
+        "time_local_data_guard_enabled": {"readonly": True},
+        "time_of_last_failover": {"readonly": True},
+        "time_of_last_refresh": {"readonly": True},
+        "time_of_last_refresh_point": {"readonly": True},
+        "time_of_last_switchover": {"readonly": True},
+        "time_reclamation_of_free_autonomous_database": {"readonly": True},
+        "used_data_storage_size_in_gbs": {"readonly": True},
+        "used_data_storage_size_in_tbs": {"readonly": True},
+        "ocid": {"readonly": True, "max_length": 255, "min_length": 1},
+        "source": {"required": True, "constant": True},
+        "source_id": {"required": True},
+        "source_ocid": {"max_length": 255, "min_length": 1},
+        "remote_disaster_recovery_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "admin_password": {"key": "adminPassword", "type": "str"},
+        "data_base_type": {"key": "dataBaseType", "type": "str"},
+        "autonomous_maintenance_schedule_type": {"key": "autonomousMaintenanceScheduleType", "type": "str"},
+        "character_set": {"key": "characterSet", "type": "str"},
+        "compute_count": {"key": "computeCount", "type": "float"},
+        "compute_model": {"key": "computeModel", "type": "str"},
+        "cpu_core_count": {"key": "cpuCoreCount", "type": "int"},
+        "customer_contacts": {"key": "customerContacts", "type": "[CustomerContact]"},
+        "data_storage_size_in_tbs": {"key": "dataStorageSizeInTbs", "type": "int"},
+        "data_storage_size_in_gbs": {"key": "dataStorageSizeInGbs", "type": "int"},
+        "db_version": {"key": "dbVersion", "type": "str"},
+        "db_workload": {"key": "dbWorkload", "type": "str"},
+        "display_name": {"key": "displayName", "type": "str"},
+        "is_auto_scaling_enabled": {"key": "isAutoScalingEnabled", "type": "bool"},
+        "is_auto_scaling_for_storage_enabled": {"key": "isAutoScalingForStorageEnabled", "type": "bool"},
+        "peer_db_ids": {"key": "peerDbIds", "type": "[str]"},
+        "peer_db_id": {"key": "peerDbId", "type": "str"},
+        "is_local_data_guard_enabled": {"key": "isLocalDataGuardEnabled", "type": "bool"},
+        "is_remote_data_guard_enabled": {"key": "isRemoteDataGuardEnabled", "type": "bool"},
+        "local_disaster_recovery_type": {"key": "localDisasterRecoveryType", "type": "str"},
+        "time_disaster_recovery_role_changed": {"key": "timeDisasterRecoveryRoleChanged", "type": "iso-8601"},
+        "remote_disaster_recovery_configuration": {
+            "key": "remoteDisasterRecoveryConfiguration",
+            "type": "DisasterRecoveryConfigurationDetails",
+        },
+        "local_standby_db": {"key": "localStandbyDb", "type": "AutonomousDatabaseStandbySummary"},
+        "failed_data_recovery_in_seconds": {"key": "failedDataRecoveryInSeconds", "type": "int"},
+        "is_mtls_connection_required": {"key": "isMtlsConnectionRequired", "type": "bool"},
+        "is_preview_version_with_service_terms_accepted": {
+            "key": "isPreviewVersionWithServiceTermsAccepted",
+            "type": "bool",
+        },
+        "license_model": {"key": "licenseModel", "type": "str"},
+        "ncharacter_set": {"key": "ncharacterSet", "type": "str"},
+        "lifecycle_details": {"key": "lifecycleDetails", "type": "str"},
+        "provisioning_state": {"key": "provisioningState", "type": "str"},
+        "lifecycle_state": {"key": "lifecycleState", "type": "str"},
+        "scheduled_operations": {"key": "scheduledOperations", "type": "ScheduledOperationsType"},
+        "private_endpoint_ip": {"key": "privateEndpointIp", "type": "str"},
+        "private_endpoint_label": {"key": "privateEndpointLabel", "type": "str"},
+        "oci_url": {"key": "ociUrl", "type": "str"},
+        "subnet_id": {"key": "subnetId", "type": "str"},
+        "vnet_id": {"key": "vnetId", "type": "str"},
+        "time_created": {"key": "timeCreated", "type": "iso-8601"},
+        "time_maintenance_begin": {"key": "timeMaintenanceBegin", "type": "iso-8601"},
+        "time_maintenance_end": {"key": "timeMaintenanceEnd", "type": "iso-8601"},
+        "actual_used_data_storage_size_in_tbs": {"key": "actualUsedDataStorageSizeInTbs", "type": "float"},
+        "allocated_storage_size_in_tbs": {"key": "allocatedStorageSizeInTbs", "type": "float"},
+        "apex_details": {"key": "apexDetails", "type": "ApexDetailsType"},
+        "available_upgrade_versions": {"key": "availableUpgradeVersions", "type": "[str]"},
+        "connection_strings": {"key": "connectionStrings", "type": "ConnectionStringType"},
+        "connection_urls": {"key": "connectionUrls", "type": "ConnectionUrlType"},
+        "data_safe_status": {"key": "dataSafeStatus", "type": "str"},
+        "database_edition": {"key": "databaseEdition", "type": "str"},
+        "autonomous_database_id": {"key": "autonomousDatabaseId", "type": "str"},
+        "in_memory_area_in_gbs": {"key": "inMemoryAreaInGbs", "type": "int"},
+        "next_long_term_backup_time_stamp": {"key": "nextLongTermBackupTimeStamp", "type": "iso-8601"},
+        "long_term_backup_schedule": {"key": "longTermBackupSchedule", "type": "LongTermBackUpScheduleDetails"},
+        "is_preview": {"key": "isPreview", "type": "bool"},
+        "local_adg_auto_failover_max_data_loss_limit": {"key": "localAdgAutoFailoverMaxDataLossLimit", "type": "int"},
+        "memory_per_oracle_compute_unit_in_gbs": {"key": "memoryPerOracleComputeUnitInGbs", "type": "int"},
+        "open_mode": {"key": "openMode", "type": "str"},
+        "operations_insights_status": {"key": "operationsInsightsStatus", "type": "str"},
+        "permission_level": {"key": "permissionLevel", "type": "str"},
+        "private_endpoint": {"key": "privateEndpoint", "type": "str"},
+        "provisionable_cpus": {"key": "provisionableCpus", "type": "[int]"},
+        "role": {"key": "role", "type": "str"},
+        "service_console_url": {"key": "serviceConsoleUrl", "type": "str"},
+        "sql_web_developer_url": {"key": "sqlWebDeveloperUrl", "type": "str"},
+        "supported_regions_to_clone_to": {"key": "supportedRegionsToCloneTo", "type": "[str]"},
+        "time_data_guard_role_changed": {"key": "timeDataGuardRoleChanged", "type": "str"},
+        "time_deletion_of_free_autonomous_database": {"key": "timeDeletionOfFreeAutonomousDatabase", "type": "str"},
+        "time_local_data_guard_enabled": {"key": "timeLocalDataGuardEnabled", "type": "str"},
+        "time_of_last_failover": {"key": "timeOfLastFailover", "type": "str"},
+        "time_of_last_refresh": {"key": "timeOfLastRefresh", "type": "str"},
+        "time_of_last_refresh_point": {"key": "timeOfLastRefreshPoint", "type": "str"},
+        "time_of_last_switchover": {"key": "timeOfLastSwitchover", "type": "str"},
+        "time_reclamation_of_free_autonomous_database": {
+            "key": "timeReclamationOfFreeAutonomousDatabase",
+            "type": "str",
+        },
+        "used_data_storage_size_in_gbs": {"key": "usedDataStorageSizeInGbs", "type": "int"},
+        "used_data_storage_size_in_tbs": {"key": "usedDataStorageSizeInTbs", "type": "int"},
+        "ocid": {"key": "ocid", "type": "str"},
+        "backup_retention_period_in_days": {"key": "backupRetentionPeriodInDays", "type": "int"},
+        "whitelisted_ips": {"key": "whitelistedIps", "type": "[str]"},
+        "source": {"key": "source", "type": "str"},
+        "source_id": {"key": "sourceId", "type": "str"},
+        "source_location": {"key": "sourceLocation", "type": "str"},
+        "source_ocid": {"key": "sourceOcid", "type": "str"},
+        "remote_disaster_recovery_type": {"key": "remoteDisasterRecoveryType", "type": "str"},
+        "is_replicate_automatic_backups": {"key": "isReplicateAutomaticBackups", "type": "bool"},
+    }
+
+    source = "CrossRegionDisasterRecovery"
+
+    def __init__(  # pylint: disable=too-many-locals
+        self,
+        *,
+        source_id: str,
+        remote_disaster_recovery_type: Union[str, "_models.DisasterRecoveryType"],
+        admin_password: Optional[str] = None,
+        autonomous_maintenance_schedule_type: Optional[Union[str, "_models.AutonomousMaintenanceScheduleType"]] = None,
+        character_set: Optional[str] = None,
+        compute_count: Optional[float] = None,
+        compute_model: Optional[Union[str, "_models.ComputeModel"]] = None,
+        cpu_core_count: Optional[int] = None,
+        customer_contacts: Optional[List["_models.CustomerContact"]] = None,
+        data_storage_size_in_tbs: Optional[int] = None,
+        data_storage_size_in_gbs: Optional[int] = None,
+        db_version: Optional[str] = None,
+        db_workload: Optional[Union[str, "_models.WorkloadType"]] = None,
+        display_name: Optional[str] = None,
+        is_auto_scaling_enabled: Optional[bool] = None,
+        is_auto_scaling_for_storage_enabled: Optional[bool] = None,
+        peer_db_id: Optional[str] = None,
+        is_local_data_guard_enabled: Optional[bool] = None,
+        is_mtls_connection_required: Optional[bool] = None,
+        is_preview_version_with_service_terms_accepted: Optional[bool] = None,
+        license_model: Optional[Union[str, "_models.LicenseModel"]] = None,
+        ncharacter_set: Optional[str] = None,
+        scheduled_operations: Optional["_models.ScheduledOperationsType"] = None,
+        private_endpoint_ip: Optional[str] = None,
+        private_endpoint_label: Optional[str] = None,
+        subnet_id: Optional[str] = None,
+        vnet_id: Optional[str] = None,
+        database_edition: Optional[Union[str, "_models.DatabaseEditionType"]] = None,
+        autonomous_database_id: Optional[str] = None,
+        long_term_backup_schedule: Optional["_models.LongTermBackUpScheduleDetails"] = None,
+        local_adg_auto_failover_max_data_loss_limit: Optional[int] = None,
+        open_mode: Optional[Union[str, "_models.OpenModeType"]] = None,
+        permission_level: Optional[Union[str, "_models.PermissionLevelType"]] = None,
+        role: Optional[Union[str, "_models.RoleType"]] = None,
+        backup_retention_period_in_days: Optional[int] = None,
+        whitelisted_ips: Optional[List[str]] = None,
+        source_location: Optional[str] = None,
+        source_ocid: Optional[str] = None,
+        is_replicate_automatic_backups: Optional[bool] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword admin_password: Admin password.
+        :paramtype admin_password: str
+        :keyword autonomous_maintenance_schedule_type: The maintenance schedule type of the Autonomous
+         Database Serverless. Known values are: "Early" and "Regular".
+        :paramtype autonomous_maintenance_schedule_type: str or
+         ~azure.mgmt.oracledatabase.models.AutonomousMaintenanceScheduleType
+        :keyword character_set: The character set for the autonomous database.
+        :paramtype character_set: str
+        :keyword compute_count: The compute amount (CPUs) available to the database.
+        :paramtype compute_count: float
+        :keyword compute_model: The compute model of the Autonomous Database. Known values are: "ECPU"
+         and "OCPU".
+        :paramtype compute_model: str or ~azure.mgmt.oracledatabase.models.ComputeModel
+        :keyword cpu_core_count: The number of CPU cores to be made available to the database.
+        :paramtype cpu_core_count: int
+        :keyword customer_contacts: Customer Contacts.
+        :paramtype customer_contacts: list[~azure.mgmt.oracledatabase.models.CustomerContact]
+        :keyword data_storage_size_in_tbs: The quantity of data in the database, in terabytes.
+        :paramtype data_storage_size_in_tbs: int
+        :keyword data_storage_size_in_gbs: The size, in gigabytes, of the data volume that will be
+         created and attached to the database.
+        :paramtype data_storage_size_in_gbs: int
+        :keyword db_version: A valid Oracle Database version for Autonomous Database.
+        :paramtype db_version: str
+        :keyword db_workload: The Autonomous Database workload type. Known values are: "OLTP", "DW",
+         "AJD", and "APEX".
+        :paramtype db_workload: str or ~azure.mgmt.oracledatabase.models.WorkloadType
+        :keyword display_name: The user-friendly name for the Autonomous Database.
+        :paramtype display_name: str
+        :keyword is_auto_scaling_enabled: Indicates if auto scaling is enabled for the Autonomous
+         Database CPU core count.
+        :paramtype is_auto_scaling_enabled: bool
+        :keyword is_auto_scaling_for_storage_enabled: Indicates if auto scaling is enabled for the
+         Autonomous Database storage.
+        :paramtype is_auto_scaling_for_storage_enabled: bool
+        :keyword peer_db_id: The Azure resource ID of the Disaster Recovery peer database, which is
+         located in a different region from the current peer database.
+        :paramtype peer_db_id: str
+        :keyword is_local_data_guard_enabled: Indicates whether the Autonomous Database has local or
+         called in-region Data Guard enabled.
+        :paramtype is_local_data_guard_enabled: bool
+        :keyword is_mtls_connection_required: Specifies if the Autonomous Database requires mTLS
+         connections.
+        :paramtype is_mtls_connection_required: bool
+        :keyword is_preview_version_with_service_terms_accepted: Specifies if the Autonomous Database
+         preview version is being provisioned.
+        :paramtype is_preview_version_with_service_terms_accepted: bool
+        :keyword license_model: The Oracle license model that applies to the Oracle Autonomous
+         Database. The default is LICENSE_INCLUDED. Known values are: "LicenseIncluded" and
+         "BringYourOwnLicense".
+        :paramtype license_model: str or ~azure.mgmt.oracledatabase.models.LicenseModel
+        :keyword ncharacter_set: The character set for the Autonomous Database.
+        :paramtype ncharacter_set: str
+        :keyword scheduled_operations: The list of scheduled operations.
+        :paramtype scheduled_operations: ~azure.mgmt.oracledatabase.models.ScheduledOperationsType
+        :keyword private_endpoint_ip: The private endpoint Ip address for the resource.
+        :paramtype private_endpoint_ip: str
+        :keyword private_endpoint_label: The resource's private endpoint label.
+        :paramtype private_endpoint_label: str
+        :keyword subnet_id: Client subnet.
+        :paramtype subnet_id: str
+        :keyword vnet_id: VNET for network connectivity.
+        :paramtype vnet_id: str
+        :keyword database_edition: The Oracle Database Edition that applies to the Autonomous
+         databases. Known values are: "StandardEdition" and "EnterpriseEdition".
+        :paramtype database_edition: str or ~azure.mgmt.oracledatabase.models.DatabaseEditionType
+        :keyword autonomous_database_id: Autonomous Database ID.
+        :paramtype autonomous_database_id: str
+        :keyword long_term_backup_schedule: Details for the long-term backup schedule.
+        :paramtype long_term_backup_schedule:
+         ~azure.mgmt.oracledatabase.models.LongTermBackUpScheduleDetails
+        :keyword local_adg_auto_failover_max_data_loss_limit: Parameter that allows users to select an
+         acceptable maximum data loss limit in seconds, up to which Automatic Failover will be triggered
+         when necessary for a Local Autonomous Data Guard.
+        :paramtype local_adg_auto_failover_max_data_loss_limit: int
+        :keyword open_mode: Indicates the Autonomous Database mode. Known values are: "ReadOnly" and
+         "ReadWrite".
+        :paramtype open_mode: str or ~azure.mgmt.oracledatabase.models.OpenModeType
+        :keyword permission_level: The Autonomous Database permission level. Known values are:
+         "Restricted" and "Unrestricted".
+        :paramtype permission_level: str or ~azure.mgmt.oracledatabase.models.PermissionLevelType
+        :keyword role: The Data Guard role of the Autonomous Container Database or Autonomous Database,
+         if Autonomous Data Guard is enabled. Known values are: "Primary", "Standby", "DisabledStandby",
+         "BackupCopy", and "SnapshotStandby".
+        :paramtype role: str or ~azure.mgmt.oracledatabase.models.RoleType
+        :keyword backup_retention_period_in_days: Retention period, in days, for long-term backups.
+        :paramtype backup_retention_period_in_days: int
+        :keyword whitelisted_ips: The client IP access control list (ACL). This is an array of CIDR
+         notations and/or IP addresses. Values should be separate strings, separated by commas. Example:
+         ['1.1.1.1','1.1.1.0/24','1.1.2.25'].
+        :paramtype whitelisted_ips: list[str]
+        :keyword source_id: The Azure resource ID of the source Autonomous Database that will be used
+         to create a new peer database for the DR association. Required.
+        :paramtype source_id: str
+        :keyword source_location: The name of the region where source Autonomous Database exists.
+        :paramtype source_location: str
+        :keyword source_ocid: The source database ocid.
+        :paramtype source_ocid: str
+        :keyword remote_disaster_recovery_type: Indicates the cross-region disaster recovery (DR) type
+         of the standby Autonomous Database Serverless instance. Autonomous Data Guard (ADG) DR type
+         provides business critical DR with a faster recovery time objective (RTO) during failover or
+         switchover. Backup-based DR type provides lower cost DR with a slower RTO during failover or
+         switchover. Required. Known values are: "Adg" and "BackupBased".
+        :paramtype remote_disaster_recovery_type: str or
+         ~azure.mgmt.oracledatabase.models.DisasterRecoveryType
+        :keyword is_replicate_automatic_backups: If true, 7 days worth of backups are replicated across
+         regions for Cross-Region ADB or Backup-Based DR between Primary and Standby. If false, the
+         backups taken on the Primary are not replicated to the Standby database.
+        :paramtype is_replicate_automatic_backups: bool
+        """
+        super().__init__(
+            admin_password=admin_password,
+            autonomous_maintenance_schedule_type=autonomous_maintenance_schedule_type,
+            character_set=character_set,
+            compute_count=compute_count,
+            compute_model=compute_model,
+            cpu_core_count=cpu_core_count,
+            customer_contacts=customer_contacts,
+            data_storage_size_in_tbs=data_storage_size_in_tbs,
+            data_storage_size_in_gbs=data_storage_size_in_gbs,
+            db_version=db_version,
+            db_workload=db_workload,
+            display_name=display_name,
+            is_auto_scaling_enabled=is_auto_scaling_enabled,
+            is_auto_scaling_for_storage_enabled=is_auto_scaling_for_storage_enabled,
+            peer_db_id=peer_db_id,
+            is_local_data_guard_enabled=is_local_data_guard_enabled,
+            is_mtls_connection_required=is_mtls_connection_required,
+            is_preview_version_with_service_terms_accepted=is_preview_version_with_service_terms_accepted,
+            license_model=license_model,
+            ncharacter_set=ncharacter_set,
+            scheduled_operations=scheduled_operations,
+            private_endpoint_ip=private_endpoint_ip,
+            private_endpoint_label=private_endpoint_label,
+            subnet_id=subnet_id,
+            vnet_id=vnet_id,
+            database_edition=database_edition,
+            autonomous_database_id=autonomous_database_id,
+            long_term_backup_schedule=long_term_backup_schedule,
+            local_adg_auto_failover_max_data_loss_limit=local_adg_auto_failover_max_data_loss_limit,
+            open_mode=open_mode,
+            permission_level=permission_level,
+            role=role,
+            backup_retention_period_in_days=backup_retention_period_in_days,
+            whitelisted_ips=whitelisted_ips,
+            **kwargs
+        )
+        self.data_base_type: str = "CrossRegionDisasterRecovery"
+        self.source_id = source_id
+        self.source_location = source_location
+        self.source_ocid = source_ocid
+        self.remote_disaster_recovery_type = remote_disaster_recovery_type
+        self.is_replicate_automatic_backups = is_replicate_automatic_backups
+
+
+class AutonomousDatabaseFromBackupTimestampProperties(
+    AutonomousDatabaseBaseProperties
+):  # pylint: disable=name-too-long
+    """Autonomous Database From Backup Timestamp resource model.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar admin_password: Admin password.
+    :vartype admin_password: str
+    :ivar data_base_type: Database type to be created. Required. Known values are: "Regular",
+     "Clone", "CloneFromBackupTimestamp", and "CrossRegionDisasterRecovery".
+    :vartype data_base_type: str or ~azure.mgmt.oracledatabase.models.DataBaseType
+    :ivar autonomous_maintenance_schedule_type: The maintenance schedule type of the Autonomous
+     Database Serverless. Known values are: "Early" and "Regular".
+    :vartype autonomous_maintenance_schedule_type: str or
+     ~azure.mgmt.oracledatabase.models.AutonomousMaintenanceScheduleType
+    :ivar character_set: The character set for the autonomous database.
+    :vartype character_set: str
+    :ivar compute_count: The compute amount (CPUs) available to the database.
+    :vartype compute_count: float
+    :ivar compute_model: The compute model of the Autonomous Database. Known values are: "ECPU" and
+     "OCPU".
+    :vartype compute_model: str or ~azure.mgmt.oracledatabase.models.ComputeModel
+    :ivar cpu_core_count: The number of CPU cores to be made available to the database.
+    :vartype cpu_core_count: int
+    :ivar customer_contacts: Customer Contacts.
+    :vartype customer_contacts: list[~azure.mgmt.oracledatabase.models.CustomerContact]
+    :ivar data_storage_size_in_tbs: The quantity of data in the database, in terabytes.
+    :vartype data_storage_size_in_tbs: int
+    :ivar data_storage_size_in_gbs: The size, in gigabytes, of the data volume that will be created
+     and attached to the database.
+    :vartype data_storage_size_in_gbs: int
+    :ivar db_version: A valid Oracle Database version for Autonomous Database.
+    :vartype db_version: str
+    :ivar db_workload: The Autonomous Database workload type. Known values are: "OLTP", "DW",
+     "AJD", and "APEX".
+    :vartype db_workload: str or ~azure.mgmt.oracledatabase.models.WorkloadType
+    :ivar display_name: The user-friendly name for the Autonomous Database.
+    :vartype display_name: str
+    :ivar is_auto_scaling_enabled: Indicates if auto scaling is enabled for the Autonomous Database
+     CPU core count.
+    :vartype is_auto_scaling_enabled: bool
+    :ivar is_auto_scaling_for_storage_enabled: Indicates if auto scaling is enabled for the
+     Autonomous Database storage.
+    :vartype is_auto_scaling_for_storage_enabled: bool
+    :ivar peer_db_ids: The list of Azure resource IDs of standby databases located in Autonomous
+     Data Guard remote regions that are associated with the source database. Note that for
+     Autonomous Database Serverless instances, standby databases located in the same region as the
+     source primary database do not have Azure IDs.
+    :vartype peer_db_ids: list[str]
+    :ivar peer_db_id: The Azure resource ID of the Disaster Recovery peer database, which is
+     located in a different region from the current peer database.
+    :vartype peer_db_id: str
+    :ivar is_local_data_guard_enabled: Indicates whether the Autonomous Database has local or
+     called in-region Data Guard enabled.
+    :vartype is_local_data_guard_enabled: bool
+    :ivar is_remote_data_guard_enabled: Indicates whether the Autonomous Database has Cross Region
+     Data Guard enabled.
+    :vartype is_remote_data_guard_enabled: bool
+    :ivar local_disaster_recovery_type: Indicates the local disaster recovery (DR) type of the
+     Autonomous Database Serverless instance.Autonomous Data Guard (ADG) DR type provides business
+     critical DR with a faster recovery time objective (RTO) during failover or
+     switchover.Backup-based DR type provides lower cost DR with a slower RTO during failover or
+     switchover. Known values are: "Adg" and "BackupBased".
+    :vartype local_disaster_recovery_type: str or
+     ~azure.mgmt.oracledatabase.models.DisasterRecoveryType
+    :ivar time_disaster_recovery_role_changed: The date and time the Disaster Recovery role was
+     switched for the standby Autonomous Database.
+    :vartype time_disaster_recovery_role_changed: ~datetime.datetime
+    :ivar remote_disaster_recovery_configuration: Indicates remote disaster recovery configuration.
+    :vartype remote_disaster_recovery_configuration:
+     ~azure.mgmt.oracledatabase.models.DisasterRecoveryConfigurationDetails
+    :ivar local_standby_db: Local Autonomous Disaster Recovery standby database details.
+    :vartype local_standby_db: ~azure.mgmt.oracledatabase.models.AutonomousDatabaseStandbySummary
+    :ivar failed_data_recovery_in_seconds: Indicates the number of seconds of data loss for a Data
+     Guard failover.
+    :vartype failed_data_recovery_in_seconds: int
+    :ivar is_mtls_connection_required: Specifies if the Autonomous Database requires mTLS
+     connections.
+    :vartype is_mtls_connection_required: bool
+    :ivar is_preview_version_with_service_terms_accepted: Specifies if the Autonomous Database
+     preview version is being provisioned.
+    :vartype is_preview_version_with_service_terms_accepted: bool
+    :ivar license_model: The Oracle license model that applies to the Oracle Autonomous Database.
+     The default is LICENSE_INCLUDED. Known values are: "LicenseIncluded" and "BringYourOwnLicense".
+    :vartype license_model: str or ~azure.mgmt.oracledatabase.models.LicenseModel
+    :ivar ncharacter_set: The character set for the Autonomous Database.
+    :vartype ncharacter_set: str
+    :ivar lifecycle_details: Additional information about the current lifecycle state.
+    :vartype lifecycle_details: str
+    :ivar provisioning_state: Azure resource provisioning state. Known values are: "Succeeded",
+     "Failed", "Canceled", and "Provisioning".
+    :vartype provisioning_state: str or
+     ~azure.mgmt.oracledatabase.models.AzureResourceProvisioningState
+    :ivar lifecycle_state: Views lifecycleState. Known values are: "Provisioning", "Available",
+     "Stopping", "Stopped", "Starting", "Terminating", "Terminated", "Unavailable",
+     "RestoreInProgress", "RestoreFailed", "BackupInProgress", "ScaleInProgress",
+     "AvailableNeedsAttention", "Updating", "MaintenanceInProgress", "Restarting", "Recreating",
+     "RoleChangeInProgress", "Upgrading", "Inaccessible", and "Standby".
+    :vartype lifecycle_state: str or
+     ~azure.mgmt.oracledatabase.models.AutonomousDatabaseLifecycleState
+    :ivar scheduled_operations: The list of scheduled operations.
+    :vartype scheduled_operations: ~azure.mgmt.oracledatabase.models.ScheduledOperationsType
+    :ivar private_endpoint_ip: The private endpoint Ip address for the resource.
+    :vartype private_endpoint_ip: str
+    :ivar private_endpoint_label: The resource's private endpoint label.
+    :vartype private_endpoint_label: str
+    :ivar oci_url: HTTPS link to OCI resources exposed to Azure Customer via Azure Interface.
+    :vartype oci_url: str
+    :ivar subnet_id: Client subnet.
+    :vartype subnet_id: str
+    :ivar vnet_id: VNET for network connectivity.
+    :vartype vnet_id: str
+    :ivar time_created: The date and time that the database was created.
+    :vartype time_created: ~datetime.datetime
+    :ivar time_maintenance_begin: The date and time when maintenance will begin.
+    :vartype time_maintenance_begin: ~datetime.datetime
+    :ivar time_maintenance_end: The date and time when maintenance will end.
+    :vartype time_maintenance_end: ~datetime.datetime
+    :ivar actual_used_data_storage_size_in_tbs: The current amount of storage in use for user and
+     system data, in terabytes (TB).
+    :vartype actual_used_data_storage_size_in_tbs: float
+    :ivar allocated_storage_size_in_tbs: The amount of storage currently allocated for the database
+     tables and billed for, rounded up.
+    :vartype allocated_storage_size_in_tbs: float
+    :ivar apex_details: Information about Oracle APEX Application Development.
+    :vartype apex_details: ~azure.mgmt.oracledatabase.models.ApexDetailsType
+    :ivar available_upgrade_versions: List of Oracle Database versions available for a database
+     upgrade. If there are no version upgrades available, this list is empty.
+    :vartype available_upgrade_versions: list[str]
+    :ivar connection_strings: The connection string used to connect to the Autonomous Database.
+    :vartype connection_strings: ~azure.mgmt.oracledatabase.models.ConnectionStringType
+    :ivar connection_urls: The URLs for accessing Oracle Application Express (APEX) and SQL
+     Developer Web with a browser from a Compute instance within your VCN or that has a direct
+     connection to your VCN.
+    :vartype connection_urls: ~azure.mgmt.oracledatabase.models.ConnectionUrlType
+    :ivar data_safe_status: Status of the Data Safe registration for this Autonomous Database.
+     Known values are: "Registering", "Registered", "Deregistering", "NotRegistered", and "Failed".
+    :vartype data_safe_status: str or ~azure.mgmt.oracledatabase.models.DataSafeStatusType
+    :ivar database_edition: The Oracle Database Edition that applies to the Autonomous databases.
+     Known values are: "StandardEdition" and "EnterpriseEdition".
+    :vartype database_edition: str or ~azure.mgmt.oracledatabase.models.DatabaseEditionType
+    :ivar autonomous_database_id: Autonomous Database ID.
+    :vartype autonomous_database_id: str
+    :ivar in_memory_area_in_gbs: The area assigned to In-Memory tables in Autonomous Database.
+    :vartype in_memory_area_in_gbs: int
+    :ivar next_long_term_backup_time_stamp: The date and time when the next long-term backup would
+     be created.
+    :vartype next_long_term_backup_time_stamp: ~datetime.datetime
+    :ivar long_term_backup_schedule: Details for the long-term backup schedule.
+    :vartype long_term_backup_schedule:
+     ~azure.mgmt.oracledatabase.models.LongTermBackUpScheduleDetails
+    :ivar is_preview: Indicates if the Autonomous Database version is a preview version.
+    :vartype is_preview: bool
+    :ivar local_adg_auto_failover_max_data_loss_limit: Parameter that allows users to select an
+     acceptable maximum data loss limit in seconds, up to which Automatic Failover will be triggered
+     when necessary for a Local Autonomous Data Guard.
+    :vartype local_adg_auto_failover_max_data_loss_limit: int
+    :ivar memory_per_oracle_compute_unit_in_gbs: The amount of memory (in GBs) enabled per ECPU or
+     OCPU.
+    :vartype memory_per_oracle_compute_unit_in_gbs: int
+    :ivar open_mode: Indicates the Autonomous Database mode. Known values are: "ReadOnly" and
+     "ReadWrite".
+    :vartype open_mode: str or ~azure.mgmt.oracledatabase.models.OpenModeType
+    :ivar operations_insights_status: Status of Operations Insights for this Autonomous Database.
+     Known values are: "Enabling", "Enabled", "Disabling", "NotEnabled", "FailedEnabling", and
+     "FailedDisabling".
+    :vartype operations_insights_status: str or
+     ~azure.mgmt.oracledatabase.models.OperationsInsightsStatusType
+    :ivar permission_level: The Autonomous Database permission level. Known values are:
+     "Restricted" and "Unrestricted".
+    :vartype permission_level: str or ~azure.mgmt.oracledatabase.models.PermissionLevelType
+    :ivar private_endpoint: The private endpoint for the resource.
+    :vartype private_endpoint: str
+    :ivar provisionable_cpus: An array of CPU values that an Autonomous Database can be scaled to.
+    :vartype provisionable_cpus: list[int]
+    :ivar role: The Data Guard role of the Autonomous Container Database or Autonomous Database, if
+     Autonomous Data Guard is enabled. Known values are: "Primary", "Standby", "DisabledStandby",
+     "BackupCopy", and "SnapshotStandby".
+    :vartype role: str or ~azure.mgmt.oracledatabase.models.RoleType
+    :ivar service_console_url: The URL of the Service Console for the Autonomous Database.
+    :vartype service_console_url: str
+    :ivar sql_web_developer_url: The SQL Web Developer URL for the Oracle Autonomous Database.
+    :vartype sql_web_developer_url: str
+    :ivar supported_regions_to_clone_to: The list of regions that support the creation of an
+     Autonomous Database clone or an Autonomous Data Guard standby database.
+    :vartype supported_regions_to_clone_to: list[str]
+    :ivar time_data_guard_role_changed: The date and time the Autonomous Data Guard role was
+     switched for the Autonomous Database.
+    :vartype time_data_guard_role_changed: str
+    :ivar time_deletion_of_free_autonomous_database: The date and time the Always Free database
+     will be automatically deleted because of inactivity.
+    :vartype time_deletion_of_free_autonomous_database: str
+    :ivar time_local_data_guard_enabled: The date and time that Autonomous Data Guard was enabled
+     for an Autonomous Database where the standby was provisioned in the same region as the primary
+     database.
+    :vartype time_local_data_guard_enabled: str
+    :ivar time_of_last_failover: The timestamp of the last failover operation.
+    :vartype time_of_last_failover: str
+    :ivar time_of_last_refresh: The date and time when last refresh happened.
+    :vartype time_of_last_refresh: str
+    :ivar time_of_last_refresh_point: The refresh point timestamp (UTC).
+    :vartype time_of_last_refresh_point: str
+    :ivar time_of_last_switchover: The timestamp of the last switchover operation for the
+     Autonomous Database.
+    :vartype time_of_last_switchover: str
+    :ivar time_reclamation_of_free_autonomous_database: The date and time the Always Free database
+     will be stopped because of inactivity.
+    :vartype time_reclamation_of_free_autonomous_database: str
+    :ivar used_data_storage_size_in_gbs: The storage space consumed by Autonomous Database in GBs.
+    :vartype used_data_storage_size_in_gbs: int
+    :ivar used_data_storage_size_in_tbs: The amount of storage that has been used, in terabytes.
+    :vartype used_data_storage_size_in_tbs: int
+    :ivar ocid: Database ocid.
+    :vartype ocid: str
+    :ivar backup_retention_period_in_days: Retention period, in days, for long-term backups.
+    :vartype backup_retention_period_in_days: int
+    :ivar whitelisted_ips: The client IP access control list (ACL). This is an array of CIDR
+     notations and/or IP addresses. Values should be separate strings, separated by commas. Example:
+     ['1.1.1.1','1.1.1.0/24','1.1.2.25'].
+    :vartype whitelisted_ips: list[str]
+    :ivar source: The source of the database. Required. Default value is "BackupFromTimestamp".
+    :vartype source: str
+    :ivar source_id: The ID of the source Autonomous Database that you will clone to create a new
+     Autonomous Database. Required.
+    :vartype source_id: str
+    :ivar clone_type: The Autonomous Database clone type. Required. Known values are: "Full" and
+     "Metadata".
+    :vartype clone_type: str or ~azure.mgmt.oracledatabase.models.CloneType
+    :ivar timestamp: The timestamp specified for the point-in-time clone of the source Autonomous
+     Database. The timestamp must be in the past.
+    :vartype timestamp: ~datetime.datetime
+    :ivar use_latest_available_backup_time_stamp: Clone from latest available backup timestamp.
+    :vartype use_latest_available_backup_time_stamp: bool
+    """
+
+    _validation = {
+        "data_base_type": {"required": True},
+        "character_set": {"max_length": 255, "min_length": 1},
+        "compute_count": {"maximum": 512, "minimum": 0.1},
+        "cpu_core_count": {"maximum": 128, "minimum": 1},
+        "data_storage_size_in_tbs": {"maximum": 384, "minimum": 1},
+        "data_storage_size_in_gbs": {"maximum": 393216, "minimum": 20},
+        "db_version": {"max_length": 255, "min_length": 1},
+        "display_name": {"max_length": 255, "min_length": 1},
+        "peer_db_ids": {"readonly": True},
+        "peer_db_id": {"max_length": 255, "min_length": 1},
+        "is_remote_data_guard_enabled": {"readonly": True},
+        "local_disaster_recovery_type": {"readonly": True},
+        "time_disaster_recovery_role_changed": {"readonly": True},
+        "remote_disaster_recovery_configuration": {"readonly": True},
+        "local_standby_db": {"readonly": True},
+        "failed_data_recovery_in_seconds": {"readonly": True},
+        "ncharacter_set": {"max_length": 255, "min_length": 1},
+        "lifecycle_details": {"readonly": True},
+        "provisioning_state": {"readonly": True},
+        "lifecycle_state": {"readonly": True},
+        "oci_url": {"readonly": True},
+        "time_created": {"readonly": True},
+        "time_maintenance_begin": {"readonly": True},
+        "time_maintenance_end": {"readonly": True},
+        "actual_used_data_storage_size_in_tbs": {"readonly": True},
+        "allocated_storage_size_in_tbs": {"readonly": True},
+        "apex_details": {"readonly": True},
+        "available_upgrade_versions": {"readonly": True},
+        "connection_strings": {"readonly": True},
+        "connection_urls": {"readonly": True},
+        "data_safe_status": {"readonly": True},
+        "in_memory_area_in_gbs": {"readonly": True},
+        "next_long_term_backup_time_stamp": {"readonly": True},
+        "is_preview": {"readonly": True},
+        "local_adg_auto_failover_max_data_loss_limit": {"maximum": 3600, "minimum": 0},
+        "memory_per_oracle_compute_unit_in_gbs": {"readonly": True},
+        "operations_insights_status": {"readonly": True},
+        "private_endpoint": {"readonly": True},
+        "provisionable_cpus": {"readonly": True},
+        "service_console_url": {"readonly": True, "max_length": 255, "min_length": 10},
+        "sql_web_developer_url": {"readonly": True, "max_length": 2048, "min_length": 10},
+        "supported_regions_to_clone_to": {"readonly": True, "max_items": 50, "min_items": 0},
+        "time_data_guard_role_changed": {"readonly": True},
+        "time_deletion_of_free_autonomous_database": {"readonly": True},
+        "time_local_data_guard_enabled": {"readonly": True},
+        "time_of_last_failover": {"readonly": True},
+        "time_of_last_refresh": {"readonly": True},
+        "time_of_last_refresh_point": {"readonly": True},
+        "time_of_last_switchover": {"readonly": True},
+        "time_reclamation_of_free_autonomous_database": {"readonly": True},
+        "used_data_storage_size_in_gbs": {"readonly": True},
+        "used_data_storage_size_in_tbs": {"readonly": True},
+        "ocid": {"readonly": True, "max_length": 255, "min_length": 1},
+        "source": {"required": True, "constant": True},
+        "source_id": {"required": True},
+        "clone_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "admin_password": {"key": "adminPassword", "type": "str"},
+        "data_base_type": {"key": "dataBaseType", "type": "str"},
+        "autonomous_maintenance_schedule_type": {"key": "autonomousMaintenanceScheduleType", "type": "str"},
+        "character_set": {"key": "characterSet", "type": "str"},
+        "compute_count": {"key": "computeCount", "type": "float"},
+        "compute_model": {"key": "computeModel", "type": "str"},
+        "cpu_core_count": {"key": "cpuCoreCount", "type": "int"},
+        "customer_contacts": {"key": "customerContacts", "type": "[CustomerContact]"},
+        "data_storage_size_in_tbs": {"key": "dataStorageSizeInTbs", "type": "int"},
+        "data_storage_size_in_gbs": {"key": "dataStorageSizeInGbs", "type": "int"},
+        "db_version": {"key": "dbVersion", "type": "str"},
+        "db_workload": {"key": "dbWorkload", "type": "str"},
+        "display_name": {"key": "displayName", "type": "str"},
+        "is_auto_scaling_enabled": {"key": "isAutoScalingEnabled", "type": "bool"},
+        "is_auto_scaling_for_storage_enabled": {"key": "isAutoScalingForStorageEnabled", "type": "bool"},
+        "peer_db_ids": {"key": "peerDbIds", "type": "[str]"},
+        "peer_db_id": {"key": "peerDbId", "type": "str"},
+        "is_local_data_guard_enabled": {"key": "isLocalDataGuardEnabled", "type": "bool"},
+        "is_remote_data_guard_enabled": {"key": "isRemoteDataGuardEnabled", "type": "bool"},
+        "local_disaster_recovery_type": {"key": "localDisasterRecoveryType", "type": "str"},
+        "time_disaster_recovery_role_changed": {"key": "timeDisasterRecoveryRoleChanged", "type": "iso-8601"},
+        "remote_disaster_recovery_configuration": {
+            "key": "remoteDisasterRecoveryConfiguration",
+            "type": "DisasterRecoveryConfigurationDetails",
+        },
+        "local_standby_db": {"key": "localStandbyDb", "type": "AutonomousDatabaseStandbySummary"},
+        "failed_data_recovery_in_seconds": {"key": "failedDataRecoveryInSeconds", "type": "int"},
+        "is_mtls_connection_required": {"key": "isMtlsConnectionRequired", "type": "bool"},
+        "is_preview_version_with_service_terms_accepted": {
+            "key": "isPreviewVersionWithServiceTermsAccepted",
+            "type": "bool",
+        },
+        "license_model": {"key": "licenseModel", "type": "str"},
+        "ncharacter_set": {"key": "ncharacterSet", "type": "str"},
+        "lifecycle_details": {"key": "lifecycleDetails", "type": "str"},
+        "provisioning_state": {"key": "provisioningState", "type": "str"},
+        "lifecycle_state": {"key": "lifecycleState", "type": "str"},
+        "scheduled_operations": {"key": "scheduledOperations", "type": "ScheduledOperationsType"},
+        "private_endpoint_ip": {"key": "privateEndpointIp", "type": "str"},
+        "private_endpoint_label": {"key": "privateEndpointLabel", "type": "str"},
+        "oci_url": {"key": "ociUrl", "type": "str"},
+        "subnet_id": {"key": "subnetId", "type": "str"},
+        "vnet_id": {"key": "vnetId", "type": "str"},
+        "time_created": {"key": "timeCreated", "type": "iso-8601"},
+        "time_maintenance_begin": {"key": "timeMaintenanceBegin", "type": "iso-8601"},
+        "time_maintenance_end": {"key": "timeMaintenanceEnd", "type": "iso-8601"},
+        "actual_used_data_storage_size_in_tbs": {"key": "actualUsedDataStorageSizeInTbs", "type": "float"},
+        "allocated_storage_size_in_tbs": {"key": "allocatedStorageSizeInTbs", "type": "float"},
+        "apex_details": {"key": "apexDetails", "type": "ApexDetailsType"},
+        "available_upgrade_versions": {"key": "availableUpgradeVersions", "type": "[str]"},
+        "connection_strings": {"key": "connectionStrings", "type": "ConnectionStringType"},
+        "connection_urls": {"key": "connectionUrls", "type": "ConnectionUrlType"},
+        "data_safe_status": {"key": "dataSafeStatus", "type": "str"},
+        "database_edition": {"key": "databaseEdition", "type": "str"},
+        "autonomous_database_id": {"key": "autonomousDatabaseId", "type": "str"},
+        "in_memory_area_in_gbs": {"key": "inMemoryAreaInGbs", "type": "int"},
+        "next_long_term_backup_time_stamp": {"key": "nextLongTermBackupTimeStamp", "type": "iso-8601"},
+        "long_term_backup_schedule": {"key": "longTermBackupSchedule", "type": "LongTermBackUpScheduleDetails"},
+        "is_preview": {"key": "isPreview", "type": "bool"},
+        "local_adg_auto_failover_max_data_loss_limit": {"key": "localAdgAutoFailoverMaxDataLossLimit", "type": "int"},
+        "memory_per_oracle_compute_unit_in_gbs": {"key": "memoryPerOracleComputeUnitInGbs", "type": "int"},
+        "open_mode": {"key": "openMode", "type": "str"},
+        "operations_insights_status": {"key": "operationsInsightsStatus", "type": "str"},
+        "permission_level": {"key": "permissionLevel", "type": "str"},
+        "private_endpoint": {"key": "privateEndpoint", "type": "str"},
+        "provisionable_cpus": {"key": "provisionableCpus", "type": "[int]"},
+        "role": {"key": "role", "type": "str"},
+        "service_console_url": {"key": "serviceConsoleUrl", "type": "str"},
+        "sql_web_developer_url": {"key": "sqlWebDeveloperUrl", "type": "str"},
+        "supported_regions_to_clone_to": {"key": "supportedRegionsToCloneTo", "type": "[str]"},
+        "time_data_guard_role_changed": {"key": "timeDataGuardRoleChanged", "type": "str"},
+        "time_deletion_of_free_autonomous_database": {"key": "timeDeletionOfFreeAutonomousDatabase", "type": "str"},
+        "time_local_data_guard_enabled": {"key": "timeLocalDataGuardEnabled", "type": "str"},
+        "time_of_last_failover": {"key": "timeOfLastFailover", "type": "str"},
+        "time_of_last_refresh": {"key": "timeOfLastRefresh", "type": "str"},
+        "time_of_last_refresh_point": {"key": "timeOfLastRefreshPoint", "type": "str"},
+        "time_of_last_switchover": {"key": "timeOfLastSwitchover", "type": "str"},
+        "time_reclamation_of_free_autonomous_database": {
+            "key": "timeReclamationOfFreeAutonomousDatabase",
+            "type": "str",
+        },
+        "used_data_storage_size_in_gbs": {"key": "usedDataStorageSizeInGbs", "type": "int"},
+        "used_data_storage_size_in_tbs": {"key": "usedDataStorageSizeInTbs", "type": "int"},
+        "ocid": {"key": "ocid", "type": "str"},
+        "backup_retention_period_in_days": {"key": "backupRetentionPeriodInDays", "type": "int"},
+        "whitelisted_ips": {"key": "whitelistedIps", "type": "[str]"},
+        "source": {"key": "source", "type": "str"},
+        "source_id": {"key": "sourceId", "type": "str"},
+        "clone_type": {"key": "cloneType", "type": "str"},
+        "timestamp": {"key": "timestamp", "type": "iso-8601"},
+        "use_latest_available_backup_time_stamp": {"key": "useLatestAvailableBackupTimeStamp", "type": "bool"},
+    }
+
+    source = "BackupFromTimestamp"
+
+    def __init__(  # pylint: disable=too-many-locals
+        self,
+        *,
+        source_id: str,
+        clone_type: Union[str, "_models.CloneType"],
+        admin_password: Optional[str] = None,
+        autonomous_maintenance_schedule_type: Optional[Union[str, "_models.AutonomousMaintenanceScheduleType"]] = None,
+        character_set: Optional[str] = None,
+        compute_count: Optional[float] = None,
+        compute_model: Optional[Union[str, "_models.ComputeModel"]] = None,
+        cpu_core_count: Optional[int] = None,
+        customer_contacts: Optional[List["_models.CustomerContact"]] = None,
+        data_storage_size_in_tbs: Optional[int] = None,
+        data_storage_size_in_gbs: Optional[int] = None,
+        db_version: Optional[str] = None,
+        db_workload: Optional[Union[str, "_models.WorkloadType"]] = None,
+        display_name: Optional[str] = None,
+        is_auto_scaling_enabled: Optional[bool] = None,
+        is_auto_scaling_for_storage_enabled: Optional[bool] = None,
+        peer_db_id: Optional[str] = None,
+        is_local_data_guard_enabled: Optional[bool] = None,
+        is_mtls_connection_required: Optional[bool] = None,
+        is_preview_version_with_service_terms_accepted: Optional[bool] = None,
+        license_model: Optional[Union[str, "_models.LicenseModel"]] = None,
+        ncharacter_set: Optional[str] = None,
+        scheduled_operations: Optional["_models.ScheduledOperationsType"] = None,
+        private_endpoint_ip: Optional[str] = None,
+        private_endpoint_label: Optional[str] = None,
+        subnet_id: Optional[str] = None,
+        vnet_id: Optional[str] = None,
+        database_edition: Optional[Union[str, "_models.DatabaseEditionType"]] = None,
+        autonomous_database_id: Optional[str] = None,
+        long_term_backup_schedule: Optional["_models.LongTermBackUpScheduleDetails"] = None,
+        local_adg_auto_failover_max_data_loss_limit: Optional[int] = None,
+        open_mode: Optional[Union[str, "_models.OpenModeType"]] = None,
+        permission_level: Optional[Union[str, "_models.PermissionLevelType"]] = None,
+        role: Optional[Union[str, "_models.RoleType"]] = None,
+        backup_retention_period_in_days: Optional[int] = None,
+        whitelisted_ips: Optional[List[str]] = None,
+        timestamp: Optional[datetime.datetime] = None,
+        use_latest_available_backup_time_stamp: Optional[bool] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword admin_password: Admin password.
+        :paramtype admin_password: str
+        :keyword autonomous_maintenance_schedule_type: The maintenance schedule type of the Autonomous
+         Database Serverless. Known values are: "Early" and "Regular".
+        :paramtype autonomous_maintenance_schedule_type: str or
+         ~azure.mgmt.oracledatabase.models.AutonomousMaintenanceScheduleType
+        :keyword character_set: The character set for the autonomous database.
+        :paramtype character_set: str
+        :keyword compute_count: The compute amount (CPUs) available to the database.
+        :paramtype compute_count: float
+        :keyword compute_model: The compute model of the Autonomous Database. Known values are: "ECPU"
+         and "OCPU".
+        :paramtype compute_model: str or ~azure.mgmt.oracledatabase.models.ComputeModel
+        :keyword cpu_core_count: The number of CPU cores to be made available to the database.
+        :paramtype cpu_core_count: int
+        :keyword customer_contacts: Customer Contacts.
+        :paramtype customer_contacts: list[~azure.mgmt.oracledatabase.models.CustomerContact]
+        :keyword data_storage_size_in_tbs: The quantity of data in the database, in terabytes.
+        :paramtype data_storage_size_in_tbs: int
+        :keyword data_storage_size_in_gbs: The size, in gigabytes, of the data volume that will be
+         created and attached to the database.
+        :paramtype data_storage_size_in_gbs: int
+        :keyword db_version: A valid Oracle Database version for Autonomous Database.
+        :paramtype db_version: str
+        :keyword db_workload: The Autonomous Database workload type. Known values are: "OLTP", "DW",
+         "AJD", and "APEX".
+        :paramtype db_workload: str or ~azure.mgmt.oracledatabase.models.WorkloadType
+        :keyword display_name: The user-friendly name for the Autonomous Database.
+        :paramtype display_name: str
+        :keyword is_auto_scaling_enabled: Indicates if auto scaling is enabled for the Autonomous
+         Database CPU core count.
+        :paramtype is_auto_scaling_enabled: bool
+        :keyword is_auto_scaling_for_storage_enabled: Indicates if auto scaling is enabled for the
+         Autonomous Database storage.
+        :paramtype is_auto_scaling_for_storage_enabled: bool
+        :keyword peer_db_id: The Azure resource ID of the Disaster Recovery peer database, which is
+         located in a different region from the current peer database.
+        :paramtype peer_db_id: str
+        :keyword is_local_data_guard_enabled: Indicates whether the Autonomous Database has local or
+         called in-region Data Guard enabled.
+        :paramtype is_local_data_guard_enabled: bool
+        :keyword is_mtls_connection_required: Specifies if the Autonomous Database requires mTLS
+         connections.
+        :paramtype is_mtls_connection_required: bool
+        :keyword is_preview_version_with_service_terms_accepted: Specifies if the Autonomous Database
+         preview version is being provisioned.
+        :paramtype is_preview_version_with_service_terms_accepted: bool
+        :keyword license_model: The Oracle license model that applies to the Oracle Autonomous
+         Database. The default is LICENSE_INCLUDED. Known values are: "LicenseIncluded" and
+         "BringYourOwnLicense".
+        :paramtype license_model: str or ~azure.mgmt.oracledatabase.models.LicenseModel
+        :keyword ncharacter_set: The character set for the Autonomous Database.
+        :paramtype ncharacter_set: str
+        :keyword scheduled_operations: The list of scheduled operations.
+        :paramtype scheduled_operations: ~azure.mgmt.oracledatabase.models.ScheduledOperationsType
+        :keyword private_endpoint_ip: The private endpoint Ip address for the resource.
+        :paramtype private_endpoint_ip: str
+        :keyword private_endpoint_label: The resource's private endpoint label.
+        :paramtype private_endpoint_label: str
+        :keyword subnet_id: Client subnet.
+        :paramtype subnet_id: str
+        :keyword vnet_id: VNET for network connectivity.
+        :paramtype vnet_id: str
+        :keyword database_edition: The Oracle Database Edition that applies to the Autonomous
+         databases. Known values are: "StandardEdition" and "EnterpriseEdition".
+        :paramtype database_edition: str or ~azure.mgmt.oracledatabase.models.DatabaseEditionType
+        :keyword autonomous_database_id: Autonomous Database ID.
+        :paramtype autonomous_database_id: str
+        :keyword long_term_backup_schedule: Details for the long-term backup schedule.
+        :paramtype long_term_backup_schedule:
+         ~azure.mgmt.oracledatabase.models.LongTermBackUpScheduleDetails
+        :keyword local_adg_auto_failover_max_data_loss_limit: Parameter that allows users to select an
+         acceptable maximum data loss limit in seconds, up to which Automatic Failover will be triggered
+         when necessary for a Local Autonomous Data Guard.
+        :paramtype local_adg_auto_failover_max_data_loss_limit: int
+        :keyword open_mode: Indicates the Autonomous Database mode. Known values are: "ReadOnly" and
+         "ReadWrite".
+        :paramtype open_mode: str or ~azure.mgmt.oracledatabase.models.OpenModeType
+        :keyword permission_level: The Autonomous Database permission level. Known values are:
+         "Restricted" and "Unrestricted".
+        :paramtype permission_level: str or ~azure.mgmt.oracledatabase.models.PermissionLevelType
+        :keyword role: The Data Guard role of the Autonomous Container Database or Autonomous Database,
+         if Autonomous Data Guard is enabled. Known values are: "Primary", "Standby", "DisabledStandby",
+         "BackupCopy", and "SnapshotStandby".
+        :paramtype role: str or ~azure.mgmt.oracledatabase.models.RoleType
+        :keyword backup_retention_period_in_days: Retention period, in days, for long-term backups.
+        :paramtype backup_retention_period_in_days: int
+        :keyword whitelisted_ips: The client IP access control list (ACL). This is an array of CIDR
+         notations and/or IP addresses. Values should be separate strings, separated by commas. Example:
+         ['1.1.1.1','1.1.1.0/24','1.1.2.25'].
+        :paramtype whitelisted_ips: list[str]
+        :keyword source_id: The ID of the source Autonomous Database that you will clone to create a
+         new Autonomous Database. Required.
+        :paramtype source_id: str
+        :keyword clone_type: The Autonomous Database clone type. Required. Known values are: "Full" and
+         "Metadata".
+        :paramtype clone_type: str or ~azure.mgmt.oracledatabase.models.CloneType
+        :keyword timestamp: The timestamp specified for the point-in-time clone of the source
+         Autonomous Database. The timestamp must be in the past.
+        :paramtype timestamp: ~datetime.datetime
+        :keyword use_latest_available_backup_time_stamp: Clone from latest available backup timestamp.
+        :paramtype use_latest_available_backup_time_stamp: bool
+        """
+        super().__init__(
+            admin_password=admin_password,
+            autonomous_maintenance_schedule_type=autonomous_maintenance_schedule_type,
+            character_set=character_set,
+            compute_count=compute_count,
+            compute_model=compute_model,
+            cpu_core_count=cpu_core_count,
+            customer_contacts=customer_contacts,
+            data_storage_size_in_tbs=data_storage_size_in_tbs,
+            data_storage_size_in_gbs=data_storage_size_in_gbs,
+            db_version=db_version,
+            db_workload=db_workload,
+            display_name=display_name,
+            is_auto_scaling_enabled=is_auto_scaling_enabled,
+            is_auto_scaling_for_storage_enabled=is_auto_scaling_for_storage_enabled,
+            peer_db_id=peer_db_id,
+            is_local_data_guard_enabled=is_local_data_guard_enabled,
+            is_mtls_connection_required=is_mtls_connection_required,
+            is_preview_version_with_service_terms_accepted=is_preview_version_with_service_terms_accepted,
+            license_model=license_model,
+            ncharacter_set=ncharacter_set,
+            scheduled_operations=scheduled_operations,
+            private_endpoint_ip=private_endpoint_ip,
+            private_endpoint_label=private_endpoint_label,
+            subnet_id=subnet_id,
+            vnet_id=vnet_id,
+            database_edition=database_edition,
+            autonomous_database_id=autonomous_database_id,
+            long_term_backup_schedule=long_term_backup_schedule,
+            local_adg_auto_failover_max_data_loss_limit=local_adg_auto_failover_max_data_loss_limit,
+            open_mode=open_mode,
+            permission_level=permission_level,
+            role=role,
+            backup_retention_period_in_days=backup_retention_period_in_days,
+            whitelisted_ips=whitelisted_ips,
+            **kwargs
+        )
+        self.data_base_type: str = "CloneFromBackupTimestamp"
+        self.source_id = source_id
+        self.clone_type = clone_type
+        self.timestamp = timestamp
+        self.use_latest_available_backup_time_stamp = use_latest_available_backup_time_stamp
 
 
 class AutonomousDatabaseListResult(_serialization.Model):
@@ -1968,8 +3180,6 @@ class AutonomousDatabaseNationalCharacterSetListResult(_serialization.Model):  #
 class AutonomousDatabaseNationalCharacterSetProperties(_serialization.Model):  # pylint: disable=name-too-long
     """AutonomousDatabaseNationalCharacterSet resource model.
 
-    Variables are only populated by the server, and will be ignored when sending a request.
-
     All required parameters must be populated in order to send to server.
 
     :ivar character_set: The Oracle Autonomous Database supported national character sets.
@@ -1978,20 +3188,24 @@ class AutonomousDatabaseNationalCharacterSetProperties(_serialization.Model):  #
     """
 
     _validation = {
-        "character_set": {"required": True, "readonly": True, "max_length": 255, "min_length": 1},
+        "character_set": {"required": True, "max_length": 255, "min_length": 1},
     }
 
     _attribute_map = {
         "character_set": {"key": "characterSet", "type": "str"},
     }
 
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
+    def __init__(self, *, character_set: str, **kwargs: Any) -> None:
+        """
+        :keyword character_set: The Oracle Autonomous Database supported national character sets.
+         Required.
+        :paramtype character_set: str
+        """
         super().__init__(**kwargs)
-        self.character_set = None
+        self.character_set = character_set
 
 
-class AutonomousDatabaseProperties(AutonomousDatabaseBaseProperties):  # pylint: disable=too-many-instance-attributes
+class AutonomousDatabaseProperties(AutonomousDatabaseBaseProperties):
     """Autonomous Database resource model.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -2000,8 +3214,8 @@ class AutonomousDatabaseProperties(AutonomousDatabaseBaseProperties):  # pylint:
 
     :ivar admin_password: Admin password.
     :vartype admin_password: str
-    :ivar data_base_type: Database type to be created. Required. Known values are: "Regular" and
-     "Clone".
+    :ivar data_base_type: Database type to be created. Required. Known values are: "Regular",
+     "Clone", "CloneFromBackupTimestamp", and "CrossRegionDisasterRecovery".
     :vartype data_base_type: str or ~azure.mgmt.oracledatabase.models.DataBaseType
     :ivar autonomous_maintenance_schedule_type: The maintenance schedule type of the Autonomous
      Database Serverless. Known values are: "Early" and "Regular".
@@ -2036,14 +3250,13 @@ class AutonomousDatabaseProperties(AutonomousDatabaseBaseProperties):  # pylint:
     :ivar is_auto_scaling_for_storage_enabled: Indicates if auto scaling is enabled for the
      Autonomous Database storage.
     :vartype is_auto_scaling_for_storage_enabled: bool
-    :ivar peer_db_ids: The list of `OCIDs
-     <https://docs.oracle.com/iaas/Content/General/Concepts/identifiers.htm>`_ of standby databases
-     located in Autonomous Data Guard remote regions that are associated with the source database.
-     Note that for Autonomous Database Serverless instances, standby databases located in the same
-     region as the source primary database do not have OCIDs.
+    :ivar peer_db_ids: The list of Azure resource IDs of standby databases located in Autonomous
+     Data Guard remote regions that are associated with the source database. Note that for
+     Autonomous Database Serverless instances, standby databases located in the same region as the
+     source primary database do not have Azure IDs.
     :vartype peer_db_ids: list[str]
-    :ivar peer_db_id: The database OCID of the Disaster Recovery peer database, which is located in
-     a different region from the current peer database.
+    :ivar peer_db_id: The Azure resource ID of the Disaster Recovery peer database, which is
+     located in a different region from the current peer database.
     :vartype peer_db_id: str
     :ivar is_local_data_guard_enabled: Indicates whether the Autonomous Database has local or
      called in-region Data Guard enabled.
@@ -2058,6 +3271,12 @@ class AutonomousDatabaseProperties(AutonomousDatabaseBaseProperties):  # pylint:
      switchover. Known values are: "Adg" and "BackupBased".
     :vartype local_disaster_recovery_type: str or
      ~azure.mgmt.oracledatabase.models.DisasterRecoveryType
+    :ivar time_disaster_recovery_role_changed: The date and time the Disaster Recovery role was
+     switched for the standby Autonomous Database.
+    :vartype time_disaster_recovery_role_changed: ~datetime.datetime
+    :ivar remote_disaster_recovery_configuration: Indicates remote disaster recovery configuration.
+    :vartype remote_disaster_recovery_configuration:
+     ~azure.mgmt.oracledatabase.models.DisasterRecoveryConfigurationDetails
     :ivar local_standby_db: Local Autonomous Disaster Recovery standby database details.
     :vartype local_standby_db: ~azure.mgmt.oracledatabase.models.AutonomousDatabaseStandbySummary
     :ivar failed_data_recovery_in_seconds: Indicates the number of seconds of data loss for a Data
@@ -2222,6 +3441,8 @@ class AutonomousDatabaseProperties(AutonomousDatabaseBaseProperties):  # pylint:
         "peer_db_id": {"max_length": 255, "min_length": 1},
         "is_remote_data_guard_enabled": {"readonly": True},
         "local_disaster_recovery_type": {"readonly": True},
+        "time_disaster_recovery_role_changed": {"readonly": True},
+        "remote_disaster_recovery_configuration": {"readonly": True},
         "local_standby_db": {"readonly": True},
         "failed_data_recovery_in_seconds": {"readonly": True},
         "ncharacter_set": {"max_length": 255, "min_length": 1},
@@ -2284,6 +3505,11 @@ class AutonomousDatabaseProperties(AutonomousDatabaseBaseProperties):  # pylint:
         "is_local_data_guard_enabled": {"key": "isLocalDataGuardEnabled", "type": "bool"},
         "is_remote_data_guard_enabled": {"key": "isRemoteDataGuardEnabled", "type": "bool"},
         "local_disaster_recovery_type": {"key": "localDisasterRecoveryType", "type": "str"},
+        "time_disaster_recovery_role_changed": {"key": "timeDisasterRecoveryRoleChanged", "type": "iso-8601"},
+        "remote_disaster_recovery_configuration": {
+            "key": "remoteDisasterRecoveryConfiguration",
+            "type": "DisasterRecoveryConfigurationDetails",
+        },
         "local_standby_db": {"key": "localStandbyDb", "type": "AutonomousDatabaseStandbySummary"},
         "failed_data_recovery_in_seconds": {"key": "failedDataRecoveryInSeconds", "type": "int"},
         "is_mtls_connection_required": {"key": "isMtlsConnectionRequired", "type": "bool"},
@@ -2422,8 +3648,8 @@ class AutonomousDatabaseProperties(AutonomousDatabaseBaseProperties):  # pylint:
         :keyword is_auto_scaling_for_storage_enabled: Indicates if auto scaling is enabled for the
          Autonomous Database storage.
         :paramtype is_auto_scaling_for_storage_enabled: bool
-        :keyword peer_db_id: The database OCID of the Disaster Recovery peer database, which is located
-         in a different region from the current peer database.
+        :keyword peer_db_id: The Azure resource ID of the Disaster Recovery peer database, which is
+         located in a different region from the current peer database.
         :paramtype peer_db_id: str
         :keyword is_local_data_guard_enabled: Indicates whether the Autonomous Database has local or
          called in-region Data Guard enabled.
@@ -2595,7 +3821,7 @@ class AutonomousDatabaseUpdate(_serialization.Model):
 
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
-    :ivar properties: The updatable properties of the AutonomousDatabase.
+    :ivar properties: The resource-specific properties for this resource.
     :vartype properties: ~azure.mgmt.oracledatabase.models.AutonomousDatabaseUpdateProperties
     """
 
@@ -2614,7 +3840,7 @@ class AutonomousDatabaseUpdate(_serialization.Model):
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
-        :keyword properties: The updatable properties of the AutonomousDatabase.
+        :keyword properties: The resource-specific properties for this resource.
         :paramtype properties: ~azure.mgmt.oracledatabase.models.AutonomousDatabaseUpdateProperties
         """
         super().__init__(**kwargs)
@@ -2622,7 +3848,7 @@ class AutonomousDatabaseUpdate(_serialization.Model):
         self.properties = properties
 
 
-class AutonomousDatabaseUpdateProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class AutonomousDatabaseUpdateProperties(_serialization.Model):
     """The updatable properties of the AutonomousDatabase.
 
     :ivar admin_password: Admin password.
@@ -2650,8 +3876,8 @@ class AutonomousDatabaseUpdateProperties(_serialization.Model):  # pylint: disab
     :ivar is_auto_scaling_for_storage_enabled: Indicates if auto scaling is enabled for the
      Autonomous Database storage.
     :vartype is_auto_scaling_for_storage_enabled: bool
-    :ivar peer_db_id: The database OCID of the Disaster Recovery peer database, which is located in
-     a different region from the current peer database.
+    :ivar peer_db_id: The Azure resource ID of the Disaster Recovery peer database, which is
+     located in a different region from the current peer database.
     :vartype peer_db_id: str
     :ivar is_local_data_guard_enabled: Indicates whether the Autonomous Database has local or
      called in-region Data Guard enabled.
@@ -2782,8 +4008,8 @@ class AutonomousDatabaseUpdateProperties(_serialization.Model):  # pylint: disab
         :keyword is_auto_scaling_for_storage_enabled: Indicates if auto scaling is enabled for the
          Autonomous Database storage.
         :paramtype is_auto_scaling_for_storage_enabled: bool
-        :keyword peer_db_id: The database OCID of the Disaster Recovery peer database, which is located
-         in a different region from the current peer database.
+        :keyword peer_db_id: The Azure resource ID of the Disaster Recovery peer database, which is
+         located in a different region from the current peer database.
         :paramtype peer_db_id: str
         :keyword is_local_data_guard_enabled: Indicates whether the Autonomous Database has local or
          called in-region Data Guard enabled.
@@ -2958,8 +4184,6 @@ class AutonomousDbVersionListResult(_serialization.Model):
 class AutonomousDbVersionProperties(_serialization.Model):
     """AutonomousDbVersion resource model.
 
-    Variables are only populated by the server, and will be ignored when sending a request.
-
     All required parameters must be populated in order to send to server.
 
     :ivar version: Supported Autonomous Db versions. Required.
@@ -2982,12 +4206,7 @@ class AutonomousDbVersionProperties(_serialization.Model):
     """
 
     _validation = {
-        "version": {"required": True, "readonly": True, "max_length": 255, "min_length": 1},
-        "db_workload": {"readonly": True},
-        "is_default_for_free": {"readonly": True},
-        "is_default_for_paid": {"readonly": True},
-        "is_free_tier_enabled": {"readonly": True},
-        "is_paid_enabled": {"readonly": True},
+        "version": {"required": True, "max_length": 255, "min_length": 1},
     }
 
     _attribute_map = {
@@ -2999,15 +4218,69 @@ class AutonomousDbVersionProperties(_serialization.Model):
         "is_paid_enabled": {"key": "isPaidEnabled", "type": "bool"},
     }
 
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
+    def __init__(
+        self,
+        *,
+        version: str,
+        db_workload: Optional[Union[str, "_models.WorkloadType"]] = None,
+        is_default_for_free: Optional[bool] = None,
+        is_default_for_paid: Optional[bool] = None,
+        is_free_tier_enabled: Optional[bool] = None,
+        is_paid_enabled: Optional[bool] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword version: Supported Autonomous Db versions. Required.
+        :paramtype version: str
+        :keyword db_workload: The Autonomous Database workload type. Known values are: "OLTP", "DW",
+         "AJD", and "APEX".
+        :paramtype db_workload: str or ~azure.mgmt.oracledatabase.models.WorkloadType
+        :keyword is_default_for_free: True if this version of the Oracle Database software's default is
+         free.
+        :paramtype is_default_for_free: bool
+        :keyword is_default_for_paid: True if this version of the Oracle Database software's default is
+         paid.
+        :paramtype is_default_for_paid: bool
+        :keyword is_free_tier_enabled: True if this version of the Oracle Database software can be used
+         for Always-Free Autonomous Databases.
+        :paramtype is_free_tier_enabled: bool
+        :keyword is_paid_enabled: True if this version of the Oracle Database software has payments
+         enabled.
+        :paramtype is_paid_enabled: bool
+        """
         super().__init__(**kwargs)
-        self.version = None
-        self.db_workload = None
-        self.is_default_for_free = None
-        self.is_default_for_paid = None
-        self.is_free_tier_enabled = None
-        self.is_paid_enabled = None
+        self.version = version
+        self.db_workload = db_workload
+        self.is_default_for_free = is_default_for_free
+        self.is_default_for_paid = is_default_for_paid
+        self.is_free_tier_enabled = is_free_tier_enabled
+        self.is_paid_enabled = is_paid_enabled
+
+
+class AzureSubscriptions(_serialization.Model):
+    """Azure Subscriptions model.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar azure_subscription_ids: Azure Subscription Ids to be updated. Required.
+    :vartype azure_subscription_ids: list[str]
+    """
+
+    _validation = {
+        "azure_subscription_ids": {"required": True},
+    }
+
+    _attribute_map = {
+        "azure_subscription_ids": {"key": "azureSubscriptionIds", "type": "[str]"},
+    }
+
+    def __init__(self, *, azure_subscription_ids: List[str], **kwargs: Any) -> None:
+        """
+        :keyword azure_subscription_ids: Azure Subscription Ids to be updated. Required.
+        :paramtype azure_subscription_ids: list[str]
+        """
+        super().__init__(**kwargs)
+        self.azure_subscription_ids = azure_subscription_ids
 
 
 class CloudAccountDetails(_serialization.Model):
@@ -3144,7 +4417,7 @@ class CloudExadataInfrastructureListResult(_serialization.Model):
         self.next_link = next_link
 
 
-class CloudExadataInfrastructureProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class CloudExadataInfrastructureProperties(_serialization.Model):
     """CloudExadataInfrastructure resource model.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -3365,7 +4638,7 @@ class CloudExadataInfrastructureUpdate(_serialization.Model):
     :vartype zones: list[str]
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
-    :ivar properties: The updatable properties of the CloudExadataInfrastructure.
+    :ivar properties: The resource-specific properties for this resource.
     :vartype properties:
      ~azure.mgmt.oracledatabase.models.CloudExadataInfrastructureUpdateProperties
     """
@@ -3389,7 +4662,7 @@ class CloudExadataInfrastructureUpdate(_serialization.Model):
         :paramtype zones: list[str]
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
-        :keyword properties: The updatable properties of the CloudExadataInfrastructure.
+        :keyword properties: The resource-specific properties for this resource.
         :paramtype properties:
          ~azure.mgmt.oracledatabase.models.CloudExadataInfrastructureUpdateProperties
         """
@@ -3562,7 +4835,7 @@ class CloudVmClusterListResult(_serialization.Model):
         self.next_link = next_link
 
 
-class CloudVmClusterProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class CloudVmClusterProperties(_serialization.Model):
     """CloudVmCluster resource model.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -3952,7 +5225,7 @@ class CloudVmClusterUpdate(_serialization.Model):
 
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
-    :ivar properties: The updatable properties of the CloudVmCluster.
+    :ivar properties: The resource-specific properties for this resource.
     :vartype properties: ~azure.mgmt.oracledatabase.models.CloudVmClusterUpdateProperties
     """
 
@@ -3971,7 +5244,7 @@ class CloudVmClusterUpdate(_serialization.Model):
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
-        :keyword properties: The updatable properties of the CloudVmCluster.
+        :keyword properties: The resource-specific properties for this resource.
         :paramtype properties: ~azure.mgmt.oracledatabase.models.CloudVmClusterUpdateProperties
         """
         super().__init__(**kwargs)
@@ -3979,7 +5252,7 @@ class CloudVmClusterUpdate(_serialization.Model):
         self.properties = properties
 
 
-class CloudVmClusterUpdateProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class CloudVmClusterUpdateProperties(_serialization.Model):
     """The updatable properties of the CloudVmCluster.
 
     :ivar storage_size_in_gbs: The data disk group size to be allocated in GBs per VM.
@@ -4523,7 +5796,7 @@ class DbNodeListResult(_serialization.Model):
         self.next_link = next_link
 
 
-class DbNodeProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class DbNodeProperties(_serialization.Model):
     """The properties of DbNodeResource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -4554,7 +5827,7 @@ class DbNodeProperties(_serialization.Model):  # pylint: disable=too-many-instan
     :vartype host_ip_id: str
     :ivar hostname: The host name for the database node.
     :vartype hostname: str
-    :ivar lifecycle_state: The current state of the database node. Known values are:
+    :ivar lifecycle_state: The current state of the database node. Required. Known values are:
      "Provisioning", "Available", "Updating", "Stopping", "Stopped", "Starting", "Terminating",
      "Terminated", and "Failed".
     :vartype lifecycle_state: str or ~azure.mgmt.oracledatabase.models.DbNodeProvisioningState
@@ -4567,7 +5840,7 @@ class DbNodeProperties(_serialization.Model):  # pylint: disable=too-many-instan
     :ivar software_storage_size_in_gb: The size (in GB) of the block storage volume allocation for
      the DB system. This attribute applies only for virtual machine DB systems.
     :vartype software_storage_size_in_gb: int
-    :ivar time_created: The date and time that the database node was created.
+    :ivar time_created: The date and time that the database node was created. Required.
     :vartype time_created: ~datetime.datetime
     :ivar time_maintenance_window_end: End date and time of maintenance window.
     :vartype time_maintenance_window_end: ~datetime.datetime
@@ -4575,7 +5848,7 @@ class DbNodeProperties(_serialization.Model):  # pylint: disable=too-many-instan
     :vartype time_maintenance_window_start: ~datetime.datetime
     :ivar vnic2_id: The OCID of the second VNIC.
     :vartype vnic2_id: str
-    :ivar vnic_id: The OCID of the VNIC.
+    :ivar vnic_id: The OCID of the VNIC. Required.
     :vartype vnic_id: str
     :ivar provisioning_state: Azure resource provisioning state. Known values are: "Succeeded",
      "Failed", and "Canceled".
@@ -4583,28 +5856,18 @@ class DbNodeProperties(_serialization.Model):  # pylint: disable=too-many-instan
     """
 
     _validation = {
-        "ocid": {"required": True, "readonly": True, "max_length": 255, "min_length": 1},
-        "additional_details": {"readonly": True},
-        "backup_ip_id": {"readonly": True, "max_length": 255, "min_length": 1},
-        "backup_vnic2_id": {"readonly": True, "max_length": 255, "min_length": 1},
-        "backup_vnic_id": {"readonly": True, "max_length": 255, "min_length": 1},
-        "cpu_core_count": {"readonly": True},
-        "db_node_storage_size_in_gbs": {"readonly": True},
-        "db_server_id": {"readonly": True, "max_length": 255, "min_length": 1},
-        "db_system_id": {"required": True, "readonly": True, "max_length": 255, "min_length": 1},
-        "fault_domain": {"readonly": True, "max_length": 255, "min_length": 1},
-        "host_ip_id": {"readonly": True, "max_length": 255, "min_length": 1},
-        "hostname": {"readonly": True},
-        "lifecycle_state": {"readonly": True},
-        "lifecycle_details": {"readonly": True},
-        "maintenance_type": {"readonly": True},
-        "memory_size_in_gbs": {"readonly": True},
-        "software_storage_size_in_gb": {"readonly": True},
-        "time_created": {"readonly": True},
-        "time_maintenance_window_end": {"readonly": True},
-        "time_maintenance_window_start": {"readonly": True},
-        "vnic2_id": {"readonly": True, "max_length": 255, "min_length": 1},
-        "vnic_id": {"readonly": True, "max_length": 255, "min_length": 1},
+        "ocid": {"required": True, "max_length": 255, "min_length": 1},
+        "backup_ip_id": {"max_length": 255, "min_length": 1},
+        "backup_vnic2_id": {"max_length": 255, "min_length": 1},
+        "backup_vnic_id": {"max_length": 255, "min_length": 1},
+        "db_server_id": {"max_length": 255, "min_length": 1},
+        "db_system_id": {"required": True, "max_length": 255, "min_length": 1},
+        "fault_domain": {"max_length": 255, "min_length": 1},
+        "host_ip_id": {"max_length": 255, "min_length": 1},
+        "lifecycle_state": {"required": True},
+        "time_created": {"required": True},
+        "vnic2_id": {"max_length": 255, "min_length": 1},
+        "vnic_id": {"required": True, "max_length": 255, "min_length": 1},
         "provisioning_state": {"readonly": True},
     }
 
@@ -4634,31 +5897,105 @@ class DbNodeProperties(_serialization.Model):  # pylint: disable=too-many-instan
         "provisioning_state": {"key": "provisioningState", "type": "str"},
     }
 
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
+    def __init__(
+        self,
+        *,
+        ocid: str,
+        db_system_id: str,
+        lifecycle_state: Union[str, "_models.DbNodeProvisioningState"],
+        time_created: datetime.datetime,
+        vnic_id: str,
+        additional_details: Optional[str] = None,
+        backup_ip_id: Optional[str] = None,
+        backup_vnic2_id: Optional[str] = None,
+        backup_vnic_id: Optional[str] = None,
+        cpu_core_count: Optional[int] = None,
+        db_node_storage_size_in_gbs: Optional[int] = None,
+        db_server_id: Optional[str] = None,
+        fault_domain: Optional[str] = None,
+        host_ip_id: Optional[str] = None,
+        hostname: Optional[str] = None,
+        lifecycle_details: Optional[str] = None,
+        maintenance_type: Optional[Union[str, "_models.DbNodeMaintenanceType"]] = None,
+        memory_size_in_gbs: Optional[int] = None,
+        software_storage_size_in_gb: Optional[int] = None,
+        time_maintenance_window_end: Optional[datetime.datetime] = None,
+        time_maintenance_window_start: Optional[datetime.datetime] = None,
+        vnic2_id: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword ocid: DbNode OCID. Required.
+        :paramtype ocid: str
+        :keyword additional_details: Additional information about the planned maintenance.
+        :paramtype additional_details: str
+        :keyword backup_ip_id: The OCID of the backup IP address associated with the database node.
+        :paramtype backup_ip_id: str
+        :keyword backup_vnic2_id: The OCID of the second backup VNIC.
+        :paramtype backup_vnic2_id: str
+        :keyword backup_vnic_id: The OCID of the backup VNIC.
+        :paramtype backup_vnic_id: str
+        :keyword cpu_core_count: The number of CPU cores enabled on the Db node.
+        :paramtype cpu_core_count: int
+        :keyword db_node_storage_size_in_gbs: The allocated local node storage in GBs on the Db node.
+        :paramtype db_node_storage_size_in_gbs: int
+        :keyword db_server_id: The OCID of the Exacc Db server associated with the database node.
+        :paramtype db_server_id: str
+        :keyword db_system_id: The OCID of the DB system. Required.
+        :paramtype db_system_id: str
+        :keyword fault_domain: The name of the Fault Domain the instance is contained in.
+        :paramtype fault_domain: str
+        :keyword host_ip_id: The OCID of the host IP address associated with the database node.
+        :paramtype host_ip_id: str
+        :keyword hostname: The host name for the database node.
+        :paramtype hostname: str
+        :keyword lifecycle_state: The current state of the database node. Required. Known values are:
+         "Provisioning", "Available", "Updating", "Stopping", "Stopped", "Starting", "Terminating",
+         "Terminated", and "Failed".
+        :paramtype lifecycle_state: str or ~azure.mgmt.oracledatabase.models.DbNodeProvisioningState
+        :keyword lifecycle_details: Lifecycle details of Db Node.
+        :paramtype lifecycle_details: str
+        :keyword maintenance_type: The type of database node maintenance. "VmdbRebootMigration"
+        :paramtype maintenance_type: str or ~azure.mgmt.oracledatabase.models.DbNodeMaintenanceType
+        :keyword memory_size_in_gbs: The allocated memory in GBs on the Db node.
+        :paramtype memory_size_in_gbs: int
+        :keyword software_storage_size_in_gb: The size (in GB) of the block storage volume allocation
+         for the DB system. This attribute applies only for virtual machine DB systems.
+        :paramtype software_storage_size_in_gb: int
+        :keyword time_created: The date and time that the database node was created. Required.
+        :paramtype time_created: ~datetime.datetime
+        :keyword time_maintenance_window_end: End date and time of maintenance window.
+        :paramtype time_maintenance_window_end: ~datetime.datetime
+        :keyword time_maintenance_window_start: Start date and time of maintenance window.
+        :paramtype time_maintenance_window_start: ~datetime.datetime
+        :keyword vnic2_id: The OCID of the second VNIC.
+        :paramtype vnic2_id: str
+        :keyword vnic_id: The OCID of the VNIC. Required.
+        :paramtype vnic_id: str
+        """
         super().__init__(**kwargs)
-        self.ocid = None
-        self.additional_details = None
-        self.backup_ip_id = None
-        self.backup_vnic2_id = None
-        self.backup_vnic_id = None
-        self.cpu_core_count = None
-        self.db_node_storage_size_in_gbs = None
-        self.db_server_id = None
-        self.db_system_id = None
-        self.fault_domain = None
-        self.host_ip_id = None
-        self.hostname = None
-        self.lifecycle_state = None
-        self.lifecycle_details = None
-        self.maintenance_type = None
-        self.memory_size_in_gbs = None
-        self.software_storage_size_in_gb = None
-        self.time_created = None
-        self.time_maintenance_window_end = None
-        self.time_maintenance_window_start = None
-        self.vnic2_id = None
-        self.vnic_id = None
+        self.ocid = ocid
+        self.additional_details = additional_details
+        self.backup_ip_id = backup_ip_id
+        self.backup_vnic2_id = backup_vnic2_id
+        self.backup_vnic_id = backup_vnic_id
+        self.cpu_core_count = cpu_core_count
+        self.db_node_storage_size_in_gbs = db_node_storage_size_in_gbs
+        self.db_server_id = db_server_id
+        self.db_system_id = db_system_id
+        self.fault_domain = fault_domain
+        self.host_ip_id = host_ip_id
+        self.hostname = hostname
+        self.lifecycle_state = lifecycle_state
+        self.lifecycle_details = lifecycle_details
+        self.maintenance_type = maintenance_type
+        self.memory_size_in_gbs = memory_size_in_gbs
+        self.software_storage_size_in_gb = software_storage_size_in_gb
+        self.time_created = time_created
+        self.time_maintenance_window_end = time_maintenance_window_end
+        self.time_maintenance_window_start = time_maintenance_window_start
+        self.vnic2_id = vnic2_id
+        self.vnic_id = vnic_id
         self.provisioning_state = None
 
 
@@ -4777,7 +6114,7 @@ class DbServerPatchingDetails(_serialization.Model):
         self.time_patching_started = None
 
 
-class DbServerProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class DbServerProperties(_serialization.Model):
     """DbServer resource properties.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -4976,10 +6313,8 @@ class DbSystemShapeListResult(_serialization.Model):
         self.next_link = next_link
 
 
-class DbSystemShapeProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class DbSystemShapeProperties(_serialization.Model):
     """DbSystemShape resource model.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
 
     All required parameters must be populated in order to send to server.
 
@@ -5041,26 +6376,8 @@ class DbSystemShapeProperties(_serialization.Model):  # pylint: disable=too-many
     """
 
     _validation = {
-        "shape_family": {"readonly": True, "max_length": 255, "min_length": 1},
-        "available_core_count": {"required": True, "readonly": True},
-        "minimum_core_count": {"readonly": True},
-        "runtime_minimum_core_count": {"readonly": True},
-        "core_count_increment": {"readonly": True},
-        "min_storage_count": {"readonly": True},
-        "max_storage_count": {"readonly": True},
-        "available_data_storage_per_server_in_tbs": {"readonly": True},
-        "available_memory_per_node_in_gbs": {"readonly": True},
-        "available_db_node_per_node_in_gbs": {"readonly": True},
-        "min_core_count_per_node": {"readonly": True},
-        "available_memory_in_gbs": {"readonly": True},
-        "min_memory_per_node_in_gbs": {"readonly": True},
-        "available_db_node_storage_in_gbs": {"readonly": True},
-        "min_db_node_storage_per_node_in_gbs": {"readonly": True},
-        "available_data_storage_in_tbs": {"readonly": True},
-        "min_data_storage_in_tbs": {"readonly": True},
-        "minimum_node_count": {"readonly": True},
-        "maximum_node_count": {"readonly": True},
-        "available_core_count_per_node": {"readonly": True},
+        "shape_family": {"max_length": 255, "min_length": 1},
+        "available_core_count": {"required": True},
     }
 
     _attribute_map = {
@@ -5086,29 +6403,178 @@ class DbSystemShapeProperties(_serialization.Model):  # pylint: disable=too-many
         "available_core_count_per_node": {"key": "availableCoreCountPerNode", "type": "int"},
     }
 
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
+    def __init__(
+        self,
+        *,
+        available_core_count: int,
+        shape_family: Optional[str] = None,
+        minimum_core_count: Optional[int] = None,
+        runtime_minimum_core_count: Optional[int] = None,
+        core_count_increment: Optional[int] = None,
+        min_storage_count: Optional[int] = None,
+        max_storage_count: Optional[int] = None,
+        available_data_storage_per_server_in_tbs: Optional[float] = None,
+        available_memory_per_node_in_gbs: Optional[int] = None,
+        available_db_node_per_node_in_gbs: Optional[int] = None,
+        min_core_count_per_node: Optional[int] = None,
+        available_memory_in_gbs: Optional[int] = None,
+        min_memory_per_node_in_gbs: Optional[int] = None,
+        available_db_node_storage_in_gbs: Optional[int] = None,
+        min_db_node_storage_per_node_in_gbs: Optional[int] = None,
+        available_data_storage_in_tbs: Optional[int] = None,
+        min_data_storage_in_tbs: Optional[int] = None,
+        minimum_node_count: Optional[int] = None,
+        maximum_node_count: Optional[int] = None,
+        available_core_count_per_node: Optional[int] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword shape_family: The family of the shape used for the DB system.
+        :paramtype shape_family: str
+        :keyword available_core_count: The maximum number of CPU cores that can be enabled on the DB
+         system for this shape. Required.
+        :paramtype available_core_count: int
+        :keyword minimum_core_count: The minimum number of CPU cores that can be enabled on the DB
+         system for this shape.
+        :paramtype minimum_core_count: int
+        :keyword runtime_minimum_core_count: The runtime minimum number of CPU cores that can be
+         enabled on the DB system for this shape.
+        :paramtype runtime_minimum_core_count: int
+        :keyword core_count_increment: The discrete number by which the CPU core count for this shape
+         can be increased or decreased.
+        :paramtype core_count_increment: int
+        :keyword min_storage_count: The minimum number of Exadata storage servers available for the
+         Exadata infrastructure.
+        :paramtype min_storage_count: int
+        :keyword max_storage_count: The maximum number of Exadata storage servers available for the
+         Exadata infrastructure.
+        :paramtype max_storage_count: int
+        :keyword available_data_storage_per_server_in_tbs: The maximum data storage available per
+         storage server for this shape. Only applicable to ExaCC Elastic shapes.
+        :paramtype available_data_storage_per_server_in_tbs: float
+        :keyword available_memory_per_node_in_gbs: The maximum memory available per database node for
+         this shape. Only applicable to ExaCC Elastic shapes.
+        :paramtype available_memory_per_node_in_gbs: int
+        :keyword available_db_node_per_node_in_gbs: The maximum Db Node storage available per database
+         node for this shape. Only applicable to ExaCC Elastic shapes.
+        :paramtype available_db_node_per_node_in_gbs: int
+        :keyword min_core_count_per_node: The minimum number of CPU cores that can be enabled per node
+         for this shape.
+        :paramtype min_core_count_per_node: int
+        :keyword available_memory_in_gbs: The maximum memory that can be enabled for this shape.
+        :paramtype available_memory_in_gbs: int
+        :keyword min_memory_per_node_in_gbs: The minimum memory that need be allocated per node for
+         this shape.
+        :paramtype min_memory_per_node_in_gbs: int
+        :keyword available_db_node_storage_in_gbs: The maximum Db Node storage that can be enabled for
+         this shape.
+        :paramtype available_db_node_storage_in_gbs: int
+        :keyword min_db_node_storage_per_node_in_gbs: The minimum Db Node storage that need be
+         allocated per node for this shape.
+        :paramtype min_db_node_storage_per_node_in_gbs: int
+        :keyword available_data_storage_in_tbs: The maximum DATA storage that can be enabled for this
+         shape.
+        :paramtype available_data_storage_in_tbs: int
+        :keyword min_data_storage_in_tbs: The minimum data storage that need be allocated for this
+         shape.
+        :paramtype min_data_storage_in_tbs: int
+        :keyword minimum_node_count: The minimum number of database nodes available for this shape.
+        :paramtype minimum_node_count: int
+        :keyword maximum_node_count: The maximum number of database nodes available for this shape.
+        :paramtype maximum_node_count: int
+        :keyword available_core_count_per_node: The maximum number of CPU cores per database node that
+         can be enabled for this shape. Only applicable to the flex Exadata shape and ExaCC Elastic
+         shapes.
+        :paramtype available_core_count_per_node: int
+        """
         super().__init__(**kwargs)
-        self.shape_family = None
-        self.available_core_count = None
-        self.minimum_core_count = None
-        self.runtime_minimum_core_count = None
-        self.core_count_increment = None
-        self.min_storage_count = None
-        self.max_storage_count = None
-        self.available_data_storage_per_server_in_tbs = None
-        self.available_memory_per_node_in_gbs = None
-        self.available_db_node_per_node_in_gbs = None
-        self.min_core_count_per_node = None
-        self.available_memory_in_gbs = None
-        self.min_memory_per_node_in_gbs = None
-        self.available_db_node_storage_in_gbs = None
-        self.min_db_node_storage_per_node_in_gbs = None
-        self.available_data_storage_in_tbs = None
-        self.min_data_storage_in_tbs = None
-        self.minimum_node_count = None
-        self.maximum_node_count = None
-        self.available_core_count_per_node = None
+        self.shape_family = shape_family
+        self.available_core_count = available_core_count
+        self.minimum_core_count = minimum_core_count
+        self.runtime_minimum_core_count = runtime_minimum_core_count
+        self.core_count_increment = core_count_increment
+        self.min_storage_count = min_storage_count
+        self.max_storage_count = max_storage_count
+        self.available_data_storage_per_server_in_tbs = available_data_storage_per_server_in_tbs
+        self.available_memory_per_node_in_gbs = available_memory_per_node_in_gbs
+        self.available_db_node_per_node_in_gbs = available_db_node_per_node_in_gbs
+        self.min_core_count_per_node = min_core_count_per_node
+        self.available_memory_in_gbs = available_memory_in_gbs
+        self.min_memory_per_node_in_gbs = min_memory_per_node_in_gbs
+        self.available_db_node_storage_in_gbs = available_db_node_storage_in_gbs
+        self.min_db_node_storage_per_node_in_gbs = min_db_node_storage_per_node_in_gbs
+        self.available_data_storage_in_tbs = available_data_storage_in_tbs
+        self.min_data_storage_in_tbs = min_data_storage_in_tbs
+        self.minimum_node_count = minimum_node_count
+        self.maximum_node_count = maximum_node_count
+        self.available_core_count_per_node = available_core_count_per_node
+
+
+class DisasterRecoveryConfigurationDetails(_serialization.Model):
+    """Configurations of a Disaster Recovery Details.
+
+    :ivar disaster_recovery_type: Indicates the disaster recovery (DR) type of the Autonomous
+     Database Serverless instance. Autonomous Data Guard (ADG) DR type provides business critical DR
+     with a faster recovery time objective (RTO) during failover or switchover. Backup-based DR type
+     provides lower cost DR with a slower RTO during failover or switchover. Known values are: "Adg"
+     and "BackupBased".
+    :vartype disaster_recovery_type: str or ~azure.mgmt.oracledatabase.models.DisasterRecoveryType
+    :ivar time_snapshot_standby_enabled_till: Time and date stored as an RFC 3339 formatted
+     timestamp string. For example, 2022-01-01T12:00:00.000Z would set a limit for the snapshot
+     standby to be converted back to a cross-region standby database.
+    :vartype time_snapshot_standby_enabled_till: ~datetime.datetime
+    :ivar is_snapshot_standby: Indicates if user wants to convert to a snapshot standby. For
+     example, true would set a standby database to snapshot standby database. False would set a
+     snapshot standby database back to regular standby database.
+    :vartype is_snapshot_standby: bool
+    :ivar is_replicate_automatic_backups: If true, 7 days worth of backups are replicated across
+     regions for Cross-Region ADB or Backup-Based DR between Primary and Standby. If false, the
+     backups taken on the Primary are not replicated to the Standby database.
+    :vartype is_replicate_automatic_backups: bool
+    """
+
+    _attribute_map = {
+        "disaster_recovery_type": {"key": "disasterRecoveryType", "type": "str"},
+        "time_snapshot_standby_enabled_till": {"key": "timeSnapshotStandbyEnabledTill", "type": "iso-8601"},
+        "is_snapshot_standby": {"key": "isSnapshotStandby", "type": "bool"},
+        "is_replicate_automatic_backups": {"key": "isReplicateAutomaticBackups", "type": "bool"},
+    }
+
+    def __init__(
+        self,
+        *,
+        disaster_recovery_type: Optional[Union[str, "_models.DisasterRecoveryType"]] = None,
+        time_snapshot_standby_enabled_till: Optional[datetime.datetime] = None,
+        is_snapshot_standby: Optional[bool] = None,
+        is_replicate_automatic_backups: Optional[bool] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword disaster_recovery_type: Indicates the disaster recovery (DR) type of the Autonomous
+         Database Serverless instance. Autonomous Data Guard (ADG) DR type provides business critical DR
+         with a faster recovery time objective (RTO) during failover or switchover. Backup-based DR type
+         provides lower cost DR with a slower RTO during failover or switchover. Known values are: "Adg"
+         and "BackupBased".
+        :paramtype disaster_recovery_type: str or
+         ~azure.mgmt.oracledatabase.models.DisasterRecoveryType
+        :keyword time_snapshot_standby_enabled_till: Time and date stored as an RFC 3339 formatted
+         timestamp string. For example, 2022-01-01T12:00:00.000Z would set a limit for the snapshot
+         standby to be converted back to a cross-region standby database.
+        :paramtype time_snapshot_standby_enabled_till: ~datetime.datetime
+        :keyword is_snapshot_standby: Indicates if user wants to convert to a snapshot standby. For
+         example, true would set a standby database to snapshot standby database. False would set a
+         snapshot standby database back to regular standby database.
+        :paramtype is_snapshot_standby: bool
+        :keyword is_replicate_automatic_backups: If true, 7 days worth of backups are replicated across
+         regions for Cross-Region ADB or Backup-Based DR between Primary and Standby. If false, the
+         backups taken on the Primary are not replicated to the Standby database.
+        :paramtype is_replicate_automatic_backups: bool
+        """
+        super().__init__(**kwargs)
+        self.disaster_recovery_type = disaster_recovery_type
+        self.time_snapshot_standby_enabled_till = time_snapshot_standby_enabled_till
+        self.is_snapshot_standby = is_snapshot_standby
+        self.is_replicate_automatic_backups = is_replicate_automatic_backups
 
 
 class DnsPrivateView(ProxyResource):
@@ -5198,20 +6664,20 @@ class DnsPrivateViewProperties(_serialization.Model):
 
     :ivar ocid: The OCID of the view. Required.
     :vartype ocid: str
-    :ivar display_name: The display name of the view resource.
+    :ivar display_name: The display name of the view resource. Required.
     :vartype display_name: str
     :ivar is_protected: A Boolean flag indicating whether or not parts of the resource are unable
      to be explicitly managed. Required.
     :vartype is_protected: bool
-    :ivar lifecycle_state: Views lifecycleState. Known values are: "Active", "Deleted", "Deleting",
-     and "Updating".
+    :ivar lifecycle_state: Views lifecycleState. Required. Known values are: "Active", "Deleted",
+     "Deleting", and "Updating".
     :vartype lifecycle_state: str or
      ~azure.mgmt.oracledatabase.models.DnsPrivateViewsLifecycleState
     :ivar self_property: The canonical absolute URL of the resource. Required.
     :vartype self_property: str
     :ivar time_created: views timeCreated. Required.
     :vartype time_created: ~datetime.datetime
-    :ivar time_updated: views timeCreated. Required.
+    :ivar time_updated: views timeUpdated. Required.
     :vartype time_updated: ~datetime.datetime
     :ivar provisioning_state: Azure resource provisioning state. Known values are: "Succeeded",
      "Failed", and "Canceled".
@@ -5219,13 +6685,13 @@ class DnsPrivateViewProperties(_serialization.Model):
     """
 
     _validation = {
-        "ocid": {"required": True, "readonly": True, "max_length": 255, "min_length": 1},
-        "display_name": {"readonly": True},
-        "is_protected": {"required": True, "readonly": True},
-        "lifecycle_state": {"readonly": True},
-        "self_property": {"required": True, "readonly": True},
-        "time_created": {"required": True, "readonly": True},
-        "time_updated": {"required": True, "readonly": True},
+        "ocid": {"required": True, "max_length": 255, "min_length": 1},
+        "display_name": {"required": True},
+        "is_protected": {"required": True},
+        "lifecycle_state": {"required": True},
+        "self_property": {"required": True},
+        "time_created": {"required": True},
+        "time_updated": {"required": True},
         "provisioning_state": {"readonly": True},
     }
 
@@ -5240,16 +6706,45 @@ class DnsPrivateViewProperties(_serialization.Model):
         "provisioning_state": {"key": "provisioningState", "type": "str"},
     }
 
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
+    def __init__(
+        self,
+        *,
+        ocid: str,
+        display_name: str,
+        is_protected: bool,
+        lifecycle_state: Union[str, "_models.DnsPrivateViewsLifecycleState"],
+        self_property: str,
+        time_created: datetime.datetime,
+        time_updated: datetime.datetime,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword ocid: The OCID of the view. Required.
+        :paramtype ocid: str
+        :keyword display_name: The display name of the view resource. Required.
+        :paramtype display_name: str
+        :keyword is_protected: A Boolean flag indicating whether or not parts of the resource are
+         unable to be explicitly managed. Required.
+        :paramtype is_protected: bool
+        :keyword lifecycle_state: Views lifecycleState. Required. Known values are: "Active",
+         "Deleted", "Deleting", and "Updating".
+        :paramtype lifecycle_state: str or
+         ~azure.mgmt.oracledatabase.models.DnsPrivateViewsLifecycleState
+        :keyword self_property: The canonical absolute URL of the resource. Required.
+        :paramtype self_property: str
+        :keyword time_created: views timeCreated. Required.
+        :paramtype time_created: ~datetime.datetime
+        :keyword time_updated: views timeUpdated. Required.
+        :paramtype time_updated: ~datetime.datetime
+        """
         super().__init__(**kwargs)
-        self.ocid = None
-        self.display_name = None
-        self.is_protected = None
-        self.lifecycle_state = None
-        self.self_property = None
-        self.time_created = None
-        self.time_updated = None
+        self.ocid = ocid
+        self.display_name = display_name
+        self.is_protected = is_protected
+        self.lifecycle_state = lifecycle_state
+        self.self_property = self_property
+        self.time_created = time_created
+        self.time_updated = time_updated
         self.provisioning_state = None
 
 
@@ -5343,8 +6838,8 @@ class DnsPrivateZoneProperties(_serialization.Model):
     :ivar is_protected: A Boolean flag indicating whether or not parts of the resource are unable
      to be explicitly managed. Required.
     :vartype is_protected: bool
-    :ivar lifecycle_state: Zones lifecycleState. Known values are: "Active", "Creating", "Deleted",
-     "Deleting", and "Updating".
+    :ivar lifecycle_state: Zones lifecycleState. Required. Known values are: "Active", "Creating",
+     "Deleted", "Deleting", and "Updating".
     :vartype lifecycle_state: str or
      ~azure.mgmt.oracledatabase.models.DnsPrivateZonesLifecycleState
     :ivar self_property: The canonical absolute URL of the resource. Required.
@@ -5368,15 +6863,15 @@ class DnsPrivateZoneProperties(_serialization.Model):
     """
 
     _validation = {
-        "ocid": {"required": True, "readonly": True, "max_length": 255, "min_length": 1},
-        "is_protected": {"required": True, "readonly": True},
-        "lifecycle_state": {"readonly": True},
-        "self_property": {"required": True, "readonly": True},
-        "serial": {"required": True, "readonly": True},
-        "version": {"required": True, "readonly": True},
-        "view_id": {"readonly": True, "max_length": 255, "min_length": 1},
-        "zone_type": {"required": True, "readonly": True},
-        "time_created": {"required": True, "readonly": True},
+        "ocid": {"required": True, "max_length": 255, "min_length": 1},
+        "is_protected": {"required": True},
+        "lifecycle_state": {"required": True},
+        "self_property": {"required": True},
+        "serial": {"required": True},
+        "version": {"required": True},
+        "view_id": {"max_length": 255, "min_length": 1},
+        "zone_type": {"required": True},
+        "time_created": {"required": True},
         "provisioning_state": {"readonly": True},
     }
 
@@ -5393,18 +6888,56 @@ class DnsPrivateZoneProperties(_serialization.Model):
         "provisioning_state": {"key": "provisioningState", "type": "str"},
     }
 
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
+    def __init__(
+        self,
+        *,
+        ocid: str,
+        is_protected: bool,
+        lifecycle_state: Union[str, "_models.DnsPrivateZonesLifecycleState"],
+        self_property: str,
+        serial: int,
+        version: str,
+        zone_type: Union[str, "_models.ZoneType"],
+        time_created: datetime.datetime,
+        view_id: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword ocid: The OCID of the Zone. Required.
+        :paramtype ocid: str
+        :keyword is_protected: A Boolean flag indicating whether or not parts of the resource are
+         unable to be explicitly managed. Required.
+        :paramtype is_protected: bool
+        :keyword lifecycle_state: Zones lifecycleState. Required. Known values are: "Active",
+         "Creating", "Deleted", "Deleting", and "Updating".
+        :paramtype lifecycle_state: str or
+         ~azure.mgmt.oracledatabase.models.DnsPrivateZonesLifecycleState
+        :keyword self_property: The canonical absolute URL of the resource. Required.
+        :paramtype self_property: str
+        :keyword serial: The current serial of the zone. As seen in the zone's SOA record. Required.
+        :paramtype serial: int
+        :keyword version: Version is the never-repeating, totally-orderable, version of the zone, from
+         which the serial field of the zone's SOA record is derived. Required.
+        :paramtype version: str
+        :keyword view_id: The OCID of the private view containing the zone. This value will be null for
+         zones in the global DNS, which are publicly resolvable and not part of a private view.
+        :paramtype view_id: str
+        :keyword zone_type: The type of the zone. Must be either PRIMARY or SECONDARY. SECONDARY is
+         only supported for GLOBAL zones. Required. Known values are: "Primary" and "Secondary".
+        :paramtype zone_type: str or ~azure.mgmt.oracledatabase.models.ZoneType
+        :keyword time_created: Zones timeCreated. Required.
+        :paramtype time_created: ~datetime.datetime
+        """
         super().__init__(**kwargs)
-        self.ocid = None
-        self.is_protected = None
-        self.lifecycle_state = None
-        self.self_property = None
-        self.serial = None
-        self.version = None
-        self.view_id = None
-        self.zone_type = None
-        self.time_created = None
+        self.ocid = ocid
+        self.is_protected = is_protected
+        self.lifecycle_state = lifecycle_state
+        self.self_property = self_property
+        self.serial = serial
+        self.version = version
+        self.view_id = view_id
+        self.zone_type = zone_type
+        self.time_created = time_created
         self.provisioning_state = None
 
 
@@ -5719,8 +7252,6 @@ class GiVersionListResult(_serialization.Model):
 class GiVersionProperties(_serialization.Model):
     """GiVersion resource model.
 
-    Variables are only populated by the server, and will be ignored when sending a request.
-
     All required parameters must be populated in order to send to server.
 
     :ivar version: A valid Oracle Grid Infrastructure (GI) software version. Required.
@@ -5728,17 +7259,20 @@ class GiVersionProperties(_serialization.Model):
     """
 
     _validation = {
-        "version": {"required": True, "readonly": True, "max_length": 255, "min_length": 1},
+        "version": {"required": True, "max_length": 255, "min_length": 1},
     }
 
     _attribute_map = {
         "version": {"key": "version", "type": "str"},
     }
 
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
+    def __init__(self, *, version: str, **kwargs: Any) -> None:
+        """
+        :keyword version: A valid Oracle Grid Infrastructure (GI) software version. Required.
+        :paramtype version: str
+        """
         super().__init__(**kwargs)
-        self.version = None
+        self.version = version
 
 
 class LongTermBackUpScheduleDetails(_serialization.Model):
@@ -6226,6 +7760,15 @@ class OracleSubscriptionProperties(_serialization.Model):
     :vartype product_code: str
     :ivar intent: Intent for the update operation. Known values are: "Retain" and "Reset".
     :vartype intent: str or ~azure.mgmt.oracledatabase.models.Intent
+    :ivar azure_subscription_ids: Azure subscriptions associated with this OracleSubscription.
+    :vartype azure_subscription_ids: list[str]
+    :ivar add_subscription_operation_state: State of the add Azure subscription operation on Oracle
+     subscription. Known values are: "Succeeded", "Updating", and "Failed".
+    :vartype add_subscription_operation_state: str or
+     ~azure.mgmt.oracledatabase.models.AddSubscriptionOperationState
+    :ivar last_operation_status_detail: Status details of the last operation on Oracle
+     subscription.
+    :vartype last_operation_status_detail: str
     """
 
     _validation = {
@@ -6233,6 +7776,9 @@ class OracleSubscriptionProperties(_serialization.Model):
         "saas_subscription_id": {"readonly": True},
         "cloud_account_id": {"readonly": True, "max_length": 255, "min_length": 1},
         "cloud_account_state": {"readonly": True},
+        "azure_subscription_ids": {"readonly": True},
+        "add_subscription_operation_state": {"readonly": True},
+        "last_operation_status_detail": {"readonly": True},
     }
 
     _attribute_map = {
@@ -6243,6 +7789,9 @@ class OracleSubscriptionProperties(_serialization.Model):
         "term_unit": {"key": "termUnit", "type": "str"},
         "product_code": {"key": "productCode", "type": "str"},
         "intent": {"key": "intent", "type": "str"},
+        "azure_subscription_ids": {"key": "azureSubscriptionIds", "type": "[str]"},
+        "add_subscription_operation_state": {"key": "addSubscriptionOperationState", "type": "str"},
+        "last_operation_status_detail": {"key": "lastOperationStatusDetail", "type": "str"},
     }
 
     def __init__(
@@ -6270,6 +7819,9 @@ class OracleSubscriptionProperties(_serialization.Model):
         self.term_unit = term_unit
         self.product_code = product_code
         self.intent = intent
+        self.azure_subscription_ids = None
+        self.add_subscription_operation_state = None
+        self.last_operation_status_detail = None
 
 
 class OracleSubscriptionUpdate(_serialization.Model):
@@ -6277,7 +7829,7 @@ class OracleSubscriptionUpdate(_serialization.Model):
 
     :ivar plan: Details of the resource plan.
     :vartype plan: ~azure.mgmt.oracledatabase.models.PlanUpdate
-    :ivar properties: The updatable properties of the OracleSubscription.
+    :ivar properties: The resource-specific properties for this resource.
     :vartype properties: ~azure.mgmt.oracledatabase.models.OracleSubscriptionUpdateProperties
     """
 
@@ -6296,7 +7848,7 @@ class OracleSubscriptionUpdate(_serialization.Model):
         """
         :keyword plan: Details of the resource plan.
         :paramtype plan: ~azure.mgmt.oracledatabase.models.PlanUpdate
-        :keyword properties: The updatable properties of the OracleSubscription.
+        :keyword properties: The resource-specific properties for this resource.
         :paramtype properties: ~azure.mgmt.oracledatabase.models.OracleSubscriptionUpdateProperties
         """
         super().__init__(**kwargs)
@@ -6339,9 +7891,14 @@ class OracleSubscriptionUpdateProperties(_serialization.Model):
 class PeerDbDetails(_serialization.Model):
     """PeerDb Details.
 
-    :ivar peer_db_id: The database OCID of the Disaster Recovery peer database, which is located in
-     a different region from the current peer database.
+    :ivar peer_db_id: The Azure resource ID of the Disaster Recovery peer database, which is
+     located in a different region from the current peer database.
     :vartype peer_db_id: str
+    :ivar peer_db_ocid: Ocid of the Disaster Recovery peer database, which is located in a
+     different region from the current peer database.
+    :vartype peer_db_ocid: str
+    :ivar peer_db_location: The location of the Disaster Recovery peer database.
+    :vartype peer_db_location: str
     """
 
     _validation = {
@@ -6350,16 +7907,32 @@ class PeerDbDetails(_serialization.Model):
 
     _attribute_map = {
         "peer_db_id": {"key": "peerDbId", "type": "str"},
+        "peer_db_ocid": {"key": "peerDbOcid", "type": "str"},
+        "peer_db_location": {"key": "peerDbLocation", "type": "str"},
     }
 
-    def __init__(self, *, peer_db_id: Optional[str] = None, **kwargs: Any) -> None:
+    def __init__(
+        self,
+        *,
+        peer_db_id: Optional[str] = None,
+        peer_db_ocid: Optional[str] = None,
+        peer_db_location: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
         """
-        :keyword peer_db_id: The database OCID of the Disaster Recovery peer database, which is located
-         in a different region from the current peer database.
+        :keyword peer_db_id: The Azure resource ID of the Disaster Recovery peer database, which is
+         located in a different region from the current peer database.
         :paramtype peer_db_id: str
+        :keyword peer_db_ocid: Ocid of the Disaster Recovery peer database, which is located in a
+         different region from the current peer database.
+        :paramtype peer_db_ocid: str
+        :keyword peer_db_location: The location of the Disaster Recovery peer database.
+        :paramtype peer_db_location: str
         """
         super().__init__(**kwargs)
         self.peer_db_id = peer_db_id
+        self.peer_db_ocid = peer_db_ocid
+        self.peer_db_location = peer_db_location
 
 
 class Plan(_serialization.Model):
@@ -6752,7 +8325,7 @@ class RestoreAutonomousDatabaseDetails(_serialization.Model):
         self.timestamp = timestamp
 
 
-class SaasSubscriptionDetails(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class SaasSubscriptionDetails(_serialization.Model):
     """SaaS Subscription Details model.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -7064,8 +8637,6 @@ class SystemVersionListResult(_serialization.Model):
 class SystemVersionProperties(_serialization.Model):
     """System Version Resource model.
 
-    Variables are only populated by the server, and will be ignored when sending a request.
-
     All required parameters must be populated in order to send to server.
 
     :ivar system_version: A valid Oracle System Version. Required.
@@ -7073,17 +8644,20 @@ class SystemVersionProperties(_serialization.Model):
     """
 
     _validation = {
-        "system_version": {"required": True, "readonly": True},
+        "system_version": {"required": True},
     }
 
     _attribute_map = {
         "system_version": {"key": "systemVersion", "type": "str"},
     }
 
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
+    def __init__(self, *, system_version: str, **kwargs: Any) -> None:
+        """
+        :keyword system_version: A valid Oracle System Version. Required.
+        :paramtype system_version: str
+        """
         super().__init__(**kwargs)
-        self.system_version = None
+        self.system_version = system_version
 
 
 class SystemVersionsFilter(_serialization.Model):
