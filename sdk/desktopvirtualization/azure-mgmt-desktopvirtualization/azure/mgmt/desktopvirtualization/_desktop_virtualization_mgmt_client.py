@@ -40,11 +40,10 @@ from .operations import (
 )
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from azure.core.credentials import TokenCredential
 
 
-class DesktopVirtualizationMgmtClient:  # pylint: disable=client-accepts-api-version-keyword,too-many-instance-attributes
+class DesktopVirtualizationMgmtClient:  # pylint: disable=too-many-instance-attributes
     """DesktopVirtualizationMgmtClient.
 
     :ivar operations: Operations operations
@@ -96,7 +95,7 @@ class DesktopVirtualizationMgmtClient:  # pylint: disable=client-accepts-api-ver
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2024-04-03". Note that overriding this
+    :keyword api_version: Api Version. Default value is "2024-09-10". Note that overriding this
      default value may result in unsupported behavior.
     :paramtype api_version: str
     """
