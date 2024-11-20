@@ -31,12 +31,12 @@ def main():
     )
 
     response = client.scheduled_actions.virtual_machines_submit_hibernate(
-        locationparameter="bgxeayimbxqzev",
+        locationparameter="zaezoherlpbmujcy",
         request_body={
-            "correlationid": "23519o2f-1dca-4610-afb4-dd25eec1f34",
+            "correlationid": "gtmbshlh",
             "executionParameters": {
                 "optimizationPreference": "Cost",
-                "retryPolicy": {"retryCount": 30, "retryWindowInMinutes": 27},
+                "retryPolicy": {"retryCount": 27, "retryWindowInMinutes": 27},
             },
             "resources": {
                 "ids": [
@@ -44,15 +44,15 @@ def main():
                 ]
             },
             "schedule": {
-                "deadLine": "2024-07-12T18:06:53.361Z",
+                "deadline": "2024-11-01T17:52:54.215Z",
                 "deadlineType": "Unknown",
-                "timeZone": "zlcujrtgxtgyik",
+                "timezone": "csrtkjccrazescylvjzn",
             },
         },
     )
     print(response)
 
 
-# x-ms-original-file: 2024-08-15-preview/ScheduledActions_VirtualMachinesSubmitHibernate_MaximumSet_Gen.json
+# x-ms-original-file: 2024-10-01/ScheduledActions_VirtualMachinesSubmitHibernate_MaximumSet_Gen.json
 if __name__ == "__main__":
     main()

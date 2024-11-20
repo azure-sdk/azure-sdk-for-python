@@ -31,16 +31,16 @@ def main():
     )
 
     response = client.scheduled_actions.virtual_machines_execute_start(
-        locationparameter="ysfrwcfmfsh",
+        locationparameter="ejosmxxqdayoihqzbn",
         request_body={
-            "correlationid": "23230d2f-1dca-4610-afb4-dd25eec1f34",
+            "correlationid": "czbxgyyxbo",
             "executionParameters": {
                 "optimizationPreference": "Cost",
-                "retryPolicy": {"retryCount": 30, "retryWindowInMinutes": 27},
+                "retryPolicy": {"retryCount": 27, "retryWindowInMinutes": 27},
             },
             "resources": {
                 "ids": [
-                    "/subscriptions/YourSubscriptionId/resourceGroups/YourResourceGroupName/providers/Microsoft.Compute/virtualMachines/testResource4"
+                    "/subscriptions/YourSubscriptionId/resourceGroups/YourResourceGroupName/providers/Microsoft.Compute/virtualMachines/testResource3"
                 ]
             },
         },
@@ -48,6 +48,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: 2024-08-15-preview/ScheduledActions_VirtualMachinesExecuteStart_MaximumSet_Gen.json
+# x-ms-original-file: 2024-10-01/ScheduledActions_VirtualMachinesExecuteStart_MaximumSet_Gen.json
 if __name__ == "__main__":
     main()
