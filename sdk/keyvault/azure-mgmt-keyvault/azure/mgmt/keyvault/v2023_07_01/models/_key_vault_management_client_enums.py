@@ -171,6 +171,7 @@ class ManagedHsmSkuFamily(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """SKU Family of the managed HSM Pool."""
 
     B = "B"
+    C = "C"
 
 
 class ManagedHsmSkuName(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -179,6 +180,8 @@ class ManagedHsmSkuName(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     STANDARD_B1 = "Standard_B1"
     CUSTOM_B32 = "Custom_B32"
     CUSTOM_B6 = "Custom_B6"
+    CUSTOM_C42 = "Custom_C42"
+    CUSTOM_C10 = "Custom_C10"
 
 
 class ManagedServiceIdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
