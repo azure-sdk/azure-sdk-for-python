@@ -8,6 +8,7 @@
 # --------------------------------------------------------------------------
 import datetime
 from io import IOBase
+import sys
 from typing import Any, Callable, Dict, IO, Optional, TypeVar, Union, overload
 
 from azure.core.exceptions import (
@@ -19,16 +20,18 @@ from azure.core.exceptions import (
     map_error,
 )
 from azure.core.pipeline import PipelineResponse
-from azure.core.pipeline.transport import HttpResponse
-from azure.core.rest import HttpRequest
+from azure.core.rest import HttpRequest, HttpResponse
 from azure.core.tracing.decorator import distributed_trace
 from azure.core.utils import case_insensitive_dict
 from azure.mgmt.core.exceptions import ARMErrorFormat
 
 from .. import models as _models
 from .._serialization import Serializer
-from .._vendor import _convert_request, _format_url_section
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
 
@@ -48,7 +51,7 @@ def build_get_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-03-01-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-02-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -63,7 +66,7 @@ def build_get_request(
         "provisioningServiceName": _SERIALIZER.url("provisioning_service_name", provisioning_service_name, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -88,7 +91,7 @@ def build_create_or_update_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-03-01-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-02-01-preview"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -104,7 +107,7 @@ def build_create_or_update_request(
         "certificateName": _SERIALIZER.url("certificate_name", certificate_name, "str", max_length=256),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -139,7 +142,7 @@ def build_delete_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-03-01-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-02-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -154,7 +157,7 @@ def build_delete_request(
         "certificateName": _SERIALIZER.url("certificate_name", certificate_name, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     if certificate_name1 is not None:
@@ -194,7 +197,7 @@ def build_list_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-03-01-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-02-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -208,7 +211,7 @@ def build_list_request(
         "provisioningServiceName": _SERIALIZER.url("provisioning_service_name", provisioning_service_name, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -239,7 +242,7 @@ def build_generate_verification_code_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-03-01-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-02-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -254,7 +257,7 @@ def build_generate_verification_code_request(
         "provisioningServiceName": _SERIALIZER.url("provisioning_service_name", provisioning_service_name, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     if certificate_name1 is not None:
@@ -308,7 +311,7 @@ def build_verify_certificate_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-03-01-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-02-01-preview"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -324,7 +327,7 @@ def build_verify_certificate_request(
         "provisioningServiceName": _SERIALIZER.url("provisioning_service_name", provisioning_service_name, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     if certificate_name1 is not None:
@@ -399,12 +402,11 @@ class DpsCertificateOperations:
         :type provisioning_service_name: str
         :param if_match: ETag of the certificate. Default value is None.
         :type if_match: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: CertificateResponse or the result of cls(response)
         :rtype: ~azure.mgmt.iothubprovisioningservices.models.CertificateResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -418,23 +420,21 @@ class DpsCertificateOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.CertificateResponse] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             certificate_name=certificate_name,
             resource_group_name=resource_group_name,
             provisioning_service_name=provisioning_service_name,
             subscription_id=self._config.subscription_id,
             if_match=if_match,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -444,16 +444,12 @@ class DpsCertificateOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorDetails, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("CertificateResponse", pipeline_response)
+        deserialized = self._deserialize("CertificateResponse", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/certificates/{certificateName}"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def create_or_update(
@@ -486,7 +482,6 @@ class DpsCertificateOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: CertificateResponse or the result of cls(response)
         :rtype: ~azure.mgmt.iothubprovisioningservices.models.CertificateResponse
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -498,7 +493,7 @@ class DpsCertificateOperations:
         resource_group_name: str,
         provisioning_service_name: str,
         certificate_name: str,
-        certificate_description: IO,
+        certificate_description: IO[bytes],
         if_match: Optional[str] = None,
         *,
         content_type: str = "application/json",
@@ -515,14 +510,13 @@ class DpsCertificateOperations:
         :param certificate_name: The name of the certificate create or update. Required.
         :type certificate_name: str
         :param certificate_description: The certificate body. Required.
-        :type certificate_description: IO
+        :type certificate_description: IO[bytes]
         :param if_match: ETag of the certificate. This is required to update an existing certificate,
          and ignored while creating a brand new certificate. Default value is None.
         :type if_match: str
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: CertificateResponse or the result of cls(response)
         :rtype: ~azure.mgmt.iothubprovisioningservices.models.CertificateResponse
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -534,7 +528,7 @@ class DpsCertificateOperations:
         resource_group_name: str,
         provisioning_service_name: str,
         certificate_name: str,
-        certificate_description: Union[_models.CertificateResponse, IO],
+        certificate_description: Union[_models.CertificateResponse, IO[bytes]],
         if_match: Optional[str] = None,
         **kwargs: Any
     ) -> _models.CertificateResponse:
@@ -549,21 +543,17 @@ class DpsCertificateOperations:
         :param certificate_name: The name of the certificate create or update. Required.
         :type certificate_name: str
         :param certificate_description: The certificate body. Is either a CertificateResponse type or a
-         IO type. Required.
+         IO[bytes] type. Required.
         :type certificate_description:
-         ~azure.mgmt.iothubprovisioningservices.models.CertificateResponse or IO
+         ~azure.mgmt.iothubprovisioningservices.models.CertificateResponse or IO[bytes]
         :param if_match: ETag of the certificate. This is required to update an existing certificate,
          and ignored while creating a brand new certificate. Default value is None.
         :type if_match: str
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: CertificateResponse or the result of cls(response)
         :rtype: ~azure.mgmt.iothubprovisioningservices.models.CertificateResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -586,7 +576,7 @@ class DpsCertificateOperations:
         else:
             _json = self._serialize.body(certificate_description, "CertificateResponse")
 
-        request = build_create_or_update_request(
+        _request = build_create_or_update_request(
             resource_group_name=resource_group_name,
             provisioning_service_name=provisioning_service_name,
             certificate_name=certificate_name,
@@ -596,16 +586,14 @@ class DpsCertificateOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.create_or_update.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -615,16 +603,12 @@ class DpsCertificateOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorDetails, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("CertificateResponse", pipeline_response)
+        deserialized = self._deserialize("CertificateResponse", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    create_or_update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/certificates/{certificateName}"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
     def delete(  # pylint: disable=inconsistent-return-statements
@@ -678,12 +662,11 @@ class DpsCertificateOperations:
         :param certificate_nonce: Random number generated to indicate Proof of Possession. Default
          value is None.
         :type certificate_nonce: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -697,7 +680,7 @@ class DpsCertificateOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_delete_request(
+        _request = build_delete_request(
             resource_group_name=resource_group_name,
             provisioning_service_name=provisioning_service_name,
             certificate_name=certificate_name,
@@ -712,16 +695,14 @@ class DpsCertificateOperations:
             certificate_has_private_key=certificate_has_private_key,
             certificate_nonce=certificate_nonce,
             api_version=api_version,
-            template_url=self.delete.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -732,11 +713,7 @@ class DpsCertificateOperations:
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/certificates/{certificateName}"
-    }
+            return cls(pipeline_response, None, {})  # type: ignore
 
     @distributed_trace
     def list(
@@ -749,12 +726,11 @@ class DpsCertificateOperations:
         :param provisioning_service_name: Name of provisioning service to retrieve certificates for.
          Required.
         :type provisioning_service_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: CertificateListDescription or the result of cls(response)
         :rtype: ~azure.mgmt.iothubprovisioningservices.models.CertificateListDescription
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -768,21 +744,19 @@ class DpsCertificateOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.CertificateListDescription] = kwargs.pop("cls", None)
 
-        request = build_list_request(
+        _request = build_list_request(
             resource_group_name=resource_group_name,
             provisioning_service_name=provisioning_service_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.list.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -792,16 +766,12 @@ class DpsCertificateOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorDetails, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("CertificateListDescription", pipeline_response)
+        deserialized = self._deserialize("CertificateListDescription", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    list.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/certificates"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
     def generate_verification_code(
@@ -853,12 +823,11 @@ class DpsCertificateOperations:
         :param certificate_nonce: Random number generated to indicate Proof of Possession. Default
          value is None.
         :type certificate_nonce: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: VerificationCodeResponse or the result of cls(response)
         :rtype: ~azure.mgmt.iothubprovisioningservices.models.VerificationCodeResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -872,7 +841,7 @@ class DpsCertificateOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.VerificationCodeResponse] = kwargs.pop("cls", None)
 
-        request = build_generate_verification_code_request(
+        _request = build_generate_verification_code_request(
             certificate_name=certificate_name,
             resource_group_name=resource_group_name,
             provisioning_service_name=provisioning_service_name,
@@ -887,16 +856,14 @@ class DpsCertificateOperations:
             certificate_has_private_key=certificate_has_private_key,
             certificate_nonce=certificate_nonce,
             api_version=api_version,
-            template_url=self.generate_verification_code.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -906,16 +873,12 @@ class DpsCertificateOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorDetails, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("VerificationCodeResponse", pipeline_response)
+        deserialized = self._deserialize("VerificationCodeResponse", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    generate_verification_code.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/certificates/{certificateName}/generateVerificationCode"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def verify_certificate(
@@ -977,7 +940,6 @@ class DpsCertificateOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: CertificateResponse or the result of cls(response)
         :rtype: ~azure.mgmt.iothubprovisioningservices.models.CertificateResponse
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -990,7 +952,7 @@ class DpsCertificateOperations:
         if_match: str,
         resource_group_name: str,
         provisioning_service_name: str,
-        request: IO,
+        request: IO[bytes],
         certificate_name1: Optional[str] = None,
         certificate_raw_bytes: Optional[bytes] = None,
         certificate_is_verified: Optional[bool] = None,
@@ -1018,7 +980,7 @@ class DpsCertificateOperations:
         :param provisioning_service_name: Provisioning service name. Required.
         :type provisioning_service_name: str
         :param request: The name of the certificate. Required.
-        :type request: IO
+        :type request: IO[bytes]
         :param certificate_name1: Common Name for the certificate. Default value is None.
         :type certificate_name1: str
         :param certificate_raw_bytes: Raw data of certificate. Default value is None.
@@ -1043,7 +1005,6 @@ class DpsCertificateOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: CertificateResponse or the result of cls(response)
         :rtype: ~azure.mgmt.iothubprovisioningservices.models.CertificateResponse
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1056,7 +1017,7 @@ class DpsCertificateOperations:
         if_match: str,
         resource_group_name: str,
         provisioning_service_name: str,
-        request: Union[_models.VerificationCodeRequest, IO],
+        request: Union[_models.VerificationCodeRequest, IO[bytes]],
         certificate_name1: Optional[str] = None,
         certificate_raw_bytes: Optional[bytes] = None,
         certificate_is_verified: Optional[bool] = None,
@@ -1081,9 +1042,10 @@ class DpsCertificateOperations:
         :type resource_group_name: str
         :param provisioning_service_name: Provisioning service name. Required.
         :type provisioning_service_name: str
-        :param request: The name of the certificate. Is either a VerificationCodeRequest type or a IO
-         type. Required.
-        :type request: ~azure.mgmt.iothubprovisioningservices.models.VerificationCodeRequest or IO
+        :param request: The name of the certificate. Is either a VerificationCodeRequest type or a
+         IO[bytes] type. Required.
+        :type request: ~azure.mgmt.iothubprovisioningservices.models.VerificationCodeRequest or
+         IO[bytes]
         :param certificate_name1: Common Name for the certificate. Default value is None.
         :type certificate_name1: str
         :param certificate_raw_bytes: Raw data of certificate. Default value is None.
@@ -1105,15 +1067,11 @@ class DpsCertificateOperations:
         :param certificate_nonce: Random number generated to indicate Proof of Possession. Default
          value is None.
         :type certificate_nonce: str
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: CertificateResponse or the result of cls(response)
         :rtype: ~azure.mgmt.iothubprovisioningservices.models.CertificateResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1136,7 +1094,7 @@ class DpsCertificateOperations:
         else:
             _json = self._serialize.body(request, "VerificationCodeRequest")
 
-        request = build_verify_certificate_request(
+        _request = build_verify_certificate_request(
             certificate_name=certificate_name,
             resource_group_name=resource_group_name,
             provisioning_service_name=provisioning_service_name,
@@ -1154,16 +1112,14 @@ class DpsCertificateOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.verify_certificate.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1173,13 +1129,9 @@ class DpsCertificateOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorDetails, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("CertificateResponse", pipeline_response)
+        deserialized = self._deserialize("CertificateResponse", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    verify_certificate.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/provisioningServices/{provisioningServiceName}/certificates/{certificateName}/verify"
-    }
+        return deserialized  # type: ignore
