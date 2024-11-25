@@ -1,4 +1,3 @@
-# pylint: disable=too-many-lines
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,6 +6,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
+import sys
 from typing import Any, Callable, Dict, IO, Iterable, Optional, TypeVar, Union, overload
 import urllib.parse
 
@@ -20,16 +20,18 @@ from azure.core.exceptions import (
 )
 from azure.core.paging import ItemPaged
 from azure.core.pipeline import PipelineResponse
-from azure.core.pipeline.transport import HttpResponse
-from azure.core.rest import HttpRequest
+from azure.core.rest import HttpRequest, HttpResponse
 from azure.core.tracing.decorator import distributed_trace
 from azure.core.utils import case_insensitive_dict
 from azure.mgmt.core.exceptions import ARMErrorFormat
 
 from .. import models as _models
 from .._serialization import Serializer
-from .._vendor import _convert_request
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
 
@@ -50,7 +52,7 @@ def build_list_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-01-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -59,23 +61,30 @@ def build_list_request(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{parentProviderNamespace}/{parentResourceType}/{parentResourceName}/providers/Microsoft.Chaos/targets",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url(
-            "subscription_id",
-            subscription_id,
-            "str",
-            pattern=r"^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$",
-        ),
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
         "resourceGroupName": _SERIALIZER.url(
-            "resource_group_name", resource_group_name, "str", pattern=r"^[a-zA-Z0-9_\-\.\(\)]*[a-zA-Z0-9_\-\(\)]$"
+            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
         "parentProviderNamespace": _SERIALIZER.url(
-            "parent_provider_namespace", parent_provider_namespace, "str", pattern=r"^[a-zA-Z0-9]+\.[a-zA-Z0-9]+$"
+            "parent_provider_namespace",
+            parent_provider_namespace,
+            "str",
+            max_length=63,
+            pattern=r"^[a-zA-Z0-9][a-zA-Z0-9-_.]{2,62}$",
         ),
         "parentResourceType": _SERIALIZER.url(
-            "parent_resource_type", parent_resource_type, "str", pattern=r"^[a-zA-Z0-9_\-\.]+$"
+            "parent_resource_type",
+            parent_resource_type,
+            "str",
+            max_length=63,
+            pattern=r"^[a-zA-Z0-9][a-zA-Z0-9-_.]{2,62}$",
         ),
         "parentResourceName": _SERIALIZER.url(
-            "parent_resource_name", parent_resource_name, "str", pattern=r"^[a-zA-Z0-9_\-\.]+$"
+            "parent_resource_name",
+            parent_resource_name,
+            "str",
+            max_length=63,
+            pattern=r"^[a-zA-Z0-9][a-zA-Z0-9-_.]{2,62}$",
         ),
     }
 
@@ -106,7 +115,7 @@ def build_get_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-01-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -115,23 +124,30 @@ def build_get_request(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{parentProviderNamespace}/{parentResourceType}/{parentResourceName}/providers/Microsoft.Chaos/targets/{targetName}",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url(
-            "subscription_id",
-            subscription_id,
-            "str",
-            pattern=r"^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$",
-        ),
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
         "resourceGroupName": _SERIALIZER.url(
-            "resource_group_name", resource_group_name, "str", pattern=r"^[a-zA-Z0-9_\-\.\(\)]*[a-zA-Z0-9_\-\(\)]$"
+            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
         "parentProviderNamespace": _SERIALIZER.url(
-            "parent_provider_namespace", parent_provider_namespace, "str", pattern=r"^[a-zA-Z0-9]+\.[a-zA-Z0-9]+$"
+            "parent_provider_namespace",
+            parent_provider_namespace,
+            "str",
+            max_length=63,
+            pattern=r"^[a-zA-Z0-9][a-zA-Z0-9-_.]{2,62}$",
         ),
         "parentResourceType": _SERIALIZER.url(
-            "parent_resource_type", parent_resource_type, "str", pattern=r"^[a-zA-Z0-9_\-\.]+$"
+            "parent_resource_type",
+            parent_resource_type,
+            "str",
+            max_length=63,
+            pattern=r"^[a-zA-Z0-9][a-zA-Z0-9-_.]{2,62}$",
         ),
         "parentResourceName": _SERIALIZER.url(
-            "parent_resource_name", parent_resource_name, "str", pattern=r"^[a-zA-Z0-9_\-\.]+$"
+            "parent_resource_name",
+            parent_resource_name,
+            "str",
+            max_length=63,
+            pattern=r"^[a-zA-Z0-9][a-zA-Z0-9-_.]{2,62}$",
         ),
         "targetName": _SERIALIZER.url("target_name", target_name, "str", pattern=r"^[a-zA-Z0-9_\-\.]+$"),
     }
@@ -147,59 +163,6 @@ def build_get_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_delete_request(
-    resource_group_name: str,
-    parent_provider_namespace: str,
-    parent_resource_type: str,
-    parent_resource_name: str,
-    target_name: str,
-    subscription_id: str,
-    **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = kwargs.pop(
-        "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{parentProviderNamespace}/{parentResourceType}/{parentResourceName}/providers/Microsoft.Chaos/targets/{targetName}",
-    )  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url(
-            "subscription_id",
-            subscription_id,
-            "str",
-            pattern=r"^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$",
-        ),
-        "resourceGroupName": _SERIALIZER.url(
-            "resource_group_name", resource_group_name, "str", pattern=r"^[a-zA-Z0-9_\-\.\(\)]*[a-zA-Z0-9_\-\(\)]$"
-        ),
-        "parentProviderNamespace": _SERIALIZER.url(
-            "parent_provider_namespace", parent_provider_namespace, "str", pattern=r"^[a-zA-Z0-9]+\.[a-zA-Z0-9]+$"
-        ),
-        "parentResourceType": _SERIALIZER.url(
-            "parent_resource_type", parent_resource_type, "str", pattern=r"^[a-zA-Z0-9_\-\.]+$"
-        ),
-        "parentResourceName": _SERIALIZER.url(
-            "parent_resource_name", parent_resource_name, "str", pattern=r"^[a-zA-Z0-9_\-\.]+$"
-        ),
-        "targetName": _SERIALIZER.url("target_name", target_name, "str", pattern=r"^[a-zA-Z0-9_\-\.]+$"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="DELETE", url=_url, params=_params, headers=_headers, **kwargs)
-
-
 def build_create_or_update_request(
     resource_group_name: str,
     parent_provider_namespace: str,
@@ -212,7 +175,7 @@ def build_create_or_update_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-01-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -222,23 +185,30 @@ def build_create_or_update_request(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{parentProviderNamespace}/{parentResourceType}/{parentResourceName}/providers/Microsoft.Chaos/targets/{targetName}",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url(
-            "subscription_id",
-            subscription_id,
-            "str",
-            pattern=r"^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$",
-        ),
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
         "resourceGroupName": _SERIALIZER.url(
-            "resource_group_name", resource_group_name, "str", pattern=r"^[a-zA-Z0-9_\-\.\(\)]*[a-zA-Z0-9_\-\(\)]$"
+            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
         "parentProviderNamespace": _SERIALIZER.url(
-            "parent_provider_namespace", parent_provider_namespace, "str", pattern=r"^[a-zA-Z0-9]+\.[a-zA-Z0-9]+$"
+            "parent_provider_namespace",
+            parent_provider_namespace,
+            "str",
+            max_length=63,
+            pattern=r"^[a-zA-Z0-9][a-zA-Z0-9-_.]{2,62}$",
         ),
         "parentResourceType": _SERIALIZER.url(
-            "parent_resource_type", parent_resource_type, "str", pattern=r"^[a-zA-Z0-9_\-\.]+$"
+            "parent_resource_type",
+            parent_resource_type,
+            "str",
+            max_length=63,
+            pattern=r"^[a-zA-Z0-9][a-zA-Z0-9-_.]{2,62}$",
         ),
         "parentResourceName": _SERIALIZER.url(
-            "parent_resource_name", parent_resource_name, "str", pattern=r"^[a-zA-Z0-9_\-\.]+$"
+            "parent_resource_name",
+            parent_resource_name,
+            "str",
+            max_length=63,
+            pattern=r"^[a-zA-Z0-9][a-zA-Z0-9-_.]{2,62}$",
         ),
         "targetName": _SERIALIZER.url("target_name", target_name, "str", pattern=r"^[a-zA-Z0-9_\-\.]+$"),
     }
@@ -254,6 +224,66 @@ def build_create_or_update_request(
     _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="PUT", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_delete_request(
+    resource_group_name: str,
+    parent_provider_namespace: str,
+    parent_resource_type: str,
+    parent_resource_name: str,
+    target_name: str,
+    subscription_id: str,
+    **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-01-01"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = kwargs.pop(
+        "template_url",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{parentProviderNamespace}/{parentResourceType}/{parentResourceName}/providers/Microsoft.Chaos/targets/{targetName}",
+    )  # pylint: disable=line-too-long
+    path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
+        "resourceGroupName": _SERIALIZER.url(
+            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
+        ),
+        "parentProviderNamespace": _SERIALIZER.url(
+            "parent_provider_namespace",
+            parent_provider_namespace,
+            "str",
+            max_length=63,
+            pattern=r"^[a-zA-Z0-9][a-zA-Z0-9-_.]{2,62}$",
+        ),
+        "parentResourceType": _SERIALIZER.url(
+            "parent_resource_type",
+            parent_resource_type,
+            "str",
+            max_length=63,
+            pattern=r"^[a-zA-Z0-9][a-zA-Z0-9-_.]{2,62}$",
+        ),
+        "parentResourceName": _SERIALIZER.url(
+            "parent_resource_name",
+            parent_resource_name,
+            "str",
+            max_length=63,
+            pattern=r"^[a-zA-Z0-9][a-zA-Z0-9-_.]{2,62}$",
+        ),
+        "targetName": _SERIALIZER.url("target_name", target_name, "str", pattern=r"^[a-zA-Z0-9_\-\.]+$"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="DELETE", url=_url, params=_params, headers=_headers, **kwargs)
 
 
 class TargetsOperations:
@@ -287,19 +317,18 @@ class TargetsOperations:
     ) -> Iterable["_models.Target"]:
         """Get a list of Target resources that extend a tracked regional resource.
 
-        :param resource_group_name: String that represents an Azure resource group. Required.
-        :type resource_group_name: str
-        :param parent_provider_namespace: String that represents a resource provider namespace.
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
+        :type resource_group_name: str
+        :param parent_provider_namespace: The parent resource provider namespace. Required.
         :type parent_provider_namespace: str
-        :param parent_resource_type: String that represents a resource type. Required.
+        :param parent_resource_type: The parent resource type. Required.
         :type parent_resource_type: str
-        :param parent_resource_name: String that represents a resource name. Required.
+        :param parent_resource_name: The parent resource name. Required.
         :type parent_resource_name: str
         :param continuation_token_parameter: String that sets the continuation token. Default value is
          None.
         :type continuation_token_parameter: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either Target or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.chaos.models.Target]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -310,7 +339,7 @@ class TargetsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.TargetListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -321,7 +350,7 @@ class TargetsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_request(
+                _request = build_list_request(
                     resource_group_name=resource_group_name,
                     parent_provider_namespace=parent_provider_namespace,
                     parent_resource_type=parent_resource_type,
@@ -329,12 +358,10 @@ class TargetsOperations:
                     subscription_id=self._config.subscription_id,
                     continuation_token_parameter=continuation_token_parameter,
                     api_version=api_version,
-                    template_url=self.list.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -346,13 +373,12 @@ class TargetsOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("TargetListResult", pipeline_response)
@@ -362,11 +388,11 @@ class TargetsOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -378,10 +404,6 @@ class TargetsOperations:
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{parentProviderNamespace}/{parentResourceType}/{parentResourceName}/providers/Microsoft.Chaos/targets"
-    }
 
     @distributed_trace
     def get(
@@ -395,23 +417,22 @@ class TargetsOperations:
     ) -> _models.Target:
         """Get a Target resource that extends a tracked regional resource.
 
-        :param resource_group_name: String that represents an Azure resource group. Required.
-        :type resource_group_name: str
-        :param parent_provider_namespace: String that represents a resource provider namespace.
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
+        :type resource_group_name: str
+        :param parent_provider_namespace: The parent resource provider namespace. Required.
         :type parent_provider_namespace: str
-        :param parent_resource_type: String that represents a resource type. Required.
+        :param parent_resource_type: The parent resource type. Required.
         :type parent_resource_type: str
-        :param parent_resource_name: String that represents a resource name. Required.
+        :param parent_resource_name: The parent resource name. Required.
         :type parent_resource_name: str
         :param target_name: String that represents a Target resource name. Required.
         :type target_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: Target or the result of cls(response)
         :rtype: ~azure.mgmt.chaos.models.Target
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -425,7 +446,7 @@ class TargetsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.Target] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             resource_group_name=resource_group_name,
             parent_provider_namespace=parent_provider_namespace,
             parent_resource_type=parent_resource_type,
@@ -433,16 +454,14 @@ class TargetsOperations:
             target_name=target_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -452,92 +471,12 @@ class TargetsOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("Target", pipeline_response)
+        deserialized = self._deserialize("Target", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{parentProviderNamespace}/{parentResourceType}/{parentResourceName}/providers/Microsoft.Chaos/targets/{targetName}"
-    }
-
-    @distributed_trace
-    def delete(  # pylint: disable=inconsistent-return-statements
-        self,
-        resource_group_name: str,
-        parent_provider_namespace: str,
-        parent_resource_type: str,
-        parent_resource_name: str,
-        target_name: str,
-        **kwargs: Any
-    ) -> None:
-        """Delete a Target resource that extends a tracked regional resource.
-
-        :param resource_group_name: String that represents an Azure resource group. Required.
-        :type resource_group_name: str
-        :param parent_provider_namespace: String that represents a resource provider namespace.
-         Required.
-        :type parent_provider_namespace: str
-        :param parent_resource_type: String that represents a resource type. Required.
-        :type parent_resource_type: str
-        :param parent_resource_name: String that represents a resource name. Required.
-        :type parent_resource_name: str
-        :param target_name: String that represents a Target resource name. Required.
-        :type target_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: None or the result of cls(response)
-        :rtype: None
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        error_map = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[None] = kwargs.pop("cls", None)
-
-        request = build_delete_request(
-            resource_group_name=resource_group_name,
-            parent_provider_namespace=parent_provider_namespace,
-            parent_resource_type=parent_resource_type,
-            parent_resource_name=parent_resource_name,
-            target_name=target_name,
-            subscription_id=self._config.subscription_id,
-            api_version=api_version,
-            template_url=self.delete.metadata["url"],
-            headers=_headers,
-            params=_params,
-        )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
-
-        _stream = False
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200, 204]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
-            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
-
-        if cls:
-            return cls(pipeline_response, None, {})
-
-    delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{parentProviderNamespace}/{parentResourceType}/{parentResourceName}/providers/Microsoft.Chaos/targets/{targetName}"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def create_or_update(
@@ -547,30 +486,29 @@ class TargetsOperations:
         parent_resource_type: str,
         parent_resource_name: str,
         target_name: str,
-        target: _models.Target,
+        resource: _models.Target,
         *,
         content_type: str = "application/json",
         **kwargs: Any
     ) -> _models.Target:
         """Create or update a Target resource that extends a tracked regional resource.
 
-        :param resource_group_name: String that represents an Azure resource group. Required.
-        :type resource_group_name: str
-        :param parent_provider_namespace: String that represents a resource provider namespace.
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
+        :type resource_group_name: str
+        :param parent_provider_namespace: The parent resource provider namespace. Required.
         :type parent_provider_namespace: str
-        :param parent_resource_type: String that represents a resource type. Required.
+        :param parent_resource_type: The parent resource type. Required.
         :type parent_resource_type: str
-        :param parent_resource_name: String that represents a resource name. Required.
+        :param parent_resource_name: The parent resource name. Required.
         :type parent_resource_name: str
         :param target_name: String that represents a Target resource name. Required.
         :type target_name: str
-        :param target: Target resource to be created or updated. Required.
-        :type target: ~azure.mgmt.chaos.models.Target
+        :param resource: Target resource to be created or updated. Required.
+        :type resource: ~azure.mgmt.chaos.models.Target
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: Target or the result of cls(response)
         :rtype: ~azure.mgmt.chaos.models.Target
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -584,30 +522,29 @@ class TargetsOperations:
         parent_resource_type: str,
         parent_resource_name: str,
         target_name: str,
-        target: IO,
+        resource: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
     ) -> _models.Target:
         """Create or update a Target resource that extends a tracked regional resource.
 
-        :param resource_group_name: String that represents an Azure resource group. Required.
-        :type resource_group_name: str
-        :param parent_provider_namespace: String that represents a resource provider namespace.
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
+        :type resource_group_name: str
+        :param parent_provider_namespace: The parent resource provider namespace. Required.
         :type parent_provider_namespace: str
-        :param parent_resource_type: String that represents a resource type. Required.
+        :param parent_resource_type: The parent resource type. Required.
         :type parent_resource_type: str
-        :param parent_resource_name: String that represents a resource name. Required.
+        :param parent_resource_name: The parent resource name. Required.
         :type parent_resource_name: str
         :param target_name: String that represents a Target resource name. Required.
         :type target_name: str
-        :param target: Target resource to be created or updated. Required.
-        :type target: IO
+        :param resource: Target resource to be created or updated. Required.
+        :type resource: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: Target or the result of cls(response)
         :rtype: ~azure.mgmt.chaos.models.Target
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -621,34 +558,30 @@ class TargetsOperations:
         parent_resource_type: str,
         parent_resource_name: str,
         target_name: str,
-        target: Union[_models.Target, IO],
+        resource: Union[_models.Target, IO[bytes]],
         **kwargs: Any
     ) -> _models.Target:
         """Create or update a Target resource that extends a tracked regional resource.
 
-        :param resource_group_name: String that represents an Azure resource group. Required.
-        :type resource_group_name: str
-        :param parent_provider_namespace: String that represents a resource provider namespace.
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
+        :type resource_group_name: str
+        :param parent_provider_namespace: The parent resource provider namespace. Required.
         :type parent_provider_namespace: str
-        :param parent_resource_type: String that represents a resource type. Required.
+        :param parent_resource_type: The parent resource type. Required.
         :type parent_resource_type: str
-        :param parent_resource_name: String that represents a resource name. Required.
+        :param parent_resource_name: The parent resource name. Required.
         :type parent_resource_name: str
         :param target_name: String that represents a Target resource name. Required.
         :type target_name: str
-        :param target: Target resource to be created or updated. Is either a Target type or a IO type.
-         Required.
-        :type target: ~azure.mgmt.chaos.models.Target or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+        :param resource: Target resource to be created or updated. Is either a Target type or a
+         IO[bytes] type. Required.
+        :type resource: ~azure.mgmt.chaos.models.Target or IO[bytes]
         :return: Target or the result of cls(response)
         :rtype: ~azure.mgmt.chaos.models.Target
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -666,12 +599,12 @@ class TargetsOperations:
         content_type = content_type or "application/json"
         _json = None
         _content = None
-        if isinstance(target, (IOBase, bytes)):
-            _content = target
+        if isinstance(resource, (IOBase, bytes)):
+            _content = resource
         else:
-            _json = self._serialize.body(target, "Target")
+            _json = self._serialize.body(resource, "Target")
 
-        request = build_create_or_update_request(
+        _request = build_create_or_update_request(
             resource_group_name=resource_group_name,
             parent_provider_namespace=parent_provider_namespace,
             parent_resource_type=parent_resource_type,
@@ -682,32 +615,95 @@ class TargetsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.create_or_update.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
 
-        if response.status_code not in [200]:
+        if response.status_code not in [200, 201]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("Target", pipeline_response)
+        deserialized = self._deserialize("Target", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
+        return deserialized  # type: ignore
 
-    create_or_update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{parentProviderNamespace}/{parentResourceType}/{parentResourceName}/providers/Microsoft.Chaos/targets/{targetName}"
-    }
+    @distributed_trace
+    def delete(  # pylint: disable=inconsistent-return-statements
+        self,
+        resource_group_name: str,
+        parent_provider_namespace: str,
+        parent_resource_type: str,
+        parent_resource_name: str,
+        target_name: str,
+        **kwargs: Any
+    ) -> None:
+        """Delete a Target resource that extends a tracked regional resource.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param parent_provider_namespace: The parent resource provider namespace. Required.
+        :type parent_provider_namespace: str
+        :param parent_resource_type: The parent resource type. Required.
+        :type parent_resource_type: str
+        :param parent_resource_name: The parent resource name. Required.
+        :type parent_resource_name: str
+        :param target_name: String that represents a Target resource name. Required.
+        :type target_name: str
+        :return: None or the result of cls(response)
+        :rtype: None
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        cls: ClsType[None] = kwargs.pop("cls", None)
+
+        _request = build_delete_request(
+            resource_group_name=resource_group_name,
+            parent_provider_namespace=parent_provider_namespace,
+            parent_resource_type=parent_resource_type,
+            parent_resource_name=parent_resource_name,
+            target_name=target_name,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            headers=_headers,
+            params=_params,
+        )
+        _request.url = self._client.format_url(_request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200, 204]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        if cls:
+            return cls(pipeline_response, None, {})  # type: ignore

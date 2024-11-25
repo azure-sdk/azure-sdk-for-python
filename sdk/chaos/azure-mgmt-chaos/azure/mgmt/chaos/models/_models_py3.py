@@ -1,5 +1,5 @@
-# coding=utf-8
 # pylint: disable=too-many-lines
+# coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -13,7 +13,6 @@ from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 from .. import _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
@@ -109,26 +108,31 @@ class Resource(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
     :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
      "Microsoft.Storage/storageAccounts".
     :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.chaos.models.SystemData
     """
 
     _validation = {
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
+        "system_data": {"readonly": True},
     }
 
     _attribute_map = {
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
     }
 
     def __init__(self, **kwargs: Any) -> None:
@@ -137,22 +141,44 @@ class Resource(_serialization.Model):
         self.id = None
         self.name = None
         self.type = None
+        self.system_data = None
 
 
-class Capability(Resource):
-    """Model that represents a Capability resource.
+class ProxyResource(Resource):
+    """The resource model definition for a Azure Resource Manager proxy resource. It will not have
+    tags and a location.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
     :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
      "Microsoft.Storage/storageAccounts".
     :vartype type: str
-    :ivar system_data: The standard system metadata of a resource type.
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.chaos.models.SystemData
+    """
+
+
+class Capability(ProxyResource):
+    """Model that represents a Capability resource.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
     :vartype system_data: ~azure.mgmt.chaos.models.SystemData
     :ivar publisher: String of the Publisher that this Capability extends.
     :vartype publisher: str
@@ -193,7 +219,6 @@ class Capability(Resource):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.system_data = None
         self.publisher = None
         self.target_type = None
         self.description = None
@@ -206,15 +231,15 @@ class CapabilityListResult(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar value: List of Capability resources.
+    :ivar value: The Capability items on this page.
     :vartype value: list[~azure.mgmt.chaos.models.Capability]
-    :ivar next_link: URL to retrieve the next page of Capability resources.
+    :ivar next_link: The link to the next page of items.
     :vartype next_link: str
     """
 
     _validation = {
         "value": {"readonly": True},
-        "next_link": {"readonly": True, "max_length": 2048},
+        "next_link": {"readonly": True},
     }
 
     _attribute_map = {
@@ -229,23 +254,22 @@ class CapabilityListResult(_serialization.Model):
         self.next_link = None
 
 
-class CapabilityType(Resource):  # pylint: disable=too-many-instance-attributes
+class CapabilityType(ProxyResource):
     """Model that represents a Capability Type resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
     :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
      "Microsoft.Storage/storageAccounts".
     :vartype type: str
-    :ivar system_data: The system metadata properties of the capability type resource.
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
     :vartype system_data: ~azure.mgmt.chaos.models.SystemData
-    :ivar location: Location of the Capability Type resource.
-    :vartype location: str
     :ivar publisher: String of the Publisher that this Capability Type extends.
     :vartype publisher: str
     :ivar target_type: String of the Target Type that this Capability Type extends.
@@ -280,6 +304,9 @@ class CapabilityType(Resource):  # pylint: disable=too-many-instance-attributes
         "parameters_schema": {"readonly": True, "max_length": 2048},
         "urn": {"readonly": True, "max_length": 2048},
         "kind": {"readonly": True},
+        "azure_rbac_actions": {"readonly": True},
+        "azure_rbac_data_actions": {"readonly": True},
+        "runtime_properties": {"readonly": True},
     }
 
     _attribute_map = {
@@ -287,7 +314,6 @@ class CapabilityType(Resource):  # pylint: disable=too-many-instance-attributes
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
         "system_data": {"key": "systemData", "type": "SystemData"},
-        "location": {"key": "location", "type": "str"},
         "publisher": {"key": "properties.publisher", "type": "str"},
         "target_type": {"key": "properties.targetType", "type": "str"},
         "display_name": {"key": "properties.displayName", "type": "str"},
@@ -303,29 +329,9 @@ class CapabilityType(Resource):  # pylint: disable=too-many-instance-attributes
         },
     }
 
-    def __init__(
-        self,
-        *,
-        location: Optional[str] = None,
-        azure_rbac_actions: Optional[List[str]] = None,
-        azure_rbac_data_actions: Optional[List[str]] = None,
-        runtime_properties: Optional["_models.CapabilityTypePropertiesRuntimeProperties"] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword location: Location of the Capability Type resource.
-        :paramtype location: str
-        :keyword azure_rbac_actions: Control plane actions necessary to execute capability type.
-        :paramtype azure_rbac_actions: list[str]
-        :keyword azure_rbac_data_actions: Data plane actions necessary to execute capability type.
-        :paramtype azure_rbac_data_actions: list[str]
-        :keyword runtime_properties: Runtime properties of this Capability Type.
-        :paramtype runtime_properties:
-         ~azure.mgmt.chaos.models.CapabilityTypePropertiesRuntimeProperties
-        """
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
         super().__init__(**kwargs)
-        self.system_data = None
-        self.location = location
         self.publisher = None
         self.target_type = None
         self.display_name = None
@@ -333,9 +339,9 @@ class CapabilityType(Resource):  # pylint: disable=too-many-instance-attributes
         self.parameters_schema = None
         self.urn = None
         self.kind = None
-        self.azure_rbac_actions = azure_rbac_actions
-        self.azure_rbac_data_actions = azure_rbac_data_actions
-        self.runtime_properties = runtime_properties
+        self.azure_rbac_actions = None
+        self.azure_rbac_data_actions = None
+        self.runtime_properties = None
 
 
 class CapabilityTypeListResult(_serialization.Model):
@@ -343,15 +349,15 @@ class CapabilityTypeListResult(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar value: List of Capability Type resources.
+    :ivar value: The CapabilityType items on this page.
     :vartype value: list[~azure.mgmt.chaos.models.CapabilityType]
-    :ivar next_link: URL to retrieve the next page of Capability Type resources.
+    :ivar next_link: The link to the next page of items.
     :vartype next_link: str
     """
 
     _validation = {
         "value": {"readonly": True},
-        "next_link": {"readonly": True, "max_length": 2048},
+        "next_link": {"readonly": True},
     }
 
     _attribute_map = {
@@ -366,7 +372,7 @@ class CapabilityTypeListResult(_serialization.Model):
         self.next_link = None
 
 
-class CapabilityTypePropertiesRuntimeProperties(_serialization.Model):
+class CapabilityTypePropertiesRuntimeProperties(_serialization.Model):  # pylint: disable=name-too-long
     """Runtime properties of this Capability Type.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -395,22 +401,23 @@ class ChaosExperimentAction(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     ContinuousAction, DelayAction, DiscreteAction
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar type: Enum that discriminates between action models. Required.
-    :vartype type: str
     :ivar name: String that represents a Capability URN. Required.
     :vartype name: str
+    :ivar type: Chaos experiment action discriminator type. Required. Known values are: "delay",
+     "discrete", and "continuous".
+    :vartype type: str or ~azure.mgmt.chaos.models.ExperimentActionType
     """
 
     _validation = {
-        "type": {"required": True},
         "name": {"required": True, "max_length": 2048},
+        "type": {"required": True},
     }
 
     _attribute_map = {
-        "type": {"key": "type", "type": "str"},
         "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
     }
 
     _subtype_map = {"type": {"continuous": "ContinuousAction", "delay": "DelayAction", "discrete": "DiscreteAction"}}
@@ -421,14 +428,14 @@ class ChaosExperimentAction(_serialization.Model):
         :paramtype name: str
         """
         super().__init__(**kwargs)
-        self.type: Optional[str] = None
         self.name = name
+        self.type: Optional[str] = None
 
 
 class ChaosExperimentBranch(_serialization.Model):
     """Model that represents a branch in the step. 9 total per experiment.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: String of the branch name. Required.
     :vartype name: str
@@ -438,7 +445,7 @@ class ChaosExperimentBranch(_serialization.Model):
 
     _validation = {
         "name": {"required": True, "min_length": 1},
-        "actions": {"required": True, "max_items": 9, "min_items": 1},
+        "actions": {"required": True},
     }
 
     _attribute_map = {
@@ -461,7 +468,7 @@ class ChaosExperimentBranch(_serialization.Model):
 class ChaosExperimentStep(_serialization.Model):
     """Model that represents a step in the Experiment resource.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: String of the step name. Required.
     :vartype name: str
@@ -471,7 +478,7 @@ class ChaosExperimentStep(_serialization.Model):
 
     _validation = {
         "name": {"required": True, "min_length": 1},
-        "branches": {"required": True, "max_items": 9, "min_items": 1},
+        "branches": {"required": True},
     }
 
     _attribute_map = {
@@ -497,10 +504,9 @@ class ChaosTargetFilter(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     ChaosTargetSimpleFilter
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar type: Enum that discriminates between filter types. Currently only ``Simple`` type is
-     supported. Required. "Simple"
+    :ivar type: Chaos target filter discriminator type. Required. "Simple"
     :vartype type: str or ~azure.mgmt.chaos.models.FilterType
     """
 
@@ -526,29 +532,26 @@ class ChaosTargetSelector(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     ChaosTargetListSelector, ChaosTargetQuerySelector
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar additional_properties: Unmatched properties from the message are deserialized to this
-     collection.
-    :vartype additional_properties: dict[str, any]
-    :ivar type: Enum of the selector type. Required. Known values are: "List" and "Query".
-    :vartype type: str or ~azure.mgmt.chaos.models.SelectorType
     :ivar id: String of the selector ID. Required.
     :vartype id: str
+    :ivar type: Chaos target selector discriminator type. Required. Known values are: "List" and
+     "Query".
+    :vartype type: str or ~azure.mgmt.chaos.models.SelectorType
     :ivar filter: Model that represents available filter types that can be applied to a targets
      list.
     :vartype filter: ~azure.mgmt.chaos.models.ChaosTargetFilter
     """
 
     _validation = {
-        "type": {"required": True},
         "id": {"required": True, "min_length": 1},
+        "type": {"required": True},
     }
 
     _attribute_map = {
-        "additional_properties": {"key": "", "type": "{object}"},
-        "type": {"key": "type", "type": "str"},
         "id": {"key": "id", "type": "str"},
+        "type": {"key": "type", "type": "str"},
         "filter": {"key": "filter", "type": "ChaosTargetFilter"},
     }
 
@@ -558,14 +561,10 @@ class ChaosTargetSelector(_serialization.Model):
         self,
         *,
         id: str,  # pylint: disable=redefined-builtin
-        additional_properties: Optional[Dict[str, Any]] = None,
         filter: Optional["_models.ChaosTargetFilter"] = None,  # pylint: disable=redefined-builtin
         **kwargs: Any
     ) -> None:
         """
-        :keyword additional_properties: Unmatched properties from the message are deserialized to this
-         collection.
-        :paramtype additional_properties: dict[str, any]
         :keyword id: String of the selector ID. Required.
         :paramtype id: str
         :keyword filter: Model that represents available filter types that can be applied to a targets
@@ -573,24 +572,21 @@ class ChaosTargetSelector(_serialization.Model):
         :paramtype filter: ~azure.mgmt.chaos.models.ChaosTargetFilter
         """
         super().__init__(**kwargs)
-        self.additional_properties = additional_properties
-        self.type: Optional[str] = None
         self.id = id
+        self.type: Optional[str] = None
         self.filter = filter
 
 
 class ChaosTargetListSelector(ChaosTargetSelector):
     """Model that represents a list selector.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar additional_properties: Unmatched properties from the message are deserialized to this
-     collection.
-    :vartype additional_properties: dict[str, any]
-    :ivar type: Enum of the selector type. Required. Known values are: "List" and "Query".
-    :vartype type: str or ~azure.mgmt.chaos.models.SelectorType
     :ivar id: String of the selector ID. Required.
     :vartype id: str
+    :ivar type: Chaos target selector discriminator type. Required. Known values are: "List" and
+     "Query".
+    :vartype type: str or ~azure.mgmt.chaos.models.SelectorType
     :ivar filter: Model that represents available filter types that can be applied to a targets
      list.
     :vartype filter: ~azure.mgmt.chaos.models.ChaosTargetFilter
@@ -599,15 +595,14 @@ class ChaosTargetListSelector(ChaosTargetSelector):
     """
 
     _validation = {
-        "type": {"required": True},
         "id": {"required": True, "min_length": 1},
-        "targets": {"required": True, "max_items": 50, "min_items": 1},
+        "type": {"required": True},
+        "targets": {"required": True},
     }
 
     _attribute_map = {
-        "additional_properties": {"key": "", "type": "{object}"},
-        "type": {"key": "type", "type": "str"},
         "id": {"key": "id", "type": "str"},
+        "type": {"key": "type", "type": "str"},
         "filter": {"key": "filter", "type": "ChaosTargetFilter"},
         "targets": {"key": "targets", "type": "[TargetReference]"},
     }
@@ -617,14 +612,10 @@ class ChaosTargetListSelector(ChaosTargetSelector):
         *,
         id: str,  # pylint: disable=redefined-builtin
         targets: List["_models.TargetReference"],
-        additional_properties: Optional[Dict[str, Any]] = None,
         filter: Optional["_models.ChaosTargetFilter"] = None,  # pylint: disable=redefined-builtin
         **kwargs: Any
     ) -> None:
         """
-        :keyword additional_properties: Unmatched properties from the message are deserialized to this
-         collection.
-        :paramtype additional_properties: dict[str, any]
         :keyword id: String of the selector ID. Required.
         :paramtype id: str
         :keyword filter: Model that represents available filter types that can be applied to a targets
@@ -633,7 +624,7 @@ class ChaosTargetListSelector(ChaosTargetSelector):
         :keyword targets: List of Target references. Required.
         :paramtype targets: list[~azure.mgmt.chaos.models.TargetReference]
         """
-        super().__init__(additional_properties=additional_properties, id=id, filter=filter, **kwargs)
+        super().__init__(id=id, filter=filter, **kwargs)
         self.type: str = "List"
         self.targets = targets
 
@@ -641,15 +632,13 @@ class ChaosTargetListSelector(ChaosTargetSelector):
 class ChaosTargetQuerySelector(ChaosTargetSelector):
     """Model that represents a query selector.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar additional_properties: Unmatched properties from the message are deserialized to this
-     collection.
-    :vartype additional_properties: dict[str, any]
-    :ivar type: Enum of the selector type. Required. Known values are: "List" and "Query".
-    :vartype type: str or ~azure.mgmt.chaos.models.SelectorType
     :ivar id: String of the selector ID. Required.
     :vartype id: str
+    :ivar type: Chaos target selector discriminator type. Required. Known values are: "List" and
+     "Query".
+    :vartype type: str or ~azure.mgmt.chaos.models.SelectorType
     :ivar filter: Model that represents available filter types that can be applied to a targets
      list.
     :vartype filter: ~azure.mgmt.chaos.models.ChaosTargetFilter
@@ -661,16 +650,15 @@ class ChaosTargetQuerySelector(ChaosTargetSelector):
     """
 
     _validation = {
-        "type": {"required": True},
         "id": {"required": True, "min_length": 1},
+        "type": {"required": True},
         "query_string": {"required": True},
-        "subscription_ids": {"required": True, "min_items": 1},
+        "subscription_ids": {"required": True},
     }
 
     _attribute_map = {
-        "additional_properties": {"key": "", "type": "{object}"},
-        "type": {"key": "type", "type": "str"},
         "id": {"key": "id", "type": "str"},
+        "type": {"key": "type", "type": "str"},
         "filter": {"key": "filter", "type": "ChaosTargetFilter"},
         "query_string": {"key": "queryString", "type": "str"},
         "subscription_ids": {"key": "subscriptionIds", "type": "[str]"},
@@ -682,14 +670,10 @@ class ChaosTargetQuerySelector(ChaosTargetSelector):
         id: str,  # pylint: disable=redefined-builtin
         query_string: str,
         subscription_ids: List[str],
-        additional_properties: Optional[Dict[str, Any]] = None,
         filter: Optional["_models.ChaosTargetFilter"] = None,  # pylint: disable=redefined-builtin
         **kwargs: Any
     ) -> None:
         """
-        :keyword additional_properties: Unmatched properties from the message are deserialized to this
-         collection.
-        :paramtype additional_properties: dict[str, any]
         :keyword id: String of the selector ID. Required.
         :paramtype id: str
         :keyword filter: Model that represents available filter types that can be applied to a targets
@@ -701,7 +685,7 @@ class ChaosTargetQuerySelector(ChaosTargetSelector):
         :keyword subscription_ids: Subscription id list to scope resource query. Required.
         :paramtype subscription_ids: list[str]
         """
-        super().__init__(additional_properties=additional_properties, id=id, filter=filter, **kwargs)
+        super().__init__(id=id, filter=filter, **kwargs)
         self.type: str = "Query"
         self.query_string = query_string
         self.subscription_ids = subscription_ids
@@ -710,10 +694,9 @@ class ChaosTargetQuerySelector(ChaosTargetSelector):
 class ChaosTargetSimpleFilter(ChaosTargetFilter):
     """Model that represents a simple target filter.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar type: Enum that discriminates between filter types. Currently only ``Simple`` type is
-     supported. Required. "Simple"
+    :ivar type: Chaos target filter discriminator type. Required. "Simple"
     :vartype type: str or ~azure.mgmt.chaos.models.FilterType
     :ivar parameters: Model that represents the Simple filter parameters.
     :vartype parameters: ~azure.mgmt.chaos.models.ChaosTargetSimpleFilterParameters
@@ -763,12 +746,13 @@ class ChaosTargetSimpleFilterParameters(_serialization.Model):
 class ContinuousAction(ChaosExperimentAction):
     """Model that represents a continuous action.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar type: Enum that discriminates between action models. Required.
-    :vartype type: str
     :ivar name: String that represents a Capability URN. Required.
     :vartype name: str
+    :ivar type: Chaos experiment action discriminator type. Required. Known values are: "delay",
+     "discrete", and "continuous".
+    :vartype type: str or ~azure.mgmt.chaos.models.ExperimentActionType
     :ivar duration: ISO8601 formatted string that represents a duration. Required.
     :vartype duration: ~datetime.timedelta
     :ivar parameters: List of key value pairs. Required.
@@ -778,16 +762,16 @@ class ContinuousAction(ChaosExperimentAction):
     """
 
     _validation = {
-        "type": {"required": True},
         "name": {"required": True, "max_length": 2048},
+        "type": {"required": True},
         "duration": {"required": True},
         "parameters": {"required": True},
         "selector_id": {"required": True, "min_length": 1},
     }
 
     _attribute_map = {
-        "type": {"key": "type", "type": "str"},
         "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
         "duration": {"key": "duration", "type": "duration"},
         "parameters": {"key": "parameters", "type": "[KeyValuePair]"},
         "selector_id": {"key": "selectorId", "type": "str"},
@@ -822,25 +806,26 @@ class ContinuousAction(ChaosExperimentAction):
 class DelayAction(ChaosExperimentAction):
     """Model that represents a delay action.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar type: Enum that discriminates between action models. Required.
-    :vartype type: str
     :ivar name: String that represents a Capability URN. Required.
     :vartype name: str
+    :ivar type: Chaos experiment action discriminator type. Required. Known values are: "delay",
+     "discrete", and "continuous".
+    :vartype type: str or ~azure.mgmt.chaos.models.ExperimentActionType
     :ivar duration: ISO8601 formatted string that represents a duration. Required.
     :vartype duration: ~datetime.timedelta
     """
 
     _validation = {
-        "type": {"required": True},
         "name": {"required": True, "max_length": 2048},
+        "type": {"required": True},
         "duration": {"required": True},
     }
 
     _attribute_map = {
-        "type": {"key": "type", "type": "str"},
         "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
         "duration": {"key": "duration", "type": "duration"},
     }
 
@@ -859,12 +844,13 @@ class DelayAction(ChaosExperimentAction):
 class DiscreteAction(ChaosExperimentAction):
     """Model that represents a discrete action.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar type: Enum that discriminates between action models. Required.
-    :vartype type: str
     :ivar name: String that represents a Capability URN. Required.
     :vartype name: str
+    :ivar type: Chaos experiment action discriminator type. Required. Known values are: "delay",
+     "discrete", and "continuous".
+    :vartype type: str or ~azure.mgmt.chaos.models.ExperimentActionType
     :ivar parameters: List of key value pairs. Required.
     :vartype parameters: list[~azure.mgmt.chaos.models.KeyValuePair]
     :ivar selector_id: String that represents a selector. Required.
@@ -872,15 +858,15 @@ class DiscreteAction(ChaosExperimentAction):
     """
 
     _validation = {
-        "type": {"required": True},
         "name": {"required": True, "max_length": 2048},
+        "type": {"required": True},
         "parameters": {"required": True},
         "selector_id": {"required": True, "min_length": 1},
     }
 
     _attribute_map = {
-        "type": {"key": "type", "type": "str"},
         "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
         "parameters": {"key": "parameters", "type": "[KeyValuePair]"},
         "selector_id": {"key": "selectorId", "type": "str"},
     }
@@ -998,16 +984,19 @@ class TrackedResource(Resource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
     :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
      "Microsoft.Storage/storageAccounts".
     :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.chaos.models.SystemData
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
     :ivar location: The geo-location where the resource lives. Required.
@@ -1018,6 +1007,7 @@ class TrackedResource(Resource):
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
+        "system_data": {"readonly": True},
         "location": {"required": True},
     }
 
@@ -1025,6 +1015,7 @@ class TrackedResource(Resource):
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
         "tags": {"key": "tags", "type": "{str}"},
         "location": {"key": "location", "type": "str"},
     }
@@ -1046,24 +1037,25 @@ class Experiment(TrackedResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
     :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
      "Microsoft.Storage/storageAccounts".
     :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.chaos.models.SystemData
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
     :ivar location: The geo-location where the resource lives. Required.
     :vartype location: str
-    :ivar system_data: The system metadata of the experiment resource.
-    :vartype system_data: ~azure.mgmt.chaos.models.SystemData
-    :ivar identity: The identity of the experiment resource.
-    :vartype identity: ~azure.mgmt.chaos.models.ResourceIdentity
+    :ivar identity: The managed service identities assigned to this resource.
+    :vartype identity: ~azure.mgmt.chaos.models.ManagedServiceIdentity
     :ivar provisioning_state: Most recent provisioning state for the given experiment resource.
      Known values are: "Succeeded", "Failed", "Canceled", "Creating", "Updating", and "Deleting".
     :vartype provisioning_state: str or ~azure.mgmt.chaos.models.ProvisioningState
@@ -1077,21 +1069,21 @@ class Experiment(TrackedResource):
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
-        "location": {"required": True},
         "system_data": {"readonly": True},
+        "location": {"required": True},
         "provisioning_state": {"readonly": True},
-        "steps": {"required": True, "max_items": 4, "min_items": 1},
-        "selectors": {"required": True, "min_items": 1},
+        "steps": {"required": True},
+        "selectors": {"required": True},
     }
 
     _attribute_map = {
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
         "tags": {"key": "tags", "type": "{str}"},
         "location": {"key": "location", "type": "str"},
-        "system_data": {"key": "systemData", "type": "SystemData"},
-        "identity": {"key": "identity", "type": "ResourceIdentity"},
+        "identity": {"key": "identity", "type": "ManagedServiceIdentity"},
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
         "steps": {"key": "properties.steps", "type": "[ChaosExperimentStep]"},
         "selectors": {"key": "properties.selectors", "type": "[ChaosTargetSelector]"},
@@ -1104,7 +1096,7 @@ class Experiment(TrackedResource):
         steps: List["_models.ChaosExperimentStep"],
         selectors: List["_models.ChaosTargetSelector"],
         tags: Optional[Dict[str, str]] = None,
-        identity: Optional["_models.ResourceIdentity"] = None,
+        identity: Optional["_models.ManagedServiceIdentity"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -1112,32 +1104,36 @@ class Experiment(TrackedResource):
         :paramtype tags: dict[str, str]
         :keyword location: The geo-location where the resource lives. Required.
         :paramtype location: str
-        :keyword identity: The identity of the experiment resource.
-        :paramtype identity: ~azure.mgmt.chaos.models.ResourceIdentity
+        :keyword identity: The managed service identities assigned to this resource.
+        :paramtype identity: ~azure.mgmt.chaos.models.ManagedServiceIdentity
         :keyword steps: List of steps. Required.
         :paramtype steps: list[~azure.mgmt.chaos.models.ChaosExperimentStep]
         :keyword selectors: List of selectors. Required.
         :paramtype selectors: list[~azure.mgmt.chaos.models.ChaosTargetSelector]
         """
         super().__init__(tags=tags, location=location, **kwargs)
-        self.system_data = None
         self.identity = identity
         self.provisioning_state = None
         self.steps = steps
         self.selectors = selectors
 
 
-class ExperimentExecution(_serialization.Model):
-    """Model that represents the execution of a Experiment.
+class ExperimentExecution(ProxyResource):
+    """Model that represents the execution of an Experiment.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar type: String of the resource type.
-    :vartype type: str
-    :ivar id: String of the fully qualified resource ID.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
-    :ivar name: String of the resource name.
+    :ivar name: The name of the resource.
     :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.chaos.models.SystemData
     :ivar status: The status of the execution.
     :vartype status: str
     :ivar started_at: String that represents the start date time.
@@ -1147,18 +1143,20 @@ class ExperimentExecution(_serialization.Model):
     """
 
     _validation = {
-        "type": {"readonly": True},
         "id": {"readonly": True},
         "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
         "status": {"readonly": True},
         "started_at": {"readonly": True},
         "stopped_at": {"readonly": True},
     }
 
     _attribute_map = {
-        "type": {"key": "type", "type": "str"},
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
         "status": {"key": "properties.status", "type": "str"},
         "started_at": {"key": "properties.startedAt", "type": "iso-8601"},
         "stopped_at": {"key": "properties.stoppedAt", "type": "iso-8601"},
@@ -1167,15 +1165,12 @@ class ExperimentExecution(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.type = None
-        self.id = None
-        self.name = None
         self.status = None
         self.started_at = None
         self.stopped_at = None
 
 
-class ExperimentExecutionActionTargetDetailsError(_serialization.Model):
+class ExperimentExecutionActionTargetDetailsError(_serialization.Model):  # pylint: disable=name-too-long
     """Model that represents the Experiment action target details error model.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1203,7 +1198,7 @@ class ExperimentExecutionActionTargetDetailsError(_serialization.Model):
         self.message = None
 
 
-class ExperimentExecutionActionTargetDetailsProperties(_serialization.Model):
+class ExperimentExecutionActionTargetDetailsProperties(_serialization.Model):  # pylint: disable=name-too-long
     """Model that represents the Experiment action target details properties model.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1313,86 +1308,7 @@ class ExperimentExecutionDetails(_serialization.Model):
         self.run_information = None
 
 
-class ExperimentExecutionProperties(_serialization.Model):
-    """Model that represents the execution properties of an Experiment.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar status: The status of the execution.
-    :vartype status: str
-    :ivar started_at: String that represents the start date time.
-    :vartype started_at: ~datetime.datetime
-    :ivar stopped_at: String that represents the stop date time.
-    :vartype stopped_at: ~datetime.datetime
-    """
-
-    _validation = {
-        "status": {"readonly": True},
-        "started_at": {"readonly": True},
-        "stopped_at": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "status": {"key": "status", "type": "str"},
-        "started_at": {"key": "startedAt", "type": "iso-8601"},
-        "stopped_at": {"key": "stoppedAt", "type": "iso-8601"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-        self.status = None
-        self.started_at = None
-        self.stopped_at = None
-
-
-class ExperimentExecutionDetailsProperties(ExperimentExecutionProperties):
-    """Model that represents the extended properties of an experiment execution.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar status: The status of the execution.
-    :vartype status: str
-    :ivar started_at: String that represents the start date time.
-    :vartype started_at: ~datetime.datetime
-    :ivar stopped_at: String that represents the stop date time.
-    :vartype stopped_at: ~datetime.datetime
-    :ivar failure_reason: The reason why the execution failed.
-    :vartype failure_reason: str
-    :ivar last_action_at: String that represents the last action date time.
-    :vartype last_action_at: ~datetime.datetime
-    :ivar run_information: The information of the experiment run.
-    :vartype run_information:
-     ~azure.mgmt.chaos.models.ExperimentExecutionDetailsPropertiesRunInformation
-    """
-
-    _validation = {
-        "status": {"readonly": True},
-        "started_at": {"readonly": True},
-        "stopped_at": {"readonly": True},
-        "failure_reason": {"readonly": True},
-        "last_action_at": {"readonly": True},
-        "run_information": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "status": {"key": "status", "type": "str"},
-        "started_at": {"key": "startedAt", "type": "iso-8601"},
-        "stopped_at": {"key": "stoppedAt", "type": "iso-8601"},
-        "failure_reason": {"key": "failureReason", "type": "str"},
-        "last_action_at": {"key": "lastActionAt", "type": "iso-8601"},
-        "run_information": {"key": "runInformation", "type": "ExperimentExecutionDetailsPropertiesRunInformation"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-        self.failure_reason = None
-        self.last_action_at = None
-        self.run_information = None
-
-
-class ExperimentExecutionDetailsPropertiesRunInformation(_serialization.Model):
+class ExperimentExecutionDetailsPropertiesRunInformation(_serialization.Model):  # pylint: disable=name-too-long
     """The information of the experiment run.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1418,95 +1334,99 @@ class ExperimentExecutionDetailsPropertiesRunInformation(_serialization.Model):
 class ExperimentExecutionListResult(_serialization.Model):
     """Model that represents a list of Experiment executions and a link for pagination.
 
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar value: List of Experiment executions.
+    :ivar value: The ExperimentExecution items on this page.
     :vartype value: list[~azure.mgmt.chaos.models.ExperimentExecution]
-    :ivar next_link: URL to retrieve the next page of Experiment executions.
+    :ivar next_link: The link to the next page of items.
     :vartype next_link: str
     """
-
-    _validation = {
-        "value": {"readonly": True},
-        "next_link": {"readonly": True, "max_length": 2048},
-    }
 
     _attribute_map = {
         "value": {"key": "value", "type": "[ExperimentExecution]"},
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
+    def __init__(
+        self,
+        *,
+        value: Optional[List["_models.ExperimentExecution"]] = None,
+        next_link: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: The ExperimentExecution items on this page.
+        :paramtype value: list[~azure.mgmt.chaos.models.ExperimentExecution]
+        :keyword next_link: The link to the next page of items.
+        :paramtype next_link: str
+        """
         super().__init__(**kwargs)
-        self.value = None
-        self.next_link = None
+        self.value = value
+        self.next_link = next_link
 
 
 class ExperimentListResult(_serialization.Model):
     """Model that represents a list of Experiment resources and a link for pagination.
 
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar value: List of Experiment resources.
+    :ivar value: The Experiment items on this page.
     :vartype value: list[~azure.mgmt.chaos.models.Experiment]
-    :ivar next_link: URL to retrieve the next page of Experiment resources.
+    :ivar next_link: The link to the next page of items.
     :vartype next_link: str
     """
-
-    _validation = {
-        "value": {"readonly": True},
-        "next_link": {"readonly": True, "max_length": 2048},
-    }
 
     _attribute_map = {
         "value": {"key": "value", "type": "[Experiment]"},
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
+    def __init__(
+        self, *, value: Optional[List["_models.Experiment"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: The Experiment items on this page.
+        :paramtype value: list[~azure.mgmt.chaos.models.Experiment]
+        :keyword next_link: The link to the next page of items.
+        :paramtype next_link: str
+        """
         super().__init__(**kwargs)
-        self.value = None
-        self.next_link = None
+        self.value = value
+        self.next_link = next_link
 
 
 class ExperimentUpdate(_serialization.Model):
     """Describes an experiment update.
 
-    :ivar identity: The identity of the experiment resource.
-    :vartype identity: ~azure.mgmt.chaos.models.ResourceIdentity
-    :ivar tags: The tags of the experiment resource.
+    :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
+    :ivar identity: Experiment managed identity.
+    :vartype identity: ~azure.mgmt.chaos.models.ManagedServiceIdentity
     """
 
     _attribute_map = {
-        "identity": {"key": "identity", "type": "ResourceIdentity"},
         "tags": {"key": "tags", "type": "{str}"},
+        "identity": {"key": "identity", "type": "ManagedServiceIdentity"},
     }
 
     def __init__(
         self,
         *,
-        identity: Optional["_models.ResourceIdentity"] = None,
         tags: Optional[Dict[str, str]] = None,
+        identity: Optional["_models.ManagedServiceIdentity"] = None,
         **kwargs: Any
     ) -> None:
         """
-        :keyword identity: The identity of the experiment resource.
-        :paramtype identity: ~azure.mgmt.chaos.models.ResourceIdentity
-        :keyword tags: The tags of the experiment resource.
+        :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
+        :keyword identity: Experiment managed identity.
+        :paramtype identity: ~azure.mgmt.chaos.models.ManagedServiceIdentity
         """
         super().__init__(**kwargs)
-        self.identity = identity
         self.tags = tags
+        self.identity = identity
 
 
 class KeyValuePair(_serialization.Model):
     """A map to describe the settings of an action.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar key: The name of the setting for the action. Required.
     :vartype key: str
@@ -1534,6 +1454,68 @@ class KeyValuePair(_serialization.Model):
         super().__init__(**kwargs)
         self.key = key
         self.value = value
+
+
+class ManagedServiceIdentity(_serialization.Model):
+    """Managed service identity (system assigned and/or user assigned identities).
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar principal_id: The service principal ID of the system assigned identity. This property
+     will only be provided for a system assigned identity.
+    :vartype principal_id: str
+    :ivar tenant_id: The tenant ID of the system assigned identity. This property will only be
+     provided for a system assigned identity.
+    :vartype tenant_id: str
+    :ivar type: Type of managed service identity (where both SystemAssigned and UserAssigned types
+     are allowed). Required. Known values are: "None", "SystemAssigned", "UserAssigned", and
+     "SystemAssigned,UserAssigned".
+    :vartype type: str or ~azure.mgmt.chaos.models.ManagedServiceIdentityType
+    :ivar user_assigned_identities: The set of user assigned identities associated with the
+     resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form:
+     '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.  # pylint: disable=line-too-long
+     The dictionary values can be empty objects ({}) in requests.
+    :vartype user_assigned_identities: dict[str, ~azure.mgmt.chaos.models.UserAssignedIdentity]
+    """
+
+    _validation = {
+        "principal_id": {"readonly": True},
+        "tenant_id": {"readonly": True},
+        "type": {"required": True},
+    }
+
+    _attribute_map = {
+        "principal_id": {"key": "principalId", "type": "str"},
+        "tenant_id": {"key": "tenantId", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "user_assigned_identities": {"key": "userAssignedIdentities", "type": "{UserAssignedIdentity}"},
+    }
+
+    def __init__(
+        self,
+        *,
+        type: Union[str, "_models.ManagedServiceIdentityType"],
+        user_assigned_identities: Optional[Dict[str, "_models.UserAssignedIdentity"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword type: Type of managed service identity (where both SystemAssigned and UserAssigned
+         types are allowed). Required. Known values are: "None", "SystemAssigned", "UserAssigned", and
+         "SystemAssigned,UserAssigned".
+        :paramtype type: str or ~azure.mgmt.chaos.models.ManagedServiceIdentityType
+        :keyword user_assigned_identities: The set of user assigned identities associated with the
+         resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form:
+         '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.  # pylint: disable=line-too-long
+         The dictionary values can be empty objects ({}) in requests.
+        :paramtype user_assigned_identities: dict[str, ~azure.mgmt.chaos.models.UserAssignedIdentity]
+        """
+        super().__init__(**kwargs)
+        self.principal_id = None
+        self.tenant_id = None
+        self.type = type
+        self.user_assigned_identities = user_assigned_identities
 
 
 class Operation(_serialization.Model):
@@ -1657,125 +1639,121 @@ class OperationListResult(_serialization.Model):
         self.next_link = None
 
 
-class OperationStatus(ErrorResponse):
-    """The status of operation.
-
-    :ivar error: The error object.
-    :vartype error: ~azure.mgmt.chaos.models.ErrorDetail
-    :ivar id: The operation Id.
-    :vartype id: str
-    :ivar name: The operation name.
-    :vartype name: str
-    :ivar start_time: The start time of the operation.
-    :vartype start_time: str
-    :ivar end_time: The end time of the operation.
-    :vartype end_time: str
-    :ivar status: The status of the operation.
-    :vartype status: str
-    """
-
-    _attribute_map = {
-        "error": {"key": "error", "type": "ErrorDetail"},
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "start_time": {"key": "startTime", "type": "str"},
-        "end_time": {"key": "endTime", "type": "str"},
-        "status": {"key": "status", "type": "str"},
-    }
-
-    def __init__(
-        self,
-        *,
-        error: Optional["_models.ErrorDetail"] = None,
-        id: Optional[str] = None,  # pylint: disable=redefined-builtin
-        name: Optional[str] = None,
-        start_time: Optional[str] = None,
-        end_time: Optional[str] = None,
-        status: Optional[str] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword error: The error object.
-        :paramtype error: ~azure.mgmt.chaos.models.ErrorDetail
-        :keyword id: The operation Id.
-        :paramtype id: str
-        :keyword name: The operation name.
-        :paramtype name: str
-        :keyword start_time: The start time of the operation.
-        :paramtype start_time: str
-        :keyword end_time: The end time of the operation.
-        :paramtype end_time: str
-        :keyword status: The status of the operation.
-        :paramtype status: str
-        """
-        super().__init__(error=error, **kwargs)
-        self.id = id
-        self.name = name
-        self.start_time = start_time
-        self.end_time = end_time
-        self.status = status
-
-
-class ResourceIdentity(_serialization.Model):
-    """The identity of a resource.
+class OperationStatusResult(_serialization.Model):
+    """The current status of an async operation.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar type: String of the resource identity type. Required. Known values are: "None",
-     "SystemAssigned", and "UserAssigned".
-    :vartype type: str or ~azure.mgmt.chaos.models.ResourceIdentityType
-    :ivar user_assigned_identities: The list of user identities associated with the Experiment. The
-     user identity dictionary key references will be ARM resource ids in the form:
-     '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
-    :vartype user_assigned_identities: dict[str, ~azure.mgmt.chaos.models.UserAssignedIdentity]
-    :ivar principal_id: GUID that represents the principal ID of this resource identity.
-    :vartype principal_id: str
-    :ivar tenant_id: GUID that represents the tenant ID of this resource identity.
-    :vartype tenant_id: str
+    :ivar id: Fully qualified ID for the async operation.
+    :vartype id: str
+    :ivar resource_id: Fully qualified ID of the resource against which the original async
+     operation was started.
+    :vartype resource_id: str
+    :ivar name: Name of the async operation.
+    :vartype name: str
+    :ivar status: Operation status. Required.
+    :vartype status: str
+    :ivar percent_complete: Percent of the operation that is complete.
+    :vartype percent_complete: float
+    :ivar start_time: The start time of the operation.
+    :vartype start_time: ~datetime.datetime
+    :ivar end_time: The end time of the operation.
+    :vartype end_time: ~datetime.datetime
+    :ivar operations: The operations list.
+    :vartype operations: list[~azure.mgmt.chaos.models.OperationStatusResult]
+    :ivar error: If present, details of the operation error.
+    :vartype error: ~azure.mgmt.chaos.models.ErrorDetail
     """
 
     _validation = {
-        "type": {"required": True},
-        "principal_id": {
-            "readonly": True,
-            "pattern": r"^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$",
-        },
-        "tenant_id": {
-            "readonly": True,
-            "pattern": r"^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$",
-        },
+        "resource_id": {"readonly": True},
+        "status": {"required": True},
+        "percent_complete": {"maximum": 100, "minimum": 0},
     }
 
     _attribute_map = {
-        "type": {"key": "type", "type": "str"},
-        "user_assigned_identities": {"key": "userAssignedIdentities", "type": "{UserAssignedIdentity}"},
-        "principal_id": {"key": "principalId", "type": "str"},
-        "tenant_id": {"key": "tenantId", "type": "str"},
+        "id": {"key": "id", "type": "str"},
+        "resource_id": {"key": "resourceId", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "status": {"key": "status", "type": "str"},
+        "percent_complete": {"key": "percentComplete", "type": "float"},
+        "start_time": {"key": "startTime", "type": "iso-8601"},
+        "end_time": {"key": "endTime", "type": "iso-8601"},
+        "operations": {"key": "operations", "type": "[OperationStatusResult]"},
+        "error": {"key": "error", "type": "ErrorDetail"},
     }
 
     def __init__(
         self,
         *,
-        type: Union[str, "_models.ResourceIdentityType"],
-        user_assigned_identities: Optional[Dict[str, "_models.UserAssignedIdentity"]] = None,
+        status: str,
+        id: Optional[str] = None,  # pylint: disable=redefined-builtin
+        name: Optional[str] = None,
+        percent_complete: Optional[float] = None,
+        start_time: Optional[datetime.datetime] = None,
+        end_time: Optional[datetime.datetime] = None,
+        operations: Optional[List["_models.OperationStatusResult"]] = None,
+        error: Optional["_models.ErrorDetail"] = None,
         **kwargs: Any
     ) -> None:
         """
-        :keyword type: String of the resource identity type. Required. Known values are: "None",
-         "SystemAssigned", and "UserAssigned".
-        :paramtype type: str or ~azure.mgmt.chaos.models.ResourceIdentityType
-        :keyword user_assigned_identities: The list of user identities associated with the Experiment.
-         The user identity dictionary key references will be ARM resource ids in the form:
-         '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
-        :paramtype user_assigned_identities: dict[str, ~azure.mgmt.chaos.models.UserAssignedIdentity]
+        :keyword id: Fully qualified ID for the async operation.
+        :paramtype id: str
+        :keyword name: Name of the async operation.
+        :paramtype name: str
+        :keyword status: Operation status. Required.
+        :paramtype status: str
+        :keyword percent_complete: Percent of the operation that is complete.
+        :paramtype percent_complete: float
+        :keyword start_time: The start time of the operation.
+        :paramtype start_time: ~datetime.datetime
+        :keyword end_time: The end time of the operation.
+        :paramtype end_time: ~datetime.datetime
+        :keyword operations: The operations list.
+        :paramtype operations: list[~azure.mgmt.chaos.models.OperationStatusResult]
+        :keyword error: If present, details of the operation error.
+        :paramtype error: ~azure.mgmt.chaos.models.ErrorDetail
         """
         super().__init__(**kwargs)
-        self.type = type
-        self.user_assigned_identities = user_assigned_identities
-        self.principal_id = None
-        self.tenant_id = None
+        self.id = id
+        self.resource_id = None
+        self.name = name
+        self.status = status
+        self.percent_complete = percent_complete
+        self.start_time = start_time
+        self.end_time = end_time
+        self.operations = operations
+        self.error = error
+
+
+class PostActionResult(_serialization.Model):
+    """Model that represents the post action response.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar status_url: The statusUrl of the post action.
+    :vartype status_url: str
+    """
+
+    _validation = {
+        "name": {"readonly": True},
+        "status_url": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "name": {"key": "name", "type": "str"},
+        "status_url": {"key": "statusUrl", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.name = None
+        self.status_url = None
 
 
 class StepStatus(_serialization.Model):
@@ -1880,27 +1858,26 @@ class SystemData(_serialization.Model):
         self.last_modified_at = last_modified_at
 
 
-class Target(Resource):
+class Target(ProxyResource):
     """Model that represents a Target resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
     :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
      "Microsoft.Storage/storageAccounts".
     :vartype type: str
-    :ivar system_data: The system metadata of the target resource.
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
     :vartype system_data: ~azure.mgmt.chaos.models.SystemData
-    :ivar location: Location of the target resource.
-    :vartype location: str
-    :ivar properties: The properties of the target resource. Required.
+    :ivar properties: The properties of the target resource.
     :vartype properties: dict[str, any]
+    :ivar location: Azure resource location.
+    :vartype location: str
     """
 
     _validation = {
@@ -1908,7 +1885,7 @@ class Target(Resource):
         "name": {"readonly": True},
         "type": {"readonly": True},
         "system_data": {"readonly": True},
-        "properties": {"required": True},
+        "location": {"readonly": True},
     }
 
     _attribute_map = {
@@ -1916,68 +1893,62 @@ class Target(Resource):
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
         "system_data": {"key": "systemData", "type": "SystemData"},
-        "location": {"key": "location", "type": "str"},
         "properties": {"key": "properties", "type": "{object}"},
+        "location": {"key": "location", "type": "str"},
     }
 
-    def __init__(self, *, properties: Dict[str, Any], location: Optional[str] = None, **kwargs: Any) -> None:
+    def __init__(self, *, properties: Optional[Dict[str, Any]] = None, **kwargs: Any) -> None:
         """
-        :keyword location: Location of the target resource.
-        :paramtype location: str
-        :keyword properties: The properties of the target resource. Required.
+        :keyword properties: The properties of the target resource.
         :paramtype properties: dict[str, any]
         """
         super().__init__(**kwargs)
-        self.system_data = None
-        self.location = location
         self.properties = properties
+        self.location = None
 
 
 class TargetListResult(_serialization.Model):
     """Model that represents a list of Target resources and a link for pagination.
 
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar value: List of Target resources.
+    :ivar value: The Target items on this page.
     :vartype value: list[~azure.mgmt.chaos.models.Target]
-    :ivar next_link: URL to retrieve the next page of Target resources.
+    :ivar next_link: The link to the next page of items.
     :vartype next_link: str
     """
-
-    _validation = {
-        "value": {"readonly": True},
-        "next_link": {"readonly": True, "max_length": 2048},
-    }
 
     _attribute_map = {
         "value": {"key": "value", "type": "[Target]"},
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
+    def __init__(
+        self, *, value: Optional[List["_models.Target"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: The Target items on this page.
+        :paramtype value: list[~azure.mgmt.chaos.models.Target]
+        :keyword next_link: The link to the next page of items.
+        :paramtype next_link: str
+        """
         super().__init__(**kwargs)
-        self.value = None
-        self.next_link = None
+        self.value = value
+        self.next_link = next_link
 
 
 class TargetReference(_serialization.Model):
     """Model that represents a reference to a Target in the selector.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar type: Enum of the Target reference type. Required. "ChaosTarget"
     :vartype type: str or ~azure.mgmt.chaos.models.TargetReferenceType
-    :ivar id: String of the resource ID of a Target resource. Required.
+    :ivar id: Resource identifier of a Target resource. Required.
     :vartype id: str
     """
 
     _validation = {
         "type": {"required": True},
-        "id": {
-            "required": True,
-            "pattern": r"^\/[Ss][Uu][Bb][Ss][Cc][Rr][Ii][Pp][Tt][Ii][Oo][Nn][Ss]\/[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}\/[Rr][Ee][Ss][Oo][Uu][Rr][Cc][Ee][Gg][Rr][Oo][Uu][Pp][Ss]\/[a-zA-Z0-9_\-\.\(\)]*[a-zA-Z0-9_\-\(\)]\/[Pp][Rr][Oo][Vv][Ii][Dd][Ee][Rr][Ss]\/[a-zA-Z0-9]+\.[a-zA-Z0-9]+\/[a-zA-Z0-9_\-\.]+\/[a-zA-Z0-9_\-\.]+\/[Pp][Rr][Oo][Vv][Ii][Dd][Ee][Rr][Ss]\/[Mm][Ii][Cc][Rr][Oo][Ss][Oo][Ff][Tt]\.[Cc][Hh][Aa][Oo][Ss]\/[Tt][Aa][Rr][Gg][Ee][Tt][Ss]\/[a-zA-Z0-9_\-\.]+$",
-        },
+        "id": {"required": True},
     }
 
     _attribute_map = {
@@ -1995,7 +1966,7 @@ class TargetReference(_serialization.Model):
         """
         :keyword type: Enum of the Target reference type. Required. "ChaosTarget"
         :paramtype type: str or ~azure.mgmt.chaos.models.TargetReferenceType
-        :keyword id: String of the resource ID of a Target resource. Required.
+        :keyword id: Resource identifier of a Target resource. Required.
         :paramtype id: str
         """
         super().__init__(**kwargs)
@@ -2003,23 +1974,22 @@ class TargetReference(_serialization.Model):
         self.id = id
 
 
-class TargetType(Resource):
+class TargetType(ProxyResource):
     """Model that represents a Target Type resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
     :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
      "Microsoft.Storage/storageAccounts".
     :vartype type: str
-    :ivar system_data: The system metadata properties of the target type resource.
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
     :vartype system_data: ~azure.mgmt.chaos.models.SystemData
-    :ivar location: Location of the Target Type resource.
-    :vartype location: str
     :ivar display_name: Localized string of the display name.
     :vartype display_name: str
     :ivar description: Localized string of the description.
@@ -2046,21 +2016,15 @@ class TargetType(Resource):
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
         "system_data": {"key": "systemData", "type": "SystemData"},
-        "location": {"key": "location", "type": "str"},
         "display_name": {"key": "properties.displayName", "type": "str"},
         "description": {"key": "properties.description", "type": "str"},
         "properties_schema": {"key": "properties.propertiesSchema", "type": "str"},
         "resource_types": {"key": "properties.resourceTypes", "type": "[str]"},
     }
 
-    def __init__(self, *, location: Optional[str] = None, **kwargs: Any) -> None:
-        """
-        :keyword location: Location of the Target Type resource.
-        :paramtype location: str
-        """
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
         super().__init__(**kwargs)
-        self.system_data = None
-        self.location = location
         self.display_name = None
         self.description = None
         self.properties_schema = None
@@ -2070,29 +2034,29 @@ class TargetType(Resource):
 class TargetTypeListResult(_serialization.Model):
     """Model that represents a list of Target Type resources and a link for pagination.
 
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar value: List of Target Type resources.
+    :ivar value: The TargetType items on this page.
     :vartype value: list[~azure.mgmt.chaos.models.TargetType]
-    :ivar next_link: URL to retrieve the next page of Target Type resources.
+    :ivar next_link: The link to the next page of items.
     :vartype next_link: str
     """
-
-    _validation = {
-        "value": {"readonly": True},
-        "next_link": {"readonly": True, "max_length": 2048},
-    }
 
     _attribute_map = {
         "value": {"key": "value", "type": "[TargetType]"},
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
+    def __init__(
+        self, *, value: Optional[List["_models.TargetType"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: The TargetType items on this page.
+        :paramtype value: list[~azure.mgmt.chaos.models.TargetType]
+        :keyword next_link: The link to the next page of items.
+        :paramtype next_link: str
+        """
         super().__init__(**kwargs)
-        self.value = None
-        self.next_link = None
+        self.value = value
+        self.next_link = next_link
 
 
 class UserAssignedIdentity(_serialization.Model):
