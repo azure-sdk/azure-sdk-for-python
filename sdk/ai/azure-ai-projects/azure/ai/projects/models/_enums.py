@@ -80,6 +80,8 @@ class AgentStreamEvent(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     ThreadRun"""
     THREAD_RUN_COMPLETED = "thread.run.completed"
     """Event sent when a run is completed. The data of this event is of type ThreadRun"""
+    THREAD_RUN_INCOMPLETE = "thread.run.incomplete"
+    """Event sent when a run ends incompleted. The data of this event is of type ThreadRun"""
     THREAD_RUN_FAILED = "thread.run.failed"
     """Event sent when a run fails. The data of this event is of type ThreadRun"""
     THREAD_RUN_CANCELLING = "thread.run.cancelling"
@@ -227,17 +229,6 @@ class Frequency(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     DAY = "Day"
     HOUR = "Hour"
     MINUTE = "Minute"
-
-
-class IncompleteRunDetails(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The reason why the run is incomplete. This will point to which specific token limit was reached
-    over the course of the run.
-    """
-
-    MAX_COMPLETION_TOKENS = "max_completion_tokens"
-    """Maximum completion tokens exceeded"""
-    MAX_PROMPT_TOKENS = "max_prompt_tokens"
-    """Maximum prompt tokens exceeded"""
 
 
 class ListSortOrder(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -391,6 +382,8 @@ class RunStreamEvent(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     ThreadRun"""
     THREAD_RUN_COMPLETED = "thread.run.completed"
     """Event sent when a run is completed. The data of this event is of type ThreadRun"""
+    THREAD_RUN_INCOMPLETE = "thread.run.incomplete"
+    """Event sent when a run ends incompleted. The data of this event is of type ThreadRun"""
     THREAD_RUN_FAILED = "thread.run.failed"
     """Event sent when a run fails. The data of this event is of type ThreadRun"""
     THREAD_RUN_CANCELLING = "thread.run.cancelling"

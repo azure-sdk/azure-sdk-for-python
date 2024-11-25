@@ -1371,6 +1371,37 @@ class GetWorkspaceResponse(_model_base.Model):
     """The properties of the resource. Required."""
 
 
+class IncompleteRunDetails(_model_base.Model):
+    """Details on why the run is incomplete. Will be ``null`` if the run is not incomplete.
+
+
+    :ivar reason: he reason why the run is incomplete. This indicates which specific token limit
+     was reached during the run. Required.
+    :vartype reason: str
+    """
+
+    reason: str = rest_field()
+    """he reason why the run is incomplete. This indicates which specific token limit was reached
+     during the run. Required."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        reason: str,
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+
+
 class IndexResource(_model_base.Model):
     """A Index resource.
 
@@ -5014,8 +5045,8 @@ class ThreadRun(_model_base.Model):
     :ivar failed_at: The Unix timestamp, in seconds, representing when this failed. Required.
     :vartype failed_at: ~datetime.datetime
     :ivar incomplete_details: Details on why the run is incomplete. Will be ``null`` if the run is
-     not incomplete. Required. Known values are: "max_completion_tokens" and "max_prompt_tokens".
-    :vartype incomplete_details: str or ~azure.ai.projects.models.IncompleteRunDetails
+     not incomplete.
+    :vartype incomplete_details: ~azure.ai.projects.models.IncompleteRunDetails
     :ivar usage: Usage statistics related to the run. This value will be ``null`` if the run is not
      in a terminal state (i.e. ``in_progress``\\ , ``queued``\\ , etc.). Required.
     :vartype usage: ~azure.ai.projects.models.RunCompletionUsage
@@ -5086,9 +5117,8 @@ class ThreadRun(_model_base.Model):
     """The Unix timestamp, in seconds, representing when this was cancelled. Required."""
     failed_at: datetime.datetime = rest_field(format="unix-timestamp")
     """The Unix timestamp, in seconds, representing when this failed. Required."""
-    incomplete_details: Union[str, "_models.IncompleteRunDetails"] = rest_field()
-    """Details on why the run is incomplete. Will be ``null`` if the run is not incomplete. Required.
-     Known values are: \"max_completion_tokens\" and \"max_prompt_tokens\"."""
+    incomplete_details: Optional["_models.IncompleteRunDetails"] = rest_field()
+    """Details on why the run is incomplete. Will be ``null`` if the run is not incomplete."""
     usage: "_models.RunCompletionUsage" = rest_field()
     """Usage statistics related to the run. This value will be ``null`` if the run is not in a
      terminal state (i.e. ``in_progress``\ , ``queued``\ , etc.). Required."""
@@ -5139,7 +5169,6 @@ class ThreadRun(_model_base.Model):
         completed_at: datetime.datetime,
         cancelled_at: datetime.datetime,
         failed_at: datetime.datetime,
-        incomplete_details: Union[str, "_models.IncompleteRunDetails"],
         usage: "_models.RunCompletionUsage",
         max_prompt_tokens: int,
         max_completion_tokens: int,
@@ -5148,6 +5177,7 @@ class ThreadRun(_model_base.Model):
         response_format: "_types.AgentsApiResponseFormatOption",
         metadata: Dict[str, str],
         required_action: Optional["_models.RequiredAction"] = None,
+        incomplete_details: Optional["_models.IncompleteRunDetails"] = None,
         temperature: Optional[float] = None,
         top_p: Optional[float] = None,
         tool_resources: Optional["_models.UpdateToolResourcesOptions"] = None,
