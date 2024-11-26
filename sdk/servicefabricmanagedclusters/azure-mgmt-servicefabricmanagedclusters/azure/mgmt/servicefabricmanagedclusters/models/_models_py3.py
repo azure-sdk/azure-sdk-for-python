@@ -1,5 +1,5 @@
-# coding=utf-8
 # pylint: disable=too-many-lines
+# coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -16,10 +16,9 @@ from .. import _serialization
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 JSON = MutableMapping[str, Any]  # pylint: disable=unsubscriptable-object
 
@@ -304,7 +303,7 @@ class ProxyResource(_serialization.Model):
         self.system_data = None
 
 
-class ApplicationResource(ProxyResource):  # pylint: disable=too-many-instance-attributes
+class ApplicationResource(ProxyResource):
     """The application resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1567,6 +1566,177 @@ class ErrorModelError(_serialization.Model):
         self.message = message
 
 
+class FaultSimulation(_serialization.Model):
+    """Fault simulation object with status.
+
+    :ivar cluster_id: Cluster identifier asociated to the fault simulation.
+    :vartype cluster_id: str
+    :ivar simulation_id: Simulation identifier.
+    :vartype simulation_id: str
+    :ivar operation_id: Current or latest asyncronos operation identifier on the fault simulation.
+    :vartype operation_id: str
+    :ivar start_time: The start time of the fault simulation.
+    :vartype start_time: ~datetime.datetime
+    :ivar end_time: The end time of the fault simulation.
+    :vartype end_time: ~datetime.datetime
+    :ivar status: Fault simulation status. Known values are: "Starting", "Active", "Stopping",
+     "Done", "StartFailed", and "StopFailed".
+    :vartype status: str or ~azure.mgmt.servicefabricmanagedclusters.models.FaultSimulationStatus
+    :ivar node_type_fault_simulation: List of node type simulations asociated with the cluster
+     fault simulation.
+    :vartype node_type_fault_simulation:
+     list[~azure.mgmt.servicefabricmanagedclusters.models.NodeTypeFaultSimulation]
+    :ivar parameters: Fault simulation parameters.
+    :vartype parameters: ~azure.mgmt.servicefabricmanagedclusters.models.FaultSimulationParameters
+    """
+
+    _attribute_map = {
+        "cluster_id": {"key": "clusterId", "type": "str"},
+        "simulation_id": {"key": "simulationId", "type": "str"},
+        "operation_id": {"key": "operationId", "type": "str"},
+        "start_time": {"key": "startTime", "type": "iso-8601"},
+        "end_time": {"key": "endTime", "type": "iso-8601"},
+        "status": {"key": "status", "type": "str"},
+        "node_type_fault_simulation": {"key": "nodeTypeFaultSimulation", "type": "[NodeTypeFaultSimulation]"},
+        "parameters": {"key": "parameters", "type": "FaultSimulationParameters"},
+    }
+
+    def __init__(
+        self,
+        *,
+        cluster_id: Optional[str] = None,
+        simulation_id: Optional[str] = None,
+        operation_id: Optional[str] = None,
+        start_time: Optional[datetime.datetime] = None,
+        end_time: Optional[datetime.datetime] = None,
+        status: Optional[Union[str, "_models.FaultSimulationStatus"]] = None,
+        node_type_fault_simulation: Optional[List["_models.NodeTypeFaultSimulation"]] = None,
+        parameters: Optional["_models.FaultSimulationParameters"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword cluster_id: Cluster identifier asociated to the fault simulation.
+        :paramtype cluster_id: str
+        :keyword simulation_id: Simulation identifier.
+        :paramtype simulation_id: str
+        :keyword operation_id: Current or latest asyncronos operation identifier on the fault
+         simulation.
+        :paramtype operation_id: str
+        :keyword start_time: The start time of the fault simulation.
+        :paramtype start_time: ~datetime.datetime
+        :keyword end_time: The end time of the fault simulation.
+        :paramtype end_time: ~datetime.datetime
+        :keyword status: Fault simulation status. Known values are: "Starting", "Active", "Stopping",
+         "Done", "StartFailed", and "StopFailed".
+        :paramtype status: str or ~azure.mgmt.servicefabricmanagedclusters.models.FaultSimulationStatus
+        :keyword node_type_fault_simulation: List of node type simulations asociated with the cluster
+         fault simulation.
+        :paramtype node_type_fault_simulation:
+         list[~azure.mgmt.servicefabricmanagedclusters.models.NodeTypeFaultSimulation]
+        :keyword parameters: Fault simulation parameters.
+        :paramtype parameters:
+         ~azure.mgmt.servicefabricmanagedclusters.models.FaultSimulationParameters
+        """
+        super().__init__(**kwargs)
+        self.cluster_id = cluster_id
+        self.simulation_id = simulation_id
+        self.operation_id = operation_id
+        self.start_time = start_time
+        self.end_time = end_time
+        self.status = status
+        self.node_type_fault_simulation = node_type_fault_simulation
+        self.parameters = parameters
+
+
+class FaultSimulationIdParameters(_serialization.Model):
+    """Parameters for Fault Simulation id.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar simulation_id: The fault simulation identifier. Required.
+    :vartype simulation_id: str
+    """
+
+    _validation = {
+        "simulation_id": {"required": True},
+    }
+
+    _attribute_map = {
+        "simulation_id": {"key": "simulationId", "type": "str"},
+    }
+
+    def __init__(self, *, simulation_id: str, **kwargs: Any) -> None:
+        """
+        :keyword simulation_id: The fault simulation identifier. Required.
+        :paramtype simulation_id: str
+        """
+        super().__init__(**kwargs)
+        self.simulation_id = simulation_id
+
+
+class FaultSimulationListResult(_serialization.Model):
+    """Fault simulation list results.
+
+    :ivar value: The list of fault simulations.
+    :vartype value: list[~azure.mgmt.servicefabricmanagedclusters.models.FaultSimulation]
+    :ivar next_link: The URL to use for getting the next set of results.
+    :vartype next_link: str
+    """
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[FaultSimulation]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self, *, value: Optional[List["_models.FaultSimulation"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: The list of fault simulations.
+        :paramtype value: list[~azure.mgmt.servicefabricmanagedclusters.models.FaultSimulation]
+        :keyword next_link: The URL to use for getting the next set of results.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = next_link
+
+
+class FaultSimulationParameters(_serialization.Model):
+    """Parameters for Fault Simulation action.
+
+    You probably want to use the sub-classes and not this class directly. Known sub-classes are:
+    ZoneFaultSimulationParameters
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar fault_kind: The kind of fault simulation. Required. "Zone"
+    :vartype fault_kind: str or ~azure.mgmt.servicefabricmanagedclusters.models.FaultKind
+    :ivar force: Force the action to go through without any check on the cluster.
+    :vartype force: bool
+    """
+
+    _validation = {
+        "fault_kind": {"required": True},
+    }
+
+    _attribute_map = {
+        "fault_kind": {"key": "faultKind", "type": "str"},
+        "force": {"key": "force", "type": "bool"},
+    }
+
+    _subtype_map = {"fault_kind": {"Zone": "ZoneFaultSimulationParameters"}}
+
+    def __init__(self, *, force: Optional[bool] = None, **kwargs: Any) -> None:
+        """
+        :keyword force: Force the action to go through without any check on the cluster.
+        :paramtype force: bool
+        """
+        super().__init__(**kwargs)
+        self.fault_kind: Optional[str] = None
+        self.force = force
+
+
 class FrontendConfiguration(_serialization.Model):
     """Describes the frontend configurations for the node type.
 
@@ -2060,7 +2230,7 @@ class Resource(_serialization.Model):
         self.system_data = None
 
 
-class ManagedCluster(Resource):  # pylint: disable=too-many-instance-attributes
+class ManagedCluster(Resource):
     """The managed cluster resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -2147,9 +2317,8 @@ class ManagedCluster(Resource):  # pylint: disable=too-many-instance-attributes
     :ivar addon_features: List of add-on features to enable on the cluster.
     :vartype addon_features: list[str or
      ~azure.mgmt.servicefabricmanagedclusters.models.ManagedClusterAddOnFeature]
-    :ivar enable_auto_os_upgrade: Setting this to true enables automatic OS upgrade for the node
-     types that are created using any platform OS image with version 'latest'. The default value for
-     this setting is false.
+    :ivar enable_auto_os_upgrade: Enables automatic OS upgrade for node types created using OS
+     images with version 'latest'. The default value for this setting is false.
     :vartype enable_auto_os_upgrade: bool
     :ivar zonal_resiliency: Indicates if the cluster has zone resiliency.
     :vartype zonal_resiliency: bool
@@ -2213,9 +2382,10 @@ class ManagedCluster(Resource):  # pylint: disable=too-many-instance-attributes
      "SubscriptionReuse", "ResourceGroupReuse", and "NoReuse".
     :vartype auto_generated_domain_name_label_scope: str or
      ~azure.mgmt.servicefabricmanagedclusters.models.AutoGeneratedDomainNameLabelScope
-    :ivar custom_fqdn: If using autoGeneratedDomainNameLabelScope, this is the fully qualified
-     domain name using SFMC's domain, pointing to the public load balancer of the cluster.
-    :vartype custom_fqdn: str
+    :ivar allocated_outbound_ports: The number of outbound ports allocated for SNAT for each node
+     in the backend pool of the default load balancer. The default value is 0 which provides dynamic
+     port allocation based on pool size.
+    :vartype allocated_outbound_ports: int
     """
 
     _validation = {
@@ -2296,7 +2466,7 @@ class ManagedCluster(Resource):  # pylint: disable=too-many-instance-attributes
             "key": "properties.autoGeneratedDomainNameLabelScope",
             "type": "str",
         },
-        "custom_fqdn": {"key": "properties.customFqdn", "type": "str"},
+        "allocated_outbound_ports": {"key": "properties.allocatedOutboundPorts", "type": "int"},
     }
 
     def __init__(  # pylint: disable=too-many-locals
@@ -2340,7 +2510,7 @@ class ManagedCluster(Resource):  # pylint: disable=too-many-instance-attributes
         auto_generated_domain_name_label_scope: Optional[
             Union[str, "_models.AutoGeneratedDomainNameLabelScope"]
         ] = None,
-        custom_fqdn: Optional[str] = None,
+        allocated_outbound_ports: Optional[int] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -2397,9 +2567,8 @@ class ManagedCluster(Resource):  # pylint: disable=too-many-instance-attributes
         :keyword addon_features: List of add-on features to enable on the cluster.
         :paramtype addon_features: list[str or
          ~azure.mgmt.servicefabricmanagedclusters.models.ManagedClusterAddOnFeature]
-        :keyword enable_auto_os_upgrade: Setting this to true enables automatic OS upgrade for the node
-         types that are created using any platform OS image with version 'latest'. The default value for
-         this setting is false.
+        :keyword enable_auto_os_upgrade: Enables automatic OS upgrade for node types created using OS
+         images with version 'latest'. The default value for this setting is false.
         :paramtype enable_auto_os_upgrade: bool
         :keyword zonal_resiliency: Indicates if the cluster has zone resiliency.
         :paramtype zonal_resiliency: bool
@@ -2461,9 +2630,10 @@ class ManagedCluster(Resource):  # pylint: disable=too-many-instance-attributes
          "SubscriptionReuse", "ResourceGroupReuse", and "NoReuse".
         :paramtype auto_generated_domain_name_label_scope: str or
          ~azure.mgmt.servicefabricmanagedclusters.models.AutoGeneratedDomainNameLabelScope
-        :keyword custom_fqdn: If using autoGeneratedDomainNameLabelScope, this is the fully qualified
-         domain name using SFMC's domain, pointing to the public load balancer of the cluster.
-        :paramtype custom_fqdn: str
+        :keyword allocated_outbound_ports: The number of outbound ports allocated for SNAT for each
+         node in the backend pool of the default load balancer. The default value is 0 which provides
+         dynamic port allocation based on pool size.
+        :paramtype allocated_outbound_ports: int
         """
         super().__init__(location=location, tags=tags, **kwargs)
         self.sku = sku
@@ -2507,7 +2677,7 @@ class ManagedCluster(Resource):  # pylint: disable=too-many-instance-attributes
         self.http_gateway_token_auth_connection_port = http_gateway_token_auth_connection_port
         self.enable_http_gateway_exclusive_auth_mode = enable_http_gateway_exclusive_auth_mode
         self.auto_generated_domain_name_label_scope = auto_generated_domain_name_label_scope
-        self.custom_fqdn = custom_fqdn
+        self.allocated_outbound_ports = allocated_outbound_ports
 
 
 class ManagedClusterCodeVersionResult(_serialization.Model):
@@ -2911,7 +3081,7 @@ class NamedPartitionScheme(Partition):
         self.names = names
 
 
-class NetworkSecurityRule(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class NetworkSecurityRule(_serialization.Model):
     """Describes a network security rule.
 
     All required parameters must be populated in order to send to server.
@@ -3063,7 +3233,7 @@ class NetworkSecurityRule(_serialization.Model):  # pylint: disable=too-many-ins
         self.direction = direction
 
 
-class NodeType(ManagedProxyResource):  # pylint: disable=too-many-instance-attributes
+class NodeType(ManagedProxyResource):
     """Describes a node type in the cluster, each node type represents sub set of nodes in the
     cluster.
 
@@ -3092,7 +3262,8 @@ class NodeType(ManagedProxyResource):  # pylint: disable=too-many-instance-attri
      GBs.
     :vartype data_disk_size_gb: int
     :ivar data_disk_type: Managed data disk type. Specifies the storage account type for the
-     managed disk. Known values are: "Standard_LRS", "StandardSSD_LRS", and "Premium_LRS".
+     managed disk. Known values are: "Standard_LRS", "StandardSSD_LRS", "Premium_LRS",
+     "PremiumV2_LRS", "StandardSSD_ZRS", and "Premium_ZRS".
     :vartype data_disk_type: str or ~azure.mgmt.servicefabricmanagedclusters.models.DiskType
     :ivar data_disk_letter: Managed data disk letter. It can not use the reserved letter C or D and
      it can not change after created.
@@ -3399,7 +3570,8 @@ class NodeType(ManagedProxyResource):  # pylint: disable=too-many-instance-attri
          in GBs.
         :paramtype data_disk_size_gb: int
         :keyword data_disk_type: Managed data disk type. Specifies the storage account type for the
-         managed disk. Known values are: "Standard_LRS", "StandardSSD_LRS", and "Premium_LRS".
+         managed disk. Known values are: "Standard_LRS", "StandardSSD_LRS", "Premium_LRS",
+         "PremiumV2_LRS", "StandardSSD_ZRS", and "Premium_ZRS".
         :paramtype data_disk_type: str or ~azure.mgmt.servicefabricmanagedclusters.models.DiskType
         :keyword data_disk_letter: Managed data disk letter. It can not use the reserved letter C or D
          and it can not change after created.
@@ -3683,6 +3855,58 @@ class NodeTypeAvailableSku(_serialization.Model):
         self.resource_type = None
         self.sku = None
         self.capacity = None
+
+
+class NodeTypeFaultSimulation(_serialization.Model):
+    """Node type fault simulation object with status.
+
+    :ivar node_type_name: Node type name.
+    :vartype node_type_name: str
+    :ivar status: Fault simulation status. Known values are: "Starting", "Active", "Stopping",
+     "Done", "StartFailed", and "StopFailed".
+    :vartype status: str or ~azure.mgmt.servicefabricmanagedclusters.models.FaultSimulationStatus
+    :ivar operation_id: Current or latest asyncronos operation identifier on the node type.
+    :vartype operation_id: str
+    :ivar operation_status: Current or latest asyncronos operation status on the node type. Known
+     values are: "Starting", "Active", "Stopping", "Done", "StartFailed", and "StopFailed".
+    :vartype operation_status: str or
+     ~azure.mgmt.servicefabricmanagedclusters.models.FaultSimulationStatus
+    """
+
+    _attribute_map = {
+        "node_type_name": {"key": "nodeTypeName", "type": "str"},
+        "status": {"key": "status", "type": "str"},
+        "operation_id": {"key": "operationId", "type": "str"},
+        "operation_status": {"key": "operationStatus", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        node_type_name: Optional[str] = None,
+        status: Optional[Union[str, "_models.FaultSimulationStatus"]] = None,
+        operation_id: Optional[str] = None,
+        operation_status: Optional[Union[str, "_models.FaultSimulationStatus"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword node_type_name: Node type name.
+        :paramtype node_type_name: str
+        :keyword status: Fault simulation status. Known values are: "Starting", "Active", "Stopping",
+         "Done", "StartFailed", and "StopFailed".
+        :paramtype status: str or ~azure.mgmt.servicefabricmanagedclusters.models.FaultSimulationStatus
+        :keyword operation_id: Current or latest asyncronos operation identifier on the node type.
+        :paramtype operation_id: str
+        :keyword operation_status: Current or latest asyncronos operation status on the node type.
+         Known values are: "Starting", "Active", "Stopping", "Done", "StartFailed", and "StopFailed".
+        :paramtype operation_status: str or
+         ~azure.mgmt.servicefabricmanagedclusters.models.FaultSimulationStatus
+        """
+        super().__init__(**kwargs)
+        self.node_type_name = node_type_name
+        self.status = status
+        self.operation_id = operation_id
+        self.operation_status = operation_status
 
 
 class NodeTypeListResult(_serialization.Model):
@@ -4813,7 +5037,7 @@ class ServiceResourcePropertiesBase(_serialization.Model):
         self.scaling_policies = scaling_policies
 
 
-class ServiceResourceProperties(ServiceResourcePropertiesBase):  # pylint: disable=too-many-instance-attributes
+class ServiceResourceProperties(ServiceResourcePropertiesBase):
     """The service resource properties.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
@@ -5213,7 +5437,7 @@ class Sku(_serialization.Model):
         self.name = name
 
 
-class StatefulServiceProperties(ServiceResourceProperties):  # pylint: disable=too-many-instance-attributes
+class StatefulServiceProperties(ServiceResourceProperties):
     """The properties of a stateful service resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -5422,7 +5646,7 @@ class StatefulServiceProperties(ServiceResourceProperties):  # pylint: disable=t
         self.service_placement_time_limit = service_placement_time_limit
 
 
-class StatelessServiceProperties(ServiceResourceProperties):  # pylint: disable=too-many-instance-attributes
+class StatelessServiceProperties(ServiceResourceProperties):
     """The properties of a stateless service resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -5848,11 +6072,7 @@ class VaultCertificate(_serialization.Model):
 
     :ivar certificate_url: This is the URL of a certificate that has been uploaded to Key Vault as
      a secret. For adding a secret to the Key Vault, see `Add a key or secret to the key vault
-     <https://docs.microsoft.com/azure/key-vault/key-vault-get-started/#add>`_. In this case, your
-     certificate needs to be It is the Base64 encoding of the following JSON Object which is encoded
-     in UTF-8: :code:`<br>`:code:`<br>` {:code:`<br>`
-     "data":":code:`<Base64-encoded-certificate>`",:code:`<br>`  "dataType":"pfx",:code:`<br>`
-     "password":":code:`<pfx-file-password>`":code:`<br>`}. Required.
+     <https://docs.microsoft.com/azure/key-vault/key-vault-get-started/#add>`_. Required.
     :vartype certificate_url: str
     :ivar certificate_store: For Windows VMs, specifies the certificate store on the Virtual
      Machine to which the certificate should be added. The specified certificate store is implicitly
@@ -5878,11 +6098,7 @@ class VaultCertificate(_serialization.Model):
         """
         :keyword certificate_url: This is the URL of a certificate that has been uploaded to Key Vault
          as a secret. For adding a secret to the Key Vault, see `Add a key or secret to the key vault
-         <https://docs.microsoft.com/azure/key-vault/key-vault-get-started/#add>`_. In this case, your
-         certificate needs to be It is the Base64 encoding of the following JSON Object which is encoded
-         in UTF-8: :code:`<br>`:code:`<br>` {:code:`<br>`
-         "data":":code:`<Base64-encoded-certificate>`",:code:`<br>`  "dataType":"pfx",:code:`<br>`
-         "password":":code:`<pfx-file-password>`":code:`<br>`}. Required.
+         <https://docs.microsoft.com/azure/key-vault/key-vault-get-started/#add>`_. Required.
         :paramtype certificate_url: str
         :keyword certificate_store: For Windows VMs, specifies the certificate store on the Virtual
          Machine to which the certificate should be added. The specified certificate store is implicitly
@@ -6133,7 +6349,8 @@ class VmssDataDisk(_serialization.Model):
     :ivar disk_size_gb: Disk size for each vm in the node type in GBs. Required.
     :vartype disk_size_gb: int
     :ivar disk_type: Managed data disk type. Specifies the storage account type for the managed
-     disk. Known values are: "Standard_LRS", "StandardSSD_LRS", and "Premium_LRS".
+     disk. Known values are: "Standard_LRS", "StandardSSD_LRS", "Premium_LRS", "PremiumV2_LRS",
+     "StandardSSD_ZRS", and "Premium_ZRS".
     :vartype disk_type: str or ~azure.mgmt.servicefabricmanagedclusters.models.DiskType
     :ivar disk_letter: Managed data disk letter. It can not use the reserved letter C or D and it
      can not change after created. Required.
@@ -6171,7 +6388,8 @@ class VmssDataDisk(_serialization.Model):
         :keyword disk_size_gb: Disk size for each vm in the node type in GBs. Required.
         :paramtype disk_size_gb: int
         :keyword disk_type: Managed data disk type. Specifies the storage account type for the managed
-         disk. Known values are: "Standard_LRS", "StandardSSD_LRS", and "Premium_LRS".
+         disk. Known values are: "Standard_LRS", "StandardSSD_LRS", "Premium_LRS", "PremiumV2_LRS",
+         "StandardSSD_ZRS", and "Premium_ZRS".
         :paramtype disk_type: str or ~azure.mgmt.servicefabricmanagedclusters.models.DiskType
         :keyword disk_letter: Managed data disk letter. It can not use the reserved letter C or D and
          it can not change after created. Required.
@@ -6184,7 +6402,7 @@ class VmssDataDisk(_serialization.Model):
         self.disk_letter = disk_letter
 
 
-class VMSSExtension(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class VMSSExtension(_serialization.Model):
     """Specifies set of extensions that should be installed onto the virtual machines.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -6309,3 +6527,38 @@ class VMSSExtension(_serialization.Model):  # pylint: disable=too-many-instance-
         self.provisioning_state = None
         self.enable_automatic_upgrade = enable_automatic_upgrade
         self.setup_order = setup_order
+
+
+class ZoneFaultSimulationParameters(FaultSimulationParameters):
+    """Parameters for Zone Fault Simulation action.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar fault_kind: The kind of fault simulation. Required. "Zone"
+    :vartype fault_kind: str or ~azure.mgmt.servicefabricmanagedclusters.models.FaultKind
+    :ivar force: Force the action to go through without any check on the cluster.
+    :vartype force: bool
+    :ivar zone: Indicates the zone of the fault simulation.
+    :vartype zone: str
+    """
+
+    _validation = {
+        "fault_kind": {"required": True},
+    }
+
+    _attribute_map = {
+        "fault_kind": {"key": "faultKind", "type": "str"},
+        "force": {"key": "force", "type": "bool"},
+        "zone": {"key": "zone", "type": "str"},
+    }
+
+    def __init__(self, *, force: Optional[bool] = None, zone: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword force: Force the action to go through without any check on the cluster.
+        :paramtype force: bool
+        :keyword zone: Indicates the zone of the fault simulation.
+        :paramtype zone: str
+        """
+        super().__init__(force=force, **kwargs)
+        self.fault_kind: str = "Zone"
+        self.zone = zone
