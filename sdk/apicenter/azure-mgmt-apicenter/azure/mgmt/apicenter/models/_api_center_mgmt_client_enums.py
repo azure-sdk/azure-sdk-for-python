@@ -33,6 +33,29 @@ class ApiKind(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Web Socket"""
 
 
+class ApiSourceLinkState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The API source link state."""
+
+    INITIALIZING = "initializing"
+    """The API source link is initializing."""
+    SYNCING = "syncing"
+    """*
+    The API source is syncing."""
+    ERROR = "error"
+    """The API source sync is blocked due to an error."""
+    DELETING = "deleting"
+    """The API source is being deleted."""
+
+
+class ApiSourceType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Supported API source types for import/sync."""
+
+    AZURE_API_MANAGEMENT = "AzureApiManagement"
+    """Azure API Management"""
+    AMAZON_API_GATEWAY = "AmazonApiGateway"
+    """Amazon API Gateway"""
+
+
 class ApiSpecExportResultFormat(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Result format for exported Api spec."""
 
@@ -49,7 +72,7 @@ class ApiSpecImportSourceFormat(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The inlined content of a specification document."""
     LINK = "link"
     """The link to a specification document hosted on a publicly accessible internet
-    #: address."""
+    address."""
 
 
 class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -100,6 +123,17 @@ class EnvironmentServerType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Kubernetes server"""
     MULE_SOFT_API_MANAGEMENT = "MuleSoft API Management"
     """Mulesoft Api Management server"""
+
+
+class ImportSpecificationOptions(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Indicates if the specification should be imported along with metadata."""
+
+    NEVER = "never"
+    """Indicates that the specification should be never be imported."""
+    ON_DEMAND = "ondemand"
+    """Indicates that the specification should be imported only by request."""
+    ALWAYS = "always"
+    """Indicates that the specification should always be imported along with metadata."""
 
 
 class LifecycleStage(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -171,10 +205,3 @@ class ProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Resource creation failed."""
     CANCELED = "Canceled"
     """Resource creation was canceled."""
-
-
-class Versions(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The available API versions."""
-
-    V2024_03_01 = "2024-03-01"
-    """The initial service version"""
