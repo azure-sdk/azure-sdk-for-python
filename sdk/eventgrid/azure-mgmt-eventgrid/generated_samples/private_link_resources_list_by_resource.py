@@ -39,6 +39,6 @@ def main():
         print(item)
 
 
-# x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/PrivateLinkResources_ListByResource.json
+# x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-12-15-preview/examples/PrivateLinkResources_ListByResource.json
 if __name__ == "__main__":
     main()

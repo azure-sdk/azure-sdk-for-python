@@ -1,5 +1,5 @@
-# coding=utf-8
 # pylint: disable=too-many-lines
+# coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -16,10 +16,9 @@ from .. import _serialization
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 JSON = MutableMapping[str, Any]  # pylint: disable=unsubscriptable-object
 
@@ -330,8 +329,8 @@ class BoolEqualsAdvancedFilter(AdvancedFilter):
 class Filter(_serialization.Model):
     """This is the base type that represents a filter. To configure a filter, do not directly
     instantiate an object of this class. Instead, instantiate
-    an object of a derived class such as BoolEqualsFilter, NumberInFilter, StringEqualsFilter etc
-    depending on the type of the key based on
+    an object of a derived class such as BoolEqualsFilter, NumberInFilter etc depending on the type
+    of the key based on
     which you want to filter.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
@@ -481,7 +480,7 @@ class CaCertificate(Resource):
     :vartype name: str
     :ivar type: Type of the resource.
     :vartype type: str
-    :ivar system_data: The system metadata relating to the CaCertificate resource.
+    :ivar system_data: The system metadata relating to the Event Grid resource.
     :vartype system_data: ~azure.mgmt.eventgrid.models.SystemData
     :ivar description: Description for the CA Certificate resource.
     :vartype description: str
@@ -565,7 +564,7 @@ class CaCertificatesListResult(_serialization.Model):
         self.next_link = next_link
 
 
-class Channel(Resource):  # pylint: disable=too-many-instance-attributes
+class Channel(Resource):
     """Channel info.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -576,7 +575,7 @@ class Channel(Resource):  # pylint: disable=too-many-instance-attributes
     :vartype name: str
     :ivar type: Type of the resource.
     :vartype type: str
-    :ivar system_data: The system metadata relating to Channel resource.
+    :ivar system_data: The system metadata relating to the Event Grid resource.
     :vartype system_data: ~azure.mgmt.eventgrid.models.SystemData
     :ivar channel_type: The type of the event channel which represents the direction flow of
      events. Known values are: "PartnerTopic" and "PartnerDestination".
@@ -769,7 +768,7 @@ class Client(Resource):
     :vartype name: str
     :ivar type: Type of the resource.
     :vartype type: str
-    :ivar system_data: The system metadata relating to the Client resource.
+    :ivar system_data: The system metadata relating to the Event Grid resource.
     :vartype system_data: ~azure.mgmt.eventgrid.models.SystemData
     :ivar description: Description for the Client resource.
     :vartype description: str
@@ -947,7 +946,7 @@ class ClientGroup(Resource):
     :vartype name: str
     :ivar type: Type of the resource.
     :vartype type: str
-    :ivar system_data: The system metadata relating to the ClientGroup resource.
+    :ivar system_data: The system metadata relating to the Event Grid resource.
     :vartype system_data: ~azure.mgmt.eventgrid.models.SystemData
     :ivar description: Description for the Client Group resource.
     :vartype description: str
@@ -1314,14 +1313,19 @@ class CustomJwtAuthenticationSettings(_serialization.Model):
 
     :ivar token_issuer: Expected JWT token issuer.
     :vartype token_issuer: str
-    :ivar issuer_certificates: Information about the certificate that is used for token validation.
-     We currently support maximum 2 certificates.
+    :ivar issuer_certificates: Information about the certificates that are used for token
+     validation. We currently support maximum 2 certificates.
     :vartype issuer_certificates: list[~azure.mgmt.eventgrid.models.IssuerCertificateInfo]
+    :ivar encoded_issuer_certificates: Information about the encoded public certificates that are
+     used for custom authentication.
+    :vartype encoded_issuer_certificates:
+     list[~azure.mgmt.eventgrid.models.EncodedIssuerCertificateInfo]
     """
 
     _attribute_map = {
         "token_issuer": {"key": "tokenIssuer", "type": "str"},
         "issuer_certificates": {"key": "issuerCertificates", "type": "[IssuerCertificateInfo]"},
+        "encoded_issuer_certificates": {"key": "encodedIssuerCertificates", "type": "[EncodedIssuerCertificateInfo]"},
     }
 
     def __init__(
@@ -1329,18 +1333,24 @@ class CustomJwtAuthenticationSettings(_serialization.Model):
         *,
         token_issuer: Optional[str] = None,
         issuer_certificates: Optional[List["_models.IssuerCertificateInfo"]] = None,
+        encoded_issuer_certificates: Optional[List["_models.EncodedIssuerCertificateInfo"]] = None,
         **kwargs: Any
     ) -> None:
         """
         :keyword token_issuer: Expected JWT token issuer.
         :paramtype token_issuer: str
-        :keyword issuer_certificates: Information about the certificate that is used for token
+        :keyword issuer_certificates: Information about the certificates that are used for token
          validation. We currently support maximum 2 certificates.
         :paramtype issuer_certificates: list[~azure.mgmt.eventgrid.models.IssuerCertificateInfo]
+        :keyword encoded_issuer_certificates: Information about the encoded public certificates that
+         are used for custom authentication.
+        :paramtype encoded_issuer_certificates:
+         list[~azure.mgmt.eventgrid.models.EncodedIssuerCertificateInfo]
         """
         super().__init__(**kwargs)
         self.token_issuer = token_issuer
         self.issuer_certificates = issuer_certificates
+        self.encoded_issuer_certificates = encoded_issuer_certificates
 
 
 class DeadLetterDestination(_serialization.Model):
@@ -1598,7 +1608,7 @@ class TrackedResource(Resource):
         self.tags = tags
 
 
-class Domain(TrackedResource):  # pylint: disable=too-many-instance-attributes
+class Domain(TrackedResource):
     """EventGrid Domain.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1619,7 +1629,7 @@ class Domain(TrackedResource):  # pylint: disable=too-many-instance-attributes
     :vartype sku: ~azure.mgmt.eventgrid.models.ResourceSku
     :ivar identity: Identity information for the Event Grid Domain resource.
     :vartype identity: ~azure.mgmt.eventgrid.models.IdentityInfo
-    :ivar system_data: The system metadata relating to the Event Grid Domain resource.
+    :ivar system_data: The system metadata relating to the Event Grid resource.
     :vartype system_data: ~azure.mgmt.eventgrid.models.SystemData
     :ivar private_endpoint_connections: List of private endpoint connections.
     :vartype private_endpoint_connections:
@@ -1940,7 +1950,7 @@ class DomainTopic(Resource):
     :vartype name: str
     :ivar type: Type of the resource.
     :vartype type: str
-    :ivar system_data: The system metadata relating to Domain Topic resource.
+    :ivar system_data: The system metadata relating to the Event Grid resource.
     :vartype system_data: ~azure.mgmt.eventgrid.models.SystemData
     :ivar provisioning_state: Provisioning state of the domain topic. Known values are: "Creating",
      "Updating", "Deleting", "Succeeded", "Canceled", and "Failed".
@@ -1998,7 +2008,7 @@ class DomainTopicsListResult(_serialization.Model):
         self.next_link = next_link
 
 
-class DomainUpdateParameters(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class DomainUpdateParameters(_serialization.Model):
     """Properties of the Domain update.
 
     :ivar tags: Tags of the domains resource.
@@ -2231,6 +2241,39 @@ class DynamicRoutingEnrichment(_serialization.Model):
         self.value = value
 
 
+class EncodedIssuerCertificateInfo(_serialization.Model):
+    """Information about the public certificate that is used for custom authentication.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar kid: Identifier for the certificate. Required.
+    :vartype kid: str
+    :ivar encoded_certificate: Certificate in pem format. Required.
+    :vartype encoded_certificate: str
+    """
+
+    _validation = {
+        "kid": {"required": True},
+        "encoded_certificate": {"required": True},
+    }
+
+    _attribute_map = {
+        "kid": {"key": "kid", "type": "str"},
+        "encoded_certificate": {"key": "encodedCertificate", "type": "str"},
+    }
+
+    def __init__(self, *, kid: str, encoded_certificate: str, **kwargs: Any) -> None:
+        """
+        :keyword kid: Identifier for the certificate. Required.
+        :paramtype kid: str
+        :keyword encoded_certificate: Certificate in pem format. Required.
+        :paramtype encoded_certificate: str
+        """
+        super().__init__(**kwargs)
+        self.kid = kid
+        self.encoded_certificate = encoded_certificate
+
+
 class ErrorAdditionalInfo(_serialization.Model):
     """The resource management error additional info.
 
@@ -2374,7 +2417,7 @@ class EventHubEventSubscriptionDestination(EventSubscriptionDestination):
         self.delivery_attribute_mappings = delivery_attribute_mappings
 
 
-class EventSubscription(Resource):  # pylint: disable=too-many-instance-attributes
+class EventSubscription(Resource):
     """Event Subscription.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -2385,7 +2428,7 @@ class EventSubscription(Resource):  # pylint: disable=too-many-instance-attribut
     :vartype name: str
     :ivar type: Type of the resource.
     :vartype type: str
-    :ivar system_data: The system metadata relating to Event Subscription resource.
+    :ivar system_data: The system metadata relating to the Event Grid resource.
     :vartype system_data: ~azure.mgmt.eventgrid.models.SystemData
     :ivar topic: Name of the topic of the event subscription.
     :vartype topic: str
@@ -2642,11 +2685,19 @@ class EventSubscriptionIdentity(_serialization.Model):
     :vartype type: str or ~azure.mgmt.eventgrid.models.EventSubscriptionIdentityType
     :ivar user_assigned_identity: The user identity associated with the resource.
     :vartype user_assigned_identity: str
+    :ivar federated_identity_credential_info: The details of the Federated Identity Credential
+     (FIC) used with the resource delivery.
+    :vartype federated_identity_credential_info:
+     ~azure.mgmt.eventgrid.models.FederatedIdentityCredentialInfo
     """
 
     _attribute_map = {
         "type": {"key": "type", "type": "str"},
         "user_assigned_identity": {"key": "userAssignedIdentity", "type": "str"},
+        "federated_identity_credential_info": {
+            "key": "federatedIdentityCredentialInfo",
+            "type": "FederatedIdentityCredentialInfo",
+        },
     }
 
     def __init__(
@@ -2654,6 +2705,7 @@ class EventSubscriptionIdentity(_serialization.Model):
         *,
         type: Optional[Union[str, "_models.EventSubscriptionIdentityType"]] = None,
         user_assigned_identity: Optional[str] = None,
+        federated_identity_credential_info: Optional["_models.FederatedIdentityCredentialInfo"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -2662,10 +2714,15 @@ class EventSubscriptionIdentity(_serialization.Model):
         :paramtype type: str or ~azure.mgmt.eventgrid.models.EventSubscriptionIdentityType
         :keyword user_assigned_identity: The user identity associated with the resource.
         :paramtype user_assigned_identity: str
+        :keyword federated_identity_credential_info: The details of the Federated Identity Credential
+         (FIC) used with the resource delivery.
+        :paramtype federated_identity_credential_info:
+         ~azure.mgmt.eventgrid.models.FederatedIdentityCredentialInfo
         """
         super().__init__(**kwargs)
         self.type = type
         self.user_assigned_identity = user_assigned_identity
+        self.federated_identity_credential_info = federated_identity_credential_info
 
 
 class EventSubscriptionsListResult(_serialization.Model):
@@ -2836,7 +2893,7 @@ class EventType(Resource):
     :vartype display_name: str
     :ivar description: Description of the event type.
     :vartype description: str
-    :ivar schema_url: Url of the schema for this event type.
+    :ivar schema_url: URL of the schema for this event type.
     :vartype schema_url: str
     :ivar is_in_default_set: IsInDefaultSet flag of the event type.
     :vartype is_in_default_set: bool
@@ -2872,7 +2929,7 @@ class EventType(Resource):
         :paramtype display_name: str
         :keyword description: Description of the event type.
         :paramtype description: str
-        :keyword schema_url: Url of the schema for this event type.
+        :keyword schema_url: URL of the schema for this event type.
         :paramtype schema_url: str
         :keyword is_in_default_set: IsInDefaultSet flag of the event type.
         :paramtype is_in_default_set: bool
@@ -2982,7 +3039,7 @@ class ExtensionTopic(Resource):
     :vartype name: str
     :ivar type: Type of the resource.
     :vartype type: str
-    :ivar system_data: The system metadata relating to Extension Topic resource.
+    :ivar system_data: The system metadata relating to the Event Grid resource.
     :vartype system_data: ~azure.mgmt.eventgrid.models.SystemData
     :ivar description: Description of the extension topic.
     :vartype description: str
@@ -3017,6 +3074,34 @@ class ExtensionTopic(Resource):
         self.system_data = None
         self.description = description
         self.system_topic = system_topic
+
+
+class FederatedIdentityCredentialInfo(_serialization.Model):
+    """The details of the Federated Identity Credential (FIC) used with the resource.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar federated_client_id: The Multi-Tenant AAD Application where the Federated Identity
+     Credential (FIC) is associated with. Required.
+    :vartype federated_client_id: str
+    """
+
+    _validation = {
+        "federated_client_id": {"required": True},
+    }
+
+    _attribute_map = {
+        "federated_client_id": {"key": "federatedClientId", "type": "str"},
+    }
+
+    def __init__(self, *, federated_client_id: str, **kwargs: Any) -> None:
+        """
+        :keyword federated_client_id: The Multi-Tenant AAD Application where the Federated Identity
+         Credential (FIC) is associated with. Required.
+        :paramtype federated_client_id: str
+        """
+        super().__init__(**kwargs)
+        self.federated_client_id = federated_client_id
 
 
 class FiltersConfiguration(_serialization.Model):
@@ -3650,7 +3735,7 @@ class MonitorAlertEventSubscriptionDestination(EventSubscriptionDestination):
         self.action_groups = action_groups
 
 
-class Namespace(TrackedResource):  # pylint: disable=too-many-instance-attributes
+class Namespace(TrackedResource):
     """Namespace resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -3671,7 +3756,7 @@ class Namespace(TrackedResource):  # pylint: disable=too-many-instance-attribute
     :vartype sku: ~azure.mgmt.eventgrid.models.NamespaceSku
     :ivar identity: Identity information for the Namespace resource.
     :vartype identity: ~azure.mgmt.eventgrid.models.IdentityInfo
-    :ivar system_data: The system metadata relating to the namespace resource.
+    :ivar system_data: The system metadata relating to the Event Grid resource.
     :vartype system_data: ~azure.mgmt.eventgrid.models.SystemData
     :ivar private_endpoint_connections: List of private endpoint connections.
     :vartype private_endpoint_connections:
@@ -3689,8 +3774,8 @@ class Namespace(TrackedResource):  # pylint: disable=too-many-instance-attribute
      namespace resource supports zone-redundancy capability or not. If this
      property is not specified explicitly by the user, its default value depends on the following
      conditions:
-         a. For Availability Zones enabled regions - The default property value would be true.
-         b. For non-Availability Zones enabled regions - The default property value would be false.
+       a. For Availability Zones enabled regions - The default property value would be true.
+       b. For non-Availability Zones enabled regions - The default property value would be false.
      Once specified, this property cannot be updated.
     :vartype is_zone_redundant: bool
     :ivar public_network_access: This determines if traffic is allowed over public network. By
@@ -3778,8 +3863,8 @@ class Namespace(TrackedResource):  # pylint: disable=too-many-instance-attribute
          the namespace resource supports zone-redundancy capability or not. If this
          property is not specified explicitly by the user, its default value depends on the following
          conditions:
-             a. For Availability Zones enabled regions - The default property value would be true.
-             b. For non-Availability Zones enabled regions - The default property value would be false.
+           a. For Availability Zones enabled regions - The default property value would be true.
+           b. For non-Availability Zones enabled regions - The default property value would be false.
          Once specified, this property cannot be updated.
         :paramtype is_zone_redundant: bool
         :keyword public_network_access: This determines if traffic is allowed over public network. By
@@ -3937,7 +4022,7 @@ class NamespaceTopic(Resource):
     :vartype name: str
     :ivar type: Type of the resource.
     :vartype type: str
-    :ivar system_data: The system metadata relating to namespace topic resource.
+    :ivar system_data: The system metadata relating to the Event Grid resource.
     :vartype system_data: ~azure.mgmt.eventgrid.models.SystemData
     :ivar provisioning_state: Provisioning state of the namespace topic. Known values are:
      "Creating", "Updating", "Deleting", "Succeeded", "Canceled", "Failed", "Deleted",
@@ -5438,7 +5523,7 @@ class PartnerConfiguration(Resource):
     :vartype name: str
     :ivar type: Type of the resource.
     :vartype type: str
-    :ivar system_data: The system metadata relating to partner configuration resource.
+    :ivar system_data: The system metadata relating to the Event Grid resource.
     :vartype system_data: ~azure.mgmt.eventgrid.models.SystemData
     :ivar location: Location of the resource.
     :vartype location: str
@@ -5568,7 +5653,7 @@ class PartnerConfigurationUpdateParameters(_serialization.Model):
         self.default_maximum_expiration_time_in_days = default_maximum_expiration_time_in_days
 
 
-class PartnerDestination(TrackedResource):  # pylint: disable=too-many-instance-attributes
+class PartnerDestination(TrackedResource):
     """Event Grid Partner Destination.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -5585,7 +5670,7 @@ class PartnerDestination(TrackedResource):  # pylint: disable=too-many-instance-
     :vartype location: str
     :ivar tags: Tags of the resource.
     :vartype tags: dict[str, str]
-    :ivar system_data: The system metadata relating to Partner Destination resource.
+    :ivar system_data: The system metadata relating to the Event Grid resource.
     :vartype system_data: ~azure.mgmt.eventgrid.models.SystemData
     :ivar partner_registration_immutable_id: The immutable Id of the corresponding partner
      registration.
@@ -5899,7 +5984,7 @@ class PartnerEventSubscriptionDestination(EventSubscriptionDestination):
         self.resource_id = resource_id
 
 
-class PartnerNamespace(TrackedResource):  # pylint: disable=too-many-instance-attributes
+class PartnerNamespace(TrackedResource):
     """EventGrid Partner Namespace.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -5916,7 +6001,7 @@ class PartnerNamespace(TrackedResource):  # pylint: disable=too-many-instance-at
     :vartype location: str
     :ivar tags: Tags of the resource.
     :vartype tags: dict[str, str]
-    :ivar system_data: The system metadata relating to Partner Namespace resource.
+    :ivar system_data: The system metadata relating to the Event Grid resource.
     :vartype system_data: ~azure.mgmt.eventgrid.models.SystemData
     :ivar private_endpoint_connections: List of private endpoint connections.
     :vartype private_endpoint_connections:
@@ -6222,7 +6307,7 @@ class PartnerRegistration(TrackedResource):
     :vartype location: str
     :ivar tags: Tags of the resource.
     :vartype tags: dict[str, str]
-    :ivar system_data: The system metadata relating to Partner Registration resource.
+    :ivar system_data: The system metadata relating to the Event Grid resource.
     :vartype system_data: ~azure.mgmt.eventgrid.models.SystemData
     :ivar provisioning_state: Provisioning state of the partner registration. Known values are:
      "Creating", "Updating", "Deleting", "Succeeded", "Canceled", and "Failed".
@@ -6332,7 +6417,7 @@ class PartnerRegistrationUpdateParameters(_serialization.Model):
         self.tags = tags
 
 
-class PartnerTopic(TrackedResource):  # pylint: disable=too-many-instance-attributes
+class PartnerTopic(TrackedResource):
     """Event Grid Partner Topic.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -6349,7 +6434,7 @@ class PartnerTopic(TrackedResource):  # pylint: disable=too-many-instance-attrib
     :vartype location: str
     :ivar tags: Tags of the resource.
     :vartype tags: dict[str, str]
-    :ivar system_data: The system metadata relating to Partner Topic resource.
+    :ivar system_data: The system metadata relating to the Event Grid resource.
     :vartype system_data: ~azure.mgmt.eventgrid.models.SystemData
     :ivar identity: Identity information for the Partner Topic resource.
     :vartype identity: ~azure.mgmt.eventgrid.models.IdentityInfo
@@ -6659,7 +6744,7 @@ class PermissionBinding(Resource):
     :vartype name: str
     :ivar type: Type of the resource.
     :vartype type: str
-    :ivar system_data: The system metadata relating to the PermissionBinding resource.
+    :ivar system_data: The system metadata relating to the Event Grid resource.
     :vartype system_data: ~azure.mgmt.eventgrid.models.SystemData
     :ivar description: Description for the Permission Binding resource.
     :vartype description: str
@@ -6991,7 +7076,7 @@ class PushInfo(_serialization.Model):
     :vartype max_delivery_count: int
     :ivar event_time_to_live: Time span duration in ISO 8601 format that determines how long
      messages are available to the subscription from the time the message was published.
-     This duration value is expressed using the following format: \'P(n)Y(n)M(n)DT(n)H(n)M(n)S\',
+     This duration value is expressed using the following format: \\'P(n)Y(n)M(n)DT(n)H(n)M(n)S\\',
      where:
 
      .. code-block::
@@ -7014,8 +7099,8 @@ class PushInfo(_serialization.Model):
 
      .. code-block::
 
-        - \'P0DT23H12M\' or \'PT23H12M\': for duration of 23 hours and 12 minutes.
-        - \'P1D\' or \'P1DT0H0M0S\': for duration of 1 day.
+        - \\'P0DT23H12M\\' or \\'PT23H12M\\': for duration of 23 hours and 12 minutes.
+        - \\'P1D\\' or \\'P1DT0H0M0S\\': for duration of 1 day.
     :vartype event_time_to_live: str
     :ivar dead_letter_destination_with_resource_identity: The dead letter destination of the event
      subscription. Any event that cannot be delivered to its' destination is sent to the dead letter
@@ -7066,7 +7151,7 @@ class PushInfo(_serialization.Model):
         :paramtype max_delivery_count: int
         :keyword event_time_to_live: Time span duration in ISO 8601 format that determines how long
          messages are available to the subscription from the time the message was published.
-         This duration value is expressed using the following format: \'P(n)Y(n)M(n)DT(n)H(n)M(n)S\',
+         This duration value is expressed using the following format: \\'P(n)Y(n)M(n)DT(n)H(n)M(n)S\\',
          where:
 
          .. code-block::
@@ -7089,8 +7174,8 @@ class PushInfo(_serialization.Model):
 
          .. code-block::
 
-            - \'P0DT23H12M\' or \'PT23H12M\': for duration of 23 hours and 12 minutes.
-            - \'P1D\' or \'P1DT0H0M0S\': for duration of 1 day.
+            - \\'P0DT23H12M\\' or \\'PT23H12M\\': for duration of 23 hours and 12 minutes.
+            - \\'P1D\\' or \\'P1DT0H0M0S\\': for duration of 1 day.
         :paramtype event_time_to_live: str
         :keyword dead_letter_destination_with_resource_identity: The dead letter destination of the
          event subscription. Any event that cannot be delivered to its' destination is sent to the dead
@@ -7140,7 +7225,7 @@ class QueueInfo(_serialization.Model):
      ~azure.mgmt.eventgrid.models.DeadLetterWithResourceIdentity
     :ivar event_time_to_live: Time span duration in ISO 8601 format that determines how long
      messages are available to the subscription from the time the message was published.
-     This duration value is expressed using the following format: \'P(n)Y(n)M(n)DT(n)H(n)M(n)S\',
+     This duration value is expressed using the following format: \\'P(n)Y(n)M(n)DT(n)H(n)M(n)S\\',
      where:
 
      .. code-block::
@@ -7163,8 +7248,8 @@ class QueueInfo(_serialization.Model):
 
      .. code-block::
 
-        - \'P0DT23H12M\' or \'PT23H12M\': for duration of 23 hours and 12 minutes.
-        - \'P1D\' or \'P1DT0H0M0S\': for duration of 1 day.
+        - \\'P0DT23H12M\\' or \\'PT23H12M\\': for duration of 23 hours and 12 minutes.
+        - \\'P1D\\' or \\'P1DT0H0M0S\\': for duration of 1 day.
     :vartype event_time_to_live: ~datetime.timedelta
     """
 
@@ -7206,7 +7291,7 @@ class QueueInfo(_serialization.Model):
          ~azure.mgmt.eventgrid.models.DeadLetterWithResourceIdentity
         :keyword event_time_to_live: Time span duration in ISO 8601 format that determines how long
          messages are available to the subscription from the time the message was published.
-         This duration value is expressed using the following format: \'P(n)Y(n)M(n)DT(n)H(n)M(n)S\',
+         This duration value is expressed using the following format: \\'P(n)Y(n)M(n)DT(n)H(n)M(n)S\\',
          where:
 
          .. code-block::
@@ -7229,8 +7314,8 @@ class QueueInfo(_serialization.Model):
 
          .. code-block::
 
-            - \'P0DT23H12M\' or \'PT23H12M\': for duration of 23 hours and 12 minutes.
-            - \'P1D\' or \'P1DT0H0M0S\': for duration of 1 day.
+            - \\'P0DT23H12M\\' or \\'PT23H12M\\': for duration of 23 hours and 12 minutes.
+            - \\'P1D\\' or \\'P1DT0H0M0S\\': for duration of 1 day.
         :paramtype event_time_to_live: ~datetime.timedelta
         """
         super().__init__(**kwargs)
@@ -8402,7 +8487,7 @@ class Subscription(Resource):
     :vartype name: str
     :ivar type: Type of the resource.
     :vartype type: str
-    :ivar system_data: The system metadata relating to Event Subscription resource.
+    :ivar system_data: The system metadata relating to the Event Grid resource.
     :vartype system_data: ~azure.mgmt.eventgrid.models.SystemData
     :ivar provisioning_state: Provisioning state of the event subscription. Known values are:
      "Creating", "Updating", "Deleting", "Succeeded", "Canceled", "Failed", "AwaitingManualAction",
@@ -8418,6 +8503,8 @@ class Subscription(Resource):
     :vartype filters_configuration: ~azure.mgmt.eventgrid.models.FiltersConfiguration
     :ivar expiration_time_utc: Expiration time of the event subscription.
     :vartype expiration_time_utc: ~datetime.datetime
+    :ivar tags: Tags relating to Event Subscription resource.
+    :vartype tags: dict[str, str]
     """
 
     _validation = {
@@ -8438,6 +8525,7 @@ class Subscription(Resource):
         "event_delivery_schema": {"key": "properties.eventDeliverySchema", "type": "str"},
         "filters_configuration": {"key": "properties.filtersConfiguration", "type": "FiltersConfiguration"},
         "expiration_time_utc": {"key": "properties.expirationTimeUtc", "type": "iso-8601"},
+        "tags": {"key": "properties.tags", "type": "{str}"},
     }
 
     def __init__(
@@ -8447,6 +8535,7 @@ class Subscription(Resource):
         event_delivery_schema: Optional[Union[str, "_models.DeliverySchema"]] = None,
         filters_configuration: Optional["_models.FiltersConfiguration"] = None,
         expiration_time_utc: Optional[datetime.datetime] = None,
+        tags: Optional[Dict[str, str]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -8460,6 +8549,8 @@ class Subscription(Resource):
         :paramtype filters_configuration: ~azure.mgmt.eventgrid.models.FiltersConfiguration
         :keyword expiration_time_utc: Expiration time of the event subscription.
         :paramtype expiration_time_utc: ~datetime.datetime
+        :keyword tags: Tags relating to Event Subscription resource.
+        :paramtype tags: dict[str, str]
         """
         super().__init__(**kwargs)
         self.system_data = None
@@ -8468,6 +8559,7 @@ class Subscription(Resource):
         self.event_delivery_schema = event_delivery_schema
         self.filters_configuration = filters_configuration
         self.expiration_time_utc = expiration_time_utc
+        self.tags = tags
 
 
 class SubscriptionFullUrl(_serialization.Model):
@@ -8533,6 +8625,8 @@ class SubscriptionUpdateParameters(_serialization.Model):
     :vartype filters_configuration: ~azure.mgmt.eventgrid.models.FiltersConfiguration
     :ivar expiration_time_utc: Expiration time of the event subscription.
     :vartype expiration_time_utc: ~datetime.datetime
+    :ivar tags: Tags relating to Event Subscription resource.
+    :vartype tags: dict[str, str]
     """
 
     _attribute_map = {
@@ -8540,6 +8634,7 @@ class SubscriptionUpdateParameters(_serialization.Model):
         "event_delivery_schema": {"key": "properties.eventDeliverySchema", "type": "str"},
         "filters_configuration": {"key": "properties.filtersConfiguration", "type": "FiltersConfiguration"},
         "expiration_time_utc": {"key": "properties.expirationTimeUtc", "type": "iso-8601"},
+        "tags": {"key": "properties.tags", "type": "{str}"},
     }
 
     def __init__(
@@ -8549,6 +8644,7 @@ class SubscriptionUpdateParameters(_serialization.Model):
         event_delivery_schema: Optional[Union[str, "_models.DeliverySchema"]] = None,
         filters_configuration: Optional["_models.FiltersConfiguration"] = None,
         expiration_time_utc: Optional[datetime.datetime] = None,
+        tags: Optional[Dict[str, str]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -8562,12 +8658,15 @@ class SubscriptionUpdateParameters(_serialization.Model):
         :paramtype filters_configuration: ~azure.mgmt.eventgrid.models.FiltersConfiguration
         :keyword expiration_time_utc: Expiration time of the event subscription.
         :paramtype expiration_time_utc: ~datetime.datetime
+        :keyword tags: Tags relating to Event Subscription resource.
+        :paramtype tags: dict[str, str]
         """
         super().__init__(**kwargs)
         self.delivery_configuration = delivery_configuration
         self.event_delivery_schema = event_delivery_schema
         self.filters_configuration = filters_configuration
         self.expiration_time_utc = expiration_time_utc
+        self.tags = tags
 
 
 class SystemData(_serialization.Model):
@@ -8634,7 +8733,7 @@ class SystemData(_serialization.Model):
         self.last_modified_at = last_modified_at
 
 
-class SystemTopic(TrackedResource):  # pylint: disable=too-many-instance-attributes
+class SystemTopic(TrackedResource):
     """EventGrid System Topic.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -8651,7 +8750,7 @@ class SystemTopic(TrackedResource):  # pylint: disable=too-many-instance-attribu
     :vartype location: str
     :ivar tags: Tags of the resource.
     :vartype tags: dict[str, str]
-    :ivar system_data: The system metadata relating to System Topic resource.
+    :ivar system_data: The system metadata relating to the Event Grid resource.
     :vartype system_data: ~azure.mgmt.eventgrid.models.SystemData
     :ivar identity: Identity information for the resource.
     :vartype identity: ~azure.mgmt.eventgrid.models.IdentityInfo
@@ -8777,7 +8876,7 @@ class SystemTopicUpdateParameters(_serialization.Model):
         self.identity = identity
 
 
-class Topic(TrackedResource):  # pylint: disable=too-many-instance-attributes
+class Topic(TrackedResource):
     """EventGrid Topic.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -8802,7 +8901,7 @@ class Topic(TrackedResource):  # pylint: disable=too-many-instance-attributes
     :vartype kind: str or ~azure.mgmt.eventgrid.models.ResourceKind
     :ivar extended_location: Extended location of the resource.
     :vartype extended_location: ~azure.mgmt.eventgrid.models.ExtendedLocation
-    :ivar system_data: The system metadata relating to Topic resource.
+    :ivar system_data: The system metadata relating to the Event Grid resource.
     :vartype system_data: ~azure.mgmt.eventgrid.models.SystemData
     :ivar private_endpoint_connections: List of private endpoint connections.
     :vartype private_endpoint_connections:
@@ -9094,15 +9193,15 @@ class TopicSpace(Resource):
     :vartype name: str
     :ivar type: Type of the resource.
     :vartype type: str
-    :ivar system_data: The system metadata relating to the TopicSpace resource.
+    :ivar system_data: The system metadata relating to the Event Grid resource.
     :vartype system_data: ~azure.mgmt.eventgrid.models.SystemData
     :ivar description: Description for the Topic Space resource.
     :vartype description: str
     :ivar topic_templates: The topic filters in the topic space.
      Example: "topicTemplates": [
-                   "devices/foo/bar",
-                   "devices/topic1/+",
-                   "devices/${principal.name}/${principal.attributes.keyName}" ].
+             "devices/foo/bar",
+             "devices/topic1/+",
+             "devices/${principal.name}/${principal.attributes.keyName}" ].
     :vartype topic_templates: list[str]
     :ivar provisioning_state: Provisioning state of the TopicSpace resource. Known values are:
      "Creating", "Updating", "Deleting", "Succeeded", "Canceled", "Failed", and "Deleted".
@@ -9135,9 +9234,9 @@ class TopicSpace(Resource):
         :paramtype description: str
         :keyword topic_templates: The topic filters in the topic space.
          Example: "topicTemplates": [
-                       "devices/foo/bar",
-                       "devices/topic1/+",
-                       "devices/${principal.name}/${principal.attributes.keyName}" ].
+                 "devices/foo/bar",
+                 "devices/topic1/+",
+                 "devices/${principal.name}/${principal.attributes.keyName}" ].
         :paramtype topic_templates: list[str]
         """
         super().__init__(**kwargs)
@@ -9308,7 +9407,7 @@ class TopicTypeAdditionalEnforcedPermission(_serialization.Model):
         self.is_data_action = is_data_action
 
 
-class TopicTypeInfo(Resource):  # pylint: disable=too-many-instance-attributes
+class TopicTypeInfo(Resource):
     """Properties of a topic type info.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -9698,7 +9797,7 @@ class VerifiedPartner(Resource):
     :vartype name: str
     :ivar type: Type of the resource.
     :vartype type: str
-    :ivar system_data: The system metadata relating to Verified Partner resource.
+    :ivar system_data: The system metadata relating to the Event Grid resource.
     :vartype system_data: ~azure.mgmt.eventgrid.models.SystemData
     :ivar partner_registration_immutable_id: ImmutableId of the corresponding partner registration.
     :vartype partner_registration_immutable_id: str
