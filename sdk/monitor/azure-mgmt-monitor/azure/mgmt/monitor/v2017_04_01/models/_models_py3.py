@@ -1,5 +1,4 @@
 # coding=utf-8
-# pylint: disable=too-many-lines
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -12,7 +11,6 @@ from typing import Any, Dict, List, Optional, TYPE_CHECKING
 from ... import _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
@@ -81,7 +79,7 @@ class Resource(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Azure resource Id.
     :vartype id: str
@@ -125,12 +123,12 @@ class Resource(_serialization.Model):
         self.tags = tags
 
 
-class ActionGroupResource(Resource):  # pylint: disable=too-many-instance-attributes
+class ActionGroupResource(Resource):
     """An action group resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Azure resource Id.
     :vartype id: str
@@ -249,7 +247,7 @@ class ActionGroupResource(Resource):  # pylint: disable=too-many-instance-attrib
 class ActivityLogAlertActionGroup(_serialization.Model):
     """A pointer to an Azure Action Group.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar action_group_id: The resourceId of the action group. This cannot be null or empty.
      Required.
@@ -311,7 +309,7 @@ class ActivityLogAlertActionList(_serialization.Model):
 class ActivityLogAlertAllOfCondition(_serialization.Model):
     """An Activity Log alert condition that is met when all its member conditions are met.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar all_of: The list of activity log alert conditions. Required.
     :vartype all_of: list[~azure.mgmt.monitor.v2017_04_01.models.ActivityLogAlertLeafCondition]
@@ -337,7 +335,7 @@ class ActivityLogAlertAllOfCondition(_serialization.Model):
 class ActivityLogAlertLeafCondition(_serialization.Model):
     """An Activity Log alert condition that is met by comparing an activity log field and value.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar field: The name of the field that this condition will examine. The possible values for
      this field are (case-insensitive): 'resourceId', 'category', 'caller', 'level',
@@ -440,7 +438,7 @@ class ActivityLogAlertResource(Resource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Azure resource Id.
     :vartype id: str
@@ -529,7 +527,7 @@ class ActivityLogAlertResource(Resource):
 class AutomationRunbookReceiver(_serialization.Model):
     """The Azure Automation Runbook notification receiver.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar automation_account_id: The Azure automation account Id which holds this runbook and
      authenticate to Azure resource. Required.
@@ -600,7 +598,7 @@ class AutomationRunbookReceiver(_serialization.Model):
 class AzureAppPushReceiver(_serialization.Model):
     """The Azure mobile App push notification receiver.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The name of the Azure mobile app push receiver. Names must be unique across all
      receivers within an action group. Required.
@@ -637,7 +635,7 @@ class EmailReceiver(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The name of the email receiver. Names must be unique across all receivers within an
      action group. Required.
@@ -678,7 +676,7 @@ class EmailReceiver(_serialization.Model):
 class EnableRequest(_serialization.Model):
     """Describes a receiver that should be resubscribed.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar receiver_name: The name of the receiver to resubscribe. Required.
     :vartype receiver_name: str
@@ -730,7 +728,7 @@ class ErrorResponse(_serialization.Model):
 class ItsmReceiver(_serialization.Model):
     """An Itsm receiver.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The name of the Itsm receiver. Names must be unique across all receivers within an
      action group. Required.
@@ -744,7 +742,7 @@ class ItsmReceiver(_serialization.Model):
      CreateMultipleWorkItems option will be part of this blob as well. Required.
     :vartype ticket_configuration: str
     :ivar region: Region in which workspace resides. Supported
-     values:'centralindia','japaneast','southeastasia','australiasoutheast','uksouth','westcentralus','canadacentral','eastus','westeurope'.
+     values:'centralindia','japaneast','southeastasia','australiasoutheast','uksouth','westcentralus','canadacentral','eastus','westeurope'.  # pylint: disable=line-too-long
      Required.
     :vartype region: str
     """
@@ -781,7 +779,7 @@ class ItsmReceiver(_serialization.Model):
          CreateMultipleWorkItems option will be part of this blob as well. Required.
         :paramtype ticket_configuration: str
         :keyword region: Region in which workspace resides. Supported
-         values:'centralindia','japaneast','southeastasia','australiasoutheast','uksouth','westcentralus','canadacentral','eastus','westeurope'.
+         values:'centralindia','japaneast','southeastasia','australiasoutheast','uksouth','westcentralus','canadacentral','eastus','westeurope'.  # pylint: disable=line-too-long
          Required.
         :paramtype region: str
         """
@@ -798,7 +796,7 @@ class SmsReceiver(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The name of the SMS receiver. Names must be unique across all receivers within an
      action group. Required.
@@ -846,7 +844,7 @@ class SmsReceiver(_serialization.Model):
 class WebhookReceiver(_serialization.Model):
     """A webhook receiver.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The name of the webhook receiver. Names must be unique across all receivers within
      an action group. Required.

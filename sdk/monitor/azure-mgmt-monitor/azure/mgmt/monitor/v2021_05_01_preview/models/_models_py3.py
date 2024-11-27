@@ -1,5 +1,5 @@
-# coding=utf-8
 # pylint: disable=too-many-lines
+# coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -13,7 +13,6 @@ from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 from ... import _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
@@ -98,7 +97,7 @@ class AutoscaleNotification(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar operation: the operation associated with the notification and its value must be "scale".
      Required. Default value is "Scale".
@@ -142,7 +141,7 @@ class AutoscaleNotification(_serialization.Model):
 class AutoscaleProfile(_serialization.Model):
     """Autoscale profile.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: the name of the profile. Required.
     :vartype name: str
@@ -206,12 +205,12 @@ class AutoscaleProfile(_serialization.Model):
         self.recurrence = recurrence
 
 
-class AutoscaleSettingResource(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class AutoscaleSettingResource(_serialization.Model):
     """The autoscale setting resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Azure resource Id.
     :vartype id: str
@@ -340,7 +339,7 @@ class AutoscaleSettingResource(_serialization.Model):  # pylint: disable=too-man
 class AutoscaleSettingResourceCollection(_serialization.Model):
     """Represents a collection of autoscale setting resources.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: the values for the autoscale setting resources. Required.
     :vartype value: list[~azure.mgmt.monitor.v2021_05_01_preview.models.AutoscaleSettingResource]
@@ -470,7 +469,7 @@ class Resource(_serialization.Model):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -505,7 +504,7 @@ class DiagnosticSettingsCategoryResource(Resource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -557,7 +556,7 @@ class DiagnosticSettingsCategoryResource(Resource):
         self.category_groups = category_groups
 
 
-class DiagnosticSettingsCategoryResourceCollection(_serialization.Model):
+class DiagnosticSettingsCategoryResourceCollection(_serialization.Model):  # pylint: disable=name-too-long
     """Represents a collection of diagnostic setting category resources.
 
     :ivar value: The collection of diagnostic settings category resources.
@@ -581,13 +580,13 @@ class DiagnosticSettingsCategoryResourceCollection(_serialization.Model):
         self.value = value
 
 
-class DiagnosticSettingsResource(Resource):  # pylint: disable=too-many-instance-attributes
+class DiagnosticSettingsResource(Resource):
     """The diagnostic setting resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -613,7 +612,7 @@ class DiagnosticSettingsResource(Resource):  # pylint: disable=too-many-instance
     :vartype logs: list[~azure.mgmt.monitor.v2021_05_01_preview.models.LogSettings]
     :ivar workspace_id: The full ARM resource ID of the Log Analytics workspace to which you would
      like to send Diagnostic Logs. Example:
-     /subscriptions/4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/resourceGroups/insights-integration/providers/Microsoft.OperationalInsights/workspaces/viruela2.
+     /subscriptions/4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/resourceGroups/insights-integration/providers/Microsoft.OperationalInsights/workspaces/viruela2.  # pylint: disable=line-too-long
     :vartype workspace_id: str
     :ivar marketplace_partner_id: The full ARM resource ID of the Marketplace resource to which you
      would like to send Diagnostic Logs.
@@ -680,7 +679,7 @@ class DiagnosticSettingsResource(Resource):  # pylint: disable=too-many-instance
         :paramtype logs: list[~azure.mgmt.monitor.v2021_05_01_preview.models.LogSettings]
         :keyword workspace_id: The full ARM resource ID of the Log Analytics workspace to which you
          would like to send Diagnostic Logs. Example:
-         /subscriptions/4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/resourceGroups/insights-integration/providers/Microsoft.OperationalInsights/workspaces/viruela2.
+         /subscriptions/4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/resourceGroups/insights-integration/providers/Microsoft.OperationalInsights/workspaces/viruela2.  # pylint: disable=line-too-long
         :paramtype workspace_id: str
         :keyword marketplace_partner_id: The full ARM resource ID of the Marketplace resource to which
          you would like to send Diagnostic Logs.
@@ -799,7 +798,7 @@ class ErrorResponse(_serialization.Model):
 class LogSettings(_serialization.Model):
     """Part of MultiTenantDiagnosticSettings. Specifies the settings for a particular log.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar category: Name of a Diagnostic Log category for a resource type this setting is applied
      to. To obtain the list of Diagnostic Log categories for a resource, first perform a GET
@@ -856,13 +855,13 @@ class LogSettings(_serialization.Model):
         self.retention_policy = retention_policy
 
 
-class ManagementGroupDiagnosticSettingsResource(Resource):  # pylint: disable=too-many-instance-attributes
+class ManagementGroupDiagnosticSettingsResource(Resource):  # pylint: disable=name-too-long
     """The management group diagnostic setting resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -886,7 +885,7 @@ class ManagementGroupDiagnosticSettingsResource(Resource):  # pylint: disable=to
     :vartype logs: list[~azure.mgmt.monitor.v2021_05_01_preview.models.ManagementGroupLogSettings]
     :ivar workspace_id: The full ARM resource ID of the Log Analytics workspace to which you would
      like to send Diagnostic Logs. Example:
-     /subscriptions/4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/resourceGroups/insights-integration/providers/Microsoft.OperationalInsights/workspaces/viruela2.
+     /subscriptions/4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/resourceGroups/insights-integration/providers/Microsoft.OperationalInsights/workspaces/viruela2.  # pylint: disable=line-too-long
     :vartype workspace_id: str
     :ivar marketplace_partner_id: The full ARM resource ID of the Marketplace resource to which you
      would like to send Diagnostic Logs.
@@ -943,7 +942,7 @@ class ManagementGroupDiagnosticSettingsResource(Resource):  # pylint: disable=to
          list[~azure.mgmt.monitor.v2021_05_01_preview.models.ManagementGroupLogSettings]
         :keyword workspace_id: The full ARM resource ID of the Log Analytics workspace to which you
          would like to send Diagnostic Logs. Example:
-         /subscriptions/4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/resourceGroups/insights-integration/providers/Microsoft.OperationalInsights/workspaces/viruela2.
+         /subscriptions/4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/resourceGroups/insights-integration/providers/Microsoft.OperationalInsights/workspaces/viruela2.  # pylint: disable=line-too-long
         :paramtype workspace_id: str
         :keyword marketplace_partner_id: The full ARM resource ID of the Marketplace resource to which
          you would like to send Diagnostic Logs.
@@ -960,7 +959,7 @@ class ManagementGroupDiagnosticSettingsResource(Resource):  # pylint: disable=to
         self.marketplace_partner_id = marketplace_partner_id
 
 
-class ManagementGroupDiagnosticSettingsResourceCollection(_serialization.Model):
+class ManagementGroupDiagnosticSettingsResourceCollection(_serialization.Model):  # pylint: disable=name-too-long
     """Represents a collection of management group diagnostic settings resources.
 
     :ivar value: The collection of management group diagnostic settings resources.
@@ -987,7 +986,7 @@ class ManagementGroupDiagnosticSettingsResourceCollection(_serialization.Model):
 class ManagementGroupLogSettings(_serialization.Model):
     """Part of Management Group diagnostic setting. Specifies the settings for a particular log.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar category: Name of a Management Group Diagnostic Log category for a resource type this
      setting is applied to.
@@ -1031,7 +1030,7 @@ class ManagementGroupLogSettings(_serialization.Model):
 class MetricSettings(_serialization.Model):
     """Part of MultiTenantDiagnosticSettings. Specifies the settings for a particular metric.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar time_grain: the timegrain of the metric in ISO8601 format.
     :vartype time_grain: ~datetime.timedelta
@@ -1084,10 +1083,10 @@ class MetricSettings(_serialization.Model):
         self.retention_policy = retention_policy
 
 
-class MetricTrigger(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class MetricTrigger(_serialization.Model):
     """The trigger that results in a scaling action.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar metric_name: the name of the metric that defines what the rule monitors. Required.
     :vartype metric_name: str
@@ -1121,7 +1120,7 @@ class MetricTrigger(_serialization.Model):  # pylint: disable=too-many-instance-
     :ivar threshold: the threshold of the metric that triggers the scale action. Required.
     :vartype threshold: float
     :ivar dimensions: List of dimension conditions. For example:
-     [{"DimensionName":"AppName","Operator":"Equals","Values":["App1"]},{"DimensionName":"Deployment","Operator":"Equals","Values":["default"]}].
+     [{"DimensionName":"AppName","Operator":"Equals","Values":["App1"]},{"DimensionName":"Deployment","Operator":"Equals","Values":["default"]}].  # pylint: disable=line-too-long
     :vartype dimensions:
      list[~azure.mgmt.monitor.v2021_05_01_preview.models.ScaleRuleMetricDimension]
     :ivar divide_per_instance: a value indicating whether metric should divide per instance.
@@ -1205,7 +1204,7 @@ class MetricTrigger(_serialization.Model):  # pylint: disable=too-many-instance-
         :keyword threshold: the threshold of the metric that triggers the scale action. Required.
         :paramtype threshold: float
         :keyword dimensions: List of dimension conditions. For example:
-         [{"DimensionName":"AppName","Operator":"Equals","Values":["App1"]},{"DimensionName":"Deployment","Operator":"Equals","Values":["default"]}].
+         [{"DimensionName":"AppName","Operator":"Equals","Values":["App1"]},{"DimensionName":"Deployment","Operator":"Equals","Values":["default"]}].  # pylint: disable=line-too-long
         :paramtype dimensions:
          list[~azure.mgmt.monitor.v2021_05_01_preview.models.ScaleRuleMetricDimension]
         :keyword divide_per_instance: a value indicating whether metric should divide per instance.
@@ -1229,7 +1228,7 @@ class MetricTrigger(_serialization.Model):  # pylint: disable=too-many-instance-
 class PredictiveAutoscalePolicy(_serialization.Model):
     """The parameters for enabling predictive autoscale.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar scale_mode: the predictive autoscale mode. Required. Known values are: "Disabled",
      "ForecastOnly", and "Enabled".
@@ -1334,7 +1333,7 @@ class PredictiveResponse(_serialization.Model):
 class PredictiveValue(_serialization.Model):
     """Represents a predictive metric value in the given bucket.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar time_stamp: the timestamp for the metric value in ISO 8601 format. Required.
     :vartype time_stamp: ~datetime.datetime
@@ -1368,7 +1367,7 @@ class Recurrence(_serialization.Model):
     """The repeating times at which this profile begins. This element is not used if the FixedDate
     element is used.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar frequency: the recurrence frequency. How often the schedule profile should take effect.
      This value must be Week, meaning each week will have the same set of profiles. For example, to
@@ -1415,7 +1414,7 @@ class Recurrence(_serialization.Model):
 class RecurrentSchedule(_serialization.Model):
     """The scheduling constraints for when the profile begins.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar time_zone: the timezone for the hours of the profile. Some examples of valid time zones
      are: Dateline Standard Time, UTC-11, Hawaiian Standard Time, Alaskan Standard Time, Pacific
@@ -1524,7 +1523,7 @@ class RecurrentSchedule(_serialization.Model):
 class RetentionPolicy(_serialization.Model):
     """Specifies the retention policy for the log.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar enabled: a value indicating whether the retention policy is enabled. Required.
     :vartype enabled: bool
@@ -1559,7 +1558,7 @@ class RetentionPolicy(_serialization.Model):
 class ScaleAction(_serialization.Model):
     """The parameters for the scaling action.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar direction: the scale direction. Whether the scaling action increases or decreases the
      number of instances. Required. Known values are: "None", "Increase", and "Decrease".
@@ -1621,7 +1620,7 @@ class ScaleAction(_serialization.Model):
 class ScaleCapacity(_serialization.Model):
     """The number of instances that can be used during this profile.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar minimum: the minimum number of instances for the resource. Required.
     :vartype minimum: str
@@ -1667,7 +1666,7 @@ class ScaleCapacity(_serialization.Model):
 class ScaleRule(_serialization.Model):
     """A rule that provide the triggers and parameters for the scaling action.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar metric_trigger: the trigger that results in a scaling action. Required.
     :vartype metric_trigger: ~azure.mgmt.monitor.v2021_05_01_preview.models.MetricTrigger
@@ -1702,7 +1701,7 @@ class ScaleRule(_serialization.Model):
 class ScaleRuleMetricDimension(_serialization.Model):
     """Specifies an auto scale rule metric dimension.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar dimension_name: Name of the dimension. Required.
     :vartype dimension_name: str
@@ -1752,13 +1751,13 @@ class ScaleRuleMetricDimension(_serialization.Model):
         self.values = values
 
 
-class SubscriptionDiagnosticSettingsResource(Resource):  # pylint: disable=too-many-instance-attributes
+class SubscriptionDiagnosticSettingsResource(Resource):
     """The subscription diagnostic setting resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1782,7 +1781,7 @@ class SubscriptionDiagnosticSettingsResource(Resource):  # pylint: disable=too-m
     :vartype logs: list[~azure.mgmt.monitor.v2021_05_01_preview.models.SubscriptionLogSettings]
     :ivar workspace_id: The full ARM resource ID of the Log Analytics workspace to which you would
      like to send Diagnostic Logs. Example:
-     /subscriptions/4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/resourceGroups/insights-integration/providers/Microsoft.OperationalInsights/workspaces/viruela2.
+     /subscriptions/4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/resourceGroups/insights-integration/providers/Microsoft.OperationalInsights/workspaces/viruela2.  # pylint: disable=line-too-long
     :vartype workspace_id: str
     :ivar marketplace_partner_id: The full ARM resource ID of the Marketplace resource to which you
      would like to send Diagnostic Logs.
@@ -1838,7 +1837,7 @@ class SubscriptionDiagnosticSettingsResource(Resource):  # pylint: disable=too-m
         :paramtype logs: list[~azure.mgmt.monitor.v2021_05_01_preview.models.SubscriptionLogSettings]
         :keyword workspace_id: The full ARM resource ID of the Log Analytics workspace to which you
          would like to send Diagnostic Logs. Example:
-         /subscriptions/4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/resourceGroups/insights-integration/providers/Microsoft.OperationalInsights/workspaces/viruela2.
+         /subscriptions/4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/resourceGroups/insights-integration/providers/Microsoft.OperationalInsights/workspaces/viruela2.  # pylint: disable=line-too-long
         :paramtype workspace_id: str
         :keyword marketplace_partner_id: The full ARM resource ID of the Marketplace resource to which
          you would like to send Diagnostic Logs.
@@ -1855,7 +1854,7 @@ class SubscriptionDiagnosticSettingsResource(Resource):  # pylint: disable=too-m
         self.marketplace_partner_id = marketplace_partner_id
 
 
-class SubscriptionDiagnosticSettingsResourceCollection(_serialization.Model):
+class SubscriptionDiagnosticSettingsResourceCollection(_serialization.Model):  # pylint: disable=name-too-long
     """Represents a collection of subscription diagnostic settings resources.
 
     :ivar value: The collection of subscription diagnostic settings resources.
@@ -1882,7 +1881,7 @@ class SubscriptionDiagnosticSettingsResourceCollection(_serialization.Model):
 class SubscriptionLogSettings(_serialization.Model):
     """Part of Subscription diagnostic setting. Specifies the settings for a particular log.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar category: Name of a Subscription Diagnostic Log category for a resource type this setting
      is applied to.
@@ -1992,7 +1991,7 @@ class SystemData(_serialization.Model):
 class TimeWindow(_serialization.Model):
     """A specific date-time for the profile.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar time_zone: the timezone of the start and end times for the profile. Some examples of
      valid time zones are: Dateline Standard Time, UTC-11, Hawaiian Standard Time, Alaskan Standard

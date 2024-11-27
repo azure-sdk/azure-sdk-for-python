@@ -1,5 +1,4 @@
 # coding=utf-8
-# pylint: disable=too-many-lines
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -12,7 +11,6 @@ from typing import Any, List, Optional, TYPE_CHECKING, Union
 from ... import _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
@@ -100,7 +98,7 @@ class MetricNamespace(_serialization.Model):
 class MetricNamespaceCollection(_serialization.Model):
     """Represents collection of metric namespaces.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: The values for the metric namespaces. Required.
     :vartype value: list[~azure.mgmt.monitor.v2017_12_01_preview.models.MetricNamespace]
