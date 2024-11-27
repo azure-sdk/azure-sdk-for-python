@@ -20,17 +20,21 @@ class TestComputeManagementGalleryImagesOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_create_or_update(self, resource_group):
+    def test_gallery_images_begin_create_or_update(self, resource_group):
         response = self.client.gallery_images.begin_create_or_update(
             resource_group_name=resource_group.name,
             gallery_name="str",
             gallery_image_name="str",
             gallery_image={
                 "location": "str",
+                "allowUpdateImage": bool,
+                "architecture": "str",
                 "description": "str",
                 "disallowed": {"diskTypes": ["str"]},
                 "endOfLifeDate": "2020-02-20 00:00:00",
                 "eula": "str",
+                "features": [{"name": "str", "startsAtVersion": "str", "value": "str"}],
+                "hyperVGeneration": "str",
                 "id": "str",
                 "identifier": {"offer": "str", "publisher": "str", "sku": "str"},
                 "name": "str",
@@ -44,7 +48,7 @@ class TestComputeManagementGalleryImagesOperations(AzureMgmtRecordedTestCase):
                 "tags": {"str": "str"},
                 "type": "str",
             },
-            api_version="2018-06-01",
+            api_version="2024-03-03",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -52,12 +56,47 @@ class TestComputeManagementGalleryImagesOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_gallery_images_begin_update(self, resource_group):
+        response = self.client.gallery_images.begin_update(
+            resource_group_name=resource_group.name,
+            gallery_name="str",
+            gallery_image_name="str",
+            gallery_image={
+                "allowUpdateImage": bool,
+                "architecture": "str",
+                "description": "str",
+                "disallowed": {"diskTypes": ["str"]},
+                "endOfLifeDate": "2020-02-20 00:00:00",
+                "eula": "str",
+                "features": [{"name": "str", "startsAtVersion": "str", "value": "str"}],
+                "hyperVGeneration": "str",
+                "id": "str",
+                "identifier": {"offer": "str", "publisher": "str", "sku": "str"},
+                "name": "str",
+                "osState": "str",
+                "osType": "str",
+                "privacyStatementUri": "str",
+                "provisioningState": "str",
+                "purchasePlan": {"name": "str", "product": "str", "publisher": "str"},
+                "recommended": {"memory": {"max": 0, "min": 0}, "vCPUs": {"max": 0, "min": 0}},
+                "releaseNoteUri": "str",
+                "tags": {"str": "str"},
+                "type": "str",
+            },
+            api_version="2024-03-03",
+        ).result()  # call '.result()' to poll until service return final result
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy
+    def test_gallery_images_get(self, resource_group):
         response = self.client.gallery_images.get(
             resource_group_name=resource_group.name,
             gallery_name="str",
             gallery_image_name="str",
-            api_version="2018-06-01",
+            api_version="2024-03-03",
         )
 
         # please add some check logic here by yourself
@@ -65,12 +104,12 @@ class TestComputeManagementGalleryImagesOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_delete(self, resource_group):
+    def test_gallery_images_begin_delete(self, resource_group):
         response = self.client.gallery_images.begin_delete(
             resource_group_name=resource_group.name,
             gallery_name="str",
             gallery_image_name="str",
-            api_version="2018-06-01",
+            api_version="2024-03-03",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -78,11 +117,11 @@ class TestComputeManagementGalleryImagesOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_gallery(self, resource_group):
+    def test_gallery_images_list_by_gallery(self, resource_group):
         response = self.client.gallery_images.list_by_gallery(
             resource_group_name=resource_group.name,
             gallery_name="str",
-            api_version="2018-06-01",
+            api_version="2024-03-03",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
