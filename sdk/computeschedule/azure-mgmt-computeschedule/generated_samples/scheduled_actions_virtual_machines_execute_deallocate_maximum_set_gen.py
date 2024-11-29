@@ -31,16 +31,16 @@ def main():
     )
 
     response = client.scheduled_actions.virtual_machines_execute_deallocate(
-        locationparameter="mklyzgztbivwzo",
+        locationparameter="emghzcdjeqqjwibfeklrsnsrcwbg",
         request_body={
-            "correlationid": "01080d2f-1dca-4610-afb4-dd25eddf1f3c1",
+            "correlationid": "exoxgqdgcfiszehwxixjkkgitmnu",
             "executionParameters": {
                 "optimizationPreference": "Cost",
-                "retryPolicy": {"retryCount": 30, "retryWindowInMinutes": 27},
+                "retryPolicy": {"retryCount": 27, "retryWindowInMinutes": 27},
             },
             "resources": {
                 "ids": [
-                    "/subscriptions/YourSubscriptionId/resourceGroups/YourResourceGroupName/providers/Microsoft.Compute/virtualMachines/testResource2"
+                    "/subscriptions/YourSubscriptionId/resourceGroups/YourResourceGroupName/providers/Microsoft.Compute/virtualMachines/testResource3"
                 ]
             },
         },
@@ -48,6 +48,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: 2024-08-15-preview/ScheduledActions_VirtualMachinesExecuteDeallocate_MaximumSet_Gen.json
+# x-ms-original-file: 2024-10-01/ScheduledActions_VirtualMachinesExecuteDeallocate_MaximumSet_Gen.json
 if __name__ == "__main__":
     main()
