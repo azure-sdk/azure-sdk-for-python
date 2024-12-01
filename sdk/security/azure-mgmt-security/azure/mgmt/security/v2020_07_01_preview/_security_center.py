@@ -8,6 +8,7 @@
 
 from copy import deepcopy
 from typing import Any, TYPE_CHECKING
+from typing_extensions import Self
 
 from azure.core.pipeline import policies
 from azure.core.rest import HttpRequest, HttpResponse
@@ -24,11 +25,10 @@ from .operations import (
 )
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from azure.core.credentials import TokenCredential
 
 
-class SecurityCenter:  # pylint: disable=client-accepts-api-version-keyword
+class SecurityCenter:
     """API spec for Microsoft.Security (Azure Security Center) resource provider.
 
     :ivar sql_vulnerability_assessment_baseline_rules:
@@ -114,7 +114,7 @@ class SecurityCenter:  # pylint: disable=client-accepts-api-version-keyword
     def close(self) -> None:
         self._client.close()
 
-    def __enter__(self) -> "SecurityCenter":
+    def __enter__(self) -> Self:
         self._client.__enter__()
         return self
 

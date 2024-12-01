@@ -1,5 +1,5 @@
-# coding=utf-8
 # pylint: disable=too-many-lines
+# coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -12,7 +12,6 @@ from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 from ... import _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
@@ -689,7 +688,7 @@ class SecurityAssessmentList(_serialization.Model):
         self.next_link = None
 
 
-class SecurityAssessmentMetadata(Resource):  # pylint: disable=too-many-instance-attributes
+class SecurityAssessmentMetadata(Resource):
     """Security assessment metadata.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -864,7 +863,7 @@ class SecurityAssessmentMetadataPartnerData(_serialization.Model):
         self.secret = secret
 
 
-class SecurityAssessmentMetadataProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class SecurityAssessmentMetadataProperties(_serialization.Model):
     """Describes properties of an assessment metadata.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -993,7 +992,7 @@ class SecurityAssessmentMetadataProperties(_serialization.Model):  # pylint: dis
 
 class SecurityAssessmentMetadataPropertiesResponse(
     SecurityAssessmentMetadataProperties
-):  # pylint: disable=too-many-instance-attributes,name-too-long
+):  # pylint: disable=name-too-long
     """Describes properties of an assessment metadata response.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1185,7 +1184,7 @@ class SecurityAssessmentMetadataPropertiesResponsePublishDates(_serialization.Mo
         self.public = public
 
 
-class SecurityAssessmentMetadataResponse(Resource):  # pylint: disable=too-many-instance-attributes
+class SecurityAssessmentMetadataResponse(Resource):
     """Security assessment metadata response.
 
     Variables are only populated by the server, and will be ignored when sending a request.
