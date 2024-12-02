@@ -1,5 +1,5 @@
-# coding=utf-8
 # pylint: disable=too-many-lines
+# coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -13,7 +13,6 @@ from typing import Any, List, Optional, TYPE_CHECKING, Union
 from ... import _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
@@ -89,7 +88,7 @@ class DiagnosticSettingsCategoryResource(ProxyOnlyResource):
         self.category_type = category_type
 
 
-class DiagnosticSettingsCategoryResourceCollection(_serialization.Model):
+class DiagnosticSettingsCategoryResourceCollection(_serialization.Model):  # pylint: disable=name-too-long
     """Represents a collection of diagnostic setting category resources.
 
     :ivar value: The collection of diagnostic settings category resources.
@@ -113,7 +112,7 @@ class DiagnosticSettingsCategoryResourceCollection(_serialization.Model):
         self.value = value
 
 
-class DiagnosticSettingsResource(ProxyOnlyResource):  # pylint: disable=too-many-instance-attributes
+class DiagnosticSettingsResource(ProxyOnlyResource):
     """The diagnostic setting resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -141,7 +140,7 @@ class DiagnosticSettingsResource(ProxyOnlyResource):  # pylint: disable=too-many
     :vartype logs: list[~azure.mgmt.monitor.v2017_05_01_preview.models.LogSettings]
     :ivar workspace_id: The full ARM resource ID of the Log Analytics workspace to which you would
      like to send Diagnostic Logs. Example:
-     /subscriptions/4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/resourceGroups/insights-integration/providers/Microsoft.OperationalInsights/workspaces/viruela2.
+     /subscriptions/a0a0a0a0-bbbb-cccc-dddd-e1e1e1e1e1e1/resourceGroups/insights-integration/providers/Microsoft.OperationalInsights/workspaces/viruela2.  # pylint: disable=line-too-long
     :vartype workspace_id: str
     :ivar log_analytics_destination_type: A string indicating whether the export to Log Analytics
      should use the default destination type, i.e. AzureDiagnostics, or use a destination type
@@ -201,7 +200,7 @@ class DiagnosticSettingsResource(ProxyOnlyResource):  # pylint: disable=too-many
         :paramtype logs: list[~azure.mgmt.monitor.v2017_05_01_preview.models.LogSettings]
         :keyword workspace_id: The full ARM resource ID of the Log Analytics workspace to which you
          would like to send Diagnostic Logs. Example:
-         /subscriptions/4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/resourceGroups/insights-integration/providers/Microsoft.OperationalInsights/workspaces/viruela2.
+         /subscriptions/a0a0a0a0-bbbb-cccc-dddd-e1e1e1e1e1e1/resourceGroups/insights-integration/providers/Microsoft.OperationalInsights/workspaces/viruela2.  # pylint: disable=line-too-long
         :paramtype workspace_id: str
         :keyword log_analytics_destination_type: A string indicating whether the export to Log
          Analytics should use the default destination type, i.e. AzureDiagnostics, or use a destination
@@ -270,7 +269,7 @@ class ErrorResponse(_serialization.Model):
 class LocalizableString(_serialization.Model):
     """The localizable string class.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: the invariant value. Required.
     :vartype value: str
@@ -302,7 +301,7 @@ class LocalizableString(_serialization.Model):
 class LogSettings(_serialization.Model):
     """Part of MultiTenantDiagnosticSettings. Specifies the settings for a particular log.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar category: Name of a Diagnostic Log category for a resource type this setting is applied
      to. To obtain the list of Diagnostic Log categories for a resource, first perform a GET
@@ -379,7 +378,7 @@ class MetadataValue(_serialization.Model):
 class Metric(_serialization.Model):
     """The result data of a query.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: the metric Id. Required.
     :vartype id: str
@@ -610,7 +609,7 @@ class MetricDefinition(_serialization.Model):
 class MetricDefinitionCollection(_serialization.Model):
     """Represents collection of metric definitions.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: the values for the metric definitions. Required.
     :vartype value: list[~azure.mgmt.monitor.v2017_05_01_preview.models.MetricDefinition]
@@ -636,7 +635,7 @@ class MetricDefinitionCollection(_serialization.Model):
 class MetricSettings(_serialization.Model):
     """Part of MultiTenantDiagnosticSettings. Specifies the settings for a particular metric.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar time_grain: the timegrain of the metric in ISO8601 format.
     :vartype time_grain: ~datetime.timedelta
@@ -692,7 +691,7 @@ class MetricSettings(_serialization.Model):
 class MetricValue(_serialization.Model):
     """Represents a metric value.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar time_stamp: the timestamp for the metric value in ISO 8601 format. Required.
     :vartype time_stamp: ~datetime.datetime
@@ -760,7 +759,7 @@ class MetricValue(_serialization.Model):
 class Response(_serialization.Model):
     """The response to a metrics query.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar cost: The integer value representing the relative cost of the query.
     :vartype cost: int
@@ -822,7 +821,7 @@ class Response(_serialization.Model):
 class RetentionPolicy(_serialization.Model):
     """Specifies the retention policy for the log.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar enabled: a value indicating whether the retention policy is enabled. Required.
     :vartype enabled: bool
@@ -922,7 +921,7 @@ class SubscriptionDiagnosticSettingsResource(SubscriptionProxyOnlyResource):
     :vartype logs: list[~azure.mgmt.monitor.v2017_05_01_preview.models.SubscriptionLogSettings]
     :ivar workspace_id: The full ARM resource ID of the Log Analytics workspace to which you would
      like to send Diagnostic Logs. Example:
-     /subscriptions/4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/resourceGroups/insights-integration/providers/Microsoft.OperationalInsights/workspaces/viruela2.
+     /subscriptions/a0a0a0a0-bbbb-cccc-dddd-e1e1e1e1e1e1/resourceGroups/insights-integration/providers/Microsoft.OperationalInsights/workspaces/viruela2.  # pylint: disable=line-too-long
     :vartype workspace_id: str
     """
 
@@ -975,7 +974,7 @@ class SubscriptionDiagnosticSettingsResource(SubscriptionProxyOnlyResource):
         :paramtype logs: list[~azure.mgmt.monitor.v2017_05_01_preview.models.SubscriptionLogSettings]
         :keyword workspace_id: The full ARM resource ID of the Log Analytics workspace to which you
          would like to send Diagnostic Logs. Example:
-         /subscriptions/4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/resourceGroups/insights-integration/providers/Microsoft.OperationalInsights/workspaces/viruela2.
+         /subscriptions/a0a0a0a0-bbbb-cccc-dddd-e1e1e1e1e1e1/resourceGroups/insights-integration/providers/Microsoft.OperationalInsights/workspaces/viruela2.  # pylint: disable=line-too-long
         :paramtype workspace_id: str
         """
         super().__init__(location=location, **kwargs)
@@ -987,7 +986,7 @@ class SubscriptionDiagnosticSettingsResource(SubscriptionProxyOnlyResource):
         self.workspace_id = workspace_id
 
 
-class SubscriptionDiagnosticSettingsResourceCollection(_serialization.Model):
+class SubscriptionDiagnosticSettingsResourceCollection(_serialization.Model):  # pylint: disable=name-too-long
     """Represents a collection of subscription diagnostic settings resources.
 
     :ivar value: The collection of subscription diagnostic settings resources.
@@ -1014,7 +1013,7 @@ class SubscriptionDiagnosticSettingsResourceCollection(_serialization.Model):
 class SubscriptionLogSettings(_serialization.Model):
     """Part of Subscription diagnostic setting. Specifies the settings for a particular log.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar category: Name of a Subscription Diagnostic Log category for a resource type this setting
      is applied to.

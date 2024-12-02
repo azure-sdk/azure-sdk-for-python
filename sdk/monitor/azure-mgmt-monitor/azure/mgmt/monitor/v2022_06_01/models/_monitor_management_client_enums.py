@@ -29,6 +29,7 @@ class KnownColumnDefinitionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     BOOLEAN = "boolean"
     DATETIME = "datetime"
     DYNAMIC = "dynamic"
+    INT_ENUM = "int"
 
 
 class KnownDataCollectionEndpointProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -155,15 +156,21 @@ class KnownPublicNetworkAccessOptions(str, Enum, metaclass=CaseInsensitiveEnumMe
 class KnownSyslogDataSourceFacilityNames(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """KnownSyslogDataSourceFacilityNames."""
 
+    ALERT = "alert"
+    AUDIT = "audit"
     AUTH = "auth"
     AUTHPRIV = "authpriv"
+    CLOCK = "clock"
     CRON = "cron"
     DAEMON = "daemon"
+    FTP = "ftp"
     KERN = "kern"
     LPR = "lpr"
     MAIL = "mail"
     MARK = "mark"
     NEWS = "news"
+    NOPRI = "nopri"
+    NTP = "ntp"
     SYSLOG = "syslog"
     USER = "user"
     UUCP = "uucp"

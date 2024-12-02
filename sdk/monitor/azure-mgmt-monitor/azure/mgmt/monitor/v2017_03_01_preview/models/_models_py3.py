@@ -1,5 +1,4 @@
 # coding=utf-8
-# pylint: disable=too-many-lines
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -12,14 +11,13 @@ from typing import Any, Dict, List, Optional, TYPE_CHECKING
 from ... import _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
 class ActivityLogAlertActionGroup(_serialization.Model):
     """A pointer to an Azure Action Group.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar action_group_id: The resourceId of the action group. This cannot be null or empty.
      Required.
@@ -81,7 +79,7 @@ class ActivityLogAlertActionList(_serialization.Model):
 class ActivityLogAlertAllOfCondition(_serialization.Model):
     """An Activity Log alert condition that is met when all its member conditions are met.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar all_of: The list of activity log alert conditions. Required.
     :vartype all_of:
@@ -109,7 +107,7 @@ class ActivityLogAlertAllOfCondition(_serialization.Model):
 class ActivityLogAlertLeafCondition(_serialization.Model):
     """An Activity Log alert condition that is met by comparing an activity log field and value.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar field: The name of the field that this condition will examine. The possible values for
      this field are (case-insensitive): 'resourceId', 'category', 'caller', 'level',
@@ -172,7 +170,7 @@ class Resource(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Azure resource Id.
     :vartype id: str
@@ -221,7 +219,7 @@ class ActivityLogAlertResource(Resource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Azure resource Id.
     :vartype id: str
@@ -314,7 +312,7 @@ class ActivityLogAlertResourcePatch(Resource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Azure resource Id.
     :vartype id: str
