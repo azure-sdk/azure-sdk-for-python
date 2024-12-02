@@ -1,5 +1,4 @@
 # coding=utf-8
-# pylint: disable=too-many-lines
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -12,14 +11,13 @@ from typing import Any, List, Optional, TYPE_CHECKING, Union
 from ... import _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
 class DataContainer(_serialization.Model):
     """Information about a container with data for a given resource.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar workspace: Log Analytics workspace information. Required.
     :vartype workspace: ~azure.mgmt.monitor.v2018_11_27_preview.models.WorkspaceInfo
@@ -45,7 +43,7 @@ class DataContainer(_serialization.Model):
 class Error(_serialization.Model):
     """Error details.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar code: Error code identifying the specific error. Required.
     :vartype code: str
@@ -110,7 +108,7 @@ class ProxyResource(_serialization.Model):
 class ResponseWithError(_serialization.Model):
     """An error response from the API.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar error: Error information. Required.
     :vartype error: ~azure.mgmt.monitor.v2018_11_27_preview.models.Error
@@ -211,7 +209,7 @@ class VMInsightsOnboardingStatus(ProxyResource):
 class WorkspaceInfo(_serialization.Model):
     """Information about a Log Analytics Workspace.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Azure Resource Manager identifier of the Log Analytics Workspace. Required.
     :vartype id: str

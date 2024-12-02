@@ -1,5 +1,4 @@
 # coding=utf-8
-# pylint: disable=too-many-lines
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -12,7 +11,6 @@ from typing import Any, Dict, List, Optional, TYPE_CHECKING
 from ... import _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
@@ -47,7 +45,7 @@ class ActionGroupPatchBody(_serialization.Model):
 class AzureAppPushReceiver(_serialization.Model):
     """The Azure mobile App push notification receiver.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The name of the Azure mobile app push receiver. Names must be unique across all
      receivers within a tenant action group. Required.
@@ -84,7 +82,7 @@ class AzureResource(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Azure resource Id.
     :vartype id: str
@@ -133,7 +131,7 @@ class EmailReceiver(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The name of the email receiver. Names must be unique across all receivers within a
      tenant action group. Required.
@@ -208,7 +206,7 @@ class SmsReceiver(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The name of the SMS receiver. Names must be unique across all receivers within a
      tenant action group. Required.
@@ -286,12 +284,12 @@ class TenantActionGroupList(_serialization.Model):
         self.next_link = next_link
 
 
-class TenantActionGroupResource(AzureResource):  # pylint: disable=too-many-instance-attributes
+class TenantActionGroupResource(AzureResource):
     """A tenant action group resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Azure resource Id.
     :vartype id: str
@@ -402,7 +400,7 @@ class TenantActionGroupResource(AzureResource):  # pylint: disable=too-many-inst
 class VoiceReceiver(_serialization.Model):
     """A voice receiver.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The name of the voice receiver. Names must be unique across all receivers within a
      tenant action group. Required.
@@ -444,7 +442,7 @@ class VoiceReceiver(_serialization.Model):
 class WebhookReceiver(_serialization.Model):
     """A webhook receiver.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The name of the webhook receiver. Names must be unique across all receivers within
      a tenant action group. Required.
