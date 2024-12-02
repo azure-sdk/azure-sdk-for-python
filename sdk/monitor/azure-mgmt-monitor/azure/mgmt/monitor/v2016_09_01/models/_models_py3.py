@@ -1,5 +1,4 @@
 # coding=utf-8
-# pylint: disable=too-many-lines
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -13,7 +12,6 @@ from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 from ... import _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
@@ -46,7 +44,7 @@ class ErrorResponse(_serialization.Model):
 class LocalizableString(_serialization.Model):
     """The localizable string class.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: the invariant value. Required.
     :vartype value: str
@@ -78,7 +76,7 @@ class LocalizableString(_serialization.Model):
 class LogSettings(_serialization.Model):
     """Part of MultiTenantDiagnosticSettings. Specifies the settings for a particular log.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar category: Name of a Diagnostic Log category for a resource type this setting is applied
      to. To obtain the list of Diagnostic Log categories for a resource, first perform a GET
@@ -127,7 +125,7 @@ class LogSettings(_serialization.Model):
 class Metric(_serialization.Model):
     """A set of metric values in a time range.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: the id, resourceId, of the metric.
     :vartype id: str
@@ -194,7 +192,7 @@ class Metric(_serialization.Model):
 class MetricCollection(_serialization.Model):
     """The collection of metric value sets.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: the value of the collection. Required.
     :vartype value: list[~azure.mgmt.monitor.v2016_09_01.models.Metric]
@@ -220,7 +218,7 @@ class MetricCollection(_serialization.Model):
 class MetricSettings(_serialization.Model):
     """Part of MultiTenantDiagnosticSettings. Specifies the settings for a particular metric.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar time_grain: the timegrain of the metric in ISO8601 format. Required.
     :vartype time_grain: ~datetime.timedelta
@@ -266,7 +264,7 @@ class MetricSettings(_serialization.Model):
 class MetricValue(_serialization.Model):
     """Represents a metric value.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar time_stamp: the timestamp for the metric value in ISO 8601 format. Required.
     :vartype time_stamp: ~datetime.datetime
@@ -336,7 +334,7 @@ class Resource(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Azure resource Id.
     :vartype id: str
@@ -383,7 +381,7 @@ class Resource(_serialization.Model):
 class RetentionPolicy(_serialization.Model):
     """Specifies the retention policy for the log.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar enabled: a value indicating whether the retention policy is enabled. Required.
     :vartype enabled: bool
@@ -415,12 +413,12 @@ class RetentionPolicy(_serialization.Model):
         self.days = days
 
 
-class ServiceDiagnosticSettingsResource(Resource):  # pylint: disable=too-many-instance-attributes
+class ServiceDiagnosticSettingsResource(Resource):
     """Description of a service diagnostic setting.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Azure resource Id.
     :vartype id: str
@@ -448,7 +446,7 @@ class ServiceDiagnosticSettingsResource(Resource):  # pylint: disable=too-many-i
     :vartype logs: list[~azure.mgmt.monitor.v2016_09_01.models.LogSettings]
     :ivar workspace_id: The workspace ID (resource ID of a Log Analytics workspace) for a Log
      Analytics workspace to which you would like to send Diagnostic Logs. Example:
-     /subscriptions/4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/resourceGroups/insights-integration/providers/Microsoft.OperationalInsights/workspaces/viruela2.
+     /subscriptions/4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/resourceGroups/insights-integration/providers/Microsoft.OperationalInsights/workspaces/viruela2.  # pylint: disable=line-too-long
     :vartype workspace_id: str
     """
 
@@ -507,7 +505,7 @@ class ServiceDiagnosticSettingsResource(Resource):  # pylint: disable=too-many-i
         :paramtype logs: list[~azure.mgmt.monitor.v2016_09_01.models.LogSettings]
         :keyword workspace_id: The workspace ID (resource ID of a Log Analytics workspace) for a Log
          Analytics workspace to which you would like to send Diagnostic Logs. Example:
-         /subscriptions/4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/resourceGroups/insights-integration/providers/Microsoft.OperationalInsights/workspaces/viruela2.
+         /subscriptions/4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/resourceGroups/insights-integration/providers/Microsoft.OperationalInsights/workspaces/viruela2.  # pylint: disable=line-too-long
         :paramtype workspace_id: str
         """
         super().__init__(location=location, tags=tags, **kwargs)
@@ -540,7 +538,7 @@ class ServiceDiagnosticSettingsResourcePatch(_serialization.Model):
     :vartype logs: list[~azure.mgmt.monitor.v2016_09_01.models.LogSettings]
     :ivar workspace_id: The workspace ID (resource ID of a Log Analytics workspace) for a Log
      Analytics workspace to which you would like to send Diagnostic Logs. Example:
-     /subscriptions/4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/resourceGroups/insights-integration/providers/Microsoft.OperationalInsights/workspaces/viruela2.
+     /subscriptions/4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/resourceGroups/insights-integration/providers/Microsoft.OperationalInsights/workspaces/viruela2.  # pylint: disable=line-too-long
     :vartype workspace_id: str
     """
 
@@ -585,7 +583,7 @@ class ServiceDiagnosticSettingsResourcePatch(_serialization.Model):
         :paramtype logs: list[~azure.mgmt.monitor.v2016_09_01.models.LogSettings]
         :keyword workspace_id: The workspace ID (resource ID of a Log Analytics workspace) for a Log
          Analytics workspace to which you would like to send Diagnostic Logs. Example:
-         /subscriptions/4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/resourceGroups/insights-integration/providers/Microsoft.OperationalInsights/workspaces/viruela2.
+         /subscriptions/4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/resourceGroups/insights-integration/providers/Microsoft.OperationalInsights/workspaces/viruela2.  # pylint: disable=line-too-long
         :paramtype workspace_id: str
         """
         super().__init__(**kwargs)
