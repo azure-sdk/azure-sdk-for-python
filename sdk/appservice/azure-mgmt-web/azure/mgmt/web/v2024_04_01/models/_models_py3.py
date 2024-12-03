@@ -19985,7 +19985,8 @@ class Site(Resource):
     :vartype vnet_backup_restore_enabled: bool
     :ivar site_config: Configuration of the app.
     :vartype site_config: ~azure.mgmt.web.v2024_04_01.models.SiteConfig
-    :ivar function_app_config: Configuration specific of the Azure Function app.
+    :ivar function_app_config: Configuration specific of the Azure Function app. Only applicable to
+     Flex Consumption.
     :vartype function_app_config: ~azure.mgmt.web.v2024_04_01.models.FunctionAppConfig
     :ivar dapr_config: Dapr configuration of the app.
     :vartype dapr_config: ~azure.mgmt.web.v2024_04_01.models.DaprConfig
@@ -20293,7 +20294,8 @@ class Site(Resource):
         :paramtype vnet_backup_restore_enabled: bool
         :keyword site_config: Configuration of the app.
         :paramtype site_config: ~azure.mgmt.web.v2024_04_01.models.SiteConfig
-        :keyword function_app_config: Configuration specific of the Azure Function app.
+        :keyword function_app_config: Configuration specific of the Azure Function app. Only applicable
+         to Flex Consumption.
         :paramtype function_app_config: ~azure.mgmt.web.v2024_04_01.models.FunctionAppConfig
         :keyword dapr_config: Dapr configuration of the app.
         :paramtype dapr_config: ~azure.mgmt.web.v2024_04_01.models.DaprConfig
