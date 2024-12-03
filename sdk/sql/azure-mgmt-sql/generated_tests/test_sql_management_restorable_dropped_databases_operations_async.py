@@ -21,7 +21,7 @@ class TestSqlManagementRestorableDroppedDatabasesOperationsAsync(AzureMgmtRecord
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_by_server(self, resource_group):
+    async def test_restorable_dropped_databases_list_by_server(self, resource_group):
         response = self.client.restorable_dropped_databases.list_by_server(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -33,7 +33,7 @@ class TestSqlManagementRestorableDroppedDatabasesOperationsAsync(AzureMgmtRecord
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get(self, resource_group):
+    async def test_restorable_dropped_databases_get(self, resource_group):
         response = await self.client.restorable_dropped_databases.get(
             resource_group_name=resource_group.name,
             server_name="str",
