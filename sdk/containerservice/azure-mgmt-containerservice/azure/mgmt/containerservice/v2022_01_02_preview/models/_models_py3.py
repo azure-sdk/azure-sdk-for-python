@@ -1,5 +1,5 @@
-# coding=utf-8
 # pylint: disable=too-many-lines
+# coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -13,7 +13,6 @@ from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 from ... import _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
@@ -51,7 +50,7 @@ class SubResource(_serialization.Model):
         self.type = None
 
 
-class AgentPool(SubResource):  # pylint: disable=too-many-instance-attributes
+class AgentPool(SubResource):
     """Agent Pool.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1048,7 +1047,7 @@ class ContainerServiceMasterProfile(_serialization.Model):
         self.fqdn = None
 
 
-class ContainerServiceNetworkProfile(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class ContainerServiceNetworkProfile(_serialization.Model):
     """Profile of network configuration.
 
     :ivar network_plugin: Network plugin used for building the Kubernetes network. Known values
@@ -1500,7 +1499,7 @@ class ExtendedLocation(_serialization.Model):
         self.type = type
 
 
-class KubeletConfig(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class KubeletConfig(_serialization.Model):
     """See `AKS custom node configuration
     <https://docs.microsoft.com/azure/aks/custom-node-configuration>`_ for more details.
 
@@ -1823,7 +1822,7 @@ class Resource(_serialization.Model):
         self.tags = tags
 
 
-class ManagedCluster(Resource):  # pylint: disable=too-many-instance-attributes
+class ManagedCluster(Resource):
     """Managed cluster.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -2412,7 +2411,7 @@ class ManagedClusterAddonProfileIdentity(UserAssignedIdentity):
     """
 
 
-class ManagedClusterAgentPoolProfileProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class ManagedClusterAgentPoolProfileProperties(_serialization.Model):
     """Properties for the container service agent pool profile.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -2857,9 +2856,7 @@ class ManagedClusterAgentPoolProfileProperties(_serialization.Model):  # pylint:
         self.host_group_id = host_group_id
 
 
-class ManagedClusterAgentPoolProfile(
-    ManagedClusterAgentPoolProfileProperties
-):  # pylint: disable=too-many-instance-attributes
+class ManagedClusterAgentPoolProfile(ManagedClusterAgentPoolProfileProperties):
     """Profile for the container service agent pool.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -4203,9 +4200,7 @@ class ManagedClusterPoolUpgradeProfileUpgradesItem(_serialization.Model):  # pyl
         self.is_preview = is_preview
 
 
-class ManagedClusterPropertiesAutoScalerProfile(
-    _serialization.Model
-):  # pylint: disable=too-many-instance-attributes,name-too-long
+class ManagedClusterPropertiesAutoScalerProfile(_serialization.Model):  # pylint: disable=name-too-long
     """Parameters to be applied to the cluster-autoscaler when enabled.
 
     :ivar balance_similar_node_groups: Valid values are 'true' and 'false'.
@@ -5268,7 +5263,7 @@ class RunCommandResult(_serialization.Model):
         self.reason = None
 
 
-class Snapshot(Resource):  # pylint: disable=too-many-instance-attributes
+class Snapshot(Resource):
     """A node pool snapshot resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -5403,7 +5398,7 @@ class SnapshotListResult(_serialization.Model):
         self.next_link = None
 
 
-class SysctlConfig(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class SysctlConfig(_serialization.Model):
     """Sysctl settings for Linux agent nodes.
 
     :ivar net_core_somaxconn: Sysctl setting net.core.somaxconn.
