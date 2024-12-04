@@ -1,5 +1,5 @@
-# coding=utf-8
 # pylint: disable=too-many-lines
+# coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -16,10 +16,9 @@ from .. import _serialization
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 JSON = MutableMapping[str, Any]  # pylint: disable=unsubscriptable-object
 
@@ -30,7 +29,7 @@ class Resource(_serialization.Model):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -66,7 +65,7 @@ class ProxyResource(Resource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -75,30 +74,14 @@ class ProxyResource(Resource):
     :vartype type: str
     """
 
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-    }
 
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-
-
-class AttachedDatabaseConfiguration(ProxyResource):  # pylint: disable=too-many-instance-attributes
+class AttachedDatabaseConfiguration(ProxyResource):
     """Class representing an attached database configuration.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -391,7 +374,7 @@ class AzureADOnlyAuthentication(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -466,7 +449,7 @@ class AzureADOnlyAuthenticationListResult(_serialization.Model):
 class AzureCapacity(_serialization.Model):
     """Azure capacity definition.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar scale_type: Scale type. Required. Known values are: "automatic", "manual", and "none".
     :vartype scale_type: str or ~azure.mgmt.synapse.models.AzureScaleType
@@ -524,7 +507,7 @@ class AzureEntityResource(Resource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -597,7 +580,7 @@ class AzureResourceSku(_serialization.Model):
 class AzureSku(_serialization.Model):
     """Azure SKU definition.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: SKU name. Required. Known values are: "Compute optimized" and "Storage optimized".
     :vartype name: str or ~azure.mgmt.synapse.models.SkuName
@@ -669,10 +652,10 @@ class TrackedResource(Resource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -712,15 +695,15 @@ class TrackedResource(Resource):
         self.location = location
 
 
-class BigDataPoolResourceInfo(TrackedResource):  # pylint: disable=too-many-instance-attributes
+class BigDataPoolResourceInfo(TrackedResource):
     """A Big Data pool.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1054,13 +1037,13 @@ class CheckNameResult(_serialization.Model):
         self.reason = reason
 
 
-class ClusterPrincipalAssignment(ProxyResource):  # pylint: disable=too-many-instance-attributes
+class ClusterPrincipalAssignment(ProxyResource):
     """Class representing a cluster principal assignment.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1150,12 +1133,12 @@ class ClusterPrincipalAssignment(ProxyResource):  # pylint: disable=too-many-ins
         self.aad_object_id = None
 
 
-class ClusterPrincipalAssignmentCheckNameRequest(_serialization.Model):
+class ClusterPrincipalAssignmentCheckNameRequest(_serialization.Model):  # pylint: disable=name-too-long
     """A principal assignment check name availability request.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: Principal Assignment resource name. Required.
     :vartype name: str
@@ -1211,7 +1194,7 @@ class CustomSetupBase(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     CmdkeySetup, ComponentSetup, EnvironmentVariableSetup
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar type: The type of custom setup. Required.
     :vartype type: str
@@ -1242,7 +1225,7 @@ class CustomSetupBase(_serialization.Model):
 class CmdkeySetup(CustomSetupBase):
     """The custom setup of running cmdkey commands.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar type: The type of custom setup. Required.
     :vartype type: str
@@ -1287,7 +1270,7 @@ class CmdkeySetup(CustomSetupBase):
 class ComponentSetup(CustomSetupBase):
     """The custom setup of installing 3rd party components.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar type: The type of custom setup. Required.
     :vartype type: str
@@ -1326,7 +1309,7 @@ class ComponentSetup(CustomSetupBase):
 class CreateSqlPoolRestorePointDefinition(_serialization.Model):
     """Contains the information necessary to perform a create Sql pool restore point operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar restore_point_label: The restore point label to apply. Required.
     :vartype restore_point_label: str
@@ -1419,10 +1402,10 @@ class Database(ProxyResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1472,7 +1455,7 @@ class Database(ProxyResource):
 class DatabaseCheckNameRequest(_serialization.Model):
     """The result returned from a database check name availability request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: Resource name. Required.
     :vartype name: str
@@ -1528,13 +1511,13 @@ class DatabaseListResult(_serialization.Model):
         self.value = value
 
 
-class DatabasePrincipalAssignment(ProxyResource):  # pylint: disable=too-many-instance-attributes
+class DatabasePrincipalAssignment(ProxyResource):
     """Class representing a database principal assignment.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1624,12 +1607,12 @@ class DatabasePrincipalAssignment(ProxyResource):  # pylint: disable=too-many-in
         self.aad_object_id = None
 
 
-class DatabasePrincipalAssignmentCheckNameRequest(_serialization.Model):
+class DatabasePrincipalAssignmentCheckNameRequest(_serialization.Model):  # pylint: disable=name-too-long
     """A principal assignment check name availability request.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: Principal Assignment resource name. Required.
     :vartype name: str
@@ -1708,10 +1691,10 @@ class DataConnection(ProxyResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1769,7 +1752,7 @@ class DataConnectionCheckNameRequest(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: Data Connection name. Required.
     :vartype name: str
@@ -1948,7 +1931,7 @@ class DataMaskingPolicy(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -2025,13 +2008,13 @@ class DataMaskingPolicy(ProxyResource):
         self.masking_level = None
 
 
-class DataMaskingRule(ProxyResource):  # pylint: disable=too-many-instance-attributes
+class DataMaskingRule(ProxyResource):
     """Represents a Sql pool data masking rule.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -2200,7 +2183,7 @@ class DataWarehouseUserActivities(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -2237,7 +2220,7 @@ class DedicatedSQLminimalTlsSettings(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -2398,7 +2381,7 @@ class EncryptionProtector(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -2536,7 +2519,7 @@ class EntityReference(_serialization.Model):
 class EnvironmentVariableSetup(CustomSetupBase):
     """The custom setup of setting environment variable.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar type: The type of custom setup. Required.
     :vartype type: str
@@ -2707,15 +2690,15 @@ class ErrorResponseAutoGenerated(_serialization.Model):
         self.additional_info = None
 
 
-class EventGridDataConnection(DataConnection):  # pylint: disable=too-many-instance-attributes
+class EventGridDataConnection(DataConnection):
     """Class representing an Event Grid data connection.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -2840,15 +2823,15 @@ class EventGridDataConnection(DataConnection):  # pylint: disable=too-many-insta
         self.provisioning_state = None
 
 
-class EventHubDataConnection(DataConnection):  # pylint: disable=too-many-instance-attributes
+class EventHubDataConnection(DataConnection):
     """Class representing an event hub data connection.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -2972,13 +2955,13 @@ class EventHubDataConnection(DataConnection):  # pylint: disable=too-many-instan
         self.managed_identity_resource_id = managed_identity_resource_id
 
 
-class ExtendedServerBlobAuditingPolicy(ProxyResource):  # pylint: disable=too-many-instance-attributes
+class ExtendedServerBlobAuditingPolicy(ProxyResource):
     """An extended server blob auditing policy.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -3052,7 +3035,7 @@ class ExtendedServerBlobAuditingPolicy(ProxyResource):  # pylint: disable=too-ma
      duplicate audit logs.
 
      For more information, see `Database-Level Audit Action Groups
-     <https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-action-groups>`_.
+     <https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-action-groups>`_.  # pylint: disable=line-too-long
 
      For Database auditing policy, specific Actions can also be specified (note that Actions cannot
      be specified for Server auditing policy). The supported actions to audit are:
@@ -3077,7 +3060,7 @@ class ExtendedServerBlobAuditingPolicy(ProxyResource):  # pylint: disable=too-ma
      SELECT on SCHEMA::mySchema by public
 
      For more information, see `Database-Level Audit Actions
-     <https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-actions>`_.
+     <https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-actions>`_.  # pylint: disable=line-too-long
     :vartype audit_actions_and_groups: list[str]
     :ivar storage_account_subscription_id: Specifies the blob storage subscription Id.
     :vartype storage_account_subscription_id: str
@@ -3095,7 +3078,7 @@ class ExtendedServerBlobAuditingPolicy(ProxyResource):  # pylint: disable=too-ma
 
      Diagnostic Settings URI format:
      PUT
-     https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview
+     https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview  # pylint: disable=line-too-long
 
      For more information, see `Diagnostic Settings REST API
      <https://go.microsoft.com/fwlink/?linkid=2033207>`_
@@ -3115,7 +3098,7 @@ class ExtendedServerBlobAuditingPolicy(ProxyResource):  # pylint: disable=too-ma
 
      Diagnostic Settings URI format:
      PUT
-     https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/master/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview
+     https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/master/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview  # pylint: disable=line-too-long
 
      For more information, see `Diagnostic Settings REST API
      <https://go.microsoft.com/fwlink/?linkid=2033207>`_
@@ -3231,7 +3214,7 @@ class ExtendedServerBlobAuditingPolicy(ProxyResource):  # pylint: disable=too-ma
          duplicate audit logs.
 
          For more information, see `Database-Level Audit Action Groups
-         <https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-action-groups>`_.
+         <https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-action-groups>`_.  # pylint: disable=line-too-long
 
          For Database auditing policy, specific Actions can also be specified (note that Actions cannot
          be specified for Server auditing policy). The supported actions to audit are:
@@ -3256,7 +3239,7 @@ class ExtendedServerBlobAuditingPolicy(ProxyResource):  # pylint: disable=too-ma
          SELECT on SCHEMA::mySchema by public
 
          For more information, see `Database-Level Audit Actions
-         <https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-actions>`_.
+         <https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-actions>`_.  # pylint: disable=line-too-long
         :paramtype audit_actions_and_groups: list[str]
         :keyword storage_account_subscription_id: Specifies the blob storage subscription Id.
         :paramtype storage_account_subscription_id: str
@@ -3274,7 +3257,7 @@ class ExtendedServerBlobAuditingPolicy(ProxyResource):  # pylint: disable=too-ma
 
          Diagnostic Settings URI format:
          PUT
-         https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview
+         https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview  # pylint: disable=line-too-long
 
          For more information, see `Diagnostic Settings REST API
          <https://go.microsoft.com/fwlink/?linkid=2033207>`_
@@ -3294,7 +3277,7 @@ class ExtendedServerBlobAuditingPolicy(ProxyResource):  # pylint: disable=too-ma
 
          Diagnostic Settings URI format:
          PUT
-         https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/master/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview
+         https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/master/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview  # pylint: disable=line-too-long
 
          For more information, see `Diagnostic Settings REST API
          <https://go.microsoft.com/fwlink/?linkid=2033207>`_
@@ -3315,7 +3298,7 @@ class ExtendedServerBlobAuditingPolicy(ProxyResource):  # pylint: disable=too-ma
         self.is_devops_audit_enabled = is_devops_audit_enabled
 
 
-class ExtendedServerBlobAuditingPolicyListResult(_serialization.Model):
+class ExtendedServerBlobAuditingPolicyListResult(_serialization.Model):  # pylint: disable=name-too-long
     """A list of server extended auditing settings.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -3343,13 +3326,13 @@ class ExtendedServerBlobAuditingPolicyListResult(_serialization.Model):
         self.next_link = None
 
 
-class ExtendedSqlPoolBlobAuditingPolicy(ProxyResource):  # pylint: disable=too-many-instance-attributes
+class ExtendedSqlPoolBlobAuditingPolicy(ProxyResource):
     """An extended Sql pool blob auditing policy.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -3423,7 +3406,7 @@ class ExtendedSqlPoolBlobAuditingPolicy(ProxyResource):  # pylint: disable=too-m
      duplicate audit logs.
 
      For more information, see `Database-Level Audit Action Groups
-     <https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-action-groups>`_.
+     <https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-action-groups>`_.  # pylint: disable=line-too-long
 
      For Database auditing policy, specific Actions can also be specified (note that Actions cannot
      be specified for Server auditing policy). The supported actions to audit are:
@@ -3448,7 +3431,7 @@ class ExtendedSqlPoolBlobAuditingPolicy(ProxyResource):  # pylint: disable=too-m
      SELECT on SCHEMA::mySchema by public
 
      For more information, see `Database-Level Audit Actions
-     <https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-actions>`_.
+     <https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-actions>`_.  # pylint: disable=line-too-long
     :vartype audit_actions_and_groups: list[str]
     :ivar storage_account_subscription_id: Specifies the blob storage subscription Id.
     :vartype storage_account_subscription_id: str
@@ -3466,7 +3449,7 @@ class ExtendedSqlPoolBlobAuditingPolicy(ProxyResource):  # pylint: disable=too-m
 
      Diagnostic Settings URI format:
      PUT
-     https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview
+     https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview  # pylint: disable=line-too-long
 
      For more information, see `Diagnostic Settings REST API
      <https://go.microsoft.com/fwlink/?linkid=2033207>`_
@@ -3584,7 +3567,7 @@ class ExtendedSqlPoolBlobAuditingPolicy(ProxyResource):  # pylint: disable=too-m
          duplicate audit logs.
 
          For more information, see `Database-Level Audit Action Groups
-         <https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-action-groups>`_.
+         <https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-action-groups>`_.  # pylint: disable=line-too-long
 
          For Database auditing policy, specific Actions can also be specified (note that Actions cannot
          be specified for Server auditing policy). The supported actions to audit are:
@@ -3609,7 +3592,7 @@ class ExtendedSqlPoolBlobAuditingPolicy(ProxyResource):  # pylint: disable=too-m
          SELECT on SCHEMA::mySchema by public
 
          For more information, see `Database-Level Audit Actions
-         <https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-actions>`_.
+         <https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-actions>`_.  # pylint: disable=line-too-long
         :paramtype audit_actions_and_groups: list[str]
         :keyword storage_account_subscription_id: Specifies the blob storage subscription Id.
         :paramtype storage_account_subscription_id: str
@@ -3627,7 +3610,7 @@ class ExtendedSqlPoolBlobAuditingPolicy(ProxyResource):  # pylint: disable=too-m
 
          Diagnostic Settings URI format:
          PUT
-         https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview
+         https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview  # pylint: disable=line-too-long
 
          For more information, see `Diagnostic Settings REST API
          <https://go.microsoft.com/fwlink/?linkid=2033207>`_
@@ -3651,7 +3634,7 @@ class ExtendedSqlPoolBlobAuditingPolicy(ProxyResource):  # pylint: disable=too-m
         self.queue_delay_ms = queue_delay_ms
 
 
-class ExtendedSqlPoolBlobAuditingPolicyListResult(_serialization.Model):
+class ExtendedSqlPoolBlobAuditingPolicyListResult(_serialization.Model):  # pylint: disable=name-too-long
     """A list of sql pool extended auditing settings.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -3684,7 +3667,7 @@ class FollowerDatabaseDefinition(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar kusto_pool_resource_id: Resource id of the cluster that follows a database owned by this
      cluster. Required.
@@ -3751,10 +3734,10 @@ class GeoBackupPolicy(ProxyResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -3851,7 +3834,7 @@ class IntegrationRuntime(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     ManagedIntegrationRuntime, SelfHostedIntegrationRuntime
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar additional_properties: Unmatched properties from the message are deserialized to this
      collection.
@@ -4062,7 +4045,7 @@ class IntegrationRuntimeConnectionInfo(_serialization.Model):
         self.is_identity_cert_exprired = None
 
 
-class IntegrationRuntimeCustomSetupScriptProperties(_serialization.Model):
+class IntegrationRuntimeCustomSetupScriptProperties(_serialization.Model):  # pylint: disable=name-too-long
     """Custom setup script properties for a managed dedicated integration runtime.
 
     :ivar blob_container_uri: The URI of the Azure blob container that contains the custom setup
@@ -4253,7 +4236,7 @@ class IntegrationRuntimeEnableinteractivequery(_serialization.Model):
 class IntegrationRuntimeListResponse(_serialization.Model):
     """A list of integration runtime resources.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: List of integration runtimes. Required.
     :vartype value: list[~azure.mgmt.synapse.models.IntegrationRuntimeResource]
@@ -4455,7 +4438,9 @@ class IntegrationRuntimeOperationStatus(_serialization.Model):
         self.error = error
 
 
-class IntegrationRuntimeOutboundNetworkDependenciesCategoryEndpoint(_serialization.Model):
+class IntegrationRuntimeOutboundNetworkDependenciesCategoryEndpoint(
+    _serialization.Model
+):  # pylint: disable=name-too-long
     """Azure-SSIS integration runtime outbound network dependency endpoints for one category.
 
     :ivar category: The category of outbound network dependency.
@@ -4489,7 +4474,7 @@ class IntegrationRuntimeOutboundNetworkDependenciesCategoryEndpoint(_serializati
         self.endpoints = endpoints
 
 
-class IntegrationRuntimeOutboundNetworkDependenciesEndpoint(_serialization.Model):
+class IntegrationRuntimeOutboundNetworkDependenciesEndpoint(_serialization.Model):  # pylint: disable=name-too-long
     """The endpoint for Azure-SSIS integration runtime outbound network dependency.
 
     :ivar domain_name: The domain name of endpoint.
@@ -4526,7 +4511,9 @@ class IntegrationRuntimeOutboundNetworkDependenciesEndpoint(_serialization.Model
         self.endpoint_details = endpoint_details
 
 
-class IntegrationRuntimeOutboundNetworkDependenciesEndpointDetails(_serialization.Model):
+class IntegrationRuntimeOutboundNetworkDependenciesEndpointDetails(
+    _serialization.Model
+):  # pylint: disable=name-too-long
     """The details of Azure-SSIS integration runtime outbound network dependency endpoint.
 
     :ivar port: The port of endpoint.
@@ -4546,7 +4533,9 @@ class IntegrationRuntimeOutboundNetworkDependenciesEndpointDetails(_serializatio
         self.port = port
 
 
-class IntegrationRuntimeOutboundNetworkDependenciesEndpointsResponse(_serialization.Model):
+class IntegrationRuntimeOutboundNetworkDependenciesEndpointsResponse(
+    _serialization.Model
+):  # pylint: disable=name-too-long
     """Azure-SSIS integration runtime outbound network dependency endpoints.
 
     :ivar value: The list of outbound network dependency endpoints.
@@ -4573,7 +4562,7 @@ class IntegrationRuntimeOutboundNetworkDependenciesEndpointsResponse(_serializat
         self.value = value
 
 
-class IntegrationRuntimeRegenerateKeyParameters(_serialization.Model):
+class IntegrationRuntimeRegenerateKeyParameters(_serialization.Model):  # pylint: disable=name-too-long
     """Parameters to regenerate the authentication key.
 
     :ivar key_name: The name of the authentication key to regenerate. Known values are: "authKey1"
@@ -4603,7 +4592,7 @@ class SubResource(AzureEntityResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -4614,34 +4603,16 @@ class SubResource(AzureEntityResource):
     :vartype etag: str
     """
 
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-        "etag": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "etag": {"key": "etag", "type": "str"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-
 
 class IntegrationRuntimeResource(SubResource):
     """Integration runtime resource type.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -4844,7 +4815,7 @@ class IntegrationRuntimeStatus(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar additional_properties: Unmatched properties from the message are deserialized to this
      collection.
@@ -4895,7 +4866,7 @@ class IntegrationRuntimeStatusResponse(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The integration runtime name.
     :vartype name: str
@@ -5039,15 +5010,15 @@ class IntegrationRuntimeVNetProperties(_serialization.Model):
         self.subnet_id = subnet_id
 
 
-class IotHubDataConnection(DataConnection):  # pylint: disable=too-many-instance-attributes
+class IotHubDataConnection(DataConnection):
     """Class representing an iot hub data connection.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -5166,7 +5137,7 @@ class IpFirewallRuleInfo(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -5328,7 +5299,7 @@ class Key(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -5398,15 +5369,15 @@ class KeyInfoListResult(_serialization.Model):
         self.value = value
 
 
-class KustoPool(TrackedResource):  # pylint: disable=too-many-instance-attributes
+class KustoPool(TrackedResource):
     """Class representing a Kusto kusto pool.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -5536,7 +5507,7 @@ class KustoPoolCheckNameRequest(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: Kusto Pool name. Required.
     :vartype name: str
@@ -5592,7 +5563,7 @@ class KustoPoolPrivateLinkResources(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -5645,13 +5616,13 @@ class KustoPoolPrivateLinkResources(ProxyResource):
         self.provisioning_state = None
 
 
-class KustoPoolUpdate(Resource):  # pylint: disable=too-many-instance-attributes
+class KustoPoolUpdate(Resource):
     """Class representing an update to a Kusto kusto pool.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -5823,6 +5794,7 @@ class LibraryInfo(_serialization.Model):
     """
 
     _validation = {
+        "uploaded_timestamp": {"readonly": True},
         "provisioning_status": {"readonly": True},
         "creator_id": {"readonly": True},
     }
@@ -5843,7 +5815,6 @@ class LibraryInfo(_serialization.Model):
         name: Optional[str] = None,
         path: Optional[str] = None,
         container_name: Optional[str] = None,
-        uploaded_timestamp: Optional[datetime.datetime] = None,
         type: Optional[str] = None,
         **kwargs: Any
     ) -> None:
@@ -5854,8 +5825,6 @@ class LibraryInfo(_serialization.Model):
         :paramtype path: str
         :keyword container_name: Storage blob container name.
         :paramtype container_name: str
-        :keyword uploaded_timestamp: The last update time of the library.
-        :paramtype uploaded_timestamp: ~datetime.datetime
         :keyword type: Type of the library.
         :paramtype type: str
         """
@@ -5863,7 +5832,7 @@ class LibraryInfo(_serialization.Model):
         self.name = name
         self.path = path
         self.container_name = container_name
-        self.uploaded_timestamp = uploaded_timestamp
+        self.uploaded_timestamp = None
         self.type = type
         self.provisioning_status = None
         self.creator_id = None
@@ -5872,7 +5841,7 @@ class LibraryInfo(_serialization.Model):
 class LibraryListResponse(_serialization.Model):
     """A list of Library resources.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: List of Library. Required.
     :vartype value: list[~azure.mgmt.synapse.models.LibraryResource]
@@ -5939,13 +5908,13 @@ class LibraryRequirements(_serialization.Model):
         self.filename = filename
 
 
-class LibraryResource(SubResource):  # pylint: disable=too-many-instance-attributes
+class LibraryResource(SubResource):
     """Library response details.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -5975,6 +5944,7 @@ class LibraryResource(SubResource):  # pylint: disable=too-many-instance-attribu
         "name": {"readonly": True},
         "type": {"readonly": True},
         "etag": {"readonly": True},
+        "uploaded_timestamp": {"readonly": True},
         "provisioning_status": {"readonly": True},
         "creator_id": {"readonly": True},
     }
@@ -5999,7 +5969,6 @@ class LibraryResource(SubResource):  # pylint: disable=too-many-instance-attribu
         name_properties_name: Optional[str] = None,
         path: Optional[str] = None,
         container_name: Optional[str] = None,
-        uploaded_timestamp: Optional[datetime.datetime] = None,
         type_properties_type: Optional[str] = None,
         **kwargs: Any
     ) -> None:
@@ -6010,8 +5979,6 @@ class LibraryResource(SubResource):  # pylint: disable=too-many-instance-attribu
         :paramtype path: str
         :keyword container_name: Storage blob container name.
         :paramtype container_name: str
-        :keyword uploaded_timestamp: The last update time of the library.
-        :paramtype uploaded_timestamp: ~datetime.datetime
         :keyword type_properties_type: Type of the library.
         :paramtype type_properties_type: str
         """
@@ -6019,7 +5986,7 @@ class LibraryResource(SubResource):  # pylint: disable=too-many-instance-attribu
         self.name_properties_name = name_properties_name
         self.path = path
         self.container_name = container_name
-        self.uploaded_timestamp = uploaded_timestamp
+        self.uploaded_timestamp = None
         self.type_properties_type = type_properties_type
         self.provisioning_status = None
         self.creator_id = None
@@ -6076,7 +6043,7 @@ class LinkedIntegrationRuntimeType(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     LinkedIntegrationRuntimeKeyAuthorization, LinkedIntegrationRuntimeRbacAuthorization
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar authorization_type: The authorization type for integration runtime sharing. Required.
     :vartype authorization_type: str
@@ -6106,7 +6073,7 @@ class LinkedIntegrationRuntimeType(_serialization.Model):
 class LinkedIntegrationRuntimeKeyAuthorization(LinkedIntegrationRuntimeType):
     """The key authorization type integration runtime.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar authorization_type: The authorization type for integration runtime sharing. Required.
     :vartype authorization_type: str
@@ -6134,10 +6101,10 @@ class LinkedIntegrationRuntimeKeyAuthorization(LinkedIntegrationRuntimeType):
         self.key = key
 
 
-class LinkedIntegrationRuntimeRbacAuthorization(LinkedIntegrationRuntimeType):
+class LinkedIntegrationRuntimeRbacAuthorization(LinkedIntegrationRuntimeType):  # pylint: disable=name-too-long
     """The role based access control (RBAC) authorization type integration runtime.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar authorization_type: The authorization type for integration runtime sharing. Required.
     :vartype authorization_type: str
@@ -6220,7 +6187,7 @@ class MaintenanceWindowOptions(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -6229,8 +6196,8 @@ class MaintenanceWindowOptions(ProxyResource):
     :vartype type: str
     :ivar is_enabled: Whether maintenance windows are enabled for the database.
     :vartype is_enabled: bool
-    :ivar maintenance_window_cycles: Available maintenance cycles e.g. {Saturday, 0, 48\ *60},
-     {Wednesday, 0, 24*\ 60}.
+    :ivar maintenance_window_cycles: Available maintenance cycles e.g. {Saturday, 0, 48\\ *60},
+     {Wednesday, 0, 24*\\ 60}.
     :vartype maintenance_window_cycles: list[~azure.mgmt.synapse.models.MaintenanceWindowTimeRange]
     :ivar min_duration_in_minutes: Minimum duration of maintenance window.
     :vartype min_duration_in_minutes: int
@@ -6285,8 +6252,8 @@ class MaintenanceWindowOptions(ProxyResource):
         """
         :keyword is_enabled: Whether maintenance windows are enabled for the database.
         :paramtype is_enabled: bool
-        :keyword maintenance_window_cycles: Available maintenance cycles e.g. {Saturday, 0, 48\ *60},
-         {Wednesday, 0, 24*\ 60}.
+        :keyword maintenance_window_cycles: Available maintenance cycles e.g. {Saturday, 0, 48\\ *60},
+         {Wednesday, 0, 24*\\ 60}.
         :paramtype maintenance_window_cycles:
          list[~azure.mgmt.synapse.models.MaintenanceWindowTimeRange]
         :keyword min_duration_in_minutes: Minimum duration of maintenance window.
@@ -6317,7 +6284,7 @@ class MaintenanceWindows(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -6450,7 +6417,7 @@ class ManagedIdentitySqlControlSettingsModel(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -6495,7 +6462,9 @@ class ManagedIdentitySqlControlSettingsModel(ProxyResource):
         self.grant_sql_control_to_managed_identity = grant_sql_control_to_managed_identity
 
 
-class ManagedIdentitySqlControlSettingsModelPropertiesGrantSqlControlToManagedIdentity(_serialization.Model):
+class ManagedIdentitySqlControlSettingsModelPropertiesGrantSqlControlToManagedIdentity(
+    _serialization.Model
+):  # pylint: disable=name-too-long
     """Grant sql control to managed identity.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -6532,7 +6501,7 @@ class ManagedIntegrationRuntime(IntegrationRuntime):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar additional_properties: Unmatched properties from the message are deserialized to this
      collection.
@@ -6776,7 +6745,7 @@ class ManagedIntegrationRuntimeStatus(IntegrationRuntimeStatus):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar additional_properties: Unmatched properties from the message are deserialized to this
      collection.
@@ -6880,7 +6849,7 @@ class MetadataSyncConfig(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -7083,7 +7052,7 @@ class OperationMetaLogSpecification(_serialization.Model):
         self.name = name
 
 
-class OperationMetaMetricDimensionSpecification(_serialization.Model):
+class OperationMetaMetricDimensionSpecification(_serialization.Model):  # pylint: disable=name-too-long
     """What is this?.
 
     :ivar display_name: Dimension display name.
@@ -7122,7 +7091,7 @@ class OperationMetaMetricDimensionSpecification(_serialization.Model):
         self.to_be_exported_for_shoebox = to_be_exported_for_shoebox
 
 
-class OperationMetaMetricSpecification(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class OperationMetaMetricSpecification(_serialization.Model):
     """What is this?.
 
     :ivar source_mdm_namespace: The source MDM namespace.
@@ -7333,7 +7302,7 @@ class OperationResource(_serialization.Model):
 class OptimizedAutoscale(_serialization.Model):
     """A class that contains the optimized auto scale definition.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar version: The version of the template defined, for instance 1. Required.
     :vartype version: int
@@ -7408,7 +7377,7 @@ class PrivateEndpointConnection(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -7465,7 +7434,9 @@ class PrivateEndpointConnection(ProxyResource):
         self.provisioning_state = None
 
 
-class PrivateEndpointConnectionForPrivateLinkHubBasicAutoGenerated(_serialization.Model):
+class PrivateEndpointConnectionForPrivateLinkHubBasicAutoGenerated(
+    _serialization.Model
+):  # pylint: disable=name-too-long
     """PrivateEndpointConnectionForPrivateLinkHubBasicAutoGenerated.
 
     :ivar id:
@@ -7497,7 +7468,9 @@ class PrivateEndpointConnectionForPrivateLinkHubBasicAutoGenerated(_serializatio
         self.properties = properties
 
 
-class PrivateEndpointConnectionForPrivateLinkHub(PrivateEndpointConnectionForPrivateLinkHubBasicAutoGenerated):
+class PrivateEndpointConnectionForPrivateLinkHub(
+    PrivateEndpointConnectionForPrivateLinkHubBasicAutoGenerated
+):  # pylint: disable=name-too-long
     """PrivateEndpointConnectionForPrivateLinkHub.
 
     :ivar id:
@@ -7541,7 +7514,7 @@ class PrivateEndpointConnectionForPrivateLinkHub(PrivateEndpointConnectionForPri
         self.type = type
 
 
-class PrivateEndpointConnectionForPrivateLinkHubBasic(_serialization.Model):
+class PrivateEndpointConnectionForPrivateLinkHubBasic(_serialization.Model):  # pylint: disable=name-too-long
     """Private Endpoint Connection For Private Link Hub - Basic.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -7595,7 +7568,9 @@ class PrivateEndpointConnectionForPrivateLinkHubBasic(_serialization.Model):
         self.provisioning_state = None
 
 
-class PrivateEndpointConnectionForPrivateLinkHubResourceCollectionResponse(_serialization.Model):
+class PrivateEndpointConnectionForPrivateLinkHubResourceCollectionResponse(
+    _serialization.Model
+):  # pylint: disable=name-too-long
     """PrivateEndpointConnectionForPrivateLinkHubResourceCollectionResponse.
 
     :ivar value:
@@ -7709,10 +7684,10 @@ class PrivateLinkHub(TrackedResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -7826,7 +7801,7 @@ class PrivateLinkResource(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -8093,15 +8068,15 @@ class QueryStatistic(_serialization.Model):
         self.intervals = None
 
 
-class ReadOnlyFollowingDatabase(Database):  # pylint: disable=too-many-instance-attributes
+class ReadOnlyFollowingDatabase(Database):
     """Class representing a read only following database.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -8188,15 +8163,15 @@ class ReadOnlyFollowingDatabase(Database):  # pylint: disable=too-many-instance-
         self.principals_modification_kind = None
 
 
-class ReadWriteDatabase(Database):  # pylint: disable=too-many-instance-attributes
+class ReadWriteDatabase(Database):
     """Class representing a read write database.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -8283,7 +8258,7 @@ class RecommendedSensitivityLabelUpdate(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -8370,7 +8345,7 @@ class RecoverableSqlPool(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -8487,13 +8462,13 @@ class ReplaceAllIpFirewallRulesRequest(_serialization.Model):
         self.ip_firewall_rules = ip_firewall_rules
 
 
-class ReplicationLink(ProxyResource):  # pylint: disable=too-many-instance-attributes
+class ReplicationLink(ProxyResource):
     """Represents a Sql pool replication link.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -8608,39 +8583,13 @@ class ReplicationLinkListResult(_serialization.Model):
         self.next_link = None
 
 
-class ResourceMoveDefinition(_serialization.Model):
-    """Contains the information necessary to perform a resource move (rename).
-
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar id: The target ID for the resource. Required.
-    :vartype id: str
-    """
-
-    _validation = {
-        "id": {"required": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-    }
-
-    def __init__(self, *, id: str, **kwargs: Any) -> None:  # pylint: disable=redefined-builtin
-        """
-        :keyword id: The target ID for the resource. Required.
-        :paramtype id: str
-        """
-        super().__init__(**kwargs)
-        self.id = id
-
-
-class RestorableDroppedSqlPool(ProxyResource):  # pylint: disable=too-many-instance-attributes
+class RestorableDroppedSqlPool(ProxyResource):
     """A restorable dropped Sql pool.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -8714,7 +8663,7 @@ class RestorableDroppedSqlPool(ProxyResource):  # pylint: disable=too-many-insta
 class RestorableDroppedSqlPoolListResult(_serialization.Model):
     """The response to a list restorable dropped Sql pools request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: A list of restorable dropped Sql pools. Required.
     :vartype value: list[~azure.mgmt.synapse.models.RestorableDroppedSqlPool]
@@ -8743,7 +8692,7 @@ class RestorePoint(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -8829,7 +8778,7 @@ class SecretBase(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     SecureString
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar type: Type of the secret. Required.
     :vartype type: str
@@ -8855,7 +8804,7 @@ class SecureString(SecretBase):
     """Azure Synapse secure string definition. The string value will be masked with asterisks '*'
     during Get or List API calls.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar type: Type of the secret. Required.
     :vartype type: str
@@ -8886,7 +8835,7 @@ class SecureString(SecretBase):
 class SelfHostedIntegrationRuntime(IntegrationRuntime):
     """Self-hosted integration runtime.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar additional_properties: Unmatched properties from the message are deserialized to this
      collection.
@@ -8933,7 +8882,7 @@ class SelfHostedIntegrationRuntime(IntegrationRuntime):
         self.linked_info = linked_info
 
 
-class SelfHostedIntegrationRuntimeNode(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class SelfHostedIntegrationRuntimeNode(_serialization.Model):
     """Properties of Self-hosted integration runtime node.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -9055,12 +9004,12 @@ class SelfHostedIntegrationRuntimeNode(_serialization.Model):  # pylint: disable
         self.max_concurrent_jobs = None
 
 
-class SelfHostedIntegrationRuntimeStatus(IntegrationRuntimeStatus):  # pylint: disable=too-many-instance-attributes
+class SelfHostedIntegrationRuntimeStatus(IntegrationRuntimeStatus):
     """Self-hosted integration runtime status.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar additional_properties: Unmatched properties from the message are deserialized to this
      collection.
@@ -9121,6 +9070,10 @@ class SelfHostedIntegrationRuntimeStatus(IntegrationRuntimeStatus):  # pylint: d
     :vartype service_region: str
     :ivar newer_versions: The newer versions on download center.
     :vartype newer_versions: list[str]
+    :ivar os_type:
+    :vartype os_type: int
+    :ivar target_framework:
+    :vartype target_framework: int
     """
 
     _validation = {
@@ -9142,6 +9095,8 @@ class SelfHostedIntegrationRuntimeStatus(IntegrationRuntimeStatus):  # pylint: d
         "pushed_version": {"readonly": True},
         "latest_version": {"readonly": True},
         "auto_update_eta": {"readonly": True},
+        "os_type": {"readonly": True},
+        "target_framework": {"readonly": True},
     }
 
     _attribute_map = {
@@ -9171,9 +9126,11 @@ class SelfHostedIntegrationRuntimeStatus(IntegrationRuntimeStatus):  # pylint: d
         "auto_update_eta": {"key": "typeProperties.autoUpdateETA", "type": "iso-8601"},
         "service_region": {"key": "typeProperties.serviceRegion", "type": "str"},
         "newer_versions": {"key": "typeProperties.newerVersions", "type": "[str]"},
+        "os_type": {"key": "typeProperties.osType", "type": "int"},
+        "target_framework": {"key": "typeProperties.targetFramework", "type": "int"},
     }
 
-    def __init__(
+    def __init__(  # pylint: disable=too-many-locals
         self,
         *,
         additional_properties: Optional[Dict[str, JSON]] = None,
@@ -9218,15 +9175,17 @@ class SelfHostedIntegrationRuntimeStatus(IntegrationRuntimeStatus):  # pylint: d
         self.auto_update_eta = None
         self.service_region = service_region
         self.newer_versions = newer_versions
+        self.os_type = None
+        self.target_framework = None
 
 
-class SensitivityLabel(ProxyResource):  # pylint: disable=too-many-instance-attributes
+class SensitivityLabel(ProxyResource):
     """A sensitivity label.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -9353,7 +9312,7 @@ class SensitivityLabelUpdate(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -9439,13 +9398,13 @@ class SensitivityLabelUpdateList(_serialization.Model):
         self.operations = operations
 
 
-class ServerBlobAuditingPolicy(ProxyResource):  # pylint: disable=too-many-instance-attributes
+class ServerBlobAuditingPolicy(ProxyResource):
     """A server blob auditing policy.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -9517,7 +9476,7 @@ class ServerBlobAuditingPolicy(ProxyResource):  # pylint: disable=too-many-insta
      duplicate audit logs.
 
      For more information, see `Database-Level Audit Action Groups
-     <https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-action-groups>`_.
+     <https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-action-groups>`_.  # pylint: disable=line-too-long
 
      For Database auditing policy, specific Actions can also be specified (note that Actions cannot
      be specified for Server auditing policy). The supported actions to audit are:
@@ -9542,7 +9501,7 @@ class ServerBlobAuditingPolicy(ProxyResource):  # pylint: disable=too-many-insta
      SELECT on SCHEMA::mySchema by public
 
      For more information, see `Database-Level Audit Actions
-     <https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-actions>`_.
+     <https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-actions>`_.  # pylint: disable=line-too-long
     :vartype audit_actions_and_groups: list[str]
     :ivar storage_account_subscription_id: Specifies the blob storage subscription Id.
     :vartype storage_account_subscription_id: str
@@ -9560,7 +9519,7 @@ class ServerBlobAuditingPolicy(ProxyResource):  # pylint: disable=too-many-insta
 
      Diagnostic Settings URI format:
      PUT
-     https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview
+     https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview  # pylint: disable=line-too-long
 
      For more information, see `Diagnostic Settings REST API
      <https://go.microsoft.com/fwlink/?linkid=2033207>`_
@@ -9580,7 +9539,7 @@ class ServerBlobAuditingPolicy(ProxyResource):  # pylint: disable=too-many-insta
 
      Diagnostic Settings URI format:
      PUT
-     https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/master/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview
+     https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/master/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview  # pylint: disable=line-too-long
 
      For more information, see `Diagnostic Settings REST API
      <https://go.microsoft.com/fwlink/?linkid=2033207>`_
@@ -9692,7 +9651,7 @@ class ServerBlobAuditingPolicy(ProxyResource):  # pylint: disable=too-many-insta
          duplicate audit logs.
 
          For more information, see `Database-Level Audit Action Groups
-         <https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-action-groups>`_.
+         <https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-action-groups>`_.  # pylint: disable=line-too-long
 
          For Database auditing policy, specific Actions can also be specified (note that Actions cannot
          be specified for Server auditing policy). The supported actions to audit are:
@@ -9717,7 +9676,7 @@ class ServerBlobAuditingPolicy(ProxyResource):  # pylint: disable=too-many-insta
          SELECT on SCHEMA::mySchema by public
 
          For more information, see `Database-Level Audit Actions
-         <https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-actions>`_.
+         <https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-actions>`_.  # pylint: disable=line-too-long
         :paramtype audit_actions_and_groups: list[str]
         :keyword storage_account_subscription_id: Specifies the blob storage subscription Id.
         :paramtype storage_account_subscription_id: str
@@ -9735,7 +9694,7 @@ class ServerBlobAuditingPolicy(ProxyResource):  # pylint: disable=too-many-insta
 
          Diagnostic Settings URI format:
          PUT
-         https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview
+         https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview  # pylint: disable=line-too-long
 
          For more information, see `Diagnostic Settings REST API
          <https://go.microsoft.com/fwlink/?linkid=2033207>`_
@@ -9755,7 +9714,7 @@ class ServerBlobAuditingPolicy(ProxyResource):  # pylint: disable=too-many-insta
 
          Diagnostic Settings URI format:
          PUT
-         https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/master/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview
+         https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/master/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview  # pylint: disable=line-too-long
 
          For more information, see `Diagnostic Settings REST API
          <https://go.microsoft.com/fwlink/?linkid=2033207>`_
@@ -9803,13 +9762,13 @@ class ServerBlobAuditingPolicyListResult(_serialization.Model):
         self.next_link = None
 
 
-class ServerSecurityAlertPolicy(ProxyResource):  # pylint: disable=too-many-instance-attributes
+class ServerSecurityAlertPolicy(ProxyResource):
     """Workspace managed Sql server security alert policy.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -9993,7 +9952,7 @@ class ServerUsageListResult(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: The list of server metrics for the server. Required.
     :vartype value: list[~azure.mgmt.synapse.models.ServerUsage]
@@ -10027,7 +9986,7 @@ class ServerVulnerabilityAssessment(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -10239,7 +10198,7 @@ class SkuDescriptionList(_serialization.Model):
 class SkuLocationInfoItem(_serialization.Model):
     """The locations and zones info for SKU.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar location: The available location of the SKU. Required.
     :vartype location: str
@@ -10322,7 +10281,7 @@ class SparkConfigProperties(_serialization.Model):
 class SparkConfigurationListResponse(_serialization.Model):
     """A list of SparkConfiguration resources.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: List of SparkConfiguration. Required.
     :vartype value: list[~azure.mgmt.synapse.models.SparkConfigurationResource]
@@ -10353,15 +10312,15 @@ class SparkConfigurationListResponse(_serialization.Model):
         self.next_link = next_link
 
 
-class SparkConfigurationResource(SubResource):  # pylint: disable=too-many-instance-attributes
+class SparkConfigurationResource(SubResource):
     """SparkConfiguration response details.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -10446,15 +10405,15 @@ class SparkConfigurationResource(SubResource):  # pylint: disable=too-many-insta
         self.config_merge_rule = config_merge_rule
 
 
-class SqlPool(TrackedResource):  # pylint: disable=too-many-instance-attributes
+class SqlPool(TrackedResource):
     """A SQL Analytics pool.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -10608,13 +10567,13 @@ class SqlPool(TrackedResource):  # pylint: disable=too-many-instance-attributes
         self.source_database_deletion_date = source_database_deletion_date
 
 
-class SqlPoolBlobAuditingPolicy(ProxyResource):  # pylint: disable=too-many-instance-attributes
+class SqlPoolBlobAuditingPolicy(ProxyResource):
     """A Sql pool blob auditing policy.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -10677,7 +10636,7 @@ class SqlPoolBlobAuditingPolicy(ProxyResource):  # pylint: disable=too-many-inst
      duplicate audit logs.
 
      For more information, see `Database-Level Audit Action Groups
-     <https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-action-groups>`_.
+     <https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-action-groups>`_.  # pylint: disable=line-too-long
 
      For Database auditing policy, specific Actions can also be specified (note that Actions cannot
      be specified for Server auditing policy). The supported actions to audit are:
@@ -10702,7 +10661,7 @@ class SqlPoolBlobAuditingPolicy(ProxyResource):  # pylint: disable=too-many-inst
      SELECT on SCHEMA::mySchema by public
 
      For more information, see `Database-Level Audit Actions
-     <https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-actions>`_.
+     <https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-actions>`_.  # pylint: disable=line-too-long
     :vartype audit_actions_and_groups: list[str]
     :ivar storage_account_subscription_id: Specifies the blob storage subscription Id.
     :vartype storage_account_subscription_id: str
@@ -10720,7 +10679,7 @@ class SqlPoolBlobAuditingPolicy(ProxyResource):  # pylint: disable=too-many-inst
 
      Diagnostic Settings URI format:
      PUT
-     https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview
+     https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview  # pylint: disable=line-too-long
 
      For more information, see `Diagnostic Settings REST API
      <https://go.microsoft.com/fwlink/?linkid=2033207>`_
@@ -10819,7 +10778,7 @@ class SqlPoolBlobAuditingPolicy(ProxyResource):  # pylint: disable=too-many-inst
          duplicate audit logs.
 
          For more information, see `Database-Level Audit Action Groups
-         <https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-action-groups>`_.
+         <https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-action-groups>`_.  # pylint: disable=line-too-long
 
          For Database auditing policy, specific Actions can also be specified (note that Actions cannot
          be specified for Server auditing policy). The supported actions to audit are:
@@ -10844,7 +10803,7 @@ class SqlPoolBlobAuditingPolicy(ProxyResource):  # pylint: disable=too-many-inst
          SELECT on SCHEMA::mySchema by public
 
          For more information, see `Database-Level Audit Actions
-         <https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-actions>`_.
+         <https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-actions>`_.  # pylint: disable=line-too-long
         :paramtype audit_actions_and_groups: list[str]
         :keyword storage_account_subscription_id: Specifies the blob storage subscription Id.
         :paramtype storage_account_subscription_id: str
@@ -10862,7 +10821,7 @@ class SqlPoolBlobAuditingPolicy(ProxyResource):  # pylint: disable=too-many-inst
 
          Diagnostic Settings URI format:
          PUT
-         https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview
+         https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview  # pylint: disable=line-too-long
 
          For more information, see `Diagnostic Settings REST API
          <https://go.microsoft.com/fwlink/?linkid=2033207>`_
@@ -10909,7 +10868,7 @@ class SqlPoolBlobAuditingPolicyListResult(_serialization.Model):
         self.next_link = None
 
 
-class SqlPoolBlobAuditingPolicySqlPoolOperationListResult(_serialization.Model):
+class SqlPoolBlobAuditingPolicySqlPoolOperationListResult(_serialization.Model):  # pylint: disable=name-too-long
     """The response to a list Sql pool operations request.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -10943,7 +10902,7 @@ class SqlPoolColumn(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -10954,7 +10913,7 @@ class SqlPoolColumn(ProxyResource):
      "date", "time", "datetime2", "datetimeoffset", "tinyint", "smallint", "int", "smalldatetime",
      "real", "money", "datetime", "float", "sql_variant", "ntext", "bit", "decimal", "numeric",
      "smallmoney", "bigint", "hierarchyid", "geometry", "geography", "varbinary", "varchar",
-     "binary", "char", "timestamp", "nvarchar", "nchar", "xml", and "sysname".
+     "binary", "char", "timestamp", "nvarchar", "nchar", "xml", "sysname", and "int".
     :vartype column_type: str or ~azure.mgmt.synapse.models.ColumnDataType
     :ivar is_computed: Indicates whether column value is computed or not.
     :vartype is_computed: bool
@@ -10981,8 +10940,8 @@ class SqlPoolColumn(ProxyResource):
          "uniqueidentifier", "date", "time", "datetime2", "datetimeoffset", "tinyint", "smallint",
          "int", "smalldatetime", "real", "money", "datetime", "float", "sql_variant", "ntext", "bit",
          "decimal", "numeric", "smallmoney", "bigint", "hierarchyid", "geometry", "geography",
-         "varbinary", "varchar", "binary", "char", "timestamp", "nvarchar", "nchar", "xml", and
-         "sysname".
+         "varbinary", "varchar", "binary", "char", "timestamp", "nvarchar", "nchar", "xml", "sysname",
+         and "int".
         :paramtype column_type: str or ~azure.mgmt.synapse.models.ColumnDataType
         """
         super().__init__(**kwargs)
@@ -11018,13 +10977,13 @@ class SqlPoolColumnListResult(_serialization.Model):
         self.next_link = None
 
 
-class SqlPoolConnectionPolicy(ProxyResource):  # pylint: disable=too-many-instance-attributes
+class SqlPoolConnectionPolicy(ProxyResource):
     """A Sql pool connection policy.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -11142,13 +11101,13 @@ class SqlPoolInfoListResult(_serialization.Model):
         self.value = value
 
 
-class SqlPoolOperation(ProxyResource):  # pylint: disable=too-many-instance-attributes
+class SqlPoolOperation(ProxyResource):
     """A Sql pool operation.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -11245,7 +11204,7 @@ class SqlPoolOperation(ProxyResource):  # pylint: disable=too-many-instance-attr
         self.is_cancellable = None
 
 
-class SqlPoolPatchInfo(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class SqlPoolPatchInfo(_serialization.Model):
     """A SQL Analytics pool patch info.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -11398,7 +11357,7 @@ class SqlPoolSchema(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -11406,22 +11365,6 @@ class SqlPoolSchema(ProxyResource):
      "Microsoft.Storage/storageAccounts".
     :vartype type: str
     """
-
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
 
 
 class SqlPoolSchemaListResult(_serialization.Model):
@@ -11452,13 +11395,13 @@ class SqlPoolSchemaListResult(_serialization.Model):
         self.next_link = None
 
 
-class SqlPoolSecurityAlertPolicy(ProxyResource):  # pylint: disable=too-many-instance-attributes
+class SqlPoolSecurityAlertPolicy(ProxyResource):
     """A Sql pool security alert policy.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -11562,7 +11505,7 @@ class SqlPoolTable(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -11570,22 +11513,6 @@ class SqlPoolTable(ProxyResource):
      "Microsoft.Storage/storageAccounts".
     :vartype type: str
     """
-
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
 
 
 class SqlPoolTableListResult(_serialization.Model):
@@ -11674,7 +11601,7 @@ class SqlPoolUsageListResult(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: The list of usages for the Sql pool. Required.
     :vartype value: list[~azure.mgmt.synapse.models.SqlPoolUsage]
@@ -11708,7 +11635,7 @@ class SqlPoolVulnerabilityAssessment(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -11812,13 +11739,13 @@ class SqlPoolVulnerabilityAssessmentListResult(_serialization.Model):
         self.next_link = None
 
 
-class SqlPoolVulnerabilityAssessmentRuleBaseline(ProxyResource):
+class SqlPoolVulnerabilityAssessmentRuleBaseline(ProxyResource):  # pylint: disable=name-too-long
     """A Sql pool vulnerability assessment rule baseline.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -11861,10 +11788,10 @@ class SqlPoolVulnerabilityAssessmentRuleBaseline(ProxyResource):
         self.baseline_results = baseline_results
 
 
-class SqlPoolVulnerabilityAssessmentRuleBaselineItem(_serialization.Model):
+class SqlPoolVulnerabilityAssessmentRuleBaselineItem(_serialization.Model):  # pylint: disable=name-too-long
     """Properties for an Sql pool vulnerability assessment rule baseline's result.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar result: The rule baseline result. Required.
     :vartype result: list[str]
@@ -11887,13 +11814,13 @@ class SqlPoolVulnerabilityAssessmentRuleBaselineItem(_serialization.Model):
         self.result = result
 
 
-class SqlPoolVulnerabilityAssessmentScansExport(ProxyResource):
+class SqlPoolVulnerabilityAssessmentScansExport(ProxyResource):  # pylint: disable=name-too-long
     """A Sql pool Vulnerability Assessment scan export resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -11931,7 +11858,7 @@ class SsisObjectMetadata(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     SsisEnvironment, SsisFolder, SsisPackage, SsisProject
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar type: Type of metadata. Required. Known values are: "Folder", "Project", "Package", and
      "Environment".
@@ -11990,7 +11917,7 @@ class SsisObjectMetadata(_serialization.Model):
 class SsisEnvironment(SsisObjectMetadata):
     """Ssis environment.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar type: Type of metadata. Required. Known values are: "Folder", "Project", "Package", and
      "Environment".
@@ -12097,7 +12024,7 @@ class SsisEnvironmentReference(_serialization.Model):
 class SsisFolder(SsisObjectMetadata):
     """Ssis folder.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar type: Type of metadata. Required. Known values are: "Folder", "Project", "Package", and
      "Environment".
@@ -12222,7 +12149,7 @@ class SsisObjectMetadataStatusResponse(_serialization.Model):
 class SsisPackage(SsisObjectMetadata):
     """Ssis Package.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar type: Type of metadata. Required. Known values are: "Folder", "Project", "Package", and
      "Environment".
@@ -12294,7 +12221,7 @@ class SsisPackage(SsisObjectMetadata):
         self.parameters = parameters
 
 
-class SsisParameter(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class SsisParameter(_serialization.Model):
     """Ssis parameter.
 
     :ivar id: Parameter id.
@@ -12399,7 +12326,7 @@ class SsisParameter(_serialization.Model):  # pylint: disable=too-many-instance-
 class SsisProject(SsisObjectMetadata):
     """Ssis project.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar type: Type of metadata. Required. Known values are: "Folder", "Project", "Package", and
      "Environment".
@@ -12732,7 +12659,7 @@ class TopQueries(_serialization.Model):
 class TopQueriesListResult(_serialization.Model):
     """Represents the response to a get top queries request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: The list of top queries. Required.
     :vartype value: list[~azure.mgmt.synapse.models.TopQueries]
@@ -12761,7 +12688,7 @@ class TransparentDataEncryption(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -12942,7 +12869,7 @@ class VirtualNetworkProfile(_serialization.Model):
         self.compute_subnet_id = compute_subnet_id
 
 
-class VulnerabilityAssessmentRecurringScansProperties(_serialization.Model):
+class VulnerabilityAssessmentRecurringScansProperties(_serialization.Model):  # pylint: disable=name-too-long
     """Properties of a Vulnerability Assessment recurring scans.
 
     :ivar is_enabled: Recurring scans state.
@@ -13011,13 +12938,13 @@ class VulnerabilityAssessmentScanError(_serialization.Model):
         self.message = None
 
 
-class VulnerabilityAssessmentScanRecord(ProxyResource):  # pylint: disable=too-many-instance-attributes
+class VulnerabilityAssessmentScanRecord(ProxyResource):
     """A vulnerability assessment scan record.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -13084,7 +13011,7 @@ class VulnerabilityAssessmentScanRecord(ProxyResource):  # pylint: disable=too-m
         self.number_of_failed_security_checks = None
 
 
-class VulnerabilityAssessmentScanRecordListResult(_serialization.Model):
+class VulnerabilityAssessmentScanRecordListResult(_serialization.Model):  # pylint: disable=name-too-long
     """A list of vulnerability assessment scan records.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -13118,7 +13045,7 @@ class WorkloadClassifier(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -13225,7 +13152,7 @@ class WorkloadGroup(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -13326,15 +13253,15 @@ class WorkloadGroupListResult(_serialization.Model):
         self.next_link = None
 
 
-class Workspace(TrackedResource):  # pylint: disable=too-many-instance-attributes
+class Workspace(TrackedResource):
     """A workspace.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -13375,7 +13302,7 @@ class Workspace(TrackedResource):  # pylint: disable=too-many-instance-attribute
     :ivar workspace_uid: The workspace unique identifier.
     :vartype workspace_uid: str
     :ivar extra_properties: Workspace level configs and feature flags.
-    :vartype extra_properties: dict[str, JSON]
+    :vartype extra_properties: JSON
     :ivar managed_virtual_network_settings: Managed Virtual Network Settings.
     :vartype managed_virtual_network_settings:
      ~azure.mgmt.synapse.models.ManagedVirtualNetworkSettings
@@ -13407,6 +13334,7 @@ class Workspace(TrackedResource):  # pylint: disable=too-many-instance-attribute
         "type": {"readonly": True},
         "location": {"required": True},
         "provisioning_state": {"readonly": True},
+        "connectivity_endpoints": {"readonly": True},
         "workspace_uid": {"readonly": True},
         "extra_properties": {"readonly": True},
         "adla_resource_id": {"readonly": True},
@@ -13437,7 +13365,7 @@ class Workspace(TrackedResource):  # pylint: disable=too-many-instance-attribute
         },
         "encryption": {"key": "properties.encryption", "type": "EncryptionDetails"},
         "workspace_uid": {"key": "properties.workspaceUID", "type": "str"},
-        "extra_properties": {"key": "properties.extraProperties", "type": "{object}"},
+        "extra_properties": {"key": "properties.extraProperties", "type": "object"},
         "managed_virtual_network_settings": {
             "key": "properties.managedVirtualNetworkSettings",
             "type": "ManagedVirtualNetworkSettings",
@@ -13469,7 +13397,6 @@ class Workspace(TrackedResource):  # pylint: disable=too-many-instance-attribute
         managed_resource_group_name: Optional[str] = None,
         sql_administrator_login: Optional[str] = None,
         virtual_network_profile: Optional["_models.VirtualNetworkProfile"] = None,
-        connectivity_endpoints: Optional[Dict[str, str]] = None,
         managed_virtual_network: Optional[str] = None,
         private_endpoint_connections: Optional[List["_models.PrivateEndpointConnection"]] = None,
         encryption: Optional["_models.EncryptionDetails"] = None,
@@ -13502,8 +13429,6 @@ class Workspace(TrackedResource):  # pylint: disable=too-many-instance-attribute
         :paramtype sql_administrator_login: str
         :keyword virtual_network_profile: Virtual Network profile.
         :paramtype virtual_network_profile: ~azure.mgmt.synapse.models.VirtualNetworkProfile
-        :keyword connectivity_endpoints: Connectivity endpoints.
-        :paramtype connectivity_endpoints: dict[str, str]
         :keyword managed_virtual_network: Setting this to 'default' will ensure that all compute for
          this workspace is in a virtual network managed on behalf of the user.
         :paramtype managed_virtual_network: str
@@ -13542,7 +13467,7 @@ class Workspace(TrackedResource):  # pylint: disable=too-many-instance-attribute
         self.provisioning_state = None
         self.sql_administrator_login = sql_administrator_login
         self.virtual_network_profile = virtual_network_profile
-        self.connectivity_endpoints = connectivity_endpoints
+        self.connectivity_endpoints = None
         self.managed_virtual_network = managed_virtual_network
         self.private_endpoint_connections = private_endpoint_connections
         self.encryption = encryption
@@ -13565,7 +13490,7 @@ class WorkspaceAadAdminInfo(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -13781,7 +13706,7 @@ class WorkspaceRepositoryConfiguration(_serialization.Model):
     :ivar type: Type of workspace repositoryID configuration. Example WorkspaceVSTSConfiguration,
      WorkspaceGitHubConfiguration.
     :vartype type: str
-    :ivar host_name: GitHub Enterprise host name. For example: https://github.mydomain.com.
+    :ivar host_name: GitHub Enterprise host name. For example: ``https://github.mydomain.com``.
     :vartype host_name: str
     :ivar account_name: Account name.
     :vartype account_name: str
@@ -13829,7 +13754,7 @@ class WorkspaceRepositoryConfiguration(_serialization.Model):
         :keyword type: Type of workspace repositoryID configuration. Example
          WorkspaceVSTSConfiguration, WorkspaceGitHubConfiguration.
         :paramtype type: str
-        :keyword host_name: GitHub Enterprise host name. For example: https://github.mydomain.com.
+        :keyword host_name: GitHub Enterprise host name. For example: ``https://github.mydomain.com``.
         :paramtype host_name: str
         :keyword account_name: Account name.
         :paramtype account_name: str

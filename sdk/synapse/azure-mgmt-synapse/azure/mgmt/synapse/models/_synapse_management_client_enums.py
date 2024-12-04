@@ -100,6 +100,7 @@ class ColumnDataType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     NCHAR = "nchar"
     XML = "xml"
     SYSNAME = "sysname"
+    INT_ENUM = "int"
 
 
 class Compression(str, Enum, metaclass=CaseInsensitiveEnumMeta):

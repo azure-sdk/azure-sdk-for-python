@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.synapse import SynapseManagementClient
 
 """
@@ -29,14 +30,13 @@ def main():
         subscription_id="12345678-1234-1234-1234-123456789098",
     )
 
-    response = client.kusto_pool_data_connections.begin_delete(
+    client.kusto_pool_data_connections.begin_delete(
         resource_group_name="kustorptest",
         workspace_name="synapseWorkspaceName",
         kusto_pool_name="kustoclusterrptest4",
         database_name="KustoDatabase8",
         data_connection_name="kustoeventhubconnection1",
     ).result()
-    print(response)
 
 
 # x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/preview/2021-06-01-preview/examples/KustoPoolDataConnectionsDelete.json
