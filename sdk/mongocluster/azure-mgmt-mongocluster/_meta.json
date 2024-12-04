@@ -1,6 +1,6 @@
 {
-  "commit": "f93850874010501f216ceadf19459402efd16d9e",
+  "commit": "f8519e0023391132997ac9b96352489e1a9a72c8",
   "repository_url": "https://github.com/Azure/azure-rest-api-specs",
   "typespec_src": "specification/mongocluster/DocumentDB.MongoCluster.Management",
-  "@azure-tools/typespec-python": "0.33.0"
+  "@azure-tools/typespec-python": "0.36.5"
 }
