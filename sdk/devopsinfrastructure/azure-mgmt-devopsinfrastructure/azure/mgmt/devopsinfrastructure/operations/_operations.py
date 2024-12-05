@@ -359,7 +359,7 @@ class Operations:
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
     @distributed_trace
-    def list(self, **kwargs: Any) -> Iterable["_models._models.Operation"]:
+    def _list(self, **kwargs: Any) -> Iterable["_models._models.Operation"]:
         """List the operations for the provider.
 
         :return: An iterator like instance of Operation
