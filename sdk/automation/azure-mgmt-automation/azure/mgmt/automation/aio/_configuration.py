@@ -14,11 +14,10 @@ from azure.mgmt.core.policies import ARMHttpLoggingPolicy, AsyncARMChallengeAuth
 from .._version import VERSION
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from azure.core.credentials_async import AsyncTokenCredential
 
 
-class AutomationClientConfiguration:  # pylint: disable=too-many-instance-attributes,name-too-long
+class AutomationClientConfiguration:  # pylint: disable=too-many-instance-attributes
     """Configuration for AutomationClient.
 
     Note that all parameters used to create this instance are saved as instance
@@ -29,9 +28,14 @@ class AutomationClientConfiguration:  # pylint: disable=too-many-instance-attrib
     :param subscription_id: Gets subscription credentials which uniquely identify Microsoft Azure
      subscription. The subscription ID forms part of the URI for every service call. Required.
     :type subscription_id: str
+    :keyword api_version: Api Version. Default value is "2024-10-23". Note that overriding this
+     default value may result in unsupported behavior.
+    :paramtype api_version: str
     """
 
     def __init__(self, credential: "AsyncTokenCredential", subscription_id: str, **kwargs: Any) -> None:
+        api_version: str = kwargs.pop("api_version", "2024-10-23")
+
         if credential is None:
             raise ValueError("Parameter 'credential' must not be None.")
         if subscription_id is None:
@@ -39,6 +43,7 @@ class AutomationClientConfiguration:  # pylint: disable=too-many-instance-attrib
 
         self.credential = credential
         self.subscription_id = subscription_id
+        self.api_version = api_version
         self.credential_scopes = kwargs.pop("credential_scopes", ["https://management.azure.com/.default"])
         kwargs.setdefault("sdk_moniker", "mgmt-automation/{}".format(VERSION))
         self.polling_interval = kwargs.get("polling_interval", 30)

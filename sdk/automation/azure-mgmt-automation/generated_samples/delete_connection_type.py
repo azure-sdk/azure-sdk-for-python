@@ -37,6 +37,6 @@ def main():
     )
 
 
-# x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2022-08-08/examples/deleteConnectionType.json
+# x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2024-10-23/examples/deleteConnectionType.json
 if __name__ == "__main__":
     main()

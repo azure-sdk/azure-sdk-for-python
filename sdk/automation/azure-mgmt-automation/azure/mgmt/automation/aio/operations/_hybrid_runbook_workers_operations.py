@@ -1,4 +1,3 @@
-# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8,7 +7,8 @@
 # --------------------------------------------------------------------------
 from io import IOBase
 import sys
-from typing import Any, AsyncIterable, Callable, Dict, IO, Optional, Type, TypeVar, Union, overload
+from typing import Any, AsyncIterable, Callable, Dict, IO, Optional, TypeVar, Union, overload
+import urllib.parse
 
 from azure.core.async_paging import AsyncItemPaged, AsyncList
 from azure.core.exceptions import (
@@ -33,12 +33,13 @@ from ...operations._hybrid_runbook_workers_operations import (
     build_get_request,
     build_list_by_hybrid_runbook_worker_group_request,
     build_move_request,
+    build_patch_request,
 )
 
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -63,7 +64,7 @@ class HybridRunbookWorkersOperations:
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
     @distributed_trace_async
-    async def delete(  # pylint: disable=inconsistent-return-statements
+    async def delete(
         self,
         resource_group_name: str,
         automation_account_name: str,
@@ -88,7 +89,7 @@ class HybridRunbookWorkersOperations:
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -99,7 +100,7 @@ class HybridRunbookWorkersOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-08-08"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
         _request = build_delete_request(
@@ -155,7 +156,7 @@ class HybridRunbookWorkersOperations:
         :rtype: ~azure.mgmt.automation.models.HybridRunbookWorker
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -166,7 +167,7 @@ class HybridRunbookWorkersOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-08-08"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.HybridRunbookWorker] = kwargs.pop("cls", None)
 
         _request = build_get_request(
@@ -305,7 +306,7 @@ class HybridRunbookWorkersOperations:
         :rtype: ~azure.mgmt.automation.models.HybridRunbookWorker
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -316,7 +317,7 @@ class HybridRunbookWorkersOperations:
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-08-08"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.HybridRunbookWorker] = kwargs.pop("cls", None)
 
@@ -365,7 +366,176 @@ class HybridRunbookWorkersOperations:
         return deserialized  # type: ignore
 
     @overload
-    async def move(  # pylint: disable=inconsistent-return-statements
+    async def patch(
+        self,
+        resource_group_name: str,
+        automation_account_name: str,
+        hybrid_runbook_worker_group_name: str,
+        hybrid_runbook_worker_id: str,
+        hybrid_runbook_worker_creation_parameters: Optional[_models.HybridRunbookWorkerCreateParameters] = None,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> _models.HybridRunbookWorker:
+        """Update a hybrid runbook worker.
+
+        .. seealso::
+           - http://aka.ms/azureautomationsdk/hybridrunbookworkeroperations
+
+        :param resource_group_name: Name of an Azure Resource group. Required.
+        :type resource_group_name: str
+        :param automation_account_name: The name of the automation account. Required.
+        :type automation_account_name: str
+        :param hybrid_runbook_worker_group_name: The hybrid runbook worker group name. Required.
+        :type hybrid_runbook_worker_group_name: str
+        :param hybrid_runbook_worker_id: The hybrid runbook worker id. Required.
+        :type hybrid_runbook_worker_id: str
+        :param hybrid_runbook_worker_creation_parameters: The create or update parameters for hybrid
+         runbook worker. Default value is None.
+        :type hybrid_runbook_worker_creation_parameters:
+         ~azure.mgmt.automation.models.HybridRunbookWorkerCreateParameters
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: HybridRunbookWorker or the result of cls(response)
+        :rtype: ~azure.mgmt.automation.models.HybridRunbookWorker
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    async def patch(
+        self,
+        resource_group_name: str,
+        automation_account_name: str,
+        hybrid_runbook_worker_group_name: str,
+        hybrid_runbook_worker_id: str,
+        hybrid_runbook_worker_creation_parameters: Optional[IO[bytes]] = None,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> _models.HybridRunbookWorker:
+        """Update a hybrid runbook worker.
+
+        .. seealso::
+           - http://aka.ms/azureautomationsdk/hybridrunbookworkeroperations
+
+        :param resource_group_name: Name of an Azure Resource group. Required.
+        :type resource_group_name: str
+        :param automation_account_name: The name of the automation account. Required.
+        :type automation_account_name: str
+        :param hybrid_runbook_worker_group_name: The hybrid runbook worker group name. Required.
+        :type hybrid_runbook_worker_group_name: str
+        :param hybrid_runbook_worker_id: The hybrid runbook worker id. Required.
+        :type hybrid_runbook_worker_id: str
+        :param hybrid_runbook_worker_creation_parameters: The create or update parameters for hybrid
+         runbook worker. Default value is None.
+        :type hybrid_runbook_worker_creation_parameters: IO[bytes]
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: HybridRunbookWorker or the result of cls(response)
+        :rtype: ~azure.mgmt.automation.models.HybridRunbookWorker
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace_async
+    async def patch(
+        self,
+        resource_group_name: str,
+        automation_account_name: str,
+        hybrid_runbook_worker_group_name: str,
+        hybrid_runbook_worker_id: str,
+        hybrid_runbook_worker_creation_parameters: Optional[
+            Union[_models.HybridRunbookWorkerCreateParameters, IO[bytes]]
+        ] = None,
+        **kwargs: Any
+    ) -> _models.HybridRunbookWorker:
+        """Update a hybrid runbook worker.
+
+        .. seealso::
+           - http://aka.ms/azureautomationsdk/hybridrunbookworkeroperations
+
+        :param resource_group_name: Name of an Azure Resource group. Required.
+        :type resource_group_name: str
+        :param automation_account_name: The name of the automation account. Required.
+        :type automation_account_name: str
+        :param hybrid_runbook_worker_group_name: The hybrid runbook worker group name. Required.
+        :type hybrid_runbook_worker_group_name: str
+        :param hybrid_runbook_worker_id: The hybrid runbook worker id. Required.
+        :type hybrid_runbook_worker_id: str
+        :param hybrid_runbook_worker_creation_parameters: The create or update parameters for hybrid
+         runbook worker. Is either a HybridRunbookWorkerCreateParameters type or a IO[bytes] type.
+         Default value is None.
+        :type hybrid_runbook_worker_creation_parameters:
+         ~azure.mgmt.automation.models.HybridRunbookWorkerCreateParameters or IO[bytes]
+        :return: HybridRunbookWorker or the result of cls(response)
+        :rtype: ~azure.mgmt.automation.models.HybridRunbookWorker
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.HybridRunbookWorker] = kwargs.pop("cls", None)
+
+        content_type = content_type or "application/json"
+        _json = None
+        _content = None
+        if isinstance(hybrid_runbook_worker_creation_parameters, (IOBase, bytes)):
+            _content = hybrid_runbook_worker_creation_parameters
+        else:
+            if hybrid_runbook_worker_creation_parameters is not None:
+                _json = self._serialize.body(
+                    hybrid_runbook_worker_creation_parameters, "HybridRunbookWorkerCreateParameters"
+                )
+            else:
+                _json = None
+
+        _request = build_patch_request(
+            resource_group_name=resource_group_name,
+            automation_account_name=automation_account_name,
+            hybrid_runbook_worker_group_name=hybrid_runbook_worker_group_name,
+            hybrid_runbook_worker_id=hybrid_runbook_worker_id,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            content_type=content_type,
+            json=_json,
+            content=_content,
+            headers=_headers,
+            params=_params,
+        )
+        _request.url = self._client.format_url(_request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        deserialized = self._deserialize("HybridRunbookWorker", pipeline_response.http_response)
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
+
+    @overload
+    async def move(
         self,
         resource_group_name: str,
         automation_account_name: str,
@@ -402,7 +572,7 @@ class HybridRunbookWorkersOperations:
         """
 
     @overload
-    async def move(  # pylint: disable=inconsistent-return-statements
+    async def move(
         self,
         resource_group_name: str,
         automation_account_name: str,
@@ -438,7 +608,7 @@ class HybridRunbookWorkersOperations:
         """
 
     @distributed_trace_async
-    async def move(  # pylint: disable=inconsistent-return-statements
+    async def move(
         self,
         resource_group_name: str,
         automation_account_name: str,
@@ -468,7 +638,7 @@ class HybridRunbookWorkersOperations:
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -479,7 +649,7 @@ class HybridRunbookWorkersOperations:
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-08-08"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
@@ -551,10 +721,10 @@ class HybridRunbookWorkersOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-08-08"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.HybridRunbookWorkersListResult] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -578,7 +748,18 @@ class HybridRunbookWorkersOperations:
                 _request.url = self._client.format_url(_request.url)
 
             else:
-                _request = HttpRequest("GET", next_link)
+                # make call to next link with the client's api-version
+                _parsed_next_link = urllib.parse.urlparse(next_link)
+                _next_request_params = case_insensitive_dict(
+                    {
+                        key: [urllib.parse.quote(v) for v in value]
+                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
+                    }
+                )
+                _next_request_params["api-version"] = self._config.api_version
+                _request = HttpRequest(
+                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
+                )
                 _request.url = self._client.format_url(_request.url)
                 _request.method = "GET"
             return _request

@@ -209,7 +209,7 @@ class ModuleProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     MODULE_IMPORT_RUNBOOK_COMPLETE = "ModuleImportRunbookComplete"
     SUCCEEDED = "Succeeded"
     FAILED = "Failed"
-    CANCELLED = "Cancelled"
+    CANCELED = "Canceled"
     UPDATING = "Updating"
 
 
@@ -218,6 +218,27 @@ class OperatingSystemType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     WINDOWS = "Windows"
     LINUX = "Linux"
+
+
+class PackageProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Gets or sets the provisioning state of the Package."""
+
+    CREATED = "Created"
+    CREATING = "Creating"
+    STARTING_IMPORT_MODULE_RUNBOOK = "StartingImportModuleRunbook"
+    RUNNING_IMPORT_MODULE_RUNBOOK = "RunningImportModuleRunbook"
+    CONTENT_RETRIEVED = "ContentRetrieved"
+    CONTENT_DOWNLOADED = "ContentDownloaded"
+    CONTENT_VALIDATED = "ContentValidated"
+    CONNECTION_TYPE_IMPORTED = "ConnectionTypeImported"
+    CONTENT_STORED = "ContentStored"
+    MODULE_DATA_STORED = "ModuleDataStored"
+    ACTIVITIES_STORED = "ActivitiesStored"
+    MODULE_IMPORT_RUNBOOK_COMPLETE = "ModuleImportRunbookComplete"
+    SUCCEEDED = "Succeeded"
+    FAILED = "Failed"
+    CANCELED = "Canceled"
+    UPDATING = "Updating"
 
 
 class ProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -256,6 +277,8 @@ class RunbookTypeEnum(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     GRAPH_POWER_SHELL = "GraphPowerShell"
     PYTHON2 = "Python2"
     PYTHON3 = "Python3"
+    PYTHON = "Python"
+    POWER_SHELL72 = "PowerShell72"
 
 
 class ScheduleDay(str, Enum, metaclass=CaseInsensitiveEnumMeta):
