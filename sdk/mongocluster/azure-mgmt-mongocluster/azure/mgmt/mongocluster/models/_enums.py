@@ -160,7 +160,7 @@ class ProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Resource creation was canceled."""
     IN_PROGRESS = "InProgress"
     """An operation is in-progress on the resource."""
-    UPDATING = "Updating"
+    UPDATING_TEST2 = "UpdatingTest2"
     """An update operation is in-progress on the resource."""
     DROPPING = "Dropping"
     """A drop operation is in-progress on the resource."""
