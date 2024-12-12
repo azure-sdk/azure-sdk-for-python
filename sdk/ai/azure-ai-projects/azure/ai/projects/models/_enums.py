@@ -80,6 +80,8 @@ class AgentStreamEvent(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     ThreadRun"""
     THREAD_RUN_COMPLETED = "thread.run.completed"
     """Event sent when a run is completed. The data of this event is of type ThreadRun"""
+    THREAD_RUN_INCOMPLETE = "thread.run.incomplete"
+    """Event sent when a run ends incomplete. The data of this event is of type ThreadRun"""
     THREAD_RUN_FAILED = "thread.run.failed"
     """Event sent when a run fails. The data of this event is of type ThreadRun"""
     THREAD_RUN_CANCELLING = "thread.run.cancelling"
@@ -229,7 +231,7 @@ class Frequency(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     MINUTE = "Minute"
 
 
-class IncompleteRunDetails(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+class IncompleteDetailsReason(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The reason why the run is incomplete. This will point to which specific token limit was reached
     over the course of the run.
     """
@@ -299,6 +301,20 @@ class MessageStreamEvent(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Event sent when a message is completed. The data of this event is of type ThreadMessage"""
     THREAD_MESSAGE_INCOMPLETE = "thread.message.incomplete"
     """Event sent before a message is completed. The data of this event is of type ThreadMessage"""
+
+
+class OpenApiAuthType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Authentication type for OpenApi endpoint. Allowed types are:
+
+
+    * Anonymous (no authentication required)
+    * Connection (requires connection_id to endpoint, as setup in AI Foundry)
+    * Managed_Identity (requires audience for identity based auth).
+    """
+
+    ANONYMOUS = "anonymous"
+    CONNECTION = "connection"
+    MANAGED_IDENTITY = "managed_identity"
 
 
 class RunStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -391,6 +407,8 @@ class RunStreamEvent(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     ThreadRun"""
     THREAD_RUN_COMPLETED = "thread.run.completed"
     """Event sent when a run is completed. The data of this event is of type ThreadRun"""
+    THREAD_RUN_INCOMPLETE = "thread.run.incomplete"
+    """Event sent when a run ends incomplete. The data of this event is of type ThreadRun"""
     THREAD_RUN_FAILED = "thread.run.failed"
     """Event sent when a run fails. The data of this event is of type ThreadRun"""
     THREAD_RUN_CANCELLING = "thread.run.cancelling"
@@ -440,7 +458,9 @@ class VectorStoreDataSourceAssetType(str, Enum, metaclass=CaseInsensitiveEnumMet
     """
 
     URI_ASSET = "uri_asset"
+    """Azure URI"""
     ID_ASSET = "id_asset"
+    """The data ID"""
 
 
 class VectorStoreExpirationPolicyAnchor(str, Enum, metaclass=CaseInsensitiveEnumMeta):
