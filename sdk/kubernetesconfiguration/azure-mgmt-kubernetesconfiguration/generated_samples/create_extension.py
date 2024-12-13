@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.kubernetesconfiguration import SourceControlConfigurationClient
 
 """
@@ -41,7 +42,7 @@ def main():
                 "configurationProtectedSettings": {"omsagent.secret.key": "secretKeyValue01"},
                 "configurationSettings": {
                     "omsagent.env.clusterName": "clusterName1",
-                    "omsagent.secret.wsid": "omsagent.secret.wsid",
+                    "omsagent.secret.wsid": "fakeTokenPlaceholder",
                 },
                 "extensionType": "azuremonitor-containers",
                 "releaseTrain": "Preview",
@@ -52,6 +53,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/stable/2023-05-01/examples/CreateExtension.json
+# x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/stable/2024-11-01/examples/CreateExtension.json
 if __name__ == "__main__":
     main()
