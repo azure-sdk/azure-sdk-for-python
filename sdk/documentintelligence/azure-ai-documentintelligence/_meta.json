@@ -1,0 +1,6 @@
+{
+  "commit": "1dd73d74c9754a8514f3dee4845bd22226845206",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/ai/DocumentIntelligence",
+  "@azure-tools/typespec-python": "0.37.1"
+}
