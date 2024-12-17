@@ -37,6 +37,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2023-06-01-preview/examples/getComputeOneSkuUsages.json
+# x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/stable/2024-12-12/examples/getComputeOneSkuUsages.json
 if __name__ == "__main__":
     main()

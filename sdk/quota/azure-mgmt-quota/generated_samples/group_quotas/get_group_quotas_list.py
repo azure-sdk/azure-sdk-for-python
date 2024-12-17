@@ -37,6 +37,6 @@ def main():
         print(item)
 
 
-# x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2023-06-01-preview/examples/GroupQuotas/GetGroupQuotasList.json
+# x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/stable/2024-12-12/examples/GroupQuotas/GetGroupQuotasList.json
 if __name__ == "__main__":
     main()
