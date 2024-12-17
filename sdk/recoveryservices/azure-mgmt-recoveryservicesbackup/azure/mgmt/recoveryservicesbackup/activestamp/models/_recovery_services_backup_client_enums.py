@@ -215,7 +215,7 @@ class HealthStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 class HttpStatusCode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """HTTP Status Code of the operation."""
 
-    CONTINUE_ENUM = "Continue"
+    CONTINUE = "Continue"
     SWITCHING_PROTOCOLS = "SwitchingProtocols"
     OK = "OK"
     CREATED = "Created"
@@ -262,6 +262,7 @@ class HttpStatusCode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     SERVICE_UNAVAILABLE = "ServiceUnavailable"
     GATEWAY_TIMEOUT = "GatewayTimeout"
     HTTP_VERSION_NOT_SUPPORTED = "HttpVersionNotSupported"
+    CONTINUE_ENUM = "Continue"
 
 
 class IAASVMPolicyType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
