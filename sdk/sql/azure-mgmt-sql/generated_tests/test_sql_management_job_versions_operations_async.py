@@ -21,7 +21,7 @@ class TestSqlManagementJobVersionsOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_by_job(self, resource_group):
+    async def test_job_versions_list_by_job(self, resource_group):
         response = self.client.job_versions.list_by_job(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -35,7 +35,7 @@ class TestSqlManagementJobVersionsOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get(self, resource_group):
+    async def test_job_versions_get(self, resource_group):
         response = await self.client.job_versions.get(
             resource_group_name=resource_group.name,
             server_name="str",
