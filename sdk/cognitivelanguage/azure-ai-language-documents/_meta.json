@@ -1,0 +1,6 @@
+{
+  "commit": "437bf20a10977612aff21b95f0bf444014fed4cc",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/cognitiveservices/Language.AnalyzeDocuments",
+  "@azure-tools/typespec-python": "0.37.2"
+}
