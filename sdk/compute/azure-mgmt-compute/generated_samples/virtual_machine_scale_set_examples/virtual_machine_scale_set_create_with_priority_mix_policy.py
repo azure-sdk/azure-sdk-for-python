@@ -37,38 +37,31 @@ def main():
             "location": "westus",
             "properties": {
                 "orchestrationMode": "Flexible",
-                "platformFaultDomainCount": 1,
-                "priorityMixPolicy": {"baseRegularPriorityCount": 10, "regularPriorityPercentageAboveBase": 50},
+                "priorityMixPolicy": {"baseRegularPriorityCount": 4, "regularPriorityPercentageAboveBase": 50},
+                "singlePlacementGroup": False,
                 "virtualMachineProfile": {
+                    "billingProfile": {"maxPrice": -1},
+                    "evictionPolicy": "Deallocate",
                     "networkProfile": {
-                        "networkApiVersion": "2020-11-01",
                         "networkInterfaceConfigurations": [
                             {
                                 "name": "{vmss-name}",
                                 "properties": {
-                                    "enableAcceleratedNetworking": False,
                                     "enableIPForwarding": True,
                                     "ipConfigurations": [
                                         {
                                             "name": "{vmss-name}",
                                             "properties": {
-                                                "applicationGatewayBackendAddressPools": [],
-                                                "loadBalancerBackendAddressPools": [],
-                                                "primary": True,
-                                                "publicIPAddressConfiguration": {
-                                                    "name": "{vmss-name}",
-                                                    "properties": {"idleTimeoutInMinutes": 15},
-                                                },
                                                 "subnet": {
                                                     "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"
-                                                },
+                                                }
                                             },
                                         }
                                     ],
                                     "primary": True,
                                 },
                             }
-                        ],
+                        ]
                     },
                     "osProfile": {
                         "adminPassword": "{your-password}",
@@ -78,9 +71,9 @@ def main():
                     "priority": "Spot",
                     "storageProfile": {
                         "imageReference": {
-                            "offer": "0001-com-ubuntu-server-focal",
-                            "publisher": "Canonical",
-                            "sku": "20_04-lts-gen2",
+                            "offer": "WindowsServer",
+                            "publisher": "MicrosoftWindowsServer",
+                            "sku": "2016-Datacenter",
                             "version": "latest",
                         },
                         "osDisk": {
@@ -91,7 +84,7 @@ def main():
                     },
                 },
             },
-            "sku": {"capacity": 2, "name": "Standard_A8m_v2", "tier": "Standard"},
+            "sku": {"capacity": 10, "name": "Standard_A8m_v2", "tier": "Standard"},
         },
     ).result()
     print(response)
