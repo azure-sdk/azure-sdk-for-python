@@ -26,19 +26,135 @@ class AnalyzeTextOutputType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Output severities in eight levels, the value could be 0,1,2,3,4,5,6,7."""
 
 
+class BlockingCriteriaKind(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The blocking criteria kind."""
+
+    SEVERITY = "severity"
+    """The severity type."""
+    RISK_LEVEL = "riskLevel"
+    """The risk level type."""
+    IS_DETECTED = "isDetected"
+    """The is detected type."""
+
+
+class HarmCategory(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The harm category."""
+
+    CELEBRITY = "celebrity"
+    """Celebrity harm category."""
+    DRUG = "drug"
+    """Drug harm category."""
+    HATE = "hate"
+    """Hate harm category."""
+    PROMPT_INJECTION = "promptInjection"
+    """Prompt injection harm category."""
+    PROTECTED_MATERIAL = "protectedMaterial"
+    """Protected material harm category."""
+    SEXUAL = "sexual"
+    """Sexual harm category."""
+    SELF_HARM = "selfHarm"
+    """Self-harm category."""
+    VIOLENCE = "violence"
+    """Violence harm category."""
+
+
 class ImageCategory(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Image analyze category."""
+    """The harm category supported in Image content analysis."""
 
     HATE = "Hate"
+    """The harm category for Image - Hate."""
     SELF_HARM = "SelfHarm"
+    """The harm category for Image - SelfHarm."""
     SEXUAL = "Sexual"
+    """The harm category for Image - Sexual."""
     VIOLENCE = "Violence"
+    """The harm category for Image - Violence."""
+    DRUGS = "Drugs"
+    """The harm category for Text - Drugs."""
+
+
+class Modality(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The modality of the content."""
+
+    TEXT = "text"
+    """The modality for content - Text."""
+    IMAGE = "image"
+    """The modality for content - Image."""
+
+
+class ResultCode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The result code."""
+
+    O_K = "oK"
+    """OK result code."""
+    NO_VALID_INPUT = "noValidInput"
+    """No valid input result code."""
+    INTERNAL_TIMEOUT = "internalTimeout"
+    """Internal timeout result code."""
+    INTERNAL_ERROR = "internalError"
+    """Internal error result code."""
+
+
+class RiskLevel(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The risk level."""
+
+    SAFE = "safe"
+    """Safe risk level."""
+    LOW = "low"
+    """Low risk level."""
+    MEDIUM = "medium"
+    """Medium risk level."""
+    HIGH = "high"
+    """High risk level."""
+
+
+class RoleType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The type of the role."""
+
+    ALL = "all"
+    """All roles."""
+    USER = "user"
+    """User role."""
+    SYSTEM = "system"
+    """System role."""
+    ASSISTANT = "assistant"
+    """Assistant role."""
+    TOOL = "tool"
+    """Tool role."""
+
+
+class SourceType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The source type of the message."""
+
+    MESSAGE_TO_AI = "messageToAI"
+    """The source type for message - message to AI."""
+    MESSAGE_FROM_AI = "messageFromAI"
+    """The source type for message - message from AI."""
+
+
+class TaskType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The task type."""
+
+    HARM_CATEGORY = "harmCategory"
+    """Harm category task type."""
+    BLOCKLIST = "blocklist"
+    """Blocklist task type."""
+    SAFETY_INCIDENT = "safetyIncident"
+    """Safety incident task type."""
+    CUSTOM_HARM_CATEGORY = "customHarmCategory"
+    """Custom harm category task type."""
 
 
 class TextCategory(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Text analyze category."""
+    """The harm category supported in Text content analysis."""
 
     HATE = "Hate"
+    """The harm category for Text - Hate."""
     SELF_HARM = "SelfHarm"
+    """The harm category for Text - SelfHarm."""
     SEXUAL = "Sexual"
+    """The harm category for Text - Sexual."""
     VIOLENCE = "Violence"
+    """The harm category for Text - Violence."""
+    DRUGS = "Drugs"
+    """The harm category for Text - Drugs."""

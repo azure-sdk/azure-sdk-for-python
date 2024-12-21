@@ -19,6 +19,8 @@ from azure.core.exceptions import (
     ResourceExistsError,
     ResourceNotFoundError,
     ResourceNotModifiedError,
+    StreamClosedError,
+    StreamConsumedError,
     map_error,
 )
 from azure.core.pipeline import PipelineResponse
@@ -40,158 +42,27 @@ from ..._operations._operations import (
     build_blocklist_remove_blocklist_items_request,
     build_content_safety_analyze_image_request,
     build_content_safety_analyze_text_request,
+    build_content_safety_analyze_with_rai_policy_request,
+    build_content_safety_detect_text_protected_material_request,
+    build_content_safety_shield_prompt_request,
+    build_rai_policy_create_or_update_rai_policy_request,
+    build_rai_policy_delete_rai_policy_request,
+    build_rai_policy_get_rai_policy_request,
+    build_rai_policy_list_rai_policies_request,
 )
-from .._vendor import BlocklistClientMixinABC, ContentSafetyClientMixinABC
+from ..._validation import api_version_validation
+from .._vendor import BlocklistClientMixinABC, ContentSafetyClientMixinABC, RaiPolicyClientMixinABC
 
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore
 JSON = MutableMapping[str, Any]  # pylint: disable=unsubscriptable-object
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
 
 class ContentSafetyClientOperationsMixin(ContentSafetyClientMixinABC):
-    @overload
-    async def analyze_text(
-        self, options: _models.AnalyzeTextOptions, *, content_type: str = "application/json", **kwargs: Any
-    ) -> _models.AnalyzeTextResult:
-        """Analyze Text.
-
-        A synchronous API for the analysis of potentially harmful text content. Currently, it supports
-        four categories: Hate, SelfHarm, Sexual, and Violence.
-
-        :param options: The text analysis request. Required.
-        :type options: ~azure.ai.contentsafety.models.AnalyzeTextOptions
-        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :keyword bool stream: Whether to stream the response of this operation. Defaults to False. You
-         will have to context manage the returned stream.
-        :return: AnalyzeTextResult. The AnalyzeTextResult is compatible with MutableMapping
-        :rtype: ~azure.ai.contentsafety.models.AnalyzeTextResult
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @overload
-    async def analyze_text(
-        self, options: JSON, *, content_type: str = "application/json", **kwargs: Any
-    ) -> _models.AnalyzeTextResult:
-        """Analyze Text.
-
-        A synchronous API for the analysis of potentially harmful text content. Currently, it supports
-        four categories: Hate, SelfHarm, Sexual, and Violence.
-
-        :param options: The text analysis request. Required.
-        :type options: JSON
-        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :keyword bool stream: Whether to stream the response of this operation. Defaults to False. You
-         will have to context manage the returned stream.
-        :return: AnalyzeTextResult. The AnalyzeTextResult is compatible with MutableMapping
-        :rtype: ~azure.ai.contentsafety.models.AnalyzeTextResult
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @overload
-    async def analyze_text(
-        self, options: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
-    ) -> _models.AnalyzeTextResult:
-        """Analyze Text.
-
-        A synchronous API for the analysis of potentially harmful text content. Currently, it supports
-        four categories: Hate, SelfHarm, Sexual, and Violence.
-
-        :param options: The text analysis request. Required.
-        :type options: IO[bytes]
-        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :keyword bool stream: Whether to stream the response of this operation. Defaults to False. You
-         will have to context manage the returned stream.
-        :return: AnalyzeTextResult. The AnalyzeTextResult is compatible with MutableMapping
-        :rtype: ~azure.ai.contentsafety.models.AnalyzeTextResult
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @distributed_trace_async
-    async def analyze_text(
-        self, options: Union[_models.AnalyzeTextOptions, JSON, IO[bytes]], **kwargs: Any
-    ) -> _models.AnalyzeTextResult:
-        """Analyze Text.
-
-        A synchronous API for the analysis of potentially harmful text content. Currently, it supports
-        four categories: Hate, SelfHarm, Sexual, and Violence.
-
-        :param options: The text analysis request. Is one of the following types: AnalyzeTextOptions,
-         JSON, IO[bytes] Required.
-        :type options: ~azure.ai.contentsafety.models.AnalyzeTextOptions or JSON or IO[bytes]
-        :keyword content_type: Body parameter Content-Type. Known values are: application/json. Default
-         value is None.
-        :paramtype content_type: str
-        :keyword bool stream: Whether to stream the response of this operation. Defaults to False. You
-         will have to context manage the returned stream.
-        :return: AnalyzeTextResult. The AnalyzeTextResult is compatible with MutableMapping
-        :rtype: ~azure.ai.contentsafety.models.AnalyzeTextResult
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        error_map = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-        _params = kwargs.pop("params", {}) or {}
-
-        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.AnalyzeTextResult] = kwargs.pop("cls", None)
-
-        content_type = content_type or "application/json"
-        _content = None
-        if isinstance(options, (IOBase, bytes)):
-            _content = options
-        else:
-            _content = json.dumps(options, cls=SdkJSONEncoder, exclude_readonly=True)  # type: ignore
-
-        _request = build_content_safety_analyze_text_request(
-            content_type=content_type,
-            api_version=self._config.api_version,
-            content=_content,
-            headers=_headers,
-            params=_params,
-        )
-        path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
-        }
-        _request.url = self._client.format_url(_request.url, **path_format_arguments)
-
-        _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
-            _request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200]:
-            if _stream:
-                await response.read()  # Load the body in memory and close the socket
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response)
-
-        if _stream:
-            deserialized = response.iter_bytes()
-        else:
-            deserialized = _deserialize(_models.AnalyzeTextResult, response.json())
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
-
-        return deserialized  # type: ignore
 
     @overload
     async def analyze_image(
@@ -207,8 +78,6 @@ class ContentSafetyClientOperationsMixin(ContentSafetyClientMixinABC):
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword bool stream: Whether to stream the response of this operation. Defaults to False. You
-         will have to context manage the returned stream.
         :return: AnalyzeImageResult. The AnalyzeImageResult is compatible with MutableMapping
         :rtype: ~azure.ai.contentsafety.models.AnalyzeImageResult
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -228,8 +97,6 @@ class ContentSafetyClientOperationsMixin(ContentSafetyClientMixinABC):
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword bool stream: Whether to stream the response of this operation. Defaults to False. You
-         will have to context manage the returned stream.
         :return: AnalyzeImageResult. The AnalyzeImageResult is compatible with MutableMapping
         :rtype: ~azure.ai.contentsafety.models.AnalyzeImageResult
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -249,8 +116,6 @@ class ContentSafetyClientOperationsMixin(ContentSafetyClientMixinABC):
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword bool stream: Whether to stream the response of this operation. Defaults to False. You
-         will have to context manage the returned stream.
         :return: AnalyzeImageResult. The AnalyzeImageResult is compatible with MutableMapping
         :rtype: ~azure.ai.contentsafety.models.AnalyzeImageResult
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -268,16 +133,11 @@ class ContentSafetyClientOperationsMixin(ContentSafetyClientMixinABC):
         :param options: The image analysis request. Is one of the following types: AnalyzeImageOptions,
          JSON, IO[bytes] Required.
         :type options: ~azure.ai.contentsafety.models.AnalyzeImageOptions or JSON or IO[bytes]
-        :keyword content_type: Body parameter Content-Type. Known values are: application/json. Default
-         value is None.
-        :paramtype content_type: str
-        :keyword bool stream: Whether to stream the response of this operation. Defaults to False. You
-         will have to context manage the returned stream.
         :return: AnalyzeImageResult. The AnalyzeImageResult is compatible with MutableMapping
         :rtype: ~azure.ai.contentsafety.models.AnalyzeImageResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -306,7 +166,7 @@ class ContentSafetyClientOperationsMixin(ContentSafetyClientMixinABC):
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -319,7 +179,10 @@ class ContentSafetyClientOperationsMixin(ContentSafetyClientMixinABC):
 
         if response.status_code not in [200]:
             if _stream:
-                await response.read()  # Load the body in memory and close the socket
+                try:
+                    await response.read()  # Load the body in memory and close the socket
+                except (StreamConsumedError, StreamClosedError):
+                    pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response)
 
@@ -333,8 +196,552 @@ class ContentSafetyClientOperationsMixin(ContentSafetyClientMixinABC):
 
         return deserialized  # type: ignore
 
+    @overload
+    async def analyze_text(
+        self, options: _models.AnalyzeTextOptions, *, content_type: str = "application/json", **kwargs: Any
+    ) -> _models.AnalyzeTextResult:
+        """Analyze Text.
+
+        A synchronous API for the analysis of potentially harmful text content. Currently, it supports
+        four categories: Hate, SelfHarm, Sexual, and Violence.
+
+        :param options: The text analysis request. Required.
+        :type options: ~azure.ai.contentsafety.models.AnalyzeTextOptions
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: AnalyzeTextResult. The AnalyzeTextResult is compatible with MutableMapping
+        :rtype: ~azure.ai.contentsafety.models.AnalyzeTextResult
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    async def analyze_text(
+        self, options: JSON, *, content_type: str = "application/json", **kwargs: Any
+    ) -> _models.AnalyzeTextResult:
+        """Analyze Text.
+
+        A synchronous API for the analysis of potentially harmful text content. Currently, it supports
+        four categories: Hate, SelfHarm, Sexual, and Violence.
+
+        :param options: The text analysis request. Required.
+        :type options: JSON
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: AnalyzeTextResult. The AnalyzeTextResult is compatible with MutableMapping
+        :rtype: ~azure.ai.contentsafety.models.AnalyzeTextResult
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    async def analyze_text(
+        self, options: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
+    ) -> _models.AnalyzeTextResult:
+        """Analyze Text.
+
+        A synchronous API for the analysis of potentially harmful text content. Currently, it supports
+        four categories: Hate, SelfHarm, Sexual, and Violence.
+
+        :param options: The text analysis request. Required.
+        :type options: IO[bytes]
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: AnalyzeTextResult. The AnalyzeTextResult is compatible with MutableMapping
+        :rtype: ~azure.ai.contentsafety.models.AnalyzeTextResult
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace_async
+    async def analyze_text(
+        self, options: Union[_models.AnalyzeTextOptions, JSON, IO[bytes]], **kwargs: Any
+    ) -> _models.AnalyzeTextResult:
+        """Analyze Text.
+
+        A synchronous API for the analysis of potentially harmful text content. Currently, it supports
+        four categories: Hate, SelfHarm, Sexual, and Violence.
+
+        :param options: The text analysis request. Is one of the following types: AnalyzeTextOptions,
+         JSON, IO[bytes] Required.
+        :type options: ~azure.ai.contentsafety.models.AnalyzeTextOptions or JSON or IO[bytes]
+        :return: AnalyzeTextResult. The AnalyzeTextResult is compatible with MutableMapping
+        :rtype: ~azure.ai.contentsafety.models.AnalyzeTextResult
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = kwargs.pop("params", {}) or {}
+
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.AnalyzeTextResult] = kwargs.pop("cls", None)
+
+        content_type = content_type or "application/json"
+        _content = None
+        if isinstance(options, (IOBase, bytes)):
+            _content = options
+        else:
+            _content = json.dumps(options, cls=SdkJSONEncoder, exclude_readonly=True)  # type: ignore
+
+        _request = build_content_safety_analyze_text_request(
+            content_type=content_type,
+            api_version=self._config.api_version,
+            content=_content,
+            headers=_headers,
+            params=_params,
+        )
+        path_format_arguments = {
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
+        }
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+        _stream = kwargs.pop("stream", False)
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            if _stream:
+                try:
+                    await response.read()  # Load the body in memory and close the socket
+                except (StreamConsumedError, StreamClosedError):
+                    pass
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            raise HttpResponseError(response=response)
+
+        if _stream:
+            deserialized = response.iter_bytes()
+        else:
+            deserialized = _deserialize(_models.AnalyzeTextResult, response.json())
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
+
+    @overload
+    async def detect_text_protected_material(
+        self,
+        options: _models.DetectTextProtectedMaterialOptions,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> _models.DetectTextProtectedMaterialResult:
+        """Detect Protected Material for Text.
+
+        A synchronous API for detecting protected material in the given text.
+
+        :param options: The request body to be detected, which may contain protected material.
+         Required.
+        :type options: ~azure.ai.contentsafety.models.DetectTextProtectedMaterialOptions
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: DetectTextProtectedMaterialResult. The DetectTextProtectedMaterialResult is compatible
+         with MutableMapping
+        :rtype: ~azure.ai.contentsafety.models.DetectTextProtectedMaterialResult
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    async def detect_text_protected_material(
+        self, options: JSON, *, content_type: str = "application/json", **kwargs: Any
+    ) -> _models.DetectTextProtectedMaterialResult:
+        """Detect Protected Material for Text.
+
+        A synchronous API for detecting protected material in the given text.
+
+        :param options: The request body to be detected, which may contain protected material.
+         Required.
+        :type options: JSON
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: DetectTextProtectedMaterialResult. The DetectTextProtectedMaterialResult is compatible
+         with MutableMapping
+        :rtype: ~azure.ai.contentsafety.models.DetectTextProtectedMaterialResult
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    async def detect_text_protected_material(
+        self, options: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
+    ) -> _models.DetectTextProtectedMaterialResult:
+        """Detect Protected Material for Text.
+
+        A synchronous API for detecting protected material in the given text.
+
+        :param options: The request body to be detected, which may contain protected material.
+         Required.
+        :type options: IO[bytes]
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: DetectTextProtectedMaterialResult. The DetectTextProtectedMaterialResult is compatible
+         with MutableMapping
+        :rtype: ~azure.ai.contentsafety.models.DetectTextProtectedMaterialResult
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace_async
+    @api_version_validation(
+        method_added_on="2024-09-01",
+        params_added_on={"2024-09-01": ["api_version", "content_type", "accept"]},
+    )
+    async def detect_text_protected_material(
+        self, options: Union[_models.DetectTextProtectedMaterialOptions, JSON, IO[bytes]], **kwargs: Any
+    ) -> _models.DetectTextProtectedMaterialResult:
+        """Detect Protected Material for Text.
+
+        A synchronous API for detecting protected material in the given text.
+
+        :param options: The request body to be detected, which may contain protected material. Is one
+         of the following types: DetectTextProtectedMaterialOptions, JSON, IO[bytes] Required.
+        :type options: ~azure.ai.contentsafety.models.DetectTextProtectedMaterialOptions or JSON or
+         IO[bytes]
+        :return: DetectTextProtectedMaterialResult. The DetectTextProtectedMaterialResult is compatible
+         with MutableMapping
+        :rtype: ~azure.ai.contentsafety.models.DetectTextProtectedMaterialResult
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = kwargs.pop("params", {}) or {}
+
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.DetectTextProtectedMaterialResult] = kwargs.pop("cls", None)
+
+        content_type = content_type or "application/json"
+        _content = None
+        if isinstance(options, (IOBase, bytes)):
+            _content = options
+        else:
+            _content = json.dumps(options, cls=SdkJSONEncoder, exclude_readonly=True)  # type: ignore
+
+        _request = build_content_safety_detect_text_protected_material_request(
+            content_type=content_type,
+            api_version=self._config.api_version,
+            content=_content,
+            headers=_headers,
+            params=_params,
+        )
+        path_format_arguments = {
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
+        }
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+        _stream = kwargs.pop("stream", False)
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            if _stream:
+                try:
+                    await response.read()  # Load the body in memory and close the socket
+                except (StreamConsumedError, StreamClosedError):
+                    pass
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            raise HttpResponseError(response=response)
+
+        if _stream:
+            deserialized = response.iter_bytes()
+        else:
+            deserialized = _deserialize(_models.DetectTextProtectedMaterialResult, response.json())
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
+
+    @overload
+    async def shield_prompt(
+        self, options: _models.ShieldPromptOptions, *, content_type: str = "application/json", **kwargs: Any
+    ) -> _models.ShieldPromptResult:
+        """Shield Prompt.
+
+        A synchronous API for shielding prompt from direct and indirect injection attacks.
+
+        :param options: The request body to be detected, which may contain direct or indirect injection
+         attacks. Required.
+        :type options: ~azure.ai.contentsafety.models.ShieldPromptOptions
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: ShieldPromptResult. The ShieldPromptResult is compatible with MutableMapping
+        :rtype: ~azure.ai.contentsafety.models.ShieldPromptResult
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    async def shield_prompt(
+        self, options: JSON, *, content_type: str = "application/json", **kwargs: Any
+    ) -> _models.ShieldPromptResult:
+        """Shield Prompt.
+
+        A synchronous API for shielding prompt from direct and indirect injection attacks.
+
+        :param options: The request body to be detected, which may contain direct or indirect injection
+         attacks. Required.
+        :type options: JSON
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: ShieldPromptResult. The ShieldPromptResult is compatible with MutableMapping
+        :rtype: ~azure.ai.contentsafety.models.ShieldPromptResult
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    async def shield_prompt(
+        self, options: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
+    ) -> _models.ShieldPromptResult:
+        """Shield Prompt.
+
+        A synchronous API for shielding prompt from direct and indirect injection attacks.
+
+        :param options: The request body to be detected, which may contain direct or indirect injection
+         attacks. Required.
+        :type options: IO[bytes]
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: ShieldPromptResult. The ShieldPromptResult is compatible with MutableMapping
+        :rtype: ~azure.ai.contentsafety.models.ShieldPromptResult
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace_async
+    @api_version_validation(
+        method_added_on="2024-09-01",
+        params_added_on={"2024-09-01": ["api_version", "content_type", "accept"]},
+    )
+    async def shield_prompt(
+        self, options: Union[_models.ShieldPromptOptions, JSON, IO[bytes]], **kwargs: Any
+    ) -> _models.ShieldPromptResult:
+        """Shield Prompt.
+
+        A synchronous API for shielding prompt from direct and indirect injection attacks.
+
+        :param options: The request body to be detected, which may contain direct or indirect injection
+         attacks. Is one of the following types: ShieldPromptOptions, JSON, IO[bytes] Required.
+        :type options: ~azure.ai.contentsafety.models.ShieldPromptOptions or JSON or IO[bytes]
+        :return: ShieldPromptResult. The ShieldPromptResult is compatible with MutableMapping
+        :rtype: ~azure.ai.contentsafety.models.ShieldPromptResult
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = kwargs.pop("params", {}) or {}
+
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.ShieldPromptResult] = kwargs.pop("cls", None)
+
+        content_type = content_type or "application/json"
+        _content = None
+        if isinstance(options, (IOBase, bytes)):
+            _content = options
+        else:
+            _content = json.dumps(options, cls=SdkJSONEncoder, exclude_readonly=True)  # type: ignore
+
+        _request = build_content_safety_shield_prompt_request(
+            content_type=content_type,
+            api_version=self._config.api_version,
+            content=_content,
+            headers=_headers,
+            params=_params,
+        )
+        path_format_arguments = {
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
+        }
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+        _stream = kwargs.pop("stream", False)
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            if _stream:
+                try:
+                    await response.read()  # Load the body in memory and close the socket
+                except (StreamConsumedError, StreamClosedError):
+                    pass
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            raise HttpResponseError(response=response)
+
+        if _stream:
+            deserialized = response.iter_bytes()
+        else:
+            deserialized = _deserialize(_models.ShieldPromptResult, response.json())
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
+
+    @overload
+    async def analyze_with_rai_policy(
+        self, options: _models.RaiPolicyAnalyzeOption, *, content_type: str = "application/json", **kwargs: Any
+    ) -> _models.RaiPolicyAnalyzeResponse:
+        """Rai Policy Analysis.
+
+        A synchronous API for the rai policy analysis of input content.
+
+        :param options: The rai policy analyze request. Required.
+        :type options: ~azure.ai.contentsafety.models.RaiPolicyAnalyzeOption
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: RaiPolicyAnalyzeResponse. The RaiPolicyAnalyzeResponse is compatible with
+         MutableMapping
+        :rtype: ~azure.ai.contentsafety.models.RaiPolicyAnalyzeResponse
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    async def analyze_with_rai_policy(
+        self, options: JSON, *, content_type: str = "application/json", **kwargs: Any
+    ) -> _models.RaiPolicyAnalyzeResponse:
+        """Rai Policy Analysis.
+
+        A synchronous API for the rai policy analysis of input content.
+
+        :param options: The rai policy analyze request. Required.
+        :type options: JSON
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: RaiPolicyAnalyzeResponse. The RaiPolicyAnalyzeResponse is compatible with
+         MutableMapping
+        :rtype: ~azure.ai.contentsafety.models.RaiPolicyAnalyzeResponse
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    async def analyze_with_rai_policy(
+        self, options: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
+    ) -> _models.RaiPolicyAnalyzeResponse:
+        """Rai Policy Analysis.
+
+        A synchronous API for the rai policy analysis of input content.
+
+        :param options: The rai policy analyze request. Required.
+        :type options: IO[bytes]
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: RaiPolicyAnalyzeResponse. The RaiPolicyAnalyzeResponse is compatible with
+         MutableMapping
+        :rtype: ~azure.ai.contentsafety.models.RaiPolicyAnalyzeResponse
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace_async
+    async def analyze_with_rai_policy(
+        self, options: Union[_models.RaiPolicyAnalyzeOption, JSON, IO[bytes]], **kwargs: Any
+    ) -> _models.RaiPolicyAnalyzeResponse:
+        """Rai Policy Analysis.
+
+        A synchronous API for the rai policy analysis of input content.
+
+        :param options: The rai policy analyze request. Is one of the following types:
+         RaiPolicyAnalyzeOption, JSON, IO[bytes] Required.
+        :type options: ~azure.ai.contentsafety.models.RaiPolicyAnalyzeOption or JSON or IO[bytes]
+        :return: RaiPolicyAnalyzeResponse. The RaiPolicyAnalyzeResponse is compatible with
+         MutableMapping
+        :rtype: ~azure.ai.contentsafety.models.RaiPolicyAnalyzeResponse
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = kwargs.pop("params", {}) or {}
+
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.RaiPolicyAnalyzeResponse] = kwargs.pop("cls", None)
+
+        content_type = content_type or "application/json"
+        _content = None
+        if isinstance(options, (IOBase, bytes)):
+            _content = options
+        else:
+            _content = json.dumps(options, cls=SdkJSONEncoder, exclude_readonly=True)  # type: ignore
+
+        _request = build_content_safety_analyze_with_rai_policy_request(
+            content_type=content_type,
+            api_version=self._config.api_version,
+            content=_content,
+            headers=_headers,
+            params=_params,
+        )
+        path_format_arguments = {
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
+        }
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+        _stream = kwargs.pop("stream", False)
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            if _stream:
+                try:
+                    await response.read()  # Load the body in memory and close the socket
+                except (StreamConsumedError, StreamClosedError):
+                    pass
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            raise HttpResponseError(response=response)
+
+        if _stream:
+            deserialized = response.iter_bytes()
+        else:
+            deserialized = _deserialize(_models.RaiPolicyAnalyzeResponse, response.json())
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
+
 
 class BlocklistClientOperationsMixin(BlocklistClientMixinABC):
+
     @overload
     async def add_or_update_blocklist_items(
         self,
@@ -356,8 +763,6 @@ class BlocklistClientOperationsMixin(BlocklistClientMixinABC):
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword bool stream: Whether to stream the response of this operation. Defaults to False. You
-         will have to context manage the returned stream.
         :return: AddOrUpdateTextBlocklistItemsResult. The AddOrUpdateTextBlocklistItemsResult is
          compatible with MutableMapping
         :rtype: ~azure.ai.contentsafety.models.AddOrUpdateTextBlocklistItemsResult
@@ -380,8 +785,6 @@ class BlocklistClientOperationsMixin(BlocklistClientMixinABC):
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword bool stream: Whether to stream the response of this operation. Defaults to False. You
-         will have to context manage the returned stream.
         :return: AddOrUpdateTextBlocklistItemsResult. The AddOrUpdateTextBlocklistItemsResult is
          compatible with MutableMapping
         :rtype: ~azure.ai.contentsafety.models.AddOrUpdateTextBlocklistItemsResult
@@ -404,8 +807,6 @@ class BlocklistClientOperationsMixin(BlocklistClientMixinABC):
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword bool stream: Whether to stream the response of this operation. Defaults to False. You
-         will have to context manage the returned stream.
         :return: AddOrUpdateTextBlocklistItemsResult. The AddOrUpdateTextBlocklistItemsResult is
          compatible with MutableMapping
         :rtype: ~azure.ai.contentsafety.models.AddOrUpdateTextBlocklistItemsResult
@@ -430,17 +831,12 @@ class BlocklistClientOperationsMixin(BlocklistClientMixinABC):
          AddOrUpdateTextBlocklistItemsOptions, JSON, IO[bytes] Required.
         :type options: ~azure.ai.contentsafety.models.AddOrUpdateTextBlocklistItemsOptions or JSON or
          IO[bytes]
-        :keyword content_type: Body parameter Content-Type. Known values are: application/json. Default
-         value is None.
-        :paramtype content_type: str
-        :keyword bool stream: Whether to stream the response of this operation. Defaults to False. You
-         will have to context manage the returned stream.
         :return: AddOrUpdateTextBlocklistItemsResult. The AddOrUpdateTextBlocklistItemsResult is
          compatible with MutableMapping
         :rtype: ~azure.ai.contentsafety.models.AddOrUpdateTextBlocklistItemsResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -470,7 +866,7 @@ class BlocklistClientOperationsMixin(BlocklistClientMixinABC):
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -483,7 +879,10 @@ class BlocklistClientOperationsMixin(BlocklistClientMixinABC):
 
         if response.status_code not in [200]:
             if _stream:
-                await response.read()  # Load the body in memory and close the socket
+                try:
+                    await response.read()  # Load the body in memory and close the socket
+                except (StreamConsumedError, StreamClosedError):
+                    pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response)
 
@@ -517,8 +916,6 @@ class BlocklistClientOperationsMixin(BlocklistClientMixinABC):
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/merge-patch+json".
         :paramtype content_type: str
-        :keyword bool stream: Whether to stream the response of this operation. Defaults to False. You
-         will have to context manage the returned stream.
         :return: TextBlocklist. The TextBlocklist is compatible with MutableMapping
         :rtype: ~azure.ai.contentsafety.models.TextBlocklist
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -539,8 +936,6 @@ class BlocklistClientOperationsMixin(BlocklistClientMixinABC):
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/merge-patch+json".
         :paramtype content_type: str
-        :keyword bool stream: Whether to stream the response of this operation. Defaults to False. You
-         will have to context manage the returned stream.
         :return: TextBlocklist. The TextBlocklist is compatible with MutableMapping
         :rtype: ~azure.ai.contentsafety.models.TextBlocklist
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -566,8 +961,6 @@ class BlocklistClientOperationsMixin(BlocklistClientMixinABC):
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/merge-patch+json".
         :paramtype content_type: str
-        :keyword bool stream: Whether to stream the response of this operation. Defaults to False. You
-         will have to context manage the returned stream.
         :return: TextBlocklist. The TextBlocklist is compatible with MutableMapping
         :rtype: ~azure.ai.contentsafety.models.TextBlocklist
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -586,15 +979,11 @@ class BlocklistClientOperationsMixin(BlocklistClientMixinABC):
         :param options: The resource instance. Is one of the following types: TextBlocklist, JSON,
          IO[bytes] Required.
         :type options: ~azure.ai.contentsafety.models.TextBlocklist or JSON or IO[bytes]
-        :keyword content_type: This request has a JSON Merge Patch body. Default value is None.
-        :paramtype content_type: str
-        :keyword bool stream: Whether to stream the response of this operation. Defaults to False. You
-         will have to context manage the returned stream.
         :return: TextBlocklist. The TextBlocklist is compatible with MutableMapping
         :rtype: ~azure.ai.contentsafety.models.TextBlocklist
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -624,7 +1013,7 @@ class BlocklistClientOperationsMixin(BlocklistClientMixinABC):
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -637,21 +1026,17 @@ class BlocklistClientOperationsMixin(BlocklistClientMixinABC):
 
         if response.status_code not in [200, 201]:
             if _stream:
-                await response.read()  # Load the body in memory and close the socket
+                try:
+                    await response.read()  # Load the body in memory and close the socket
+                except (StreamConsumedError, StreamClosedError):
+                    pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response)
 
-        if response.status_code == 200:
-            if _stream:
-                deserialized = response.iter_bytes()
-            else:
-                deserialized = _deserialize(_models.TextBlocklist, response.json())
-
-        if response.status_code == 201:
-            if _stream:
-                deserialized = response.iter_bytes()
-            else:
-                deserialized = _deserialize(_models.TextBlocklist, response.json())
+        if _stream:
+            deserialized = response.iter_bytes()
+        else:
+            deserialized = _deserialize(_models.TextBlocklist, response.json())
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -659,9 +1044,7 @@ class BlocklistClientOperationsMixin(BlocklistClientMixinABC):
         return deserialized  # type: ignore
 
     @distributed_trace_async
-    async def delete_text_blocklist(  # pylint: disable=inconsistent-return-statements
-        self, blocklist_name: str, **kwargs: Any
-    ) -> None:
+    async def delete_text_blocklist(self, blocklist_name: str, **kwargs: Any) -> None:
         """Delete Text Blocklist By blocklistName.
 
         Deletes a text blocklist.
@@ -672,7 +1055,7 @@ class BlocklistClientOperationsMixin(BlocklistClientMixinABC):
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -692,7 +1075,7 @@ class BlocklistClientOperationsMixin(BlocklistClientMixinABC):
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -704,8 +1087,6 @@ class BlocklistClientOperationsMixin(BlocklistClientMixinABC):
         response = pipeline_response.http_response
 
         if response.status_code not in [204]:
-            if _stream:
-                await response.read()  # Load the body in memory and close the socket
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response)
 
@@ -720,13 +1101,11 @@ class BlocklistClientOperationsMixin(BlocklistClientMixinABC):
 
         :param blocklist_name: Text blocklist name. Required.
         :type blocklist_name: str
-        :keyword bool stream: Whether to stream the response of this operation. Defaults to False. You
-         will have to context manage the returned stream.
         :return: TextBlocklist. The TextBlocklist is compatible with MutableMapping
         :rtype: ~azure.ai.contentsafety.models.TextBlocklist
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -746,7 +1125,7 @@ class BlocklistClientOperationsMixin(BlocklistClientMixinABC):
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -759,7 +1138,10 @@ class BlocklistClientOperationsMixin(BlocklistClientMixinABC):
 
         if response.status_code not in [200]:
             if _stream:
-                await response.read()  # Load the body in memory and close the socket
+                try:
+                    await response.read()  # Load the body in memory and close the socket
+                except (StreamConsumedError, StreamClosedError):
+                    pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response)
 
@@ -786,13 +1168,11 @@ class BlocklistClientOperationsMixin(BlocklistClientMixinABC):
         :param blocklist_item_id: The service will generate a BlocklistItemId, which will be a UUID.
          Required.
         :type blocklist_item_id: str
-        :keyword bool stream: Whether to stream the response of this operation. Defaults to False. You
-         will have to context manage the returned stream.
         :return: TextBlocklistItem. The TextBlocklistItem is compatible with MutableMapping
         :rtype: ~azure.ai.contentsafety.models.TextBlocklistItem
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -813,7 +1193,7 @@ class BlocklistClientOperationsMixin(BlocklistClientMixinABC):
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -826,7 +1206,10 @@ class BlocklistClientOperationsMixin(BlocklistClientMixinABC):
 
         if response.status_code not in [200]:
             if _stream:
-                await response.read()  # Load the body in memory and close the socket
+                try:
+                    await response.read()  # Load the body in memory and close the socket
+                except (StreamConsumedError, StreamClosedError):
+                    pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response)
 
@@ -865,7 +1248,7 @@ class BlocklistClientOperationsMixin(BlocklistClientMixinABC):
         maxpagesize = kwargs.pop("maxpagesize", None)
         cls: ClsType[List[_models.TextBlocklistItem]] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -886,9 +1269,7 @@ class BlocklistClientOperationsMixin(BlocklistClientMixinABC):
                     params=_params,
                 )
                 path_format_arguments = {
-                    "endpoint": self._serialize.url(
-                        "self._config.endpoint", self._config.endpoint, "str", skip_quote=True
-                    ),
+                    "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
                 }
                 _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -906,9 +1287,7 @@ class BlocklistClientOperationsMixin(BlocklistClientMixinABC):
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
                 path_format_arguments = {
-                    "endpoint": self._serialize.url(
-                        "self._config.endpoint", self._config.endpoint, "str", skip_quote=True
-                    ),
+                    "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
                 }
                 _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -931,8 +1310,6 @@ class BlocklistClientOperationsMixin(BlocklistClientMixinABC):
             response = pipeline_response.http_response
 
             if response.status_code not in [200]:
-                if _stream:
-                    await response.read()  # Load the body in memory and close the socket
                 map_error(status_code=response.status_code, response=response, error_map=error_map)
                 raise HttpResponseError(response=response)
 
@@ -955,7 +1332,7 @@ class BlocklistClientOperationsMixin(BlocklistClientMixinABC):
 
         cls: ClsType[List[_models.TextBlocklist]] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -972,9 +1349,7 @@ class BlocklistClientOperationsMixin(BlocklistClientMixinABC):
                     params=_params,
                 )
                 path_format_arguments = {
-                    "endpoint": self._serialize.url(
-                        "self._config.endpoint", self._config.endpoint, "str", skip_quote=True
-                    ),
+                    "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
                 }
                 _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -992,9 +1367,7 @@ class BlocklistClientOperationsMixin(BlocklistClientMixinABC):
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
                 path_format_arguments = {
-                    "endpoint": self._serialize.url(
-                        "self._config.endpoint", self._config.endpoint, "str", skip_quote=True
-                    ),
+                    "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
                 }
                 _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -1017,8 +1390,6 @@ class BlocklistClientOperationsMixin(BlocklistClientMixinABC):
             response = pipeline_response.http_response
 
             if response.status_code not in [200]:
-                if _stream:
-                    await response.read()  # Load the body in memory and close the socket
                 map_error(status_code=response.status_code, response=response, error_map=error_map)
                 raise HttpResponseError(response=response)
 
@@ -1027,7 +1398,7 @@ class BlocklistClientOperationsMixin(BlocklistClientMixinABC):
         return AsyncItemPaged(get_next, extract_data)
 
     @overload
-    async def remove_blocklist_items(  # pylint: disable=inconsistent-return-statements
+    async def remove_blocklist_items(
         self,
         blocklist_name: str,
         options: _models.RemoveTextBlocklistItemsOptions,
@@ -1053,7 +1424,7 @@ class BlocklistClientOperationsMixin(BlocklistClientMixinABC):
         """
 
     @overload
-    async def remove_blocklist_items(  # pylint: disable=inconsistent-return-statements
+    async def remove_blocklist_items(
         self, blocklist_name: str, options: JSON, *, content_type: str = "application/json", **kwargs: Any
     ) -> None:
         """Remove BlocklistItems From Text Blocklist.
@@ -1074,7 +1445,7 @@ class BlocklistClientOperationsMixin(BlocklistClientMixinABC):
         """
 
     @overload
-    async def remove_blocklist_items(  # pylint: disable=inconsistent-return-statements
+    async def remove_blocklist_items(
         self, blocklist_name: str, options: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
     ) -> None:
         """Remove BlocklistItems From Text Blocklist.
@@ -1095,7 +1466,7 @@ class BlocklistClientOperationsMixin(BlocklistClientMixinABC):
         """
 
     @distributed_trace_async
-    async def remove_blocklist_items(  # pylint: disable=inconsistent-return-statements
+    async def remove_blocklist_items(
         self,
         blocklist_name: str,
         options: Union[_models.RemoveTextBlocklistItemsOptions, JSON, IO[bytes]],
@@ -1112,14 +1483,11 @@ class BlocklistClientOperationsMixin(BlocklistClientMixinABC):
          RemoveTextBlocklistItemsOptions, JSON, IO[bytes] Required.
         :type options: ~azure.ai.contentsafety.models.RemoveTextBlocklistItemsOptions or JSON or
          IO[bytes]
-        :keyword content_type: Body parameter Content-Type. Known values are: application/json. Default
-         value is None.
-        :paramtype content_type: str
         :return: None
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1149,7 +1517,7 @@ class BlocklistClientOperationsMixin(BlocklistClientMixinABC):
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -1161,10 +1529,350 @@ class BlocklistClientOperationsMixin(BlocklistClientMixinABC):
         response = pipeline_response.http_response
 
         if response.status_code not in [204]:
-            if _stream:
-                await response.read()  # Load the body in memory and close the socket
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response)
 
         if cls:
             return cls(pipeline_response, None, {})  # type: ignore
+
+
+class RaiPolicyClientOperationsMixin(RaiPolicyClientMixinABC):
+
+    @overload
+    async def create_or_update_rai_policy(
+        self,
+        rai_policy_name: str,
+        options: _models.RaiPolicy,
+        *,
+        content_type: str = "application/merge-patch+json",
+        **kwargs: Any
+    ) -> _models.RaiPolicy:
+        """Create Or Update Rai Policy.
+
+        Updates a rai policy. If the policyName does not exist, a new rai policy will be created.
+
+        :param rai_policy_name: The rai policy name. Required.
+        :type rai_policy_name: str
+        :param options: The resource instance. Required.
+        :type options: ~azure.ai.contentsafety.models.RaiPolicy
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/merge-patch+json".
+        :paramtype content_type: str
+        :return: RaiPolicy. The RaiPolicy is compatible with MutableMapping
+        :rtype: ~azure.ai.contentsafety.models.RaiPolicy
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    async def create_or_update_rai_policy(
+        self, rai_policy_name: str, options: JSON, *, content_type: str = "application/merge-patch+json", **kwargs: Any
+    ) -> _models.RaiPolicy:
+        """Create Or Update Rai Policy.
+
+        Updates a rai policy. If the policyName does not exist, a new rai policy will be created.
+
+        :param rai_policy_name: The rai policy name. Required.
+        :type rai_policy_name: str
+        :param options: The resource instance. Required.
+        :type options: JSON
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/merge-patch+json".
+        :paramtype content_type: str
+        :return: RaiPolicy. The RaiPolicy is compatible with MutableMapping
+        :rtype: ~azure.ai.contentsafety.models.RaiPolicy
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    async def create_or_update_rai_policy(
+        self,
+        rai_policy_name: str,
+        options: IO[bytes],
+        *,
+        content_type: str = "application/merge-patch+json",
+        **kwargs: Any
+    ) -> _models.RaiPolicy:
+        """Create Or Update Rai Policy.
+
+        Updates a rai policy. If the policyName does not exist, a new rai policy will be created.
+
+        :param rai_policy_name: The rai policy name. Required.
+        :type rai_policy_name: str
+        :param options: The resource instance. Required.
+        :type options: IO[bytes]
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/merge-patch+json".
+        :paramtype content_type: str
+        :return: RaiPolicy. The RaiPolicy is compatible with MutableMapping
+        :rtype: ~azure.ai.contentsafety.models.RaiPolicy
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace_async
+    async def create_or_update_rai_policy(
+        self, rai_policy_name: str, options: Union[_models.RaiPolicy, JSON, IO[bytes]], **kwargs: Any
+    ) -> _models.RaiPolicy:
+        """Create Or Update Rai Policy.
+
+        Updates a rai policy. If the policyName does not exist, a new rai policy will be created.
+
+        :param rai_policy_name: The rai policy name. Required.
+        :type rai_policy_name: str
+        :param options: The resource instance. Is one of the following types: RaiPolicy, JSON,
+         IO[bytes] Required.
+        :type options: ~azure.ai.contentsafety.models.RaiPolicy or JSON or IO[bytes]
+        :return: RaiPolicy. The RaiPolicy is compatible with MutableMapping
+        :rtype: ~azure.ai.contentsafety.models.RaiPolicy
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = kwargs.pop("params", {}) or {}
+
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.RaiPolicy] = kwargs.pop("cls", None)
+
+        content_type = content_type or "application/merge-patch+json"
+        _content = None
+        if isinstance(options, (IOBase, bytes)):
+            _content = options
+        else:
+            _content = json.dumps(options, cls=SdkJSONEncoder, exclude_readonly=True)  # type: ignore
+
+        _request = build_rai_policy_create_or_update_rai_policy_request(
+            rai_policy_name=rai_policy_name,
+            content_type=content_type,
+            api_version=self._config.api_version,
+            content=_content,
+            headers=_headers,
+            params=_params,
+        )
+        path_format_arguments = {
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
+        }
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+        _stream = kwargs.pop("stream", False)
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200, 201]:
+            if _stream:
+                try:
+                    await response.read()  # Load the body in memory and close the socket
+                except (StreamConsumedError, StreamClosedError):
+                    pass
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            raise HttpResponseError(response=response)
+
+        if _stream:
+            deserialized = response.iter_bytes()
+        else:
+            deserialized = _deserialize(_models.RaiPolicy, response.json())
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
+
+    @distributed_trace_async
+    async def delete_rai_policy(self, rai_policy_name: str, **kwargs: Any) -> None:
+        """Delete A Rai Policy By policyName.
+
+        Deletes a rai policy.
+
+        :param rai_policy_name: The rai policy name. Required.
+        :type rai_policy_name: str
+        :return: None
+        :rtype: None
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = kwargs.pop("params", {}) or {}
+
+        cls: ClsType[None] = kwargs.pop("cls", None)
+
+        _request = build_rai_policy_delete_rai_policy_request(
+            rai_policy_name=rai_policy_name,
+            api_version=self._config.api_version,
+            headers=_headers,
+            params=_params,
+        )
+        path_format_arguments = {
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
+        }
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+        _stream = False
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [204]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            raise HttpResponseError(response=response)
+
+        if cls:
+            return cls(pipeline_response, None, {})  # type: ignore
+
+    @distributed_trace_async
+    async def get_rai_policy(self, rai_policy_name: str, **kwargs: Any) -> _models.RaiPolicy:
+        """Get Rai Policy By policyName.
+
+        Returns rai policy details.
+
+        :param rai_policy_name: The rai policy name. Required.
+        :type rai_policy_name: str
+        :return: RaiPolicy. The RaiPolicy is compatible with MutableMapping
+        :rtype: ~azure.ai.contentsafety.models.RaiPolicy
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = kwargs.pop("params", {}) or {}
+
+        cls: ClsType[_models.RaiPolicy] = kwargs.pop("cls", None)
+
+        _request = build_rai_policy_get_rai_policy_request(
+            rai_policy_name=rai_policy_name,
+            api_version=self._config.api_version,
+            headers=_headers,
+            params=_params,
+        )
+        path_format_arguments = {
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
+        }
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+        _stream = kwargs.pop("stream", False)
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            if _stream:
+                try:
+                    await response.read()  # Load the body in memory and close the socket
+                except (StreamConsumedError, StreamClosedError):
+                    pass
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            raise HttpResponseError(response=response)
+
+        if _stream:
+            deserialized = response.iter_bytes()
+        else:
+            deserialized = _deserialize(_models.RaiPolicy, response.json())
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
+
+    @distributed_trace
+    def list_rai_policies(self, **kwargs: Any) -> AsyncIterable["_models.RaiPolicy"]:
+        """Get All Rai Policies.
+
+        Get all rai policies details.
+
+        :return: An iterator like instance of RaiPolicy
+        :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.ai.contentsafety.models.RaiPolicy]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = kwargs.pop("params", {}) or {}
+
+        cls: ClsType[List[_models.RaiPolicy]] = kwargs.pop("cls", None)
+
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        def prepare_request(next_link=None):
+            if not next_link:
+
+                _request = build_rai_policy_list_rai_policies_request(
+                    api_version=self._config.api_version,
+                    headers=_headers,
+                    params=_params,
+                )
+                path_format_arguments = {
+                    "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
+                }
+                _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+            else:
+                # make call to next link with the client's api-version
+                _parsed_next_link = urllib.parse.urlparse(next_link)
+                _next_request_params = case_insensitive_dict(
+                    {
+                        key: [urllib.parse.quote(v) for v in value]
+                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
+                    }
+                )
+                _next_request_params["api-version"] = self._config.api_version
+                _request = HttpRequest(
+                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
+                )
+                path_format_arguments = {
+                    "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
+                }
+                _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+            return _request
+
+        async def extract_data(pipeline_response):
+            deserialized = pipeline_response.http_response.json()
+            list_of_elem = _deserialize(List[_models.RaiPolicy], deserialized["value"])
+            if cls:
+                list_of_elem = cls(list_of_elem)  # type: ignore
+            return deserialized.get("nextLink") or None, AsyncList(list_of_elem)
+
+        async def get_next(next_link=None):
+            _request = prepare_request(next_link)
+
+            _stream = False
+            pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
+                _request, stream=_stream, **kwargs
+            )
+            response = pipeline_response.http_response
+
+            if response.status_code not in [200]:
+                map_error(status_code=response.status_code, response=response, error_map=error_map)
+                raise HttpResponseError(response=response)
+
+            return pipeline_response
+
+        return AsyncItemPaged(get_next, extract_data)
