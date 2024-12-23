@@ -1,0 +1,6 @@
+{
+  "commit": "20d9ce552de140fa00b1dcd78f4a71cbd036029f",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/app/Microsoft.App.DynamicSessions",
+  "@azure-tools/typespec-python": "0.37.2"
+}
