@@ -7,6 +7,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
+import sys
 from typing import Any, Callable, Dict, IO, Optional, TypeVar, Union, overload
 
 from azure.core.exceptions import (
@@ -18,14 +19,12 @@ from azure.core.exceptions import (
     map_error,
 )
 from azure.core.pipeline import PipelineResponse
-from azure.core.pipeline.transport import AsyncHttpResponse
-from azure.core.rest import HttpRequest
+from azure.core.rest import AsyncHttpResponse, HttpRequest
 from azure.core.tracing.decorator_async import distributed_trace_async
 from azure.core.utils import case_insensitive_dict
 from azure.mgmt.core.exceptions import ARMErrorFormat
 
 from ... import models as _models
-from ..._vendor import _convert_request
 from ...operations._access_operations import (
     build_create_role_binding_request,
     build_delete_role_binding_request,
@@ -39,6 +38,10 @@ from ...operations._access_operations import (
     build_list_users_request,
 )
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -85,7 +88,6 @@ class AccessOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: AccessListUsersSuccessResponse or the result of cls(response)
         :rtype: ~azure.mgmt.confluent.models.AccessListUsersSuccessResponse
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -96,7 +98,7 @@ class AccessOperations:
         self,
         resource_group_name: str,
         organization_name: str,
-        body: IO,
+        body: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -110,11 +112,10 @@ class AccessOperations:
         :param organization_name: Organization resource name. Required.
         :type organization_name: str
         :param body: List Access Request Model. Required.
-        :type body: IO
+        :type body: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: AccessListUsersSuccessResponse or the result of cls(response)
         :rtype: ~azure.mgmt.confluent.models.AccessListUsersSuccessResponse
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -125,7 +126,7 @@ class AccessOperations:
         self,
         resource_group_name: str,
         organization_name: str,
-        body: Union[_models.ListAccessRequestModel, IO],
+        body: Union[_models.ListAccessRequestModel, IO[bytes]],
         **kwargs: Any
     ) -> _models.AccessListUsersSuccessResponse:
         """Organization users details.
@@ -136,18 +137,14 @@ class AccessOperations:
         :type resource_group_name: str
         :param organization_name: Organization resource name. Required.
         :type organization_name: str
-        :param body: List Access Request Model. Is either a ListAccessRequestModel type or a IO type.
-         Required.
-        :type body: ~azure.mgmt.confluent.models.ListAccessRequestModel or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+        :param body: List Access Request Model. Is either a ListAccessRequestModel type or a IO[bytes]
+         type. Required.
+        :type body: ~azure.mgmt.confluent.models.ListAccessRequestModel or IO[bytes]
         :return: AccessListUsersSuccessResponse or the result of cls(response)
         :rtype: ~azure.mgmt.confluent.models.AccessListUsersSuccessResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -170,7 +167,7 @@ class AccessOperations:
         else:
             _json = self._serialize.body(body, "ListAccessRequestModel")
 
-        request = build_list_users_request(
+        _request = build_list_users_request(
             resource_group_name=resource_group_name,
             organization_name=organization_name,
             subscription_id=self._config.subscription_id,
@@ -178,16 +175,14 @@ class AccessOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.list_users.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -199,16 +194,12 @@ class AccessOperations:
             )
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("AccessListUsersSuccessResponse", pipeline_response)
+        deserialized = self._deserialize("AccessListUsersSuccessResponse", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    list_users.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/access/default/listUsers"
-    }
+        return deserialized  # type: ignore
 
     @overload
     async def list_service_accounts(
@@ -233,7 +224,6 @@ class AccessOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: AccessListServiceAccountsSuccessResponse or the result of cls(response)
         :rtype: ~azure.mgmt.confluent.models.AccessListServiceAccountsSuccessResponse
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -244,7 +234,7 @@ class AccessOperations:
         self,
         resource_group_name: str,
         organization_name: str,
-        body: IO,
+        body: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -258,11 +248,10 @@ class AccessOperations:
         :param organization_name: Organization resource name. Required.
         :type organization_name: str
         :param body: List Access Request Model. Required.
-        :type body: IO
+        :type body: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: AccessListServiceAccountsSuccessResponse or the result of cls(response)
         :rtype: ~azure.mgmt.confluent.models.AccessListServiceAccountsSuccessResponse
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -273,7 +262,7 @@ class AccessOperations:
         self,
         resource_group_name: str,
         organization_name: str,
-        body: Union[_models.ListAccessRequestModel, IO],
+        body: Union[_models.ListAccessRequestModel, IO[bytes]],
         **kwargs: Any
     ) -> _models.AccessListServiceAccountsSuccessResponse:
         """Organization service accounts details.
@@ -284,18 +273,14 @@ class AccessOperations:
         :type resource_group_name: str
         :param organization_name: Organization resource name. Required.
         :type organization_name: str
-        :param body: List Access Request Model. Is either a ListAccessRequestModel type or a IO type.
-         Required.
-        :type body: ~azure.mgmt.confluent.models.ListAccessRequestModel or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+        :param body: List Access Request Model. Is either a ListAccessRequestModel type or a IO[bytes]
+         type. Required.
+        :type body: ~azure.mgmt.confluent.models.ListAccessRequestModel or IO[bytes]
         :return: AccessListServiceAccountsSuccessResponse or the result of cls(response)
         :rtype: ~azure.mgmt.confluent.models.AccessListServiceAccountsSuccessResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -318,7 +303,7 @@ class AccessOperations:
         else:
             _json = self._serialize.body(body, "ListAccessRequestModel")
 
-        request = build_list_service_accounts_request(
+        _request = build_list_service_accounts_request(
             resource_group_name=resource_group_name,
             organization_name=organization_name,
             subscription_id=self._config.subscription_id,
@@ -326,16 +311,14 @@ class AccessOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.list_service_accounts.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -347,16 +330,12 @@ class AccessOperations:
             )
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("AccessListServiceAccountsSuccessResponse", pipeline_response)
+        deserialized = self._deserialize("AccessListServiceAccountsSuccessResponse", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    list_service_accounts.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/access/default/listServiceAccounts"
-    }
+        return deserialized  # type: ignore
 
     @overload
     async def list_invitations(
@@ -381,7 +360,6 @@ class AccessOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: AccessListInvitationsSuccessResponse or the result of cls(response)
         :rtype: ~azure.mgmt.confluent.models.AccessListInvitationsSuccessResponse
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -392,7 +370,7 @@ class AccessOperations:
         self,
         resource_group_name: str,
         organization_name: str,
-        body: IO,
+        body: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -406,11 +384,10 @@ class AccessOperations:
         :param organization_name: Organization resource name. Required.
         :type organization_name: str
         :param body: List Access Request Model. Required.
-        :type body: IO
+        :type body: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: AccessListInvitationsSuccessResponse or the result of cls(response)
         :rtype: ~azure.mgmt.confluent.models.AccessListInvitationsSuccessResponse
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -421,7 +398,7 @@ class AccessOperations:
         self,
         resource_group_name: str,
         organization_name: str,
-        body: Union[_models.ListAccessRequestModel, IO],
+        body: Union[_models.ListAccessRequestModel, IO[bytes]],
         **kwargs: Any
     ) -> _models.AccessListInvitationsSuccessResponse:
         """Organization accounts invitation details.
@@ -432,18 +409,14 @@ class AccessOperations:
         :type resource_group_name: str
         :param organization_name: Organization resource name. Required.
         :type organization_name: str
-        :param body: List Access Request Model. Is either a ListAccessRequestModel type or a IO type.
-         Required.
-        :type body: ~azure.mgmt.confluent.models.ListAccessRequestModel or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+        :param body: List Access Request Model. Is either a ListAccessRequestModel type or a IO[bytes]
+         type. Required.
+        :type body: ~azure.mgmt.confluent.models.ListAccessRequestModel or IO[bytes]
         :return: AccessListInvitationsSuccessResponse or the result of cls(response)
         :rtype: ~azure.mgmt.confluent.models.AccessListInvitationsSuccessResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -466,7 +439,7 @@ class AccessOperations:
         else:
             _json = self._serialize.body(body, "ListAccessRequestModel")
 
-        request = build_list_invitations_request(
+        _request = build_list_invitations_request(
             resource_group_name=resource_group_name,
             organization_name=organization_name,
             subscription_id=self._config.subscription_id,
@@ -474,16 +447,14 @@ class AccessOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.list_invitations.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -495,16 +466,12 @@ class AccessOperations:
             )
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("AccessListInvitationsSuccessResponse", pipeline_response)
+        deserialized = self._deserialize("AccessListInvitationsSuccessResponse", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    list_invitations.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/access/default/listInvitations"
-    }
+        return deserialized  # type: ignore
 
     @overload
     async def invite_user(
@@ -529,7 +496,6 @@ class AccessOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: InvitationRecord or the result of cls(response)
         :rtype: ~azure.mgmt.confluent.models.InvitationRecord
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -540,7 +506,7 @@ class AccessOperations:
         self,
         resource_group_name: str,
         organization_name: str,
-        body: IO,
+        body: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -554,11 +520,10 @@ class AccessOperations:
         :param organization_name: Organization resource name. Required.
         :type organization_name: str
         :param body: Invite user account model. Required.
-        :type body: IO
+        :type body: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: InvitationRecord or the result of cls(response)
         :rtype: ~azure.mgmt.confluent.models.InvitationRecord
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -569,7 +534,7 @@ class AccessOperations:
         self,
         resource_group_name: str,
         organization_name: str,
-        body: Union[_models.AccessInviteUserAccountModel, IO],
+        body: Union[_models.AccessInviteUserAccountModel, IO[bytes]],
         **kwargs: Any
     ) -> _models.InvitationRecord:
         """Invite user to the organization.
@@ -580,18 +545,14 @@ class AccessOperations:
         :type resource_group_name: str
         :param organization_name: Organization resource name. Required.
         :type organization_name: str
-        :param body: Invite user account model. Is either a AccessInviteUserAccountModel type or a IO
-         type. Required.
-        :type body: ~azure.mgmt.confluent.models.AccessInviteUserAccountModel or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+        :param body: Invite user account model. Is either a AccessInviteUserAccountModel type or a
+         IO[bytes] type. Required.
+        :type body: ~azure.mgmt.confluent.models.AccessInviteUserAccountModel or IO[bytes]
         :return: InvitationRecord or the result of cls(response)
         :rtype: ~azure.mgmt.confluent.models.InvitationRecord
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -614,7 +575,7 @@ class AccessOperations:
         else:
             _json = self._serialize.body(body, "AccessInviteUserAccountModel")
 
-        request = build_invite_user_request(
+        _request = build_invite_user_request(
             resource_group_name=resource_group_name,
             organization_name=organization_name,
             subscription_id=self._config.subscription_id,
@@ -622,16 +583,14 @@ class AccessOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.invite_user.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -643,16 +602,12 @@ class AccessOperations:
             )
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("InvitationRecord", pipeline_response)
+        deserialized = self._deserialize("InvitationRecord", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    invite_user.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/access/default/createInvitation"
-    }
+        return deserialized  # type: ignore
 
     @overload
     async def list_environments(
@@ -678,7 +633,6 @@ class AccessOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: AccessListEnvironmentsSuccessResponse or the result of cls(response)
         :rtype: ~azure.mgmt.confluent.models.AccessListEnvironmentsSuccessResponse
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -689,7 +643,7 @@ class AccessOperations:
         self,
         resource_group_name: str,
         organization_name: str,
-        body: IO,
+        body: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -704,11 +658,10 @@ class AccessOperations:
         :param organization_name: Organization resource name. Required.
         :type organization_name: str
         :param body: List Access Request Model. Required.
-        :type body: IO
+        :type body: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: AccessListEnvironmentsSuccessResponse or the result of cls(response)
         :rtype: ~azure.mgmt.confluent.models.AccessListEnvironmentsSuccessResponse
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -719,7 +672,7 @@ class AccessOperations:
         self,
         resource_group_name: str,
         organization_name: str,
-        body: Union[_models.ListAccessRequestModel, IO],
+        body: Union[_models.ListAccessRequestModel, IO[bytes]],
         **kwargs: Any
     ) -> _models.AccessListEnvironmentsSuccessResponse:
         """Environment list of an organization.
@@ -731,18 +684,14 @@ class AccessOperations:
         :type resource_group_name: str
         :param organization_name: Organization resource name. Required.
         :type organization_name: str
-        :param body: List Access Request Model. Is either a ListAccessRequestModel type or a IO type.
-         Required.
-        :type body: ~azure.mgmt.confluent.models.ListAccessRequestModel or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+        :param body: List Access Request Model. Is either a ListAccessRequestModel type or a IO[bytes]
+         type. Required.
+        :type body: ~azure.mgmt.confluent.models.ListAccessRequestModel or IO[bytes]
         :return: AccessListEnvironmentsSuccessResponse or the result of cls(response)
         :rtype: ~azure.mgmt.confluent.models.AccessListEnvironmentsSuccessResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -765,7 +714,7 @@ class AccessOperations:
         else:
             _json = self._serialize.body(body, "ListAccessRequestModel")
 
-        request = build_list_environments_request(
+        _request = build_list_environments_request(
             resource_group_name=resource_group_name,
             organization_name=organization_name,
             subscription_id=self._config.subscription_id,
@@ -773,16 +722,14 @@ class AccessOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.list_environments.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -794,16 +741,12 @@ class AccessOperations:
             )
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("AccessListEnvironmentsSuccessResponse", pipeline_response)
+        deserialized = self._deserialize("AccessListEnvironmentsSuccessResponse", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    list_environments.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/access/default/listEnvironments"
-    }
+        return deserialized  # type: ignore
 
     @overload
     async def list_clusters(
@@ -829,7 +772,6 @@ class AccessOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: AccessListClusterSuccessResponse or the result of cls(response)
         :rtype: ~azure.mgmt.confluent.models.AccessListClusterSuccessResponse
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -840,7 +782,7 @@ class AccessOperations:
         self,
         resource_group_name: str,
         organization_name: str,
-        body: IO,
+        body: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -855,11 +797,10 @@ class AccessOperations:
         :param organization_name: Organization resource name. Required.
         :type organization_name: str
         :param body: List Access Request Model. Required.
-        :type body: IO
+        :type body: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: AccessListClusterSuccessResponse or the result of cls(response)
         :rtype: ~azure.mgmt.confluent.models.AccessListClusterSuccessResponse
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -870,7 +811,7 @@ class AccessOperations:
         self,
         resource_group_name: str,
         organization_name: str,
-        body: Union[_models.ListAccessRequestModel, IO],
+        body: Union[_models.ListAccessRequestModel, IO[bytes]],
         **kwargs: Any
     ) -> _models.AccessListClusterSuccessResponse:
         """Cluster details.
@@ -882,18 +823,14 @@ class AccessOperations:
         :type resource_group_name: str
         :param organization_name: Organization resource name. Required.
         :type organization_name: str
-        :param body: List Access Request Model. Is either a ListAccessRequestModel type or a IO type.
-         Required.
-        :type body: ~azure.mgmt.confluent.models.ListAccessRequestModel or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+        :param body: List Access Request Model. Is either a ListAccessRequestModel type or a IO[bytes]
+         type. Required.
+        :type body: ~azure.mgmt.confluent.models.ListAccessRequestModel or IO[bytes]
         :return: AccessListClusterSuccessResponse or the result of cls(response)
         :rtype: ~azure.mgmt.confluent.models.AccessListClusterSuccessResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -916,7 +853,7 @@ class AccessOperations:
         else:
             _json = self._serialize.body(body, "ListAccessRequestModel")
 
-        request = build_list_clusters_request(
+        _request = build_list_clusters_request(
             resource_group_name=resource_group_name,
             organization_name=organization_name,
             subscription_id=self._config.subscription_id,
@@ -924,16 +861,14 @@ class AccessOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.list_clusters.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -945,16 +880,12 @@ class AccessOperations:
             )
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("AccessListClusterSuccessResponse", pipeline_response)
+        deserialized = self._deserialize("AccessListClusterSuccessResponse", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    list_clusters.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/access/default/listClusters"
-    }
+        return deserialized  # type: ignore
 
     @overload
     async def list_role_bindings(
@@ -980,7 +911,6 @@ class AccessOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: AccessListRoleBindingsSuccessResponse or the result of cls(response)
         :rtype: ~azure.mgmt.confluent.models.AccessListRoleBindingsSuccessResponse
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -991,7 +921,7 @@ class AccessOperations:
         self,
         resource_group_name: str,
         organization_name: str,
-        body: IO,
+        body: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -1006,11 +936,10 @@ class AccessOperations:
         :param organization_name: Organization resource name. Required.
         :type organization_name: str
         :param body: List Access Request Model. Required.
-        :type body: IO
+        :type body: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: AccessListRoleBindingsSuccessResponse or the result of cls(response)
         :rtype: ~azure.mgmt.confluent.models.AccessListRoleBindingsSuccessResponse
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1021,7 +950,7 @@ class AccessOperations:
         self,
         resource_group_name: str,
         organization_name: str,
-        body: Union[_models.ListAccessRequestModel, IO],
+        body: Union[_models.ListAccessRequestModel, IO[bytes]],
         **kwargs: Any
     ) -> _models.AccessListRoleBindingsSuccessResponse:
         """Organization role bindings.
@@ -1033,18 +962,14 @@ class AccessOperations:
         :type resource_group_name: str
         :param organization_name: Organization resource name. Required.
         :type organization_name: str
-        :param body: List Access Request Model. Is either a ListAccessRequestModel type or a IO type.
-         Required.
-        :type body: ~azure.mgmt.confluent.models.ListAccessRequestModel or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+        :param body: List Access Request Model. Is either a ListAccessRequestModel type or a IO[bytes]
+         type. Required.
+        :type body: ~azure.mgmt.confluent.models.ListAccessRequestModel or IO[bytes]
         :return: AccessListRoleBindingsSuccessResponse or the result of cls(response)
         :rtype: ~azure.mgmt.confluent.models.AccessListRoleBindingsSuccessResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1067,7 +992,7 @@ class AccessOperations:
         else:
             _json = self._serialize.body(body, "ListAccessRequestModel")
 
-        request = build_list_role_bindings_request(
+        _request = build_list_role_bindings_request(
             resource_group_name=resource_group_name,
             organization_name=organization_name,
             subscription_id=self._config.subscription_id,
@@ -1075,16 +1000,14 @@ class AccessOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.list_role_bindings.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1096,16 +1019,12 @@ class AccessOperations:
             )
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("AccessListRoleBindingsSuccessResponse", pipeline_response)
+        deserialized = self._deserialize("AccessListRoleBindingsSuccessResponse", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    list_role_bindings.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/access/default/listRoleBindings"
-    }
+        return deserialized  # type: ignore
 
     @overload
     async def create_role_binding(
@@ -1131,7 +1050,6 @@ class AccessOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: RoleBindingRecord or the result of cls(response)
         :rtype: ~azure.mgmt.confluent.models.RoleBindingRecord
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1142,7 +1060,7 @@ class AccessOperations:
         self,
         resource_group_name: str,
         organization_name: str,
-        body: IO,
+        body: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -1157,11 +1075,10 @@ class AccessOperations:
         :param organization_name: Organization resource name. Required.
         :type organization_name: str
         :param body: Create role binding Request Model. Required.
-        :type body: IO
+        :type body: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: RoleBindingRecord or the result of cls(response)
         :rtype: ~azure.mgmt.confluent.models.RoleBindingRecord
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1172,7 +1089,7 @@ class AccessOperations:
         self,
         resource_group_name: str,
         organization_name: str,
-        body: Union[_models.AccessCreateRoleBindingRequestModel, IO],
+        body: Union[_models.AccessCreateRoleBindingRequestModel, IO[bytes]],
         **kwargs: Any
     ) -> _models.RoleBindingRecord:
         """Organization role bindings.
@@ -1185,17 +1102,13 @@ class AccessOperations:
         :param organization_name: Organization resource name. Required.
         :type organization_name: str
         :param body: Create role binding Request Model. Is either a AccessCreateRoleBindingRequestModel
-         type or a IO type. Required.
-        :type body: ~azure.mgmt.confluent.models.AccessCreateRoleBindingRequestModel or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         type or a IO[bytes] type. Required.
+        :type body: ~azure.mgmt.confluent.models.AccessCreateRoleBindingRequestModel or IO[bytes]
         :return: RoleBindingRecord or the result of cls(response)
         :rtype: ~azure.mgmt.confluent.models.RoleBindingRecord
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1218,7 +1131,7 @@ class AccessOperations:
         else:
             _json = self._serialize.body(body, "AccessCreateRoleBindingRequestModel")
 
-        request = build_create_role_binding_request(
+        _request = build_create_role_binding_request(
             resource_group_name=resource_group_name,
             organization_name=organization_name,
             subscription_id=self._config.subscription_id,
@@ -1226,16 +1139,14 @@ class AccessOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.create_role_binding.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1247,19 +1158,15 @@ class AccessOperations:
             )
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("RoleBindingRecord", pipeline_response)
+        deserialized = self._deserialize("RoleBindingRecord", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    create_role_binding.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/access/default/createRoleBinding"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace_async
-    async def delete_role_binding(  # pylint: disable=inconsistent-return-statements
+    async def delete_role_binding(
         self, resource_group_name: str, organization_name: str, role_binding_id: str, **kwargs: Any
     ) -> None:
         """Organization role bindings.
@@ -1273,12 +1180,11 @@ class AccessOperations:
         :type organization_name: str
         :param role_binding_id: Confluent Role binding id. Required.
         :type role_binding_id: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1292,22 +1198,20 @@ class AccessOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_delete_role_binding_request(
+        _request = build_delete_role_binding_request(
             resource_group_name=resource_group_name,
             organization_name=organization_name,
             role_binding_id=role_binding_id,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.delete_role_binding.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1320,11 +1224,7 @@ class AccessOperations:
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    delete_role_binding.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/access/default/deleteRoleBinding/{roleBindingId}"
-    }
+            return cls(pipeline_response, None, {})  # type: ignore
 
     @overload
     async def list_role_binding_name_list(
@@ -1350,7 +1250,6 @@ class AccessOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: AccessRoleBindingNameListSuccessResponse or the result of cls(response)
         :rtype: ~azure.mgmt.confluent.models.AccessRoleBindingNameListSuccessResponse
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1361,7 +1260,7 @@ class AccessOperations:
         self,
         resource_group_name: str,
         organization_name: str,
-        body: IO,
+        body: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -1376,11 +1275,10 @@ class AccessOperations:
         :param organization_name: Organization resource name. Required.
         :type organization_name: str
         :param body: List Access Request Model. Required.
-        :type body: IO
+        :type body: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: AccessRoleBindingNameListSuccessResponse or the result of cls(response)
         :rtype: ~azure.mgmt.confluent.models.AccessRoleBindingNameListSuccessResponse
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1391,7 +1289,7 @@ class AccessOperations:
         self,
         resource_group_name: str,
         organization_name: str,
-        body: Union[_models.ListAccessRequestModel, IO],
+        body: Union[_models.ListAccessRequestModel, IO[bytes]],
         **kwargs: Any
     ) -> _models.AccessRoleBindingNameListSuccessResponse:
         """Organization role bindings.
@@ -1403,18 +1301,14 @@ class AccessOperations:
         :type resource_group_name: str
         :param organization_name: Organization resource name. Required.
         :type organization_name: str
-        :param body: List Access Request Model. Is either a ListAccessRequestModel type or a IO type.
-         Required.
-        :type body: ~azure.mgmt.confluent.models.ListAccessRequestModel or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+        :param body: List Access Request Model. Is either a ListAccessRequestModel type or a IO[bytes]
+         type. Required.
+        :type body: ~azure.mgmt.confluent.models.ListAccessRequestModel or IO[bytes]
         :return: AccessRoleBindingNameListSuccessResponse or the result of cls(response)
         :rtype: ~azure.mgmt.confluent.models.AccessRoleBindingNameListSuccessResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1437,7 +1331,7 @@ class AccessOperations:
         else:
             _json = self._serialize.body(body, "ListAccessRequestModel")
 
-        request = build_list_role_binding_name_list_request(
+        _request = build_list_role_binding_name_list_request(
             resource_group_name=resource_group_name,
             organization_name=organization_name,
             subscription_id=self._config.subscription_id,
@@ -1445,16 +1339,14 @@ class AccessOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.list_role_binding_name_list.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1466,13 +1358,9 @@ class AccessOperations:
             )
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("AccessRoleBindingNameListSuccessResponse", pipeline_response)
+        deserialized = self._deserialize("AccessRoleBindingNameListSuccessResponse", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    list_role_binding_name_list.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/access/default/listRoleBindingNameList"
-    }
+        return deserialized  # type: ignore
