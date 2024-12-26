@@ -1,5 +1,5 @@
-# coding=utf-8
 # pylint: disable=too-many-lines
+# coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -13,7 +13,6 @@ from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 from .. import _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
@@ -174,7 +173,7 @@ class ProtectionContainer(_serialization.Model):
         self.protectable_object_type = protectable_object_type
 
 
-class DpmContainer(ProtectionContainer):  # pylint: disable=too-many-instance-attributes
+class DpmContainer(ProtectionContainer):
     """DPM workload-specific protection container.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
@@ -323,7 +322,7 @@ class DpmContainer(ProtectionContainer):  # pylint: disable=too-many-instance-at
         self.extended_info = extended_info
 
 
-class AzureBackupServerContainer(DpmContainer):  # pylint: disable=too-many-instance-attributes
+class AzureBackupServerContainer(DpmContainer):
     """AzureBackupServer (DPMVenus) workload-specific protection container.
 
     All required parameters must be populated in order to send to server.
@@ -467,7 +466,7 @@ class AzureBackupServerContainer(DpmContainer):  # pylint: disable=too-many-inst
         self.container_type: str = "AzureBackupServerContainer"
 
 
-class BackupEngineBase(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class BackupEngineBase(_serialization.Model):
     """The base backup engine class. All workload specific backup engines derive from this class.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
@@ -605,7 +604,7 @@ class BackupEngineBase(_serialization.Model):  # pylint: disable=too-many-instan
         self.extended_info = extended_info
 
 
-class AzureBackupServerEngine(BackupEngineBase):  # pylint: disable=too-many-instance-attributes
+class AzureBackupServerEngine(BackupEngineBase):
     """Backup engine type when Azure Backup Server is used to manage the backups.
 
     All required parameters must be populated in order to send to server.
@@ -965,7 +964,7 @@ class AzureFileShareProtectableItem(WorkloadProtectableItem):
         self.azure_file_share_type = azure_file_share_type
 
 
-class ProtectedItem(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class ProtectedItem(_serialization.Model):
     """Base class for backup items.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
@@ -1151,7 +1150,7 @@ class ProtectedItem(_serialization.Model):  # pylint: disable=too-many-instance-
         self.vault_id = None
 
 
-class AzureFileshareProtectedItem(ProtectedItem):  # pylint: disable=too-many-instance-attributes
+class AzureFileshareProtectedItem(ProtectedItem):
     """Azure File Share workload-specific backup item.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -2322,7 +2321,7 @@ class AzureIaaSClassicComputeVMProtectableItem(IaaSVMProtectableItem):
         self.protectable_item_type: str = "Microsoft.ClassicCompute/virtualMachines"
 
 
-class AzureIaaSVMProtectedItem(ProtectedItem):  # pylint: disable=too-many-instance-attributes
+class AzureIaaSVMProtectedItem(ProtectedItem):
     """IaaS VM workload-specific backup item.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
@@ -2592,7 +2591,7 @@ class AzureIaaSVMProtectedItem(ProtectedItem):  # pylint: disable=too-many-insta
         self.extended_properties = extended_properties
 
 
-class AzureIaaSClassicComputeVMProtectedItem(AzureIaaSVMProtectedItem):  # pylint: disable=too-many-instance-attributes
+class AzureIaaSClassicComputeVMProtectedItem(AzureIaaSVMProtectedItem):
     """IaaS VM workload-specific backup item representing the Classic Compute VM.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -3043,7 +3042,7 @@ class AzureIaaSComputeVMProtectableItem(IaaSVMProtectableItem):
         self.protectable_item_type: str = "Microsoft.Compute/virtualMachines"
 
 
-class AzureIaaSComputeVMProtectedItem(AzureIaaSVMProtectedItem):  # pylint: disable=too-many-instance-attributes
+class AzureIaaSComputeVMProtectedItem(AzureIaaSVMProtectedItem):
     """IaaS VM workload-specific backup item representing the Azure Resource Manager VM.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -3490,7 +3489,7 @@ class Job(_serialization.Model):
         self.job_type: Optional[str] = None
 
 
-class AzureIaaSVMJob(Job):  # pylint: disable=too-many-instance-attributes
+class AzureIaaSVMJob(Job):
     """Azure IaaS VM workload-specific job object.
 
     All required parameters must be populated in order to send to server.
@@ -3774,7 +3773,7 @@ class AzureIaaSVMJobTaskDetails(_serialization.Model):
         self.task_execution_details = task_execution_details
 
 
-class AzureIaaSVMJobV2(Job):  # pylint: disable=too-many-instance-attributes
+class AzureIaaSVMJobV2(Job):
     """Azure IaaS VM workload-specific job object.
 
     All required parameters must be populated in order to send to server.
@@ -3981,7 +3980,7 @@ class AzureIaaSVMProtectedItemExtendedInfo(_serialization.Model):
         self.policy_inconsistent = policy_inconsistent
 
 
-class AzureIaaSVMProtectionPolicy(ProtectionPolicy):  # pylint: disable=too-many-instance-attributes
+class AzureIaaSVMProtectionPolicy(ProtectionPolicy):
     """IaaS VM workload-specific backup policy.
 
     All required parameters must be populated in order to send to server.
@@ -4366,7 +4365,7 @@ class AzureResourceProtectionIntent(ProtectionIntent):
         self.friendly_name = friendly_name
 
 
-class AzureWorkloadContainer(ProtectionContainer):  # pylint: disable=too-many-instance-attributes
+class AzureWorkloadContainer(ProtectionContainer):
     """Container for the workloads running inside Azure Compute or Classic Compute.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
@@ -4513,9 +4512,7 @@ class AzureWorkloadContainer(ProtectionContainer):  # pylint: disable=too-many-i
         self.operation_type = operation_type
 
 
-class AzureSQLAGWorkloadContainerProtectionContainer(
-    AzureWorkloadContainer
-):  # pylint: disable=too-many-instance-attributes,name-too-long
+class AzureSQLAGWorkloadContainerProtectionContainer(AzureWorkloadContainer):  # pylint: disable=name-too-long
     """Container for SQL workloads under SQL Availability Group.
 
     All required parameters must be populated in order to send to server.
@@ -4738,7 +4735,7 @@ class AzureSqlContainer(ProtectionContainer):
         self.container_type: str = "AzureSqlContainer"
 
 
-class AzureSqlProtectedItem(ProtectedItem):  # pylint: disable=too-many-instance-attributes
+class AzureSqlProtectedItem(ProtectedItem):
     """Azure SQL workload-specific backup item.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -5032,7 +5029,7 @@ class AzureSqlProtectionPolicy(ProtectionPolicy):
         self.retention_policy = retention_policy
 
 
-class AzureStorageContainer(ProtectionContainer):  # pylint: disable=too-many-instance-attributes
+class AzureStorageContainer(ProtectionContainer):
     """Azure Storage Account workload-specific container.
 
     All required parameters must be populated in order to send to server.
@@ -5196,7 +5193,7 @@ class AzureStorageErrorInfo(_serialization.Model):
         self.recommendations = recommendations
 
 
-class AzureStorageJob(Job):  # pylint: disable=too-many-instance-attributes
+class AzureStorageJob(Job):
     """Azure storage specific job.
 
     All required parameters must be populated in order to send to server.
@@ -5637,7 +5634,7 @@ class AzureVMAppContainerProtectableContainer(ProtectableContainer):
         self.protectable_container_type: str = "VMAppContainer"
 
 
-class AzureVMAppContainerProtectionContainer(AzureWorkloadContainer):  # pylint: disable=too-many-instance-attributes
+class AzureVMAppContainerProtectionContainer(AzureWorkloadContainer):
     """Container for SQL workloads under Azure Virtual Machines.
 
     All required parameters must be populated in order to send to server.
@@ -6012,7 +6009,7 @@ class AzureVmWorkloadItem(WorkloadItem):
         self.sub_workload_item_count = sub_workload_item_count
 
 
-class AzureVmWorkloadProtectableItem(WorkloadProtectableItem):  # pylint: disable=too-many-instance-attributes
+class AzureVmWorkloadProtectableItem(WorkloadProtectableItem):
     """Azure VM workload-specific protectable item.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
@@ -6163,7 +6160,7 @@ class AzureVmWorkloadProtectableItem(WorkloadProtectableItem):  # pylint: disabl
         self.is_protectable = is_protectable
 
 
-class AzureVmWorkloadProtectedItem(ProtectedItem):  # pylint: disable=too-many-instance-attributes
+class AzureVmWorkloadProtectedItem(ProtectedItem):
     """Azure VM workload-specific protected item.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
@@ -6629,9 +6626,7 @@ class AzureVmWorkloadProtectionPolicy(ProtectionPolicy):
         self.make_policy_consistent = make_policy_consistent
 
 
-class AzureVmWorkloadSAPAseDatabaseProtectedItem(
-    AzureVmWorkloadProtectedItem
-):  # pylint: disable=too-many-instance-attributes,name-too-long
+class AzureVmWorkloadSAPAseDatabaseProtectedItem(AzureVmWorkloadProtectedItem):  # pylint: disable=name-too-long
     """Azure VM workload-specific protected item representing SAP ASE Database.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -7015,9 +7010,7 @@ class AzureVmWorkloadSAPAseDatabaseWorkloadItem(AzureVmWorkloadItem):  # pylint:
         self.workload_item_type: str = "SAPAseDatabase"
 
 
-class AzureVmWorkloadSAPAseSystemProtectableItem(
-    AzureVmWorkloadProtectableItem
-):  # pylint: disable=too-many-instance-attributes,name-too-long
+class AzureVmWorkloadSAPAseSystemProtectableItem(AzureVmWorkloadProtectableItem):  # pylint: disable=name-too-long
     """Azure VM workload-specific protectable item representing SAP ASE System.
 
     All required parameters must be populated in order to send to server.
@@ -7245,9 +7238,7 @@ class AzureVmWorkloadSAPAseSystemWorkloadItem(AzureVmWorkloadItem):
         self.workload_item_type: str = "SAPAseSystem"
 
 
-class AzureVmWorkloadSAPHanaDatabaseProtectableItem(
-    AzureVmWorkloadProtectableItem
-):  # pylint: disable=too-many-instance-attributes,name-too-long
+class AzureVmWorkloadSAPHanaDatabaseProtectableItem(AzureVmWorkloadProtectableItem):  # pylint: disable=name-too-long
     """Azure VM workload-specific protectable item representing SAP HANA Database.
 
     All required parameters must be populated in order to send to server.
@@ -7378,9 +7369,7 @@ class AzureVmWorkloadSAPHanaDatabaseProtectableItem(
         self.protectable_item_type: str = "SAPHanaDatabase"
 
 
-class AzureVmWorkloadSAPHanaDatabaseProtectedItem(
-    AzureVmWorkloadProtectedItem
-):  # pylint: disable=too-many-instance-attributes,name-too-long
+class AzureVmWorkloadSAPHanaDatabaseProtectedItem(AzureVmWorkloadProtectedItem):  # pylint: disable=name-too-long
     """Azure VM workload-specific protected item representing SAP HANA Database.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -7764,7 +7753,7 @@ class AzureVmWorkloadSAPHanaDatabaseWorkloadItem(AzureVmWorkloadItem):  # pylint
         self.workload_item_type: str = "SAPHanaDatabase"
 
 
-class AzureVmWorkloadSAPHanaDBInstance(AzureVmWorkloadProtectableItem):  # pylint: disable=too-many-instance-attributes
+class AzureVmWorkloadSAPHanaDBInstance(AzureVmWorkloadProtectableItem):
     """Azure VM workload-specific protectable item representing SAP HANA Dbinstance.
 
     All required parameters must be populated in order to send to server.
@@ -7895,9 +7884,7 @@ class AzureVmWorkloadSAPHanaDBInstance(AzureVmWorkloadProtectableItem):  # pylin
         self.protectable_item_type: str = "SAPHanaDBInstance"
 
 
-class AzureVmWorkloadSAPHanaDBInstanceProtectedItem(
-    AzureVmWorkloadProtectedItem
-):  # pylint: disable=too-many-instance-attributes,name-too-long
+class AzureVmWorkloadSAPHanaDBInstanceProtectedItem(AzureVmWorkloadProtectedItem):  # pylint: disable=name-too-long
     """Azure VM workload-specific protected item representing SAP HANA DBInstance.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -8184,9 +8171,7 @@ class AzureVmWorkloadSAPHanaDBInstanceProtectedItem(
         self.protected_item_type: str = "AzureVmWorkloadSAPHanaDBInstance"
 
 
-class AzureVmWorkloadSAPHanaHSRProtectableItem(
-    AzureVmWorkloadProtectableItem
-):  # pylint: disable=too-many-instance-attributes
+class AzureVmWorkloadSAPHanaHSRProtectableItem(AzureVmWorkloadProtectableItem):
     """Azure VM workload-specific protectable item representing HANA HSR.
 
     All required parameters must be populated in order to send to server.
@@ -8317,9 +8302,7 @@ class AzureVmWorkloadSAPHanaHSRProtectableItem(
         self.protectable_item_type: str = "HanaHSRContainer"
 
 
-class AzureVmWorkloadSAPHanaSystemProtectableItem(
-    AzureVmWorkloadProtectableItem
-):  # pylint: disable=too-many-instance-attributes,name-too-long
+class AzureVmWorkloadSAPHanaSystemProtectableItem(AzureVmWorkloadProtectableItem):  # pylint: disable=name-too-long
     """Azure VM workload-specific protectable item representing SAP HANA System.
 
     All required parameters must be populated in order to send to server.
@@ -8549,7 +8532,7 @@ class AzureVmWorkloadSAPHanaSystemWorkloadItem(AzureVmWorkloadItem):
 
 class AzureVmWorkloadSQLAvailabilityGroupProtectableItem(
     AzureVmWorkloadProtectableItem
-):  # pylint: disable=too-many-instance-attributes,name-too-long
+):  # pylint: disable=name-too-long
     """Azure VM workload-specific protectable item representing SQL Availability Group.
 
     All required parameters must be populated in order to send to server.
@@ -8689,9 +8672,7 @@ class AzureVmWorkloadSQLAvailabilityGroupProtectableItem(
         self.nodes_list = nodes_list
 
 
-class AzureVmWorkloadSQLDatabaseProtectableItem(
-    AzureVmWorkloadProtectableItem
-):  # pylint: disable=too-many-instance-attributes,name-too-long
+class AzureVmWorkloadSQLDatabaseProtectableItem(AzureVmWorkloadProtectableItem):  # pylint: disable=name-too-long
     """Azure VM workload-specific protectable item representing SQL Database.
 
     All required parameters must be populated in order to send to server.
@@ -8822,9 +8803,7 @@ class AzureVmWorkloadSQLDatabaseProtectableItem(
         self.protectable_item_type: str = "SQLDataBase"
 
 
-class AzureVmWorkloadSQLDatabaseProtectedItem(
-    AzureVmWorkloadProtectedItem
-):  # pylint: disable=too-many-instance-attributes
+class AzureVmWorkloadSQLDatabaseProtectedItem(AzureVmWorkloadProtectedItem):
     """Azure VM workload-specific protected item representing SQL Database.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -9208,9 +9187,7 @@ class AzureVmWorkloadSQLDatabaseWorkloadItem(AzureVmWorkloadItem):
         self.workload_item_type: str = "SQLDataBase"
 
 
-class AzureVmWorkloadSQLInstanceProtectableItem(
-    AzureVmWorkloadProtectableItem
-):  # pylint: disable=too-many-instance-attributes,name-too-long
+class AzureVmWorkloadSQLInstanceProtectableItem(AzureVmWorkloadProtectableItem):  # pylint: disable=name-too-long
     """Azure VM workload-specific protectable item representing SQL Instance.
 
     All required parameters must be populated in order to send to server.
@@ -9341,7 +9318,7 @@ class AzureVmWorkloadSQLInstanceProtectableItem(
         self.protectable_item_type: str = "SQLInstance"
 
 
-class AzureVmWorkloadSQLInstanceWorkloadItem(AzureVmWorkloadItem):  # pylint: disable=too-many-instance-attributes
+class AzureVmWorkloadSQLInstanceWorkloadItem(AzureVmWorkloadItem):
     """Azure VM workload-specific workload item representing SQL Instance.
 
     All required parameters must be populated in order to send to server.
@@ -9768,7 +9745,7 @@ class AzureWorkloadErrorInfo(_serialization.Model):
         self.additional_details = additional_details
 
 
-class AzureWorkloadJob(Job):  # pylint: disable=too-many-instance-attributes
+class AzureWorkloadJob(Job):
     """Azure storage specific job.
 
     All required parameters must be populated in order to send to server.
@@ -10143,7 +10120,7 @@ class AzureWorkloadPointInTimeRecoveryPoint(AzureWorkloadRecoveryPoint):
         self.time_ranges = time_ranges
 
 
-class AzureWorkloadRestoreRequest(RestoreRequest):  # pylint: disable=too-many-instance-attributes
+class AzureWorkloadRestoreRequest(RestoreRequest):
     """AzureWorkload-specific restore.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
@@ -10282,9 +10259,7 @@ class AzureWorkloadRestoreRequest(RestoreRequest):  # pylint: disable=too-many-i
         self.target_virtual_machine_id = target_virtual_machine_id
 
 
-class AzureWorkloadPointInTimeRestoreRequest(
-    AzureWorkloadRestoreRequest
-):  # pylint: disable=too-many-instance-attributes
+class AzureWorkloadPointInTimeRestoreRequest(AzureWorkloadRestoreRequest):
     """AzureWorkload SAP Hana -specific restore. Specifically for PointInTime/Log restore.
 
     All required parameters must be populated in order to send to server.
@@ -10509,7 +10484,7 @@ class AzureWorkloadSAPHanaPointInTimeRecoveryPoint(
         self.object_type: str = "AzureWorkloadSAPHanaPointInTimeRecoveryPoint"
 
 
-class AzureWorkloadSAPHanaRestoreRequest(AzureWorkloadRestoreRequest):  # pylint: disable=too-many-instance-attributes
+class AzureWorkloadSAPHanaRestoreRequest(AzureWorkloadRestoreRequest):
     """AzureWorkload SAP Hana-specific restore.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
@@ -10651,7 +10626,7 @@ class AzureWorkloadSAPHanaRestoreRequest(AzureWorkloadRestoreRequest):  # pylint
 
 class AzureWorkloadSAPHanaPointInTimeRestoreRequest(
     AzureWorkloadSAPHanaRestoreRequest
-):  # pylint: disable=too-many-instance-attributes,name-too-long
+):  # pylint: disable=name-too-long
     """AzureWorkload SAP Hana -specific restore. Specifically for PointInTime/Log restore.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
@@ -10799,7 +10774,7 @@ class AzureWorkloadSAPHanaPointInTimeRestoreRequest(
 
 class AzureWorkloadSAPHanaPointInTimeRestoreWithRehydrateRequest(
     AzureWorkloadSAPHanaPointInTimeRestoreRequest
-):  # pylint: disable=too-many-instance-attributes,name-too-long
+):  # pylint: disable=name-too-long
     """AzureWorkload SAP Hana-specific restore with integrated rehydration of recovery point.
 
     All required parameters must be populated in order to send to server.
@@ -11027,7 +11002,7 @@ class AzureWorkloadSAPHanaRecoveryPoint(AzureWorkloadRecoveryPoint):
 
 class AzureWorkloadSAPHanaRestoreWithRehydrateRequest(
     AzureWorkloadSAPHanaRestoreRequest
-):  # pylint: disable=too-many-instance-attributes,name-too-long
+):  # pylint: disable=name-too-long
     """AzureWorkload SAP Hana-specific restore with integrated rehydration of recovery point.
 
     All required parameters must be populated in order to send to server.
@@ -11464,7 +11439,7 @@ class AzureWorkloadSQLPointInTimeRecoveryPoint(AzureWorkloadSQLRecoveryPoint):
         self.time_ranges = time_ranges
 
 
-class AzureWorkloadSQLRestoreRequest(AzureWorkloadRestoreRequest):  # pylint: disable=too-many-instance-attributes
+class AzureWorkloadSQLRestoreRequest(AzureWorkloadRestoreRequest):
     """AzureWorkload SQL -specific restore. Specifically for full/diff restore.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
@@ -11631,9 +11606,7 @@ class AzureWorkloadSQLRestoreRequest(AzureWorkloadRestoreRequest):  # pylint: di
         self.alternate_directory_paths = alternate_directory_paths
 
 
-class AzureWorkloadSQLPointInTimeRestoreRequest(
-    AzureWorkloadSQLRestoreRequest
-):  # pylint: disable=too-many-instance-attributes,name-too-long
+class AzureWorkloadSQLPointInTimeRestoreRequest(AzureWorkloadSQLRestoreRequest):  # pylint: disable=name-too-long
     """AzureWorkload SQL -specific restore. Specifically for PointInTime/Log restore.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
@@ -11808,7 +11781,7 @@ class AzureWorkloadSQLPointInTimeRestoreRequest(
 
 class AzureWorkloadSQLPointInTimeRestoreWithRehydrateRequest(
     AzureWorkloadSQLPointInTimeRestoreRequest
-):  # pylint: disable=too-many-instance-attributes,name-too-long
+):  # pylint: disable=name-too-long
     """AzureWorkload SQL-specific restore with integrated rehydration of recovery point.
 
     All required parameters must be populated in order to send to server.
@@ -12018,9 +11991,7 @@ class AzureWorkloadSQLRecoveryPointExtendedInfo(_serialization.Model):  # pylint
         self.data_directory_paths = data_directory_paths
 
 
-class AzureWorkloadSQLRestoreWithRehydrateRequest(
-    AzureWorkloadSQLRestoreRequest
-):  # pylint: disable=too-many-instance-attributes,name-too-long
+class AzureWorkloadSQLRestoreWithRehydrateRequest(AzureWorkloadSQLRestoreRequest):  # pylint: disable=name-too-long
     """AzureWorkload SQL-specific restore with integrated rehydration of recovery point.
 
     All required parameters must be populated in order to send to server.
@@ -13200,7 +13171,7 @@ class BackupStatusRequest(_serialization.Model):
         self.po_logical_name = po_logical_name
 
 
-class BackupStatusResponse(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class BackupStatusResponse(_serialization.Model):
     """BackupStatus response.
 
     :ivar protection_status: Specifies whether the container is registered or not. Known values
@@ -14375,7 +14346,7 @@ class DistributedNodesInfo(_serialization.Model):
         self.source_resource_id = source_resource_id
 
 
-class DpmBackupEngine(BackupEngineBase):  # pylint: disable=too-many-instance-attributes
+class DpmBackupEngine(BackupEngineBase):
     """Data Protection Manager (DPM) specific backup engine.
 
     All required parameters must be populated in order to send to server.
@@ -14553,7 +14524,7 @@ class DpmErrorInfo(_serialization.Model):
         self.recommendations = recommendations
 
 
-class DpmJob(Job):  # pylint: disable=too-many-instance-attributes
+class DpmJob(Job):
     """DPM workload-specific job object.
 
     All required parameters must be populated in order to send to server.
@@ -14796,7 +14767,7 @@ class DpmJobTaskDetails(_serialization.Model):
         self.status = status
 
 
-class DPMProtectedItem(ProtectedItem):  # pylint: disable=too-many-instance-attributes
+class DPMProtectedItem(ProtectedItem):
     """Additional information on Backup engine specific backup item.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -15001,7 +14972,7 @@ class DPMProtectedItem(ProtectedItem):  # pylint: disable=too-many-instance-attr
         self.extended_info = extended_info
 
 
-class DPMProtectedItemExtendedInfo(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class DPMProtectedItemExtendedInfo(_serialization.Model):
     """Additional information of DPM Protected item.
 
     :ivar protectable_object_load_path: Attribute to provide information on various DBs.
@@ -15863,7 +15834,7 @@ class GenericContainerExtendedInfo(_serialization.Model):
         self.service_endpoints = service_endpoints
 
 
-class GenericProtectedItem(ProtectedItem):  # pylint: disable=too-many-instance-attributes
+class GenericProtectedItem(ProtectedItem):
     """Base class for backup items.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -16380,7 +16351,7 @@ class IaasVMILRRegistrationRequest(ILRRequest):
         self.renew_existing_registration = renew_existing_registration
 
 
-class IaasVMRecoveryPoint(RecoveryPoint):  # pylint: disable=too-many-instance-attributes
+class IaasVMRecoveryPoint(RecoveryPoint):
     """IaaS VM workload specific backup copy.
 
     All required parameters must be populated in order to send to server.
@@ -16573,7 +16544,7 @@ class IaasVMRecoveryPoint(RecoveryPoint):  # pylint: disable=too-many-instance-a
         self.extended_location = extended_location
 
 
-class IaasVMRestoreRequest(RestoreRequest):  # pylint: disable=too-many-instance-attributes
+class IaasVMRestoreRequest(RestoreRequest):
     """IaaS VM workload-specific restore.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
@@ -16836,7 +16807,7 @@ class IaasVMRestoreRequest(RestoreRequest):  # pylint: disable=too-many-instance
         self.target_disk_network_access_settings = target_disk_network_access_settings
 
 
-class IaasVMRestoreWithRehydrationRequest(IaasVMRestoreRequest):  # pylint: disable=too-many-instance-attributes
+class IaasVMRestoreWithRehydrationRequest(IaasVMRestoreRequest):
     """IaaS VM workload-specific restore with integrated rehydration of recovery point.
 
     All required parameters must be populated in order to send to server.
@@ -17889,7 +17860,7 @@ class LongTermSchedulePolicy(SchedulePolicy):
         self.schedule_policy_type: str = "LongTermSchedulePolicy"
 
 
-class MabContainer(ProtectionContainer):  # pylint: disable=too-many-instance-attributes
+class MabContainer(ProtectionContainer):
     """Container with items backed up using MAB backup engine.
 
     All required parameters must be populated in order to send to server.
@@ -18163,7 +18134,7 @@ class MabErrorInfo(_serialization.Model):
         self.recommendations = None
 
 
-class MabFileFolderProtectedItem(ProtectedItem):  # pylint: disable=too-many-instance-attributes
+class MabFileFolderProtectedItem(ProtectedItem):
     """MAB workload-specific backup item.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -18422,7 +18393,7 @@ class MabFileFolderProtectedItemExtendedInfo(_serialization.Model):
         self.recovery_point_count = recovery_point_count
 
 
-class MabJob(Job):  # pylint: disable=too-many-instance-attributes
+class MabJob(Job):
     """MAB workload-specific job.
 
     All required parameters must be populated in order to send to server.
@@ -22458,7 +22429,7 @@ class ValidateOperationsResponse(_serialization.Model):
         self.validate_operation_response = validate_operation_response
 
 
-class VaultJob(Job):  # pylint: disable=too-many-instance-attributes
+class VaultJob(Job):
     """Vault level Job.
 
     All required parameters must be populated in order to send to server.
