@@ -1,5 +1,5 @@
-# coding=utf-8
 # pylint: disable=too-many-lines
+# coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -13,7 +13,6 @@ from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 from .. import _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
@@ -64,9 +63,7 @@ class TimeSeriesDatabaseConnectionProperties(_serialization.Model):
         self.identity = identity
 
 
-class AzureDataExplorerConnectionProperties(
-    TimeSeriesDatabaseConnectionProperties
-):  # pylint: disable=too-many-instance-attributes
+class AzureDataExplorerConnectionProperties(TimeSeriesDatabaseConnectionProperties):
     """Properties of a time series database connection to Azure Data Explorer with data being sent via
     an EventHub.
 
@@ -494,7 +491,7 @@ class DigitalTwinsResource(_serialization.Model):
         self.system_data = None
 
 
-class DigitalTwinsDescription(DigitalTwinsResource):  # pylint: disable=too-many-instance-attributes
+class DigitalTwinsDescription(DigitalTwinsResource):
     """The description of the DigitalTwins service.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1036,11 +1033,14 @@ class EventGrid(DigitalTwinsEndpointResourceProperties):
     :vartype dead_letter_uri: str
     :ivar identity: Managed identity properties for the endpoint.
     :vartype identity: ~azure.mgmt.digitaltwins.models.ManagedIdentityReference
-    :ivar topic_endpoint: EventGrid Topic Endpoint. Required.
+    :ivar topic_endpoint: EventGrid Topic Endpoint for key-based or identity-based authentication.
+     Required.
     :vartype topic_endpoint: str
-    :ivar access_key1: EventGrid secondary accesskey. Will be obfuscated during read. Required.
+    :ivar access_key1: EventGrid primary accesskey for key-based authentication. Will be obfuscated
+     during read.
     :vartype access_key1: str
-    :ivar access_key2: EventGrid secondary accesskey. Will be obfuscated during read.
+    :ivar access_key2: EventGrid secondary accesskey for key-based authentication. Will be
+     obfuscated during read.
     :vartype access_key2: str
     """
 
@@ -1049,7 +1049,6 @@ class EventGrid(DigitalTwinsEndpointResourceProperties):
         "provisioning_state": {"readonly": True},
         "created_time": {"readonly": True},
         "topic_endpoint": {"required": True},
-        "access_key1": {"required": True},
     }
 
     _attribute_map = {
@@ -1069,11 +1068,11 @@ class EventGrid(DigitalTwinsEndpointResourceProperties):
         self,
         *,
         topic_endpoint: str,
-        access_key1: str,
         authentication_type: Optional[Union[str, "_models.AuthenticationType"]] = None,
         dead_letter_secret: Optional[str] = None,
         dead_letter_uri: Optional[str] = None,
         identity: Optional["_models.ManagedIdentityReference"] = None,
+        access_key1: Optional[str] = None,
         access_key2: Optional[str] = None,
         **kwargs: Any
     ) -> None:
@@ -1091,11 +1090,14 @@ class EventGrid(DigitalTwinsEndpointResourceProperties):
         :paramtype dead_letter_uri: str
         :keyword identity: Managed identity properties for the endpoint.
         :paramtype identity: ~azure.mgmt.digitaltwins.models.ManagedIdentityReference
-        :keyword topic_endpoint: EventGrid Topic Endpoint. Required.
+        :keyword topic_endpoint: EventGrid Topic Endpoint for key-based or identity-based
+         authentication. Required.
         :paramtype topic_endpoint: str
-        :keyword access_key1: EventGrid secondary accesskey. Will be obfuscated during read. Required.
+        :keyword access_key1: EventGrid primary accesskey for key-based authentication. Will be
+         obfuscated during read.
         :paramtype access_key1: str
-        :keyword access_key2: EventGrid secondary accesskey. Will be obfuscated during read.
+        :keyword access_key2: EventGrid secondary accesskey for key-based authentication. Will be
+         obfuscated during read.
         :paramtype access_key2: str
         """
         super().__init__(
@@ -1111,7 +1113,7 @@ class EventGrid(DigitalTwinsEndpointResourceProperties):
         self.access_key2 = access_key2
 
 
-class EventHub(DigitalTwinsEndpointResourceProperties):  # pylint: disable=too-many-instance-attributes
+class EventHub(DigitalTwinsEndpointResourceProperties):
     """Properties related to EventHub.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1580,7 +1582,7 @@ class PrivateEndpointConnectionsResponse(_serialization.Model):
         self.value = value
 
 
-class ServiceBus(DigitalTwinsEndpointResourceProperties):  # pylint: disable=too-many-instance-attributes
+class ServiceBus(DigitalTwinsEndpointResourceProperties):
     """Properties related to ServiceBus.
 
     Variables are only populated by the server, and will be ignored when sending a request.
