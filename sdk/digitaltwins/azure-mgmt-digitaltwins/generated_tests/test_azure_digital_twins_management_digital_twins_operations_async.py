@@ -21,11 +21,11 @@ class TestAzureDigitalTwinsManagementDigitalTwinsOperationsAsync(AzureMgmtRecord
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get(self, resource_group):
+    async def test_digital_twins_get(self, resource_group):
         response = await self.client.digital_twins.get(
             resource_group_name=resource_group.name,
             resource_name="str",
-            api_version="2023-01-31",
+            api_version="2025-03-31",
         )
 
         # please add some check logic here by yourself
@@ -33,7 +33,7 @@ class TestAzureDigitalTwinsManagementDigitalTwinsOperationsAsync(AzureMgmtRecord
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_create_or_update(self, resource_group):
+    async def test_digital_twins_begin_create_or_update(self, resource_group):
         response = await (
             await self.client.digital_twins.begin_create_or_update(
                 resource_group_name=resource_group.name,
@@ -89,7 +89,7 @@ class TestAzureDigitalTwinsManagementDigitalTwinsOperationsAsync(AzureMgmtRecord
                     "tags": {"str": "str"},
                     "type": "str",
                 },
-                api_version="2023-01-31",
+                api_version="2025-03-31",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -98,7 +98,7 @@ class TestAzureDigitalTwinsManagementDigitalTwinsOperationsAsync(AzureMgmtRecord
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_update(self, resource_group):
+    async def test_digital_twins_begin_update(self, resource_group):
         response = await (
             await self.client.digital_twins.begin_update(
                 resource_group_name=resource_group.name,
@@ -113,7 +113,7 @@ class TestAzureDigitalTwinsManagementDigitalTwinsOperationsAsync(AzureMgmtRecord
                     "properties": {"publicNetworkAccess": "str"},
                     "tags": {"str": "str"},
                 },
-                api_version="2023-01-31",
+                api_version="2025-03-31",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -122,12 +122,12 @@ class TestAzureDigitalTwinsManagementDigitalTwinsOperationsAsync(AzureMgmtRecord
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_delete(self, resource_group):
+    async def test_digital_twins_begin_delete(self, resource_group):
         response = await (
             await self.client.digital_twins.begin_delete(
                 resource_group_name=resource_group.name,
                 resource_name="str",
-                api_version="2023-01-31",
+                api_version="2025-03-31",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -136,9 +136,9 @@ class TestAzureDigitalTwinsManagementDigitalTwinsOperationsAsync(AzureMgmtRecord
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list(self, resource_group):
+    async def test_digital_twins_list(self, resource_group):
         response = self.client.digital_twins.list(
-            api_version="2023-01-31",
+            api_version="2025-03-31",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -146,10 +146,10 @@ class TestAzureDigitalTwinsManagementDigitalTwinsOperationsAsync(AzureMgmtRecord
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_by_resource_group(self, resource_group):
+    async def test_digital_twins_list_by_resource_group(self, resource_group):
         response = self.client.digital_twins.list_by_resource_group(
             resource_group_name=resource_group.name,
-            api_version="2023-01-31",
+            api_version="2025-03-31",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -157,11 +157,11 @@ class TestAzureDigitalTwinsManagementDigitalTwinsOperationsAsync(AzureMgmtRecord
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_check_name_availability(self, resource_group):
+    async def test_digital_twins_check_name_availability(self, resource_group):
         response = await self.client.digital_twins.check_name_availability(
             location="str",
             digital_twins_instance_check_name={"name": "str", "type": "Microsoft.DigitalTwins/digitalTwinsInstances"},
-            api_version="2023-01-31",
+            api_version="2025-03-31",
         )
 
         # please add some check logic here by yourself

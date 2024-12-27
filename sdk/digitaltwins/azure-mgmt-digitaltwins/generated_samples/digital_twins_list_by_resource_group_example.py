@@ -37,6 +37,6 @@ def main():
         print(item)
 
 
-# x-ms-original-file: specification/digitaltwins/resource-manager/Microsoft.DigitalTwins/stable/2023-01-31/examples/DigitalTwinsListByResourceGroup_example.json
+# x-ms-original-file: specification/digitaltwins/resource-manager/Microsoft.DigitalTwins/stable/2025-03-31/examples/DigitalTwinsListByResourceGroup_example.json
 if __name__ == "__main__":
     main()

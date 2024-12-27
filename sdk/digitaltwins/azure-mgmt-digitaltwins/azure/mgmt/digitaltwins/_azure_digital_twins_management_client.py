@@ -28,11 +28,10 @@ from .operations import (
 )
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from azure.core.credentials import TokenCredential
 
 
-class AzureDigitalTwinsManagementClient:  # pylint: disable=client-accepts-api-version-keyword
+class AzureDigitalTwinsManagementClient:
     """Azure Digital Twins Client for managing DigitalTwinsInstance.
 
     :ivar digital_twins: DigitalTwinsOperations operations
@@ -57,7 +56,7 @@ class AzureDigitalTwinsManagementClient:  # pylint: disable=client-accepts-api-v
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2023-01-31". Note that overriding this
+    :keyword api_version: Api Version. Default value is "2025-03-31". Note that overriding this
      default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no

@@ -20,11 +20,11 @@ class TestAzureDigitalTwinsManagementDigitalTwinsEndpointOperations(AzureMgmtRec
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list(self, resource_group):
+    def test_digital_twins_endpoint_list(self, resource_group):
         response = self.client.digital_twins_endpoint.list(
             resource_group_name=resource_group.name,
             resource_name="str",
-            api_version="2023-01-31",
+            api_version="2025-03-31",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -32,12 +32,12 @@ class TestAzureDigitalTwinsManagementDigitalTwinsEndpointOperations(AzureMgmtRec
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_digital_twins_endpoint_get(self, resource_group):
         response = self.client.digital_twins_endpoint.get(
             resource_group_name=resource_group.name,
             resource_name="str",
             endpoint_name="str",
-            api_version="2023-01-31",
+            api_version="2025-03-31",
         )
 
         # please add some check logic here by yourself
@@ -45,7 +45,7 @@ class TestAzureDigitalTwinsManagementDigitalTwinsEndpointOperations(AzureMgmtRec
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_create_or_update(self, resource_group):
+    def test_digital_twins_endpoint_begin_create_or_update(self, resource_group):
         response = self.client.digital_twins_endpoint.begin_create_or_update(
             resource_group_name=resource_group.name,
             resource_name="str",
@@ -64,7 +64,7 @@ class TestAzureDigitalTwinsManagementDigitalTwinsEndpointOperations(AzureMgmtRec
                 },
                 "type": "str",
             },
-            api_version="2023-01-31",
+            api_version="2025-03-31",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -72,12 +72,12 @@ class TestAzureDigitalTwinsManagementDigitalTwinsEndpointOperations(AzureMgmtRec
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_delete(self, resource_group):
+    def test_digital_twins_endpoint_begin_delete(self, resource_group):
         response = self.client.digital_twins_endpoint.begin_delete(
             resource_group_name=resource_group.name,
             resource_name="str",
             endpoint_name="str",
-            api_version="2023-01-31",
+            api_version="2025-03-31",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
