@@ -1,5 +1,5 @@
-# coding=utf-8
 # pylint: disable=too-many-lines
+# coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -13,7 +13,6 @@ from typing import Any, Dict, List, Literal, Optional, TYPE_CHECKING, Union
 from ... import _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
@@ -191,7 +190,7 @@ class AzureEntityResource(Resource):
         self.etag = None
 
 
-class BlobContainer(AzureEntityResource):  # pylint: disable=too-many-instance-attributes
+class BlobContainer(AzureEntityResource):
     """Properties of the blob container, including Id, resource name, resource type, Etag.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1032,7 +1031,7 @@ class LeaseContainerRequest(_serialization.Model):
     All required parameters must be populated in order to send to server.
 
     :ivar action: Specifies the lease action. Can be one of the available actions. Required. Known
-     values are: "Acquire", "Renew", "Change", "Release", and "Break".
+     values are: "Acquire", "Renew", "Change", "Release", "Break", and "Break".
     :vartype action: str or ~azure.mgmt.storage.v2018_07_01.models.LeaseContainerRequestAction
     :ivar lease_id: Identifies the lease. Can be specified in any valid GUID string format.
     :vartype lease_id: str
@@ -1071,7 +1070,7 @@ class LeaseContainerRequest(_serialization.Model):
     ) -> None:
         """
         :keyword action: Specifies the lease action. Can be one of the available actions. Required.
-         Known values are: "Acquire", "Renew", "Change", "Release", and "Break".
+         Known values are: "Acquire", "Renew", "Change", "Release", "Break", and "Break".
         :paramtype action: str or ~azure.mgmt.storage.v2018_07_01.models.LeaseContainerRequestAction
         :keyword lease_id: Identifies the lease. Can be specified in any valid GUID string format.
         :paramtype lease_id: str
@@ -1217,7 +1216,7 @@ class ListAccountSasResponse(_serialization.Model):
         self.account_sas_token = None
 
 
-class ListContainerItem(AzureEntityResource):  # pylint: disable=too-many-instance-attributes
+class ListContainerItem(AzureEntityResource):
     """The blob container properties be listed out.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1663,7 +1662,7 @@ class Restriction(_serialization.Model):
         self.reason_code = reason_code
 
 
-class ServiceSasParameters(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class ServiceSasParameters(_serialization.Model):
     """The parameters to list service SAS credentials of a specific resource.
 
     All required parameters must be populated in order to send to server.
@@ -2008,7 +2007,7 @@ class TrackedResource(Resource):
         self.location = location
 
 
-class StorageAccount(TrackedResource):  # pylint: disable=too-many-instance-attributes
+class StorageAccount(TrackedResource):
     """The storage account.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -2227,7 +2226,7 @@ class StorageAccountCheckNameAvailabilityParameters(_serialization.Model):  # py
         self.name = name
 
 
-class StorageAccountCreateParameters(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class StorageAccountCreateParameters(_serialization.Model):
     """The parameters used when creating a storage account.
 
     All required parameters must be populated in order to send to server.

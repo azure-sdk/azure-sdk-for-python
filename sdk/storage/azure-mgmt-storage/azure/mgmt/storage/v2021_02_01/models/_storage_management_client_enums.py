@@ -236,6 +236,7 @@ class LeaseContainerRequestAction(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     RENEW = "Renew"
     CHANGE = "Change"
     RELEASE = "Release"
+    BREAK = "Break"
     BREAK_ENUM = "Break"
 
 

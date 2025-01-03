@@ -8,6 +8,7 @@
 
 from copy import deepcopy
 from typing import Any, Awaitable, TYPE_CHECKING
+from typing_extensions import Self
 
 from azure.core.pipeline import policies
 from azure.core.rest import AsyncHttpResponse, HttpRequest
@@ -20,11 +21,10 @@ from ._configuration import StorageManagementConfiguration
 from .operations import StorageAccountsOperations, UsageOperations
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from azure.core.credentials_async import AsyncTokenCredential
 
 
-class StorageManagement:  # pylint: disable=client-accepts-api-version-keyword
+class StorageManagement:
     """The Azure Storage Management API.
 
     :ivar storage_accounts: StorageAccountsOperations operations
@@ -110,7 +110,7 @@ class StorageManagement:  # pylint: disable=client-accepts-api-version-keyword
     async def close(self) -> None:
         await self._client.close()
 
-    async def __aenter__(self) -> "StorageManagement":
+    async def __aenter__(self) -> Self:
         await self._client.__aenter__()
         return self
 
