@@ -7,7 +7,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-from typing import Any, Callable, Dict, IO, Iterable, Optional, TypeVar, Union, cast, overload
+import sys
+from typing import Any, Callable, Dict, IO, Iterable, Iterator, Optional, TypeVar, Union, cast, overload
 import urllib.parse
 
 from azure.core.exceptions import (
@@ -16,13 +17,14 @@ from azure.core.exceptions import (
     ResourceExistsError,
     ResourceNotFoundError,
     ResourceNotModifiedError,
+    StreamClosedError,
+    StreamConsumedError,
     map_error,
 )
 from azure.core.paging import ItemPaged
 from azure.core.pipeline import PipelineResponse
-from azure.core.pipeline.transport import HttpResponse
 from azure.core.polling import LROPoller, NoPolling, PollingMethod
-from azure.core.rest import HttpRequest
+from azure.core.rest import HttpRequest, HttpResponse
 from azure.core.tracing.decorator import distributed_trace
 from azure.core.utils import case_insensitive_dict
 from azure.mgmt.core.exceptions import ARMErrorFormat
@@ -30,8 +32,11 @@ from azure.mgmt.core.polling.arm_polling import ARMPolling
 
 from .. import models as _models
 from .._serialization import Serializer
-from .._vendor import _convert_request
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
 
@@ -43,7 +48,7 @@ def build_list_by_subscription_request(subscription_id: str, **kwargs: Any) -> H
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-02-13"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-07-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -67,7 +72,7 @@ def build_list_by_resource_group_request(resource_group_name: str, subscription_
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-02-13"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-07-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -97,7 +102,7 @@ def build_get_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-02-13"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-07-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -128,7 +133,7 @@ def build_create_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-02-13"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-07-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -162,7 +167,7 @@ def build_update_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-02-13"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-07-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -196,7 +201,7 @@ def build_delete_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-02-13"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-07-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -233,7 +238,7 @@ def build_list_environments_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-02-13"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-07-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -270,7 +275,7 @@ def build_get_environment_by_id_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-02-13"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-07-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -311,7 +316,7 @@ def build_list_clusters_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-02-13"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-07-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -343,7 +348,7 @@ def build_list_clusters_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_list_schema_registry_clusters_request(
+def build_list_schema_registry_clusters_request(  # pylint: disable=name-too-long
     resource_group_name: str,
     organization_name: str,
     environment_id: str,
@@ -356,7 +361,7 @@ def build_list_schema_registry_clusters_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-02-13"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-07-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -394,7 +399,7 @@ def build_list_regions_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-02-13"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-07-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -435,7 +440,7 @@ def build_create_api_key_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-02-13"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-07-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -473,7 +478,7 @@ def build_delete_cluster_api_key_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-02-13"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-07-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -507,7 +512,7 @@ def build_get_cluster_api_key_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-02-13"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-07-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -535,7 +540,7 @@ def build_get_cluster_api_key_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_get_schema_registry_cluster_by_id_request(
+def build_get_schema_registry_cluster_by_id_request(  # pylint: disable=name-too-long
     resource_group_name: str,
     organization_name: str,
     environment_id: str,
@@ -546,7 +551,7 @@ def build_get_schema_registry_cluster_by_id_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-02-13"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-07-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -586,7 +591,7 @@ def build_get_cluster_by_id_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-02-13"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-07-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -640,7 +645,6 @@ class OrganizationOperations:
 
         List all organizations under the specified subscription.
 
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either OrganizationResource or the result of
          cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.confluent.models.OrganizationResource]
@@ -652,7 +656,7 @@ class OrganizationOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.OrganizationResourceListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -663,15 +667,13 @@ class OrganizationOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_by_subscription_request(
+                _request = build_list_by_subscription_request(
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_by_subscription.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -683,13 +685,12 @@ class OrganizationOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("OrganizationResourceListResult", pipeline_response)
@@ -699,11 +700,11 @@ class OrganizationOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -717,10 +718,6 @@ class OrganizationOperations:
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list_by_subscription.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.Confluent/organizations"
-    }
 
     @distributed_trace
     def list_by_resource_group(
@@ -732,7 +729,6 @@ class OrganizationOperations:
 
         :param resource_group_name: Resource group name. Required.
         :type resource_group_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either OrganizationResource or the result of
          cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.confluent.models.OrganizationResource]
@@ -744,7 +740,7 @@ class OrganizationOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.OrganizationResourceListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -755,16 +751,14 @@ class OrganizationOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_by_resource_group_request(
+                _request = build_list_by_resource_group_request(
                     resource_group_name=resource_group_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_by_resource_group.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -776,13 +770,12 @@ class OrganizationOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("OrganizationResourceListResult", pipeline_response)
@@ -792,11 +785,11 @@ class OrganizationOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -811,10 +804,6 @@ class OrganizationOperations:
 
         return ItemPaged(get_next, extract_data)
 
-    list_by_resource_group.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations"
-    }
-
     @distributed_trace
     def get(self, resource_group_name: str, organization_name: str, **kwargs: Any) -> _models.OrganizationResource:
         """Get the properties of a specific Organization resource.
@@ -825,12 +814,11 @@ class OrganizationOperations:
         :type resource_group_name: str
         :param organization_name: Organization resource name. Required.
         :type organization_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: OrganizationResource or the result of cls(response)
         :rtype: ~azure.mgmt.confluent.models.OrganizationResource
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -844,21 +832,19 @@ class OrganizationOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.OrganizationResource] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             resource_group_name=resource_group_name,
             organization_name=organization_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -870,25 +856,21 @@ class OrganizationOperations:
             )
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("OrganizationResource", pipeline_response)
+        deserialized = self._deserialize("OrganizationResource", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}"
-    }
+        return deserialized  # type: ignore
 
     def _create_initial(
         self,
         resource_group_name: str,
         organization_name: str,
-        body: Optional[Union[_models.OrganizationResource, IO]] = None,
+        body: Optional[Union[_models.OrganizationResource, IO[bytes]]] = None,
         **kwargs: Any
-    ) -> _models.OrganizationResource:
-        error_map = {
+    ) -> Iterator[bytes]:
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -901,7 +883,7 @@ class OrganizationOperations:
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.OrganizationResource] = kwargs.pop("cls", None)
+        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
 
         content_type = content_type or "application/json"
         _json = None
@@ -914,7 +896,7 @@ class OrganizationOperations:
             else:
                 _json = None
 
-        request = build_create_request(
+        _request = build_create_request(
             resource_group_name=resource_group_name,
             organization_name=organization_name,
             subscription_id=self._config.subscription_id,
@@ -922,41 +904,36 @@ class OrganizationOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._create_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
-        _stream = False
+        _decompress = kwargs.pop("decompress", True)
+        _stream = True
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
 
         if response.status_code not in [200, 201]:
+            try:
+                response.read()  # Load the body in memory and close the socket
+            except (StreamConsumedError, StreamClosedError):
+                pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             error = self._deserialize.failsafe_deserialize(
                 _models.ResourceProviderDefaultErrorResponse, pipeline_response
             )
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        if response.status_code == 200:
-            deserialized = self._deserialize("OrganizationResource", pipeline_response)
-
-        if response.status_code == 201:
-            deserialized = self._deserialize("OrganizationResource", pipeline_response)
+        deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
 
         return deserialized  # type: ignore
-
-    _create_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}"
-    }
 
     @overload
     def begin_create(
@@ -981,14 +958,6 @@ class OrganizationOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either OrganizationResource or the result of
          cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.confluent.models.OrganizationResource]
@@ -1000,7 +969,7 @@ class OrganizationOperations:
         self,
         resource_group_name: str,
         organization_name: str,
-        body: Optional[IO] = None,
+        body: Optional[IO[bytes]] = None,
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -1014,18 +983,10 @@ class OrganizationOperations:
         :param organization_name: Organization resource name. Required.
         :type organization_name: str
         :param body: Organization resource model. Default value is None.
-        :type body: IO
+        :type body: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either OrganizationResource or the result of
          cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.confluent.models.OrganizationResource]
@@ -1037,7 +998,7 @@ class OrganizationOperations:
         self,
         resource_group_name: str,
         organization_name: str,
-        body: Optional[Union[_models.OrganizationResource, IO]] = None,
+        body: Optional[Union[_models.OrganizationResource, IO[bytes]]] = None,
         **kwargs: Any
     ) -> LROPoller[_models.OrganizationResource]:
         """Create Organization resource.
@@ -1048,20 +1009,9 @@ class OrganizationOperations:
         :type resource_group_name: str
         :param organization_name: Organization resource name. Required.
         :type organization_name: str
-        :param body: Organization resource model. Is either a OrganizationResource type or a IO type.
-         Default value is None.
-        :type body: ~azure.mgmt.confluent.models.OrganizationResource or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+        :param body: Organization resource model. Is either a OrganizationResource type or a IO[bytes]
+         type. Default value is None.
+        :type body: ~azure.mgmt.confluent.models.OrganizationResource or IO[bytes]
         :return: An instance of LROPoller that returns either OrganizationResource or the result of
          cls(response)
         :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.confluent.models.OrganizationResource]
@@ -1088,12 +1038,13 @@ class OrganizationOperations:
                 params=_params,
                 **kwargs
             )
+            raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):
-            deserialized = self._deserialize("OrganizationResource", pipeline_response)
+            deserialized = self._deserialize("OrganizationResource", pipeline_response.http_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -1105,17 +1056,15 @@ class OrganizationOperations:
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.OrganizationResource].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_create.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}"
-    }
+        return LROPoller[_models.OrganizationResource](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     @overload
     def update(
@@ -1140,7 +1089,6 @@ class OrganizationOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: OrganizationResource or the result of cls(response)
         :rtype: ~azure.mgmt.confluent.models.OrganizationResource
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1151,7 +1099,7 @@ class OrganizationOperations:
         self,
         resource_group_name: str,
         organization_name: str,
-        body: Optional[IO] = None,
+        body: Optional[IO[bytes]] = None,
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -1165,11 +1113,10 @@ class OrganizationOperations:
         :param organization_name: Organization resource name. Required.
         :type organization_name: str
         :param body: Updated Organization resource. Default value is None.
-        :type body: IO
+        :type body: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: OrganizationResource or the result of cls(response)
         :rtype: ~azure.mgmt.confluent.models.OrganizationResource
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1180,7 +1127,7 @@ class OrganizationOperations:
         self,
         resource_group_name: str,
         organization_name: str,
-        body: Optional[Union[_models.OrganizationResourceUpdate, IO]] = None,
+        body: Optional[Union[_models.OrganizationResourceUpdate, IO[bytes]]] = None,
         **kwargs: Any
     ) -> _models.OrganizationResource:
         """Update Organization resource.
@@ -1191,18 +1138,14 @@ class OrganizationOperations:
         :type resource_group_name: str
         :param organization_name: Organization resource name. Required.
         :type organization_name: str
-        :param body: Updated Organization resource. Is either a OrganizationResourceUpdate type or a IO
-         type. Default value is None.
-        :type body: ~azure.mgmt.confluent.models.OrganizationResourceUpdate or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+        :param body: Updated Organization resource. Is either a OrganizationResourceUpdate type or a
+         IO[bytes] type. Default value is None.
+        :type body: ~azure.mgmt.confluent.models.OrganizationResourceUpdate or IO[bytes]
         :return: OrganizationResource or the result of cls(response)
         :rtype: ~azure.mgmt.confluent.models.OrganizationResource
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1228,7 +1171,7 @@ class OrganizationOperations:
             else:
                 _json = None
 
-        request = build_update_request(
+        _request = build_update_request(
             resource_group_name=resource_group_name,
             organization_name=organization_name,
             subscription_id=self._config.subscription_id,
@@ -1236,16 +1179,14 @@ class OrganizationOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.update.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1257,21 +1198,15 @@ class OrganizationOperations:
             )
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("OrganizationResource", pipeline_response)
+        deserialized = self._deserialize("OrganizationResource", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
+        return deserialized  # type: ignore
 
-    update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}"
-    }
-
-    def _delete_initial(  # pylint: disable=inconsistent-return-statements
-        self, resource_group_name: str, organization_name: str, **kwargs: Any
-    ) -> None:
-        error_map = {
+    def _delete_initial(self, resource_group_name: str, organization_name: str, **kwargs: Any) -> Iterator[bytes]:
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1283,40 +1218,43 @@ class OrganizationOperations:
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[None] = kwargs.pop("cls", None)
+        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
 
-        request = build_delete_request(
+        _request = build_delete_request(
             resource_group_name=resource_group_name,
             organization_name=organization_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._delete_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
-        _stream = False
+        _decompress = kwargs.pop("decompress", True)
+        _stream = True
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
 
         if response.status_code not in [200, 202, 204]:
+            try:
+                response.read()  # Load the body in memory and close the socket
+            except (StreamConsumedError, StreamClosedError):
+                pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             error = self._deserialize.failsafe_deserialize(
                 _models.ResourceProviderDefaultErrorResponse, pipeline_response
             )
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        if cls:
-            return cls(pipeline_response, None, {})
+        deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
 
-    _delete_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}"
-    }
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
 
     @distributed_trace
     def begin_delete(self, resource_group_name: str, organization_name: str, **kwargs: Any) -> LROPoller[None]:
@@ -1328,14 +1266,6 @@ class OrganizationOperations:
         :type resource_group_name: str
         :param organization_name: Organization resource name. Required.
         :type organization_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1349,7 +1279,7 @@ class OrganizationOperations:
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
         if cont_token is None:
-            raw_result = self._delete_initial(  # type: ignore
+            raw_result = self._delete_initial(
                 resource_group_name=resource_group_name,
                 organization_name=organization_name,
                 api_version=api_version,
@@ -1358,11 +1288,12 @@ class OrganizationOperations:
                 params=_params,
                 **kwargs
             )
+            raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
             if cls:
-                return cls(pipeline_response, None, {})
+                return cls(pipeline_response, None, {})  # type: ignore
 
         if polling is True:
             polling_method: PollingMethod = cast(
@@ -1373,17 +1304,13 @@ class OrganizationOperations:
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[None].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}"
-    }
+        return LROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     @distributed_trace
     def list_environments(
@@ -1408,7 +1335,6 @@ class OrganizationOperations:
         :param page_token: An opaque pagination token to fetch the next set of records. Default value
          is None.
         :type page_token: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either SCEnvironmentRecord or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.confluent.models.SCEnvironmentRecord]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1419,7 +1345,7 @@ class OrganizationOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.GetEnvironmentsResponse] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1430,19 +1356,17 @@ class OrganizationOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_environments_request(
+                _request = build_list_environments_request(
                     resource_group_name=resource_group_name,
                     organization_name=organization_name,
                     subscription_id=self._config.subscription_id,
                     page_size=page_size,
                     page_token=page_token,
                     api_version=api_version,
-                    template_url=self.list_environments.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -1454,13 +1378,12 @@ class OrganizationOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("GetEnvironmentsResponse", pipeline_response)
@@ -1470,11 +1393,11 @@ class OrganizationOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -1488,10 +1411,6 @@ class OrganizationOperations:
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list_environments.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/environments"
-    }
 
     @distributed_trace
     def get_environment_by_id(
@@ -1508,12 +1427,11 @@ class OrganizationOperations:
         :type organization_name: str
         :param environment_id: Confluent environment id. Required.
         :type environment_id: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: SCEnvironmentRecord or the result of cls(response)
         :rtype: ~azure.mgmt.confluent.models.SCEnvironmentRecord
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1527,22 +1445,20 @@ class OrganizationOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.SCEnvironmentRecord] = kwargs.pop("cls", None)
 
-        request = build_get_environment_by_id_request(
+        _request = build_get_environment_by_id_request(
             resource_group_name=resource_group_name,
             organization_name=organization_name,
             environment_id=environment_id,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get_environment_by_id.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1554,16 +1470,12 @@ class OrganizationOperations:
             )
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("SCEnvironmentRecord", pipeline_response)
+        deserialized = self._deserialize("SCEnvironmentRecord", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get_environment_by_id.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/environments/{environmentId}"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
     def list_clusters(
@@ -1591,7 +1503,6 @@ class OrganizationOperations:
         :param page_token: An opaque pagination token to fetch the next set of records. Default value
          is None.
         :type page_token: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either SCClusterRecord or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.confluent.models.SCClusterRecord]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1602,7 +1513,7 @@ class OrganizationOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.ListClustersSuccessResponse] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1613,7 +1524,7 @@ class OrganizationOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_clusters_request(
+                _request = build_list_clusters_request(
                     resource_group_name=resource_group_name,
                     organization_name=organization_name,
                     environment_id=environment_id,
@@ -1621,12 +1532,10 @@ class OrganizationOperations:
                     page_size=page_size,
                     page_token=page_token,
                     api_version=api_version,
-                    template_url=self.list_clusters.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -1638,13 +1547,12 @@ class OrganizationOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("ListClustersSuccessResponse", pipeline_response)
@@ -1654,11 +1562,11 @@ class OrganizationOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -1672,10 +1580,6 @@ class OrganizationOperations:
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list_clusters.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/environments/{environmentId}/clusters"
-    }
 
     @distributed_trace
     def list_schema_registry_clusters(
@@ -1703,7 +1607,6 @@ class OrganizationOperations:
         :param page_token: An opaque pagination token to fetch the next set of records. Default value
          is None.
         :type page_token: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either SchemaRegistryClusterRecord or the result of
          cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.confluent.models.SchemaRegistryClusterRecord]
@@ -1715,7 +1618,7 @@ class OrganizationOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.ListSchemaRegistryClustersResponse] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1726,7 +1629,7 @@ class OrganizationOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_schema_registry_clusters_request(
+                _request = build_list_schema_registry_clusters_request(
                     resource_group_name=resource_group_name,
                     organization_name=organization_name,
                     environment_id=environment_id,
@@ -1734,12 +1637,10 @@ class OrganizationOperations:
                     page_size=page_size,
                     page_token=page_token,
                     api_version=api_version,
-                    template_url=self.list_schema_registry_clusters.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -1751,13 +1652,12 @@ class OrganizationOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("ListSchemaRegistryClustersResponse", pipeline_response)
@@ -1767,11 +1667,11 @@ class OrganizationOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -1785,10 +1685,6 @@ class OrganizationOperations:
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list_schema_registry_clusters.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/environments/{environmentId}/schemaRegistryClusters"
-    }
 
     @overload
     def list_regions(
@@ -1814,7 +1710,6 @@ class OrganizationOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ListRegionsSuccessResponse or the result of cls(response)
         :rtype: ~azure.mgmt.confluent.models.ListRegionsSuccessResponse
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1825,7 +1720,7 @@ class OrganizationOperations:
         self,
         resource_group_name: str,
         organization_name: str,
-        body: IO,
+        body: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -1840,11 +1735,10 @@ class OrganizationOperations:
         :param organization_name: Organization resource name. Required.
         :type organization_name: str
         :param body: List Access Request Model. Required.
-        :type body: IO
+        :type body: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ListRegionsSuccessResponse or the result of cls(response)
         :rtype: ~azure.mgmt.confluent.models.ListRegionsSuccessResponse
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1855,7 +1749,7 @@ class OrganizationOperations:
         self,
         resource_group_name: str,
         organization_name: str,
-        body: Union[_models.ListAccessRequestModel, IO],
+        body: Union[_models.ListAccessRequestModel, IO[bytes]],
         **kwargs: Any
     ) -> _models.ListRegionsSuccessResponse:
         """cloud provider regions available for creating Schema Registry clusters.
@@ -1867,18 +1761,14 @@ class OrganizationOperations:
         :type resource_group_name: str
         :param organization_name: Organization resource name. Required.
         :type organization_name: str
-        :param body: List Access Request Model. Is either a ListAccessRequestModel type or a IO type.
-         Required.
-        :type body: ~azure.mgmt.confluent.models.ListAccessRequestModel or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+        :param body: List Access Request Model. Is either a ListAccessRequestModel type or a IO[bytes]
+         type. Required.
+        :type body: ~azure.mgmt.confluent.models.ListAccessRequestModel or IO[bytes]
         :return: ListRegionsSuccessResponse or the result of cls(response)
         :rtype: ~azure.mgmt.confluent.models.ListRegionsSuccessResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1901,7 +1791,7 @@ class OrganizationOperations:
         else:
             _json = self._serialize.body(body, "ListAccessRequestModel")
 
-        request = build_list_regions_request(
+        _request = build_list_regions_request(
             resource_group_name=resource_group_name,
             organization_name=organization_name,
             subscription_id=self._config.subscription_id,
@@ -1909,16 +1799,14 @@ class OrganizationOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.list_regions.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1930,16 +1818,12 @@ class OrganizationOperations:
             )
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("ListRegionsSuccessResponse", pipeline_response)
+        deserialized = self._deserialize("ListRegionsSuccessResponse", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    list_regions.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/listRegions"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def create_api_key(
@@ -1972,7 +1856,6 @@ class OrganizationOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: APIKeyRecord or the result of cls(response)
         :rtype: ~azure.mgmt.confluent.models.APIKeyRecord
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1985,7 +1868,7 @@ class OrganizationOperations:
         organization_name: str,
         environment_id: str,
         cluster_id: str,
-        body: IO,
+        body: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -2005,11 +1888,10 @@ class OrganizationOperations:
         :type cluster_id: str
         :param body: Request payload for get creating API Key for schema registry Cluster ID or Kafka
          Cluster ID under a environment. Required.
-        :type body: IO
+        :type body: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: APIKeyRecord or the result of cls(response)
         :rtype: ~azure.mgmt.confluent.models.APIKeyRecord
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -2022,7 +1904,7 @@ class OrganizationOperations:
         organization_name: str,
         environment_id: str,
         cluster_id: str,
-        body: Union[_models.CreateAPIKeyModel, IO],
+        body: Union[_models.CreateAPIKeyModel, IO[bytes]],
         **kwargs: Any
     ) -> _models.APIKeyRecord:
         """Creates API key for a schema registry Cluster ID or Kafka Cluster ID under a environment.
@@ -2039,17 +1921,14 @@ class OrganizationOperations:
         :param cluster_id: Confluent kafka or schema registry cluster id. Required.
         :type cluster_id: str
         :param body: Request payload for get creating API Key for schema registry Cluster ID or Kafka
-         Cluster ID under a environment. Is either a CreateAPIKeyModel type or a IO type. Required.
-        :type body: ~azure.mgmt.confluent.models.CreateAPIKeyModel or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         Cluster ID under a environment. Is either a CreateAPIKeyModel type or a IO[bytes] type.
+         Required.
+        :type body: ~azure.mgmt.confluent.models.CreateAPIKeyModel or IO[bytes]
         :return: APIKeyRecord or the result of cls(response)
         :rtype: ~azure.mgmt.confluent.models.APIKeyRecord
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -2072,7 +1951,7 @@ class OrganizationOperations:
         else:
             _json = self._serialize.body(body, "CreateAPIKeyModel")
 
-        request = build_create_api_key_request(
+        _request = build_create_api_key_request(
             resource_group_name=resource_group_name,
             organization_name=organization_name,
             environment_id=environment_id,
@@ -2082,16 +1961,14 @@ class OrganizationOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.create_api_key.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -2103,16 +1980,12 @@ class OrganizationOperations:
             )
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("APIKeyRecord", pipeline_response)
+        deserialized = self._deserialize("APIKeyRecord", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    create_api_key.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/environments/{environmentId}/clusters/{clusterId}/createAPIKey"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
     def delete_cluster_api_key(  # pylint: disable=inconsistent-return-statements
@@ -2129,12 +2002,11 @@ class OrganizationOperations:
         :type organization_name: str
         :param api_key_id: Confluent API Key id. Required.
         :type api_key_id: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -2148,22 +2020,20 @@ class OrganizationOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_delete_cluster_api_key_request(
+        _request = build_delete_cluster_api_key_request(
             resource_group_name=resource_group_name,
             organization_name=organization_name,
             api_key_id=api_key_id,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.delete_cluster_api_key.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -2176,11 +2046,7 @@ class OrganizationOperations:
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    delete_cluster_api_key.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/apiKeys/{apiKeyId}"
-    }
+            return cls(pipeline_response, None, {})  # type: ignore
 
     @distributed_trace
     def get_cluster_api_key(
@@ -2197,12 +2063,11 @@ class OrganizationOperations:
         :type organization_name: str
         :param api_key_id: Confluent API Key id. Required.
         :type api_key_id: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: APIKeyRecord or the result of cls(response)
         :rtype: ~azure.mgmt.confluent.models.APIKeyRecord
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -2216,22 +2081,20 @@ class OrganizationOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.APIKeyRecord] = kwargs.pop("cls", None)
 
-        request = build_get_cluster_api_key_request(
+        _request = build_get_cluster_api_key_request(
             resource_group_name=resource_group_name,
             organization_name=organization_name,
             api_key_id=api_key_id,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get_cluster_api_key.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -2243,16 +2106,12 @@ class OrganizationOperations:
             )
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("APIKeyRecord", pipeline_response)
+        deserialized = self._deserialize("APIKeyRecord", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get_cluster_api_key.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/apiKeys/{apiKeyId}"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
     def get_schema_registry_cluster_by_id(
@@ -2271,12 +2130,11 @@ class OrganizationOperations:
         :type environment_id: str
         :param cluster_id: Confluent kafka or schema registry cluster id. Required.
         :type cluster_id: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: SchemaRegistryClusterRecord or the result of cls(response)
         :rtype: ~azure.mgmt.confluent.models.SchemaRegistryClusterRecord
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -2290,23 +2148,21 @@ class OrganizationOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.SchemaRegistryClusterRecord] = kwargs.pop("cls", None)
 
-        request = build_get_schema_registry_cluster_by_id_request(
+        _request = build_get_schema_registry_cluster_by_id_request(
             resource_group_name=resource_group_name,
             organization_name=organization_name,
             environment_id=environment_id,
             cluster_id=cluster_id,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get_schema_registry_cluster_by_id.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -2318,16 +2174,12 @@ class OrganizationOperations:
             )
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("SchemaRegistryClusterRecord", pipeline_response)
+        deserialized = self._deserialize("SchemaRegistryClusterRecord", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get_schema_registry_cluster_by_id.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/environments/{environmentId}/schemaRegistryClusters/{clusterId}"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
     def get_cluster_by_id(
@@ -2346,12 +2198,11 @@ class OrganizationOperations:
         :type environment_id: str
         :param cluster_id: Confluent kafka or schema registry cluster id. Required.
         :type cluster_id: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: SCClusterRecord or the result of cls(response)
         :rtype: ~azure.mgmt.confluent.models.SCClusterRecord
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -2365,23 +2216,21 @@ class OrganizationOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.SCClusterRecord] = kwargs.pop("cls", None)
 
-        request = build_get_cluster_by_id_request(
+        _request = build_get_cluster_by_id_request(
             resource_group_name=resource_group_name,
             organization_name=organization_name,
             environment_id=environment_id,
             cluster_id=cluster_id,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get_cluster_by_id.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -2393,13 +2242,9 @@ class OrganizationOperations:
             )
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("SCClusterRecord", pipeline_response)
+        deserialized = self._deserialize("SCClusterRecord", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get_cluster_by_id.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/organizations/{organizationName}/environments/{environmentId}/clusters/{clusterId}"
-    }
+        return deserialized  # type: ignore
