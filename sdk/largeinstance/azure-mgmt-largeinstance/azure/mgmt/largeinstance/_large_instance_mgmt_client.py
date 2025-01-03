@@ -8,6 +8,7 @@
 
 from copy import deepcopy
 from typing import Any, TYPE_CHECKING
+from typing_extensions import Self
 
 from azure.core.pipeline import policies
 from azure.core.rest import HttpRequest, HttpResponse
@@ -20,11 +21,10 @@ from ._serialization import Deserializer, Serializer
 from .operations import AzureLargeInstanceOperations, AzureLargeStorageInstanceOperations, Operations
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from azure.core.credentials import TokenCredential
 
 
-class LargeInstanceMgmtClient:  # pylint: disable=client-accepts-api-version-keyword
+class LargeInstanceMgmtClient:
     """The AzureLargeInstance Management client.
 
     :ivar operations: Operations operations
@@ -114,7 +114,7 @@ class LargeInstanceMgmtClient:  # pylint: disable=client-accepts-api-version-key
     def close(self) -> None:
         self._client.close()
 
-    def __enter__(self) -> "LargeInstanceMgmtClient":
+    def __enter__(self) -> Self:
         self._client.__enter__()
         return self
 
