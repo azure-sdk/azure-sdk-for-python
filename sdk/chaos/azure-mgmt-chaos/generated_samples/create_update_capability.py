@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.chaos import ChaosManagementClient
 
 """
@@ -41,6 +42,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/stable/2024-01-01/examples/CreateUpdateCapability.json
+# x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/preview/2024-12-01-preview/examples/CreateUpdateCapability.json
 if __name__ == "__main__":
     main()
