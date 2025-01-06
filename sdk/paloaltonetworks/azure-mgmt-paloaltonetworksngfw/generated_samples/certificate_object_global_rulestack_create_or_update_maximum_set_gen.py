@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.paloaltonetworksngfw import PaloAltoNetworksNgfwMgmtClient
 
 """
@@ -46,6 +47,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/CertificateObjectGlobalRulestack_CreateOrUpdate_MaximumSet_Gen.json
+# x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/preview/2024-02-07-preview/examples/CertificateObjectGlobalRulestack_CreateOrUpdate_MaximumSet_Gen.json
 if __name__ == "__main__":
     main()
