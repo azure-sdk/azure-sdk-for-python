@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines,too-many-statements
+# pylint: disable=too-many-lines
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8,7 +8,7 @@
 # --------------------------------------------------------------------------
 from io import IOBase
 import sys
-from typing import Any, Callable, Dict, IO, Optional, Type, TypeVar, Union, overload
+from typing import Any, Callable, Dict, IO, Optional, TypeVar, Union, overload
 
 from azure.core.exceptions import (
     ClientAuthenticationError,
@@ -19,14 +19,12 @@ from azure.core.exceptions import (
     map_error,
 )
 from azure.core.pipeline import PipelineResponse
-from azure.core.pipeline.transport import AsyncHttpResponse
-from azure.core.rest import HttpRequest
+from azure.core.rest import AsyncHttpResponse, HttpRequest
 from azure.core.tracing.decorator_async import distributed_trace_async
 from azure.core.utils import case_insensitive_dict
 from azure.mgmt.core.exceptions import ARMErrorFormat
 
 from ... import models as _models
-from ..._vendor import _convert_request
 from ...operations._blob_containers_operations import (
     build_clear_legal_hold_request,
     build_create_or_update_immutability_policy_request,
@@ -46,7 +44,7 @@ from ...operations._blob_containers_operations import (
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -87,7 +85,7 @@ class BlobContainersOperations:
         :rtype: ~azure.mgmt.storage.v2018_03_01_preview.models.ListContainerItems
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -111,7 +109,6 @@ class BlobContainersOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -125,7 +122,7 @@ class BlobContainersOperations:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("ListContainerItems", pipeline_response)
+        deserialized = self._deserialize("ListContainerItems", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -238,7 +235,7 @@ class BlobContainersOperations:
         :rtype: ~azure.mgmt.storage.v2018_03_01_preview.models.BlobContainer
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -275,7 +272,6 @@ class BlobContainersOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -289,7 +285,7 @@ class BlobContainersOperations:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("BlobContainer", pipeline_response)
+        deserialized = self._deserialize("BlobContainer", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -399,7 +395,7 @@ class BlobContainersOperations:
         :rtype: ~azure.mgmt.storage.v2018_03_01_preview.models.BlobContainer
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -436,7 +432,6 @@ class BlobContainersOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -450,7 +445,7 @@ class BlobContainersOperations:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("BlobContainer", pipeline_response)
+        deserialized = self._deserialize("BlobContainer", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -479,7 +474,7 @@ class BlobContainersOperations:
         :rtype: ~azure.mgmt.storage.v2018_03_01_preview.models.BlobContainer
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -504,7 +499,6 @@ class BlobContainersOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -518,7 +512,7 @@ class BlobContainersOperations:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("BlobContainer", pipeline_response)
+        deserialized = self._deserialize("BlobContainer", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -526,9 +520,7 @@ class BlobContainersOperations:
         return deserialized  # type: ignore
 
     @distributed_trace_async
-    async def delete(  # pylint: disable=inconsistent-return-statements
-        self, resource_group_name: str, account_name: str, container_name: str, **kwargs: Any
-    ) -> None:
+    async def delete(self, resource_group_name: str, account_name: str, container_name: str, **kwargs: Any) -> None:
         """Deletes specified container under its account.
 
         :param resource_group_name: The name of the resource group within the user's subscription. The
@@ -547,7 +539,7 @@ class BlobContainersOperations:
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -572,7 +564,6 @@ class BlobContainersOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -695,7 +686,7 @@ class BlobContainersOperations:
         :rtype: ~azure.mgmt.storage.v2018_03_01_preview.models.LegalHold
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -732,7 +723,6 @@ class BlobContainersOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -746,7 +736,7 @@ class BlobContainersOperations:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("LegalHold", pipeline_response)
+        deserialized = self._deserialize("LegalHold", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -856,7 +846,7 @@ class BlobContainersOperations:
         :rtype: ~azure.mgmt.storage.v2018_03_01_preview.models.LegalHold
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -893,7 +883,6 @@ class BlobContainersOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -907,7 +896,7 @@ class BlobContainersOperations:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("LegalHold", pipeline_response)
+        deserialized = self._deserialize("LegalHold", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -1047,7 +1036,7 @@ class BlobContainersOperations:
         :rtype: ~azure.mgmt.storage.v2018_03_01_preview.models.ImmutabilityPolicy
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1089,7 +1078,6 @@ class BlobContainersOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -1106,7 +1094,7 @@ class BlobContainersOperations:
         response_headers = {}
         response_headers["ETag"] = self._deserialize("str", response.headers.get("ETag"))
 
-        deserialized = self._deserialize("ImmutabilityPolicy", pipeline_response)
+        deserialized = self._deserialize("ImmutabilityPolicy", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, response_headers)  # type: ignore
@@ -1149,7 +1137,7 @@ class BlobContainersOperations:
         :rtype: ~azure.mgmt.storage.v2018_03_01_preview.models.ImmutabilityPolicy
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1176,7 +1164,6 @@ class BlobContainersOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -1193,7 +1180,7 @@ class BlobContainersOperations:
         response_headers = {}
         response_headers["ETag"] = self._deserialize("str", response.headers.get("ETag"))
 
-        deserialized = self._deserialize("ImmutabilityPolicy", pipeline_response)
+        deserialized = self._deserialize("ImmutabilityPolicy", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, response_headers)  # type: ignore
@@ -1238,7 +1225,7 @@ class BlobContainersOperations:
         :rtype: ~azure.mgmt.storage.v2018_03_01_preview.models.ImmutabilityPolicy
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1265,7 +1252,6 @@ class BlobContainersOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -1282,7 +1268,7 @@ class BlobContainersOperations:
         response_headers = {}
         response_headers["ETag"] = self._deserialize("str", response.headers.get("ETag"))
 
-        deserialized = self._deserialize("ImmutabilityPolicy", pipeline_response)
+        deserialized = self._deserialize("ImmutabilityPolicy", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, response_headers)  # type: ignore
@@ -1316,7 +1302,7 @@ class BlobContainersOperations:
         :rtype: ~azure.mgmt.storage.v2018_03_01_preview.models.ImmutabilityPolicy
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1342,7 +1328,6 @@ class BlobContainersOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -1359,7 +1344,7 @@ class BlobContainersOperations:
         response_headers = {}
         response_headers["ETag"] = self._deserialize("str", response.headers.get("ETag"))
 
-        deserialized = self._deserialize("ImmutabilityPolicy", pipeline_response)
+        deserialized = self._deserialize("ImmutabilityPolicy", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, response_headers)  # type: ignore
@@ -1490,7 +1475,7 @@ class BlobContainersOperations:
         :rtype: ~azure.mgmt.storage.v2018_03_01_preview.models.ImmutabilityPolicy
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1531,7 +1516,6 @@ class BlobContainersOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -1548,7 +1532,7 @@ class BlobContainersOperations:
         response_headers = {}
         response_headers["ETag"] = self._deserialize("str", response.headers.get("ETag"))
 
-        deserialized = self._deserialize("ImmutabilityPolicy", pipeline_response)
+        deserialized = self._deserialize("ImmutabilityPolicy", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, response_headers)  # type: ignore
@@ -1659,7 +1643,7 @@ class BlobContainersOperations:
         :rtype: ~azure.mgmt.storage.v2018_03_01_preview.models.LeaseContainerResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1699,7 +1683,6 @@ class BlobContainersOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -1713,7 +1696,7 @@ class BlobContainersOperations:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("LeaseContainerResponse", pipeline_response)
+        deserialized = self._deserialize("LeaseContainerResponse", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
