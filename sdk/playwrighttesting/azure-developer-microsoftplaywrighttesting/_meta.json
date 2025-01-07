@@ -1,0 +1,6 @@
+{
+  "commit": "7f145837f090f1034d14a2a529657c7d7018def2",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/playwrighttesting/PlaywrightTesting.AuthManager",
+  "@azure-tools/typespec-python": "0.37.3"
+}
