@@ -56,19 +56,19 @@ class ComputeManagementClient(MultiApiClientMixin, _SDKClient):
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no Retry-After header is present.
     """
 
-    DEFAULT_API_VERSION = '2024-07-01'
+    DEFAULT_API_VERSION = '2024-11-04'
     _PROFILE_TAG = "azure.mgmt.compute.ComputeManagementClient"
     LATEST_PROFILE = ProfileDefinition({
         _PROFILE_TAG: {
             None: DEFAULT_API_VERSION,
-            'cloud_service_operating_systems': '2022-09-04',
-            'cloud_service_role_instances': '2022-09-04',
-            'cloud_service_roles': '2022-09-04',
-            'cloud_services': '2022-09-04',
-            'cloud_services_update_domain': '2022-09-04',
+            'availability_sets': '2024-07-01',
+            'capacity_reservation_groups': '2024-07-01',
+            'capacity_reservations': '2024-07-01',
             'community_galleries': '2024-03-03',
             'community_gallery_image_versions': '2024-03-03',
             'community_gallery_images': '2024-03-03',
+            'dedicated_host_groups': '2024-07-01',
+            'dedicated_hosts': '2024-07-01',
             'disk_accesses': '2024-03-02',
             'disk_encryption_sets': '2024-03-02',
             'disk_restore_point': '2024-03-02',
@@ -81,12 +81,33 @@ class ComputeManagementClient(MultiApiClientMixin, _SDKClient):
             'gallery_in_vm_access_control_profile_versions': '2024-03-03',
             'gallery_in_vm_access_control_profiles': '2024-03-03',
             'gallery_sharing_profile': '2024-03-03',
+            'images': '2024-07-01',
+            'log_analytics': '2024-07-01',
+            'operations': '2024-07-01',
+            'proximity_placement_groups': '2024-07-01',
             'resource_skus': '2021-07-01',
+            'restore_point_collections': '2024-07-01',
+            'restore_points': '2024-07-01',
             'shared_galleries': '2024-03-03',
             'shared_gallery_image_versions': '2024-03-03',
             'shared_gallery_images': '2024-03-03',
             'snapshots': '2024-03-02',
             'soft_deleted_resource': '2024-03-03',
+            'ssh_public_keys': '2024-07-01',
+            'usage': '2024-07-01',
+            'virtual_machine_extension_images': '2024-07-01',
+            'virtual_machine_extensions': '2024-07-01',
+            'virtual_machine_images': '2024-07-01',
+            'virtual_machine_images_edge_zone': '2024-07-01',
+            'virtual_machine_run_commands': '2024-07-01',
+            'virtual_machine_scale_set_extensions': '2024-07-01',
+            'virtual_machine_scale_set_rolling_upgrades': '2024-07-01',
+            'virtual_machine_scale_set_vm_extensions': '2024-07-01',
+            'virtual_machine_scale_set_vm_run_commands': '2024-07-01',
+            'virtual_machine_scale_set_vms': '2024-07-01',
+            'virtual_machine_scale_sets': '2024-07-01',
+            'virtual_machine_sizes': '2024-07-01',
+            'virtual_machines': '2024-07-01',
         }},
         _PROFILE_TAG + " latest"
     )
@@ -121,7 +142,7 @@ class ComputeManagementClient(MultiApiClientMixin, _SDKClient):
                 policies.SensitiveHeaderCleanupPolicy(**kwargs) if self._config.redirect_policy else None,
                 self._config.http_logging_policy,
             ]
-        self._client = AsyncARMPipelineClient(base_url=base_url, policies=_policies, **kwargs)
+        self._client: AsyncARMPipelineClient = AsyncARMPipelineClient(base_url=base_url, policies=_policies, **kwargs)
         super(ComputeManagementClient, self).__init__(
             api_version=api_version,
             profile=profile
@@ -184,6 +205,7 @@ class ComputeManagementClient(MultiApiClientMixin, _SDKClient):
            * 2024-03-02: :mod:`v2024_03_02.models<azure.mgmt.compute.v2024_03_02.models>`
            * 2024-03-03: :mod:`v2024_03_03.models<azure.mgmt.compute.v2024_03_03.models>`
            * 2024-07-01: :mod:`v2024_07_01.models<azure.mgmt.compute.v2024_07_01.models>`
+           * 2024-11-04: :mod:`v2024_11_04.models<azure.mgmt.compute.v2024_11_04.models>`
         """
         if api_version == '2015-06-15':
             from ..v2015_06_15 import models
@@ -331,6 +353,9 @@ class ComputeManagementClient(MultiApiClientMixin, _SDKClient):
             return models
         elif api_version == '2024-07-01':
             from ..v2024_07_01 import models
+            return models
+        elif api_version == '2024-11-04':
+            from ..v2024_11_04 import models
             return models
         raise ValueError("API version {} is not available".format(api_version))
 
@@ -515,6 +540,7 @@ class ComputeManagementClient(MultiApiClientMixin, _SDKClient):
            * 2021-03-01: :class:`CloudServiceOperatingSystemsOperations<azure.mgmt.compute.v2021_03_01.aio.operations.CloudServiceOperatingSystemsOperations>`
            * 2022-04-04: :class:`CloudServiceOperatingSystemsOperations<azure.mgmt.compute.v2022_04_04.aio.operations.CloudServiceOperatingSystemsOperations>`
            * 2022-09-04: :class:`CloudServiceOperatingSystemsOperations<azure.mgmt.compute.v2022_09_04.aio.operations.CloudServiceOperatingSystemsOperations>`
+           * 2024-11-04: :class:`CloudServiceOperatingSystemsOperations<azure.mgmt.compute.v2024_11_04.aio.operations.CloudServiceOperatingSystemsOperations>`
         """
         api_version = self._get_api_version('cloud_service_operating_systems')
         if api_version == '2021-03-01':
@@ -523,6 +549,8 @@ class ComputeManagementClient(MultiApiClientMixin, _SDKClient):
             from ..v2022_04_04.aio.operations import CloudServiceOperatingSystemsOperations as OperationClass
         elif api_version == '2022-09-04':
             from ..v2022_09_04.aio.operations import CloudServiceOperatingSystemsOperations as OperationClass
+        elif api_version == '2024-11-04':
+            from ..v2024_11_04.aio.operations import CloudServiceOperatingSystemsOperations as OperationClass
         else:
             raise ValueError("API version {} does not have operation group 'cloud_service_operating_systems'".format(api_version))
         self._config.api_version = api_version
@@ -536,6 +564,7 @@ class ComputeManagementClient(MultiApiClientMixin, _SDKClient):
            * 2021-03-01: :class:`CloudServiceRoleInstancesOperations<azure.mgmt.compute.v2021_03_01.aio.operations.CloudServiceRoleInstancesOperations>`
            * 2022-04-04: :class:`CloudServiceRoleInstancesOperations<azure.mgmt.compute.v2022_04_04.aio.operations.CloudServiceRoleInstancesOperations>`
            * 2022-09-04: :class:`CloudServiceRoleInstancesOperations<azure.mgmt.compute.v2022_09_04.aio.operations.CloudServiceRoleInstancesOperations>`
+           * 2024-11-04: :class:`CloudServiceRoleInstancesOperations<azure.mgmt.compute.v2024_11_04.aio.operations.CloudServiceRoleInstancesOperations>`
         """
         api_version = self._get_api_version('cloud_service_role_instances')
         if api_version == '2020-10-01-preview':
@@ -546,6 +575,8 @@ class ComputeManagementClient(MultiApiClientMixin, _SDKClient):
             from ..v2022_04_04.aio.operations import CloudServiceRoleInstancesOperations as OperationClass
         elif api_version == '2022-09-04':
             from ..v2022_09_04.aio.operations import CloudServiceRoleInstancesOperations as OperationClass
+        elif api_version == '2024-11-04':
+            from ..v2024_11_04.aio.operations import CloudServiceRoleInstancesOperations as OperationClass
         else:
             raise ValueError("API version {} does not have operation group 'cloud_service_role_instances'".format(api_version))
         self._config.api_version = api_version
@@ -559,6 +590,7 @@ class ComputeManagementClient(MultiApiClientMixin, _SDKClient):
            * 2021-03-01: :class:`CloudServiceRolesOperations<azure.mgmt.compute.v2021_03_01.aio.operations.CloudServiceRolesOperations>`
            * 2022-04-04: :class:`CloudServiceRolesOperations<azure.mgmt.compute.v2022_04_04.aio.operations.CloudServiceRolesOperations>`
            * 2022-09-04: :class:`CloudServiceRolesOperations<azure.mgmt.compute.v2022_09_04.aio.operations.CloudServiceRolesOperations>`
+           * 2024-11-04: :class:`CloudServiceRolesOperations<azure.mgmt.compute.v2024_11_04.aio.operations.CloudServiceRolesOperations>`
         """
         api_version = self._get_api_version('cloud_service_roles')
         if api_version == '2020-10-01-preview':
@@ -569,6 +601,8 @@ class ComputeManagementClient(MultiApiClientMixin, _SDKClient):
             from ..v2022_04_04.aio.operations import CloudServiceRolesOperations as OperationClass
         elif api_version == '2022-09-04':
             from ..v2022_09_04.aio.operations import CloudServiceRolesOperations as OperationClass
+        elif api_version == '2024-11-04':
+            from ..v2024_11_04.aio.operations import CloudServiceRolesOperations as OperationClass
         else:
             raise ValueError("API version {} does not have operation group 'cloud_service_roles'".format(api_version))
         self._config.api_version = api_version
@@ -582,6 +616,7 @@ class ComputeManagementClient(MultiApiClientMixin, _SDKClient):
            * 2021-03-01: :class:`CloudServicesOperations<azure.mgmt.compute.v2021_03_01.aio.operations.CloudServicesOperations>`
            * 2022-04-04: :class:`CloudServicesOperations<azure.mgmt.compute.v2022_04_04.aio.operations.CloudServicesOperations>`
            * 2022-09-04: :class:`CloudServicesOperations<azure.mgmt.compute.v2022_09_04.aio.operations.CloudServicesOperations>`
+           * 2024-11-04: :class:`CloudServicesOperations<azure.mgmt.compute.v2024_11_04.aio.operations.CloudServicesOperations>`
         """
         api_version = self._get_api_version('cloud_services')
         if api_version == '2020-10-01-preview':
@@ -592,6 +627,8 @@ class ComputeManagementClient(MultiApiClientMixin, _SDKClient):
             from ..v2022_04_04.aio.operations import CloudServicesOperations as OperationClass
         elif api_version == '2022-09-04':
             from ..v2022_09_04.aio.operations import CloudServicesOperations as OperationClass
+        elif api_version == '2024-11-04':
+            from ..v2024_11_04.aio.operations import CloudServicesOperations as OperationClass
         else:
             raise ValueError("API version {} does not have operation group 'cloud_services'".format(api_version))
         self._config.api_version = api_version
@@ -605,6 +642,7 @@ class ComputeManagementClient(MultiApiClientMixin, _SDKClient):
            * 2021-03-01: :class:`CloudServicesUpdateDomainOperations<azure.mgmt.compute.v2021_03_01.aio.operations.CloudServicesUpdateDomainOperations>`
            * 2022-04-04: :class:`CloudServicesUpdateDomainOperations<azure.mgmt.compute.v2022_04_04.aio.operations.CloudServicesUpdateDomainOperations>`
            * 2022-09-04: :class:`CloudServicesUpdateDomainOperations<azure.mgmt.compute.v2022_09_04.aio.operations.CloudServicesUpdateDomainOperations>`
+           * 2024-11-04: :class:`CloudServicesUpdateDomainOperations<azure.mgmt.compute.v2024_11_04.aio.operations.CloudServicesUpdateDomainOperations>`
         """
         api_version = self._get_api_version('cloud_services_update_domain')
         if api_version == '2020-10-01-preview':
@@ -615,6 +653,8 @@ class ComputeManagementClient(MultiApiClientMixin, _SDKClient):
             from ..v2022_04_04.aio.operations import CloudServicesUpdateDomainOperations as OperationClass
         elif api_version == '2022-09-04':
             from ..v2022_09_04.aio.operations import CloudServicesUpdateDomainOperations as OperationClass
+        elif api_version == '2024-11-04':
+            from ..v2024_11_04.aio.operations import CloudServicesUpdateDomainOperations as OperationClass
         else:
             raise ValueError("API version {} does not have operation group 'cloud_services_update_domain'".format(api_version))
         self._config.api_version = api_version
