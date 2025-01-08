@@ -8154,8 +8154,7 @@ class VirtualMachineScaleSetsOperations:  # pylint: disable=too-many-public-meth
     ) -> LROPoller[None]:
         """Power off (stop) one or more virtual machines in a VM scale set. Note that resources are still
         attached and you are getting charged for the resources. Instead, use deallocate to release
-        resources and avoid charges. Additionally, this operation is not allowed on virtual machines in
-        a VM scale set that are being deallocated or have already been deallocated.
+        resources and avoid charges.
 
         :param resource_group_name: The name of the resource group. Required.
         :type resource_group_name: str
@@ -8190,8 +8189,7 @@ class VirtualMachineScaleSetsOperations:  # pylint: disable=too-many-public-meth
     ) -> LROPoller[None]:
         """Power off (stop) one or more virtual machines in a VM scale set. Note that resources are still
         attached and you are getting charged for the resources. Instead, use deallocate to release
-        resources and avoid charges. Additionally, this operation is not allowed on virtual machines in
-        a VM scale set that are being deallocated or have already been deallocated.
+        resources and avoid charges.
 
         :param resource_group_name: The name of the resource group. Required.
         :type resource_group_name: str
@@ -8224,8 +8222,7 @@ class VirtualMachineScaleSetsOperations:  # pylint: disable=too-many-public-meth
     ) -> LROPoller[None]:
         """Power off (stop) one or more virtual machines in a VM scale set. Note that resources are still
         attached and you are getting charged for the resources. Instead, use deallocate to release
-        resources and avoid charges. Additionally, this operation is not allowed on virtual machines in
-        a VM scale set that are being deallocated or have already been deallocated.
+        resources and avoid charges.
 
         :param resource_group_name: The name of the resource group. Required.
         :type resource_group_name: str
@@ -13361,8 +13358,7 @@ class VirtualMachineScaleSetVMsOperations:  # pylint: disable=too-many-public-me
     ) -> LROPoller[None]:
         """Power off (stop) a virtual machine in a VM scale set. Note that resources are still attached
         and you are getting charged for the resources. Instead, use deallocate to release resources and
-        avoid charges. Additionally, this operation is not allowed on a virtual machine that is being
-        deallocated or already has been deallocated.
+        avoid charges.
 
         :param resource_group_name: The name of the resource group. Required.
         :type resource_group_name: str
@@ -16661,9 +16657,7 @@ class VirtualMachinesOperations:  # pylint: disable=too-many-public-methods
         self, resource_group_name: str, vm_name: str, *, skip_shutdown: bool = False, **kwargs: Any
     ) -> LROPoller[None]:
         """The operation to power off (stop) a virtual machine. The virtual machine can be restarted with
-        the same provisioned resources. You are still charged for this virtual machine. NOTE: This
-        operation is not allowed on a virtual machine that is being deallocated or has already been
-        deallocated.
+        the same provisioned resources. You are still charged for this virtual machine.
 
         :param resource_group_name: The name of the resource group. Required.
         :type resource_group_name: str
@@ -19581,7 +19575,7 @@ class AvailabilitySetsOperations:
         """Lists all availability sets in a subscription.
 
         :keyword expand: The expand expression to apply to the operation. Allowed values are
-         'virtualMachines/$ref'. Default value is None.
+         'instanceView'. Default value is None.
         :paramtype expand: str
         :return: An iterator like instance of either AvailabilitySet or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.compute.v2024_07_01.models.AvailabilitySet]
