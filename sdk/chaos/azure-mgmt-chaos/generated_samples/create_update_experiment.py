@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.chaos import ChaosManagementClient
 
 """
@@ -36,6 +37,10 @@ def main():
             "identity": {"type": "SystemAssigned"},
             "location": "eastus2euap",
             "properties": {
+                "customerDataStorage": {
+                    "blobContainerName": "azurechaosstudioexperiments",
+                    "storageAccountResourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/exampleRG/providers/Microsoft.Storage/storageAccounts/exampleStorage",
+                },
                 "selectors": [
                     {
                         "id": "selector1",
@@ -73,6 +78,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/stable/2024-01-01/examples/CreateUpdateExperiment.json
+# x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/preview/2024-03-22-preview/examples/CreateUpdateExperiment.json
 if __name__ == "__main__":
     main()
