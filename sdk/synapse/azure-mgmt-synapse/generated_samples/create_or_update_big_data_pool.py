@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.synapse import SynapseManagementClient
 
 """
@@ -45,7 +46,7 @@ def main():
                 "nodeSize": "Medium",
                 "nodeSizeFamily": "MemoryOptimized",
                 "sparkEventsFolder": "/events",
-                "sparkVersion": "2.4",
+                "sparkVersion": "3.3",
             },
             "tags": {"key": "value"},
         },

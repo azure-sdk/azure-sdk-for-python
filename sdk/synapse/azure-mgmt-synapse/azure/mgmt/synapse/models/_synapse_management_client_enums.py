@@ -100,6 +100,7 @@ class ColumnDataType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     NCHAR = "nchar"
     XML = "xml"
     SYSNAME = "sysname"
+    INT_ENUM = "int"
 
 
 class Compression(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -624,6 +625,15 @@ class SecurityAlertPolicyState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     NEW = "New"
     ENABLED = "Enabled"
     DISABLED = "Disabled"
+
+
+class SelfContainedInteractiveAuthoringState(bool, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """An alternative option to ensure interactive authoring function when your self-hosted
+    integration runtime is unable to establish a connection with Azure Relay.
+    """
+
+    TRUE = True
+    FALSE = False
 
 
 class SelfHostedIntegrationRuntimeNodeStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
