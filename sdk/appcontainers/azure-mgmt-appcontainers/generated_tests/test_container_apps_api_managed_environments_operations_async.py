@@ -21,9 +21,9 @@ class TestContainerAppsAPIManagedEnvironmentsOperationsAsync(AzureMgmtRecordedTe
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_by_subscription(self, resource_group):
+    async def test_managed_environments_list_by_subscription(self, resource_group):
         response = self.client.managed_environments.list_by_subscription(
-            api_version="2024-08-02-preview",
+            api_version="2025-01-01",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -31,10 +31,10 @@ class TestContainerAppsAPIManagedEnvironmentsOperationsAsync(AzureMgmtRecordedTe
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_by_resource_group(self, resource_group):
+    async def test_managed_environments_list_by_resource_group(self, resource_group):
         response = self.client.managed_environments.list_by_resource_group(
             resource_group_name=resource_group.name,
-            api_version="2024-08-02-preview",
+            api_version="2025-01-01",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -42,11 +42,11 @@ class TestContainerAppsAPIManagedEnvironmentsOperationsAsync(AzureMgmtRecordedTe
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get(self, resource_group):
+    async def test_managed_environments_get(self, resource_group):
         response = await self.client.managed_environments.get(
             resource_group_name=resource_group.name,
             environment_name="str",
-            api_version="2024-08-02-preview",
+            api_version="2025-01-01",
         )
 
         # please add some check logic here by yourself
@@ -54,24 +54,18 @@ class TestContainerAppsAPIManagedEnvironmentsOperationsAsync(AzureMgmtRecordedTe
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_create_or_update(self, resource_group):
+    async def test_managed_environments_begin_create_or_update(self, resource_group):
         response = await (
             await self.client.managed_environments.begin_create_or_update(
                 resource_group_name=resource_group.name,
                 environment_name="str",
                 environment_envelope={
                     "location": "str",
-                    "appInsightsConfiguration": {"connectionString": "str"},
                     "appLogsConfiguration": {
                         "destination": "str",
-                        "logAnalyticsConfiguration": {
-                            "customerId": "str",
-                            "dynamicJsonColumns": bool,
-                            "sharedKey": "str",
-                        },
+                        "logAnalyticsConfiguration": {"customerId": "str", "sharedKey": "str"},
                     },
                     "customDomainConfiguration": {
-                        "certificateKeyVaultProperties": {"identity": "str", "keyVaultUrl": "str"},
                         "certificatePassword": "str",
                         "certificateValue": bytes("bytes", encoding="utf-8"),
                         "customDomainVerificationId": "str",
@@ -87,59 +81,13 @@ class TestContainerAppsAPIManagedEnvironmentsOperationsAsync(AzureMgmtRecordedTe
                     "deploymentErrors": "str",
                     "eventStreamEndpoint": "str",
                     "id": "str",
-                    "identity": {
-                        "type": "str",
-                        "principalId": "str",
-                        "tenantId": "str",
-                        "userAssignedIdentities": {"str": {"clientId": "str", "principalId": "str"}},
-                    },
                     "infrastructureResourceGroup": "str",
                     "kedaConfiguration": {"version": "str"},
                     "kind": "str",
                     "name": "str",
-                    "openTelemetryConfiguration": {
-                        "destinationsConfiguration": {
-                            "dataDogConfiguration": {"key": "str", "site": "str"},
-                            "otlpConfigurations": [
-                                {
-                                    "endpoint": "str",
-                                    "headers": [{"key": "str", "value": "str"}],
-                                    "insecure": bool,
-                                    "name": "str",
-                                }
-                            ],
-                        },
-                        "logsConfiguration": {"destinations": ["str"]},
-                        "metricsConfiguration": {"destinations": ["str"], "includeKeda": bool},
-                        "tracesConfiguration": {"destinations": ["str"], "includeDapr": bool},
-                    },
                     "peerAuthentication": {"mtls": {"enabled": bool}},
                     "peerTrafficConfiguration": {"encryption": {"enabled": bool}},
-                    "privateEndpointConnections": [
-                        {
-                            "groupIds": ["str"],
-                            "id": "str",
-                            "name": "str",
-                            "privateEndpoint": {"id": "str"},
-                            "privateLinkServiceConnectionState": {
-                                "actionsRequired": "str",
-                                "description": "str",
-                                "status": "str",
-                            },
-                            "provisioningState": "str",
-                            "systemData": {
-                                "createdAt": "2020-02-20 00:00:00",
-                                "createdBy": "str",
-                                "createdByType": "str",
-                                "lastModifiedAt": "2020-02-20 00:00:00",
-                                "lastModifiedBy": "str",
-                                "lastModifiedByType": "str",
-                            },
-                            "type": "str",
-                        }
-                    ],
                     "provisioningState": "str",
-                    "publicNetworkAccess": "str",
                     "staticIp": "str",
                     "systemData": {
                         "createdAt": "2020-02-20 00:00:00",
@@ -169,7 +117,7 @@ class TestContainerAppsAPIManagedEnvironmentsOperationsAsync(AzureMgmtRecordedTe
                     ],
                     "zoneRedundant": bool,
                 },
-                api_version="2024-08-02-preview",
+                api_version="2025-01-01",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -178,12 +126,12 @@ class TestContainerAppsAPIManagedEnvironmentsOperationsAsync(AzureMgmtRecordedTe
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_delete(self, resource_group):
+    async def test_managed_environments_begin_delete(self, resource_group):
         response = await (
             await self.client.managed_environments.begin_delete(
                 resource_group_name=resource_group.name,
                 environment_name="str",
-                api_version="2024-08-02-preview",
+                api_version="2025-01-01",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -192,24 +140,18 @@ class TestContainerAppsAPIManagedEnvironmentsOperationsAsync(AzureMgmtRecordedTe
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_update(self, resource_group):
+    async def test_managed_environments_begin_update(self, resource_group):
         response = await (
             await self.client.managed_environments.begin_update(
                 resource_group_name=resource_group.name,
                 environment_name="str",
                 environment_envelope={
                     "location": "str",
-                    "appInsightsConfiguration": {"connectionString": "str"},
                     "appLogsConfiguration": {
                         "destination": "str",
-                        "logAnalyticsConfiguration": {
-                            "customerId": "str",
-                            "dynamicJsonColumns": bool,
-                            "sharedKey": "str",
-                        },
+                        "logAnalyticsConfiguration": {"customerId": "str", "sharedKey": "str"},
                     },
                     "customDomainConfiguration": {
-                        "certificateKeyVaultProperties": {"identity": "str", "keyVaultUrl": "str"},
                         "certificatePassword": "str",
                         "certificateValue": bytes("bytes", encoding="utf-8"),
                         "customDomainVerificationId": "str",
@@ -225,59 +167,13 @@ class TestContainerAppsAPIManagedEnvironmentsOperationsAsync(AzureMgmtRecordedTe
                     "deploymentErrors": "str",
                     "eventStreamEndpoint": "str",
                     "id": "str",
-                    "identity": {
-                        "type": "str",
-                        "principalId": "str",
-                        "tenantId": "str",
-                        "userAssignedIdentities": {"str": {"clientId": "str", "principalId": "str"}},
-                    },
                     "infrastructureResourceGroup": "str",
                     "kedaConfiguration": {"version": "str"},
                     "kind": "str",
                     "name": "str",
-                    "openTelemetryConfiguration": {
-                        "destinationsConfiguration": {
-                            "dataDogConfiguration": {"key": "str", "site": "str"},
-                            "otlpConfigurations": [
-                                {
-                                    "endpoint": "str",
-                                    "headers": [{"key": "str", "value": "str"}],
-                                    "insecure": bool,
-                                    "name": "str",
-                                }
-                            ],
-                        },
-                        "logsConfiguration": {"destinations": ["str"]},
-                        "metricsConfiguration": {"destinations": ["str"], "includeKeda": bool},
-                        "tracesConfiguration": {"destinations": ["str"], "includeDapr": bool},
-                    },
                     "peerAuthentication": {"mtls": {"enabled": bool}},
                     "peerTrafficConfiguration": {"encryption": {"enabled": bool}},
-                    "privateEndpointConnections": [
-                        {
-                            "groupIds": ["str"],
-                            "id": "str",
-                            "name": "str",
-                            "privateEndpoint": {"id": "str"},
-                            "privateLinkServiceConnectionState": {
-                                "actionsRequired": "str",
-                                "description": "str",
-                                "status": "str",
-                            },
-                            "provisioningState": "str",
-                            "systemData": {
-                                "createdAt": "2020-02-20 00:00:00",
-                                "createdBy": "str",
-                                "createdByType": "str",
-                                "lastModifiedAt": "2020-02-20 00:00:00",
-                                "lastModifiedBy": "str",
-                                "lastModifiedByType": "str",
-                            },
-                            "type": "str",
-                        }
-                    ],
                     "provisioningState": "str",
-                    "publicNetworkAccess": "str",
                     "staticIp": "str",
                     "systemData": {
                         "createdAt": "2020-02-20 00:00:00",
@@ -307,7 +203,7 @@ class TestContainerAppsAPIManagedEnvironmentsOperationsAsync(AzureMgmtRecordedTe
                     ],
                     "zoneRedundant": bool,
                 },
-                api_version="2024-08-02-preview",
+                api_version="2025-01-01",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -316,11 +212,11 @@ class TestContainerAppsAPIManagedEnvironmentsOperationsAsync(AzureMgmtRecordedTe
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get_auth_token(self, resource_group):
+    async def test_managed_environments_get_auth_token(self, resource_group):
         response = await self.client.managed_environments.get_auth_token(
             resource_group_name=resource_group.name,
             environment_name="str",
-            api_version="2024-08-02-preview",
+            api_version="2025-01-01",
         )
 
         # please add some check logic here by yourself
@@ -328,11 +224,11 @@ class TestContainerAppsAPIManagedEnvironmentsOperationsAsync(AzureMgmtRecordedTe
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_workload_profile_states(self, resource_group):
+    async def test_managed_environments_list_workload_profile_states(self, resource_group):
         response = self.client.managed_environments.list_workload_profile_states(
             resource_group_name=resource_group.name,
             environment_name="str",
-            api_version="2024-08-02-preview",
+            api_version="2025-01-01",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
