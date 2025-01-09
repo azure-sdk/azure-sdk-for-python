@@ -44,6 +44,105 @@ _SERIALIZER = Serializer()
 _SERIALIZER.client_side_validation = False
 
 
+def build_galleries_list_request(subscription_id: str, **kwargs: Any) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-07-03"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = kwargs.pop("template_url", "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/galleries")
+    path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_galleries_list_by_resource_group_request(  # pylint: disable=name-too-long
+    resource_group_name: str, subscription_id: str, **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-07-03"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = kwargs.pop(
+        "template_url",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries",
+    )  # pylint: disable=line-too-long
+    path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "resourceGroupName": _SERIALIZER.url(
+            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
+        ),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_galleries_get_request(
+    resource_group_name: str,
+    gallery_name: str,
+    subscription_id: str,
+    *,
+    select: Optional[Union[str, _models.SelectPermissions]] = None,
+    expand: Optional[Union[str, _models.GalleryExpandParams]] = None,
+    **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-07-03"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = kwargs.pop(
+        "template_url",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}",
+    )  # pylint: disable=line-too-long
+    path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "resourceGroupName": _SERIALIZER.url(
+            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
+        ),
+        "galleryName": _SERIALIZER.url("gallery_name", gallery_name, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+    if select is not None:
+        _params["$select"] = _SERIALIZER.query("select", select, "str")
+    if expand is not None:
+        _params["$expand"] = _SERIALIZER.query("expand", expand, "str")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
+
+
 def build_galleries_create_or_update_request(
     resource_group_name: str, gallery_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
@@ -60,8 +159,10 @@ def build_galleries_create_or_update_request(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "resourceGroupName": _SERIALIZER.url(
+            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
+        ),
         "galleryName": _SERIALIZER.url("gallery_name", gallery_name, "str"),
     }
 
@@ -94,8 +195,10 @@ def build_galleries_update_request(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "resourceGroupName": _SERIALIZER.url(
+            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
+        ),
         "galleryName": _SERIALIZER.url("gallery_name", gallery_name, "str"),
     }
 
@@ -110,47 +213,6 @@ def build_galleries_update_request(
     _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="PATCH", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_galleries_get_request(
-    resource_group_name: str,
-    gallery_name: str,
-    subscription_id: str,
-    *,
-    select: Optional[Union[str, _models.SelectPermissions]] = None,
-    expand: Optional[Union[str, _models.GalleryExpandParams]] = None,
-    **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-07-03"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = kwargs.pop(
-        "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}",
-    )  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "galleryName": _SERIALIZER.url("gallery_name", gallery_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-    if select is not None:
-        _params["$select"] = _SERIALIZER.query("select", select, "str")
-    if expand is not None:
-        _params["$expand"] = _SERIALIZER.query("expand", expand, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
 def build_galleries_delete_request(
@@ -168,8 +230,10 @@ def build_galleries_delete_request(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "resourceGroupName": _SERIALIZER.url(
+            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
+        ),
         "galleryName": _SERIALIZER.url("gallery_name", gallery_name, "str"),
     }
 
@@ -184,8 +248,8 @@ def build_galleries_delete_request(
     return HttpRequest(method="DELETE", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_galleries_list_by_resource_group_request(  # pylint: disable=name-too-long
-    resource_group_name: str, subscription_id: str, **kwargs: Any
+def build_community_galleries_get_request(
+    location: str, public_gallery_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
@@ -196,11 +260,12 @@ def build_galleries_list_by_resource_group_request(  # pylint: disable=name-too-
     # Construct URL
     _url = kwargs.pop(
         "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries",
+        "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/communityGalleries/{publicGalleryName}",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "location": _SERIALIZER.url("location", location, "str", min_length=1),
+        "publicGalleryName": _SERIALIZER.url("public_gallery_name", public_gallery_name, "str"),
     }
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
@@ -214,7 +279,9 @@ def build_galleries_list_by_resource_group_request(  # pylint: disable=name-too-
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_galleries_list_request(subscription_id: str, **kwargs: Any) -> HttpRequest:
+def build_community_gallery_images_list_request(  # pylint: disable=name-too-long
+    location: str, public_gallery_name: str, subscription_id: str, **kwargs: Any
+) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
@@ -222,9 +289,14 @@ def build_galleries_list_request(subscription_id: str, **kwargs: Any) -> HttpReq
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
-    _url = kwargs.pop("template_url", "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/galleries")
+    _url = kwargs.pop(
+        "template_url",
+        "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/communityGalleries/{publicGalleryName}/images",
+    )  # pylint: disable=line-too-long
     path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "location": _SERIALIZER.url("location", location, "str", min_length=1),
+        "publicGalleryName": _SERIALIZER.url("public_gallery_name", public_gallery_name, "str"),
     }
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
@@ -238,78 +310,8 @@ def build_galleries_list_request(subscription_id: str, **kwargs: Any) -> HttpReq
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_gallery_images_create_or_update_request(  # pylint: disable=name-too-long
-    resource_group_name: str, gallery_name: str, gallery_image_name: str, subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-07-03"))
-    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = kwargs.pop(
-        "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}",
-    )  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "galleryName": _SERIALIZER.url("gallery_name", gallery_name, "str"),
-        "galleryImageName": _SERIALIZER.url("gallery_image_name", gallery_image_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    if content_type is not None:
-        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="PUT", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_gallery_images_update_request(
-    resource_group_name: str, gallery_name: str, gallery_image_name: str, subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-07-03"))
-    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = kwargs.pop(
-        "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}",
-    )  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "galleryName": _SERIALIZER.url("gallery_name", gallery_name, "str"),
-        "galleryImageName": _SERIALIZER.url("gallery_image_name", gallery_image_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    if content_type is not None:
-        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="PATCH", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_gallery_images_get_request(
-    resource_group_name: str, gallery_name: str, gallery_image_name: str, subscription_id: str, **kwargs: Any
+def build_community_gallery_images_get_request(  # pylint: disable=name-too-long
+    location: str, public_gallery_name: str, gallery_image_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
@@ -320,12 +322,12 @@ def build_gallery_images_get_request(
     # Construct URL
     _url = kwargs.pop(
         "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}",
+        "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/communityGalleries/{publicGalleryName}/images/{galleryImageName}",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "galleryName": _SERIALIZER.url("gallery_name", gallery_name, "str"),
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "location": _SERIALIZER.url("location", location, "str", min_length=1),
+        "publicGalleryName": _SERIALIZER.url("public_gallery_name", public_gallery_name, "str"),
         "galleryImageName": _SERIALIZER.url("gallery_image_name", gallery_image_name, "str"),
     }
 
@@ -340,8 +342,8 @@ def build_gallery_images_get_request(
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_gallery_images_delete_request(
-    resource_group_name: str, gallery_name: str, gallery_image_name: str, subscription_id: str, **kwargs: Any
+def build_community_gallery_image_versions_list_request(  # pylint: disable=name-too-long
+    location: str, public_gallery_name: str, gallery_image_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
@@ -352,12 +354,12 @@ def build_gallery_images_delete_request(
     # Construct URL
     _url = kwargs.pop(
         "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}",
+        "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/communityGalleries/{publicGalleryName}/images/{galleryImageName}/versions",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "galleryName": _SERIALIZER.url("gallery_name", gallery_name, "str"),
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "location": _SERIALIZER.url("location", location, "str", min_length=1),
+        "publicGalleryName": _SERIALIZER.url("public_gallery_name", public_gallery_name, "str"),
         "galleryImageName": _SERIALIZER.url("gallery_image_name", gallery_image_name, "str"),
     }
 
@@ -369,10 +371,263 @@ def build_gallery_images_delete_request(
     # Construct headers
     _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
-    return HttpRequest(method="DELETE", url=_url, params=_params, headers=_headers, **kwargs)
+    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_gallery_images_list_by_gallery_request(  # pylint: disable=name-too-long
+def build_community_gallery_image_versions_get_request(  # pylint: disable=name-too-long
+    location: str,
+    public_gallery_name: str,
+    gallery_image_name: str,
+    gallery_image_version_name: str,
+    subscription_id: str,
+    **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-07-03"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = kwargs.pop(
+        "template_url",
+        "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/communityGalleries/{publicGalleryName}/images/{galleryImageName}/versions/{galleryImageVersionName}",
+    )  # pylint: disable=line-too-long
+    path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "location": _SERIALIZER.url("location", location, "str", min_length=1),
+        "publicGalleryName": _SERIALIZER.url("public_gallery_name", public_gallery_name, "str"),
+        "galleryImageName": _SERIALIZER.url("gallery_image_name", gallery_image_name, "str"),
+        "galleryImageVersionName": _SERIALIZER.url("gallery_image_version_name", gallery_image_version_name, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_shared_galleries_list_request(
+    location: str,
+    subscription_id: str,
+    *,
+    shared_to: Optional[Union[str, _models.SharedToValues]] = None,
+    **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-07-03"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = kwargs.pop(
+        "template_url",
+        "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/sharedGalleries",
+    )  # pylint: disable=line-too-long
+    path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "location": _SERIALIZER.url("location", location, "str", min_length=1),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+    if shared_to is not None:
+        _params["sharedTo"] = _SERIALIZER.query("shared_to", shared_to, "str")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_shared_galleries_get_request(
+    location: str, gallery_unique_name: str, subscription_id: str, **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-07-03"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = kwargs.pop(
+        "template_url",
+        "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/sharedGalleries/{galleryUniqueName}",
+    )  # pylint: disable=line-too-long
+    path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "location": _SERIALIZER.url("location", location, "str", min_length=1),
+        "galleryUniqueName": _SERIALIZER.url("gallery_unique_name", gallery_unique_name, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_shared_gallery_images_list_request(
+    location: str,
+    gallery_unique_name: str,
+    subscription_id: str,
+    *,
+    shared_to: Optional[Union[str, _models.SharedToValues]] = None,
+    **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-07-03"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = kwargs.pop(
+        "template_url",
+        "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/sharedGalleries/{galleryUniqueName}/images",
+    )  # pylint: disable=line-too-long
+    path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "location": _SERIALIZER.url("location", location, "str", min_length=1),
+        "galleryUniqueName": _SERIALIZER.url("gallery_unique_name", gallery_unique_name, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+    if shared_to is not None:
+        _params["sharedTo"] = _SERIALIZER.query("shared_to", shared_to, "str")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_shared_gallery_images_get_request(
+    location: str, gallery_unique_name: str, gallery_image_name: str, subscription_id: str, **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-07-03"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = kwargs.pop(
+        "template_url",
+        "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/sharedGalleries/{galleryUniqueName}/images/{galleryImageName}",
+    )  # pylint: disable=line-too-long
+    path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "location": _SERIALIZER.url("location", location, "str", min_length=1),
+        "galleryUniqueName": _SERIALIZER.url("gallery_unique_name", gallery_unique_name, "str"),
+        "galleryImageName": _SERIALIZER.url("gallery_image_name", gallery_image_name, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_shared_gallery_image_versions_list_request(  # pylint: disable=name-too-long
+    location: str,
+    gallery_unique_name: str,
+    gallery_image_name: str,
+    subscription_id: str,
+    *,
+    shared_to: Optional[Union[str, _models.SharedToValues]] = None,
+    **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-07-03"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = kwargs.pop(
+        "template_url",
+        "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/sharedGalleries/{galleryUniqueName}/images/{galleryImageName}/versions",
+    )  # pylint: disable=line-too-long
+    path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "location": _SERIALIZER.url("location", location, "str", min_length=1),
+        "galleryUniqueName": _SERIALIZER.url("gallery_unique_name", gallery_unique_name, "str"),
+        "galleryImageName": _SERIALIZER.url("gallery_image_name", gallery_image_name, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+    if shared_to is not None:
+        _params["sharedTo"] = _SERIALIZER.query("shared_to", shared_to, "str")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_shared_gallery_image_versions_get_request(  # pylint: disable=name-too-long
+    location: str,
+    gallery_unique_name: str,
+    gallery_image_name: str,
+    gallery_image_version_name: str,
+    subscription_id: str,
+    **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-07-03"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = kwargs.pop(
+        "template_url",
+        "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/sharedGalleries/{galleryUniqueName}/images/{galleryImageName}/versions/{galleryImageVersionName}",
+    )  # pylint: disable=line-too-long
+    path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "location": _SERIALIZER.url("location", location, "str", min_length=1),
+        "galleryUniqueName": _SERIALIZER.url("gallery_unique_name", gallery_unique_name, "str"),
+        "galleryImageName": _SERIALIZER.url("gallery_image_name", gallery_image_name, "str"),
+        "galleryImageVersionName": _SERIALIZER.url("gallery_image_version_name", gallery_image_version_name, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_gallery_applications_list_by_gallery_request(  # pylint: disable=name-too-long
     resource_group_name: str, gallery_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -384,11 +639,13 @@ def build_gallery_images_list_by_gallery_request(  # pylint: disable=name-too-lo
     # Construct URL
     _url = kwargs.pop(
         "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "resourceGroupName": _SERIALIZER.url(
+            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
+        ),
         "galleryName": _SERIALIZER.url("gallery_name", gallery_name, "str"),
     }
 
@@ -403,97 +660,8 @@ def build_gallery_images_list_by_gallery_request(  # pylint: disable=name-too-lo
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_gallery_image_versions_create_or_update_request(  # pylint: disable=name-too-long
-    resource_group_name: str,
-    gallery_name: str,
-    gallery_image_name: str,
-    gallery_image_version_name: str,
-    subscription_id: str,
-    **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-07-03"))
-    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = kwargs.pop(
-        "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}/versions/{galleryImageVersionName}",
-    )  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "galleryName": _SERIALIZER.url("gallery_name", gallery_name, "str"),
-        "galleryImageName": _SERIALIZER.url("gallery_image_name", gallery_image_name, "str"),
-        "galleryImageVersionName": _SERIALIZER.url("gallery_image_version_name", gallery_image_version_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    if content_type is not None:
-        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="PUT", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_gallery_image_versions_update_request(  # pylint: disable=name-too-long
-    resource_group_name: str,
-    gallery_name: str,
-    gallery_image_name: str,
-    gallery_image_version_name: str,
-    subscription_id: str,
-    **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-07-03"))
-    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = kwargs.pop(
-        "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}/versions/{galleryImageVersionName}",
-    )  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "galleryName": _SERIALIZER.url("gallery_name", gallery_name, "str"),
-        "galleryImageName": _SERIALIZER.url("gallery_image_name", gallery_image_name, "str"),
-        "galleryImageVersionName": _SERIALIZER.url("gallery_image_version_name", gallery_image_version_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    if content_type is not None:
-        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="PATCH", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_gallery_image_versions_get_request(
-    resource_group_name: str,
-    gallery_name: str,
-    gallery_image_name: str,
-    gallery_image_version_name: str,
-    subscription_id: str,
-    *,
-    expand: Optional[Union[str, _models.ReplicationStatusTypes]] = None,
-    **kwargs: Any
+def build_gallery_applications_get_request(
+    resource_group_name: str, gallery_name: str, gallery_application_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
@@ -504,86 +672,15 @@ def build_gallery_image_versions_get_request(
     # Construct URL
     _url = kwargs.pop(
         "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}/versions/{galleryImageVersionName}",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "resourceGroupName": _SERIALIZER.url(
+            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
+        ),
         "galleryName": _SERIALIZER.url("gallery_name", gallery_name, "str"),
-        "galleryImageName": _SERIALIZER.url("gallery_image_name", gallery_image_name, "str"),
-        "galleryImageVersionName": _SERIALIZER.url("gallery_image_version_name", gallery_image_version_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    if expand is not None:
-        _params["$expand"] = _SERIALIZER.query("expand", expand, "str")
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_gallery_image_versions_delete_request(  # pylint: disable=name-too-long
-    resource_group_name: str,
-    gallery_name: str,
-    gallery_image_name: str,
-    gallery_image_version_name: str,
-    subscription_id: str,
-    **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-07-03"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = kwargs.pop(
-        "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}/versions/{galleryImageVersionName}",
-    )  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "galleryName": _SERIALIZER.url("gallery_name", gallery_name, "str"),
-        "galleryImageName": _SERIALIZER.url("gallery_image_name", gallery_image_name, "str"),
-        "galleryImageVersionName": _SERIALIZER.url("gallery_image_version_name", gallery_image_version_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="DELETE", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_gallery_image_versions_list_by_gallery_image_request(  # pylint: disable=name-too-long
-    resource_group_name: str, gallery_name: str, gallery_image_name: str, subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-07-03"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = kwargs.pop(
-        "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}/versions",
-    )  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "galleryName": _SERIALIZER.url("gallery_name", gallery_name, "str"),
-        "galleryImageName": _SERIALIZER.url("gallery_image_name", gallery_image_name, "str"),
+        "galleryApplicationName": _SERIALIZER.url("gallery_application_name", gallery_application_name, "str"),
     }
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
@@ -613,8 +710,10 @@ def build_gallery_applications_create_or_update_request(  # pylint: disable=name
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "resourceGroupName": _SERIALIZER.url(
+            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
+        ),
         "galleryName": _SERIALIZER.url("gallery_name", gallery_name, "str"),
         "galleryApplicationName": _SERIALIZER.url("gallery_application_name", gallery_application_name, "str"),
     }
@@ -648,8 +747,10 @@ def build_gallery_applications_update_request(  # pylint: disable=name-too-long
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "resourceGroupName": _SERIALIZER.url(
+            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
+        ),
         "galleryName": _SERIALIZER.url("gallery_name", gallery_name, "str"),
         "galleryApplicationName": _SERIALIZER.url("gallery_application_name", gallery_application_name, "str"),
     }
@@ -667,38 +768,6 @@ def build_gallery_applications_update_request(  # pylint: disable=name-too-long
     return HttpRequest(method="PATCH", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_gallery_applications_get_request(
-    resource_group_name: str, gallery_name: str, gallery_application_name: str, subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-07-03"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = kwargs.pop(
-        "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}",
-    )  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "galleryName": _SERIALIZER.url("gallery_name", gallery_name, "str"),
-        "galleryApplicationName": _SERIALIZER.url("gallery_application_name", gallery_application_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
 def build_gallery_applications_delete_request(  # pylint: disable=name-too-long
     resource_group_name: str, gallery_name: str, gallery_application_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
@@ -714,8 +783,10 @@ def build_gallery_applications_delete_request(  # pylint: disable=name-too-long
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "resourceGroupName": _SERIALIZER.url(
+            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
+        ),
         "galleryName": _SERIALIZER.url("gallery_name", gallery_name, "str"),
         "galleryApplicationName": _SERIALIZER.url("gallery_application_name", gallery_application_name, "str"),
     }
@@ -731,8 +802,8 @@ def build_gallery_applications_delete_request(  # pylint: disable=name-too-long
     return HttpRequest(method="DELETE", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_gallery_applications_list_by_gallery_request(  # pylint: disable=name-too-long
-    resource_group_name: str, gallery_name: str, subscription_id: str, **kwargs: Any
+def build_gallery_application_versions_list_by_gallery_application_request(  # pylint: disable=name-too-long
+    resource_group_name: str, gallery_name: str, gallery_application_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
@@ -743,18 +814,67 @@ def build_gallery_applications_list_by_gallery_request(  # pylint: disable=name-
     # Construct URL
     _url = kwargs.pop(
         "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}/versions",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "resourceGroupName": _SERIALIZER.url(
+            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
+        ),
         "galleryName": _SERIALIZER.url("gallery_name", gallery_name, "str"),
+        "galleryApplicationName": _SERIALIZER.url("gallery_application_name", gallery_application_name, "str"),
     }
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_gallery_application_versions_get_request(  # pylint: disable=name-too-long
+    resource_group_name: str,
+    gallery_name: str,
+    gallery_application_name: str,
+    gallery_application_version_name: str,
+    subscription_id: str,
+    *,
+    expand: Optional[Union[str, _models.ReplicationStatusTypes]] = None,
+    **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-07-03"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = kwargs.pop(
+        "template_url",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}/versions/{galleryApplicationVersionName}",
+    )  # pylint: disable=line-too-long
+    path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "resourceGroupName": _SERIALIZER.url(
+            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
+        ),
+        "galleryName": _SERIALIZER.url("gallery_name", gallery_name, "str"),
+        "galleryApplicationName": _SERIALIZER.url("gallery_application_name", gallery_application_name, "str"),
+        "galleryApplicationVersionName": _SERIALIZER.url(
+            "gallery_application_version_name", gallery_application_version_name, "str"
+        ),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+    if expand is not None:
+        _params["$expand"] = _SERIALIZER.query("expand", expand, "str")
 
     # Construct headers
     _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
@@ -783,8 +903,10 @@ def build_gallery_application_versions_create_or_update_request(  # pylint: disa
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}/versions/{galleryApplicationVersionName}",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "resourceGroupName": _SERIALIZER.url(
+            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
+        ),
         "galleryName": _SERIALIZER.url("gallery_name", gallery_name, "str"),
         "galleryApplicationName": _SERIALIZER.url("gallery_application_name", gallery_application_name, "str"),
         "galleryApplicationVersionName": _SERIALIZER.url(
@@ -826,8 +948,10 @@ def build_gallery_application_versions_update_request(  # pylint: disable=name-t
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}/versions/{galleryApplicationVersionName}",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "resourceGroupName": _SERIALIZER.url(
+            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
+        ),
         "galleryName": _SERIALIZER.url("gallery_name", gallery_name, "str"),
         "galleryApplicationName": _SERIALIZER.url("gallery_application_name", gallery_application_name, "str"),
         "galleryApplicationVersionName": _SERIALIZER.url(
@@ -846,50 +970,6 @@ def build_gallery_application_versions_update_request(  # pylint: disable=name-t
     _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="PATCH", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_gallery_application_versions_get_request(  # pylint: disable=name-too-long
-    resource_group_name: str,
-    gallery_name: str,
-    gallery_application_name: str,
-    gallery_application_version_name: str,
-    subscription_id: str,
-    *,
-    expand: Optional[Union[str, _models.ReplicationStatusTypes]] = None,
-    **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-07-03"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = kwargs.pop(
-        "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}/versions/{galleryApplicationVersionName}",
-    )  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "galleryName": _SERIALIZER.url("gallery_name", gallery_name, "str"),
-        "galleryApplicationName": _SERIALIZER.url("gallery_application_name", gallery_application_name, "str"),
-        "galleryApplicationVersionName": _SERIALIZER.url(
-            "gallery_application_version_name", gallery_application_version_name, "str"
-        ),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    if expand is not None:
-        _params["$expand"] = _SERIALIZER.query("expand", expand, "str")
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
 def build_gallery_application_versions_delete_request(  # pylint: disable=name-too-long
@@ -912,8 +992,10 @@ def build_gallery_application_versions_delete_request(  # pylint: disable=name-t
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}/versions/{galleryApplicationVersionName}",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "resourceGroupName": _SERIALIZER.url(
+            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
+        ),
         "galleryName": _SERIALIZER.url("gallery_name", gallery_name, "str"),
         "galleryApplicationName": _SERIALIZER.url("gallery_application_name", gallery_application_name, "str"),
         "galleryApplicationVersionName": _SERIALIZER.url(
@@ -932,8 +1014,8 @@ def build_gallery_application_versions_delete_request(  # pylint: disable=name-t
     return HttpRequest(method="DELETE", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_gallery_application_versions_list_by_gallery_application_request(  # pylint: disable=name-too-long
-    resource_group_name: str, gallery_name: str, gallery_application_name: str, subscription_id: str, **kwargs: Any
+def build_gallery_images_list_by_gallery_request(  # pylint: disable=name-too-long
+    resource_group_name: str, gallery_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
@@ -944,13 +1026,14 @@ def build_gallery_application_versions_list_by_gallery_application_request(  # p
     # Construct URL
     _url = kwargs.pop(
         "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}/versions",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "resourceGroupName": _SERIALIZER.url(
+            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
+        ),
         "galleryName": _SERIALIZER.url("gallery_name", gallery_name, "str"),
-        "galleryApplicationName": _SERIALIZER.url("gallery_application_name", gallery_application_name, "str"),
     }
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
@@ -962,6 +1045,352 @@ def build_gallery_application_versions_list_by_gallery_application_request(  # p
     _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_gallery_images_get_request(
+    resource_group_name: str, gallery_name: str, gallery_image_name: str, subscription_id: str, **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-07-03"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = kwargs.pop(
+        "template_url",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}",
+    )  # pylint: disable=line-too-long
+    path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "resourceGroupName": _SERIALIZER.url(
+            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
+        ),
+        "galleryName": _SERIALIZER.url("gallery_name", gallery_name, "str"),
+        "galleryImageName": _SERIALIZER.url("gallery_image_name", gallery_image_name, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_gallery_images_create_or_update_request(  # pylint: disable=name-too-long
+    resource_group_name: str, gallery_name: str, gallery_image_name: str, subscription_id: str, **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-07-03"))
+    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = kwargs.pop(
+        "template_url",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}",
+    )  # pylint: disable=line-too-long
+    path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "resourceGroupName": _SERIALIZER.url(
+            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
+        ),
+        "galleryName": _SERIALIZER.url("gallery_name", gallery_name, "str"),
+        "galleryImageName": _SERIALIZER.url("gallery_image_name", gallery_image_name, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    if content_type is not None:
+        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="PUT", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_gallery_images_update_request(
+    resource_group_name: str, gallery_name: str, gallery_image_name: str, subscription_id: str, **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-07-03"))
+    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = kwargs.pop(
+        "template_url",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}",
+    )  # pylint: disable=line-too-long
+    path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "resourceGroupName": _SERIALIZER.url(
+            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
+        ),
+        "galleryName": _SERIALIZER.url("gallery_name", gallery_name, "str"),
+        "galleryImageName": _SERIALIZER.url("gallery_image_name", gallery_image_name, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    if content_type is not None:
+        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="PATCH", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_gallery_images_delete_request(
+    resource_group_name: str, gallery_name: str, gallery_image_name: str, subscription_id: str, **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-07-03"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = kwargs.pop(
+        "template_url",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}",
+    )  # pylint: disable=line-too-long
+    path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "resourceGroupName": _SERIALIZER.url(
+            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
+        ),
+        "galleryName": _SERIALIZER.url("gallery_name", gallery_name, "str"),
+        "galleryImageName": _SERIALIZER.url("gallery_image_name", gallery_image_name, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="DELETE", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_gallery_image_versions_list_by_gallery_image_request(  # pylint: disable=name-too-long
+    resource_group_name: str, gallery_name: str, gallery_image_name: str, subscription_id: str, **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-07-03"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = kwargs.pop(
+        "template_url",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}/versions",
+    )  # pylint: disable=line-too-long
+    path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "resourceGroupName": _SERIALIZER.url(
+            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
+        ),
+        "galleryName": _SERIALIZER.url("gallery_name", gallery_name, "str"),
+        "galleryImageName": _SERIALIZER.url("gallery_image_name", gallery_image_name, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_gallery_image_versions_get_request(
+    resource_group_name: str,
+    gallery_name: str,
+    gallery_image_name: str,
+    gallery_image_version_name: str,
+    subscription_id: str,
+    *,
+    expand: Optional[Union[str, _models.ReplicationStatusTypes]] = None,
+    **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-07-03"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = kwargs.pop(
+        "template_url",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}/versions/{galleryImageVersionName}",
+    )  # pylint: disable=line-too-long
+    path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "resourceGroupName": _SERIALIZER.url(
+            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
+        ),
+        "galleryName": _SERIALIZER.url("gallery_name", gallery_name, "str"),
+        "galleryImageName": _SERIALIZER.url("gallery_image_name", gallery_image_name, "str"),
+        "galleryImageVersionName": _SERIALIZER.url("gallery_image_version_name", gallery_image_version_name, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+    if expand is not None:
+        _params["$expand"] = _SERIALIZER.query("expand", expand, "str")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_gallery_image_versions_create_or_update_request(  # pylint: disable=name-too-long
+    resource_group_name: str,
+    gallery_name: str,
+    gallery_image_name: str,
+    gallery_image_version_name: str,
+    subscription_id: str,
+    **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-07-03"))
+    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = kwargs.pop(
+        "template_url",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}/versions/{galleryImageVersionName}",
+    )  # pylint: disable=line-too-long
+    path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "resourceGroupName": _SERIALIZER.url(
+            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
+        ),
+        "galleryName": _SERIALIZER.url("gallery_name", gallery_name, "str"),
+        "galleryImageName": _SERIALIZER.url("gallery_image_name", gallery_image_name, "str"),
+        "galleryImageVersionName": _SERIALIZER.url("gallery_image_version_name", gallery_image_version_name, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    if content_type is not None:
+        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="PUT", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_gallery_image_versions_update_request(  # pylint: disable=name-too-long
+    resource_group_name: str,
+    gallery_name: str,
+    gallery_image_name: str,
+    gallery_image_version_name: str,
+    subscription_id: str,
+    **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-07-03"))
+    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = kwargs.pop(
+        "template_url",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}/versions/{galleryImageVersionName}",
+    )  # pylint: disable=line-too-long
+    path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "resourceGroupName": _SERIALIZER.url(
+            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
+        ),
+        "galleryName": _SERIALIZER.url("gallery_name", gallery_name, "str"),
+        "galleryImageName": _SERIALIZER.url("gallery_image_name", gallery_image_name, "str"),
+        "galleryImageVersionName": _SERIALIZER.url("gallery_image_version_name", gallery_image_version_name, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    if content_type is not None:
+        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="PATCH", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_gallery_image_versions_delete_request(  # pylint: disable=name-too-long
+    resource_group_name: str,
+    gallery_name: str,
+    gallery_image_name: str,
+    gallery_image_version_name: str,
+    subscription_id: str,
+    **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-07-03"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = kwargs.pop(
+        "template_url",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}/versions/{galleryImageVersionName}",
+    )  # pylint: disable=line-too-long
+    path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "resourceGroupName": _SERIALIZER.url(
+            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
+        ),
+        "galleryName": _SERIALIZER.url("gallery_name", gallery_name, "str"),
+        "galleryImageName": _SERIALIZER.url("gallery_image_name", gallery_image_name, "str"),
+        "galleryImageVersionName": _SERIALIZER.url("gallery_image_version_name", gallery_image_version_name, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="DELETE", url=_url, params=_params, headers=_headers, **kwargs)
 
 
 def build_gallery_sharing_profile_update_request(  # pylint: disable=name-too-long
@@ -980,8 +1409,10 @@ def build_gallery_sharing_profile_update_request(  # pylint: disable=name-too-lo
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/share",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "resourceGroupName": _SERIALIZER.url(
+            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
+        ),
         "galleryName": _SERIALIZER.url("gallery_name", gallery_name, "str"),
     }
 
@@ -996,385 +1427,6 @@ def build_gallery_sharing_profile_update_request(  # pylint: disable=name-too-lo
     _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_shared_galleries_list_request(
-    location: str,
-    subscription_id: str,
-    *,
-    shared_to: Optional[Union[str, _models.SharedToValues]] = None,
-    **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-07-03"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = kwargs.pop(
-        "template_url",
-        "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/sharedGalleries",
-    )  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "location": _SERIALIZER.url("location", location, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-    if shared_to is not None:
-        _params["sharedTo"] = _SERIALIZER.query("shared_to", shared_to, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_shared_galleries_get_request(
-    location: str, gallery_unique_name: str, subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-07-03"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = kwargs.pop(
-        "template_url",
-        "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/sharedGalleries/{galleryUniqueName}",
-    )  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "location": _SERIALIZER.url("location", location, "str"),
-        "galleryUniqueName": _SERIALIZER.url("gallery_unique_name", gallery_unique_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_shared_gallery_images_list_request(
-    location: str,
-    gallery_unique_name: str,
-    subscription_id: str,
-    *,
-    shared_to: Optional[Union[str, _models.SharedToValues]] = None,
-    **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-07-03"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = kwargs.pop(
-        "template_url",
-        "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/sharedGalleries/{galleryUniqueName}/images",
-    )  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "location": _SERIALIZER.url("location", location, "str"),
-        "galleryUniqueName": _SERIALIZER.url("gallery_unique_name", gallery_unique_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-    if shared_to is not None:
-        _params["sharedTo"] = _SERIALIZER.query("shared_to", shared_to, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_shared_gallery_images_get_request(
-    location: str, gallery_unique_name: str, gallery_image_name: str, subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-07-03"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = kwargs.pop(
-        "template_url",
-        "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/sharedGalleries/{galleryUniqueName}/images/{galleryImageName}",
-    )  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "location": _SERIALIZER.url("location", location, "str"),
-        "galleryUniqueName": _SERIALIZER.url("gallery_unique_name", gallery_unique_name, "str"),
-        "galleryImageName": _SERIALIZER.url("gallery_image_name", gallery_image_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_shared_gallery_image_versions_list_request(  # pylint: disable=name-too-long
-    location: str,
-    gallery_unique_name: str,
-    gallery_image_name: str,
-    subscription_id: str,
-    *,
-    shared_to: Optional[Union[str, _models.SharedToValues]] = None,
-    **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-07-03"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = kwargs.pop(
-        "template_url",
-        "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/sharedGalleries/{galleryUniqueName}/images/{galleryImageName}/versions",
-    )  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "location": _SERIALIZER.url("location", location, "str"),
-        "galleryUniqueName": _SERIALIZER.url("gallery_unique_name", gallery_unique_name, "str"),
-        "galleryImageName": _SERIALIZER.url("gallery_image_name", gallery_image_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-    if shared_to is not None:
-        _params["sharedTo"] = _SERIALIZER.query("shared_to", shared_to, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_shared_gallery_image_versions_get_request(  # pylint: disable=name-too-long
-    location: str,
-    gallery_unique_name: str,
-    gallery_image_name: str,
-    gallery_image_version_name: str,
-    subscription_id: str,
-    **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-07-03"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = kwargs.pop(
-        "template_url",
-        "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/sharedGalleries/{galleryUniqueName}/images/{galleryImageName}/versions/{galleryImageVersionName}",
-    )  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "location": _SERIALIZER.url("location", location, "str"),
-        "galleryUniqueName": _SERIALIZER.url("gallery_unique_name", gallery_unique_name, "str"),
-        "galleryImageName": _SERIALIZER.url("gallery_image_name", gallery_image_name, "str"),
-        "galleryImageVersionName": _SERIALIZER.url("gallery_image_version_name", gallery_image_version_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_community_galleries_get_request(
-    location: str, public_gallery_name: str, subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-07-03"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = kwargs.pop(
-        "template_url",
-        "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/communityGalleries/{publicGalleryName}",
-    )  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "location": _SERIALIZER.url("location", location, "str"),
-        "publicGalleryName": _SERIALIZER.url("public_gallery_name", public_gallery_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_community_gallery_images_get_request(  # pylint: disable=name-too-long
-    location: str, public_gallery_name: str, gallery_image_name: str, subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-07-03"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = kwargs.pop(
-        "template_url",
-        "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/communityGalleries/{publicGalleryName}/images/{galleryImageName}",
-    )  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "location": _SERIALIZER.url("location", location, "str"),
-        "publicGalleryName": _SERIALIZER.url("public_gallery_name", public_gallery_name, "str"),
-        "galleryImageName": _SERIALIZER.url("gallery_image_name", gallery_image_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_community_gallery_images_list_request(  # pylint: disable=name-too-long
-    location: str, public_gallery_name: str, subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-07-03"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = kwargs.pop(
-        "template_url",
-        "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/communityGalleries/{publicGalleryName}/images",
-    )  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "location": _SERIALIZER.url("location", location, "str"),
-        "publicGalleryName": _SERIALIZER.url("public_gallery_name", public_gallery_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_community_gallery_image_versions_get_request(  # pylint: disable=name-too-long
-    location: str,
-    public_gallery_name: str,
-    gallery_image_name: str,
-    gallery_image_version_name: str,
-    subscription_id: str,
-    **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-07-03"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = kwargs.pop(
-        "template_url",
-        "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/communityGalleries/{publicGalleryName}/images/{galleryImageName}/versions/{galleryImageVersionName}",
-    )  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "location": _SERIALIZER.url("location", location, "str"),
-        "publicGalleryName": _SERIALIZER.url("public_gallery_name", public_gallery_name, "str"),
-        "galleryImageName": _SERIALIZER.url("gallery_image_name", gallery_image_name, "str"),
-        "galleryImageVersionName": _SERIALIZER.url("gallery_image_version_name", gallery_image_version_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_community_gallery_image_versions_list_request(  # pylint: disable=name-too-long
-    location: str, public_gallery_name: str, gallery_image_name: str, subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-07-03"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = kwargs.pop(
-        "template_url",
-        "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/communityGalleries/{publicGalleryName}/images/{galleryImageName}/versions",
-    )  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "location": _SERIALIZER.url("location", location, "str"),
-        "publicGalleryName": _SERIALIZER.url("public_gallery_name", public_gallery_name, "str"),
-        "galleryImageName": _SERIALIZER.url("gallery_image_name", gallery_image_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
 class GalleriesOperations:
@@ -1396,631 +1448,6 @@ class GalleriesOperations:
         self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
         self._api_version = input_args.pop(0) if input_args else kwargs.pop("api_version")
-
-    def _create_or_update_initial(
-        self, resource_group_name: str, gallery_name: str, gallery: Union[_models.Gallery, IO[bytes]], **kwargs: Any
-    ) -> Iterator[bytes]:
-        error_map: MutableMapping = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
-        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
-
-        content_type = content_type or "application/json"
-        _json = None
-        _content = None
-        if isinstance(gallery, (IOBase, bytes)):
-            _content = gallery
-        else:
-            _json = self._serialize.body(gallery, "Gallery")
-
-        _request = build_galleries_create_or_update_request(
-            resource_group_name=resource_group_name,
-            gallery_name=gallery_name,
-            subscription_id=self._config.subscription_id,
-            api_version=api_version,
-            content_type=content_type,
-            json=_json,
-            content=_content,
-            headers=_headers,
-            params=_params,
-        )
-        _request.url = self._client.format_url(_request.url)
-
-        _decompress = kwargs.pop("decompress", True)
-        _stream = True
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            _request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200, 201, 202]:
-            try:
-                response.read()  # Load the body in memory and close the socket
-            except (StreamConsumedError, StreamClosedError):
-                pass
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
-
-        deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
-
-        return deserialized  # type: ignore
-
-    @overload
-    def begin_create_or_update(
-        self,
-        resource_group_name: str,
-        gallery_name: str,
-        gallery: _models.Gallery,
-        *,
-        content_type: str = "application/json",
-        **kwargs: Any
-    ) -> LROPoller[_models.Gallery]:
-        """Create or update a Shared Image Gallery.
-
-        :param resource_group_name: The name of the resource group. Required.
-        :type resource_group_name: str
-        :param gallery_name: The name of the Shared Image Gallery. The allowed characters are alphabets
-         and numbers with dots and periods allowed in the middle. The maximum length is 80 characters.
-         Required.
-        :type gallery_name: str
-        :param gallery: Parameters supplied to the create or update Shared Image Gallery operation.
-         Required.
-        :type gallery: ~azure.mgmt.compute.v2023_07_03.models.Gallery
-        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :return: An instance of LROPoller that returns either Gallery or the result of cls(response)
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.compute.v2023_07_03.models.Gallery]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @overload
-    def begin_create_or_update(
-        self,
-        resource_group_name: str,
-        gallery_name: str,
-        gallery: IO[bytes],
-        *,
-        content_type: str = "application/json",
-        **kwargs: Any
-    ) -> LROPoller[_models.Gallery]:
-        """Create or update a Shared Image Gallery.
-
-        :param resource_group_name: The name of the resource group. Required.
-        :type resource_group_name: str
-        :param gallery_name: The name of the Shared Image Gallery. The allowed characters are alphabets
-         and numbers with dots and periods allowed in the middle. The maximum length is 80 characters.
-         Required.
-        :type gallery_name: str
-        :param gallery: Parameters supplied to the create or update Shared Image Gallery operation.
-         Required.
-        :type gallery: IO[bytes]
-        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :return: An instance of LROPoller that returns either Gallery or the result of cls(response)
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.compute.v2023_07_03.models.Gallery]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @distributed_trace
-    def begin_create_or_update(
-        self, resource_group_name: str, gallery_name: str, gallery: Union[_models.Gallery, IO[bytes]], **kwargs: Any
-    ) -> LROPoller[_models.Gallery]:
-        """Create or update a Shared Image Gallery.
-
-        :param resource_group_name: The name of the resource group. Required.
-        :type resource_group_name: str
-        :param gallery_name: The name of the Shared Image Gallery. The allowed characters are alphabets
-         and numbers with dots and periods allowed in the middle. The maximum length is 80 characters.
-         Required.
-        :type gallery_name: str
-        :param gallery: Parameters supplied to the create or update Shared Image Gallery operation. Is
-         either a Gallery type or a IO[bytes] type. Required.
-        :type gallery: ~azure.mgmt.compute.v2023_07_03.models.Gallery or IO[bytes]
-        :return: An instance of LROPoller that returns either Gallery or the result of cls(response)
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.compute.v2023_07_03.models.Gallery]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
-        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.Gallery] = kwargs.pop("cls", None)
-        polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
-        lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
-        cont_token: Optional[str] = kwargs.pop("continuation_token", None)
-        if cont_token is None:
-            raw_result = self._create_or_update_initial(
-                resource_group_name=resource_group_name,
-                gallery_name=gallery_name,
-                gallery=gallery,
-                api_version=api_version,
-                content_type=content_type,
-                cls=lambda x, y, z: x,
-                headers=_headers,
-                params=_params,
-                **kwargs
-            )
-            raw_result.http_response.read()  # type: ignore
-        kwargs.pop("error_map", None)
-
-        def get_long_running_output(pipeline_response):
-            deserialized = self._deserialize("Gallery", pipeline_response.http_response)
-            if cls:
-                return cls(pipeline_response, deserialized, {})  # type: ignore
-            return deserialized
-
-        if polling is True:
-            polling_method: PollingMethod = cast(PollingMethod, ARMPolling(lro_delay, **kwargs))
-        elif polling is False:
-            polling_method = cast(PollingMethod, NoPolling())
-        else:
-            polling_method = polling
-        if cont_token:
-            return LROPoller[_models.Gallery].from_continuation_token(
-                polling_method=polling_method,
-                continuation_token=cont_token,
-                client=self._client,
-                deserialization_callback=get_long_running_output,
-            )
-        return LROPoller[_models.Gallery](
-            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
-        )
-
-    def _update_initial(
-        self,
-        resource_group_name: str,
-        gallery_name: str,
-        gallery: Union[_models.GalleryUpdate, IO[bytes]],
-        **kwargs: Any
-    ) -> Iterator[bytes]:
-        error_map: MutableMapping = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
-        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
-
-        content_type = content_type or "application/json"
-        _json = None
-        _content = None
-        if isinstance(gallery, (IOBase, bytes)):
-            _content = gallery
-        else:
-            _json = self._serialize.body(gallery, "GalleryUpdate")
-
-        _request = build_galleries_update_request(
-            resource_group_name=resource_group_name,
-            gallery_name=gallery_name,
-            subscription_id=self._config.subscription_id,
-            api_version=api_version,
-            content_type=content_type,
-            json=_json,
-            content=_content,
-            headers=_headers,
-            params=_params,
-        )
-        _request.url = self._client.format_url(_request.url)
-
-        _decompress = kwargs.pop("decompress", True)
-        _stream = True
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            _request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200]:
-            try:
-                response.read()  # Load the body in memory and close the socket
-            except (StreamConsumedError, StreamClosedError):
-                pass
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
-
-        deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
-
-        return deserialized  # type: ignore
-
-    @overload
-    def begin_update(
-        self,
-        resource_group_name: str,
-        gallery_name: str,
-        gallery: _models.GalleryUpdate,
-        *,
-        content_type: str = "application/json",
-        **kwargs: Any
-    ) -> LROPoller[_models.Gallery]:
-        """Update a Shared Image Gallery.
-
-        :param resource_group_name: The name of the resource group. Required.
-        :type resource_group_name: str
-        :param gallery_name: The name of the Shared Image Gallery. The allowed characters are alphabets
-         and numbers with dots and periods allowed in the middle. The maximum length is 80 characters.
-         Required.
-        :type gallery_name: str
-        :param gallery: Parameters supplied to the update Shared Image Gallery operation. Required.
-        :type gallery: ~azure.mgmt.compute.v2023_07_03.models.GalleryUpdate
-        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :return: An instance of LROPoller that returns either Gallery or the result of cls(response)
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.compute.v2023_07_03.models.Gallery]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @overload
-    def begin_update(
-        self,
-        resource_group_name: str,
-        gallery_name: str,
-        gallery: IO[bytes],
-        *,
-        content_type: str = "application/json",
-        **kwargs: Any
-    ) -> LROPoller[_models.Gallery]:
-        """Update a Shared Image Gallery.
-
-        :param resource_group_name: The name of the resource group. Required.
-        :type resource_group_name: str
-        :param gallery_name: The name of the Shared Image Gallery. The allowed characters are alphabets
-         and numbers with dots and periods allowed in the middle. The maximum length is 80 characters.
-         Required.
-        :type gallery_name: str
-        :param gallery: Parameters supplied to the update Shared Image Gallery operation. Required.
-        :type gallery: IO[bytes]
-        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :return: An instance of LROPoller that returns either Gallery or the result of cls(response)
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.compute.v2023_07_03.models.Gallery]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @distributed_trace
-    def begin_update(
-        self,
-        resource_group_name: str,
-        gallery_name: str,
-        gallery: Union[_models.GalleryUpdate, IO[bytes]],
-        **kwargs: Any
-    ) -> LROPoller[_models.Gallery]:
-        """Update a Shared Image Gallery.
-
-        :param resource_group_name: The name of the resource group. Required.
-        :type resource_group_name: str
-        :param gallery_name: The name of the Shared Image Gallery. The allowed characters are alphabets
-         and numbers with dots and periods allowed in the middle. The maximum length is 80 characters.
-         Required.
-        :type gallery_name: str
-        :param gallery: Parameters supplied to the update Shared Image Gallery operation. Is either a
-         GalleryUpdate type or a IO[bytes] type. Required.
-        :type gallery: ~azure.mgmt.compute.v2023_07_03.models.GalleryUpdate or IO[bytes]
-        :return: An instance of LROPoller that returns either Gallery or the result of cls(response)
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.compute.v2023_07_03.models.Gallery]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
-        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.Gallery] = kwargs.pop("cls", None)
-        polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
-        lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
-        cont_token: Optional[str] = kwargs.pop("continuation_token", None)
-        if cont_token is None:
-            raw_result = self._update_initial(
-                resource_group_name=resource_group_name,
-                gallery_name=gallery_name,
-                gallery=gallery,
-                api_version=api_version,
-                content_type=content_type,
-                cls=lambda x, y, z: x,
-                headers=_headers,
-                params=_params,
-                **kwargs
-            )
-            raw_result.http_response.read()  # type: ignore
-        kwargs.pop("error_map", None)
-
-        def get_long_running_output(pipeline_response):
-            deserialized = self._deserialize("Gallery", pipeline_response.http_response)
-            if cls:
-                return cls(pipeline_response, deserialized, {})  # type: ignore
-            return deserialized
-
-        if polling is True:
-            polling_method: PollingMethod = cast(PollingMethod, ARMPolling(lro_delay, **kwargs))
-        elif polling is False:
-            polling_method = cast(PollingMethod, NoPolling())
-        else:
-            polling_method = polling
-        if cont_token:
-            return LROPoller[_models.Gallery].from_continuation_token(
-                polling_method=polling_method,
-                continuation_token=cont_token,
-                client=self._client,
-                deserialization_callback=get_long_running_output,
-            )
-        return LROPoller[_models.Gallery](
-            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
-        )
-
-    @distributed_trace
-    def get(
-        self,
-        resource_group_name: str,
-        gallery_name: str,
-        *,
-        select: Optional[Union[str, _models.SelectPermissions]] = None,
-        expand: Optional[Union[str, _models.GalleryExpandParams]] = None,
-        **kwargs: Any
-    ) -> _models.Gallery:
-        """Retrieves information about a Shared Image Gallery.
-
-        :param resource_group_name: The name of the resource group. Required.
-        :type resource_group_name: str
-        :param gallery_name: The name of the Shared Image Gallery. Required.
-        :type gallery_name: str
-        :keyword select: The select expression to apply on the operation. "Permissions" Default value
-         is None.
-        :paramtype select: str or ~azure.mgmt.compute.v2023_07_03.models.SelectPermissions
-        :keyword expand: The expand query option to apply on the operation. "SharingProfile/Groups"
-         Default value is None.
-        :paramtype expand: str or ~azure.mgmt.compute.v2023_07_03.models.GalleryExpandParams
-        :return: Gallery or the result of cls(response)
-        :rtype: ~azure.mgmt.compute.v2023_07_03.models.Gallery
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        error_map: MutableMapping = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
-        cls: ClsType[_models.Gallery] = kwargs.pop("cls", None)
-
-        _request = build_galleries_get_request(
-            resource_group_name=resource_group_name,
-            gallery_name=gallery_name,
-            subscription_id=self._config.subscription_id,
-            select=select,
-            expand=expand,
-            api_version=api_version,
-            headers=_headers,
-            params=_params,
-        )
-        _request.url = self._client.format_url(_request.url)
-
-        _stream = False
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            _request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
-
-        deserialized = self._deserialize("Gallery", pipeline_response.http_response)
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
-
-        return deserialized  # type: ignore
-
-    def _delete_initial(self, resource_group_name: str, gallery_name: str, **kwargs: Any) -> Iterator[bytes]:
-        error_map: MutableMapping = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
-        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
-
-        _request = build_galleries_delete_request(
-            resource_group_name=resource_group_name,
-            gallery_name=gallery_name,
-            subscription_id=self._config.subscription_id,
-            api_version=api_version,
-            headers=_headers,
-            params=_params,
-        )
-        _request.url = self._client.format_url(_request.url)
-
-        _decompress = kwargs.pop("decompress", True)
-        _stream = True
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            _request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200, 202, 204]:
-            try:
-                response.read()  # Load the body in memory and close the socket
-            except (StreamConsumedError, StreamClosedError):
-                pass
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
-
-        deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
-
-        return deserialized  # type: ignore
-
-    @distributed_trace
-    def begin_delete(self, resource_group_name: str, gallery_name: str, **kwargs: Any) -> LROPoller[None]:
-        """Delete a Shared Image Gallery.
-
-        :param resource_group_name: The name of the resource group. Required.
-        :type resource_group_name: str
-        :param gallery_name: The name of the Shared Image Gallery to be deleted. Required.
-        :type gallery_name: str
-        :return: An instance of LROPoller that returns either None or the result of cls(response)
-        :rtype: ~azure.core.polling.LROPoller[None]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
-        cls: ClsType[None] = kwargs.pop("cls", None)
-        polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
-        lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
-        cont_token: Optional[str] = kwargs.pop("continuation_token", None)
-        if cont_token is None:
-            raw_result = self._delete_initial(
-                resource_group_name=resource_group_name,
-                gallery_name=gallery_name,
-                api_version=api_version,
-                cls=lambda x, y, z: x,
-                headers=_headers,
-                params=_params,
-                **kwargs
-            )
-            raw_result.http_response.read()  # type: ignore
-        kwargs.pop("error_map", None)
-
-        def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
-            if cls:
-                return cls(pipeline_response, None, {})  # type: ignore
-
-        if polling is True:
-            polling_method: PollingMethod = cast(PollingMethod, ARMPolling(lro_delay, **kwargs))
-        elif polling is False:
-            polling_method = cast(PollingMethod, NoPolling())
-        else:
-            polling_method = polling
-        if cont_token:
-            return LROPoller[None].from_continuation_token(
-                polling_method=polling_method,
-                continuation_token=cont_token,
-                client=self._client,
-                deserialization_callback=get_long_running_output,
-            )
-        return LROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    @distributed_trace
-    def list_by_resource_group(self, resource_group_name: str, **kwargs: Any) -> Iterable["_models.Gallery"]:
-        """List galleries under a resource group.
-
-        :param resource_group_name: The name of the resource group. Required.
-        :type resource_group_name: str
-        :return: An iterator like instance of either Gallery or the result of cls(response)
-        :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.compute.v2023_07_03.models.Gallery]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
-        cls: ClsType[_models.GalleryList] = kwargs.pop("cls", None)
-
-        error_map: MutableMapping = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        def prepare_request(next_link=None):
-            if not next_link:
-
-                _request = build_galleries_list_by_resource_group_request(
-                    resource_group_name=resource_group_name,
-                    subscription_id=self._config.subscription_id,
-                    api_version=api_version,
-                    headers=_headers,
-                    params=_params,
-                )
-                _request.url = self._client.format_url(_request.url)
-
-            else:
-                # make call to next link with the client's api-version
-                _parsed_next_link = urllib.parse.urlparse(next_link)
-                _next_request_params = case_insensitive_dict(
-                    {
-                        key: [urllib.parse.quote(v) for v in value]
-                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
-                    }
-                )
-                _next_request_params["api-version"] = self._api_version
-                _request = HttpRequest(
-                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
-                )
-                _request.url = self._client.format_url(_request.url)
-                _request.method = "GET"
-            return _request
-
-        def extract_data(pipeline_response):
-            deserialized = self._deserialize("GalleryList", pipeline_response)
-            list_of_elem = deserialized.value
-            if cls:
-                list_of_elem = cls(list_of_elem)  # type: ignore
-            return deserialized.next_link or None, iter(list_of_elem)
-
-        def get_next(next_link=None):
-            _request = prepare_request(next_link)
-
-            _stream = False
-            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                _request, stream=_stream, **kwargs
-            )
-            response = pipeline_response.http_response
-
-            if response.status_code not in [200]:
-                map_error(status_code=response.status_code, response=response, error_map=error_map)
-                raise HttpResponseError(response=response, error_format=ARMErrorFormat)
-
-            return pipeline_response
-
-        return ItemPaged(get_next, extract_data)
 
     @distributed_trace
     def list(self, **kwargs: Any) -> Iterable["_models.Gallery"]:
@@ -2090,644 +1517,29 @@ class GalleriesOperations:
 
             if response.status_code not in [200]:
                 map_error(status_code=response.status_code, response=response, error_map=error_map)
-                raise HttpResponseError(response=response, error_format=ARMErrorFormat)
+                error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+                raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
 
+    @distributed_trace
+    def list_by_resource_group(self, resource_group_name: str, **kwargs: Any) -> Iterable["_models.Gallery"]:
+        """List galleries under a resource group.
 
-class GalleryImagesOperations:
-    """
-    .. warning::
-        **DO NOT** instantiate this class directly.
-
-        Instead, you should access the following operations through
-        :class:`~azure.mgmt.compute.v2023_07_03.ComputeManagementClient`'s
-        :attr:`gallery_images` attribute.
-    """
-
-    models = _models
-
-    def __init__(self, *args, **kwargs):
-        input_args = list(args)
-        self._client = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config = input_args.pop(0) if input_args else kwargs.pop("config")
-        self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
-        self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
-        self._api_version = input_args.pop(0) if input_args else kwargs.pop("api_version")
-
-    def _create_or_update_initial(
-        self,
-        resource_group_name: str,
-        gallery_name: str,
-        gallery_image_name: str,
-        gallery_image: Union[_models.GalleryImage, IO[bytes]],
-        **kwargs: Any
-    ) -> Iterator[bytes]:
-        error_map: MutableMapping = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
-        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
-
-        content_type = content_type or "application/json"
-        _json = None
-        _content = None
-        if isinstance(gallery_image, (IOBase, bytes)):
-            _content = gallery_image
-        else:
-            _json = self._serialize.body(gallery_image, "GalleryImage")
-
-        _request = build_gallery_images_create_or_update_request(
-            resource_group_name=resource_group_name,
-            gallery_name=gallery_name,
-            gallery_image_name=gallery_image_name,
-            subscription_id=self._config.subscription_id,
-            api_version=api_version,
-            content_type=content_type,
-            json=_json,
-            content=_content,
-            headers=_headers,
-            params=_params,
-        )
-        _request.url = self._client.format_url(_request.url)
-
-        _decompress = kwargs.pop("decompress", True)
-        _stream = True
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            _request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200, 201, 202]:
-            try:
-                response.read()  # Load the body in memory and close the socket
-            except (StreamConsumedError, StreamClosedError):
-                pass
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
-
-        deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
-
-        return deserialized  # type: ignore
-
-    @overload
-    def begin_create_or_update(
-        self,
-        resource_group_name: str,
-        gallery_name: str,
-        gallery_image_name: str,
-        gallery_image: _models.GalleryImage,
-        *,
-        content_type: str = "application/json",
-        **kwargs: Any
-    ) -> LROPoller[_models.GalleryImage]:
-        """Create or update a gallery image definition.
-
-        :param resource_group_name: The name of the resource group. Required.
-        :type resource_group_name: str
-        :param gallery_name: The name of the Shared Image Gallery in which the Image Definition is to
-         be created. Required.
-        :type gallery_name: str
-        :param gallery_image_name: The name of the gallery image definition to be created or updated.
-         The allowed characters are alphabets and numbers with dots, dashes, and periods allowed in the
-         middle. The maximum length is 80 characters. Required.
-        :type gallery_image_name: str
-        :param gallery_image: Parameters supplied to the create or update gallery image operation.
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
-        :type gallery_image: ~azure.mgmt.compute.v2023_07_03.models.GalleryImage
-        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :return: An instance of LROPoller that returns either GalleryImage or the result of
-         cls(response)
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.compute.v2023_07_03.models.GalleryImage]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @overload
-    def begin_create_or_update(
-        self,
-        resource_group_name: str,
-        gallery_name: str,
-        gallery_image_name: str,
-        gallery_image: IO[bytes],
-        *,
-        content_type: str = "application/json",
-        **kwargs: Any
-    ) -> LROPoller[_models.GalleryImage]:
-        """Create or update a gallery image definition.
-
-        :param resource_group_name: The name of the resource group. Required.
         :type resource_group_name: str
-        :param gallery_name: The name of the Shared Image Gallery in which the Image Definition is to
-         be created. Required.
-        :type gallery_name: str
-        :param gallery_image_name: The name of the gallery image definition to be created or updated.
-         The allowed characters are alphabets and numbers with dots, dashes, and periods allowed in the
-         middle. The maximum length is 80 characters. Required.
-        :type gallery_image_name: str
-        :param gallery_image: Parameters supplied to the create or update gallery image operation.
-         Required.
-        :type gallery_image: IO[bytes]
-        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :return: An instance of LROPoller that returns either GalleryImage or the result of
-         cls(response)
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.compute.v2023_07_03.models.GalleryImage]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @distributed_trace
-    def begin_create_or_update(
-        self,
-        resource_group_name: str,
-        gallery_name: str,
-        gallery_image_name: str,
-        gallery_image: Union[_models.GalleryImage, IO[bytes]],
-        **kwargs: Any
-    ) -> LROPoller[_models.GalleryImage]:
-        """Create or update a gallery image definition.
-
-        :param resource_group_name: The name of the resource group. Required.
-        :type resource_group_name: str
-        :param gallery_name: The name of the Shared Image Gallery in which the Image Definition is to
-         be created. Required.
-        :type gallery_name: str
-        :param gallery_image_name: The name of the gallery image definition to be created or updated.
-         The allowed characters are alphabets and numbers with dots, dashes, and periods allowed in the
-         middle. The maximum length is 80 characters. Required.
-        :type gallery_image_name: str
-        :param gallery_image: Parameters supplied to the create or update gallery image operation. Is
-         either a GalleryImage type or a IO[bytes] type. Required.
-        :type gallery_image: ~azure.mgmt.compute.v2023_07_03.models.GalleryImage or IO[bytes]
-        :return: An instance of LROPoller that returns either GalleryImage or the result of
-         cls(response)
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.compute.v2023_07_03.models.GalleryImage]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
-        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.GalleryImage] = kwargs.pop("cls", None)
-        polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
-        lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
-        cont_token: Optional[str] = kwargs.pop("continuation_token", None)
-        if cont_token is None:
-            raw_result = self._create_or_update_initial(
-                resource_group_name=resource_group_name,
-                gallery_name=gallery_name,
-                gallery_image_name=gallery_image_name,
-                gallery_image=gallery_image,
-                api_version=api_version,
-                content_type=content_type,
-                cls=lambda x, y, z: x,
-                headers=_headers,
-                params=_params,
-                **kwargs
-            )
-            raw_result.http_response.read()  # type: ignore
-        kwargs.pop("error_map", None)
-
-        def get_long_running_output(pipeline_response):
-            deserialized = self._deserialize("GalleryImage", pipeline_response.http_response)
-            if cls:
-                return cls(pipeline_response, deserialized, {})  # type: ignore
-            return deserialized
-
-        if polling is True:
-            polling_method: PollingMethod = cast(PollingMethod, ARMPolling(lro_delay, **kwargs))
-        elif polling is False:
-            polling_method = cast(PollingMethod, NoPolling())
-        else:
-            polling_method = polling
-        if cont_token:
-            return LROPoller[_models.GalleryImage].from_continuation_token(
-                polling_method=polling_method,
-                continuation_token=cont_token,
-                client=self._client,
-                deserialization_callback=get_long_running_output,
-            )
-        return LROPoller[_models.GalleryImage](
-            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
-        )
-
-    def _update_initial(
-        self,
-        resource_group_name: str,
-        gallery_name: str,
-        gallery_image_name: str,
-        gallery_image: Union[_models.GalleryImageUpdate, IO[bytes]],
-        **kwargs: Any
-    ) -> Iterator[bytes]:
-        error_map: MutableMapping = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
-        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
-
-        content_type = content_type or "application/json"
-        _json = None
-        _content = None
-        if isinstance(gallery_image, (IOBase, bytes)):
-            _content = gallery_image
-        else:
-            _json = self._serialize.body(gallery_image, "GalleryImageUpdate")
-
-        _request = build_gallery_images_update_request(
-            resource_group_name=resource_group_name,
-            gallery_name=gallery_name,
-            gallery_image_name=gallery_image_name,
-            subscription_id=self._config.subscription_id,
-            api_version=api_version,
-            content_type=content_type,
-            json=_json,
-            content=_content,
-            headers=_headers,
-            params=_params,
-        )
-        _request.url = self._client.format_url(_request.url)
-
-        _decompress = kwargs.pop("decompress", True)
-        _stream = True
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            _request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200]:
-            try:
-                response.read()  # Load the body in memory and close the socket
-            except (StreamConsumedError, StreamClosedError):
-                pass
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
-
-        deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
-
-        return deserialized  # type: ignore
-
-    @overload
-    def begin_update(
-        self,
-        resource_group_name: str,
-        gallery_name: str,
-        gallery_image_name: str,
-        gallery_image: _models.GalleryImageUpdate,
-        *,
-        content_type: str = "application/json",
-        **kwargs: Any
-    ) -> LROPoller[_models.GalleryImage]:
-        """Update a gallery image definition.
-
-        :param resource_group_name: The name of the resource group. Required.
-        :type resource_group_name: str
-        :param gallery_name: The name of the Shared Image Gallery in which the Image Definition is to
-         be updated. Required.
-        :type gallery_name: str
-        :param gallery_image_name: The name of the gallery image definition to be updated. The allowed
-         characters are alphabets and numbers with dots, dashes, and periods allowed in the middle. The
-         maximum length is 80 characters. Required.
-        :type gallery_image_name: str
-        :param gallery_image: Parameters supplied to the update gallery image operation. Required.
-        :type gallery_image: ~azure.mgmt.compute.v2023_07_03.models.GalleryImageUpdate
-        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :return: An instance of LROPoller that returns either GalleryImage or the result of
-         cls(response)
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.compute.v2023_07_03.models.GalleryImage]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @overload
-    def begin_update(
-        self,
-        resource_group_name: str,
-        gallery_name: str,
-        gallery_image_name: str,
-        gallery_image: IO[bytes],
-        *,
-        content_type: str = "application/json",
-        **kwargs: Any
-    ) -> LROPoller[_models.GalleryImage]:
-        """Update a gallery image definition.
-
-        :param resource_group_name: The name of the resource group. Required.
-        :type resource_group_name: str
-        :param gallery_name: The name of the Shared Image Gallery in which the Image Definition is to
-         be updated. Required.
-        :type gallery_name: str
-        :param gallery_image_name: The name of the gallery image definition to be updated. The allowed
-         characters are alphabets and numbers with dots, dashes, and periods allowed in the middle. The
-         maximum length is 80 characters. Required.
-        :type gallery_image_name: str
-        :param gallery_image: Parameters supplied to the update gallery image operation. Required.
-        :type gallery_image: IO[bytes]
-        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :return: An instance of LROPoller that returns either GalleryImage or the result of
-         cls(response)
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.compute.v2023_07_03.models.GalleryImage]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @distributed_trace
-    def begin_update(
-        self,
-        resource_group_name: str,
-        gallery_name: str,
-        gallery_image_name: str,
-        gallery_image: Union[_models.GalleryImageUpdate, IO[bytes]],
-        **kwargs: Any
-    ) -> LROPoller[_models.GalleryImage]:
-        """Update a gallery image definition.
-
-        :param resource_group_name: The name of the resource group. Required.
-        :type resource_group_name: str
-        :param gallery_name: The name of the Shared Image Gallery in which the Image Definition is to
-         be updated. Required.
-        :type gallery_name: str
-        :param gallery_image_name: The name of the gallery image definition to be updated. The allowed
-         characters are alphabets and numbers with dots, dashes, and periods allowed in the middle. The
-         maximum length is 80 characters. Required.
-        :type gallery_image_name: str
-        :param gallery_image: Parameters supplied to the update gallery image operation. Is either a
-         GalleryImageUpdate type or a IO[bytes] type. Required.
-        :type gallery_image: ~azure.mgmt.compute.v2023_07_03.models.GalleryImageUpdate or IO[bytes]
-        :return: An instance of LROPoller that returns either GalleryImage or the result of
-         cls(response)
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.compute.v2023_07_03.models.GalleryImage]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
-        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.GalleryImage] = kwargs.pop("cls", None)
-        polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
-        lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
-        cont_token: Optional[str] = kwargs.pop("continuation_token", None)
-        if cont_token is None:
-            raw_result = self._update_initial(
-                resource_group_name=resource_group_name,
-                gallery_name=gallery_name,
-                gallery_image_name=gallery_image_name,
-                gallery_image=gallery_image,
-                api_version=api_version,
-                content_type=content_type,
-                cls=lambda x, y, z: x,
-                headers=_headers,
-                params=_params,
-                **kwargs
-            )
-            raw_result.http_response.read()  # type: ignore
-        kwargs.pop("error_map", None)
-
-        def get_long_running_output(pipeline_response):
-            deserialized = self._deserialize("GalleryImage", pipeline_response.http_response)
-            if cls:
-                return cls(pipeline_response, deserialized, {})  # type: ignore
-            return deserialized
-
-        if polling is True:
-            polling_method: PollingMethod = cast(PollingMethod, ARMPolling(lro_delay, **kwargs))
-        elif polling is False:
-            polling_method = cast(PollingMethod, NoPolling())
-        else:
-            polling_method = polling
-        if cont_token:
-            return LROPoller[_models.GalleryImage].from_continuation_token(
-                polling_method=polling_method,
-                continuation_token=cont_token,
-                client=self._client,
-                deserialization_callback=get_long_running_output,
-            )
-        return LROPoller[_models.GalleryImage](
-            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
-        )
-
-    @distributed_trace
-    def get(
-        self, resource_group_name: str, gallery_name: str, gallery_image_name: str, **kwargs: Any
-    ) -> _models.GalleryImage:
-        """Retrieves information about a gallery image definition.
-
-        :param resource_group_name: The name of the resource group. Required.
-        :type resource_group_name: str
-        :param gallery_name: The name of the Shared Image Gallery from which the Image Definitions are
-         to be retrieved. Required.
-        :type gallery_name: str
-        :param gallery_image_name: The name of the gallery image definition to be retrieved. Required.
-        :type gallery_image_name: str
-        :return: GalleryImage or the result of cls(response)
-        :rtype: ~azure.mgmt.compute.v2023_07_03.models.GalleryImage
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        error_map: MutableMapping = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
-        cls: ClsType[_models.GalleryImage] = kwargs.pop("cls", None)
-
-        _request = build_gallery_images_get_request(
-            resource_group_name=resource_group_name,
-            gallery_name=gallery_name,
-            gallery_image_name=gallery_image_name,
-            subscription_id=self._config.subscription_id,
-            api_version=api_version,
-            headers=_headers,
-            params=_params,
-        )
-        _request.url = self._client.format_url(_request.url)
-
-        _stream = False
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            _request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
-
-        deserialized = self._deserialize("GalleryImage", pipeline_response.http_response)
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
-
-        return deserialized  # type: ignore
-
-    def _delete_initial(
-        self, resource_group_name: str, gallery_name: str, gallery_image_name: str, **kwargs: Any
-    ) -> Iterator[bytes]:
-        error_map: MutableMapping = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
-        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
-
-        _request = build_gallery_images_delete_request(
-            resource_group_name=resource_group_name,
-            gallery_name=gallery_name,
-            gallery_image_name=gallery_image_name,
-            subscription_id=self._config.subscription_id,
-            api_version=api_version,
-            headers=_headers,
-            params=_params,
-        )
-        _request.url = self._client.format_url(_request.url)
-
-        _decompress = kwargs.pop("decompress", True)
-        _stream = True
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            _request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200, 202, 204]:
-            try:
-                response.read()  # Load the body in memory and close the socket
-            except (StreamConsumedError, StreamClosedError):
-                pass
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
-
-        deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
-
-        return deserialized  # type: ignore
-
-    @distributed_trace
-    def begin_delete(
-        self, resource_group_name: str, gallery_name: str, gallery_image_name: str, **kwargs: Any
-    ) -> LROPoller[None]:
-        """Delete a gallery image.
-
-        :param resource_group_name: The name of the resource group. Required.
-        :type resource_group_name: str
-        :param gallery_name: The name of the Shared Image Gallery in which the Image Definition is to
-         be deleted. Required.
-        :type gallery_name: str
-        :param gallery_image_name: The name of the gallery image definition to be deleted. Required.
-        :type gallery_image_name: str
-        :return: An instance of LROPoller that returns either None or the result of cls(response)
-        :rtype: ~azure.core.polling.LROPoller[None]
+        :return: An iterator like instance of either Gallery or the result of cls(response)
+        :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.compute.v2023_07_03.models.Gallery]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
-        cls: ClsType[None] = kwargs.pop("cls", None)
-        polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
-        lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
-        cont_token: Optional[str] = kwargs.pop("continuation_token", None)
-        if cont_token is None:
-            raw_result = self._delete_initial(
-                resource_group_name=resource_group_name,
-                gallery_name=gallery_name,
-                gallery_image_name=gallery_image_name,
-                api_version=api_version,
-                cls=lambda x, y, z: x,
-                headers=_headers,
-                params=_params,
-                **kwargs
-            )
-            raw_result.http_response.read()  # type: ignore
-        kwargs.pop("error_map", None)
-
-        def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
-            if cls:
-                return cls(pipeline_response, None, {})  # type: ignore
-
-        if polling is True:
-            polling_method: PollingMethod = cast(PollingMethod, ARMPolling(lro_delay, **kwargs))
-        elif polling is False:
-            polling_method = cast(PollingMethod, NoPolling())
-        else:
-            polling_method = polling
-        if cont_token:
-            return LROPoller[None].from_continuation_token(
-                polling_method=polling_method,
-                continuation_token=cont_token,
-                client=self._client,
-                deserialization_callback=get_long_running_output,
-            )
-        return LROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    @distributed_trace
-    def list_by_gallery(
-        self, resource_group_name: str, gallery_name: str, **kwargs: Any
-    ) -> Iterable["_models.GalleryImage"]:
-        """List gallery image definitions in a gallery.
-
-        :param resource_group_name: The name of the resource group. Required.
-        :type resource_group_name: str
-        :param gallery_name: The name of the Shared Image Gallery from which Image Definitions are to
-         be listed. Required.
-        :type gallery_name: str
-        :return: An iterator like instance of either GalleryImage or the result of cls(response)
-        :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.compute.v2023_07_03.models.GalleryImage]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
-        cls: ClsType[_models.GalleryImageList] = kwargs.pop("cls", None)
+        cls: ClsType[_models.GalleryList] = kwargs.pop("cls", None)
 
         error_map: MutableMapping = {
             401: ClientAuthenticationError,
@@ -2740,9 +1552,8 @@ class GalleryImagesOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                _request = build_gallery_images_list_by_gallery_request(
+                _request = build_galleries_list_by_resource_group_request(
                     resource_group_name=resource_group_name,
-                    gallery_name=gallery_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
                     headers=_headers,
@@ -2768,7 +1579,7 @@ class GalleryImagesOperations:
             return _request
 
         def extract_data(pipeline_response):
-            deserialized = self._deserialize("GalleryImageList", pipeline_response)
+            deserialized = self._deserialize("GalleryList", pipeline_response)
             list_of_elem = deserialized.value
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
@@ -2785,41 +1596,87 @@ class GalleryImagesOperations:
 
             if response.status_code not in [200]:
                 map_error(status_code=response.status_code, response=response, error_map=error_map)
-                raise HttpResponseError(response=response, error_format=ARMErrorFormat)
+                error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+                raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
 
-
-class GalleryImageVersionsOperations:
-    """
-    .. warning::
-        **DO NOT** instantiate this class directly.
-
-        Instead, you should access the following operations through
-        :class:`~azure.mgmt.compute.v2023_07_03.ComputeManagementClient`'s
-        :attr:`gallery_image_versions` attribute.
-    """
-
-    models = _models
-
-    def __init__(self, *args, **kwargs):
-        input_args = list(args)
-        self._client = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config = input_args.pop(0) if input_args else kwargs.pop("config")
-        self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
-        self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
-        self._api_version = input_args.pop(0) if input_args else kwargs.pop("api_version")
-
-    def _create_or_update_initial(
+    @distributed_trace
+    def get(
         self,
         resource_group_name: str,
         gallery_name: str,
-        gallery_image_name: str,
-        gallery_image_version_name: str,
-        gallery_image_version: Union[_models.GalleryImageVersion, IO[bytes]],
+        *,
+        select: Optional[Union[str, _models.SelectPermissions]] = None,
+        expand: Optional[Union[str, _models.GalleryExpandParams]] = None,
         **kwargs: Any
+    ) -> _models.Gallery:
+        """Retrieves information about a Shared Image Gallery.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param gallery_name: The name of the Shared Image Gallery. Required.
+        :type gallery_name: str
+        :keyword select: The select expression to apply on the operation. "Permissions" Default value
+         is None.
+        :paramtype select: str or ~azure.mgmt.compute.v2023_07_03.models.SelectPermissions
+        :keyword expand: The expand query option to apply on the operation. "SharingProfile/Groups"
+         Default value is None.
+        :paramtype expand: str or ~azure.mgmt.compute.v2023_07_03.models.GalleryExpandParams
+        :return: Gallery or the result of cls(response)
+        :rtype: ~azure.mgmt.compute.v2023_07_03.models.Gallery
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
+        cls: ClsType[_models.Gallery] = kwargs.pop("cls", None)
+
+        _request = build_galleries_get_request(
+            resource_group_name=resource_group_name,
+            gallery_name=gallery_name,
+            subscription_id=self._config.subscription_id,
+            select=select,
+            expand=expand,
+            api_version=api_version,
+            headers=_headers,
+            params=_params,
+        )
+        _request.url = self._client.format_url(_request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        deserialized = self._deserialize("Gallery", pipeline_response.http_response)
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
+
+    def _create_or_update_initial(
+        self, resource_group_name: str, gallery_name: str, gallery: Union[_models.Gallery, IO[bytes]], **kwargs: Any
     ) -> Iterator[bytes]:
         error_map: MutableMapping = {
             401: ClientAuthenticationError,
@@ -2839,16 +1696,14 @@ class GalleryImageVersionsOperations:
         content_type = content_type or "application/json"
         _json = None
         _content = None
-        if isinstance(gallery_image_version, (IOBase, bytes)):
-            _content = gallery_image_version
+        if isinstance(gallery, (IOBase, bytes)):
+            _content = gallery
         else:
-            _json = self._serialize.body(gallery_image_version, "GalleryImageVersion")
+            _json = self._serialize.body(gallery, "Gallery")
 
-        _request = build_gallery_image_versions_create_or_update_request(
+        _request = build_galleries_create_or_update_request(
             resource_group_name=resource_group_name,
             gallery_name=gallery_name,
-            gallery_image_name=gallery_image_name,
-            gallery_image_version_name=gallery_image_version_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
             content_type=content_type,
@@ -2873,12 +1728,21 @@ class GalleryImageVersionsOperations:
             except (StreamConsumedError, StreamClosedError):
                 pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        response_headers = {}
+        if response.status_code == 201:
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
+
+        if response.status_code == 202:
+            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
 
         deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
         return deserialized  # type: ignore
 
@@ -2887,38 +1751,26 @@ class GalleryImageVersionsOperations:
         self,
         resource_group_name: str,
         gallery_name: str,
-        gallery_image_name: str,
-        gallery_image_version_name: str,
-        gallery_image_version: _models.GalleryImageVersion,
+        gallery: _models.Gallery,
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> LROPoller[_models.GalleryImageVersion]:
-        """Create or update a gallery image version.
+    ) -> LROPoller[_models.Gallery]:
+        """Create or update a Shared Image Gallery.
 
-        :param resource_group_name: The name of the resource group. Required.
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
         :type resource_group_name: str
-        :param gallery_name: The name of the Shared Image Gallery in which the Image Definition
-         resides. Required.
+        :param gallery_name: The name of the Shared Image Gallery. Required.
         :type gallery_name: str
-        :param gallery_image_name: The name of the gallery image definition in which the Image Version
-         is to be created. Required.
-        :type gallery_image_name: str
-        :param gallery_image_version_name: The name of the gallery image version to be created. Needs
-         to follow semantic version name pattern: The allowed characters are digit and period. Digits
-         must be within the range of a 32-bit integer. Format: :code:`<MajorVersion>`.\\
-         :code:`<MinorVersion>`.\\ :code:`<Patch>`. Required.
-        :type gallery_image_version_name: str
-        :param gallery_image_version: Parameters supplied to the create or update gallery image version
-         operation. Required.
-        :type gallery_image_version: ~azure.mgmt.compute.v2023_07_03.models.GalleryImageVersion
+        :param gallery: Parameters supplied to the create or update Shared Image Gallery operation.
+         Required.
+        :type gallery: ~azure.mgmt.compute.v2023_07_03.models.Gallery
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of LROPoller that returns either GalleryImageVersion or the result of
-         cls(response)
-        :rtype:
-         ~azure.core.polling.LROPoller[~azure.mgmt.compute.v2023_07_03.models.GalleryImageVersion]
+        :return: An instance of LROPoller that returns either Gallery or the result of cls(response)
+        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.compute.v2023_07_03.models.Gallery]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -2927,74 +1779,45 @@ class GalleryImageVersionsOperations:
         self,
         resource_group_name: str,
         gallery_name: str,
-        gallery_image_name: str,
-        gallery_image_version_name: str,
-        gallery_image_version: IO[bytes],
+        gallery: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> LROPoller[_models.GalleryImageVersion]:
-        """Create or update a gallery image version.
+    ) -> LROPoller[_models.Gallery]:
+        """Create or update a Shared Image Gallery.
 
-        :param resource_group_name: The name of the resource group. Required.
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
         :type resource_group_name: str
-        :param gallery_name: The name of the Shared Image Gallery in which the Image Definition
-         resides. Required.
+        :param gallery_name: The name of the Shared Image Gallery. Required.
         :type gallery_name: str
-        :param gallery_image_name: The name of the gallery image definition in which the Image Version
-         is to be created. Required.
-        :type gallery_image_name: str
-        :param gallery_image_version_name: The name of the gallery image version to be created. Needs
-         to follow semantic version name pattern: The allowed characters are digit and period. Digits
-         must be within the range of a 32-bit integer. Format: :code:`<MajorVersion>`.\\
-         :code:`<MinorVersion>`.\\ :code:`<Patch>`. Required.
-        :type gallery_image_version_name: str
-        :param gallery_image_version: Parameters supplied to the create or update gallery image version
-         operation. Required.
-        :type gallery_image_version: IO[bytes]
+        :param gallery: Parameters supplied to the create or update Shared Image Gallery operation.
+         Required.
+        :type gallery: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of LROPoller that returns either GalleryImageVersion or the result of
-         cls(response)
-        :rtype:
-         ~azure.core.polling.LROPoller[~azure.mgmt.compute.v2023_07_03.models.GalleryImageVersion]
+        :return: An instance of LROPoller that returns either Gallery or the result of cls(response)
+        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.compute.v2023_07_03.models.Gallery]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @distributed_trace
     def begin_create_or_update(
-        self,
-        resource_group_name: str,
-        gallery_name: str,
-        gallery_image_name: str,
-        gallery_image_version_name: str,
-        gallery_image_version: Union[_models.GalleryImageVersion, IO[bytes]],
-        **kwargs: Any
-    ) -> LROPoller[_models.GalleryImageVersion]:
-        """Create or update a gallery image version.
+        self, resource_group_name: str, gallery_name: str, gallery: Union[_models.Gallery, IO[bytes]], **kwargs: Any
+    ) -> LROPoller[_models.Gallery]:
+        """Create or update a Shared Image Gallery.
 
-        :param resource_group_name: The name of the resource group. Required.
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
         :type resource_group_name: str
-        :param gallery_name: The name of the Shared Image Gallery in which the Image Definition
-         resides. Required.
+        :param gallery_name: The name of the Shared Image Gallery. Required.
         :type gallery_name: str
-        :param gallery_image_name: The name of the gallery image definition in which the Image Version
-         is to be created. Required.
-        :type gallery_image_name: str
-        :param gallery_image_version_name: The name of the gallery image version to be created. Needs
-         to follow semantic version name pattern: The allowed characters are digit and period. Digits
-         must be within the range of a 32-bit integer. Format: :code:`<MajorVersion>`.\\
-         :code:`<MinorVersion>`.\\ :code:`<Patch>`. Required.
-        :type gallery_image_version_name: str
-        :param gallery_image_version: Parameters supplied to the create or update gallery image version
-         operation. Is either a GalleryImageVersion type or a IO[bytes] type. Required.
-        :type gallery_image_version: ~azure.mgmt.compute.v2023_07_03.models.GalleryImageVersion or
-         IO[bytes]
-        :return: An instance of LROPoller that returns either GalleryImageVersion or the result of
-         cls(response)
-        :rtype:
-         ~azure.core.polling.LROPoller[~azure.mgmt.compute.v2023_07_03.models.GalleryImageVersion]
+        :param gallery: Parameters supplied to the create or update Shared Image Gallery operation. Is
+         either a Gallery type or a IO[bytes] type. Required.
+        :type gallery: ~azure.mgmt.compute.v2023_07_03.models.Gallery or IO[bytes]
+        :return: An instance of LROPoller that returns either Gallery or the result of cls(response)
+        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.compute.v2023_07_03.models.Gallery]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -3002,7 +1825,7 @@ class GalleryImageVersionsOperations:
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.GalleryImageVersion] = kwargs.pop("cls", None)
+        cls: ClsType[_models.Gallery] = kwargs.pop("cls", None)
         polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
@@ -3010,9 +1833,7 @@ class GalleryImageVersionsOperations:
             raw_result = self._create_or_update_initial(
                 resource_group_name=resource_group_name,
                 gallery_name=gallery_name,
-                gallery_image_name=gallery_image_name,
-                gallery_image_version_name=gallery_image_version_name,
-                gallery_image_version=gallery_image_version,
+                gallery=gallery,
                 api_version=api_version,
                 content_type=content_type,
                 cls=lambda x, y, z: x,
@@ -3024,25 +1845,27 @@ class GalleryImageVersionsOperations:
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):
-            deserialized = self._deserialize("GalleryImageVersion", pipeline_response.http_response)
+            deserialized = self._deserialize("Gallery", pipeline_response.http_response)
             if cls:
                 return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
-            polling_method: PollingMethod = cast(PollingMethod, ARMPolling(lro_delay, **kwargs))
+            polling_method: PollingMethod = cast(
+                PollingMethod, ARMPolling(lro_delay, lro_options={"final-state-via": "location"}, **kwargs)
+            )
         elif polling is False:
             polling_method = cast(PollingMethod, NoPolling())
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller[_models.GalleryImageVersion].from_continuation_token(
+            return LROPoller[_models.Gallery].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller[_models.GalleryImageVersion](
+        return LROPoller[_models.Gallery](
             self._client, raw_result, get_long_running_output, polling_method  # type: ignore
         )
 
@@ -3050,9 +1873,7 @@ class GalleryImageVersionsOperations:
         self,
         resource_group_name: str,
         gallery_name: str,
-        gallery_image_name: str,
-        gallery_image_version_name: str,
-        gallery_image_version: Union[_models.GalleryImageVersionUpdate, IO[bytes]],
+        gallery: Union[_models.GalleryUpdate, IO[bytes]],
         **kwargs: Any
     ) -> Iterator[bytes]:
         error_map: MutableMapping = {
@@ -3073,16 +1894,14 @@ class GalleryImageVersionsOperations:
         content_type = content_type or "application/json"
         _json = None
         _content = None
-        if isinstance(gallery_image_version, (IOBase, bytes)):
-            _content = gallery_image_version
+        if isinstance(gallery, (IOBase, bytes)):
+            _content = gallery
         else:
-            _json = self._serialize.body(gallery_image_version, "GalleryImageVersionUpdate")
+            _json = self._serialize.body(gallery, "GalleryUpdate")
 
-        _request = build_gallery_image_versions_update_request(
+        _request = build_galleries_update_request(
             resource_group_name=resource_group_name,
             gallery_name=gallery_name,
-            gallery_image_name=gallery_image_name,
-            gallery_image_version_name=gallery_image_version_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
             content_type=content_type,
@@ -3101,18 +1920,24 @@ class GalleryImageVersionsOperations:
 
         response = pipeline_response.http_response
 
-        if response.status_code not in [200]:
+        if response.status_code not in [200, 202]:
             try:
                 response.read()  # Load the body in memory and close the socket
             except (StreamConsumedError, StreamClosedError):
                 pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        response_headers = {}
+        if response.status_code == 202:
+            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
 
         deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
         return deserialized  # type: ignore
 
@@ -3121,38 +1946,25 @@ class GalleryImageVersionsOperations:
         self,
         resource_group_name: str,
         gallery_name: str,
-        gallery_image_name: str,
-        gallery_image_version_name: str,
-        gallery_image_version: _models.GalleryImageVersionUpdate,
+        gallery: _models.GalleryUpdate,
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> LROPoller[_models.GalleryImageVersion]:
-        """Update a gallery image version.
+    ) -> LROPoller[_models.Gallery]:
+        """Update a Shared Image Gallery.
 
-        :param resource_group_name: The name of the resource group. Required.
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
         :type resource_group_name: str
-        :param gallery_name: The name of the Shared Image Gallery in which the Image Definition
-         resides. Required.
+        :param gallery_name: The name of the Shared Image Gallery. Required.
         :type gallery_name: str
-        :param gallery_image_name: The name of the gallery image definition in which the Image Version
-         is to be updated. Required.
-        :type gallery_image_name: str
-        :param gallery_image_version_name: The name of the gallery image version to be updated. Needs
-         to follow semantic version name pattern: The allowed characters are digit and period. Digits
-         must be within the range of a 32-bit integer. Format: :code:`<MajorVersion>`.\\
-         :code:`<MinorVersion>`.\\ :code:`<Patch>`. Required.
-        :type gallery_image_version_name: str
-        :param gallery_image_version: Parameters supplied to the update gallery image version
-         operation. Required.
-        :type gallery_image_version: ~azure.mgmt.compute.v2023_07_03.models.GalleryImageVersionUpdate
+        :param gallery: Parameters supplied to the update Shared Image Gallery operation. Required.
+        :type gallery: ~azure.mgmt.compute.v2023_07_03.models.GalleryUpdate
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of LROPoller that returns either GalleryImageVersion or the result of
-         cls(response)
-        :rtype:
-         ~azure.core.polling.LROPoller[~azure.mgmt.compute.v2023_07_03.models.GalleryImageVersion]
+        :return: An instance of LROPoller that returns either Gallery or the result of cls(response)
+        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.compute.v2023_07_03.models.Gallery]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -3161,38 +1973,25 @@ class GalleryImageVersionsOperations:
         self,
         resource_group_name: str,
         gallery_name: str,
-        gallery_image_name: str,
-        gallery_image_version_name: str,
-        gallery_image_version: IO[bytes],
+        gallery: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> LROPoller[_models.GalleryImageVersion]:
-        """Update a gallery image version.
+    ) -> LROPoller[_models.Gallery]:
+        """Update a Shared Image Gallery.
 
-        :param resource_group_name: The name of the resource group. Required.
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
         :type resource_group_name: str
-        :param gallery_name: The name of the Shared Image Gallery in which the Image Definition
-         resides. Required.
+        :param gallery_name: The name of the Shared Image Gallery. Required.
         :type gallery_name: str
-        :param gallery_image_name: The name of the gallery image definition in which the Image Version
-         is to be updated. Required.
-        :type gallery_image_name: str
-        :param gallery_image_version_name: The name of the gallery image version to be updated. Needs
-         to follow semantic version name pattern: The allowed characters are digit and period. Digits
-         must be within the range of a 32-bit integer. Format: :code:`<MajorVersion>`.\\
-         :code:`<MinorVersion>`.\\ :code:`<Patch>`. Required.
-        :type gallery_image_version_name: str
-        :param gallery_image_version: Parameters supplied to the update gallery image version
-         operation. Required.
-        :type gallery_image_version: IO[bytes]
+        :param gallery: Parameters supplied to the update Shared Image Gallery operation. Required.
+        :type gallery: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of LROPoller that returns either GalleryImageVersion or the result of
-         cls(response)
-        :rtype:
-         ~azure.core.polling.LROPoller[~azure.mgmt.compute.v2023_07_03.models.GalleryImageVersion]
+        :return: An instance of LROPoller that returns either Gallery or the result of cls(response)
+        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.compute.v2023_07_03.models.Gallery]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -3201,34 +2000,21 @@ class GalleryImageVersionsOperations:
         self,
         resource_group_name: str,
         gallery_name: str,
-        gallery_image_name: str,
-        gallery_image_version_name: str,
-        gallery_image_version: Union[_models.GalleryImageVersionUpdate, IO[bytes]],
+        gallery: Union[_models.GalleryUpdate, IO[bytes]],
         **kwargs: Any
-    ) -> LROPoller[_models.GalleryImageVersion]:
-        """Update a gallery image version.
+    ) -> LROPoller[_models.Gallery]:
+        """Update a Shared Image Gallery.
 
-        :param resource_group_name: The name of the resource group. Required.
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
         :type resource_group_name: str
-        :param gallery_name: The name of the Shared Image Gallery in which the Image Definition
-         resides. Required.
+        :param gallery_name: The name of the Shared Image Gallery. Required.
         :type gallery_name: str
-        :param gallery_image_name: The name of the gallery image definition in which the Image Version
-         is to be updated. Required.
-        :type gallery_image_name: str
-        :param gallery_image_version_name: The name of the gallery image version to be updated. Needs
-         to follow semantic version name pattern: The allowed characters are digit and period. Digits
-         must be within the range of a 32-bit integer. Format: :code:`<MajorVersion>`.\\
-         :code:`<MinorVersion>`.\\ :code:`<Patch>`. Required.
-        :type gallery_image_version_name: str
-        :param gallery_image_version: Parameters supplied to the update gallery image version
-         operation. Is either a GalleryImageVersionUpdate type or a IO[bytes] type. Required.
-        :type gallery_image_version: ~azure.mgmt.compute.v2023_07_03.models.GalleryImageVersionUpdate
-         or IO[bytes]
-        :return: An instance of LROPoller that returns either GalleryImageVersion or the result of
-         cls(response)
-        :rtype:
-         ~azure.core.polling.LROPoller[~azure.mgmt.compute.v2023_07_03.models.GalleryImageVersion]
+        :param gallery: Parameters supplied to the update Shared Image Gallery operation. Is either a
+         GalleryUpdate type or a IO[bytes] type. Required.
+        :type gallery: ~azure.mgmt.compute.v2023_07_03.models.GalleryUpdate or IO[bytes]
+        :return: An instance of LROPoller that returns either Gallery or the result of cls(response)
+        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.compute.v2023_07_03.models.Gallery]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -3236,7 +2022,7 @@ class GalleryImageVersionsOperations:
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.GalleryImageVersion] = kwargs.pop("cls", None)
+        cls: ClsType[_models.Gallery] = kwargs.pop("cls", None)
         polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
@@ -3244,9 +2030,7 @@ class GalleryImageVersionsOperations:
             raw_result = self._update_initial(
                 resource_group_name=resource_group_name,
                 gallery_name=gallery_name,
-                gallery_image_name=gallery_image_name,
-                gallery_image_version_name=gallery_image_version_name,
-                gallery_image_version=gallery_image_version,
+                gallery=gallery,
                 api_version=api_version,
                 content_type=content_type,
                 cls=lambda x, y, z: x,
@@ -3258,112 +2042,31 @@ class GalleryImageVersionsOperations:
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):
-            deserialized = self._deserialize("GalleryImageVersion", pipeline_response.http_response)
+            deserialized = self._deserialize("Gallery", pipeline_response.http_response)
             if cls:
                 return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
-            polling_method: PollingMethod = cast(PollingMethod, ARMPolling(lro_delay, **kwargs))
+            polling_method: PollingMethod = cast(
+                PollingMethod, ARMPolling(lro_delay, lro_options={"final-state-via": "location"}, **kwargs)
+            )
         elif polling is False:
             polling_method = cast(PollingMethod, NoPolling())
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller[_models.GalleryImageVersion].from_continuation_token(
+            return LROPoller[_models.Gallery].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller[_models.GalleryImageVersion](
+        return LROPoller[_models.Gallery](
             self._client, raw_result, get_long_running_output, polling_method  # type: ignore
         )
 
-    @distributed_trace
-    def get(
-        self,
-        resource_group_name: str,
-        gallery_name: str,
-        gallery_image_name: str,
-        gallery_image_version_name: str,
-        *,
-        expand: Optional[Union[str, _models.ReplicationStatusTypes]] = None,
-        **kwargs: Any
-    ) -> _models.GalleryImageVersion:
-        """Retrieves information about a gallery image version.
-
-        :param resource_group_name: The name of the resource group. Required.
-        :type resource_group_name: str
-        :param gallery_name: The name of the Shared Image Gallery in which the Image Definition
-         resides. Required.
-        :type gallery_name: str
-        :param gallery_image_name: The name of the gallery image definition in which the Image Version
-         resides. Required.
-        :type gallery_image_name: str
-        :param gallery_image_version_name: The name of the gallery image version to be retrieved.
-         Required.
-        :type gallery_image_version_name: str
-        :keyword expand: The expand expression to apply on the operation. Known values are:
-         "ReplicationStatus" and "UefiSettings". Default value is None.
-        :paramtype expand: str or ~azure.mgmt.compute.v2023_07_03.models.ReplicationStatusTypes
-        :return: GalleryImageVersion or the result of cls(response)
-        :rtype: ~azure.mgmt.compute.v2023_07_03.models.GalleryImageVersion
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        error_map: MutableMapping = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
-        cls: ClsType[_models.GalleryImageVersion] = kwargs.pop("cls", None)
-
-        _request = build_gallery_image_versions_get_request(
-            resource_group_name=resource_group_name,
-            gallery_name=gallery_name,
-            gallery_image_name=gallery_image_name,
-            gallery_image_version_name=gallery_image_version_name,
-            subscription_id=self._config.subscription_id,
-            expand=expand,
-            api_version=api_version,
-            headers=_headers,
-            params=_params,
-        )
-        _request.url = self._client.format_url(_request.url)
-
-        _stream = False
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            _request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
-
-        deserialized = self._deserialize("GalleryImageVersion", pipeline_response.http_response)
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
-
-        return deserialized  # type: ignore
-
-    def _delete_initial(
-        self,
-        resource_group_name: str,
-        gallery_name: str,
-        gallery_image_name: str,
-        gallery_image_version_name: str,
-        **kwargs: Any
-    ) -> Iterator[bytes]:
+    def _delete_initial(self, resource_group_name: str, gallery_name: str, **kwargs: Any) -> Iterator[bytes]:
         error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
@@ -3378,11 +2081,9 @@ class GalleryImageVersionsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
         cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
 
-        _request = build_gallery_image_versions_delete_request(
+        _request = build_galleries_delete_request(
             resource_group_name=resource_group_name,
             gallery_name=gallery_name,
-            gallery_image_name=gallery_image_name,
-            gallery_image_version_name=gallery_image_version_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
             headers=_headers,
@@ -3404,37 +2105,30 @@ class GalleryImageVersionsOperations:
             except (StreamConsumedError, StreamClosedError):
                 pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        response_headers = {}
+        if response.status_code == 202:
+            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
 
         deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
         return deserialized  # type: ignore
 
     @distributed_trace
-    def begin_delete(
-        self,
-        resource_group_name: str,
-        gallery_name: str,
-        gallery_image_name: str,
-        gallery_image_version_name: str,
-        **kwargs: Any
-    ) -> LROPoller[None]:
-        """Delete a gallery image version.
+    def begin_delete(self, resource_group_name: str, gallery_name: str, **kwargs: Any) -> LROPoller[None]:
+        """Delete a Shared Image Gallery.
 
-        :param resource_group_name: The name of the resource group. Required.
-        :type resource_group_name: str
-        :param gallery_name: The name of the Shared Image Gallery in which the Image Definition
-         resides. Required.
-        :type gallery_name: str
-        :param gallery_image_name: The name of the gallery image definition in which the Image Version
-         resides. Required.
-        :type gallery_image_name: str
-        :param gallery_image_version_name: The name of the gallery image version to be deleted.
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
-        :type gallery_image_version_name: str
+        :type resource_group_name: str
+        :param gallery_name: The name of the Shared Image Gallery. Required.
+        :type gallery_name: str
         :return: An instance of LROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -3451,8 +2145,6 @@ class GalleryImageVersionsOperations:
             raw_result = self._delete_initial(
                 resource_group_name=resource_group_name,
                 gallery_name=gallery_name,
-                gallery_image_name=gallery_image_name,
-                gallery_image_version_name=gallery_image_version_name,
                 api_version=api_version,
                 cls=lambda x, y, z: x,
                 headers=_headers,
@@ -3467,7 +2159,9 @@ class GalleryImageVersionsOperations:
                 return cls(pipeline_response, None, {})  # type: ignore
 
         if polling is True:
-            polling_method: PollingMethod = cast(PollingMethod, ARMPolling(lro_delay, **kwargs))
+            polling_method: PollingMethod = cast(
+                PollingMethod, ARMPolling(lro_delay, lro_options={"final-state-via": "location"}, **kwargs)
+            )
         elif polling is False:
             polling_method = cast(PollingMethod, NoPolling())
         else:
@@ -3481,30 +2175,122 @@ class GalleryImageVersionsOperations:
             )
         return LROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
-    @distributed_trace
-    def list_by_gallery_image(
-        self, resource_group_name: str, gallery_name: str, gallery_image_name: str, **kwargs: Any
-    ) -> Iterable["_models.GalleryImageVersion"]:
-        """List gallery image versions in a gallery image definition.
 
-        :param resource_group_name: The name of the resource group. Required.
-        :type resource_group_name: str
-        :param gallery_name: The name of the Shared Image Gallery in which the Image Definition
-         resides. Required.
-        :type gallery_name: str
-        :param gallery_image_name: The name of the Shared Image Gallery Image Definition from which the
-         Image Versions are to be listed. Required.
-        :type gallery_image_name: str
-        :return: An iterator like instance of either GalleryImageVersion or the result of cls(response)
+class CommunityGalleriesOperations:
+    """
+    .. warning::
+        **DO NOT** instantiate this class directly.
+
+        Instead, you should access the following operations through
+        :class:`~azure.mgmt.compute.v2023_07_03.ComputeManagementClient`'s
+        :attr:`community_galleries` attribute.
+    """
+
+    models = _models
+
+    def __init__(self, *args, **kwargs):
+        input_args = list(args)
+        self._client = input_args.pop(0) if input_args else kwargs.pop("client")
+        self._config = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
+        self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
+        self._api_version = input_args.pop(0) if input_args else kwargs.pop("api_version")
+
+    @distributed_trace
+    def get(self, location: str, public_gallery_name: str, **kwargs: Any) -> _models.CommunityGallery:
+        """Get a community gallery by gallery public name.
+
+        :param location: The name of Azure region. Required.
+        :type location: str
+        :param public_gallery_name: The public name of the community gallery. Required.
+        :type public_gallery_name: str
+        :return: CommunityGallery or the result of cls(response)
+        :rtype: ~azure.mgmt.compute.v2023_07_03.models.CommunityGallery
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
+        cls: ClsType[_models.CommunityGallery] = kwargs.pop("cls", None)
+
+        _request = build_community_galleries_get_request(
+            location=location,
+            public_gallery_name=public_gallery_name,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            headers=_headers,
+            params=_params,
+        )
+        _request.url = self._client.format_url(_request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        deserialized = self._deserialize("CommunityGallery", pipeline_response.http_response)
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
+
+
+class CommunityGalleryImagesOperations:
+    """
+    .. warning::
+        **DO NOT** instantiate this class directly.
+
+        Instead, you should access the following operations through
+        :class:`~azure.mgmt.compute.v2023_07_03.ComputeManagementClient`'s
+        :attr:`community_gallery_images` attribute.
+    """
+
+    models = _models
+
+    def __init__(self, *args, **kwargs):
+        input_args = list(args)
+        self._client = input_args.pop(0) if input_args else kwargs.pop("client")
+        self._config = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
+        self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
+        self._api_version = input_args.pop(0) if input_args else kwargs.pop("api_version")
+
+    @distributed_trace
+    def list(self, location: str, public_gallery_name: str, **kwargs: Any) -> Iterable["_models.CommunityGalleryImage"]:
+        """List community gallery images inside a gallery.
+
+        :param location: The name of Azure region. Required.
+        :type location: str
+        :param public_gallery_name: The public name of the community gallery. Required.
+        :type public_gallery_name: str
+        :return: An iterator like instance of either CommunityGalleryImage or the result of
+         cls(response)
         :rtype:
-         ~azure.core.paging.ItemPaged[~azure.mgmt.compute.v2023_07_03.models.GalleryImageVersion]
+         ~azure.core.paging.ItemPaged[~azure.mgmt.compute.v2023_07_03.models.CommunityGalleryImage]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
-        cls: ClsType[_models.GalleryImageVersionList] = kwargs.pop("cls", None)
+        cls: ClsType[_models.CommunityGalleryImageList] = kwargs.pop("cls", None)
 
         error_map: MutableMapping = {
             401: ClientAuthenticationError,
@@ -3517,9 +2303,177 @@ class GalleryImageVersionsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                _request = build_gallery_image_versions_list_by_gallery_image_request(
-                    resource_group_name=resource_group_name,
-                    gallery_name=gallery_name,
+                _request = build_community_gallery_images_list_request(
+                    location=location,
+                    public_gallery_name=public_gallery_name,
+                    subscription_id=self._config.subscription_id,
+                    api_version=api_version,
+                    headers=_headers,
+                    params=_params,
+                )
+                _request.url = self._client.format_url(_request.url)
+
+            else:
+                # make call to next link with the client's api-version
+                _parsed_next_link = urllib.parse.urlparse(next_link)
+                _next_request_params = case_insensitive_dict(
+                    {
+                        key: [urllib.parse.quote(v) for v in value]
+                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
+                    }
+                )
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
+                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
+                )
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
+
+        def extract_data(pipeline_response):
+            deserialized = self._deserialize("CommunityGalleryImageList", pipeline_response)
+            list_of_elem = deserialized.value
+            if cls:
+                list_of_elem = cls(list_of_elem)  # type: ignore
+            return deserialized.next_link or None, iter(list_of_elem)
+
+        def get_next(next_link=None):
+            _request = prepare_request(next_link)
+
+            _stream = False
+            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+                _request, stream=_stream, **kwargs
+            )
+            response = pipeline_response.http_response
+
+            if response.status_code not in [200]:
+                map_error(status_code=response.status_code, response=response, error_map=error_map)
+                error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+                raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+            return pipeline_response
+
+        return ItemPaged(get_next, extract_data)
+
+    @distributed_trace
+    def get(
+        self, location: str, public_gallery_name: str, gallery_image_name: str, **kwargs: Any
+    ) -> _models.CommunityGalleryImage:
+        """Get a community gallery image.
+
+        :param location: The name of Azure region. Required.
+        :type location: str
+        :param public_gallery_name: The public name of the community gallery. Required.
+        :type public_gallery_name: str
+        :param gallery_image_name: The name of the community gallery image definition. Required.
+        :type gallery_image_name: str
+        :return: CommunityGalleryImage or the result of cls(response)
+        :rtype: ~azure.mgmt.compute.v2023_07_03.models.CommunityGalleryImage
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
+        cls: ClsType[_models.CommunityGalleryImage] = kwargs.pop("cls", None)
+
+        _request = build_community_gallery_images_get_request(
+            location=location,
+            public_gallery_name=public_gallery_name,
+            gallery_image_name=gallery_image_name,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            headers=_headers,
+            params=_params,
+        )
+        _request.url = self._client.format_url(_request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        deserialized = self._deserialize("CommunityGalleryImage", pipeline_response.http_response)
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
+
+
+class CommunityGalleryImageVersionsOperations:
+    """
+    .. warning::
+        **DO NOT** instantiate this class directly.
+
+        Instead, you should access the following operations through
+        :class:`~azure.mgmt.compute.v2023_07_03.ComputeManagementClient`'s
+        :attr:`community_gallery_image_versions` attribute.
+    """
+
+    models = _models
+
+    def __init__(self, *args, **kwargs):
+        input_args = list(args)
+        self._client = input_args.pop(0) if input_args else kwargs.pop("client")
+        self._config = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
+        self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
+        self._api_version = input_args.pop(0) if input_args else kwargs.pop("api_version")
+
+    @distributed_trace
+    def list(
+        self, location: str, public_gallery_name: str, gallery_image_name: str, **kwargs: Any
+    ) -> Iterable["_models.CommunityGalleryImageVersion"]:
+        """List community gallery image versions inside an image.
+
+        :param location: The name of Azure region. Required.
+        :type location: str
+        :param public_gallery_name: The public name of the community gallery. Required.
+        :type public_gallery_name: str
+        :param gallery_image_name: The name of the community gallery image definition. Required.
+        :type gallery_image_name: str
+        :return: An iterator like instance of either CommunityGalleryImageVersion or the result of
+         cls(response)
+        :rtype:
+         ~azure.core.paging.ItemPaged[~azure.mgmt.compute.v2023_07_03.models.CommunityGalleryImageVersion]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
+        cls: ClsType[_models.CommunityGalleryImageVersionList] = kwargs.pop("cls", None)
+
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        def prepare_request(next_link=None):
+            if not next_link:
+
+                _request = build_community_gallery_image_versions_list_request(
+                    location=location,
+                    public_gallery_name=public_gallery_name,
                     gallery_image_name=gallery_image_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
@@ -3546,7 +2500,7 @@ class GalleryImageVersionsOperations:
             return _request
 
         def extract_data(pipeline_response):
-            deserialized = self._deserialize("GalleryImageVersionList", pipeline_response)
+            deserialized = self._deserialize("CommunityGalleryImageVersionList", pipeline_response)
             list_of_elem = deserialized.value
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
@@ -3563,11 +2517,609 @@ class GalleryImageVersionsOperations:
 
             if response.status_code not in [200]:
                 map_error(status_code=response.status_code, response=response, error_map=error_map)
-                raise HttpResponseError(response=response, error_format=ARMErrorFormat)
+                error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+                raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
+
+    @distributed_trace
+    def get(
+        self,
+        location: str,
+        public_gallery_name: str,
+        gallery_image_name: str,
+        gallery_image_version_name: str,
+        **kwargs: Any
+    ) -> _models.CommunityGalleryImageVersion:
+        """Get a community gallery image version.
+
+        :param location: The name of Azure region. Required.
+        :type location: str
+        :param public_gallery_name: The public name of the community gallery. Required.
+        :type public_gallery_name: str
+        :param gallery_image_name: The name of the community gallery image definition. Required.
+        :type gallery_image_name: str
+        :param gallery_image_version_name: The name of the community gallery image version. Needs to
+         follow semantic version name pattern: The allowed characters are digit and period. Digits must
+         be within the range of a 32-bit integer. Format: :code:`<MajorVersion>`.\\
+         :code:`<MinorVersion>`.\\ :code:`<Patch>`. Required.
+        :type gallery_image_version_name: str
+        :return: CommunityGalleryImageVersion or the result of cls(response)
+        :rtype: ~azure.mgmt.compute.v2023_07_03.models.CommunityGalleryImageVersion
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
+        cls: ClsType[_models.CommunityGalleryImageVersion] = kwargs.pop("cls", None)
+
+        _request = build_community_gallery_image_versions_get_request(
+            location=location,
+            public_gallery_name=public_gallery_name,
+            gallery_image_name=gallery_image_name,
+            gallery_image_version_name=gallery_image_version_name,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            headers=_headers,
+            params=_params,
+        )
+        _request.url = self._client.format_url(_request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        deserialized = self._deserialize("CommunityGalleryImageVersion", pipeline_response.http_response)
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
+
+
+class SharedGalleriesOperations:
+    """
+    .. warning::
+        **DO NOT** instantiate this class directly.
+
+        Instead, you should access the following operations through
+        :class:`~azure.mgmt.compute.v2023_07_03.ComputeManagementClient`'s
+        :attr:`shared_galleries` attribute.
+    """
+
+    models = _models
+
+    def __init__(self, *args, **kwargs):
+        input_args = list(args)
+        self._client = input_args.pop(0) if input_args else kwargs.pop("client")
+        self._config = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
+        self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
+        self._api_version = input_args.pop(0) if input_args else kwargs.pop("api_version")
+
+    @distributed_trace
+    def list(
+        self, location: str, *, shared_to: Optional[Union[str, _models.SharedToValues]] = None, **kwargs: Any
+    ) -> Iterable["_models.SharedGallery"]:
+        """List shared galleries by subscription id or tenant id.
+
+        :param location: The name of Azure region. Required.
+        :type location: str
+        :keyword shared_to: The query parameter to decide what shared galleries to fetch when doing
+         listing operations. "tenant" Default value is None.
+        :paramtype shared_to: str or ~azure.mgmt.compute.v2023_07_03.models.SharedToValues
+        :return: An iterator like instance of either SharedGallery or the result of cls(response)
+        :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.compute.v2023_07_03.models.SharedGallery]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
+        cls: ClsType[_models.SharedGalleryList] = kwargs.pop("cls", None)
+
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        def prepare_request(next_link=None):
+            if not next_link:
+
+                _request = build_shared_galleries_list_request(
+                    location=location,
+                    subscription_id=self._config.subscription_id,
+                    shared_to=shared_to,
+                    api_version=api_version,
+                    headers=_headers,
+                    params=_params,
+                )
+                _request.url = self._client.format_url(_request.url)
+
+            else:
+                # make call to next link with the client's api-version
+                _parsed_next_link = urllib.parse.urlparse(next_link)
+                _next_request_params = case_insensitive_dict(
+                    {
+                        key: [urllib.parse.quote(v) for v in value]
+                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
+                    }
+                )
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
+                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
+                )
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
+
+        def extract_data(pipeline_response):
+            deserialized = self._deserialize("SharedGalleryList", pipeline_response)
+            list_of_elem = deserialized.value
+            if cls:
+                list_of_elem = cls(list_of_elem)  # type: ignore
+            return deserialized.next_link or None, iter(list_of_elem)
+
+        def get_next(next_link=None):
+            _request = prepare_request(next_link)
+
+            _stream = False
+            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+                _request, stream=_stream, **kwargs
+            )
+            response = pipeline_response.http_response
+
+            if response.status_code not in [200]:
+                map_error(status_code=response.status_code, response=response, error_map=error_map)
+                error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+                raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+            return pipeline_response
+
+        return ItemPaged(get_next, extract_data)
+
+    @distributed_trace
+    def get(self, location: str, gallery_unique_name: str, **kwargs: Any) -> _models.SharedGallery:
+        """Get a shared gallery by subscription id or tenant id.
+
+        :param location: The name of Azure region. Required.
+        :type location: str
+        :param gallery_unique_name: The unique name of the Shared Gallery. Required.
+        :type gallery_unique_name: str
+        :return: SharedGallery or the result of cls(response)
+        :rtype: ~azure.mgmt.compute.v2023_07_03.models.SharedGallery
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
+        cls: ClsType[_models.SharedGallery] = kwargs.pop("cls", None)
+
+        _request = build_shared_galleries_get_request(
+            location=location,
+            gallery_unique_name=gallery_unique_name,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            headers=_headers,
+            params=_params,
+        )
+        _request.url = self._client.format_url(_request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        deserialized = self._deserialize("SharedGallery", pipeline_response.http_response)
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
+
+
+class SharedGalleryImagesOperations:
+    """
+    .. warning::
+        **DO NOT** instantiate this class directly.
+
+        Instead, you should access the following operations through
+        :class:`~azure.mgmt.compute.v2023_07_03.ComputeManagementClient`'s
+        :attr:`shared_gallery_images` attribute.
+    """
+
+    models = _models
+
+    def __init__(self, *args, **kwargs):
+        input_args = list(args)
+        self._client = input_args.pop(0) if input_args else kwargs.pop("client")
+        self._config = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
+        self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
+        self._api_version = input_args.pop(0) if input_args else kwargs.pop("api_version")
+
+    @distributed_trace
+    def list(
+        self,
+        location: str,
+        gallery_unique_name: str,
+        *,
+        shared_to: Optional[Union[str, _models.SharedToValues]] = None,
+        **kwargs: Any
+    ) -> Iterable["_models.SharedGalleryImage"]:
+        """List shared gallery images by subscription id or tenant id.
+
+        :param location: The name of Azure region. Required.
+        :type location: str
+        :param gallery_unique_name: The unique name of the Shared Gallery. Required.
+        :type gallery_unique_name: str
+        :keyword shared_to: The query parameter to decide what shared galleries to fetch when doing
+         listing operations. "tenant" Default value is None.
+        :paramtype shared_to: str or ~azure.mgmt.compute.v2023_07_03.models.SharedToValues
+        :return: An iterator like instance of either SharedGalleryImage or the result of cls(response)
+        :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.compute.v2023_07_03.models.SharedGalleryImage]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
+        cls: ClsType[_models.SharedGalleryImageList] = kwargs.pop("cls", None)
+
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        def prepare_request(next_link=None):
+            if not next_link:
+
+                _request = build_shared_gallery_images_list_request(
+                    location=location,
+                    gallery_unique_name=gallery_unique_name,
+                    subscription_id=self._config.subscription_id,
+                    shared_to=shared_to,
+                    api_version=api_version,
+                    headers=_headers,
+                    params=_params,
+                )
+                _request.url = self._client.format_url(_request.url)
+
+            else:
+                # make call to next link with the client's api-version
+                _parsed_next_link = urllib.parse.urlparse(next_link)
+                _next_request_params = case_insensitive_dict(
+                    {
+                        key: [urllib.parse.quote(v) for v in value]
+                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
+                    }
+                )
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
+                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
+                )
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
+
+        def extract_data(pipeline_response):
+            deserialized = self._deserialize("SharedGalleryImageList", pipeline_response)
+            list_of_elem = deserialized.value
+            if cls:
+                list_of_elem = cls(list_of_elem)  # type: ignore
+            return deserialized.next_link or None, iter(list_of_elem)
+
+        def get_next(next_link=None):
+            _request = prepare_request(next_link)
+
+            _stream = False
+            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+                _request, stream=_stream, **kwargs
+            )
+            response = pipeline_response.http_response
+
+            if response.status_code not in [200]:
+                map_error(status_code=response.status_code, response=response, error_map=error_map)
+                error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+                raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+            return pipeline_response
+
+        return ItemPaged(get_next, extract_data)
+
+    @distributed_trace
+    def get(
+        self, location: str, gallery_unique_name: str, gallery_image_name: str, **kwargs: Any
+    ) -> _models.SharedGalleryImage:
+        """Get a shared gallery image by subscription id or tenant id.
+
+        :param location: The name of Azure region. Required.
+        :type location: str
+        :param gallery_unique_name: The unique name of the Shared Gallery. Required.
+        :type gallery_unique_name: str
+        :param gallery_image_name: The name of the Shared Gallery Image Definition from which the Image
+         Versions are to be listed. Required.
+        :type gallery_image_name: str
+        :return: SharedGalleryImage or the result of cls(response)
+        :rtype: ~azure.mgmt.compute.v2023_07_03.models.SharedGalleryImage
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
+        cls: ClsType[_models.SharedGalleryImage] = kwargs.pop("cls", None)
+
+        _request = build_shared_gallery_images_get_request(
+            location=location,
+            gallery_unique_name=gallery_unique_name,
+            gallery_image_name=gallery_image_name,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            headers=_headers,
+            params=_params,
+        )
+        _request.url = self._client.format_url(_request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        deserialized = self._deserialize("SharedGalleryImage", pipeline_response.http_response)
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
+
+
+class SharedGalleryImageVersionsOperations:
+    """
+    .. warning::
+        **DO NOT** instantiate this class directly.
+
+        Instead, you should access the following operations through
+        :class:`~azure.mgmt.compute.v2023_07_03.ComputeManagementClient`'s
+        :attr:`shared_gallery_image_versions` attribute.
+    """
+
+    models = _models
+
+    def __init__(self, *args, **kwargs):
+        input_args = list(args)
+        self._client = input_args.pop(0) if input_args else kwargs.pop("client")
+        self._config = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
+        self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
+        self._api_version = input_args.pop(0) if input_args else kwargs.pop("api_version")
+
+    @distributed_trace
+    def list(
+        self,
+        location: str,
+        gallery_unique_name: str,
+        gallery_image_name: str,
+        *,
+        shared_to: Optional[Union[str, _models.SharedToValues]] = None,
+        **kwargs: Any
+    ) -> Iterable["_models.SharedGalleryImageVersion"]:
+        """List shared gallery image versions by subscription id or tenant id.
+
+        :param location: The name of Azure region. Required.
+        :type location: str
+        :param gallery_unique_name: The unique name of the Shared Gallery. Required.
+        :type gallery_unique_name: str
+        :param gallery_image_name: The name of the Shared Gallery Image Definition from which the Image
+         Versions are to be listed. Required.
+        :type gallery_image_name: str
+        :keyword shared_to: The query parameter to decide what shared galleries to fetch when doing
+         listing operations. "tenant" Default value is None.
+        :paramtype shared_to: str or ~azure.mgmt.compute.v2023_07_03.models.SharedToValues
+        :return: An iterator like instance of either SharedGalleryImageVersion or the result of
+         cls(response)
+        :rtype:
+         ~azure.core.paging.ItemPaged[~azure.mgmt.compute.v2023_07_03.models.SharedGalleryImageVersion]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
+        cls: ClsType[_models.SharedGalleryImageVersionList] = kwargs.pop("cls", None)
+
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        def prepare_request(next_link=None):
+            if not next_link:
+
+                _request = build_shared_gallery_image_versions_list_request(
+                    location=location,
+                    gallery_unique_name=gallery_unique_name,
+                    gallery_image_name=gallery_image_name,
+                    subscription_id=self._config.subscription_id,
+                    shared_to=shared_to,
+                    api_version=api_version,
+                    headers=_headers,
+                    params=_params,
+                )
+                _request.url = self._client.format_url(_request.url)
+
+            else:
+                # make call to next link with the client's api-version
+                _parsed_next_link = urllib.parse.urlparse(next_link)
+                _next_request_params = case_insensitive_dict(
+                    {
+                        key: [urllib.parse.quote(v) for v in value]
+                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
+                    }
+                )
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
+                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
+                )
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
+
+        def extract_data(pipeline_response):
+            deserialized = self._deserialize("SharedGalleryImageVersionList", pipeline_response)
+            list_of_elem = deserialized.value
+            if cls:
+                list_of_elem = cls(list_of_elem)  # type: ignore
+            return deserialized.next_link or None, iter(list_of_elem)
+
+        def get_next(next_link=None):
+            _request = prepare_request(next_link)
+
+            _stream = False
+            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+                _request, stream=_stream, **kwargs
+            )
+            response = pipeline_response.http_response
+
+            if response.status_code not in [200]:
+                map_error(status_code=response.status_code, response=response, error_map=error_map)
+                error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+                raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+            return pipeline_response
+
+        return ItemPaged(get_next, extract_data)
+
+    @distributed_trace
+    def get(
+        self,
+        location: str,
+        gallery_unique_name: str,
+        gallery_image_name: str,
+        gallery_image_version_name: str,
+        **kwargs: Any
+    ) -> _models.SharedGalleryImageVersion:
+        """Get a shared gallery image version by subscription id or tenant id.
+
+        :param location: The name of Azure region. Required.
+        :type location: str
+        :param gallery_unique_name: The unique name of the Shared Gallery. Required.
+        :type gallery_unique_name: str
+        :param gallery_image_name: The name of the Shared Gallery Image Definition from which the Image
+         Versions are to be listed. Required.
+        :type gallery_image_name: str
+        :param gallery_image_version_name: The name of the gallery image version to be created. Needs
+         to follow semantic version name pattern: The allowed characters are digit and period. Digits
+         must be within the range of a 32-bit integer. Format: :code:`<MajorVersion>`.\\
+         :code:`<MinorVersion>`.\\ :code:`<Patch>`. Required.
+        :type gallery_image_version_name: str
+        :return: SharedGalleryImageVersion or the result of cls(response)
+        :rtype: ~azure.mgmt.compute.v2023_07_03.models.SharedGalleryImageVersion
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
+        cls: ClsType[_models.SharedGalleryImageVersion] = kwargs.pop("cls", None)
+
+        _request = build_shared_gallery_image_versions_get_request(
+            location=location,
+            gallery_unique_name=gallery_unique_name,
+            gallery_image_name=gallery_image_name,
+            gallery_image_version_name=gallery_image_version_name,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            headers=_headers,
+            params=_params,
+        )
+        _request.url = self._client.format_url(_request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        deserialized = self._deserialize("SharedGalleryImageVersion", pipeline_response.http_response)
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
 
 
 class GalleryApplicationsOperations:
@@ -3589,6 +3141,152 @@ class GalleryApplicationsOperations:
         self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
         self._api_version = input_args.pop(0) if input_args else kwargs.pop("api_version")
+
+    @distributed_trace
+    def list_by_gallery(
+        self, resource_group_name: str, gallery_name: str, **kwargs: Any
+    ) -> Iterable["_models.GalleryApplication"]:
+        """List gallery Application Definitions in a gallery.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param gallery_name: The name of the Shared Image Gallery. Required.
+        :type gallery_name: str
+        :return: An iterator like instance of either GalleryApplication or the result of cls(response)
+        :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.compute.v2023_07_03.models.GalleryApplication]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
+        cls: ClsType[_models.GalleryApplicationList] = kwargs.pop("cls", None)
+
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        def prepare_request(next_link=None):
+            if not next_link:
+
+                _request = build_gallery_applications_list_by_gallery_request(
+                    resource_group_name=resource_group_name,
+                    gallery_name=gallery_name,
+                    subscription_id=self._config.subscription_id,
+                    api_version=api_version,
+                    headers=_headers,
+                    params=_params,
+                )
+                _request.url = self._client.format_url(_request.url)
+
+            else:
+                # make call to next link with the client's api-version
+                _parsed_next_link = urllib.parse.urlparse(next_link)
+                _next_request_params = case_insensitive_dict(
+                    {
+                        key: [urllib.parse.quote(v) for v in value]
+                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
+                    }
+                )
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
+                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
+                )
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
+
+        def extract_data(pipeline_response):
+            deserialized = self._deserialize("GalleryApplicationList", pipeline_response)
+            list_of_elem = deserialized.value
+            if cls:
+                list_of_elem = cls(list_of_elem)  # type: ignore
+            return deserialized.next_link or None, iter(list_of_elem)
+
+        def get_next(next_link=None):
+            _request = prepare_request(next_link)
+
+            _stream = False
+            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+                _request, stream=_stream, **kwargs
+            )
+            response = pipeline_response.http_response
+
+            if response.status_code not in [200]:
+                map_error(status_code=response.status_code, response=response, error_map=error_map)
+                error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+                raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+            return pipeline_response
+
+        return ItemPaged(get_next, extract_data)
+
+    @distributed_trace
+    def get(
+        self, resource_group_name: str, gallery_name: str, gallery_application_name: str, **kwargs: Any
+    ) -> _models.GalleryApplication:
+        """Retrieves information about a gallery Application Definition.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param gallery_name: The name of the Shared Image Gallery. Required.
+        :type gallery_name: str
+        :param gallery_application_name: The name of the gallery Application Definition to be
+         retrieved. Required.
+        :type gallery_application_name: str
+        :return: GalleryApplication or the result of cls(response)
+        :rtype: ~azure.mgmt.compute.v2023_07_03.models.GalleryApplication
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
+        cls: ClsType[_models.GalleryApplication] = kwargs.pop("cls", None)
+
+        _request = build_gallery_applications_get_request(
+            resource_group_name=resource_group_name,
+            gallery_name=gallery_name,
+            gallery_application_name=gallery_application_name,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            headers=_headers,
+            params=_params,
+        )
+        _request.url = self._client.format_url(_request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        deserialized = self._deserialize("GalleryApplication", pipeline_response.http_response)
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
 
     def _create_or_update_initial(
         self,
@@ -3649,12 +3347,21 @@ class GalleryApplicationsOperations:
             except (StreamConsumedError, StreamClosedError):
                 pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        response_headers = {}
+        if response.status_code == 201:
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
+
+        if response.status_code == 202:
+            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
 
         deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
         return deserialized  # type: ignore
 
@@ -3671,14 +3378,13 @@ class GalleryApplicationsOperations:
     ) -> LROPoller[_models.GalleryApplication]:
         """Create or update a gallery Application Definition.
 
-        :param resource_group_name: The name of the resource group. Required.
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
         :type resource_group_name: str
-        :param gallery_name: The name of the Shared Application Gallery in which the Application
-         Definition is to be created. Required.
+        :param gallery_name: The name of the Shared Image Gallery. Required.
         :type gallery_name: str
-        :param gallery_application_name: The name of the gallery Application Definition to be created
-         or updated. The allowed characters are alphabets and numbers with dots, dashes, and periods
-         allowed in the middle. The maximum length is 80 characters. Required.
+        :param gallery_application_name: The name of the gallery Application Definition to be
+         retrieved. Required.
         :type gallery_application_name: str
         :param gallery_application: Parameters supplied to the create or update gallery Application
          operation. Required.
@@ -3706,14 +3412,13 @@ class GalleryApplicationsOperations:
     ) -> LROPoller[_models.GalleryApplication]:
         """Create or update a gallery Application Definition.
 
-        :param resource_group_name: The name of the resource group. Required.
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
         :type resource_group_name: str
-        :param gallery_name: The name of the Shared Application Gallery in which the Application
-         Definition is to be created. Required.
+        :param gallery_name: The name of the Shared Image Gallery. Required.
         :type gallery_name: str
-        :param gallery_application_name: The name of the gallery Application Definition to be created
-         or updated. The allowed characters are alphabets and numbers with dots, dashes, and periods
-         allowed in the middle. The maximum length is 80 characters. Required.
+        :param gallery_application_name: The name of the gallery Application Definition to be
+         retrieved. Required.
         :type gallery_application_name: str
         :param gallery_application: Parameters supplied to the create or update gallery Application
          operation. Required.
@@ -3739,14 +3444,13 @@ class GalleryApplicationsOperations:
     ) -> LROPoller[_models.GalleryApplication]:
         """Create or update a gallery Application Definition.
 
-        :param resource_group_name: The name of the resource group. Required.
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
         :type resource_group_name: str
-        :param gallery_name: The name of the Shared Application Gallery in which the Application
-         Definition is to be created. Required.
+        :param gallery_name: The name of the Shared Image Gallery. Required.
         :type gallery_name: str
-        :param gallery_application_name: The name of the gallery Application Definition to be created
-         or updated. The allowed characters are alphabets and numbers with dots, dashes, and periods
-         allowed in the middle. The maximum length is 80 characters. Required.
+        :param gallery_application_name: The name of the gallery Application Definition to be
+         retrieved. Required.
         :type gallery_application_name: str
         :param gallery_application: Parameters supplied to the create or update gallery Application
          operation. Is either a GalleryApplication type or a IO[bytes] type. Required.
@@ -3859,18 +3563,24 @@ class GalleryApplicationsOperations:
 
         response = pipeline_response.http_response
 
-        if response.status_code not in [200]:
+        if response.status_code not in [200, 202]:
             try:
                 response.read()  # Load the body in memory and close the socket
             except (StreamConsumedError, StreamClosedError):
                 pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        response_headers = {}
+        if response.status_code == 202:
+            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
 
         deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
         return deserialized  # type: ignore
 
@@ -3887,14 +3597,13 @@ class GalleryApplicationsOperations:
     ) -> LROPoller[_models.GalleryApplication]:
         """Update a gallery Application Definition.
 
-        :param resource_group_name: The name of the resource group. Required.
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
         :type resource_group_name: str
-        :param gallery_name: The name of the Shared Application Gallery in which the Application
-         Definition is to be updated. Required.
+        :param gallery_name: The name of the Shared Image Gallery. Required.
         :type gallery_name: str
-        :param gallery_application_name: The name of the gallery Application Definition to be updated.
-         The allowed characters are alphabets and numbers with dots, dashes, and periods allowed in the
-         middle. The maximum length is 80 characters. Required.
+        :param gallery_application_name: The name of the gallery Application Definition to be
+         retrieved. Required.
         :type gallery_application_name: str
         :param gallery_application: Parameters supplied to the update gallery Application operation.
          Required.
@@ -3922,14 +3631,13 @@ class GalleryApplicationsOperations:
     ) -> LROPoller[_models.GalleryApplication]:
         """Update a gallery Application Definition.
 
-        :param resource_group_name: The name of the resource group. Required.
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
         :type resource_group_name: str
-        :param gallery_name: The name of the Shared Application Gallery in which the Application
-         Definition is to be updated. Required.
+        :param gallery_name: The name of the Shared Image Gallery. Required.
         :type gallery_name: str
-        :param gallery_application_name: The name of the gallery Application Definition to be updated.
-         The allowed characters are alphabets and numbers with dots, dashes, and periods allowed in the
-         middle. The maximum length is 80 characters. Required.
+        :param gallery_application_name: The name of the gallery Application Definition to be
+         retrieved. Required.
         :type gallery_application_name: str
         :param gallery_application: Parameters supplied to the update gallery Application operation.
          Required.
@@ -3955,14 +3663,13 @@ class GalleryApplicationsOperations:
     ) -> LROPoller[_models.GalleryApplication]:
         """Update a gallery Application Definition.
 
-        :param resource_group_name: The name of the resource group. Required.
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
         :type resource_group_name: str
-        :param gallery_name: The name of the Shared Application Gallery in which the Application
-         Definition is to be updated. Required.
+        :param gallery_name: The name of the Shared Image Gallery. Required.
         :type gallery_name: str
-        :param gallery_application_name: The name of the gallery Application Definition to be updated.
-         The allowed characters are alphabets and numbers with dots, dashes, and periods allowed in the
-         middle. The maximum length is 80 characters. Required.
+        :param gallery_application_name: The name of the gallery Application Definition to be
+         retrieved. Required.
         :type gallery_application_name: str
         :param gallery_application: Parameters supplied to the update gallery Application operation. Is
          either a GalleryApplicationUpdate type or a IO[bytes] type. Required.
@@ -4006,7 +3713,9 @@ class GalleryApplicationsOperations:
             return deserialized
 
         if polling is True:
-            polling_method: PollingMethod = cast(PollingMethod, ARMPolling(lro_delay, **kwargs))
+            polling_method: PollingMethod = cast(
+                PollingMethod, ARMPolling(lro_delay, lro_options={"final-state-via": "location"}, **kwargs)
+            )
         elif polling is False:
             polling_method = cast(PollingMethod, NoPolling())
         else:
@@ -4021,67 +3730,6 @@ class GalleryApplicationsOperations:
         return LROPoller[_models.GalleryApplication](
             self._client, raw_result, get_long_running_output, polling_method  # type: ignore
         )
-
-    @distributed_trace
-    def get(
-        self, resource_group_name: str, gallery_name: str, gallery_application_name: str, **kwargs: Any
-    ) -> _models.GalleryApplication:
-        """Retrieves information about a gallery Application Definition.
-
-        :param resource_group_name: The name of the resource group. Required.
-        :type resource_group_name: str
-        :param gallery_name: The name of the Shared Application Gallery from which the Application
-         Definitions are to be retrieved. Required.
-        :type gallery_name: str
-        :param gallery_application_name: The name of the gallery Application Definition to be
-         retrieved. Required.
-        :type gallery_application_name: str
-        :return: GalleryApplication or the result of cls(response)
-        :rtype: ~azure.mgmt.compute.v2023_07_03.models.GalleryApplication
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        error_map: MutableMapping = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
-        cls: ClsType[_models.GalleryApplication] = kwargs.pop("cls", None)
-
-        _request = build_gallery_applications_get_request(
-            resource_group_name=resource_group_name,
-            gallery_name=gallery_name,
-            gallery_application_name=gallery_application_name,
-            subscription_id=self._config.subscription_id,
-            api_version=api_version,
-            headers=_headers,
-            params=_params,
-        )
-        _request.url = self._client.format_url(_request.url)
-
-        _stream = False
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            _request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
-
-        deserialized = self._deserialize("GalleryApplication", pipeline_response.http_response)
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
-
-        return deserialized  # type: ignore
 
     def _delete_initial(
         self, resource_group_name: str, gallery_name: str, gallery_application_name: str, **kwargs: Any
@@ -4125,12 +3773,18 @@ class GalleryApplicationsOperations:
             except (StreamConsumedError, StreamClosedError):
                 pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        response_headers = {}
+        if response.status_code == 202:
+            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
 
         deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
         return deserialized  # type: ignore
 
@@ -4140,13 +3794,13 @@ class GalleryApplicationsOperations:
     ) -> LROPoller[None]:
         """Delete a gallery Application.
 
-        :param resource_group_name: The name of the resource group. Required.
-        :type resource_group_name: str
-        :param gallery_name: The name of the Shared Application Gallery in which the Application
-         Definition is to be deleted. Required.
-        :type gallery_name: str
-        :param gallery_application_name: The name of the gallery Application Definition to be deleted.
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
+        :type resource_group_name: str
+        :param gallery_name: The name of the Shared Image Gallery. Required.
+        :type gallery_name: str
+        :param gallery_application_name: The name of the gallery Application Definition to be
+         retrieved. Required.
         :type gallery_application_name: str
         :return: An instance of LROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[None]
@@ -4179,7 +3833,9 @@ class GalleryApplicationsOperations:
                 return cls(pipeline_response, None, {})  # type: ignore
 
         if polling is True:
-            polling_method: PollingMethod = cast(PollingMethod, ARMPolling(lro_delay, **kwargs))
+            polling_method: PollingMethod = cast(
+                PollingMethod, ARMPolling(lro_delay, lro_options={"final-state-via": "location"}, **kwargs)
+            )
         elif polling is False:
             polling_method = cast(PollingMethod, NoPolling())
         else:
@@ -4192,89 +3848,6 @@ class GalleryApplicationsOperations:
                 deserialization_callback=get_long_running_output,
             )
         return LROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    @distributed_trace
-    def list_by_gallery(
-        self, resource_group_name: str, gallery_name: str, **kwargs: Any
-    ) -> Iterable["_models.GalleryApplication"]:
-        """List gallery Application Definitions in a gallery.
-
-        :param resource_group_name: The name of the resource group. Required.
-        :type resource_group_name: str
-        :param gallery_name: The name of the Shared Application Gallery from which Application
-         Definitions are to be listed. Required.
-        :type gallery_name: str
-        :return: An iterator like instance of either GalleryApplication or the result of cls(response)
-        :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.compute.v2023_07_03.models.GalleryApplication]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
-        cls: ClsType[_models.GalleryApplicationList] = kwargs.pop("cls", None)
-
-        error_map: MutableMapping = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        def prepare_request(next_link=None):
-            if not next_link:
-
-                _request = build_gallery_applications_list_by_gallery_request(
-                    resource_group_name=resource_group_name,
-                    gallery_name=gallery_name,
-                    subscription_id=self._config.subscription_id,
-                    api_version=api_version,
-                    headers=_headers,
-                    params=_params,
-                )
-                _request.url = self._client.format_url(_request.url)
-
-            else:
-                # make call to next link with the client's api-version
-                _parsed_next_link = urllib.parse.urlparse(next_link)
-                _next_request_params = case_insensitive_dict(
-                    {
-                        key: [urllib.parse.quote(v) for v in value]
-                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
-                    }
-                )
-                _next_request_params["api-version"] = self._api_version
-                _request = HttpRequest(
-                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
-                )
-                _request.url = self._client.format_url(_request.url)
-                _request.method = "GET"
-            return _request
-
-        def extract_data(pipeline_response):
-            deserialized = self._deserialize("GalleryApplicationList", pipeline_response)
-            list_of_elem = deserialized.value
-            if cls:
-                list_of_elem = cls(list_of_elem)  # type: ignore
-            return deserialized.next_link or None, iter(list_of_elem)
-
-        def get_next(next_link=None):
-            _request = prepare_request(next_link)
-
-            _stream = False
-            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                _request, stream=_stream, **kwargs
-            )
-            response = pipeline_response.http_response
-
-            if response.status_code not in [200]:
-                map_error(status_code=response.status_code, response=response, error_map=error_map)
-                raise HttpResponseError(response=response, error_format=ARMErrorFormat)
-
-            return pipeline_response
-
-        return ItemPaged(get_next, extract_data)
 
 
 class GalleryApplicationVersionsOperations:
@@ -4297,692 +3870,19 @@ class GalleryApplicationVersionsOperations:
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
         self._api_version = input_args.pop(0) if input_args else kwargs.pop("api_version")
 
-    def _create_or_update_initial(
-        self,
-        resource_group_name: str,
-        gallery_name: str,
-        gallery_application_name: str,
-        gallery_application_version_name: str,
-        gallery_application_version: Union[_models.GalleryApplicationVersion, IO[bytes]],
-        **kwargs: Any
-    ) -> Iterator[bytes]:
-        error_map: MutableMapping = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
-        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
-
-        content_type = content_type or "application/json"
-        _json = None
-        _content = None
-        if isinstance(gallery_application_version, (IOBase, bytes)):
-            _content = gallery_application_version
-        else:
-            _json = self._serialize.body(gallery_application_version, "GalleryApplicationVersion")
-
-        _request = build_gallery_application_versions_create_or_update_request(
-            resource_group_name=resource_group_name,
-            gallery_name=gallery_name,
-            gallery_application_name=gallery_application_name,
-            gallery_application_version_name=gallery_application_version_name,
-            subscription_id=self._config.subscription_id,
-            api_version=api_version,
-            content_type=content_type,
-            json=_json,
-            content=_content,
-            headers=_headers,
-            params=_params,
-        )
-        _request.url = self._client.format_url(_request.url)
-
-        _decompress = kwargs.pop("decompress", True)
-        _stream = True
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            _request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200, 201, 202]:
-            try:
-                response.read()  # Load the body in memory and close the socket
-            except (StreamConsumedError, StreamClosedError):
-                pass
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
-
-        deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
-
-        return deserialized  # type: ignore
-
-    @overload
-    def begin_create_or_update(
-        self,
-        resource_group_name: str,
-        gallery_name: str,
-        gallery_application_name: str,
-        gallery_application_version_name: str,
-        gallery_application_version: _models.GalleryApplicationVersion,
-        *,
-        content_type: str = "application/json",
-        **kwargs: Any
-    ) -> LROPoller[_models.GalleryApplicationVersion]:
-        """Create or update a gallery Application Version.
-
-        :param resource_group_name: The name of the resource group. Required.
-        :type resource_group_name: str
-        :param gallery_name: The name of the Shared Application Gallery in which the Application
-         Definition resides. Required.
-        :type gallery_name: str
-        :param gallery_application_name: The name of the gallery Application Definition in which the
-         Application Version is to be created. Required.
-        :type gallery_application_name: str
-        :param gallery_application_version_name: The name of the gallery Application Version to be
-         created. Needs to follow semantic version name pattern: The allowed characters are digit and
-         period. Digits must be within the range of a 32-bit integer. Format: :code:`<MajorVersion>`.\\
-         :code:`<MinorVersion>`.\\ :code:`<Patch>`. Required.
-        :type gallery_application_version_name: str
-        :param gallery_application_version: Parameters supplied to the create or update gallery
-         Application Version operation. Required.
-        :type gallery_application_version:
-         ~azure.mgmt.compute.v2023_07_03.models.GalleryApplicationVersion
-        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :return: An instance of LROPoller that returns either GalleryApplicationVersion or the result
-         of cls(response)
-        :rtype:
-         ~azure.core.polling.LROPoller[~azure.mgmt.compute.v2023_07_03.models.GalleryApplicationVersion]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @overload
-    def begin_create_or_update(
-        self,
-        resource_group_name: str,
-        gallery_name: str,
-        gallery_application_name: str,
-        gallery_application_version_name: str,
-        gallery_application_version: IO[bytes],
-        *,
-        content_type: str = "application/json",
-        **kwargs: Any
-    ) -> LROPoller[_models.GalleryApplicationVersion]:
-        """Create or update a gallery Application Version.
-
-        :param resource_group_name: The name of the resource group. Required.
-        :type resource_group_name: str
-        :param gallery_name: The name of the Shared Application Gallery in which the Application
-         Definition resides. Required.
-        :type gallery_name: str
-        :param gallery_application_name: The name of the gallery Application Definition in which the
-         Application Version is to be created. Required.
-        :type gallery_application_name: str
-        :param gallery_application_version_name: The name of the gallery Application Version to be
-         created. Needs to follow semantic version name pattern: The allowed characters are digit and
-         period. Digits must be within the range of a 32-bit integer. Format: :code:`<MajorVersion>`.\\
-         :code:`<MinorVersion>`.\\ :code:`<Patch>`. Required.
-        :type gallery_application_version_name: str
-        :param gallery_application_version: Parameters supplied to the create or update gallery
-         Application Version operation. Required.
-        :type gallery_application_version: IO[bytes]
-        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :return: An instance of LROPoller that returns either GalleryApplicationVersion or the result
-         of cls(response)
-        :rtype:
-         ~azure.core.polling.LROPoller[~azure.mgmt.compute.v2023_07_03.models.GalleryApplicationVersion]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @distributed_trace
-    def begin_create_or_update(
-        self,
-        resource_group_name: str,
-        gallery_name: str,
-        gallery_application_name: str,
-        gallery_application_version_name: str,
-        gallery_application_version: Union[_models.GalleryApplicationVersion, IO[bytes]],
-        **kwargs: Any
-    ) -> LROPoller[_models.GalleryApplicationVersion]:
-        """Create or update a gallery Application Version.
-
-        :param resource_group_name: The name of the resource group. Required.
-        :type resource_group_name: str
-        :param gallery_name: The name of the Shared Application Gallery in which the Application
-         Definition resides. Required.
-        :type gallery_name: str
-        :param gallery_application_name: The name of the gallery Application Definition in which the
-         Application Version is to be created. Required.
-        :type gallery_application_name: str
-        :param gallery_application_version_name: The name of the gallery Application Version to be
-         created. Needs to follow semantic version name pattern: The allowed characters are digit and
-         period. Digits must be within the range of a 32-bit integer. Format: :code:`<MajorVersion>`.\\
-         :code:`<MinorVersion>`.\\ :code:`<Patch>`. Required.
-        :type gallery_application_version_name: str
-        :param gallery_application_version: Parameters supplied to the create or update gallery
-         Application Version operation. Is either a GalleryApplicationVersion type or a IO[bytes] type.
-         Required.
-        :type gallery_application_version:
-         ~azure.mgmt.compute.v2023_07_03.models.GalleryApplicationVersion or IO[bytes]
-        :return: An instance of LROPoller that returns either GalleryApplicationVersion or the result
-         of cls(response)
-        :rtype:
-         ~azure.core.polling.LROPoller[~azure.mgmt.compute.v2023_07_03.models.GalleryApplicationVersion]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
-        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.GalleryApplicationVersion] = kwargs.pop("cls", None)
-        polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
-        lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
-        cont_token: Optional[str] = kwargs.pop("continuation_token", None)
-        if cont_token is None:
-            raw_result = self._create_or_update_initial(
-                resource_group_name=resource_group_name,
-                gallery_name=gallery_name,
-                gallery_application_name=gallery_application_name,
-                gallery_application_version_name=gallery_application_version_name,
-                gallery_application_version=gallery_application_version,
-                api_version=api_version,
-                content_type=content_type,
-                cls=lambda x, y, z: x,
-                headers=_headers,
-                params=_params,
-                **kwargs
-            )
-            raw_result.http_response.read()  # type: ignore
-        kwargs.pop("error_map", None)
-
-        def get_long_running_output(pipeline_response):
-            deserialized = self._deserialize("GalleryApplicationVersion", pipeline_response.http_response)
-            if cls:
-                return cls(pipeline_response, deserialized, {})  # type: ignore
-            return deserialized
-
-        if polling is True:
-            polling_method: PollingMethod = cast(PollingMethod, ARMPolling(lro_delay, **kwargs))
-        elif polling is False:
-            polling_method = cast(PollingMethod, NoPolling())
-        else:
-            polling_method = polling
-        if cont_token:
-            return LROPoller[_models.GalleryApplicationVersion].from_continuation_token(
-                polling_method=polling_method,
-                continuation_token=cont_token,
-                client=self._client,
-                deserialization_callback=get_long_running_output,
-            )
-        return LROPoller[_models.GalleryApplicationVersion](
-            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
-        )
-
-    def _update_initial(
-        self,
-        resource_group_name: str,
-        gallery_name: str,
-        gallery_application_name: str,
-        gallery_application_version_name: str,
-        gallery_application_version: Union[_models.GalleryApplicationVersionUpdate, IO[bytes]],
-        **kwargs: Any
-    ) -> Iterator[bytes]:
-        error_map: MutableMapping = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
-        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
-
-        content_type = content_type or "application/json"
-        _json = None
-        _content = None
-        if isinstance(gallery_application_version, (IOBase, bytes)):
-            _content = gallery_application_version
-        else:
-            _json = self._serialize.body(gallery_application_version, "GalleryApplicationVersionUpdate")
-
-        _request = build_gallery_application_versions_update_request(
-            resource_group_name=resource_group_name,
-            gallery_name=gallery_name,
-            gallery_application_name=gallery_application_name,
-            gallery_application_version_name=gallery_application_version_name,
-            subscription_id=self._config.subscription_id,
-            api_version=api_version,
-            content_type=content_type,
-            json=_json,
-            content=_content,
-            headers=_headers,
-            params=_params,
-        )
-        _request.url = self._client.format_url(_request.url)
-
-        _decompress = kwargs.pop("decompress", True)
-        _stream = True
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            _request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200]:
-            try:
-                response.read()  # Load the body in memory and close the socket
-            except (StreamConsumedError, StreamClosedError):
-                pass
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
-
-        deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
-
-        return deserialized  # type: ignore
-
-    @overload
-    def begin_update(
-        self,
-        resource_group_name: str,
-        gallery_name: str,
-        gallery_application_name: str,
-        gallery_application_version_name: str,
-        gallery_application_version: _models.GalleryApplicationVersionUpdate,
-        *,
-        content_type: str = "application/json",
-        **kwargs: Any
-    ) -> LROPoller[_models.GalleryApplicationVersion]:
-        """Update a gallery Application Version.
-
-        :param resource_group_name: The name of the resource group. Required.
-        :type resource_group_name: str
-        :param gallery_name: The name of the Shared Application Gallery in which the Application
-         Definition resides. Required.
-        :type gallery_name: str
-        :param gallery_application_name: The name of the gallery Application Definition in which the
-         Application Version is to be updated. Required.
-        :type gallery_application_name: str
-        :param gallery_application_version_name: The name of the gallery Application Version to be
-         updated. Needs to follow semantic version name pattern: The allowed characters are digit and
-         period. Digits must be within the range of a 32-bit integer. Format: :code:`<MajorVersion>`.\\
-         :code:`<MinorVersion>`.\\ :code:`<Patch>`. Required.
-        :type gallery_application_version_name: str
-        :param gallery_application_version: Parameters supplied to the update gallery Application
-         Version operation. Required.
-        :type gallery_application_version:
-         ~azure.mgmt.compute.v2023_07_03.models.GalleryApplicationVersionUpdate
-        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :return: An instance of LROPoller that returns either GalleryApplicationVersion or the result
-         of cls(response)
-        :rtype:
-         ~azure.core.polling.LROPoller[~azure.mgmt.compute.v2023_07_03.models.GalleryApplicationVersion]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @overload
-    def begin_update(
-        self,
-        resource_group_name: str,
-        gallery_name: str,
-        gallery_application_name: str,
-        gallery_application_version_name: str,
-        gallery_application_version: IO[bytes],
-        *,
-        content_type: str = "application/json",
-        **kwargs: Any
-    ) -> LROPoller[_models.GalleryApplicationVersion]:
-        """Update a gallery Application Version.
-
-        :param resource_group_name: The name of the resource group. Required.
-        :type resource_group_name: str
-        :param gallery_name: The name of the Shared Application Gallery in which the Application
-         Definition resides. Required.
-        :type gallery_name: str
-        :param gallery_application_name: The name of the gallery Application Definition in which the
-         Application Version is to be updated. Required.
-        :type gallery_application_name: str
-        :param gallery_application_version_name: The name of the gallery Application Version to be
-         updated. Needs to follow semantic version name pattern: The allowed characters are digit and
-         period. Digits must be within the range of a 32-bit integer. Format: :code:`<MajorVersion>`.\\
-         :code:`<MinorVersion>`.\\ :code:`<Patch>`. Required.
-        :type gallery_application_version_name: str
-        :param gallery_application_version: Parameters supplied to the update gallery Application
-         Version operation. Required.
-        :type gallery_application_version: IO[bytes]
-        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :return: An instance of LROPoller that returns either GalleryApplicationVersion or the result
-         of cls(response)
-        :rtype:
-         ~azure.core.polling.LROPoller[~azure.mgmt.compute.v2023_07_03.models.GalleryApplicationVersion]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @distributed_trace
-    def begin_update(
-        self,
-        resource_group_name: str,
-        gallery_name: str,
-        gallery_application_name: str,
-        gallery_application_version_name: str,
-        gallery_application_version: Union[_models.GalleryApplicationVersionUpdate, IO[bytes]],
-        **kwargs: Any
-    ) -> LROPoller[_models.GalleryApplicationVersion]:
-        """Update a gallery Application Version.
-
-        :param resource_group_name: The name of the resource group. Required.
-        :type resource_group_name: str
-        :param gallery_name: The name of the Shared Application Gallery in which the Application
-         Definition resides. Required.
-        :type gallery_name: str
-        :param gallery_application_name: The name of the gallery Application Definition in which the
-         Application Version is to be updated. Required.
-        :type gallery_application_name: str
-        :param gallery_application_version_name: The name of the gallery Application Version to be
-         updated. Needs to follow semantic version name pattern: The allowed characters are digit and
-         period. Digits must be within the range of a 32-bit integer. Format: :code:`<MajorVersion>`.\\
-         :code:`<MinorVersion>`.\\ :code:`<Patch>`. Required.
-        :type gallery_application_version_name: str
-        :param gallery_application_version: Parameters supplied to the update gallery Application
-         Version operation. Is either a GalleryApplicationVersionUpdate type or a IO[bytes] type.
-         Required.
-        :type gallery_application_version:
-         ~azure.mgmt.compute.v2023_07_03.models.GalleryApplicationVersionUpdate or IO[bytes]
-        :return: An instance of LROPoller that returns either GalleryApplicationVersion or the result
-         of cls(response)
-        :rtype:
-         ~azure.core.polling.LROPoller[~azure.mgmt.compute.v2023_07_03.models.GalleryApplicationVersion]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
-        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.GalleryApplicationVersion] = kwargs.pop("cls", None)
-        polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
-        lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
-        cont_token: Optional[str] = kwargs.pop("continuation_token", None)
-        if cont_token is None:
-            raw_result = self._update_initial(
-                resource_group_name=resource_group_name,
-                gallery_name=gallery_name,
-                gallery_application_name=gallery_application_name,
-                gallery_application_version_name=gallery_application_version_name,
-                gallery_application_version=gallery_application_version,
-                api_version=api_version,
-                content_type=content_type,
-                cls=lambda x, y, z: x,
-                headers=_headers,
-                params=_params,
-                **kwargs
-            )
-            raw_result.http_response.read()  # type: ignore
-        kwargs.pop("error_map", None)
-
-        def get_long_running_output(pipeline_response):
-            deserialized = self._deserialize("GalleryApplicationVersion", pipeline_response.http_response)
-            if cls:
-                return cls(pipeline_response, deserialized, {})  # type: ignore
-            return deserialized
-
-        if polling is True:
-            polling_method: PollingMethod = cast(PollingMethod, ARMPolling(lro_delay, **kwargs))
-        elif polling is False:
-            polling_method = cast(PollingMethod, NoPolling())
-        else:
-            polling_method = polling
-        if cont_token:
-            return LROPoller[_models.GalleryApplicationVersion].from_continuation_token(
-                polling_method=polling_method,
-                continuation_token=cont_token,
-                client=self._client,
-                deserialization_callback=get_long_running_output,
-            )
-        return LROPoller[_models.GalleryApplicationVersion](
-            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
-        )
-
-    @distributed_trace
-    def get(
-        self,
-        resource_group_name: str,
-        gallery_name: str,
-        gallery_application_name: str,
-        gallery_application_version_name: str,
-        *,
-        expand: Optional[Union[str, _models.ReplicationStatusTypes]] = None,
-        **kwargs: Any
-    ) -> _models.GalleryApplicationVersion:
-        """Retrieves information about a gallery Application Version.
-
-        :param resource_group_name: The name of the resource group. Required.
-        :type resource_group_name: str
-        :param gallery_name: The name of the Shared Application Gallery in which the Application
-         Definition resides. Required.
-        :type gallery_name: str
-        :param gallery_application_name: The name of the gallery Application Definition in which the
-         Application Version resides. Required.
-        :type gallery_application_name: str
-        :param gallery_application_version_name: The name of the gallery Application Version to be
-         retrieved. Required.
-        :type gallery_application_version_name: str
-        :keyword expand: The expand expression to apply on the operation. Known values are:
-         "ReplicationStatus" and "UefiSettings". Default value is None.
-        :paramtype expand: str or ~azure.mgmt.compute.v2023_07_03.models.ReplicationStatusTypes
-        :return: GalleryApplicationVersion or the result of cls(response)
-        :rtype: ~azure.mgmt.compute.v2023_07_03.models.GalleryApplicationVersion
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        error_map: MutableMapping = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
-        cls: ClsType[_models.GalleryApplicationVersion] = kwargs.pop("cls", None)
-
-        _request = build_gallery_application_versions_get_request(
-            resource_group_name=resource_group_name,
-            gallery_name=gallery_name,
-            gallery_application_name=gallery_application_name,
-            gallery_application_version_name=gallery_application_version_name,
-            subscription_id=self._config.subscription_id,
-            expand=expand,
-            api_version=api_version,
-            headers=_headers,
-            params=_params,
-        )
-        _request.url = self._client.format_url(_request.url)
-
-        _stream = False
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            _request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
-
-        deserialized = self._deserialize("GalleryApplicationVersion", pipeline_response.http_response)
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
-
-        return deserialized  # type: ignore
-
-    def _delete_initial(
-        self,
-        resource_group_name: str,
-        gallery_name: str,
-        gallery_application_name: str,
-        gallery_application_version_name: str,
-        **kwargs: Any
-    ) -> Iterator[bytes]:
-        error_map: MutableMapping = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
-        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
-
-        _request = build_gallery_application_versions_delete_request(
-            resource_group_name=resource_group_name,
-            gallery_name=gallery_name,
-            gallery_application_name=gallery_application_name,
-            gallery_application_version_name=gallery_application_version_name,
-            subscription_id=self._config.subscription_id,
-            api_version=api_version,
-            headers=_headers,
-            params=_params,
-        )
-        _request.url = self._client.format_url(_request.url)
-
-        _decompress = kwargs.pop("decompress", True)
-        _stream = True
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            _request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200, 202, 204]:
-            try:
-                response.read()  # Load the body in memory and close the socket
-            except (StreamConsumedError, StreamClosedError):
-                pass
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
-
-        deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
-
-        return deserialized  # type: ignore
-
-    @distributed_trace
-    def begin_delete(
-        self,
-        resource_group_name: str,
-        gallery_name: str,
-        gallery_application_name: str,
-        gallery_application_version_name: str,
-        **kwargs: Any
-    ) -> LROPoller[None]:
-        """Delete a gallery Application Version.
-
-        :param resource_group_name: The name of the resource group. Required.
-        :type resource_group_name: str
-        :param gallery_name: The name of the Shared Application Gallery in which the Application
-         Definition resides. Required.
-        :type gallery_name: str
-        :param gallery_application_name: The name of the gallery Application Definition in which the
-         Application Version resides. Required.
-        :type gallery_application_name: str
-        :param gallery_application_version_name: The name of the gallery Application Version to be
-         deleted. Required.
-        :type gallery_application_version_name: str
-        :return: An instance of LROPoller that returns either None or the result of cls(response)
-        :rtype: ~azure.core.polling.LROPoller[None]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
-        cls: ClsType[None] = kwargs.pop("cls", None)
-        polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
-        lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
-        cont_token: Optional[str] = kwargs.pop("continuation_token", None)
-        if cont_token is None:
-            raw_result = self._delete_initial(
-                resource_group_name=resource_group_name,
-                gallery_name=gallery_name,
-                gallery_application_name=gallery_application_name,
-                gallery_application_version_name=gallery_application_version_name,
-                api_version=api_version,
-                cls=lambda x, y, z: x,
-                headers=_headers,
-                params=_params,
-                **kwargs
-            )
-            raw_result.http_response.read()  # type: ignore
-        kwargs.pop("error_map", None)
-
-        def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
-            if cls:
-                return cls(pipeline_response, None, {})  # type: ignore
-
-        if polling is True:
-            polling_method: PollingMethod = cast(PollingMethod, ARMPolling(lro_delay, **kwargs))
-        elif polling is False:
-            polling_method = cast(PollingMethod, NoPolling())
-        else:
-            polling_method = polling
-        if cont_token:
-            return LROPoller[None].from_continuation_token(
-                polling_method=polling_method,
-                continuation_token=cont_token,
-                client=self._client,
-                deserialization_callback=get_long_running_output,
-            )
-        return LROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
     @distributed_trace
     def list_by_gallery_application(
         self, resource_group_name: str, gallery_name: str, gallery_application_name: str, **kwargs: Any
     ) -> Iterable["_models.GalleryApplicationVersion"]:
         """List gallery Application Versions in a gallery Application Definition.
 
-        :param resource_group_name: The name of the resource group. Required.
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
         :type resource_group_name: str
-        :param gallery_name: The name of the Shared Application Gallery in which the Application
-         Definition resides. Required.
+        :param gallery_name: The name of the Shared Image Gallery. Required.
         :type gallery_name: str
-        :param gallery_application_name: The name of the Shared Application Gallery Application
-         Definition from which the Application Versions are to be listed. Required.
+        :param gallery_application_name: The name of the gallery Application Definition to be
+         retrieved. Required.
         :type gallery_application_name: str
         :return: An iterator like instance of either GalleryApplicationVersion or the result of
          cls(response)
@@ -5053,11 +3953,2199 @@ class GalleryApplicationVersionsOperations:
 
             if response.status_code not in [200]:
                 map_error(status_code=response.status_code, response=response, error_map=error_map)
-                raise HttpResponseError(response=response, error_format=ARMErrorFormat)
+                error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+                raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
+
+    @distributed_trace
+    def get(
+        self,
+        resource_group_name: str,
+        gallery_name: str,
+        gallery_application_name: str,
+        gallery_application_version_name: str,
+        *,
+        expand: Optional[Union[str, _models.ReplicationStatusTypes]] = None,
+        **kwargs: Any
+    ) -> _models.GalleryApplicationVersion:
+        """Retrieves information about a gallery Application Version.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param gallery_name: The name of the Shared Image Gallery. Required.
+        :type gallery_name: str
+        :param gallery_application_name: The name of the gallery Application Definition to be
+         retrieved. Required.
+        :type gallery_application_name: str
+        :param gallery_application_version_name: The name of the gallery Application Version to be
+         retrieved. Required.
+        :type gallery_application_version_name: str
+        :keyword expand: The expand expression to apply on the operation. Known values are:
+         "ReplicationStatus" and "UefiSettings". Default value is None.
+        :paramtype expand: str or ~azure.mgmt.compute.v2023_07_03.models.ReplicationStatusTypes
+        :return: GalleryApplicationVersion or the result of cls(response)
+        :rtype: ~azure.mgmt.compute.v2023_07_03.models.GalleryApplicationVersion
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
+        cls: ClsType[_models.GalleryApplicationVersion] = kwargs.pop("cls", None)
+
+        _request = build_gallery_application_versions_get_request(
+            resource_group_name=resource_group_name,
+            gallery_name=gallery_name,
+            gallery_application_name=gallery_application_name,
+            gallery_application_version_name=gallery_application_version_name,
+            subscription_id=self._config.subscription_id,
+            expand=expand,
+            api_version=api_version,
+            headers=_headers,
+            params=_params,
+        )
+        _request.url = self._client.format_url(_request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        deserialized = self._deserialize("GalleryApplicationVersion", pipeline_response.http_response)
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
+
+    def _create_or_update_initial(
+        self,
+        resource_group_name: str,
+        gallery_name: str,
+        gallery_application_name: str,
+        gallery_application_version_name: str,
+        gallery_application_version: Union[_models.GalleryApplicationVersion, IO[bytes]],
+        **kwargs: Any
+    ) -> Iterator[bytes]:
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
+
+        content_type = content_type or "application/json"
+        _json = None
+        _content = None
+        if isinstance(gallery_application_version, (IOBase, bytes)):
+            _content = gallery_application_version
+        else:
+            _json = self._serialize.body(gallery_application_version, "GalleryApplicationVersion")
+
+        _request = build_gallery_application_versions_create_or_update_request(
+            resource_group_name=resource_group_name,
+            gallery_name=gallery_name,
+            gallery_application_name=gallery_application_name,
+            gallery_application_version_name=gallery_application_version_name,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            content_type=content_type,
+            json=_json,
+            content=_content,
+            headers=_headers,
+            params=_params,
+        )
+        _request.url = self._client.format_url(_request.url)
+
+        _decompress = kwargs.pop("decompress", True)
+        _stream = True
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200, 201, 202]:
+            try:
+                response.read()  # Load the body in memory and close the socket
+            except (StreamConsumedError, StreamClosedError):
+                pass
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        response_headers = {}
+        if response.status_code == 201:
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
+
+        if response.status_code == 202:
+            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
+
+        deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
+
+        if cls:
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
+
+        return deserialized  # type: ignore
+
+    @overload
+    def begin_create_or_update(
+        self,
+        resource_group_name: str,
+        gallery_name: str,
+        gallery_application_name: str,
+        gallery_application_version_name: str,
+        gallery_application_version: _models.GalleryApplicationVersion,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> LROPoller[_models.GalleryApplicationVersion]:
+        """Create or update a gallery Application Version.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param gallery_name: The name of the Shared Image Gallery. Required.
+        :type gallery_name: str
+        :param gallery_application_name: The name of the gallery Application Definition to be
+         retrieved. Required.
+        :type gallery_application_name: str
+        :param gallery_application_version_name: The name of the gallery Application Version to be
+         retrieved. Required.
+        :type gallery_application_version_name: str
+        :param gallery_application_version: Parameters supplied to the create or update gallery
+         Application Version operation. Required.
+        :type gallery_application_version:
+         ~azure.mgmt.compute.v2023_07_03.models.GalleryApplicationVersion
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: An instance of LROPoller that returns either GalleryApplicationVersion or the result
+         of cls(response)
+        :rtype:
+         ~azure.core.polling.LROPoller[~azure.mgmt.compute.v2023_07_03.models.GalleryApplicationVersion]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    def begin_create_or_update(
+        self,
+        resource_group_name: str,
+        gallery_name: str,
+        gallery_application_name: str,
+        gallery_application_version_name: str,
+        gallery_application_version: IO[bytes],
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> LROPoller[_models.GalleryApplicationVersion]:
+        """Create or update a gallery Application Version.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param gallery_name: The name of the Shared Image Gallery. Required.
+        :type gallery_name: str
+        :param gallery_application_name: The name of the gallery Application Definition to be
+         retrieved. Required.
+        :type gallery_application_name: str
+        :param gallery_application_version_name: The name of the gallery Application Version to be
+         retrieved. Required.
+        :type gallery_application_version_name: str
+        :param gallery_application_version: Parameters supplied to the create or update gallery
+         Application Version operation. Required.
+        :type gallery_application_version: IO[bytes]
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: An instance of LROPoller that returns either GalleryApplicationVersion or the result
+         of cls(response)
+        :rtype:
+         ~azure.core.polling.LROPoller[~azure.mgmt.compute.v2023_07_03.models.GalleryApplicationVersion]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace
+    def begin_create_or_update(
+        self,
+        resource_group_name: str,
+        gallery_name: str,
+        gallery_application_name: str,
+        gallery_application_version_name: str,
+        gallery_application_version: Union[_models.GalleryApplicationVersion, IO[bytes]],
+        **kwargs: Any
+    ) -> LROPoller[_models.GalleryApplicationVersion]:
+        """Create or update a gallery Application Version.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param gallery_name: The name of the Shared Image Gallery. Required.
+        :type gallery_name: str
+        :param gallery_application_name: The name of the gallery Application Definition to be
+         retrieved. Required.
+        :type gallery_application_name: str
+        :param gallery_application_version_name: The name of the gallery Application Version to be
+         retrieved. Required.
+        :type gallery_application_version_name: str
+        :param gallery_application_version: Parameters supplied to the create or update gallery
+         Application Version operation. Is either a GalleryApplicationVersion type or a IO[bytes] type.
+         Required.
+        :type gallery_application_version:
+         ~azure.mgmt.compute.v2023_07_03.models.GalleryApplicationVersion or IO[bytes]
+        :return: An instance of LROPoller that returns either GalleryApplicationVersion or the result
+         of cls(response)
+        :rtype:
+         ~azure.core.polling.LROPoller[~azure.mgmt.compute.v2023_07_03.models.GalleryApplicationVersion]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.GalleryApplicationVersion] = kwargs.pop("cls", None)
+        polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
+        lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
+        cont_token: Optional[str] = kwargs.pop("continuation_token", None)
+        if cont_token is None:
+            raw_result = self._create_or_update_initial(
+                resource_group_name=resource_group_name,
+                gallery_name=gallery_name,
+                gallery_application_name=gallery_application_name,
+                gallery_application_version_name=gallery_application_version_name,
+                gallery_application_version=gallery_application_version,
+                api_version=api_version,
+                content_type=content_type,
+                cls=lambda x, y, z: x,
+                headers=_headers,
+                params=_params,
+                **kwargs
+            )
+            raw_result.http_response.read()  # type: ignore
+        kwargs.pop("error_map", None)
+
+        def get_long_running_output(pipeline_response):
+            deserialized = self._deserialize("GalleryApplicationVersion", pipeline_response.http_response)
+            if cls:
+                return cls(pipeline_response, deserialized, {})  # type: ignore
+            return deserialized
+
+        if polling is True:
+            polling_method: PollingMethod = cast(
+                PollingMethod, ARMPolling(lro_delay, lro_options={"final-state-via": "location"}, **kwargs)
+            )
+        elif polling is False:
+            polling_method = cast(PollingMethod, NoPolling())
+        else:
+            polling_method = polling
+        if cont_token:
+            return LROPoller[_models.GalleryApplicationVersion].from_continuation_token(
+                polling_method=polling_method,
+                continuation_token=cont_token,
+                client=self._client,
+                deserialization_callback=get_long_running_output,
+            )
+        return LROPoller[_models.GalleryApplicationVersion](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
+
+    def _update_initial(
+        self,
+        resource_group_name: str,
+        gallery_name: str,
+        gallery_application_name: str,
+        gallery_application_version_name: str,
+        gallery_application_version: Union[_models.GalleryApplicationVersionUpdate, IO[bytes]],
+        **kwargs: Any
+    ) -> Iterator[bytes]:
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
+
+        content_type = content_type or "application/json"
+        _json = None
+        _content = None
+        if isinstance(gallery_application_version, (IOBase, bytes)):
+            _content = gallery_application_version
+        else:
+            _json = self._serialize.body(gallery_application_version, "GalleryApplicationVersionUpdate")
+
+        _request = build_gallery_application_versions_update_request(
+            resource_group_name=resource_group_name,
+            gallery_name=gallery_name,
+            gallery_application_name=gallery_application_name,
+            gallery_application_version_name=gallery_application_version_name,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            content_type=content_type,
+            json=_json,
+            content=_content,
+            headers=_headers,
+            params=_params,
+        )
+        _request.url = self._client.format_url(_request.url)
+
+        _decompress = kwargs.pop("decompress", True)
+        _stream = True
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200, 202]:
+            try:
+                response.read()  # Load the body in memory and close the socket
+            except (StreamConsumedError, StreamClosedError):
+                pass
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        response_headers = {}
+        if response.status_code == 202:
+            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
+
+        deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
+
+        if cls:
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
+
+        return deserialized  # type: ignore
+
+    @overload
+    def begin_update(
+        self,
+        resource_group_name: str,
+        gallery_name: str,
+        gallery_application_name: str,
+        gallery_application_version_name: str,
+        gallery_application_version: _models.GalleryApplicationVersionUpdate,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> LROPoller[_models.GalleryApplicationVersion]:
+        """Update a gallery Application Version.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param gallery_name: The name of the Shared Image Gallery. Required.
+        :type gallery_name: str
+        :param gallery_application_name: The name of the gallery Application Definition to be
+         retrieved. Required.
+        :type gallery_application_name: str
+        :param gallery_application_version_name: The name of the gallery Application Version to be
+         retrieved. Required.
+        :type gallery_application_version_name: str
+        :param gallery_application_version: Parameters supplied to the update gallery Application
+         Version operation. Required.
+        :type gallery_application_version:
+         ~azure.mgmt.compute.v2023_07_03.models.GalleryApplicationVersionUpdate
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: An instance of LROPoller that returns either GalleryApplicationVersion or the result
+         of cls(response)
+        :rtype:
+         ~azure.core.polling.LROPoller[~azure.mgmt.compute.v2023_07_03.models.GalleryApplicationVersion]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    def begin_update(
+        self,
+        resource_group_name: str,
+        gallery_name: str,
+        gallery_application_name: str,
+        gallery_application_version_name: str,
+        gallery_application_version: IO[bytes],
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> LROPoller[_models.GalleryApplicationVersion]:
+        """Update a gallery Application Version.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param gallery_name: The name of the Shared Image Gallery. Required.
+        :type gallery_name: str
+        :param gallery_application_name: The name of the gallery Application Definition to be
+         retrieved. Required.
+        :type gallery_application_name: str
+        :param gallery_application_version_name: The name of the gallery Application Version to be
+         retrieved. Required.
+        :type gallery_application_version_name: str
+        :param gallery_application_version: Parameters supplied to the update gallery Application
+         Version operation. Required.
+        :type gallery_application_version: IO[bytes]
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: An instance of LROPoller that returns either GalleryApplicationVersion or the result
+         of cls(response)
+        :rtype:
+         ~azure.core.polling.LROPoller[~azure.mgmt.compute.v2023_07_03.models.GalleryApplicationVersion]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace
+    def begin_update(
+        self,
+        resource_group_name: str,
+        gallery_name: str,
+        gallery_application_name: str,
+        gallery_application_version_name: str,
+        gallery_application_version: Union[_models.GalleryApplicationVersionUpdate, IO[bytes]],
+        **kwargs: Any
+    ) -> LROPoller[_models.GalleryApplicationVersion]:
+        """Update a gallery Application Version.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param gallery_name: The name of the Shared Image Gallery. Required.
+        :type gallery_name: str
+        :param gallery_application_name: The name of the gallery Application Definition to be
+         retrieved. Required.
+        :type gallery_application_name: str
+        :param gallery_application_version_name: The name of the gallery Application Version to be
+         retrieved. Required.
+        :type gallery_application_version_name: str
+        :param gallery_application_version: Parameters supplied to the update gallery Application
+         Version operation. Is either a GalleryApplicationVersionUpdate type or a IO[bytes] type.
+         Required.
+        :type gallery_application_version:
+         ~azure.mgmt.compute.v2023_07_03.models.GalleryApplicationVersionUpdate or IO[bytes]
+        :return: An instance of LROPoller that returns either GalleryApplicationVersion or the result
+         of cls(response)
+        :rtype:
+         ~azure.core.polling.LROPoller[~azure.mgmt.compute.v2023_07_03.models.GalleryApplicationVersion]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.GalleryApplicationVersion] = kwargs.pop("cls", None)
+        polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
+        lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
+        cont_token: Optional[str] = kwargs.pop("continuation_token", None)
+        if cont_token is None:
+            raw_result = self._update_initial(
+                resource_group_name=resource_group_name,
+                gallery_name=gallery_name,
+                gallery_application_name=gallery_application_name,
+                gallery_application_version_name=gallery_application_version_name,
+                gallery_application_version=gallery_application_version,
+                api_version=api_version,
+                content_type=content_type,
+                cls=lambda x, y, z: x,
+                headers=_headers,
+                params=_params,
+                **kwargs
+            )
+            raw_result.http_response.read()  # type: ignore
+        kwargs.pop("error_map", None)
+
+        def get_long_running_output(pipeline_response):
+            deserialized = self._deserialize("GalleryApplicationVersion", pipeline_response.http_response)
+            if cls:
+                return cls(pipeline_response, deserialized, {})  # type: ignore
+            return deserialized
+
+        if polling is True:
+            polling_method: PollingMethod = cast(
+                PollingMethod, ARMPolling(lro_delay, lro_options={"final-state-via": "location"}, **kwargs)
+            )
+        elif polling is False:
+            polling_method = cast(PollingMethod, NoPolling())
+        else:
+            polling_method = polling
+        if cont_token:
+            return LROPoller[_models.GalleryApplicationVersion].from_continuation_token(
+                polling_method=polling_method,
+                continuation_token=cont_token,
+                client=self._client,
+                deserialization_callback=get_long_running_output,
+            )
+        return LROPoller[_models.GalleryApplicationVersion](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
+
+    def _delete_initial(
+        self,
+        resource_group_name: str,
+        gallery_name: str,
+        gallery_application_name: str,
+        gallery_application_version_name: str,
+        **kwargs: Any
+    ) -> Iterator[bytes]:
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
+        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
+
+        _request = build_gallery_application_versions_delete_request(
+            resource_group_name=resource_group_name,
+            gallery_name=gallery_name,
+            gallery_application_name=gallery_application_name,
+            gallery_application_version_name=gallery_application_version_name,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            headers=_headers,
+            params=_params,
+        )
+        _request.url = self._client.format_url(_request.url)
+
+        _decompress = kwargs.pop("decompress", True)
+        _stream = True
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200, 202, 204]:
+            try:
+                response.read()  # Load the body in memory and close the socket
+            except (StreamConsumedError, StreamClosedError):
+                pass
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        response_headers = {}
+        if response.status_code == 202:
+            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
+
+        deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
+
+        if cls:
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
+
+        return deserialized  # type: ignore
+
+    @distributed_trace
+    def begin_delete(
+        self,
+        resource_group_name: str,
+        gallery_name: str,
+        gallery_application_name: str,
+        gallery_application_version_name: str,
+        **kwargs: Any
+    ) -> LROPoller[None]:
+        """Delete a gallery Application Version.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param gallery_name: The name of the Shared Image Gallery. Required.
+        :type gallery_name: str
+        :param gallery_application_name: The name of the gallery Application Definition to be
+         retrieved. Required.
+        :type gallery_application_name: str
+        :param gallery_application_version_name: The name of the gallery Application Version to be
+         retrieved. Required.
+        :type gallery_application_version_name: str
+        :return: An instance of LROPoller that returns either None or the result of cls(response)
+        :rtype: ~azure.core.polling.LROPoller[None]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
+        cls: ClsType[None] = kwargs.pop("cls", None)
+        polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
+        lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
+        cont_token: Optional[str] = kwargs.pop("continuation_token", None)
+        if cont_token is None:
+            raw_result = self._delete_initial(
+                resource_group_name=resource_group_name,
+                gallery_name=gallery_name,
+                gallery_application_name=gallery_application_name,
+                gallery_application_version_name=gallery_application_version_name,
+                api_version=api_version,
+                cls=lambda x, y, z: x,
+                headers=_headers,
+                params=_params,
+                **kwargs
+            )
+            raw_result.http_response.read()  # type: ignore
+        kwargs.pop("error_map", None)
+
+        def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
+            if cls:
+                return cls(pipeline_response, None, {})  # type: ignore
+
+        if polling is True:
+            polling_method: PollingMethod = cast(
+                PollingMethod, ARMPolling(lro_delay, lro_options={"final-state-via": "location"}, **kwargs)
+            )
+        elif polling is False:
+            polling_method = cast(PollingMethod, NoPolling())
+        else:
+            polling_method = polling
+        if cont_token:
+            return LROPoller[None].from_continuation_token(
+                polling_method=polling_method,
+                continuation_token=cont_token,
+                client=self._client,
+                deserialization_callback=get_long_running_output,
+            )
+        return LROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
+
+
+class GalleryImagesOperations:
+    """
+    .. warning::
+        **DO NOT** instantiate this class directly.
+
+        Instead, you should access the following operations through
+        :class:`~azure.mgmt.compute.v2023_07_03.ComputeManagementClient`'s
+        :attr:`gallery_images` attribute.
+    """
+
+    models = _models
+
+    def __init__(self, *args, **kwargs):
+        input_args = list(args)
+        self._client = input_args.pop(0) if input_args else kwargs.pop("client")
+        self._config = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
+        self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
+        self._api_version = input_args.pop(0) if input_args else kwargs.pop("api_version")
+
+    @distributed_trace
+    def list_by_gallery(
+        self, resource_group_name: str, gallery_name: str, **kwargs: Any
+    ) -> Iterable["_models.GalleryImage"]:
+        """List gallery image definitions in a gallery.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param gallery_name: The name of the Shared Image Gallery. Required.
+        :type gallery_name: str
+        :return: An iterator like instance of either GalleryImage or the result of cls(response)
+        :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.compute.v2023_07_03.models.GalleryImage]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
+        cls: ClsType[_models.GalleryImageList] = kwargs.pop("cls", None)
+
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        def prepare_request(next_link=None):
+            if not next_link:
+
+                _request = build_gallery_images_list_by_gallery_request(
+                    resource_group_name=resource_group_name,
+                    gallery_name=gallery_name,
+                    subscription_id=self._config.subscription_id,
+                    api_version=api_version,
+                    headers=_headers,
+                    params=_params,
+                )
+                _request.url = self._client.format_url(_request.url)
+
+            else:
+                # make call to next link with the client's api-version
+                _parsed_next_link = urllib.parse.urlparse(next_link)
+                _next_request_params = case_insensitive_dict(
+                    {
+                        key: [urllib.parse.quote(v) for v in value]
+                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
+                    }
+                )
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
+                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
+                )
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
+
+        def extract_data(pipeline_response):
+            deserialized = self._deserialize("GalleryImageList", pipeline_response)
+            list_of_elem = deserialized.value
+            if cls:
+                list_of_elem = cls(list_of_elem)  # type: ignore
+            return deserialized.next_link or None, iter(list_of_elem)
+
+        def get_next(next_link=None):
+            _request = prepare_request(next_link)
+
+            _stream = False
+            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+                _request, stream=_stream, **kwargs
+            )
+            response = pipeline_response.http_response
+
+            if response.status_code not in [200]:
+                map_error(status_code=response.status_code, response=response, error_map=error_map)
+                error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+                raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+            return pipeline_response
+
+        return ItemPaged(get_next, extract_data)
+
+    @distributed_trace
+    def get(
+        self, resource_group_name: str, gallery_name: str, gallery_image_name: str, **kwargs: Any
+    ) -> _models.GalleryImage:
+        """Retrieves information about a gallery image definition.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param gallery_name: The name of the Shared Image Gallery. Required.
+        :type gallery_name: str
+        :param gallery_image_name: The name of the gallery image definition to be retrieved. Required.
+        :type gallery_image_name: str
+        :return: GalleryImage or the result of cls(response)
+        :rtype: ~azure.mgmt.compute.v2023_07_03.models.GalleryImage
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
+        cls: ClsType[_models.GalleryImage] = kwargs.pop("cls", None)
+
+        _request = build_gallery_images_get_request(
+            resource_group_name=resource_group_name,
+            gallery_name=gallery_name,
+            gallery_image_name=gallery_image_name,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            headers=_headers,
+            params=_params,
+        )
+        _request.url = self._client.format_url(_request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        deserialized = self._deserialize("GalleryImage", pipeline_response.http_response)
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
+
+    def _create_or_update_initial(
+        self,
+        resource_group_name: str,
+        gallery_name: str,
+        gallery_image_name: str,
+        gallery_image: Union[_models.GalleryImage, IO[bytes]],
+        **kwargs: Any
+    ) -> Iterator[bytes]:
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
+
+        content_type = content_type or "application/json"
+        _json = None
+        _content = None
+        if isinstance(gallery_image, (IOBase, bytes)):
+            _content = gallery_image
+        else:
+            _json = self._serialize.body(gallery_image, "GalleryImage")
+
+        _request = build_gallery_images_create_or_update_request(
+            resource_group_name=resource_group_name,
+            gallery_name=gallery_name,
+            gallery_image_name=gallery_image_name,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            content_type=content_type,
+            json=_json,
+            content=_content,
+            headers=_headers,
+            params=_params,
+        )
+        _request.url = self._client.format_url(_request.url)
+
+        _decompress = kwargs.pop("decompress", True)
+        _stream = True
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200, 201, 202]:
+            try:
+                response.read()  # Load the body in memory and close the socket
+            except (StreamConsumedError, StreamClosedError):
+                pass
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        response_headers = {}
+        if response.status_code == 201:
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
+
+        if response.status_code == 202:
+            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
+
+        deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
+
+        if cls:
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
+
+        return deserialized  # type: ignore
+
+    @overload
+    def begin_create_or_update(
+        self,
+        resource_group_name: str,
+        gallery_name: str,
+        gallery_image_name: str,
+        gallery_image: _models.GalleryImage,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> LROPoller[_models.GalleryImage]:
+        """Create or update a gallery image definition.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param gallery_name: The name of the Shared Image Gallery. Required.
+        :type gallery_name: str
+        :param gallery_image_name: The name of the gallery image definition to be retrieved. Required.
+        :type gallery_image_name: str
+        :param gallery_image: Parameters supplied to the create or update gallery image operation.
+         Required.
+        :type gallery_image: ~azure.mgmt.compute.v2023_07_03.models.GalleryImage
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: An instance of LROPoller that returns either GalleryImage or the result of
+         cls(response)
+        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.compute.v2023_07_03.models.GalleryImage]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    def begin_create_or_update(
+        self,
+        resource_group_name: str,
+        gallery_name: str,
+        gallery_image_name: str,
+        gallery_image: IO[bytes],
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> LROPoller[_models.GalleryImage]:
+        """Create or update a gallery image definition.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param gallery_name: The name of the Shared Image Gallery. Required.
+        :type gallery_name: str
+        :param gallery_image_name: The name of the gallery image definition to be retrieved. Required.
+        :type gallery_image_name: str
+        :param gallery_image: Parameters supplied to the create or update gallery image operation.
+         Required.
+        :type gallery_image: IO[bytes]
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: An instance of LROPoller that returns either GalleryImage or the result of
+         cls(response)
+        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.compute.v2023_07_03.models.GalleryImage]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace
+    def begin_create_or_update(
+        self,
+        resource_group_name: str,
+        gallery_name: str,
+        gallery_image_name: str,
+        gallery_image: Union[_models.GalleryImage, IO[bytes]],
+        **kwargs: Any
+    ) -> LROPoller[_models.GalleryImage]:
+        """Create or update a gallery image definition.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param gallery_name: The name of the Shared Image Gallery. Required.
+        :type gallery_name: str
+        :param gallery_image_name: The name of the gallery image definition to be retrieved. Required.
+        :type gallery_image_name: str
+        :param gallery_image: Parameters supplied to the create or update gallery image operation. Is
+         either a GalleryImage type or a IO[bytes] type. Required.
+        :type gallery_image: ~azure.mgmt.compute.v2023_07_03.models.GalleryImage or IO[bytes]
+        :return: An instance of LROPoller that returns either GalleryImage or the result of
+         cls(response)
+        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.compute.v2023_07_03.models.GalleryImage]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.GalleryImage] = kwargs.pop("cls", None)
+        polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
+        lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
+        cont_token: Optional[str] = kwargs.pop("continuation_token", None)
+        if cont_token is None:
+            raw_result = self._create_or_update_initial(
+                resource_group_name=resource_group_name,
+                gallery_name=gallery_name,
+                gallery_image_name=gallery_image_name,
+                gallery_image=gallery_image,
+                api_version=api_version,
+                content_type=content_type,
+                cls=lambda x, y, z: x,
+                headers=_headers,
+                params=_params,
+                **kwargs
+            )
+            raw_result.http_response.read()  # type: ignore
+        kwargs.pop("error_map", None)
+
+        def get_long_running_output(pipeline_response):
+            deserialized = self._deserialize("GalleryImage", pipeline_response.http_response)
+            if cls:
+                return cls(pipeline_response, deserialized, {})  # type: ignore
+            return deserialized
+
+        if polling is True:
+            polling_method: PollingMethod = cast(
+                PollingMethod, ARMPolling(lro_delay, lro_options={"final-state-via": "location"}, **kwargs)
+            )
+        elif polling is False:
+            polling_method = cast(PollingMethod, NoPolling())
+        else:
+            polling_method = polling
+        if cont_token:
+            return LROPoller[_models.GalleryImage].from_continuation_token(
+                polling_method=polling_method,
+                continuation_token=cont_token,
+                client=self._client,
+                deserialization_callback=get_long_running_output,
+            )
+        return LROPoller[_models.GalleryImage](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
+
+    def _update_initial(
+        self,
+        resource_group_name: str,
+        gallery_name: str,
+        gallery_image_name: str,
+        gallery_image: Union[_models.GalleryImageUpdate, IO[bytes]],
+        **kwargs: Any
+    ) -> Iterator[bytes]:
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
+
+        content_type = content_type or "application/json"
+        _json = None
+        _content = None
+        if isinstance(gallery_image, (IOBase, bytes)):
+            _content = gallery_image
+        else:
+            _json = self._serialize.body(gallery_image, "GalleryImageUpdate")
+
+        _request = build_gallery_images_update_request(
+            resource_group_name=resource_group_name,
+            gallery_name=gallery_name,
+            gallery_image_name=gallery_image_name,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            content_type=content_type,
+            json=_json,
+            content=_content,
+            headers=_headers,
+            params=_params,
+        )
+        _request.url = self._client.format_url(_request.url)
+
+        _decompress = kwargs.pop("decompress", True)
+        _stream = True
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200, 202]:
+            try:
+                response.read()  # Load the body in memory and close the socket
+            except (StreamConsumedError, StreamClosedError):
+                pass
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        response_headers = {}
+        if response.status_code == 202:
+            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
+
+        deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
+
+        if cls:
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
+
+        return deserialized  # type: ignore
+
+    @overload
+    def begin_update(
+        self,
+        resource_group_name: str,
+        gallery_name: str,
+        gallery_image_name: str,
+        gallery_image: _models.GalleryImageUpdate,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> LROPoller[_models.GalleryImage]:
+        """Update a gallery image definition.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param gallery_name: The name of the Shared Image Gallery. Required.
+        :type gallery_name: str
+        :param gallery_image_name: The name of the gallery image definition to be retrieved. Required.
+        :type gallery_image_name: str
+        :param gallery_image: Parameters supplied to the update gallery image operation. Required.
+        :type gallery_image: ~azure.mgmt.compute.v2023_07_03.models.GalleryImageUpdate
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: An instance of LROPoller that returns either GalleryImage or the result of
+         cls(response)
+        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.compute.v2023_07_03.models.GalleryImage]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    def begin_update(
+        self,
+        resource_group_name: str,
+        gallery_name: str,
+        gallery_image_name: str,
+        gallery_image: IO[bytes],
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> LROPoller[_models.GalleryImage]:
+        """Update a gallery image definition.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param gallery_name: The name of the Shared Image Gallery. Required.
+        :type gallery_name: str
+        :param gallery_image_name: The name of the gallery image definition to be retrieved. Required.
+        :type gallery_image_name: str
+        :param gallery_image: Parameters supplied to the update gallery image operation. Required.
+        :type gallery_image: IO[bytes]
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: An instance of LROPoller that returns either GalleryImage or the result of
+         cls(response)
+        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.compute.v2023_07_03.models.GalleryImage]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace
+    def begin_update(
+        self,
+        resource_group_name: str,
+        gallery_name: str,
+        gallery_image_name: str,
+        gallery_image: Union[_models.GalleryImageUpdate, IO[bytes]],
+        **kwargs: Any
+    ) -> LROPoller[_models.GalleryImage]:
+        """Update a gallery image definition.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param gallery_name: The name of the Shared Image Gallery. Required.
+        :type gallery_name: str
+        :param gallery_image_name: The name of the gallery image definition to be retrieved. Required.
+        :type gallery_image_name: str
+        :param gallery_image: Parameters supplied to the update gallery image operation. Is either a
+         GalleryImageUpdate type or a IO[bytes] type. Required.
+        :type gallery_image: ~azure.mgmt.compute.v2023_07_03.models.GalleryImageUpdate or IO[bytes]
+        :return: An instance of LROPoller that returns either GalleryImage or the result of
+         cls(response)
+        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.compute.v2023_07_03.models.GalleryImage]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.GalleryImage] = kwargs.pop("cls", None)
+        polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
+        lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
+        cont_token: Optional[str] = kwargs.pop("continuation_token", None)
+        if cont_token is None:
+            raw_result = self._update_initial(
+                resource_group_name=resource_group_name,
+                gallery_name=gallery_name,
+                gallery_image_name=gallery_image_name,
+                gallery_image=gallery_image,
+                api_version=api_version,
+                content_type=content_type,
+                cls=lambda x, y, z: x,
+                headers=_headers,
+                params=_params,
+                **kwargs
+            )
+            raw_result.http_response.read()  # type: ignore
+        kwargs.pop("error_map", None)
+
+        def get_long_running_output(pipeline_response):
+            deserialized = self._deserialize("GalleryImage", pipeline_response.http_response)
+            if cls:
+                return cls(pipeline_response, deserialized, {})  # type: ignore
+            return deserialized
+
+        if polling is True:
+            polling_method: PollingMethod = cast(
+                PollingMethod, ARMPolling(lro_delay, lro_options={"final-state-via": "location"}, **kwargs)
+            )
+        elif polling is False:
+            polling_method = cast(PollingMethod, NoPolling())
+        else:
+            polling_method = polling
+        if cont_token:
+            return LROPoller[_models.GalleryImage].from_continuation_token(
+                polling_method=polling_method,
+                continuation_token=cont_token,
+                client=self._client,
+                deserialization_callback=get_long_running_output,
+            )
+        return LROPoller[_models.GalleryImage](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
+
+    def _delete_initial(
+        self, resource_group_name: str, gallery_name: str, gallery_image_name: str, **kwargs: Any
+    ) -> Iterator[bytes]:
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
+        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
+
+        _request = build_gallery_images_delete_request(
+            resource_group_name=resource_group_name,
+            gallery_name=gallery_name,
+            gallery_image_name=gallery_image_name,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            headers=_headers,
+            params=_params,
+        )
+        _request.url = self._client.format_url(_request.url)
+
+        _decompress = kwargs.pop("decompress", True)
+        _stream = True
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200, 202, 204]:
+            try:
+                response.read()  # Load the body in memory and close the socket
+            except (StreamConsumedError, StreamClosedError):
+                pass
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        response_headers = {}
+        if response.status_code == 202:
+            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
+
+        deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
+
+        if cls:
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
+
+        return deserialized  # type: ignore
+
+    @distributed_trace
+    def begin_delete(
+        self, resource_group_name: str, gallery_name: str, gallery_image_name: str, **kwargs: Any
+    ) -> LROPoller[None]:
+        """Delete a gallery image.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param gallery_name: The name of the Shared Image Gallery. Required.
+        :type gallery_name: str
+        :param gallery_image_name: The name of the gallery image definition to be retrieved. Required.
+        :type gallery_image_name: str
+        :return: An instance of LROPoller that returns either None or the result of cls(response)
+        :rtype: ~azure.core.polling.LROPoller[None]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
+        cls: ClsType[None] = kwargs.pop("cls", None)
+        polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
+        lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
+        cont_token: Optional[str] = kwargs.pop("continuation_token", None)
+        if cont_token is None:
+            raw_result = self._delete_initial(
+                resource_group_name=resource_group_name,
+                gallery_name=gallery_name,
+                gallery_image_name=gallery_image_name,
+                api_version=api_version,
+                cls=lambda x, y, z: x,
+                headers=_headers,
+                params=_params,
+                **kwargs
+            )
+            raw_result.http_response.read()  # type: ignore
+        kwargs.pop("error_map", None)
+
+        def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
+            if cls:
+                return cls(pipeline_response, None, {})  # type: ignore
+
+        if polling is True:
+            polling_method: PollingMethod = cast(
+                PollingMethod, ARMPolling(lro_delay, lro_options={"final-state-via": "location"}, **kwargs)
+            )
+        elif polling is False:
+            polling_method = cast(PollingMethod, NoPolling())
+        else:
+            polling_method = polling
+        if cont_token:
+            return LROPoller[None].from_continuation_token(
+                polling_method=polling_method,
+                continuation_token=cont_token,
+                client=self._client,
+                deserialization_callback=get_long_running_output,
+            )
+        return LROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
+
+
+class GalleryImageVersionsOperations:
+    """
+    .. warning::
+        **DO NOT** instantiate this class directly.
+
+        Instead, you should access the following operations through
+        :class:`~azure.mgmt.compute.v2023_07_03.ComputeManagementClient`'s
+        :attr:`gallery_image_versions` attribute.
+    """
+
+    models = _models
+
+    def __init__(self, *args, **kwargs):
+        input_args = list(args)
+        self._client = input_args.pop(0) if input_args else kwargs.pop("client")
+        self._config = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
+        self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
+        self._api_version = input_args.pop(0) if input_args else kwargs.pop("api_version")
+
+    @distributed_trace
+    def list_by_gallery_image(
+        self, resource_group_name: str, gallery_name: str, gallery_image_name: str, **kwargs: Any
+    ) -> Iterable["_models.GalleryImageVersion"]:
+        """List gallery image versions in a gallery image definition.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param gallery_name: The name of the Shared Image Gallery. Required.
+        :type gallery_name: str
+        :param gallery_image_name: The name of the gallery image definition to be retrieved. Required.
+        :type gallery_image_name: str
+        :return: An iterator like instance of either GalleryImageVersion or the result of cls(response)
+        :rtype:
+         ~azure.core.paging.ItemPaged[~azure.mgmt.compute.v2023_07_03.models.GalleryImageVersion]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
+        cls: ClsType[_models.GalleryImageVersionList] = kwargs.pop("cls", None)
+
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        def prepare_request(next_link=None):
+            if not next_link:
+
+                _request = build_gallery_image_versions_list_by_gallery_image_request(
+                    resource_group_name=resource_group_name,
+                    gallery_name=gallery_name,
+                    gallery_image_name=gallery_image_name,
+                    subscription_id=self._config.subscription_id,
+                    api_version=api_version,
+                    headers=_headers,
+                    params=_params,
+                )
+                _request.url = self._client.format_url(_request.url)
+
+            else:
+                # make call to next link with the client's api-version
+                _parsed_next_link = urllib.parse.urlparse(next_link)
+                _next_request_params = case_insensitive_dict(
+                    {
+                        key: [urllib.parse.quote(v) for v in value]
+                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
+                    }
+                )
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
+                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
+                )
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
+
+        def extract_data(pipeline_response):
+            deserialized = self._deserialize("GalleryImageVersionList", pipeline_response)
+            list_of_elem = deserialized.value
+            if cls:
+                list_of_elem = cls(list_of_elem)  # type: ignore
+            return deserialized.next_link or None, iter(list_of_elem)
+
+        def get_next(next_link=None):
+            _request = prepare_request(next_link)
+
+            _stream = False
+            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+                _request, stream=_stream, **kwargs
+            )
+            response = pipeline_response.http_response
+
+            if response.status_code not in [200]:
+                map_error(status_code=response.status_code, response=response, error_map=error_map)
+                error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+                raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+            return pipeline_response
+
+        return ItemPaged(get_next, extract_data)
+
+    @distributed_trace
+    def get(
+        self,
+        resource_group_name: str,
+        gallery_name: str,
+        gallery_image_name: str,
+        gallery_image_version_name: str,
+        *,
+        expand: Optional[Union[str, _models.ReplicationStatusTypes]] = None,
+        **kwargs: Any
+    ) -> _models.GalleryImageVersion:
+        """Retrieves information about a gallery image version.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param gallery_name: The name of the Shared Image Gallery. Required.
+        :type gallery_name: str
+        :param gallery_image_name: The name of the gallery image definition to be retrieved. Required.
+        :type gallery_image_name: str
+        :param gallery_image_version_name: The name of the gallery image version to be retrieved.
+         Required.
+        :type gallery_image_version_name: str
+        :keyword expand: The expand expression to apply on the operation. Known values are:
+         "ReplicationStatus" and "UefiSettings". Default value is None.
+        :paramtype expand: str or ~azure.mgmt.compute.v2023_07_03.models.ReplicationStatusTypes
+        :return: GalleryImageVersion or the result of cls(response)
+        :rtype: ~azure.mgmt.compute.v2023_07_03.models.GalleryImageVersion
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
+        cls: ClsType[_models.GalleryImageVersion] = kwargs.pop("cls", None)
+
+        _request = build_gallery_image_versions_get_request(
+            resource_group_name=resource_group_name,
+            gallery_name=gallery_name,
+            gallery_image_name=gallery_image_name,
+            gallery_image_version_name=gallery_image_version_name,
+            subscription_id=self._config.subscription_id,
+            expand=expand,
+            api_version=api_version,
+            headers=_headers,
+            params=_params,
+        )
+        _request.url = self._client.format_url(_request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        deserialized = self._deserialize("GalleryImageVersion", pipeline_response.http_response)
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
+
+    def _create_or_update_initial(
+        self,
+        resource_group_name: str,
+        gallery_name: str,
+        gallery_image_name: str,
+        gallery_image_version_name: str,
+        gallery_image_version: Union[_models.GalleryImageVersion, IO[bytes]],
+        **kwargs: Any
+    ) -> Iterator[bytes]:
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
+
+        content_type = content_type or "application/json"
+        _json = None
+        _content = None
+        if isinstance(gallery_image_version, (IOBase, bytes)):
+            _content = gallery_image_version
+        else:
+            _json = self._serialize.body(gallery_image_version, "GalleryImageVersion")
+
+        _request = build_gallery_image_versions_create_or_update_request(
+            resource_group_name=resource_group_name,
+            gallery_name=gallery_name,
+            gallery_image_name=gallery_image_name,
+            gallery_image_version_name=gallery_image_version_name,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            content_type=content_type,
+            json=_json,
+            content=_content,
+            headers=_headers,
+            params=_params,
+        )
+        _request.url = self._client.format_url(_request.url)
+
+        _decompress = kwargs.pop("decompress", True)
+        _stream = True
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200, 201, 202]:
+            try:
+                response.read()  # Load the body in memory and close the socket
+            except (StreamConsumedError, StreamClosedError):
+                pass
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        response_headers = {}
+        if response.status_code == 201:
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
+
+        if response.status_code == 202:
+            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
+
+        deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
+
+        if cls:
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
+
+        return deserialized  # type: ignore
+
+    @overload
+    def begin_create_or_update(
+        self,
+        resource_group_name: str,
+        gallery_name: str,
+        gallery_image_name: str,
+        gallery_image_version_name: str,
+        gallery_image_version: _models.GalleryImageVersion,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> LROPoller[_models.GalleryImageVersion]:
+        """Create or update a gallery image version.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param gallery_name: The name of the Shared Image Gallery. Required.
+        :type gallery_name: str
+        :param gallery_image_name: The name of the gallery image definition to be retrieved. Required.
+        :type gallery_image_name: str
+        :param gallery_image_version_name: The name of the gallery image version to be retrieved.
+         Required.
+        :type gallery_image_version_name: str
+        :param gallery_image_version: Parameters supplied to the create or update gallery image version
+         operation. Required.
+        :type gallery_image_version: ~azure.mgmt.compute.v2023_07_03.models.GalleryImageVersion
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: An instance of LROPoller that returns either GalleryImageVersion or the result of
+         cls(response)
+        :rtype:
+         ~azure.core.polling.LROPoller[~azure.mgmt.compute.v2023_07_03.models.GalleryImageVersion]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    def begin_create_or_update(
+        self,
+        resource_group_name: str,
+        gallery_name: str,
+        gallery_image_name: str,
+        gallery_image_version_name: str,
+        gallery_image_version: IO[bytes],
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> LROPoller[_models.GalleryImageVersion]:
+        """Create or update a gallery image version.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param gallery_name: The name of the Shared Image Gallery. Required.
+        :type gallery_name: str
+        :param gallery_image_name: The name of the gallery image definition to be retrieved. Required.
+        :type gallery_image_name: str
+        :param gallery_image_version_name: The name of the gallery image version to be retrieved.
+         Required.
+        :type gallery_image_version_name: str
+        :param gallery_image_version: Parameters supplied to the create or update gallery image version
+         operation. Required.
+        :type gallery_image_version: IO[bytes]
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: An instance of LROPoller that returns either GalleryImageVersion or the result of
+         cls(response)
+        :rtype:
+         ~azure.core.polling.LROPoller[~azure.mgmt.compute.v2023_07_03.models.GalleryImageVersion]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace
+    def begin_create_or_update(
+        self,
+        resource_group_name: str,
+        gallery_name: str,
+        gallery_image_name: str,
+        gallery_image_version_name: str,
+        gallery_image_version: Union[_models.GalleryImageVersion, IO[bytes]],
+        **kwargs: Any
+    ) -> LROPoller[_models.GalleryImageVersion]:
+        """Create or update a gallery image version.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param gallery_name: The name of the Shared Image Gallery. Required.
+        :type gallery_name: str
+        :param gallery_image_name: The name of the gallery image definition to be retrieved. Required.
+        :type gallery_image_name: str
+        :param gallery_image_version_name: The name of the gallery image version to be retrieved.
+         Required.
+        :type gallery_image_version_name: str
+        :param gallery_image_version: Parameters supplied to the create or update gallery image version
+         operation. Is either a GalleryImageVersion type or a IO[bytes] type. Required.
+        :type gallery_image_version: ~azure.mgmt.compute.v2023_07_03.models.GalleryImageVersion or
+         IO[bytes]
+        :return: An instance of LROPoller that returns either GalleryImageVersion or the result of
+         cls(response)
+        :rtype:
+         ~azure.core.polling.LROPoller[~azure.mgmt.compute.v2023_07_03.models.GalleryImageVersion]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.GalleryImageVersion] = kwargs.pop("cls", None)
+        polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
+        lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
+        cont_token: Optional[str] = kwargs.pop("continuation_token", None)
+        if cont_token is None:
+            raw_result = self._create_or_update_initial(
+                resource_group_name=resource_group_name,
+                gallery_name=gallery_name,
+                gallery_image_name=gallery_image_name,
+                gallery_image_version_name=gallery_image_version_name,
+                gallery_image_version=gallery_image_version,
+                api_version=api_version,
+                content_type=content_type,
+                cls=lambda x, y, z: x,
+                headers=_headers,
+                params=_params,
+                **kwargs
+            )
+            raw_result.http_response.read()  # type: ignore
+        kwargs.pop("error_map", None)
+
+        def get_long_running_output(pipeline_response):
+            deserialized = self._deserialize("GalleryImageVersion", pipeline_response.http_response)
+            if cls:
+                return cls(pipeline_response, deserialized, {})  # type: ignore
+            return deserialized
+
+        if polling is True:
+            polling_method: PollingMethod = cast(
+                PollingMethod, ARMPolling(lro_delay, lro_options={"final-state-via": "location"}, **kwargs)
+            )
+        elif polling is False:
+            polling_method = cast(PollingMethod, NoPolling())
+        else:
+            polling_method = polling
+        if cont_token:
+            return LROPoller[_models.GalleryImageVersion].from_continuation_token(
+                polling_method=polling_method,
+                continuation_token=cont_token,
+                client=self._client,
+                deserialization_callback=get_long_running_output,
+            )
+        return LROPoller[_models.GalleryImageVersion](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
+
+    def _update_initial(
+        self,
+        resource_group_name: str,
+        gallery_name: str,
+        gallery_image_name: str,
+        gallery_image_version_name: str,
+        gallery_image_version: Union[_models.GalleryImageVersionUpdate, IO[bytes]],
+        **kwargs: Any
+    ) -> Iterator[bytes]:
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
+
+        content_type = content_type or "application/json"
+        _json = None
+        _content = None
+        if isinstance(gallery_image_version, (IOBase, bytes)):
+            _content = gallery_image_version
+        else:
+            _json = self._serialize.body(gallery_image_version, "GalleryImageVersionUpdate")
+
+        _request = build_gallery_image_versions_update_request(
+            resource_group_name=resource_group_name,
+            gallery_name=gallery_name,
+            gallery_image_name=gallery_image_name,
+            gallery_image_version_name=gallery_image_version_name,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            content_type=content_type,
+            json=_json,
+            content=_content,
+            headers=_headers,
+            params=_params,
+        )
+        _request.url = self._client.format_url(_request.url)
+
+        _decompress = kwargs.pop("decompress", True)
+        _stream = True
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200, 202]:
+            try:
+                response.read()  # Load the body in memory and close the socket
+            except (StreamConsumedError, StreamClosedError):
+                pass
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        response_headers = {}
+        if response.status_code == 202:
+            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
+
+        deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
+
+        if cls:
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
+
+        return deserialized  # type: ignore
+
+    @overload
+    def begin_update(
+        self,
+        resource_group_name: str,
+        gallery_name: str,
+        gallery_image_name: str,
+        gallery_image_version_name: str,
+        gallery_image_version: _models.GalleryImageVersionUpdate,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> LROPoller[_models.GalleryImageVersion]:
+        """Update a gallery image version.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param gallery_name: The name of the Shared Image Gallery. Required.
+        :type gallery_name: str
+        :param gallery_image_name: The name of the gallery image definition to be retrieved. Required.
+        :type gallery_image_name: str
+        :param gallery_image_version_name: The name of the gallery image version to be retrieved.
+         Required.
+        :type gallery_image_version_name: str
+        :param gallery_image_version: Parameters supplied to the update gallery image version
+         operation. Required.
+        :type gallery_image_version: ~azure.mgmt.compute.v2023_07_03.models.GalleryImageVersionUpdate
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: An instance of LROPoller that returns either GalleryImageVersion or the result of
+         cls(response)
+        :rtype:
+         ~azure.core.polling.LROPoller[~azure.mgmt.compute.v2023_07_03.models.GalleryImageVersion]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    def begin_update(
+        self,
+        resource_group_name: str,
+        gallery_name: str,
+        gallery_image_name: str,
+        gallery_image_version_name: str,
+        gallery_image_version: IO[bytes],
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> LROPoller[_models.GalleryImageVersion]:
+        """Update a gallery image version.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param gallery_name: The name of the Shared Image Gallery. Required.
+        :type gallery_name: str
+        :param gallery_image_name: The name of the gallery image definition to be retrieved. Required.
+        :type gallery_image_name: str
+        :param gallery_image_version_name: The name of the gallery image version to be retrieved.
+         Required.
+        :type gallery_image_version_name: str
+        :param gallery_image_version: Parameters supplied to the update gallery image version
+         operation. Required.
+        :type gallery_image_version: IO[bytes]
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: An instance of LROPoller that returns either GalleryImageVersion or the result of
+         cls(response)
+        :rtype:
+         ~azure.core.polling.LROPoller[~azure.mgmt.compute.v2023_07_03.models.GalleryImageVersion]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace
+    def begin_update(
+        self,
+        resource_group_name: str,
+        gallery_name: str,
+        gallery_image_name: str,
+        gallery_image_version_name: str,
+        gallery_image_version: Union[_models.GalleryImageVersionUpdate, IO[bytes]],
+        **kwargs: Any
+    ) -> LROPoller[_models.GalleryImageVersion]:
+        """Update a gallery image version.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param gallery_name: The name of the Shared Image Gallery. Required.
+        :type gallery_name: str
+        :param gallery_image_name: The name of the gallery image definition to be retrieved. Required.
+        :type gallery_image_name: str
+        :param gallery_image_version_name: The name of the gallery image version to be retrieved.
+         Required.
+        :type gallery_image_version_name: str
+        :param gallery_image_version: Parameters supplied to the update gallery image version
+         operation. Is either a GalleryImageVersionUpdate type or a IO[bytes] type. Required.
+        :type gallery_image_version: ~azure.mgmt.compute.v2023_07_03.models.GalleryImageVersionUpdate
+         or IO[bytes]
+        :return: An instance of LROPoller that returns either GalleryImageVersion or the result of
+         cls(response)
+        :rtype:
+         ~azure.core.polling.LROPoller[~azure.mgmt.compute.v2023_07_03.models.GalleryImageVersion]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.GalleryImageVersion] = kwargs.pop("cls", None)
+        polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
+        lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
+        cont_token: Optional[str] = kwargs.pop("continuation_token", None)
+        if cont_token is None:
+            raw_result = self._update_initial(
+                resource_group_name=resource_group_name,
+                gallery_name=gallery_name,
+                gallery_image_name=gallery_image_name,
+                gallery_image_version_name=gallery_image_version_name,
+                gallery_image_version=gallery_image_version,
+                api_version=api_version,
+                content_type=content_type,
+                cls=lambda x, y, z: x,
+                headers=_headers,
+                params=_params,
+                **kwargs
+            )
+            raw_result.http_response.read()  # type: ignore
+        kwargs.pop("error_map", None)
+
+        def get_long_running_output(pipeline_response):
+            deserialized = self._deserialize("GalleryImageVersion", pipeline_response.http_response)
+            if cls:
+                return cls(pipeline_response, deserialized, {})  # type: ignore
+            return deserialized
+
+        if polling is True:
+            polling_method: PollingMethod = cast(
+                PollingMethod, ARMPolling(lro_delay, lro_options={"final-state-via": "location"}, **kwargs)
+            )
+        elif polling is False:
+            polling_method = cast(PollingMethod, NoPolling())
+        else:
+            polling_method = polling
+        if cont_token:
+            return LROPoller[_models.GalleryImageVersion].from_continuation_token(
+                polling_method=polling_method,
+                continuation_token=cont_token,
+                client=self._client,
+                deserialization_callback=get_long_running_output,
+            )
+        return LROPoller[_models.GalleryImageVersion](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
+
+    def _delete_initial(
+        self,
+        resource_group_name: str,
+        gallery_name: str,
+        gallery_image_name: str,
+        gallery_image_version_name: str,
+        **kwargs: Any
+    ) -> Iterator[bytes]:
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
+        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
+
+        _request = build_gallery_image_versions_delete_request(
+            resource_group_name=resource_group_name,
+            gallery_name=gallery_name,
+            gallery_image_name=gallery_image_name,
+            gallery_image_version_name=gallery_image_version_name,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            headers=_headers,
+            params=_params,
+        )
+        _request.url = self._client.format_url(_request.url)
+
+        _decompress = kwargs.pop("decompress", True)
+        _stream = True
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200, 202, 204]:
+            try:
+                response.read()  # Load the body in memory and close the socket
+            except (StreamConsumedError, StreamClosedError):
+                pass
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        response_headers = {}
+        if response.status_code == 202:
+            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
+
+        deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
+
+        if cls:
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
+
+        return deserialized  # type: ignore
+
+    @distributed_trace
+    def begin_delete(
+        self,
+        resource_group_name: str,
+        gallery_name: str,
+        gallery_image_name: str,
+        gallery_image_version_name: str,
+        **kwargs: Any
+    ) -> LROPoller[None]:
+        """Delete a gallery image version.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param gallery_name: The name of the Shared Image Gallery. Required.
+        :type gallery_name: str
+        :param gallery_image_name: The name of the gallery image definition to be retrieved. Required.
+        :type gallery_image_name: str
+        :param gallery_image_version_name: The name of the gallery image version to be retrieved.
+         Required.
+        :type gallery_image_version_name: str
+        :return: An instance of LROPoller that returns either None or the result of cls(response)
+        :rtype: ~azure.core.polling.LROPoller[None]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
+        cls: ClsType[None] = kwargs.pop("cls", None)
+        polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
+        lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
+        cont_token: Optional[str] = kwargs.pop("continuation_token", None)
+        if cont_token is None:
+            raw_result = self._delete_initial(
+                resource_group_name=resource_group_name,
+                gallery_name=gallery_name,
+                gallery_image_name=gallery_image_name,
+                gallery_image_version_name=gallery_image_version_name,
+                api_version=api_version,
+                cls=lambda x, y, z: x,
+                headers=_headers,
+                params=_params,
+                **kwargs
+            )
+            raw_result.http_response.read()  # type: ignore
+        kwargs.pop("error_map", None)
+
+        def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
+            if cls:
+                return cls(pipeline_response, None, {})  # type: ignore
+
+        if polling is True:
+            polling_method: PollingMethod = cast(
+                PollingMethod, ARMPolling(lro_delay, lro_options={"final-state-via": "location"}, **kwargs)
+            )
+        elif polling is False:
+            polling_method = cast(PollingMethod, NoPolling())
+        else:
+            polling_method = polling
+        if cont_token:
+            return LROPoller[None].from_continuation_token(
+                polling_method=polling_method,
+                continuation_token=cont_token,
+                client=self._client,
+                deserialization_callback=get_long_running_output,
+            )
+        return LROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
 
 class GallerySharingProfileOperations:
@@ -5137,12 +6225,18 @@ class GallerySharingProfileOperations:
             except (StreamConsumedError, StreamClosedError):
                 pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        response_headers = {}
+        if response.status_code == 202:
+            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
 
         deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
         return deserialized  # type: ignore
 
@@ -5158,7 +6252,8 @@ class GallerySharingProfileOperations:
     ) -> LROPoller[_models.SharingUpdate]:
         """Update sharing profile of a gallery.
 
-        :param resource_group_name: The name of the resource group. Required.
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
         :type resource_group_name: str
         :param gallery_name: The name of the Shared Image Gallery. Required.
         :type gallery_name: str
@@ -5185,7 +6280,8 @@ class GallerySharingProfileOperations:
     ) -> LROPoller[_models.SharingUpdate]:
         """Update sharing profile of a gallery.
 
-        :param resource_group_name: The name of the resource group. Required.
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
         :type resource_group_name: str
         :param gallery_name: The name of the Shared Image Gallery. Required.
         :type gallery_name: str
@@ -5210,7 +6306,8 @@ class GallerySharingProfileOperations:
     ) -> LROPoller[_models.SharingUpdate]:
         """Update sharing profile of a gallery.
 
-        :param resource_group_name: The name of the resource group. Required.
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
         :type resource_group_name: str
         :param gallery_name: The name of the Shared Image Gallery. Required.
         :type gallery_name: str
@@ -5253,7 +6350,9 @@ class GallerySharingProfileOperations:
             return deserialized
 
         if polling is True:
-            polling_method: PollingMethod = cast(PollingMethod, ARMPolling(lro_delay, **kwargs))
+            polling_method: PollingMethod = cast(
+                PollingMethod, ARMPolling(lro_delay, lro_options={"final-state-via": "location"}, **kwargs)
+            )
         elif polling is False:
             polling_method = cast(PollingMethod, NoPolling())
         else:
@@ -5268,938 +6367,3 @@ class GallerySharingProfileOperations:
         return LROPoller[_models.SharingUpdate](
             self._client, raw_result, get_long_running_output, polling_method  # type: ignore
         )
-
-
-class SharedGalleriesOperations:
-    """
-    .. warning::
-        **DO NOT** instantiate this class directly.
-
-        Instead, you should access the following operations through
-        :class:`~azure.mgmt.compute.v2023_07_03.ComputeManagementClient`'s
-        :attr:`shared_galleries` attribute.
-    """
-
-    models = _models
-
-    def __init__(self, *args, **kwargs):
-        input_args = list(args)
-        self._client = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config = input_args.pop(0) if input_args else kwargs.pop("config")
-        self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
-        self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
-        self._api_version = input_args.pop(0) if input_args else kwargs.pop("api_version")
-
-    @distributed_trace
-    def list(
-        self, location: str, *, shared_to: Optional[Union[str, _models.SharedToValues]] = None, **kwargs: Any
-    ) -> Iterable["_models.SharedGallery"]:
-        """List shared galleries by subscription id or tenant id.
-
-        :param location: Resource location. Required.
-        :type location: str
-        :keyword shared_to: The query parameter to decide what shared galleries to fetch when doing
-         listing operations. "tenant" Default value is None.
-        :paramtype shared_to: str or ~azure.mgmt.compute.v2023_07_03.models.SharedToValues
-        :return: An iterator like instance of either SharedGallery or the result of cls(response)
-        :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.compute.v2023_07_03.models.SharedGallery]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
-        cls: ClsType[_models.SharedGalleryList] = kwargs.pop("cls", None)
-
-        error_map: MutableMapping = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        def prepare_request(next_link=None):
-            if not next_link:
-
-                _request = build_shared_galleries_list_request(
-                    location=location,
-                    subscription_id=self._config.subscription_id,
-                    shared_to=shared_to,
-                    api_version=api_version,
-                    headers=_headers,
-                    params=_params,
-                )
-                _request.url = self._client.format_url(_request.url)
-
-            else:
-                # make call to next link with the client's api-version
-                _parsed_next_link = urllib.parse.urlparse(next_link)
-                _next_request_params = case_insensitive_dict(
-                    {
-                        key: [urllib.parse.quote(v) for v in value]
-                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
-                    }
-                )
-                _next_request_params["api-version"] = self._api_version
-                _request = HttpRequest(
-                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
-                )
-                _request.url = self._client.format_url(_request.url)
-                _request.method = "GET"
-            return _request
-
-        def extract_data(pipeline_response):
-            deserialized = self._deserialize("SharedGalleryList", pipeline_response)
-            list_of_elem = deserialized.value
-            if cls:
-                list_of_elem = cls(list_of_elem)  # type: ignore
-            return deserialized.next_link or None, iter(list_of_elem)
-
-        def get_next(next_link=None):
-            _request = prepare_request(next_link)
-
-            _stream = False
-            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                _request, stream=_stream, **kwargs
-            )
-            response = pipeline_response.http_response
-
-            if response.status_code not in [200]:
-                map_error(status_code=response.status_code, response=response, error_map=error_map)
-                raise HttpResponseError(response=response, error_format=ARMErrorFormat)
-
-            return pipeline_response
-
-        return ItemPaged(get_next, extract_data)
-
-    @distributed_trace
-    def get(self, location: str, gallery_unique_name: str, **kwargs: Any) -> _models.SharedGallery:
-        """Get a shared gallery by subscription id or tenant id.
-
-        :param location: Resource location. Required.
-        :type location: str
-        :param gallery_unique_name: The unique name of the Shared Gallery. Required.
-        :type gallery_unique_name: str
-        :return: SharedGallery or the result of cls(response)
-        :rtype: ~azure.mgmt.compute.v2023_07_03.models.SharedGallery
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        error_map: MutableMapping = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
-        cls: ClsType[_models.SharedGallery] = kwargs.pop("cls", None)
-
-        _request = build_shared_galleries_get_request(
-            location=location,
-            gallery_unique_name=gallery_unique_name,
-            subscription_id=self._config.subscription_id,
-            api_version=api_version,
-            headers=_headers,
-            params=_params,
-        )
-        _request.url = self._client.format_url(_request.url)
-
-        _stream = False
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            _request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
-
-        deserialized = self._deserialize("SharedGallery", pipeline_response.http_response)
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
-
-        return deserialized  # type: ignore
-
-
-class SharedGalleryImagesOperations:
-    """
-    .. warning::
-        **DO NOT** instantiate this class directly.
-
-        Instead, you should access the following operations through
-        :class:`~azure.mgmt.compute.v2023_07_03.ComputeManagementClient`'s
-        :attr:`shared_gallery_images` attribute.
-    """
-
-    models = _models
-
-    def __init__(self, *args, **kwargs):
-        input_args = list(args)
-        self._client = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config = input_args.pop(0) if input_args else kwargs.pop("config")
-        self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
-        self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
-        self._api_version = input_args.pop(0) if input_args else kwargs.pop("api_version")
-
-    @distributed_trace
-    def list(
-        self,
-        location: str,
-        gallery_unique_name: str,
-        *,
-        shared_to: Optional[Union[str, _models.SharedToValues]] = None,
-        **kwargs: Any
-    ) -> Iterable["_models.SharedGalleryImage"]:
-        """List shared gallery images by subscription id or tenant id.
-
-        :param location: Resource location. Required.
-        :type location: str
-        :param gallery_unique_name: The unique name of the Shared Gallery. Required.
-        :type gallery_unique_name: str
-        :keyword shared_to: The query parameter to decide what shared galleries to fetch when doing
-         listing operations. "tenant" Default value is None.
-        :paramtype shared_to: str or ~azure.mgmt.compute.v2023_07_03.models.SharedToValues
-        :return: An iterator like instance of either SharedGalleryImage or the result of cls(response)
-        :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.compute.v2023_07_03.models.SharedGalleryImage]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
-        cls: ClsType[_models.SharedGalleryImageList] = kwargs.pop("cls", None)
-
-        error_map: MutableMapping = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        def prepare_request(next_link=None):
-            if not next_link:
-
-                _request = build_shared_gallery_images_list_request(
-                    location=location,
-                    gallery_unique_name=gallery_unique_name,
-                    subscription_id=self._config.subscription_id,
-                    shared_to=shared_to,
-                    api_version=api_version,
-                    headers=_headers,
-                    params=_params,
-                )
-                _request.url = self._client.format_url(_request.url)
-
-            else:
-                # make call to next link with the client's api-version
-                _parsed_next_link = urllib.parse.urlparse(next_link)
-                _next_request_params = case_insensitive_dict(
-                    {
-                        key: [urllib.parse.quote(v) for v in value]
-                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
-                    }
-                )
-                _next_request_params["api-version"] = self._api_version
-                _request = HttpRequest(
-                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
-                )
-                _request.url = self._client.format_url(_request.url)
-                _request.method = "GET"
-            return _request
-
-        def extract_data(pipeline_response):
-            deserialized = self._deserialize("SharedGalleryImageList", pipeline_response)
-            list_of_elem = deserialized.value
-            if cls:
-                list_of_elem = cls(list_of_elem)  # type: ignore
-            return deserialized.next_link or None, iter(list_of_elem)
-
-        def get_next(next_link=None):
-            _request = prepare_request(next_link)
-
-            _stream = False
-            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                _request, stream=_stream, **kwargs
-            )
-            response = pipeline_response.http_response
-
-            if response.status_code not in [200]:
-                map_error(status_code=response.status_code, response=response, error_map=error_map)
-                raise HttpResponseError(response=response, error_format=ARMErrorFormat)
-
-            return pipeline_response
-
-        return ItemPaged(get_next, extract_data)
-
-    @distributed_trace
-    def get(
-        self, location: str, gallery_unique_name: str, gallery_image_name: str, **kwargs: Any
-    ) -> _models.SharedGalleryImage:
-        """Get a shared gallery image by subscription id or tenant id.
-
-        :param location: Resource location. Required.
-        :type location: str
-        :param gallery_unique_name: The unique name of the Shared Gallery. Required.
-        :type gallery_unique_name: str
-        :param gallery_image_name: The name of the Shared Gallery Image Definition from which the Image
-         Versions are to be listed. Required.
-        :type gallery_image_name: str
-        :return: SharedGalleryImage or the result of cls(response)
-        :rtype: ~azure.mgmt.compute.v2023_07_03.models.SharedGalleryImage
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        error_map: MutableMapping = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
-        cls: ClsType[_models.SharedGalleryImage] = kwargs.pop("cls", None)
-
-        _request = build_shared_gallery_images_get_request(
-            location=location,
-            gallery_unique_name=gallery_unique_name,
-            gallery_image_name=gallery_image_name,
-            subscription_id=self._config.subscription_id,
-            api_version=api_version,
-            headers=_headers,
-            params=_params,
-        )
-        _request.url = self._client.format_url(_request.url)
-
-        _stream = False
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            _request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
-
-        deserialized = self._deserialize("SharedGalleryImage", pipeline_response.http_response)
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
-
-        return deserialized  # type: ignore
-
-
-class SharedGalleryImageVersionsOperations:
-    """
-    .. warning::
-        **DO NOT** instantiate this class directly.
-
-        Instead, you should access the following operations through
-        :class:`~azure.mgmt.compute.v2023_07_03.ComputeManagementClient`'s
-        :attr:`shared_gallery_image_versions` attribute.
-    """
-
-    models = _models
-
-    def __init__(self, *args, **kwargs):
-        input_args = list(args)
-        self._client = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config = input_args.pop(0) if input_args else kwargs.pop("config")
-        self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
-        self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
-        self._api_version = input_args.pop(0) if input_args else kwargs.pop("api_version")
-
-    @distributed_trace
-    def list(
-        self,
-        location: str,
-        gallery_unique_name: str,
-        gallery_image_name: str,
-        *,
-        shared_to: Optional[Union[str, _models.SharedToValues]] = None,
-        **kwargs: Any
-    ) -> Iterable["_models.SharedGalleryImageVersion"]:
-        """List shared gallery image versions by subscription id or tenant id.
-
-        :param location: Resource location. Required.
-        :type location: str
-        :param gallery_unique_name: The unique name of the Shared Gallery. Required.
-        :type gallery_unique_name: str
-        :param gallery_image_name: The name of the Shared Gallery Image Definition from which the Image
-         Versions are to be listed. Required.
-        :type gallery_image_name: str
-        :keyword shared_to: The query parameter to decide what shared galleries to fetch when doing
-         listing operations. "tenant" Default value is None.
-        :paramtype shared_to: str or ~azure.mgmt.compute.v2023_07_03.models.SharedToValues
-        :return: An iterator like instance of either SharedGalleryImageVersion or the result of
-         cls(response)
-        :rtype:
-         ~azure.core.paging.ItemPaged[~azure.mgmt.compute.v2023_07_03.models.SharedGalleryImageVersion]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
-        cls: ClsType[_models.SharedGalleryImageVersionList] = kwargs.pop("cls", None)
-
-        error_map: MutableMapping = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        def prepare_request(next_link=None):
-            if not next_link:
-
-                _request = build_shared_gallery_image_versions_list_request(
-                    location=location,
-                    gallery_unique_name=gallery_unique_name,
-                    gallery_image_name=gallery_image_name,
-                    subscription_id=self._config.subscription_id,
-                    shared_to=shared_to,
-                    api_version=api_version,
-                    headers=_headers,
-                    params=_params,
-                )
-                _request.url = self._client.format_url(_request.url)
-
-            else:
-                # make call to next link with the client's api-version
-                _parsed_next_link = urllib.parse.urlparse(next_link)
-                _next_request_params = case_insensitive_dict(
-                    {
-                        key: [urllib.parse.quote(v) for v in value]
-                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
-                    }
-                )
-                _next_request_params["api-version"] = self._api_version
-                _request = HttpRequest(
-                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
-                )
-                _request.url = self._client.format_url(_request.url)
-                _request.method = "GET"
-            return _request
-
-        def extract_data(pipeline_response):
-            deserialized = self._deserialize("SharedGalleryImageVersionList", pipeline_response)
-            list_of_elem = deserialized.value
-            if cls:
-                list_of_elem = cls(list_of_elem)  # type: ignore
-            return deserialized.next_link or None, iter(list_of_elem)
-
-        def get_next(next_link=None):
-            _request = prepare_request(next_link)
-
-            _stream = False
-            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                _request, stream=_stream, **kwargs
-            )
-            response = pipeline_response.http_response
-
-            if response.status_code not in [200]:
-                map_error(status_code=response.status_code, response=response, error_map=error_map)
-                raise HttpResponseError(response=response, error_format=ARMErrorFormat)
-
-            return pipeline_response
-
-        return ItemPaged(get_next, extract_data)
-
-    @distributed_trace
-    def get(
-        self,
-        location: str,
-        gallery_unique_name: str,
-        gallery_image_name: str,
-        gallery_image_version_name: str,
-        **kwargs: Any
-    ) -> _models.SharedGalleryImageVersion:
-        """Get a shared gallery image version by subscription id or tenant id.
-
-        :param location: Resource location. Required.
-        :type location: str
-        :param gallery_unique_name: The unique name of the Shared Gallery. Required.
-        :type gallery_unique_name: str
-        :param gallery_image_name: The name of the Shared Gallery Image Definition from which the Image
-         Versions are to be listed. Required.
-        :type gallery_image_name: str
-        :param gallery_image_version_name: The name of the gallery image version to be created. Needs
-         to follow semantic version name pattern: The allowed characters are digit and period. Digits
-         must be within the range of a 32-bit integer. Format: :code:`<MajorVersion>`.\\
-         :code:`<MinorVersion>`.\\ :code:`<Patch>`. Required.
-        :type gallery_image_version_name: str
-        :return: SharedGalleryImageVersion or the result of cls(response)
-        :rtype: ~azure.mgmt.compute.v2023_07_03.models.SharedGalleryImageVersion
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        error_map: MutableMapping = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
-        cls: ClsType[_models.SharedGalleryImageVersion] = kwargs.pop("cls", None)
-
-        _request = build_shared_gallery_image_versions_get_request(
-            location=location,
-            gallery_unique_name=gallery_unique_name,
-            gallery_image_name=gallery_image_name,
-            gallery_image_version_name=gallery_image_version_name,
-            subscription_id=self._config.subscription_id,
-            api_version=api_version,
-            headers=_headers,
-            params=_params,
-        )
-        _request.url = self._client.format_url(_request.url)
-
-        _stream = False
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            _request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
-
-        deserialized = self._deserialize("SharedGalleryImageVersion", pipeline_response.http_response)
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
-
-        return deserialized  # type: ignore
-
-
-class CommunityGalleriesOperations:
-    """
-    .. warning::
-        **DO NOT** instantiate this class directly.
-
-        Instead, you should access the following operations through
-        :class:`~azure.mgmt.compute.v2023_07_03.ComputeManagementClient`'s
-        :attr:`community_galleries` attribute.
-    """
-
-    models = _models
-
-    def __init__(self, *args, **kwargs):
-        input_args = list(args)
-        self._client = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config = input_args.pop(0) if input_args else kwargs.pop("config")
-        self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
-        self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
-        self._api_version = input_args.pop(0) if input_args else kwargs.pop("api_version")
-
-    @distributed_trace
-    def get(self, location: str, public_gallery_name: str, **kwargs: Any) -> _models.CommunityGallery:
-        """Get a community gallery by gallery public name.
-
-        :param location: Resource location. Required.
-        :type location: str
-        :param public_gallery_name: The public name of the community gallery. Required.
-        :type public_gallery_name: str
-        :return: CommunityGallery or the result of cls(response)
-        :rtype: ~azure.mgmt.compute.v2023_07_03.models.CommunityGallery
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        error_map: MutableMapping = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
-        cls: ClsType[_models.CommunityGallery] = kwargs.pop("cls", None)
-
-        _request = build_community_galleries_get_request(
-            location=location,
-            public_gallery_name=public_gallery_name,
-            subscription_id=self._config.subscription_id,
-            api_version=api_version,
-            headers=_headers,
-            params=_params,
-        )
-        _request.url = self._client.format_url(_request.url)
-
-        _stream = False
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            _request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
-
-        deserialized = self._deserialize("CommunityGallery", pipeline_response.http_response)
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
-
-        return deserialized  # type: ignore
-
-
-class CommunityGalleryImagesOperations:
-    """
-    .. warning::
-        **DO NOT** instantiate this class directly.
-
-        Instead, you should access the following operations through
-        :class:`~azure.mgmt.compute.v2023_07_03.ComputeManagementClient`'s
-        :attr:`community_gallery_images` attribute.
-    """
-
-    models = _models
-
-    def __init__(self, *args, **kwargs):
-        input_args = list(args)
-        self._client = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config = input_args.pop(0) if input_args else kwargs.pop("config")
-        self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
-        self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
-        self._api_version = input_args.pop(0) if input_args else kwargs.pop("api_version")
-
-    @distributed_trace
-    def get(
-        self, location: str, public_gallery_name: str, gallery_image_name: str, **kwargs: Any
-    ) -> _models.CommunityGalleryImage:
-        """Get a community gallery image.
-
-        :param location: Resource location. Required.
-        :type location: str
-        :param public_gallery_name: The public name of the community gallery. Required.
-        :type public_gallery_name: str
-        :param gallery_image_name: The name of the community gallery image definition. Required.
-        :type gallery_image_name: str
-        :return: CommunityGalleryImage or the result of cls(response)
-        :rtype: ~azure.mgmt.compute.v2023_07_03.models.CommunityGalleryImage
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        error_map: MutableMapping = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
-        cls: ClsType[_models.CommunityGalleryImage] = kwargs.pop("cls", None)
-
-        _request = build_community_gallery_images_get_request(
-            location=location,
-            public_gallery_name=public_gallery_name,
-            gallery_image_name=gallery_image_name,
-            subscription_id=self._config.subscription_id,
-            api_version=api_version,
-            headers=_headers,
-            params=_params,
-        )
-        _request.url = self._client.format_url(_request.url)
-
-        _stream = False
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            _request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
-
-        deserialized = self._deserialize("CommunityGalleryImage", pipeline_response.http_response)
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
-
-        return deserialized  # type: ignore
-
-    @distributed_trace
-    def list(self, location: str, public_gallery_name: str, **kwargs: Any) -> Iterable["_models.CommunityGalleryImage"]:
-        """List community gallery images inside a gallery.
-
-        :param location: Resource location. Required.
-        :type location: str
-        :param public_gallery_name: The public name of the community gallery. Required.
-        :type public_gallery_name: str
-        :return: An iterator like instance of either CommunityGalleryImage or the result of
-         cls(response)
-        :rtype:
-         ~azure.core.paging.ItemPaged[~azure.mgmt.compute.v2023_07_03.models.CommunityGalleryImage]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
-        cls: ClsType[_models.CommunityGalleryImageList] = kwargs.pop("cls", None)
-
-        error_map: MutableMapping = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        def prepare_request(next_link=None):
-            if not next_link:
-
-                _request = build_community_gallery_images_list_request(
-                    location=location,
-                    public_gallery_name=public_gallery_name,
-                    subscription_id=self._config.subscription_id,
-                    api_version=api_version,
-                    headers=_headers,
-                    params=_params,
-                )
-                _request.url = self._client.format_url(_request.url)
-
-            else:
-                # make call to next link with the client's api-version
-                _parsed_next_link = urllib.parse.urlparse(next_link)
-                _next_request_params = case_insensitive_dict(
-                    {
-                        key: [urllib.parse.quote(v) for v in value]
-                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
-                    }
-                )
-                _next_request_params["api-version"] = self._api_version
-                _request = HttpRequest(
-                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
-                )
-                _request.url = self._client.format_url(_request.url)
-                _request.method = "GET"
-            return _request
-
-        def extract_data(pipeline_response):
-            deserialized = self._deserialize("CommunityGalleryImageList", pipeline_response)
-            list_of_elem = deserialized.value
-            if cls:
-                list_of_elem = cls(list_of_elem)  # type: ignore
-            return deserialized.next_link or None, iter(list_of_elem)
-
-        def get_next(next_link=None):
-            _request = prepare_request(next_link)
-
-            _stream = False
-            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                _request, stream=_stream, **kwargs
-            )
-            response = pipeline_response.http_response
-
-            if response.status_code not in [200]:
-                map_error(status_code=response.status_code, response=response, error_map=error_map)
-                raise HttpResponseError(response=response, error_format=ARMErrorFormat)
-
-            return pipeline_response
-
-        return ItemPaged(get_next, extract_data)
-
-
-class CommunityGalleryImageVersionsOperations:
-    """
-    .. warning::
-        **DO NOT** instantiate this class directly.
-
-        Instead, you should access the following operations through
-        :class:`~azure.mgmt.compute.v2023_07_03.ComputeManagementClient`'s
-        :attr:`community_gallery_image_versions` attribute.
-    """
-
-    models = _models
-
-    def __init__(self, *args, **kwargs):
-        input_args = list(args)
-        self._client = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config = input_args.pop(0) if input_args else kwargs.pop("config")
-        self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
-        self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
-        self._api_version = input_args.pop(0) if input_args else kwargs.pop("api_version")
-
-    @distributed_trace
-    def get(
-        self,
-        location: str,
-        public_gallery_name: str,
-        gallery_image_name: str,
-        gallery_image_version_name: str,
-        **kwargs: Any
-    ) -> _models.CommunityGalleryImageVersion:
-        """Get a community gallery image version.
-
-        :param location: Resource location. Required.
-        :type location: str
-        :param public_gallery_name: The public name of the community gallery. Required.
-        :type public_gallery_name: str
-        :param gallery_image_name: The name of the community gallery image definition. Required.
-        :type gallery_image_name: str
-        :param gallery_image_version_name: The name of the community gallery image version. Needs to
-         follow semantic version name pattern: The allowed characters are digit and period. Digits must
-         be within the range of a 32-bit integer. Format: :code:`<MajorVersion>`.\\
-         :code:`<MinorVersion>`.\\ :code:`<Patch>`. Required.
-        :type gallery_image_version_name: str
-        :return: CommunityGalleryImageVersion or the result of cls(response)
-        :rtype: ~azure.mgmt.compute.v2023_07_03.models.CommunityGalleryImageVersion
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        error_map: MutableMapping = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
-        cls: ClsType[_models.CommunityGalleryImageVersion] = kwargs.pop("cls", None)
-
-        _request = build_community_gallery_image_versions_get_request(
-            location=location,
-            public_gallery_name=public_gallery_name,
-            gallery_image_name=gallery_image_name,
-            gallery_image_version_name=gallery_image_version_name,
-            subscription_id=self._config.subscription_id,
-            api_version=api_version,
-            headers=_headers,
-            params=_params,
-        )
-        _request.url = self._client.format_url(_request.url)
-
-        _stream = False
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            _request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
-
-        deserialized = self._deserialize("CommunityGalleryImageVersion", pipeline_response.http_response)
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
-
-        return deserialized  # type: ignore
-
-    @distributed_trace
-    def list(
-        self, location: str, public_gallery_name: str, gallery_image_name: str, **kwargs: Any
-    ) -> Iterable["_models.CommunityGalleryImageVersion"]:
-        """List community gallery image versions inside an image.
-
-        :param location: Resource location. Required.
-        :type location: str
-        :param public_gallery_name: The public name of the community gallery. Required.
-        :type public_gallery_name: str
-        :param gallery_image_name: The name of the community gallery image definition. Required.
-        :type gallery_image_name: str
-        :return: An iterator like instance of either CommunityGalleryImageVersion or the result of
-         cls(response)
-        :rtype:
-         ~azure.core.paging.ItemPaged[~azure.mgmt.compute.v2023_07_03.models.CommunityGalleryImageVersion]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-03"))
-        cls: ClsType[_models.CommunityGalleryImageVersionList] = kwargs.pop("cls", None)
-
-        error_map: MutableMapping = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        def prepare_request(next_link=None):
-            if not next_link:
-
-                _request = build_community_gallery_image_versions_list_request(
-                    location=location,
-                    public_gallery_name=public_gallery_name,
-                    gallery_image_name=gallery_image_name,
-                    subscription_id=self._config.subscription_id,
-                    api_version=api_version,
-                    headers=_headers,
-                    params=_params,
-                )
-                _request.url = self._client.format_url(_request.url)
-
-            else:
-                # make call to next link with the client's api-version
-                _parsed_next_link = urllib.parse.urlparse(next_link)
-                _next_request_params = case_insensitive_dict(
-                    {
-                        key: [urllib.parse.quote(v) for v in value]
-                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
-                    }
-                )
-                _next_request_params["api-version"] = self._api_version
-                _request = HttpRequest(
-                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
-                )
-                _request.url = self._client.format_url(_request.url)
-                _request.method = "GET"
-            return _request
-
-        def extract_data(pipeline_response):
-            deserialized = self._deserialize("CommunityGalleryImageVersionList", pipeline_response)
-            list_of_elem = deserialized.value
-            if cls:
-                list_of_elem = cls(list_of_elem)  # type: ignore
-            return deserialized.next_link or None, iter(list_of_elem)
-
-        def get_next(next_link=None):
-            _request = prepare_request(next_link)
-
-            _stream = False
-            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                _request, stream=_stream, **kwargs
-            )
-            response = pipeline_response.http_response
-
-            if response.status_code not in [200]:
-                map_error(status_code=response.status_code, response=response, error_map=error_map)
-                raise HttpResponseError(response=response, error_format=ARMErrorFormat)
-
-            return pipeline_response
-
-        return ItemPaged(get_next, extract_data)
