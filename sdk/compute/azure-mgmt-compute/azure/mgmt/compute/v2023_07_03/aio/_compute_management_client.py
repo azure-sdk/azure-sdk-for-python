@@ -42,29 +42,6 @@ class ComputeManagementClient:  # pylint: disable=too-many-instance-attributes
 
     :ivar galleries: GalleriesOperations operations
     :vartype galleries: azure.mgmt.compute.v2023_07_03.aio.operations.GalleriesOperations
-    :ivar gallery_images: GalleryImagesOperations operations
-    :vartype gallery_images: azure.mgmt.compute.v2023_07_03.aio.operations.GalleryImagesOperations
-    :ivar gallery_image_versions: GalleryImageVersionsOperations operations
-    :vartype gallery_image_versions:
-     azure.mgmt.compute.v2023_07_03.aio.operations.GalleryImageVersionsOperations
-    :ivar gallery_applications: GalleryApplicationsOperations operations
-    :vartype gallery_applications:
-     azure.mgmt.compute.v2023_07_03.aio.operations.GalleryApplicationsOperations
-    :ivar gallery_application_versions: GalleryApplicationVersionsOperations operations
-    :vartype gallery_application_versions:
-     azure.mgmt.compute.v2023_07_03.aio.operations.GalleryApplicationVersionsOperations
-    :ivar gallery_sharing_profile: GallerySharingProfileOperations operations
-    :vartype gallery_sharing_profile:
-     azure.mgmt.compute.v2023_07_03.aio.operations.GallerySharingProfileOperations
-    :ivar shared_galleries: SharedGalleriesOperations operations
-    :vartype shared_galleries:
-     azure.mgmt.compute.v2023_07_03.aio.operations.SharedGalleriesOperations
-    :ivar shared_gallery_images: SharedGalleryImagesOperations operations
-    :vartype shared_gallery_images:
-     azure.mgmt.compute.v2023_07_03.aio.operations.SharedGalleryImagesOperations
-    :ivar shared_gallery_image_versions: SharedGalleryImageVersionsOperations operations
-    :vartype shared_gallery_image_versions:
-     azure.mgmt.compute.v2023_07_03.aio.operations.SharedGalleryImageVersionsOperations
     :ivar community_galleries: CommunityGalleriesOperations operations
     :vartype community_galleries:
      azure.mgmt.compute.v2023_07_03.aio.operations.CommunityGalleriesOperations
@@ -74,10 +51,32 @@ class ComputeManagementClient:  # pylint: disable=too-many-instance-attributes
     :ivar community_gallery_image_versions: CommunityGalleryImageVersionsOperations operations
     :vartype community_gallery_image_versions:
      azure.mgmt.compute.v2023_07_03.aio.operations.CommunityGalleryImageVersionsOperations
+    :ivar shared_galleries: SharedGalleriesOperations operations
+    :vartype shared_galleries:
+     azure.mgmt.compute.v2023_07_03.aio.operations.SharedGalleriesOperations
+    :ivar shared_gallery_images: SharedGalleryImagesOperations operations
+    :vartype shared_gallery_images:
+     azure.mgmt.compute.v2023_07_03.aio.operations.SharedGalleryImagesOperations
+    :ivar shared_gallery_image_versions: SharedGalleryImageVersionsOperations operations
+    :vartype shared_gallery_image_versions:
+     azure.mgmt.compute.v2023_07_03.aio.operations.SharedGalleryImageVersionsOperations
+    :ivar gallery_applications: GalleryApplicationsOperations operations
+    :vartype gallery_applications:
+     azure.mgmt.compute.v2023_07_03.aio.operations.GalleryApplicationsOperations
+    :ivar gallery_application_versions: GalleryApplicationVersionsOperations operations
+    :vartype gallery_application_versions:
+     azure.mgmt.compute.v2023_07_03.aio.operations.GalleryApplicationVersionsOperations
+    :ivar gallery_images: GalleryImagesOperations operations
+    :vartype gallery_images: azure.mgmt.compute.v2023_07_03.aio.operations.GalleryImagesOperations
+    :ivar gallery_image_versions: GalleryImageVersionsOperations operations
+    :vartype gallery_image_versions:
+     azure.mgmt.compute.v2023_07_03.aio.operations.GalleryImageVersionsOperations
+    :ivar gallery_sharing_profile: GallerySharingProfileOperations operations
+    :vartype gallery_sharing_profile:
+     azure.mgmt.compute.v2023_07_03.aio.operations.GallerySharingProfileOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials_async.AsyncTokenCredential
-    :param subscription_id: Subscription credentials which uniquely identify Microsoft Azure
-     subscription. The subscription ID forms part of the URI for every service call. Required.
+    :param subscription_id: The ID of the target subscription. Required.
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
@@ -125,19 +124,13 @@ class ComputeManagementClient:  # pylint: disable=too-many-instance-attributes
         self.galleries = GalleriesOperations(
             self._client, self._config, self._serialize, self._deserialize, "2023-07-03"
         )
-        self.gallery_images = GalleryImagesOperations(
+        self.community_galleries = CommunityGalleriesOperations(
             self._client, self._config, self._serialize, self._deserialize, "2023-07-03"
         )
-        self.gallery_image_versions = GalleryImageVersionsOperations(
+        self.community_gallery_images = CommunityGalleryImagesOperations(
             self._client, self._config, self._serialize, self._deserialize, "2023-07-03"
         )
-        self.gallery_applications = GalleryApplicationsOperations(
-            self._client, self._config, self._serialize, self._deserialize, "2023-07-03"
-        )
-        self.gallery_application_versions = GalleryApplicationVersionsOperations(
-            self._client, self._config, self._serialize, self._deserialize, "2023-07-03"
-        )
-        self.gallery_sharing_profile = GallerySharingProfileOperations(
+        self.community_gallery_image_versions = CommunityGalleryImageVersionsOperations(
             self._client, self._config, self._serialize, self._deserialize, "2023-07-03"
         )
         self.shared_galleries = SharedGalleriesOperations(
@@ -149,13 +142,19 @@ class ComputeManagementClient:  # pylint: disable=too-many-instance-attributes
         self.shared_gallery_image_versions = SharedGalleryImageVersionsOperations(
             self._client, self._config, self._serialize, self._deserialize, "2023-07-03"
         )
-        self.community_galleries = CommunityGalleriesOperations(
+        self.gallery_applications = GalleryApplicationsOperations(
             self._client, self._config, self._serialize, self._deserialize, "2023-07-03"
         )
-        self.community_gallery_images = CommunityGalleryImagesOperations(
+        self.gallery_application_versions = GalleryApplicationVersionsOperations(
             self._client, self._config, self._serialize, self._deserialize, "2023-07-03"
         )
-        self.community_gallery_image_versions = CommunityGalleryImageVersionsOperations(
+        self.gallery_images = GalleryImagesOperations(
+            self._client, self._config, self._serialize, self._deserialize, "2023-07-03"
+        )
+        self.gallery_image_versions = GalleryImageVersionsOperations(
+            self._client, self._config, self._serialize, self._deserialize, "2023-07-03"
+        )
+        self.gallery_sharing_profile = GallerySharingProfileOperations(
             self._client, self._config, self._serialize, self._deserialize, "2023-07-03"
         )
 
