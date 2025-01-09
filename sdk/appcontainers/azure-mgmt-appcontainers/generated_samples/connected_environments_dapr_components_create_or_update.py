@@ -30,7 +30,7 @@ def main():
         subscription_id="8efdecc5-919e-44eb-b179-915dca89ebf9",
     )
 
-    response = client.connected_environments_dapr_components.create_or_update(
+    response = client.connected_environments_dapr_components.begin_create_or_update(
         resource_group_name="examplerg",
         connected_environment_name="myenvironment",
         component_name="reddog",
@@ -57,10 +57,10 @@ def main():
                 "version": "v1",
             }
         },
-    )
+    ).result()
     print(response)
 
 
-# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/ConnectedEnvironmentsDaprComponents_CreateOrUpdate.json
+# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-10-02-preview/examples/ConnectedEnvironmentsDaprComponents_CreateOrUpdate.json
 if __name__ == "__main__":
     main()
