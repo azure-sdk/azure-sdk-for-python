@@ -25,7 +25,7 @@ class TestWebSiteManagementContainerAppsRevisionsOperationsAsync(AzureMgmtRecord
         response = self.client.container_apps_revisions.list_revisions(
             resource_group_name=resource_group.name,
             container_app_name="str",
-            api_version="2024-04-01",
+            api_version="2023-12-01",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -38,7 +38,7 @@ class TestWebSiteManagementContainerAppsRevisionsOperationsAsync(AzureMgmtRecord
             resource_group_name=resource_group.name,
             container_app_name="str",
             name="str",
-            api_version="2024-04-01",
+            api_version="2023-12-01",
         )
 
         # please add some check logic here by yourself
@@ -51,7 +51,7 @@ class TestWebSiteManagementContainerAppsRevisionsOperationsAsync(AzureMgmtRecord
             resource_group_name=resource_group.name,
             container_app_name="str",
             name="str",
-            api_version="2024-04-01",
+            api_version="2023-12-01",
         )
 
         # please add some check logic here by yourself
@@ -64,7 +64,7 @@ class TestWebSiteManagementContainerAppsRevisionsOperationsAsync(AzureMgmtRecord
             resource_group_name=resource_group.name,
             container_app_name="str",
             name="str",
-            api_version="2024-04-01",
+            api_version="2023-12-01",
         )
 
         # please add some check logic here by yourself
@@ -77,7 +77,7 @@ class TestWebSiteManagementContainerAppsRevisionsOperationsAsync(AzureMgmtRecord
             resource_group_name=resource_group.name,
             container_app_name="str",
             name="str",
-            api_version="2024-04-01",
+            api_version="2023-12-01",
         )
 
         # please add some check logic here by yourself

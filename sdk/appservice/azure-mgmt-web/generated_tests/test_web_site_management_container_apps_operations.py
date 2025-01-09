@@ -22,7 +22,7 @@ class TestWebSiteManagementContainerAppsOperations(AzureMgmtRecordedTestCase):
     @recorded_by_proxy
     def test_container_apps_list_by_subscription(self, resource_group):
         response = self.client.container_apps.list_by_subscription(
-            api_version="2024-04-01",
+            api_version="2023-12-01",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -33,7 +33,7 @@ class TestWebSiteManagementContainerAppsOperations(AzureMgmtRecordedTestCase):
     def test_container_apps_list_by_resource_group(self, resource_group):
         response = self.client.container_apps.list_by_resource_group(
             resource_group_name=resource_group.name,
-            api_version="2024-04-01",
+            api_version="2023-12-01",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -45,7 +45,7 @@ class TestWebSiteManagementContainerAppsOperations(AzureMgmtRecordedTestCase):
         response = self.client.container_apps.get(
             resource_group_name=resource_group.name,
             name="str",
-            api_version="2024-04-01",
+            api_version="2023-12-01",
         )
 
         # please add some check logic here by yourself
@@ -131,7 +131,7 @@ class TestWebSiteManagementContainerAppsOperations(AzureMgmtRecordedTestCase):
                 },
                 "type": "str",
             },
-            api_version="2024-04-01",
+            api_version="2023-12-01",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -143,7 +143,7 @@ class TestWebSiteManagementContainerAppsOperations(AzureMgmtRecordedTestCase):
         response = self.client.container_apps.begin_delete(
             resource_group_name=resource_group.name,
             name="str",
-            api_version="2024-04-01",
+            api_version="2023-12-01",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -154,7 +154,7 @@ class TestWebSiteManagementContainerAppsOperations(AzureMgmtRecordedTestCase):
     def test_container_apps_list_secrets(self, resource_group):
         response = self.client.container_apps.list_secrets(
             name="str",
-            api_version="2024-04-01",
+            api_version="2023-12-01",
         )
 
         # please add some check logic here by yourself
