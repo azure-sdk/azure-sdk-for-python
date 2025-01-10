@@ -554,12 +554,12 @@ class StorageAccountType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
 
 class UpgradeMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Specifies the mode of an upgrade to virtual machines in the scale set.:code:`<br />`:code:`<br
-    />` Possible values are::code:`<br />`:code:`<br />` **Manual** - You  control the application
-    of updates to virtual machines in the scale set. You do this by using the manualUpgrade
-    action.:code:`<br />`:code:`<br />` **Automatic** - All virtual machines in the scale set are
-    automatically updated at the same time.:code:`<br />`:code:`<br />` **Rolling** - Scale set
-    performs updates in batches with an optional pause time in between.
+    """Specifies the mode of an upgrade to virtual machines in the scale set.\\ :code:`<br />`\\
+    :code:`<br />` Possible values are:\\ :code:`<br />`\\ :code:`<br />` **Manual** - You  control
+    the application of updates to virtual machines in the scale set. You do this by using the
+    manualUpgrade action.\\ :code:`<br />`\\ :code:`<br />` **Automatic** - All virtual machines in
+    the scale set are automatically updated at the same time.\\ :code:`<br />`\\ :code:`<br />`
+    **Rolling** - Scale set performs updates in batches with an optional pause time in between.
     """
 
     AUTOMATIC = "automatic"
