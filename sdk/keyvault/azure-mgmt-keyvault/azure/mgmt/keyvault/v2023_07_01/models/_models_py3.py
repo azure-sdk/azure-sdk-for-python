@@ -1,5 +1,5 @@
-# coding=utf-8
 # pylint: disable=too-many-lines
+# coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -13,7 +13,6 @@ from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 from ... import _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
@@ -662,7 +661,7 @@ class Resource(_serialization.Model):
         self.tags = None
 
 
-class Key(Resource):  # pylint: disable=too-many-instance-attributes
+class Key(Resource):
     """The key resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1356,7 +1355,7 @@ class ProxyResourceWithoutSystemData(_serialization.Model):
         self.tags = tags
 
 
-class ManagedHsmKey(ProxyResourceWithoutSystemData):  # pylint: disable=too-many-instance-attributes
+class ManagedHsmKey(ProxyResourceWithoutSystemData):
     """The key resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1813,7 +1812,7 @@ class ManagedHsmListResult(_serialization.Model):
         self.next_link = next_link
 
 
-class ManagedHsmProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class ManagedHsmProperties(_serialization.Model):
     """Properties of the managed HSM Pool.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -2164,7 +2163,7 @@ class ManagedServiceIdentity(_serialization.Model):
         self.user_assigned_identities = user_assigned_identities
 
 
-class MetricSpecification(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class MetricSpecification(_serialization.Model):
     """Metric specification of operation.
 
     :ivar name: Name of metric specification.
@@ -2409,7 +2408,7 @@ class MHSMPrivateEndpoint(_serialization.Model):
         self.id = None
 
 
-class MHSMPrivateEndpointConnection(ManagedHsmResource):  # pylint: disable=too-many-instance-attributes
+class MHSMPrivateEndpointConnection(ManagedHsmResource):
     """Private endpoint connection resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -2604,7 +2603,7 @@ class MHSMPrivateEndpointConnectionsListResult(_serialization.Model):
         self.next_link = next_link
 
 
-class MHSMPrivateLinkResource(ManagedHsmResource):  # pylint: disable=too-many-instance-attributes
+class MHSMPrivateLinkResource(ManagedHsmResource):
     """A private link resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -4158,7 +4157,7 @@ class VaultPatchParameters(_serialization.Model):
         self.properties = properties
 
 
-class VaultPatchProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class VaultPatchProperties(_serialization.Model):
     """Properties of the vault.
 
     :ivar tenant_id: The Azure Active Directory tenant ID that should be used for authenticating
@@ -4308,7 +4307,7 @@ class VaultPatchProperties(_serialization.Model):  # pylint: disable=too-many-in
         self.public_network_access = public_network_access
 
 
-class VaultProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class VaultProperties(_serialization.Model):
     """Properties of the vault.
 
     Variables are only populated by the server, and will be ignored when sending a request.
