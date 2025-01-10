@@ -35,6 +35,14 @@ class TestCosmosDBManagementDataTransferJobsOperations(AzureMgmtRecordedTestCase
                     "lastUpdatedUtcTime": "2020-02-20 00:00:00",
                     "mode": "str",
                     "processedCount": 0,
+                    "sourceAndDestinationContainers": [
+                        {
+                            "destination": "container_entity",
+                            "source": "container_entity",
+                            "processedCount": 0,
+                            "totalCount": 0,
+                        }
+                    ],
                     "status": "str",
                     "totalCount": 0,
                     "workerCount": 0,
