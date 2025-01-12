@@ -20,7 +20,7 @@ class TestSqlManagementJobCredentialsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_agent(self, resource_group):
+    def test_job_credentials_list_by_agent(self, resource_group):
         response = self.client.job_credentials.list_by_agent(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -33,7 +33,7 @@ class TestSqlManagementJobCredentialsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_job_credentials_get(self, resource_group):
         response = self.client.job_credentials.get(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -47,7 +47,7 @@ class TestSqlManagementJobCredentialsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_create_or_update(self, resource_group):
+    def test_job_credentials_create_or_update(self, resource_group):
         response = self.client.job_credentials.create_or_update(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -62,7 +62,7 @@ class TestSqlManagementJobCredentialsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_delete(self, resource_group):
+    def test_job_credentials_delete(self, resource_group):
         response = self.client.job_credentials.delete(
             resource_group_name=resource_group.name,
             server_name="str",

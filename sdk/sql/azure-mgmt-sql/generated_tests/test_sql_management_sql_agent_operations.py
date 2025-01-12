@@ -20,7 +20,7 @@ class TestSqlManagementSqlAgentOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_sql_agent_get(self, resource_group):
         response = self.client.sql_agent.get(
             resource_group_name=resource_group.name,
             managed_instance_name="str",
@@ -32,7 +32,7 @@ class TestSqlManagementSqlAgentOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_create_or_update(self, resource_group):
+    def test_sql_agent_create_or_update(self, resource_group):
         response = self.client.sql_agent.create_or_update(
             resource_group_name=resource_group.name,
             managed_instance_name="str",
