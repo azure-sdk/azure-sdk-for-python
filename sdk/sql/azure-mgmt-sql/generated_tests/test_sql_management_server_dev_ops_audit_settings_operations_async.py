@@ -21,7 +21,7 @@ class TestSqlManagementServerDevOpsAuditSettingsOperationsAsync(AzureMgmtRecorde
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_by_server(self, resource_group):
+    async def test_server_dev_ops_audit_settings_list_by_server(self, resource_group):
         response = self.client.server_dev_ops_audit_settings.list_by_server(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -33,7 +33,7 @@ class TestSqlManagementServerDevOpsAuditSettingsOperationsAsync(AzureMgmtRecorde
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get(self, resource_group):
+    async def test_server_dev_ops_audit_settings_get(self, resource_group):
         response = await self.client.server_dev_ops_audit_settings.get(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -46,7 +46,7 @@ class TestSqlManagementServerDevOpsAuditSettingsOperationsAsync(AzureMgmtRecorde
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_create_or_update(self, resource_group):
+    async def test_server_dev_ops_audit_settings_begin_create_or_update(self, resource_group):
         response = await (
             await self.client.server_dev_ops_audit_settings.begin_create_or_update(
                 resource_group_name=resource_group.name,

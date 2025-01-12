@@ -20,7 +20,7 @@ class TestSqlManagementServerAzureADOnlyAuthenticationsOperations(AzureMgmtRecor
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_server_azure_ad_only_authentications_get(self, resource_group):
         response = self.client.server_azure_ad_only_authentications.get(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -33,7 +33,7 @@ class TestSqlManagementServerAzureADOnlyAuthenticationsOperations(AzureMgmtRecor
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_create_or_update(self, resource_group):
+    def test_server_azure_ad_only_authentications_begin_create_or_update(self, resource_group):
         response = self.client.server_azure_ad_only_authentications.begin_create_or_update(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -47,7 +47,7 @@ class TestSqlManagementServerAzureADOnlyAuthenticationsOperations(AzureMgmtRecor
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_delete(self, resource_group):
+    def test_server_azure_ad_only_authentications_begin_delete(self, resource_group):
         response = self.client.server_azure_ad_only_authentications.begin_delete(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -60,7 +60,7 @@ class TestSqlManagementServerAzureADOnlyAuthenticationsOperations(AzureMgmtRecor
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_server(self, resource_group):
+    def test_server_azure_ad_only_authentications_list_by_server(self, resource_group):
         response = self.client.server_azure_ad_only_authentications.list_by_server(
             resource_group_name=resource_group.name,
             server_name="str",
