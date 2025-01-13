@@ -42,7 +42,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
                 "repositoryUrl": "str",
                 "type": "str",
             },
-            api_version="2024-04-01",
+            api_version="2023-12-01",
         )
 
         # please add some check logic here by yourself
@@ -52,7 +52,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
     @recorded_by_proxy_async
     async def test_static_sites_list(self, resource_group):
         response = self.client.static_sites.list(
-            api_version="2024-04-01",
+            api_version="2023-12-01",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -63,7 +63,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
     async def test_static_sites_get_static_sites_by_resource_group(self, resource_group):
         response = self.client.static_sites.get_static_sites_by_resource_group(
             resource_group_name=resource_group.name,
-            api_version="2024-04-01",
+            api_version="2023-12-01",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -75,7 +75,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
         response = await self.client.static_sites.get_static_site(
             resource_group_name=resource_group.name,
             name="str",
-            api_version="2024-04-01",
+            api_version="2023-12-01",
         )
 
         # please add some check logic here by yourself
@@ -239,7 +239,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
                         }
                     ],
                 },
-                api_version="2024-04-01",
+                api_version="2023-12-01",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -253,7 +253,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
             await self.client.static_sites.begin_delete_static_site(
                 resource_group_name=resource_group.name,
                 name="str",
-                api_version="2024-04-01",
+                api_version="2023-12-01",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -393,7 +393,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
                     }
                 ],
             },
-            api_version="2024-04-01",
+            api_version="2023-12-01",
         )
 
         # please add some check logic here by yourself
@@ -406,7 +406,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
             resource_group_name=resource_group.name,
             name="str",
             authprovider="str",
-            api_version="2024-04-01",
+            api_version="2023-12-01",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -420,7 +420,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
             name="str",
             authprovider="str",
             userid="str",
-            api_version="2024-04-01",
+            api_version="2023-12-01",
         )
 
         # please add some check logic here by yourself
@@ -444,7 +444,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
                 "type": "str",
                 "userId": "str",
             },
-            api_version="2024-04-01",
+            api_version="2023-12-01",
         )
 
         # please add some check logic here by yourself
@@ -456,7 +456,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
         response = self.client.static_sites.get_static_site_builds(
             resource_group_name=resource_group.name,
             name="str",
-            api_version="2024-04-01",
+            api_version="2023-12-01",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -469,7 +469,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
             resource_group_name=resource_group.name,
             name="str",
             environment_name="str",
-            api_version="2024-04-01",
+            api_version="2023-12-01",
         )
 
         # please add some check logic here by yourself
@@ -483,7 +483,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
                 resource_group_name=resource_group.name,
                 name="str",
                 environment_name="str",
-                api_version="2024-04-01",
+                api_version="2023-12-01",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -498,7 +498,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
             name="str",
             environment_name="str",
             app_settings={"id": "str", "kind": "str", "name": "str", "properties": {"str": "str"}, "type": "str"},
-            api_version="2024-04-01",
+            api_version="2023-12-01",
         )
 
         # please add some check logic here by yourself
@@ -512,7 +512,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
             name="str",
             environment_name="str",
             app_settings={"id": "str", "kind": "str", "name": "str", "properties": {"str": "str"}, "type": "str"},
-            api_version="2024-04-01",
+            api_version="2023-12-01",
         )
 
         # please add some check logic here by yourself
@@ -525,7 +525,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
             resource_group_name=resource_group.name,
             name="str",
             environment_name="str",
-            api_version="2024-04-01",
+            api_version="2023-12-01",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -539,7 +539,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
             name="str",
             environment_name="str",
             database_connection_name="str",
-            api_version="2024-04-01",
+            api_version="2023-12-01",
         )
 
         # please add some check logic here by yourself
@@ -564,7 +564,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
                 "resourceId": "str",
                 "type": "str",
             },
-            api_version="2024-04-01",
+            api_version="2023-12-01",
         )
 
         # please add some check logic here by yourself
@@ -578,7 +578,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
             name="str",
             environment_name="str",
             database_connection_name="str",
-            api_version="2024-04-01",
+            api_version="2023-12-01",
         )
 
         # please add some check logic here by yourself
@@ -598,7 +598,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
                 "region": "str",
                 "resourceId": "str",
             },
-            api_version="2024-04-01",
+            api_version="2023-12-01",
         )
 
         # please add some check logic here by yourself
@@ -612,7 +612,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
             name="str",
             environment_name="str",
             database_connection_name="str",
-            api_version="2024-04-01",
+            api_version="2023-12-01",
         )
 
         # please add some check logic here by yourself
@@ -625,7 +625,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
             resource_group_name=resource_group.name,
             name="str",
             environment_name="str",
-            api_version="2024-04-01",
+            api_version="2023-12-01",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -638,7 +638,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
             resource_group_name=resource_group.name,
             name="str",
             environment_name="str",
-            api_version="2024-04-01",
+            api_version="2023-12-01",
         )
 
         # please add some check logic here by yourself
@@ -651,7 +651,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
             resource_group_name=resource_group.name,
             name="str",
             environment_name="str",
-            api_version="2024-04-01",
+            api_version="2023-12-01",
         )
 
         # please add some check logic here by yourself
@@ -664,7 +664,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
             resource_group_name=resource_group.name,
             name="str",
             environment_name="str",
-            api_version="2024-04-01",
+            api_version="2023-12-01",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -677,7 +677,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
             resource_group_name=resource_group.name,
             name="str",
             environment_name="str",
-            api_version="2024-04-01",
+            api_version="2023-12-01",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -691,7 +691,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
             name="str",
             environment_name="str",
             function_app_name="str",
-            api_version="2024-04-01",
+            api_version="2023-12-01",
         )
 
         # please add some check logic here by yourself
@@ -715,7 +715,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
                     "name": "str",
                     "type": "str",
                 },
-                api_version="2024-04-01",
+                api_version="2023-12-01",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -730,7 +730,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
             name="str",
             environment_name="str",
             function_app_name="str",
-            api_version="2024-04-01",
+            api_version="2023-12-01",
         )
 
         # please add some check logic here by yourself
@@ -755,7 +755,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
                     "provider": "str",
                     "type": "str",
                 },
-                api_version="2024-04-01",
+                api_version="2023-12-01",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -769,7 +769,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
             resource_group_name=resource_group.name,
             name="str",
             app_settings={"id": "str", "kind": "str", "name": "str", "properties": {"str": "str"}, "type": "str"},
-            api_version="2024-04-01",
+            api_version="2023-12-01",
         )
 
         # please add some check logic here by yourself
@@ -781,7 +781,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
         response = self.client.static_sites.list_basic_auth(
             resource_group_name=resource_group.name,
             name="str",
-            api_version="2024-04-01",
+            api_version="2023-12-01",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -794,7 +794,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
             resource_group_name=resource_group.name,
             name="str",
             basic_auth_name="str",
-            api_version="2024-04-01",
+            api_version="2023-12-01",
         )
 
         # please add some check logic here by yourself
@@ -818,7 +818,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
                 "secretUrl": "str",
                 "type": "str",
             },
-            api_version="2024-04-01",
+            api_version="2023-12-01",
         )
 
         # please add some check logic here by yourself
@@ -831,7 +831,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
             resource_group_name=resource_group.name,
             name="str",
             app_settings={"id": "str", "kind": "str", "name": "str", "properties": {"str": "str"}, "type": "str"},
-            api_version="2024-04-01",
+            api_version="2023-12-01",
         )
 
         # please add some check logic here by yourself
@@ -854,7 +854,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
                 "type": "str",
                 "userDetails": "str",
             },
-            api_version="2024-04-01",
+            api_version="2023-12-01",
         )
 
         # please add some check logic here by yourself
@@ -866,7 +866,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
         response = self.client.static_sites.list_static_site_custom_domains(
             resource_group_name=resource_group.name,
             name="str",
-            api_version="2024-04-01",
+            api_version="2023-12-01",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -879,7 +879,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
             resource_group_name=resource_group.name,
             name="str",
             domain_name="str",
-            api_version="2024-04-01",
+            api_version="2023-12-01",
         )
 
         # please add some check logic here by yourself
@@ -900,7 +900,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
                     "type": "str",
                     "validationMethod": "cname-delegation",
                 },
-                api_version="2024-04-01",
+                api_version="2023-12-01",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -915,7 +915,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
                 resource_group_name=resource_group.name,
                 name="str",
                 domain_name="str",
-                api_version="2024-04-01",
+                api_version="2023-12-01",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -937,7 +937,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
                     "type": "str",
                     "validationMethod": "cname-delegation",
                 },
-                api_version="2024-04-01",
+                api_version="2023-12-01",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -950,7 +950,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
         response = self.client.static_sites.get_database_connections(
             resource_group_name=resource_group.name,
             name="str",
-            api_version="2024-04-01",
+            api_version="2023-12-01",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -963,7 +963,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
             resource_group_name=resource_group.name,
             name="str",
             database_connection_name="str",
-            api_version="2024-04-01",
+            api_version="2023-12-01",
         )
 
         # please add some check logic here by yourself
@@ -987,7 +987,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
                 "resourceId": "str",
                 "type": "str",
             },
-            api_version="2024-04-01",
+            api_version="2023-12-01",
         )
 
         # please add some check logic here by yourself
@@ -1000,7 +1000,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
             resource_group_name=resource_group.name,
             name="str",
             database_connection_name="str",
-            api_version="2024-04-01",
+            api_version="2023-12-01",
         )
 
         # please add some check logic here by yourself
@@ -1019,7 +1019,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
                 "region": "str",
                 "resourceId": "str",
             },
-            api_version="2024-04-01",
+            api_version="2023-12-01",
         )
 
         # please add some check logic here by yourself
@@ -1032,7 +1032,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
             resource_group_name=resource_group.name,
             name="str",
             database_connection_name="str",
-            api_version="2024-04-01",
+            api_version="2023-12-01",
         )
 
         # please add some check logic here by yourself
@@ -1045,7 +1045,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
             await self.client.static_sites.begin_detach_static_site(
                 resource_group_name=resource_group.name,
                 name="str",
-                api_version="2024-04-01",
+                api_version="2023-12-01",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -1058,7 +1058,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
         response = self.client.static_sites.list_static_site_functions(
             resource_group_name=resource_group.name,
             name="str",
-            api_version="2024-04-01",
+            api_version="2023-12-01",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -1070,7 +1070,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
         response = await self.client.static_sites.list_static_site_app_settings(
             resource_group_name=resource_group.name,
             name="str",
-            api_version="2024-04-01",
+            api_version="2023-12-01",
         )
 
         # please add some check logic here by yourself
@@ -1082,7 +1082,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
         response = await self.client.static_sites.list_static_site_configured_roles(
             resource_group_name=resource_group.name,
             name="str",
-            api_version="2024-04-01",
+            api_version="2023-12-01",
         )
 
         # please add some check logic here by yourself
@@ -1094,7 +1094,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
         response = await self.client.static_sites.list_static_site_function_app_settings(
             resource_group_name=resource_group.name,
             name="str",
-            api_version="2024-04-01",
+            api_version="2023-12-01",
         )
 
         # please add some check logic here by yourself
@@ -1106,7 +1106,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
         response = await self.client.static_sites.list_static_site_secrets(
             resource_group_name=resource_group.name,
             name="str",
-            api_version="2024-04-01",
+            api_version="2023-12-01",
         )
 
         # please add some check logic here by yourself
@@ -1118,7 +1118,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
         response = self.client.static_sites.get_private_endpoint_connection_list(
             resource_group_name=resource_group.name,
             name="str",
-            api_version="2024-04-01",
+            api_version="2023-12-01",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -1131,7 +1131,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
             resource_group_name=resource_group.name,
             name="str",
             private_endpoint_connection_name="str",
-            api_version="2024-04-01",
+            api_version="2023-12-01",
         )
 
         # please add some check logic here by yourself
@@ -1159,7 +1159,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
                     "provisioningState": "str",
                     "type": "str",
                 },
-                api_version="2024-04-01",
+                api_version="2023-12-01",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -1174,7 +1174,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
                 resource_group_name=resource_group.name,
                 name="str",
                 private_endpoint_connection_name="str",
-                api_version="2024-04-01",
+                api_version="2023-12-01",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -1187,7 +1187,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
         response = await self.client.static_sites.get_private_link_resources(
             resource_group_name=resource_group.name,
             name="str",
-            api_version="2024-04-01",
+            api_version="2023-12-01",
         )
 
         # please add some check logic here by yourself
@@ -1207,7 +1207,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
                 "shouldUpdateRepository": bool,
                 "type": "str",
             },
-            api_version="2024-04-01",
+            api_version="2023-12-01",
         )
 
         # please add some check logic here by yourself
@@ -1219,7 +1219,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
         response = self.client.static_sites.get_database_connections_with_details(
             resource_group_name=resource_group.name,
             name="str",
-            api_version="2024-04-01",
+            api_version="2023-12-01",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -1231,7 +1231,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
         response = self.client.static_sites.get_user_provided_function_apps_for_static_site(
             resource_group_name=resource_group.name,
             name="str",
-            api_version="2024-04-01",
+            api_version="2023-12-01",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -1244,7 +1244,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
             resource_group_name=resource_group.name,
             name="str",
             function_app_name="str",
-            api_version="2024-04-01",
+            api_version="2023-12-01",
         )
 
         # please add some check logic here by yourself
@@ -1267,7 +1267,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
                     "name": "str",
                     "type": "str",
                 },
-                api_version="2024-04-01",
+                api_version="2023-12-01",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -1281,7 +1281,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
             resource_group_name=resource_group.name,
             name="str",
             function_app_name="str",
-            api_version="2024-04-01",
+            api_version="2023-12-01",
         )
 
         # please add some check logic here by yourself
@@ -1305,7 +1305,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
                     "provider": "str",
                     "type": "str",
                 },
-                api_version="2024-04-01",
+                api_version="2023-12-01",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -1330,7 +1330,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
                     "region": "str",
                     "type": "str",
                 },
-                api_version="2024-04-01",
+                api_version="2023-12-01",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -1356,7 +1356,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
                     "region": "str",
                     "type": "str",
                 },
-                api_version="2024-04-01",
+                api_version="2023-12-01",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -1369,7 +1369,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
         response = self.client.static_sites.get_linked_backends(
             resource_group_name=resource_group.name,
             name="str",
-            api_version="2024-04-01",
+            api_version="2023-12-01",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -1382,7 +1382,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
             resource_group_name=resource_group.name,
             name="str",
             environment_name="str",
-            api_version="2024-04-01",
+            api_version="2023-12-01",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -1395,7 +1395,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
             resource_group_name=resource_group.name,
             name="str",
             linked_backend_name="str",
-            api_version="2024-04-01",
+            api_version="2023-12-01",
         )
 
         # please add some check logic here by yourself
@@ -1419,7 +1419,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
                     "region": "str",
                     "type": "str",
                 },
-                api_version="2024-04-01",
+                api_version="2023-12-01",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -1433,7 +1433,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
             resource_group_name=resource_group.name,
             name="str",
             linked_backend_name="str",
-            api_version="2024-04-01",
+            api_version="2023-12-01",
         )
 
         # please add some check logic here by yourself
@@ -1447,7 +1447,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
             name="str",
             environment_name="str",
             linked_backend_name="str",
-            api_version="2024-04-01",
+            api_version="2023-12-01",
         )
 
         # please add some check logic here by yourself
@@ -1472,7 +1472,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
                     "region": "str",
                     "type": "str",
                 },
-                api_version="2024-04-01",
+                api_version="2023-12-01",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -1487,7 +1487,7 @@ class TestWebSiteManagementStaticSitesOperationsAsync(AzureMgmtRecordedTestCase)
             name="str",
             environment_name="str",
             linked_backend_name="str",
-            api_version="2024-04-01",
+            api_version="2023-12-01",
         )
 
         # please add some check logic here by yourself
