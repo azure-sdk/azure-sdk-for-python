@@ -6,8 +6,6 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from typing import Any, IO, Union
-
 from azure.identity import DefaultAzureCredential
 
 from azure.mgmt.support import MicrosoftSupport
@@ -51,6 +49,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/support/resource-manager/Microsoft.Support/stable/2024-04-01/examples/UpdateContactDetailsOfSupportTicket.json
+# x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2023-06-01-preview/examples/UpdateContactDetailsOfSupportTicket.json
 if __name__ == "__main__":
     main()

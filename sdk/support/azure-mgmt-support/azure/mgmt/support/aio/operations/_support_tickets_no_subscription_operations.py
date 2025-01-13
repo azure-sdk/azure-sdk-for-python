@@ -1,4 +1,3 @@
-# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,7 +6,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-from typing import Any, AsyncIterable, Callable, Dict, IO, Optional, TypeVar, Union, cast, overload
+import sys
+from typing import Any, AsyncIterable, AsyncIterator, Callable, Dict, IO, Optional, TypeVar, Union, cast, overload
 import urllib.parse
 
 from azure.core.async_paging import AsyncItemPaged, AsyncList
@@ -17,12 +17,13 @@ from azure.core.exceptions import (
     ResourceExistsError,
     ResourceNotFoundError,
     ResourceNotModifiedError,
+    StreamClosedError,
+    StreamConsumedError,
     map_error,
 )
 from azure.core.pipeline import PipelineResponse
-from azure.core.pipeline.transport import AsyncHttpResponse
 from azure.core.polling import AsyncLROPoller, AsyncNoPolling, AsyncPollingMethod
-from azure.core.rest import HttpRequest
+from azure.core.rest import AsyncHttpResponse, HttpRequest
 from azure.core.tracing.decorator import distributed_trace
 from azure.core.tracing.decorator_async import distributed_trace_async
 from azure.core.utils import case_insensitive_dict
@@ -30,7 +31,6 @@ from azure.mgmt.core.exceptions import ARMErrorFormat
 from azure.mgmt.core.polling.async_arm_polling import AsyncARMPolling
 
 from ... import models as _models
-from ..._vendor import _convert_request
 from ...operations._support_tickets_no_subscription_operations import (
     build_check_name_availability_request,
     build_create_request,
@@ -39,6 +39,10 @@ from ...operations._support_tickets_no_subscription_operations import (
     build_update_request,
 )
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -115,7 +119,7 @@ class SupportTicketsNoSubscriptionOperations:
         :rtype: ~azure.mgmt.support.models.CheckNameAvailabilityOutput
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -146,7 +150,6 @@ class SupportTicketsNoSubscriptionOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -161,7 +164,7 @@ class SupportTicketsNoSubscriptionOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("CheckNameAvailabilityOutput", pipeline_response)
+        deserialized = self._deserialize("CheckNameAvailabilityOutput", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -172,13 +175,13 @@ class SupportTicketsNoSubscriptionOperations:
     def list(
         self, top: Optional[int] = None, filter: Optional[str] = None, **kwargs: Any
     ) -> AsyncIterable["_models.SupportTicketDetails"]:
-        """Lists all the support tickets. :code:`<br/>`:code:`<br/>`You can also filter the support
+        """Lists all the support tickets. :code:`<br/>`\\ :code:`<br/>`You can also filter the support
         tickets by :code:`<i>Status</i>`, :code:`<i>CreatedDate</i>`, , :code:`<i>ServiceId</i>`, and
         :code:`<i>ProblemClassificationId</i>` using the $filter parameter. Output will be a paged
         result with :code:`<i>nextLink</i>`, using which you can retrieve the next set of support
-        tickets. :code:`<br/>`:code:`<br/>`Support ticket data is available for 18 months after ticket
-        creation. If a ticket was created more than 18 months ago, a request for data might cause an
-        error.
+        tickets. :code:`<br/>`\\ :code:`<br/>`Support ticket data is available for 18 months after
+        ticket creation. If a ticket was created more than 18 months ago, a request for data might
+        cause an error.
 
         :param top: The number of values to return in the collection. Default is 25 and max is 100.
          Default value is None.
@@ -186,7 +189,7 @@ class SupportTicketsNoSubscriptionOperations:
         :param filter: The filter to apply on the operation. We support 'odata v4.0' filter semantics.
          :code:`<a target='_blank'
          href='https://docs.microsoft.com/odata/concepts/queryoptions-overview'>Learn more</a>`
-         :code:`<br/>`:code:`<i>Status</i>` , :code:`<i>ServiceId</i>`, and
+         :code:`<br/>`\\ :code:`<i>Status</i>` , :code:`<i>ServiceId</i>`, and
          :code:`<i>ProblemClassificationId</i>` filters can only be used with 'eq' operator. For
          :code:`<i>CreatedDate</i>` filter, the supported operators are 'gt' and 'ge'. When using both
          filters, combine them using the logical 'AND'. Default value is None.
@@ -203,7 +206,7 @@ class SupportTicketsNoSubscriptionOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.SupportTicketsListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -221,7 +224,6 @@ class SupportTicketsNoSubscriptionOperations:
                     headers=_headers,
                     params=_params,
                 )
-                _request = _convert_request(_request)
                 _request.url = self._client.format_url(_request.url)
 
             else:
@@ -237,7 +239,6 @@ class SupportTicketsNoSubscriptionOperations:
                 _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                _request = _convert_request(_request)
                 _request.url = self._client.format_url(_request.url)
                 _request.method = "GET"
             return _request
@@ -279,7 +280,7 @@ class SupportTicketsNoSubscriptionOperations:
         :rtype: ~azure.mgmt.support.models.SupportTicketDetails
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -299,7 +300,6 @@ class SupportTicketsNoSubscriptionOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -314,7 +314,7 @@ class SupportTicketsNoSubscriptionOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("SupportTicketDetails", pipeline_response)
+        deserialized = self._deserialize("SupportTicketDetails", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -331,10 +331,10 @@ class SupportTicketsNoSubscriptionOperations:
         **kwargs: Any
     ) -> _models.SupportTicketDetails:
         """This API allows you to update the severity level, ticket status, and your contact information
-        in the support ticket.:code:`<br/>`:code:`<br/>`Note: The severity levels cannot be changed if
-        a support ticket is actively being worked upon by an Azure support engineer. In such a case,
-        contact your support engineer to request severity update by adding a new communication using
-        the Communications API.
+        in the support ticket.\\ :code:`<br/>`\\ :code:`<br/>`Note: The severity levels cannot be
+        changed if a support ticket is actively being worked upon by an Azure support engineer. In such
+        a case, contact your support engineer to request severity update by adding a new communication
+        using the Communications API.
 
         :param support_ticket_name: Support ticket name. Required.
         :type support_ticket_name: str
@@ -358,10 +358,10 @@ class SupportTicketsNoSubscriptionOperations:
         **kwargs: Any
     ) -> _models.SupportTicketDetails:
         """This API allows you to update the severity level, ticket status, and your contact information
-        in the support ticket.:code:`<br/>`:code:`<br/>`Note: The severity levels cannot be changed if
-        a support ticket is actively being worked upon by an Azure support engineer. In such a case,
-        contact your support engineer to request severity update by adding a new communication using
-        the Communications API.
+        in the support ticket.\\ :code:`<br/>`\\ :code:`<br/>`Note: The severity levels cannot be
+        changed if a support ticket is actively being worked upon by an Azure support engineer. In such
+        a case, contact your support engineer to request severity update by adding a new communication
+        using the Communications API.
 
         :param support_ticket_name: Support ticket name. Required.
         :type support_ticket_name: str
@@ -383,10 +383,10 @@ class SupportTicketsNoSubscriptionOperations:
         **kwargs: Any
     ) -> _models.SupportTicketDetails:
         """This API allows you to update the severity level, ticket status, and your contact information
-        in the support ticket.:code:`<br/>`:code:`<br/>`Note: The severity levels cannot be changed if
-        a support ticket is actively being worked upon by an Azure support engineer. In such a case,
-        contact your support engineer to request severity update by adding a new communication using
-        the Communications API.
+        in the support ticket.\\ :code:`<br/>`\\ :code:`<br/>`Note: The severity levels cannot be
+        changed if a support ticket is actively being worked upon by an Azure support engineer. In such
+        a case, contact your support engineer to request severity update by adding a new communication
+        using the Communications API.
 
         :param support_ticket_name: Support ticket name. Required.
         :type support_ticket_name: str
@@ -397,7 +397,7 @@ class SupportTicketsNoSubscriptionOperations:
         :rtype: ~azure.mgmt.support.models.SupportTicketDetails
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -429,7 +429,6 @@ class SupportTicketsNoSubscriptionOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -444,7 +443,7 @@ class SupportTicketsNoSubscriptionOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("SupportTicketDetails", pipeline_response)
+        deserialized = self._deserialize("SupportTicketDetails", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -456,8 +455,8 @@ class SupportTicketsNoSubscriptionOperations:
         support_ticket_name: str,
         create_support_ticket_parameters: Union[_models.SupportTicketDetails, IO[bytes]],
         **kwargs: Any
-    ) -> Optional[_models.SupportTicketDetails]:
-        error_map = {
+    ) -> AsyncIterator[bytes]:
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -470,7 +469,7 @@ class SupportTicketsNoSubscriptionOperations:
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[Optional[_models.SupportTicketDetails]] = kwargs.pop("cls", None)
+        cls: ClsType[AsyncIterator[bytes]] = kwargs.pop("cls", None)
 
         content_type = content_type or "application/json"
         _json = None
@@ -489,10 +488,10 @@ class SupportTicketsNoSubscriptionOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
-        _stream = False
+        _decompress = kwargs.pop("decompress", True)
+        _stream = True
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
@@ -500,17 +499,19 @@ class SupportTicketsNoSubscriptionOperations:
         response = pipeline_response.http_response
 
         if response.status_code not in [200, 202]:
+            try:
+                await response.read()  # Load the body in memory and close the socket
+            except (StreamConsumedError, StreamClosedError):
+                pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = None
         response_headers = {}
-        if response.status_code == 200:
-            deserialized = self._deserialize("SupportTicketDetails", pipeline_response)
-
         if response.status_code == 202:
             response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
+
+        deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
 
         if cls:
             return cls(pipeline_response, deserialized, response_headers)  # type: ignore
@@ -527,17 +528,17 @@ class SupportTicketsNoSubscriptionOperations:
         **kwargs: Any
     ) -> AsyncLROPoller[_models.SupportTicketDetails]:
         """Creates a new support ticket for Billing, and Subscription Management issues. Learn the
-        `prerequisites <https://aka.ms/supportAPI>`_ required to create a support
-        ticket.:code:`<br/>`:code:`<br/>`Always call the Services and ProblemClassifications API to get
-        the most recent set of services and problem categories required for support ticket
-        creation.:code:`<br/>`:code:`<br/>`Adding attachments is not currently supported via the API.
-        To add a file to an existing support ticket, visit the `Manage support ticket
+        `prerequisites <https://aka.ms/supportAPI>`_ required to create a support ticket.\\
+        :code:`<br/>`\\ :code:`<br/>`Always call the Services and ProblemClassifications API to get the
+        most recent set of services and problem categories required for support ticket creation.\\
+        :code:`<br/>`\\ :code:`<br/>`Adding attachments is not currently supported via the API. To add
+        a file to an existing support ticket, visit the `Manage support ticket
         <https://portal.azure.com/#blade/Microsoft_Azure_Support/HelpAndSupportBlade/managesupportrequest>`_
         page in the Azure portal, select the support ticket, and use the file upload control to add a
-        new file.:code:`<br/>`:code:`<br/>`Providing consent to share diagnostic information with Azure
-        support is currently not supported via the API. The Azure support engineer working on your
-        ticket will reach out to you for consent if your issue requires gathering diagnostic
-        information from your Azure resources.:code:`<br/>`:code:`<br/>`.
+        new file.\\ :code:`<br/>`\\ :code:`<br/>`Providing consent to share diagnostic information with
+        Azure support is currently not supported via the API. The Azure support engineer working on
+        your ticket will reach out to you for consent if your issue requires gathering diagnostic
+        information from your Azure resources.\\ :code:`<br/>`\\ :code:`<br/>`.
 
         :param support_ticket_name: Support ticket name. Required.
         :type support_ticket_name: str
@@ -562,17 +563,17 @@ class SupportTicketsNoSubscriptionOperations:
         **kwargs: Any
     ) -> AsyncLROPoller[_models.SupportTicketDetails]:
         """Creates a new support ticket for Billing, and Subscription Management issues. Learn the
-        `prerequisites <https://aka.ms/supportAPI>`_ required to create a support
-        ticket.:code:`<br/>`:code:`<br/>`Always call the Services and ProblemClassifications API to get
-        the most recent set of services and problem categories required for support ticket
-        creation.:code:`<br/>`:code:`<br/>`Adding attachments is not currently supported via the API.
-        To add a file to an existing support ticket, visit the `Manage support ticket
+        `prerequisites <https://aka.ms/supportAPI>`_ required to create a support ticket.\\
+        :code:`<br/>`\\ :code:`<br/>`Always call the Services and ProblemClassifications API to get the
+        most recent set of services and problem categories required for support ticket creation.\\
+        :code:`<br/>`\\ :code:`<br/>`Adding attachments is not currently supported via the API. To add
+        a file to an existing support ticket, visit the `Manage support ticket
         <https://portal.azure.com/#blade/Microsoft_Azure_Support/HelpAndSupportBlade/managesupportrequest>`_
         page in the Azure portal, select the support ticket, and use the file upload control to add a
-        new file.:code:`<br/>`:code:`<br/>`Providing consent to share diagnostic information with Azure
-        support is currently not supported via the API. The Azure support engineer working on your
-        ticket will reach out to you for consent if your issue requires gathering diagnostic
-        information from your Azure resources.:code:`<br/>`:code:`<br/>`.
+        new file.\\ :code:`<br/>`\\ :code:`<br/>`Providing consent to share diagnostic information with
+        Azure support is currently not supported via the API. The Azure support engineer working on
+        your ticket will reach out to you for consent if your issue requires gathering diagnostic
+        information from your Azure resources.\\ :code:`<br/>`\\ :code:`<br/>`.
 
         :param support_ticket_name: Support ticket name. Required.
         :type support_ticket_name: str
@@ -595,17 +596,17 @@ class SupportTicketsNoSubscriptionOperations:
         **kwargs: Any
     ) -> AsyncLROPoller[_models.SupportTicketDetails]:
         """Creates a new support ticket for Billing, and Subscription Management issues. Learn the
-        `prerequisites <https://aka.ms/supportAPI>`_ required to create a support
-        ticket.:code:`<br/>`:code:`<br/>`Always call the Services and ProblemClassifications API to get
-        the most recent set of services and problem categories required for support ticket
-        creation.:code:`<br/>`:code:`<br/>`Adding attachments is not currently supported via the API.
-        To add a file to an existing support ticket, visit the `Manage support ticket
+        `prerequisites <https://aka.ms/supportAPI>`_ required to create a support ticket.\\
+        :code:`<br/>`\\ :code:`<br/>`Always call the Services and ProblemClassifications API to get the
+        most recent set of services and problem categories required for support ticket creation.\\
+        :code:`<br/>`\\ :code:`<br/>`Adding attachments is not currently supported via the API. To add
+        a file to an existing support ticket, visit the `Manage support ticket
         <https://portal.azure.com/#blade/Microsoft_Azure_Support/HelpAndSupportBlade/managesupportrequest>`_
         page in the Azure portal, select the support ticket, and use the file upload control to add a
-        new file.:code:`<br/>`:code:`<br/>`Providing consent to share diagnostic information with Azure
-        support is currently not supported via the API. The Azure support engineer working on your
-        ticket will reach out to you for consent if your issue requires gathering diagnostic
-        information from your Azure resources.:code:`<br/>`:code:`<br/>`.
+        new file.\\ :code:`<br/>`\\ :code:`<br/>`Providing consent to share diagnostic information with
+        Azure support is currently not supported via the API. The Azure support engineer working on
+        your ticket will reach out to you for consent if your issue requires gathering diagnostic
+        information from your Azure resources.\\ :code:`<br/>`\\ :code:`<br/>`.
 
         :param support_ticket_name: Support ticket name. Required.
         :type support_ticket_name: str
@@ -638,10 +639,11 @@ class SupportTicketsNoSubscriptionOperations:
                 params=_params,
                 **kwargs
             )
+            await raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):
-            deserialized = self._deserialize("SupportTicketDetails", pipeline_response)
+            deserialized = self._deserialize("SupportTicketDetails", pipeline_response.http_response)
             if cls:
                 return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
