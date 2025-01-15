@@ -8,6 +8,7 @@
 
 from copy import deepcopy
 from typing import Any, Awaitable, TYPE_CHECKING
+from typing_extensions import Self
 
 from azure.core.pipeline import policies
 from azure.core.rest import AsyncHttpResponse, HttpRequest
@@ -33,11 +34,10 @@ from .operations import (
 )
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from azure.core.credentials_async import AsyncTokenCredential
 
 
-class MaintenanceManagementClient:  # pylint: disable=client-accepts-api-version-keyword,too-many-instance-attributes
+class MaintenanceManagementClient:  # pylint: disable=too-many-instance-attributes
     """Azure Maintenance Management Client.
 
     :ivar scheduled_event: ScheduledEventOperations operations
@@ -177,7 +177,7 @@ class MaintenanceManagementClient:  # pylint: disable=client-accepts-api-version
     async def close(self) -> None:
         await self._client.close()
 
-    async def __aenter__(self) -> "MaintenanceManagementClient":
+    async def __aenter__(self) -> Self:
         await self._client.__aenter__()
         return self
 
