@@ -1,4 +1,3 @@
-# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8,7 +7,7 @@
 # --------------------------------------------------------------------------
 from io import IOBase
 import sys
-from typing import Any, AsyncIterable, AsyncIterator, Callable, Dict, IO, Optional, Type, TypeVar, Union, cast, overload
+from typing import Any, AsyncIterable, AsyncIterator, Callable, Dict, IO, Optional, TypeVar, Union, cast, overload
 import urllib.parse
 
 from azure.core.async_paging import AsyncItemPaged, AsyncList
@@ -44,7 +43,7 @@ from ...operations._redis_enterprise_operations import (
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -71,7 +70,7 @@ class RedisEnterpriseOperations:
     async def _create_initial(
         self, resource_group_name: str, cluster_name: str, parameters: Union[_models.Cluster, IO[bytes]], **kwargs: Any
     ) -> AsyncIterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -146,9 +145,11 @@ class RedisEnterpriseOperations:
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param cluster_name: The name of the Redis Enterprise cluster. Required.
+        :param cluster_name: The name of the Redis Enterprise cluster. Name must be 1-60 characters
+         long. Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+         consecutive hyphens. Required.
         :type cluster_name: str
-        :param parameters: Parameters supplied to the Create Redis Enterprise operation. Required.
+        :param parameters: Parameters supplied to the Create RedisEnterprise operation. Required.
         :type parameters: ~azure.mgmt.redisenterprise.models.Cluster
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
@@ -174,9 +175,11 @@ class RedisEnterpriseOperations:
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param cluster_name: The name of the Redis Enterprise cluster. Required.
+        :param cluster_name: The name of the Redis Enterprise cluster. Name must be 1-60 characters
+         long. Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+         consecutive hyphens. Required.
         :type cluster_name: str
-        :param parameters: Parameters supplied to the Create Redis Enterprise operation. Required.
+        :param parameters: Parameters supplied to the Create RedisEnterprise operation. Required.
         :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
@@ -196,9 +199,11 @@ class RedisEnterpriseOperations:
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param cluster_name: The name of the Redis Enterprise cluster. Required.
+        :param cluster_name: The name of the Redis Enterprise cluster. Name must be 1-60 characters
+         long. Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+         consecutive hyphens. Required.
         :type cluster_name: str
-        :param parameters: Parameters supplied to the Create Redis Enterprise operation. Is either a
+        :param parameters: Parameters supplied to the Create RedisEnterprise operation. Is either a
          Cluster type or a IO[bytes] type. Required.
         :type parameters: ~azure.mgmt.redisenterprise.models.Cluster or IO[bytes]
         :return: An instance of AsyncLROPoller that returns either Cluster or the result of
@@ -263,7 +268,7 @@ class RedisEnterpriseOperations:
         parameters: Union[_models.ClusterUpdate, IO[bytes]],
         **kwargs: Any
     ) -> AsyncIterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -340,14 +345,16 @@ class RedisEnterpriseOperations:
         content_type: str = "application/json",
         **kwargs: Any
     ) -> AsyncLROPoller[_models.Cluster]:
-        """Updates an existing Redis Enterprise cluster.
+        """Updates an existing RedisEnterprise cluster.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param cluster_name: The name of the Redis Enterprise cluster. Required.
+        :param cluster_name: The name of the Redis Enterprise cluster. Name must be 1-60 characters
+         long. Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+         consecutive hyphens. Required.
         :type cluster_name: str
-        :param parameters: Parameters supplied to the Update Redis Enterprise operation. Required.
+        :param parameters: Parameters supplied to the Update RedisEnterprise operation. Required.
         :type parameters: ~azure.mgmt.redisenterprise.models.ClusterUpdate
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
@@ -368,14 +375,16 @@ class RedisEnterpriseOperations:
         content_type: str = "application/json",
         **kwargs: Any
     ) -> AsyncLROPoller[_models.Cluster]:
-        """Updates an existing Redis Enterprise cluster.
+        """Updates an existing RedisEnterprise cluster.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param cluster_name: The name of the Redis Enterprise cluster. Required.
+        :param cluster_name: The name of the Redis Enterprise cluster. Name must be 1-60 characters
+         long. Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+         consecutive hyphens. Required.
         :type cluster_name: str
-        :param parameters: Parameters supplied to the Update Redis Enterprise operation. Required.
+        :param parameters: Parameters supplied to the Update RedisEnterprise operation. Required.
         :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
@@ -394,14 +403,16 @@ class RedisEnterpriseOperations:
         parameters: Union[_models.ClusterUpdate, IO[bytes]],
         **kwargs: Any
     ) -> AsyncLROPoller[_models.Cluster]:
-        """Updates an existing Redis Enterprise cluster.
+        """Updates an existing RedisEnterprise cluster.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param cluster_name: The name of the Redis Enterprise cluster. Required.
+        :param cluster_name: The name of the Redis Enterprise cluster. Name must be 1-60 characters
+         long. Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+         consecutive hyphens. Required.
         :type cluster_name: str
-        :param parameters: Parameters supplied to the Update Redis Enterprise operation. Is either a
+        :param parameters: Parameters supplied to the Update RedisEnterprise operation. Is either a
          ClusterUpdate type or a IO[bytes] type. Required.
         :type parameters: ~azure.mgmt.redisenterprise.models.ClusterUpdate or IO[bytes]
         :return: An instance of AsyncLROPoller that returns either Cluster or the result of
@@ -460,7 +471,7 @@ class RedisEnterpriseOperations:
         )
 
     async def _delete_initial(self, resource_group_name: str, cluster_name: str, **kwargs: Any) -> AsyncIterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -517,12 +528,14 @@ class RedisEnterpriseOperations:
 
     @distributed_trace_async
     async def begin_delete(self, resource_group_name: str, cluster_name: str, **kwargs: Any) -> AsyncLROPoller[None]:
-        """Deletes a Redis Enterprise cache cluster.
+        """Deletes a RedisEnterprise cache cluster.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param cluster_name: The name of the Redis Enterprise cluster. Required.
+        :param cluster_name: The name of the Redis Enterprise cluster. Name must be 1-60 characters
+         long. Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+         consecutive hyphens. Required.
         :type cluster_name: str
         :return: An instance of AsyncLROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[None]
@@ -573,18 +586,20 @@ class RedisEnterpriseOperations:
 
     @distributed_trace_async
     async def get(self, resource_group_name: str, cluster_name: str, **kwargs: Any) -> _models.Cluster:
-        """Gets information about a Redis Enterprise cluster.
+        """Gets information about a RedisEnterprise cluster.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param cluster_name: The name of the Redis Enterprise cluster. Required.
+        :param cluster_name: The name of the Redis Enterprise cluster. Name must be 1-60 characters
+         long. Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor
+         consecutive hyphens. Required.
         :type cluster_name: str
         :return: Cluster or the result of cls(response)
         :rtype: ~azure.mgmt.redisenterprise.models.Cluster
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -629,7 +644,7 @@ class RedisEnterpriseOperations:
 
     @distributed_trace
     def list_by_resource_group(self, resource_group_name: str, **kwargs: Any) -> AsyncIterable["_models.Cluster"]:
-        """Lists all Redis Enterprise clusters in a resource group.
+        """Lists all RedisEnterprise clusters in a resource group.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
@@ -644,7 +659,7 @@ class RedisEnterpriseOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.ClusterList] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -708,7 +723,7 @@ class RedisEnterpriseOperations:
 
     @distributed_trace
     def list(self, **kwargs: Any) -> AsyncIterable["_models.Cluster"]:
-        """Lists all Redis Enterprise clusters in the specified subscription.
+        """Gets all RedisEnterprise clusters in the specified subscription.
 
         :return: An iterator like instance of either Cluster or the result of cls(response)
         :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.redisenterprise.models.Cluster]
@@ -720,7 +735,7 @@ class RedisEnterpriseOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.ClusterList] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
