@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.signalr import SignalRManagementClient
 
 """
@@ -58,7 +59,7 @@ def main():
                     "publicNetwork": {"allow": ["ClientConnection"]},
                 },
                 "publicNetworkAccess": "Enabled",
-                "serverless": {"connectionTimeoutInSeconds": 5},
+                "serverless": {"connectionTimeoutInSeconds": 5, "keepAliveIntervalInSeconds": 5},
                 "tls": {"clientCertEnabled": False},
                 "upstream": {
                     "templates": [
@@ -79,6 +80,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/signalr/resource-manager/Microsoft.SignalRService/preview/2023-08-01-preview/examples/SignalR_CreateOrUpdate.json
+# x-ms-original-file: specification/signalr/resource-manager/Microsoft.SignalRService/preview/2025-01-01-preview/examples/SignalR_CreateOrUpdate.json
 if __name__ == "__main__":
     main()
