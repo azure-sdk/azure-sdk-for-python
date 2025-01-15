@@ -194,21 +194,22 @@ class DatabaseAccountKind(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     PARSE = "Parse"
 
 
-class DataTransferComponent(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """DataTransferComponent."""
-
-    COSMOS_DB_CASSANDRA = "CosmosDBCassandra"
-    COSMOS_DB_MONGO = "CosmosDBMongo"
-    COSMOS_DB_MONGO_V_CORE = "CosmosDBMongoVCore"
-    COSMOS_DB_SQL = "CosmosDBSql"
-    AZURE_BLOB_STORAGE = "AzureBlobStorage"
-
-
 class DataTransferJobMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Mode of job execution."""
 
     OFFLINE = "Offline"
     ONLINE = "Online"
+
+
+class DataTransferJobPropertiesDataTransferType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Date Transfer Type."""
+
+    COSMOS_DB_CASSANDRA_TO_COSMOS_DB_CASSANDRA = "CosmosDBCassandraToCosmosDBCassandra"
+    COSMOS_DB_CASSANDRA_TO_AZURE_BLOB_STORAGE = "CosmosDBCassandraToAzureBlobStorage"
+    AZURE_BLOB_STORAGE_TO_COSMOS_DB_CASSANDRA = "AzureBlobStorageToCosmosDBCassandra"
+    COSMOS_DB_MONGO_TO_COSMOS_DB_MONGO = "CosmosDBMongoToCosmosDBMongo"
+    COSMOS_DB_MONGO_TO_COSMOS_DB_MONGO_V_CORE = "CosmosDBMongoToCosmosDBMongoVCore"
+    COSMOS_DB_NO_SQL_TO_COSMOS_DB_NO_SQL = "CosmosDBNoSqlToCosmosDBNoSql"
 
 
 class DataType(str, Enum, metaclass=CaseInsensitiveEnumMeta):

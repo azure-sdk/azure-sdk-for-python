@@ -489,78 +489,50 @@ class AutoUpgradePolicyResource(_serialization.Model):
         self.throughput_policy = throughput_policy
 
 
-class DataTransferDataSourceSink(_serialization.Model):
-    """Base class for all DataTransfer source/sink.
-
-    You probably want to use the sub-classes and not this class directly. Known sub-classes are:
-    AzureBlobDataTransferDataSourceSink, BaseCosmosDataTransferDataSourceSink,
-    CosmosMongoVCoreDataTransferDataSourceSink
-
-    All required parameters must be populated in order to send to server.
-
-    :ivar component: Known values are: "CosmosDBCassandra", "CosmosDBMongo", "CosmosDBMongoVCore",
-     "CosmosDBSql", and "AzureBlobStorage".
-    :vartype component: str or ~azure.mgmt.cosmosdb.models.DataTransferComponent
-    """
-
-    _validation = {
-        "component": {"required": True},
-    }
-
-    _attribute_map = {
-        "component": {"key": "component", "type": "str"},
-    }
-
-    _subtype_map = {
-        "component": {
-            "AzureBlobStorage": "AzureBlobDataTransferDataSourceSink",
-            "BaseCosmosDataTransferDataSourceSink": "BaseCosmosDataTransferDataSourceSink",
-            "CosmosDBMongoVCore": "CosmosMongoVCoreDataTransferDataSourceSink",
-        }
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-        self.component: Optional[str] = None
-
-
-class AzureBlobDataTransferDataSourceSink(DataTransferDataSourceSink):
+class AzureBlobDataTransferDataSourceSinkDetails(_serialization.Model):  # pylint: disable=name-too-long
     """An Azure Blob Storage data source/sink.
 
-    All required parameters must be populated in order to send to server.
-
-    :ivar component: Known values are: "CosmosDBCassandra", "CosmosDBMongo", "CosmosDBMongoVCore",
-     "CosmosDBSql", and "AzureBlobStorage".
-    :vartype component: str or ~azure.mgmt.cosmosdb.models.DataTransferComponent
-    :ivar container_name: Required.
-    :vartype container_name: str
     :ivar endpoint_url:
     :vartype endpoint_url: str
     """
 
-    _validation = {
-        "component": {"required": True},
-        "container_name": {"required": True},
-    }
-
     _attribute_map = {
-        "component": {"key": "component", "type": "str"},
-        "container_name": {"key": "containerName", "type": "str"},
         "endpoint_url": {"key": "endpointUrl", "type": "str"},
     }
 
-    def __init__(self, *, container_name: str, endpoint_url: Optional[str] = None, **kwargs: Any) -> None:
+    def __init__(self, *, endpoint_url: Optional[str] = None, **kwargs: Any) -> None:
         """
-        :keyword container_name: Required.
-        :paramtype container_name: str
         :keyword endpoint_url:
         :paramtype endpoint_url: str
         """
         super().__init__(**kwargs)
-        self.component: str = "AzureBlobStorage"
-        self.container_name = container_name
         self.endpoint_url = endpoint_url
+
+
+class AzureBlobStorageContainerEntity(_serialization.Model):
+    """An Azure Blob container entity.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar container_name: Required.
+    :vartype container_name: str
+    """
+
+    _validation = {
+        "container_name": {"required": True},
+    }
+
+    _attribute_map = {
+        "container_name": {"key": "containerName", "type": "str"},
+    }
+
+    def __init__(self, *, container_name: str, **kwargs: Any) -> None:
+        """
+        :keyword container_name: Required.
+        :paramtype container_name: str
+        """
+        super().__init__(**kwargs)
+        self.container_name = container_name
 
 
 class BackupInformation(_serialization.Model):
@@ -765,47 +737,32 @@ class BackupSchedule(_serialization.Model):
         self.retention_in_hours = retention_in_hours
 
 
-class BaseCosmosDataTransferDataSourceSink(DataTransferDataSourceSink):
-    """A base CosmosDB data source/sink.
+class BaseDataTransferTask(_serialization.Model):
+    """The properties of a DataTransfer Task.
 
-    You probably want to use the sub-classes and not this class directly. Known sub-classes are:
-    CosmosCassandraDataTransferDataSourceSink, CosmosMongoDataTransferDataSourceSink,
-    CosmosSqlDataTransferDataSourceSink
+    Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to server.
-
-    :ivar component: Known values are: "CosmosDBCassandra", "CosmosDBMongo", "CosmosDBMongoVCore",
-     "CosmosDBSql", and "AzureBlobStorage".
-    :vartype component: str or ~azure.mgmt.cosmosdb.models.DataTransferComponent
-    :ivar remote_account_name:
-    :vartype remote_account_name: str
+    :ivar total_count: Task level Total Count.
+    :vartype total_count: int
+    :ivar processed_count: Task level Processed Count.
+    :vartype processed_count: int
     """
 
     _validation = {
-        "component": {"required": True},
+        "total_count": {"readonly": True},
+        "processed_count": {"readonly": True},
     }
 
     _attribute_map = {
-        "component": {"key": "component", "type": "str"},
-        "remote_account_name": {"key": "remoteAccountName", "type": "str"},
+        "total_count": {"key": "totalCount", "type": "int"},
+        "processed_count": {"key": "processedCount", "type": "int"},
     }
 
-    _subtype_map = {
-        "component": {
-            "CosmosDBCassandra": "CosmosCassandraDataTransferDataSourceSink",
-            "CosmosDBMongo": "CosmosMongoDataTransferDataSourceSink",
-            "CosmosDBSql": "CosmosSqlDataTransferDataSourceSink",
-        }
-    }
-
-    def __init__(self, *, remote_account_name: Optional[str] = None, **kwargs: Any) -> None:
-        """
-        :keyword remote_account_name:
-        :paramtype remote_account_name: str
-        """
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
         super().__init__(**kwargs)
-        self.component: str = "BaseCosmosDataTransferDataSourceSink"
-        self.remote_account_name = remote_account_name
+        self.total_count = None
+        self.processed_count = None
 
 
 class Capability(_serialization.Model):
@@ -2901,9 +2858,9 @@ class ClusterResourceProperties(_serialization.Model):
     :ivar delegated_management_subnet_id: Resource id of a subnet that this cluster's management
      service should have its network interface attached to. The subnet must be routable to all
      subnets that will be delegated to data centers. The resource id must be of the form
-     '/subscriptions/:code:`<subscription id>`/resourceGroups/:code:`<resource
-     group>`/providers/Microsoft.Network/virtualNetworks/:code:`<virtual
-     network>`/subnets/:code:`<subnet>`'.
+     '/subscriptions/\\ :code:`<subscription id>`/resourceGroups/\\ :code:`<resource
+     group>`/providers/Microsoft.Network/virtualNetworks/\\ :code:`<virtual network>`/subnets/\\
+     :code:`<subnet>`'.
     :vartype delegated_management_subnet_id: str
     :ivar cassandra_version: Which version of Cassandra should this cluster converge to running
      (e.g., 3.11). When updated, the cluster may take some time to migrate to the new version.
@@ -3055,9 +3012,9 @@ class ClusterResourceProperties(_serialization.Model):
         :keyword delegated_management_subnet_id: Resource id of a subnet that this cluster's management
          service should have its network interface attached to. The subnet must be routable to all
          subnets that will be delegated to data centers. The resource id must be of the form
-         '/subscriptions/:code:`<subscription id>`/resourceGroups/:code:`<resource
-         group>`/providers/Microsoft.Network/virtualNetworks/:code:`<virtual
-         network>`/subnets/:code:`<subnet>`'.
+         '/subscriptions/\\ :code:`<subscription id>`/resourceGroups/\\ :code:`<resource
+         group>`/providers/Microsoft.Network/virtualNetworks/\\ :code:`<virtual network>`/subnets/\\
+         :code:`<subnet>`'.
         :paramtype delegated_management_subnet_id: str
         :keyword cassandra_version: Which version of Cassandra should this cluster converge to running
          (e.g., 3.11). When updated, the cluster may take some time to migrate to the new version.
@@ -3876,167 +3833,130 @@ class CorsPolicy(_serialization.Model):
         self.max_age_in_seconds = max_age_in_seconds
 
 
-class CosmosCassandraDataTransferDataSourceSink(BaseCosmosDataTransferDataSourceSink):  # pylint: disable=name-too-long
-    """A CosmosDB Cassandra API data source/sink.
+class CosmosCassandraContainerEntity(_serialization.Model):
+    """A CosmosDB Cassandra container entity.
 
     All required parameters must be populated in order to send to server.
 
-    :ivar component: Known values are: "CosmosDBCassandra", "CosmosDBMongo", "CosmosDBMongoVCore",
-     "CosmosDBSql", and "AzureBlobStorage".
-    :vartype component: str or ~azure.mgmt.cosmosdb.models.DataTransferComponent
-    :ivar remote_account_name:
-    :vartype remote_account_name: str
-    :ivar keyspace_name: Required.
-    :vartype keyspace_name: str
+    :ivar key_space_name: Required.
+    :vartype key_space_name: str
     :ivar table_name: Required.
     :vartype table_name: str
     """
 
     _validation = {
-        "component": {"required": True},
-        "keyspace_name": {"required": True},
+        "key_space_name": {"required": True},
         "table_name": {"required": True},
     }
 
     _attribute_map = {
-        "component": {"key": "component", "type": "str"},
-        "remote_account_name": {"key": "remoteAccountName", "type": "str"},
-        "keyspace_name": {"key": "keyspaceName", "type": "str"},
+        "key_space_name": {"key": "keySpaceName", "type": "str"},
         "table_name": {"key": "tableName", "type": "str"},
     }
 
-    def __init__(
-        self, *, keyspace_name: str, table_name: str, remote_account_name: Optional[str] = None, **kwargs: Any
-    ) -> None:
+    def __init__(self, *, key_space_name: str, table_name: str, **kwargs: Any) -> None:
         """
-        :keyword remote_account_name:
-        :paramtype remote_account_name: str
-        :keyword keyspace_name: Required.
-        :paramtype keyspace_name: str
+        :keyword key_space_name: Required.
+        :paramtype key_space_name: str
         :keyword table_name: Required.
         :paramtype table_name: str
         """
-        super().__init__(remote_account_name=remote_account_name, **kwargs)
-        self.component: str = "CosmosDBCassandra"
-        self.keyspace_name = keyspace_name
+        super().__init__(**kwargs)
+        self.key_space_name = key_space_name
         self.table_name = table_name
 
 
-class CosmosMongoDataTransferDataSourceSink(BaseCosmosDataTransferDataSourceSink):
-    """A CosmosDB Mongo API data source/sink.
+class CosmosDataTransferDataSourceSinkDetails(_serialization.Model):
+    """A base CosmosDB data source/sink details.
 
-    All required parameters must be populated in order to send to server.
-
-    :ivar component: Known values are: "CosmosDBCassandra", "CosmosDBMongo", "CosmosDBMongoVCore",
-     "CosmosDBSql", and "AzureBlobStorage".
-    :vartype component: str or ~azure.mgmt.cosmosdb.models.DataTransferComponent
     :ivar remote_account_name:
     :vartype remote_account_name: str
-    :ivar database_name: Required.
-    :vartype database_name: str
-    :ivar collection_name: Required.
-    :vartype collection_name: str
     """
 
-    _validation = {
-        "component": {"required": True},
-        "database_name": {"required": True},
-        "collection_name": {"required": True},
-    }
-
     _attribute_map = {
-        "component": {"key": "component", "type": "str"},
         "remote_account_name": {"key": "remoteAccountName", "type": "str"},
-        "database_name": {"key": "databaseName", "type": "str"},
-        "collection_name": {"key": "collectionName", "type": "str"},
     }
 
-    def __init__(
-        self, *, database_name: str, collection_name: str, remote_account_name: Optional[str] = None, **kwargs: Any
-    ) -> None:
+    def __init__(self, *, remote_account_name: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword remote_account_name:
         :paramtype remote_account_name: str
-        :keyword database_name: Required.
-        :paramtype database_name: str
-        :keyword collection_name: Required.
-        :paramtype collection_name: str
         """
-        super().__init__(remote_account_name=remote_account_name, **kwargs)
-        self.component: str = "CosmosDBMongo"
-        self.database_name = database_name
-        self.collection_name = collection_name
+        super().__init__(**kwargs)
+        self.remote_account_name = remote_account_name
 
 
-class CosmosMongoVCoreDataTransferDataSourceSink(DataTransferDataSourceSink):  # pylint: disable=name-too-long
-    """A CosmosDB Mongo vCore API data source/sink.
+class CosmosMongoContainerEntity(_serialization.Model):
+    """A CosmosDB Mongo container entity.
 
     All required parameters must be populated in order to send to server.
 
-    :ivar component: Known values are: "CosmosDBCassandra", "CosmosDBMongo", "CosmosDBMongoVCore",
-     "CosmosDBSql", and "AzureBlobStorage".
-    :vartype component: str or ~azure.mgmt.cosmosdb.models.DataTransferComponent
     :ivar database_name: Required.
     :vartype database_name: str
     :ivar collection_name: Required.
     :vartype collection_name: str
-    :ivar host_name:
-    :vartype host_name: str
-    :ivar connection_string_key_vault_uri:
-    :vartype connection_string_key_vault_uri: str
     """
 
     _validation = {
-        "component": {"required": True},
         "database_name": {"required": True},
         "collection_name": {"required": True},
     }
 
     _attribute_map = {
-        "component": {"key": "component", "type": "str"},
         "database_name": {"key": "databaseName", "type": "str"},
         "collection_name": {"key": "collectionName", "type": "str"},
-        "host_name": {"key": "hostName", "type": "str"},
-        "connection_string_key_vault_uri": {"key": "connectionStringKeyVaultUri", "type": "str"},
     }
 
-    def __init__(
-        self,
-        *,
-        database_name: str,
-        collection_name: str,
-        host_name: Optional[str] = None,
-        connection_string_key_vault_uri: Optional[str] = None,
-        **kwargs: Any
-    ) -> None:
+    def __init__(self, *, database_name: str, collection_name: str, **kwargs: Any) -> None:
         """
         :keyword database_name: Required.
         :paramtype database_name: str
         :keyword collection_name: Required.
         :paramtype collection_name: str
-        :keyword host_name:
-        :paramtype host_name: str
-        :keyword connection_string_key_vault_uri:
-        :paramtype connection_string_key_vault_uri: str
         """
         super().__init__(**kwargs)
-        self.component: str = "CosmosDBMongoVCore"
         self.database_name = database_name
         self.collection_name = collection_name
-        self.host_name = host_name
-        self.connection_string_key_vault_uri = connection_string_key_vault_uri
 
 
-class CosmosSqlDataTransferDataSourceSink(BaseCosmosDataTransferDataSourceSink):
-    """A CosmosDB No Sql API data source/sink.
+class CosmosMongoVCoreContainerEntity(_serialization.Model):
+    """A CosmosDB Mongo vCore container entity.
 
     All required parameters must be populated in order to send to server.
 
-    :ivar component: Known values are: "CosmosDBCassandra", "CosmosDBMongo", "CosmosDBMongoVCore",
-     "CosmosDBSql", and "AzureBlobStorage".
-    :vartype component: str or ~azure.mgmt.cosmosdb.models.DataTransferComponent
-    :ivar remote_account_name:
-    :vartype remote_account_name: str
+    :ivar database_name: Required.
+    :vartype database_name: str
+    :ivar collection_name: Required.
+    :vartype collection_name: str
+    """
+
+    _validation = {
+        "database_name": {"required": True},
+        "collection_name": {"required": True},
+    }
+
+    _attribute_map = {
+        "database_name": {"key": "databaseName", "type": "str"},
+        "collection_name": {"key": "collectionName", "type": "str"},
+    }
+
+    def __init__(self, *, database_name: str, collection_name: str, **kwargs: Any) -> None:
+        """
+        :keyword database_name: Required.
+        :paramtype database_name: str
+        :keyword collection_name: Required.
+        :paramtype collection_name: str
+        """
+        super().__init__(**kwargs)
+        self.database_name = database_name
+        self.collection_name = collection_name
+
+
+class CosmosSqlContainerEntity(_serialization.Model):
+    """A CosmosDB noSql container entity.
+
+    All required parameters must be populated in order to send to server.
+
     :ivar database_name: Required.
     :vartype database_name: str
     :ivar container_name: Required.
@@ -4044,31 +3964,23 @@ class CosmosSqlDataTransferDataSourceSink(BaseCosmosDataTransferDataSourceSink):
     """
 
     _validation = {
-        "component": {"required": True},
         "database_name": {"required": True},
         "container_name": {"required": True},
     }
 
     _attribute_map = {
-        "component": {"key": "component", "type": "str"},
-        "remote_account_name": {"key": "remoteAccountName", "type": "str"},
         "database_name": {"key": "databaseName", "type": "str"},
         "container_name": {"key": "containerName", "type": "str"},
     }
 
-    def __init__(
-        self, *, database_name: str, container_name: str, remote_account_name: Optional[str] = None, **kwargs: Any
-    ) -> None:
+    def __init__(self, *, database_name: str, container_name: str, **kwargs: Any) -> None:
         """
-        :keyword remote_account_name:
-        :paramtype remote_account_name: str
         :keyword database_name: Required.
         :paramtype database_name: str
         :keyword container_name: Required.
         :paramtype container_name: str
         """
-        super().__init__(remote_account_name=remote_account_name, **kwargs)
-        self.component: str = "CosmosDBSql"
+        super().__init__(**kwargs)
         self.database_name = database_name
         self.container_name = container_name
 
@@ -5678,10 +5590,10 @@ class DataCenterResourceProperties(_serialization.Model):
     :ivar delegated_subnet_id: Resource id of a subnet the nodes in this data center should have
      their network interfaces connected to. The subnet must be in the same region specified in
      'dataCenterLocation' and must be able to route to the subnet specified in the cluster's
-     'delegatedManagementSubnetId' property. This resource id will be of the form
-     '/subscriptions/:code:`<subscription id>`/resourceGroups/:code:`<resource
-     group>`/providers/Microsoft.Network/virtualNetworks/:code:`<virtual
-     network>`/subnets/:code:`<subnet>`'.
+     'delegatedManagementSubnetId' property. This resource id will be of the form '/subscriptions/\\
+     :code:`<subscription id>`/resourceGroups/\\ :code:`<resource
+     group>`/providers/Microsoft.Network/virtualNetworks/\\ :code:`<virtual network>`/subnets/\\
+     :code:`<subnet>`'.
     :vartype delegated_subnet_id: str
     :ivar node_count: The number of nodes the data center should have. This is the desired number.
      After it is set, it may take some time for the data center to be scaled to match. To monitor
@@ -5779,10 +5691,10 @@ class DataCenterResourceProperties(_serialization.Model):
         :keyword delegated_subnet_id: Resource id of a subnet the nodes in this data center should have
          their network interfaces connected to. The subnet must be in the same region specified in
          'dataCenterLocation' and must be able to route to the subnet specified in the cluster's
-         'delegatedManagementSubnetId' property. This resource id will be of the form
-         '/subscriptions/:code:`<subscription id>`/resourceGroups/:code:`<resource
-         group>`/providers/Microsoft.Network/virtualNetworks/:code:`<virtual
-         network>`/subnets/:code:`<subnet>`'.
+         'delegatedManagementSubnetId' property. This resource id will be of the form '/subscriptions/\\
+         :code:`<subscription id>`/resourceGroups/\\ :code:`<resource
+         group>`/providers/Microsoft.Network/virtualNetworks/\\ :code:`<virtual network>`/subnets/\\
+         :code:`<subnet>`'.
         :paramtype delegated_subnet_id: str
         :keyword node_count: The number of nodes the data center should have. This is the desired
          number. After it is set, it may take some time for the data center to be scaled to match. To
@@ -5877,12 +5789,14 @@ class DataTransferJobGetResults(ARMProxyResource):
     :vartype name: str
     :ivar type: The type of Azure resource.
     :vartype type: str
+    :ivar data_transfer_type: Date Transfer Type. Known values are:
+     "CosmosDBCassandraToCosmosDBCassandra", "CosmosDBCassandraToAzureBlobStorage",
+     "AzureBlobStorageToCosmosDBCassandra", "CosmosDBMongoToCosmosDBMongo",
+     "CosmosDBMongoToCosmosDBMongoVCore", and "CosmosDBNoSqlToCosmosDBNoSql".
+    :vartype data_transfer_type: str or
+     ~azure.mgmt.cosmosdb.models.DataTransferJobPropertiesDataTransferType
     :ivar job_name: Job Name.
     :vartype job_name: str
-    :ivar source: Source DataStore details.
-    :vartype source: ~azure.mgmt.cosmosdb.models.DataTransferDataSourceSink
-    :ivar destination: Destination DataStore details.
-    :vartype destination: ~azure.mgmt.cosmosdb.models.DataTransferDataSourceSink
     :ivar status: Job Status.
     :vartype status: str
     :ivar processed_count: Processed Count.
@@ -5919,9 +5833,8 @@ class DataTransferJobGetResults(ARMProxyResource):
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
+        "data_transfer_type": {"key": "properties.dataTransferType", "type": "str"},
         "job_name": {"key": "properties.jobName", "type": "str"},
-        "source": {"key": "properties.source", "type": "DataTransferDataSourceSink"},
-        "destination": {"key": "properties.destination", "type": "DataTransferDataSourceSink"},
         "status": {"key": "properties.status", "type": "str"},
         "processed_count": {"key": "properties.processedCount", "type": "int"},
         "total_count": {"key": "properties.totalCount", "type": "int"},
@@ -5935,26 +5848,19 @@ class DataTransferJobGetResults(ARMProxyResource):
     def __init__(
         self,
         *,
-        source: Optional["_models.DataTransferDataSourceSink"] = None,
-        destination: Optional["_models.DataTransferDataSourceSink"] = None,
         worker_count: Optional[int] = None,
         mode: Optional[Union[str, "_models.DataTransferJobMode"]] = None,
         **kwargs: Any
     ) -> None:
         """
-        :keyword source: Source DataStore details.
-        :paramtype source: ~azure.mgmt.cosmosdb.models.DataTransferDataSourceSink
-        :keyword destination: Destination DataStore details.
-        :paramtype destination: ~azure.mgmt.cosmosdb.models.DataTransferDataSourceSink
         :keyword worker_count: Worker count.
         :paramtype worker_count: int
         :keyword mode: Mode of job execution. Known values are: "Offline" and "Online".
         :paramtype mode: str or ~azure.mgmt.cosmosdb.models.DataTransferJobMode
         """
         super().__init__(**kwargs)
+        self.data_transfer_type: Optional[str] = None
         self.job_name = None
-        self.source = source
-        self.destination = destination
         self.status = None
         self.processed_count = None
         self.total_count = None
@@ -5968,16 +5874,26 @@ class DataTransferJobGetResults(ARMProxyResource):
 class DataTransferJobProperties(_serialization.Model):
     """The properties of a DataTransfer Job.
 
+    You probably want to use the sub-classes and not this class directly. Known sub-classes are:
+    SourceBlobDestinationCassandraDataTransferProperties,
+    SourceCassandraDestinationBlobDataTransferProperties,
+    SourceCassandraDestinationCassandraDataTransferProperties,
+    SourceMongoDestinationMongoDataTransferProperties,
+    SourceMongoDestinationMongoVCoreDataTransferProperties,
+    SourceSqlDestinationSqlDataTransferProperties
+
     Variables are only populated by the server, and will be ignored when sending a request.
 
     All required parameters must be populated in order to send to server.
 
+    :ivar data_transfer_type: Date Transfer Type. Required. Known values are:
+     "CosmosDBCassandraToCosmosDBCassandra", "CosmosDBCassandraToAzureBlobStorage",
+     "AzureBlobStorageToCosmosDBCassandra", "CosmosDBMongoToCosmosDBMongo",
+     "CosmosDBMongoToCosmosDBMongoVCore", and "CosmosDBNoSqlToCosmosDBNoSql".
+    :vartype data_transfer_type: str or
+     ~azure.mgmt.cosmosdb.models.DataTransferJobPropertiesDataTransferType
     :ivar job_name: Job Name.
     :vartype job_name: str
-    :ivar source: Source DataStore details. Required.
-    :vartype source: ~azure.mgmt.cosmosdb.models.DataTransferDataSourceSink
-    :ivar destination: Destination DataStore details. Required.
-    :vartype destination: ~azure.mgmt.cosmosdb.models.DataTransferDataSourceSink
     :ivar status: Job Status.
     :vartype status: str
     :ivar processed_count: Processed Count.
@@ -5997,9 +5913,8 @@ class DataTransferJobProperties(_serialization.Model):
     """
 
     _validation = {
+        "data_transfer_type": {"required": True},
         "job_name": {"readonly": True},
-        "source": {"required": True},
-        "destination": {"required": True},
         "status": {"readonly": True},
         "processed_count": {"readonly": True},
         "total_count": {"readonly": True},
@@ -6010,9 +5925,8 @@ class DataTransferJobProperties(_serialization.Model):
     }
 
     _attribute_map = {
+        "data_transfer_type": {"key": "dataTransferType", "type": "str"},
         "job_name": {"key": "jobName", "type": "str"},
-        "source": {"key": "source", "type": "DataTransferDataSourceSink"},
-        "destination": {"key": "destination", "type": "DataTransferDataSourceSink"},
         "status": {"key": "status", "type": "str"},
         "processed_count": {"key": "processedCount", "type": "int"},
         "total_count": {"key": "totalCount", "type": "int"},
@@ -6023,29 +5937,33 @@ class DataTransferJobProperties(_serialization.Model):
         "mode": {"key": "mode", "type": "str"},
     }
 
+    _subtype_map = {
+        "data_transfer_type": {
+            "AzureBlobStorageToCosmosDBCassandra": "SourceBlobDestinationCassandraDataTransferProperties",
+            "CosmosDBCassandraToAzureBlobStorage": "SourceCassandraDestinationBlobDataTransferProperties",
+            "CosmosDBCassandraToCosmosDBCassandra": "SourceCassandraDestinationCassandraDataTransferProperties",
+            "CosmosDBMongoToCosmosDBMongo": "SourceMongoDestinationMongoDataTransferProperties",
+            "CosmosDBMongoToCosmosDBMongoVCore": "SourceMongoDestinationMongoVCoreDataTransferProperties",
+            "CosmosDBSqlToCosmosDBSql": "SourceSqlDestinationSqlDataTransferProperties",
+        }
+    }
+
     def __init__(
         self,
         *,
-        source: "_models.DataTransferDataSourceSink",
-        destination: "_models.DataTransferDataSourceSink",
         worker_count: Optional[int] = None,
         mode: Optional[Union[str, "_models.DataTransferJobMode"]] = None,
         **kwargs: Any
     ) -> None:
         """
-        :keyword source: Source DataStore details. Required.
-        :paramtype source: ~azure.mgmt.cosmosdb.models.DataTransferDataSourceSink
-        :keyword destination: Destination DataStore details. Required.
-        :paramtype destination: ~azure.mgmt.cosmosdb.models.DataTransferDataSourceSink
         :keyword worker_count: Worker count.
         :paramtype worker_count: int
         :keyword mode: Mode of job execution. Known values are: "Offline" and "Online".
         :paramtype mode: str or ~azure.mgmt.cosmosdb.models.DataTransferJobMode
         """
         super().__init__(**kwargs)
+        self.data_transfer_type: Optional[str] = None
         self.job_name = None
-        self.source = source
-        self.destination = destination
         self.status = None
         self.processed_count = None
         self.total_count = None
@@ -9985,6 +9903,34 @@ class MongoUserDefinitionListResult(_serialization.Model):
         self.value = None
 
 
+class MongoVCoreDataTransferDataSourceSinkDetails(_serialization.Model):  # pylint: disable=name-too-long
+    """A CosmosDB Mongo vCore API data source/sink.
+
+    :ivar host_name:
+    :vartype host_name: str
+    :ivar connection_string_key_vault_uri:
+    :vartype connection_string_key_vault_uri: str
+    """
+
+    _attribute_map = {
+        "host_name": {"key": "hostName", "type": "str"},
+        "connection_string_key_vault_uri": {"key": "connectionStringKeyVaultUri", "type": "str"},
+    }
+
+    def __init__(
+        self, *, host_name: Optional[str] = None, connection_string_key_vault_uri: Optional[str] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword host_name:
+        :paramtype host_name: str
+        :keyword connection_string_key_vault_uri:
+        :paramtype connection_string_key_vault_uri: str
+        """
+        super().__init__(**kwargs)
+        self.host_name = host_name
+        self.connection_string_key_vault_uri = connection_string_key_vault_uri
+
+
 class NetworkSecurityPerimeter(_serialization.Model):
     """Information about a network security perimeter (NSP).
 
@@ -13794,6 +13740,928 @@ class ServiceResourceListResult(_serialization.Model):
         """ """
         super().__init__(**kwargs)
         self.value = None
+
+
+class SourceBlobDestinationCassandraDataTransferProperties(DataTransferJobProperties):  # pylint: disable=name-too-long
+    """The properties of DataTransfer Job with Azure Blob Storage as source and CosmosDB Cassandra as
+    destination.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar data_transfer_type: Date Transfer Type. Required. Known values are:
+     "CosmosDBCassandraToCosmosDBCassandra", "CosmosDBCassandraToAzureBlobStorage",
+     "AzureBlobStorageToCosmosDBCassandra", "CosmosDBMongoToCosmosDBMongo",
+     "CosmosDBMongoToCosmosDBMongoVCore", and "CosmosDBNoSqlToCosmosDBNoSql".
+    :vartype data_transfer_type: str or
+     ~azure.mgmt.cosmosdb.models.DataTransferJobPropertiesDataTransferType
+    :ivar job_name: Job Name.
+    :vartype job_name: str
+    :ivar status: Job Status.
+    :vartype status: str
+    :ivar processed_count: Processed Count.
+    :vartype processed_count: int
+    :ivar total_count: Total Count.
+    :vartype total_count: int
+    :ivar last_updated_utc_time: Last Updated Time (ISO-8601 format).
+    :vartype last_updated_utc_time: ~datetime.datetime
+    :ivar worker_count: Worker count.
+    :vartype worker_count: int
+    :ivar error: Error response for Faulted job.
+    :vartype error: ~azure.mgmt.cosmosdb.models.ErrorResponseAutoGenerated
+    :ivar duration: Total Duration of Job.
+    :vartype duration: str
+    :ivar mode: Mode of job execution. Known values are: "Offline" and "Online".
+    :vartype mode: str or ~azure.mgmt.cosmosdb.models.DataTransferJobMode
+    :ivar source_details: Azure Storage container DataStore details. Required.
+    :vartype source_details: ~azure.mgmt.cosmosdb.models.AzureBlobDataTransferDataSourceSinkDetails
+    :ivar destination_details: Destination Cassandra DataStore details.
+    :vartype destination_details:
+     ~azure.mgmt.cosmosdb.models.CosmosDataTransferDataSourceSinkDetails
+    :ivar tasks: Required.
+    :vartype tasks:
+     list[~azure.mgmt.cosmosdb.models.SourceBlobDestinationCassandraDataTransferPropertiesTasksItem]
+    """
+
+    _validation = {
+        "data_transfer_type": {"required": True},
+        "job_name": {"readonly": True},
+        "status": {"readonly": True},
+        "processed_count": {"readonly": True},
+        "total_count": {"readonly": True},
+        "last_updated_utc_time": {"readonly": True},
+        "worker_count": {"minimum": 0},
+        "error": {"readonly": True},
+        "duration": {"readonly": True},
+        "source_details": {"required": True},
+        "tasks": {"required": True},
+    }
+
+    _attribute_map = {
+        "data_transfer_type": {"key": "dataTransferType", "type": "str"},
+        "job_name": {"key": "jobName", "type": "str"},
+        "status": {"key": "status", "type": "str"},
+        "processed_count": {"key": "processedCount", "type": "int"},
+        "total_count": {"key": "totalCount", "type": "int"},
+        "last_updated_utc_time": {"key": "lastUpdatedUtcTime", "type": "iso-8601"},
+        "worker_count": {"key": "workerCount", "type": "int"},
+        "error": {"key": "error", "type": "ErrorResponseAutoGenerated"},
+        "duration": {"key": "duration", "type": "str"},
+        "mode": {"key": "mode", "type": "str"},
+        "source_details": {"key": "sourceDetails", "type": "AzureBlobDataTransferDataSourceSinkDetails"},
+        "destination_details": {"key": "destinationDetails", "type": "CosmosDataTransferDataSourceSinkDetails"},
+        "tasks": {"key": "tasks", "type": "[SourceBlobDestinationCassandraDataTransferPropertiesTasksItem]"},
+    }
+
+    def __init__(
+        self,
+        *,
+        source_details: "_models.AzureBlobDataTransferDataSourceSinkDetails",
+        tasks: List["_models.SourceBlobDestinationCassandraDataTransferPropertiesTasksItem"],
+        worker_count: Optional[int] = None,
+        mode: Optional[Union[str, "_models.DataTransferJobMode"]] = None,
+        destination_details: Optional["_models.CosmosDataTransferDataSourceSinkDetails"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword worker_count: Worker count.
+        :paramtype worker_count: int
+        :keyword mode: Mode of job execution. Known values are: "Offline" and "Online".
+        :paramtype mode: str or ~azure.mgmt.cosmosdb.models.DataTransferJobMode
+        :keyword source_details: Azure Storage container DataStore details. Required.
+        :paramtype source_details:
+         ~azure.mgmt.cosmosdb.models.AzureBlobDataTransferDataSourceSinkDetails
+        :keyword destination_details: Destination Cassandra DataStore details.
+        :paramtype destination_details:
+         ~azure.mgmt.cosmosdb.models.CosmosDataTransferDataSourceSinkDetails
+        :keyword tasks: Required.
+        :paramtype tasks:
+         list[~azure.mgmt.cosmosdb.models.SourceBlobDestinationCassandraDataTransferPropertiesTasksItem]
+        """
+        super().__init__(worker_count=worker_count, mode=mode, **kwargs)
+        self.data_transfer_type: str = "AzureBlobStorageToCosmosDBCassandra"
+        self.source_details = source_details
+        self.destination_details = destination_details
+        self.tasks = tasks
+
+
+class SourceBlobDestinationCassandraDataTransferPropertiesTasksItem(
+    BaseDataTransferTask
+):  # pylint: disable=name-too-long
+    """SourceBlobDestinationCassandraDataTransferPropertiesTasksItem.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar total_count: Task level Total Count.
+    :vartype total_count: int
+    :ivar processed_count: Task level Processed Count.
+    :vartype processed_count: int
+    :ivar source: Source Azure Blob container entity. Required.
+    :vartype source: ~azure.mgmt.cosmosdb.models.AzureBlobStorageContainerEntity
+    :ivar destination: Destination Cassandra container entity. Required.
+    :vartype destination: ~azure.mgmt.cosmosdb.models.CosmosCassandraContainerEntity
+    """
+
+    _validation = {
+        "total_count": {"readonly": True},
+        "processed_count": {"readonly": True},
+        "source": {"required": True},
+        "destination": {"required": True},
+    }
+
+    _attribute_map = {
+        "total_count": {"key": "totalCount", "type": "int"},
+        "processed_count": {"key": "processedCount", "type": "int"},
+        "source": {"key": "source", "type": "AzureBlobStorageContainerEntity"},
+        "destination": {"key": "destination", "type": "CosmosCassandraContainerEntity"},
+    }
+
+    def __init__(
+        self,
+        *,
+        source: "_models.AzureBlobStorageContainerEntity",
+        destination: "_models.CosmosCassandraContainerEntity",
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword source: Source Azure Blob container entity. Required.
+        :paramtype source: ~azure.mgmt.cosmosdb.models.AzureBlobStorageContainerEntity
+        :keyword destination: Destination Cassandra container entity. Required.
+        :paramtype destination: ~azure.mgmt.cosmosdb.models.CosmosCassandraContainerEntity
+        """
+        super().__init__(**kwargs)
+        self.source = source
+        self.destination = destination
+
+
+class SourceCassandraDestinationBlobDataTransferProperties(DataTransferJobProperties):  # pylint: disable=name-too-long
+    """The properties of DataTransfer Job with CosmosDB Cassandra as source and Azure Blob container
+    as destination.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar data_transfer_type: Date Transfer Type. Required. Known values are:
+     "CosmosDBCassandraToCosmosDBCassandra", "CosmosDBCassandraToAzureBlobStorage",
+     "AzureBlobStorageToCosmosDBCassandra", "CosmosDBMongoToCosmosDBMongo",
+     "CosmosDBMongoToCosmosDBMongoVCore", and "CosmosDBNoSqlToCosmosDBNoSql".
+    :vartype data_transfer_type: str or
+     ~azure.mgmt.cosmosdb.models.DataTransferJobPropertiesDataTransferType
+    :ivar job_name: Job Name.
+    :vartype job_name: str
+    :ivar status: Job Status.
+    :vartype status: str
+    :ivar processed_count: Processed Count.
+    :vartype processed_count: int
+    :ivar total_count: Total Count.
+    :vartype total_count: int
+    :ivar last_updated_utc_time: Last Updated Time (ISO-8601 format).
+    :vartype last_updated_utc_time: ~datetime.datetime
+    :ivar worker_count: Worker count.
+    :vartype worker_count: int
+    :ivar error: Error response for Faulted job.
+    :vartype error: ~azure.mgmt.cosmosdb.models.ErrorResponseAutoGenerated
+    :ivar duration: Total Duration of Job.
+    :vartype duration: str
+    :ivar mode: Mode of job execution. Known values are: "Offline" and "Online".
+    :vartype mode: str or ~azure.mgmt.cosmosdb.models.DataTransferJobMode
+    :ivar source_details: Source Cassandra DataStore details.
+    :vartype source_details: ~azure.mgmt.cosmosdb.models.CosmosDataTransferDataSourceSinkDetails
+    :ivar destination_details: Destination Cassandra DataStore details. Required.
+    :vartype destination_details:
+     ~azure.mgmt.cosmosdb.models.AzureBlobDataTransferDataSourceSinkDetails
+    :ivar tasks: Required.
+    :vartype tasks:
+     list[~azure.mgmt.cosmosdb.models.SourceCassandraDestinationBlobDataTransferPropertiesTasksItem]
+    """
+
+    _validation = {
+        "data_transfer_type": {"required": True},
+        "job_name": {"readonly": True},
+        "status": {"readonly": True},
+        "processed_count": {"readonly": True},
+        "total_count": {"readonly": True},
+        "last_updated_utc_time": {"readonly": True},
+        "worker_count": {"minimum": 0},
+        "error": {"readonly": True},
+        "duration": {"readonly": True},
+        "destination_details": {"required": True},
+        "tasks": {"required": True},
+    }
+
+    _attribute_map = {
+        "data_transfer_type": {"key": "dataTransferType", "type": "str"},
+        "job_name": {"key": "jobName", "type": "str"},
+        "status": {"key": "status", "type": "str"},
+        "processed_count": {"key": "processedCount", "type": "int"},
+        "total_count": {"key": "totalCount", "type": "int"},
+        "last_updated_utc_time": {"key": "lastUpdatedUtcTime", "type": "iso-8601"},
+        "worker_count": {"key": "workerCount", "type": "int"},
+        "error": {"key": "error", "type": "ErrorResponseAutoGenerated"},
+        "duration": {"key": "duration", "type": "str"},
+        "mode": {"key": "mode", "type": "str"},
+        "source_details": {"key": "sourceDetails", "type": "CosmosDataTransferDataSourceSinkDetails"},
+        "destination_details": {"key": "destinationDetails", "type": "AzureBlobDataTransferDataSourceSinkDetails"},
+        "tasks": {"key": "tasks", "type": "[SourceCassandraDestinationBlobDataTransferPropertiesTasksItem]"},
+    }
+
+    def __init__(
+        self,
+        *,
+        destination_details: "_models.AzureBlobDataTransferDataSourceSinkDetails",
+        tasks: List["_models.SourceCassandraDestinationBlobDataTransferPropertiesTasksItem"],
+        worker_count: Optional[int] = None,
+        mode: Optional[Union[str, "_models.DataTransferJobMode"]] = None,
+        source_details: Optional["_models.CosmosDataTransferDataSourceSinkDetails"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword worker_count: Worker count.
+        :paramtype worker_count: int
+        :keyword mode: Mode of job execution. Known values are: "Offline" and "Online".
+        :paramtype mode: str or ~azure.mgmt.cosmosdb.models.DataTransferJobMode
+        :keyword source_details: Source Cassandra DataStore details.
+        :paramtype source_details: ~azure.mgmt.cosmosdb.models.CosmosDataTransferDataSourceSinkDetails
+        :keyword destination_details: Destination Cassandra DataStore details. Required.
+        :paramtype destination_details:
+         ~azure.mgmt.cosmosdb.models.AzureBlobDataTransferDataSourceSinkDetails
+        :keyword tasks: Required.
+        :paramtype tasks:
+         list[~azure.mgmt.cosmosdb.models.SourceCassandraDestinationBlobDataTransferPropertiesTasksItem]
+        """
+        super().__init__(worker_count=worker_count, mode=mode, **kwargs)
+        self.data_transfer_type: str = "CosmosDBCassandraToAzureBlobStorage"
+        self.source_details = source_details
+        self.destination_details = destination_details
+        self.tasks = tasks
+
+
+class SourceCassandraDestinationBlobDataTransferPropertiesTasksItem(
+    BaseDataTransferTask
+):  # pylint: disable=name-too-long
+    """SourceCassandraDestinationBlobDataTransferPropertiesTasksItem.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar total_count: Task level Total Count.
+    :vartype total_count: int
+    :ivar processed_count: Task level Processed Count.
+    :vartype processed_count: int
+    :ivar source: Source Cassandra container entity. Required.
+    :vartype source: ~azure.mgmt.cosmosdb.models.CosmosCassandraContainerEntity
+    :ivar destination: Destination Blob container entity. Required.
+    :vartype destination: ~azure.mgmt.cosmosdb.models.AzureBlobStorageContainerEntity
+    """
+
+    _validation = {
+        "total_count": {"readonly": True},
+        "processed_count": {"readonly": True},
+        "source": {"required": True},
+        "destination": {"required": True},
+    }
+
+    _attribute_map = {
+        "total_count": {"key": "totalCount", "type": "int"},
+        "processed_count": {"key": "processedCount", "type": "int"},
+        "source": {"key": "source", "type": "CosmosCassandraContainerEntity"},
+        "destination": {"key": "destination", "type": "AzureBlobStorageContainerEntity"},
+    }
+
+    def __init__(
+        self,
+        *,
+        source: "_models.CosmosCassandraContainerEntity",
+        destination: "_models.AzureBlobStorageContainerEntity",
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword source: Source Cassandra container entity. Required.
+        :paramtype source: ~azure.mgmt.cosmosdb.models.CosmosCassandraContainerEntity
+        :keyword destination: Destination Blob container entity. Required.
+        :paramtype destination: ~azure.mgmt.cosmosdb.models.AzureBlobStorageContainerEntity
+        """
+        super().__init__(**kwargs)
+        self.source = source
+        self.destination = destination
+
+
+class SourceCassandraDestinationCassandraDataTransferProperties(
+    DataTransferJobProperties
+):  # pylint: disable=name-too-long
+    """The properties of DataTransfer Job with CosmosDB Cassandra as source and CosmosDB Cassandra as
+    destination.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar data_transfer_type: Date Transfer Type. Required. Known values are:
+     "CosmosDBCassandraToCosmosDBCassandra", "CosmosDBCassandraToAzureBlobStorage",
+     "AzureBlobStorageToCosmosDBCassandra", "CosmosDBMongoToCosmosDBMongo",
+     "CosmosDBMongoToCosmosDBMongoVCore", and "CosmosDBNoSqlToCosmosDBNoSql".
+    :vartype data_transfer_type: str or
+     ~azure.mgmt.cosmosdb.models.DataTransferJobPropertiesDataTransferType
+    :ivar job_name: Job Name.
+    :vartype job_name: str
+    :ivar status: Job Status.
+    :vartype status: str
+    :ivar processed_count: Processed Count.
+    :vartype processed_count: int
+    :ivar total_count: Total Count.
+    :vartype total_count: int
+    :ivar last_updated_utc_time: Last Updated Time (ISO-8601 format).
+    :vartype last_updated_utc_time: ~datetime.datetime
+    :ivar worker_count: Worker count.
+    :vartype worker_count: int
+    :ivar error: Error response for Faulted job.
+    :vartype error: ~azure.mgmt.cosmosdb.models.ErrorResponseAutoGenerated
+    :ivar duration: Total Duration of Job.
+    :vartype duration: str
+    :ivar mode: Mode of job execution. Known values are: "Offline" and "Online".
+    :vartype mode: str or ~azure.mgmt.cosmosdb.models.DataTransferJobMode
+    :ivar source_details: Source Cassandra DataStore details.
+    :vartype source_details: ~azure.mgmt.cosmosdb.models.CosmosDataTransferDataSourceSinkDetails
+    :ivar destination_details: Destination Cassandra DataStore details.
+    :vartype destination_details:
+     ~azure.mgmt.cosmosdb.models.CosmosDataTransferDataSourceSinkDetails
+    :ivar tasks: Required.
+    :vartype tasks:
+     list[~azure.mgmt.cosmosdb.models.SourceCassandraDestinationCassandraDataTransferPropertiesTasksItem]
+    """
+
+    _validation = {
+        "data_transfer_type": {"required": True},
+        "job_name": {"readonly": True},
+        "status": {"readonly": True},
+        "processed_count": {"readonly": True},
+        "total_count": {"readonly": True},
+        "last_updated_utc_time": {"readonly": True},
+        "worker_count": {"minimum": 0},
+        "error": {"readonly": True},
+        "duration": {"readonly": True},
+        "tasks": {"required": True},
+    }
+
+    _attribute_map = {
+        "data_transfer_type": {"key": "dataTransferType", "type": "str"},
+        "job_name": {"key": "jobName", "type": "str"},
+        "status": {"key": "status", "type": "str"},
+        "processed_count": {"key": "processedCount", "type": "int"},
+        "total_count": {"key": "totalCount", "type": "int"},
+        "last_updated_utc_time": {"key": "lastUpdatedUtcTime", "type": "iso-8601"},
+        "worker_count": {"key": "workerCount", "type": "int"},
+        "error": {"key": "error", "type": "ErrorResponseAutoGenerated"},
+        "duration": {"key": "duration", "type": "str"},
+        "mode": {"key": "mode", "type": "str"},
+        "source_details": {"key": "sourceDetails", "type": "CosmosDataTransferDataSourceSinkDetails"},
+        "destination_details": {"key": "destinationDetails", "type": "CosmosDataTransferDataSourceSinkDetails"},
+        "tasks": {"key": "tasks", "type": "[SourceCassandraDestinationCassandraDataTransferPropertiesTasksItem]"},
+    }
+
+    def __init__(
+        self,
+        *,
+        tasks: List["_models.SourceCassandraDestinationCassandraDataTransferPropertiesTasksItem"],
+        worker_count: Optional[int] = None,
+        mode: Optional[Union[str, "_models.DataTransferJobMode"]] = None,
+        source_details: Optional["_models.CosmosDataTransferDataSourceSinkDetails"] = None,
+        destination_details: Optional["_models.CosmosDataTransferDataSourceSinkDetails"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword worker_count: Worker count.
+        :paramtype worker_count: int
+        :keyword mode: Mode of job execution. Known values are: "Offline" and "Online".
+        :paramtype mode: str or ~azure.mgmt.cosmosdb.models.DataTransferJobMode
+        :keyword source_details: Source Cassandra DataStore details.
+        :paramtype source_details: ~azure.mgmt.cosmosdb.models.CosmosDataTransferDataSourceSinkDetails
+        :keyword destination_details: Destination Cassandra DataStore details.
+        :paramtype destination_details:
+         ~azure.mgmt.cosmosdb.models.CosmosDataTransferDataSourceSinkDetails
+        :keyword tasks: Required.
+        :paramtype tasks:
+         list[~azure.mgmt.cosmosdb.models.SourceCassandraDestinationCassandraDataTransferPropertiesTasksItem]
+        """
+        super().__init__(worker_count=worker_count, mode=mode, **kwargs)
+        self.data_transfer_type: str = "CosmosDBCassandraToCosmosDBCassandra"
+        self.source_details = source_details
+        self.destination_details = destination_details
+        self.tasks = tasks
+
+
+class SourceCassandraDestinationCassandraDataTransferPropertiesTasksItem(
+    BaseDataTransferTask
+):  # pylint: disable=name-too-long
+    """SourceCassandraDestinationCassandraDataTransferPropertiesTasksItem.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar total_count: Task level Total Count.
+    :vartype total_count: int
+    :ivar processed_count: Task level Processed Count.
+    :vartype processed_count: int
+    :ivar source: Source Cassandra container entity. Required.
+    :vartype source: ~azure.mgmt.cosmosdb.models.CosmosCassandraContainerEntity
+    :ivar destination: Destination Cassandra container entity. Required.
+    :vartype destination: ~azure.mgmt.cosmosdb.models.CosmosCassandraContainerEntity
+    """
+
+    _validation = {
+        "total_count": {"readonly": True},
+        "processed_count": {"readonly": True},
+        "source": {"required": True},
+        "destination": {"required": True},
+    }
+
+    _attribute_map = {
+        "total_count": {"key": "totalCount", "type": "int"},
+        "processed_count": {"key": "processedCount", "type": "int"},
+        "source": {"key": "source", "type": "CosmosCassandraContainerEntity"},
+        "destination": {"key": "destination", "type": "CosmosCassandraContainerEntity"},
+    }
+
+    def __init__(
+        self,
+        *,
+        source: "_models.CosmosCassandraContainerEntity",
+        destination: "_models.CosmosCassandraContainerEntity",
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword source: Source Cassandra container entity. Required.
+        :paramtype source: ~azure.mgmt.cosmosdb.models.CosmosCassandraContainerEntity
+        :keyword destination: Destination Cassandra container entity. Required.
+        :paramtype destination: ~azure.mgmt.cosmosdb.models.CosmosCassandraContainerEntity
+        """
+        super().__init__(**kwargs)
+        self.source = source
+        self.destination = destination
+
+
+class SourceMongoDestinationMongoDataTransferProperties(DataTransferJobProperties):  # pylint: disable=name-too-long
+    """The properties of DataTransfer Job with CosmosDB Mongo (RU) as source and CosmosDB Mongo (RU)
+    as destination.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar data_transfer_type: Date Transfer Type. Required. Known values are:
+     "CosmosDBCassandraToCosmosDBCassandra", "CosmosDBCassandraToAzureBlobStorage",
+     "AzureBlobStorageToCosmosDBCassandra", "CosmosDBMongoToCosmosDBMongo",
+     "CosmosDBMongoToCosmosDBMongoVCore", and "CosmosDBNoSqlToCosmosDBNoSql".
+    :vartype data_transfer_type: str or
+     ~azure.mgmt.cosmosdb.models.DataTransferJobPropertiesDataTransferType
+    :ivar job_name: Job Name.
+    :vartype job_name: str
+    :ivar status: Job Status.
+    :vartype status: str
+    :ivar processed_count: Processed Count.
+    :vartype processed_count: int
+    :ivar total_count: Total Count.
+    :vartype total_count: int
+    :ivar last_updated_utc_time: Last Updated Time (ISO-8601 format).
+    :vartype last_updated_utc_time: ~datetime.datetime
+    :ivar worker_count: Worker count.
+    :vartype worker_count: int
+    :ivar error: Error response for Faulted job.
+    :vartype error: ~azure.mgmt.cosmosdb.models.ErrorResponseAutoGenerated
+    :ivar duration: Total Duration of Job.
+    :vartype duration: str
+    :ivar mode: Mode of job execution. Known values are: "Offline" and "Online".
+    :vartype mode: str or ~azure.mgmt.cosmosdb.models.DataTransferJobMode
+    :ivar source_details: Source Mongo DataStore details.
+    :vartype source_details: ~azure.mgmt.cosmosdb.models.CosmosDataTransferDataSourceSinkDetails
+    :ivar destination_details: Destination Mongo DataStore details.
+    :vartype destination_details:
+     ~azure.mgmt.cosmosdb.models.CosmosDataTransferDataSourceSinkDetails
+    :ivar tasks: Required.
+    :vartype tasks:
+     list[~azure.mgmt.cosmosdb.models.SourceMongoDestinationMongoDataTransferPropertiesTasksItem]
+    """
+
+    _validation = {
+        "data_transfer_type": {"required": True},
+        "job_name": {"readonly": True},
+        "status": {"readonly": True},
+        "processed_count": {"readonly": True},
+        "total_count": {"readonly": True},
+        "last_updated_utc_time": {"readonly": True},
+        "worker_count": {"minimum": 0},
+        "error": {"readonly": True},
+        "duration": {"readonly": True},
+        "tasks": {"required": True},
+    }
+
+    _attribute_map = {
+        "data_transfer_type": {"key": "dataTransferType", "type": "str"},
+        "job_name": {"key": "jobName", "type": "str"},
+        "status": {"key": "status", "type": "str"},
+        "processed_count": {"key": "processedCount", "type": "int"},
+        "total_count": {"key": "totalCount", "type": "int"},
+        "last_updated_utc_time": {"key": "lastUpdatedUtcTime", "type": "iso-8601"},
+        "worker_count": {"key": "workerCount", "type": "int"},
+        "error": {"key": "error", "type": "ErrorResponseAutoGenerated"},
+        "duration": {"key": "duration", "type": "str"},
+        "mode": {"key": "mode", "type": "str"},
+        "source_details": {"key": "sourceDetails", "type": "CosmosDataTransferDataSourceSinkDetails"},
+        "destination_details": {"key": "destinationDetails", "type": "CosmosDataTransferDataSourceSinkDetails"},
+        "tasks": {"key": "tasks", "type": "[SourceMongoDestinationMongoDataTransferPropertiesTasksItem]"},
+    }
+
+    def __init__(
+        self,
+        *,
+        tasks: List["_models.SourceMongoDestinationMongoDataTransferPropertiesTasksItem"],
+        worker_count: Optional[int] = None,
+        mode: Optional[Union[str, "_models.DataTransferJobMode"]] = None,
+        source_details: Optional["_models.CosmosDataTransferDataSourceSinkDetails"] = None,
+        destination_details: Optional["_models.CosmosDataTransferDataSourceSinkDetails"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword worker_count: Worker count.
+        :paramtype worker_count: int
+        :keyword mode: Mode of job execution. Known values are: "Offline" and "Online".
+        :paramtype mode: str or ~azure.mgmt.cosmosdb.models.DataTransferJobMode
+        :keyword source_details: Source Mongo DataStore details.
+        :paramtype source_details: ~azure.mgmt.cosmosdb.models.CosmosDataTransferDataSourceSinkDetails
+        :keyword destination_details: Destination Mongo DataStore details.
+        :paramtype destination_details:
+         ~azure.mgmt.cosmosdb.models.CosmosDataTransferDataSourceSinkDetails
+        :keyword tasks: Required.
+        :paramtype tasks:
+         list[~azure.mgmt.cosmosdb.models.SourceMongoDestinationMongoDataTransferPropertiesTasksItem]
+        """
+        super().__init__(worker_count=worker_count, mode=mode, **kwargs)
+        self.data_transfer_type: str = "CosmosDBMongoToCosmosDBMongo"
+        self.source_details = source_details
+        self.destination_details = destination_details
+        self.tasks = tasks
+
+
+class SourceMongoDestinationMongoDataTransferPropertiesTasksItem(BaseDataTransferTask):  # pylint: disable=name-too-long
+    """SourceMongoDestinationMongoDataTransferPropertiesTasksItem.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar total_count: Task level Total Count.
+    :vartype total_count: int
+    :ivar processed_count: Task level Processed Count.
+    :vartype processed_count: int
+    :ivar source: Source Mongo container entity. Required.
+    :vartype source: ~azure.mgmt.cosmosdb.models.CosmosMongoContainerEntity
+    :ivar destination: Destination Mongo container entity. Required.
+    :vartype destination: ~azure.mgmt.cosmosdb.models.CosmosMongoContainerEntity
+    """
+
+    _validation = {
+        "total_count": {"readonly": True},
+        "processed_count": {"readonly": True},
+        "source": {"required": True},
+        "destination": {"required": True},
+    }
+
+    _attribute_map = {
+        "total_count": {"key": "totalCount", "type": "int"},
+        "processed_count": {"key": "processedCount", "type": "int"},
+        "source": {"key": "source", "type": "CosmosMongoContainerEntity"},
+        "destination": {"key": "destination", "type": "CosmosMongoContainerEntity"},
+    }
+
+    def __init__(
+        self,
+        *,
+        source: "_models.CosmosMongoContainerEntity",
+        destination: "_models.CosmosMongoContainerEntity",
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword source: Source Mongo container entity. Required.
+        :paramtype source: ~azure.mgmt.cosmosdb.models.CosmosMongoContainerEntity
+        :keyword destination: Destination Mongo container entity. Required.
+        :paramtype destination: ~azure.mgmt.cosmosdb.models.CosmosMongoContainerEntity
+        """
+        super().__init__(**kwargs)
+        self.source = source
+        self.destination = destination
+
+
+class SourceMongoDestinationMongoVCoreDataTransferProperties(
+    DataTransferJobProperties
+):  # pylint: disable=name-too-long
+    """The properties of DataTransfer Job with CosmosDB Mongo (RU) as source and CosmosDB Mongo
+    (vCore) as destination.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar data_transfer_type: Date Transfer Type. Required. Known values are:
+     "CosmosDBCassandraToCosmosDBCassandra", "CosmosDBCassandraToAzureBlobStorage",
+     "AzureBlobStorageToCosmosDBCassandra", "CosmosDBMongoToCosmosDBMongo",
+     "CosmosDBMongoToCosmosDBMongoVCore", and "CosmosDBNoSqlToCosmosDBNoSql".
+    :vartype data_transfer_type: str or
+     ~azure.mgmt.cosmosdb.models.DataTransferJobPropertiesDataTransferType
+    :ivar job_name: Job Name.
+    :vartype job_name: str
+    :ivar status: Job Status.
+    :vartype status: str
+    :ivar processed_count: Processed Count.
+    :vartype processed_count: int
+    :ivar total_count: Total Count.
+    :vartype total_count: int
+    :ivar last_updated_utc_time: Last Updated Time (ISO-8601 format).
+    :vartype last_updated_utc_time: ~datetime.datetime
+    :ivar worker_count: Worker count.
+    :vartype worker_count: int
+    :ivar error: Error response for Faulted job.
+    :vartype error: ~azure.mgmt.cosmosdb.models.ErrorResponseAutoGenerated
+    :ivar duration: Total Duration of Job.
+    :vartype duration: str
+    :ivar mode: Mode of job execution. Known values are: "Offline" and "Online".
+    :vartype mode: str or ~azure.mgmt.cosmosdb.models.DataTransferJobMode
+    :ivar source_details: Source Mongo (RU) DataStore details.
+    :vartype source_details: ~azure.mgmt.cosmosdb.models.CosmosDataTransferDataSourceSinkDetails
+    :ivar destination_details: Destination Mongo (vCore) DataStore details. Required.
+    :vartype destination_details:
+     ~azure.mgmt.cosmosdb.models.MongoVCoreDataTransferDataSourceSinkDetails
+    :ivar tasks: Required.
+    :vartype tasks:
+     list[~azure.mgmt.cosmosdb.models.SourceMongoDestinationMongoVCoreDataTransferPropertiesTasksItem]
+    """
+
+    _validation = {
+        "data_transfer_type": {"required": True},
+        "job_name": {"readonly": True},
+        "status": {"readonly": True},
+        "processed_count": {"readonly": True},
+        "total_count": {"readonly": True},
+        "last_updated_utc_time": {"readonly": True},
+        "worker_count": {"minimum": 0},
+        "error": {"readonly": True},
+        "duration": {"readonly": True},
+        "destination_details": {"required": True},
+        "tasks": {"required": True},
+    }
+
+    _attribute_map = {
+        "data_transfer_type": {"key": "dataTransferType", "type": "str"},
+        "job_name": {"key": "jobName", "type": "str"},
+        "status": {"key": "status", "type": "str"},
+        "processed_count": {"key": "processedCount", "type": "int"},
+        "total_count": {"key": "totalCount", "type": "int"},
+        "last_updated_utc_time": {"key": "lastUpdatedUtcTime", "type": "iso-8601"},
+        "worker_count": {"key": "workerCount", "type": "int"},
+        "error": {"key": "error", "type": "ErrorResponseAutoGenerated"},
+        "duration": {"key": "duration", "type": "str"},
+        "mode": {"key": "mode", "type": "str"},
+        "source_details": {"key": "sourceDetails", "type": "CosmosDataTransferDataSourceSinkDetails"},
+        "destination_details": {"key": "destinationDetails", "type": "MongoVCoreDataTransferDataSourceSinkDetails"},
+        "tasks": {"key": "tasks", "type": "[SourceMongoDestinationMongoVCoreDataTransferPropertiesTasksItem]"},
+    }
+
+    def __init__(
+        self,
+        *,
+        destination_details: "_models.MongoVCoreDataTransferDataSourceSinkDetails",
+        tasks: List["_models.SourceMongoDestinationMongoVCoreDataTransferPropertiesTasksItem"],
+        worker_count: Optional[int] = None,
+        mode: Optional[Union[str, "_models.DataTransferJobMode"]] = None,
+        source_details: Optional["_models.CosmosDataTransferDataSourceSinkDetails"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword worker_count: Worker count.
+        :paramtype worker_count: int
+        :keyword mode: Mode of job execution. Known values are: "Offline" and "Online".
+        :paramtype mode: str or ~azure.mgmt.cosmosdb.models.DataTransferJobMode
+        :keyword source_details: Source Mongo (RU) DataStore details.
+        :paramtype source_details: ~azure.mgmt.cosmosdb.models.CosmosDataTransferDataSourceSinkDetails
+        :keyword destination_details: Destination Mongo (vCore) DataStore details. Required.
+        :paramtype destination_details:
+         ~azure.mgmt.cosmosdb.models.MongoVCoreDataTransferDataSourceSinkDetails
+        :keyword tasks: Required.
+        :paramtype tasks:
+         list[~azure.mgmt.cosmosdb.models.SourceMongoDestinationMongoVCoreDataTransferPropertiesTasksItem]
+        """
+        super().__init__(worker_count=worker_count, mode=mode, **kwargs)
+        self.data_transfer_type: str = "CosmosDBMongoToCosmosDBMongoVCore"
+        self.source_details = source_details
+        self.destination_details = destination_details
+        self.tasks = tasks
+
+
+class SourceMongoDestinationMongoVCoreDataTransferPropertiesTasksItem(
+    BaseDataTransferTask
+):  # pylint: disable=name-too-long
+    """SourceMongoDestinationMongoVCoreDataTransferPropertiesTasksItem.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar total_count: Task level Total Count.
+    :vartype total_count: int
+    :ivar processed_count: Task level Processed Count.
+    :vartype processed_count: int
+    :ivar source: Source Mongo container entity. Required.
+    :vartype source: ~azure.mgmt.cosmosdb.models.CosmosMongoContainerEntity
+    :ivar destination: Destination Mongo vCore container entity. Required.
+    :vartype destination: ~azure.mgmt.cosmosdb.models.CosmosMongoVCoreContainerEntity
+    """
+
+    _validation = {
+        "total_count": {"readonly": True},
+        "processed_count": {"readonly": True},
+        "source": {"required": True},
+        "destination": {"required": True},
+    }
+
+    _attribute_map = {
+        "total_count": {"key": "totalCount", "type": "int"},
+        "processed_count": {"key": "processedCount", "type": "int"},
+        "source": {"key": "source", "type": "CosmosMongoContainerEntity"},
+        "destination": {"key": "destination", "type": "CosmosMongoVCoreContainerEntity"},
+    }
+
+    def __init__(
+        self,
+        *,
+        source: "_models.CosmosMongoContainerEntity",
+        destination: "_models.CosmosMongoVCoreContainerEntity",
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword source: Source Mongo container entity. Required.
+        :paramtype source: ~azure.mgmt.cosmosdb.models.CosmosMongoContainerEntity
+        :keyword destination: Destination Mongo vCore container entity. Required.
+        :paramtype destination: ~azure.mgmt.cosmosdb.models.CosmosMongoVCoreContainerEntity
+        """
+        super().__init__(**kwargs)
+        self.source = source
+        self.destination = destination
+
+
+class SourceSqlDestinationSqlDataTransferProperties(DataTransferJobProperties):  # pylint: disable=name-too-long
+    """The properties of DataTransfer Job with CosmosDB noSQL as source and CosmosDB noSQL as
+    destination.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar data_transfer_type: Date Transfer Type. Required. Known values are:
+     "CosmosDBCassandraToCosmosDBCassandra", "CosmosDBCassandraToAzureBlobStorage",
+     "AzureBlobStorageToCosmosDBCassandra", "CosmosDBMongoToCosmosDBMongo",
+     "CosmosDBMongoToCosmosDBMongoVCore", and "CosmosDBNoSqlToCosmosDBNoSql".
+    :vartype data_transfer_type: str or
+     ~azure.mgmt.cosmosdb.models.DataTransferJobPropertiesDataTransferType
+    :ivar job_name: Job Name.
+    :vartype job_name: str
+    :ivar status: Job Status.
+    :vartype status: str
+    :ivar processed_count: Processed Count.
+    :vartype processed_count: int
+    :ivar total_count: Total Count.
+    :vartype total_count: int
+    :ivar last_updated_utc_time: Last Updated Time (ISO-8601 format).
+    :vartype last_updated_utc_time: ~datetime.datetime
+    :ivar worker_count: Worker count.
+    :vartype worker_count: int
+    :ivar error: Error response for Faulted job.
+    :vartype error: ~azure.mgmt.cosmosdb.models.ErrorResponseAutoGenerated
+    :ivar duration: Total Duration of Job.
+    :vartype duration: str
+    :ivar mode: Mode of job execution. Known values are: "Offline" and "Online".
+    :vartype mode: str or ~azure.mgmt.cosmosdb.models.DataTransferJobMode
+    :ivar source_details: Source noSQL DataStore details.
+    :vartype source_details: ~azure.mgmt.cosmosdb.models.CosmosDataTransferDataSourceSinkDetails
+    :ivar destination_details: Destination noSQL DataStore details.
+    :vartype destination_details:
+     ~azure.mgmt.cosmosdb.models.CosmosDataTransferDataSourceSinkDetails
+    :ivar tasks: Required.
+    :vartype tasks:
+     list[~azure.mgmt.cosmosdb.models.SourceSqlDestinationSqlDataTransferPropertiesTasksItem]
+    """
+
+    _validation = {
+        "data_transfer_type": {"required": True},
+        "job_name": {"readonly": True},
+        "status": {"readonly": True},
+        "processed_count": {"readonly": True},
+        "total_count": {"readonly": True},
+        "last_updated_utc_time": {"readonly": True},
+        "worker_count": {"minimum": 0},
+        "error": {"readonly": True},
+        "duration": {"readonly": True},
+        "tasks": {"required": True},
+    }
+
+    _attribute_map = {
+        "data_transfer_type": {"key": "dataTransferType", "type": "str"},
+        "job_name": {"key": "jobName", "type": "str"},
+        "status": {"key": "status", "type": "str"},
+        "processed_count": {"key": "processedCount", "type": "int"},
+        "total_count": {"key": "totalCount", "type": "int"},
+        "last_updated_utc_time": {"key": "lastUpdatedUtcTime", "type": "iso-8601"},
+        "worker_count": {"key": "workerCount", "type": "int"},
+        "error": {"key": "error", "type": "ErrorResponseAutoGenerated"},
+        "duration": {"key": "duration", "type": "str"},
+        "mode": {"key": "mode", "type": "str"},
+        "source_details": {"key": "sourceDetails", "type": "CosmosDataTransferDataSourceSinkDetails"},
+        "destination_details": {"key": "destinationDetails", "type": "CosmosDataTransferDataSourceSinkDetails"},
+        "tasks": {"key": "tasks", "type": "[SourceSqlDestinationSqlDataTransferPropertiesTasksItem]"},
+    }
+
+    def __init__(
+        self,
+        *,
+        tasks: List["_models.SourceSqlDestinationSqlDataTransferPropertiesTasksItem"],
+        worker_count: Optional[int] = None,
+        mode: Optional[Union[str, "_models.DataTransferJobMode"]] = None,
+        source_details: Optional["_models.CosmosDataTransferDataSourceSinkDetails"] = None,
+        destination_details: Optional["_models.CosmosDataTransferDataSourceSinkDetails"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword worker_count: Worker count.
+        :paramtype worker_count: int
+        :keyword mode: Mode of job execution. Known values are: "Offline" and "Online".
+        :paramtype mode: str or ~azure.mgmt.cosmosdb.models.DataTransferJobMode
+        :keyword source_details: Source noSQL DataStore details.
+        :paramtype source_details: ~azure.mgmt.cosmosdb.models.CosmosDataTransferDataSourceSinkDetails
+        :keyword destination_details: Destination noSQL DataStore details.
+        :paramtype destination_details:
+         ~azure.mgmt.cosmosdb.models.CosmosDataTransferDataSourceSinkDetails
+        :keyword tasks: Required.
+        :paramtype tasks:
+         list[~azure.mgmt.cosmosdb.models.SourceSqlDestinationSqlDataTransferPropertiesTasksItem]
+        """
+        super().__init__(worker_count=worker_count, mode=mode, **kwargs)
+        self.data_transfer_type: str = "CosmosDBSqlToCosmosDBSql"
+        self.source_details = source_details
+        self.destination_details = destination_details
+        self.tasks = tasks
+
+
+class SourceSqlDestinationSqlDataTransferPropertiesTasksItem(BaseDataTransferTask):  # pylint: disable=name-too-long
+    """SourceSqlDestinationSqlDataTransferPropertiesTasksItem.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar total_count: Task level Total Count.
+    :vartype total_count: int
+    :ivar processed_count: Task level Processed Count.
+    :vartype processed_count: int
+    :ivar source: Source noSQL container entity. Required.
+    :vartype source: ~azure.mgmt.cosmosdb.models.CosmosSqlContainerEntity
+    :ivar destination: Destination noSQL container entity. Required.
+    :vartype destination: ~azure.mgmt.cosmosdb.models.CosmosSqlContainerEntity
+    """
+
+    _validation = {
+        "total_count": {"readonly": True},
+        "processed_count": {"readonly": True},
+        "source": {"required": True},
+        "destination": {"required": True},
+    }
+
+    _attribute_map = {
+        "total_count": {"key": "totalCount", "type": "int"},
+        "processed_count": {"key": "processedCount", "type": "int"},
+        "source": {"key": "source", "type": "CosmosSqlContainerEntity"},
+        "destination": {"key": "destination", "type": "CosmosSqlContainerEntity"},
+    }
+
+    def __init__(
+        self,
+        *,
+        source: "_models.CosmosSqlContainerEntity",
+        destination: "_models.CosmosSqlContainerEntity",
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword source: Source noSQL container entity. Required.
+        :paramtype source: ~azure.mgmt.cosmosdb.models.CosmosSqlContainerEntity
+        :keyword destination: Destination noSQL container entity. Required.
+        :paramtype destination: ~azure.mgmt.cosmosdb.models.CosmosSqlContainerEntity
+        """
+        super().__init__(**kwargs)
+        self.source = source
+        self.destination = destination
 
 
 class SpatialSpec(_serialization.Model):
