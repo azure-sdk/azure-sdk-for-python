@@ -21,7 +21,7 @@ class TestBatchManagementBatchAccountOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_create(self, resource_group):
+    async def test_batch_account_begin_create(self, resource_group):
         response = await (
             await self.client.batch_account.begin_create(
                 resource_group_name=resource_group.name,
@@ -62,7 +62,7 @@ class TestBatchManagementBatchAccountOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_update(self, resource_group):
+    async def test_batch_account_update(self, resource_group):
         response = await self.client.batch_account.update(
             resource_group_name=resource_group.name,
             account_name="str",
@@ -95,7 +95,7 @@ class TestBatchManagementBatchAccountOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_delete(self, resource_group):
+    async def test_batch_account_begin_delete(self, resource_group):
         response = await (
             await self.client.batch_account.begin_delete(
                 resource_group_name=resource_group.name,
@@ -109,7 +109,7 @@ class TestBatchManagementBatchAccountOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get(self, resource_group):
+    async def test_batch_account_get(self, resource_group):
         response = await self.client.batch_account.get(
             resource_group_name=resource_group.name,
             account_name="str",
@@ -121,7 +121,7 @@ class TestBatchManagementBatchAccountOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list(self, resource_group):
+    async def test_batch_account_list(self, resource_group):
         response = self.client.batch_account.list(
             api_version="2024-07-01",
         )
@@ -131,7 +131,7 @@ class TestBatchManagementBatchAccountOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_by_resource_group(self, resource_group):
+    async def test_batch_account_list_by_resource_group(self, resource_group):
         response = self.client.batch_account.list_by_resource_group(
             resource_group_name=resource_group.name,
             api_version="2024-07-01",
@@ -142,7 +142,7 @@ class TestBatchManagementBatchAccountOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_synchronize_auto_storage_keys(self, resource_group):
+    async def test_batch_account_synchronize_auto_storage_keys(self, resource_group):
         response = await self.client.batch_account.synchronize_auto_storage_keys(
             resource_group_name=resource_group.name,
             account_name="str",
@@ -154,7 +154,7 @@ class TestBatchManagementBatchAccountOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_regenerate_key(self, resource_group):
+    async def test_batch_account_regenerate_key(self, resource_group):
         response = await self.client.batch_account.regenerate_key(
             resource_group_name=resource_group.name,
             account_name="str",
@@ -167,7 +167,7 @@ class TestBatchManagementBatchAccountOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get_keys(self, resource_group):
+    async def test_batch_account_get_keys(self, resource_group):
         response = await self.client.batch_account.get_keys(
             resource_group_name=resource_group.name,
             account_name="str",
@@ -179,7 +179,7 @@ class TestBatchManagementBatchAccountOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_detectors(self, resource_group):
+    async def test_batch_account_list_detectors(self, resource_group):
         response = self.client.batch_account.list_detectors(
             resource_group_name=resource_group.name,
             account_name="str",
@@ -191,7 +191,7 @@ class TestBatchManagementBatchAccountOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get_detector(self, resource_group):
+    async def test_batch_account_get_detector(self, resource_group):
         response = await self.client.batch_account.get_detector(
             resource_group_name=resource_group.name,
             account_name="str",
@@ -204,7 +204,7 @@ class TestBatchManagementBatchAccountOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_outbound_network_dependencies_endpoints(self, resource_group):
+    async def test_batch_account_list_outbound_network_dependencies_endpoints(self, resource_group):
         response = self.client.batch_account.list_outbound_network_dependencies_endpoints(
             resource_group_name=resource_group.name,
             account_name="str",
