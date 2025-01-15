@@ -1,5 +1,5 @@
-# coding=utf-8
 # pylint: disable=too-many-lines
+# coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -15,10 +15,9 @@ from ... import _serialization
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 JSON = MutableMapping[str, Any]  # pylint: disable=unsubscriptable-object
 
@@ -783,7 +782,7 @@ class DeploymentProperties(_serialization.Model):
         self.expression_evaluation_options = expression_evaluation_options
 
 
-class DeploymentPropertiesExtended(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class DeploymentPropertiesExtended(_serialization.Model):
     """Deployment properties with additional details.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1292,7 +1291,7 @@ class Resource(_serialization.Model):
         self.tags = tags
 
 
-class GenericResource(Resource):  # pylint: disable=too-many-instance-attributes
+class GenericResource(Resource):
     """Resource information.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1313,7 +1312,8 @@ class GenericResource(Resource):  # pylint: disable=too-many-instance-attributes
     :vartype properties: JSON
     :ivar kind: The kind of the resource.
     :vartype kind: str
-    :ivar managed_by: ID of the resource that manages this resource.
+    :ivar managed_by: ID of the resource that manages this resource. This field is immutable once
+     set.
     :vartype managed_by: str
     :ivar sku: The SKU of the resource.
     :vartype sku: ~azure.mgmt.resource.resources.v2020_10_01.models.Sku
@@ -1365,7 +1365,8 @@ class GenericResource(Resource):  # pylint: disable=too-many-instance-attributes
         :paramtype properties: JSON
         :keyword kind: The kind of the resource.
         :paramtype kind: str
-        :keyword managed_by: ID of the resource that manages this resource.
+        :keyword managed_by: ID of the resource that manages this resource. This field is immutable
+         once set.
         :paramtype managed_by: str
         :keyword sku: The SKU of the resource.
         :paramtype sku: ~azure.mgmt.resource.resources.v2020_10_01.models.Sku
@@ -1381,7 +1382,7 @@ class GenericResource(Resource):  # pylint: disable=too-many-instance-attributes
         self.identity = identity
 
 
-class GenericResourceExpanded(GenericResource):  # pylint: disable=too-many-instance-attributes
+class GenericResourceExpanded(GenericResource):
     """Resource information.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1402,7 +1403,8 @@ class GenericResourceExpanded(GenericResource):  # pylint: disable=too-many-inst
     :vartype properties: JSON
     :ivar kind: The kind of the resource.
     :vartype kind: str
-    :ivar managed_by: ID of the resource that manages this resource.
+    :ivar managed_by: ID of the resource that manages this resource. This field is immutable once
+     set.
     :vartype managed_by: str
     :ivar sku: The SKU of the resource.
     :vartype sku: ~azure.mgmt.resource.resources.v2020_10_01.models.Sku
@@ -1469,7 +1471,8 @@ class GenericResourceExpanded(GenericResource):  # pylint: disable=too-many-inst
         :paramtype properties: JSON
         :keyword kind: The kind of the resource.
         :paramtype kind: str
-        :keyword managed_by: ID of the resource that manages this resource.
+        :keyword managed_by: ID of the resource that manages this resource. This field is immutable
+         once set.
         :paramtype managed_by: str
         :keyword sku: The SKU of the resource.
         :paramtype sku: ~azure.mgmt.resource.resources.v2020_10_01.models.Sku
@@ -2154,7 +2157,8 @@ class ResourceGroup(_serialization.Model):
     :ivar location: The location of the resource group. It cannot be changed after the resource
      group has been created. It must be one of the supported Azure locations. Required.
     :vartype location: str
-    :ivar managed_by: The ID of the resource that manages this resource group.
+    :ivar managed_by: The ID of the resource that manages this resource group. This field is
+     immutable once set.
     :vartype managed_by: str
     :ivar tags: The tags attached to the resource group.
     :vartype tags: dict[str, str]
@@ -2193,7 +2197,8 @@ class ResourceGroup(_serialization.Model):
         :keyword location: The location of the resource group. It cannot be changed after the resource
          group has been created. It must be one of the supported Azure locations. Required.
         :paramtype location: str
-        :keyword managed_by: The ID of the resource that manages this resource group.
+        :keyword managed_by: The ID of the resource that manages this resource group. This field is
+         immutable once set.
         :paramtype managed_by: str
         :keyword tags: The tags attached to the resource group.
         :paramtype tags: dict[str, str]
@@ -2299,8 +2304,6 @@ class ResourceGroupPatchable(_serialization.Model):
     :vartype name: str
     :ivar properties: The resource group properties.
     :vartype properties: ~azure.mgmt.resource.resources.v2020_10_01.models.ResourceGroupProperties
-    :ivar managed_by: The ID of the resource that manages this resource group.
-    :vartype managed_by: str
     :ivar tags: The tags attached to the resource group.
     :vartype tags: dict[str, str]
     """
@@ -2308,7 +2311,6 @@ class ResourceGroupPatchable(_serialization.Model):
     _attribute_map = {
         "name": {"key": "name", "type": "str"},
         "properties": {"key": "properties", "type": "ResourceGroupProperties"},
-        "managed_by": {"key": "managedBy", "type": "str"},
         "tags": {"key": "tags", "type": "{str}"},
     }
 
@@ -2317,7 +2319,6 @@ class ResourceGroupPatchable(_serialization.Model):
         *,
         name: Optional[str] = None,
         properties: Optional["_models.ResourceGroupProperties"] = None,
-        managed_by: Optional[str] = None,
         tags: Optional[Dict[str, str]] = None,
         **kwargs: Any
     ) -> None:
@@ -2327,15 +2328,12 @@ class ResourceGroupPatchable(_serialization.Model):
         :keyword properties: The resource group properties.
         :paramtype properties:
          ~azure.mgmt.resource.resources.v2020_10_01.models.ResourceGroupProperties
-        :keyword managed_by: The ID of the resource that manages this resource group.
-        :paramtype managed_by: str
         :keyword tags: The tags attached to the resource group.
         :paramtype tags: dict[str, str]
         """
         super().__init__(**kwargs)
         self.name = name
         self.properties = properties
-        self.managed_by = managed_by
         self.tags = tags
 
 
