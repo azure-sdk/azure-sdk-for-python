@@ -15,7 +15,7 @@ from azure.mgmt.quota import QuotaMgmtClient
     pip install azure-identity
     pip install azure-mgmt-quota
 # USAGE
-    python put_group_quota_enforcement_failed.py
+    python list_group_quota_limits_compute.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -30,15 +30,15 @@ def main():
         subscription_id="SUBSCRIPTION_ID",
     )
 
-    response = client.group_quota_location_settings.begin_create_or_update(
+    response = client.group_quota_limits.list(
         management_group_id="E7EC67B3-7657-4966-BFFC-41EFD36BAA09",
         group_quota_name="groupquota1",
         resource_provider_name="Microsoft.Compute",
-        location="eastus",
-    ).result()
+        location="westus",
+    )
     print(response)
 
 
-# x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/preview/2023-06-01-preview/examples/GroupQuotasEnforcement/PutGroupQuotaEnforcementFailed.json
+# x-ms-original-file: specification/quota/resource-manager/Microsoft.Quota/stable/2025-03-01/examples/GroupQuotaLimits/ListGroupQuotaLimits-Compute.json
 if __name__ == "__main__":
     main()
