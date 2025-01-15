@@ -49,6 +49,9 @@ class CapacityReservationLevel(int, Enum, metaclass=CaseInsensitiveEnumMeta):
     TEN_HUNDRED = 1000
     TWO_THOUSAND = 2000
     FIVE_THOUSAND = 5000
+    TEN_THOUSAND = 10000
+    TWENTY_FIVE_THOUSAND = 25000
+    FIFTY_THOUSAND = 50000
 
 
 class ClusterEntityStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -173,12 +176,8 @@ class DataSourceType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
 
 class IdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The type of identity that creates/modifies resources."""
+    """Type of managed service identity."""
 
-    USER = "user"
-    APPLICATION = "application"
-    MANAGED_IDENTITY = "managedIdentity"
-    KEY = "key"
     SYSTEM_ASSIGNED = "SystemAssigned"
     USER_ASSIGNED = "UserAssigned"
     NONE = "None"
@@ -276,7 +275,7 @@ class TablePlanEnum(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Instruct the system how to handle and charge the logs ingested to this table."""
 
     BASIC = "Basic"
-    """Logs  that are adjusted to support high volume low value verbose logs."""
+    """Logs that are adjusted to support high volume low value verbose logs."""
     ANALYTICS = "Analytics"
     """Logs  that allow monitoring and analytics."""
 

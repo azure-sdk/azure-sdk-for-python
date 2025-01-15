@@ -21,9 +21,9 @@ class TestLogAnalyticsManagementWorkspacesOperationsAsync(AzureMgmtRecordedTestC
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list(self, resource_group):
+    async def test_workspaces_list(self, resource_group):
         response = self.client.workspaces.list(
-            api_version="2022-10-01",
+            api_version="2023-09-01",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -31,10 +31,10 @@ class TestLogAnalyticsManagementWorkspacesOperationsAsync(AzureMgmtRecordedTestC
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_by_resource_group(self, resource_group):
+    async def test_workspaces_list_by_resource_group(self, resource_group):
         response = self.client.workspaces.list_by_resource_group(
             resource_group_name=resource_group.name,
-            api_version="2022-10-01",
+            api_version="2023-09-01",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -42,7 +42,7 @@ class TestLogAnalyticsManagementWorkspacesOperationsAsync(AzureMgmtRecordedTestC
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_create_or_update(self, resource_group):
+    async def test_workspaces_begin_create_or_update(self, resource_group):
         response = await (
             await self.client.workspaces.begin_create_or_update(
                 resource_group_name=resource_group.name,
@@ -59,6 +59,7 @@ class TestLogAnalyticsManagementWorkspacesOperationsAsync(AzureMgmtRecordedTestC
                         "enableDataExport": bool,
                         "enableLogAccessUsingOnlyResourcePermissions": bool,
                         "immediatePurgeDataOn30Days": bool,
+                        "unifiedSentinelBillingOnly": bool,
                     },
                     "forceCmkForQuery": bool,
                     "id": "str",
@@ -92,7 +93,7 @@ class TestLogAnalyticsManagementWorkspacesOperationsAsync(AzureMgmtRecordedTestC
                         "quotaNextResetTime": "str",
                     },
                 },
-                api_version="2022-10-01",
+                api_version="2023-09-01",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -101,12 +102,12 @@ class TestLogAnalyticsManagementWorkspacesOperationsAsync(AzureMgmtRecordedTestC
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_delete(self, resource_group):
+    async def test_workspaces_begin_delete(self, resource_group):
         response = await (
             await self.client.workspaces.begin_delete(
                 resource_group_name=resource_group.name,
                 workspace_name="str",
-                api_version="2022-10-01",
+                api_version="2023-09-01",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -115,11 +116,11 @@ class TestLogAnalyticsManagementWorkspacesOperationsAsync(AzureMgmtRecordedTestC
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get(self, resource_group):
+    async def test_workspaces_get(self, resource_group):
         response = await self.client.workspaces.get(
             resource_group_name=resource_group.name,
             workspace_name="str",
-            api_version="2022-10-01",
+            api_version="2023-09-01",
         )
 
         # please add some check logic here by yourself
@@ -127,7 +128,7 @@ class TestLogAnalyticsManagementWorkspacesOperationsAsync(AzureMgmtRecordedTestC
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_update(self, resource_group):
+    async def test_workspaces_update(self, resource_group):
         response = await self.client.workspaces.update(
             resource_group_name=resource_group.name,
             workspace_name="str",
@@ -142,6 +143,7 @@ class TestLogAnalyticsManagementWorkspacesOperationsAsync(AzureMgmtRecordedTestC
                     "enableDataExport": bool,
                     "enableLogAccessUsingOnlyResourcePermissions": bool,
                     "immediatePurgeDataOn30Days": bool,
+                    "unifiedSentinelBillingOnly": bool,
                 },
                 "forceCmkForQuery": bool,
                 "id": "str",
@@ -163,7 +165,7 @@ class TestLogAnalyticsManagementWorkspacesOperationsAsync(AzureMgmtRecordedTestC
                 "type": "str",
                 "workspaceCapping": {"dailyQuotaGb": 0.0, "dataIngestionStatus": "str", "quotaNextResetTime": "str"},
             },
-            api_version="2022-10-01",
+            api_version="2023-09-01",
         )
 
         # please add some check logic here by yourself
