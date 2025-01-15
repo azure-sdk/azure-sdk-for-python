@@ -20,11 +20,11 @@ class TestWebPubSubManagementWebPubSubPrivateLinkResourcesOperations(AzureMgmtRe
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list(self, resource_group):
+    def test_web_pub_sub_private_link_resources_list(self, resource_group):
         response = self.client.web_pub_sub_private_link_resources.list(
             resource_group_name=resource_group.name,
             resource_name="str",
-            api_version="2024-03-01",
+            api_version="2025-01-01-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself

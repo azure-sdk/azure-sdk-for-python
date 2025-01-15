@@ -21,11 +21,11 @@ class TestWebPubSubManagementWebPubSubReplicasOperationsAsync(AzureMgmtRecordedT
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list(self, resource_group):
+    async def test_web_pub_sub_replicas_list(self, resource_group):
         response = self.client.web_pub_sub_replicas.list(
             resource_group_name=resource_group.name,
             resource_name="str",
-            api_version="2024-03-01",
+            api_version="2025-01-01-preview",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -33,12 +33,12 @@ class TestWebPubSubManagementWebPubSubReplicasOperationsAsync(AzureMgmtRecordedT
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get(self, resource_group):
+    async def test_web_pub_sub_replicas_get(self, resource_group):
         response = await self.client.web_pub_sub_replicas.get(
             resource_group_name=resource_group.name,
             resource_name="str",
             replica_name="str",
-            api_version="2024-03-01",
+            api_version="2025-01-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -46,7 +46,7 @@ class TestWebPubSubManagementWebPubSubReplicasOperationsAsync(AzureMgmtRecordedT
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_create_or_update(self, resource_group):
+    async def test_web_pub_sub_replicas_begin_create_or_update(self, resource_group):
         response = await (
             await self.client.web_pub_sub_replicas.begin_create_or_update(
                 resource_group_name=resource_group.name,
@@ -71,7 +71,7 @@ class TestWebPubSubManagementWebPubSubReplicasOperationsAsync(AzureMgmtRecordedT
                     "tags": {"str": "str"},
                     "type": "str",
                 },
-                api_version="2024-03-01",
+                api_version="2025-01-01-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -80,12 +80,12 @@ class TestWebPubSubManagementWebPubSubReplicasOperationsAsync(AzureMgmtRecordedT
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_delete(self, resource_group):
+    async def test_web_pub_sub_replicas_delete(self, resource_group):
         response = await self.client.web_pub_sub_replicas.delete(
             resource_group_name=resource_group.name,
             resource_name="str",
             replica_name="str",
-            api_version="2024-03-01",
+            api_version="2025-01-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -93,7 +93,7 @@ class TestWebPubSubManagementWebPubSubReplicasOperationsAsync(AzureMgmtRecordedT
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_update(self, resource_group):
+    async def test_web_pub_sub_replicas_begin_update(self, resource_group):
         response = await (
             await self.client.web_pub_sub_replicas.begin_update(
                 resource_group_name=resource_group.name,
@@ -118,7 +118,7 @@ class TestWebPubSubManagementWebPubSubReplicasOperationsAsync(AzureMgmtRecordedT
                     "tags": {"str": "str"},
                     "type": "str",
                 },
-                api_version="2024-03-01",
+                api_version="2025-01-01-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -127,13 +127,13 @@ class TestWebPubSubManagementWebPubSubReplicasOperationsAsync(AzureMgmtRecordedT
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_restart(self, resource_group):
+    async def test_web_pub_sub_replicas_begin_restart(self, resource_group):
         response = await (
             await self.client.web_pub_sub_replicas.begin_restart(
                 resource_group_name=resource_group.name,
                 resource_name="str",
                 replica_name="str",
-                api_version="2024-03-01",
+                api_version="2025-01-01-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 

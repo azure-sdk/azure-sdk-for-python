@@ -21,11 +21,11 @@ class TestWebPubSubManagementWebPubSubCustomCertificatesOperationsAsync(AzureMgm
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list(self, resource_group):
+    async def test_web_pub_sub_custom_certificates_list(self, resource_group):
         response = self.client.web_pub_sub_custom_certificates.list(
             resource_group_name=resource_group.name,
             resource_name="str",
-            api_version="2024-03-01",
+            api_version="2025-01-01-preview",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -33,12 +33,12 @@ class TestWebPubSubManagementWebPubSubCustomCertificatesOperationsAsync(AzureMgm
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get(self, resource_group):
+    async def test_web_pub_sub_custom_certificates_get(self, resource_group):
         response = await self.client.web_pub_sub_custom_certificates.get(
             resource_group_name=resource_group.name,
             resource_name="str",
             certificate_name="str",
-            api_version="2024-03-01",
+            api_version="2025-01-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -46,7 +46,7 @@ class TestWebPubSubManagementWebPubSubCustomCertificatesOperationsAsync(AzureMgm
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_create_or_update(self, resource_group):
+    async def test_web_pub_sub_custom_certificates_begin_create_or_update(self, resource_group):
         response = await (
             await self.client.web_pub_sub_custom_certificates.begin_create_or_update(
                 resource_group_name=resource_group.name,
@@ -69,7 +69,7 @@ class TestWebPubSubManagementWebPubSubCustomCertificatesOperationsAsync(AzureMgm
                     },
                     "type": "str",
                 },
-                api_version="2024-03-01",
+                api_version="2025-01-01-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -78,12 +78,12 @@ class TestWebPubSubManagementWebPubSubCustomCertificatesOperationsAsync(AzureMgm
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_delete(self, resource_group):
+    async def test_web_pub_sub_custom_certificates_delete(self, resource_group):
         response = await self.client.web_pub_sub_custom_certificates.delete(
             resource_group_name=resource_group.name,
             resource_name="str",
             certificate_name="str",
-            api_version="2024-03-01",
+            api_version="2025-01-01-preview",
         )
 
         # please add some check logic here by yourself
