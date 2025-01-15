@@ -37,6 +37,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2024-04-03/examples/AppAttachPackage_Get.json
+# x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2024-09-10/examples/AppAttachPackage_Get.json
 if __name__ == "__main__":
     main()
