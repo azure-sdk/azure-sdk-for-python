@@ -25,10 +25,30 @@ class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     KEY = "Key"
 
 
+class ExperimentActionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Enum union of Chaos experiment action types."""
+
+    DELAY = "delay"
+    DISCRETE = "discrete"
+    CONTINUOUS = "continuous"
+
+
 class FilterType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Enum that discriminates between filter types. Currently only ``Simple`` type is supported."""
 
     SIMPLE = "Simple"
+    """Simple filter type."""
+
+
+class ManagedServiceIdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Type of managed service identity (where both SystemAssigned and UserAssigned types are
+    allowed).
+    """
+
+    NONE = "None"
+    SYSTEM_ASSIGNED = "SystemAssigned"
+    USER_ASSIGNED = "UserAssigned"
+    SYSTEM_ASSIGNED_USER_ASSIGNED = "SystemAssigned,UserAssigned"
 
 
 class Origin(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -41,33 +61,54 @@ class Origin(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     USER_SYSTEM = "user,system"
 
 
+class PrivateEndpointServiceConnectionStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The private endpoint connection status."""
+
+    PENDING = "Pending"
+    """Pending status."""
+    APPROVED = "Approved"
+    """Approved status."""
+    REJECTED = "Rejected"
+    """Rejected status."""
+
+
 class ProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Current provisioning state for a given Azure Chaos resource."""
 
     SUCCEEDED = "Succeeded"
+    """Resource has been created."""
     FAILED = "Failed"
+    """Resource creation failed."""
     CANCELED = "Canceled"
+    """Resource creation was canceled."""
     CREATING = "Creating"
+    """Initial creation in progress."""
     UPDATING = "Updating"
+    """Update in progress."""
     DELETING = "Deleting"
+    """Deletion in progress."""
 
 
-class ResourceIdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """String of the resource identity type."""
+class PublicNetworkAccessOption(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Public Network Access Control for PrivateAccess resource."""
 
-    NONE = "None"
-    SYSTEM_ASSIGNED = "SystemAssigned"
-    USER_ASSIGNED = "UserAssigned"
+    ENABLED = "Enabled"
+    """Enabled access."""
+    DISABLED = "Disabled"
+    """Disabled access."""
 
 
 class SelectorType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Enum of the selector type."""
 
     LIST = "List"
+    """List selector type."""
     QUERY = "Query"
+    """Query selector type."""
 
 
 class TargetReferenceType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Enum of the Target reference type."""
 
     CHAOS_TARGET = "ChaosTarget"
+    """Chaos target reference type."""
