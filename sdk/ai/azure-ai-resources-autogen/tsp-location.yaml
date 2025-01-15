@@ -1,0 +1,4 @@
+directory: specification/machinelearningservices/AzureAI.Unified
+commit: 5f1dcf05a1adc5595442b87eeb06b9c7a1831f63
+repo: Azure/azure-rest-api-specs
+additionalDirectories: 
