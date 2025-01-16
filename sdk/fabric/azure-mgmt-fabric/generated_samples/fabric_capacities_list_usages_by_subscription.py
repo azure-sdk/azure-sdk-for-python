@@ -15,7 +15,7 @@ from azure.mgmt.fabric import FabricMgmtClient
     pip install azure-identity
     pip install azure-mgmt-fabric
 # USAGE
-    python fabric_capacities_get.py
+    python fabric_capacities_list_usages_by_subscription.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -30,13 +30,13 @@ def main():
         subscription_id="SUBSCRIPTION_ID",
     )
 
-    response = client.fabric_capacities.get(
-        resource_group_name="TestRG",
-        capacity_name="azsdktest",
+    response = client.fabric_capacities.list_usages(
+        location="centraluseuap",
     )
-    print(response)
+    for item in response:
+        print(item)
 
 
-# x-ms-original-file: 2025-01-15-preview/FabricCapacities_Get.json
+# x-ms-original-file: 2025-01-15-preview/FabricCapacities_ListUsagesBySubscription.json
 if __name__ == "__main__":
     main()
