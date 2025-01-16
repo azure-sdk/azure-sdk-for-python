@@ -41,6 +41,9 @@ class TestNetworkManagementPacketCapturesOperations(AzureMgmtRecordedTestCase):
                     }
                 ],
                 "scope": {"exclude": ["str"], "include": ["str"]},
+                "storageSettings": {
+                    "storageAuthentication": {"storageAuthentication": {"managedIndentityResourceId ": "str"}}
+                },
                 "targetType": "str",
                 "timeLimitInSeconds": 18000,
                 "totalBytesPerSession": 1073741824,

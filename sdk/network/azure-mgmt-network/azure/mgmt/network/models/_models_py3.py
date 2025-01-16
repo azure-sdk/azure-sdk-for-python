@@ -3748,7 +3748,7 @@ class ApplicationGatewayOnDemandProbe(_serialization.Model):
     :ivar host: Host name to send the probe to.
     :vartype host: str
     :ivar path: Relative path of probe. Valid path starts from '/'. Probe is sent to
-     :code:`<Protocol>`://:code:`<host>`::code:`<port>`:code:`<path>`.
+     :code:`<Protocol>`://\\ :code:`<host>`:\\ :code:`<port>`\\ :code:`<path>`.
     :vartype path: str
     :ivar timeout: The probe timeout in seconds. Probe marked as failed if valid response is not
      received with this timeout period. Acceptable values are from 1 second to 86400 seconds.
@@ -3797,7 +3797,7 @@ class ApplicationGatewayOnDemandProbe(_serialization.Model):
         :keyword host: Host name to send the probe to.
         :paramtype host: str
         :keyword path: Relative path of probe. Valid path starts from '/'. Probe is sent to
-         :code:`<Protocol>`://:code:`<host>`::code:`<port>`:code:`<path>`.
+         :code:`<Protocol>`://\\ :code:`<host>`:\\ :code:`<port>`\\ :code:`<path>`.
         :paramtype path: str
         :keyword timeout: The probe timeout in seconds. Probe marked as failed if valid response is not
          received with this timeout period. Acceptable values are from 1 second to 86400 seconds.
@@ -4301,7 +4301,7 @@ class ApplicationGatewayProbe(SubResource):
     :ivar host: Host name to send the probe to.
     :vartype host: str
     :ivar path: Relative path of probe. Valid path starts from '/'. Probe is sent to
-     :code:`<Protocol>`://:code:`<host>`::code:`<port>`:code:`<path>`.
+     :code:`<Protocol>`://\\ :code:`<host>`:\\ :code:`<port>`\\ :code:`<path>`.
     :vartype path: str
     :ivar interval: The probing interval in seconds. This is the time interval between two
      consecutive probes. Acceptable values are from 1 second to 86400 seconds.
@@ -4391,7 +4391,7 @@ class ApplicationGatewayProbe(SubResource):
         :keyword host: Host name to send the probe to.
         :paramtype host: str
         :keyword path: Relative path of probe. Valid path starts from '/'. Probe is sent to
-         :code:`<Protocol>`://:code:`<host>`::code:`<port>`:code:`<path>`.
+         :code:`<Protocol>`://\\ :code:`<host>`:\\ :code:`<port>`\\ :code:`<path>`.
         :paramtype path: str
         :keyword interval: The probing interval in seconds. This is the time interval between two
          consecutive probes. Acceptable values are from 1 second to 86400 seconds.
@@ -23161,6 +23161,28 @@ class LogSpecification(_serialization.Model):
         self.blob_duration = blob_duration
 
 
+class ManagedIdentityInfo(_serialization.Model):
+    """The managed identity information for a packet capture session.
+
+    :ivar managed_indentity_resource_id: The managed identity resource id information for a packet
+     capture session.
+    :vartype managed_indentity_resource_id: str
+    """
+
+    _attribute_map = {
+        "managed_indentity_resource_id": {"key": "managedIndentityResourceId ", "type": "str"},
+    }
+
+    def __init__(self, *, managed_indentity_resource_id: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword managed_indentity_resource_id: The managed identity resource id information for a
+         packet capture session.
+        :paramtype managed_indentity_resource_id: str
+        """
+        super().__init__(**kwargs)
+        self.managed_indentity_resource_id = managed_indentity_resource_id
+
+
 class ManagedRuleGroupOverride(_serialization.Model):
     """Defines a managed rule group override setting.
 
@@ -24702,7 +24724,7 @@ class NetworkInterfaceIPConfiguration(SubResource):
     :ivar load_balancer_inbound_nat_rules: A list of references of LoadBalancerInboundNatRules.
     :vartype load_balancer_inbound_nat_rules: list[~azure.mgmt.network.models.InboundNatRule]
     :ivar private_ip_address: Private IP address of the IP configuration. It can be a single IP
-     address or a CIDR block in the format :code:`<address>`/:code:`<prefix-length>`.
+     address or a CIDR block in the format :code:`<address>`/\\ :code:`<prefix-length>`.
     :vartype private_ip_address: str
     :ivar private_ip_address_prefix_length: The private IP address prefix length. If specified and
      the allocation method is dynamic, the service will allocate a CIDR block instead of a single IP
@@ -24822,7 +24844,7 @@ class NetworkInterfaceIPConfiguration(SubResource):
         :keyword load_balancer_inbound_nat_rules: A list of references of LoadBalancerInboundNatRules.
         :paramtype load_balancer_inbound_nat_rules: list[~azure.mgmt.network.models.InboundNatRule]
         :keyword private_ip_address: Private IP address of the IP configuration. It can be a single IP
-         address or a CIDR block in the format :code:`<address>`/:code:`<prefix-length>`.
+         address or a CIDR block in the format :code:`<address>`/\\ :code:`<prefix-length>`.
         :paramtype private_ip_address: str
         :keyword private_ip_address_prefix_length: The private IP address prefix length. If specified
          and the allocation method is dynamic, the service will allocate a CIDR block instead of a
@@ -27741,6 +27763,8 @@ class PacketCapture(_serialization.Model):
     :vartype time_limit_in_seconds: int
     :ivar storage_location: The storage location for a packet capture session. Required.
     :vartype storage_location: ~azure.mgmt.network.models.PacketCaptureStorageLocation
+    :ivar storage_settings: The storage setting for a packet capture session.
+    :vartype storage_settings: ~azure.mgmt.network.models.PacketCaptureStorageSettings
     :ivar filters: A list of packet capture filters.
     :vartype filters: list[~azure.mgmt.network.models.PacketCaptureFilter]
     :ivar continuous_capture: This continuous capture is a nullable boolean, which can hold 'null',
@@ -27768,6 +27792,7 @@ class PacketCapture(_serialization.Model):
         "total_bytes_per_session": {"key": "properties.totalBytesPerSession", "type": "int"},
         "time_limit_in_seconds": {"key": "properties.timeLimitInSeconds", "type": "int"},
         "storage_location": {"key": "properties.storageLocation", "type": "PacketCaptureStorageLocation"},
+        "storage_settings": {"key": "properties.storageSettings", "type": "PacketCaptureStorageSettings"},
         "filters": {"key": "properties.filters", "type": "[PacketCaptureFilter]"},
         "continuous_capture": {"key": "properties.continuousCapture", "type": "bool"},
         "capture_settings": {"key": "properties.captureSettings", "type": "PacketCaptureSettings"},
@@ -27783,6 +27808,7 @@ class PacketCapture(_serialization.Model):
         bytes_to_capture_per_packet: int = 0,
         total_bytes_per_session: int = 1073741824,
         time_limit_in_seconds: int = 18000,
+        storage_settings: Optional["_models.PacketCaptureStorageSettings"] = None,
         filters: Optional[List["_models.PacketCaptureFilter"]] = None,
         continuous_capture: Optional[bool] = None,
         capture_settings: Optional["_models.PacketCaptureSettings"] = None,
@@ -27808,6 +27834,8 @@ class PacketCapture(_serialization.Model):
         :paramtype time_limit_in_seconds: int
         :keyword storage_location: The storage location for a packet capture session. Required.
         :paramtype storage_location: ~azure.mgmt.network.models.PacketCaptureStorageLocation
+        :keyword storage_settings: The storage setting for a packet capture session.
+        :paramtype storage_settings: ~azure.mgmt.network.models.PacketCaptureStorageSettings
         :keyword filters: A list of packet capture filters.
         :paramtype filters: list[~azure.mgmt.network.models.PacketCaptureFilter]
         :keyword continuous_capture: This continuous capture is a nullable boolean, which can hold
@@ -27826,6 +27854,7 @@ class PacketCapture(_serialization.Model):
         self.total_bytes_per_session = total_bytes_per_session
         self.time_limit_in_seconds = time_limit_in_seconds
         self.storage_location = storage_location
+        self.storage_settings = storage_settings
         self.filters = filters
         self.continuous_capture = continuous_capture
         self.capture_settings = capture_settings
@@ -27980,6 +28009,8 @@ class PacketCaptureParameters(_serialization.Model):
     :vartype time_limit_in_seconds: int
     :ivar storage_location: The storage location for a packet capture session. Required.
     :vartype storage_location: ~azure.mgmt.network.models.PacketCaptureStorageLocation
+    :ivar storage_settings: The storage setting for a packet capture session.
+    :vartype storage_settings: ~azure.mgmt.network.models.PacketCaptureStorageSettings
     :ivar filters: A list of packet capture filters.
     :vartype filters: list[~azure.mgmt.network.models.PacketCaptureFilter]
     :ivar continuous_capture: This continuous capture is a nullable boolean, which can hold 'null',
@@ -28007,6 +28038,7 @@ class PacketCaptureParameters(_serialization.Model):
         "total_bytes_per_session": {"key": "totalBytesPerSession", "type": "int"},
         "time_limit_in_seconds": {"key": "timeLimitInSeconds", "type": "int"},
         "storage_location": {"key": "storageLocation", "type": "PacketCaptureStorageLocation"},
+        "storage_settings": {"key": "storageSettings", "type": "PacketCaptureStorageSettings"},
         "filters": {"key": "filters", "type": "[PacketCaptureFilter]"},
         "continuous_capture": {"key": "continuousCapture", "type": "bool"},
         "capture_settings": {"key": "captureSettings", "type": "PacketCaptureSettings"},
@@ -28022,6 +28054,7 @@ class PacketCaptureParameters(_serialization.Model):
         bytes_to_capture_per_packet: int = 0,
         total_bytes_per_session: int = 1073741824,
         time_limit_in_seconds: int = 18000,
+        storage_settings: Optional["_models.PacketCaptureStorageSettings"] = None,
         filters: Optional[List["_models.PacketCaptureFilter"]] = None,
         continuous_capture: Optional[bool] = None,
         capture_settings: Optional["_models.PacketCaptureSettings"] = None,
@@ -28047,6 +28080,8 @@ class PacketCaptureParameters(_serialization.Model):
         :paramtype time_limit_in_seconds: int
         :keyword storage_location: The storage location for a packet capture session. Required.
         :paramtype storage_location: ~azure.mgmt.network.models.PacketCaptureStorageLocation
+        :keyword storage_settings: The storage setting for a packet capture session.
+        :paramtype storage_settings: ~azure.mgmt.network.models.PacketCaptureStorageSettings
         :keyword filters: A list of packet capture filters.
         :paramtype filters: list[~azure.mgmt.network.models.PacketCaptureFilter]
         :keyword continuous_capture: This continuous capture is a nullable boolean, which can hold
@@ -28065,6 +28100,7 @@ class PacketCaptureParameters(_serialization.Model):
         self.total_bytes_per_session = total_bytes_per_session
         self.time_limit_in_seconds = time_limit_in_seconds
         self.storage_location = storage_location
+        self.storage_settings = storage_settings
         self.filters = filters
         self.continuous_capture = continuous_capture
         self.capture_settings = capture_settings
@@ -28162,6 +28198,8 @@ class PacketCaptureResult(_serialization.Model):
     :vartype time_limit_in_seconds: int
     :ivar storage_location: The storage location for a packet capture session.
     :vartype storage_location: ~azure.mgmt.network.models.PacketCaptureStorageLocation
+    :ivar storage_settings: The storage setting for a packet capture session.
+    :vartype storage_settings: ~azure.mgmt.network.models.PacketCaptureStorageSettings
     :ivar filters: A list of packet capture filters.
     :vartype filters: list[~azure.mgmt.network.models.PacketCaptureFilter]
     :ivar continuous_capture: This continuous capture is a nullable boolean, which can hold 'null',
@@ -28197,6 +28235,7 @@ class PacketCaptureResult(_serialization.Model):
         "total_bytes_per_session": {"key": "properties.totalBytesPerSession", "type": "int"},
         "time_limit_in_seconds": {"key": "properties.timeLimitInSeconds", "type": "int"},
         "storage_location": {"key": "properties.storageLocation", "type": "PacketCaptureStorageLocation"},
+        "storage_settings": {"key": "properties.storageSettings", "type": "PacketCaptureStorageSettings"},
         "filters": {"key": "properties.filters", "type": "[PacketCaptureFilter]"},
         "continuous_capture": {"key": "properties.continuousCapture", "type": "bool"},
         "capture_settings": {"key": "properties.captureSettings", "type": "PacketCaptureSettings"},
@@ -28213,6 +28252,7 @@ class PacketCaptureResult(_serialization.Model):
         total_bytes_per_session: int = 1073741824,
         time_limit_in_seconds: int = 18000,
         storage_location: Optional["_models.PacketCaptureStorageLocation"] = None,
+        storage_settings: Optional["_models.PacketCaptureStorageSettings"] = None,
         filters: Optional[List["_models.PacketCaptureFilter"]] = None,
         continuous_capture: Optional[bool] = None,
         capture_settings: Optional["_models.PacketCaptureSettings"] = None,
@@ -28238,6 +28278,8 @@ class PacketCaptureResult(_serialization.Model):
         :paramtype time_limit_in_seconds: int
         :keyword storage_location: The storage location for a packet capture session.
         :paramtype storage_location: ~azure.mgmt.network.models.PacketCaptureStorageLocation
+        :keyword storage_settings: The storage setting for a packet capture session.
+        :paramtype storage_settings: ~azure.mgmt.network.models.PacketCaptureStorageSettings
         :keyword filters: A list of packet capture filters.
         :paramtype filters: list[~azure.mgmt.network.models.PacketCaptureFilter]
         :keyword continuous_capture: This continuous capture is a nullable boolean, which can hold
@@ -28259,6 +28301,7 @@ class PacketCaptureResult(_serialization.Model):
         self.total_bytes_per_session = total_bytes_per_session
         self.time_limit_in_seconds = time_limit_in_seconds
         self.storage_location = storage_location
+        self.storage_settings = storage_settings
         self.filters = filters
         self.continuous_capture = continuous_capture
         self.capture_settings = capture_settings
@@ -28291,6 +28334,8 @@ class PacketCaptureResultProperties(PacketCaptureParameters):
     :vartype time_limit_in_seconds: int
     :ivar storage_location: The storage location for a packet capture session. Required.
     :vartype storage_location: ~azure.mgmt.network.models.PacketCaptureStorageLocation
+    :ivar storage_settings: The storage setting for a packet capture session.
+    :vartype storage_settings: ~azure.mgmt.network.models.PacketCaptureStorageSettings
     :ivar filters: A list of packet capture filters.
     :vartype filters: list[~azure.mgmt.network.models.PacketCaptureFilter]
     :ivar continuous_capture: This continuous capture is a nullable boolean, which can hold 'null',
@@ -28322,6 +28367,7 @@ class PacketCaptureResultProperties(PacketCaptureParameters):
         "total_bytes_per_session": {"key": "totalBytesPerSession", "type": "int"},
         "time_limit_in_seconds": {"key": "timeLimitInSeconds", "type": "int"},
         "storage_location": {"key": "storageLocation", "type": "PacketCaptureStorageLocation"},
+        "storage_settings": {"key": "storageSettings", "type": "PacketCaptureStorageSettings"},
         "filters": {"key": "filters", "type": "[PacketCaptureFilter]"},
         "continuous_capture": {"key": "continuousCapture", "type": "bool"},
         "capture_settings": {"key": "captureSettings", "type": "PacketCaptureSettings"},
@@ -28338,6 +28384,7 @@ class PacketCaptureResultProperties(PacketCaptureParameters):
         bytes_to_capture_per_packet: int = 0,
         total_bytes_per_session: int = 1073741824,
         time_limit_in_seconds: int = 18000,
+        storage_settings: Optional["_models.PacketCaptureStorageSettings"] = None,
         filters: Optional[List["_models.PacketCaptureFilter"]] = None,
         continuous_capture: Optional[bool] = None,
         capture_settings: Optional["_models.PacketCaptureSettings"] = None,
@@ -28363,6 +28410,8 @@ class PacketCaptureResultProperties(PacketCaptureParameters):
         :paramtype time_limit_in_seconds: int
         :keyword storage_location: The storage location for a packet capture session. Required.
         :paramtype storage_location: ~azure.mgmt.network.models.PacketCaptureStorageLocation
+        :keyword storage_settings: The storage setting for a packet capture session.
+        :paramtype storage_settings: ~azure.mgmt.network.models.PacketCaptureStorageSettings
         :keyword filters: A list of packet capture filters.
         :paramtype filters: list[~azure.mgmt.network.models.PacketCaptureFilter]
         :keyword continuous_capture: This continuous capture is a nullable boolean, which can hold
@@ -28381,6 +28430,7 @@ class PacketCaptureResultProperties(PacketCaptureParameters):
             total_bytes_per_session=total_bytes_per_session,
             time_limit_in_seconds=time_limit_in_seconds,
             storage_location=storage_location,
+            storage_settings=storage_settings,
             filters=filters,
             continuous_capture=continuous_capture,
             capture_settings=capture_settings,
@@ -28498,6 +28548,28 @@ class PacketCaptureStorageLocation(_serialization.Model):
         self.storage_path = storage_path
         self.file_path = file_path
         self.local_path = local_path
+
+
+class PacketCaptureStorageSettings(_serialization.Model):
+    """The storage setting for a packet capture session.
+
+    :ivar storage_authentication: The storage authentication for a packet capture session.
+    :vartype storage_authentication: ~azure.mgmt.network.models.StorageAuthentication
+    """
+
+    _attribute_map = {
+        "storage_authentication": {"key": "storageAuthentication", "type": "StorageAuthentication"},
+    }
+
+    def __init__(
+        self, *, storage_authentication: Optional["_models.StorageAuthentication"] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword storage_authentication: The storage authentication for a packet capture session.
+        :paramtype storage_authentication: ~azure.mgmt.network.models.StorageAuthentication
+        """
+        super().__init__(**kwargs)
+        self.storage_authentication = storage_authentication
 
 
 class Parameter(_serialization.Model):
@@ -35078,6 +35150,28 @@ class StaticRoutesConfig(_serialization.Model):
         super().__init__(**kwargs)
         self.propagate_static_routes = None
         self.vnet_local_route_override_criteria = vnet_local_route_override_criteria
+
+
+class StorageAuthentication(_serialization.Model):
+    """The storage authentication for a packet capture session.
+
+    :ivar storage_authentication: The managed identity information for a packet capture session.
+    :vartype storage_authentication: ~azure.mgmt.network.models.ManagedIdentityInfo
+    """
+
+    _attribute_map = {
+        "storage_authentication": {"key": "storageAuthentication", "type": "ManagedIdentityInfo"},
+    }
+
+    def __init__(
+        self, *, storage_authentication: Optional["_models.ManagedIdentityInfo"] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword storage_authentication: The managed identity information for a packet capture session.
+        :paramtype storage_authentication: ~azure.mgmt.network.models.ManagedIdentityInfo
+        """
+        super().__init__(**kwargs)
+        self.storage_authentication = storage_authentication
 
 
 class Subnet(SubResource):
