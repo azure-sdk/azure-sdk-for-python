@@ -620,6 +620,12 @@ class ODataAuthenticationType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     MANAGED_SERVICE_IDENTITY = "ManagedServiceIdentity"
 
 
+class OracleAuthenticationType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Authentication type for connecting to the Oracle database. Only used for Version 2.0."""
+
+    BASIC = "Basic"
+
+
 class OraclePartitionOption(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The partition mechanism that will be used for Oracle read in parallel."""
 
