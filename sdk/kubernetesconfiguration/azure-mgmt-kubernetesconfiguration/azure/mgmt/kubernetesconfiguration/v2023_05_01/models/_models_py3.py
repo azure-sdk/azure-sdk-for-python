@@ -1,5 +1,5 @@
-# coding=utf-8
 # pylint: disable=too-many-lines
+# coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -8,18 +8,11 @@
 # --------------------------------------------------------------------------
 
 import datetime
-import sys
-from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
+from typing import Any, Dict, List, Literal, Optional, TYPE_CHECKING, Union
 
 from ... import _serialization
 
-if sys.version_info >= (3, 8):
-    from typing import Literal  # pylint: disable=no-name-in-module, ungrouped-imports
-else:
-    from typing_extensions import Literal  # type: ignore  # pylint: disable=ungrouped-imports
-
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
@@ -513,7 +506,7 @@ class Resource(_serialization.Model):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -549,7 +542,7 @@ class ProxyResource(Resource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -558,30 +551,14 @@ class ProxyResource(Resource):
     :vartype type: str
     """
 
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-    }
 
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-
-
-class Extension(ProxyResource):  # pylint: disable=too-many-instance-attributes
+class Extension(ProxyResource):
     """The Extension object.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -591,7 +568,7 @@ class Extension(ProxyResource):  # pylint: disable=too-many-instance-attributes
     :ivar identity: Identity of the Extension resource.
     :vartype identity: ~azure.mgmt.kubernetesconfiguration.v2023_05_01.models.Identity
     :ivar system_data: Top level metadata
-     https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/common-api-contracts.md#system-metadata-for-all-azure-resources.
+     https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/common-api-contracts.md#system-metadata-for-all-azure-resources.  # pylint: disable=line-too-long
     :vartype system_data: ~azure.mgmt.kubernetesconfiguration.v2023_05_01.models.SystemData
     :ivar plan: The plan information.
     :vartype plan: ~azure.mgmt.kubernetesconfiguration.v2023_05_01.models.Plan
@@ -864,13 +841,13 @@ class ExtensionStatus(_serialization.Model):
         self.time = time
 
 
-class FluxConfiguration(ProxyResource):  # pylint: disable=too-many-instance-attributes
+class FluxConfiguration(ProxyResource):
     """The Flux Configuration object returned in Get & Put response.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -878,7 +855,7 @@ class FluxConfiguration(ProxyResource):  # pylint: disable=too-many-instance-att
      "Microsoft.Storage/storageAccounts".
     :vartype type: str
     :ivar system_data: Top level metadata
-     https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/common-api-contracts.md#system-metadata-for-all-azure-resources.
+     https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/common-api-contracts.md#system-metadata-for-all-azure-resources.  # pylint: disable=line-too-long
     :vartype system_data: ~azure.mgmt.kubernetesconfiguration.v2023_05_01.models.SystemData
     :ivar scope: Scope at which the operator will be installed. Known values are: "cluster" and
      "namespace".
@@ -1903,7 +1880,7 @@ class OperationStatusResult(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified ID for the async operation.
     :vartype id: str
@@ -2023,7 +2000,7 @@ class PatchExtension(_serialization.Model):
 class Plan(_serialization.Model):
     """Plan for the resource.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: A user defined name of the 3rd Party Artifact that is being procured. Required.
     :vartype name: str
@@ -2513,13 +2490,13 @@ class ServicePrincipalPatchDefinition(_serialization.Model):
         self.client_certificate_send_chain = client_certificate_send_chain
 
 
-class SourceControlConfiguration(ProxyResource):  # pylint: disable=too-many-instance-attributes
+class SourceControlConfiguration(ProxyResource):
     """The SourceControl Configuration object returned in Get & Put response.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -2527,7 +2504,7 @@ class SourceControlConfiguration(ProxyResource):  # pylint: disable=too-many-ins
      "Microsoft.Storage/storageAccounts".
     :vartype type: str
     :ivar system_data: Top level metadata
-     https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/common-api-contracts.md#system-metadata-for-all-azure-resources.
+     https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/common-api-contracts.md#system-metadata-for-all-azure-resources.  # pylint: disable=line-too-long
     :vartype system_data: ~azure.mgmt.kubernetesconfiguration.v2023_05_01.models.SystemData
     :ivar repository_url: Url of the SourceControl Repository.
     :vartype repository_url: str
