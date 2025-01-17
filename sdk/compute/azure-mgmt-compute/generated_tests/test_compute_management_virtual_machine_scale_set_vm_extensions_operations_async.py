@@ -21,6 +21,33 @@ class TestComputeManagementVirtualMachineScaleSetVMExtensionsOperationsAsync(Azu
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
+    async def test_virtual_machine_scale_set_vm_extensions_list(self, resource_group):
+        response = await self.client.virtual_machine_scale_set_vm_extensions.list(
+            resource_group_name=resource_group.name,
+            vm_scale_set_name="str",
+            instance_id="str",
+            api_version="2024-07-01",
+        )
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy_async
+    async def test_virtual_machine_scale_set_vm_extensions_get(self, resource_group):
+        response = await self.client.virtual_machine_scale_set_vm_extensions.get(
+            resource_group_name=resource_group.name,
+            vm_scale_set_name="str",
+            instance_id="str",
+            vm_extension_name="str",
+            api_version="2024-07-01",
+        )
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy_async
     async def test_virtual_machine_scale_set_vm_extensions_begin_create_or_update(self, resource_group):
         response = await (
             await self.client.virtual_machine_scale_set_vm_extensions.begin_create_or_update(
@@ -65,6 +92,14 @@ class TestComputeManagementVirtualMachineScaleSetVMExtensionsOperationsAsync(Azu
                     "publisher": "str",
                     "settings": {},
                     "suppressFailures": bool,
+                    "systemData": {
+                        "createdAt": "2020-02-20 00:00:00",
+                        "createdBy": "str",
+                        "createdByType": "str",
+                        "lastModifiedAt": "2020-02-20 00:00:00",
+                        "lastModifiedBy": "str",
+                        "lastModifiedByType": "str",
+                    },
                     "type": "str",
                     "typeHandlerVersion": "str",
                 },
@@ -117,33 +152,6 @@ class TestComputeManagementVirtualMachineScaleSetVMExtensionsOperationsAsync(Azu
                 api_version="2024-07-01",
             )
         ).result()  # call '.result()' to poll until service return final result
-
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy_async
-    async def test_virtual_machine_scale_set_vm_extensions_get(self, resource_group):
-        response = await self.client.virtual_machine_scale_set_vm_extensions.get(
-            resource_group_name=resource_group.name,
-            vm_scale_set_name="str",
-            instance_id="str",
-            vm_extension_name="str",
-            api_version="2024-07-01",
-        )
-
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy_async
-    async def test_virtual_machine_scale_set_vm_extensions_list(self, resource_group):
-        response = await self.client.virtual_machine_scale_set_vm_extensions.list(
-            resource_group_name=resource_group.name,
-            vm_scale_set_name="str",
-            instance_id="str",
-            api_version="2024-07-01",
-        )
 
         # please add some check logic here by yourself
         # ...

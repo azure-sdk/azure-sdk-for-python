@@ -45,7 +45,7 @@ class TestComputeManagementLogAnalyticsOperations(AzureMgmtRecordedTestCase):
     def test_log_analytics_begin_export_throttled_requests(self, resource_group):
         response = self.client.log_analytics.begin_export_throttled_requests(
             location="str",
-            parameters={
+            body={
                 "blobContainerSasUri": "str",
                 "fromTime": "2020-02-20 00:00:00",
                 "toTime": "2020-02-20 00:00:00",

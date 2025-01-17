@@ -25,6 +25,7 @@ class TestComputeManagementVirtualMachineRunCommandsOperationsAsync(AzureMgmtRec
         response = self.client.virtual_machine_run_commands.list(
             location="str",
             api_version="2024-07-01",
+            accept="application/json, text/json",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -36,6 +37,32 @@ class TestComputeManagementVirtualMachineRunCommandsOperationsAsync(AzureMgmtRec
         response = await self.client.virtual_machine_run_commands.get(
             location="str",
             command_id="str",
+            api_version="2024-07-01",
+            accept="application/json, text/json",
+        )
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy_async
+    async def test_virtual_machine_run_commands_list_by_virtual_machine(self, resource_group):
+        response = self.client.virtual_machine_run_commands.list_by_virtual_machine(
+            resource_group_name=resource_group.name,
+            vm_name="str",
+            api_version="2024-07-01",
+        )
+        result = [r async for r in response]
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy_async
+    async def test_virtual_machine_run_commands_get_by_virtual_machine(self, resource_group):
+        response = await self.client.virtual_machine_run_commands.get_by_virtual_machine(
+            resource_group_name=resource_group.name,
+            vm_name="str",
+            run_command_name="str",
             api_version="2024-07-01",
         )
 
@@ -52,7 +79,7 @@ class TestComputeManagementVirtualMachineRunCommandsOperationsAsync(AzureMgmtRec
                 run_command_name="str",
                 run_command={
                     "location": "str",
-                    "asyncExecution": False,
+                    "asyncExecution": bool,
                     "errorBlobManagedIdentity": {"clientId": "str", "objectId": "str"},
                     "errorBlobUri": "str",
                     "id": "str",
@@ -88,9 +115,17 @@ class TestComputeManagementVirtualMachineRunCommandsOperationsAsync(AzureMgmtRec
                         "scriptUri": "str",
                         "scriptUriManagedIdentity": {"clientId": "str", "objectId": "str"},
                     },
+                    "systemData": {
+                        "createdAt": "2020-02-20 00:00:00",
+                        "createdBy": "str",
+                        "createdByType": "str",
+                        "lastModifiedAt": "2020-02-20 00:00:00",
+                        "lastModifiedBy": "str",
+                        "lastModifiedByType": "str",
+                    },
                     "tags": {"str": "str"},
                     "timeoutInSeconds": 0,
-                    "treatFailureAsDeploymentFailure": False,
+                    "treatFailureAsDeploymentFailure": bool,
                     "type": "str",
                 },
                 api_version="2024-07-01",
@@ -109,7 +144,7 @@ class TestComputeManagementVirtualMachineRunCommandsOperationsAsync(AzureMgmtRec
                 vm_name="str",
                 run_command_name="str",
                 run_command={
-                    "asyncExecution": False,
+                    "asyncExecution": bool,
                     "errorBlobManagedIdentity": {"clientId": "str", "objectId": "str"},
                     "errorBlobUri": "str",
                     "instanceView": {
@@ -145,7 +180,7 @@ class TestComputeManagementVirtualMachineRunCommandsOperationsAsync(AzureMgmtRec
                     },
                     "tags": {"str": "str"},
                     "timeoutInSeconds": 0,
-                    "treatFailureAsDeploymentFailure": False,
+                    "treatFailureAsDeploymentFailure": bool,
                 },
                 api_version="2024-07-01",
             )
@@ -166,30 +201,5 @@ class TestComputeManagementVirtualMachineRunCommandsOperationsAsync(AzureMgmtRec
             )
         ).result()  # call '.result()' to poll until service return final result
 
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy_async
-    async def test_virtual_machine_run_commands_get_by_virtual_machine(self, resource_group):
-        response = await self.client.virtual_machine_run_commands.get_by_virtual_machine(
-            resource_group_name=resource_group.name,
-            vm_name="str",
-            run_command_name="str",
-            api_version="2024-07-01",
-        )
-
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy_async
-    async def test_virtual_machine_run_commands_list_by_virtual_machine(self, resource_group):
-        response = self.client.virtual_machine_run_commands.list_by_virtual_machine(
-            resource_group_name=resource_group.name,
-            vm_name="str",
-            api_version="2024-07-01",
-        )
-        result = [r async for r in response]
         # please add some check logic here by yourself
         # ...

@@ -30,11 +30,12 @@ def main():
         subscription_id="{subscription-id}",
     )
 
-    client.dedicated_hosts.begin_restart(
+    response = client.dedicated_hosts.begin_restart(
         resource_group_name="myResourceGroup",
         host_group_name="myDedicatedHostGroup",
         host_name="myHost",
     ).result()
+    print(response)
 
 
 # x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/dedicatedHostExamples/DedicatedHost_Restart.json

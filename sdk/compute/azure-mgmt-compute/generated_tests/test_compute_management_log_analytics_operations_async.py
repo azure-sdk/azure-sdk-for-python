@@ -49,7 +49,7 @@ class TestComputeManagementLogAnalyticsOperationsAsync(AzureMgmtRecordedTestCase
         response = await (
             await self.client.log_analytics.begin_export_throttled_requests(
                 location="str",
-                parameters={
+                body={
                     "blobContainerSasUri": "str",
                     "fromTime": "2020-02-20 00:00:00",
                     "toTime": "2020-02-20 00:00:00",

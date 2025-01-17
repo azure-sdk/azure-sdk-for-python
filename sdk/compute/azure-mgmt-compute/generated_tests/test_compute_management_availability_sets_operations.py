@@ -20,6 +20,39 @@ class TestComputeManagementAvailabilitySetsOperations(AzureMgmtRecordedTestCase)
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
+    def test_availability_sets_list_by_subscription(self, resource_group):
+        response = self.client.availability_sets.list_by_subscription(
+            api_version="2024-07-01",
+        )
+        result = [r for r in response]
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy
+    def test_availability_sets_list(self, resource_group):
+        response = self.client.availability_sets.list(
+            resource_group_name=resource_group.name,
+            api_version="2024-07-01",
+        )
+        result = [r for r in response]
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy
+    def test_availability_sets_get(self, resource_group):
+        response = self.client.availability_sets.get(
+            resource_group_name=resource_group.name,
+            availability_set_name="str",
+            api_version="2024-07-01",
+        )
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy
     def test_availability_sets_create_or_update(self, resource_group):
         response = self.client.availability_sets.create_or_update(
             resource_group_name=resource_group.name,
@@ -46,6 +79,14 @@ class TestComputeManagementAvailabilitySetsOperations(AzureMgmtRecordedTestCase)
                         "time": "2020-02-20 00:00:00",
                     }
                 ],
+                "systemData": {
+                    "createdAt": "2020-02-20 00:00:00",
+                    "createdBy": "str",
+                    "createdByType": "str",
+                    "lastModifiedAt": "2020-02-20 00:00:00",
+                    "lastModifiedBy": "str",
+                    "lastModifiedByType": "str",
+                },
                 "tags": {"str": "str"},
                 "type": "str",
                 "virtualMachines": [{"id": "str"}],
@@ -99,39 +140,6 @@ class TestComputeManagementAvailabilitySetsOperations(AzureMgmtRecordedTestCase)
             api_version="2024-07-01",
         )
 
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
-    def test_availability_sets_get(self, resource_group):
-        response = self.client.availability_sets.get(
-            resource_group_name=resource_group.name,
-            availability_set_name="str",
-            api_version="2024-07-01",
-        )
-
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
-    def test_availability_sets_list_by_subscription(self, resource_group):
-        response = self.client.availability_sets.list_by_subscription(
-            api_version="2024-07-01",
-        )
-        result = [r for r in response]
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
-    def test_availability_sets_list(self, resource_group):
-        response = self.client.availability_sets.list(
-            resource_group_name=resource_group.name,
-            api_version="2024-07-01",
-        )
-        result = [r for r in response]
         # please add some check logic here by yourself
         # ...
 
