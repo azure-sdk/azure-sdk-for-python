@@ -20,7 +20,7 @@ class TestKeyVaultManagementManagedHsmKeysOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_create_if_not_exist(self, resource_group):
+    def test_managed_hsm_keys_create_if_not_exist(self, resource_group):
         response = self.client.managed_hsm_keys.create_if_not_exist(
             resource_group_name=resource_group.name,
             name="str",
@@ -66,7 +66,7 @@ class TestKeyVaultManagementManagedHsmKeysOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_managed_hsm_keys_get(self, resource_group):
         response = self.client.managed_hsm_keys.get(
             resource_group_name=resource_group.name,
             name="str",
@@ -79,7 +79,7 @@ class TestKeyVaultManagementManagedHsmKeysOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list(self, resource_group):
+    def test_managed_hsm_keys_list(self, resource_group):
         response = self.client.managed_hsm_keys.list(
             resource_group_name=resource_group.name,
             name="str",
@@ -91,7 +91,7 @@ class TestKeyVaultManagementManagedHsmKeysOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get_version(self, resource_group):
+    def test_managed_hsm_keys_get_version(self, resource_group):
         response = self.client.managed_hsm_keys.get_version(
             resource_group_name=resource_group.name,
             name="str",
@@ -105,7 +105,7 @@ class TestKeyVaultManagementManagedHsmKeysOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_versions(self, resource_group):
+    def test_managed_hsm_keys_list_versions(self, resource_group):
         response = self.client.managed_hsm_keys.list_versions(
             resource_group_name=resource_group.name,
             name="str",

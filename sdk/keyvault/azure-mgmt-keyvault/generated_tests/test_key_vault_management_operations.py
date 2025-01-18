@@ -20,7 +20,7 @@ class TestKeyVaultManagementOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list(self, resource_group):
+    def test_operations_list(self, resource_group):
         response = self.client.operations.list(
             api_version="2023-07-01",
         )

@@ -20,7 +20,7 @@ class TestKeyVaultManagementMHSMPrivateLinkResourcesOperations(AzureMgmtRecorded
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_mhsm_resource(self, resource_group):
+    def test_mhsm_private_link_resources_list_by_mhsm_resource(self, resource_group):
         response = self.client.mhsm_private_link_resources.list_by_mhsm_resource(
             resource_group_name=resource_group.name,
             name="str",

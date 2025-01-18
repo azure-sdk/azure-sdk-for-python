@@ -20,7 +20,7 @@ class TestKeyVaultManagementPrivateEndpointConnectionsOperations(AzureMgmtRecord
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_private_endpoint_connections_get(self, resource_group):
         response = self.client.private_endpoint_connections.get(
             resource_group_name=resource_group.name,
             vault_name="str",
@@ -33,7 +33,7 @@ class TestKeyVaultManagementPrivateEndpointConnectionsOperations(AzureMgmtRecord
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_put(self, resource_group):
+    def test_private_endpoint_connections_put(self, resource_group):
         response = self.client.private_endpoint_connections.put(
             resource_group_name=resource_group.name,
             vault_name="str",
@@ -57,7 +57,7 @@ class TestKeyVaultManagementPrivateEndpointConnectionsOperations(AzureMgmtRecord
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_delete(self, resource_group):
+    def test_private_endpoint_connections_begin_delete(self, resource_group):
         response = self.client.private_endpoint_connections.begin_delete(
             resource_group_name=resource_group.name,
             vault_name="str",
@@ -70,7 +70,7 @@ class TestKeyVaultManagementPrivateEndpointConnectionsOperations(AzureMgmtRecord
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_resource(self, resource_group):
+    def test_private_endpoint_connections_list_by_resource(self, resource_group):
         response = self.client.private_endpoint_connections.list_by_resource(
             resource_group_name=resource_group.name,
             vault_name="str",

@@ -20,7 +20,7 @@ class TestKeyVaultManagementManagedHsmsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_create_or_update(self, resource_group):
+    def test_managed_hsms_begin_create_or_update(self, resource_group):
         response = self.client.managed_hsms.begin_create_or_update(
             resource_group_name=resource_group.name,
             name="str",
@@ -88,7 +88,7 @@ class TestKeyVaultManagementManagedHsmsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_update(self, resource_group):
+    def test_managed_hsms_begin_update(self, resource_group):
         response = self.client.managed_hsms.begin_update(
             resource_group_name=resource_group.name,
             name="str",
@@ -156,7 +156,7 @@ class TestKeyVaultManagementManagedHsmsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_delete(self, resource_group):
+    def test_managed_hsms_begin_delete(self, resource_group):
         response = self.client.managed_hsms.begin_delete(
             resource_group_name=resource_group.name,
             name="str",
@@ -168,7 +168,7 @@ class TestKeyVaultManagementManagedHsmsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_managed_hsms_get(self, resource_group):
         response = self.client.managed_hsms.get(
             resource_group_name=resource_group.name,
             name="str",
@@ -180,7 +180,7 @@ class TestKeyVaultManagementManagedHsmsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_resource_group(self, resource_group):
+    def test_managed_hsms_list_by_resource_group(self, resource_group):
         response = self.client.managed_hsms.list_by_resource_group(
             resource_group_name=resource_group.name,
             api_version="2023-07-01",
@@ -191,7 +191,7 @@ class TestKeyVaultManagementManagedHsmsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_subscription(self, resource_group):
+    def test_managed_hsms_list_by_subscription(self, resource_group):
         response = self.client.managed_hsms.list_by_subscription(
             api_version="2023-07-01",
         )
@@ -201,7 +201,7 @@ class TestKeyVaultManagementManagedHsmsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_deleted(self, resource_group):
+    def test_managed_hsms_list_deleted(self, resource_group):
         response = self.client.managed_hsms.list_deleted(
             api_version="2023-07-01",
         )
@@ -211,7 +211,7 @@ class TestKeyVaultManagementManagedHsmsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get_deleted(self, resource_group):
+    def test_managed_hsms_get_deleted(self, resource_group):
         response = self.client.managed_hsms.get_deleted(
             name="str",
             location="str",
@@ -223,7 +223,7 @@ class TestKeyVaultManagementManagedHsmsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_purge_deleted(self, resource_group):
+    def test_managed_hsms_begin_purge_deleted(self, resource_group):
         response = self.client.managed_hsms.begin_purge_deleted(
             name="str",
             location="str",
@@ -235,7 +235,7 @@ class TestKeyVaultManagementManagedHsmsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_check_mhsm_name_availability(self, resource_group):
+    def test_managed_hsms_check_mhsm_name_availability(self, resource_group):
         response = self.client.managed_hsms.check_mhsm_name_availability(
             mhsm_name={"name": "str"},
             api_version="2023-07-01",

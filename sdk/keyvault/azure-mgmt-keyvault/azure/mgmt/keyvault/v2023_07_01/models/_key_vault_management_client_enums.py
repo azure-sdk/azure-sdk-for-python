@@ -163,6 +163,8 @@ class KeyPermissions(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 class KeyRotationPolicyActionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The type of action."""
 
+    ROTATE = "Rotate"
+    NOTIFY = "Notify"
     ROTATE = "rotate"
     NOTIFY = "notify"
 
