@@ -1,3 +1,4 @@
+# pylint: disable=too-many-lines
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -70,14 +71,6 @@ class AuthenticationName(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """AuthenticationName."""
 
     DEFAULT = "Default"
-
-
-class AuthMetadataLookupModes(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The managed instance's authentication metadata lookup mode."""
-
-    AZURE_AD = "AzureAD"
-    PAIRED = "Paired"
-    WINDOWS = "Windows"
 
 
 class AutoExecuteStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -518,22 +511,6 @@ class FailoverGroupReplicationRole(str, Enum, metaclass=CaseInsensitiveEnumMeta)
     SECONDARY = "Secondary"
 
 
-class FailoverModeType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The link failover mode - can be Manual if intended to be used for two-way failover with a
-    supported SQL Server, or None for one-way failover to Azure.
-    """
-
-    NONE = "None"
-    MANUAL = "Manual"
-
-
-class FailoverType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The failover type, can be ForcedAllowDataLoss or Planned."""
-
-    FORCED_ALLOW_DATA_LOSS = "ForcedAllowDataLoss"
-    PLANNED = "Planned"
-
-
 class FreeLimitExhaustionBehavior(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Specifies the behavior when monthly free limits are exhausted for the free database.
 
@@ -548,13 +525,6 @@ class FreeLimitExhaustionBehavior(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     BILL_OVER_USAGE = "BillOverUsage"
 
 
-class FreemiumType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Weather or not Managed Instance is freemium."""
-
-    REGULAR = "Regular"
-    FREEMIUM = "Freemium"
-
-
 class GeoBackupPolicyName(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """GeoBackupPolicyName."""
 
@@ -566,25 +536,6 @@ class GeoBackupPolicyState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     DISABLED = "Disabled"
     ENABLED = "Enabled"
-
-
-class HybridSecondaryUsage(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Hybrid secondary usage. Possible values are 'Active' (default value) and 'Passive' (customer
-    uses the secondary as Passive DR).
-    """
-
-    ACTIVE = "Active"
-    PASSIVE = "Passive"
-
-
-class HybridSecondaryUsageDetected(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Hybrid secondary usage detected. Possible values are 'Active' (customer does not meet the
-    requirements to use the secondary as Passive DR) and 'Passive' (customer meets the requirements
-    to use the secondary as Passive DR).
-    """
-
-    ACTIVE = "Active"
-    PASSIVE = "Passive"
 
 
 class IdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -621,13 +572,6 @@ class InstancePoolLicenseType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     LICENSE_INCLUDED = "LicenseIncluded"
     BASE_PRICE = "BasePrice"
-
-
-class InstanceRole(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """New role of managed instance in a distributed availability group, can be Primary or Secondary."""
-
-    PRIMARY = "Primary"
-    SECONDARY = "Secondary"
 
 
 class IsRetryable(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -719,13 +663,6 @@ class LedgerDigestUploadsState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     DISABLED = "Disabled"
 
 
-class LinkRole(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """SQL server side link role."""
-
-    PRIMARY = "Primary"
-    SECONDARY = "Secondary"
-
-
 class LogSizeUnit(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The units that the limit is expressed in."""
 
@@ -783,13 +720,6 @@ class ManagedInstanceAdministratorType(str, Enum, metaclass=CaseInsensitiveEnumM
     ACTIVE_DIRECTORY = "ActiveDirectory"
 
 
-class ManagedInstanceDatabaseFormat(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Specifies the internal format of instance databases specific to the SQL engine version."""
-
-    ALWAYS_UP_TO_DATE = "AlwaysUpToDate"
-    SQL_SERVER2022 = "SQLServer2022"
-
-
 class ManagedInstanceLicenseType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The license type. Possible values are 'LicenseIncluded' (regular price inclusive of a new SQL
     license) and 'BasePrice' (discounted AHB price for bringing your own SQL licenses).
@@ -803,6 +733,26 @@ class ManagedInstanceLongTermRetentionPolicyName(str, Enum, metaclass=CaseInsens
     """ManagedInstanceLongTermRetentionPolicyName."""
 
     DEFAULT = "default"
+
+
+class ManagedInstancePropertiesProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """ManagedInstancePropertiesProvisioningState."""
+
+    CREATING = "Creating"
+    DELETING = "Deleting"
+    UPDATING = "Updating"
+    UNKNOWN = "Unknown"
+    SUCCEEDED = "Succeeded"
+    FAILED = "Failed"
+    ACCEPTED = "Accepted"
+    CREATED = "Created"
+    DELETED = "Deleted"
+    UNRECOGNIZED = "Unrecognized"
+    RUNNING = "Running"
+    CANCELED = "Canceled"
+    NOT_SPECIFIED = "NotSpecified"
+    REGISTERING = "Registering"
+    TIMED_OUT = "TimedOut"
 
 
 class ManagedInstanceProxyOverride(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -1056,21 +1006,6 @@ class RecommendedSensitivityLabelUpdateKind(str, Enum, metaclass=CaseInsensitive
     DISABLE = "disable"
 
 
-class ReplicaConnectedState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Link connected state."""
-
-    DISCONNECTED = "DISCONNECTED"
-    CONNECTED = "CONNECTED"
-
-
-class ReplicaSynchronizationHealth(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Link health state."""
-
-    NOT_HEALTHY = "NOT_HEALTHY"
-    PARTIALLY_HEALTHY = "PARTIALLY_HEALTHY"
-    HEALTHY = "HEALTHY"
-
-
 class ReplicationLinkType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Link type (GEO, NAMED, STANDBY). Update operation does not support NAMED."""
 
@@ -1079,8 +1014,10 @@ class ReplicationLinkType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     STANDBY = "STANDBY"
 
 
-class ReplicationModeType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Replication mode of the link."""
+class ReplicationMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The replication mode of a distributed availability group. Parameter will be ignored during link
+    creation.
+    """
 
     ASYNC = "Async"
     SYNC = "Sync"
@@ -1124,13 +1061,6 @@ class RestorePointType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     CONTINUOUS = "CONTINUOUS"
     DISCRETE = "DISCRETE"
-
-
-class RoleChangeType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The type of the role change, can be Planned or Forced."""
-
-    FORCED = "Forced"
-    PLANNED = "Planned"
 
 
 class RuleSeverity(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -1216,13 +1146,6 @@ class SecurityEventType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     UNDEFINED = "Undefined"
     SQL_INJECTION_VULNERABILITY = "SqlInjectionVulnerability"
     SQL_INJECTION_EXPLOIT = "SqlInjectionExploit"
-
-
-class SeedingModeType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Database seeding mode – can be Automatic (default), or Manual for supported scenarios."""
-
-    AUTOMATIC = "Automatic"
-    MANUAL = "Manual"
 
 
 class SensitivityLabelRank(str, Enum, metaclass=CaseInsensitiveEnumMeta):

@@ -21,7 +21,7 @@ class TestSqlManagementEndpointCertificatesOperationsAsync(AzureMgmtRecordedTest
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_by_instance(self, resource_group):
+    async def test_endpoint_certificates_list_by_instance(self, resource_group):
         response = self.client.endpoint_certificates.list_by_instance(
             resource_group_name=resource_group.name,
             managed_instance_name="str",
@@ -33,7 +33,7 @@ class TestSqlManagementEndpointCertificatesOperationsAsync(AzureMgmtRecordedTest
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get(self, resource_group):
+    async def test_endpoint_certificates_get(self, resource_group):
         response = await self.client.endpoint_certificates.get(
             resource_group_name=resource_group.name,
             managed_instance_name="str",

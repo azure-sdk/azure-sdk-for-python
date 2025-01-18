@@ -21,9 +21,9 @@ class TestSqlManagementManagedInstancesOperationsAsync(AzureMgmtRecordedTestCase
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list(self, resource_group):
+    async def test_managed_instances_list(self, resource_group):
         response = self.client.managed_instances.list(
-            api_version="2023-05-01-preview",
+            api_version="2022-08-01-preview",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -31,11 +31,11 @@ class TestSqlManagementManagedInstancesOperationsAsync(AzureMgmtRecordedTestCase
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_by_instance_pool(self, resource_group):
+    async def test_managed_instances_list_by_instance_pool(self, resource_group):
         response = self.client.managed_instances.list_by_instance_pool(
             resource_group_name=resource_group.name,
             instance_pool_name="str",
-            api_version="2023-05-01-preview",
+            api_version="2022-08-01-preview",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -43,10 +43,10 @@ class TestSqlManagementManagedInstancesOperationsAsync(AzureMgmtRecordedTestCase
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_by_resource_group(self, resource_group):
+    async def test_managed_instances_list_by_resource_group(self, resource_group):
         response = self.client.managed_instances.list_by_resource_group(
             resource_group_name=resource_group.name,
-            api_version="2023-05-01-preview",
+            api_version="2022-08-01-preview",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -54,11 +54,11 @@ class TestSqlManagementManagedInstancesOperationsAsync(AzureMgmtRecordedTestCase
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get(self, resource_group):
+    async def test_managed_instances_get(self, resource_group):
         response = await self.client.managed_instances.get(
             resource_group_name=resource_group.name,
             managed_instance_name="str",
-            api_version="2023-05-01-preview",
+            api_version="2022-08-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -66,7 +66,7 @@ class TestSqlManagementManagedInstancesOperationsAsync(AzureMgmtRecordedTestCase
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_create_or_update(self, resource_group):
+    async def test_managed_instances_begin_create_or_update(self, resource_group):
         response = await (
             await self.client.managed_instances.begin_create_or_update(
                 resource_group_name=resource_group.name,
@@ -83,17 +83,11 @@ class TestSqlManagementManagedInstancesOperationsAsync(AzureMgmtRecordedTestCase
                         "sid": "str",
                         "tenantId": "str",
                     },
-                    "authenticationMetadata": "str",
                     "collation": "str",
-                    "createTime": "2020-02-20 00:00:00",
                     "currentBackupStorageRedundancy": "str",
-                    "databaseFormat": "str",
                     "dnsZone": "str",
                     "dnsZonePartner": "str",
-                    "externalGovernanceStatus": "str",
                     "fullyQualifiedDomainName": "str",
-                    "hybridSecondaryUsage": "str",
-                    "hybridSecondaryUsageDetected": "str",
                     "id": "str",
                     "identity": {
                         "principalId": "str",
@@ -102,14 +96,12 @@ class TestSqlManagementManagedInstancesOperationsAsync(AzureMgmtRecordedTestCase
                         "userAssignedIdentities": {"str": {"clientId": "str", "principalId": "str"}},
                     },
                     "instancePoolId": "str",
-                    "isGeneralPurposeV2": bool,
                     "keyId": "str",
                     "licenseType": "str",
                     "maintenanceConfigurationId": "str",
                     "managedInstanceCreateMode": "str",
                     "minimalTlsVersion": "str",
                     "name": "str",
-                    "pricingModel": "str",
                     "primaryUserAssignedIdentityId": "str",
                     "privateEndpointConnections": [
                         {
@@ -134,18 +126,15 @@ class TestSqlManagementManagedInstancesOperationsAsync(AzureMgmtRecordedTestCase
                     "sku": {"name": "str", "capacity": 0, "family": "str", "size": "str", "tier": "str"},
                     "sourceManagedInstanceId": "str",
                     "state": "str",
-                    "storageIOps": 0,
                     "storageSizeInGB": 0,
-                    "storageThroughputMBps": 0,
                     "subnetId": "str",
                     "tags": {"str": "str"},
                     "timezoneId": "str",
                     "type": "str",
                     "vCores": 0,
-                    "virtualClusterId": "str",
                     "zoneRedundant": bool,
                 },
-                api_version="2023-05-01-preview",
+                api_version="2022-08-01-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -154,12 +143,12 @@ class TestSqlManagementManagedInstancesOperationsAsync(AzureMgmtRecordedTestCase
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_delete(self, resource_group):
+    async def test_managed_instances_begin_delete(self, resource_group):
         response = await (
             await self.client.managed_instances.begin_delete(
                 resource_group_name=resource_group.name,
                 managed_instance_name="str",
-                api_version="2023-05-01-preview",
+                api_version="2022-08-01-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -168,7 +157,7 @@ class TestSqlManagementManagedInstancesOperationsAsync(AzureMgmtRecordedTestCase
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_update(self, resource_group):
+    async def test_managed_instances_begin_update(self, resource_group):
         response = await (
             await self.client.managed_instances.begin_update(
                 resource_group_name=resource_group.name,
@@ -184,17 +173,11 @@ class TestSqlManagementManagedInstancesOperationsAsync(AzureMgmtRecordedTestCase
                         "sid": "str",
                         "tenantId": "str",
                     },
-                    "authenticationMetadata": "str",
                     "collation": "str",
-                    "createTime": "2020-02-20 00:00:00",
                     "currentBackupStorageRedundancy": "str",
-                    "databaseFormat": "str",
                     "dnsZone": "str",
                     "dnsZonePartner": "str",
-                    "externalGovernanceStatus": "str",
                     "fullyQualifiedDomainName": "str",
-                    "hybridSecondaryUsage": "str",
-                    "hybridSecondaryUsageDetected": "str",
                     "identity": {
                         "principalId": "str",
                         "tenantId": "str",
@@ -202,13 +185,11 @@ class TestSqlManagementManagedInstancesOperationsAsync(AzureMgmtRecordedTestCase
                         "userAssignedIdentities": {"str": {"clientId": "str", "principalId": "str"}},
                     },
                     "instancePoolId": "str",
-                    "isGeneralPurposeV2": bool,
                     "keyId": "str",
                     "licenseType": "str",
                     "maintenanceConfigurationId": "str",
                     "managedInstanceCreateMode": "str",
                     "minimalTlsVersion": "str",
-                    "pricingModel": "str",
                     "primaryUserAssignedIdentityId": "str",
                     "privateEndpointConnections": [
                         {
@@ -233,17 +214,14 @@ class TestSqlManagementManagedInstancesOperationsAsync(AzureMgmtRecordedTestCase
                     "sku": {"name": "str", "capacity": 0, "family": "str", "size": "str", "tier": "str"},
                     "sourceManagedInstanceId": "str",
                     "state": "str",
-                    "storageIOps": 0,
                     "storageSizeInGB": 0,
-                    "storageThroughputMBps": 0,
                     "subnetId": "str",
                     "tags": {"str": "str"},
                     "timezoneId": "str",
                     "vCores": 0,
-                    "virtualClusterId": "str",
                     "zoneRedundant": bool,
                 },
-                api_version="2023-05-01-preview",
+                api_version="2022-08-01-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -252,12 +230,12 @@ class TestSqlManagementManagedInstancesOperationsAsync(AzureMgmtRecordedTestCase
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_failover(self, resource_group):
+    async def test_managed_instances_begin_failover(self, resource_group):
         response = await (
             await self.client.managed_instances.begin_failover(
                 resource_group_name=resource_group.name,
                 managed_instance_name="str",
-                api_version="2023-05-01-preview",
+                api_version="2022-08-01-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -266,11 +244,11 @@ class TestSqlManagementManagedInstancesOperationsAsync(AzureMgmtRecordedTestCase
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_outbound_network_dependencies_by_managed_instance(self, resource_group):
+    async def test_managed_instances_list_outbound_network_dependencies_by_managed_instance(self, resource_group):
         response = self.client.managed_instances.list_outbound_network_dependencies_by_managed_instance(
             resource_group_name=resource_group.name,
             managed_instance_name="str",
-            api_version="2023-05-01-preview",
+            api_version="2022-08-01-preview",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -278,26 +256,12 @@ class TestSqlManagementManagedInstancesOperationsAsync(AzureMgmtRecordedTestCase
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_refresh_status(self, resource_group):
-        response = await (
-            await self.client.managed_instances.begin_refresh_status(
-                resource_group_name=resource_group.name,
-                managed_instance_name="str",
-                api_version="2023-05-01-preview",
-            )
-        ).result()  # call '.result()' to poll until service return final result
-
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy_async
-    async def test_begin_start(self, resource_group):
+    async def test_managed_instances_begin_start(self, resource_group):
         response = await (
             await self.client.managed_instances.begin_start(
                 resource_group_name=resource_group.name,
                 managed_instance_name="str",
-                api_version="2023-05-01-preview",
+                api_version="2022-08-01-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -306,12 +270,12 @@ class TestSqlManagementManagedInstancesOperationsAsync(AzureMgmtRecordedTestCase
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_stop(self, resource_group):
+    async def test_managed_instances_begin_stop(self, resource_group):
         response = await (
             await self.client.managed_instances.begin_stop(
                 resource_group_name=resource_group.name,
                 managed_instance_name="str",
-                api_version="2023-05-01-preview",
+                api_version="2022-08-01-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -320,11 +284,11 @@ class TestSqlManagementManagedInstancesOperationsAsync(AzureMgmtRecordedTestCase
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_by_managed_instance(self, resource_group):
+    async def test_managed_instances_list_by_managed_instance(self, resource_group):
         response = self.client.managed_instances.list_by_managed_instance(
             resource_group_name=resource_group.name,
             managed_instance_name="str",
-            api_version="2023-05-01-preview",
+            api_version="2022-08-01-preview",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself

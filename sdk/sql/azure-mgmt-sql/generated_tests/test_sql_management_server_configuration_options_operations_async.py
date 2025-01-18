@@ -21,7 +21,7 @@ class TestSqlManagementServerConfigurationOptionsOperationsAsync(AzureMgmtRecord
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_by_managed_instance(self, resource_group):
+    async def test_server_configuration_options_list_by_managed_instance(self, resource_group):
         response = self.client.server_configuration_options.list_by_managed_instance(
             resource_group_name=resource_group.name,
             managed_instance_name="str",
@@ -33,7 +33,7 @@ class TestSqlManagementServerConfigurationOptionsOperationsAsync(AzureMgmtRecord
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get(self, resource_group):
+    async def test_server_configuration_options_get(self, resource_group):
         response = await self.client.server_configuration_options.get(
             resource_group_name=resource_group.name,
             managed_instance_name="str",
@@ -46,7 +46,7 @@ class TestSqlManagementServerConfigurationOptionsOperationsAsync(AzureMgmtRecord
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_create_or_update(self, resource_group):
+    async def test_server_configuration_options_begin_create_or_update(self, resource_group):
         response = await (
             await self.client.server_configuration_options.begin_create_or_update(
                 resource_group_name=resource_group.name,
