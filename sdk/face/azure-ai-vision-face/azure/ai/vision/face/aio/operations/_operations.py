@@ -11,6 +11,7 @@ import json
 import sys
 from typing import Any, AsyncIterator, Callable, Dict, IO, List, Optional, TypeVar, Union, cast, overload
 
+from azure.core import AsyncPipelineClient
 from azure.core.exceptions import (
     ClientAuthenticationError,
     HttpResponseError,
@@ -29,7 +30,8 @@ from azure.core.tracing.decorator_async import distributed_trace_async
 from azure.core.utils import case_insensitive_dict
 
 from ... import _model_base, models as _models
-from ..._model_base import SdkJSONEncoder, _deserialize
+from ..._model_base import SdkJSONEncoder, _deserialize, _failsafe_deserialize
+from ..._serialization import Deserializer, Serializer
 from ..._validation import api_version_validation
 from ..._vendor import prepare_multipart_form_data
 from ...operations._operations import (
@@ -41,16 +43,11 @@ from ...operations._operations import (
     build_face_identify_from_large_person_group_request,
     build_face_session_create_liveness_session_request,
     build_face_session_create_liveness_with_verify_session_request,
-    build_face_session_create_liveness_with_verify_session_with_verify_image_request,
     build_face_session_delete_liveness_session_request,
     build_face_session_delete_liveness_with_verify_session_request,
     build_face_session_detect_from_session_image_request,
-    build_face_session_get_liveness_session_audit_entries_request,
     build_face_session_get_liveness_session_result_request,
-    build_face_session_get_liveness_sessions_request,
-    build_face_session_get_liveness_with_verify_session_audit_entries_request,
     build_face_session_get_liveness_with_verify_session_result_request,
-    build_face_session_get_liveness_with_verify_sessions_request,
     build_face_session_get_session_image_request,
     build_face_verify_face_to_face_request,
     build_face_verify_from_large_person_group_request,
@@ -85,6 +82,7 @@ from ...operations._operations import (
     build_large_person_group_update_person_request,
     build_large_person_group_update_request,
 )
+from .._configuration import FaceAdministrationClientConfiguration
 from .._vendor import FaceClientMixinABC, FaceSessionClientMixinABC
 
 if sys.version_info >= (3, 9):
@@ -109,10 +107,10 @@ class LargeFaceListOperations:
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
-        self._client = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config = input_args.pop(0) if input_args else kwargs.pop("config")
-        self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
-        self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
+        self._client: AsyncPipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
+        self._config: FaceAdministrationClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
+        self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
     @overload
     async def create(
@@ -292,7 +290,7 @@ class LargeFaceListOperations:
 
         if response.status_code not in [200]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.FaceErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.FaceErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error)
 
         if cls:
@@ -346,7 +344,7 @@ class LargeFaceListOperations:
 
         if response.status_code not in [200]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.FaceErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.FaceErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error)
 
         if cls:
@@ -409,7 +407,7 @@ class LargeFaceListOperations:
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.FaceErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.FaceErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error)
 
         if _stream:
@@ -568,7 +566,7 @@ class LargeFaceListOperations:
 
         if response.status_code not in [200]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.FaceErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.FaceErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error)
 
         if cls:
@@ -642,7 +640,7 @@ class LargeFaceListOperations:
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.FaceErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.FaceErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error)
 
         if _stream:
@@ -706,7 +704,7 @@ class LargeFaceListOperations:
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.FaceErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.FaceErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error)
 
         if _stream:
@@ -757,7 +755,7 @@ class LargeFaceListOperations:
             except (StreamConsumedError, StreamClosedError):
                 pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.FaceErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.FaceErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error)
 
         response_headers = {}
@@ -1048,7 +1046,7 @@ class LargeFaceListOperations:
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.FaceErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.FaceErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error)
 
         if _stream:
@@ -1144,7 +1142,7 @@ class LargeFaceListOperations:
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.FaceErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.FaceErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error)
 
         if _stream:
@@ -1206,7 +1204,7 @@ class LargeFaceListOperations:
 
         if response.status_code not in [200]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.FaceErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.FaceErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error)
 
         if cls:
@@ -1268,7 +1266,7 @@ class LargeFaceListOperations:
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.FaceErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.FaceErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error)
 
         if _stream:
@@ -1444,7 +1442,7 @@ class LargeFaceListOperations:
 
         if response.status_code not in [200]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.FaceErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.FaceErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error)
 
         if cls:
@@ -1513,7 +1511,7 @@ class LargeFaceListOperations:
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.FaceErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.FaceErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error)
 
         if _stream:
@@ -1539,10 +1537,10 @@ class LargePersonGroupOperations:
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
-        self._client = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config = input_args.pop(0) if input_args else kwargs.pop("config")
-        self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
-        self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
+        self._client: AsyncPipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
+        self._config: FaceAdministrationClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
+        self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
     @overload
     async def create(
@@ -1718,7 +1716,7 @@ class LargePersonGroupOperations:
 
         if response.status_code not in [200]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.FaceErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.FaceErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error)
 
         if cls:
@@ -1769,7 +1767,7 @@ class LargePersonGroupOperations:
 
         if response.status_code not in [200]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.FaceErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.FaceErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error)
 
         if cls:
@@ -1831,7 +1829,7 @@ class LargePersonGroupOperations:
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.FaceErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.FaceErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error)
 
         if _stream:
@@ -1986,7 +1984,7 @@ class LargePersonGroupOperations:
 
         if response.status_code not in [200]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.FaceErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.FaceErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error)
 
         if cls:
@@ -2060,7 +2058,7 @@ class LargePersonGroupOperations:
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.FaceErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.FaceErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error)
 
         if _stream:
@@ -2126,7 +2124,7 @@ class LargePersonGroupOperations:
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.FaceErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.FaceErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error)
 
         if _stream:
@@ -2177,7 +2175,7 @@ class LargePersonGroupOperations:
             except (StreamConsumedError, StreamClosedError):
                 pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.FaceErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.FaceErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error)
 
         response_headers = {}
@@ -2411,7 +2409,7 @@ class LargePersonGroupOperations:
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.FaceErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.FaceErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error)
 
         if _stream:
@@ -2472,7 +2470,7 @@ class LargePersonGroupOperations:
 
         if response.status_code not in [200]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.FaceErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.FaceErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error)
 
         if cls:
@@ -2533,7 +2531,7 @@ class LargePersonGroupOperations:
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.FaceErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.FaceErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error)
 
         if _stream:
@@ -2711,7 +2709,7 @@ class LargePersonGroupOperations:
 
         if response.status_code not in [200]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.FaceErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.FaceErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error)
 
         if cls:
@@ -2780,7 +2778,7 @@ class LargePersonGroupOperations:
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.FaceErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.FaceErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error)
 
         if _stream:
@@ -3024,7 +3022,7 @@ class LargePersonGroupOperations:
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.FaceErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.FaceErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error)
 
         if _stream:
@@ -3123,7 +3121,7 @@ class LargePersonGroupOperations:
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.FaceErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.FaceErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error)
 
         if _stream:
@@ -3192,7 +3190,7 @@ class LargePersonGroupOperations:
 
         if response.status_code not in [200]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.FaceErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.FaceErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error)
 
         if cls:
@@ -3257,7 +3255,7 @@ class LargePersonGroupOperations:
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.FaceErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.FaceErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error)
 
         if _stream:
@@ -3442,7 +3440,7 @@ class LargePersonGroupOperations:
 
         if response.status_code not in [200]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.FaceErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.FaceErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error)
 
         if cls:
@@ -3617,7 +3615,7 @@ class FaceClientOperationsMixin(FaceClientMixinABC):
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.FaceErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.FaceErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error)
 
         if _stream:
@@ -3736,7 +3734,7 @@ class FaceClientOperationsMixin(FaceClientMixinABC):
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.FaceErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.FaceErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error)
 
         if _stream:
@@ -3928,7 +3926,7 @@ class FaceClientOperationsMixin(FaceClientMixinABC):
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.FaceErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.FaceErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error)
 
         if _stream:
@@ -4077,7 +4075,7 @@ class FaceClientOperationsMixin(FaceClientMixinABC):
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.FaceErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.FaceErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error)
 
         if _stream:
@@ -4218,7 +4216,7 @@ class FaceClientOperationsMixin(FaceClientMixinABC):
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.FaceErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.FaceErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error)
 
         if _stream:
@@ -4410,7 +4408,7 @@ class FaceClientOperationsMixin(FaceClientMixinABC):
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.FaceErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.FaceErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error)
 
         if _stream:
@@ -4604,7 +4602,7 @@ class FaceClientOperationsMixin(FaceClientMixinABC):
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.FaceErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.FaceErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error)
 
         if _stream:
@@ -4773,7 +4771,7 @@ class FaceClientOperationsMixin(FaceClientMixinABC):
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.FaceErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.FaceErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error)
 
         if _stream:
@@ -4792,7 +4790,7 @@ class FaceSessionClientOperationsMixin(FaceSessionClientMixinABC):
     @overload
     async def create_liveness_session(
         self, body: _models.CreateLivenessSessionContent, *, content_type: str = "application/json", **kwargs: Any
-    ) -> _models.CreateLivenessSessionResult:
+    ) -> _models.LivenessSession:
         """Create a new detect liveness session.
 
         Please refer to
@@ -4804,16 +4802,15 @@ class FaceSessionClientOperationsMixin(FaceSessionClientMixinABC):
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: CreateLivenessSessionResult. The CreateLivenessSessionResult is compatible with
-         MutableMapping
-        :rtype: ~azure.ai.vision.face.models.CreateLivenessSessionResult
+        :return: LivenessSession. The LivenessSession is compatible with MutableMapping
+        :rtype: ~azure.ai.vision.face.models.LivenessSession
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
     async def create_liveness_session(
         self, body: JSON, *, content_type: str = "application/json", **kwargs: Any
-    ) -> _models.CreateLivenessSessionResult:
+    ) -> _models.LivenessSession:
         """Create a new detect liveness session.
 
         Please refer to
@@ -4825,16 +4822,15 @@ class FaceSessionClientOperationsMixin(FaceSessionClientMixinABC):
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: CreateLivenessSessionResult. The CreateLivenessSessionResult is compatible with
-         MutableMapping
-        :rtype: ~azure.ai.vision.face.models.CreateLivenessSessionResult
+        :return: LivenessSession. The LivenessSession is compatible with MutableMapping
+        :rtype: ~azure.ai.vision.face.models.LivenessSession
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
     async def create_liveness_session(
         self, body: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
-    ) -> _models.CreateLivenessSessionResult:
+    ) -> _models.LivenessSession:
         """Create a new detect liveness session.
 
         Please refer to
@@ -4846,16 +4842,19 @@ class FaceSessionClientOperationsMixin(FaceSessionClientMixinABC):
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: CreateLivenessSessionResult. The CreateLivenessSessionResult is compatible with
-         MutableMapping
-        :rtype: ~azure.ai.vision.face.models.CreateLivenessSessionResult
+        :return: LivenessSession. The LivenessSession is compatible with MutableMapping
+        :rtype: ~azure.ai.vision.face.models.LivenessSession
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @distributed_trace_async
+    @api_version_validation(
+        method_added_on="v1.2",
+        params_added_on={"v1.2": ["content_type", "accept"]},
+    )
     async def create_liveness_session(
         self, body: Union[_models.CreateLivenessSessionContent, JSON, IO[bytes]], **kwargs: Any
-    ) -> _models.CreateLivenessSessionResult:
+    ) -> _models.LivenessSession:
         """Create a new detect liveness session.
 
         Please refer to
@@ -4865,9 +4864,8 @@ class FaceSessionClientOperationsMixin(FaceSessionClientMixinABC):
         :param body: Body parameter. Is one of the following types: CreateLivenessSessionContent, JSON,
          IO[bytes] Required.
         :type body: ~azure.ai.vision.face.models.CreateLivenessSessionContent or JSON or IO[bytes]
-        :return: CreateLivenessSessionResult. The CreateLivenessSessionResult is compatible with
-         MutableMapping
-        :rtype: ~azure.ai.vision.face.models.CreateLivenessSessionResult
+        :return: LivenessSession. The LivenessSession is compatible with MutableMapping
+        :rtype: ~azure.ai.vision.face.models.LivenessSession
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -4882,7 +4880,7 @@ class FaceSessionClientOperationsMixin(FaceSessionClientMixinABC):
         _params = kwargs.pop("params", {}) or {}
 
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.CreateLivenessSessionResult] = kwargs.pop("cls", None)
+        cls: ClsType[_models.LivenessSession] = kwargs.pop("cls", None)
 
         content_type = content_type or "application/json"
         _content = None
@@ -4917,13 +4915,13 @@ class FaceSessionClientOperationsMixin(FaceSessionClientMixinABC):
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.FaceErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.FaceErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error)
 
         if _stream:
             deserialized = response.iter_bytes()
         else:
-            deserialized = _deserialize(_models.CreateLivenessSessionResult, response.json())
+            deserialized = _deserialize(_models.LivenessSession, response.json())
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -4931,6 +4929,10 @@ class FaceSessionClientOperationsMixin(FaceSessionClientMixinABC):
         return deserialized  # type: ignore
 
     @distributed_trace_async
+    @api_version_validation(
+        method_added_on="v1.2",
+        params_added_on={"v1.2": ["session_id", "accept"]},
+    )
     async def delete_liveness_session(self, session_id: str, **kwargs: Any) -> None:
         """Delete all session related information for matching the specified session id.
 
@@ -4975,15 +4977,19 @@ class FaceSessionClientOperationsMixin(FaceSessionClientMixinABC):
 
         response = pipeline_response.http_response
 
-        if response.status_code not in [200]:
+        if response.status_code not in [204]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.FaceErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.FaceErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error)
 
         if cls:
             return cls(pipeline_response, None, {})  # type: ignore
 
     @distributed_trace_async
+    @api_version_validation(
+        method_added_on="v1.2",
+        params_added_on={"v1.2": ["session_id", "accept"]},
+    )
     async def get_liveness_session_result(self, session_id: str, **kwargs: Any) -> _models.LivenessSession:
         """Please refer to
         https://learn.microsoft.com/rest/api/face/liveness-session-operations/get-liveness-session-result
@@ -5033,7 +5039,7 @@ class FaceSessionClientOperationsMixin(FaceSessionClientMixinABC):
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.FaceErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.FaceErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error)
 
         if _stream:
@@ -5046,261 +5052,48 @@ class FaceSessionClientOperationsMixin(FaceSessionClientMixinABC):
 
         return deserialized  # type: ignore
 
-    @distributed_trace_async
-    async def get_liveness_sessions(
-        self, *, start: Optional[str] = None, top: Optional[int] = None, **kwargs: Any
-    ) -> List[_models.LivenessSessionItem]:
-        """Lists sessions for /detectLiveness/SingleModal.
+    @overload
+    async def create_liveness_with_verify_session(
+        self, body: _models.CreateLivenessWithVerifySessionContent, **kwargs: Any
+    ) -> _models.LivenessWithVerifySession:
+        """Create a new liveness session with verify. Provide the verify image during session creation.
 
         Please refer to
-        https://learn.microsoft.com/rest/api/face/liveness-session-operations/get-liveness-sessions for
-        more details.
-
-        :keyword start: List resources greater than the "start". It contains no more than 64
-         characters. Default is empty. Default value is None.
-        :paramtype start: str
-        :keyword top: The number of items to list, ranging in [1, 1000]. Default is 1000. Default value
-         is None.
-        :paramtype top: int
-        :return: list of LivenessSessionItem
-        :rtype: list[~azure.ai.vision.face.models.LivenessSessionItem]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        error_map: MutableMapping = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = kwargs.pop("params", {}) or {}
-
-        cls: ClsType[List[_models.LivenessSessionItem]] = kwargs.pop("cls", None)
-
-        _request = build_face_session_get_liveness_sessions_request(
-            start=start,
-            top=top,
-            headers=_headers,
-            params=_params,
-        )
-        path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
-            "apiVersion": self._serialize.url("self._config.api_version", self._config.api_version, "str"),
-        }
-        _request.url = self._client.format_url(_request.url, **path_format_arguments)
-
-        _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
-            _request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200]:
-            if _stream:
-                try:
-                    await response.read()  # Load the body in memory and close the socket
-                except (StreamConsumedError, StreamClosedError):
-                    pass
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.FaceErrorResponse, response.json())
-            raise HttpResponseError(response=response, model=error)
-
-        if _stream:
-            deserialized = response.iter_bytes()
-        else:
-            deserialized = _deserialize(List[_models.LivenessSessionItem], response.json())
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
-
-        return deserialized  # type: ignore
-
-    @distributed_trace_async
-    async def get_liveness_session_audit_entries(
-        self, session_id: str, *, start: Optional[str] = None, top: Optional[int] = None, **kwargs: Any
-    ) -> List[_models.LivenessSessionAuditEntry]:
-        """Please refer to
-        https://learn.microsoft.com/rest/api/face/liveness-session-operations/get-liveness-session-audit-entries
+        https://learn.microsoft.com/rest/api/face/liveness-session-operations/create-liveness-with-verify-session-with-verify-image
         for more details.
 
-        :param session_id: The unique ID to reference this session. Required.
-        :type session_id: str
-        :keyword start: List resources greater than the "start". It contains no more than 64
-         characters. Default is empty. Default value is None.
-        :paramtype start: str
-        :keyword top: The number of items to list, ranging in [1, 1000]. Default is 1000. Default value
-         is None.
-        :paramtype top: int
-        :return: list of LivenessSessionAuditEntry
-        :rtype: list[~azure.ai.vision.face.models.LivenessSessionAuditEntry]
+        :param body: Request content of liveness with verify session creation. Required.
+        :type body: ~azure.ai.vision.face.models.CreateLivenessWithVerifySessionContent
+        :return: LivenessWithVerifySession. The LivenessWithVerifySession is compatible with
+         MutableMapping
+        :rtype: ~azure.ai.vision.face.models.LivenessWithVerifySession
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = kwargs.pop("params", {}) or {}
-
-        cls: ClsType[List[_models.LivenessSessionAuditEntry]] = kwargs.pop("cls", None)
-
-        _request = build_face_session_get_liveness_session_audit_entries_request(
-            session_id=session_id,
-            start=start,
-            top=top,
-            headers=_headers,
-            params=_params,
-        )
-        path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
-            "apiVersion": self._serialize.url("self._config.api_version", self._config.api_version, "str"),
-        }
-        _request.url = self._client.format_url(_request.url, **path_format_arguments)
-
-        _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
-            _request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200]:
-            if _stream:
-                try:
-                    await response.read()  # Load the body in memory and close the socket
-                except (StreamConsumedError, StreamClosedError):
-                    pass
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.FaceErrorResponse, response.json())
-            raise HttpResponseError(response=response, model=error)
-
-        if _stream:
-            deserialized = response.iter_bytes()
-        else:
-            deserialized = _deserialize(List[_models.LivenessSessionAuditEntry], response.json())
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
-
-        return deserialized  # type: ignore
 
     @overload
-    async def _create_liveness_with_verify_session(
-        self,
-        body: _models.CreateLivenessWithVerifySessionContent,
-        *,
-        content_type: str = "application/json",
-        **kwargs: Any
-    ) -> _models.CreateLivenessWithVerifySessionResult: ...
-    @overload
-    async def _create_liveness_with_verify_session(
-        self, body: JSON, *, content_type: str = "application/json", **kwargs: Any
-    ) -> _models.CreateLivenessWithVerifySessionResult: ...
-    @overload
-    async def _create_liveness_with_verify_session(
-        self, body: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
-    ) -> _models.CreateLivenessWithVerifySessionResult: ...
-
-    @distributed_trace_async
-    async def _create_liveness_with_verify_session(
-        self, body: Union[_models.CreateLivenessWithVerifySessionContent, JSON, IO[bytes]], **kwargs: Any
-    ) -> _models.CreateLivenessWithVerifySessionResult:
-        """Create a new liveness session with verify. Client device submits VerifyImage during the
-        /detectLivenessWithVerify/singleModal call.
+    async def create_liveness_with_verify_session(self, body: JSON, **kwargs: Any) -> _models.LivenessWithVerifySession:
+        """Create a new liveness session with verify. Provide the verify image during session creation.
 
         Please refer to
-        https://learn.microsoft.com/rest/api/face/liveness-session-operations/create-liveness-with-verify-session
+        https://learn.microsoft.com/rest/api/face/liveness-session-operations/create-liveness-with-verify-session-with-verify-image
         for more details.
 
-        :param body: Body parameter. Is one of the following types:
-         CreateLivenessWithVerifySessionContent, JSON, IO[bytes] Required.
-        :type body: ~azure.ai.vision.face.models.CreateLivenessWithVerifySessionContent or JSON or
-         IO[bytes]
-        :return: CreateLivenessWithVerifySessionResult. The CreateLivenessWithVerifySessionResult is
-         compatible with MutableMapping
-        :rtype: ~azure.ai.vision.face.models.CreateLivenessWithVerifySessionResult
+        :param body: Request content of liveness with verify session creation. Required.
+        :type body: JSON
+        :return: LivenessWithVerifySession. The LivenessWithVerifySession is compatible with
+         MutableMapping
+        :rtype: ~azure.ai.vision.face.models.LivenessWithVerifySession
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-        _params = kwargs.pop("params", {}) or {}
-
-        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.CreateLivenessWithVerifySessionResult] = kwargs.pop("cls", None)
-
-        content_type = content_type or "application/json"
-        _content = None
-        if isinstance(body, (IOBase, bytes)):
-            _content = body
-        else:
-            _content = json.dumps(body, cls=SdkJSONEncoder, exclude_readonly=True)  # type: ignore
-
-        _request = build_face_session_create_liveness_with_verify_session_request(
-            content_type=content_type,
-            content=_content,
-            headers=_headers,
-            params=_params,
-        )
-        path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
-            "apiVersion": self._serialize.url("self._config.api_version", self._config.api_version, "str"),
-        }
-        _request.url = self._client.format_url(_request.url, **path_format_arguments)
-
-        _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
-            _request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200]:
-            if _stream:
-                try:
-                    await response.read()  # Load the body in memory and close the socket
-                except (StreamConsumedError, StreamClosedError):
-                    pass
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.FaceErrorResponse, response.json())
-            raise HttpResponseError(response=response, model=error)
-
-        if _stream:
-            deserialized = response.iter_bytes()
-        else:
-            deserialized = _deserialize(_models.CreateLivenessWithVerifySessionResult, response.json())
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
-
-        return deserialized  # type: ignore
-
-    @overload
-    async def _create_liveness_with_verify_session_with_verify_image(  # pylint: disable=name-too-long
-        self, body: _models.CreateLivenessWithVerifySessionMultipartContent, **kwargs: Any
-    ) -> _models.CreateLivenessWithVerifySessionResult: ...
-    @overload
-    async def _create_liveness_with_verify_session_with_verify_image(  # pylint: disable=name-too-long
-        self, body: JSON, **kwargs: Any
-    ) -> _models.CreateLivenessWithVerifySessionResult: ...
 
     @distributed_trace_async
-    async def _create_liveness_with_verify_session_with_verify_image(  # pylint: disable=name-too-long
-        self, body: Union[_models.CreateLivenessWithVerifySessionMultipartContent, JSON], **kwargs: Any
-    ) -> _models.CreateLivenessWithVerifySessionResult:
+    @api_version_validation(
+        method_added_on="v1.2",
+        params_added_on={"v1.2": ["content_type", "accept"]},
+    )
+    async def create_liveness_with_verify_session(
+        self, body: Union[_models.CreateLivenessWithVerifySessionContent, JSON], **kwargs: Any
+    ) -> _models.LivenessWithVerifySession:
         """Create a new liveness session with verify. Provide the verify image during session creation.
 
         Please refer to
@@ -5308,12 +5101,11 @@ class FaceSessionClientOperationsMixin(FaceSessionClientMixinABC):
         for more details.
 
         :param body: Request content of liveness with verify session creation. Is either a
-         CreateLivenessWithVerifySessionMultipartContent type or a JSON type. Required.
-        :type body: ~azure.ai.vision.face.models.CreateLivenessWithVerifySessionMultipartContent or
-         JSON
-        :return: CreateLivenessWithVerifySessionResult. The CreateLivenessWithVerifySessionResult is
-         compatible with MutableMapping
-        :rtype: ~azure.ai.vision.face.models.CreateLivenessWithVerifySessionResult
+         CreateLivenessWithVerifySessionContent type or a JSON type. Required.
+        :type body: ~azure.ai.vision.face.models.CreateLivenessWithVerifySessionContent or JSON
+        :return: LivenessWithVerifySession. The LivenessWithVerifySession is compatible with
+         MutableMapping
+        :rtype: ~azure.ai.vision.face.models.LivenessWithVerifySession
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -5327,14 +5119,23 @@ class FaceSessionClientOperationsMixin(FaceSessionClientMixinABC):
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[_models.CreateLivenessWithVerifySessionResult] = kwargs.pop("cls", None)
+        cls: ClsType[_models.LivenessWithVerifySession] = kwargs.pop("cls", None)
 
         _body = body.as_dict() if isinstance(body, _model_base.Model) else body
-        _file_fields: List[str] = ["VerifyImage"]
-        _data_fields: List[str] = ["Parameters"]
+        _file_fields: List[str] = ["verifyImage"]
+        _data_fields: List[str] = [
+            "livenessOperationMode",
+            "deviceCorrelationIdSetInClient",
+            "enableSessionImage",
+            "livenessModelVersion",
+            "deviceCorrelationId",
+            "authTokenTimeToLiveInSeconds",
+            "returnVerifyImageHash",
+            "verifyConfidenceThreshold",
+        ]
         _files, _data = prepare_multipart_form_data(_body, _file_fields, _data_fields)
 
-        _request = build_face_session_create_liveness_with_verify_session_with_verify_image_request(
+        _request = build_face_session_create_liveness_with_verify_session_request(
             files=_files,
             data=_data,
             headers=_headers,
@@ -5360,13 +5161,13 @@ class FaceSessionClientOperationsMixin(FaceSessionClientMixinABC):
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.FaceErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.FaceErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error)
 
         if _stream:
             deserialized = response.iter_bytes()
         else:
-            deserialized = _deserialize(_models.CreateLivenessWithVerifySessionResult, response.json())
+            deserialized = _deserialize(_models.LivenessWithVerifySession, response.json())
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -5374,6 +5175,10 @@ class FaceSessionClientOperationsMixin(FaceSessionClientMixinABC):
         return deserialized  # type: ignore
 
     @distributed_trace_async
+    @api_version_validation(
+        method_added_on="v1.2",
+        params_added_on={"v1.2": ["session_id", "accept"]},
+    )
     async def delete_liveness_with_verify_session(self, session_id: str, **kwargs: Any) -> None:
         """Delete all session related information for matching the specified session id.
 
@@ -5418,15 +5223,19 @@ class FaceSessionClientOperationsMixin(FaceSessionClientMixinABC):
 
         response = pipeline_response.http_response
 
-        if response.status_code not in [200]:
+        if response.status_code not in [204]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.FaceErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.FaceErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error)
 
         if cls:
             return cls(pipeline_response, None, {})  # type: ignore
 
     @distributed_trace_async
+    @api_version_validation(
+        method_added_on="v1.2",
+        params_added_on={"v1.2": ["session_id", "accept"]},
+    )
     async def get_liveness_with_verify_session_result(
         self, session_id: str, **kwargs: Any
     ) -> _models.LivenessWithVerifySession:
@@ -5479,158 +5288,13 @@ class FaceSessionClientOperationsMixin(FaceSessionClientMixinABC):
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.FaceErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.FaceErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error)
 
         if _stream:
             deserialized = response.iter_bytes()
         else:
             deserialized = _deserialize(_models.LivenessWithVerifySession, response.json())
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
-
-        return deserialized  # type: ignore
-
-    @distributed_trace_async
-    async def get_liveness_with_verify_sessions(
-        self, *, start: Optional[str] = None, top: Optional[int] = None, **kwargs: Any
-    ) -> List[_models.LivenessSessionItem]:
-        """Lists sessions for /detectLivenessWithVerify/SingleModal.
-
-        Please refer to
-        https://learn.microsoft.com/rest/api/face/liveness-session-operations/get-liveness-with-verify-sessions
-        for more details.
-
-        :keyword start: List resources greater than the "start". It contains no more than 64
-         characters. Default is empty. Default value is None.
-        :paramtype start: str
-        :keyword top: The number of items to list, ranging in [1, 1000]. Default is 1000. Default value
-         is None.
-        :paramtype top: int
-        :return: list of LivenessSessionItem
-        :rtype: list[~azure.ai.vision.face.models.LivenessSessionItem]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        error_map: MutableMapping = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = kwargs.pop("params", {}) or {}
-
-        cls: ClsType[List[_models.LivenessSessionItem]] = kwargs.pop("cls", None)
-
-        _request = build_face_session_get_liveness_with_verify_sessions_request(
-            start=start,
-            top=top,
-            headers=_headers,
-            params=_params,
-        )
-        path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
-            "apiVersion": self._serialize.url("self._config.api_version", self._config.api_version, "str"),
-        }
-        _request.url = self._client.format_url(_request.url, **path_format_arguments)
-
-        _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
-            _request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200]:
-            if _stream:
-                try:
-                    await response.read()  # Load the body in memory and close the socket
-                except (StreamConsumedError, StreamClosedError):
-                    pass
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.FaceErrorResponse, response.json())
-            raise HttpResponseError(response=response, model=error)
-
-        if _stream:
-            deserialized = response.iter_bytes()
-        else:
-            deserialized = _deserialize(List[_models.LivenessSessionItem], response.json())
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
-
-        return deserialized  # type: ignore
-
-    @distributed_trace_async
-    async def get_liveness_with_verify_session_audit_entries(  # pylint: disable=name-too-long
-        self, session_id: str, *, start: Optional[str] = None, top: Optional[int] = None, **kwargs: Any
-    ) -> List[_models.LivenessSessionAuditEntry]:
-        """Please refer to
-        https://learn.microsoft.com/rest/api/face/liveness-session-operations/get-liveness-with-verify-session-audit-entries
-        for more details.
-
-        :param session_id: The unique ID to reference this session. Required.
-        :type session_id: str
-        :keyword start: List resources greater than the "start". It contains no more than 64
-         characters. Default is empty. Default value is None.
-        :paramtype start: str
-        :keyword top: The number of items to list, ranging in [1, 1000]. Default is 1000. Default value
-         is None.
-        :paramtype top: int
-        :return: list of LivenessSessionAuditEntry
-        :rtype: list[~azure.ai.vision.face.models.LivenessSessionAuditEntry]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        error_map: MutableMapping = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = kwargs.pop("params", {}) or {}
-
-        cls: ClsType[List[_models.LivenessSessionAuditEntry]] = kwargs.pop("cls", None)
-
-        _request = build_face_session_get_liveness_with_verify_session_audit_entries_request(
-            session_id=session_id,
-            start=start,
-            top=top,
-            headers=_headers,
-            params=_params,
-        )
-        path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
-            "apiVersion": self._serialize.url("self._config.api_version", self._config.api_version, "str"),
-        }
-        _request.url = self._client.format_url(_request.url, **path_format_arguments)
-
-        _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
-            _request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200]:
-            if _stream:
-                try:
-                    await response.read()  # Load the body in memory and close the socket
-                except (StreamConsumedError, StreamClosedError):
-                    pass
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.FaceErrorResponse, response.json())
-            raise HttpResponseError(response=response, model=error)
-
-        if _stream:
-            deserialized = response.iter_bytes()
-        else:
-            deserialized = _deserialize(List[_models.LivenessSessionAuditEntry], response.json())
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -5962,7 +5626,7 @@ class FaceSessionClientOperationsMixin(FaceSessionClientMixinABC):
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.FaceErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.FaceErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error)
 
         if _stream:
@@ -5977,8 +5641,8 @@ class FaceSessionClientOperationsMixin(FaceSessionClientMixinABC):
 
     @distributed_trace_async
     @api_version_validation(
-        method_added_on="v1.2-preview.1",
-        params_added_on={"v1.2-preview.1": ["session_image_id", "accept"]},
+        method_added_on="v1.2",
+        params_added_on={"v1.2": ["session_image_id", "accept"]},
     )
     async def get_session_image(self, session_image_id: str, **kwargs: Any) -> AsyncIterator[bytes]:
         """Please refer to
@@ -6029,7 +5693,7 @@ class FaceSessionClientOperationsMixin(FaceSessionClientMixinABC):
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.FaceErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.FaceErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error)
 
         response_headers = {}
