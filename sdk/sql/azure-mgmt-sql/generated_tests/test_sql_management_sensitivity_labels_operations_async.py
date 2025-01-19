@@ -21,7 +21,7 @@ class TestSqlManagementSensitivityLabelsOperationsAsync(AzureMgmtRecordedTestCas
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_current_by_database(self, resource_group):
+    async def test_sensitivity_labels_list_current_by_database(self, resource_group):
         response = self.client.sensitivity_labels.list_current_by_database(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -34,7 +34,7 @@ class TestSqlManagementSensitivityLabelsOperationsAsync(AzureMgmtRecordedTestCas
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_update(self, resource_group):
+    async def test_sensitivity_labels_update(self, resource_group):
         response = await self.client.sensitivity_labels.update(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -75,7 +75,7 @@ class TestSqlManagementSensitivityLabelsOperationsAsync(AzureMgmtRecordedTestCas
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_recommended_by_database(self, resource_group):
+    async def test_sensitivity_labels_list_recommended_by_database(self, resource_group):
         response = self.client.sensitivity_labels.list_recommended_by_database(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -88,7 +88,7 @@ class TestSqlManagementSensitivityLabelsOperationsAsync(AzureMgmtRecordedTestCas
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_enable_recommendation(self, resource_group):
+    async def test_sensitivity_labels_enable_recommendation(self, resource_group):
         response = await self.client.sensitivity_labels.enable_recommendation(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -105,7 +105,7 @@ class TestSqlManagementSensitivityLabelsOperationsAsync(AzureMgmtRecordedTestCas
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_disable_recommendation(self, resource_group):
+    async def test_sensitivity_labels_disable_recommendation(self, resource_group):
         response = await self.client.sensitivity_labels.disable_recommendation(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -122,7 +122,7 @@ class TestSqlManagementSensitivityLabelsOperationsAsync(AzureMgmtRecordedTestCas
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get(self, resource_group):
+    async def test_sensitivity_labels_get(self, resource_group):
         response = await self.client.sensitivity_labels.get(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -139,7 +139,7 @@ class TestSqlManagementSensitivityLabelsOperationsAsync(AzureMgmtRecordedTestCas
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_create_or_update(self, resource_group):
+    async def test_sensitivity_labels_create_or_update(self, resource_group):
         response = await self.client.sensitivity_labels.create_or_update(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -171,7 +171,7 @@ class TestSqlManagementSensitivityLabelsOperationsAsync(AzureMgmtRecordedTestCas
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_delete(self, resource_group):
+    async def test_sensitivity_labels_delete(self, resource_group):
         response = await self.client.sensitivity_labels.delete(
             resource_group_name=resource_group.name,
             server_name="str",
