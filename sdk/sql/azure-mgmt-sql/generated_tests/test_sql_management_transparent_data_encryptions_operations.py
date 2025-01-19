@@ -20,7 +20,7 @@ class TestSqlManagementTransparentDataEncryptionsOperations(AzureMgmtRecordedTes
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_database(self, resource_group):
+    def test_transparent_data_encryptions_list_by_database(self, resource_group):
         response = self.client.transparent_data_encryptions.list_by_database(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -33,7 +33,7 @@ class TestSqlManagementTransparentDataEncryptionsOperations(AzureMgmtRecordedTes
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_transparent_data_encryptions_get(self, resource_group):
         response = self.client.transparent_data_encryptions.get(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -47,7 +47,7 @@ class TestSqlManagementTransparentDataEncryptionsOperations(AzureMgmtRecordedTes
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_create_or_update(self, resource_group):
+    def test_transparent_data_encryptions_begin_create_or_update(self, resource_group):
         response = self.client.transparent_data_encryptions.begin_create_or_update(
             resource_group_name=resource_group.name,
             server_name="str",

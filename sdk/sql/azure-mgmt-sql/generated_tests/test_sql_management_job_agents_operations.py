@@ -20,7 +20,7 @@ class TestSqlManagementJobAgentsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_server(self, resource_group):
+    def test_job_agents_list_by_server(self, resource_group):
         response = self.client.job_agents.list_by_server(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -32,7 +32,7 @@ class TestSqlManagementJobAgentsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_job_agents_get(self, resource_group):
         response = self.client.job_agents.get(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -45,7 +45,7 @@ class TestSqlManagementJobAgentsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_create_or_update(self, resource_group):
+    def test_job_agents_begin_create_or_update(self, resource_group):
         response = self.client.job_agents.begin_create_or_update(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -68,7 +68,7 @@ class TestSqlManagementJobAgentsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_delete(self, resource_group):
+    def test_job_agents_begin_delete(self, resource_group):
         response = self.client.job_agents.begin_delete(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -81,7 +81,7 @@ class TestSqlManagementJobAgentsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_update(self, resource_group):
+    def test_job_agents_begin_update(self, resource_group):
         response = self.client.job_agents.begin_update(
             resource_group_name=resource_group.name,
             server_name="str",

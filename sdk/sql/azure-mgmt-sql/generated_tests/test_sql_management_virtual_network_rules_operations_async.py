@@ -21,7 +21,7 @@ class TestSqlManagementVirtualNetworkRulesOperationsAsync(AzureMgmtRecordedTestC
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get(self, resource_group):
+    async def test_virtual_network_rules_get(self, resource_group):
         response = await self.client.virtual_network_rules.get(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -34,7 +34,7 @@ class TestSqlManagementVirtualNetworkRulesOperationsAsync(AzureMgmtRecordedTestC
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_create_or_update(self, resource_group):
+    async def test_virtual_network_rules_begin_create_or_update(self, resource_group):
         response = await (
             await self.client.virtual_network_rules.begin_create_or_update(
                 resource_group_name=resource_group.name,
@@ -57,7 +57,7 @@ class TestSqlManagementVirtualNetworkRulesOperationsAsync(AzureMgmtRecordedTestC
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_delete(self, resource_group):
+    async def test_virtual_network_rules_begin_delete(self, resource_group):
         response = await (
             await self.client.virtual_network_rules.begin_delete(
                 resource_group_name=resource_group.name,
@@ -72,7 +72,7 @@ class TestSqlManagementVirtualNetworkRulesOperationsAsync(AzureMgmtRecordedTestC
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_by_server(self, resource_group):
+    async def test_virtual_network_rules_list_by_server(self, resource_group):
         response = self.client.virtual_network_rules.list_by_server(
             resource_group_name=resource_group.name,
             server_name="str",

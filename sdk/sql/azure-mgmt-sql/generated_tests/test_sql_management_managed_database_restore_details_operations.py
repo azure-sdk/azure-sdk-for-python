@@ -20,7 +20,7 @@ class TestSqlManagementManagedDatabaseRestoreDetailsOperations(AzureMgmtRecorded
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_managed_database_restore_details_get(self, resource_group):
         response = self.client.managed_database_restore_details.get(
             resource_group_name=resource_group.name,
             managed_instance_name="str",

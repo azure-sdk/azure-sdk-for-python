@@ -20,7 +20,7 @@ class TestSqlManagementJobPrivateEndpointsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_agent(self, resource_group):
+    def test_job_private_endpoints_list_by_agent(self, resource_group):
         response = self.client.job_private_endpoints.list_by_agent(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -33,7 +33,7 @@ class TestSqlManagementJobPrivateEndpointsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_job_private_endpoints_get(self, resource_group):
         response = self.client.job_private_endpoints.get(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -47,7 +47,7 @@ class TestSqlManagementJobPrivateEndpointsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_create_or_update(self, resource_group):
+    def test_job_private_endpoints_begin_create_or_update(self, resource_group):
         response = self.client.job_private_endpoints.begin_create_or_update(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -68,7 +68,7 @@ class TestSqlManagementJobPrivateEndpointsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_delete(self, resource_group):
+    def test_job_private_endpoints_begin_delete(self, resource_group):
         response = self.client.job_private_endpoints.begin_delete(
             resource_group_name=resource_group.name,
             server_name="str",

@@ -21,7 +21,7 @@ class TestSqlManagementServerAdvisorsOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_by_server(self, resource_group):
+    async def test_server_advisors_list_by_server(self, resource_group):
         response = await self.client.server_advisors.list_by_server(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -33,7 +33,7 @@ class TestSqlManagementServerAdvisorsOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get(self, resource_group):
+    async def test_server_advisors_get(self, resource_group):
         response = await self.client.server_advisors.get(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -46,7 +46,7 @@ class TestSqlManagementServerAdvisorsOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_update(self, resource_group):
+    async def test_server_advisors_update(self, resource_group):
         response = await self.client.server_advisors.update(
             resource_group_name=resource_group.name,
             server_name="str",
