@@ -21,16 +21,6 @@ class TestDataFactoryManagementFactoriesOperationsAsync(AzureMgmtRecordedTestCas
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_factories_list(self, resource_group):
-        response = self.client.factories.list(
-            api_version="2018-06-01",
-        )
-        result = [r async for r in response]
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy_async
     async def test_factories_configure_factory_repo(self, resource_group):
         response = await self.client.factories.configure_factory_repo(
             location_id="str",
