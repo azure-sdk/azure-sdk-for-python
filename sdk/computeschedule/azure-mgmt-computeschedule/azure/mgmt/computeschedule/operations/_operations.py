@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines,too-many-statements
+# pylint: disable=too-many-lines
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -9,9 +9,10 @@
 from io import IOBase
 import json
 import sys
-from typing import Any, Callable, Dict, IO, Iterable, List, Optional, Type, TypeVar, Union, overload
+from typing import Any, Callable, Dict, IO, Iterable, List, Optional, TypeVar, Union, overload
 import urllib.parse
 
+from azure.core import PipelineClient
 from azure.core.exceptions import (
     ClientAuthenticationError,
     HttpResponseError,
@@ -30,13 +31,14 @@ from azure.core.utils import case_insensitive_dict
 from azure.mgmt.core.exceptions import ARMErrorFormat
 
 from .. import models as _models
-from .._model_base import SdkJSONEncoder, _deserialize
-from .._serialization import Serializer
+from .._configuration import ComputeScheduleMgmtClientConfiguration
+from .._model_base import SdkJSONEncoder, _deserialize, _failsafe_deserialize
+from .._serialization import Deserializer, Serializer
 
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
 JSON = MutableMapping[str, Any]  # pylint: disable=unsubscriptable-object
@@ -49,7 +51,7 @@ def build_operations_list_request(**kwargs: Any) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-08-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -71,7 +73,7 @@ def build_scheduled_actions_virtual_machines_submit_deallocate_request(  # pylin
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-08-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -101,7 +103,7 @@ def build_scheduled_actions_virtual_machines_submit_hibernate_request(  # pylint
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-08-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -131,7 +133,7 @@ def build_scheduled_actions_virtual_machines_submit_start_request(  # pylint: di
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-08-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -161,7 +163,7 @@ def build_scheduled_actions_virtual_machines_execute_deallocate_request(  # pyli
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-08-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -191,7 +193,7 @@ def build_scheduled_actions_virtual_machines_execute_hibernate_request(  # pylin
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-08-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -221,7 +223,7 @@ def build_scheduled_actions_virtual_machines_execute_start_request(  # pylint: d
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-08-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -251,7 +253,7 @@ def build_scheduled_actions_virtual_machines_get_operation_status_request(  # py
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-08-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -281,7 +283,7 @@ def build_scheduled_actions_virtual_machines_cancel_operations_request(  # pylin
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-08-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -311,7 +313,7 @@ def build_scheduled_actions_virtual_machines_get_operation_errors_request(  # py
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-08-15-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -346,10 +348,10 @@ class Operations:
 
     def __init__(self, *args, **kwargs):
         input_args = list(args)
-        self._client = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config = input_args.pop(0) if input_args else kwargs.pop("config")
-        self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
-        self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
+        self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
+        self._config: ComputeScheduleMgmtClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
+        self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
     @distributed_trace
     def list(self, **kwargs: Any) -> Iterable["_models.Operation"]:
@@ -364,7 +366,7 @@ class Operations:
 
         cls: ClsType[List[_models.Operation]] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {  # pylint: disable=unsubscriptable-object
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -427,7 +429,7 @@ class Operations:
 
             if response.status_code not in [200]:
                 map_error(status_code=response.status_code, response=response, error_map=error_map)
-                error = _deserialize(_models.ErrorResponse, response.json())
+                error = _failsafe_deserialize(_models.ErrorResponse, response.json())
                 raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
             return pipeline_response
@@ -447,10 +449,10 @@ class ScheduledActionsOperations:
 
     def __init__(self, *args, **kwargs):
         input_args = list(args)
-        self._client = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config = input_args.pop(0) if input_args else kwargs.pop("config")
-        self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
-        self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
+        self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
+        self._config: ComputeScheduleMgmtClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
+        self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
     @overload
     def virtual_machines_submit_deallocate(
@@ -461,7 +463,8 @@ class ScheduledActionsOperations:
         content_type: str = "application/json",
         **kwargs: Any
     ) -> _models.DeallocateResourceOperationResponse:
-        """virtualMachinesSubmitDeallocate: submitDeallocate for a virtual machine.
+        """VirtualMachinesSubmitDeallocate: Schedule deallocate operation for a batch of virtual machines
+        at datetime in future.
 
         :param locationparameter: The location name. Required.
         :type locationparameter: str
@@ -480,7 +483,8 @@ class ScheduledActionsOperations:
     def virtual_machines_submit_deallocate(
         self, locationparameter: str, request_body: JSON, *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.DeallocateResourceOperationResponse:
-        """virtualMachinesSubmitDeallocate: submitDeallocate for a virtual machine.
+        """VirtualMachinesSubmitDeallocate: Schedule deallocate operation for a batch of virtual machines
+        at datetime in future.
 
         :param locationparameter: The location name. Required.
         :type locationparameter: str
@@ -499,7 +503,8 @@ class ScheduledActionsOperations:
     def virtual_machines_submit_deallocate(
         self, locationparameter: str, request_body: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.DeallocateResourceOperationResponse:
-        """virtualMachinesSubmitDeallocate: submitDeallocate for a virtual machine.
+        """VirtualMachinesSubmitDeallocate: Schedule deallocate operation for a batch of virtual machines
+        at datetime in future.
 
         :param locationparameter: The location name. Required.
         :type locationparameter: str
@@ -521,7 +526,8 @@ class ScheduledActionsOperations:
         request_body: Union[_models.SubmitDeallocateRequest, JSON, IO[bytes]],
         **kwargs: Any
     ) -> _models.DeallocateResourceOperationResponse:
-        """virtualMachinesSubmitDeallocate: submitDeallocate for a virtual machine.
+        """VirtualMachinesSubmitDeallocate: Schedule deallocate operation for a batch of virtual machines
+        at datetime in future.
 
         :param locationparameter: The location name. Required.
         :type locationparameter: str
@@ -534,7 +540,7 @@ class ScheduledActionsOperations:
         :rtype: ~azure.mgmt.computeschedule.models.DeallocateResourceOperationResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {  # pylint: disable=unsubscriptable-object
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -583,7 +589,7 @@ class ScheduledActionsOperations:
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.ErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if _stream:
@@ -605,7 +611,8 @@ class ScheduledActionsOperations:
         content_type: str = "application/json",
         **kwargs: Any
     ) -> _models.HibernateResourceOperationResponse:
-        """virtualMachinesSubmitHibernate: submitHibernate for a virtual machine.
+        """VirtualMachinesSubmitHibernate: Schedule hibernate operation for a batch of virtual machines at
+        datetime in future.
 
         :param locationparameter: The location name. Required.
         :type locationparameter: str
@@ -624,7 +631,8 @@ class ScheduledActionsOperations:
     def virtual_machines_submit_hibernate(
         self, locationparameter: str, request_body: JSON, *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.HibernateResourceOperationResponse:
-        """virtualMachinesSubmitHibernate: submitHibernate for a virtual machine.
+        """VirtualMachinesSubmitHibernate: Schedule hibernate operation for a batch of virtual machines at
+        datetime in future.
 
         :param locationparameter: The location name. Required.
         :type locationparameter: str
@@ -643,7 +651,8 @@ class ScheduledActionsOperations:
     def virtual_machines_submit_hibernate(
         self, locationparameter: str, request_body: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.HibernateResourceOperationResponse:
-        """virtualMachinesSubmitHibernate: submitHibernate for a virtual machine.
+        """VirtualMachinesSubmitHibernate: Schedule hibernate operation for a batch of virtual machines at
+        datetime in future.
 
         :param locationparameter: The location name. Required.
         :type locationparameter: str
@@ -665,7 +674,8 @@ class ScheduledActionsOperations:
         request_body: Union[_models.SubmitHibernateRequest, JSON, IO[bytes]],
         **kwargs: Any
     ) -> _models.HibernateResourceOperationResponse:
-        """virtualMachinesSubmitHibernate: submitHibernate for a virtual machine.
+        """VirtualMachinesSubmitHibernate: Schedule hibernate operation for a batch of virtual machines at
+        datetime in future.
 
         :param locationparameter: The location name. Required.
         :type locationparameter: str
@@ -678,7 +688,7 @@ class ScheduledActionsOperations:
         :rtype: ~azure.mgmt.computeschedule.models.HibernateResourceOperationResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {  # pylint: disable=unsubscriptable-object
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -727,7 +737,7 @@ class ScheduledActionsOperations:
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.ErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if _stream:
@@ -749,7 +759,8 @@ class ScheduledActionsOperations:
         content_type: str = "application/json",
         **kwargs: Any
     ) -> _models.StartResourceOperationResponse:
-        """virtualMachinesSubmitStart: submitStart for a virtual machine.
+        """VirtualMachinesSubmitStart: Schedule start operation for a batch of virtual machines at
+        datetime in future.
 
         :param locationparameter: The location name. Required.
         :type locationparameter: str
@@ -768,7 +779,8 @@ class ScheduledActionsOperations:
     def virtual_machines_submit_start(
         self, locationparameter: str, request_body: JSON, *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.StartResourceOperationResponse:
-        """virtualMachinesSubmitStart: submitStart for a virtual machine.
+        """VirtualMachinesSubmitStart: Schedule start operation for a batch of virtual machines at
+        datetime in future.
 
         :param locationparameter: The location name. Required.
         :type locationparameter: str
@@ -787,7 +799,8 @@ class ScheduledActionsOperations:
     def virtual_machines_submit_start(
         self, locationparameter: str, request_body: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.StartResourceOperationResponse:
-        """virtualMachinesSubmitStart: submitStart for a virtual machine.
+        """VirtualMachinesSubmitStart: Schedule start operation for a batch of virtual machines at
+        datetime in future.
 
         :param locationparameter: The location name. Required.
         :type locationparameter: str
@@ -806,7 +819,8 @@ class ScheduledActionsOperations:
     def virtual_machines_submit_start(
         self, locationparameter: str, request_body: Union[_models.SubmitStartRequest, JSON, IO[bytes]], **kwargs: Any
     ) -> _models.StartResourceOperationResponse:
-        """virtualMachinesSubmitStart: submitStart for a virtual machine.
+        """VirtualMachinesSubmitStart: Schedule start operation for a batch of virtual machines at
+        datetime in future.
 
         :param locationparameter: The location name. Required.
         :type locationparameter: str
@@ -818,7 +832,7 @@ class ScheduledActionsOperations:
         :rtype: ~azure.mgmt.computeschedule.models.StartResourceOperationResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {  # pylint: disable=unsubscriptable-object
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -867,7 +881,7 @@ class ScheduledActionsOperations:
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.ErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if _stream:
@@ -889,7 +903,8 @@ class ScheduledActionsOperations:
         content_type: str = "application/json",
         **kwargs: Any
     ) -> _models.DeallocateResourceOperationResponse:
-        """virtualMachinesExecuteDeallocate: executeDeallocate for a virtual machine.
+        """VirtualMachinesExecuteDeallocate: Execute deallocate operation for a batch of virtual machines,
+        this operation is triggered as soon as Computeschedule receives it.
 
         :param locationparameter: The location name. Required.
         :type locationparameter: str
@@ -908,7 +923,8 @@ class ScheduledActionsOperations:
     def virtual_machines_execute_deallocate(
         self, locationparameter: str, request_body: JSON, *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.DeallocateResourceOperationResponse:
-        """virtualMachinesExecuteDeallocate: executeDeallocate for a virtual machine.
+        """VirtualMachinesExecuteDeallocate: Execute deallocate operation for a batch of virtual machines,
+        this operation is triggered as soon as Computeschedule receives it.
 
         :param locationparameter: The location name. Required.
         :type locationparameter: str
@@ -927,7 +943,8 @@ class ScheduledActionsOperations:
     def virtual_machines_execute_deallocate(
         self, locationparameter: str, request_body: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.DeallocateResourceOperationResponse:
-        """virtualMachinesExecuteDeallocate: executeDeallocate for a virtual machine.
+        """VirtualMachinesExecuteDeallocate: Execute deallocate operation for a batch of virtual machines,
+        this operation is triggered as soon as Computeschedule receives it.
 
         :param locationparameter: The location name. Required.
         :type locationparameter: str
@@ -949,7 +966,8 @@ class ScheduledActionsOperations:
         request_body: Union[_models.ExecuteDeallocateRequest, JSON, IO[bytes]],
         **kwargs: Any
     ) -> _models.DeallocateResourceOperationResponse:
-        """virtualMachinesExecuteDeallocate: executeDeallocate for a virtual machine.
+        """VirtualMachinesExecuteDeallocate: Execute deallocate operation for a batch of virtual machines,
+        this operation is triggered as soon as Computeschedule receives it.
 
         :param locationparameter: The location name. Required.
         :type locationparameter: str
@@ -962,7 +980,7 @@ class ScheduledActionsOperations:
         :rtype: ~azure.mgmt.computeschedule.models.DeallocateResourceOperationResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {  # pylint: disable=unsubscriptable-object
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1011,7 +1029,7 @@ class ScheduledActionsOperations:
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.ErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if _stream:
@@ -1033,7 +1051,8 @@ class ScheduledActionsOperations:
         content_type: str = "application/json",
         **kwargs: Any
     ) -> _models.HibernateResourceOperationResponse:
-        """virtualMachinesExecuteHibernate: executeHibernate for a virtual machine.
+        """VirtualMachinesExecuteHibernate: Execute hibernate operation for a batch of virtual machines,
+        this operation is triggered as soon as Computeschedule receives it.
 
         :param locationparameter: The location name. Required.
         :type locationparameter: str
@@ -1052,7 +1071,8 @@ class ScheduledActionsOperations:
     def virtual_machines_execute_hibernate(
         self, locationparameter: str, request_body: JSON, *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.HibernateResourceOperationResponse:
-        """virtualMachinesExecuteHibernate: executeHibernate for a virtual machine.
+        """VirtualMachinesExecuteHibernate: Execute hibernate operation for a batch of virtual machines,
+        this operation is triggered as soon as Computeschedule receives it.
 
         :param locationparameter: The location name. Required.
         :type locationparameter: str
@@ -1071,7 +1091,8 @@ class ScheduledActionsOperations:
     def virtual_machines_execute_hibernate(
         self, locationparameter: str, request_body: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.HibernateResourceOperationResponse:
-        """virtualMachinesExecuteHibernate: executeHibernate for a virtual machine.
+        """VirtualMachinesExecuteHibernate: Execute hibernate operation for a batch of virtual machines,
+        this operation is triggered as soon as Computeschedule receives it.
 
         :param locationparameter: The location name. Required.
         :type locationparameter: str
@@ -1093,7 +1114,8 @@ class ScheduledActionsOperations:
         request_body: Union[_models.ExecuteHibernateRequest, JSON, IO[bytes]],
         **kwargs: Any
     ) -> _models.HibernateResourceOperationResponse:
-        """virtualMachinesExecuteHibernate: executeHibernate for a virtual machine.
+        """VirtualMachinesExecuteHibernate: Execute hibernate operation for a batch of virtual machines,
+        this operation is triggered as soon as Computeschedule receives it.
 
         :param locationparameter: The location name. Required.
         :type locationparameter: str
@@ -1106,7 +1128,7 @@ class ScheduledActionsOperations:
         :rtype: ~azure.mgmt.computeschedule.models.HibernateResourceOperationResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {  # pylint: disable=unsubscriptable-object
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1155,7 +1177,7 @@ class ScheduledActionsOperations:
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.ErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if _stream:
@@ -1177,7 +1199,8 @@ class ScheduledActionsOperations:
         content_type: str = "application/json",
         **kwargs: Any
     ) -> _models.StartResourceOperationResponse:
-        """virtualMachinesExecuteStart: executeStart for a virtual machine.
+        """VirtualMachinesExecuteStart: Execute start operation for a batch of virtual machines, this
+        operation is triggered as soon as Computeschedule receives it.
 
         :param locationparameter: The location name. Required.
         :type locationparameter: str
@@ -1196,7 +1219,8 @@ class ScheduledActionsOperations:
     def virtual_machines_execute_start(
         self, locationparameter: str, request_body: JSON, *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.StartResourceOperationResponse:
-        """virtualMachinesExecuteStart: executeStart for a virtual machine.
+        """VirtualMachinesExecuteStart: Execute start operation for a batch of virtual machines, this
+        operation is triggered as soon as Computeschedule receives it.
 
         :param locationparameter: The location name. Required.
         :type locationparameter: str
@@ -1215,7 +1239,8 @@ class ScheduledActionsOperations:
     def virtual_machines_execute_start(
         self, locationparameter: str, request_body: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.StartResourceOperationResponse:
-        """virtualMachinesExecuteStart: executeStart for a virtual machine.
+        """VirtualMachinesExecuteStart: Execute start operation for a batch of virtual machines, this
+        operation is triggered as soon as Computeschedule receives it.
 
         :param locationparameter: The location name. Required.
         :type locationparameter: str
@@ -1234,7 +1259,8 @@ class ScheduledActionsOperations:
     def virtual_machines_execute_start(
         self, locationparameter: str, request_body: Union[_models.ExecuteStartRequest, JSON, IO[bytes]], **kwargs: Any
     ) -> _models.StartResourceOperationResponse:
-        """virtualMachinesExecuteStart: executeStart for a virtual machine.
+        """VirtualMachinesExecuteStart: Execute start operation for a batch of virtual machines, this
+        operation is triggered as soon as Computeschedule receives it.
 
         :param locationparameter: The location name. Required.
         :type locationparameter: str
@@ -1246,7 +1272,7 @@ class ScheduledActionsOperations:
         :rtype: ~azure.mgmt.computeschedule.models.StartResourceOperationResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {  # pylint: disable=unsubscriptable-object
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1295,7 +1321,7 @@ class ScheduledActionsOperations:
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.ErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if _stream:
@@ -1317,7 +1343,8 @@ class ScheduledActionsOperations:
         content_type: str = "application/json",
         **kwargs: Any
     ) -> _models.GetOperationStatusResponse:
-        """virtualMachinesGetOperationStatus: getOperationStatus for a virtual machine.
+        """VirtualMachinesGetOperationStatus: Polling endpoint to read status of operations performed on
+        virtual machines.
 
         :param locationparameter: The location name. Required.
         :type locationparameter: str
@@ -1336,7 +1363,8 @@ class ScheduledActionsOperations:
     def virtual_machines_get_operation_status(
         self, locationparameter: str, request_body: JSON, *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.GetOperationStatusResponse:
-        """virtualMachinesGetOperationStatus: getOperationStatus for a virtual machine.
+        """VirtualMachinesGetOperationStatus: Polling endpoint to read status of operations performed on
+        virtual machines.
 
         :param locationparameter: The location name. Required.
         :type locationparameter: str
@@ -1355,7 +1383,8 @@ class ScheduledActionsOperations:
     def virtual_machines_get_operation_status(
         self, locationparameter: str, request_body: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.GetOperationStatusResponse:
-        """virtualMachinesGetOperationStatus: getOperationStatus for a virtual machine.
+        """VirtualMachinesGetOperationStatus: Polling endpoint to read status of operations performed on
+        virtual machines.
 
         :param locationparameter: The location name. Required.
         :type locationparameter: str
@@ -1377,7 +1406,8 @@ class ScheduledActionsOperations:
         request_body: Union[_models.GetOperationStatusRequest, JSON, IO[bytes]],
         **kwargs: Any
     ) -> _models.GetOperationStatusResponse:
-        """virtualMachinesGetOperationStatus: getOperationStatus for a virtual machine.
+        """VirtualMachinesGetOperationStatus: Polling endpoint to read status of operations performed on
+        virtual machines.
 
         :param locationparameter: The location name. Required.
         :type locationparameter: str
@@ -1390,7 +1420,7 @@ class ScheduledActionsOperations:
         :rtype: ~azure.mgmt.computeschedule.models.GetOperationStatusResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {  # pylint: disable=unsubscriptable-object
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1439,7 +1469,7 @@ class ScheduledActionsOperations:
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.ErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if _stream:
@@ -1461,7 +1491,8 @@ class ScheduledActionsOperations:
         content_type: str = "application/json",
         **kwargs: Any
     ) -> _models.CancelOperationsResponse:
-        """virtualMachinesCancelOperations: cancelOperations for a virtual machine.
+        """VirtualMachinesCancelOperations: Cancel a previously submitted (start/deallocate/hibernate)
+        request.
 
         :param locationparameter: The location name. Required.
         :type locationparameter: str
@@ -1480,7 +1511,8 @@ class ScheduledActionsOperations:
     def virtual_machines_cancel_operations(
         self, locationparameter: str, request_body: JSON, *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.CancelOperationsResponse:
-        """virtualMachinesCancelOperations: cancelOperations for a virtual machine.
+        """VirtualMachinesCancelOperations: Cancel a previously submitted (start/deallocate/hibernate)
+        request.
 
         :param locationparameter: The location name. Required.
         :type locationparameter: str
@@ -1499,7 +1531,8 @@ class ScheduledActionsOperations:
     def virtual_machines_cancel_operations(
         self, locationparameter: str, request_body: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.CancelOperationsResponse:
-        """virtualMachinesCancelOperations: cancelOperations for a virtual machine.
+        """VirtualMachinesCancelOperations: Cancel a previously submitted (start/deallocate/hibernate)
+        request.
 
         :param locationparameter: The location name. Required.
         :type locationparameter: str
@@ -1521,7 +1554,8 @@ class ScheduledActionsOperations:
         request_body: Union[_models.CancelOperationsRequest, JSON, IO[bytes]],
         **kwargs: Any
     ) -> _models.CancelOperationsResponse:
-        """virtualMachinesCancelOperations: cancelOperations for a virtual machine.
+        """VirtualMachinesCancelOperations: Cancel a previously submitted (start/deallocate/hibernate)
+        request.
 
         :param locationparameter: The location name. Required.
         :type locationparameter: str
@@ -1534,7 +1568,7 @@ class ScheduledActionsOperations:
         :rtype: ~azure.mgmt.computeschedule.models.CancelOperationsResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {  # pylint: disable=unsubscriptable-object
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1583,7 +1617,7 @@ class ScheduledActionsOperations:
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.ErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if _stream:
@@ -1605,8 +1639,8 @@ class ScheduledActionsOperations:
         content_type: str = "application/json",
         **kwargs: Any
     ) -> _models.GetOperationErrorsResponse:
-        """virtualMachinesGetOperationErrors: getOperationErrors associated with an operation on a virtual
-        machine.
+        """VirtualMachinesGetOperationErrors: Get error details on operation errors (like transient errors
+        encountered, additional logs) if they exist.
 
         :param locationparameter: The location name. Required.
         :type locationparameter: str
@@ -1625,8 +1659,8 @@ class ScheduledActionsOperations:
     def virtual_machines_get_operation_errors(
         self, locationparameter: str, request_body: JSON, *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.GetOperationErrorsResponse:
-        """virtualMachinesGetOperationErrors: getOperationErrors associated with an operation on a virtual
-        machine.
+        """VirtualMachinesGetOperationErrors: Get error details on operation errors (like transient errors
+        encountered, additional logs) if they exist.
 
         :param locationparameter: The location name. Required.
         :type locationparameter: str
@@ -1645,8 +1679,8 @@ class ScheduledActionsOperations:
     def virtual_machines_get_operation_errors(
         self, locationparameter: str, request_body: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.GetOperationErrorsResponse:
-        """virtualMachinesGetOperationErrors: getOperationErrors associated with an operation on a virtual
-        machine.
+        """VirtualMachinesGetOperationErrors: Get error details on operation errors (like transient errors
+        encountered, additional logs) if they exist.
 
         :param locationparameter: The location name. Required.
         :type locationparameter: str
@@ -1668,8 +1702,8 @@ class ScheduledActionsOperations:
         request_body: Union[_models.GetOperationErrorsRequest, JSON, IO[bytes]],
         **kwargs: Any
     ) -> _models.GetOperationErrorsResponse:
-        """virtualMachinesGetOperationErrors: getOperationErrors associated with an operation on a virtual
-        machine.
+        """VirtualMachinesGetOperationErrors: Get error details on operation errors (like transient errors
+        encountered, additional logs) if they exist.
 
         :param locationparameter: The location name. Required.
         :type locationparameter: str
@@ -1682,7 +1716,7 @@ class ScheduledActionsOperations:
         :rtype: ~azure.mgmt.computeschedule.models.GetOperationErrorsResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {  # pylint: disable=unsubscriptable-object
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1731,7 +1765,7 @@ class ScheduledActionsOperations:
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.ErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if _stream:
