@@ -25,8 +25,6 @@ from .operations import (
     CertificateOrdersDiagnosticsOperations,
     CertificateRegistrationProviderOperations,
     CertificatesOperations,
-    ContainerAppsOperations,
-    ContainerAppsRevisionsOperations,
     DeletedWebAppsOperations,
     DiagnosticsOperations,
     DomainRegistrationProviderOperations,
@@ -81,11 +79,6 @@ class WebSiteManagementClient(WebSiteManagementClientOperationsMixin):  # pylint
     :vartype app_service_plans: azure.mgmt.web.v2022_09_01.aio.operations.AppServicePlansOperations
     :ivar certificates: CertificatesOperations operations
     :vartype certificates: azure.mgmt.web.v2022_09_01.aio.operations.CertificatesOperations
-    :ivar container_apps: ContainerAppsOperations operations
-    :vartype container_apps: azure.mgmt.web.v2022_09_01.aio.operations.ContainerAppsOperations
-    :ivar container_apps_revisions: ContainerAppsRevisionsOperations operations
-    :vartype container_apps_revisions:
-     azure.mgmt.web.v2022_09_01.aio.operations.ContainerAppsRevisionsOperations
     :ivar deleted_web_apps: DeletedWebAppsOperations operations
     :vartype deleted_web_apps: azure.mgmt.web.v2022_09_01.aio.operations.DeletedWebAppsOperations
     :ivar diagnostics: DiagnosticsOperations operations
@@ -204,12 +197,6 @@ class WebSiteManagementClient(WebSiteManagementClientOperationsMixin):  # pylint
             self._client, self._config, self._serialize, self._deserialize, "2022-09-01"
         )
         self.certificates = CertificatesOperations(
-            self._client, self._config, self._serialize, self._deserialize, "2022-09-01"
-        )
-        self.container_apps = ContainerAppsOperations(
-            self._client, self._config, self._serialize, self._deserialize, "2022-09-01"
-        )
-        self.container_apps_revisions = ContainerAppsRevisionsOperations(
             self._client, self._config, self._serialize, self._deserialize, "2022-09-01"
         )
         self.deleted_web_apps = DeletedWebAppsOperations(

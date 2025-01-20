@@ -11441,8 +11441,8 @@ class FunctionsDeploymentStorage(_serialization.Model):
      "blobContainer"
     :vartype type: str or ~azure.mgmt.web.v2024_04_01.models.FunctionsDeploymentStorageType
     :ivar value: Property to set the URL for the selected Azure Storage type. Example: For
-     blobContainer, the value could be
-     https://:code:`<storageAccountName>`.blob.core.windows.net/:code:`<containerName>`.
+     blobContainer, the value could be https://\\
+     :code:`<storageAccountName>`.blob.core.windows.net/\\ :code:`<containerName>`.
     :vartype value: str
     :ivar authentication: Authentication method to access the storage account for deployment.
     :vartype authentication:
@@ -11468,8 +11468,8 @@ class FunctionsDeploymentStorage(_serialization.Model):
          "blobContainer"
         :paramtype type: str or ~azure.mgmt.web.v2024_04_01.models.FunctionsDeploymentStorageType
         :keyword value: Property to set the URL for the selected Azure Storage type. Example: For
-         blobContainer, the value could be
-         https://:code:`<storageAccountName>`.blob.core.windows.net/:code:`<containerName>`.
+         blobContainer, the value could be https://\\
+         :code:`<storageAccountName>`.blob.core.windows.net/\\ :code:`<containerName>`.
         :paramtype value: str
         :keyword authentication: Authentication method to access the storage account for deployment.
         :paramtype authentication:
@@ -17380,8 +17380,8 @@ class RampUpRule(_serialization.Model):
      :code:`<code>ActionHostName</code>`.
     :vartype reroute_percentage: float
     :ivar change_step: In auto ramp up scenario this is the step to add/remove from
-     :code:`<code>ReroutePercentage</code>` until it reaches
-     \\n:code:`<code>MinReroutePercentage</code>` or
+     :code:`<code>ReroutePercentage</code>` until it reaches \\n\\
+     :code:`<code>MinReroutePercentage</code>` or
      :code:`<code>MaxReroutePercentage</code>`. Site metrics are checked every N minutes specified
      in :code:`<code>ChangeIntervalInMinutes</code>`.\\nCustom decision algorithm
      can be provided in TiPCallback site extension which URL can be specified in
@@ -17436,8 +17436,8 @@ class RampUpRule(_serialization.Model):
          :code:`<code>ActionHostName</code>`.
         :paramtype reroute_percentage: float
         :keyword change_step: In auto ramp up scenario this is the step to add/remove from
-         :code:`<code>ReroutePercentage</code>` until it reaches
-         \\n:code:`<code>MinReroutePercentage</code>` or
+         :code:`<code>ReroutePercentage</code>` until it reaches \\n\\
+         :code:`<code>MinReroutePercentage</code>` or
          :code:`<code>MaxReroutePercentage</code>`. Site metrics are checked every N minutes specified
          in :code:`<code>ChangeIntervalInMinutes</code>`.\\nCustom decision algorithm
          can be provided in TiPCallback site extension which URL can be specified in
