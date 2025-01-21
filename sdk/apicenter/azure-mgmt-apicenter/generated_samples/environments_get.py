@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.apicenter import ApiCenterMgmtClient
 
 """
@@ -38,6 +39,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/apicenter/resource-manager/Microsoft.ApiCenter/stable/2024-03-01/examples/Environments_Get.json
+# x-ms-original-file: specification/apicenter/resource-manager/Microsoft.ApiCenter/preview/2024-12-15-preview/examples/Environments_Get.json
 if __name__ == "__main__":
     main()
