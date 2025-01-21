@@ -5587,9 +5587,9 @@ class AvroWriteSettings(FormatWriteSettings):
     :ivar max_rows_per_file: Limit the written file's row count to be smaller than or equal to the
      specified count. Type: integer (or Expression with resultType integer).
     :vartype max_rows_per_file: JSON
-    :ivar file_name_prefix: Specifies the file name pattern
-     :code:`<fileNamePrefix>`_:code:`<fileIndex>`.:code:`<fileExtension>` when copy from non-file
-     based store without partitionOptions. Type: string (or Expression with resultType string).
+    :ivar file_name_prefix: Specifies the file name pattern :code:`<fileNamePrefix>`_\\
+     :code:`<fileIndex>`.\\ :code:`<fileExtension>` when copy from non-file based store without
+     partitionOptions. Type: string (or Expression with resultType string).
     :vartype file_name_prefix: JSON
     """
 
@@ -5627,9 +5627,9 @@ class AvroWriteSettings(FormatWriteSettings):
         :keyword max_rows_per_file: Limit the written file's row count to be smaller than or equal to
          the specified count. Type: integer (or Expression with resultType integer).
         :paramtype max_rows_per_file: JSON
-        :keyword file_name_prefix: Specifies the file name pattern
-         :code:`<fileNamePrefix>`_:code:`<fileIndex>`.:code:`<fileExtension>` when copy from non-file
-         based store without partitionOptions. Type: string (or Expression with resultType string).
+        :keyword file_name_prefix: Specifies the file name pattern :code:`<fileNamePrefix>`_\\
+         :code:`<fileIndex>`.\\ :code:`<fileExtension>` when copy from non-file based store without
+         partitionOptions. Type: string (or Expression with resultType string).
         :paramtype file_name_prefix: JSON
         """
         super().__init__(additional_properties=additional_properties, **kwargs)
@@ -8575,8 +8575,8 @@ class AzureDataExplorerLinkedService(LinkedService):
     :ivar annotations: List of tags that can be used for describing the linked service.
     :vartype annotations: list[JSON]
     :ivar endpoint: The endpoint of Azure Data Explorer (the engine's endpoint). URL will be in the
-     format https://:code:`<clusterName>`.:code:`<regionName>`.kusto.windows.net. Type: string (or
-     Expression with resultType string). Required.
+     format https://\\ :code:`<clusterName>`.\\ :code:`<regionName>`.kusto.windows.net. Type: string
+     (or Expression with resultType string). Required.
     :vartype endpoint: JSON
     :ivar service_principal_id: The ID of the service principal used to authenticate against Azure
      Data Explorer. Type: string (or Expression with resultType string).
@@ -8648,8 +8648,8 @@ class AzureDataExplorerLinkedService(LinkedService):
         :keyword annotations: List of tags that can be used for describing the linked service.
         :paramtype annotations: list[JSON]
         :keyword endpoint: The endpoint of Azure Data Explorer (the engine's endpoint). URL will be in
-         the format https://:code:`<clusterName>`.:code:`<regionName>`.kusto.windows.net. Type: string
-         (or Expression with resultType string). Required.
+         the format https://\\ :code:`<clusterName>`.\\ :code:`<regionName>`.kusto.windows.net. Type:
+         string (or Expression with resultType string). Required.
         :paramtype endpoint: JSON
         :keyword service_principal_id: The ID of the service principal used to authenticate against
          Azure Data Explorer. Type: string (or Expression with resultType string).
@@ -10566,7 +10566,7 @@ class AzureFunctionLinkedService(LinkedService):
     :ivar annotations: List of tags that can be used for describing the linked service.
     :vartype annotations: list[JSON]
     :ivar function_app_url: The endpoint of the Azure Function App. URL will be in the format
-     https://:code:`<accountName>`.azurewebsites.net. Type: string (or Expression with resultType
+     https://\\ :code:`<accountName>`.azurewebsites.net. Type: string (or Expression with resultType
      string). Required.
     :vartype function_app_url: JSON
     :ivar function_key: Function or Host key for Azure Function App.
@@ -10637,7 +10637,7 @@ class AzureFunctionLinkedService(LinkedService):
         :keyword annotations: List of tags that can be used for describing the linked service.
         :paramtype annotations: list[JSON]
         :keyword function_app_url: The endpoint of the Azure Function App. URL will be in the format
-         https://:code:`<accountName>`.azurewebsites.net. Type: string (or Expression with resultType
+         https://\\ :code:`<accountName>`.azurewebsites.net. Type: string (or Expression with resultType
          string). Required.
         :paramtype function_app_url: JSON
         :keyword function_key: Function or Host key for Azure Function App.
@@ -12425,6 +12425,33 @@ class AzurePostgreSqlLinkedService(LinkedService):
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
      encrypted using the integration runtime credential manager. Type: string.
     :vartype encrypted_credential: str
+    :ivar service_principal_id: The ID of the service principal used to authenticate against Azure
+     Database for PostgreSQL Flexible server. Type: string (or Expression with resultType string).
+    :vartype service_principal_id: JSON
+    :ivar service_principal_key: The key of the service principal used to authenticate against
+     Azure Database for PostgreSQL Flexible server.
+    :vartype service_principal_key: ~azure.mgmt.datafactory.models.SecretBase
+    :ivar service_principal_credential_type: The service principal credential type to use in
+     Server-To-Server authentication. 'ServicePrincipalKey' for key/secret, 'ServicePrincipalCert'
+     for certificate. Type: string (or Expression with resultType string).
+    :vartype service_principal_credential_type: JSON
+    :ivar service_principal_embedded_cert: Specify the base64 encoded certificate of your
+     application registered in Azure Active Directory. Type: string (or Expression with resultType
+     string).
+    :vartype service_principal_embedded_cert: ~azure.mgmt.datafactory.models.SecretBase
+    :ivar service_principal_embedded_cert_password: Specify the password of your certificate if
+     your certificate has a password and you are using AadServicePrincipal authentication. Type:
+     string (or Expression with resultType string).
+    :vartype service_principal_embedded_cert_password: ~azure.mgmt.datafactory.models.SecretBase
+    :ivar tenant: The name or ID of the tenant to which the service principal belongs. Type: string
+     (or Expression with resultType string).
+    :vartype tenant: JSON
+    :ivar azure_cloud_type: Indicates the azure cloud type of the service principle auth. Allowed
+     values are AzurePublic, AzureChina, AzureUsGovernment, AzureGermany. Default value is the data
+     factory regions’ cloud type. Type: string (or Expression with resultType string).
+    :vartype azure_cloud_type: JSON
+    :ivar credential: The credential reference containing authentication information.
+    :vartype credential: ~azure.mgmt.datafactory.models.CredentialReference
     """
 
     _validation = {
@@ -12453,9 +12480,20 @@ class AzurePostgreSqlLinkedService(LinkedService):
         "encoding": {"key": "typeProperties.encoding", "type": "object"},
         "password": {"key": "typeProperties.password", "type": "AzureKeyVaultSecretReference"},
         "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
+        "service_principal_id": {"key": "typeProperties.servicePrincipalId", "type": "object"},
+        "service_principal_key": {"key": "typeProperties.servicePrincipalKey", "type": "SecretBase"},
+        "service_principal_credential_type": {"key": "typeProperties.servicePrincipalCredentialType", "type": "object"},
+        "service_principal_embedded_cert": {"key": "typeProperties.servicePrincipalEmbeddedCert", "type": "SecretBase"},
+        "service_principal_embedded_cert_password": {
+            "key": "typeProperties.servicePrincipalEmbeddedCertPassword",
+            "type": "SecretBase",
+        },
+        "tenant": {"key": "typeProperties.tenant", "type": "object"},
+        "azure_cloud_type": {"key": "typeProperties.azureCloudType", "type": "object"},
+        "credential": {"key": "typeProperties.credential", "type": "CredentialReference"},
     }
 
-    def __init__(
+    def __init__(  # pylint: disable=too-many-locals
         self,
         *,
         additional_properties: Optional[Dict[str, JSON]] = None,
@@ -12478,6 +12516,14 @@ class AzurePostgreSqlLinkedService(LinkedService):
         encoding: Optional[JSON] = None,
         password: Optional["_models.AzureKeyVaultSecretReference"] = None,
         encrypted_credential: Optional[str] = None,
+        service_principal_id: Optional[JSON] = None,
+        service_principal_key: Optional["_models.SecretBase"] = None,
+        service_principal_credential_type: Optional[JSON] = None,
+        service_principal_embedded_cert: Optional["_models.SecretBase"] = None,
+        service_principal_embedded_cert_password: Optional["_models.SecretBase"] = None,
+        tenant: Optional[JSON] = None,
+        azure_cloud_type: Optional[JSON] = None,
+        credential: Optional["_models.CredentialReference"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -12532,6 +12578,34 @@ class AzurePostgreSqlLinkedService(LinkedService):
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
          are encrypted using the integration runtime credential manager. Type: string.
         :paramtype encrypted_credential: str
+        :keyword service_principal_id: The ID of the service principal used to authenticate against
+         Azure Database for PostgreSQL Flexible server. Type: string (or Expression with resultType
+         string).
+        :paramtype service_principal_id: JSON
+        :keyword service_principal_key: The key of the service principal used to authenticate against
+         Azure Database for PostgreSQL Flexible server.
+        :paramtype service_principal_key: ~azure.mgmt.datafactory.models.SecretBase
+        :keyword service_principal_credential_type: The service principal credential type to use in
+         Server-To-Server authentication. 'ServicePrincipalKey' for key/secret, 'ServicePrincipalCert'
+         for certificate. Type: string (or Expression with resultType string).
+        :paramtype service_principal_credential_type: JSON
+        :keyword service_principal_embedded_cert: Specify the base64 encoded certificate of your
+         application registered in Azure Active Directory. Type: string (or Expression with resultType
+         string).
+        :paramtype service_principal_embedded_cert: ~azure.mgmt.datafactory.models.SecretBase
+        :keyword service_principal_embedded_cert_password: Specify the password of your certificate if
+         your certificate has a password and you are using AadServicePrincipal authentication. Type:
+         string (or Expression with resultType string).
+        :paramtype service_principal_embedded_cert_password: ~azure.mgmt.datafactory.models.SecretBase
+        :keyword tenant: The name or ID of the tenant to which the service principal belongs. Type:
+         string (or Expression with resultType string).
+        :paramtype tenant: JSON
+        :keyword azure_cloud_type: Indicates the azure cloud type of the service principle auth.
+         Allowed values are AzurePublic, AzureChina, AzureUsGovernment, AzureGermany. Default value is
+         the data factory regions’ cloud type. Type: string (or Expression with resultType string).
+        :paramtype azure_cloud_type: JSON
+        :keyword credential: The credential reference containing authentication information.
+        :paramtype credential: ~azure.mgmt.datafactory.models.CredentialReference
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -12557,6 +12631,14 @@ class AzurePostgreSqlLinkedService(LinkedService):
         self.encoding = encoding
         self.password = password
         self.encrypted_credential = encrypted_credential
+        self.service_principal_id = service_principal_id
+        self.service_principal_key = service_principal_key
+        self.service_principal_credential_type = service_principal_credential_type
+        self.service_principal_embedded_cert = service_principal_embedded_cert
+        self.service_principal_embedded_cert_password = service_principal_embedded_cert_password
+        self.tenant = tenant
+        self.azure_cloud_type = azure_cloud_type
+        self.credential = credential
 
 
 class AzurePostgreSqlSink(CopySink):
@@ -16485,8 +16567,8 @@ class AzureSynapseArtifactsLinkedService(LinkedService):
     :vartype parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
     :ivar annotations: List of tags that can be used for describing the linked service.
     :vartype annotations: list[JSON]
-    :ivar endpoint: https://:code:`<workspacename>`.dev.azuresynapse.net, Azure Synapse Analytics
-     workspace URL. Type: string (or Expression with resultType string). Required.
+    :ivar endpoint: https://\\ :code:`<workspacename>`.dev.azuresynapse.net, Azure Synapse
+     Analytics workspace URL. Type: string (or Expression with resultType string). Required.
     :vartype endpoint: JSON
     :ivar authentication: Required to specify MSI, if using system assigned managed identity as
      authentication method. Type: string (or Expression with resultType string).
@@ -16543,7 +16625,7 @@ class AzureSynapseArtifactsLinkedService(LinkedService):
         :paramtype parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
         :keyword annotations: List of tags that can be used for describing the linked service.
         :paramtype annotations: list[JSON]
-        :keyword endpoint: https://:code:`<workspacename>`.dev.azuresynapse.net, Azure Synapse
+        :keyword endpoint: https://\\ :code:`<workspacename>`.dev.azuresynapse.net, Azure Synapse
          Analytics workspace URL. Type: string (or Expression with resultType string). Required.
         :paramtype endpoint: JSON
         :keyword authentication: Required to specify MSI, if using system assigned managed identity as
@@ -25271,9 +25353,9 @@ class DelimitedTextWriteSettings(FormatWriteSettings):
     :ivar max_rows_per_file: Limit the written file's row count to be smaller than or equal to the
      specified count. Type: integer (or Expression with resultType integer).
     :vartype max_rows_per_file: JSON
-    :ivar file_name_prefix: Specifies the file name pattern
-     :code:`<fileNamePrefix>`_:code:`<fileIndex>`.:code:`<fileExtension>` when copy from non-file
-     based store without partitionOptions. Type: string (or Expression with resultType string).
+    :ivar file_name_prefix: Specifies the file name pattern :code:`<fileNamePrefix>`_\\
+     :code:`<fileIndex>`.\\ :code:`<fileExtension>` when copy from non-file based store without
+     partitionOptions. Type: string (or Expression with resultType string).
     :vartype file_name_prefix: JSON
     """
 
@@ -25314,9 +25396,9 @@ class DelimitedTextWriteSettings(FormatWriteSettings):
         :keyword max_rows_per_file: Limit the written file's row count to be smaller than or equal to
          the specified count. Type: integer (or Expression with resultType integer).
         :paramtype max_rows_per_file: JSON
-        :keyword file_name_prefix: Specifies the file name pattern
-         :code:`<fileNamePrefix>`_:code:`<fileIndex>`.:code:`<fileExtension>` when copy from non-file
-         based store without partitionOptions. Type: string (or Expression with resultType string).
+        :keyword file_name_prefix: Specifies the file name pattern :code:`<fileNamePrefix>`_\\
+         :code:`<fileIndex>`.\\ :code:`<fileExtension>` when copy from non-file based store without
+         partitionOptions. Type: string (or Expression with resultType string).
         :paramtype file_name_prefix: JSON
         """
         super().__init__(additional_properties=additional_properties, **kwargs)
@@ -33622,6 +33704,30 @@ class GreenplumLinkedService(LinkedService):
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
      encrypted using the integration runtime credential manager. Type: string.
     :vartype encrypted_credential: str
+    :ivar authentication_type: The authentication type to use. Type: string. Only used for V2.
+     "Basic"
+    :vartype authentication_type: str or ~azure.mgmt.datafactory.models.GreenplumAuthenticationType
+    :ivar host: Host name for connection. Type: string. Only used for V2.
+    :vartype host: JSON
+    :ivar port: The port for the connection. Type: integer. Only used for V2.
+    :vartype port: JSON
+    :ivar username: Username for authentication. Type: string. Only used for V2.
+    :vartype username: JSON
+    :ivar database: Database name for connection. Type: string. Only used for V2.
+    :vartype database: JSON
+    :ivar ssl_mode: SSL mode for connection. Type: integer. 0: disable, 1:allow, 2: prefer, 3:
+     require, 4: verify-ca, 5: verify-full. Type: integer. Only used for V2.
+    :vartype ssl_mode: JSON
+    :ivar connection_timeout: The time to wait (in seconds) while trying to establish a connection
+     before terminating the attempt and generating an error. Type: integer. Only used for V2.
+    :vartype connection_timeout: JSON
+    :ivar command_timeout: The time to wait (in seconds) while trying to execute a command before
+     terminating the attempt and generating an error. Set to zero for infinity. Type: integer. Only
+     used for V2.
+    :vartype command_timeout: JSON
+    :ivar password: The Azure key vault secret reference of password in connection string. Type:
+     string. Only used for V2.
+    :vartype password: ~azure.mgmt.datafactory.models.SecretBase
     """
 
     _validation = {
@@ -33639,6 +33745,15 @@ class GreenplumLinkedService(LinkedService):
         "connection_string": {"key": "typeProperties.connectionString", "type": "object"},
         "pwd": {"key": "typeProperties.pwd", "type": "AzureKeyVaultSecretReference"},
         "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
+        "authentication_type": {"key": "typeProperties.authenticationType", "type": "str"},
+        "host": {"key": "typeProperties.host", "type": "object"},
+        "port": {"key": "typeProperties.port", "type": "object"},
+        "username": {"key": "typeProperties.username", "type": "object"},
+        "database": {"key": "typeProperties.database", "type": "object"},
+        "ssl_mode": {"key": "typeProperties.sslMode", "type": "object"},
+        "connection_timeout": {"key": "typeProperties.connectionTimeout", "type": "object"},
+        "command_timeout": {"key": "typeProperties.commandTimeout", "type": "object"},
+        "password": {"key": "typeProperties.password", "type": "SecretBase"},
     }
 
     def __init__(
@@ -33653,6 +33768,15 @@ class GreenplumLinkedService(LinkedService):
         connection_string: Optional[JSON] = None,
         pwd: Optional["_models.AzureKeyVaultSecretReference"] = None,
         encrypted_credential: Optional[str] = None,
+        authentication_type: Optional[Union[str, "_models.GreenplumAuthenticationType"]] = None,
+        host: Optional[JSON] = None,
+        port: Optional[JSON] = None,
+        username: Optional[JSON] = None,
+        database: Optional[JSON] = None,
+        ssl_mode: Optional[JSON] = None,
+        connection_timeout: Optional[JSON] = None,
+        command_timeout: Optional[JSON] = None,
+        password: Optional["_models.SecretBase"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -33677,6 +33801,32 @@ class GreenplumLinkedService(LinkedService):
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
          are encrypted using the integration runtime credential manager. Type: string.
         :paramtype encrypted_credential: str
+        :keyword authentication_type: The authentication type to use. Type: string. Only used for V2.
+         "Basic"
+        :paramtype authentication_type: str or
+         ~azure.mgmt.datafactory.models.GreenplumAuthenticationType
+        :keyword host: Host name for connection. Type: string. Only used for V2.
+        :paramtype host: JSON
+        :keyword port: The port for the connection. Type: integer. Only used for V2.
+        :paramtype port: JSON
+        :keyword username: Username for authentication. Type: string. Only used for V2.
+        :paramtype username: JSON
+        :keyword database: Database name for connection. Type: string. Only used for V2.
+        :paramtype database: JSON
+        :keyword ssl_mode: SSL mode for connection. Type: integer. 0: disable, 1:allow, 2: prefer, 3:
+         require, 4: verify-ca, 5: verify-full. Type: integer. Only used for V2.
+        :paramtype ssl_mode: JSON
+        :keyword connection_timeout: The time to wait (in seconds) while trying to establish a
+         connection before terminating the attempt and generating an error. Type: integer. Only used for
+         V2.
+        :paramtype connection_timeout: JSON
+        :keyword command_timeout: The time to wait (in seconds) while trying to execute a command
+         before terminating the attempt and generating an error. Set to zero for infinity. Type:
+         integer. Only used for V2.
+        :paramtype command_timeout: JSON
+        :keyword password: The Azure key vault secret reference of password in connection string. Type:
+         string. Only used for V2.
+        :paramtype password: ~azure.mgmt.datafactory.models.SecretBase
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -33691,6 +33841,15 @@ class GreenplumLinkedService(LinkedService):
         self.connection_string = connection_string
         self.pwd = pwd
         self.encrypted_credential = encrypted_credential
+        self.authentication_type = authentication_type
+        self.host = host
+        self.port = port
+        self.username = username
+        self.database = database
+        self.ssl_mode = ssl_mode
+        self.connection_timeout = connection_timeout
+        self.command_timeout = command_timeout
+        self.password = password
 
 
 class GreenplumSource(TabularSource):
@@ -50084,9 +50243,9 @@ class OrcWriteSettings(FormatWriteSettings):
     :ivar max_rows_per_file: Limit the written file's row count to be smaller than or equal to the
      specified count. Type: integer (or Expression with resultType integer).
     :vartype max_rows_per_file: JSON
-    :ivar file_name_prefix: Specifies the file name pattern
-     :code:`<fileNamePrefix>`_:code:`<fileIndex>`.:code:`<fileExtension>` when copy from non-file
-     based store without partitionOptions. Type: string (or Expression with resultType string).
+    :ivar file_name_prefix: Specifies the file name pattern :code:`<fileNamePrefix>`_\\
+     :code:`<fileIndex>`.\\ :code:`<fileExtension>` when copy from non-file based store without
+     partitionOptions. Type: string (or Expression with resultType string).
     :vartype file_name_prefix: JSON
     """
 
@@ -50116,9 +50275,9 @@ class OrcWriteSettings(FormatWriteSettings):
         :keyword max_rows_per_file: Limit the written file's row count to be smaller than or equal to
          the specified count. Type: integer (or Expression with resultType integer).
         :paramtype max_rows_per_file: JSON
-        :keyword file_name_prefix: Specifies the file name pattern
-         :code:`<fileNamePrefix>`_:code:`<fileIndex>`.:code:`<fileExtension>` when copy from non-file
-         based store without partitionOptions. Type: string (or Expression with resultType string).
+        :keyword file_name_prefix: Specifies the file name pattern :code:`<fileNamePrefix>`_\\
+         :code:`<fileIndex>`.\\ :code:`<fileExtension>` when copy from non-file based store without
+         partitionOptions. Type: string (or Expression with resultType string).
         :paramtype file_name_prefix: JSON
         """
         super().__init__(additional_properties=additional_properties, **kwargs)
@@ -50638,9 +50797,9 @@ class ParquetWriteSettings(FormatWriteSettings):
     :ivar max_rows_per_file: Limit the written file's row count to be smaller than or equal to the
      specified count. Type: integer (or Expression with resultType integer).
     :vartype max_rows_per_file: JSON
-    :ivar file_name_prefix: Specifies the file name pattern
-     :code:`<fileNamePrefix>`_:code:`<fileIndex>`.:code:`<fileExtension>` when copy from non-file
-     based store without partitionOptions. Type: string (or Expression with resultType string).
+    :ivar file_name_prefix: Specifies the file name pattern :code:`<fileNamePrefix>`_\\
+     :code:`<fileIndex>`.\\ :code:`<fileExtension>` when copy from non-file based store without
+     partitionOptions. Type: string (or Expression with resultType string).
     :vartype file_name_prefix: JSON
     """
 
@@ -50670,9 +50829,9 @@ class ParquetWriteSettings(FormatWriteSettings):
         :keyword max_rows_per_file: Limit the written file's row count to be smaller than or equal to
          the specified count. Type: integer (or Expression with resultType integer).
         :paramtype max_rows_per_file: JSON
-        :keyword file_name_prefix: Specifies the file name pattern
-         :code:`<fileNamePrefix>`_:code:`<fileIndex>`.:code:`<fileExtension>` when copy from non-file
-         based store without partitionOptions. Type: string (or Expression with resultType string).
+        :keyword file_name_prefix: Specifies the file name pattern :code:`<fileNamePrefix>`_\\
+         :code:`<fileIndex>`.\\ :code:`<fileExtension>` when copy from non-file based store without
+         partitionOptions. Type: string (or Expression with resultType string).
         :paramtype file_name_prefix: JSON
         """
         super().__init__(additional_properties=additional_properties, **kwargs)
@@ -59807,8 +59966,8 @@ class SapOdpLinkedService(LinkedService):
     :ivar message_server_service: The service name or port number of the Message Server. Type:
      string (or Expression with resultType string).
     :vartype message_server_service: JSON
-    :ivar snc_mode: SNC activation indicator to access the SAP server where the table is located.
-     Must be either 0 (off) or 1 (on). Type: string (or Expression with resultType string).
+    :ivar snc_mode: SNC activation flag (Boolean) to access the SAP server where the table is
+     located. Type: boolean (or Expression with resultType boolean).
     :vartype snc_mode: JSON
     :ivar snc_my_name: Initiator's SNC name to access the SAP server where the table is located.
      Type: string (or Expression with resultType string).
@@ -59939,8 +60098,8 @@ class SapOdpLinkedService(LinkedService):
         :keyword message_server_service: The service name or port number of the Message Server. Type:
          string (or Expression with resultType string).
         :paramtype message_server_service: JSON
-        :keyword snc_mode: SNC activation indicator to access the SAP server where the table is
-         located. Must be either 0 (off) or 1 (on). Type: string (or Expression with resultType string).
+        :keyword snc_mode: SNC activation flag (Boolean) to access the SAP server where the table is
+         located. Type: boolean (or Expression with resultType boolean).
         :paramtype snc_mode: JSON
         :keyword snc_my_name: Initiator's SNC name to access the SAP server where the table is located.
          Type: string (or Expression with resultType string).
@@ -60723,8 +60882,8 @@ class SapTableLinkedService(LinkedService):
     :ivar message_server_service: The service name or port number of the Message Server. Type:
      string (or Expression with resultType string).
     :vartype message_server_service: JSON
-    :ivar snc_mode: SNC activation indicator to access the SAP server where the table is located.
-     Must be either 0 (off) or 1 (on). Type: string (or Expression with resultType string).
+    :ivar snc_mode: SNC activation flag (Boolean) to access the SAP server where the table is
+     located. Type: boolean (or Expression with resultType boolean).
     :vartype snc_mode: JSON
     :ivar snc_my_name: Initiator's SNC name to access the SAP server where the table is located.
      Type: string (or Expression with resultType string).
@@ -60845,8 +61004,8 @@ class SapTableLinkedService(LinkedService):
         :keyword message_server_service: The service name or port number of the Message Server. Type:
          string (or Expression with resultType string).
         :paramtype message_server_service: JSON
-        :keyword snc_mode: SNC activation indicator to access the SAP server where the table is
-         located. Must be either 0 (off) or 1 (on). Type: string (or Expression with resultType string).
+        :keyword snc_mode: SNC activation flag (Boolean) to access the SAP server where the table is
+         located. Type: boolean (or Expression with resultType boolean).
         :paramtype snc_mode: JSON
         :keyword snc_my_name: Initiator's SNC name to access the SAP server where the table is located.
          Type: string (or Expression with resultType string).
@@ -61465,6 +61624,10 @@ class ScriptActivity(ExecutionActivity):
     :vartype scripts: list[~azure.mgmt.datafactory.models.ScriptActivityScriptBlock]
     :ivar log_settings: Log settings of script activity.
     :vartype log_settings: ~azure.mgmt.datafactory.models.ScriptActivityTypePropertiesLogSettings
+    :ivar return_multistatement_result: Enable to retrieve result sets from multiple SQL statements
+     and the number of rows affected by the DML statement. Supported connector: SnowflakeV2. Type:
+     boolean (or Expression with resultType boolean).
+    :vartype return_multistatement_result: JSON
     """
 
     _validation = {
@@ -61486,6 +61649,7 @@ class ScriptActivity(ExecutionActivity):
         "script_block_execution_timeout": {"key": "typeProperties.scriptBlockExecutionTimeout", "type": "object"},
         "scripts": {"key": "typeProperties.scripts", "type": "[ScriptActivityScriptBlock]"},
         "log_settings": {"key": "typeProperties.logSettings", "type": "ScriptActivityTypePropertiesLogSettings"},
+        "return_multistatement_result": {"key": "typeProperties.returnMultistatementResult", "type": "object"},
     }
 
     def __init__(
@@ -61503,6 +61667,7 @@ class ScriptActivity(ExecutionActivity):
         script_block_execution_timeout: Optional[JSON] = None,
         scripts: Optional[List["_models.ScriptActivityScriptBlock"]] = None,
         log_settings: Optional["_models.ScriptActivityTypePropertiesLogSettings"] = None,
+        return_multistatement_result: Optional[JSON] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -61536,6 +61701,10 @@ class ScriptActivity(ExecutionActivity):
         :paramtype scripts: list[~azure.mgmt.datafactory.models.ScriptActivityScriptBlock]
         :keyword log_settings: Log settings of script activity.
         :paramtype log_settings: ~azure.mgmt.datafactory.models.ScriptActivityTypePropertiesLogSettings
+        :keyword return_multistatement_result: Enable to retrieve result sets from multiple SQL
+         statements and the number of rows affected by the DML statement. Supported connector:
+         SnowflakeV2. Type: boolean (or Expression with resultType boolean).
+        :paramtype return_multistatement_result: JSON
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -61553,6 +61722,7 @@ class ScriptActivity(ExecutionActivity):
         self.script_block_execution_timeout = script_block_execution_timeout
         self.scripts = scripts
         self.log_settings = log_settings
+        self.return_multistatement_result = return_multistatement_result
 
 
 class ScriptActivityParameter(_serialization.Model):

@@ -377,6 +377,12 @@ class GoogleBigQueryV2AuthenticationType(str, Enum, metaclass=CaseInsensitiveEnu
     USER_AUTHENTICATION = "UserAuthentication"
 
 
+class GreenplumAuthenticationType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The authentication type to use. Type: string. Only used for V2."""
+
+    BASIC = "Basic"
+
+
 class HBaseAuthenticationType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The authentication mechanism to use to connect to the HBase server."""
 
