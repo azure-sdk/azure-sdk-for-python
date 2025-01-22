@@ -5185,7 +5185,7 @@ class CopySink(_serialization.Model):
     MongoDbV2Sink, OdbcSink, OracleSink, OrcSink, ParquetSink, RestSink,
     SalesforceServiceCloudSink, SalesforceServiceCloudV2Sink, SalesforceSink, SalesforceV2Sink,
     SapCloudForCustomerSink, SnowflakeSink, SnowflakeV2Sink, SqlDWSink, SqlMISink, SqlServerSink,
-    SqlSink, WarehouseSink
+    SqlSink, TeradataSink, WarehouseSink
 
     All required parameters must be populated in order to send to server.
 
@@ -5275,6 +5275,7 @@ class CopySink(_serialization.Model):
             "SqlMISink": "SqlMISink",
             "SqlServerSink": "SqlServerSink",
             "SqlSink": "SqlSink",
+            "TeradataSink": "TeradataSink",
             "WarehouseSink": "WarehouseSink",
         }
     }
@@ -5587,9 +5588,9 @@ class AvroWriteSettings(FormatWriteSettings):
     :ivar max_rows_per_file: Limit the written file's row count to be smaller than or equal to the
      specified count. Type: integer (or Expression with resultType integer).
     :vartype max_rows_per_file: JSON
-    :ivar file_name_prefix: Specifies the file name pattern
-     :code:`<fileNamePrefix>`_:code:`<fileIndex>`.:code:`<fileExtension>` when copy from non-file
-     based store without partitionOptions. Type: string (or Expression with resultType string).
+    :ivar file_name_prefix: Specifies the file name pattern :code:`<fileNamePrefix>`_\\
+     :code:`<fileIndex>`.\\ :code:`<fileExtension>` when copy from non-file based store without
+     partitionOptions. Type: string (or Expression with resultType string).
     :vartype file_name_prefix: JSON
     """
 
@@ -5627,9 +5628,9 @@ class AvroWriteSettings(FormatWriteSettings):
         :keyword max_rows_per_file: Limit the written file's row count to be smaller than or equal to
          the specified count. Type: integer (or Expression with resultType integer).
         :paramtype max_rows_per_file: JSON
-        :keyword file_name_prefix: Specifies the file name pattern
-         :code:`<fileNamePrefix>`_:code:`<fileIndex>`.:code:`<fileExtension>` when copy from non-file
-         based store without partitionOptions. Type: string (or Expression with resultType string).
+        :keyword file_name_prefix: Specifies the file name pattern :code:`<fileNamePrefix>`_\\
+         :code:`<fileIndex>`.\\ :code:`<fileExtension>` when copy from non-file based store without
+         partitionOptions. Type: string (or Expression with resultType string).
         :paramtype file_name_prefix: JSON
         """
         super().__init__(additional_properties=additional_properties, **kwargs)
@@ -7603,7 +7604,7 @@ class ImportSettings(_serialization.Model):
     """Import command settings.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
-    AzureDatabricksDeltaLakeImportCommand, SnowflakeImportCopyCommand
+    AzureDatabricksDeltaLakeImportCommand, SnowflakeImportCopyCommand, TeradataImportCommand
 
     All required parameters must be populated in order to send to server.
 
@@ -7627,6 +7628,7 @@ class ImportSettings(_serialization.Model):
         "type": {
             "AzureDatabricksDeltaLakeImportCommand": "AzureDatabricksDeltaLakeImportCommand",
             "SnowflakeImportCopyCommand": "SnowflakeImportCopyCommand",
+            "TeradataImportCommand": "TeradataImportCommand",
         }
     }
 
@@ -8575,8 +8577,8 @@ class AzureDataExplorerLinkedService(LinkedService):
     :ivar annotations: List of tags that can be used for describing the linked service.
     :vartype annotations: list[JSON]
     :ivar endpoint: The endpoint of Azure Data Explorer (the engine's endpoint). URL will be in the
-     format https://:code:`<clusterName>`.:code:`<regionName>`.kusto.windows.net. Type: string (or
-     Expression with resultType string). Required.
+     format https://\\ :code:`<clusterName>`.\\ :code:`<regionName>`.kusto.windows.net. Type: string
+     (or Expression with resultType string). Required.
     :vartype endpoint: JSON
     :ivar service_principal_id: The ID of the service principal used to authenticate against Azure
      Data Explorer. Type: string (or Expression with resultType string).
@@ -8648,8 +8650,8 @@ class AzureDataExplorerLinkedService(LinkedService):
         :keyword annotations: List of tags that can be used for describing the linked service.
         :paramtype annotations: list[JSON]
         :keyword endpoint: The endpoint of Azure Data Explorer (the engine's endpoint). URL will be in
-         the format https://:code:`<clusterName>`.:code:`<regionName>`.kusto.windows.net. Type: string
-         (or Expression with resultType string). Required.
+         the format https://\\ :code:`<clusterName>`.\\ :code:`<regionName>`.kusto.windows.net. Type:
+         string (or Expression with resultType string). Required.
         :paramtype endpoint: JSON
         :keyword service_principal_id: The ID of the service principal used to authenticate against
          Azure Data Explorer. Type: string (or Expression with resultType string).
@@ -10566,7 +10568,7 @@ class AzureFunctionLinkedService(LinkedService):
     :ivar annotations: List of tags that can be used for describing the linked service.
     :vartype annotations: list[JSON]
     :ivar function_app_url: The endpoint of the Azure Function App. URL will be in the format
-     https://:code:`<accountName>`.azurewebsites.net. Type: string (or Expression with resultType
+     https://\\ :code:`<accountName>`.azurewebsites.net. Type: string (or Expression with resultType
      string). Required.
     :vartype function_app_url: JSON
     :ivar function_key: Function or Host key for Azure Function App.
@@ -10637,7 +10639,7 @@ class AzureFunctionLinkedService(LinkedService):
         :keyword annotations: List of tags that can be used for describing the linked service.
         :paramtype annotations: list[JSON]
         :keyword function_app_url: The endpoint of the Azure Function App. URL will be in the format
-         https://:code:`<accountName>`.azurewebsites.net. Type: string (or Expression with resultType
+         https://\\ :code:`<accountName>`.azurewebsites.net. Type: string (or Expression with resultType
          string). Required.
         :paramtype function_app_url: JSON
         :keyword function_key: Function or Host key for Azure Function App.
@@ -16485,8 +16487,8 @@ class AzureSynapseArtifactsLinkedService(LinkedService):
     :vartype parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
     :ivar annotations: List of tags that can be used for describing the linked service.
     :vartype annotations: list[JSON]
-    :ivar endpoint: https://:code:`<workspacename>`.dev.azuresynapse.net, Azure Synapse Analytics
-     workspace URL. Type: string (or Expression with resultType string). Required.
+    :ivar endpoint: https://\\ :code:`<workspacename>`.dev.azuresynapse.net, Azure Synapse
+     Analytics workspace URL. Type: string (or Expression with resultType string). Required.
     :vartype endpoint: JSON
     :ivar authentication: Required to specify MSI, if using system assigned managed identity as
      authentication method. Type: string (or Expression with resultType string).
@@ -16543,7 +16545,7 @@ class AzureSynapseArtifactsLinkedService(LinkedService):
         :paramtype parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
         :keyword annotations: List of tags that can be used for describing the linked service.
         :paramtype annotations: list[JSON]
-        :keyword endpoint: https://:code:`<workspacename>`.dev.azuresynapse.net, Azure Synapse
+        :keyword endpoint: https://\\ :code:`<workspacename>`.dev.azuresynapse.net, Azure Synapse
          Analytics workspace URL. Type: string (or Expression with resultType string). Required.
         :paramtype endpoint: JSON
         :keyword authentication: Required to specify MSI, if using system assigned managed identity as
@@ -25271,9 +25273,9 @@ class DelimitedTextWriteSettings(FormatWriteSettings):
     :ivar max_rows_per_file: Limit the written file's row count to be smaller than or equal to the
      specified count. Type: integer (or Expression with resultType integer).
     :vartype max_rows_per_file: JSON
-    :ivar file_name_prefix: Specifies the file name pattern
-     :code:`<fileNamePrefix>`_:code:`<fileIndex>`.:code:`<fileExtension>` when copy from non-file
-     based store without partitionOptions. Type: string (or Expression with resultType string).
+    :ivar file_name_prefix: Specifies the file name pattern :code:`<fileNamePrefix>`_\\
+     :code:`<fileIndex>`.\\ :code:`<fileExtension>` when copy from non-file based store without
+     partitionOptions. Type: string (or Expression with resultType string).
     :vartype file_name_prefix: JSON
     """
 
@@ -25314,9 +25316,9 @@ class DelimitedTextWriteSettings(FormatWriteSettings):
         :keyword max_rows_per_file: Limit the written file's row count to be smaller than or equal to
          the specified count. Type: integer (or Expression with resultType integer).
         :paramtype max_rows_per_file: JSON
-        :keyword file_name_prefix: Specifies the file name pattern
-         :code:`<fileNamePrefix>`_:code:`<fileIndex>`.:code:`<fileExtension>` when copy from non-file
-         based store without partitionOptions. Type: string (or Expression with resultType string).
+        :keyword file_name_prefix: Specifies the file name pattern :code:`<fileNamePrefix>`_\\
+         :code:`<fileIndex>`.\\ :code:`<fileExtension>` when copy from non-file based store without
+         partitionOptions. Type: string (or Expression with resultType string).
         :paramtype file_name_prefix: JSON
         """
         super().__init__(additional_properties=additional_properties, **kwargs)
@@ -33622,6 +33624,30 @@ class GreenplumLinkedService(LinkedService):
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
      encrypted using the integration runtime credential manager. Type: string.
     :vartype encrypted_credential: str
+    :ivar authentication_type: The authentication type to use. Type: string. Only used for V2.
+     "Basic"
+    :vartype authentication_type: str or ~azure.mgmt.datafactory.models.GreenplumAuthenticationType
+    :ivar host: Host name for connection. Type: string. Only used for V2.
+    :vartype host: JSON
+    :ivar port: The port for the connection. Type: integer. Only used for V2.
+    :vartype port: JSON
+    :ivar username: Username for authentication. Type: string. Only used for V2.
+    :vartype username: JSON
+    :ivar database: Database name for connection. Type: string. Only used for V2.
+    :vartype database: JSON
+    :ivar ssl_mode: SSL mode for connection. Type: integer. 0: disable, 1:allow, 2: prefer, 3:
+     require, 4: verify-ca, 5: verify-full. Type: integer. Only used for V2.
+    :vartype ssl_mode: JSON
+    :ivar connection_timeout: The time to wait (in seconds) while trying to establish a connection
+     before terminating the attempt and generating an error. Type: integer. Only used for V2.
+    :vartype connection_timeout: JSON
+    :ivar command_timeout: The time to wait (in seconds) while trying to execute a command before
+     terminating the attempt and generating an error. Set to zero for infinity. Type: integer. Only
+     used for V2.
+    :vartype command_timeout: JSON
+    :ivar password: The Azure key vault secret reference of password in connection string. Type:
+     string. Only used for V2.
+    :vartype password: ~azure.mgmt.datafactory.models.SecretBase
     """
 
     _validation = {
@@ -33639,6 +33665,15 @@ class GreenplumLinkedService(LinkedService):
         "connection_string": {"key": "typeProperties.connectionString", "type": "object"},
         "pwd": {"key": "typeProperties.pwd", "type": "AzureKeyVaultSecretReference"},
         "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
+        "authentication_type": {"key": "typeProperties.authenticationType", "type": "str"},
+        "host": {"key": "typeProperties.host", "type": "object"},
+        "port": {"key": "typeProperties.port", "type": "object"},
+        "username": {"key": "typeProperties.username", "type": "object"},
+        "database": {"key": "typeProperties.database", "type": "object"},
+        "ssl_mode": {"key": "typeProperties.sslMode", "type": "object"},
+        "connection_timeout": {"key": "typeProperties.connectionTimeout", "type": "object"},
+        "command_timeout": {"key": "typeProperties.commandTimeout", "type": "object"},
+        "password": {"key": "typeProperties.password", "type": "SecretBase"},
     }
 
     def __init__(
@@ -33653,6 +33688,15 @@ class GreenplumLinkedService(LinkedService):
         connection_string: Optional[JSON] = None,
         pwd: Optional["_models.AzureKeyVaultSecretReference"] = None,
         encrypted_credential: Optional[str] = None,
+        authentication_type: Optional[Union[str, "_models.GreenplumAuthenticationType"]] = None,
+        host: Optional[JSON] = None,
+        port: Optional[JSON] = None,
+        username: Optional[JSON] = None,
+        database: Optional[JSON] = None,
+        ssl_mode: Optional[JSON] = None,
+        connection_timeout: Optional[JSON] = None,
+        command_timeout: Optional[JSON] = None,
+        password: Optional["_models.SecretBase"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -33677,6 +33721,32 @@ class GreenplumLinkedService(LinkedService):
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
          are encrypted using the integration runtime credential manager. Type: string.
         :paramtype encrypted_credential: str
+        :keyword authentication_type: The authentication type to use. Type: string. Only used for V2.
+         "Basic"
+        :paramtype authentication_type: str or
+         ~azure.mgmt.datafactory.models.GreenplumAuthenticationType
+        :keyword host: Host name for connection. Type: string. Only used for V2.
+        :paramtype host: JSON
+        :keyword port: The port for the connection. Type: integer. Only used for V2.
+        :paramtype port: JSON
+        :keyword username: Username for authentication. Type: string. Only used for V2.
+        :paramtype username: JSON
+        :keyword database: Database name for connection. Type: string. Only used for V2.
+        :paramtype database: JSON
+        :keyword ssl_mode: SSL mode for connection. Type: integer. 0: disable, 1:allow, 2: prefer, 3:
+         require, 4: verify-ca, 5: verify-full. Type: integer. Only used for V2.
+        :paramtype ssl_mode: JSON
+        :keyword connection_timeout: The time to wait (in seconds) while trying to establish a
+         connection before terminating the attempt and generating an error. Type: integer. Only used for
+         V2.
+        :paramtype connection_timeout: JSON
+        :keyword command_timeout: The time to wait (in seconds) while trying to execute a command
+         before terminating the attempt and generating an error. Set to zero for infinity. Type:
+         integer. Only used for V2.
+        :paramtype command_timeout: JSON
+        :keyword password: The Azure key vault secret reference of password in connection string. Type:
+         string. Only used for V2.
+        :paramtype password: ~azure.mgmt.datafactory.models.SecretBase
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -33691,6 +33761,15 @@ class GreenplumLinkedService(LinkedService):
         self.connection_string = connection_string
         self.pwd = pwd
         self.encrypted_credential = encrypted_credential
+        self.authentication_type = authentication_type
+        self.host = host
+        self.port = port
+        self.username = username
+        self.database = database
+        self.ssl_mode = ssl_mode
+        self.connection_timeout = connection_timeout
+        self.command_timeout = command_timeout
+        self.password = password
 
 
 class GreenplumSource(TabularSource):
@@ -50084,9 +50163,9 @@ class OrcWriteSettings(FormatWriteSettings):
     :ivar max_rows_per_file: Limit the written file's row count to be smaller than or equal to the
      specified count. Type: integer (or Expression with resultType integer).
     :vartype max_rows_per_file: JSON
-    :ivar file_name_prefix: Specifies the file name pattern
-     :code:`<fileNamePrefix>`_:code:`<fileIndex>`.:code:`<fileExtension>` when copy from non-file
-     based store without partitionOptions. Type: string (or Expression with resultType string).
+    :ivar file_name_prefix: Specifies the file name pattern :code:`<fileNamePrefix>`_\\
+     :code:`<fileIndex>`.\\ :code:`<fileExtension>` when copy from non-file based store without
+     partitionOptions. Type: string (or Expression with resultType string).
     :vartype file_name_prefix: JSON
     """
 
@@ -50116,9 +50195,9 @@ class OrcWriteSettings(FormatWriteSettings):
         :keyword max_rows_per_file: Limit the written file's row count to be smaller than or equal to
          the specified count. Type: integer (or Expression with resultType integer).
         :paramtype max_rows_per_file: JSON
-        :keyword file_name_prefix: Specifies the file name pattern
-         :code:`<fileNamePrefix>`_:code:`<fileIndex>`.:code:`<fileExtension>` when copy from non-file
-         based store without partitionOptions. Type: string (or Expression with resultType string).
+        :keyword file_name_prefix: Specifies the file name pattern :code:`<fileNamePrefix>`_\\
+         :code:`<fileIndex>`.\\ :code:`<fileExtension>` when copy from non-file based store without
+         partitionOptions. Type: string (or Expression with resultType string).
         :paramtype file_name_prefix: JSON
         """
         super().__init__(additional_properties=additional_properties, **kwargs)
@@ -50638,9 +50717,9 @@ class ParquetWriteSettings(FormatWriteSettings):
     :ivar max_rows_per_file: Limit the written file's row count to be smaller than or equal to the
      specified count. Type: integer (or Expression with resultType integer).
     :vartype max_rows_per_file: JSON
-    :ivar file_name_prefix: Specifies the file name pattern
-     :code:`<fileNamePrefix>`_:code:`<fileIndex>`.:code:`<fileExtension>` when copy from non-file
-     based store without partitionOptions. Type: string (or Expression with resultType string).
+    :ivar file_name_prefix: Specifies the file name pattern :code:`<fileNamePrefix>`_\\
+     :code:`<fileIndex>`.\\ :code:`<fileExtension>` when copy from non-file based store without
+     partitionOptions. Type: string (or Expression with resultType string).
     :vartype file_name_prefix: JSON
     """
 
@@ -50670,9 +50749,9 @@ class ParquetWriteSettings(FormatWriteSettings):
         :keyword max_rows_per_file: Limit the written file's row count to be smaller than or equal to
          the specified count. Type: integer (or Expression with resultType integer).
         :paramtype max_rows_per_file: JSON
-        :keyword file_name_prefix: Specifies the file name pattern
-         :code:`<fileNamePrefix>`_:code:`<fileIndex>`.:code:`<fileExtension>` when copy from non-file
-         based store without partitionOptions. Type: string (or Expression with resultType string).
+        :keyword file_name_prefix: Specifies the file name pattern :code:`<fileNamePrefix>`_\\
+         :code:`<fileIndex>`.\\ :code:`<fileExtension>` when copy from non-file based store without
+         partitionOptions. Type: string (or Expression with resultType string).
         :paramtype file_name_prefix: JSON
         """
         super().__init__(additional_properties=additional_properties, **kwargs)
@@ -59807,8 +59886,8 @@ class SapOdpLinkedService(LinkedService):
     :ivar message_server_service: The service name or port number of the Message Server. Type:
      string (or Expression with resultType string).
     :vartype message_server_service: JSON
-    :ivar snc_mode: SNC activation indicator to access the SAP server where the table is located.
-     Must be either 0 (off) or 1 (on). Type: string (or Expression with resultType string).
+    :ivar snc_mode: SNC activation flag (Boolean) to access the SAP server where the table is
+     located. Type: boolean (or Expression with resultType boolean).
     :vartype snc_mode: JSON
     :ivar snc_my_name: Initiator's SNC name to access the SAP server where the table is located.
      Type: string (or Expression with resultType string).
@@ -59939,8 +60018,8 @@ class SapOdpLinkedService(LinkedService):
         :keyword message_server_service: The service name or port number of the Message Server. Type:
          string (or Expression with resultType string).
         :paramtype message_server_service: JSON
-        :keyword snc_mode: SNC activation indicator to access the SAP server where the table is
-         located. Must be either 0 (off) or 1 (on). Type: string (or Expression with resultType string).
+        :keyword snc_mode: SNC activation flag (Boolean) to access the SAP server where the table is
+         located. Type: boolean (or Expression with resultType boolean).
         :paramtype snc_mode: JSON
         :keyword snc_my_name: Initiator's SNC name to access the SAP server where the table is located.
          Type: string (or Expression with resultType string).
@@ -60723,8 +60802,8 @@ class SapTableLinkedService(LinkedService):
     :ivar message_server_service: The service name or port number of the Message Server. Type:
      string (or Expression with resultType string).
     :vartype message_server_service: JSON
-    :ivar snc_mode: SNC activation indicator to access the SAP server where the table is located.
-     Must be either 0 (off) or 1 (on). Type: string (or Expression with resultType string).
+    :ivar snc_mode: SNC activation flag (Boolean) to access the SAP server where the table is
+     located. Type: boolean (or Expression with resultType boolean).
     :vartype snc_mode: JSON
     :ivar snc_my_name: Initiator's SNC name to access the SAP server where the table is located.
      Type: string (or Expression with resultType string).
@@ -60845,8 +60924,8 @@ class SapTableLinkedService(LinkedService):
         :keyword message_server_service: The service name or port number of the Message Server. Type:
          string (or Expression with resultType string).
         :paramtype message_server_service: JSON
-        :keyword snc_mode: SNC activation indicator to access the SAP server where the table is
-         located. Must be either 0 (off) or 1 (on). Type: string (or Expression with resultType string).
+        :keyword snc_mode: SNC activation flag (Boolean) to access the SAP server where the table is
+         located. Type: boolean (or Expression with resultType boolean).
         :paramtype snc_mode: JSON
         :keyword snc_my_name: Initiator's SNC name to access the SAP server where the table is located.
          Type: string (or Expression with resultType string).
@@ -61465,6 +61544,10 @@ class ScriptActivity(ExecutionActivity):
     :vartype scripts: list[~azure.mgmt.datafactory.models.ScriptActivityScriptBlock]
     :ivar log_settings: Log settings of script activity.
     :vartype log_settings: ~azure.mgmt.datafactory.models.ScriptActivityTypePropertiesLogSettings
+    :ivar return_multistatement_result: Enable to retrieve result sets from multiple SQL statements
+     and the number of rows affected by the DML statement. Supported connector: SnowflakeV2. Type:
+     boolean (or Expression with resultType boolean).
+    :vartype return_multistatement_result: JSON
     """
 
     _validation = {
@@ -61486,6 +61569,7 @@ class ScriptActivity(ExecutionActivity):
         "script_block_execution_timeout": {"key": "typeProperties.scriptBlockExecutionTimeout", "type": "object"},
         "scripts": {"key": "typeProperties.scripts", "type": "[ScriptActivityScriptBlock]"},
         "log_settings": {"key": "typeProperties.logSettings", "type": "ScriptActivityTypePropertiesLogSettings"},
+        "return_multistatement_result": {"key": "typeProperties.returnMultistatementResult", "type": "object"},
     }
 
     def __init__(
@@ -61503,6 +61587,7 @@ class ScriptActivity(ExecutionActivity):
         script_block_execution_timeout: Optional[JSON] = None,
         scripts: Optional[List["_models.ScriptActivityScriptBlock"]] = None,
         log_settings: Optional["_models.ScriptActivityTypePropertiesLogSettings"] = None,
+        return_multistatement_result: Optional[JSON] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -61536,6 +61621,10 @@ class ScriptActivity(ExecutionActivity):
         :paramtype scripts: list[~azure.mgmt.datafactory.models.ScriptActivityScriptBlock]
         :keyword log_settings: Log settings of script activity.
         :paramtype log_settings: ~azure.mgmt.datafactory.models.ScriptActivityTypePropertiesLogSettings
+        :keyword return_multistatement_result: Enable to retrieve result sets from multiple SQL
+         statements and the number of rows affected by the DML statement. Supported connector:
+         SnowflakeV2. Type: boolean (or Expression with resultType boolean).
+        :paramtype return_multistatement_result: JSON
         """
         super().__init__(
             additional_properties=additional_properties,
@@ -61553,6 +61642,7 @@ class ScriptActivity(ExecutionActivity):
         self.script_block_execution_timeout = script_block_execution_timeout
         self.scripts = scripts
         self.log_settings = log_settings
+        self.return_multistatement_result = return_multistatement_result
 
 
 class ScriptActivityParameter(_serialization.Model):
@@ -71048,6 +71138,55 @@ class TeamDeskLinkedService(LinkedService):
         self.encrypted_credential = encrypted_credential
 
 
+class TeradataImportCommand(ImportSettings):
+    """Teradata import command settings.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar additional_properties: Unmatched properties from the message are deserialized to this
+     collection.
+    :vartype additional_properties: dict[str, JSON]
+    :ivar type: The import setting type. Required.
+    :vartype type: str
+    :ivar additional_format_options: Additional format options for Teradata Copy Command. The
+     format options only applies to direct copy from CSV source. Type: key value pairs (value should
+     be string type) (or Expression with resultType object). Example: "additionalFormatOptions": {
+     "timeFormat": "HHhMImSSs" }.
+    :vartype additional_format_options: JSON
+    """
+
+    _validation = {
+        "type": {"required": True},
+    }
+
+    _attribute_map = {
+        "additional_properties": {"key": "", "type": "{object}"},
+        "type": {"key": "type", "type": "str"},
+        "additional_format_options": {"key": "additionalFormatOptions", "type": "object"},
+    }
+
+    def __init__(
+        self,
+        *,
+        additional_properties: Optional[Dict[str, JSON]] = None,
+        additional_format_options: Optional[JSON] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword additional_properties: Unmatched properties from the message are deserialized to this
+         collection.
+        :paramtype additional_properties: dict[str, JSON]
+        :keyword additional_format_options: Additional format options for Teradata Copy Command. The
+         format options only applies to direct copy from CSV source. Type: key value pairs (value should
+         be string type) (or Expression with resultType object). Example: "additionalFormatOptions": {
+         "timeFormat": "HHhMImSSs" }.
+        :paramtype additional_format_options: JSON
+        """
+        super().__init__(additional_properties=additional_properties, **kwargs)
+        self.type: str = "TeradataImportCommand"
+        self.additional_format_options = additional_format_options
+
+
 class TeradataLinkedService(LinkedService):
     """Linked service for Teradata data source.
 
@@ -71069,7 +71208,7 @@ class TeradataLinkedService(LinkedService):
     :ivar annotations: List of tags that can be used for describing the linked service.
     :vartype annotations: list[JSON]
     :ivar connection_string: Teradata ODBC connection string. Type: string, SecureString or
-     AzureKeyVaultSecretReference.
+     AzureKeyVaultSecretReference. Only applied for version 1.0.
     :vartype connection_string: JSON
     :ivar server: Server name for connection. Type: string (or Expression with resultType string).
     :vartype server: JSON
@@ -71081,6 +71220,28 @@ class TeradataLinkedService(LinkedService):
     :vartype username: JSON
     :ivar password: Password for authentication.
     :vartype password: ~azure.mgmt.datafactory.models.SecretBase
+    :ivar ssl_mode: SSL mode for connection. Valid values including: “Disable”, “Allow”, “Prefer”,
+     “Require”, “Verify-CA”, “Verify-Full”. Default value is “Verify-Full”. Type: string (or
+     Expression with resultType string). Only applied for version 2.0.
+    :vartype ssl_mode: JSON
+    :ivar port_number: The port numbers when connecting to server through non HTTPS/TLS
+     connections. Type: integer (or Expression with resultType integer). Only used for V2. Only
+     applied for version 2.0.
+    :vartype port_number: JSON
+    :ivar https_port_number: The port numbers when connecting to server through HTTPS/TLS
+     connections. Type: integer (or Expression with resultType integer). Only applied for version
+     2.0.
+    :vartype https_port_number: JSON
+    :ivar use_data_encryption: Specifies whether to encrypt all communication with the Teradata
+     database. Allowed values are 0 or 1. This setting will be ignored for HTTPS/TLS connections.
+     Type: integer (or Expression with resultType integer). Only applied for version 2.0.
+    :vartype use_data_encryption: JSON
+    :ivar character_set: The character set to use for the connection. Type: string (or Expression
+     with resultType string). Only applied for version 2.0.
+    :vartype character_set: JSON
+    :ivar max_resp_size: The maximum size of the response buffer for SQL requests, in bytes. Type:
+     integer. Only applied for version 2.0.
+    :vartype max_resp_size: JSON
     :ivar encrypted_credential: The encrypted credential used for authentication. Credentials are
      encrypted using the integration runtime credential manager. Type: string.
     :vartype encrypted_credential: str
@@ -71103,6 +71264,12 @@ class TeradataLinkedService(LinkedService):
         "authentication_type": {"key": "typeProperties.authenticationType", "type": "str"},
         "username": {"key": "typeProperties.username", "type": "object"},
         "password": {"key": "typeProperties.password", "type": "SecretBase"},
+        "ssl_mode": {"key": "typeProperties.sslMode", "type": "object"},
+        "port_number": {"key": "typeProperties.portNumber", "type": "object"},
+        "https_port_number": {"key": "typeProperties.httpsPortNumber", "type": "object"},
+        "use_data_encryption": {"key": "typeProperties.useDataEncryption", "type": "object"},
+        "character_set": {"key": "typeProperties.characterSet", "type": "object"},
+        "max_resp_size": {"key": "typeProperties.maxRespSize", "type": "object"},
         "encrypted_credential": {"key": "typeProperties.encryptedCredential", "type": "str"},
     }
 
@@ -71120,6 +71287,12 @@ class TeradataLinkedService(LinkedService):
         authentication_type: Optional[Union[str, "_models.TeradataAuthenticationType"]] = None,
         username: Optional[JSON] = None,
         password: Optional["_models.SecretBase"] = None,
+        ssl_mode: Optional[JSON] = None,
+        port_number: Optional[JSON] = None,
+        https_port_number: Optional[JSON] = None,
+        use_data_encryption: Optional[JSON] = None,
+        character_set: Optional[JSON] = None,
+        max_resp_size: Optional[JSON] = None,
         encrypted_credential: Optional[str] = None,
         **kwargs: Any
     ) -> None:
@@ -71138,7 +71311,7 @@ class TeradataLinkedService(LinkedService):
         :keyword annotations: List of tags that can be used for describing the linked service.
         :paramtype annotations: list[JSON]
         :keyword connection_string: Teradata ODBC connection string. Type: string, SecureString or
-         AzureKeyVaultSecretReference.
+         AzureKeyVaultSecretReference. Only applied for version 1.0.
         :paramtype connection_string: JSON
         :keyword server: Server name for connection. Type: string (or Expression with resultType
          string).
@@ -71152,6 +71325,28 @@ class TeradataLinkedService(LinkedService):
         :paramtype username: JSON
         :keyword password: Password for authentication.
         :paramtype password: ~azure.mgmt.datafactory.models.SecretBase
+        :keyword ssl_mode: SSL mode for connection. Valid values including: “Disable”, “Allow”,
+         “Prefer”, “Require”, “Verify-CA”, “Verify-Full”. Default value is “Verify-Full”. Type: string
+         (or Expression with resultType string). Only applied for version 2.0.
+        :paramtype ssl_mode: JSON
+        :keyword port_number: The port numbers when connecting to server through non HTTPS/TLS
+         connections. Type: integer (or Expression with resultType integer). Only used for V2. Only
+         applied for version 2.0.
+        :paramtype port_number: JSON
+        :keyword https_port_number: The port numbers when connecting to server through HTTPS/TLS
+         connections. Type: integer (or Expression with resultType integer). Only applied for version
+         2.0.
+        :paramtype https_port_number: JSON
+        :keyword use_data_encryption: Specifies whether to encrypt all communication with the Teradata
+         database. Allowed values are 0 or 1. This setting will be ignored for HTTPS/TLS connections.
+         Type: integer (or Expression with resultType integer). Only applied for version 2.0.
+        :paramtype use_data_encryption: JSON
+        :keyword character_set: The character set to use for the connection. Type: string (or
+         Expression with resultType string). Only applied for version 2.0.
+        :paramtype character_set: JSON
+        :keyword max_resp_size: The maximum size of the response buffer for SQL requests, in bytes.
+         Type: integer. Only applied for version 2.0.
+        :paramtype max_resp_size: JSON
         :keyword encrypted_credential: The encrypted credential used for authentication. Credentials
          are encrypted using the integration runtime credential manager. Type: string.
         :paramtype encrypted_credential: str
@@ -71171,6 +71366,12 @@ class TeradataLinkedService(LinkedService):
         self.authentication_type = authentication_type
         self.username = username
         self.password = password
+        self.ssl_mode = ssl_mode
+        self.port_number = port_number
+        self.https_port_number = https_port_number
+        self.use_data_encryption = use_data_encryption
+        self.character_set = character_set
+        self.max_resp_size = max_resp_size
         self.encrypted_credential = encrypted_credential
 
 
@@ -71221,6 +71422,106 @@ class TeradataPartitionSettings(_serialization.Model):
         self.partition_column_name = partition_column_name
         self.partition_upper_bound = partition_upper_bound
         self.partition_lower_bound = partition_lower_bound
+
+
+class TeradataSink(CopySink):
+    """A copy activity Teradata sink.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar additional_properties: Unmatched properties from the message are deserialized to this
+     collection.
+    :vartype additional_properties: dict[str, JSON]
+    :ivar type: Copy sink type. Required.
+    :vartype type: str
+    :ivar write_batch_size: Write batch size. Type: integer (or Expression with resultType
+     integer), minimum: 0.
+    :vartype write_batch_size: JSON
+    :ivar write_batch_timeout: Write batch timeout. Type: string (or Expression with resultType
+     string), pattern: ((\\d+).)?(\\d\\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+    :vartype write_batch_timeout: JSON
+    :ivar sink_retry_count: Sink retry count. Type: integer (or Expression with resultType
+     integer).
+    :vartype sink_retry_count: JSON
+    :ivar sink_retry_wait: Sink retry wait. Type: string (or Expression with resultType string),
+     pattern: ((\\d+).)?(\\d\\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+    :vartype sink_retry_wait: JSON
+    :ivar max_concurrent_connections: The maximum concurrent connection count for the sink data
+     store. Type: integer (or Expression with resultType integer).
+    :vartype max_concurrent_connections: JSON
+    :ivar disable_metrics_collection: If true, disable data store metrics collection. Default is
+     false. Type: boolean (or Expression with resultType boolean).
+    :vartype disable_metrics_collection: JSON
+    :ivar import_settings: Teradata import settings.
+    :vartype import_settings: ~azure.mgmt.datafactory.models.TeradataImportCommand
+    """
+
+    _validation = {
+        "type": {"required": True},
+    }
+
+    _attribute_map = {
+        "additional_properties": {"key": "", "type": "{object}"},
+        "type": {"key": "type", "type": "str"},
+        "write_batch_size": {"key": "writeBatchSize", "type": "object"},
+        "write_batch_timeout": {"key": "writeBatchTimeout", "type": "object"},
+        "sink_retry_count": {"key": "sinkRetryCount", "type": "object"},
+        "sink_retry_wait": {"key": "sinkRetryWait", "type": "object"},
+        "max_concurrent_connections": {"key": "maxConcurrentConnections", "type": "object"},
+        "disable_metrics_collection": {"key": "disableMetricsCollection", "type": "object"},
+        "import_settings": {"key": "importSettings", "type": "TeradataImportCommand"},
+    }
+
+    def __init__(
+        self,
+        *,
+        additional_properties: Optional[Dict[str, JSON]] = None,
+        write_batch_size: Optional[JSON] = None,
+        write_batch_timeout: Optional[JSON] = None,
+        sink_retry_count: Optional[JSON] = None,
+        sink_retry_wait: Optional[JSON] = None,
+        max_concurrent_connections: Optional[JSON] = None,
+        disable_metrics_collection: Optional[JSON] = None,
+        import_settings: Optional["_models.TeradataImportCommand"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword additional_properties: Unmatched properties from the message are deserialized to this
+         collection.
+        :paramtype additional_properties: dict[str, JSON]
+        :keyword write_batch_size: Write batch size. Type: integer (or Expression with resultType
+         integer), minimum: 0.
+        :paramtype write_batch_size: JSON
+        :keyword write_batch_timeout: Write batch timeout. Type: string (or Expression with resultType
+         string), pattern: ((\\d+).)?(\\d\\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+        :paramtype write_batch_timeout: JSON
+        :keyword sink_retry_count: Sink retry count. Type: integer (or Expression with resultType
+         integer).
+        :paramtype sink_retry_count: JSON
+        :keyword sink_retry_wait: Sink retry wait. Type: string (or Expression with resultType string),
+         pattern: ((\\d+).)?(\\d\\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+        :paramtype sink_retry_wait: JSON
+        :keyword max_concurrent_connections: The maximum concurrent connection count for the sink data
+         store. Type: integer (or Expression with resultType integer).
+        :paramtype max_concurrent_connections: JSON
+        :keyword disable_metrics_collection: If true, disable data store metrics collection. Default is
+         false. Type: boolean (or Expression with resultType boolean).
+        :paramtype disable_metrics_collection: JSON
+        :keyword import_settings: Teradata import settings.
+        :paramtype import_settings: ~azure.mgmt.datafactory.models.TeradataImportCommand
+        """
+        super().__init__(
+            additional_properties=additional_properties,
+            write_batch_size=write_batch_size,
+            write_batch_timeout=write_batch_timeout,
+            sink_retry_count=sink_retry_count,
+            sink_retry_wait=sink_retry_wait,
+            max_concurrent_connections=max_concurrent_connections,
+            disable_metrics_collection=disable_metrics_collection,
+            **kwargs
+        )
+        self.type: str = "TeradataSink"
+        self.import_settings = import_settings
 
 
 class TeradataSource(TabularSource):
