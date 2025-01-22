@@ -69,7 +69,7 @@ class PublicNetworkAccessType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     ENABLED = "Enabled"
     """Allows Azure Arc agents to communicate with Azure Arc services over both public (internet) and
-    #: private endpoints."""
+    private endpoints."""
     DISABLED = "Disabled"
     """Does not allow Azure Arc agents to communicate with Azure Arc services over public (internet)
-    #: endpoints. The agents must use the private link."""
+    endpoints. The agents must use the private link."""
