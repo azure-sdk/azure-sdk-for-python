@@ -1,5 +1,5 @@
 {
-  "commit": "ae6e92d62421bfafa2b695d742f3820d5de204eb",
+  "commit": "434063cadaad34582c206980cd754cf95b1bce7e",
   "repository_url": "https://github.com/Azure/azure-rest-api-specs",
   "typespec_src": "specification/servicenetworking/ServiceNetworking.Management",
   "@azure-tools/typespec-python": "0.38.1"
