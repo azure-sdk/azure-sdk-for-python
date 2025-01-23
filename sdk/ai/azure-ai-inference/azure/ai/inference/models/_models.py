@@ -19,6 +19,88 @@ if TYPE_CHECKING:
     from .. import models as _models
 
 
+class ChatRequestMessage(_model_base.Model):
+    """An abstract representation of a chat message as provided in a request.
+
+    You probably want to use the sub-classes and not this class directly. Known sub-classes are:
+    AssistantMessage, SystemMessage, ToolMessage, UserMessage
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar role: The chat role associated with this message. Required. Known values are: "system",
+     "user", "assistant", and "tool".
+    :vartype role: str or ~azure.ai.inference.models.ChatRole
+    """
+
+    __mapping__: Dict[str, _model_base.Model] = {}
+    role: str = rest_discriminator(name="role")
+    """The chat role associated with this message. Required. Known values are: \"system\", \"user\",
+     \"assistant\", and \"tool\"."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        role: str,
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+
+
+class AssistantMessage(ChatRequestMessage, discriminator="assistant"):
+    """A request chat message representing response or action from the assistant.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar role: The chat role associated with this message, which is always 'assistant' for
+     assistant messages. Required. The role that provides responses to system-instructed,
+     user-prompted input.
+    :vartype role: str or ~azure.ai.inference.models.ASSISTANT
+    :ivar content: The content of the message.
+    :vartype content: str
+    :ivar tool_calls: The tool calls that must be resolved and have their outputs appended to
+     subsequent input messages for the chat
+     completions request to resolve as configured.
+    :vartype tool_calls: list[~azure.ai.inference.models.ChatCompletionsToolCall]
+    """
+
+    role: Literal[ChatRole.ASSISTANT] = rest_discriminator(name="role")  # type: ignore
+    """The chat role associated with this message, which is always 'assistant' for assistant messages.
+     Required. The role that provides responses to system-instructed, user-prompted input."""
+    content: Optional[str] = rest_field()
+    """The content of the message."""
+    tool_calls: Optional[List["_models.ChatCompletionsToolCall"]] = rest_field()
+    """The tool calls that must be resolved and have their outputs appended to subsequent input
+     messages for the chat
+     completions request to resolve as configured."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        content: Optional[str] = None,
+        tool_calls: Optional[List["_models.ChatCompletionsToolCall"]] = None,
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, role=ChatRole.ASSISTANT, **kwargs)
+
+
 class ChatChoice(_model_base.Model):
     """The representation of a single prompt completion as part of an overall chat completions
     request.
@@ -78,13 +160,13 @@ class ChatCompletions(_model_base.Model):
     :vartype created: ~datetime.datetime
     :ivar model: The model used for the chat completion. Required.
     :vartype model: str
+    :ivar usage: Usage information for tokens processed and generated as part of this completions
+     operation. Required.
+    :vartype usage: ~azure.ai.inference.models.CompletionsUsage
     :ivar choices: The collection of completions choices associated with this completions response.
      Generally, ``n`` choices are generated per provided prompt with a default value of 1.
      Token limits and other settings may limit the number of choices generated. Required.
     :vartype choices: list[~azure.ai.inference.models.ChatChoice]
-    :ivar usage: Usage information for tokens processed and generated as part of this completions
-     operation. Required.
-    :vartype usage: ~azure.ai.inference.models.CompletionsUsage
     """
 
     id: str = rest_field()
@@ -94,13 +176,13 @@ class ChatCompletions(_model_base.Model):
      represented as seconds since the beginning of the Unix epoch of 00:00 on 1 Jan 1970. Required."""
     model: str = rest_field()
     """The model used for the chat completion. Required."""
+    usage: "_models.CompletionsUsage" = rest_field()
+    """Usage information for tokens processed and generated as part of this completions operation.
+     Required."""
     choices: List["_models.ChatChoice"] = rest_field()
     """The collection of completions choices associated with this completions response.
      Generally, ``n`` choices are generated per provided prompt with a default value of 1.
      Token limits and other settings may limit the number of choices generated. Required."""
-    usage: "_models.CompletionsUsage" = rest_field()
-    """Usage information for tokens processed and generated as part of this completions operation.
-     Required."""
 
     @overload
     def __init__(
@@ -109,8 +191,8 @@ class ChatCompletions(_model_base.Model):
         id: str,  # pylint: disable=redefined-builtin
         created: datetime.datetime,
         model: str,
-        choices: List["_models.ChatChoice"],
         usage: "_models.CompletionsUsage",
+        choices: List["_models.ChatChoice"],
     ) -> None: ...
 
     @overload
@@ -129,6 +211,8 @@ class ChatCompletionsNamedToolChoice(_model_base.Model):
     the named function.
 
     Readonly variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
 
     :ivar type: The type of the tool. Currently, only ``function`` is supported. Required. Default
      value is "function".
@@ -166,6 +250,8 @@ class ChatCompletionsNamedToolChoiceFunction(_model_base.Model):
     """A tool selection of a specific, named function tool that will limit chat completions to using
     the named function.
 
+    All required parameters must be populated in order to send to server.
+
     :ivar name: The name of the function that should be called. Required.
     :vartype name: str
     """
@@ -191,6 +277,192 @@ class ChatCompletionsNamedToolChoiceFunction(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
+class ChatCompletionsOptions(_model_base.Model):
+    """ChatCompletionsOptions.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar messages: The collection of context messages associated with this chat completions
+     request.
+     Typical usage begins with a chat message for the System role that provides instructions for
+     the behavior of the assistant, followed by alternating messages between the User and
+     Assistant roles. Required.
+    :vartype messages: list[~azure.ai.inference.models.ChatRequestMessage]
+    :ivar frequency_penalty: A value that influences the probability of generated tokens appearing
+     based on their cumulative
+     frequency in generated text.
+     Positive values will make tokens less likely to appear as their frequency increases and
+     decrease the likelihood of the model repeating the same statements verbatim.
+     Supported range is [-2, 2].
+    :vartype frequency_penalty: float
+    :ivar stream: A value indicating whether chat completions should be streamed for this request.
+    :vartype stream: bool
+    :ivar presence_penalty: A value that influences the probability of generated tokens appearing
+     based on their existing
+     presence in generated text.
+     Positive values will make tokens less likely to appear when they already exist and increase
+     the
+     model's likelihood to output new topics.
+     Supported range is [-2, 2].
+    :vartype presence_penalty: float
+    :ivar temperature: The sampling temperature to use that controls the apparent creativity of
+     generated completions.
+     Higher values will make output more random while lower values will make results more focused
+     and deterministic.
+     It is not recommended to modify temperature and top_p for the same completions request as the
+     interaction of these two settings is difficult to predict.
+     Supported range is [0, 1].
+    :vartype temperature: float
+    :ivar top_p: An alternative to sampling with temperature called nucleus sampling. This value
+     causes the
+     model to consider the results of tokens with the provided probability mass. As an example, a
+     value of 0.15 will cause only the tokens comprising the top 15% of probability mass to be
+     considered.
+     It is not recommended to modify temperature and top_p for the same completions request as the
+     interaction of these two settings is difficult to predict.
+     Supported range is [0, 1].
+    :vartype top_p: float
+    :ivar max_tokens: The maximum number of tokens to generate.
+    :vartype max_tokens: int
+    :ivar response_format: An object specifying the format that the model must output.
+
+     Setting to ``{ "type": "json_schema", "json_schema": {...} }`` enables Structured Outputs
+     which ensures the model will match your supplied JSON schema.
+
+     Setting to ``{ "type": "json_object" }`` enables JSON mode, which ensures the message the
+     model generates is valid JSON.
+
+     **Important:** when using JSON mode, you **must** also instruct the model to produce JSON
+     yourself via a system or user message. Without this, the model may generate an unending stream
+     of whitespace until the generation reaches the token limit, resulting in a long-running and
+     seemingly "stuck" request. Also note that the message content may be partially cut off if
+     ``finish_reason="length"``\\ , which indicates the generation exceeded ``max_tokens`` or the
+     conversation exceeded the max context length.
+    :vartype response_format: ~azure.ai.inference.models._models.ChatCompletionsResponseFormat
+    :ivar stop: A collection of textual sequences that will end completions generation.
+    :vartype stop: list[str]
+    :ivar tools: A list of tools the model may request to call. Currently, only functions are
+     supported as a tool. The model
+     may response with a function call request and provide the input arguments in JSON format for
+     that function.
+    :vartype tools: list[~azure.ai.inference.models.ChatCompletionsToolDefinition]
+    :ivar tool_choice: If specified, the model will configure which of the provided tools it can
+     use for the chat completions response. Is either a Union[str,
+     "_models.ChatCompletionsToolChoicePreset"] type or a ChatCompletionsNamedToolChoice type.
+    :vartype tool_choice: str or ~azure.ai.inference.models.ChatCompletionsToolChoicePreset or
+     ~azure.ai.inference.models.ChatCompletionsNamedToolChoice
+    :ivar seed: If specified, the system will make a best effort to sample deterministically such
+     that repeated requests with the
+     same seed and parameters should return the same result. Determinism is not guaranteed.
+    :vartype seed: int
+    :ivar model: ID of the specific AI model to use, if more than one model is available on the
+     endpoint.
+    :vartype model: str
+    """
+
+    messages: List["_models.ChatRequestMessage"] = rest_field()
+    """The collection of context messages associated with this chat completions request.
+     Typical usage begins with a chat message for the System role that provides instructions for
+     the behavior of the assistant, followed by alternating messages between the User and
+     Assistant roles. Required."""
+    frequency_penalty: Optional[float] = rest_field()
+    """A value that influences the probability of generated tokens appearing based on their cumulative
+     frequency in generated text.
+     Positive values will make tokens less likely to appear as their frequency increases and
+     decrease the likelihood of the model repeating the same statements verbatim.
+     Supported range is [-2, 2]."""
+    stream: Optional[bool] = rest_field()
+    """A value indicating whether chat completions should be streamed for this request."""
+    presence_penalty: Optional[float] = rest_field()
+    """A value that influences the probability of generated tokens appearing based on their existing
+     presence in generated text.
+     Positive values will make tokens less likely to appear when they already exist and increase the
+     model's likelihood to output new topics.
+     Supported range is [-2, 2]."""
+    temperature: Optional[float] = rest_field()
+    """The sampling temperature to use that controls the apparent creativity of generated completions.
+     Higher values will make output more random while lower values will make results more focused
+     and deterministic.
+     It is not recommended to modify temperature and top_p for the same completions request as the
+     interaction of these two settings is difficult to predict.
+     Supported range is [0, 1]."""
+    top_p: Optional[float] = rest_field()
+    """An alternative to sampling with temperature called nucleus sampling. This value causes the
+     model to consider the results of tokens with the provided probability mass. As an example, a
+     value of 0.15 will cause only the tokens comprising the top 15% of probability mass to be
+     considered.
+     It is not recommended to modify temperature and top_p for the same completions request as the
+     interaction of these two settings is difficult to predict.
+     Supported range is [0, 1]."""
+    max_tokens: Optional[int] = rest_field()
+    """The maximum number of tokens to generate."""
+    response_format: Optional["_models._models.ChatCompletionsResponseFormat"] = rest_field()
+    """An object specifying the format that the model must output.
+     
+     Setting to ``{ \"type\": \"json_schema\", \"json_schema\": {...} }`` enables Structured Outputs
+     which ensures the model will match your supplied JSON schema.
+     
+     Setting to ``{ \"type\": \"json_object\" }`` enables JSON mode, which ensures the message the
+     model generates is valid JSON.
+     
+     **Important:** when using JSON mode, you **must** also instruct the model to produce JSON
+     yourself via a system or user message. Without this, the model may generate an unending stream
+     of whitespace until the generation reaches the token limit, resulting in a long-running and
+     seemingly \"stuck\" request. Also note that the message content may be partially cut off if
+     ``finish_reason=\"length\"``\ , which indicates the generation exceeded ``max_tokens`` or the
+     conversation exceeded the max context length."""
+    stop: Optional[List[str]] = rest_field()
+    """A collection of textual sequences that will end completions generation."""
+    tools: Optional[List["_models.ChatCompletionsToolDefinition"]] = rest_field()
+    """A list of tools the model may request to call. Currently, only functions are supported as a
+     tool. The model
+     may response with a function call request and provide the input arguments in JSON format for
+     that function."""
+    tool_choice: Optional[
+        Union[str, "_models.ChatCompletionsToolChoicePreset", "_models.ChatCompletionsNamedToolChoice"]
+    ] = rest_field()
+    """If specified, the model will configure which of the provided tools it can use for the chat
+     completions response. Is either a Union[str, \"_models.ChatCompletionsToolChoicePreset\"] type
+     or a ChatCompletionsNamedToolChoice type."""
+    seed: Optional[int] = rest_field()
+    """If specified, the system will make a best effort to sample deterministically such that repeated
+     requests with the
+     same seed and parameters should return the same result. Determinism is not guaranteed."""
+    model: Optional[str] = rest_field()
+    """ID of the specific AI model to use, if more than one model is available on the endpoint."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        messages: List["_models.ChatRequestMessage"],
+        frequency_penalty: Optional[float] = None,
+        stream: Optional[bool] = None,
+        presence_penalty: Optional[float] = None,
+        temperature: Optional[float] = None,
+        top_p: Optional[float] = None,
+        max_tokens: Optional[int] = None,
+        response_format: Optional["_models._models.ChatCompletionsResponseFormat"] = None,
+        stop: Optional[List[str]] = None,
+        tools: Optional[List["_models.ChatCompletionsToolDefinition"]] = None,
+        tool_choice: Optional[
+            Union[str, "_models.ChatCompletionsToolChoicePreset", "_models.ChatCompletionsNamedToolChoice"]
+        ] = None,
+        seed: Optional[int] = None,
+        model: Optional[str] = None,
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+
+
 class ChatCompletionsResponseFormat(_model_base.Model):
     """Represents the format that the model must output. Use this to enable JSON mode instead of the
     default text mode.
@@ -201,6 +473,8 @@ class ChatCompletionsResponseFormat(_model_base.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     ChatCompletionsResponseFormatJsonObject, ChatCompletionsResponseFormatJsonSchema,
     ChatCompletionsResponseFormatText
+
+    All required parameters must be populated in order to send to server.
 
     :ivar type: The response format type to use for chat completions. Required. Default value is
      None.
@@ -235,6 +509,8 @@ class ChatCompletionsResponseFormatJsonObject(ChatCompletionsResponseFormat, dis
     produce JSON
     via a system or user message.
 
+    All required parameters must be populated in order to send to server.
+
     :ivar type: Response format type: always 'json_object' for this object. Required. Default value
      is "json_object".
     :vartype type: str
@@ -264,6 +540,8 @@ class ChatCompletionsResponseFormatJsonSchema(ChatCompletionsResponseFormat, dis
     """A response format for Chat Completions that restricts responses to emitting valid JSON objects,
     with a
     JSON schema specified by the caller.
+
+    All required parameters must be populated in order to send to server.
 
     :ivar type: The type of response format being defined: ``json_schema``. Required. Default value
      is "json_schema".
@@ -300,6 +578,8 @@ class ChatCompletionsResponseFormatJsonSchema(ChatCompletionsResponseFormat, dis
 class ChatCompletionsResponseFormatText(ChatCompletionsResponseFormat, discriminator="text"):
     """A response format for Chat Completions that emits text responses. This is the default response
     format.
+
+    All required parameters must be populated in order to send to server.
 
     :ivar type: Response format type: always 'text' for this object. Required. Default value is
      "text".
@@ -373,6 +653,8 @@ class ChatCompletionsToolDefinition(_model_base.Model):
 
     Readonly variables are only populated by the server, and will be ignored when sending a request.
 
+    All required parameters must be populated in order to send to server.
+
     :ivar type: The type of the tool. Currently, only ``function`` is supported. Required. Default
      value is "function".
     :vartype type: str
@@ -403,197 +685,6 @@ class ChatCompletionsToolDefinition(_model_base.Model):
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
         self.type: Literal["function"] = "function"
-
-
-class ChatRequestMessage(_model_base.Model):
-    """An abstract representation of a chat message as provided in a request.
-
-    You probably want to use the sub-classes and not this class directly. Known sub-classes are:
-    ChatRequestAssistantMessage, ChatRequestSystemMessage, ChatRequestToolMessage,
-    ChatRequestUserMessage
-
-    :ivar role: The chat role associated with this message. Required. Known values are: "system",
-     "user", "assistant", and "tool".
-    :vartype role: str or ~azure.ai.inference.models.ChatRole
-    """
-
-    __mapping__: Dict[str, _model_base.Model] = {}
-    role: str = rest_discriminator(name="role")
-    """The chat role associated with this message. Required. Known values are: \"system\", \"user\",
-     \"assistant\", and \"tool\"."""
-
-    @overload
-    def __init__(
-        self,
-        *,
-        role: str,
-    ) -> None: ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]) -> None:
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
-
-    def __init__(self, *args: Any, **kwargs: Any) -> None:
-        super().__init__(*args, **kwargs)
-
-
-class ChatRequestAssistantMessage(ChatRequestMessage, discriminator="assistant"):
-    """A request chat message representing response or action from the assistant.
-
-    :ivar role: The chat role associated with this message, which is always 'assistant' for
-     assistant messages. Required. The role that provides responses to system-instructed,
-     user-prompted input.
-    :vartype role: str or ~azure.ai.inference.models.ASSISTANT
-    :ivar content: The content of the message.
-    :vartype content: str
-    :ivar tool_calls: The tool calls that must be resolved and have their outputs appended to
-     subsequent input messages for the chat
-     completions request to resolve as configured.
-    :vartype tool_calls: list[~azure.ai.inference.models.ChatCompletionsToolCall]
-    """
-
-    role: Literal[ChatRole.ASSISTANT] = rest_discriminator(name="role")  # type: ignore
-    """The chat role associated with this message, which is always 'assistant' for assistant messages.
-     Required. The role that provides responses to system-instructed, user-prompted input."""
-    content: Optional[str] = rest_field()
-    """The content of the message."""
-    tool_calls: Optional[List["_models.ChatCompletionsToolCall"]] = rest_field()
-    """The tool calls that must be resolved and have their outputs appended to subsequent input
-     messages for the chat
-     completions request to resolve as configured."""
-
-    @overload
-    def __init__(
-        self,
-        *,
-        content: Optional[str] = None,
-        tool_calls: Optional[List["_models.ChatCompletionsToolCall"]] = None,
-    ) -> None: ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]) -> None:
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
-
-    def __init__(self, *args: Any, **kwargs: Any) -> None:
-        super().__init__(*args, role=ChatRole.ASSISTANT, **kwargs)
-
-
-class ChatRequestSystemMessage(ChatRequestMessage, discriminator="system"):
-    """A request chat message containing system instructions that influence how the model will
-    generate a chat completions
-    response.
-
-    :ivar role: The chat role associated with this message, which is always 'system' for system
-     messages. Required. The role that instructs or sets the behavior of the assistant.
-    :vartype role: str or ~azure.ai.inference.models.SYSTEM
-    :ivar content: The contents of the system message. Required.
-    :vartype content: str
-    """
-
-    role: Literal[ChatRole.SYSTEM] = rest_discriminator(name="role")  # type: ignore
-    """The chat role associated with this message, which is always 'system' for system messages.
-     Required. The role that instructs or sets the behavior of the assistant."""
-    content: str = rest_field()
-    """The contents of the system message. Required."""
-
-    @overload
-    def __init__(
-        self,
-        *,
-        content: str,
-    ) -> None: ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]) -> None:
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
-
-    def __init__(self, *args: Any, **kwargs: Any) -> None:
-        super().__init__(*args, role=ChatRole.SYSTEM, **kwargs)
-
-
-class ChatRequestToolMessage(ChatRequestMessage, discriminator="tool"):
-    """A request chat message representing requested output from a configured tool.
-
-    :ivar role: The chat role associated with this message, which is always 'tool' for tool
-     messages. Required. The role that represents extension tool activity within a chat completions
-     operation.
-    :vartype role: str or ~azure.ai.inference.models.TOOL
-    :ivar content: The content of the message.
-    :vartype content: str
-    :ivar tool_call_id: The ID of the tool call resolved by the provided content. Required.
-    :vartype tool_call_id: str
-    """
-
-    role: Literal[ChatRole.TOOL] = rest_discriminator(name="role")  # type: ignore
-    """The chat role associated with this message, which is always 'tool' for tool messages. Required.
-     The role that represents extension tool activity within a chat completions operation."""
-    content: Optional[str] = rest_field()
-    """The content of the message."""
-    tool_call_id: str = rest_field()
-    """The ID of the tool call resolved by the provided content. Required."""
-
-    @overload
-    def __init__(
-        self,
-        *,
-        tool_call_id: str,
-        content: Optional[str] = None,
-    ) -> None: ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]) -> None:
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
-
-    def __init__(self, *args: Any, **kwargs: Any) -> None:
-        super().__init__(*args, role=ChatRole.TOOL, **kwargs)
-
-
-class ChatRequestUserMessage(ChatRequestMessage, discriminator="user"):
-    """A request chat message representing user input to the assistant.
-
-    :ivar role: The chat role associated with this message, which is always 'user' for user
-     messages. Required. The role that provides input for chat completions.
-    :vartype role: str or ~azure.ai.inference.models.USER
-    :ivar content: The contents of the user message, with available input types varying by selected
-     model. Required. Is either a str type or a [ContentItem] type.
-    :vartype content: str or list[~azure.ai.inference.models.ContentItem]
-    """
-
-    role: Literal[ChatRole.USER] = rest_discriminator(name="role")  # type: ignore
-    """The chat role associated with this message, which is always 'user' for user messages. Required.
-     The role that provides input for chat completions."""
-    content: Union["str", List["_models.ContentItem"]] = rest_field()
-    """The contents of the user message, with available input types varying by selected model.
-     Required. Is either a str type or a [ContentItem] type."""
-
-    @overload
-    def __init__(
-        self,
-        *,
-        content: Union[str, List["_models.ContentItem"]],
-    ) -> None: ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]) -> None:
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
-
-    def __init__(self, *args: Any, **kwargs: Any) -> None:
-        super().__init__(*args, role=ChatRole.USER, **kwargs)
 
 
 class ChatResponseMessage(_model_base.Model):
@@ -691,6 +782,8 @@ class ContentItem(_model_base.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     ImageContentItem, TextContentItem
 
+    All required parameters must be populated in order to send to server.
+
     :ivar type: The discriminated object type. Required. Default value is None.
     :vartype type: str
     """
@@ -730,7 +823,7 @@ class EmbeddingItem(_model_base.Model):
     :vartype index: int
     """
 
-    embedding: Union["str", List[float]] = rest_field()
+    embedding: Union[str, List[float]] = rest_field()
     """List of embedding values for the input prompt. These represent a measurement of the
      vector-based relatedness of the provided input. Or a base64 encoded string of the embedding
      vector. Required. Is either a str type or a [float] type."""
@@ -840,6 +933,141 @@ class EmbeddingsUsage(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
+class EmbedRequest(_model_base.Model):
+    """EmbedRequest.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar input: Input text to embed, encoded as a string or array of tokens.
+     To embed multiple inputs in a single request, pass an array
+     of strings or array of token arrays. Required.
+    :vartype input: list[str]
+    :ivar dimensions: Optional. The number of dimensions the resulting output embeddings should
+     have.
+     Passing null causes the model to use its default value.
+     Returns a 422 error if the model doesn't support the value or parameter.
+    :vartype dimensions: int
+    :ivar encoding_format: Optional. The desired format for the returned embeddings. Known values
+     are: "base64", "binary", "float", "int8", "ubinary", and "uint8".
+    :vartype encoding_format: str or ~azure.ai.inference.models.EmbeddingEncodingFormat
+    :ivar input_type: Optional. The type of the input.
+     Returns a 422 error if the model doesn't support the value or parameter. Known values are:
+     "text", "query", and "document".
+    :vartype input_type: str or ~azure.ai.inference.models.EmbeddingInputType
+    :ivar model: ID of the specific AI model to use, if more than one model is available on the
+     endpoint.
+    :vartype model: str
+    """
+
+    input: List[str] = rest_field()
+    """Input text to embed, encoded as a string or array of tokens.
+     To embed multiple inputs in a single request, pass an array
+     of strings or array of token arrays. Required."""
+    dimensions: Optional[int] = rest_field()
+    """Optional. The number of dimensions the resulting output embeddings should have.
+     Passing null causes the model to use its default value.
+     Returns a 422 error if the model doesn't support the value or parameter."""
+    encoding_format: Optional[Union[str, "_models.EmbeddingEncodingFormat"]] = rest_field()
+    """Optional. The desired format for the returned embeddings. Known values are: \"base64\",
+     \"binary\", \"float\", \"int8\", \"ubinary\", and \"uint8\"."""
+    input_type: Optional[Union[str, "_models.EmbeddingInputType"]] = rest_field()
+    """Optional. The type of the input.
+     Returns a 422 error if the model doesn't support the value or parameter. Known values are:
+     \"text\", \"query\", and \"document\"."""
+    model: Optional[str] = rest_field()
+    """ID of the specific AI model to use, if more than one model is available on the endpoint."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        input: List[str],
+        dimensions: Optional[int] = None,
+        encoding_format: Optional[Union[str, "_models.EmbeddingEncodingFormat"]] = None,
+        input_type: Optional[Union[str, "_models.EmbeddingInputType"]] = None,
+        model: Optional[str] = None,
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+
+
+class EmbedRequest1(_model_base.Model):
+    """EmbedRequest1.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar input: Input image to embed. To embed multiple inputs in a single request, pass an array.
+     The input must not exceed the max input tokens for the model. Required.
+    :vartype input: list[~azure.ai.inference.models.ImageEmbeddingInput]
+    :ivar dimensions: Optional. The number of dimensions the resulting output embeddings should
+     have.
+     Passing null causes the model to use its default value.
+     Returns a 422 error if the model doesn't support the value or parameter.
+    :vartype dimensions: int
+    :ivar encoding_format: Optional. The number of dimensions the resulting output embeddings
+     should have.
+     Passing null causes the model to use its default value.
+     Returns a 422 error if the model doesn't support the value or parameter. Known values are:
+     "base64", "binary", "float", "int8", "ubinary", and "uint8".
+    :vartype encoding_format: str or ~azure.ai.inference.models.EmbeddingEncodingFormat
+    :ivar input_type: Optional. The type of the input.
+     Returns a 422 error if the model doesn't support the value or parameter. Known values are:
+     "text", "query", and "document".
+    :vartype input_type: str or ~azure.ai.inference.models.EmbeddingInputType
+    :ivar model: ID of the specific AI model to use, if more than one model is available on the
+     endpoint.
+    :vartype model: str
+    """
+
+    input: List["_models.ImageEmbeddingInput"] = rest_field()
+    """Input image to embed. To embed multiple inputs in a single request, pass an array.
+     The input must not exceed the max input tokens for the model. Required."""
+    dimensions: Optional[int] = rest_field()
+    """Optional. The number of dimensions the resulting output embeddings should have.
+     Passing null causes the model to use its default value.
+     Returns a 422 error if the model doesn't support the value or parameter."""
+    encoding_format: Optional[Union[str, "_models.EmbeddingEncodingFormat"]] = rest_field()
+    """Optional. The number of dimensions the resulting output embeddings should have.
+     Passing null causes the model to use its default value.
+     Returns a 422 error if the model doesn't support the value or parameter. Known values are:
+     \"base64\", \"binary\", \"float\", \"int8\", \"ubinary\", and \"uint8\"."""
+    input_type: Optional[Union[str, "_models.EmbeddingInputType"]] = rest_field()
+    """Optional. The type of the input.
+     Returns a 422 error if the model doesn't support the value or parameter. Known values are:
+     \"text\", \"query\", and \"document\"."""
+    model: Optional[str] = rest_field()
+    """ID of the specific AI model to use, if more than one model is available on the endpoint."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        input: List["_models.ImageEmbeddingInput"],
+        dimensions: Optional[int] = None,
+        encoding_format: Optional[Union[str, "_models.EmbeddingEncodingFormat"]] = None,
+        input_type: Optional[Union[str, "_models.EmbeddingInputType"]] = None,
+        model: Optional[str] = None,
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+
+
 class FunctionCall(_model_base.Model):
     """The name and arguments of a function that should be called, as generated by the model.
 
@@ -885,6 +1113,8 @@ class FunctionDefinition(_model_base.Model):
     """The definition of a caller-specified function that chat completions may invoke in response to
     matching user input.
 
+    All required parameters must be populated in order to send to server.
+
     :ivar name: The name of the function to be called. Required.
     :vartype name: str
     :ivar description: A description of what the function does. The model will use this description
@@ -927,6 +1157,8 @@ class FunctionDefinition(_model_base.Model):
 class ImageContentItem(ContentItem, discriminator="image_url"):
     """A structured chat content item containing an image reference.
 
+    All required parameters must be populated in order to send to server.
+
     :ivar type: The discriminated object type: always 'image_url' for this type. Required. Default
      value is "image_url".
     :vartype type: str
@@ -962,6 +1194,8 @@ class ImageContentItem(ContentItem, discriminator="image_url"):
 
 class ImageEmbeddingInput(_model_base.Model):
     """Represents an image with optional text.
+
+    All required parameters must be populated in order to send to server.
 
     :ivar image: The input image encoded in base64 string as a data URL. Example:
      ``data:image/{format};base64,{data}``. Required.
@@ -1000,6 +1234,8 @@ class ImageEmbeddingInput(_model_base.Model):
 class ImageUrl(_model_base.Model):
     """An internet location from which the model may retrieve an image.
 
+    All required parameters must be populated in order to send to server.
+
     :ivar url: The URL of the image. Required.
     :vartype url: str
     :ivar detail: The evaluation quality setting to use, which controls relative prioritization of
@@ -1035,8 +1271,10 @@ class ImageUrl(_model_base.Model):
 
 
 class JsonSchemaFormat(_model_base.Model):
-    """Defines the response format for chat completions as JSON with a given schema.
-    The AI model will need to adhere to this schema when generating completions.
+    """Defines the response format for chat completions as JSON with a given schema. The AI model
+    will need to adhere to this schema when generating completions.
+
+    All required parameters must be populated in order to send to server.
 
     :ivar name: A name that labels this JSON schema. Must be a-z, A-Z, 0-9, or contain underscores
      and dashes, with a maximum length of 64. Required.
@@ -1044,7 +1282,8 @@ class JsonSchemaFormat(_model_base.Model):
     :ivar schema: The definition of the JSON schema. See
      https://json-schema.org/overview/what-is-jsonschema.
      Note that AI models usually only support a subset of the keywords defined by JSON schema.
-     Consult your AI model documentation to determine what is supported. Required.
+     Consult your AI model documentation
+     to determine what is supported. Required.
     :vartype schema: dict[str, any]
     :ivar description: A description of the response format, used by the AI model to determine how
      to generate responses in this format.
@@ -1053,8 +1292,9 @@ class JsonSchemaFormat(_model_base.Model):
      keywords
      not supported by the AI model. An example of such keyword may be ``maxLength`` for JSON type
      ``string``.
-     If false, and the provided JSON schema contains keywords not supported by the AI model,
-     the AI model will not error out. Instead it will ignore the unsupported keywords.
+     If false, and the provided JSON schema contains keywords not supported
+     by the AI model, the AI model will not error out. Instead it will ignore the unsupported
+     keywords.
     :vartype strict: bool
     """
 
@@ -1064,7 +1304,8 @@ class JsonSchemaFormat(_model_base.Model):
     schema: Dict[str, Any] = rest_field()
     """The definition of the JSON schema. See https://json-schema.org/overview/what-is-jsonschema.
      Note that AI models usually only support a subset of the keywords defined by JSON schema.
-     Consult your AI model documentation to determine what is supported. Required."""
+     Consult your AI model documentation
+     to determine what is supported. Required."""
     description: Optional[str] = rest_field()
     """A description of the response format, used by the AI model to determine how to generate
      responses in this format."""
@@ -1072,8 +1313,9 @@ class JsonSchemaFormat(_model_base.Model):
     """If set to true, the service will error out if the provided JSON schema contains keywords
      not supported by the AI model. An example of such keyword may be ``maxLength`` for JSON type
      ``string``.
-     If false, and the provided JSON schema contains keywords not supported by the AI model,
-     the AI model will not error out. Instead it will ignore the unsupported keywords."""
+     If false, and the provided JSON schema contains keywords not supported
+     by the AI model, the AI model will not error out. Instead it will ignore the unsupported
+     keywords."""
 
     @overload
     def __init__(
@@ -1201,14 +1443,14 @@ class StreamingChatCompletionsUpdate(_model_base.Model):
     :vartype created: ~datetime.datetime
     :ivar model: The model used for the chat completion. Required.
     :vartype model: str
+    :ivar usage: Usage information for tokens processed and generated as part of this completions
+     operation. Required.
+    :vartype usage: ~azure.ai.inference.models.CompletionsUsage
     :ivar choices: An update to the collection of completion choices associated with this
      completions response.
      Generally, ``n`` choices are generated per provided prompt with a default value of 1.
      Token limits and other settings may limit the number of choices generated. Required.
     :vartype choices: list[~azure.ai.inference.models.StreamingChatChoiceUpdate]
-    :ivar usage: Usage information for tokens processed and generated as part of this completions
-     operation.
-    :vartype usage: ~azure.ai.inference.models.CompletionsUsage
     """
 
     id: str = rest_field()
@@ -1218,12 +1460,13 @@ class StreamingChatCompletionsUpdate(_model_base.Model):
      represented as seconds since the beginning of the Unix epoch of 00:00 on 1 Jan 1970. Required."""
     model: str = rest_field()
     """The model used for the chat completion. Required."""
+    usage: "_models.CompletionsUsage" = rest_field()
+    """Usage information for tokens processed and generated as part of this completions operation.
+     Required."""
     choices: List["_models.StreamingChatChoiceUpdate"] = rest_field()
     """An update to the collection of completion choices associated with this completions response.
      Generally, ``n`` choices are generated per provided prompt with a default value of 1.
      Token limits and other settings may limit the number of choices generated. Required."""
-    usage: Optional["_models.CompletionsUsage"] = rest_field()
-    """Usage information for tokens processed and generated as part of this completions operation."""
 
     @overload
     def __init__(
@@ -1232,8 +1475,8 @@ class StreamingChatCompletionsUpdate(_model_base.Model):
         id: str,  # pylint: disable=redefined-builtin
         created: datetime.datetime,
         model: str,
+        usage: "_models.CompletionsUsage",
         choices: List["_models.StreamingChatChoiceUpdate"],
-        usage: Optional["_models.CompletionsUsage"] = None,
     ) -> None: ...
 
     @overload
@@ -1325,8 +1568,48 @@ class StreamingChatResponseToolCallUpdate(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
+class SystemMessage(ChatRequestMessage, discriminator="system"):
+    """A request chat message containing system instructions that influence how the model will
+    generate a chat completions
+    response.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar role: The chat role associated with this message, which is always 'system' for system
+     messages. Required. The role that instructs or sets the behavior of the assistant.
+    :vartype role: str or ~azure.ai.inference.models.SYSTEM
+    :ivar content: The contents of the system message. Required.
+    :vartype content: str
+    """
+
+    role: Literal[ChatRole.SYSTEM] = rest_discriminator(name="role")  # type: ignore
+    """The chat role associated with this message, which is always 'system' for system messages.
+     Required. The role that instructs or sets the behavior of the assistant."""
+    content: str = rest_field()
+    """The contents of the system message. Required."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        content: str,
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, role=ChatRole.SYSTEM, **kwargs)
+
+
 class TextContentItem(ContentItem, discriminator="text"):
     """A structured chat content item containing plain text.
+
+    All required parameters must be populated in order to send to server.
 
     :ivar type: The discriminated object type: always 'text' for this type. Required. Default value
      is "text".
@@ -1357,3 +1640,83 @@ class TextContentItem(ContentItem, discriminator="text"):
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, type="text", **kwargs)
+
+
+class ToolMessage(ChatRequestMessage, discriminator="tool"):
+    """A request chat message representing requested output from a configured tool.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar role: The chat role associated with this message, which is always 'tool' for tool
+     messages. Required. The role that represents extension tool activity within a chat completions
+     operation.
+    :vartype role: str or ~azure.ai.inference.models.TOOL
+    :ivar content: The content of the message.
+    :vartype content: str
+    :ivar tool_call_id: The ID of the tool call resolved by the provided content. Required.
+    :vartype tool_call_id: str
+    """
+
+    role: Literal[ChatRole.TOOL] = rest_discriminator(name="role")  # type: ignore
+    """The chat role associated with this message, which is always 'tool' for tool messages. Required.
+     The role that represents extension tool activity within a chat completions operation."""
+    content: Optional[str] = rest_field()
+    """The content of the message."""
+    tool_call_id: str = rest_field()
+    """The ID of the tool call resolved by the provided content. Required."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        tool_call_id: str,
+        content: Optional[str] = None,
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, role=ChatRole.TOOL, **kwargs)
+
+
+class UserMessage(ChatRequestMessage, discriminator="user"):
+    """A request chat message representing user input to the assistant.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar role: The chat role associated with this message, which is always 'user' for user
+     messages. Required. The role that provides input for chat completions.
+    :vartype role: str or ~azure.ai.inference.models.USER
+    :ivar content: The contents of the user message, with available input types varying by selected
+     model. Required. Is either a str type or a [ContentItem] type.
+    :vartype content: str or list[~azure.ai.inference.models.ContentItem]
+    """
+
+    role: Literal[ChatRole.USER] = rest_discriminator(name="role")  # type: ignore
+    """The chat role associated with this message, which is always 'user' for user messages. Required.
+     The role that provides input for chat completions."""
+    content: Union[str, List["_models.ContentItem"]] = rest_field()
+    """The contents of the user message, with available input types varying by selected model.
+     Required. Is either a str type or a [ContentItem] type."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        content: Union[str, List["_models.ContentItem"]],
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, role=ChatRole.USER, **kwargs)
