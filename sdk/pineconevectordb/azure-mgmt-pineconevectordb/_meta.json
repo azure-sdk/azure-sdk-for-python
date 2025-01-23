@@ -1,0 +1,6 @@
+{
+  "commit": "1ebb2228011a420177322e8fd2fef0e98d9e0e18",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/liftrpinecone/Pinecone.VectorDb.Management",
+  "@azure-tools/typespec-python": "0.38.1"
+}
