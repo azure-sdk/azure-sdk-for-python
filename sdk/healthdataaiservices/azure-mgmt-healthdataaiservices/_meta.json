@@ -1,6 +1,6 @@
 {
-  "commit": "0410d404c68289cb1737d06bba92133bb84b515c",
-  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "commit": "0ddd6d1b2d0b4a7f83a6575bf3acea8a86223347",
+  "repository_url": "https://github.com/test-repo-billy/azure-rest-api-specs",
   "typespec_src": "specification/healthdataaiservices/HealthDataAIServices.Management",
-  "@azure-tools/typespec-python": "0.36.1"
+  "@azure-tools/typespec-python": "0.38.1"
 }
