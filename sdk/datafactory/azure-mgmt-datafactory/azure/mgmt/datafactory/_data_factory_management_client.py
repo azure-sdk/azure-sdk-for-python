@@ -34,7 +34,6 @@ from .operations import (
     LinkedServicesOperations,
     ManagedPrivateEndpointsOperations,
     ManagedVirtualNetworksOperations,
-    Operations,
     PipelineRunsOperations,
     PipelinesOperations,
     PrivateEndPointConnectionsOperations,
@@ -52,12 +51,10 @@ class DataFactoryManagementClient:  # pylint: disable=too-many-instance-attribut
     """The Azure Data Factory V2 management API provides a RESTful set of web services that interact
     with Azure Data Factory V2 services.
 
-    :ivar operations: Operations operations
-    :vartype operations: azure.mgmt.datafactory.operations.Operations
-    :ivar factories: FactoriesOperations operations
-    :vartype factories: azure.mgmt.datafactory.operations.FactoriesOperations
     :ivar exposure_control: ExposureControlOperations operations
     :vartype exposure_control: azure.mgmt.datafactory.operations.ExposureControlOperations
+    :ivar factories: FactoriesOperations operations
+    :vartype factories: azure.mgmt.datafactory.operations.FactoriesOperations
     :ivar integration_runtimes: IntegrationRuntimesOperations operations
     :vartype integration_runtimes: azure.mgmt.datafactory.operations.IntegrationRuntimesOperations
     :ivar integration_runtime_object_metadata: IntegrationRuntimeObjectMetadataOperations
@@ -155,11 +152,10 @@ class DataFactoryManagementClient:  # pylint: disable=too-many-instance-attribut
         self._serialize = Serializer(client_models)
         self._deserialize = Deserializer(client_models)
         self._serialize.client_side_validation = False
-        self.operations = Operations(self._client, self._config, self._serialize, self._deserialize)
-        self.factories = FactoriesOperations(self._client, self._config, self._serialize, self._deserialize)
         self.exposure_control = ExposureControlOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
+        self.factories = FactoriesOperations(self._client, self._config, self._serialize, self._deserialize)
         self.integration_runtimes = IntegrationRuntimesOperations(
             self._client, self._config, self._serialize, self._deserialize
         )

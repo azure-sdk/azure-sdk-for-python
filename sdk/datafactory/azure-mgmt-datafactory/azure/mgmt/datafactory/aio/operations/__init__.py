@@ -12,9 +12,8 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from ._patch import *  # pylint: disable=unused-wildcard-import
 
-from ._operations import Operations  # type: ignore
-from ._factories_operations import FactoriesOperations  # type: ignore
 from ._exposure_control_operations import ExposureControlOperations  # type: ignore
+from ._factories_operations import FactoriesOperations  # type: ignore
 from ._integration_runtimes_operations import IntegrationRuntimesOperations  # type: ignore
 from ._integration_runtime_object_metadata_operations import IntegrationRuntimeObjectMetadataOperations  # type: ignore
 from ._integration_runtime_nodes_operations import IntegrationRuntimeNodesOperations  # type: ignore
@@ -41,9 +40,8 @@ from ._patch import *
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
-    "Operations",
-    "FactoriesOperations",
     "ExposureControlOperations",
+    "FactoriesOperations",
     "IntegrationRuntimesOperations",
     "IntegrationRuntimeObjectMetadataOperations",
     "IntegrationRuntimeNodesOperations",
