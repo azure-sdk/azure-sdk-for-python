@@ -14,12 +14,14 @@ if TYPE_CHECKING:
 
 
 from ._models import (  # type: ignore
+    AssistantMessage,
     ChatChoice,
     ChatCompletions,
     ChatCompletionsNamedToolChoice,
     ChatCompletionsNamedToolChoiceFunction,
     ChatCompletionsToolCall,
     ChatCompletionsToolDefinition,
+    ChatRequestMessage,
     ChatResponseMessage,
     CompletionsUsage,
     ContentItem,
@@ -37,7 +39,10 @@ from ._models import (  # type: ignore
     StreamingChatCompletionsUpdate,
     StreamingChatResponseMessageUpdate,
     StreamingChatResponseToolCallUpdate,
+    SystemMessage,
     TextContentItem,
+    ToolMessage,
+    UserMessage,
 )
 
 from ._enums import (  # type: ignore
@@ -54,12 +59,14 @@ from ._patch import *
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
+    "AssistantMessage",
     "ChatChoice",
     "ChatCompletions",
     "ChatCompletionsNamedToolChoice",
     "ChatCompletionsNamedToolChoiceFunction",
     "ChatCompletionsToolCall",
     "ChatCompletionsToolDefinition",
+    "ChatRequestMessage",
     "ChatResponseMessage",
     "CompletionsUsage",
     "ContentItem",
@@ -77,7 +84,10 @@ __all__ = [
     "StreamingChatCompletionsUpdate",
     "StreamingChatResponseMessageUpdate",
     "StreamingChatResponseToolCallUpdate",
+    "SystemMessage",
     "TextContentItem",
+    "ToolMessage",
+    "UserMessage",
     "ChatCompletionsToolChoicePreset",
     "ChatRole",
     "CompletionsFinishReason",
