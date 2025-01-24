@@ -20,7 +20,7 @@ class TestSqlManagementWorkloadGroupsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_workload_groups_get(self, resource_group):
         response = self.client.workload_groups.get(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -34,7 +34,7 @@ class TestSqlManagementWorkloadGroupsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_create_or_update(self, resource_group):
+    def test_workload_groups_begin_create_or_update(self, resource_group):
         response = self.client.workload_groups.begin_create_or_update(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -59,7 +59,7 @@ class TestSqlManagementWorkloadGroupsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_delete(self, resource_group):
+    def test_workload_groups_begin_delete(self, resource_group):
         response = self.client.workload_groups.begin_delete(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -73,7 +73,7 @@ class TestSqlManagementWorkloadGroupsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_database(self, resource_group):
+    def test_workload_groups_list_by_database(self, resource_group):
         response = self.client.workload_groups.list_by_database(
             resource_group_name=resource_group.name,
             server_name="str",

@@ -21,7 +21,7 @@ class TestSqlManagementJobStepsOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_by_version(self, resource_group):
+    async def test_job_steps_list_by_version(self, resource_group):
         response = self.client.job_steps.list_by_version(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -36,7 +36,7 @@ class TestSqlManagementJobStepsOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get_by_version(self, resource_group):
+    async def test_job_steps_get_by_version(self, resource_group):
         response = await self.client.job_steps.get_by_version(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -52,7 +52,7 @@ class TestSqlManagementJobStepsOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_by_job(self, resource_group):
+    async def test_job_steps_list_by_job(self, resource_group):
         response = self.client.job_steps.list_by_job(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -66,7 +66,7 @@ class TestSqlManagementJobStepsOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get(self, resource_group):
+    async def test_job_steps_get(self, resource_group):
         response = await self.client.job_steps.get(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -81,7 +81,7 @@ class TestSqlManagementJobStepsOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_create_or_update(self, resource_group):
+    async def test_job_steps_create_or_update(self, resource_group):
         response = await self.client.job_steps.create_or_update(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -122,7 +122,7 @@ class TestSqlManagementJobStepsOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_delete(self, resource_group):
+    async def test_job_steps_delete(self, resource_group):
         response = await self.client.job_steps.delete(
             resource_group_name=resource_group.name,
             server_name="str",
