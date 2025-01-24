@@ -8,6 +8,7 @@
 
 from copy import deepcopy
 from typing import Any, TYPE_CHECKING
+from typing_extensions import Self
 
 from azure.core.pipeline import policies
 from azure.core.rest import HttpRequest, HttpResponse
@@ -52,12 +53,11 @@ from .operations import (
 )
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from azure.core.credentials import TokenCredential
 
 
-class EventGridManagementClient:  # pylint: disable=client-accepts-api-version-keyword,too-many-instance-attributes
-    """Azure EventGrid Management Client.
+class EventGridManagementClient:  # pylint: disable=too-many-instance-attributes
+    """Azure EventGrid Management Client test.
 
     :ivar ca_certificates: CaCertificatesOperations operations
     :vartype ca_certificates: azure.mgmt.eventgrid.operations.CaCertificatesOperations
@@ -139,7 +139,7 @@ class EventGridManagementClient:  # pylint: disable=client-accepts-api-version-k
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2024-06-01-preview". Note that overriding
+    :keyword api_version: Api Version. Default value is "2024-12-15-preview". Note that overriding
      this default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
@@ -273,7 +273,7 @@ class EventGridManagementClient:  # pylint: disable=client-accepts-api-version-k
     def close(self) -> None:
         self._client.close()
 
-    def __enter__(self) -> "EventGridManagementClient":
+    def __enter__(self) -> Self:
         self._client.__enter__()
         return self
 

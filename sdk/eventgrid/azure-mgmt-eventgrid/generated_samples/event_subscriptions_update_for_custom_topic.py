@@ -6,8 +6,6 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from typing import Any, IO, Union
-
 from azure.identity import DefaultAzureCredential
 
 from azure.mgmt.eventgrid import EventGridManagementClient
@@ -48,6 +46,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-06-01-preview/examples/EventSubscriptions_UpdateForCustomTopic.json
+# x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2024-12-15-preview/examples/EventSubscriptions_UpdateForCustomTopic.json
 if __name__ == "__main__":
     main()
