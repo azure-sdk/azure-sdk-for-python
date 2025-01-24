@@ -1,0 +1,6 @@
+{
+  "commit": "59583521f5e5a5b1e02bd8966bc30b567ecc696a",
+  "repository_url": "https://github.com/test-repo-billy/azure-rest-api-specs",
+  "typespec_src": "specification/keyvault/Security.KeyVault.Keys",
+  "@azure-tools/typespec-python": "0.38.1"
+}
