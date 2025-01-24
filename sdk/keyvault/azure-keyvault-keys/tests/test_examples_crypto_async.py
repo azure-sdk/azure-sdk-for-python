@@ -15,7 +15,7 @@ all_api_versions = get_decorator(is_async=True, only_vault=True)
 
 class TestCryptoExamples(KeyVaultTestCase):
     @pytest.mark.asyncio
-    @pytest.mark.parametrize("api_version,is_hsm",all_api_versions)
+    @pytest.mark.parametrize("api_version,is_hsm", all_api_versions)
     @AsyncKeysClientPreparer()
     @recorded_by_proxy_async
     async def test_encrypt_decrypt_async(self, key_client, **kwargs):
@@ -59,7 +59,7 @@ class TestCryptoExamples(KeyVaultTestCase):
         # [END decrypt]
 
     @pytest.mark.asyncio
-    @pytest.mark.parametrize("api_version,is_hsm",all_api_versions)
+    @pytest.mark.parametrize("api_version,is_hsm", all_api_versions)
     @AsyncKeysClientPreparer()
     @recorded_by_proxy_async
     async def test_wrap_unwrap_async(self, key_client, **kwargs):
@@ -88,7 +88,7 @@ class TestCryptoExamples(KeyVaultTestCase):
         # [END unwrap_key]
 
     @pytest.mark.asyncio
-    @pytest.mark.parametrize("api_version,is_hsm",all_api_versions)
+    @pytest.mark.parametrize("api_version,is_hsm", all_api_versions)
     @AsyncKeysClientPreparer()
     @recorded_by_proxy_async
     async def test_sign_verify_async(self, key_client, **kwargs):
