@@ -1,0 +1,6 @@
+{
+  "commit": "472cda1d27573ddefb7f97d3994facf093092acd",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/impact/Impact.Management",
+  "@azure-tools/typespec-python": "0.38.1"
+}
