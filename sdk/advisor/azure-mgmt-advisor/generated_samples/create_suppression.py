@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.advisor import AdvisorManagementClient
 
 """
@@ -38,6 +39,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/advisor/resource-manager/Microsoft.Advisor/stable/2020-01-01/examples/CreateSuppression.json
+# x-ms-original-file: specification/advisor/resource-manager/Microsoft.Advisor/stable/2023-01-01/examples/CreateSuppression.json
 if __name__ == "__main__":
     main()

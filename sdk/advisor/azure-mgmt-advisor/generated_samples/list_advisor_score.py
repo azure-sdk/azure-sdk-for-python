@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.advisor import AdvisorManagementClient
 
 """
@@ -14,7 +15,7 @@ from azure.mgmt.advisor import AdvisorManagementClient
     pip install azure-identity
     pip install azure-mgmt-advisor
 # USAGE
-    python get_metadata.py
+    python list_advisor_score.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,15 +27,13 @@ from azure.mgmt.advisor import AdvisorManagementClient
 def main():
     client = AdvisorManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="SUBSCRIPTION_ID",
+        subscription_id="subscriptionId",
     )
 
-    response = client.recommendation_metadata.get(
-        name="types",
-    )
+    response = client.advisor_scores.list()
     print(response)
 
 
-# x-ms-original-file: specification/advisor/resource-manager/Microsoft.Advisor/stable/2020-01-01/examples/GetRecommendationMetadataEntity.json
+# x-ms-original-file: specification/advisor/resource-manager/Microsoft.Advisor/stable/2023-01-01/examples/ListAdvisorScore.json
 if __name__ == "__main__":
     main()
