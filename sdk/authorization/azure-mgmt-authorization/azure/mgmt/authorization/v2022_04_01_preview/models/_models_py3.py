@@ -1,5 +1,4 @@
 # coding=utf-8
-# pylint: disable=too-many-lines
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -13,7 +12,6 @@ from typing import Any, List, Optional, TYPE_CHECKING, Union
 from ... import _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
@@ -214,7 +212,7 @@ class ExpandedPropertiesScope(_serialization.Model):
         self.type = type
 
 
-class RoleAssignmentScheduleRequest(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class RoleAssignmentScheduleRequest(_serialization.Model):
     """Role Assignment schedule request.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -479,7 +477,7 @@ class RoleAssignmentScheduleRequestListResult(_serialization.Model):
         self.next_link = next_link
 
 
-class RoleAssignmentScheduleRequestPropertiesScheduleInfo(_serialization.Model):
+class RoleAssignmentScheduleRequestPropertiesScheduleInfo(_serialization.Model):  # pylint: disable=name-too-long
     """Schedule info of the role assignment schedule.
 
     :ivar start_date_time: Start DateTime of the role assignment schedule.
@@ -506,14 +504,16 @@ class RoleAssignmentScheduleRequestPropertiesScheduleInfo(_serialization.Model):
         :paramtype start_date_time: ~datetime.datetime
         :keyword expiration: Expiration of the role assignment schedule.
         :paramtype expiration:
-         ~azure.mgmt.authorization.v2022_04_01_preview.models.RoleAssignmentScheduleRequestPropertiesScheduleInfoExpiration
+         ~azure.mgmt.authorization.v2022_04_01_preview.models.RoleAssignmentScheduleRequestPropertiesScheduleInfoExpiration  # pylint: disable=line-too-long
         """
         super().__init__(**kwargs)
         self.start_date_time = start_date_time
         self.expiration = expiration
 
 
-class RoleAssignmentScheduleRequestPropertiesScheduleInfoExpiration(_serialization.Model):
+class RoleAssignmentScheduleRequestPropertiesScheduleInfoExpiration(
+    _serialization.Model
+):  # pylint: disable=name-too-long
     """Expiration of the role assignment schedule.
 
     :ivar type: Type of the role assignment schedule expiration. Known values are: "AfterDuration",
@@ -554,7 +554,7 @@ class RoleAssignmentScheduleRequestPropertiesScheduleInfoExpiration(_serializati
         self.duration = duration
 
 
-class RoleAssignmentScheduleRequestPropertiesTicketInfo(_serialization.Model):
+class RoleAssignmentScheduleRequestPropertiesTicketInfo(_serialization.Model):  # pylint: disable=name-too-long
     """Ticket Info of the role assignment.
 
     :ivar ticket_number: Ticket number for the role assignment.
@@ -582,7 +582,7 @@ class RoleAssignmentScheduleRequestPropertiesTicketInfo(_serialization.Model):
         self.ticket_system = ticket_system
 
 
-class RoleEligibilityScheduleRequest(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class RoleEligibilityScheduleRequest(_serialization.Model):
     """Role Eligibility schedule request.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -838,7 +838,7 @@ class RoleEligibilityScheduleRequestListResult(_serialization.Model):
         self.next_link = next_link
 
 
-class RoleEligibilityScheduleRequestPropertiesScheduleInfo(_serialization.Model):
+class RoleEligibilityScheduleRequestPropertiesScheduleInfo(_serialization.Model):  # pylint: disable=name-too-long
     """Schedule info of the role eligibility schedule.
 
     :ivar start_date_time: Start DateTime of the role eligibility schedule.
@@ -865,14 +865,16 @@ class RoleEligibilityScheduleRequestPropertiesScheduleInfo(_serialization.Model)
         :paramtype start_date_time: ~datetime.datetime
         :keyword expiration: Expiration of the role eligibility schedule.
         :paramtype expiration:
-         ~azure.mgmt.authorization.v2022_04_01_preview.models.RoleEligibilityScheduleRequestPropertiesScheduleInfoExpiration
+         ~azure.mgmt.authorization.v2022_04_01_preview.models.RoleEligibilityScheduleRequestPropertiesScheduleInfoExpiration  # pylint: disable=line-too-long
         """
         super().__init__(**kwargs)
         self.start_date_time = start_date_time
         self.expiration = expiration
 
 
-class RoleEligibilityScheduleRequestPropertiesScheduleInfoExpiration(_serialization.Model):
+class RoleEligibilityScheduleRequestPropertiesScheduleInfoExpiration(
+    _serialization.Model
+):  # pylint: disable=name-too-long
     """Expiration of the role eligibility schedule.
 
     :ivar type: Type of the role eligibility schedule expiration. Known values are:
@@ -913,7 +915,7 @@ class RoleEligibilityScheduleRequestPropertiesScheduleInfoExpiration(_serializat
         self.duration = duration
 
 
-class RoleEligibilityScheduleRequestPropertiesTicketInfo(_serialization.Model):
+class RoleEligibilityScheduleRequestPropertiesTicketInfo(_serialization.Model):  # pylint: disable=name-too-long
     """Ticket Info of the role eligibility.
 
     :ivar ticket_number: Ticket number for the role eligibility.

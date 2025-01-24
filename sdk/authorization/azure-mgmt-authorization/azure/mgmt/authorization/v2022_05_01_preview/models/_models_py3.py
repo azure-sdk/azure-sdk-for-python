@@ -1,5 +1,5 @@
-# coding=utf-8
 # pylint: disable=too-many-lines
+# coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -12,7 +12,6 @@ from typing import Any, List, Optional, TYPE_CHECKING, Union
 from ... import _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
@@ -379,7 +378,7 @@ class Principal(_serialization.Model):
         self.email = email
 
 
-class RoleDefinition(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class RoleDefinition(_serialization.Model):
     """Role definition.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -534,7 +533,7 @@ class RoleManagementPolicyRule(_serialization.Model):
     RoleManagementPolicyEnablementRule, RoleManagementPolicyExpirationRule,
     RoleManagementPolicyNotificationRule
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The id of the rule.
     :vartype id: str
@@ -592,7 +591,7 @@ class RoleManagementPolicyRule(_serialization.Model):
 class RoleManagementPolicyApprovalRule(RoleManagementPolicyRule):
     """The role management policy approval rule.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The id of the rule.
     :vartype id: str
@@ -642,10 +641,10 @@ class RoleManagementPolicyApprovalRule(RoleManagementPolicyRule):
         self.setting = setting
 
 
-class RoleManagementPolicyAuthenticationContextRule(RoleManagementPolicyRule):
+class RoleManagementPolicyAuthenticationContextRule(RoleManagementPolicyRule):  # pylint: disable=name-too-long
     """The role management policy authentication context rule.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The id of the rule.
     :vartype id: str
@@ -705,7 +704,7 @@ class RoleManagementPolicyAuthenticationContextRule(RoleManagementPolicyRule):
 class RoleManagementPolicyEnablementRule(RoleManagementPolicyRule):
     """The role management policy enablement rule.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The id of the rule.
     :vartype id: str
@@ -760,7 +759,7 @@ class RoleManagementPolicyEnablementRule(RoleManagementPolicyRule):
 class RoleManagementPolicyExpirationRule(RoleManagementPolicyRule):
     """The role management policy expiration rule.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The id of the rule.
     :vartype id: str
@@ -820,7 +819,7 @@ class RoleManagementPolicyExpirationRule(RoleManagementPolicyRule):
 class RoleManagementPolicyNotificationRule(RoleManagementPolicyRule):
     """The role management policy notification rule.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The id of the rule.
     :vartype id: str

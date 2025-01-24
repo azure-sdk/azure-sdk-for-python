@@ -1,4 +1,3 @@
-# pylint: disable=too-many-lines
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,6 +6,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
+import sys
 from typing import Any, Callable, Dict, IO, Iterable, Optional, TypeVar, Union, overload
 import urllib.parse
 
@@ -20,16 +20,18 @@ from azure.core.exceptions import (
 )
 from azure.core.paging import ItemPaged
 from azure.core.pipeline import PipelineResponse
-from azure.core.pipeline.transport import HttpResponse
-from azure.core.rest import HttpRequest
+from azure.core.rest import HttpRequest, HttpResponse
 from azure.core.tracing.decorator import distributed_trace
 from azure.core.utils import case_insensitive_dict
 from azure.mgmt.core.exceptions import ARMErrorFormat
 
 from .. import models as _models
 from ..._serialization import Serializer
-from .._vendor import _convert_request, _format_url_section
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
 
@@ -56,7 +58,7 @@ def build_get_request(scope: str, role_management_policy_assignment_name: str, *
         ),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -87,7 +89,7 @@ def build_create_request(scope: str, role_management_policy_assignment_name: str
         ),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -119,7 +121,7 @@ def build_delete_request(scope: str, role_management_policy_assignment_name: str
         ),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -143,7 +145,7 @@ def build_list_for_scope_request(scope: str, **kwargs: Any) -> HttpRequest:
         "scope": _SERIALIZER.url("scope", scope, "str", skip_quote=True),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -154,7 +156,7 @@ def build_list_for_scope_request(scope: str, **kwargs: Any) -> HttpRequest:
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-class RoleManagementPolicyAssignmentsOperations:
+class RoleManagementPolicyAssignmentsOperations:  # pylint: disable=name-too-long
     """
     .. warning::
         **DO NOT** instantiate this class directly.
@@ -185,12 +187,11 @@ class RoleManagementPolicyAssignmentsOperations:
         :param role_management_policy_assignment_name: The name of format {guid_guid} the role
          management policy assignment to get. Required.
         :type role_management_policy_assignment_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: RoleManagementPolicyAssignment or the result of cls(response)
         :rtype: ~azure.mgmt.authorization.v2020_10_01.models.RoleManagementPolicyAssignment
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -204,20 +205,18 @@ class RoleManagementPolicyAssignmentsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2020-10-01"))
         cls: ClsType[_models.RoleManagementPolicyAssignment] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             scope=scope,
             role_management_policy_assignment_name=role_management_policy_assignment_name,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -226,16 +225,12 @@ class RoleManagementPolicyAssignmentsOperations:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("RoleManagementPolicyAssignment", pipeline_response)
+        deserialized = self._deserialize("RoleManagementPolicyAssignment", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/{scope}/providers/Microsoft.Authorization/roleManagementPolicyAssignments/{roleManagementPolicyAssignmentName}"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def create(
@@ -259,7 +254,6 @@ class RoleManagementPolicyAssignmentsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: RoleManagementPolicyAssignment or the result of cls(response)
         :rtype: ~azure.mgmt.authorization.v2020_10_01.models.RoleManagementPolicyAssignment
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -270,7 +264,7 @@ class RoleManagementPolicyAssignmentsOperations:
         self,
         scope: str,
         role_management_policy_assignment_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -283,11 +277,10 @@ class RoleManagementPolicyAssignmentsOperations:
          management policy assignment to upsert. Required.
         :type role_management_policy_assignment_name: str
         :param parameters: Parameters for the role management policy assignment. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: RoleManagementPolicyAssignment or the result of cls(response)
         :rtype: ~azure.mgmt.authorization.v2020_10_01.models.RoleManagementPolicyAssignment
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -298,7 +291,7 @@ class RoleManagementPolicyAssignmentsOperations:
         self,
         scope: str,
         role_management_policy_assignment_name: str,
-        parameters: Union[_models.RoleManagementPolicyAssignment, IO],
+        parameters: Union[_models.RoleManagementPolicyAssignment, IO[bytes]],
         **kwargs: Any
     ) -> _models.RoleManagementPolicyAssignment:
         """Create a role management policy assignment.
@@ -309,18 +302,14 @@ class RoleManagementPolicyAssignmentsOperations:
          management policy assignment to upsert. Required.
         :type role_management_policy_assignment_name: str
         :param parameters: Parameters for the role management policy assignment. Is either a
-         RoleManagementPolicyAssignment type or a IO type. Required.
+         RoleManagementPolicyAssignment type or a IO[bytes] type. Required.
         :type parameters: ~azure.mgmt.authorization.v2020_10_01.models.RoleManagementPolicyAssignment
-         or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         or IO[bytes]
         :return: RoleManagementPolicyAssignment or the result of cls(response)
         :rtype: ~azure.mgmt.authorization.v2020_10_01.models.RoleManagementPolicyAssignment
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -343,23 +332,21 @@ class RoleManagementPolicyAssignmentsOperations:
         else:
             _json = self._serialize.body(parameters, "RoleManagementPolicyAssignment")
 
-        request = build_create_request(
+        _request = build_create_request(
             scope=scope,
             role_management_policy_assignment_name=role_management_policy_assignment_name,
             api_version=api_version,
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.create.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -368,16 +355,12 @@ class RoleManagementPolicyAssignmentsOperations:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("RoleManagementPolicyAssignment", pipeline_response)
+        deserialized = self._deserialize("RoleManagementPolicyAssignment", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    create.metadata = {
-        "url": "/{scope}/providers/Microsoft.Authorization/roleManagementPolicyAssignments/{roleManagementPolicyAssignmentName}"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
     def delete(  # pylint: disable=inconsistent-return-statements
@@ -390,12 +373,11 @@ class RoleManagementPolicyAssignmentsOperations:
         :param role_management_policy_assignment_name: The name of format {guid_guid} the role
          management policy assignment to delete. Required.
         :type role_management_policy_assignment_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -409,20 +391,18 @@ class RoleManagementPolicyAssignmentsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2020-10-01"))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_delete_request(
+        _request = build_delete_request(
             scope=scope,
             role_management_policy_assignment_name=role_management_policy_assignment_name,
             api_version=api_version,
-            template_url=self.delete.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -432,11 +412,7 @@ class RoleManagementPolicyAssignmentsOperations:
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    delete.metadata = {
-        "url": "/{scope}/providers/Microsoft.Authorization/roleManagementPolicyAssignments/{roleManagementPolicyAssignmentName}"
-    }
+            return cls(pipeline_response, None, {})  # type: ignore
 
     @distributed_trace
     def list_for_scope(self, scope: str, **kwargs: Any) -> Iterable["_models.RoleManagementPolicyAssignment"]:
@@ -444,7 +420,6 @@ class RoleManagementPolicyAssignmentsOperations:
 
         :param scope: The scope of the role management policy. Required.
         :type scope: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either RoleManagementPolicyAssignment or the result of
          cls(response)
         :rtype:
@@ -457,7 +432,7 @@ class RoleManagementPolicyAssignmentsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2020-10-01"))
         cls: ClsType[_models.RoleManagementPolicyAssignmentListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -468,15 +443,13 @@ class RoleManagementPolicyAssignmentsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_for_scope_request(
+                _request = build_list_for_scope_request(
                     scope=scope,
                     api_version=api_version,
-                    template_url=self.list_for_scope.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -487,14 +460,13 @@ class RoleManagementPolicyAssignmentsOperations:
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("RoleManagementPolicyAssignmentListResult", pipeline_response)
@@ -504,11 +476,11 @@ class RoleManagementPolicyAssignmentsOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -519,5 +491,3 @@ class RoleManagementPolicyAssignmentsOperations:
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list_for_scope.metadata = {"url": "/{scope}/providers/Microsoft.Authorization/roleManagementPolicyAssignments"}
