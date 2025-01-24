@@ -20,7 +20,7 @@ class TestSqlManagementDataMaskingPoliciesOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_create_or_update(self, resource_group):
+    def test_data_masking_policies_create_or_update(self, resource_group):
         response = self.client.data_masking_policies.create_or_update(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -45,7 +45,7 @@ class TestSqlManagementDataMaskingPoliciesOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_data_masking_policies_get(self, resource_group):
         response = self.client.data_masking_policies.get(
             resource_group_name=resource_group.name,
             server_name="str",
