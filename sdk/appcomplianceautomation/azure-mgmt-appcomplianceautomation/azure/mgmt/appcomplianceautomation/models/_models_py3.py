@@ -1,5 +1,5 @@
-# coding=utf-8
 # pylint: disable=too-many-lines
+# coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -13,7 +13,6 @@ from typing import Any, List, Optional, TYPE_CHECKING, Union
 from .. import _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
@@ -169,7 +168,7 @@ class CheckNameAvailabilityResponse(_serialization.Model):
         self.message = message
 
 
-class ComplianceReportItem(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class ComplianceReportItem(_serialization.Model):
     """Object that includes all the content for single compliance result.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1377,7 +1376,7 @@ class ReportFixResult(_serialization.Model):
         self.reason = None
 
 
-class ReportPatchProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class ReportPatchProperties(_serialization.Model):
     """Patch Report's properties.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1492,7 +1491,7 @@ class ReportPatchProperties(_serialization.Model):  # pylint: disable=too-many-i
         self.provisioning_state = None
 
 
-class ReportProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class ReportProperties(_serialization.Model):
     """Create Report's properties.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1845,7 +1844,7 @@ class ResourceMetadata(_serialization.Model):
         self.account_id = account_id
 
 
-class Responsibility(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class Responsibility(_serialization.Model):
     """A class represent the customer responsibility.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -2681,7 +2680,7 @@ class TriggerEvaluationResponse(_serialization.Model):
         self.properties = properties
 
 
-class WebhookProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class WebhookProperties(_serialization.Model):
     """Webhook properties.
 
     Variables are only populated by the server, and will be ignored when sending a request.
