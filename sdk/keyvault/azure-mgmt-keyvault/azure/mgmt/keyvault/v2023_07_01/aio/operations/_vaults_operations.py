@@ -1,4 +1,3 @@
-# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -17,7 +16,6 @@ from typing import (
     IO,
     Literal,
     Optional,
-    Type,
     TypeVar,
     Union,
     cast,
@@ -32,6 +30,8 @@ from azure.core.exceptions import (
     ResourceExistsError,
     ResourceNotFoundError,
     ResourceNotModifiedError,
+    StreamClosedError,
+    StreamConsumedError,
     map_error,
 )
 from azure.core.pipeline import PipelineResponse
@@ -46,23 +46,19 @@ from azure.mgmt.core.polling.async_arm_polling import AsyncARMPolling
 from ... import models as _models
 from ...operations._vaults_operations import (
     build_check_name_availability_request,
-    build_create_or_update_request,
-    build_delete_request,
     build_get_deleted_request,
-    build_get_request,
     build_list_by_resource_group_request,
     build_list_by_subscription_request,
     build_list_deleted_request,
     build_list_request,
     build_purge_deleted_request,
     build_update_access_policy_request,
-    build_update_request,
 )
 
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -86,438 +82,6 @@ class VaultsOperations:
         self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
         self._api_version = input_args.pop(0) if input_args else kwargs.pop("api_version")
-
-    async def _create_or_update_initial(
-        self,
-        resource_group_name: str,
-        vault_name: str,
-        parameters: Union[_models.VaultCreateOrUpdateParameters, IO[bytes]],
-        **kwargs: Any
-    ) -> AsyncIterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-01"))
-        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[AsyncIterator[bytes]] = kwargs.pop("cls", None)
-
-        content_type = content_type or "application/json"
-        _json = None
-        _content = None
-        if isinstance(parameters, (IOBase, bytes)):
-            _content = parameters
-        else:
-            _json = self._serialize.body(parameters, "VaultCreateOrUpdateParameters")
-
-        _request = build_create_or_update_request(
-            resource_group_name=resource_group_name,
-            vault_name=vault_name,
-            subscription_id=self._config.subscription_id,
-            api_version=api_version,
-            content_type=content_type,
-            json=_json,
-            content=_content,
-            headers=_headers,
-            params=_params,
-        )
-        _request.url = self._client.format_url(_request.url)
-
-        _stream = True
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            _request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200, 201]:
-            await response.read()  # Load the body in memory and close the socket
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
-
-        if response.status_code == 200:
-            deserialized = response.stream_download(self._client._pipeline)
-
-        if response.status_code == 201:
-            deserialized = response.stream_download(self._client._pipeline)
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
-
-        return deserialized  # type: ignore
-
-    @overload
-    async def begin_create_or_update(
-        self,
-        resource_group_name: str,
-        vault_name: str,
-        parameters: _models.VaultCreateOrUpdateParameters,
-        *,
-        content_type: str = "application/json",
-        **kwargs: Any
-    ) -> AsyncLROPoller[_models.Vault]:
-        """Create or update a key vault in the specified subscription.
-
-        :param resource_group_name: The name of the Resource Group to which the server belongs.
-         Required.
-        :type resource_group_name: str
-        :param vault_name: Name of the vault. Required.
-        :type vault_name: str
-        :param parameters: Parameters to create or update the vault. Required.
-        :type parameters: ~azure.mgmt.keyvault.v2023_07_01.models.VaultCreateOrUpdateParameters
-        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :return: An instance of AsyncLROPoller that returns either Vault or the result of cls(response)
-        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.keyvault.v2023_07_01.models.Vault]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @overload
-    async def begin_create_or_update(
-        self,
-        resource_group_name: str,
-        vault_name: str,
-        parameters: IO[bytes],
-        *,
-        content_type: str = "application/json",
-        **kwargs: Any
-    ) -> AsyncLROPoller[_models.Vault]:
-        """Create or update a key vault in the specified subscription.
-
-        :param resource_group_name: The name of the Resource Group to which the server belongs.
-         Required.
-        :type resource_group_name: str
-        :param vault_name: Name of the vault. Required.
-        :type vault_name: str
-        :param parameters: Parameters to create or update the vault. Required.
-        :type parameters: IO[bytes]
-        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :return: An instance of AsyncLROPoller that returns either Vault or the result of cls(response)
-        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.keyvault.v2023_07_01.models.Vault]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @distributed_trace_async
-    async def begin_create_or_update(
-        self,
-        resource_group_name: str,
-        vault_name: str,
-        parameters: Union[_models.VaultCreateOrUpdateParameters, IO[bytes]],
-        **kwargs: Any
-    ) -> AsyncLROPoller[_models.Vault]:
-        """Create or update a key vault in the specified subscription.
-
-        :param resource_group_name: The name of the Resource Group to which the server belongs.
-         Required.
-        :type resource_group_name: str
-        :param vault_name: Name of the vault. Required.
-        :type vault_name: str
-        :param parameters: Parameters to create or update the vault. Is either a
-         VaultCreateOrUpdateParameters type or a IO[bytes] type. Required.
-        :type parameters: ~azure.mgmt.keyvault.v2023_07_01.models.VaultCreateOrUpdateParameters or
-         IO[bytes]
-        :return: An instance of AsyncLROPoller that returns either Vault or the result of cls(response)
-        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.keyvault.v2023_07_01.models.Vault]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-01"))
-        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.Vault] = kwargs.pop("cls", None)
-        polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
-        lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
-        cont_token: Optional[str] = kwargs.pop("continuation_token", None)
-        if cont_token is None:
-            raw_result = await self._create_or_update_initial(
-                resource_group_name=resource_group_name,
-                vault_name=vault_name,
-                parameters=parameters,
-                api_version=api_version,
-                content_type=content_type,
-                cls=lambda x, y, z: x,
-                headers=_headers,
-                params=_params,
-                **kwargs
-            )
-            await raw_result.http_response.read()  # type: ignore
-        kwargs.pop("error_map", None)
-
-        def get_long_running_output(pipeline_response):
-            deserialized = self._deserialize("Vault", pipeline_response.http_response)
-            if cls:
-                return cls(pipeline_response, deserialized, {})  # type: ignore
-            return deserialized
-
-        if polling is True:
-            polling_method: AsyncPollingMethod = cast(AsyncPollingMethod, AsyncARMPolling(lro_delay, **kwargs))
-        elif polling is False:
-            polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
-        else:
-            polling_method = polling
-        if cont_token:
-            return AsyncLROPoller[_models.Vault].from_continuation_token(
-                polling_method=polling_method,
-                continuation_token=cont_token,
-                client=self._client,
-                deserialization_callback=get_long_running_output,
-            )
-        return AsyncLROPoller[_models.Vault](
-            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
-        )
-
-    @overload
-    async def update(
-        self,
-        resource_group_name: str,
-        vault_name: str,
-        parameters: _models.VaultPatchParameters,
-        *,
-        content_type: str = "application/json",
-        **kwargs: Any
-    ) -> _models.Vault:
-        """Update a key vault in the specified subscription.
-
-        :param resource_group_name: The name of the Resource Group to which the server belongs.
-         Required.
-        :type resource_group_name: str
-        :param vault_name: Name of the vault. Required.
-        :type vault_name: str
-        :param parameters: Parameters to patch the vault. Required.
-        :type parameters: ~azure.mgmt.keyvault.v2023_07_01.models.VaultPatchParameters
-        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :return: Vault or the result of cls(response)
-        :rtype: ~azure.mgmt.keyvault.v2023_07_01.models.Vault
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @overload
-    async def update(
-        self,
-        resource_group_name: str,
-        vault_name: str,
-        parameters: IO[bytes],
-        *,
-        content_type: str = "application/json",
-        **kwargs: Any
-    ) -> _models.Vault:
-        """Update a key vault in the specified subscription.
-
-        :param resource_group_name: The name of the Resource Group to which the server belongs.
-         Required.
-        :type resource_group_name: str
-        :param vault_name: Name of the vault. Required.
-        :type vault_name: str
-        :param parameters: Parameters to patch the vault. Required.
-        :type parameters: IO[bytes]
-        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :return: Vault or the result of cls(response)
-        :rtype: ~azure.mgmt.keyvault.v2023_07_01.models.Vault
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @distributed_trace_async
-    async def update(
-        self,
-        resource_group_name: str,
-        vault_name: str,
-        parameters: Union[_models.VaultPatchParameters, IO[bytes]],
-        **kwargs: Any
-    ) -> _models.Vault:
-        """Update a key vault in the specified subscription.
-
-        :param resource_group_name: The name of the Resource Group to which the server belongs.
-         Required.
-        :type resource_group_name: str
-        :param vault_name: Name of the vault. Required.
-        :type vault_name: str
-        :param parameters: Parameters to patch the vault. Is either a VaultPatchParameters type or a
-         IO[bytes] type. Required.
-        :type parameters: ~azure.mgmt.keyvault.v2023_07_01.models.VaultPatchParameters or IO[bytes]
-        :return: Vault or the result of cls(response)
-        :rtype: ~azure.mgmt.keyvault.v2023_07_01.models.Vault
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-01"))
-        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.Vault] = kwargs.pop("cls", None)
-
-        content_type = content_type or "application/json"
-        _json = None
-        _content = None
-        if isinstance(parameters, (IOBase, bytes)):
-            _content = parameters
-        else:
-            _json = self._serialize.body(parameters, "VaultPatchParameters")
-
-        _request = build_update_request(
-            resource_group_name=resource_group_name,
-            vault_name=vault_name,
-            subscription_id=self._config.subscription_id,
-            api_version=api_version,
-            content_type=content_type,
-            json=_json,
-            content=_content,
-            headers=_headers,
-            params=_params,
-        )
-        _request.url = self._client.format_url(_request.url)
-
-        _stream = False
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            _request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200, 201]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
-
-        if response.status_code == 200:
-            deserialized = self._deserialize("Vault", pipeline_response.http_response)
-
-        if response.status_code == 201:
-            deserialized = self._deserialize("Vault", pipeline_response.http_response)
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
-
-        return deserialized  # type: ignore
-
-    @distributed_trace_async
-    async def delete(  # pylint: disable=inconsistent-return-statements
-        self, resource_group_name: str, vault_name: str, **kwargs: Any
-    ) -> None:
-        """Deletes the specified Azure key vault.
-
-        :param resource_group_name: The name of the Resource Group to which the vault belongs.
-         Required.
-        :type resource_group_name: str
-        :param vault_name: The name of the vault to delete. Required.
-        :type vault_name: str
-        :return: None or the result of cls(response)
-        :rtype: None
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-01"))
-        cls: ClsType[None] = kwargs.pop("cls", None)
-
-        _request = build_delete_request(
-            resource_group_name=resource_group_name,
-            vault_name=vault_name,
-            subscription_id=self._config.subscription_id,
-            api_version=api_version,
-            headers=_headers,
-            params=_params,
-        )
-        _request.url = self._client.format_url(_request.url)
-
-        _stream = False
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            _request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200, 204]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
-
-        if cls:
-            return cls(pipeline_response, None, {})  # type: ignore
-
-    @distributed_trace_async
-    async def get(self, resource_group_name: str, vault_name: str, **kwargs: Any) -> _models.Vault:
-        """Gets the specified Azure key vault.
-
-        :param resource_group_name: The name of the Resource Group to which the vault belongs.
-         Required.
-        :type resource_group_name: str
-        :param vault_name: The name of the vault. Required.
-        :type vault_name: str
-        :return: Vault or the result of cls(response)
-        :rtype: ~azure.mgmt.keyvault.v2023_07_01.models.Vault
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-01"))
-        cls: ClsType[_models.Vault] = kwargs.pop("cls", None)
-
-        _request = build_get_request(
-            resource_group_name=resource_group_name,
-            vault_name=vault_name,
-            subscription_id=self._config.subscription_id,
-            api_version=api_version,
-            headers=_headers,
-            params=_params,
-        )
-        _request.url = self._client.format_url(_request.url)
-
-        _stream = False
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            _request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
-
-        deserialized = self._deserialize("Vault", pipeline_response.http_response)
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
-
-        return deserialized  # type: ignore
 
     @overload
     async def update_access_policy(
@@ -608,7 +172,7 @@ class VaultsOperations:
         :rtype: ~azure.mgmt.keyvault.v2023_07_01.models.VaultAccessPolicyParameters
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -656,11 +220,7 @@ class VaultsOperations:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
-        if response.status_code == 200:
-            deserialized = self._deserialize("VaultAccessPolicyParameters", pipeline_response.http_response)
-
-        if response.status_code == 201:
-            deserialized = self._deserialize("VaultAccessPolicyParameters", pipeline_response.http_response)
+        deserialized = self._deserialize("VaultAccessPolicyParameters", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -689,7 +249,7 @@ class VaultsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-01"))
         cls: ClsType[_models.VaultListResult] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -767,7 +327,7 @@ class VaultsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-01"))
         cls: ClsType[_models.VaultListResult] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -843,7 +403,7 @@ class VaultsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-07-01"))
         cls: ClsType[_models.DeletedVaultListResult] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -915,7 +475,7 @@ class VaultsOperations:
         :rtype: ~azure.mgmt.keyvault.v2023_07_01.models.DeletedVault
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -958,7 +518,7 @@ class VaultsOperations:
         return deserialized  # type: ignore
 
     async def _purge_deleted_initial(self, vault_name: str, location: str, **kwargs: Any) -> AsyncIterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -982,6 +542,7 @@ class VaultsOperations:
         )
         _request.url = self._client.format_url(_request.url)
 
+        _decompress = kwargs.pop("decompress", True)
         _stream = True
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
@@ -990,15 +551,14 @@ class VaultsOperations:
         response = pipeline_response.http_response
 
         if response.status_code not in [200, 202]:
-            await response.read()  # Load the body in memory and close the socket
+            try:
+                await response.read()  # Load the body in memory and close the socket
+            except (StreamConsumedError, StreamClosedError):
+                pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
-        if response.status_code == 200:
-            deserialized = response.stream_download(self._client._pipeline)
-
-        if response.status_code == 202:
-            deserialized = response.stream_download(self._client._pipeline)
+        deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -1079,7 +639,7 @@ class VaultsOperations:
         )
         cls: ClsType[_models.ResourceListResult] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1191,7 +751,7 @@ class VaultsOperations:
         :rtype: ~azure.mgmt.keyvault.v2023_07_01.models.CheckNameAvailabilityResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,

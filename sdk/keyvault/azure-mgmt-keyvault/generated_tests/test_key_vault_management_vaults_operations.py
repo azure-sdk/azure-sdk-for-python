@@ -20,142 +20,7 @@ class TestKeyVaultManagementVaultsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_create_or_update(self, resource_group):
-        response = self.client.vaults.begin_create_or_update(
-            resource_group_name=resource_group.name,
-            vault_name="str",
-            parameters={
-                "location": "str",
-                "properties": {
-                    "sku": {"family": "A", "name": "str"},
-                    "tenantId": "str",
-                    "accessPolicies": [
-                        {
-                            "objectId": "str",
-                            "permissions": {
-                                "certificates": ["str"],
-                                "keys": ["str"],
-                                "secrets": ["str"],
-                                "storage": ["str"],
-                            },
-                            "tenantId": "str",
-                            "applicationId": "str",
-                        }
-                    ],
-                    "createMode": "str",
-                    "enablePurgeProtection": bool,
-                    "enableRbacAuthorization": False,
-                    "enableSoftDelete": True,
-                    "enabledForDeployment": bool,
-                    "enabledForDiskEncryption": bool,
-                    "enabledForTemplateDeployment": bool,
-                    "hsmPoolResourceId": "str",
-                    "networkAcls": {
-                        "bypass": "str",
-                        "defaultAction": "str",
-                        "ipRules": [{"value": "str"}],
-                        "virtualNetworkRules": [{"id": "str", "ignoreMissingVnetServiceEndpoint": bool}],
-                    },
-                    "privateEndpointConnections": [
-                        {
-                            "etag": "str",
-                            "id": "str",
-                            "privateEndpoint": {"id": "str"},
-                            "privateLinkServiceConnectionState": {
-                                "actionsRequired": "str",
-                                "description": "str",
-                                "status": "str",
-                            },
-                            "provisioningState": "str",
-                        }
-                    ],
-                    "provisioningState": "str",
-                    "publicNetworkAccess": "enabled",
-                    "softDeleteRetentionInDays": 90,
-                    "vaultUri": "str",
-                },
-                "tags": {"str": "str"},
-            },
-            api_version="2023-07-01",
-        ).result()  # call '.result()' to poll until service return final result
-
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
-    def test_update(self, resource_group):
-        response = self.client.vaults.update(
-            resource_group_name=resource_group.name,
-            vault_name="str",
-            parameters={
-                "properties": {
-                    "accessPolicies": [
-                        {
-                            "objectId": "str",
-                            "permissions": {
-                                "certificates": ["str"],
-                                "keys": ["str"],
-                                "secrets": ["str"],
-                                "storage": ["str"],
-                            },
-                            "tenantId": "str",
-                            "applicationId": "str",
-                        }
-                    ],
-                    "createMode": "str",
-                    "enablePurgeProtection": bool,
-                    "enableRbacAuthorization": bool,
-                    "enableSoftDelete": bool,
-                    "enabledForDeployment": bool,
-                    "enabledForDiskEncryption": bool,
-                    "enabledForTemplateDeployment": bool,
-                    "networkAcls": {
-                        "bypass": "str",
-                        "defaultAction": "str",
-                        "ipRules": [{"value": "str"}],
-                        "virtualNetworkRules": [{"id": "str", "ignoreMissingVnetServiceEndpoint": bool}],
-                    },
-                    "publicNetworkAccess": "str",
-                    "sku": {"family": "A", "name": "str"},
-                    "softDeleteRetentionInDays": 0,
-                    "tenantId": "str",
-                },
-                "tags": {"str": "str"},
-            },
-            api_version="2023-07-01",
-        )
-
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
-    def test_delete(self, resource_group):
-        response = self.client.vaults.delete(
-            resource_group_name=resource_group.name,
-            vault_name="str",
-            api_version="2023-07-01",
-        )
-
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
-    def test_get(self, resource_group):
-        response = self.client.vaults.get(
-            resource_group_name=resource_group.name,
-            vault_name="str",
-            api_version="2023-07-01",
-        )
-
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
-    def test_update_access_policy(self, resource_group):
+    def test_vaults_update_access_policy(self, resource_group):
         response = self.client.vaults.update_access_policy(
             resource_group_name=resource_group.name,
             vault_name="str",
@@ -189,7 +54,7 @@ class TestKeyVaultManagementVaultsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_resource_group(self, resource_group):
+    def test_vaults_list_by_resource_group(self, resource_group):
         response = self.client.vaults.list_by_resource_group(
             resource_group_name=resource_group.name,
             api_version="2023-07-01",
@@ -200,7 +65,7 @@ class TestKeyVaultManagementVaultsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_subscription(self, resource_group):
+    def test_vaults_list_by_subscription(self, resource_group):
         response = self.client.vaults.list_by_subscription(
             api_version="2023-07-01",
         )
@@ -210,7 +75,7 @@ class TestKeyVaultManagementVaultsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_deleted(self, resource_group):
+    def test_vaults_list_deleted(self, resource_group):
         response = self.client.vaults.list_deleted(
             api_version="2023-07-01",
         )
@@ -220,7 +85,7 @@ class TestKeyVaultManagementVaultsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get_deleted(self, resource_group):
+    def test_vaults_get_deleted(self, resource_group):
         response = self.client.vaults.get_deleted(
             vault_name="str",
             location="str",
@@ -232,7 +97,7 @@ class TestKeyVaultManagementVaultsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_purge_deleted(self, resource_group):
+    def test_vaults_begin_purge_deleted(self, resource_group):
         response = self.client.vaults.begin_purge_deleted(
             vault_name="str",
             location="str",
@@ -244,7 +109,7 @@ class TestKeyVaultManagementVaultsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list(self, resource_group):
+    def test_vaults_list(self, resource_group):
         response = self.client.vaults.list(
             filter="resourceType eq 'Microsoft.KeyVault/vaults'",
             api_version="2015-11-01",
@@ -255,7 +120,7 @@ class TestKeyVaultManagementVaultsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_check_name_availability(self, resource_group):
+    def test_vaults_check_name_availability(self, resource_group):
         response = self.client.vaults.check_name_availability(
             vault_name={"name": "str", "type": "Microsoft.KeyVault/vaults"},
             api_version="2023-07-01",

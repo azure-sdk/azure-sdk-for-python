@@ -1,5 +1,5 @@
-# coding=utf-8
 # pylint: disable=too-many-lines
+# coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -13,7 +13,6 @@ from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 from ... import _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
@@ -703,7 +702,7 @@ class ManagedHsmListResult(_serialization.Model):
         self.next_link = next_link
 
 
-class ManagedHsmProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class ManagedHsmProperties(_serialization.Model):
     """Properties of the managed HSM Pool.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -881,7 +880,7 @@ class ManagedHsmSku(_serialization.Model):
         self.name = name
 
 
-class MetricSpecification(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class MetricSpecification(_serialization.Model):
     """Metric specification of operation.
 
     :ivar name: Name of metric specification.
@@ -1091,7 +1090,7 @@ class MHSMPrivateEndpoint(_serialization.Model):
         self.id = None
 
 
-class MHSMPrivateEndpointConnection(ManagedHsmResource):  # pylint: disable=too-many-instance-attributes
+class MHSMPrivateEndpointConnection(ManagedHsmResource):
     """Private endpoint connection resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -2517,7 +2516,7 @@ class VaultPatchParameters(_serialization.Model):
         self.properties = properties
 
 
-class VaultPatchProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class VaultPatchProperties(_serialization.Model):
     """Properties of the vault.
 
     :ivar tenant_id: The Azure Active Directory tenant ID that should be used for authenticating
@@ -2656,7 +2655,7 @@ class VaultPatchProperties(_serialization.Model):  # pylint: disable=too-many-in
         self.network_acls = network_acls
 
 
-class VaultProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class VaultProperties(_serialization.Model):
     """Properties of the vault.
 
     Variables are only populated by the server, and will be ignored when sending a request.
