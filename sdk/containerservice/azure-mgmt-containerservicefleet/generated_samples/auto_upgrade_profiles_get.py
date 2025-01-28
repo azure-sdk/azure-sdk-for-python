@@ -15,7 +15,7 @@ from azure.mgmt.containerservicefleet import ContainerServiceFleetMgmtClient
     pip install azure-identity
     pip install azure-mgmt-containerservicefleet
 # USAGE
-    python fleets_patch_tags.py
+    python auto_upgrade_profiles_get.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -27,17 +27,17 @@ from azure.mgmt.containerservicefleet import ContainerServiceFleetMgmtClient
 def main():
     client = ContainerServiceFleetMgmtClient(
         credential=DefaultAzureCredential(),
-        subscription_id="subid1",
+        subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.fleets.begin_update(
+    response = client.auto_upgrade_profiles.get(
         resource_group_name="rg1",
         fleet_name="fleet1",
-        properties={"tags": {"env": "prod", "tier": "secure"}},
-    ).result()
+        auto_upgrade_profile_name="autoupgradeprofile1",
+    )
     print(response)
 
 
-# x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2025-01-23-preview/examples/Fleets_PatchTags.json
+# x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/preview/2025-01-23-preview/examples/AutoUpgradeProfiles_Get.json
 if __name__ == "__main__":
     main()
