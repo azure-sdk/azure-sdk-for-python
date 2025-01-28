@@ -15,7 +15,7 @@ from azure.mgmt.mongocluster import MongoClusterMgmtClient
     pip install azure-identity
     pip install azure-mgmt-mongocluster
 # USAGE
-    python mongo_clusters_reset_password.py
+    python mongo_clusters_patch_data_api.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -33,11 +33,11 @@ def main():
     response = client.mongo_clusters.begin_update(
         resource_group_name="TestResourceGroup",
         mongo_cluster_name="myMongoCluster",
-        properties={"properties": {"administrator": {"password": "password", "userName": "mongoAdmin"}}},
+        properties={"properties": {"dataApi": {"mode": "Enabled"}}},
     ).result()
     print(response)
 
 
-# x-ms-original-file: 2025-02-01-preview/MongoClusters_ResetPassword.json
+# x-ms-original-file: 2025-02-01-preview/MongoClusters_PatchDataApi.json
 if __name__ == "__main__":
     main()
