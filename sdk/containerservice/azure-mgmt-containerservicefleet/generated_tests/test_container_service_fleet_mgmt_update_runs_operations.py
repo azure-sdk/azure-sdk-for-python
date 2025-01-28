@@ -20,11 +20,11 @@ class TestContainerServiceFleetMgmtUpdateRunsOperations(AzureMgmtRecordedTestCas
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_fleet(self, resource_group):
+    def test_update_runs_list_by_fleet(self, resource_group):
         response = self.client.update_runs.list_by_fleet(
             resource_group_name=resource_group.name,
             fleet_name="str",
-            api_version="2024-04-01",
+            api_version="2025-01-23-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -32,12 +32,12 @@ class TestContainerServiceFleetMgmtUpdateRunsOperations(AzureMgmtRecordedTestCas
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_update_runs_get(self, resource_group):
         response = self.client.update_runs.get(
             resource_group_name=resource_group.name,
             fleet_name="str",
             update_run_name="str",
-            api_version="2024-04-01",
+            api_version="2025-01-23-preview",
         )
 
         # please add some check logic here by yourself
@@ -45,7 +45,7 @@ class TestContainerServiceFleetMgmtUpdateRunsOperations(AzureMgmtRecordedTestCas
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_create_or_update(self, resource_group):
+    def test_update_runs_begin_create_or_update(self, resource_group):
         response = self.client.update_runs.begin_create_or_update(
             resource_group_name=resource_group.name,
             fleet_name="str",
@@ -55,7 +55,7 @@ class TestContainerServiceFleetMgmtUpdateRunsOperations(AzureMgmtRecordedTestCas
                 "id": "str",
                 "managedClusterUpdate": {
                     "upgrade": {"type": "str", "kubernetesVersion": "str"},
-                    "nodeImageSelection": {"type": "str"},
+                    "nodeImageSelection": {"type": "str", "customNodeImageVersions": [{"version": "str"}]},
                 },
                 "name": "str",
                 "provisioningState": "str",
@@ -155,7 +155,7 @@ class TestContainerServiceFleetMgmtUpdateRunsOperations(AzureMgmtRecordedTestCas
                 "type": "str",
                 "updateStrategyId": "str",
             },
-            api_version="2024-04-01",
+            api_version="2025-01-23-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -163,12 +163,12 @@ class TestContainerServiceFleetMgmtUpdateRunsOperations(AzureMgmtRecordedTestCas
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_delete(self, resource_group):
+    def test_update_runs_begin_delete(self, resource_group):
         response = self.client.update_runs.begin_delete(
             resource_group_name=resource_group.name,
             fleet_name="str",
             update_run_name="str",
-            api_version="2024-04-01",
+            api_version="2025-01-23-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -176,13 +176,13 @@ class TestContainerServiceFleetMgmtUpdateRunsOperations(AzureMgmtRecordedTestCas
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_skip(self, resource_group):
+    def test_update_runs_begin_skip(self, resource_group):
         response = self.client.update_runs.begin_skip(
             resource_group_name=resource_group.name,
             fleet_name="str",
             update_run_name="str",
             body={"targets": [{"name": "str", "type": "str"}]},
-            api_version="2024-04-01",
+            api_version="2025-01-23-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -190,12 +190,12 @@ class TestContainerServiceFleetMgmtUpdateRunsOperations(AzureMgmtRecordedTestCas
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_start(self, resource_group):
+    def test_update_runs_begin_start(self, resource_group):
         response = self.client.update_runs.begin_start(
             resource_group_name=resource_group.name,
             fleet_name="str",
             update_run_name="str",
-            api_version="2024-04-01",
+            api_version="2025-01-23-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -203,12 +203,12 @@ class TestContainerServiceFleetMgmtUpdateRunsOperations(AzureMgmtRecordedTestCas
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_stop(self, resource_group):
+    def test_update_runs_begin_stop(self, resource_group):
         response = self.client.update_runs.begin_stop(
             resource_group_name=resource_group.name,
             fleet_name="str",
             update_run_name="str",
-            api_version="2024-04-01",
+            api_version="2025-01-23-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
