@@ -1,5 +1,5 @@
-# coding=utf-8
 # pylint: disable=too-many-lines
+# coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -13,11 +13,10 @@ from typing import Any, List, Optional, TYPE_CHECKING, Union
 from ... import _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
-class AccessReviewDecision(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class AccessReviewDecision(_serialization.Model):
     """Access Review.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -203,7 +202,7 @@ class AccessReviewDecisionListResult(_serialization.Model):
         self.next_link = next_link
 
 
-class AccessReviewDecisionProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class AccessReviewDecisionProperties(_serialization.Model):
     """Approval Step.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -326,7 +325,7 @@ class AccessReviewDecisionTarget(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     ServicePrincipalDecisionTarget, UserDecisionTarget
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar type: The type of decision target : User/ServicePrincipal. Required. Known values are:
      "user" and "servicePrincipal".
@@ -349,7 +348,7 @@ class AccessReviewDecisionTarget(_serialization.Model):
         self.type: Optional[str] = None
 
 
-class AccessReviewDefaultSettings(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class AccessReviewDefaultSettings(_serialization.Model):
     """Access Review Default Settings.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -646,7 +645,7 @@ class AccessReviewReviewer(_serialization.Model):
         self.principal_type = None
 
 
-class AccessReviewScheduleDefinition(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class AccessReviewScheduleDefinition(_serialization.Model):
     """Access Review Schedule Definition.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -965,7 +964,7 @@ class AccessReviewScheduleDefinitionListResult(_serialization.Model):
         self.next_link = next_link
 
 
-class AccessReviewScheduleDefinitionProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class AccessReviewScheduleDefinitionProperties(_serialization.Model):
     """Access Review.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1218,7 +1217,7 @@ class AccessReviewScheduleDefinitionProperties(_serialization.Model):  # pylint:
         self.user_principal_name = None
 
 
-class AccessReviewScheduleSettings(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class AccessReviewScheduleSettings(_serialization.Model):
     """Settings of an Access Review.
 
     :ivar mail_notifications_enabled: Flag to indicate whether sending mails to reviewers and the
@@ -1535,7 +1534,7 @@ class ServicePrincipalDecisionTarget(AccessReviewDecisionTarget):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar type: The type of decision target : User/ServicePrincipal. Required. Known values are:
      "user" and "servicePrincipal".
@@ -1576,7 +1575,7 @@ class UserDecisionTarget(AccessReviewDecisionTarget):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar type: The type of decision target : User/ServicePrincipal. Required. Known values are:
      "user" and "servicePrincipal".

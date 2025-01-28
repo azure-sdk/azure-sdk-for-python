@@ -1,5 +1,5 @@
-# coding=utf-8
 # pylint: disable=too-many-lines
+# coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -13,7 +13,6 @@ from typing import Any, List, Optional, TYPE_CHECKING, Union
 from ... import _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
@@ -99,7 +98,7 @@ class AccessReviewContactedReviewerListResult(_serialization.Model):
         self.next_link = next_link
 
 
-class AccessReviewDecision(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class AccessReviewDecision(_serialization.Model):
     """Access Review.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -287,7 +286,7 @@ class AccessReviewDecisionIdentity(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar type: The type of decision target : User/ServicePrincipal. Required. Known values are:
      "user" and "servicePrincipal".
@@ -358,7 +357,7 @@ class AccessReviewDecisionListResult(_serialization.Model):
         self.next_link = next_link
 
 
-class AccessReviewDecisionProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class AccessReviewDecisionProperties(_serialization.Model):
     """Approval Step.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -508,7 +507,7 @@ class AccessReviewDecisionResource(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar type: The type of resource. Required. "azureRole"
     :vartype type: str or ~azure.mgmt.authorization.v2021_07_01_preview.models.DecisionResourceType
@@ -538,12 +537,12 @@ class AccessReviewDecisionResource(_serialization.Model):
         self.display_name = None
 
 
-class AccessReviewDecisionServicePrincipalIdentity(AccessReviewDecisionIdentity):
+class AccessReviewDecisionServicePrincipalIdentity(AccessReviewDecisionIdentity):  # pylint: disable=name-too-long
     """Service Principal Decision Target.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar type: The type of decision target : User/ServicePrincipal. Required. Known values are:
      "user" and "servicePrincipal".
@@ -582,7 +581,7 @@ class AccessReviewDecisionUserIdentity(AccessReviewDecisionIdentity):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar type: The type of decision target : User/ServicePrincipal. Required. Known values are:
      "user" and "servicePrincipal".
@@ -616,7 +615,7 @@ class AccessReviewDecisionUserIdentity(AccessReviewDecisionIdentity):
         self.user_principal_name = None
 
 
-class AccessReviewDefaultSettings(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class AccessReviewDefaultSettings(_serialization.Model):
     """Access Review Default Settings.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1031,7 +1030,7 @@ class AccessReviewReviewer(_serialization.Model):
         self.principal_type = None
 
 
-class AccessReviewScheduleDefinition(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class AccessReviewScheduleDefinition(_serialization.Model):
     """Access Review Schedule Definition.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1410,7 +1409,7 @@ class AccessReviewScheduleDefinitionListResult(_serialization.Model):
         self.next_link = next_link
 
 
-class AccessReviewScheduleDefinitionProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class AccessReviewScheduleDefinitionProperties(_serialization.Model):
     """Access Review.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1720,7 +1719,7 @@ class AccessReviewScheduleDefinitionProperties(_serialization.Model):  # pylint:
         self.user_principal_name = None
 
 
-class AccessReviewScheduleSettings(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class AccessReviewScheduleSettings(_serialization.Model):
     """Settings of an Access Review.
 
     :ivar mail_notifications_enabled: Flag to indicate whether sending mails to reviewers and the

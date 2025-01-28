@@ -1,5 +1,4 @@
 # coding=utf-8
-# pylint: disable=too-many-lines
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -12,11 +11,10 @@ from typing import Any, List, Optional, TYPE_CHECKING
 from ... import _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
-class Alert(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class Alert(_serialization.Model):
     """The alert.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -198,7 +196,7 @@ class AlertConfigurationProperties(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar alert_definition_id: The alert definition ID.
     :vartype alert_definition_id: str
@@ -251,7 +249,7 @@ class AlertConfigurationProperties(_serialization.Model):
         self.alert_definition = None
 
 
-class AlertDefinition(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class AlertDefinition(_serialization.Model):
     """Alert definition.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -433,7 +431,7 @@ class AlertIncidentProperties(_serialization.Model):
     TooManyOwnersAssignedToResourceAlertIncidentProperties,
     TooManyPermanentOwnersAssignedToResourceAlertIncidentProperties
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar alert_incident_type: The alert incident type. Required.
     :vartype alert_incident_type: str
@@ -538,12 +536,14 @@ class AlertOperationResult(_serialization.Model):
         self.resource_location = None
 
 
-class AzureRolesAssignedOutsidePimAlertConfigurationProperties(AlertConfigurationProperties):
+class AzureRolesAssignedOutsidePimAlertConfigurationProperties(
+    AlertConfigurationProperties
+):  # pylint: disable=name-too-long
     """The Azure roles assigned outside PIM alert configuration properties.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar alert_definition_id: The alert definition ID.
     :vartype alert_definition_id: str
@@ -583,14 +583,12 @@ class AzureRolesAssignedOutsidePimAlertConfigurationProperties(AlertConfiguratio
         self.alert_configuration_type: str = "AzureRolesAssignedOutsidePimAlertConfiguration"
 
 
-class AzureRolesAssignedOutsidePimAlertIncidentProperties(
-    AlertIncidentProperties
-):  # pylint: disable=too-many-instance-attributes
+class AzureRolesAssignedOutsidePimAlertIncidentProperties(AlertIncidentProperties):  # pylint: disable=name-too-long
     """Azure roles assigned outside PIM alert incident properties.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar alert_incident_type: The alert incident type. Required.
     :vartype alert_incident_type: str
@@ -690,12 +688,12 @@ class CloudErrorBody(_serialization.Model):
         self.message = message
 
 
-class DuplicateRoleCreatedAlertConfigurationProperties(AlertConfigurationProperties):
+class DuplicateRoleCreatedAlertConfigurationProperties(AlertConfigurationProperties):  # pylint: disable=name-too-long
     """The duplicate role created alert configuration.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar alert_definition_id: The alert definition ID.
     :vartype alert_definition_id: str
@@ -735,12 +733,12 @@ class DuplicateRoleCreatedAlertConfigurationProperties(AlertConfigurationPropert
         self.alert_configuration_type: str = "DuplicateRoleCreatedAlertConfiguration"
 
 
-class DuplicateRoleCreatedAlertIncidentProperties(AlertIncidentProperties):
+class DuplicateRoleCreatedAlertIncidentProperties(AlertIncidentProperties):  # pylint: disable=name-too-long
     """Duplicate role created alert incident properties.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar alert_incident_type: The alert incident type. Required.
     :vartype alert_incident_type: str
@@ -775,12 +773,14 @@ class DuplicateRoleCreatedAlertIncidentProperties(AlertIncidentProperties):
         self.reason = None
 
 
-class TooManyOwnersAssignedToResourceAlertConfigurationProperties(AlertConfigurationProperties):
+class TooManyOwnersAssignedToResourceAlertConfigurationProperties(
+    AlertConfigurationProperties
+):  # pylint: disable=name-too-long
     """Too many owners assigned to resource alert configuration properties.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar alert_definition_id: The alert definition ID.
     :vartype alert_definition_id: str
@@ -846,12 +846,12 @@ class TooManyOwnersAssignedToResourceAlertConfigurationProperties(AlertConfigura
         )
 
 
-class TooManyOwnersAssignedToResourceAlertIncidentProperties(AlertIncidentProperties):
+class TooManyOwnersAssignedToResourceAlertIncidentProperties(AlertIncidentProperties):  # pylint: disable=name-too-long
     """Too many owners assigned to resource alert incident properties.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar alert_incident_type: The alert incident type. Required.
     :vartype alert_incident_type: str
@@ -881,12 +881,14 @@ class TooManyOwnersAssignedToResourceAlertIncidentProperties(AlertIncidentProper
         self.assignee_type = None
 
 
-class TooManyPermanentOwnersAssignedToResourceAlertConfigurationProperties(AlertConfigurationProperties):
+class TooManyPermanentOwnersAssignedToResourceAlertConfigurationProperties(
+    AlertConfigurationProperties
+):  # pylint: disable=name-too-long
     """Too many permanent owners assigned to resource alert configuration properties.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar alert_definition_id: The alert definition ID.
     :vartype alert_definition_id: str
@@ -952,12 +954,14 @@ class TooManyPermanentOwnersAssignedToResourceAlertConfigurationProperties(Alert
         )
 
 
-class TooManyPermanentOwnersAssignedToResourceAlertIncidentProperties(AlertIncidentProperties):
+class TooManyPermanentOwnersAssignedToResourceAlertIncidentProperties(
+    AlertIncidentProperties
+):  # pylint: disable=name-too-long
     """Too many permanent owners assigned to resource alert incident properties.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar alert_incident_type: The alert incident type. Required.
     :vartype alert_incident_type: str

@@ -1,4 +1,3 @@
-# pylint: disable=too-many-lines
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,6 +6,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
+import sys
 from typing import Any, Callable, Dict, IO, Optional, TypeVar, Union, overload
 
 from azure.core.exceptions import (
@@ -18,21 +18,23 @@ from azure.core.exceptions import (
     map_error,
 )
 from azure.core.pipeline import PipelineResponse
-from azure.core.pipeline.transport import AsyncHttpResponse
-from azure.core.rest import HttpRequest
+from azure.core.rest import AsyncHttpResponse, HttpRequest
 from azure.core.tracing.decorator_async import distributed_trace_async
 from azure.core.utils import case_insensitive_dict
 from azure.mgmt.core.exceptions import ARMErrorFormat
 
 from ... import models as _models
-from ..._vendor import _convert_request
 from ...operations._scope_access_review_default_settings_operations import build_get_request, build_put_request
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
 
-class ScopeAccessReviewDefaultSettingsOperations:
+class ScopeAccessReviewDefaultSettingsOperations:  # pylint: disable=name-too-long
     """
     .. warning::
         **DO NOT** instantiate this class directly.
@@ -58,12 +60,11 @@ class ScopeAccessReviewDefaultSettingsOperations:
 
         :param scope: The scope of the resource. Required.
         :type scope: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: AccessReviewDefaultSettings or the result of cls(response)
         :rtype: ~azure.mgmt.authorization.v2021_12_01_preview.models.AccessReviewDefaultSettings
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -79,19 +80,17 @@ class ScopeAccessReviewDefaultSettingsOperations:
         )
         cls: ClsType[_models.AccessReviewDefaultSettings] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             scope=scope,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -101,14 +100,12 @@ class ScopeAccessReviewDefaultSettingsOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorDefinition, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("AccessReviewDefaultSettings", pipeline_response)
+        deserialized = self._deserialize("AccessReviewDefaultSettings", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {"url": "/{scope}/providers/Microsoft.Authorization/accessReviewScheduleSettings/default"}
+        return deserialized  # type: ignore
 
     @overload
     async def put(
@@ -129,7 +126,6 @@ class ScopeAccessReviewDefaultSettingsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: AccessReviewDefaultSettings or the result of cls(response)
         :rtype: ~azure.mgmt.authorization.v2021_12_01_preview.models.AccessReviewDefaultSettings
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -137,18 +133,17 @@ class ScopeAccessReviewDefaultSettingsOperations:
 
     @overload
     async def put(
-        self, scope: str, properties: IO, *, content_type: str = "application/json", **kwargs: Any
+        self, scope: str, properties: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.AccessReviewDefaultSettings:
         """Get access review default settings for the subscription.
 
         :param scope: The scope of the resource. Required.
         :type scope: str
         :param properties: Access review schedule settings. Required.
-        :type properties: IO
+        :type properties: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: AccessReviewDefaultSettings or the result of cls(response)
         :rtype: ~azure.mgmt.authorization.v2021_12_01_preview.models.AccessReviewDefaultSettings
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -156,25 +151,21 @@ class ScopeAccessReviewDefaultSettingsOperations:
 
     @distributed_trace_async
     async def put(
-        self, scope: str, properties: Union[_models.AccessReviewScheduleSettings, IO], **kwargs: Any
+        self, scope: str, properties: Union[_models.AccessReviewScheduleSettings, IO[bytes]], **kwargs: Any
     ) -> _models.AccessReviewDefaultSettings:
         """Get access review default settings for the subscription.
 
         :param scope: The scope of the resource. Required.
         :type scope: str
         :param properties: Access review schedule settings. Is either a AccessReviewScheduleSettings
-         type or a IO type. Required.
+         type or a IO[bytes] type. Required.
         :type properties:
-         ~azure.mgmt.authorization.v2021_12_01_preview.models.AccessReviewScheduleSettings or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         ~azure.mgmt.authorization.v2021_12_01_preview.models.AccessReviewScheduleSettings or IO[bytes]
         :return: AccessReviewDefaultSettings or the result of cls(response)
         :rtype: ~azure.mgmt.authorization.v2021_12_01_preview.models.AccessReviewDefaultSettings
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -199,22 +190,20 @@ class ScopeAccessReviewDefaultSettingsOperations:
         else:
             _json = self._serialize.body(properties, "AccessReviewScheduleSettings")
 
-        request = build_put_request(
+        _request = build_put_request(
             scope=scope,
             api_version=api_version,
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.put.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -224,11 +213,9 @@ class ScopeAccessReviewDefaultSettingsOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorDefinition, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("AccessReviewDefaultSettings", pipeline_response)
+        deserialized = self._deserialize("AccessReviewDefaultSettings", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    put.metadata = {"url": "/{scope}/providers/Microsoft.Authorization/accessReviewScheduleSettings/default"}
+        return deserialized  # type: ignore

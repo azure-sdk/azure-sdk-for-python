@@ -1,4 +1,3 @@
-# pylint: disable=too-many-lines
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,6 +6,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
+import sys
 from typing import Any, AsyncIterable, Callable, Dict, IO, Optional, TypeVar, Union, overload
 import urllib.parse
 
@@ -20,15 +20,13 @@ from azure.core.exceptions import (
     map_error,
 )
 from azure.core.pipeline import PipelineResponse
-from azure.core.pipeline.transport import AsyncHttpResponse
-from azure.core.rest import HttpRequest
+from azure.core.rest import AsyncHttpResponse, HttpRequest
 from azure.core.tracing.decorator import distributed_trace
 from azure.core.tracing.decorator_async import distributed_trace_async
 from azure.core.utils import case_insensitive_dict
 from azure.mgmt.core.exceptions import ARMErrorFormat
 
 from ... import models as _models
-from ..._vendor import _convert_request
 from ...operations._role_assignment_schedule_requests_operations import (
     build_cancel_request,
     build_create_request,
@@ -37,6 +35,10 @@ from ...operations._role_assignment_schedule_requests_operations import (
     build_validate_request,
 )
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -71,6 +73,7 @@ class RoleAssignmentScheduleRequestsOperations:
         content_type: str = "application/json",
         **kwargs: Any
     ) -> _models.RoleAssignmentScheduleRequest:
+        # pylint: disable=line-too-long
         """Creates a role assignment schedule request.
 
         :param scope: The scope of the role assignment schedule request to create. The scope can be any
@@ -90,7 +93,6 @@ class RoleAssignmentScheduleRequestsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: RoleAssignmentScheduleRequest or the result of cls(response)
         :rtype: ~azure.mgmt.authorization.v2022_04_01_preview.models.RoleAssignmentScheduleRequest
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -101,11 +103,12 @@ class RoleAssignmentScheduleRequestsOperations:
         self,
         scope: str,
         role_assignment_schedule_request_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
     ) -> _models.RoleAssignmentScheduleRequest:
+        # pylint: disable=line-too-long
         """Creates a role assignment schedule request.
 
         :param scope: The scope of the role assignment schedule request to create. The scope can be any
@@ -120,11 +123,10 @@ class RoleAssignmentScheduleRequestsOperations:
          name must be unique and different for each role assignment. Required.
         :type role_assignment_schedule_request_name: str
         :param parameters: Parameters for the role assignment schedule request. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: RoleAssignmentScheduleRequest or the result of cls(response)
         :rtype: ~azure.mgmt.authorization.v2022_04_01_preview.models.RoleAssignmentScheduleRequest
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -135,9 +137,10 @@ class RoleAssignmentScheduleRequestsOperations:
         self,
         scope: str,
         role_assignment_schedule_request_name: str,
-        parameters: Union[_models.RoleAssignmentScheduleRequest, IO],
+        parameters: Union[_models.RoleAssignmentScheduleRequest, IO[bytes]],
         **kwargs: Any
     ) -> _models.RoleAssignmentScheduleRequest:
+        # pylint: disable=line-too-long
         """Creates a role assignment schedule request.
 
         :param scope: The scope of the role assignment schedule request to create. The scope can be any
@@ -152,18 +155,14 @@ class RoleAssignmentScheduleRequestsOperations:
          name must be unique and different for each role assignment. Required.
         :type role_assignment_schedule_request_name: str
         :param parameters: Parameters for the role assignment schedule request. Is either a
-         RoleAssignmentScheduleRequest type or a IO type. Required.
+         RoleAssignmentScheduleRequest type or a IO[bytes] type. Required.
         :type parameters:
-         ~azure.mgmt.authorization.v2022_04_01_preview.models.RoleAssignmentScheduleRequest or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         ~azure.mgmt.authorization.v2022_04_01_preview.models.RoleAssignmentScheduleRequest or IO[bytes]
         :return: RoleAssignmentScheduleRequest or the result of cls(response)
         :rtype: ~azure.mgmt.authorization.v2022_04_01_preview.models.RoleAssignmentScheduleRequest
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -188,23 +187,21 @@ class RoleAssignmentScheduleRequestsOperations:
         else:
             _json = self._serialize.body(parameters, "RoleAssignmentScheduleRequest")
 
-        request = build_create_request(
+        _request = build_create_request(
             scope=scope,
             role_assignment_schedule_request_name=role_assignment_schedule_request_name,
             api_version=api_version,
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.create.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -213,16 +210,12 @@ class RoleAssignmentScheduleRequestsOperations:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("RoleAssignmentScheduleRequest", pipeline_response)
+        deserialized = self._deserialize("RoleAssignmentScheduleRequest", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    create.metadata = {
-        "url": "/{scope}/providers/Microsoft.Authorization/roleAssignmentScheduleRequests/{roleAssignmentScheduleRequestName}"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace_async
     async def get(
@@ -235,12 +228,11 @@ class RoleAssignmentScheduleRequestsOperations:
         :param role_assignment_schedule_request_name: The name (guid) of the role assignment schedule
          request to get. Required.
         :type role_assignment_schedule_request_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: RoleAssignmentScheduleRequest or the result of cls(response)
         :rtype: ~azure.mgmt.authorization.v2022_04_01_preview.models.RoleAssignmentScheduleRequest
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -256,20 +248,18 @@ class RoleAssignmentScheduleRequestsOperations:
         )
         cls: ClsType[_models.RoleAssignmentScheduleRequest] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             scope=scope,
             role_assignment_schedule_request_name=role_assignment_schedule_request_name,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -278,21 +268,18 @@ class RoleAssignmentScheduleRequestsOperations:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("RoleAssignmentScheduleRequest", pipeline_response)
+        deserialized = self._deserialize("RoleAssignmentScheduleRequest", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/{scope}/providers/Microsoft.Authorization/roleAssignmentScheduleRequests/{roleAssignmentScheduleRequestName}"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
     def list_for_scope(
         self, scope: str, filter: Optional[str] = None, **kwargs: Any
     ) -> AsyncIterable["_models.RoleAssignmentScheduleRequest"]:
+        # pylint: disable=line-too-long
         """Gets role assignment schedule requests for a scope.
 
         :param scope: The scope of the role assignments schedule requests. Required.
@@ -305,7 +292,6 @@ class RoleAssignmentScheduleRequestsOperations:
          for the current user. Use $filter=asApprover() to return all role assignment schedule requests
          where the current user is an approver. Default value is None.
         :type filter: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either RoleAssignmentScheduleRequest or the result of
          cls(response)
         :rtype:
@@ -320,7 +306,7 @@ class RoleAssignmentScheduleRequestsOperations:
         )
         cls: ClsType[_models.RoleAssignmentScheduleRequestListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -331,16 +317,14 @@ class RoleAssignmentScheduleRequestsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_for_scope_request(
+                _request = build_list_for_scope_request(
                     scope=scope,
                     filter=filter,
                     api_version=api_version,
-                    template_url=self.list_for_scope.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -351,14 +335,13 @@ class RoleAssignmentScheduleRequestsOperations:
                         for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
                     }
                 )
-                _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _next_request_params["api-version"] = self._api_version
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("RoleAssignmentScheduleRequestListResult", pipeline_response)
@@ -368,11 +351,11 @@ class RoleAssignmentScheduleRequestsOperations:
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -384,12 +367,8 @@ class RoleAssignmentScheduleRequestsOperations:
 
         return AsyncItemPaged(get_next, extract_data)
 
-    list_for_scope.metadata = {"url": "/{scope}/providers/Microsoft.Authorization/roleAssignmentScheduleRequests"}
-
     @distributed_trace_async
-    async def cancel(  # pylint: disable=inconsistent-return-statements
-        self, scope: str, role_assignment_schedule_request_name: str, **kwargs: Any
-    ) -> None:
+    async def cancel(self, scope: str, role_assignment_schedule_request_name: str, **kwargs: Any) -> None:
         """Cancels a pending role assignment schedule request.
 
         :param scope: The scope of the role assignment request to cancel. Required.
@@ -397,12 +376,11 @@ class RoleAssignmentScheduleRequestsOperations:
         :param role_assignment_schedule_request_name: The name of the role assignment request to
          cancel. Required.
         :type role_assignment_schedule_request_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -418,20 +396,18 @@ class RoleAssignmentScheduleRequestsOperations:
         )
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_cancel_request(
+        _request = build_cancel_request(
             scope=scope,
             role_assignment_schedule_request_name=role_assignment_schedule_request_name,
             api_version=api_version,
-            template_url=self.cancel.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -441,11 +417,7 @@ class RoleAssignmentScheduleRequestsOperations:
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    cancel.metadata = {
-        "url": "/{scope}/providers/Microsoft.Authorization/roleAssignmentScheduleRequests/{roleAssignmentScheduleRequestName}/cancel"
-    }
+            return cls(pipeline_response, None, {})  # type: ignore
 
     @overload
     async def validate(
@@ -470,7 +442,6 @@ class RoleAssignmentScheduleRequestsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: RoleAssignmentScheduleRequest or the result of cls(response)
         :rtype: ~azure.mgmt.authorization.v2022_04_01_preview.models.RoleAssignmentScheduleRequest
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -481,7 +452,7 @@ class RoleAssignmentScheduleRequestsOperations:
         self,
         scope: str,
         role_assignment_schedule_request_name: str,
-        parameters: IO,
+        parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -494,11 +465,10 @@ class RoleAssignmentScheduleRequestsOperations:
          validate. Required.
         :type role_assignment_schedule_request_name: str
         :param parameters: Parameters for the role assignment schedule request. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: RoleAssignmentScheduleRequest or the result of cls(response)
         :rtype: ~azure.mgmt.authorization.v2022_04_01_preview.models.RoleAssignmentScheduleRequest
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -509,7 +479,7 @@ class RoleAssignmentScheduleRequestsOperations:
         self,
         scope: str,
         role_assignment_schedule_request_name: str,
-        parameters: Union[_models.RoleAssignmentScheduleRequest, IO],
+        parameters: Union[_models.RoleAssignmentScheduleRequest, IO[bytes]],
         **kwargs: Any
     ) -> _models.RoleAssignmentScheduleRequest:
         """Validates a new role assignment schedule request.
@@ -520,18 +490,14 @@ class RoleAssignmentScheduleRequestsOperations:
          validate. Required.
         :type role_assignment_schedule_request_name: str
         :param parameters: Parameters for the role assignment schedule request. Is either a
-         RoleAssignmentScheduleRequest type or a IO type. Required.
+         RoleAssignmentScheduleRequest type or a IO[bytes] type. Required.
         :type parameters:
-         ~azure.mgmt.authorization.v2022_04_01_preview.models.RoleAssignmentScheduleRequest or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         ~azure.mgmt.authorization.v2022_04_01_preview.models.RoleAssignmentScheduleRequest or IO[bytes]
         :return: RoleAssignmentScheduleRequest or the result of cls(response)
         :rtype: ~azure.mgmt.authorization.v2022_04_01_preview.models.RoleAssignmentScheduleRequest
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -556,23 +522,21 @@ class RoleAssignmentScheduleRequestsOperations:
         else:
             _json = self._serialize.body(parameters, "RoleAssignmentScheduleRequest")
 
-        request = build_validate_request(
+        _request = build_validate_request(
             scope=scope,
             role_assignment_schedule_request_name=role_assignment_schedule_request_name,
             api_version=api_version,
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.validate.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -581,13 +545,9 @@ class RoleAssignmentScheduleRequestsOperations:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("RoleAssignmentScheduleRequest", pipeline_response)
+        deserialized = self._deserialize("RoleAssignmentScheduleRequest", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    validate.metadata = {
-        "url": "/{scope}/providers/Microsoft.Authorization/roleAssignmentScheduleRequests/{roleAssignmentScheduleRequestName}/validate"
-    }
+        return deserialized  # type: ignore
