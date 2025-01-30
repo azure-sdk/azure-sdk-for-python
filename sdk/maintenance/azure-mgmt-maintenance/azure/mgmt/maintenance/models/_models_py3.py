@@ -1,5 +1,4 @@
 # coding=utf-8
-# pylint: disable=too-many-lines
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -16,10 +15,9 @@ from .. import _serialization
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 JSON = MutableMapping[str, Any]  # pylint: disable=unsubscriptable-object
 
@@ -282,7 +280,8 @@ class InputLinuxParameters(_serialization.Model):
     :vartype package_name_masks_to_exclude: list[str]
     :ivar package_name_masks_to_include: Package names to be included for patching.
     :vartype package_name_masks_to_include: list[str]
-    :ivar classifications_to_include: Classification category of patches to be patched.
+    :ivar classifications_to_include: Classification category of patches to be patched. Allowed
+     values are 'Critical', 'Security', and 'Other'.
     :vartype classifications_to_include: list[str]
     """
 
@@ -305,7 +304,8 @@ class InputLinuxParameters(_serialization.Model):
         :paramtype package_name_masks_to_exclude: list[str]
         :keyword package_name_masks_to_include: Package names to be included for patching.
         :paramtype package_name_masks_to_include: list[str]
-        :keyword classifications_to_include: Classification category of patches to be patched.
+        :keyword classifications_to_include: Classification category of patches to be patched. Allowed
+         values are 'Critical', 'Security', and 'Other'.
         :paramtype classifications_to_include: list[str]
         """
         super().__init__(**kwargs)
@@ -368,7 +368,9 @@ class InputWindowsParameters(_serialization.Model):
     :vartype kb_numbers_to_exclude: list[str]
     :ivar kb_numbers_to_include: Windows KBID to be included for patching.
     :vartype kb_numbers_to_include: list[str]
-    :ivar classifications_to_include: Classification category of patches to be patched.
+    :ivar classifications_to_include: Classification category of patches to be patched. Allowed
+     values are 'Critical', 'Security', 'UpdateRollup', 'FeaturePack', 'ServicePack', 'Definition',
+     'Tools', and 'Updates'.
     :vartype classifications_to_include: list[str]
     :ivar exclude_kbs_requiring_reboot: Exclude patches which need reboot.
     :vartype exclude_kbs_requiring_reboot: bool
@@ -395,7 +397,9 @@ class InputWindowsParameters(_serialization.Model):
         :paramtype kb_numbers_to_exclude: list[str]
         :keyword kb_numbers_to_include: Windows KBID to be included for patching.
         :paramtype kb_numbers_to_include: list[str]
-        :keyword classifications_to_include: Classification category of patches to be patched.
+        :keyword classifications_to_include: Classification category of patches to be patched. Allowed
+         values are 'Critical', 'Security', 'UpdateRollup', 'FeaturePack', 'ServicePack', 'Definition',
+         'Tools', and 'Updates'.
         :paramtype classifications_to_include: list[str]
         :keyword exclude_kbs_requiring_reboot: Exclude patches which need reboot.
         :paramtype exclude_kbs_requiring_reboot: bool
@@ -487,7 +491,7 @@ class ListUpdatesResult(_serialization.Model):
         self.value = value
 
 
-class MaintenanceConfiguration(Resource):  # pylint: disable=too-many-instance-attributes
+class MaintenanceConfiguration(Resource):
     """Maintenance configuration record type.
 
     Variables are only populated by the server, and will be ignored when sending a request.

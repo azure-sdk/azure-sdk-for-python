@@ -1,4 +1,3 @@
-# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,6 +6,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
+import sys
 from typing import Any, AsyncIterable, Callable, Dict, IO, Optional, TypeVar, Union, overload
 import urllib.parse
 
@@ -20,15 +20,13 @@ from azure.core.exceptions import (
     map_error,
 )
 from azure.core.pipeline import PipelineResponse
-from azure.core.pipeline.transport import AsyncHttpResponse
-from azure.core.rest import HttpRequest
+from azure.core.rest import AsyncHttpResponse, HttpRequest
 from azure.core.tracing.decorator import distributed_trace
 from azure.core.tracing.decorator_async import distributed_trace_async
 from azure.core.utils import case_insensitive_dict
 from azure.mgmt.core.exceptions import ARMErrorFormat
 
 from ... import models as _models
-from ..._vendor import _convert_request
 from ...operations._configuration_assignments_operations import (
     build_create_or_update_parent_request,
     build_create_or_update_request,
@@ -40,6 +38,10 @@ from ...operations._configuration_assignments_operations import (
     build_list_request,
 )
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -97,7 +99,7 @@ class ConfigurationAssignmentsOperations:
         :rtype: ~azure.mgmt.maintenance.models.ConfigurationAssignment
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -124,7 +126,6 @@ class ConfigurationAssignmentsOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -139,7 +140,7 @@ class ConfigurationAssignmentsOperations:
             error = self._deserialize.failsafe_deserialize(_models.MaintenanceError, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("ConfigurationAssignment", pipeline_response)
+        deserialized = self._deserialize("ConfigurationAssignment", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -271,7 +272,7 @@ class ConfigurationAssignmentsOperations:
         :rtype: ~azure.mgmt.maintenance.models.ConfigurationAssignment
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -310,7 +311,6 @@ class ConfigurationAssignmentsOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -325,11 +325,7 @@ class ConfigurationAssignmentsOperations:
             error = self._deserialize.failsafe_deserialize(_models.MaintenanceError, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        if response.status_code == 200:
-            deserialized = self._deserialize("ConfigurationAssignment", pipeline_response)
-
-        if response.status_code == 201:
-            deserialized = self._deserialize("ConfigurationAssignment", pipeline_response)
+        deserialized = self._deserialize("ConfigurationAssignment", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -370,7 +366,7 @@ class ConfigurationAssignmentsOperations:
         :rtype: ~azure.mgmt.maintenance.models.ConfigurationAssignment or None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -397,7 +393,6 @@ class ConfigurationAssignmentsOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -414,7 +409,7 @@ class ConfigurationAssignmentsOperations:
 
         deserialized = None
         if response.status_code == 200:
-            deserialized = self._deserialize("ConfigurationAssignment", pipeline_response)
+            deserialized = self._deserialize("ConfigurationAssignment", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -449,7 +444,7 @@ class ConfigurationAssignmentsOperations:
         :rtype: ~azure.mgmt.maintenance.models.ConfigurationAssignment
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -474,7 +469,6 @@ class ConfigurationAssignmentsOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -489,7 +483,7 @@ class ConfigurationAssignmentsOperations:
             error = self._deserialize.failsafe_deserialize(_models.MaintenanceError, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("ConfigurationAssignment", pipeline_response)
+        deserialized = self._deserialize("ConfigurationAssignment", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -603,7 +597,7 @@ class ConfigurationAssignmentsOperations:
         :rtype: ~azure.mgmt.maintenance.models.ConfigurationAssignment
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -640,7 +634,6 @@ class ConfigurationAssignmentsOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -655,11 +648,7 @@ class ConfigurationAssignmentsOperations:
             error = self._deserialize.failsafe_deserialize(_models.MaintenanceError, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        if response.status_code == 200:
-            deserialized = self._deserialize("ConfigurationAssignment", pipeline_response)
-
-        if response.status_code == 201:
-            deserialized = self._deserialize("ConfigurationAssignment", pipeline_response)
+        deserialized = self._deserialize("ConfigurationAssignment", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -694,7 +683,7 @@ class ConfigurationAssignmentsOperations:
         :rtype: ~azure.mgmt.maintenance.models.ConfigurationAssignment or None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -719,7 +708,6 @@ class ConfigurationAssignmentsOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -736,7 +724,7 @@ class ConfigurationAssignmentsOperations:
 
         deserialized = None
         if response.status_code == 200:
-            deserialized = self._deserialize("ConfigurationAssignment", pipeline_response)
+            deserialized = self._deserialize("ConfigurationAssignment", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -782,7 +770,7 @@ class ConfigurationAssignmentsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.ListConfigurationAssignmentsResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -805,7 +793,6 @@ class ConfigurationAssignmentsOperations:
                     headers=_headers,
                     params=_params,
                 )
-                _request = _convert_request(_request)
                 _request.url = self._client.format_url(_request.url)
 
             else:
@@ -821,7 +808,6 @@ class ConfigurationAssignmentsOperations:
                 _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                _request = _convert_request(_request)
                 _request.url = self._client.format_url(_request.url)
                 _request.method = "GET"
             return _request
@@ -879,7 +865,7 @@ class ConfigurationAssignmentsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.ListConfigurationAssignmentsResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -900,7 +886,6 @@ class ConfigurationAssignmentsOperations:
                     headers=_headers,
                     params=_params,
                 )
-                _request = _convert_request(_request)
                 _request.url = self._client.format_url(_request.url)
 
             else:
@@ -916,7 +901,6 @@ class ConfigurationAssignmentsOperations:
                 _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                _request = _convert_request(_request)
                 _request.url = self._client.format_url(_request.url)
                 _request.method = "GET"
             return _request
