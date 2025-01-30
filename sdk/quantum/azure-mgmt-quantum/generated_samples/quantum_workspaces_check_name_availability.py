@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.quantum import AzureQuantumMgmtClient
 
 """
@@ -29,9 +30,9 @@ def main():
         subscription_id="00000000-1111-2222-3333-444444444444",
     )
 
-    response = client.workspace.check_name_availability(
-        location_name="westus2",
-        check_name_availability_parameters={"name": "sample-workspace-name", "type": "Microsoft.Quantum/Workspaces"},
+    response = client.workspaces.check_name_availability(
+        location="westus2",
+        body={"name": "sample-workspace-name", "type": "Microsoft.Quantum/Workspaces"},
     )
     print(response)
 
