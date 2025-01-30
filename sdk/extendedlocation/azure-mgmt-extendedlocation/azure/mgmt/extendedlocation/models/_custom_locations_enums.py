@@ -20,9 +20,10 @@ class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
 
 class HostType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Type of host the Custom Locations is referencing (Kubernetes, etc...)."""
+    """Type of host the Custom Locations is referencing (Kubernetes, EdgeCluster, etc...)."""
 
     KUBERNETES = "Kubernetes"
+    EDGE_CLUSTER = "EdgeCluster"
 
 
 class ResourceIdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):

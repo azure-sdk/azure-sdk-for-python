@@ -43,6 +43,7 @@ def main():
                 ],
                 "displayName": "customLocationLocation01",
                 "hostResourceId": "/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/testresourcegroup/providers/Microsoft.ContainerService/managedClusters/cluster01",
+                "hostType": "Kubernetes",
                 "namespace": "namespace01",
             },
         },
@@ -50,6 +51,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/extendedlocation/resource-manager/Microsoft.ExtendedLocation/stable/2021-08-15/examples/CustomLocationsCreate_Update.json
+# x-ms-original-file: specification/extendedlocation/resource-manager/Microsoft.ExtendedLocation/preview/2024-09-15-preview/examples/CustomLocationsCreate_Update.json
 if __name__ == "__main__":
     main()

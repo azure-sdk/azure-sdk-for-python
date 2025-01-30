@@ -38,6 +38,6 @@ def main():
         print(item)
 
 
-# x-ms-original-file: specification/extendedlocation/resource-manager/Microsoft.ExtendedLocation/stable/2021-08-15/examples/CustomLocationsListEnabledResourceTypes.json
+# x-ms-original-file: specification/extendedlocation/resource-manager/Microsoft.ExtendedLocation/preview/2024-09-15-preview/examples/CustomLocationsListEnabledResourceTypes.json
 if __name__ == "__main__":
     main()

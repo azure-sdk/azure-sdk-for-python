@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines,too-many-statements
+# pylint: disable=too-many-lines
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8,21 +8,7 @@
 # --------------------------------------------------------------------------
 from io import IOBase
 import sys
-from typing import (
-    Any,
-    AsyncIterable,
-    AsyncIterator,
-    Callable,
-    Dict,
-    IO,
-    List,
-    Optional,
-    Type,
-    TypeVar,
-    Union,
-    cast,
-    overload,
-)
+from typing import Any, AsyncIterable, AsyncIterator, Callable, Dict, IO, List, Optional, TypeVar, Union, cast, overload
 import urllib.parse
 
 from azure.core.async_paging import AsyncItemPaged, AsyncList
@@ -49,6 +35,7 @@ from ... import models as _models
 from ...operations._custom_locations_operations import (
     build_create_or_update_request,
     build_delete_request,
+    build_find_target_resource_group_request,
     build_get_request,
     build_list_by_resource_group_request,
     build_list_by_subscription_request,
@@ -60,7 +47,7 @@ from ...operations._custom_locations_operations import (
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -100,7 +87,7 @@ class CustomLocationsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.CustomLocationOperationsList] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -178,7 +165,7 @@ class CustomLocationsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.CustomLocationListResult] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -262,7 +249,7 @@ class CustomLocationsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.CustomLocationListResult] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -339,7 +326,7 @@ class CustomLocationsOperations:
         :rtype: ~azure.mgmt.extendedlocation.models.CustomLocation
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -389,7 +376,7 @@ class CustomLocationsOperations:
         parameters: Union[_models.CustomLocation, IO[bytes]],
         **kwargs: Any
     ) -> AsyncIterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -587,7 +574,7 @@ class CustomLocationsOperations:
     async def _delete_initial(
         self, resource_group_name: str, resource_name: str, **kwargs: Any
     ) -> AsyncIterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -729,18 +716,19 @@ class CustomLocationsOperations:
         :type authentication:
          ~azure.mgmt.extendedlocation.models.CustomLocationPropertiesAuthentication
         :param cluster_extension_ids: Contains the reference to the add-on that contains charts to
-         deploy CRDs and operators. Default value is None.
+         deploy CRDs and operators. Optional for EdgeCluster hostType. Default value is None.
         :type cluster_extension_ids: list[str]
         :param display_name: Display name for the Custom Locations location. Default value is None.
         :type display_name: str
-        :param host_resource_id: Connected Cluster or AKS Cluster. The Custom Locations RP will perform
-         a checkAccess API for listAdminCredentials permissions. Default value is None.
+        :param host_resource_id: Connected Cluster, AKS Cluster or Edge Cluster. The Custom Locations
+         RP will perform a checkAccess API for listAdminCredentials permissions for Connected Cluster
+         and AKS Cluster. Default value is None.
         :type host_resource_id: str
-        :param host_type: Type of host the Custom Locations is referencing (Kubernetes, etc...).
-         "Kubernetes" Default value is None.
+        :param host_type: Type of host the Custom Locations is referencing (Kubernetes, EdgeCluster,
+         etc...). Known values are: "Kubernetes" and "EdgeCluster". Default value is None.
         :type host_type: str or ~azure.mgmt.extendedlocation.models.HostType
-        :param namespace: Kubernetes namespace that will be created on the specified cluster. Default
-         value is None.
+        :param namespace: Kubernetes namespace that will be created on the specified cluster. Optional
+         for EdgeCluster hostType. Default value is None.
         :type namespace: str
         :param provisioning_state: Provisioning State for the Custom Location. Default value is None.
         :type provisioning_state: str
@@ -748,7 +736,7 @@ class CustomLocationsOperations:
         :rtype: ~azure.mgmt.extendedlocation.models.CustomLocation
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -831,7 +819,7 @@ class CustomLocationsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.EnabledResourceTypesListResult] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -893,3 +881,150 @@ class CustomLocationsOperations:
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
+
+    @overload
+    async def find_target_resource_group(
+        self,
+        resource_group_name: str,
+        resource_name: str,
+        parameters: _models.CustomLocationFindTargetResourceGroupProperties,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> Optional[_models.CustomLocationFindTargetResourceGroupResult]:
+        """Gets matching target resource group for resource sync.
+
+        Returns the target resource group associated with the resource sync rules of the Custom
+        Location that match the rules passed in with the Find Target Resource Group Request.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param resource_name: Custom Locations name. Required.
+        :type resource_name: str
+        :param parameters: Parameters of the find target resource group request. Required.
+        :type parameters:
+         ~azure.mgmt.extendedlocation.models.CustomLocationFindTargetResourceGroupProperties
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: CustomLocationFindTargetResourceGroupResult or None or the result of cls(response)
+        :rtype: ~azure.mgmt.extendedlocation.models.CustomLocationFindTargetResourceGroupResult or None
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    async def find_target_resource_group(
+        self,
+        resource_group_name: str,
+        resource_name: str,
+        parameters: IO[bytes],
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> Optional[_models.CustomLocationFindTargetResourceGroupResult]:
+        """Gets matching target resource group for resource sync.
+
+        Returns the target resource group associated with the resource sync rules of the Custom
+        Location that match the rules passed in with the Find Target Resource Group Request.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param resource_name: Custom Locations name. Required.
+        :type resource_name: str
+        :param parameters: Parameters of the find target resource group request. Required.
+        :type parameters: IO[bytes]
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: CustomLocationFindTargetResourceGroupResult or None or the result of cls(response)
+        :rtype: ~azure.mgmt.extendedlocation.models.CustomLocationFindTargetResourceGroupResult or None
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace_async
+    async def find_target_resource_group(
+        self,
+        resource_group_name: str,
+        resource_name: str,
+        parameters: Union[_models.CustomLocationFindTargetResourceGroupProperties, IO[bytes]],
+        **kwargs: Any
+    ) -> Optional[_models.CustomLocationFindTargetResourceGroupResult]:
+        """Gets matching target resource group for resource sync.
+
+        Returns the target resource group associated with the resource sync rules of the Custom
+        Location that match the rules passed in with the Find Target Resource Group Request.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param resource_name: Custom Locations name. Required.
+        :type resource_name: str
+        :param parameters: Parameters of the find target resource group request. Is either a
+         CustomLocationFindTargetResourceGroupProperties type or a IO[bytes] type. Required.
+        :type parameters:
+         ~azure.mgmt.extendedlocation.models.CustomLocationFindTargetResourceGroupProperties or
+         IO[bytes]
+        :return: CustomLocationFindTargetResourceGroupResult or None or the result of cls(response)
+        :rtype: ~azure.mgmt.extendedlocation.models.CustomLocationFindTargetResourceGroupResult or None
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[Optional[_models.CustomLocationFindTargetResourceGroupResult]] = kwargs.pop("cls", None)
+
+        content_type = content_type or "application/json"
+        _json = None
+        _content = None
+        if isinstance(parameters, (IOBase, bytes)):
+            _content = parameters
+        else:
+            _json = self._serialize.body(parameters, "CustomLocationFindTargetResourceGroupProperties")
+
+        _request = build_find_target_resource_group_request(
+            resource_group_name=resource_group_name,
+            resource_name=resource_name,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            content_type=content_type,
+            json=_json,
+            content=_content,
+            headers=_headers,
+            params=_params,
+        )
+        _request.url = self._client.format_url(_request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200, 204]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        deserialized = None
+        if response.status_code == 200:
+            deserialized = self._deserialize(
+                "CustomLocationFindTargetResourceGroupResult", pipeline_response.http_response
+            )
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
