@@ -1,0 +1,6 @@
+{
+  "commit": "916db288e5c3bb469f057600b8686c863a855ca8",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/keyvault/Security.KeyVault.Keys",
+  "@azure-tools/typespec-python": "0.38.2"
+}
