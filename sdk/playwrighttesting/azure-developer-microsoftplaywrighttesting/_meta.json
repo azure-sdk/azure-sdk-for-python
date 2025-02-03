@@ -1,0 +1,6 @@
+{
+  "commit": "fb96f25c797ef5a3d81cc80badfefb8230c6fca9",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/playwrighttesting/PlaywrightTesting.Reporting",
+  "@azure-tools/typespec-python": "0.38.2"
+}
