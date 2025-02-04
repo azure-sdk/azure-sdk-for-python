@@ -1,0 +1,6 @@
+{
+  "commit": "9164602537c4cf3899df14fa818b0d911ef86d84",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/cognitiveservices/Language.AnalyzeConversations-authoring",
+  "@azure-tools/typespec-python": "0.38.2"
+}
