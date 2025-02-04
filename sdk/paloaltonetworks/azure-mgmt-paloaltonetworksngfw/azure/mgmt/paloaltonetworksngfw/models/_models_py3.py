@@ -1,5 +1,5 @@
-# coding=utf-8
 # pylint: disable=too-many-lines
+# coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -13,14 +13,13 @@ from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 from .. import _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
 class AdvSecurityObjectListResponse(_serialization.Model):
     """advanced security object.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: response value. Required.
     :vartype value: ~azure.mgmt.paloaltonetworksngfw.models.AdvSecurityObjectModel
@@ -54,7 +53,7 @@ class AdvSecurityObjectListResponse(_serialization.Model):
 class AdvSecurityObjectModel(_serialization.Model):
     """List of custom and predefined url category.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar type: type of object.
     :vartype type: str
@@ -116,7 +115,7 @@ class ApplicationInsights(_serialization.Model):
 class AppSeenData(_serialization.Model):
     """Data Type for App Seen.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar count: number of rows. Required.
     :vartype count: int
@@ -149,7 +148,7 @@ class AppSeenData(_serialization.Model):
 class AppSeenInfo(_serialization.Model):
     """Definition for App Seen.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar title: title. Required.
     :vartype title: str
@@ -225,12 +224,12 @@ class AppSeenInfo(_serialization.Model):
         self.standard_ports = standard_ports
 
 
-class AzureResourceManagerManagedIdentityProperties(_serialization.Model):
+class AzureResourceManagerManagedIdentityProperties(_serialization.Model):  # pylint: disable=name-too-long
     """The properties of the managed service identities assigned to this resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar tenant_id: The Active Directory tenant id of the principal.
     :vartype tenant_id: str
@@ -311,7 +310,7 @@ class AzureResourceManagerUserAssignedIdentity(_serialization.Model):
 class Category(_serialization.Model):
     """URL/EDL to match.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar url_custom: custom URL. Required.
     :vartype url_custom: list[str]
@@ -347,7 +346,7 @@ class Resource(_serialization.Model):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -389,7 +388,7 @@ class ProxyResource(Resource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -401,34 +400,16 @@ class ProxyResource(Resource):
     :vartype system_data: ~azure.mgmt.paloaltonetworksngfw.models.SystemData
     """
 
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-        "system_data": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "system_data": {"key": "systemData", "type": "SystemData"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-
 
 class CertificateObjectGlobalRulestackResource(ProxyResource):
     """GlobalRulestack Certificate Object.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -511,10 +492,10 @@ class CertificateObjectGlobalRulestackResource(ProxyResource):
         self.provisioning_state = None
 
 
-class CertificateObjectGlobalRulestackResourceListResult(_serialization.Model):
+class CertificateObjectGlobalRulestackResourceListResult(_serialization.Model):  # pylint: disable=name-too-long
     """The response of a CertificateObjectGlobalRulestackResource list operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: The items on this page. Required.
     :vartype value:
@@ -556,10 +537,10 @@ class CertificateObjectLocalRulestackResource(ProxyResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -642,10 +623,10 @@ class CertificateObjectLocalRulestackResource(ProxyResource):
         self.provisioning_state = None
 
 
-class CertificateObjectLocalRulestackResourceListResult(_serialization.Model):
+class CertificateObjectLocalRulestackResourceListResult(_serialization.Model):  # pylint: disable=name-too-long
     """The response of a CertificateObjectLocalRulestackResource list operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: The items on this page. Required.
     :vartype value:
@@ -685,7 +666,7 @@ class CertificateObjectLocalRulestackResourceListResult(_serialization.Model):
 class Changelog(_serialization.Model):
     """Changelog list.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar changes: list of changes. Required.
     :vartype changes: list[str]
@@ -727,10 +708,36 @@ class Changelog(_serialization.Model):
         self.last_modified = last_modified
 
 
+class CloudManagerTenantList(_serialization.Model):
+    """Cloud Manager Tenant.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar value: List of Cloud Manager Tenants. Required.
+    :vartype value: list[str]
+    """
+
+    _validation = {
+        "value": {"required": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[str]"},
+    }
+
+    def __init__(self, *, value: List[str], **kwargs: Any) -> None:
+        """
+        :keyword value: List of Cloud Manager Tenants. Required.
+        :paramtype value: list[str]
+        """
+        super().__init__(**kwargs)
+        self.value = value
+
+
 class CountriesResponse(_serialization.Model):
     """Countries Response Object.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: List of countries. Required.
     :vartype value: list[~azure.mgmt.paloaltonetworksngfw.models.Country]
@@ -762,7 +769,7 @@ class CountriesResponse(_serialization.Model):
 class Country(_serialization.Model):
     """Country Description.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar code: country code. Required.
     :vartype code: str
@@ -890,7 +897,7 @@ class DNSSettings(_serialization.Model):
 class EndpointConfiguration(_serialization.Model):
     """Endpoint Configuration for frontend and backend.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar port: port ID. Required.
     :vartype port: str
@@ -1071,10 +1078,10 @@ class TrackedResource(Resource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1119,15 +1126,15 @@ class TrackedResource(Resource):
         self.location = location
 
 
-class FirewallResource(TrackedResource):  # pylint: disable=too-many-instance-attributes
+class FirewallResource(TrackedResource):
     """PaloAltoNetworks Firewall.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1151,8 +1158,15 @@ class FirewallResource(TrackedResource):  # pylint: disable=too-many-instance-at
     :ivar is_panorama_managed: Panorama Managed: Default is False. Default will be CloudSec
      managed. Known values are: "TRUE" and "FALSE".
     :vartype is_panorama_managed: str or ~azure.mgmt.paloaltonetworksngfw.models.BooleanEnum
+    :ivar is_strata_cloud_managed: Strata Cloud Managed: Default is False. Default will be CloudSec
+     managed. Known values are: "TRUE" and "FALSE".
+    :vartype is_strata_cloud_managed: str or ~azure.mgmt.paloaltonetworksngfw.models.BooleanEnum
     :ivar panorama_config: Panorama Configuration.
     :vartype panorama_config: ~azure.mgmt.paloaltonetworksngfw.models.PanoramaConfig
+    :ivar strata_cloud_manager_config: Strata Cloud Manager Configuration, only applicable if
+     Strata Cloud Manager is selected.
+    :vartype strata_cloud_manager_config:
+     ~azure.mgmt.paloaltonetworksngfw.models.StrataCloudManagerConfig
     :ivar associated_rulestack: Associated Rulestack.
     :vartype associated_rulestack: ~azure.mgmt.paloaltonetworksngfw.models.RulestackDetails
     :ivar dns_settings: DNS settings for Firewall. Required.
@@ -1193,7 +1207,12 @@ class FirewallResource(TrackedResource):  # pylint: disable=too-many-instance-at
         "pan_etag": {"key": "properties.panEtag", "type": "str"},
         "network_profile": {"key": "properties.networkProfile", "type": "NetworkProfile"},
         "is_panorama_managed": {"key": "properties.isPanoramaManaged", "type": "str"},
+        "is_strata_cloud_managed": {"key": "properties.isStrataCloudManaged", "type": "str"},
         "panorama_config": {"key": "properties.panoramaConfig", "type": "PanoramaConfig"},
+        "strata_cloud_manager_config": {
+            "key": "properties.strataCloudManagerConfig",
+            "type": "StrataCloudManagerConfig",
+        },
         "associated_rulestack": {"key": "properties.associatedRulestack", "type": "RulestackDetails"},
         "dns_settings": {"key": "properties.dnsSettings", "type": "DNSSettings"},
         "front_end_settings": {"key": "properties.frontEndSettings", "type": "[FrontendSetting]"},
@@ -1214,7 +1233,9 @@ class FirewallResource(TrackedResource):  # pylint: disable=too-many-instance-at
         identity: Optional["_models.AzureResourceManagerManagedIdentityProperties"] = None,
         pan_etag: Optional[str] = None,
         is_panorama_managed: Optional[Union[str, "_models.BooleanEnum"]] = None,
+        is_strata_cloud_managed: Optional[Union[str, "_models.BooleanEnum"]] = None,
         panorama_config: Optional["_models.PanoramaConfig"] = None,
+        strata_cloud_manager_config: Optional["_models.StrataCloudManagerConfig"] = None,
         associated_rulestack: Optional["_models.RulestackDetails"] = None,
         front_end_settings: Optional[List["_models.FrontendSetting"]] = None,
         **kwargs: Any
@@ -1234,8 +1255,15 @@ class FirewallResource(TrackedResource):  # pylint: disable=too-many-instance-at
         :keyword is_panorama_managed: Panorama Managed: Default is False. Default will be CloudSec
          managed. Known values are: "TRUE" and "FALSE".
         :paramtype is_panorama_managed: str or ~azure.mgmt.paloaltonetworksngfw.models.BooleanEnum
+        :keyword is_strata_cloud_managed: Strata Cloud Managed: Default is False. Default will be
+         CloudSec managed. Known values are: "TRUE" and "FALSE".
+        :paramtype is_strata_cloud_managed: str or ~azure.mgmt.paloaltonetworksngfw.models.BooleanEnum
         :keyword panorama_config: Panorama Configuration.
         :paramtype panorama_config: ~azure.mgmt.paloaltonetworksngfw.models.PanoramaConfig
+        :keyword strata_cloud_manager_config: Strata Cloud Manager Configuration, only applicable if
+         Strata Cloud Manager is selected.
+        :paramtype strata_cloud_manager_config:
+         ~azure.mgmt.paloaltonetworksngfw.models.StrataCloudManagerConfig
         :keyword associated_rulestack: Associated Rulestack.
         :paramtype associated_rulestack: ~azure.mgmt.paloaltonetworksngfw.models.RulestackDetails
         :keyword dns_settings: DNS settings for Firewall. Required.
@@ -1252,7 +1280,9 @@ class FirewallResource(TrackedResource):  # pylint: disable=too-many-instance-at
         self.pan_etag = pan_etag
         self.network_profile = network_profile
         self.is_panorama_managed = is_panorama_managed
+        self.is_strata_cloud_managed = is_strata_cloud_managed
         self.panorama_config = panorama_config
+        self.strata_cloud_manager_config = strata_cloud_manager_config
         self.associated_rulestack = associated_rulestack
         self.dns_settings = dns_settings
         self.front_end_settings = front_end_settings
@@ -1264,7 +1294,7 @@ class FirewallResource(TrackedResource):  # pylint: disable=too-many-instance-at
 class FirewallResourceListResult(_serialization.Model):
     """The response of a FirewallResource list operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: The items on this page. Required.
     :vartype value: list[~azure.mgmt.paloaltonetworksngfw.models.FirewallResource]
@@ -1346,8 +1376,15 @@ class FirewallResourceUpdateProperties(_serialization.Model):
     :ivar is_panorama_managed: Panorama Managed: Default is False. Default will be CloudSec
      managed. Known values are: "TRUE" and "FALSE".
     :vartype is_panorama_managed: str or ~azure.mgmt.paloaltonetworksngfw.models.BooleanEnum
+    :ivar is_strata_cloud_managed: Strata Cloud Managed: Default is False. Default will be CloudSec
+     managed. Known values are: "TRUE" and "FALSE".
+    :vartype is_strata_cloud_managed: str or ~azure.mgmt.paloaltonetworksngfw.models.BooleanEnum
     :ivar panorama_config: Panorama Configuration.
     :vartype panorama_config: ~azure.mgmt.paloaltonetworksngfw.models.PanoramaConfig
+    :ivar strata_cloud_manager_config: Strata Cloud Manager Configuration, only applicable if
+     Strata Cloud Manager is selected.
+    :vartype strata_cloud_manager_config:
+     ~azure.mgmt.paloaltonetworksngfw.models.StrataCloudManagerConfig
     :ivar associated_rulestack: Associated Rulestack.
     :vartype associated_rulestack: ~azure.mgmt.paloaltonetworksngfw.models.RulestackDetails
     :ivar dns_settings: DNS settings for Firewall.
@@ -1364,7 +1401,9 @@ class FirewallResourceUpdateProperties(_serialization.Model):
         "pan_etag": {"key": "panEtag", "type": "str"},
         "network_profile": {"key": "networkProfile", "type": "NetworkProfile"},
         "is_panorama_managed": {"key": "isPanoramaManaged", "type": "str"},
+        "is_strata_cloud_managed": {"key": "isStrataCloudManaged", "type": "str"},
         "panorama_config": {"key": "panoramaConfig", "type": "PanoramaConfig"},
+        "strata_cloud_manager_config": {"key": "strataCloudManagerConfig", "type": "StrataCloudManagerConfig"},
         "associated_rulestack": {"key": "associatedRulestack", "type": "RulestackDetails"},
         "dns_settings": {"key": "dnsSettings", "type": "DNSSettings"},
         "front_end_settings": {"key": "frontEndSettings", "type": "[FrontendSetting]"},
@@ -1378,7 +1417,9 @@ class FirewallResourceUpdateProperties(_serialization.Model):
         pan_etag: Optional[str] = None,
         network_profile: Optional["_models.NetworkProfile"] = None,
         is_panorama_managed: Optional[Union[str, "_models.BooleanEnum"]] = None,
+        is_strata_cloud_managed: Optional[Union[str, "_models.BooleanEnum"]] = None,
         panorama_config: Optional["_models.PanoramaConfig"] = None,
+        strata_cloud_manager_config: Optional["_models.StrataCloudManagerConfig"] = None,
         associated_rulestack: Optional["_models.RulestackDetails"] = None,
         dns_settings: Optional["_models.DNSSettings"] = None,
         front_end_settings: Optional[List["_models.FrontendSetting"]] = None,
@@ -1394,8 +1435,15 @@ class FirewallResourceUpdateProperties(_serialization.Model):
         :keyword is_panorama_managed: Panorama Managed: Default is False. Default will be CloudSec
          managed. Known values are: "TRUE" and "FALSE".
         :paramtype is_panorama_managed: str or ~azure.mgmt.paloaltonetworksngfw.models.BooleanEnum
+        :keyword is_strata_cloud_managed: Strata Cloud Managed: Default is False. Default will be
+         CloudSec managed. Known values are: "TRUE" and "FALSE".
+        :paramtype is_strata_cloud_managed: str or ~azure.mgmt.paloaltonetworksngfw.models.BooleanEnum
         :keyword panorama_config: Panorama Configuration.
         :paramtype panorama_config: ~azure.mgmt.paloaltonetworksngfw.models.PanoramaConfig
+        :keyword strata_cloud_manager_config: Strata Cloud Manager Configuration, only applicable if
+         Strata Cloud Manager is selected.
+        :paramtype strata_cloud_manager_config:
+         ~azure.mgmt.paloaltonetworksngfw.models.StrataCloudManagerConfig
         :keyword associated_rulestack: Associated Rulestack.
         :paramtype associated_rulestack: ~azure.mgmt.paloaltonetworksngfw.models.RulestackDetails
         :keyword dns_settings: DNS settings for Firewall.
@@ -1411,7 +1459,9 @@ class FirewallResourceUpdateProperties(_serialization.Model):
         self.pan_etag = pan_etag
         self.network_profile = network_profile
         self.is_panorama_managed = is_panorama_managed
+        self.is_strata_cloud_managed = is_strata_cloud_managed
         self.panorama_config = panorama_config
+        self.strata_cloud_manager_config = strata_cloud_manager_config
         self.associated_rulestack = associated_rulestack
         self.dns_settings = dns_settings
         self.front_end_settings = front_end_settings
@@ -1425,7 +1475,7 @@ class FirewallStatusResource(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1449,6 +1499,12 @@ class FirewallStatusResource(ProxyResource):
      "Failed", and "Deleted".
     :vartype provisioning_state: str or
      ~azure.mgmt.paloaltonetworksngfw.models.ReadOnlyProvisioningState
+    :ivar is_strata_cloud_managed: Strata Cloud Manager. Known values are: "TRUE" and "FALSE".
+    :vartype is_strata_cloud_managed: str or ~azure.mgmt.paloaltonetworksngfw.models.BooleanEnum
+    :ivar strata_cloud_manager_info: This field is only present if Strata Cloud Manager is managing
+     the policy for this firewall.
+    :vartype strata_cloud_manager_info:
+     ~azure.mgmt.paloaltonetworksngfw.models.StrataCloudManagerInfo
     """
 
     _validation = {
@@ -1461,6 +1517,7 @@ class FirewallStatusResource(ProxyResource):
         "health_reason": {"readonly": True},
         "panorama_status": {"readonly": True},
         "provisioning_state": {"readonly": True},
+        "is_strata_cloud_managed": {"readonly": True},
     }
 
     _attribute_map = {
@@ -1473,22 +1530,33 @@ class FirewallStatusResource(ProxyResource):
         "health_reason": {"key": "properties.healthReason", "type": "str"},
         "panorama_status": {"key": "properties.panoramaStatus", "type": "PanoramaStatus"},
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
+        "is_strata_cloud_managed": {"key": "properties.isStrataCloudManaged", "type": "str"},
+        "strata_cloud_manager_info": {"key": "properties.strataCloudManagerInfo", "type": "StrataCloudManagerInfo"},
     }
 
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
+    def __init__(
+        self, *, strata_cloud_manager_info: Optional["_models.StrataCloudManagerInfo"] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword strata_cloud_manager_info: This field is only present if Strata Cloud Manager is
+         managing the policy for this firewall.
+        :paramtype strata_cloud_manager_info:
+         ~azure.mgmt.paloaltonetworksngfw.models.StrataCloudManagerInfo
+        """
         super().__init__(**kwargs)
         self.is_panorama_managed = None
         self.health_status = None
         self.health_reason = None
         self.panorama_status = None
         self.provisioning_state = None
+        self.is_strata_cloud_managed = None
+        self.strata_cloud_manager_info = strata_cloud_manager_info
 
 
 class FirewallStatusResourceListResult(_serialization.Model):
     """The response of a FirewallStatusResource list operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: The items on this page. Required.
     :vartype value: list[~azure.mgmt.paloaltonetworksngfw.models.FirewallStatusResource]
@@ -1524,10 +1592,10 @@ class FqdnListGlobalRulestackResource(ProxyResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1599,10 +1667,10 @@ class FqdnListGlobalRulestackResource(ProxyResource):
         self.provisioning_state = None
 
 
-class FqdnListGlobalRulestackResourceListResult(_serialization.Model):
+class FqdnListGlobalRulestackResourceListResult(_serialization.Model):  # pylint: disable=name-too-long
     """The response of a FqdnListGlobalRulestackResource list operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: The items on this page. Required.
     :vartype value: list[~azure.mgmt.paloaltonetworksngfw.models.FqdnListGlobalRulestackResource]
@@ -1638,10 +1706,10 @@ class FqdnListLocalRulestackResource(ProxyResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1716,7 +1784,7 @@ class FqdnListLocalRulestackResource(ProxyResource):
 class FqdnListLocalRulestackResourceListResult(_serialization.Model):
     """The response of a FqdnListLocalRulestackResource list operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: The items on this page. Required.
     :vartype value: list[~azure.mgmt.paloaltonetworksngfw.models.FqdnListLocalRulestackResource]
@@ -1750,7 +1818,7 @@ class FqdnListLocalRulestackResourceListResult(_serialization.Model):
 class FrontendSetting(_serialization.Model):
     """Frontend setting for Firewall.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: Settings name. Required.
     :vartype name: str
@@ -1806,7 +1874,7 @@ class FrontendSetting(_serialization.Model):
 class GlobalRulestackInfo(_serialization.Model):
     """PAN Rulestack Describe Object.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar azure_id: rulestack description. Required.
     :vartype azure_id: str
@@ -1829,15 +1897,15 @@ class GlobalRulestackInfo(_serialization.Model):
         self.azure_id = azure_id
 
 
-class GlobalRulestackResource(ProxyResource):  # pylint: disable=too-many-instance-attributes
+class GlobalRulestackResource(ProxyResource):
     """PaloAltoNetworks GlobalRulestack.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1959,7 +2027,7 @@ class GlobalRulestackResource(ProxyResource):  # pylint: disable=too-many-instan
 class GlobalRulestackResourceListResult(_serialization.Model):
     """The response of a GlobalRulestackResource list operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: The items on this page. Required.
     :vartype value: list[~azure.mgmt.paloaltonetworksngfw.models.GlobalRulestackResource]
@@ -2167,7 +2235,7 @@ class IPAddressSpace(_serialization.Model):
 class ListAppIdResponse(_serialization.Model):
     """ListAppIdResponse.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: List of AppIds. Required.
     :vartype value: list[str]
@@ -2199,7 +2267,7 @@ class ListAppIdResponse(_serialization.Model):
 class ListFirewallsResponse(_serialization.Model):
     """List firewalls response.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: firewalls list. Required.
     :vartype value: list[str]
@@ -2228,15 +2296,15 @@ class ListFirewallsResponse(_serialization.Model):
         self.next_link = next_link
 
 
-class LocalRulesResource(ProxyResource):  # pylint: disable=too-many-instance-attributes
+class LocalRulesResource(ProxyResource):
     """LocalRulestack rule list.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -2420,7 +2488,7 @@ class LocalRulesResource(ProxyResource):  # pylint: disable=too-many-instance-at
 class LocalRulesResourceListResult(_serialization.Model):
     """The response of a LocalRulesResource list operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: The items on this page. Required.
     :vartype value: list[~azure.mgmt.paloaltonetworksngfw.models.LocalRulesResource]
@@ -2451,15 +2519,15 @@ class LocalRulesResourceListResult(_serialization.Model):
         self.next_link = next_link
 
 
-class LocalRulestackResource(TrackedResource):  # pylint: disable=too-many-instance-attributes
+class LocalRulestackResource(TrackedResource):
     """PaloAltoNetworks LocalRulestack.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -2586,7 +2654,7 @@ class LocalRulestackResource(TrackedResource):  # pylint: disable=too-many-insta
 class LocalRulestackResourceListResult(_serialization.Model):
     """The response of a LocalRulestackResource list operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: The items on this page. Required.
     :vartype value: list[~azure.mgmt.paloaltonetworksngfw.models.LocalRulestackResource]
@@ -2852,7 +2920,7 @@ class MarketplaceDetails(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar marketplace_subscription_id: Marketplace Subscription Id.
     :vartype marketplace_subscription_id: str
@@ -2962,7 +3030,7 @@ class MonitorLog(_serialization.Model):
 class NameDescriptionObject(_serialization.Model):
     """object type info.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: name value. Required.
     :vartype name: str
@@ -2994,7 +3062,7 @@ class NameDescriptionObject(_serialization.Model):
 class NetworkProfile(_serialization.Model):
     """Network settings for Firewall.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar vnet_configuration: Vnet configurations.
     :vartype vnet_configuration: ~azure.mgmt.paloaltonetworksngfw.models.VnetConfiguration
@@ -3012,6 +3080,9 @@ class NetworkProfile(_serialization.Model):
     :vartype egress_nat_ip: list[~azure.mgmt.paloaltonetworksngfw.models.IPAddress]
     :ivar trusted_ranges: Non-RFC 1918 address.
     :vartype trusted_ranges: list[str]
+    :ivar private_source_nat_rules_destination: Array of ipv4 destination address for which source
+     NAT is to be performed.
+    :vartype private_source_nat_rules_destination: list[str]
     """
 
     _validation = {
@@ -3028,6 +3099,7 @@ class NetworkProfile(_serialization.Model):
         "enable_egress_nat": {"key": "enableEgressNat", "type": "str"},
         "egress_nat_ip": {"key": "egressNatIp", "type": "[IPAddress]"},
         "trusted_ranges": {"key": "trustedRanges", "type": "[str]"},
+        "private_source_nat_rules_destination": {"key": "privateSourceNatRulesDestination", "type": "[str]"},
     }
 
     def __init__(
@@ -3040,6 +3112,7 @@ class NetworkProfile(_serialization.Model):
         vwan_configuration: Optional["_models.VwanConfiguration"] = None,
         egress_nat_ip: Optional[List["_models.IPAddress"]] = None,
         trusted_ranges: Optional[List[str]] = None,
+        private_source_nat_rules_destination: Optional[List[str]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -3059,6 +3132,9 @@ class NetworkProfile(_serialization.Model):
         :paramtype egress_nat_ip: list[~azure.mgmt.paloaltonetworksngfw.models.IPAddress]
         :keyword trusted_ranges: Non-RFC 1918 address.
         :paramtype trusted_ranges: list[str]
+        :keyword private_source_nat_rules_destination: Array of ipv4 destination address for which
+         source NAT is to be performed.
+        :paramtype private_source_nat_rules_destination: list[str]
         """
         super().__init__(**kwargs)
         self.vnet_configuration = vnet_configuration
@@ -3068,6 +3144,7 @@ class NetworkProfile(_serialization.Model):
         self.enable_egress_nat = enable_egress_nat
         self.egress_nat_ip = egress_nat_ip
         self.trusted_ranges = trusted_ranges
+        self.private_source_nat_rules_destination = private_source_nat_rules_destination
 
 
 class Operation(_serialization.Model):
@@ -3196,7 +3273,7 @@ class PanoramaConfig(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar config_string: Base64 encoded string representing Panorama parameters to be used by
      Firewall to connect to Panorama. This string is generated via azure plugin in Panorama.
@@ -3293,7 +3370,7 @@ class PlanData(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar usage_type: different usage type like PAYG/COMMITTED. Known values are: "PAYG" and
      "COMMITTED".
@@ -3345,15 +3422,15 @@ class PlanData(_serialization.Model):
         self.effective_date = None
 
 
-class PostRulesResource(ProxyResource):  # pylint: disable=too-many-instance-attributes
+class PostRulesResource(ProxyResource):
     """PostRulestack rule list.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -3537,7 +3614,7 @@ class PostRulesResource(ProxyResource):  # pylint: disable=too-many-instance-att
 class PostRulesResourceListResult(_serialization.Model):
     """The response of a PostRulesResource list operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: The items on this page. Required.
     :vartype value: list[~azure.mgmt.paloaltonetworksngfw.models.PostRulesResource]
@@ -3571,7 +3648,7 @@ class PostRulesResourceListResult(_serialization.Model):
 class PredefinedUrlCategoriesResponse(_serialization.Model):
     """predefined url categories response.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: predefined url categories. Required.
     :vartype value: list[~azure.mgmt.paloaltonetworksngfw.models.PredefinedUrlCategory]
@@ -3605,7 +3682,7 @@ class PredefinedUrlCategoriesResponse(_serialization.Model):
 class PredefinedUrlCategory(_serialization.Model):
     """Predefined URL category object.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar action: Required.
     :vartype action: str
@@ -3640,10 +3717,10 @@ class PrefixListGlobalRulestackResource(ProxyResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -3715,10 +3792,10 @@ class PrefixListGlobalRulestackResource(ProxyResource):
         self.provisioning_state = None
 
 
-class PrefixListGlobalRulestackResourceListResult(_serialization.Model):
+class PrefixListGlobalRulestackResourceListResult(_serialization.Model):  # pylint: disable=name-too-long
     """The response of a PrefixListGlobalRulestackResource list operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: The items on this page. Required.
     :vartype value: list[~azure.mgmt.paloaltonetworksngfw.models.PrefixListGlobalRulestackResource]
@@ -3759,10 +3836,10 @@ class PrefixListResource(ProxyResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -3837,7 +3914,7 @@ class PrefixListResource(ProxyResource):
 class PrefixListResourceListResult(_serialization.Model):
     """The response of a PrefixListResource list operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: The items on this page. Required.
     :vartype value: list[~azure.mgmt.paloaltonetworksngfw.models.PrefixListResource]
@@ -3868,15 +3945,15 @@ class PrefixListResourceListResult(_serialization.Model):
         self.next_link = next_link
 
 
-class PreRulesResource(ProxyResource):  # pylint: disable=too-many-instance-attributes
+class PreRulesResource(ProxyResource):
     """PreRulestack rule list.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -4060,7 +4137,7 @@ class PreRulesResource(ProxyResource):  # pylint: disable=too-many-instance-attr
 class PreRulesResourceListResult(_serialization.Model):
     """The response of a PreRulesResource list operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: The items on this page. Required.
     :vartype value: list[~azure.mgmt.paloaltonetworksngfw.models.PreRulesResource]
@@ -4091,10 +4168,76 @@ class PreRulesResourceListResult(_serialization.Model):
         self.next_link = next_link
 
 
+class ProductSerialNumberRequestStatus(_serialization.Model):
+    """Create Product Serial Number Request status.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar status: allocation status of the product serial number. Required.
+    :vartype status: str
+    """
+
+    _validation = {
+        "status": {"required": True},
+    }
+
+    _attribute_map = {
+        "status": {"key": "status", "type": "str"},
+    }
+
+    def __init__(self, *, status: str, **kwargs: Any) -> None:
+        """
+        :keyword status: allocation status of the product serial number. Required.
+        :paramtype status: str
+        """
+        super().__init__(**kwargs)
+        self.status = status
+
+
+class ProductSerialNumberStatus(_serialization.Model):
+    """Product serial and status for the service.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar serial_number: product Serial associated with given resource.
+    :vartype serial_number: str
+    :ivar status: allocation status of the product serial number. Required. Known values are:
+     "Allocated" and "InProgress".
+    :vartype status: str or ~azure.mgmt.paloaltonetworksngfw.models.ProductSerialStatusValues
+    """
+
+    _validation = {
+        "status": {"required": True},
+    }
+
+    _attribute_map = {
+        "serial_number": {"key": "serialNumber", "type": "str"},
+        "status": {"key": "status", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        status: Union[str, "_models.ProductSerialStatusValues"],
+        serial_number: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword serial_number: product Serial associated with given resource.
+        :paramtype serial_number: str
+        :keyword status: allocation status of the product serial number. Required. Known values are:
+         "Allocated" and "InProgress".
+        :paramtype status: str or ~azure.mgmt.paloaltonetworksngfw.models.ProductSerialStatusValues
+        """
+        super().__init__(**kwargs)
+        self.serial_number = serial_number
+        self.status = status
+
+
 class RuleCounter(_serialization.Model):
     """Rule counter.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar priority: priority number. Required.
     :vartype priority: str
@@ -4358,7 +4501,7 @@ class SecurityServices(_serialization.Model):
 class SecurityServicesResponse(_serialization.Model):
     """Security services list response.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: response value. Required.
     :vartype value: ~azure.mgmt.paloaltonetworksngfw.models.SecurityServicesTypeList
@@ -4392,7 +4535,7 @@ class SecurityServicesResponse(_serialization.Model):
 class SecurityServicesTypeList(_serialization.Model):
     """Security services type list.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar type: security services type.
     :vartype type: str
@@ -4508,7 +4651,61 @@ class StorageAccount(_serialization.Model):
         self.account_name = account_name
 
 
-class SupportInfo(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class StrataCloudManagerConfig(_serialization.Model):
+    """This field is only present if Strata Cloud Manager is managing the policy for this firewall.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar cloud_manager_name: Strata Cloud Manager name which is intended to manage the policy for
+     this firewall. Required.
+    :vartype cloud_manager_name: str
+    """
+
+    _validation = {
+        "cloud_manager_name": {"required": True},
+    }
+
+    _attribute_map = {
+        "cloud_manager_name": {"key": "cloudManagerName", "type": "str"},
+    }
+
+    def __init__(self, *, cloud_manager_name: str, **kwargs: Any) -> None:
+        """
+        :keyword cloud_manager_name: Strata Cloud Manager name which is intended to manage the policy
+         for this firewall. Required.
+        :paramtype cloud_manager_name: str
+        """
+        super().__init__(**kwargs)
+        self.cloud_manager_name = cloud_manager_name
+
+
+class StrataCloudManagerInfo(_serialization.Model):
+    """Strata Cloud Manager Info.
+
+    :ivar folder_name: Strata Cloud Manager folder in which this firewall has been placed.
+    :vartype folder_name: str
+    :ivar hub_url: URL for Strata Cloud Manager.
+    :vartype hub_url: str
+    """
+
+    _attribute_map = {
+        "folder_name": {"key": "folderName", "type": "str"},
+        "hub_url": {"key": "hubUrl", "type": "str"},
+    }
+
+    def __init__(self, *, folder_name: Optional[str] = None, hub_url: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword folder_name: Strata Cloud Manager folder in which this firewall has been placed.
+        :paramtype folder_name: str
+        :keyword hub_url: URL for Strata Cloud Manager.
+        :paramtype hub_url: str
+        """
+        super().__init__(**kwargs)
+        self.folder_name = folder_name
+        self.hub_url = hub_url
+
+
+class SupportInfo(_serialization.Model):
     """Support information for the resource.
 
     :ivar product_sku: product SKU associated with given resource.
@@ -4518,8 +4715,14 @@ class SupportInfo(_serialization.Model):  # pylint: disable=too-many-instance-at
     :ivar account_registered: account registered in Customer Support Portal. Known values are:
      "TRUE" and "FALSE".
     :vartype account_registered: str or ~azure.mgmt.paloaltonetworksngfw.models.BooleanEnum
-    :ivar account_id: Support account associated with given resource.
+    :ivar account_id: Support account associated with given resource when association type is
+     tenant.
     :vartype account_id: str
+    :ivar account_id_for_billing: Support account associated with given resource when association
+     type is billing.
+    :vartype account_id_for_billing: str
+    :ivar association_type: Association Type.
+    :vartype association_type: str
     :ivar user_domain_supported: user domain is supported in Customer Support Portal. Known values
      are: "TRUE" and "FALSE".
     :vartype user_domain_supported: str or ~azure.mgmt.paloaltonetworksngfw.models.BooleanEnum
@@ -4545,6 +4748,8 @@ class SupportInfo(_serialization.Model):  # pylint: disable=too-many-instance-at
         "product_serial": {"key": "productSerial", "type": "str"},
         "account_registered": {"key": "accountRegistered", "type": "str"},
         "account_id": {"key": "accountId", "type": "str"},
+        "account_id_for_billing": {"key": "accountIdForBilling", "type": "str"},
+        "association_type": {"key": "associationType", "type": "str"},
         "user_domain_supported": {"key": "userDomainSupported", "type": "str"},
         "user_registered": {"key": "userRegistered", "type": "str"},
         "free_trial": {"key": "freeTrial", "type": "str"},
@@ -4562,6 +4767,8 @@ class SupportInfo(_serialization.Model):  # pylint: disable=too-many-instance-at
         product_serial: Optional[str] = None,
         account_registered: Optional[Union[str, "_models.BooleanEnum"]] = None,
         account_id: Optional[str] = None,
+        account_id_for_billing: Optional[str] = None,
+        association_type: Optional[str] = None,
         user_domain_supported: Optional[Union[str, "_models.BooleanEnum"]] = None,
         user_registered: Optional[Union[str, "_models.BooleanEnum"]] = None,
         free_trial: Optional[Union[str, "_models.BooleanEnum"]] = None,
@@ -4580,8 +4787,14 @@ class SupportInfo(_serialization.Model):  # pylint: disable=too-many-instance-at
         :keyword account_registered: account registered in Customer Support Portal. Known values are:
          "TRUE" and "FALSE".
         :paramtype account_registered: str or ~azure.mgmt.paloaltonetworksngfw.models.BooleanEnum
-        :keyword account_id: Support account associated with given resource.
+        :keyword account_id: Support account associated with given resource when association type is
+         tenant.
         :paramtype account_id: str
+        :keyword account_id_for_billing: Support account associated with given resource when
+         association type is billing.
+        :paramtype account_id_for_billing: str
+        :keyword association_type: Association Type.
+        :paramtype association_type: str
         :keyword user_domain_supported: user domain is supported in Customer Support Portal. Known
          values are: "TRUE" and "FALSE".
         :paramtype user_domain_supported: str or ~azure.mgmt.paloaltonetworksngfw.models.BooleanEnum
@@ -4607,6 +4820,8 @@ class SupportInfo(_serialization.Model):  # pylint: disable=too-many-instance-at
         self.product_serial = product_serial
         self.account_registered = account_registered
         self.account_id = account_id
+        self.account_id_for_billing = account_id_for_billing
+        self.association_type = association_type
         self.user_domain_supported = user_domain_supported
         self.user_registered = user_registered
         self.free_trial = free_trial
@@ -4615,6 +4830,153 @@ class SupportInfo(_serialization.Model):  # pylint: disable=too-many-instance-at
         self.help_url = help_url
         self.support_url = support_url
         self.register_url = register_url
+
+
+class SupportInfoModel(_serialization.Model):
+    """Support information for the service.
+
+    :ivar product_sku: product SKU associated with given resource.
+    :vartype product_sku: str
+    :ivar product_serial: product Serial associated with given resource.
+    :vartype product_serial: str
+    :ivar account_registration_status: account registered in Customer Support Portal. Known values
+     are: "Registered" and "Not Registered".
+    :vartype account_registration_status: str or
+     ~azure.mgmt.paloaltonetworksngfw.models.RegistrationStatus
+    :ivar account_id: Support account associated with given resource when association type is
+     tenant.
+    :vartype account_id: str
+    :ivar account_id_for_billing: Support account associated with given resource when association
+     type is billing.
+    :vartype account_id_for_billing: str
+    :ivar association_type: Association Type.
+    :vartype association_type: str
+    :ivar free_trial: Product usage is in free trial period. Known values are: "Enabled" and
+     "Disabled".
+    :vartype free_trial: str or ~azure.mgmt.paloaltonetworksngfw.models.EnableStatus
+    :ivar free_trial_days_left: Free trial days remaining.
+    :vartype free_trial_days_left: int
+    :ivar free_trial_credit_left: Free trial credit remaining.
+    :vartype free_trial_credit_left: int
+    :ivar help_url: URL for paloaltonetworks live community.
+    :vartype help_url: str
+    :ivar support_url: URL for paloaltonetworks Customer Service Portal.
+    :vartype support_url: str
+    :ivar register_url: URL for registering product in paloaltonetworks Customer Service Portal.
+    :vartype register_url: str
+    :ivar hub_url: URL for Strata Cloud Manager.
+    :vartype hub_url: str
+    :ivar credits: credits purchased, unit per hour.
+    :vartype credits: int
+    :ivar monthly_credit_left: monthly credit is computed as credits * days in calendar month.
+    :vartype monthly_credit_left: int
+    :ivar start_date_for_credits: date in format yyyy-mm-dd.
+    :vartype start_date_for_credits: str
+    :ivar end_date_for_credits: date in format yyyy-mm-dd.
+    :vartype end_date_for_credits: str
+    """
+
+    _attribute_map = {
+        "product_sku": {"key": "productSku", "type": "str"},
+        "product_serial": {"key": "productSerial", "type": "str"},
+        "account_registration_status": {"key": "accountRegistrationStatus", "type": "str"},
+        "account_id": {"key": "accountId", "type": "str"},
+        "account_id_for_billing": {"key": "accountIdForBilling", "type": "str"},
+        "association_type": {"key": "associationType", "type": "str"},
+        "free_trial": {"key": "freeTrial", "type": "str"},
+        "free_trial_days_left": {"key": "freeTrialDaysLeft", "type": "int"},
+        "free_trial_credit_left": {"key": "freeTrialCreditLeft", "type": "int"},
+        "help_url": {"key": "helpURL", "type": "str"},
+        "support_url": {"key": "supportURL", "type": "str"},
+        "register_url": {"key": "registerURL", "type": "str"},
+        "hub_url": {"key": "hubUrl", "type": "str"},
+        "credits": {"key": "credits", "type": "int"},
+        "monthly_credit_left": {"key": "monthlyCreditLeft", "type": "int"},
+        "start_date_for_credits": {"key": "startDateForCredits", "type": "str"},
+        "end_date_for_credits": {"key": "endDateForCredits", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        product_sku: Optional[str] = None,
+        product_serial: Optional[str] = None,
+        account_registration_status: Optional[Union[str, "_models.RegistrationStatus"]] = None,
+        account_id: Optional[str] = None,
+        account_id_for_billing: Optional[str] = None,
+        association_type: Optional[str] = None,
+        free_trial: Optional[Union[str, "_models.EnableStatus"]] = None,
+        free_trial_days_left: Optional[int] = None,
+        free_trial_credit_left: Optional[int] = None,
+        help_url: Optional[str] = None,
+        support_url: Optional[str] = None,
+        register_url: Optional[str] = None,
+        hub_url: Optional[str] = None,
+        credits: Optional[int] = None,
+        monthly_credit_left: Optional[int] = None,
+        start_date_for_credits: Optional[str] = None,
+        end_date_for_credits: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword product_sku: product SKU associated with given resource.
+        :paramtype product_sku: str
+        :keyword product_serial: product Serial associated with given resource.
+        :paramtype product_serial: str
+        :keyword account_registration_status: account registered in Customer Support Portal. Known
+         values are: "Registered" and "Not Registered".
+        :paramtype account_registration_status: str or
+         ~azure.mgmt.paloaltonetworksngfw.models.RegistrationStatus
+        :keyword account_id: Support account associated with given resource when association type is
+         tenant.
+        :paramtype account_id: str
+        :keyword account_id_for_billing: Support account associated with given resource when
+         association type is billing.
+        :paramtype account_id_for_billing: str
+        :keyword association_type: Association Type.
+        :paramtype association_type: str
+        :keyword free_trial: Product usage is in free trial period. Known values are: "Enabled" and
+         "Disabled".
+        :paramtype free_trial: str or ~azure.mgmt.paloaltonetworksngfw.models.EnableStatus
+        :keyword free_trial_days_left: Free trial days remaining.
+        :paramtype free_trial_days_left: int
+        :keyword free_trial_credit_left: Free trial credit remaining.
+        :paramtype free_trial_credit_left: int
+        :keyword help_url: URL for paloaltonetworks live community.
+        :paramtype help_url: str
+        :keyword support_url: URL for paloaltonetworks Customer Service Portal.
+        :paramtype support_url: str
+        :keyword register_url: URL for registering product in paloaltonetworks Customer Service Portal.
+        :paramtype register_url: str
+        :keyword hub_url: URL for Strata Cloud Manager.
+        :paramtype hub_url: str
+        :keyword credits: credits purchased, unit per hour.
+        :paramtype credits: int
+        :keyword monthly_credit_left: monthly credit is computed as credits * days in calendar month.
+        :paramtype monthly_credit_left: int
+        :keyword start_date_for_credits: date in format yyyy-mm-dd.
+        :paramtype start_date_for_credits: str
+        :keyword end_date_for_credits: date in format yyyy-mm-dd.
+        :paramtype end_date_for_credits: str
+        """
+        super().__init__(**kwargs)
+        self.product_sku = product_sku
+        self.product_serial = product_serial
+        self.account_registration_status = account_registration_status
+        self.account_id = account_id
+        self.account_id_for_billing = account_id_for_billing
+        self.association_type = association_type
+        self.free_trial = free_trial
+        self.free_trial_days_left = free_trial_days_left
+        self.free_trial_credit_left = free_trial_credit_left
+        self.help_url = help_url
+        self.support_url = support_url
+        self.register_url = register_url
+        self.hub_url = hub_url
+        self.credits = credits
+        self.monthly_credit_left = monthly_credit_left
+        self.start_date_for_credits = start_date_for_credits
+        self.end_date_for_credits = end_date_for_credits
 
 
 class SystemData(_serialization.Model):
@@ -4684,7 +5046,7 @@ class SystemData(_serialization.Model):
 class TagInfo(_serialization.Model):
     """Tag.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar key: tag name. Required.
     :vartype key: str
@@ -4717,7 +5079,7 @@ class TagInfo(_serialization.Model):
 class VnetConfiguration(_serialization.Model):
     """VnetInfo for Firewall Networking.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar vnet: Azure Virtual Network. Required.
     :vartype vnet: ~azure.mgmt.paloaltonetworksngfw.models.IPAddressSpace
@@ -4771,7 +5133,7 @@ class VnetConfiguration(_serialization.Model):
 class VwanConfiguration(_serialization.Model):
     """VwanInfo for Firewall Networking.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar network_virtual_appliance_id: Network Virtual Appliance resource ID.
     :vartype network_virtual_appliance_id: str

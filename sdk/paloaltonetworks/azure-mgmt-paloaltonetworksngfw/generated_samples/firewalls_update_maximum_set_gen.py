@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.paloaltonetworksngfw import PaloAltoNetworksNgfwMgmtClient
 
 """
@@ -88,6 +89,7 @@ def main():
                     ],
                     "enableEgressNat": "ENABLED",
                     "networkType": "VNET",
+                    "privateSourceNatRulesDestination": ["20.22.92.11"],
                     "publicIps": [
                         {
                             "address": "20.22.92.11",
@@ -147,6 +149,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/Firewalls_Update_MaximumSet_Gen.json
+# x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/preview/2025-02-06-preview/examples/Firewalls_Update_MaximumSet_Gen.json
 if __name__ == "__main__":
     main()

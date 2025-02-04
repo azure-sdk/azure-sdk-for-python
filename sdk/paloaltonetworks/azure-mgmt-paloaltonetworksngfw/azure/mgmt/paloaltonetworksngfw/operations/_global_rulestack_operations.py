@@ -7,7 +7,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-from typing import Any, Callable, Dict, IO, Iterable, Optional, TypeVar, Union, cast, overload
+import sys
+from typing import Any, Callable, Dict, IO, Iterable, Iterator, Optional, TypeVar, Union, cast, overload
 import urllib.parse
 
 from azure.core.exceptions import (
@@ -16,13 +17,14 @@ from azure.core.exceptions import (
     ResourceExistsError,
     ResourceNotFoundError,
     ResourceNotModifiedError,
+    StreamClosedError,
+    StreamConsumedError,
     map_error,
 )
 from azure.core.paging import ItemPaged
 from azure.core.pipeline import PipelineResponse
-from azure.core.pipeline.transport import HttpResponse
 from azure.core.polling import LROPoller, NoPolling, PollingMethod
-from azure.core.rest import HttpRequest
+from azure.core.rest import HttpRequest, HttpResponse
 from azure.core.tracing.decorator import distributed_trace
 from azure.core.utils import case_insensitive_dict
 from azure.mgmt.core.exceptions import ARMErrorFormat
@@ -30,8 +32,11 @@ from azure.mgmt.core.polling.arm_polling import ARMPolling
 
 from .. import models as _models
 from .._serialization import Serializer
-from .._vendor import _convert_request
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
 
@@ -43,7 +48,7 @@ def build_list_request(**kwargs: Any) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-02-06-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -62,7 +67,7 @@ def build_get_request(global_rulestack_name: str, **kwargs: Any) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-02-06-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -86,7 +91,7 @@ def build_create_or_update_request(global_rulestack_name: str, **kwargs: Any) ->
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-02-06-preview"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -113,7 +118,7 @@ def build_update_request(global_rulestack_name: str, **kwargs: Any) -> HttpReque
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-02-06-preview"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -140,7 +145,7 @@ def build_delete_request(global_rulestack_name: str, **kwargs: Any) -> HttpReque
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-02-06-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -164,7 +169,7 @@ def build_commit_request(global_rulestack_name: str, **kwargs: Any) -> HttpReque
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-02-06-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -190,7 +195,7 @@ def build_get_change_log_request(global_rulestack_name: str, **kwargs: Any) -> H
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-02-06-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -212,7 +217,7 @@ def build_get_change_log_request(global_rulestack_name: str, **kwargs: Any) -> H
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_list_advanced_security_objects_request(
+def build_list_advanced_security_objects_request(  # pylint: disable=name-too-long
     global_rulestack_name: str,
     *,
     type: Union[str, _models.AdvSecurityObjectTypeEnum],
@@ -223,7 +228,7 @@ def build_list_advanced_security_objects_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-02-06-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -263,7 +268,7 @@ def build_list_app_ids_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-02-06-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -299,7 +304,7 @@ def build_list_countries_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-02-06-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -329,7 +334,7 @@ def build_list_firewalls_request(global_rulestack_name: str, **kwargs: Any) -> H
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-02-06-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -351,13 +356,13 @@ def build_list_firewalls_request(global_rulestack_name: str, **kwargs: Any) -> H
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_list_predefined_url_categories_request(
+def build_list_predefined_url_categories_request(  # pylint: disable=name-too-long
     global_rulestack_name: str, *, skip: Optional[str] = None, top: Optional[int] = None, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-02-06-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -395,7 +400,7 @@ def build_list_security_services_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-02-06-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -427,7 +432,7 @@ def build_revert_request(global_rulestack_name: str, **kwargs: Any) -> HttpReque
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-09-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-02-06-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -472,7 +477,6 @@ class GlobalRulestackOperations:
     def list(self, **kwargs: Any) -> Iterable["_models.GlobalRulestackResource"]:
         """List GlobalRulestackResource resources by Tenant.
 
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either GlobalRulestackResource or the result of
          cls(response)
         :rtype:
@@ -485,7 +489,7 @@ class GlobalRulestackOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.GlobalRulestackResourceListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -496,14 +500,12 @@ class GlobalRulestackOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_request(
+                _request = build_list_request(
                     api_version=api_version,
-                    template_url=self.list.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -515,13 +517,12 @@ class GlobalRulestackOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("GlobalRulestackResourceListResult", pipeline_response)
@@ -531,11 +532,11 @@ class GlobalRulestackOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -548,20 +549,17 @@ class GlobalRulestackOperations:
 
         return ItemPaged(get_next, extract_data)
 
-    list.metadata = {"url": "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks"}
-
     @distributed_trace
     def get(self, global_rulestack_name: str, **kwargs: Any) -> _models.GlobalRulestackResource:
         """Get a GlobalRulestackResource.
 
         :param global_rulestack_name: GlobalRulestack resource name. Required.
         :type global_rulestack_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: GlobalRulestackResource or the result of cls(response)
         :rtype: ~azure.mgmt.paloaltonetworksngfw.models.GlobalRulestackResource
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -575,19 +573,17 @@ class GlobalRulestackOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.GlobalRulestackResource] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             global_rulestack_name=global_rulestack_name,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -597,19 +593,17 @@ class GlobalRulestackOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("GlobalRulestackResource", pipeline_response)
+        deserialized = self._deserialize("GlobalRulestackResource", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {"url": "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}"}
+        return deserialized  # type: ignore
 
     def _create_or_update_initial(
-        self, global_rulestack_name: str, resource: Union[_models.GlobalRulestackResource, IO], **kwargs: Any
-    ) -> _models.GlobalRulestackResource:
-        error_map = {
+        self, global_rulestack_name: str, resource: Union[_models.GlobalRulestackResource, IO[bytes]], **kwargs: Any
+    ) -> Iterator[bytes]:
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -622,7 +616,7 @@ class GlobalRulestackOperations:
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.GlobalRulestackResource] = kwargs.pop("cls", None)
+        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
 
         content_type = content_type or "application/json"
         _json = None
@@ -632,45 +626,40 @@ class GlobalRulestackOperations:
         else:
             _json = self._serialize.body(resource, "GlobalRulestackResource")
 
-        request = build_create_or_update_request(
+        _request = build_create_or_update_request(
             global_rulestack_name=global_rulestack_name,
             api_version=api_version,
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._create_or_update_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
-        _stream = False
+        _decompress = kwargs.pop("decompress", True)
+        _stream = True
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
 
         if response.status_code not in [200, 201]:
+            try:
+                response.read()  # Load the body in memory and close the socket
+            except (StreamConsumedError, StreamClosedError):
+                pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        if response.status_code == 200:
-            deserialized = self._deserialize("GlobalRulestackResource", pipeline_response)
-
-        if response.status_code == 201:
-            deserialized = self._deserialize("GlobalRulestackResource", pipeline_response)
+        deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
 
         return deserialized  # type: ignore
-
-    _create_or_update_initial.metadata = {
-        "url": "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}"
-    }
 
     @overload
     def begin_create_or_update(
@@ -690,14 +679,6 @@ class GlobalRulestackOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either GlobalRulestackResource or the result of
          cls(response)
         :rtype:
@@ -707,25 +688,17 @@ class GlobalRulestackOperations:
 
     @overload
     def begin_create_or_update(
-        self, global_rulestack_name: str, resource: IO, *, content_type: str = "application/json", **kwargs: Any
+        self, global_rulestack_name: str, resource: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
     ) -> LROPoller[_models.GlobalRulestackResource]:
         """Create a GlobalRulestackResource.
 
         :param global_rulestack_name: GlobalRulestack resource name. Required.
         :type global_rulestack_name: str
         :param resource: Resource create parameters. Required.
-        :type resource: IO
+        :type resource: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either GlobalRulestackResource or the result of
          cls(response)
         :rtype:
@@ -735,26 +708,15 @@ class GlobalRulestackOperations:
 
     @distributed_trace
     def begin_create_or_update(
-        self, global_rulestack_name: str, resource: Union[_models.GlobalRulestackResource, IO], **kwargs: Any
+        self, global_rulestack_name: str, resource: Union[_models.GlobalRulestackResource, IO[bytes]], **kwargs: Any
     ) -> LROPoller[_models.GlobalRulestackResource]:
         """Create a GlobalRulestackResource.
 
         :param global_rulestack_name: GlobalRulestack resource name. Required.
         :type global_rulestack_name: str
-        :param resource: Resource create parameters. Is either a GlobalRulestackResource type or a IO
-         type. Required.
-        :type resource: ~azure.mgmt.paloaltonetworksngfw.models.GlobalRulestackResource or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+        :param resource: Resource create parameters. Is either a GlobalRulestackResource type or a
+         IO[bytes] type. Required.
+        :type resource: ~azure.mgmt.paloaltonetworksngfw.models.GlobalRulestackResource or IO[bytes]
         :return: An instance of LROPoller that returns either GlobalRulestackResource or the result of
          cls(response)
         :rtype:
@@ -781,12 +743,13 @@ class GlobalRulestackOperations:
                 params=_params,
                 **kwargs
             )
+            raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):
-            deserialized = self._deserialize("GlobalRulestackResource", pipeline_response)
+            deserialized = self._deserialize("GlobalRulestackResource", pipeline_response.http_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -798,17 +761,15 @@ class GlobalRulestackOperations:
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.GlobalRulestackResource].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_create_or_update.metadata = {
-        "url": "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}"
-    }
+        return LROPoller[_models.GlobalRulestackResource](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     @overload
     def update(
@@ -828,7 +789,6 @@ class GlobalRulestackOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: GlobalRulestackResource or the result of cls(response)
         :rtype: ~azure.mgmt.paloaltonetworksngfw.models.GlobalRulestackResource
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -836,18 +796,22 @@ class GlobalRulestackOperations:
 
     @overload
     def update(
-        self, global_rulestack_name: str, properties: IO, *, content_type: str = "application/json", **kwargs: Any
+        self,
+        global_rulestack_name: str,
+        properties: IO[bytes],
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
     ) -> _models.GlobalRulestackResource:
         """Update a GlobalRulestackResource.
 
         :param global_rulestack_name: GlobalRulestack resource name. Required.
         :type global_rulestack_name: str
         :param properties: The resource properties to be updated. Required.
-        :type properties: IO
+        :type properties: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: GlobalRulestackResource or the result of cls(response)
         :rtype: ~azure.mgmt.paloaltonetworksngfw.models.GlobalRulestackResource
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -855,24 +819,24 @@ class GlobalRulestackOperations:
 
     @distributed_trace
     def update(
-        self, global_rulestack_name: str, properties: Union[_models.GlobalRulestackResourceUpdate, IO], **kwargs: Any
+        self,
+        global_rulestack_name: str,
+        properties: Union[_models.GlobalRulestackResourceUpdate, IO[bytes]],
+        **kwargs: Any
     ) -> _models.GlobalRulestackResource:
         """Update a GlobalRulestackResource.
 
         :param global_rulestack_name: GlobalRulestack resource name. Required.
         :type global_rulestack_name: str
         :param properties: The resource properties to be updated. Is either a
-         GlobalRulestackResourceUpdate type or a IO type. Required.
-        :type properties: ~azure.mgmt.paloaltonetworksngfw.models.GlobalRulestackResourceUpdate or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         GlobalRulestackResourceUpdate type or a IO[bytes] type. Required.
+        :type properties: ~azure.mgmt.paloaltonetworksngfw.models.GlobalRulestackResourceUpdate or
+         IO[bytes]
         :return: GlobalRulestackResource or the result of cls(response)
         :rtype: ~azure.mgmt.paloaltonetworksngfw.models.GlobalRulestackResource
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -895,22 +859,20 @@ class GlobalRulestackOperations:
         else:
             _json = self._serialize.body(properties, "GlobalRulestackResourceUpdate")
 
-        request = build_update_request(
+        _request = build_update_request(
             global_rulestack_name=global_rulestack_name,
             api_version=api_version,
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.update.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -920,19 +882,15 @@ class GlobalRulestackOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("GlobalRulestackResource", pipeline_response)
+        deserialized = self._deserialize("GlobalRulestackResource", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
+        return deserialized  # type: ignore
 
-    update.metadata = {"url": "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}"}
-
-    def _delete_initial(  # pylint: disable=inconsistent-return-statements
-        self, global_rulestack_name: str, **kwargs: Any
-    ) -> None:
-        error_map = {
+    def _delete_initial(self, global_rulestack_name: str, **kwargs: Any) -> Iterator[bytes]:
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -944,34 +902,39 @@ class GlobalRulestackOperations:
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[None] = kwargs.pop("cls", None)
+        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
 
-        request = build_delete_request(
+        _request = build_delete_request(
             global_rulestack_name=global_rulestack_name,
             api_version=api_version,
-            template_url=self._delete_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
-        _stream = False
+        _decompress = kwargs.pop("decompress", True)
+        _stream = True
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
 
         if response.status_code not in [200, 202, 204]:
+            try:
+                response.read()  # Load the body in memory and close the socket
+            except (StreamConsumedError, StreamClosedError):
+                pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        if cls:
-            return cls(pipeline_response, None, {})
+        deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
 
-    _delete_initial.metadata = {"url": "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}"}
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
 
     @distributed_trace
     def begin_delete(self, global_rulestack_name: str, **kwargs: Any) -> LROPoller[None]:
@@ -979,14 +942,6 @@ class GlobalRulestackOperations:
 
         :param global_rulestack_name: GlobalRulestack resource name. Required.
         :type global_rulestack_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1000,7 +955,7 @@ class GlobalRulestackOperations:
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
         if cont_token is None:
-            raw_result = self._delete_initial(  # type: ignore
+            raw_result = self._delete_initial(
                 global_rulestack_name=global_rulestack_name,
                 api_version=api_version,
                 cls=lambda x, y, z: x,
@@ -1008,11 +963,12 @@ class GlobalRulestackOperations:
                 params=_params,
                 **kwargs
             )
+            raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
             if cls:
-                return cls(pipeline_response, None, {})
+                return cls(pipeline_response, None, {})  # type: ignore
 
         if polling is True:
             polling_method: PollingMethod = cast(
@@ -1023,20 +979,16 @@ class GlobalRulestackOperations:
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[None].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
+        return LROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
-    begin_delete.metadata = {"url": "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}"}
-
-    def _commit_initial(  # pylint: disable=inconsistent-return-statements
-        self, global_rulestack_name: str, **kwargs: Any
-    ) -> None:
-        error_map = {
+    def _commit_initial(self, global_rulestack_name: str, **kwargs: Any) -> Iterator[bytes]:
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1048,36 +1000,39 @@ class GlobalRulestackOperations:
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[None] = kwargs.pop("cls", None)
+        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
 
-        request = build_commit_request(
+        _request = build_commit_request(
             global_rulestack_name=global_rulestack_name,
             api_version=api_version,
-            template_url=self._commit_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
-        _stream = False
+        _decompress = kwargs.pop("decompress", True)
+        _stream = True
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
 
         if response.status_code not in [202]:
+            try:
+                response.read()  # Load the body in memory and close the socket
+            except (StreamConsumedError, StreamClosedError):
+                pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        if cls:
-            return cls(pipeline_response, None, {})
+        deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
 
-    _commit_initial.metadata = {
-        "url": "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/commit"
-    }
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
 
     @distributed_trace
     def begin_commit(self, global_rulestack_name: str, **kwargs: Any) -> LROPoller[None]:
@@ -1085,14 +1040,6 @@ class GlobalRulestackOperations:
 
         :param global_rulestack_name: GlobalRulestack resource name. Required.
         :type global_rulestack_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1106,7 +1053,7 @@ class GlobalRulestackOperations:
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
         if cont_token is None:
-            raw_result = self._commit_initial(  # type: ignore
+            raw_result = self._commit_initial(
                 global_rulestack_name=global_rulestack_name,
                 api_version=api_version,
                 cls=lambda x, y, z: x,
@@ -1114,11 +1061,12 @@ class GlobalRulestackOperations:
                 params=_params,
                 **kwargs
             )
+            raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
             if cls:
-                return cls(pipeline_response, None, {})
+                return cls(pipeline_response, None, {})  # type: ignore
 
         if polling is True:
             polling_method: PollingMethod = cast(
@@ -1129,17 +1077,13 @@ class GlobalRulestackOperations:
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[None].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_commit.metadata = {
-        "url": "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/commit"
-    }
+        return LROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     @distributed_trace
     def get_change_log(self, global_rulestack_name: str, **kwargs: Any) -> _models.Changelog:
@@ -1147,12 +1091,11 @@ class GlobalRulestackOperations:
 
         :param global_rulestack_name: GlobalRulestack resource name. Required.
         :type global_rulestack_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: Changelog or the result of cls(response)
         :rtype: ~azure.mgmt.paloaltonetworksngfw.models.Changelog
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1166,19 +1109,17 @@ class GlobalRulestackOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.Changelog] = kwargs.pop("cls", None)
 
-        request = build_get_change_log_request(
+        _request = build_get_change_log_request(
             global_rulestack_name=global_rulestack_name,
             api_version=api_version,
-            template_url=self.get_change_log.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1188,16 +1129,12 @@ class GlobalRulestackOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("Changelog", pipeline_response)
+        deserialized = self._deserialize("Changelog", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get_change_log.metadata = {
-        "url": "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/getChangeLog"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
     def list_advanced_security_objects(
@@ -1218,12 +1155,11 @@ class GlobalRulestackOperations:
         :type skip: str
         :param top: Default value is None.
         :type top: int
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: AdvSecurityObjectListResponse or the result of cls(response)
         :rtype: ~azure.mgmt.paloaltonetworksngfw.models.AdvSecurityObjectListResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1237,22 +1173,20 @@ class GlobalRulestackOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.AdvSecurityObjectListResponse] = kwargs.pop("cls", None)
 
-        request = build_list_advanced_security_objects_request(
+        _request = build_list_advanced_security_objects_request(
             global_rulestack_name=global_rulestack_name,
             type=type,
             skip=skip,
             top=top,
             api_version=api_version,
-            template_url=self.list_advanced_security_objects.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1262,16 +1196,12 @@ class GlobalRulestackOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("AdvSecurityObjectListResponse", pipeline_response)
+        deserialized = self._deserialize("AdvSecurityObjectListResponse", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    list_advanced_security_objects.metadata = {
-        "url": "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/listAdvancedSecurityObjects"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
     def list_app_ids(
@@ -1295,12 +1225,11 @@ class GlobalRulestackOperations:
         :type skip: str
         :param top: Default value is None.
         :type top: int
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ListAppIdResponse or the result of cls(response)
         :rtype: ~azure.mgmt.paloaltonetworksngfw.models.ListAppIdResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1314,23 +1243,21 @@ class GlobalRulestackOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.ListAppIdResponse] = kwargs.pop("cls", None)
 
-        request = build_list_app_ids_request(
+        _request = build_list_app_ids_request(
             global_rulestack_name=global_rulestack_name,
             app_id_version=app_id_version,
             app_prefix=app_prefix,
             skip=skip,
             top=top,
             api_version=api_version,
-            template_url=self.list_app_ids.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1340,16 +1267,12 @@ class GlobalRulestackOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("ListAppIdResponse", pipeline_response)
+        deserialized = self._deserialize("ListAppIdResponse", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    list_app_ids.metadata = {
-        "url": "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/listAppIds"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
     def list_countries(
@@ -1363,12 +1286,11 @@ class GlobalRulestackOperations:
         :type skip: str
         :param top: Default value is None.
         :type top: int
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: CountriesResponse or the result of cls(response)
         :rtype: ~azure.mgmt.paloaltonetworksngfw.models.CountriesResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1382,21 +1304,19 @@ class GlobalRulestackOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.CountriesResponse] = kwargs.pop("cls", None)
 
-        request = build_list_countries_request(
+        _request = build_list_countries_request(
             global_rulestack_name=global_rulestack_name,
             skip=skip,
             top=top,
             api_version=api_version,
-            template_url=self.list_countries.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1406,16 +1326,12 @@ class GlobalRulestackOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("CountriesResponse", pipeline_response)
+        deserialized = self._deserialize("CountriesResponse", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    list_countries.metadata = {
-        "url": "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/listCountries"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
     def list_firewalls(self, global_rulestack_name: str, **kwargs: Any) -> _models.ListFirewallsResponse:
@@ -1423,12 +1339,11 @@ class GlobalRulestackOperations:
 
         :param global_rulestack_name: GlobalRulestack resource name. Required.
         :type global_rulestack_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ListFirewallsResponse or the result of cls(response)
         :rtype: ~azure.mgmt.paloaltonetworksngfw.models.ListFirewallsResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1442,19 +1357,17 @@ class GlobalRulestackOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.ListFirewallsResponse] = kwargs.pop("cls", None)
 
-        request = build_list_firewalls_request(
+        _request = build_list_firewalls_request(
             global_rulestack_name=global_rulestack_name,
             api_version=api_version,
-            template_url=self.list_firewalls.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1464,16 +1377,12 @@ class GlobalRulestackOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("ListFirewallsResponse", pipeline_response)
+        deserialized = self._deserialize("ListFirewallsResponse", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    list_firewalls.metadata = {
-        "url": "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/listFirewalls"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
     def list_predefined_url_categories(
@@ -1487,12 +1396,11 @@ class GlobalRulestackOperations:
         :type skip: str
         :param top: Default value is None.
         :type top: int
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: PredefinedUrlCategoriesResponse or the result of cls(response)
         :rtype: ~azure.mgmt.paloaltonetworksngfw.models.PredefinedUrlCategoriesResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1506,21 +1414,19 @@ class GlobalRulestackOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.PredefinedUrlCategoriesResponse] = kwargs.pop("cls", None)
 
-        request = build_list_predefined_url_categories_request(
+        _request = build_list_predefined_url_categories_request(
             global_rulestack_name=global_rulestack_name,
             skip=skip,
             top=top,
             api_version=api_version,
-            template_url=self.list_predefined_url_categories.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1530,16 +1436,12 @@ class GlobalRulestackOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("PredefinedUrlCategoriesResponse", pipeline_response)
+        deserialized = self._deserialize("PredefinedUrlCategoriesResponse", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    list_predefined_url_categories.metadata = {
-        "url": "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/listPredefinedUrlCategories"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
     def list_security_services(
@@ -1561,12 +1463,11 @@ class GlobalRulestackOperations:
         :type skip: str
         :param top: Default value is None.
         :type top: int
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: SecurityServicesResponse or the result of cls(response)
         :rtype: ~azure.mgmt.paloaltonetworksngfw.models.SecurityServicesResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1580,22 +1481,20 @@ class GlobalRulestackOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.SecurityServicesResponse] = kwargs.pop("cls", None)
 
-        request = build_list_security_services_request(
+        _request = build_list_security_services_request(
             global_rulestack_name=global_rulestack_name,
             type=type,
             skip=skip,
             top=top,
             api_version=api_version,
-            template_url=self.list_security_services.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1605,16 +1504,12 @@ class GlobalRulestackOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("SecurityServicesResponse", pipeline_response)
+        deserialized = self._deserialize("SecurityServicesResponse", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    list_security_services.metadata = {
-        "url": "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/listSecurityServices"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
     def revert(  # pylint: disable=inconsistent-return-statements
@@ -1624,12 +1519,11 @@ class GlobalRulestackOperations:
 
         :param global_rulestack_name: GlobalRulestack resource name. Required.
         :type global_rulestack_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1643,19 +1537,17 @@ class GlobalRulestackOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_revert_request(
+        _request = build_revert_request(
             global_rulestack_name=global_rulestack_name,
             api_version=api_version,
-            template_url=self.revert.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1666,6 +1558,4 @@ class GlobalRulestackOperations:
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    revert.metadata = {"url": "/providers/PaloAltoNetworks.Cloudngfw/globalRulestacks/{globalRulestackName}/revert"}
+            return cls(pipeline_response, None, {})  # type: ignore
