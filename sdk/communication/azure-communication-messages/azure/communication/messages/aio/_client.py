@@ -16,28 +16,36 @@ from azure.core.pipeline import policies
 from azure.core.rest import AsyncHttpResponse, HttpRequest
 
 from .._serialization import Deserializer, Serializer
-from ._configuration import MessageTemplateClientConfiguration, NotificationMessagesClientConfiguration
-from ._operations import MessageTemplateClientOperationsMixin, NotificationMessagesClientOperationsMixin
+from ._configuration import (
+    ConversationManagementClientConfiguration,
+    ConversationMessagesClientConfiguration,
+    MessageTemplateClientConfiguration,
+    NotificationMessagesClientConfiguration,
+)
+from ._operations import (
+    ConversationManagementClientOperationsMixin,
+    ConversationMessagesClientOperationsMixin,
+    MessageTemplateClientOperationsMixin,
+    NotificationMessagesClientOperationsMixin,
+)
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from azure.core.credentials_async import AsyncTokenCredential
 
 
-class NotificationMessagesClient(
-    NotificationMessagesClientOperationsMixin
-):  # pylint: disable=client-accepts-api-version-keyword
+class NotificationMessagesClient(NotificationMessagesClientOperationsMixin):
     """NotificationMessagesClient.
 
     :param endpoint: The communication resource, for example
      https://my-resource.communication.azure.com. Required.
     :type endpoint: str
-    :param credential: Credential used to authenticate requests to the service. Is either a
-     TokenCredential type or a AzureKeyCredential type. Required.
+    :param credential: Credential used to authenticate requests to the service. Is either a token
+     credential type or a key credential type. Required.
     :type credential: ~azure.core.credentials_async.AsyncTokenCredential or
-     ~azure.core.credentials.AzureKeyCredential
-    :keyword api_version: The API version to use for this operation. Default value is "2024-08-30".
-     Note that overriding this default value may result in unsupported behavior.
+     ~azure.core.credentials.AzureKeyCredential or ~azure.core.credentials.AzureKeyCredential
+    :keyword api_version: The API version to use for this operation. Default value is
+     "2025-03-01-preview". Note that overriding this default value may result in unsupported
+     behavior.
     :paramtype api_version: str
     """
 
@@ -108,18 +116,19 @@ class NotificationMessagesClient(
         await self._client.__aexit__(*exc_details)
 
 
-class MessageTemplateClient(MessageTemplateClientOperationsMixin):  # pylint: disable=client-accepts-api-version-keyword
+class MessageTemplateClient(MessageTemplateClientOperationsMixin):
     """MessageTemplateClient.
 
     :param endpoint: The communication resource, for example
      https://my-resource.communication.azure.com. Required.
     :type endpoint: str
-    :param credential: Credential used to authenticate requests to the service. Is either a
-     TokenCredential type or a AzureKeyCredential type. Required.
+    :param credential: Credential used to authenticate requests to the service. Is either a token
+     credential type or a key credential type. Required.
     :type credential: ~azure.core.credentials_async.AsyncTokenCredential or
-     ~azure.core.credentials.AzureKeyCredential
-    :keyword api_version: The API version to use for this operation. Default value is "2024-08-30".
-     Note that overriding this default value may result in unsupported behavior.
+     ~azure.core.credentials.AzureKeyCredential or ~azure.core.credentials.AzureKeyCredential
+    :keyword api_version: The API version to use for this operation. Default value is
+     "2025-03-01-preview". Note that overriding this default value may result in unsupported
+     behavior.
     :paramtype api_version: str
     """
 
@@ -128,6 +137,172 @@ class MessageTemplateClient(MessageTemplateClientOperationsMixin):  # pylint: di
     ) -> None:
         _endpoint = "{endpoint}"
         self._config = MessageTemplateClientConfiguration(endpoint=endpoint, credential=credential, **kwargs)
+        _policies = kwargs.pop("policies", None)
+        if _policies is None:
+            _policies = [
+                policies.RequestIdPolicy(**kwargs),
+                self._config.headers_policy,
+                self._config.user_agent_policy,
+                self._config.proxy_policy,
+                policies.ContentDecodePolicy(**kwargs),
+                self._config.redirect_policy,
+                self._config.retry_policy,
+                self._config.authentication_policy,
+                self._config.custom_hook_policy,
+                self._config.logging_policy,
+                policies.DistributedTracingPolicy(**kwargs),
+                policies.SensitiveHeaderCleanupPolicy(**kwargs) if self._config.redirect_policy else None,
+                self._config.http_logging_policy,
+            ]
+        self._client: AsyncPipelineClient = AsyncPipelineClient(base_url=_endpoint, policies=_policies, **kwargs)
+
+        self._serialize = Serializer()
+        self._deserialize = Deserializer()
+        self._serialize.client_side_validation = False
+
+    def send_request(
+        self, request: HttpRequest, *, stream: bool = False, **kwargs: Any
+    ) -> Awaitable[AsyncHttpResponse]:
+        """Runs the network request through the client's chained policies.
+
+        >>> from azure.core.rest import HttpRequest
+        >>> request = HttpRequest("GET", "https://www.example.org/")
+        <HttpRequest [GET], url: 'https://www.example.org/'>
+        >>> response = await client.send_request(request)
+        <AsyncHttpResponse: 200 OK>
+
+        For more information on this code flow, see https://aka.ms/azsdk/dpcodegen/python/send_request
+
+        :param request: The network request you want to make. Required.
+        :type request: ~azure.core.rest.HttpRequest
+        :keyword bool stream: Whether the response payload will be streamed. Defaults to False.
+        :return: The response of your network call. Does not do error handling on your response.
+        :rtype: ~azure.core.rest.AsyncHttpResponse
+        """
+
+        request_copy = deepcopy(request)
+        path_format_arguments = {
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+        }
+
+        request_copy.url = self._client.format_url(request_copy.url, **path_format_arguments)
+        return self._client.send_request(request_copy, stream=stream, **kwargs)  # type: ignore
+
+    async def close(self) -> None:
+        await self._client.close()
+
+    async def __aenter__(self) -> Self:
+        await self._client.__aenter__()
+        return self
+
+    async def __aexit__(self, *exc_details: Any) -> None:
+        await self._client.__aexit__(*exc_details)
+
+
+class ConversationManagementClient(ConversationManagementClientOperationsMixin):
+    """ConversationManagementClient.
+
+    :param endpoint: The communication resource, for example
+     https://my-resource.communication.azure.com. Required.
+    :type endpoint: str
+    :param credential: Credential used to authenticate requests to the service. Is either a token
+     credential type or a key credential type. Required.
+    :type credential: ~azure.core.credentials_async.AsyncTokenCredential or
+     ~azure.core.credentials.AzureKeyCredential or ~azure.core.credentials.AzureKeyCredential
+    :keyword api_version: The API version to use for this operation. Default value is
+     "2025-03-01-preview". Note that overriding this default value may result in unsupported
+     behavior.
+    :paramtype api_version: str
+    """
+
+    def __init__(
+        self, endpoint: str, credential: Union["AsyncTokenCredential", AzureKeyCredential], **kwargs: Any
+    ) -> None:
+        _endpoint = "{endpoint}"
+        self._config = ConversationManagementClientConfiguration(endpoint=endpoint, credential=credential, **kwargs)
+        _policies = kwargs.pop("policies", None)
+        if _policies is None:
+            _policies = [
+                policies.RequestIdPolicy(**kwargs),
+                self._config.headers_policy,
+                self._config.user_agent_policy,
+                self._config.proxy_policy,
+                policies.ContentDecodePolicy(**kwargs),
+                self._config.redirect_policy,
+                self._config.retry_policy,
+                self._config.authentication_policy,
+                self._config.custom_hook_policy,
+                self._config.logging_policy,
+                policies.DistributedTracingPolicy(**kwargs),
+                policies.SensitiveHeaderCleanupPolicy(**kwargs) if self._config.redirect_policy else None,
+                self._config.http_logging_policy,
+            ]
+        self._client: AsyncPipelineClient = AsyncPipelineClient(base_url=_endpoint, policies=_policies, **kwargs)
+
+        self._serialize = Serializer()
+        self._deserialize = Deserializer()
+        self._serialize.client_side_validation = False
+
+    def send_request(
+        self, request: HttpRequest, *, stream: bool = False, **kwargs: Any
+    ) -> Awaitable[AsyncHttpResponse]:
+        """Runs the network request through the client's chained policies.
+
+        >>> from azure.core.rest import HttpRequest
+        >>> request = HttpRequest("GET", "https://www.example.org/")
+        <HttpRequest [GET], url: 'https://www.example.org/'>
+        >>> response = await client.send_request(request)
+        <AsyncHttpResponse: 200 OK>
+
+        For more information on this code flow, see https://aka.ms/azsdk/dpcodegen/python/send_request
+
+        :param request: The network request you want to make. Required.
+        :type request: ~azure.core.rest.HttpRequest
+        :keyword bool stream: Whether the response payload will be streamed. Defaults to False.
+        :return: The response of your network call. Does not do error handling on your response.
+        :rtype: ~azure.core.rest.AsyncHttpResponse
+        """
+
+        request_copy = deepcopy(request)
+        path_format_arguments = {
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+        }
+
+        request_copy.url = self._client.format_url(request_copy.url, **path_format_arguments)
+        return self._client.send_request(request_copy, stream=stream, **kwargs)  # type: ignore
+
+    async def close(self) -> None:
+        await self._client.close()
+
+    async def __aenter__(self) -> Self:
+        await self._client.__aenter__()
+        return self
+
+    async def __aexit__(self, *exc_details: Any) -> None:
+        await self._client.__aexit__(*exc_details)
+
+
+class ConversationMessagesClient(ConversationMessagesClientOperationsMixin):
+    """ConversationMessagesClient.
+
+    :param endpoint: The communication resource, for example
+     https://my-resource.communication.azure.com. Required.
+    :type endpoint: str
+    :param credential: Credential used to authenticate requests to the service. Is either a token
+     credential type or a key credential type. Required.
+    :type credential: ~azure.core.credentials_async.AsyncTokenCredential or
+     ~azure.core.credentials.AzureKeyCredential or ~azure.core.credentials.AzureKeyCredential
+    :keyword api_version: The API version to use for this operation. Default value is
+     "2025-03-01-preview". Note that overriding this default value may result in unsupported
+     behavior.
+    :paramtype api_version: str
+    """
+
+    def __init__(
+        self, endpoint: str, credential: Union["AsyncTokenCredential", AzureKeyCredential], **kwargs: Any
+    ) -> None:
+        _endpoint = "{endpoint}"
+        self._config = ConversationMessagesClientConfiguration(endpoint=endpoint, credential=credential, **kwargs)
         _policies = kwargs.pop("policies", None)
         if _policies is None:
             _policies = [

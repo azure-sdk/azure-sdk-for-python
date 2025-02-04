@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines,too-many-statements
+# pylint: disable=too-many-lines
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -10,7 +10,7 @@ import datetime
 from io import IOBase
 import json
 import sys
-from typing import Any, Callable, Dict, IO, Iterable, Iterator, List, Optional, Type, TypeVar, Union, overload
+from typing import Any, Callable, Dict, IO, Iterable, Iterator, List, Optional, TypeVar, Union, overload
 import urllib.parse
 import uuid
 
@@ -33,12 +33,18 @@ from azure.core.utils import case_insensitive_dict
 from .. import models as _models
 from .._model_base import SdkJSONEncoder, _deserialize
 from .._serialization import Serializer
-from .._vendor import MessageTemplateClientMixinABC, NotificationMessagesClientMixinABC
+from .._validation import api_version_validation
+from .._vendor import (
+    ConversationManagementClientMixinABC,
+    ConversationMessagesClientMixinABC,
+    MessageTemplateClientMixinABC,
+    NotificationMessagesClientMixinABC,
+)
 
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore
 JSON = MutableMapping[str, Any]  # pylint: disable=unsubscriptable-object
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
@@ -52,7 +58,7 @@ def build_notification_messages_send_request(**kwargs: Any) -> HttpRequest:
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-08-30"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-03-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -81,7 +87,7 @@ def build_notification_messages_download_media_request(  # pylint: disable=name-
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-08-30"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-03-01-preview"))
     accept = _headers.pop("Accept", "application/octet-stream")
 
     # Construct URL
@@ -107,7 +113,7 @@ def build_message_template_list_templates_request(  # pylint: disable=name-too-l
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-08-30"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-03-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -127,6 +133,458 @@ def build_message_template_list_templates_request(  # pylint: disable=name-too-l
     _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_conversation_management_create_request(  # pylint: disable=name-too-long
+    conversation_id: str, **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-03-01-preview"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/messages/conversations/{conversationId}"
+    path_format_arguments = {
+        "conversationId": _SERIALIZER.url("conversation_id", conversation_id, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    if "Repeatability-Request-ID" not in _headers:
+        _headers["Repeatability-Request-ID"] = str(uuid.uuid4())
+    if "Repeatability-First-Sent" not in _headers:
+        _headers["Repeatability-First-Sent"] = _SERIALIZER.serialize_data(
+            datetime.datetime.now(datetime.timezone.utc), "rfc-1123"
+        )
+    if content_type is not None:
+        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="PUT", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_conversation_management_get_conversation_request(  # pylint: disable=name-too-long
+    conversation_id: str, **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-03-01-preview"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/messages/conversations/{conversationId}"
+    path_format_arguments = {
+        "conversationId": _SERIALIZER.url("conversation_id", conversation_id, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_conversation_management_terminate_conversation_request(  # pylint: disable=name-too-long
+    conversation_id: str, **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-03-01-preview"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/messages/conversations/{conversationId}:terminate"
+    path_format_arguments = {
+        "conversationId": _SERIALIZER.url("conversation_id", conversation_id, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    if "Repeatability-Request-ID" not in _headers:
+        _headers["Repeatability-Request-ID"] = str(uuid.uuid4())
+    if "Repeatability-First-Sent" not in _headers:
+        _headers["Repeatability-First-Sent"] = _SERIALIZER.serialize_data(
+            datetime.datetime.now(datetime.timezone.utc), "rfc-1123"
+        )
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_conversation_management_list_conversations_request(  # pylint: disable=name-too-long
+    *,
+    maxpagesize: Optional[int] = None,
+    participant: Optional[str] = None,
+    channel_id: Optional[str] = None,
+    **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-03-01-preview"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/messages/conversations"
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+    if maxpagesize is not None:
+        _params["maxpagesize"] = _SERIALIZER.query("maxpagesize", maxpagesize, "int")
+    if participant is not None:
+        _params["participant"] = _SERIALIZER.query("participant", participant, "str")
+    if channel_id is not None:
+        _params["channelId"] = _SERIALIZER.query("channel_id", channel_id, "str")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_conversation_management_list_messages_request(  # pylint: disable=name-too-long
+    conversation_id: str, *, maxpagesize: Optional[int] = None, participant: Optional[str] = None, **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-03-01-preview"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/messages/conversations/{conversationId}/messages"
+    path_format_arguments = {
+        "conversationId": _SERIALIZER.url("conversation_id", conversation_id, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+    if maxpagesize is not None:
+        _params["maxpagesize"] = _SERIALIZER.query("maxpagesize", maxpagesize, "int")
+    if participant is not None:
+        _params["participant"] = _SERIALIZER.query("participant", participant, "str")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_conversation_management_add_participants_request(  # pylint: disable=name-too-long
+    conversation_id: str, **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-03-01-preview"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/messages/conversations/{conversationId}/participants:add"
+    path_format_arguments = {
+        "conversationId": _SERIALIZER.url("conversation_id", conversation_id, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    if "Repeatability-Request-ID" not in _headers:
+        _headers["Repeatability-Request-ID"] = str(uuid.uuid4())
+    if "Repeatability-First-Sent" not in _headers:
+        _headers["Repeatability-First-Sent"] = _SERIALIZER.serialize_data(
+            datetime.datetime.now(datetime.timezone.utc), "rfc-1123"
+        )
+    if content_type is not None:
+        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_conversation_management_remove_participants_request(  # pylint: disable=name-too-long
+    conversation_id: str, **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-03-01-preview"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/messages/conversations/{conversationId}/participants:remove"
+    path_format_arguments = {
+        "conversationId": _SERIALIZER.url("conversation_id", conversation_id, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    if "Repeatability-Request-ID" not in _headers:
+        _headers["Repeatability-Request-ID"] = str(uuid.uuid4())
+    if "Repeatability-First-Sent" not in _headers:
+        _headers["Repeatability-First-Sent"] = _SERIALIZER.serialize_data(
+            datetime.datetime.now(datetime.timezone.utc), "rfc-1123"
+        )
+    if content_type is not None:
+        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_conversation_management_analyze_request(  # pylint: disable=name-too-long
+    conversation_id: str, **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-03-01-preview"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/messages/conversations/{conversationId}:analyze"
+    path_format_arguments = {
+        "conversationId": _SERIALIZER.url("conversation_id", conversation_id, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    if "Repeatability-Request-ID" not in _headers:
+        _headers["Repeatability-Request-ID"] = str(uuid.uuid4())
+    if "Repeatability-First-Sent" not in _headers:
+        _headers["Repeatability-First-Sent"] = _SERIALIZER.serialize_data(
+            datetime.datetime.now(datetime.timezone.utc), "rfc-1123"
+        )
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_conversation_messages_add_participants_request(  # pylint: disable=name-too-long
+    conversation_id: str, **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-03-01-preview"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/messages/conversations/{conversationId}/participants:add"
+    path_format_arguments = {
+        "conversationId": _SERIALIZER.url("conversation_id", conversation_id, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    if "Repeatability-Request-ID" not in _headers:
+        _headers["Repeatability-Request-ID"] = str(uuid.uuid4())
+    if "Repeatability-First-Sent" not in _headers:
+        _headers["Repeatability-First-Sent"] = _SERIALIZER.serialize_data(
+            datetime.datetime.now(datetime.timezone.utc), "rfc-1123"
+        )
+    if content_type is not None:
+        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_conversation_messages_remove_participants_request(  # pylint: disable=name-too-long
+    conversation_id: str, **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-03-01-preview"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/messages/conversations/{conversationId}/participants:remove"
+    path_format_arguments = {
+        "conversationId": _SERIALIZER.url("conversation_id", conversation_id, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    if "Repeatability-Request-ID" not in _headers:
+        _headers["Repeatability-Request-ID"] = str(uuid.uuid4())
+    if "Repeatability-First-Sent" not in _headers:
+        _headers["Repeatability-First-Sent"] = _SERIALIZER.serialize_data(
+            datetime.datetime.now(datetime.timezone.utc), "rfc-1123"
+        )
+    if content_type is not None:
+        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_conversation_messages_list_conversations_request(  # pylint: disable=name-too-long
+    *,
+    maxpagesize: Optional[int] = None,
+    participant: Optional[str] = None,
+    channel_id: Optional[str] = None,
+    **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-03-01-preview"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/messages/conversations"
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+    if maxpagesize is not None:
+        _params["maxpagesize"] = _SERIALIZER.query("maxpagesize", maxpagesize, "int")
+    if participant is not None:
+        _params["participant"] = _SERIALIZER.query("participant", participant, "str")
+    if channel_id is not None:
+        _params["channelId"] = _SERIALIZER.query("channel_id", channel_id, "str")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_conversation_messages_list_messages_request(  # pylint: disable=name-too-long
+    conversation_id: str, *, maxpagesize: Optional[int] = None, participant: Optional[str] = None, **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-03-01-preview"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/messages/conversations/{conversationId}/messages"
+    path_format_arguments = {
+        "conversationId": _SERIALIZER.url("conversation_id", conversation_id, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+    if maxpagesize is not None:
+        _params["maxpagesize"] = _SERIALIZER.query("maxpagesize", maxpagesize, "int")
+    if participant is not None:
+        _params["participant"] = _SERIALIZER.query("participant", participant, "str")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_conversation_messages_send_request(conversation_id: str, **kwargs: Any) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-03-01-preview"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/messages/conversations/{conversationId}/messages:send"
+    path_format_arguments = {
+        "conversationId": _SERIALIZER.url("conversation_id", conversation_id, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    if "Repeatability-Request-ID" not in _headers:
+        _headers["Repeatability-Request-ID"] = str(uuid.uuid4())
+    if "Repeatability-First-Sent" not in _headers:
+        _headers["Repeatability-First-Sent"] = _SERIALIZER.serialize_data(
+            datetime.datetime.now(datetime.timezone.utc), "rfc-1123"
+        )
+    if content_type is not None:
+        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_conversation_messages_analyze_request(  # pylint: disable=name-too-long
+    conversation_id: str, **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-03-01-preview"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/messages/conversations/{conversationId}:analyze"
+    path_format_arguments = {
+        "conversationId": _SERIALIZER.url("conversation_id", conversation_id, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    if "Repeatability-Request-ID" not in _headers:
+        _headers["Repeatability-Request-ID"] = str(uuid.uuid4())
+    if "Repeatability-First-Sent" not in _headers:
+        _headers["Repeatability-First-Sent"] = _SERIALIZER.serialize_data(
+            datetime.datetime.now(datetime.timezone.utc), "rfc-1123"
+        )
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
 
 class NotificationMessagesClientOperationsMixin(NotificationMessagesClientMixinABC):  # pylint: disable=name-too-long
@@ -190,7 +648,7 @@ class NotificationMessagesClientOperationsMixin(NotificationMessagesClientMixinA
         :rtype: ~azure.communication.messages.models.SendMessageResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {  # pylint: disable=unsubscriptable-object
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -267,7 +725,7 @@ class NotificationMessagesClientOperationsMixin(NotificationMessagesClientMixinA
         :rtype: Iterator[bytes]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {  # pylint: disable=unsubscriptable-object
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -339,7 +797,7 @@ class MessageTemplateClientOperationsMixin(MessageTemplateClientMixinABC):
         maxpagesize = kwargs.pop("maxpagesize", None)
         cls: ClsType[List[_models.MessageTemplateItem]] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {  # pylint: disable=unsubscriptable-object
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -409,3 +867,1707 @@ class MessageTemplateClientOperationsMixin(MessageTemplateClientMixinABC):
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
+
+
+class ConversationManagementClientOperationsMixin(  # pylint: disable=name-too-long
+    ConversationManagementClientMixinABC
+):
+
+    @overload
+    def create(
+        self,
+        conversation_id: str,
+        resource: _models.Conversation,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> _models.Conversation:
+        """Creates a new conversation. This is only for create operation.
+
+        :param conversation_id: The conversation ID. Required.
+        :type conversation_id: str
+        :param resource: The resource instance. Required.
+        :type resource: ~azure.communication.messages.models.Conversation
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: Conversation. The Conversation is compatible with MutableMapping
+        :rtype: ~azure.communication.messages.models.Conversation
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    def create(
+        self, conversation_id: str, resource: JSON, *, content_type: str = "application/json", **kwargs: Any
+    ) -> _models.Conversation:
+        """Creates a new conversation. This is only for create operation.
+
+        :param conversation_id: The conversation ID. Required.
+        :type conversation_id: str
+        :param resource: The resource instance. Required.
+        :type resource: JSON
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: Conversation. The Conversation is compatible with MutableMapping
+        :rtype: ~azure.communication.messages.models.Conversation
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    def create(
+        self, conversation_id: str, resource: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
+    ) -> _models.Conversation:
+        """Creates a new conversation. This is only for create operation.
+
+        :param conversation_id: The conversation ID. Required.
+        :type conversation_id: str
+        :param resource: The resource instance. Required.
+        :type resource: IO[bytes]
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: Conversation. The Conversation is compatible with MutableMapping
+        :rtype: ~azure.communication.messages.models.Conversation
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace
+    @api_version_validation(
+        method_added_on="2025-03-01-preview",
+        params_added_on={
+            "2025-03-01-preview": [
+                "endpoint",
+                "api_version",
+                "conversation_id",
+                "repeatability_request_id",
+                "repeatability_first_sent",
+                "client_request_id",
+                "content_type",
+                "accept",
+            ]
+        },
+    )
+    def create(
+        self, conversation_id: str, resource: Union[_models.Conversation, JSON, IO[bytes]], **kwargs: Any
+    ) -> _models.Conversation:
+        """Creates a new conversation. This is only for create operation.
+
+        :param conversation_id: The conversation ID. Required.
+        :type conversation_id: str
+        :param resource: The resource instance. Is one of the following types: Conversation, JSON,
+         IO[bytes] Required.
+        :type resource: ~azure.communication.messages.models.Conversation or JSON or IO[bytes]
+        :return: Conversation. The Conversation is compatible with MutableMapping
+        :rtype: ~azure.communication.messages.models.Conversation
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = kwargs.pop("params", {}) or {}
+
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.Conversation] = kwargs.pop("cls", None)
+
+        content_type = content_type or "application/json"
+        _content = None
+        if isinstance(resource, (IOBase, bytes)):
+            _content = resource
+        else:
+            _content = json.dumps(resource, cls=SdkJSONEncoder, exclude_readonly=True)  # type: ignore
+
+        _request = build_conversation_management_create_request(
+            conversation_id=conversation_id,
+            content_type=content_type,
+            api_version=self._config.api_version,
+            content=_content,
+            headers=_headers,
+            params=_params,
+        )
+        path_format_arguments = {
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+        }
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+        _stream = kwargs.pop("stream", False)
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200, 201]:
+            if _stream:
+                try:
+                    response.read()  # Load the body in memory and close the socket
+                except (StreamConsumedError, StreamClosedError):
+                    pass
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            raise HttpResponseError(response=response)
+
+        response_headers = {}
+        response_headers["Repeatability-Result"] = self._deserialize(
+            "str", response.headers.get("Repeatability-Result")
+        )
+        response_headers["x-ms-client-request-id"] = self._deserialize(
+            "str", response.headers.get("x-ms-client-request-id")
+        )
+
+        if _stream:
+            deserialized = response.iter_bytes()
+        else:
+            deserialized = _deserialize(_models.Conversation, response.json())
+
+        if cls:
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
+
+        return deserialized  # type: ignore
+
+    @distributed_trace
+    @api_version_validation(
+        method_added_on="2025-03-01-preview",
+        params_added_on={
+            "2025-03-01-preview": ["endpoint", "api_version", "conversation_id", "client_request_id", "accept"]
+        },
+    )
+    def get_conversation(self, conversation_id: str, **kwargs: Any) -> _models.Conversation:
+        """Gets the details of a specific conversation.
+
+        :param conversation_id: The conversation ID. Required.
+        :type conversation_id: str
+        :return: Conversation. The Conversation is compatible with MutableMapping
+        :rtype: ~azure.communication.messages.models.Conversation
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = kwargs.pop("params", {}) or {}
+
+        cls: ClsType[_models.Conversation] = kwargs.pop("cls", None)
+
+        _request = build_conversation_management_get_conversation_request(
+            conversation_id=conversation_id,
+            api_version=self._config.api_version,
+            headers=_headers,
+            params=_params,
+        )
+        path_format_arguments = {
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+        }
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+        _stream = kwargs.pop("stream", False)
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            if _stream:
+                try:
+                    response.read()  # Load the body in memory and close the socket
+                except (StreamConsumedError, StreamClosedError):
+                    pass
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            raise HttpResponseError(response=response)
+
+        response_headers = {}
+        response_headers["x-ms-client-request-id"] = self._deserialize(
+            "str", response.headers.get("x-ms-client-request-id")
+        )
+
+        if _stream:
+            deserialized = response.iter_bytes()
+        else:
+            deserialized = _deserialize(_models.Conversation, response.json())
+
+        if cls:
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
+
+        return deserialized  # type: ignore
+
+    @distributed_trace
+    @api_version_validation(
+        method_added_on="2025-03-01-preview",
+        params_added_on={
+            "2025-03-01-preview": [
+                "endpoint",
+                "api_version",
+                "conversation_id",
+                "repeatability_request_id",
+                "repeatability_first_sent",
+                "client_request_id",
+                "accept",
+            ]
+        },
+    )
+    def terminate_conversation(  # pylint: disable=inconsistent-return-statements
+        self, conversation_id: str, **kwargs: Any
+    ) -> None:
+        """Terminates a specific conversation.
+
+        :param conversation_id: The conversation ID. Required.
+        :type conversation_id: str
+        :return: None
+        :rtype: None
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = kwargs.pop("params", {}) or {}
+
+        cls: ClsType[None] = kwargs.pop("cls", None)
+
+        _request = build_conversation_management_terminate_conversation_request(
+            conversation_id=conversation_id,
+            api_version=self._config.api_version,
+            headers=_headers,
+            params=_params,
+        )
+        path_format_arguments = {
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+        }
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+        _stream = False
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            raise HttpResponseError(response=response)
+
+        response_headers = {}
+        response_headers["Repeatability-Result"] = self._deserialize(
+            "str", response.headers.get("Repeatability-Result")
+        )
+        response_headers["x-ms-client-request-id"] = self._deserialize(
+            "str", response.headers.get("x-ms-client-request-id")
+        )
+
+        if cls:
+            return cls(pipeline_response, None, response_headers)  # type: ignore
+
+    @distributed_trace
+    @api_version_validation(
+        method_added_on="2025-03-01-preview",
+        params_added_on={
+            "2025-03-01-preview": [
+                "endpoint",
+                "api_version",
+                "maxpagesize",
+                "participant",
+                "channel_id",
+                "client_request_id",
+                "accept",
+            ]
+        },
+    )
+    def list_conversations(
+        self, *, participant: Optional[str] = None, channel_id: Optional[str] = None, **kwargs: Any
+    ) -> Iterable["_models.Conversation"]:
+        """Retrieves list of conversations.
+
+        :keyword participant: The participant user ID. Default value is None.
+        :paramtype participant: str
+        :keyword channel_id: The id of channel. Default value is None.
+        :paramtype channel_id: str
+        :return: An iterator like instance of Conversation
+        :rtype: ~azure.core.paging.ItemPaged[~azure.communication.messages.models.Conversation]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = kwargs.pop("params", {}) or {}
+
+        maxpagesize = kwargs.pop("maxpagesize", None)
+        cls: ClsType[List[_models.Conversation]] = kwargs.pop("cls", None)
+
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        def prepare_request(next_link=None):
+            if not next_link:
+
+                _request = build_conversation_management_list_conversations_request(
+                    maxpagesize=maxpagesize,
+                    participant=participant,
+                    channel_id=channel_id,
+                    api_version=self._config.api_version,
+                    headers=_headers,
+                    params=_params,
+                )
+                path_format_arguments = {
+                    "endpoint": self._serialize.url(
+                        "self._config.endpoint", self._config.endpoint, "str", skip_quote=True
+                    ),
+                }
+                _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+            else:
+                # make call to next link with the client's api-version
+                _parsed_next_link = urllib.parse.urlparse(next_link)
+                _next_request_params = case_insensitive_dict(
+                    {
+                        key: [urllib.parse.quote(v) for v in value]
+                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
+                    }
+                )
+                _next_request_params["api-version"] = self._config.api_version
+                _request = HttpRequest(
+                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
+                )
+                path_format_arguments = {
+                    "endpoint": self._serialize.url(
+                        "self._config.endpoint", self._config.endpoint, "str", skip_quote=True
+                    ),
+                }
+                _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+            return _request
+
+        def extract_data(pipeline_response):
+            deserialized = pipeline_response.http_response.json()
+            list_of_elem = _deserialize(List[_models.Conversation], deserialized["value"])
+            if cls:
+                list_of_elem = cls(list_of_elem)  # type: ignore
+            return deserialized.get("nextLink") or None, iter(list_of_elem)
+
+        def get_next(next_link=None):
+            _request = prepare_request(next_link)
+
+            _stream = False
+            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+                _request, stream=_stream, **kwargs
+            )
+            response = pipeline_response.http_response
+
+            if response.status_code not in [200]:
+                map_error(status_code=response.status_code, response=response, error_map=error_map)
+                raise HttpResponseError(response=response)
+
+            return pipeline_response
+
+        return ItemPaged(get_next, extract_data)
+
+    @distributed_trace
+    @api_version_validation(
+        method_added_on="2025-03-01-preview",
+        params_added_on={
+            "2025-03-01-preview": [
+                "endpoint",
+                "api_version",
+                "conversation_id",
+                "maxpagesize",
+                "participant",
+                "client_request_id",
+                "accept",
+            ]
+        },
+    )
+    def list_messages(
+        self, conversation_id: str, *, participant: Optional[str] = None, **kwargs: Any
+    ) -> Iterable["_models.ConversationMessageItem"]:
+        """Retrieves list of conversation messages.
+
+        :param conversation_id: The conversation ID. Required.
+        :type conversation_id: str
+        :keyword participant: The participant user ID. Default value is None.
+        :paramtype participant: str
+        :return: An iterator like instance of ConversationMessageItem
+        :rtype:
+         ~azure.core.paging.ItemPaged[~azure.communication.messages.models.ConversationMessageItem]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = kwargs.pop("params", {}) or {}
+
+        maxpagesize = kwargs.pop("maxpagesize", None)
+        cls: ClsType[List[_models.ConversationMessageItem]] = kwargs.pop("cls", None)
+
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        def prepare_request(next_link=None):
+            if not next_link:
+
+                _request = build_conversation_management_list_messages_request(
+                    conversation_id=conversation_id,
+                    maxpagesize=maxpagesize,
+                    participant=participant,
+                    api_version=self._config.api_version,
+                    headers=_headers,
+                    params=_params,
+                )
+                path_format_arguments = {
+                    "endpoint": self._serialize.url(
+                        "self._config.endpoint", self._config.endpoint, "str", skip_quote=True
+                    ),
+                }
+                _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+            else:
+                # make call to next link with the client's api-version
+                _parsed_next_link = urllib.parse.urlparse(next_link)
+                _next_request_params = case_insensitive_dict(
+                    {
+                        key: [urllib.parse.quote(v) for v in value]
+                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
+                    }
+                )
+                _next_request_params["api-version"] = self._config.api_version
+                _request = HttpRequest(
+                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
+                )
+                path_format_arguments = {
+                    "endpoint": self._serialize.url(
+                        "self._config.endpoint", self._config.endpoint, "str", skip_quote=True
+                    ),
+                }
+                _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+            return _request
+
+        def extract_data(pipeline_response):
+            deserialized = pipeline_response.http_response.json()
+            list_of_elem = _deserialize(List[_models.ConversationMessageItem], deserialized["value"])
+            if cls:
+                list_of_elem = cls(list_of_elem)  # type: ignore
+            return deserialized.get("nextLink") or None, iter(list_of_elem)
+
+        def get_next(next_link=None):
+            _request = prepare_request(next_link)
+
+            _stream = False
+            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+                _request, stream=_stream, **kwargs
+            )
+            response = pipeline_response.http_response
+
+            if response.status_code not in [200]:
+                map_error(status_code=response.status_code, response=response, error_map=error_map)
+                raise HttpResponseError(response=response)
+
+            return pipeline_response
+
+        return ItemPaged(get_next, extract_data)
+
+    @overload
+    def add_participants(
+        self,
+        conversation_id: str,
+        body: _models.AddParticipantsRequest,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> _models.AddParticipantsResult:
+        """Adds participants to a specific conversation.
+
+        :param conversation_id: The conversation ID. Required.
+        :type conversation_id: str
+        :param body: Details of the payload for adding participants to a conversation. Required.
+        :type body: ~azure.communication.messages.models.AddParticipantsRequest
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: AddParticipantsResult. The AddParticipantsResult is compatible with MutableMapping
+        :rtype: ~azure.communication.messages.models.AddParticipantsResult
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    def add_participants(
+        self, conversation_id: str, body: JSON, *, content_type: str = "application/json", **kwargs: Any
+    ) -> _models.AddParticipantsResult:
+        """Adds participants to a specific conversation.
+
+        :param conversation_id: The conversation ID. Required.
+        :type conversation_id: str
+        :param body: Details of the payload for adding participants to a conversation. Required.
+        :type body: JSON
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: AddParticipantsResult. The AddParticipantsResult is compatible with MutableMapping
+        :rtype: ~azure.communication.messages.models.AddParticipantsResult
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    def add_participants(
+        self, conversation_id: str, body: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
+    ) -> _models.AddParticipantsResult:
+        """Adds participants to a specific conversation.
+
+        :param conversation_id: The conversation ID. Required.
+        :type conversation_id: str
+        :param body: Details of the payload for adding participants to a conversation. Required.
+        :type body: IO[bytes]
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: AddParticipantsResult. The AddParticipantsResult is compatible with MutableMapping
+        :rtype: ~azure.communication.messages.models.AddParticipantsResult
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace
+    @api_version_validation(
+        method_added_on="2025-03-01-preview",
+        params_added_on={
+            "2025-03-01-preview": [
+                "endpoint",
+                "api_version",
+                "conversation_id",
+                "repeatability_request_id",
+                "repeatability_first_sent",
+                "client_request_id",
+                "content_type",
+                "accept",
+            ]
+        },
+    )
+    def add_participants(
+        self, conversation_id: str, body: Union[_models.AddParticipantsRequest, JSON, IO[bytes]], **kwargs: Any
+    ) -> _models.AddParticipantsResult:
+        """Adds participants to a specific conversation.
+
+        :param conversation_id: The conversation ID. Required.
+        :type conversation_id: str
+        :param body: Details of the payload for adding participants to a conversation. Is one of the
+         following types: AddParticipantsRequest, JSON, IO[bytes] Required.
+        :type body: ~azure.communication.messages.models.AddParticipantsRequest or JSON or IO[bytes]
+        :return: AddParticipantsResult. The AddParticipantsResult is compatible with MutableMapping
+        :rtype: ~azure.communication.messages.models.AddParticipantsResult
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = kwargs.pop("params", {}) or {}
+
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.AddParticipantsResult] = kwargs.pop("cls", None)
+
+        content_type = content_type or "application/json"
+        _content = None
+        if isinstance(body, (IOBase, bytes)):
+            _content = body
+        else:
+            _content = json.dumps(body, cls=SdkJSONEncoder, exclude_readonly=True)  # type: ignore
+
+        _request = build_conversation_management_add_participants_request(
+            conversation_id=conversation_id,
+            content_type=content_type,
+            api_version=self._config.api_version,
+            content=_content,
+            headers=_headers,
+            params=_params,
+        )
+        path_format_arguments = {
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+        }
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+        _stream = kwargs.pop("stream", False)
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [207]:
+            if _stream:
+                try:
+                    response.read()  # Load the body in memory and close the socket
+                except (StreamConsumedError, StreamClosedError):
+                    pass
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            raise HttpResponseError(response=response)
+
+        response_headers = {}
+        response_headers["Repeatability-Result"] = self._deserialize(
+            "str", response.headers.get("Repeatability-Result")
+        )
+        response_headers["x-ms-client-request-id"] = self._deserialize(
+            "str", response.headers.get("x-ms-client-request-id")
+        )
+
+        if _stream:
+            deserialized = response.iter_bytes()
+        else:
+            deserialized = _deserialize(_models.AddParticipantsResult, response.json())
+
+        if cls:
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
+
+        return deserialized  # type: ignore
+
+    @overload
+    def remove_participants(
+        self,
+        conversation_id: str,
+        body: _models.RemoveParticipantsRequest,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> _models.RemoveParticipantsResult:
+        """remove a participant from a conversation.
+
+        :param conversation_id: The conversation ID. Required.
+        :type conversation_id: str
+        :param body: Details of the request body for removing participants from a conversation.
+         Required.
+        :type body: ~azure.communication.messages.models.RemoveParticipantsRequest
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: RemoveParticipantsResult. The RemoveParticipantsResult is compatible with
+         MutableMapping
+        :rtype: ~azure.communication.messages.models.RemoveParticipantsResult
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    def remove_participants(
+        self, conversation_id: str, body: JSON, *, content_type: str = "application/json", **kwargs: Any
+    ) -> _models.RemoveParticipantsResult:
+        """remove a participant from a conversation.
+
+        :param conversation_id: The conversation ID. Required.
+        :type conversation_id: str
+        :param body: Details of the request body for removing participants from a conversation.
+         Required.
+        :type body: JSON
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: RemoveParticipantsResult. The RemoveParticipantsResult is compatible with
+         MutableMapping
+        :rtype: ~azure.communication.messages.models.RemoveParticipantsResult
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    def remove_participants(
+        self, conversation_id: str, body: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
+    ) -> _models.RemoveParticipantsResult:
+        """remove a participant from a conversation.
+
+        :param conversation_id: The conversation ID. Required.
+        :type conversation_id: str
+        :param body: Details of the request body for removing participants from a conversation.
+         Required.
+        :type body: IO[bytes]
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: RemoveParticipantsResult. The RemoveParticipantsResult is compatible with
+         MutableMapping
+        :rtype: ~azure.communication.messages.models.RemoveParticipantsResult
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace
+    @api_version_validation(
+        method_added_on="2025-03-01-preview",
+        params_added_on={
+            "2025-03-01-preview": [
+                "endpoint",
+                "api_version",
+                "conversation_id",
+                "repeatability_request_id",
+                "repeatability_first_sent",
+                "client_request_id",
+                "content_type",
+                "accept",
+            ]
+        },
+    )
+    def remove_participants(
+        self, conversation_id: str, body: Union[_models.RemoveParticipantsRequest, JSON, IO[bytes]], **kwargs: Any
+    ) -> _models.RemoveParticipantsResult:
+        """remove a participant from a conversation.
+
+        :param conversation_id: The conversation ID. Required.
+        :type conversation_id: str
+        :param body: Details of the request body for removing participants from a conversation. Is one
+         of the following types: RemoveParticipantsRequest, JSON, IO[bytes] Required.
+        :type body: ~azure.communication.messages.models.RemoveParticipantsRequest or JSON or IO[bytes]
+        :return: RemoveParticipantsResult. The RemoveParticipantsResult is compatible with
+         MutableMapping
+        :rtype: ~azure.communication.messages.models.RemoveParticipantsResult
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = kwargs.pop("params", {}) or {}
+
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.RemoveParticipantsResult] = kwargs.pop("cls", None)
+
+        content_type = content_type or "application/json"
+        _content = None
+        if isinstance(body, (IOBase, bytes)):
+            _content = body
+        else:
+            _content = json.dumps(body, cls=SdkJSONEncoder, exclude_readonly=True)  # type: ignore
+
+        _request = build_conversation_management_remove_participants_request(
+            conversation_id=conversation_id,
+            content_type=content_type,
+            api_version=self._config.api_version,
+            content=_content,
+            headers=_headers,
+            params=_params,
+        )
+        path_format_arguments = {
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+        }
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+        _stream = kwargs.pop("stream", False)
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [207]:
+            if _stream:
+                try:
+                    response.read()  # Load the body in memory and close the socket
+                except (StreamConsumedError, StreamClosedError):
+                    pass
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            raise HttpResponseError(response=response)
+
+        response_headers = {}
+        response_headers["Repeatability-Result"] = self._deserialize(
+            "str", response.headers.get("Repeatability-Result")
+        )
+        response_headers["x-ms-client-request-id"] = self._deserialize(
+            "str", response.headers.get("x-ms-client-request-id")
+        )
+
+        if _stream:
+            deserialized = response.iter_bytes()
+        else:
+            deserialized = _deserialize(_models.RemoveParticipantsResult, response.json())
+
+        if cls:
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
+
+        return deserialized  # type: ignore
+
+    @distributed_trace
+    @api_version_validation(
+        method_added_on="2025-03-01-preview",
+        params_added_on={
+            "2025-03-01-preview": [
+                "endpoint",
+                "api_version",
+                "conversation_id",
+                "repeatability_request_id",
+                "repeatability_first_sent",
+                "client_request_id",
+                "accept",
+            ]
+        },
+    )
+    def analyze(self, conversation_id: str, **kwargs: Any) -> _models.GetConversationMessagesAnalysisResult:
+        """Get AI Analysis of a conversation.
+
+        :param conversation_id: The conversation ID. Required.
+        :type conversation_id: str
+        :return: GetConversationMessagesAnalysisResult. The GetConversationMessagesAnalysisResult is
+         compatible with MutableMapping
+        :rtype: ~azure.communication.messages.models.GetConversationMessagesAnalysisResult
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = kwargs.pop("params", {}) or {}
+
+        cls: ClsType[_models.GetConversationMessagesAnalysisResult] = kwargs.pop("cls", None)
+
+        _request = build_conversation_management_analyze_request(
+            conversation_id=conversation_id,
+            api_version=self._config.api_version,
+            headers=_headers,
+            params=_params,
+        )
+        path_format_arguments = {
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+        }
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+        _stream = kwargs.pop("stream", False)
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            if _stream:
+                try:
+                    response.read()  # Load the body in memory and close the socket
+                except (StreamConsumedError, StreamClosedError):
+                    pass
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            raise HttpResponseError(response=response)
+
+        response_headers = {}
+        response_headers["Repeatability-Result"] = self._deserialize(
+            "str", response.headers.get("Repeatability-Result")
+        )
+        response_headers["x-ms-client-request-id"] = self._deserialize(
+            "str", response.headers.get("x-ms-client-request-id")
+        )
+
+        if _stream:
+            deserialized = response.iter_bytes()
+        else:
+            deserialized = _deserialize(_models.GetConversationMessagesAnalysisResult, response.json())
+
+        if cls:
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
+
+        return deserialized  # type: ignore
+
+
+class ConversationMessagesClientOperationsMixin(ConversationMessagesClientMixinABC):  # pylint: disable=name-too-long
+
+    @overload
+    def add_participants(
+        self,
+        conversation_id: str,
+        body: _models.AddParticipantsRequest,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> _models.AddParticipantsResult:
+        """Adds participants to a specific conversation.
+
+        :param conversation_id: The conversation ID. Required.
+        :type conversation_id: str
+        :param body: Details of the payload for adding participants to a conversation. Required.
+        :type body: ~azure.communication.messages.models.AddParticipantsRequest
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: AddParticipantsResult. The AddParticipantsResult is compatible with MutableMapping
+        :rtype: ~azure.communication.messages.models.AddParticipantsResult
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    def add_participants(
+        self, conversation_id: str, body: JSON, *, content_type: str = "application/json", **kwargs: Any
+    ) -> _models.AddParticipantsResult:
+        """Adds participants to a specific conversation.
+
+        :param conversation_id: The conversation ID. Required.
+        :type conversation_id: str
+        :param body: Details of the payload for adding participants to a conversation. Required.
+        :type body: JSON
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: AddParticipantsResult. The AddParticipantsResult is compatible with MutableMapping
+        :rtype: ~azure.communication.messages.models.AddParticipantsResult
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    def add_participants(
+        self, conversation_id: str, body: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
+    ) -> _models.AddParticipantsResult:
+        """Adds participants to a specific conversation.
+
+        :param conversation_id: The conversation ID. Required.
+        :type conversation_id: str
+        :param body: Details of the payload for adding participants to a conversation. Required.
+        :type body: IO[bytes]
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: AddParticipantsResult. The AddParticipantsResult is compatible with MutableMapping
+        :rtype: ~azure.communication.messages.models.AddParticipantsResult
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace
+    @api_version_validation(
+        method_added_on="2025-03-01-preview",
+        params_added_on={
+            "2025-03-01-preview": [
+                "endpoint",
+                "api_version",
+                "conversation_id",
+                "repeatability_request_id",
+                "repeatability_first_sent",
+                "client_request_id",
+                "content_type",
+                "accept",
+            ]
+        },
+    )
+    def add_participants(
+        self, conversation_id: str, body: Union[_models.AddParticipantsRequest, JSON, IO[bytes]], **kwargs: Any
+    ) -> _models.AddParticipantsResult:
+        """Adds participants to a specific conversation.
+
+        :param conversation_id: The conversation ID. Required.
+        :type conversation_id: str
+        :param body: Details of the payload for adding participants to a conversation. Is one of the
+         following types: AddParticipantsRequest, JSON, IO[bytes] Required.
+        :type body: ~azure.communication.messages.models.AddParticipantsRequest or JSON or IO[bytes]
+        :return: AddParticipantsResult. The AddParticipantsResult is compatible with MutableMapping
+        :rtype: ~azure.communication.messages.models.AddParticipantsResult
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = kwargs.pop("params", {}) or {}
+
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.AddParticipantsResult] = kwargs.pop("cls", None)
+
+        content_type = content_type or "application/json"
+        _content = None
+        if isinstance(body, (IOBase, bytes)):
+            _content = body
+        else:
+            _content = json.dumps(body, cls=SdkJSONEncoder, exclude_readonly=True)  # type: ignore
+
+        _request = build_conversation_messages_add_participants_request(
+            conversation_id=conversation_id,
+            content_type=content_type,
+            api_version=self._config.api_version,
+            content=_content,
+            headers=_headers,
+            params=_params,
+        )
+        path_format_arguments = {
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+        }
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+        _stream = kwargs.pop("stream", False)
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [207]:
+            if _stream:
+                try:
+                    response.read()  # Load the body in memory and close the socket
+                except (StreamConsumedError, StreamClosedError):
+                    pass
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            raise HttpResponseError(response=response)
+
+        response_headers = {}
+        response_headers["Repeatability-Result"] = self._deserialize(
+            "str", response.headers.get("Repeatability-Result")
+        )
+        response_headers["x-ms-client-request-id"] = self._deserialize(
+            "str", response.headers.get("x-ms-client-request-id")
+        )
+
+        if _stream:
+            deserialized = response.iter_bytes()
+        else:
+            deserialized = _deserialize(_models.AddParticipantsResult, response.json())
+
+        if cls:
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
+
+        return deserialized  # type: ignore
+
+    @overload
+    def remove_participants(
+        self,
+        conversation_id: str,
+        body: _models.RemoveParticipantsRequest,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> _models.RemoveParticipantsResult:
+        """remove a participant from a conversation.
+
+        :param conversation_id: The conversation ID. Required.
+        :type conversation_id: str
+        :param body: Details of the request body for removing participants from a conversation.
+         Required.
+        :type body: ~azure.communication.messages.models.RemoveParticipantsRequest
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: RemoveParticipantsResult. The RemoveParticipantsResult is compatible with
+         MutableMapping
+        :rtype: ~azure.communication.messages.models.RemoveParticipantsResult
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    def remove_participants(
+        self, conversation_id: str, body: JSON, *, content_type: str = "application/json", **kwargs: Any
+    ) -> _models.RemoveParticipantsResult:
+        """remove a participant from a conversation.
+
+        :param conversation_id: The conversation ID. Required.
+        :type conversation_id: str
+        :param body: Details of the request body for removing participants from a conversation.
+         Required.
+        :type body: JSON
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: RemoveParticipantsResult. The RemoveParticipantsResult is compatible with
+         MutableMapping
+        :rtype: ~azure.communication.messages.models.RemoveParticipantsResult
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    def remove_participants(
+        self, conversation_id: str, body: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
+    ) -> _models.RemoveParticipantsResult:
+        """remove a participant from a conversation.
+
+        :param conversation_id: The conversation ID. Required.
+        :type conversation_id: str
+        :param body: Details of the request body for removing participants from a conversation.
+         Required.
+        :type body: IO[bytes]
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: RemoveParticipantsResult. The RemoveParticipantsResult is compatible with
+         MutableMapping
+        :rtype: ~azure.communication.messages.models.RemoveParticipantsResult
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace
+    @api_version_validation(
+        method_added_on="2025-03-01-preview",
+        params_added_on={
+            "2025-03-01-preview": [
+                "endpoint",
+                "api_version",
+                "conversation_id",
+                "repeatability_request_id",
+                "repeatability_first_sent",
+                "client_request_id",
+                "content_type",
+                "accept",
+            ]
+        },
+    )
+    def remove_participants(
+        self, conversation_id: str, body: Union[_models.RemoveParticipantsRequest, JSON, IO[bytes]], **kwargs: Any
+    ) -> _models.RemoveParticipantsResult:
+        """remove a participant from a conversation.
+
+        :param conversation_id: The conversation ID. Required.
+        :type conversation_id: str
+        :param body: Details of the request body for removing participants from a conversation. Is one
+         of the following types: RemoveParticipantsRequest, JSON, IO[bytes] Required.
+        :type body: ~azure.communication.messages.models.RemoveParticipantsRequest or JSON or IO[bytes]
+        :return: RemoveParticipantsResult. The RemoveParticipantsResult is compatible with
+         MutableMapping
+        :rtype: ~azure.communication.messages.models.RemoveParticipantsResult
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = kwargs.pop("params", {}) or {}
+
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.RemoveParticipantsResult] = kwargs.pop("cls", None)
+
+        content_type = content_type or "application/json"
+        _content = None
+        if isinstance(body, (IOBase, bytes)):
+            _content = body
+        else:
+            _content = json.dumps(body, cls=SdkJSONEncoder, exclude_readonly=True)  # type: ignore
+
+        _request = build_conversation_messages_remove_participants_request(
+            conversation_id=conversation_id,
+            content_type=content_type,
+            api_version=self._config.api_version,
+            content=_content,
+            headers=_headers,
+            params=_params,
+        )
+        path_format_arguments = {
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+        }
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+        _stream = kwargs.pop("stream", False)
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [207]:
+            if _stream:
+                try:
+                    response.read()  # Load the body in memory and close the socket
+                except (StreamConsumedError, StreamClosedError):
+                    pass
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            raise HttpResponseError(response=response)
+
+        response_headers = {}
+        response_headers["Repeatability-Result"] = self._deserialize(
+            "str", response.headers.get("Repeatability-Result")
+        )
+        response_headers["x-ms-client-request-id"] = self._deserialize(
+            "str", response.headers.get("x-ms-client-request-id")
+        )
+
+        if _stream:
+            deserialized = response.iter_bytes()
+        else:
+            deserialized = _deserialize(_models.RemoveParticipantsResult, response.json())
+
+        if cls:
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
+
+        return deserialized  # type: ignore
+
+    @distributed_trace
+    @api_version_validation(
+        method_added_on="2025-03-01-preview",
+        params_added_on={
+            "2025-03-01-preview": [
+                "endpoint",
+                "api_version",
+                "maxpagesize",
+                "participant",
+                "channel_id",
+                "client_request_id",
+                "accept",
+            ]
+        },
+    )
+    def list_conversations(
+        self, *, participant: Optional[str] = None, channel_id: Optional[str] = None, **kwargs: Any
+    ) -> Iterable["_models.Conversation"]:
+        """Retrieves list of conversations.
+
+        :keyword participant: The participant user ID. Default value is None.
+        :paramtype participant: str
+        :keyword channel_id: The id of channel. Default value is None.
+        :paramtype channel_id: str
+        :return: An iterator like instance of Conversation
+        :rtype: ~azure.core.paging.ItemPaged[~azure.communication.messages.models.Conversation]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = kwargs.pop("params", {}) or {}
+
+        maxpagesize = kwargs.pop("maxpagesize", None)
+        cls: ClsType[List[_models.Conversation]] = kwargs.pop("cls", None)
+
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        def prepare_request(next_link=None):
+            if not next_link:
+
+                _request = build_conversation_messages_list_conversations_request(
+                    maxpagesize=maxpagesize,
+                    participant=participant,
+                    channel_id=channel_id,
+                    api_version=self._config.api_version,
+                    headers=_headers,
+                    params=_params,
+                )
+                path_format_arguments = {
+                    "endpoint": self._serialize.url(
+                        "self._config.endpoint", self._config.endpoint, "str", skip_quote=True
+                    ),
+                }
+                _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+            else:
+                # make call to next link with the client's api-version
+                _parsed_next_link = urllib.parse.urlparse(next_link)
+                _next_request_params = case_insensitive_dict(
+                    {
+                        key: [urllib.parse.quote(v) for v in value]
+                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
+                    }
+                )
+                _next_request_params["api-version"] = self._config.api_version
+                _request = HttpRequest(
+                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
+                )
+                path_format_arguments = {
+                    "endpoint": self._serialize.url(
+                        "self._config.endpoint", self._config.endpoint, "str", skip_quote=True
+                    ),
+                }
+                _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+            return _request
+
+        def extract_data(pipeline_response):
+            deserialized = pipeline_response.http_response.json()
+            list_of_elem = _deserialize(List[_models.Conversation], deserialized["value"])
+            if cls:
+                list_of_elem = cls(list_of_elem)  # type: ignore
+            return deserialized.get("nextLink") or None, iter(list_of_elem)
+
+        def get_next(next_link=None):
+            _request = prepare_request(next_link)
+
+            _stream = False
+            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+                _request, stream=_stream, **kwargs
+            )
+            response = pipeline_response.http_response
+
+            if response.status_code not in [200]:
+                map_error(status_code=response.status_code, response=response, error_map=error_map)
+                raise HttpResponseError(response=response)
+
+            return pipeline_response
+
+        return ItemPaged(get_next, extract_data)
+
+    @distributed_trace
+    @api_version_validation(
+        method_added_on="2025-03-01-preview",
+        params_added_on={
+            "2025-03-01-preview": [
+                "endpoint",
+                "api_version",
+                "conversation_id",
+                "maxpagesize",
+                "participant",
+                "client_request_id",
+                "accept",
+            ]
+        },
+    )
+    def list_messages(
+        self, conversation_id: str, *, participant: Optional[str] = None, **kwargs: Any
+    ) -> Iterable["_models.ConversationMessageItem"]:
+        """Retrieves list of conversation messages.
+
+        :param conversation_id: The conversation ID. Required.
+        :type conversation_id: str
+        :keyword participant: The participant user ID. Default value is None.
+        :paramtype participant: str
+        :return: An iterator like instance of ConversationMessageItem
+        :rtype:
+         ~azure.core.paging.ItemPaged[~azure.communication.messages.models.ConversationMessageItem]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = kwargs.pop("params", {}) or {}
+
+        maxpagesize = kwargs.pop("maxpagesize", None)
+        cls: ClsType[List[_models.ConversationMessageItem]] = kwargs.pop("cls", None)
+
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        def prepare_request(next_link=None):
+            if not next_link:
+
+                _request = build_conversation_messages_list_messages_request(
+                    conversation_id=conversation_id,
+                    maxpagesize=maxpagesize,
+                    participant=participant,
+                    api_version=self._config.api_version,
+                    headers=_headers,
+                    params=_params,
+                )
+                path_format_arguments = {
+                    "endpoint": self._serialize.url(
+                        "self._config.endpoint", self._config.endpoint, "str", skip_quote=True
+                    ),
+                }
+                _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+            else:
+                # make call to next link with the client's api-version
+                _parsed_next_link = urllib.parse.urlparse(next_link)
+                _next_request_params = case_insensitive_dict(
+                    {
+                        key: [urllib.parse.quote(v) for v in value]
+                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
+                    }
+                )
+                _next_request_params["api-version"] = self._config.api_version
+                _request = HttpRequest(
+                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
+                )
+                path_format_arguments = {
+                    "endpoint": self._serialize.url(
+                        "self._config.endpoint", self._config.endpoint, "str", skip_quote=True
+                    ),
+                }
+                _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+            return _request
+
+        def extract_data(pipeline_response):
+            deserialized = pipeline_response.http_response.json()
+            list_of_elem = _deserialize(List[_models.ConversationMessageItem], deserialized["value"])
+            if cls:
+                list_of_elem = cls(list_of_elem)  # type: ignore
+            return deserialized.get("nextLink") or None, iter(list_of_elem)
+
+        def get_next(next_link=None):
+            _request = prepare_request(next_link)
+
+            _stream = False
+            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+                _request, stream=_stream, **kwargs
+            )
+            response = pipeline_response.http_response
+
+            if response.status_code not in [200]:
+                map_error(status_code=response.status_code, response=response, error_map=error_map)
+                raise HttpResponseError(response=response)
+
+            return pipeline_response
+
+        return ItemPaged(get_next, extract_data)
+
+    @overload
+    def send(
+        self,
+        conversation_id: str,
+        body: _models.SendConversationMessageRequest,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> _models.SendConversationMessageResult:
+        """Sends a conversation message from Business to User.
+
+        :param conversation_id: The conversation ID. Required.
+        :type conversation_id: str
+        :param body: Details of the conversation message to send. Required.
+        :type body: ~azure.communication.messages.models.SendConversationMessageRequest
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: SendConversationMessageResult. The SendConversationMessageResult is compatible with
+         MutableMapping
+        :rtype: ~azure.communication.messages.models.SendConversationMessageResult
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    def send(
+        self, conversation_id: str, body: JSON, *, content_type: str = "application/json", **kwargs: Any
+    ) -> _models.SendConversationMessageResult:
+        """Sends a conversation message from Business to User.
+
+        :param conversation_id: The conversation ID. Required.
+        :type conversation_id: str
+        :param body: Details of the conversation message to send. Required.
+        :type body: JSON
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: SendConversationMessageResult. The SendConversationMessageResult is compatible with
+         MutableMapping
+        :rtype: ~azure.communication.messages.models.SendConversationMessageResult
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    def send(
+        self, conversation_id: str, body: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
+    ) -> _models.SendConversationMessageResult:
+        """Sends a conversation message from Business to User.
+
+        :param conversation_id: The conversation ID. Required.
+        :type conversation_id: str
+        :param body: Details of the conversation message to send. Required.
+        :type body: IO[bytes]
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: SendConversationMessageResult. The SendConversationMessageResult is compatible with
+         MutableMapping
+        :rtype: ~azure.communication.messages.models.SendConversationMessageResult
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace
+    @api_version_validation(
+        method_added_on="2025-03-01-preview",
+        params_added_on={
+            "2025-03-01-preview": [
+                "endpoint",
+                "api_version",
+                "conversation_id",
+                "repeatability_request_id",
+                "repeatability_first_sent",
+                "client_request_id",
+                "content_type",
+                "accept",
+            ]
+        },
+    )
+    def send(
+        self, conversation_id: str, body: Union[_models.SendConversationMessageRequest, JSON, IO[bytes]], **kwargs: Any
+    ) -> _models.SendConversationMessageResult:
+        """Sends a conversation message from Business to User.
+
+        :param conversation_id: The conversation ID. Required.
+        :type conversation_id: str
+        :param body: Details of the conversation message to send. Is one of the following types:
+         SendConversationMessageRequest, JSON, IO[bytes] Required.
+        :type body: ~azure.communication.messages.models.SendConversationMessageRequest or JSON or
+         IO[bytes]
+        :return: SendConversationMessageResult. The SendConversationMessageResult is compatible with
+         MutableMapping
+        :rtype: ~azure.communication.messages.models.SendConversationMessageResult
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = kwargs.pop("params", {}) or {}
+
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.SendConversationMessageResult] = kwargs.pop("cls", None)
+
+        content_type = content_type or "application/json"
+        _content = None
+        if isinstance(body, (IOBase, bytes)):
+            _content = body
+        else:
+            _content = json.dumps(body, cls=SdkJSONEncoder, exclude_readonly=True)  # type: ignore
+
+        _request = build_conversation_messages_send_request(
+            conversation_id=conversation_id,
+            content_type=content_type,
+            api_version=self._config.api_version,
+            content=_content,
+            headers=_headers,
+            params=_params,
+        )
+        path_format_arguments = {
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+        }
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+        _stream = kwargs.pop("stream", False)
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            if _stream:
+                try:
+                    response.read()  # Load the body in memory and close the socket
+                except (StreamConsumedError, StreamClosedError):
+                    pass
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            raise HttpResponseError(response=response)
+
+        response_headers = {}
+        response_headers["Repeatability-Result"] = self._deserialize(
+            "str", response.headers.get("Repeatability-Result")
+        )
+        response_headers["x-ms-client-request-id"] = self._deserialize(
+            "str", response.headers.get("x-ms-client-request-id")
+        )
+
+        if _stream:
+            deserialized = response.iter_bytes()
+        else:
+            deserialized = _deserialize(_models.SendConversationMessageResult, response.json())
+
+        if cls:
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
+
+        return deserialized  # type: ignore
+
+    @distributed_trace
+    @api_version_validation(
+        method_added_on="2025-03-01-preview",
+        params_added_on={
+            "2025-03-01-preview": [
+                "endpoint",
+                "api_version",
+                "conversation_id",
+                "repeatability_request_id",
+                "repeatability_first_sent",
+                "client_request_id",
+                "accept",
+            ]
+        },
+    )
+    def analyze(self, conversation_id: str, **kwargs: Any) -> _models.GetConversationMessagesAnalysisResult:
+        """Get AI Analysis of a conversation.
+
+        :param conversation_id: The conversation ID. Required.
+        :type conversation_id: str
+        :return: GetConversationMessagesAnalysisResult. The GetConversationMessagesAnalysisResult is
+         compatible with MutableMapping
+        :rtype: ~azure.communication.messages.models.GetConversationMessagesAnalysisResult
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = kwargs.pop("params", {}) or {}
+
+        cls: ClsType[_models.GetConversationMessagesAnalysisResult] = kwargs.pop("cls", None)
+
+        _request = build_conversation_messages_analyze_request(
+            conversation_id=conversation_id,
+            api_version=self._config.api_version,
+            headers=_headers,
+            params=_params,
+        )
+        path_format_arguments = {
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+        }
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+        _stream = kwargs.pop("stream", False)
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            if _stream:
+                try:
+                    response.read()  # Load the body in memory and close the socket
+                except (StreamConsumedError, StreamClosedError):
+                    pass
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            raise HttpResponseError(response=response)
+
+        response_headers = {}
+        response_headers["Repeatability-Result"] = self._deserialize(
+            "str", response.headers.get("Repeatability-Result")
+        )
+        response_headers["x-ms-client-request-id"] = self._deserialize(
+            "str", response.headers.get("x-ms-client-request-id")
+        )
+
+        if _stream:
+            deserialized = response.iter_bytes()
+        else:
+            deserialized = _deserialize(_models.GetConversationMessagesAnalysisResult, response.json())
+
+        if cls:
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
+
+        return deserialized  # type: ignore
