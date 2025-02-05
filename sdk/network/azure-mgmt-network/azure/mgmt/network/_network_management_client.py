@@ -565,6 +565,8 @@ class NetworkManagementClient(
     :param subscription_id: The subscription credentials which uniquely identify the Microsoft
      Azure subscription. The subscription ID forms part of the URI for every service call. Required.
     :type subscription_id: str
+    :param base_url: Service URL. Required. Default value is "".
+    :type base_url: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
@@ -575,6 +577,7 @@ class NetworkManagementClient(
         self,
         credential: "TokenCredential",
         subscription_id: str,
+        base_url: str = "",
         base_url: str = "https://management.azure.com",
         **kwargs: Any
     ) -> None:

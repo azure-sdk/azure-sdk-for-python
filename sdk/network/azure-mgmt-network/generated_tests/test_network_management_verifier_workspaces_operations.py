@@ -24,7 +24,7 @@ class TestNetworkManagementVerifierWorkspacesOperations(AzureMgmtRecordedTestCas
         response = self.client.verifier_workspaces.list(
             resource_group_name=resource_group.name,
             network_manager_name="str",
-            api_version="2024-05-01",
+            api_version="2024-07-01",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -37,7 +37,7 @@ class TestNetworkManagementVerifierWorkspacesOperations(AzureMgmtRecordedTestCas
             resource_group_name=resource_group.name,
             network_manager_name="str",
             workspace_name="str",
-            api_version="2024-05-01",
+            api_version="2024-07-01",
         )
 
         # please add some check logic here by yourself
@@ -66,7 +66,7 @@ class TestNetworkManagementVerifierWorkspacesOperations(AzureMgmtRecordedTestCas
                 "tags": {"str": "str"},
                 "type": "str",
             },
-            api_version="2024-05-01",
+            api_version="2024-07-01",
         )
 
         # please add some check logic here by yourself
@@ -79,7 +79,7 @@ class TestNetworkManagementVerifierWorkspacesOperations(AzureMgmtRecordedTestCas
             resource_group_name=resource_group.name,
             network_manager_name="str",
             workspace_name="str",
-            api_version="2024-05-01",
+            api_version="2024-07-01",
         )
 
         # please add some check logic here by yourself
@@ -92,7 +92,7 @@ class TestNetworkManagementVerifierWorkspacesOperations(AzureMgmtRecordedTestCas
             resource_group_name=resource_group.name,
             network_manager_name="str",
             workspace_name="str",
-            api_version="2024-05-01",
+            api_version="2024-07-01",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself

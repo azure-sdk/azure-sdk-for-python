@@ -61,6 +61,21 @@ class AdminState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     DISABLED = "Disabled"
 
 
+class AdvertisedPublicPrefixPropertiesValidationState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Advertised Public Prefix State that denotes if the prefix is validated or not."""
+
+    NOT_CONFIGURED = "NotConfigured"
+    CONFIGURING = "Configuring"
+    CONFIGURED = "Configured"
+    VALIDATION_NEEDED = "ValidationNeeded"
+    VALIDATION_FAILED = "ValidationFailed"
+    MANUAL_VALIDATION_NEEDED = "ManualValidationNeeded"
+    ASN_VALIDATION_FAILED = "AsnValidationFailed"
+    CERTIFICATE_MISSING_IN_ROUTING_REGISTRY = "CertificateMissingInRoutingRegistry"
+    INVALID_SIGNATURE_ENCODING = "InvalidSignatureEncoding"
+    SIGNATURE_VERIFICATION_FAILED = "SignatureVerificationFailed"
+
+
 class ApplicationGatewayBackendHealthServerHealth(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Health of backend server."""
 
