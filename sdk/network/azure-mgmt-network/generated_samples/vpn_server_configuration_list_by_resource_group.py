@@ -28,6 +28,7 @@ def main():
     client = NetworkManagementClient(
         credential=DefaultAzureCredential(),
         subscription_id="subid",
+        base_url="BASE_URL",
     )
 
     response = client.vpn_server_configurations.list_by_resource_group(
@@ -37,6 +38,6 @@ def main():
         print(item)
 
 
-# x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/VpnServerConfigurationListByResourceGroup.json
+# x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/VpnServerConfigurationListByResourceGroup.json
 if __name__ == "__main__":
     main()
