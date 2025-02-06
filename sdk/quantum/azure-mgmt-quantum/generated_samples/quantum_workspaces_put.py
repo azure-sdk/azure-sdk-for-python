@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.quantum import AzureQuantumMgmtClient
 
 """
@@ -32,7 +33,7 @@ def main():
     response = client.workspaces.begin_create_or_update(
         resource_group_name="quantumResourcegroup",
         workspace_name="quantumworkspace1",
-        quantum_workspace={
+        resource={
             "location": "West US",
             "properties": {
                 "providers": [

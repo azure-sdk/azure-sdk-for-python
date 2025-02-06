@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.quantum import AzureQuantumMgmtClient
 
 """
@@ -29,10 +30,10 @@ def main():
         subscription_id="00000000-1111-2222-3333-444444444444",
     )
 
-    client.workspace.regenerate_keys(
+    client.workspaces.regenerate_keys(
         resource_group_name="quantumResourcegroup",
         workspace_name="quantumworkspace1",
-        key_specification={"keys": ["Primary", "Secondary"]},
+        body={"keys": ["Primary", "Secondary"]},
     )
 
 

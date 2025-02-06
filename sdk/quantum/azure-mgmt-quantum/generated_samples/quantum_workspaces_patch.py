@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.quantum import AzureQuantumMgmtClient
 
 """
@@ -32,7 +33,7 @@ def main():
     response = client.workspaces.update_tags(
         resource_group_name="quantumResourcegroup",
         workspace_name="quantumworkspace1",
-        workspace_tags={"tags": {"tag1": "value1", "tag2": "value2"}},
+        properties={"tags": {"tag1": "value1", "tag2": "value2"}},
     )
     print(response)
 

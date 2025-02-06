@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.quantum import AzureQuantumMgmtClient
 
 """
@@ -29,7 +30,7 @@ def main():
         subscription_id="00000000-1111-2222-3333-444444444444",
     )
 
-    response = client.workspace.list_keys(
+    response = client.workspaces.list_keys(
         resource_group_name="quantumResourcegroup",
         workspace_name="quantumworkspace1",
     )
