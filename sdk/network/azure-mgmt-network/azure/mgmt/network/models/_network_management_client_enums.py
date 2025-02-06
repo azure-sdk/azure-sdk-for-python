@@ -61,6 +61,21 @@ class AdminState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     DISABLED = "Disabled"
 
 
+class AdvertisedPublicPrefixPropertiesValidationState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Advertised Public Prefix State that denotes if the prefix is validated or not."""
+
+    NOT_CONFIGURED = "NotConfigured"
+    CONFIGURING = "Configuring"
+    CONFIGURED = "Configured"
+    VALIDATION_NEEDED = "ValidationNeeded"
+    VALIDATION_FAILED = "ValidationFailed"
+    MANUAL_VALIDATION_NEEDED = "ManualValidationNeeded"
+    ASN_VALIDATION_FAILED = "AsnValidationFailed"
+    CERTIFICATE_MISSING_IN_ROUTING_REGISTRY = "CertificateMissingInRoutingRegistry"
+    INVALID_SIGNATURE_ENCODING = "InvalidSignatureEncoding"
+    SIGNATURE_VERIFICATION_FAILED = "SignatureVerificationFailed"
+
+
 class ApplicationGatewayBackendHealthServerHealth(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Health of backend server."""
 
@@ -121,6 +136,8 @@ class ApplicationGatewayFirewallUserSessionVariable(str, Enum, metaclass=CaseIns
     CLIENT_ADDR = "ClientAddr"
     GEO_LOCATION = "GeoLocation"
     NONE = "None"
+    CLIENT_ADDR_XFF_HEADER = "ClientAddrXFFHeader"
+    GEO_LOCATION_XFF_HEADER = "GeoLocationXFFHeader"
 
 
 class ApplicationGatewayLoadDistributionAlgorithm(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -450,6 +467,32 @@ class ConfigurationType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     CONNECTIVITY = "Connectivity"
     SECURITY_USER = "SecurityUser"
     ROUTING = "Routing"
+
+
+class ConnectedGroupAddressOverlap(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Behavior to handle overlapped IP address space among members of the connected group of the
+    connectivity configuration.
+    """
+
+    ALLOWED = "Allowed"
+    """Default. Allows connected group members to have overlapping IP address space."""
+    DISALLOWED = "Disallowed"
+    """Strictly disallows connected group members from having overlapping IP address space. Prevents
+    the addition of a virtual network with overlapping address to the connected group, blocks
+    peering between a virtual network and a connected group member if any connected group member
+    has an overlapping range, and restricts address space modifications that would introduce
+    overlap."""
+
+
+class ConnectedGroupPrivateEndpointScale(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Option indicating the scale of private endpoints allowed in the connected group of the
+    connectivity configuration.
+    """
+
+    STANDARD = "Standard"
+    """Default. Allows for up to 2K private endpoints in the connected group."""
+    HIGH_SCALE = "HighScale"
+    """Allows for up to 20K private endpoints in the connected group."""
 
 
 class ConnectionMonitorEndpointFilterItemType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -1400,6 +1443,17 @@ class PcStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     STOPPED = "Stopped"
     ERROR = "Error"
     UNKNOWN = "Unknown"
+
+
+class PeeringEnforcement(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Option indicating enforcement of peerings created by the connectivity configuration."""
+
+    UNENFORCED = "Unenforced"
+    """Default. Peerings created by the connectivity configuration may be modified or deleted outside
+    of the network manager."""
+    ENFORCED = "Enforced"
+    """Peerings created by the connectivity configuration will not be modifiable or deletable outside
+    of the network manager."""
 
 
 class PfsGroup(str, Enum, metaclass=CaseInsensitiveEnumMeta):

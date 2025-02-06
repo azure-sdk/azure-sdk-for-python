@@ -8,12 +8,19 @@
 # --------------------------------------------------------------------------
 
 import datetime
+import sys
 from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 
 from .. import _serialization
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore
+
 if TYPE_CHECKING:
     from .. import models as _models
+JSON = MutableMapping[str, Any]  # pylint: disable=unsubscriptable-object
 
 
 class AadAuthenticationParameters(_serialization.Model):
@@ -227,6 +234,9 @@ class EffectiveConnectivityConfiguration(_serialization.Model):
     :vartype hubs: list[~azure.mgmt.network.models.Hub]
     :ivar is_global: Flag if global mesh is supported. Known values are: "False" and "True".
     :vartype is_global: str or ~azure.mgmt.network.models.IsGlobal
+    :ivar connectivity_capabilities: Collection of additional settings to enhance specific topology
+     behaviors of the connectivity configuration resource.
+    :vartype connectivity_capabilities: JSON
     :ivar applies_to_groups: Groups for configuration.
     :vartype applies_to_groups: list[~azure.mgmt.network.models.ConnectivityGroupItem]
     :ivar provisioning_state: The provisioning state of the connectivity configuration resource.
@@ -251,6 +261,7 @@ class EffectiveConnectivityConfiguration(_serialization.Model):
         "connectivity_topology": {"key": "properties.connectivityTopology", "type": "str"},
         "hubs": {"key": "properties.hubs", "type": "[Hub]"},
         "is_global": {"key": "properties.isGlobal", "type": "str"},
+        "connectivity_capabilities": {"key": "properties.connectivityCapabilities", "type": "object"},
         "applies_to_groups": {"key": "properties.appliesToGroups", "type": "[ConnectivityGroupItem]"},
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
         "delete_existing_peering": {"key": "properties.deleteExistingPeering", "type": "str"},
@@ -266,6 +277,7 @@ class EffectiveConnectivityConfiguration(_serialization.Model):
         connectivity_topology: Optional[Union[str, "_models.ConnectivityTopology"]] = None,
         hubs: Optional[List["_models.Hub"]] = None,
         is_global: Optional[Union[str, "_models.IsGlobal"]] = None,
+        connectivity_capabilities: Optional[JSON] = None,
         applies_to_groups: Optional[List["_models.ConnectivityGroupItem"]] = None,
         delete_existing_peering: Optional[Union[str, "_models.DeleteExistingPeering"]] = None,
         **kwargs: Any
@@ -284,6 +296,9 @@ class EffectiveConnectivityConfiguration(_serialization.Model):
         :paramtype hubs: list[~azure.mgmt.network.models.Hub]
         :keyword is_global: Flag if global mesh is supported. Known values are: "False" and "True".
         :paramtype is_global: str or ~azure.mgmt.network.models.IsGlobal
+        :keyword connectivity_capabilities: Collection of additional settings to enhance specific
+         topology behaviors of the connectivity configuration resource.
+        :paramtype connectivity_capabilities: JSON
         :keyword applies_to_groups: Groups for configuration.
         :paramtype applies_to_groups: list[~azure.mgmt.network.models.ConnectivityGroupItem]
         :keyword delete_existing_peering: Flag if need to remove current existing peerings. Known
@@ -297,6 +312,7 @@ class EffectiveConnectivityConfiguration(_serialization.Model):
         self.connectivity_topology = connectivity_topology
         self.hubs = hubs
         self.is_global = is_global
+        self.connectivity_capabilities = connectivity_capabilities
         self.applies_to_groups = applies_to_groups
         self.provisioning_state = None
         self.delete_existing_peering = delete_existing_peering
@@ -321,6 +337,9 @@ class ActiveConnectivityConfiguration(EffectiveConnectivityConfiguration):
     :vartype hubs: list[~azure.mgmt.network.models.Hub]
     :ivar is_global: Flag if global mesh is supported. Known values are: "False" and "True".
     :vartype is_global: str or ~azure.mgmt.network.models.IsGlobal
+    :ivar connectivity_capabilities: Collection of additional settings to enhance specific topology
+     behaviors of the connectivity configuration resource.
+    :vartype connectivity_capabilities: JSON
     :ivar applies_to_groups: Groups for configuration.
     :vartype applies_to_groups: list[~azure.mgmt.network.models.ConnectivityGroupItem]
     :ivar provisioning_state: The provisioning state of the connectivity configuration resource.
@@ -349,6 +368,7 @@ class ActiveConnectivityConfiguration(EffectiveConnectivityConfiguration):
         "connectivity_topology": {"key": "properties.connectivityTopology", "type": "str"},
         "hubs": {"key": "properties.hubs", "type": "[Hub]"},
         "is_global": {"key": "properties.isGlobal", "type": "str"},
+        "connectivity_capabilities": {"key": "properties.connectivityCapabilities", "type": "object"},
         "applies_to_groups": {"key": "properties.appliesToGroups", "type": "[ConnectivityGroupItem]"},
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
         "delete_existing_peering": {"key": "properties.deleteExistingPeering", "type": "str"},
@@ -366,6 +386,7 @@ class ActiveConnectivityConfiguration(EffectiveConnectivityConfiguration):
         connectivity_topology: Optional[Union[str, "_models.ConnectivityTopology"]] = None,
         hubs: Optional[List["_models.Hub"]] = None,
         is_global: Optional[Union[str, "_models.IsGlobal"]] = None,
+        connectivity_capabilities: Optional[JSON] = None,
         applies_to_groups: Optional[List["_models.ConnectivityGroupItem"]] = None,
         delete_existing_peering: Optional[Union[str, "_models.DeleteExistingPeering"]] = None,
         commit_time: Optional[datetime.datetime] = None,
@@ -386,6 +407,9 @@ class ActiveConnectivityConfiguration(EffectiveConnectivityConfiguration):
         :paramtype hubs: list[~azure.mgmt.network.models.Hub]
         :keyword is_global: Flag if global mesh is supported. Known values are: "False" and "True".
         :paramtype is_global: str or ~azure.mgmt.network.models.IsGlobal
+        :keyword connectivity_capabilities: Collection of additional settings to enhance specific
+         topology behaviors of the connectivity configuration resource.
+        :paramtype connectivity_capabilities: JSON
         :keyword applies_to_groups: Groups for configuration.
         :paramtype applies_to_groups: list[~azure.mgmt.network.models.ConnectivityGroupItem]
         :keyword delete_existing_peering: Flag if need to remove current existing peerings. Known
@@ -403,6 +427,7 @@ class ActiveConnectivityConfiguration(EffectiveConnectivityConfiguration):
             connectivity_topology=connectivity_topology,
             hubs=hubs,
             is_global=is_global,
+            connectivity_capabilities=connectivity_capabilities,
             applies_to_groups=applies_to_groups,
             delete_existing_peering=delete_existing_peering,
             **kwargs
@@ -1232,6 +1257,60 @@ class AdminRuleListResult(_serialization.Model):
         super().__init__(**kwargs)
         self.value = value
         self.next_link = next_link
+
+
+class AdvertisedPublicPrefixProperties(_serialization.Model):
+    """Prefix properties required to perform validation using openssl signature.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar prefix: Advertised Public Prefix.
+    :vartype prefix: str
+    :ivar validation_id: Validation string that contains circuit peering info.
+    :vartype validation_id: str
+    :ivar signature: Signed string generated by encrypting validationId with a private key.
+    :vartype signature: str
+    :ivar validation_state: Advertised Public Prefix State that denotes if the prefix is validated
+     or not. Known values are: "NotConfigured", "Configuring", "Configured", "ValidationNeeded",
+     "ValidationFailed", "ManualValidationNeeded", "AsnValidationFailed",
+     "CertificateMissingInRoutingRegistry", "InvalidSignatureEncoding", and
+     "SignatureVerificationFailed".
+    :vartype validation_state: str or
+     ~azure.mgmt.network.models.AdvertisedPublicPrefixPropertiesValidationState
+    """
+
+    _validation = {
+        "validation_state": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "prefix": {"key": "prefix", "type": "str"},
+        "validation_id": {"key": "validationId", "type": "str"},
+        "signature": {"key": "signature", "type": "str"},
+        "validation_state": {"key": "validationState", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        prefix: Optional[str] = None,
+        validation_id: Optional[str] = None,
+        signature: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword prefix: Advertised Public Prefix.
+        :paramtype prefix: str
+        :keyword validation_id: Validation string that contains circuit peering info.
+        :paramtype validation_id: str
+        :keyword signature: Signed string generated by encrypting validationId with a private key.
+        :paramtype signature: str
+        """
+        super().__init__(**kwargs)
+        self.prefix = prefix
+        self.validation_id = validation_id
+        self.signature = signature
+        self.validation_state = None
 
 
 class Resource(_serialization.Model):
@@ -3748,7 +3827,7 @@ class ApplicationGatewayOnDemandProbe(_serialization.Model):
     :ivar host: Host name to send the probe to.
     :vartype host: str
     :ivar path: Relative path of probe. Valid path starts from '/'. Probe is sent to
-     :code:`<Protocol>`://:code:`<host>`::code:`<port>`:code:`<path>`.
+     :code:`<Protocol>`://\\ :code:`<host>`:\\ :code:`<port>`\\ :code:`<path>`.
     :vartype path: str
     :ivar timeout: The probe timeout in seconds. Probe marked as failed if valid response is not
      received with this timeout period. Acceptable values are from 1 second to 86400 seconds.
@@ -3797,7 +3876,7 @@ class ApplicationGatewayOnDemandProbe(_serialization.Model):
         :keyword host: Host name to send the probe to.
         :paramtype host: str
         :keyword path: Relative path of probe. Valid path starts from '/'. Probe is sent to
-         :code:`<Protocol>`://:code:`<host>`::code:`<port>`:code:`<path>`.
+         :code:`<Protocol>`://\\ :code:`<host>`:\\ :code:`<port>`\\ :code:`<path>`.
         :paramtype path: str
         :keyword timeout: The probe timeout in seconds. Probe marked as failed if valid response is not
          received with this timeout period. Acceptable values are from 1 second to 86400 seconds.
@@ -4301,7 +4380,7 @@ class ApplicationGatewayProbe(SubResource):
     :ivar host: Host name to send the probe to.
     :vartype host: str
     :ivar path: Relative path of probe. Valid path starts from '/'. Probe is sent to
-     :code:`<Protocol>`://:code:`<host>`::code:`<port>`:code:`<path>`.
+     :code:`<Protocol>`://\\ :code:`<host>`:\\ :code:`<port>`\\ :code:`<path>`.
     :vartype path: str
     :ivar interval: The probing interval in seconds. This is the time interval between two
      consecutive probes. Acceptable values are from 1 second to 86400 seconds.
@@ -4391,7 +4470,7 @@ class ApplicationGatewayProbe(SubResource):
         :keyword host: Host name to send the probe to.
         :paramtype host: str
         :keyword path: Relative path of probe. Valid path starts from '/'. Probe is sent to
-         :code:`<Protocol>`://:code:`<host>`::code:`<port>`:code:`<path>`.
+         :code:`<Protocol>`://\\ :code:`<host>`:\\ :code:`<port>`\\ :code:`<path>`.
         :paramtype path: str
         :keyword interval: The probing interval in seconds. This is the time interval between two
          consecutive probes. Acceptable values are from 1 second to 86400 seconds.
@@ -11020,6 +11099,59 @@ class ConnectionStateSnapshot(_serialization.Model):
         self.hops = None
 
 
+class ConnectivityCapabilitiesItem(_serialization.Model):
+    """Connectivity capabilities item.
+
+    :ivar connected_group_private_endpoint_scale: Option indicating the scale of private endpoints
+     allowed in the connected group of the connectivity configuration. Known values are: "Standard"
+     and "HighScale".
+    :vartype connected_group_private_endpoint_scale: str or
+     ~azure.mgmt.network.models.ConnectedGroupPrivateEndpointScale
+    :ivar connected_group_address_overlap: Behavior to handle overlapped IP address space among
+     members of the connected group of the connectivity configuration. Known values are: "Allowed"
+     and "Disallowed".
+    :vartype connected_group_address_overlap: str or
+     ~azure.mgmt.network.models.ConnectedGroupAddressOverlap
+    :ivar peering_enforcement: Option indicating enforcement of peerings created by the
+     connectivity configuration. Known values are: "Unenforced" and "Enforced".
+    :vartype peering_enforcement: str or ~azure.mgmt.network.models.PeeringEnforcement
+    """
+
+    _attribute_map = {
+        "connected_group_private_endpoint_scale": {"key": "connectedGroupPrivateEndpointScale", "type": "str"},
+        "connected_group_address_overlap": {"key": "connectedGroupAddressOverlap", "type": "str"},
+        "peering_enforcement": {"key": "peeringEnforcement", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        connected_group_private_endpoint_scale: Union[str, "_models.ConnectedGroupPrivateEndpointScale"] = "Standard",
+        connected_group_address_overlap: Union[str, "_models.ConnectedGroupAddressOverlap"] = "Allowed",
+        peering_enforcement: Union[str, "_models.PeeringEnforcement"] = "Unenforced",
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword connected_group_private_endpoint_scale: Option indicating the scale of private
+         endpoints allowed in the connected group of the connectivity configuration. Known values are:
+         "Standard" and "HighScale".
+        :paramtype connected_group_private_endpoint_scale: str or
+         ~azure.mgmt.network.models.ConnectedGroupPrivateEndpointScale
+        :keyword connected_group_address_overlap: Behavior to handle overlapped IP address space among
+         members of the connected group of the connectivity configuration. Known values are: "Allowed"
+         and "Disallowed".
+        :paramtype connected_group_address_overlap: str or
+         ~azure.mgmt.network.models.ConnectedGroupAddressOverlap
+        :keyword peering_enforcement: Option indicating enforcement of peerings created by the
+         connectivity configuration. Known values are: "Unenforced" and "Enforced".
+        :paramtype peering_enforcement: str or ~azure.mgmt.network.models.PeeringEnforcement
+        """
+        super().__init__(**kwargs)
+        self.connected_group_private_endpoint_scale = connected_group_private_endpoint_scale
+        self.connected_group_address_overlap = connected_group_address_overlap
+        self.peering_enforcement = peering_enforcement
+
+
 class ConnectivityConfiguration(ChildResource):
     """The network manager connectivity configuration resource.
 
@@ -11044,6 +11176,9 @@ class ConnectivityConfiguration(ChildResource):
     :vartype hubs: list[~azure.mgmt.network.models.Hub]
     :ivar is_global: Flag if global mesh is supported. Known values are: "False" and "True".
     :vartype is_global: str or ~azure.mgmt.network.models.IsGlobal
+    :ivar connectivity_capabilities: Collection of additional settings to enhance specific topology
+     behaviors of the connectivity configuration resource.
+    :vartype connectivity_capabilities: JSON
     :ivar applies_to_groups: Groups for configuration.
     :vartype applies_to_groups: list[~azure.mgmt.network.models.ConnectivityGroupItem]
     :ivar provisioning_state: The provisioning state of the connectivity configuration resource.
@@ -11076,6 +11211,7 @@ class ConnectivityConfiguration(ChildResource):
         "connectivity_topology": {"key": "properties.connectivityTopology", "type": "str"},
         "hubs": {"key": "properties.hubs", "type": "[Hub]"},
         "is_global": {"key": "properties.isGlobal", "type": "str"},
+        "connectivity_capabilities": {"key": "properties.connectivityCapabilities", "type": "object"},
         "applies_to_groups": {"key": "properties.appliesToGroups", "type": "[ConnectivityGroupItem]"},
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
         "delete_existing_peering": {"key": "properties.deleteExistingPeering", "type": "str"},
@@ -11089,6 +11225,7 @@ class ConnectivityConfiguration(ChildResource):
         connectivity_topology: Optional[Union[str, "_models.ConnectivityTopology"]] = None,
         hubs: Optional[List["_models.Hub"]] = None,
         is_global: Optional[Union[str, "_models.IsGlobal"]] = None,
+        connectivity_capabilities: Optional[JSON] = None,
         applies_to_groups: Optional[List["_models.ConnectivityGroupItem"]] = None,
         delete_existing_peering: Optional[Union[str, "_models.DeleteExistingPeering"]] = None,
         **kwargs: Any
@@ -11103,6 +11240,9 @@ class ConnectivityConfiguration(ChildResource):
         :paramtype hubs: list[~azure.mgmt.network.models.Hub]
         :keyword is_global: Flag if global mesh is supported. Known values are: "False" and "True".
         :paramtype is_global: str or ~azure.mgmt.network.models.IsGlobal
+        :keyword connectivity_capabilities: Collection of additional settings to enhance specific
+         topology behaviors of the connectivity configuration resource.
+        :paramtype connectivity_capabilities: JSON
         :keyword applies_to_groups: Groups for configuration.
         :paramtype applies_to_groups: list[~azure.mgmt.network.models.ConnectivityGroupItem]
         :keyword delete_existing_peering: Flag if need to remove current existing peerings. Known
@@ -11115,6 +11255,7 @@ class ConnectivityConfiguration(ChildResource):
         self.connectivity_topology = connectivity_topology
         self.hubs = hubs
         self.is_global = is_global
+        self.connectivity_capabilities = connectivity_capabilities
         self.applies_to_groups = applies_to_groups
         self.provisioning_state = None
         self.delete_existing_peering = delete_existing_peering
@@ -14768,6 +14909,9 @@ class ExpressRouteCircuitPeeringConfig(_serialization.Model):
     :vartype customer_asn: int
     :ivar routing_registry_name: The RoutingRegistryName of the configuration.
     :vartype routing_registry_name: str
+    :ivar advertised_public_prefix_info: List of Prefix information required to perform validation.
+    :vartype advertised_public_prefix_info:
+     list[~azure.mgmt.network.models.AdvertisedPublicPrefixProperties]
     """
 
     _validation = {
@@ -14781,6 +14925,10 @@ class ExpressRouteCircuitPeeringConfig(_serialization.Model):
         "legacy_mode": {"key": "legacyMode", "type": "int"},
         "customer_asn": {"key": "customerASN", "type": "int"},
         "routing_registry_name": {"key": "routingRegistryName", "type": "str"},
+        "advertised_public_prefix_info": {
+            "key": "advertisedPublicPrefixInfo",
+            "type": "[AdvertisedPublicPrefixProperties]",
+        },
     }
 
     def __init__(
@@ -14791,6 +14939,7 @@ class ExpressRouteCircuitPeeringConfig(_serialization.Model):
         legacy_mode: Optional[int] = None,
         customer_asn: Optional[int] = None,
         routing_registry_name: Optional[str] = None,
+        advertised_public_prefix_info: Optional[List["_models.AdvertisedPublicPrefixProperties"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -14805,6 +14954,10 @@ class ExpressRouteCircuitPeeringConfig(_serialization.Model):
         :paramtype customer_asn: int
         :keyword routing_registry_name: The RoutingRegistryName of the configuration.
         :paramtype routing_registry_name: str
+        :keyword advertised_public_prefix_info: List of Prefix information required to perform
+         validation.
+        :paramtype advertised_public_prefix_info:
+         list[~azure.mgmt.network.models.AdvertisedPublicPrefixProperties]
         """
         super().__init__(**kwargs)
         self.advertised_public_prefixes = advertised_public_prefixes
@@ -14813,6 +14966,7 @@ class ExpressRouteCircuitPeeringConfig(_serialization.Model):
         self.legacy_mode = legacy_mode
         self.customer_asn = customer_asn
         self.routing_registry_name = routing_registry_name
+        self.advertised_public_prefix_info = advertised_public_prefix_info
 
 
 class ExpressRouteCircuitPeeringId(_serialization.Model):
@@ -19319,7 +19473,7 @@ class GroupByVariable(_serialization.Model):
     All required parameters must be populated in order to send to server.
 
     :ivar variable_name: User Session clause variable. Required. Known values are: "ClientAddr",
-     "GeoLocation", and "None".
+     "GeoLocation", "None", "ClientAddrXFFHeader", and "GeoLocationXFFHeader".
     :vartype variable_name: str or
      ~azure.mgmt.network.models.ApplicationGatewayFirewallUserSessionVariable
     """
@@ -19337,7 +19491,7 @@ class GroupByVariable(_serialization.Model):
     ) -> None:
         """
         :keyword variable_name: User Session clause variable. Required. Known values are: "ClientAddr",
-         "GeoLocation", and "None".
+         "GeoLocation", "None", "ClientAddrXFFHeader", and "GeoLocationXFFHeader".
         :paramtype variable_name: str or
          ~azure.mgmt.network.models.ApplicationGatewayFirewallUserSessionVariable
         """
@@ -22569,10 +22723,9 @@ class LoadBalancerHealthPerRulePerBackendAddress(_serialization.Model):  # pylin
 
     :ivar ip_address: The IP address belonging to the backend address.
     :vartype ip_address: str
-    :ivar network_interface_ip_configuration_id: The id of the network interface ip configuration
-     belonging to the backend address.
-    :vartype network_interface_ip_configuration_id:
-     ~azure.mgmt.network.models.NetworkInterfaceIPConfiguration
+    :ivar network_interface_ip_configuration_id: Resource ID of the Network Interface IP
+     Configuration.
+    :vartype network_interface_ip_configuration_id: str
     :ivar state: The current health of the backend instances that is associated to the LB rule.
     :vartype state: str
     :ivar reason: The explanation of the State.
@@ -22581,10 +22734,7 @@ class LoadBalancerHealthPerRulePerBackendAddress(_serialization.Model):  # pylin
 
     _attribute_map = {
         "ip_address": {"key": "ipAddress", "type": "str"},
-        "network_interface_ip_configuration_id": {
-            "key": "networkInterfaceIPConfigurationId",
-            "type": "NetworkInterfaceIPConfiguration",
-        },
+        "network_interface_ip_configuration_id": {"key": "networkInterfaceIPConfigurationId", "type": "str"},
         "state": {"key": "state", "type": "str"},
         "reason": {"key": "reason", "type": "str"},
     }
@@ -22593,7 +22743,7 @@ class LoadBalancerHealthPerRulePerBackendAddress(_serialization.Model):  # pylin
         self,
         *,
         ip_address: Optional[str] = None,
-        network_interface_ip_configuration_id: Optional["_models.NetworkInterfaceIPConfiguration"] = None,
+        network_interface_ip_configuration_id: Optional[str] = None,
         state: Optional[str] = None,
         reason: Optional[str] = None,
         **kwargs: Any
@@ -22601,10 +22751,9 @@ class LoadBalancerHealthPerRulePerBackendAddress(_serialization.Model):  # pylin
         """
         :keyword ip_address: The IP address belonging to the backend address.
         :paramtype ip_address: str
-        :keyword network_interface_ip_configuration_id: The id of the network interface ip
-         configuration belonging to the backend address.
-        :paramtype network_interface_ip_configuration_id:
-         ~azure.mgmt.network.models.NetworkInterfaceIPConfiguration
+        :keyword network_interface_ip_configuration_id: Resource ID of the Network Interface IP
+         Configuration.
+        :paramtype network_interface_ip_configuration_id: str
         :keyword state: The current health of the backend instances that is associated to the LB rule.
         :paramtype state: str
         :keyword reason: The explanation of the State.
@@ -24702,7 +24851,7 @@ class NetworkInterfaceIPConfiguration(SubResource):
     :ivar load_balancer_inbound_nat_rules: A list of references of LoadBalancerInboundNatRules.
     :vartype load_balancer_inbound_nat_rules: list[~azure.mgmt.network.models.InboundNatRule]
     :ivar private_ip_address: Private IP address of the IP configuration. It can be a single IP
-     address or a CIDR block in the format :code:`<address>`/:code:`<prefix-length>`.
+     address or a CIDR block in the format :code:`<address>`/\\ :code:`<prefix-length>`.
     :vartype private_ip_address: str
     :ivar private_ip_address_prefix_length: The private IP address prefix length. If specified and
      the allocation method is dynamic, the service will allocate a CIDR block instead of a single IP
@@ -24822,7 +24971,7 @@ class NetworkInterfaceIPConfiguration(SubResource):
         :keyword load_balancer_inbound_nat_rules: A list of references of LoadBalancerInboundNatRules.
         :paramtype load_balancer_inbound_nat_rules: list[~azure.mgmt.network.models.InboundNatRule]
         :keyword private_ip_address: Private IP address of the IP configuration. It can be a single IP
-         address or a CIDR block in the format :code:`<address>`/:code:`<prefix-length>`.
+         address or a CIDR block in the format :code:`<address>`/\\ :code:`<prefix-length>`.
         :paramtype private_ip_address: str
         :keyword private_ip_address_prefix_length: The private IP address prefix length. If specified
          and the allocation method is dynamic, the service will allocate a CIDR block instead of a
@@ -26392,6 +26541,51 @@ class NetworkVirtualAppliance(Resource):
         self.partner_managed_resource = partner_managed_resource
 
 
+class NetworkVirtualApplianceBootDiagnosticParameters(_serialization.Model):  # pylint: disable=name-too-long
+    """Specifies input parameters required to retrieve the boot diagnostic logs for an NVA instance.
+
+    :ivar instance_id: The network virtual appliance instance id for which boot diagnostic logs is
+     being requested.
+    :vartype instance_id: int
+    :ivar serial_console_storage_sas_url: Specifies the sas-url to the storage blob into which
+     serial console logs for the requested instance will be written.
+    :vartype serial_console_storage_sas_url: str
+    :ivar console_screenshot_storage_sas_url: Specifies the sas-url to the storage blob into which
+     console screen shot for the requested instance will be written.
+    :vartype console_screenshot_storage_sas_url: str
+    """
+
+    _attribute_map = {
+        "instance_id": {"key": "instanceId", "type": "int"},
+        "serial_console_storage_sas_url": {"key": "serialConsoleStorageSasUrl", "type": "str"},
+        "console_screenshot_storage_sas_url": {"key": "consoleScreenshotStorageSasUrl", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        instance_id: Optional[int] = None,
+        serial_console_storage_sas_url: Optional[str] = None,
+        console_screenshot_storage_sas_url: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword instance_id: The network virtual appliance instance id for which boot diagnostic logs
+         is being requested.
+        :paramtype instance_id: int
+        :keyword serial_console_storage_sas_url: Specifies the sas-url to the storage blob into which
+         serial console logs for the requested instance will be written.
+        :paramtype serial_console_storage_sas_url: str
+        :keyword console_screenshot_storage_sas_url: Specifies the sas-url to the storage blob into
+         which console screen shot for the requested instance will be written.
+        :paramtype console_screenshot_storage_sas_url: str
+        """
+        super().__init__(**kwargs)
+        self.instance_id = instance_id
+        self.serial_console_storage_sas_url = serial_console_storage_sas_url
+        self.console_screenshot_storage_sas_url = console_screenshot_storage_sas_url
+
+
 class NetworkVirtualApplianceConnection(SubResource):
     """NetworkVirtualApplianceConnection resource.
 
@@ -26511,6 +26705,28 @@ class NetworkVirtualApplianceConnectionList(_serialization.Model):
         super().__init__(**kwargs)
         self.value = value
         self.next_link = next_link
+
+
+class NetworkVirtualApplianceInstanceId(_serialization.Model):
+    """NetworkVirtualApplianceInstanceId.
+
+    :ivar instance_id: The network virtual appliance instance id for which boot diagnostic logs is
+     being requested.
+    :vartype instance_id: int
+    """
+
+    _attribute_map = {
+        "instance_id": {"key": "instanceId", "type": "int"},
+    }
+
+    def __init__(self, *, instance_id: Optional[int] = None, **kwargs: Any) -> None:
+        """
+        :keyword instance_id: The network virtual appliance instance id for which boot diagnostic logs
+         is being requested.
+        :paramtype instance_id: int
+        """
+        super().__init__(**kwargs)
+        self.instance_id = instance_id
 
 
 class NetworkVirtualApplianceInstanceIds(_serialization.Model):
