@@ -12,6 +12,18 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from ._patch import *  # pylint: disable=unused-wildcard-import
 
+from ._operations import NetworkSecurityPerimetersOperations  # type: ignore
+from ._operations import NspProfilesOperations  # type: ignore
+from ._operations import NspAccessRulesOperations  # type: ignore
+from ._operations import NspAssociationsOperations  # type: ignore
+from ._operations import NspAssociationReconcileOperations  # type: ignore
+from ._operations import PerimeterAssociableResourceTypesOperations  # type: ignore
+from ._operations import NspAccessRulesReconcileOperations  # type: ignore
+from ._operations import NspLinksOperations  # type: ignore
+from ._operations import NspLinkReferencesOperations  # type: ignore
+from ._operations import NspLoggingConfigurationOperations  # type: ignore
+from ._operations import NspLoggingConfigurationsOperations  # type: ignore
+from ._operations import NspOperationStatusOperations  # type: ignore
 from ._operations import ApplicationGatewaysOperations  # type: ignore
 from ._operations import ApplicationGatewayPrivateLinkResourcesOperations  # type: ignore
 from ._operations import ApplicationGatewayPrivateEndpointConnectionsOperations  # type: ignore
@@ -165,6 +177,18 @@ from ._patch import *
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
+    "NetworkSecurityPerimetersOperations",
+    "NspProfilesOperations",
+    "NspAccessRulesOperations",
+    "NspAssociationsOperations",
+    "NspAssociationReconcileOperations",
+    "PerimeterAssociableResourceTypesOperations",
+    "NspAccessRulesReconcileOperations",
+    "NspLinksOperations",
+    "NspLinkReferencesOperations",
+    "NspLoggingConfigurationOperations",
+    "NspLoggingConfigurationsOperations",
+    "NspOperationStatusOperations",
     "ApplicationGatewaysOperations",
     "ApplicationGatewayPrivateLinkResourcesOperations",
     "ApplicationGatewayPrivateEndpointConnectionsOperations",

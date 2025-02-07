@@ -98,13 +98,25 @@ from .operations import (
     NetworkManagersOperations,
     NetworkProfilesOperations,
     NetworkSecurityGroupsOperations,
+    NetworkSecurityPerimetersOperations,
     NetworkVirtualApplianceConnectionsOperations,
     NetworkVirtualAppliancesOperations,
     NetworkWatchersOperations,
+    NspAccessRulesOperations,
+    NspAccessRulesReconcileOperations,
+    NspAssociationReconcileOperations,
+    NspAssociationsOperations,
+    NspLinkReferencesOperations,
+    NspLinksOperations,
+    NspLoggingConfigurationOperations,
+    NspLoggingConfigurationsOperations,
+    NspOperationStatusOperations,
+    NspProfilesOperations,
     Operations,
     P2SVpnGatewaysOperations,
     PacketCapturesOperations,
     PeerExpressRouteCircuitConnectionsOperations,
+    PerimeterAssociableResourceTypesOperations,
     PrivateDnsZoneGroupsOperations,
     PrivateEndpointsOperations,
     PrivateLinkServicesOperations,
@@ -178,6 +190,37 @@ class NetworkManagementClient(
 ):  # pylint: disable=client-accepts-api-version-keyword,too-many-instance-attributes
     """Network Client.
 
+    :ivar network_security_perimeters: NetworkSecurityPerimetersOperations operations
+    :vartype network_security_perimeters:
+     azure.mgmt.network.operations.NetworkSecurityPerimetersOperations
+    :ivar nsp_profiles: NspProfilesOperations operations
+    :vartype nsp_profiles: azure.mgmt.network.operations.NspProfilesOperations
+    :ivar nsp_access_rules: NspAccessRulesOperations operations
+    :vartype nsp_access_rules: azure.mgmt.network.operations.NspAccessRulesOperations
+    :ivar nsp_associations: NspAssociationsOperations operations
+    :vartype nsp_associations: azure.mgmt.network.operations.NspAssociationsOperations
+    :ivar nsp_association_reconcile: NspAssociationReconcileOperations operations
+    :vartype nsp_association_reconcile:
+     azure.mgmt.network.operations.NspAssociationReconcileOperations
+    :ivar perimeter_associable_resource_types: PerimeterAssociableResourceTypesOperations
+     operations
+    :vartype perimeter_associable_resource_types:
+     azure.mgmt.network.operations.PerimeterAssociableResourceTypesOperations
+    :ivar nsp_access_rules_reconcile: NspAccessRulesReconcileOperations operations
+    :vartype nsp_access_rules_reconcile:
+     azure.mgmt.network.operations.NspAccessRulesReconcileOperations
+    :ivar nsp_links: NspLinksOperations operations
+    :vartype nsp_links: azure.mgmt.network.operations.NspLinksOperations
+    :ivar nsp_link_references: NspLinkReferencesOperations operations
+    :vartype nsp_link_references: azure.mgmt.network.operations.NspLinkReferencesOperations
+    :ivar nsp_logging_configuration: NspLoggingConfigurationOperations operations
+    :vartype nsp_logging_configuration:
+     azure.mgmt.network.operations.NspLoggingConfigurationOperations
+    :ivar nsp_logging_configurations: NspLoggingConfigurationsOperations operations
+    :vartype nsp_logging_configurations:
+     azure.mgmt.network.operations.NspLoggingConfigurationsOperations
+    :ivar nsp_operation_status: NspOperationStatusOperations operations
+    :vartype nsp_operation_status: azure.mgmt.network.operations.NspOperationStatusOperations
     :ivar application_gateways: ApplicationGatewaysOperations operations
     :vartype application_gateways: azure.mgmt.network.operations.ApplicationGatewaysOperations
     :ivar application_gateway_private_link_resources:
@@ -605,6 +648,36 @@ class NetworkManagementClient(
         self._serialize = Serializer(client_models)
         self._deserialize = Deserializer(client_models)
         self._serialize.client_side_validation = False
+        self.network_security_perimeters = NetworkSecurityPerimetersOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.nsp_profiles = NspProfilesOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.nsp_access_rules = NspAccessRulesOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.nsp_associations = NspAssociationsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.nsp_association_reconcile = NspAssociationReconcileOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.perimeter_associable_resource_types = PerimeterAssociableResourceTypesOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.nsp_access_rules_reconcile = NspAccessRulesReconcileOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.nsp_links = NspLinksOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.nsp_link_references = NspLinkReferencesOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.nsp_logging_configuration = NspLoggingConfigurationOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.nsp_logging_configurations = NspLoggingConfigurationsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.nsp_operation_status = NspOperationStatusOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
         self.application_gateways = ApplicationGatewaysOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
