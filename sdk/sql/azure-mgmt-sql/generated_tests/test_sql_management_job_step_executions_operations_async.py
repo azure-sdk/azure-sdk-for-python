@@ -21,7 +21,7 @@ class TestSqlManagementJobStepExecutionsOperationsAsync(AzureMgmtRecordedTestCas
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_by_job_execution(self, resource_group):
+    async def test_job_step_executions_list_by_job_execution(self, resource_group):
         response = self.client.job_step_executions.list_by_job_execution(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -36,7 +36,7 @@ class TestSqlManagementJobStepExecutionsOperationsAsync(AzureMgmtRecordedTestCas
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get(self, resource_group):
+    async def test_job_step_executions_get(self, resource_group):
         response = await self.client.job_step_executions.get(
             resource_group_name=resource_group.name,
             server_name="str",
