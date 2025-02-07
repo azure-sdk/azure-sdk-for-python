@@ -18,6 +18,13 @@ class Access(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     DENY = "Deny"
 
 
+class AccessRuleDirection(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Direction that specifies whether the access rules is inbound/outbound."""
+
+    INBOUND = "Inbound"
+    OUTBOUND = "Outbound"
+
+
 class ActionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Defines the action to take on rule match."""
 
@@ -301,6 +308,14 @@ class ApplicationGatewayWafRuleStateTypes(str, Enum, metaclass=CaseInsensitiveEn
 
     ENABLED = "Enabled"
     DISABLED = "Disabled"
+
+
+class AssociationAccessMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Access mode on the association."""
+
+    LEARNING = "Learning"
+    ENFORCED = "Enforced"
+    AUDIT = "Audit"
 
 
 class AssociationType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -1316,6 +1331,38 @@ class NicTypeInResponse(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     PUBLIC_NIC = "PublicNic"
     PRIVATE_NIC = "PrivateNic"
     ADDITIONAL_NIC = "AdditionalNic"
+
+
+class NspLinkProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The current provisioning state of NSP Link/LinkReference."""
+
+    SUCCEEDED = "Succeeded"
+    CREATING = "Creating"
+    UPDATING = "Updating"
+    DELETING = "Deleting"
+    ACCEPTED = "Accepted"
+    FAILED = "Failed"
+    WAIT_FOR_REMOTE_COMPLETION = "WaitForRemoteCompletion"
+
+
+class NspLinkStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The NSP link state."""
+
+    APPROVED = "Approved"
+    PENDING = "Pending"
+    REJECTED = "Rejected"
+    DISCONNECTED = "Disconnected"
+
+
+class NspProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The current provisioning state."""
+
+    SUCCEEDED = "Succeeded"
+    CREATING = "Creating"
+    UPDATING = "Updating"
+    DELETING = "Deleting"
+    ACCEPTED = "Accepted"
+    FAILED = "Failed"
 
 
 class OfficeTrafficCategory(str, Enum, metaclass=CaseInsensitiveEnumMeta):
