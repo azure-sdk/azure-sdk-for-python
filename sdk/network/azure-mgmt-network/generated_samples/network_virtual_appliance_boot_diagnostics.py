@@ -15,7 +15,7 @@ from azure.mgmt.network import NetworkManagementClient
     pip install azure-identity
     pip install azure-mgmt-network
 # USAGE
-    python network_watcher_connection_monitor_start.py
+    python network_virtual_appliance_boot_diagnostics.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -28,15 +28,21 @@ def main():
     client = NetworkManagementClient(
         credential=DefaultAzureCredential(),
         subscription_id="subid",
+        base_url="BASE_URL",
     )
 
-    client.connection_monitors.begin_start(
+    response = client.network_virtual_appliances.begin_get_boot_diagnostic_logs(
         resource_group_name="rg1",
-        network_watcher_name="nw1",
-        connection_monitor_name="cm1",
+        network_virtual_appliance_name="nva",
+        request={
+            "consoleScreenshotStorageSasUrl": "https://blobcortextesturl.blob.core.windows.net/nvaBootDiagContainer/consoleScreenshot.png?sp=rw&se=2018-01-10T03%3A42%3A04Z&sv=2017-04-17&sig=WvXrT5bDmDFfgHs%2Brz%2BjAu123eRCNE9BO0eQYcPDT7pY%3D&sr=b",
+            "instanceId": 0,
+            "serialConsoleStorageSasUrl": "https://blobcortextesturl.blob.core.windows.net/nvaBootDiagContainer/serialLogs.txt?sp=rw&se=2018-01-10T03%3A42%3A04Z&sv=2017-04-17&sig=WvXrT5bDmDFfgHs%2Brz%2BjAu123eRCNE9BO0eQYcPDT7pY%3D&sr=b",
+        },
     ).result()
+    print(response)
 
 
-# x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/NetworkWatcherConnectionMonitorStart.json
+# x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/NetworkVirtualApplianceBootDiagnostics.json
 if __name__ == "__main__":
     main()

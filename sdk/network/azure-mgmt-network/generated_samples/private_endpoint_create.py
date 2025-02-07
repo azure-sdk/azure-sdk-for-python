@@ -28,6 +28,7 @@ def main():
     client = NetworkManagementClient(
         credential=DefaultAzureCredential(),
         subscription_id="subId",
+        base_url="BASE_URL",
     )
 
     response = client.private_endpoints.begin_create_or_update(
@@ -61,6 +62,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/PrivateEndpointCreate.json
+# x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/PrivateEndpointCreate.json
 if __name__ == "__main__":
     main()
