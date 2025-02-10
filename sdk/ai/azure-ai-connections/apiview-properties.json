@@ -1,0 +1,7 @@
+{
+    "CrossLanguagePackageId": "Azure.AI.Connections",
+    "CrossLanguageDefinitionId": {
+        "azure.ai.connections.models.AuthenticationType": "Azure.AI.Connections.AuthenticationType",
+        "azure.ai.connections.models.ConnectionType": "Azure.AI.Connections.ConnectionType"
+    }
+}
