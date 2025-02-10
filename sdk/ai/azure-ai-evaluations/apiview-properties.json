@@ -1,0 +1,26 @@
+{
+    "CrossLanguagePackageId": "Azure.AI.Evaluations",
+    "CrossLanguageDefinitionId": {
+        "azure.ai.evaluations.models.InputData": "Azure.AI.Evaluations.InputData",
+        "azure.ai.evaluations.models.ApplicationInsightsConfiguration": "Azure.AI.Evaluations.ApplicationInsightsConfiguration",
+        "azure.ai.evaluations.models.Trigger": "Azure.AI.Evaluations.Trigger",
+        "azure.ai.evaluations.models.CronTrigger": "Azure.AI.Evaluations.CronTrigger",
+        "azure.ai.evaluations.models.Dataset": "Azure.AI.Evaluations.Dataset",
+        "azure.ai.evaluations.models.Evaluation": "Azure.AI.Evaluations.Evaluation",
+        "azure.ai.evaluations.models.EvaluationSchedule": "Azure.AI.Evaluations.EvaluationSchedule",
+        "azure.ai.evaluations.models.EvaluatorConfiguration": "Azure.AI.Evaluations.EvaluatorConfiguration",
+        "azure.ai.evaluations.models.RecurrenceSchedule": "Azure.AI.Evaluations.RecurrenceSchedule",
+        "azure.ai.evaluations.models.RecurrenceTrigger": "Azure.AI.Evaluations.RecurrenceTrigger",
+        "azure.ai.evaluations.models.SystemData": "Azure.AI.Evaluations.SystemData",
+        "azure.ai.evaluations.models.Frequency": "Azure.AI.Evaluations.Frequency",
+        "azure.ai.evaluations.models.WeekDays": "Azure.AI.Evaluations.WeekDays",
+        "azure.ai.evaluations.AIEvaluationsClient.evaluations.get": "Azure.AI.Evaluations.Evaluations.get",
+        "azure.ai.evaluations.AIEvaluationsClient.evaluations.create": "Azure.AI.Evaluations.Evaluations.create",
+        "azure.ai.evaluations.AIEvaluationsClient.evaluations.list": "Azure.AI.Evaluations.Evaluations.list",
+        "azure.ai.evaluations.AIEvaluationsClient.evaluations.update": "Azure.AI.Evaluations.Evaluations.update",
+        "azure.ai.evaluations.AIEvaluationsClient.evaluations.get_schedule": "Azure.AI.Evaluations.Evaluations.getSchedule",
+        "azure.ai.evaluations.AIEvaluationsClient.evaluations.create_or_replace_schedule": "Azure.AI.Evaluations.Evaluations.createOrReplaceSchedule",
+        "azure.ai.evaluations.AIEvaluationsClient.evaluations.list_schedule": "Azure.AI.Evaluations.Evaluations.listSchedule",
+        "azure.ai.evaluations.AIEvaluationsClient.evaluations.disable_schedule": "Azure.AI.Evaluations.Evaluations.disableSchedule"
+    }
+}
