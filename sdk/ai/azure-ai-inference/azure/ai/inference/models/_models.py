@@ -25,6 +25,8 @@ class ContentItem(_model_base.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     ImageContentItem, AudioContentItem, TextContentItem
 
+    All required parameters must be populated in order to send to server.
+
     :ivar type: The discriminated object type. Required. Default value is None.
     :vartype type: str
     """
@@ -53,6 +55,8 @@ class ContentItem(_model_base.Model):
 
 class AudioContentItem(ContentItem, discriminator="input_audio"):
     """A structured chat content item containing an audio content.
+
+    All required parameters must be populated in order to send to server.
 
     :ivar type: The discriminated object type: always 'input_audio' for this type. Required.
      Default value is "input_audio".
@@ -196,6 +200,8 @@ class ChatCompletionsNamedToolChoice(_model_base.Model):
 
     Readonly variables are only populated by the server, and will be ignored when sending a request.
 
+    All required parameters must be populated in order to send to server.
+
     :ivar type: The type of the tool. Currently, only ``function`` is supported. Required. Default
      value is "function".
     :vartype type: str
@@ -231,6 +237,8 @@ class ChatCompletionsNamedToolChoice(_model_base.Model):
 class ChatCompletionsNamedToolChoiceFunction(_model_base.Model):
     """A tool selection of a specific, named function tool that will limit chat completions to using
     the named function.
+
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The name of the function that should be called. Required.
     :vartype name: str
@@ -268,6 +276,8 @@ class ChatCompletionsResponseFormat(_model_base.Model):
     ChatCompletionsResponseFormatJsonObject, ChatCompletionsResponseFormatJsonSchema,
     ChatCompletionsResponseFormatText
 
+    All required parameters must be populated in order to send to server.
+
     :ivar type: The response format type to use for chat completions. Required. Default value is
      None.
     :vartype type: str
@@ -301,6 +311,8 @@ class ChatCompletionsResponseFormatJsonObject(ChatCompletionsResponseFormat, dis
     produce JSON
     via a system or user message.
 
+    All required parameters must be populated in order to send to server.
+
     :ivar type: Response format type: always 'json_object' for this object. Required. Default value
      is "json_object".
     :vartype type: str
@@ -330,6 +342,8 @@ class ChatCompletionsResponseFormatJsonSchema(ChatCompletionsResponseFormat, dis
     """A response format for Chat Completions that restricts responses to emitting valid JSON objects,
     with a
     JSON schema specified by the caller.
+
+    All required parameters must be populated in order to send to server.
 
     :ivar type: The type of response format being defined: ``json_schema``. Required. Default value
      is "json_schema".
@@ -366,6 +380,8 @@ class ChatCompletionsResponseFormatJsonSchema(ChatCompletionsResponseFormat, dis
 class ChatCompletionsResponseFormatText(ChatCompletionsResponseFormat, discriminator="text"):
     """A response format for Chat Completions that emits text responses. This is the default response
     format.
+
+    All required parameters must be populated in order to send to server.
 
     :ivar type: Response format type: always 'text' for this object. Required. Default value is
      "text".
@@ -439,6 +455,8 @@ class ChatCompletionsToolDefinition(_model_base.Model):
 
     Readonly variables are only populated by the server, and will be ignored when sending a request.
 
+    All required parameters must be populated in order to send to server.
+
     :ivar type: The type of the tool. Currently, only ``function`` is supported. Required. Default
      value is "function".
     :vartype type: str
@@ -475,18 +493,20 @@ class ChatRequestMessage(_model_base.Model):
     """An abstract representation of a chat message as provided in a request.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
-    ChatRequestAssistantMessage, ChatRequestSystemMessage, ChatRequestToolMessage,
-    ChatRequestUserMessage
+    ChatRequestAssistantMessage, ChatRequestDeveloperMessage, ChatRequestSystemMessage,
+    ChatRequestToolMessage, ChatRequestUserMessage
+
+    All required parameters must be populated in order to send to server.
 
     :ivar role: The chat role associated with this message. Required. Known values are: "system",
-     "user", "assistant", and "tool".
+     "user", "assistant", "tool", and "developer".
     :vartype role: str or ~azure.ai.inference.models.ChatRole
     """
 
     __mapping__: Dict[str, _model_base.Model] = {}
     role: str = rest_discriminator(name="role")
     """The chat role associated with this message. Required. Known values are: \"system\", \"user\",
-     \"assistant\", and \"tool\"."""
+     \"assistant\", \"tool\", and \"developer\"."""
 
     @overload
     def __init__(
@@ -508,6 +528,8 @@ class ChatRequestMessage(_model_base.Model):
 
 class ChatRequestAssistantMessage(ChatRequestMessage, discriminator="assistant"):
     """A request chat message representing response or action from the assistant.
+
+    All required parameters must be populated in order to send to server.
 
     :ivar role: The chat role associated with this message, which is always 'assistant' for
      assistant messages. Required. The role that provides responses to system-instructed,
@@ -550,10 +572,52 @@ class ChatRequestAssistantMessage(ChatRequestMessage, discriminator="assistant")
         super().__init__(*args, role=ChatRole.ASSISTANT, **kwargs)
 
 
+class ChatRequestDeveloperMessage(ChatRequestMessage, discriminator="developer"):
+    """A request chat message containing developer instructions that influence how the model will
+    generate a chat completions
+    response. Some AI models support a developer message instead of a system message.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar role: The chat role associated with this message, which is always 'developer' for
+     developer messages. Required. The role that instructs or sets the behavior of the assistant.
+     Some AI models support this role instead of the 'system' role.
+    :vartype role: str or ~azure.ai.inference.models.DEVELOPER
+    :ivar content: The contents of the developer message. Required.
+    :vartype content: str
+    """
+
+    role: Literal[ChatRole.DEVELOPER] = rest_discriminator(name="role")  # type: ignore
+    """The chat role associated with this message, which is always 'developer' for developer messages.
+     Required. The role that instructs or sets the behavior of the assistant. Some AI models support
+     this role instead of the 'system' role."""
+    content: str = rest_field()
+    """The contents of the developer message. Required."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        content: str,
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, role=ChatRole.DEVELOPER, **kwargs)
+
+
 class ChatRequestSystemMessage(ChatRequestMessage, discriminator="system"):
     """A request chat message containing system instructions that influence how the model will
     generate a chat completions
     response.
+
+    All required parameters must be populated in order to send to server.
 
     :ivar role: The chat role associated with this message, which is always 'system' for system
      messages. Required. The role that instructs or sets the behavior of the assistant.
@@ -588,6 +652,8 @@ class ChatRequestSystemMessage(ChatRequestMessage, discriminator="system"):
 
 class ChatRequestToolMessage(ChatRequestMessage, discriminator="tool"):
     """A request chat message representing requested output from a configured tool.
+
+    All required parameters must be populated in order to send to server.
 
     :ivar role: The chat role associated with this message, which is always 'tool' for tool
      messages. Required. The role that represents extension tool activity within a chat completions
@@ -629,6 +695,8 @@ class ChatRequestToolMessage(ChatRequestMessage, discriminator="tool"):
 class ChatRequestUserMessage(ChatRequestMessage, discriminator="user"):
     """A request chat message representing user input to the assistant.
 
+    All required parameters must be populated in order to send to server.
+
     :ivar role: The chat role associated with this message, which is always 'user' for user
      messages. Required. The role that provides input for chat completions.
     :vartype role: str or ~azure.ai.inference.models.USER
@@ -640,7 +708,7 @@ class ChatRequestUserMessage(ChatRequestMessage, discriminator="user"):
     role: Literal[ChatRole.USER] = rest_discriminator(name="role")  # type: ignore
     """The chat role associated with this message, which is always 'user' for user messages. Required.
      The role that provides input for chat completions."""
-    content: Union["str", List["_models.ContentItem"]] = rest_field()
+    content: Union[str, List["_models.ContentItem"]] = rest_field()
     """The contents of the user message, with available input types varying by selected model.
      Required. Is either a str type or a [ContentItem] type."""
 
@@ -667,7 +735,7 @@ class ChatResponseMessage(_model_base.Model):
 
 
     :ivar role: The chat role associated with the message. Required. Known values are: "system",
-     "user", "assistant", and "tool".
+     "user", "assistant", "tool", and "developer".
     :vartype role: str or ~azure.ai.inference.models.ChatRole
     :ivar content: The content of the message. Required.
     :vartype content: str
@@ -679,7 +747,7 @@ class ChatResponseMessage(_model_base.Model):
 
     role: Union[str, "_models.ChatRole"] = rest_field()
     """The chat role associated with the message. Required. Known values are: \"system\", \"user\",
-     \"assistant\", and \"tool\"."""
+     \"assistant\", \"tool\", and \"developer\"."""
     content: str = rest_field()
     """The content of the message. Required."""
     tool_calls: Optional[List["_models.ChatCompletionsToolCall"]] = rest_field()
@@ -764,7 +832,7 @@ class EmbeddingItem(_model_base.Model):
     :vartype index: int
     """
 
-    embedding: Union["str", List[float]] = rest_field()
+    embedding: Union[str, List[float]] = rest_field()
     """List of embedding values for the input prompt. These represent a measurement of the
      vector-based relatedness of the provided input. Or a base64 encoded string of the embedding
      vector. Required. Is either a str type or a [float] type."""
@@ -919,6 +987,8 @@ class FunctionDefinition(_model_base.Model):
     """The definition of a caller-specified function that chat completions may invoke in response to
     matching user input.
 
+    All required parameters must be populated in order to send to server.
+
     :ivar name: The name of the function to be called. Required.
     :vartype name: str
     :ivar description: A description of what the function does. The model will use this description
@@ -961,6 +1031,8 @@ class FunctionDefinition(_model_base.Model):
 class ImageContentItem(ContentItem, discriminator="image_url"):
     """A structured chat content item containing an image reference.
 
+    All required parameters must be populated in order to send to server.
+
     :ivar type: The discriminated object type: always 'image_url' for this type. Required. Default
      value is "image_url".
     :vartype type: str
@@ -996,6 +1068,8 @@ class ImageContentItem(ContentItem, discriminator="image_url"):
 
 class ImageEmbeddingInput(_model_base.Model):
     """Represents an image with optional text.
+
+    All required parameters must be populated in order to send to server.
 
     :ivar image: The input image encoded in base64 string as a data URL. Example:
      ``data:image/{format};base64,{data}``. Required.
@@ -1034,6 +1108,8 @@ class ImageEmbeddingInput(_model_base.Model):
 class ImageUrl(_model_base.Model):
     """An internet location from which the model may retrieve an image.
 
+    All required parameters must be populated in order to send to server.
+
     :ivar url: The URL of the image. Required.
     :vartype url: str
     :ivar detail: The evaluation quality setting to use, which controls relative prioritization of
@@ -1071,6 +1147,8 @@ class ImageUrl(_model_base.Model):
 class InputAudio(_model_base.Model):
     """The details of an audio chat message content part.
 
+    All required parameters must be populated in order to send to server.
+
     :ivar data: Base64 encoded audio data. Required.
     :vartype data: str
     :ivar format: The audio format of the audio content. Required. Known values are: "wav" and
@@ -1105,6 +1183,8 @@ class InputAudio(_model_base.Model):
 class JsonSchemaFormat(_model_base.Model):
     """Defines the response format for chat completions as JSON with a given schema.
     The AI model will need to adhere to this schema when generating completions.
+
+    All required parameters must be populated in order to send to server.
 
     :ivar name: A name that labels this JSON schema. Must be a-z, A-Z, 0-9, or contain underscores
      and dashes, with a maximum length of 64. Required.
@@ -1319,7 +1399,7 @@ class StreamingChatResponseMessageUpdate(_model_base.Model):
     """A representation of a chat message update as received in a streaming response.
 
     :ivar role: The chat role associated with the message. If present, should always be
-     'assistant'. Known values are: "system", "user", "assistant", and "tool".
+     'assistant'. Known values are: "system", "user", "assistant", "tool", and "developer".
     :vartype role: str or ~azure.ai.inference.models.ChatRole
     :ivar content: The content of the message.
     :vartype content: str
@@ -1331,7 +1411,7 @@ class StreamingChatResponseMessageUpdate(_model_base.Model):
 
     role: Optional[Union[str, "_models.ChatRole"]] = rest_field()
     """The chat role associated with the message. If present, should always be 'assistant'. Known
-     values are: \"system\", \"user\", \"assistant\", and \"tool\"."""
+     values are: \"system\", \"user\", \"assistant\", \"tool\", and \"developer\"."""
     content: Optional[str] = rest_field()
     """The content of the message."""
     tool_calls: Optional[List["_models.StreamingChatResponseToolCallUpdate"]] = rest_field()
@@ -1395,6 +1475,8 @@ class StreamingChatResponseToolCallUpdate(_model_base.Model):
 
 class TextContentItem(ContentItem, discriminator="text"):
     """A structured chat content item containing plain text.
+
+    All required parameters must be populated in order to send to server.
 
     :ivar type: The discriminated object type: always 'text' for this type. Required. Default value
      is "text".
