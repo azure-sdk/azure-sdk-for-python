@@ -1,0 +1,6 @@
+{
+  "commit": "985d9a014e6eb451627aa82ae3071aaa5f8d6c93",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/ai/Azure.AI.Telemetry",
+  "@azure-tools/typespec-python": "0.38.3"
+}
