@@ -1,0 +1,14 @@
+{
+    "CrossLanguagePackageId": "SpeechToText",
+    "CrossLanguageDefinitionId": {
+        "azure.ai.speechtotext.fasttranscription.models.ChannelCombinedPhrases": "SpeechToText.ChannelCombinedPhrases",
+        "azure.ai.speechtotext.fasttranscription.models.Phrase": "SpeechToText.Phrase",
+        "azure.ai.speechtotext.fasttranscription.models.TranscribeDefinition": "SpeechToText.TranscribeDefinition",
+        "azure.ai.speechtotext.fasttranscription.models.TranscribeDiarizationProperties": "SpeechToText.TranscribeDiarizationProperties",
+        "azure.ai.speechtotext.fasttranscription.models.TranscribeResult": "SpeechToText.TranscribeResult",
+        "azure.ai.speechtotext.fasttranscription.models.Word": "SpeechToText.Word",
+        "azure.ai.speechtotext.fasttranscription.models.ServiceApiVersions": "SpeechToText.ServiceApiVersions",
+        "azure.ai.speechtotext.fasttranscription.models.ProfanityFilterMode": "SpeechToText.ProfanityFilterMode",
+        "azure.ai.speechtotext.fasttranscription.SpeechToTextClient.fast_transcription.transcribe": "SpeechToText.FastTranscription.transcribe"
+    }
+}
