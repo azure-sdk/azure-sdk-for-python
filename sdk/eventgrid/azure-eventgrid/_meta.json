@@ -1,0 +1,6 @@
+{
+  "commit": "68ba40af061ad881ab93c54e35271b405180eb40",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/eventgrid/Azure.Messaging.EventGrid.SystemEvents",
+  "@azure-tools/typespec-python": "0.38.3"
+}
