@@ -1,3 +1,4 @@
+# pylint: disable=too-many-lines
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8,6 +9,12 @@
 
 from enum import Enum
 from azure.core import CaseInsensitiveEnumMeta
+
+
+class ActionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs."""
+
+    INTERNAL = "Internal"
 
 
 class AllocationStrategy(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -74,6 +81,15 @@ class ConsistencyModeTypes(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     CRASH_CONSISTENT = "CrashConsistent"
     FILE_SYSTEM_CONSISTENT = "FileSystemConsistent"
     APPLICATION_CONSISTENT = "ApplicationConsistent"
+
+
+class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The type of identity that created the resource."""
+
+    USER = "User"
+    APPLICATION = "Application"
+    MANAGED_IDENTITY = "ManagedIdentity"
+    KEY = "Key"
 
 
 class DedicatedHostLicenseTypes(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -166,8 +182,8 @@ class DiskDetachOptionTypes(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     detachment attempt of the data disk did not complete due to an unexpected failure from the
     virtual machine and the disk is still not released then use force-detach as a last resort
     option to detach the disk forcibly from the VM. All writes might not have been flushed when
-    using this detach behavior. To force-detach a data disk update toBeDetached to 'true' along
-    with setting detachOption: 'ForceDetach'.
+    using this detach behavior. **This feature is still in preview**. To force-detach a data disk
+    update toBeDetached to 'true' along with setting detachOption: 'ForceDetach'.
     """
 
     FORCE_DETACH = "ForceDetach"
@@ -284,8 +300,8 @@ class IPVersion(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
 
 class IPVersions(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Available from Api-Version 2019-07-01 onwards, it represents whether the specific
-    ipconfiguration is IPv4 or IPv6. Default is taken as IPv4. Possible values are: 'IPv4' and
+    """Available from Api-Version 2017-03-30 onwards, it represents whether the specific
+    ipconfiguration is IPv4 or IPv6. Default is taken as IPv4.  Possible values are: 'IPv4' and
     'IPv6'.
     """
 
@@ -409,7 +425,6 @@ class OrchestrationServiceNames(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The name of the service."""
 
     AUTOMATIC_REPAIRS = "AutomaticRepairs"
-    DUMMY_ORCHESTRATION_SERVICE_NAME = "DummyOrchestrationServiceName"
 
 
 class OrchestrationServiceState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -425,6 +440,16 @@ class OrchestrationServiceStateAction(str, Enum, metaclass=CaseInsensitiveEnumMe
 
     RESUME = "Resume"
     SUSPEND = "Suspend"
+
+
+class Origin(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit
+    logs UX. Default value is "user,system".
+    """
+
+    USER = "user"
+    SYSTEM = "system"
+    USER_SYSTEM = "user,system"
 
 
 class PatchAssessmentState(str, Enum, metaclass=CaseInsensitiveEnumMeta):

@@ -35,6 +35,15 @@ class ConfidentialVMEncryptionType(str, Enum, metaclass=CaseInsensitiveEnumMeta)
     NON_PERSISTED_TPM = "NonPersistedTPM"
 
 
+class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The type of identity that created the resource."""
+
+    USER = "User"
+    APPLICATION = "Application"
+    MANAGED_IDENTITY = "ManagedIdentity"
+    KEY = "Key"
+
+
 class EdgeZoneStorageAccountType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Specifies the storage account type to be used to store the image. This property is not
     updatable.
