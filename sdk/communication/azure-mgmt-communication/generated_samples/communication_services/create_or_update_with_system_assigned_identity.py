@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.communication import CommunicationServiceManagementClient
 
 """
@@ -41,6 +42,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/stable/2023-04-01/examples/communicationServices/createOrUpdateWithSystemAssignedIdentity.json
+# x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2024-09-01-preview/examples/communicationServices/createOrUpdateWithSystemAssignedIdentity.json
 if __name__ == "__main__":
     main()
