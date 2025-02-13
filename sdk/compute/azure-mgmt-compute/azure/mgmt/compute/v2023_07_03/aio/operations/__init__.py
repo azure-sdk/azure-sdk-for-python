@@ -13,17 +13,17 @@ if TYPE_CHECKING:
     from ._patch import *  # pylint: disable=unused-wildcard-import
 
 from ._operations import GalleriesOperations  # type: ignore
-from ._operations import GalleryImagesOperations  # type: ignore
-from ._operations import GalleryImageVersionsOperations  # type: ignore
-from ._operations import GalleryApplicationsOperations  # type: ignore
-from ._operations import GalleryApplicationVersionsOperations  # type: ignore
-from ._operations import GallerySharingProfileOperations  # type: ignore
-from ._operations import SharedGalleriesOperations  # type: ignore
-from ._operations import SharedGalleryImagesOperations  # type: ignore
-from ._operations import SharedGalleryImageVersionsOperations  # type: ignore
 from ._operations import CommunityGalleriesOperations  # type: ignore
 from ._operations import CommunityGalleryImagesOperations  # type: ignore
 from ._operations import CommunityGalleryImageVersionsOperations  # type: ignore
+from ._operations import SharedGalleriesOperations  # type: ignore
+from ._operations import SharedGalleryImagesOperations  # type: ignore
+from ._operations import SharedGalleryImageVersionsOperations  # type: ignore
+from ._operations import GalleryApplicationsOperations  # type: ignore
+from ._operations import GalleryApplicationVersionsOperations  # type: ignore
+from ._operations import GalleryImagesOperations  # type: ignore
+from ._operations import GalleryImageVersionsOperations  # type: ignore
+from ._operations import GallerySharingProfileOperations  # type: ignore
 
 from ._patch import __all__ as _patch_all
 from ._patch import *
@@ -31,17 +31,17 @@ from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
     "GalleriesOperations",
-    "GalleryImagesOperations",
-    "GalleryImageVersionsOperations",
-    "GalleryApplicationsOperations",
-    "GalleryApplicationVersionsOperations",
-    "GallerySharingProfileOperations",
-    "SharedGalleriesOperations",
-    "SharedGalleryImagesOperations",
-    "SharedGalleryImageVersionsOperations",
     "CommunityGalleriesOperations",
     "CommunityGalleryImagesOperations",
     "CommunityGalleryImageVersionsOperations",
+    "SharedGalleriesOperations",
+    "SharedGalleryImagesOperations",
+    "SharedGalleryImageVersionsOperations",
+    "GalleryApplicationsOperations",
+    "GalleryApplicationVersionsOperations",
+    "GalleryImagesOperations",
+    "GalleryImageVersionsOperations",
+    "GallerySharingProfileOperations",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])  # pyright: ignore
 _patch_sdk()
