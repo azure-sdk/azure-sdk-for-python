@@ -8,6 +8,7 @@
 
 from copy import deepcopy
 from typing import Any, TYPE_CHECKING
+from typing_extensions import Self
 
 from azure.core.pipeline import policies
 from azure.core.rest import HttpRequest, HttpResponse
@@ -34,11 +35,10 @@ from .operations import (
 )
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from azure.core.credentials import TokenCredential
 
 
-class HealthcareApisManagementClient:  # pylint: disable=client-accepts-api-version-keyword,too-many-instance-attributes
+class HealthcareApisManagementClient:  # pylint: disable=too-many-instance-attributes
     """Azure Healthcare APIs Client.
 
     :ivar services: ServicesOperations operations
@@ -79,8 +79,8 @@ class HealthcareApisManagementClient:  # pylint: disable=client-accepts-api-vers
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2024-03-31". Note that overriding this
-     default value may result in unsupported behavior.
+    :keyword api_version: Api Version. Default value is "2025-03-01-preview". Note that overriding
+     this default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
      Retry-After header is present.
@@ -173,7 +173,7 @@ class HealthcareApisManagementClient:  # pylint: disable=client-accepts-api-vers
     def close(self) -> None:
         self._client.close()
 
-    def __enter__(self) -> "HealthcareApisManagementClient":
+    def __enter__(self) -> Self:
         self._client.__enter__()
         return self
 

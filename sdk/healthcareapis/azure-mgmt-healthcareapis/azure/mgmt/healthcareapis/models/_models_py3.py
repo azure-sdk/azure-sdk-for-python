@@ -1,5 +1,5 @@
-# coding=utf-8
 # pylint: disable=too-many-lines
+# coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -16,10 +16,9 @@ from .. import _serialization
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 JSON = MutableMapping[str, Any]  # pylint: disable=unsubscriptable-object
 
@@ -303,7 +302,7 @@ class TaggedResource(ResourceTags, LocationBasedResource):
         self.tags = tags
 
 
-class DicomService(TaggedResource, ServiceManagedIdentity):  # pylint: disable=too-many-instance-attributes
+class DicomService(TaggedResource, ServiceManagedIdentity):
     """The description of Dicom Service.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -668,7 +667,7 @@ class ErrorDetailsInternal(_serialization.Model):
         self.target = None
 
 
-class FhirService(TaggedResource, ServiceManagedIdentity):  # pylint: disable=too-many-instance-attributes
+class FhirService(TaggedResource, ServiceManagedIdentity):
     """The description of Fhir Service.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1136,7 +1135,7 @@ class ImplementationGuidesConfiguration(_serialization.Model):
         self.us_core_missing_data = us_core_missing_data
 
 
-class IotConnector(TaggedResource, ServiceManagedIdentity):  # pylint: disable=too-many-instance-attributes
+class IotConnector(TaggedResource, ServiceManagedIdentity):
     """IoT Connector definition.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1683,7 +1682,7 @@ class MetricDimension(_serialization.Model):
         self.to_be_exported_for_shoebox = to_be_exported_for_shoebox
 
 
-class MetricSpecification(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class MetricSpecification(_serialization.Model):
     """Specifications of the Metrics for Azure Monitoring.
 
     :ivar name: Name of the metric.
@@ -3341,25 +3340,81 @@ class StorageConfiguration(_serialization.Model):
     :vartype storage_resource_id: str
     :ivar file_system_name: The filesystem name of connected storage account.
     :vartype file_system_name: str
+    :ivar storage_monitor_configuration: The configuration for monitoring changes in the specified
+     storage account.
+    :vartype storage_monitor_configuration:
+     ~azure.mgmt.healthcareapis.models.StorageMonitorConfiguration
     """
 
     _attribute_map = {
         "storage_resource_id": {"key": "storageResourceId", "type": "str"},
         "file_system_name": {"key": "fileSystemName", "type": "str"},
+        "storage_monitor_configuration": {"key": "storageMonitorConfiguration", "type": "StorageMonitorConfiguration"},
     }
 
     def __init__(
-        self, *, storage_resource_id: Optional[str] = None, file_system_name: Optional[str] = None, **kwargs: Any
+        self,
+        *,
+        storage_resource_id: Optional[str] = None,
+        file_system_name: Optional[str] = None,
+        storage_monitor_configuration: Optional["_models.StorageMonitorConfiguration"] = None,
+        **kwargs: Any
     ) -> None:
         """
         :keyword storage_resource_id: The resource id of connected storage account.
         :paramtype storage_resource_id: str
         :keyword file_system_name: The filesystem name of connected storage account.
         :paramtype file_system_name: str
+        :keyword storage_monitor_configuration: The configuration for monitoring changes in the
+         specified storage account.
+        :paramtype storage_monitor_configuration:
+         ~azure.mgmt.healthcareapis.models.StorageMonitorConfiguration
         """
         super().__init__(**kwargs)
         self.storage_resource_id = storage_resource_id
         self.file_system_name = file_system_name
+        self.storage_monitor_configuration = storage_monitor_configuration
+
+
+class StorageMonitorConfiguration(_serialization.Model):
+    """The configuration for monitoring changes in a connected storage.
+
+    :ivar namespace_resource_id: The resource id of the Azure Event Grid Namespace.
+    :vartype namespace_resource_id: str
+    :ivar topic_name: The name of the namespace topic within the specified namespace.
+    :vartype topic_name: str
+    :ivar event_subscription_name: The name of the event subscription associated with the given
+     namespace topic that contains storage events.
+    :vartype event_subscription_name: str
+    """
+
+    _attribute_map = {
+        "namespace_resource_id": {"key": "namespaceResourceId", "type": "str"},
+        "topic_name": {"key": "topicName", "type": "str"},
+        "event_subscription_name": {"key": "eventSubscriptionName", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        namespace_resource_id: Optional[str] = None,
+        topic_name: Optional[str] = None,
+        event_subscription_name: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword namespace_resource_id: The resource id of the Azure Event Grid Namespace.
+        :paramtype namespace_resource_id: str
+        :keyword topic_name: The name of the namespace topic within the specified namespace.
+        :paramtype topic_name: str
+        :keyword event_subscription_name: The name of the event subscription associated with the given
+         namespace topic that contains storage events.
+        :paramtype event_subscription_name: str
+        """
+        super().__init__(**kwargs)
+        self.namespace_resource_id = namespace_resource_id
+        self.topic_name = topic_name
+        self.event_subscription_name = event_subscription_name
 
 
 class SystemData(_serialization.Model):
