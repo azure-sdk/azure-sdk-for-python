@@ -36,13 +36,14 @@ def main():
         fleet_member_name="member-1",
         resource={
             "properties": {
-                "clusterResourceId": "/subscriptions/subid1/resourcegroups/rg1/providers/Microsoft.ContainerService/managedClusters/cluster-1"
+                "clusterResourceId": "/subscriptions/subid1/resourcegroups/rg1/providers/Microsoft.ContainerService/managedClusters/cluster-1",
+                "labels": {"environment": "production"},
             }
         },
     ).result()
     print(response)
 
 
-# x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/stable/2024-04-01/examples/FleetMembers_Create.json
+# x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/fleet/stable/2025-03-01/examples/FleetMembers_Create.json
 if __name__ == "__main__":
     main()
