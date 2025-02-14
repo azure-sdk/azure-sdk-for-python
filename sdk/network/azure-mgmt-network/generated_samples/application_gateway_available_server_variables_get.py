@@ -28,12 +28,13 @@ def main():
     client = NetworkManagementClient(
         credential=DefaultAzureCredential(),
         subscription_id="72f988bf-86f1-41af-91ab-2d7cd0dddd4",
+        base_url="BASE_URL",
     )
 
     response = client.application_gateways.list_available_server_variables()
     print(response)
 
 
-# x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/ApplicationGatewayAvailableServerVariablesGet.json
+# x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/ApplicationGatewayAvailableServerVariablesGet.json
 if __name__ == "__main__":
     main()
