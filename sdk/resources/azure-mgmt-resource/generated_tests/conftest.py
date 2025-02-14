@@ -18,17 +18,17 @@ from devtools_testutils import (
 load_dotenv()
 
 
-# aovid record sensitive identity information in recordings
+# For security, please avoid record sensitive identity information in recordings
 @pytest.fixture(scope="session", autouse=True)
 def add_sanitizers(test_proxy):
-    databoundarymgmt_subscription_id = os.environ.get("AZURE_SUBSCRIPTION_ID", "00000000-0000-0000-0000-000000000000")
-    databoundarymgmt_tenant_id = os.environ.get("AZURE_TENANT_ID", "00000000-0000-0000-0000-000000000000")
-    databoundarymgmt_client_id = os.environ.get("AZURE_CLIENT_ID", "00000000-0000-0000-0000-000000000000")
-    databoundarymgmt_client_secret = os.environ.get("AZURE_CLIENT_SECRET", "00000000-0000-0000-0000-000000000000")
-    add_general_regex_sanitizer(regex=databoundarymgmt_subscription_id, value="00000000-0000-0000-0000-000000000000")
-    add_general_regex_sanitizer(regex=databoundarymgmt_tenant_id, value="00000000-0000-0000-0000-000000000000")
-    add_general_regex_sanitizer(regex=databoundarymgmt_client_id, value="00000000-0000-0000-0000-000000000000")
-    add_general_regex_sanitizer(regex=databoundarymgmt_client_secret, value="00000000-0000-0000-0000-000000000000")
+    bicep_subscription_id = os.environ.get("AZURE_SUBSCRIPTION_ID", "00000000-0000-0000-0000-000000000000")
+    bicep_tenant_id = os.environ.get("AZURE_TENANT_ID", "00000000-0000-0000-0000-000000000000")
+    bicep_client_id = os.environ.get("AZURE_CLIENT_ID", "00000000-0000-0000-0000-000000000000")
+    bicep_client_secret = os.environ.get("AZURE_CLIENT_SECRET", "00000000-0000-0000-0000-000000000000")
+    add_general_regex_sanitizer(regex=bicep_subscription_id, value="00000000-0000-0000-0000-000000000000")
+    add_general_regex_sanitizer(regex=bicep_tenant_id, value="00000000-0000-0000-0000-000000000000")
+    add_general_regex_sanitizer(regex=bicep_client_id, value="00000000-0000-0000-0000-000000000000")
+    add_general_regex_sanitizer(regex=bicep_client_secret, value="00000000-0000-0000-0000-000000000000")
 
     add_header_regex_sanitizer(key="Set-Cookie", value="[set-cookie;]")
     add_header_regex_sanitizer(key="Cookie", value="cookie;")
