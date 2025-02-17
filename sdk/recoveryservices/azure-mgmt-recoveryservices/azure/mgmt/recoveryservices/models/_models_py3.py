@@ -1,5 +1,5 @@
-# coding=utf-8
 # pylint: disable=too-many-lines
+# coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -13,8 +13,43 @@ from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 from .. import _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
+
+
+class AssociatedIdentity(_serialization.Model):
+    """Identity details to be used for an operation.
+
+    :ivar operation_identity_type: Identity type that should be used for an operation. Known values
+     are: "SystemAssigned" and "UserAssigned".
+    :vartype operation_identity_type: str or ~azure.mgmt.recoveryservices.models.IdentityType
+    :ivar user_assigned_identity: User assigned identity to be used for an operation if
+     operationIdentityType is UserAssigned.
+    :vartype user_assigned_identity: str
+    """
+
+    _attribute_map = {
+        "operation_identity_type": {"key": "operationIdentityType", "type": "str"},
+        "user_assigned_identity": {"key": "userAssignedIdentity", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        operation_identity_type: Optional[Union[str, "_models.IdentityType"]] = None,
+        user_assigned_identity: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword operation_identity_type: Identity type that should be used for an operation. Known
+         values are: "SystemAssigned" and "UserAssigned".
+        :paramtype operation_identity_type: str or ~azure.mgmt.recoveryservices.models.IdentityType
+        :keyword user_assigned_identity: User assigned identity to be used for an operation if
+         operationIdentityType is UserAssigned.
+        :paramtype user_assigned_identity: str
+        """
+        super().__init__(**kwargs)
+        self.operation_identity_type = operation_identity_type
+        self.user_assigned_identity = user_assigned_identity
 
 
 class AzureMonitorAlertSettings(_serialization.Model):
@@ -1725,7 +1760,7 @@ class ResourceCertificateDetails(_serialization.Model):
         self.valid_to = valid_to
 
 
-class ResourceCertificateAndAadDetails(ResourceCertificateDetails):  # pylint: disable=too-many-instance-attributes
+class ResourceCertificateAndAadDetails(ResourceCertificateDetails):
     """Certificate details representing the Vault credentials for AAD.
 
     All required parameters must be populated in order to send to server.
@@ -1866,7 +1901,7 @@ class ResourceCertificateAndAadDetails(ResourceCertificateDetails):  # pylint: d
         self.aad_audience = aad_audience
 
 
-class ResourceCertificateAndAcsDetails(ResourceCertificateDetails):  # pylint: disable=too-many-instance-attributes
+class ResourceCertificateAndAcsDetails(ResourceCertificateDetails):
     """Certificate details representing the Vault credentials for ACS.
 
     All required parameters must be populated in order to send to server.
@@ -2020,6 +2055,8 @@ class SecuritySettings(_serialization.Model):
      "Enabled", and "Disabled".
     :vartype multi_user_authorization: str or
      ~azure.mgmt.recoveryservices.models.MultiUserAuthorization
+    :ivar source_scan_configuration: Source scan configuration of vault.
+    :vartype source_scan_configuration: ~azure.mgmt.recoveryservices.models.SourceScanConfiguration
     """
 
     _validation = {
@@ -2030,6 +2067,7 @@ class SecuritySettings(_serialization.Model):
         "immutability_settings": {"key": "immutabilitySettings", "type": "ImmutabilitySettings"},
         "soft_delete_settings": {"key": "softDeleteSettings", "type": "SoftDeleteSettings"},
         "multi_user_authorization": {"key": "multiUserAuthorization", "type": "str"},
+        "source_scan_configuration": {"key": "sourceScanConfiguration", "type": "SourceScanConfiguration"},
     }
 
     def __init__(
@@ -2037,6 +2075,7 @@ class SecuritySettings(_serialization.Model):
         *,
         immutability_settings: Optional["_models.ImmutabilitySettings"] = None,
         soft_delete_settings: Optional["_models.SoftDeleteSettings"] = None,
+        source_scan_configuration: Optional["_models.SourceScanConfiguration"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -2044,11 +2083,15 @@ class SecuritySettings(_serialization.Model):
         :paramtype immutability_settings: ~azure.mgmt.recoveryservices.models.ImmutabilitySettings
         :keyword soft_delete_settings: Soft delete Settings of a vault.
         :paramtype soft_delete_settings: ~azure.mgmt.recoveryservices.models.SoftDeleteSettings
+        :keyword source_scan_configuration: Source scan configuration of vault.
+        :paramtype source_scan_configuration:
+         ~azure.mgmt.recoveryservices.models.SourceScanConfiguration
         """
         super().__init__(**kwargs)
         self.immutability_settings = immutability_settings
         self.soft_delete_settings = soft_delete_settings
         self.multi_user_authorization = None
+        self.source_scan_configuration = source_scan_configuration
 
 
 class Sku(_serialization.Model):
@@ -2157,6 +2200,38 @@ class SoftDeleteSettings(_serialization.Model):
         self.soft_delete_state = soft_delete_state
         self.soft_delete_retention_period_in_days = soft_delete_retention_period_in_days
         self.enhanced_security_state = enhanced_security_state
+
+
+class SourceScanConfiguration(_serialization.Model):
+    """Source scan configuration of vault.
+
+    :ivar state: Known values are: "Invalid", "Enabled", and "Disabled".
+    :vartype state: str or ~azure.mgmt.recoveryservices.models.State
+    :ivar source_scan_identity: Identity details to be used for an operation.
+    :vartype source_scan_identity: ~azure.mgmt.recoveryservices.models.AssociatedIdentity
+    """
+
+    _attribute_map = {
+        "state": {"key": "state", "type": "str"},
+        "source_scan_identity": {"key": "sourceScanIdentity", "type": "AssociatedIdentity"},
+    }
+
+    def __init__(
+        self,
+        *,
+        state: Optional[Union[str, "_models.State"]] = None,
+        source_scan_identity: Optional["_models.AssociatedIdentity"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword state: Known values are: "Invalid", "Enabled", and "Disabled".
+        :paramtype state: str or ~azure.mgmt.recoveryservices.models.State
+        :keyword source_scan_identity: Identity details to be used for an operation.
+        :paramtype source_scan_identity: ~azure.mgmt.recoveryservices.models.AssociatedIdentity
+        """
+        super().__init__(**kwargs)
+        self.state = state
+        self.source_scan_identity = source_scan_identity
 
 
 class SystemData(_serialization.Model):
@@ -2595,7 +2670,7 @@ class VaultList(_serialization.Model):
         self.next_link = None
 
 
-class VaultProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class VaultProperties(_serialization.Model):
     """Properties of the vault.
 
     Variables are only populated by the server, and will be ignored when sending a request.
