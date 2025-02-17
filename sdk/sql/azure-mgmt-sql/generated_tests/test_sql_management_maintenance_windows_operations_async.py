@@ -21,7 +21,7 @@ class TestSqlManagementMaintenanceWindowsOperationsAsync(AzureMgmtRecordedTestCa
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get(self, resource_group):
+    async def test_maintenance_windows_get(self, resource_group):
         response = await self.client.maintenance_windows.get(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -35,7 +35,7 @@ class TestSqlManagementMaintenanceWindowsOperationsAsync(AzureMgmtRecordedTestCa
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_create_or_update(self, resource_group):
+    async def test_maintenance_windows_create_or_update(self, resource_group):
         response = await self.client.maintenance_windows.create_or_update(
             resource_group_name=resource_group.name,
             server_name="str",

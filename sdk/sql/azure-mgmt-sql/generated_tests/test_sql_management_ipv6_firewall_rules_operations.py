@@ -20,7 +20,7 @@ class TestSqlManagementIPv6FirewallRulesOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_server(self, resource_group):
+    def test_ipv6_firewall_rules_list_by_server(self, resource_group):
         response = self.client.ipv6_firewall_rules.list_by_server(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -32,7 +32,7 @@ class TestSqlManagementIPv6FirewallRulesOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_ipv6_firewall_rules_get(self, resource_group):
         response = self.client.ipv6_firewall_rules.get(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -45,7 +45,7 @@ class TestSqlManagementIPv6FirewallRulesOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_create_or_update(self, resource_group):
+    def test_ipv6_firewall_rules_create_or_update(self, resource_group):
         response = self.client.ipv6_firewall_rules.create_or_update(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -59,7 +59,7 @@ class TestSqlManagementIPv6FirewallRulesOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_delete(self, resource_group):
+    def test_ipv6_firewall_rules_delete(self, resource_group):
         response = self.client.ipv6_firewall_rules.delete(
             resource_group_name=resource_group.name,
             server_name="str",

@@ -20,7 +20,7 @@ class TestSqlManagementManagedInstancesOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list(self, resource_group):
+    def test_managed_instances_list(self, resource_group):
         response = self.client.managed_instances.list(
             api_version="2023-05-01-preview",
         )
@@ -30,7 +30,7 @@ class TestSqlManagementManagedInstancesOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_instance_pool(self, resource_group):
+    def test_managed_instances_list_by_instance_pool(self, resource_group):
         response = self.client.managed_instances.list_by_instance_pool(
             resource_group_name=resource_group.name,
             instance_pool_name="str",
@@ -42,7 +42,7 @@ class TestSqlManagementManagedInstancesOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_resource_group(self, resource_group):
+    def test_managed_instances_list_by_resource_group(self, resource_group):
         response = self.client.managed_instances.list_by_resource_group(
             resource_group_name=resource_group.name,
             api_version="2023-05-01-preview",
@@ -53,7 +53,7 @@ class TestSqlManagementManagedInstancesOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_managed_instances_get(self, resource_group):
         response = self.client.managed_instances.get(
             resource_group_name=resource_group.name,
             managed_instance_name="str",
@@ -65,7 +65,7 @@ class TestSqlManagementManagedInstancesOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_create_or_update(self, resource_group):
+    def test_managed_instances_begin_create_or_update(self, resource_group):
         response = self.client.managed_instances.begin_create_or_update(
             resource_group_name=resource_group.name,
             managed_instance_name="str",
@@ -151,7 +151,7 @@ class TestSqlManagementManagedInstancesOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_delete(self, resource_group):
+    def test_managed_instances_begin_delete(self, resource_group):
         response = self.client.managed_instances.begin_delete(
             resource_group_name=resource_group.name,
             managed_instance_name="str",
@@ -163,7 +163,7 @@ class TestSqlManagementManagedInstancesOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_update(self, resource_group):
+    def test_managed_instances_begin_update(self, resource_group):
         response = self.client.managed_instances.begin_update(
             resource_group_name=resource_group.name,
             managed_instance_name="str",
@@ -245,7 +245,7 @@ class TestSqlManagementManagedInstancesOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_failover(self, resource_group):
+    def test_managed_instances_begin_failover(self, resource_group):
         response = self.client.managed_instances.begin_failover(
             resource_group_name=resource_group.name,
             managed_instance_name="str",
@@ -257,7 +257,7 @@ class TestSqlManagementManagedInstancesOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_outbound_network_dependencies_by_managed_instance(self, resource_group):
+    def test_managed_instances_list_outbound_network_dependencies_by_managed_instance(self, resource_group):
         response = self.client.managed_instances.list_outbound_network_dependencies_by_managed_instance(
             resource_group_name=resource_group.name,
             managed_instance_name="str",
@@ -269,7 +269,7 @@ class TestSqlManagementManagedInstancesOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_refresh_status(self, resource_group):
+    def test_managed_instances_begin_refresh_status(self, resource_group):
         response = self.client.managed_instances.begin_refresh_status(
             resource_group_name=resource_group.name,
             managed_instance_name="str",
@@ -281,7 +281,7 @@ class TestSqlManagementManagedInstancesOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_start(self, resource_group):
+    def test_managed_instances_begin_start(self, resource_group):
         response = self.client.managed_instances.begin_start(
             resource_group_name=resource_group.name,
             managed_instance_name="str",
@@ -293,7 +293,7 @@ class TestSqlManagementManagedInstancesOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_stop(self, resource_group):
+    def test_managed_instances_begin_stop(self, resource_group):
         response = self.client.managed_instances.begin_stop(
             resource_group_name=resource_group.name,
             managed_instance_name="str",
@@ -305,7 +305,7 @@ class TestSqlManagementManagedInstancesOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_managed_instance(self, resource_group):
+    def test_managed_instances_list_by_managed_instance(self, resource_group):
         response = self.client.managed_instances.list_by_managed_instance(
             resource_group_name=resource_group.name,
             managed_instance_name="str",

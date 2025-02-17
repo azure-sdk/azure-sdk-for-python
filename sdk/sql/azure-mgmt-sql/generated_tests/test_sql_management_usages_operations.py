@@ -20,7 +20,7 @@ class TestSqlManagementUsagesOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_instance_pool(self, resource_group):
+    def test_usages_list_by_instance_pool(self, resource_group):
         response = self.client.usages.list_by_instance_pool(
             resource_group_name=resource_group.name,
             instance_pool_name="str",
