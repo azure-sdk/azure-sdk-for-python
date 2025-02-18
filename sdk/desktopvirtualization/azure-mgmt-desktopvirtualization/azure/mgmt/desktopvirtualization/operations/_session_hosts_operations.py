@@ -1,4 +1,3 @@
-# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8,7 +7,7 @@
 # --------------------------------------------------------------------------
 from io import IOBase
 import sys
-from typing import Any, Callable, Dict, IO, Iterable, Optional, Type, TypeVar, Union, overload
+from typing import Any, Callable, Dict, IO, Iterable, Optional, TypeVar, Union, overload
 import urllib.parse
 
 from azure.core.exceptions import (
@@ -32,7 +31,7 @@ from .._serialization import Serializer
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
 
@@ -46,7 +45,7 @@ def build_get_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-04-03"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-11-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -60,7 +59,7 @@ def build_get_request(
             "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
         "hostPoolName": _SERIALIZER.url(
-            "host_pool_name", host_pool_name, "str", max_length=64, min_length=3, pattern=r"^[A-Za-z0-9@.\-_ ]*$"
+            "host_pool_name", host_pool_name, "str", max_length=255, min_length=1, pattern=r"^[A-Za-z0-9@.\-_ ]*$"
         ),
         "sessionHostName": _SERIALIZER.url(
             "session_host_name", session_host_name, "str", max_length=48, min_length=3, pattern=r"^[A-Za-z0-9@.\-_ ]*$"
@@ -90,7 +89,7 @@ def build_delete_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-04-03"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-11-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -104,7 +103,7 @@ def build_delete_request(
             "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
         "hostPoolName": _SERIALIZER.url(
-            "host_pool_name", host_pool_name, "str", max_length=64, min_length=3, pattern=r"^[A-Za-z0-9@.\-_ ]*$"
+            "host_pool_name", host_pool_name, "str", max_length=255, min_length=1, pattern=r"^[A-Za-z0-9@.\-_ ]*$"
         ),
         "sessionHostName": _SERIALIZER.url(
             "session_host_name", session_host_name, "str", max_length=48, min_length=3, pattern=r"^[A-Za-z0-9@.\-_ ]*$"
@@ -136,7 +135,7 @@ def build_update_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-04-03"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-11-01-preview"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -151,7 +150,7 @@ def build_update_request(
             "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
         "hostPoolName": _SERIALIZER.url(
-            "host_pool_name", host_pool_name, "str", max_length=64, min_length=3, pattern=r"^[A-Za-z0-9@.\-_ ]*$"
+            "host_pool_name", host_pool_name, "str", max_length=255, min_length=1, pattern=r"^[A-Za-z0-9@.\-_ ]*$"
         ),
         "sessionHostName": _SERIALIZER.url(
             "session_host_name", session_host_name, "str", max_length=48, min_length=3, pattern=r"^[A-Za-z0-9@.\-_ ]*$"
@@ -181,12 +180,13 @@ def build_list_request(
     page_size: Optional[int] = None,
     is_descending: Optional[bool] = None,
     initial_skip: Optional[int] = None,
+    vm_path: Optional[str] = None,
     **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-04-03"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-11-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -200,7 +200,7 @@ def build_list_request(
             "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
         "hostPoolName": _SERIALIZER.url(
-            "host_pool_name", host_pool_name, "str", max_length=64, min_length=3, pattern=r"^[A-Za-z0-9@.\-_ ]*$"
+            "host_pool_name", host_pool_name, "str", max_length=255, min_length=1, pattern=r"^[A-Za-z0-9@.\-_ ]*$"
         ),
     }
 
@@ -214,6 +214,10 @@ def build_list_request(
         _params["isDescending"] = _SERIALIZER.query("is_descending", is_descending, "bool")
     if initial_skip is not None:
         _params["initialSkip"] = _SERIALIZER.query("initial_skip", initial_skip, "int")
+    if vm_path is not None:
+        _params["vmPath"] = _SERIALIZER.query(
+            "vm_path", vm_path, "str", max_length=1092, min_length=3, pattern=r"^[A-Z][a-z][0-9][@./-_ ]*$"
+        )
 
     # Construct headers
     _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
@@ -258,7 +262,7 @@ class SessionHostsOperations:
         :rtype: ~azure.mgmt.desktopvirtualization.models.SessionHost
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -327,7 +331,7 @@ class SessionHostsOperations:
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -467,7 +471,7 @@ class SessionHostsOperations:
         :rtype: ~azure.mgmt.desktopvirtualization.models.SessionHost
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -534,6 +538,7 @@ class SessionHostsOperations:
         page_size: Optional[int] = None,
         is_descending: Optional[bool] = None,
         initial_skip: Optional[int] = None,
+        vm_path: Optional[str] = None,
         **kwargs: Any
     ) -> Iterable["_models.SessionHost"]:
         """List sessionHosts.
@@ -549,6 +554,8 @@ class SessionHostsOperations:
         :type is_descending: bool
         :param initial_skip: Initial number of items to skip. Default value is None.
         :type initial_skip: int
+        :param vm_path: The path to the VM. Default value is None.
+        :type vm_path: str
         :return: An iterator like instance of either SessionHost or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.desktopvirtualization.models.SessionHost]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -559,7 +566,7 @@ class SessionHostsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.SessionHostList] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -577,6 +584,7 @@ class SessionHostsOperations:
                     page_size=page_size,
                     is_descending=is_descending,
                     initial_skip=initial_skip,
+                    vm_path=vm_path,
                     api_version=api_version,
                     headers=_headers,
                     params=_params,

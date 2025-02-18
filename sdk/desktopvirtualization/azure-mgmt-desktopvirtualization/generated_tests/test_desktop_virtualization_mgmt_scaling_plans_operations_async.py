@@ -21,11 +21,11 @@ class TestDesktopVirtualizationMgmtScalingPlansOperationsAsync(AzureMgmtRecorded
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get(self, resource_group):
+    async def test_scaling_plans_get(self, resource_group):
         response = await self.client.scaling_plans.get(
             resource_group_name=resource_group.name,
             scaling_plan_name="str",
-            api_version="2024-04-03",
+            api_version="2024-11-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -33,7 +33,7 @@ class TestDesktopVirtualizationMgmtScalingPlansOperationsAsync(AzureMgmtRecorded
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_create(self, resource_group):
+    async def test_scaling_plans_create(self, resource_group):
         response = await self.client.scaling_plans.create(
             resource_group_name=resource_group.name,
             scaling_plan_name="str",
@@ -47,7 +47,12 @@ class TestDesktopVirtualizationMgmtScalingPlansOperationsAsync(AzureMgmtRecorded
                 "hostPoolReferences": [{"hostPoolArmPath": "str", "scalingPlanEnabled": bool}],
                 "hostPoolType": "Pooled",
                 "id": "str",
-                "identity": {"principalId": "str", "tenantId": "str", "type": "SystemAssigned"},
+                "identity": {
+                    "type": "str",
+                    "principalId": "str",
+                    "tenantId": "str",
+                    "userAssignedIdentities": {"str": {"clientId": "str", "principalId": "str"}},
+                },
                 "kind": "str",
                 "managedBy": "str",
                 "name": "str",
@@ -55,6 +60,12 @@ class TestDesktopVirtualizationMgmtScalingPlansOperationsAsync(AzureMgmtRecorded
                 "plan": {"name": "str", "product": "str", "publisher": "str", "promotionCode": "str", "version": "str"},
                 "schedules": [
                     {
+                        "createDelete": {
+                            "rampDownMaximumHostPoolSize": 0,
+                            "rampDownMinimumHostPoolSize": 0,
+                            "rampUpMaximumHostPoolSize": 0,
+                            "rampUpMinimumHostPoolSize": 0,
+                        },
                         "daysOfWeek": ["str"],
                         "name": "str",
                         "offPeakLoadBalancingAlgorithm": "str",
@@ -73,6 +84,7 @@ class TestDesktopVirtualizationMgmtScalingPlansOperationsAsync(AzureMgmtRecorded
                         "rampUpLoadBalancingAlgorithm": "str",
                         "rampUpMinimumHostsPct": 0,
                         "rampUpStartTime": {"hour": 0, "minute": 0},
+                        "scalingMethod": "str",
                     }
                 ],
                 "sku": {"name": "str", "capacity": 0, "family": "str", "size": "str", "tier": "str"},
@@ -87,7 +99,7 @@ class TestDesktopVirtualizationMgmtScalingPlansOperationsAsync(AzureMgmtRecorded
                 "tags": {"str": "str"},
                 "type": "str",
             },
-            api_version="2024-04-03",
+            api_version="2024-11-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -95,11 +107,11 @@ class TestDesktopVirtualizationMgmtScalingPlansOperationsAsync(AzureMgmtRecorded
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_delete(self, resource_group):
+    async def test_scaling_plans_delete(self, resource_group):
         response = await self.client.scaling_plans.delete(
             resource_group_name=resource_group.name,
             scaling_plan_name="str",
-            api_version="2024-04-03",
+            api_version="2024-11-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -107,11 +119,11 @@ class TestDesktopVirtualizationMgmtScalingPlansOperationsAsync(AzureMgmtRecorded
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_update(self, resource_group):
+    async def test_scaling_plans_update(self, resource_group):
         response = await self.client.scaling_plans.update(
             resource_group_name=resource_group.name,
             scaling_plan_name="str",
-            api_version="2024-04-03",
+            api_version="2024-11-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -119,10 +131,10 @@ class TestDesktopVirtualizationMgmtScalingPlansOperationsAsync(AzureMgmtRecorded
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_by_resource_group(self, resource_group):
+    async def test_scaling_plans_list_by_resource_group(self, resource_group):
         response = self.client.scaling_plans.list_by_resource_group(
             resource_group_name=resource_group.name,
-            api_version="2024-04-03",
+            api_version="2024-11-01-preview",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -130,9 +142,9 @@ class TestDesktopVirtualizationMgmtScalingPlansOperationsAsync(AzureMgmtRecorded
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_by_subscription(self, resource_group):
+    async def test_scaling_plans_list_by_subscription(self, resource_group):
         response = self.client.scaling_plans.list_by_subscription(
-            api_version="2024-04-03",
+            api_version="2024-11-01-preview",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -140,11 +152,11 @@ class TestDesktopVirtualizationMgmtScalingPlansOperationsAsync(AzureMgmtRecorded
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_by_host_pool(self, resource_group):
+    async def test_scaling_plans_list_by_host_pool(self, resource_group):
         response = self.client.scaling_plans.list_by_host_pool(
             resource_group_name=resource_group.name,
             host_pool_name="str",
-            api_version="2024-04-03",
+            api_version="2024-11-01-preview",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself

@@ -1,4 +1,3 @@
-# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8,7 +7,7 @@
 # --------------------------------------------------------------------------
 from io import IOBase
 import sys
-from typing import Any, AsyncIterable, Callable, Dict, IO, Optional, Type, TypeVar, Union, overload
+from typing import Any, AsyncIterable, Callable, Dict, IO, Optional, TypeVar, Union, overload
 import urllib.parse
 
 from azure.core.async_paging import AsyncItemPaged, AsyncList
@@ -38,7 +37,7 @@ from ...operations._session_hosts_operations import (
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -80,7 +79,7 @@ class SessionHostsOperations:
         :rtype: ~azure.mgmt.desktopvirtualization.models.SessionHost
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -124,7 +123,7 @@ class SessionHostsOperations:
         return deserialized  # type: ignore
 
     @distributed_trace_async
-    async def delete(  # pylint: disable=inconsistent-return-statements
+    async def delete(
         self,
         resource_group_name: str,
         host_pool_name: str,
@@ -149,7 +148,7 @@ class SessionHostsOperations:
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -289,7 +288,7 @@ class SessionHostsOperations:
         :rtype: ~azure.mgmt.desktopvirtualization.models.SessionHost
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -356,6 +355,7 @@ class SessionHostsOperations:
         page_size: Optional[int] = None,
         is_descending: Optional[bool] = None,
         initial_skip: Optional[int] = None,
+        vm_path: Optional[str] = None,
         **kwargs: Any
     ) -> AsyncIterable["_models.SessionHost"]:
         """List sessionHosts.
@@ -371,6 +371,8 @@ class SessionHostsOperations:
         :type is_descending: bool
         :param initial_skip: Initial number of items to skip. Default value is None.
         :type initial_skip: int
+        :param vm_path: The path to the VM. Default value is None.
+        :type vm_path: str
         :return: An iterator like instance of either SessionHost or the result of cls(response)
         :rtype:
          ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.desktopvirtualization.models.SessionHost]
@@ -382,7 +384,7 @@ class SessionHostsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.SessionHostList] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -400,6 +402,7 @@ class SessionHostsOperations:
                     page_size=page_size,
                     is_descending=is_descending,
                     initial_skip=initial_skip,
+                    vm_path=vm_path,
                     api_version=api_version,
                     headers=_headers,
                     params=_params,
