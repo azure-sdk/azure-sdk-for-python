@@ -16,11 +16,11 @@ class ActionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     INTERNAL = "Internal"
 
 
-class CheckNameAvailabilityReason(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The reason why the given name is not available."""
+class AuthCredentialsKind(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Enum for different types of AuthCredentials supported."""
 
-    INVALID = "Invalid"
-    ALREADY_EXISTS = "AlreadyExists"
+    O_AUTH_CLIENT_CREDENTIALS = "OAuthClientCredentials"
+    API_KEY_AUTH_CREDENTIALS = "ApiKeyAuthCredentials"
 
 
 class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -60,17 +60,18 @@ class PrivateEndpointServiceConnectionStatus(str, Enum, metaclass=CaseInsensitiv
 
 
 class ProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Sensor integration instance provisioning state."""
+    """Data Manager For Agriculture instance provisioning state."""
 
     CREATING = "Creating"
     UPDATING = "Updating"
     DELETING = "Deleting"
     SUCCEEDED = "Succeeded"
     FAILED = "Failed"
+    RUNNING = "Running"
 
 
 class PublicNetworkAccess(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Property to allow or block public traffic for an Azure FarmBeats resource."""
+    """Property to allow or block public traffic for an Azure Data Manager For Agriculture resource."""
 
     ENABLED = "Enabled"
-    HYBRID = "Hybrid"
+    DISABLED = "Disabled"
