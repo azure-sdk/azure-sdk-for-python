@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # ------------------------------------
 # Copyright (c) Microsoft Corporation.
 # Licensed under the MIT License.
@@ -46,9 +47,7 @@ async def run_sample():
     # Let's create a certificate for your key vault.
     # if the certificate already exists in the Key Vault, then a new version of the certificate is created.
     # Awaiting the call returns a KeyVaultCertificate if creation is successful, and a CertificateOperation if not.
-    certificate = await client.create_certificate(
-        certificate_name=cert_name, policy=CertificatePolicy.get_default()
-    )
+    certificate = await client.create_certificate(certificate_name=cert_name, policy=CertificatePolicy.get_default())
 
     print(f"Certificate with name '{certificate.name}' created.")
 

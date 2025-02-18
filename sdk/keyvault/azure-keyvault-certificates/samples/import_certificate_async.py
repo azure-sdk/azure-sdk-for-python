@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # ------------------------------------
 # Copyright (c) Microsoft Corporation.
 # Licensed under the MIT License.
@@ -30,6 +31,7 @@ from azure.keyvault.certificates.aio import CertificateClient
 # 2. Import an existing PEM-formatted certificate (import_certificate)
 #
 # ----------------------------------------------------------------------------------------------------------
+
 
 async def run_sample():
     # Instantiate a certificate client that will be used to call the service.
@@ -64,6 +66,7 @@ async def run_sample():
 
     await credential.close()
     await client.close()
+
 
 if __name__ == "__main__":
     asyncio.run(run_sample())
