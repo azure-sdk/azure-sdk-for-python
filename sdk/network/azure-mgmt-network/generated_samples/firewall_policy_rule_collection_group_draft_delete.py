@@ -28,6 +28,7 @@ def main():
     client = NetworkManagementClient(
         credential=DefaultAzureCredential(),
         subscription_id="subid",
+        base_url="BASE_URL",
     )
 
     client.firewall_policy_rule_collection_group_drafts.delete(
@@ -37,6 +38,6 @@ def main():
     )
 
 
-# x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/FirewallPolicyRuleCollectionGroupDraftDelete.json
+# x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/FirewallPolicyRuleCollectionGroupDraftDelete.json
 if __name__ == "__main__":
     main()
