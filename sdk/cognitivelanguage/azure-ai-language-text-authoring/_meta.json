@@ -1,0 +1,6 @@
+{
+  "commit": "9bc056657f7b73ede802cee645b0aeb98c6d33cd",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/cognitiveservices/Language.AnalyzeText-authoring",
+  "@azure-tools/typespec-python": "0.38.4"
+}
