@@ -15,7 +15,7 @@ from azure.mgmt.appplatform import AppPlatformManagementClient
     pip install azure-identity
     pip install azure-mgmt-appplatform
 # USAGE
-    python services_create_or_update.py
+    python config_servers_get_consumption.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -30,14 +30,13 @@ def main():
         subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.services.begin_create_or_update(
+    response = client.config_servers.get(
         resource_group_name="myResourceGroup",
         service_name="myservice",
-        resource={"location": "eastus", "sku": {"name": "S0", "tier": "Standard"}, "tags": {"key1": "value1"}},
-    ).result()
+    )
     print(response)
 
 
-# x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/stable/2023-12-01/examples/Services_CreateOrUpdate.json
+# x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2024-05-01-preview/examples/ConfigServers_Get_Consumption.json
 if __name__ == "__main__":
     main()
