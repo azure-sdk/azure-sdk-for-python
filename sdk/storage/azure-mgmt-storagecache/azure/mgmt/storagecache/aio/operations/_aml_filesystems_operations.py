@@ -1,4 +1,3 @@
-# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,7 +6,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-from typing import Any, AsyncIterable, Callable, Dict, IO, Optional, TypeVar, Union, cast, overload
+import sys
+from typing import Any, AsyncIterable, AsyncIterator, Callable, Dict, IO, Optional, TypeVar, Union, cast, overload
 import urllib.parse
 
 from azure.core.async_paging import AsyncItemPaged, AsyncList
@@ -17,12 +17,13 @@ from azure.core.exceptions import (
     ResourceExistsError,
     ResourceNotFoundError,
     ResourceNotModifiedError,
+    StreamClosedError,
+    StreamConsumedError,
     map_error,
 )
 from azure.core.pipeline import PipelineResponse
-from azure.core.pipeline.transport import AsyncHttpResponse
 from azure.core.polling import AsyncLROPoller, AsyncNoPolling, AsyncPollingMethod
-from azure.core.rest import HttpRequest
+from azure.core.rest import AsyncHttpResponse, HttpRequest
 from azure.core.tracing.decorator import distributed_trace
 from azure.core.tracing.decorator_async import distributed_trace_async
 from azure.core.utils import case_insensitive_dict
@@ -30,7 +31,6 @@ from azure.mgmt.core.exceptions import ARMErrorFormat
 from azure.mgmt.core.polling.async_arm_polling import AsyncARMPolling
 
 from ... import models as _models
-from ..._vendor import _convert_request
 from ...operations._aml_filesystems_operations import (
     build_archive_request,
     build_cancel_archive_request,
@@ -41,8 +41,11 @@ from ...operations._aml_filesystems_operations import (
     build_list_request,
     build_update_request,
 )
-from .._vendor import StorageCacheManagementClientMixinABC
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -80,7 +83,7 @@ class AmlFilesystemsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.AmlFilesystemsListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -97,7 +100,6 @@ class AmlFilesystemsOperations:
                     headers=_headers,
                     params=_params,
                 )
-                _request = _convert_request(_request)
                 _request.url = self._client.format_url(_request.url)
 
             else:
@@ -113,7 +115,6 @@ class AmlFilesystemsOperations:
                 _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                _request = _convert_request(_request)
                 _request.url = self._client.format_url(_request.url)
                 _request.method = "GET"
             return _request
@@ -159,7 +160,7 @@ class AmlFilesystemsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.AmlFilesystemsListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -177,7 +178,6 @@ class AmlFilesystemsOperations:
                     headers=_headers,
                     params=_params,
                 )
-                _request = _convert_request(_request)
                 _request.url = self._client.format_url(_request.url)
 
             else:
@@ -193,7 +193,6 @@ class AmlFilesystemsOperations:
                 _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                _request = _convert_request(_request)
                 _request.url = self._client.format_url(_request.url)
                 _request.method = "GET"
             return _request
@@ -222,10 +221,10 @@ class AmlFilesystemsOperations:
 
         return AsyncItemPaged(get_next, extract_data)
 
-    async def _delete_initial(  # pylint: disable=inconsistent-return-statements
+    async def _delete_initial(
         self, resource_group_name: str, aml_filesystem_name: str, **kwargs: Any
-    ) -> None:
-        error_map = {
+    ) -> AsyncIterator[bytes]:
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -237,7 +236,7 @@ class AmlFilesystemsOperations:
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[None] = kwargs.pop("cls", None)
+        cls: ClsType[AsyncIterator[bytes]] = kwargs.pop("cls", None)
 
         _request = build_delete_request(
             resource_group_name=resource_group_name,
@@ -247,10 +246,10 @@ class AmlFilesystemsOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
-        _stream = False
+        _decompress = kwargs.pop("decompress", True)
+        _stream = True
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
@@ -258,6 +257,10 @@ class AmlFilesystemsOperations:
         response = pipeline_response.http_response
 
         if response.status_code not in [200, 202, 204]:
+            try:
+                await response.read()  # Load the body in memory and close the socket
+            except (StreamConsumedError, StreamClosedError):
+                pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
@@ -268,8 +271,12 @@ class AmlFilesystemsOperations:
                 "str", response.headers.get("Azure-AsyncOperation")
             )
 
+        deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
+
         if cls:
-            return cls(pipeline_response, None, response_headers)  # type: ignore
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
+
+        return deserialized  # type: ignore
 
     @distributed_trace_async
     async def begin_delete(
@@ -296,7 +303,7 @@ class AmlFilesystemsOperations:
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
         if cont_token is None:
-            raw_result = await self._delete_initial(  # type: ignore
+            raw_result = await self._delete_initial(
                 resource_group_name=resource_group_name,
                 aml_filesystem_name=aml_filesystem_name,
                 api_version=api_version,
@@ -305,6 +312,7 @@ class AmlFilesystemsOperations:
                 params=_params,
                 **kwargs
             )
+            await raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
@@ -342,7 +350,7 @@ class AmlFilesystemsOperations:
         :rtype: ~azure.mgmt.storagecache.models.AmlFilesystem
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -364,7 +372,6 @@ class AmlFilesystemsOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -378,7 +385,7 @@ class AmlFilesystemsOperations:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("AmlFilesystem", pipeline_response)
+        deserialized = self._deserialize("AmlFilesystem", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -391,8 +398,8 @@ class AmlFilesystemsOperations:
         aml_filesystem_name: str,
         aml_filesystem: Union[_models.AmlFilesystem, IO[bytes]],
         **kwargs: Any
-    ) -> _models.AmlFilesystem:
-        error_map = {
+    ) -> AsyncIterator[bytes]:
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -405,7 +412,7 @@ class AmlFilesystemsOperations:
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.AmlFilesystem] = kwargs.pop("cls", None)
+        cls: ClsType[AsyncIterator[bytes]] = kwargs.pop("cls", None)
 
         content_type = content_type or "application/json"
         _json = None
@@ -426,10 +433,10 @@ class AmlFilesystemsOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
-        _stream = False
+        _decompress = kwargs.pop("decompress", True)
+        _stream = True
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
@@ -437,19 +444,20 @@ class AmlFilesystemsOperations:
         response = pipeline_response.http_response
 
         if response.status_code not in [200, 201]:
+            try:
+                await response.read()  # Load the body in memory and close the socket
+            except (StreamConsumedError, StreamClosedError):
+                pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
         response_headers = {}
-        if response.status_code == 200:
-            deserialized = self._deserialize("AmlFilesystem", pipeline_response)
-
         if response.status_code == 201:
             response_headers["azure-async-operation"] = self._deserialize(
                 "str", response.headers.get("azure-async-operation")
             )
 
-            deserialized = self._deserialize("AmlFilesystem", pipeline_response)
+        deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
 
         if cls:
             return cls(pipeline_response, deserialized, response_headers)  # type: ignore
@@ -564,10 +572,11 @@ class AmlFilesystemsOperations:
                 params=_params,
                 **kwargs
             )
+            await raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):
-            deserialized = self._deserialize("AmlFilesystem", pipeline_response)
+            deserialized = self._deserialize("AmlFilesystem", pipeline_response.http_response)
             if cls:
                 return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
@@ -598,8 +607,8 @@ class AmlFilesystemsOperations:
         aml_filesystem_name: str,
         aml_filesystem: Union[_models.AmlFilesystemUpdate, IO[bytes]],
         **kwargs: Any
-    ) -> Optional[_models.AmlFilesystem]:
-        error_map = {
+    ) -> AsyncIterator[bytes]:
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -612,7 +621,7 @@ class AmlFilesystemsOperations:
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[Optional[_models.AmlFilesystem]] = kwargs.pop("cls", None)
+        cls: ClsType[AsyncIterator[bytes]] = kwargs.pop("cls", None)
 
         content_type = content_type or "application/json"
         _json = None
@@ -633,10 +642,10 @@ class AmlFilesystemsOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
-        _stream = False
+        _decompress = kwargs.pop("decompress", True)
+        _stream = True
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
@@ -644,19 +653,21 @@ class AmlFilesystemsOperations:
         response = pipeline_response.http_response
 
         if response.status_code not in [200, 202]:
+            try:
+                await response.read()  # Load the body in memory and close the socket
+            except (StreamConsumedError, StreamClosedError):
+                pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
-        deserialized = None
         response_headers = {}
-        if response.status_code == 200:
-            deserialized = self._deserialize("AmlFilesystem", pipeline_response)
-
         if response.status_code == 202:
             response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
             response_headers["azure-async-operation"] = self._deserialize(
                 "str", response.headers.get("azure-async-operation")
             )
+
+        deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
 
         if cls:
             return cls(pipeline_response, deserialized, response_headers)  # type: ignore
@@ -771,10 +782,11 @@ class AmlFilesystemsOperations:
                 params=_params,
                 **kwargs
             )
+            await raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):
-            deserialized = self._deserialize("AmlFilesystem", pipeline_response)
+            deserialized = self._deserialize("AmlFilesystem", pipeline_response.http_response)
             if cls:
                 return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
@@ -800,7 +812,7 @@ class AmlFilesystemsOperations:
         )
 
     @overload
-    async def archive(  # pylint: disable=inconsistent-return-statements
+    async def archive(
         self,
         resource_group_name: str,
         aml_filesystem_name: str,
@@ -828,7 +840,7 @@ class AmlFilesystemsOperations:
         """
 
     @overload
-    async def archive(  # pylint: disable=inconsistent-return-statements
+    async def archive(
         self,
         resource_group_name: str,
         aml_filesystem_name: str,
@@ -856,7 +868,7 @@ class AmlFilesystemsOperations:
         """
 
     @distributed_trace_async
-    async def archive(  # pylint: disable=inconsistent-return-statements
+    async def archive(
         self,
         resource_group_name: str,
         aml_filesystem_name: str,
@@ -878,7 +890,7 @@ class AmlFilesystemsOperations:
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -915,7 +927,6 @@ class AmlFilesystemsOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -933,9 +944,7 @@ class AmlFilesystemsOperations:
             return cls(pipeline_response, None, {})  # type: ignore
 
     @distributed_trace_async
-    async def cancel_archive(  # pylint: disable=inconsistent-return-statements
-        self, resource_group_name: str, aml_filesystem_name: str, **kwargs: Any
-    ) -> None:
+    async def cancel_archive(self, resource_group_name: str, aml_filesystem_name: str, **kwargs: Any) -> None:
         """Cancel archiving data from the AML file system.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -948,7 +957,7 @@ class AmlFilesystemsOperations:
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -970,7 +979,6 @@ class AmlFilesystemsOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
