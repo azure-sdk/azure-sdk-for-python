@@ -30,12 +30,12 @@ def main():
         subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    client.container_group_profiles.delete(
+    client.cg_profile.begin_delete(
         resource_group_name="demo",
         container_group_profile_name="demo1",
-    )
+    ).result()
 
 
-# x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/preview/2024-05-01-preview/examples/ContainerGroupProfilesDelete.json
+# x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/preview/2024-11-01-preview/examples/ContainerGroupProfilesDelete.json
 if __name__ == "__main__":
     main()

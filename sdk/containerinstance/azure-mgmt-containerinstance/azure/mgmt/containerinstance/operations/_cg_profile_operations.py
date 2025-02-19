@@ -1,4 +1,3 @@
-# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8,7 +7,7 @@
 # --------------------------------------------------------------------------
 from io import IOBase
 import sys
-from typing import Any, Callable, Dict, IO, Iterable, Optional, Type, TypeVar, Union, overload
+from typing import Any, Callable, Dict, IO, Iterable, Iterator, Optional, TypeVar, Union, cast, overload
 import urllib.parse
 
 from azure.core.exceptions import (
@@ -17,14 +16,18 @@ from azure.core.exceptions import (
     ResourceExistsError,
     ResourceNotFoundError,
     ResourceNotModifiedError,
+    StreamClosedError,
+    StreamConsumedError,
     map_error,
 )
 from azure.core.paging import ItemPaged
 from azure.core.pipeline import PipelineResponse
+from azure.core.polling import LROPoller, NoPolling, PollingMethod
 from azure.core.rest import HttpRequest, HttpResponse
 from azure.core.tracing.decorator import distributed_trace
 from azure.core.utils import case_insensitive_dict
 from azure.mgmt.core.exceptions import ARMErrorFormat
+from azure.mgmt.core.polling.arm_polling import ARMPolling
 
 from .. import models as _models
 from .._serialization import Serializer
@@ -32,108 +35,12 @@ from .._serialization import Serializer
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
 
 _SERIALIZER = Serializer()
 _SERIALIZER.client_side_validation = False
-
-
-def build_list_request(subscription_id: str, **kwargs: Any) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-01-preview"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = kwargs.pop(
-        "template_url", "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerInstance/containerGroupProfiles"
-    )  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_list_by_resource_group_request(resource_group_name: str, subscription_id: str, **kwargs: Any) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-01-preview"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = kwargs.pop(
-        "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroupProfiles",
-    )  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url(
-            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
-        ),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_get_request(
-    resource_group_name: str, container_group_profile_name: str, subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-01-preview"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = kwargs.pop(
-        "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroupProfiles/{containerGroupProfileName}",
-    )  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url(
-            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
-        ),
-        "containerGroupProfileName": _SERIALIZER.url(
-            "container_group_profile_name",
-            container_group_profile_name,
-            "str",
-            max_length=63,
-            min_length=1,
-            pattern=r"^(?!.*--)[a-z0-9]([-a-z0-9]*[a-z0-9])?$",
-        ),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
 def build_create_or_update_request(
@@ -142,7 +49,7 @@ def build_create_or_update_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-01-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-11-01-preview"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -162,7 +69,7 @@ def build_create_or_update_request(
             "str",
             max_length=63,
             min_length=1,
-            pattern=r"^(?!.*--)[a-z0-9]([-a-z0-9]*[a-z0-9])?$",
+            pattern=r"^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$",
         ),
     }
 
@@ -179,13 +86,13 @@ def build_create_or_update_request(
     return HttpRequest(method="PUT", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_patch_request(
+def build_update_request(
     resource_group_name: str, container_group_profile_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-01-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-11-01-preview"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -205,7 +112,7 @@ def build_patch_request(
             "str",
             max_length=63,
             min_length=1,
-            pattern=r"^(?!.*--)[a-z0-9]([-a-z0-9]*[a-z0-9])?$",
+            pattern=r"^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$",
         ),
     }
 
@@ -222,13 +129,13 @@ def build_patch_request(
     return HttpRequest(method="PATCH", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_delete_request(
+def build_get_request(
     resource_group_name: str, container_group_profile_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-01-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-11-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -247,7 +154,47 @@ def build_delete_request(
             "str",
             max_length=63,
             min_length=1,
-            pattern=r"^(?!.*--)[a-z0-9]([-a-z0-9]*[a-z0-9])?$",
+            pattern=r"^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$",
+        ),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_delete_request(
+    resource_group_name: str, container_group_profile_name: str, subscription_id: str, **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-11-01-preview"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = kwargs.pop(
+        "template_url",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroupProfiles/{containerGroupProfileName}",
+    )  # pylint: disable=line-too-long
+    path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
+        "resourceGroupName": _SERIALIZER.url(
+            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
+        ),
+        "containerGroupProfileName": _SERIALIZER.url(
+            "container_group_profile_name",
+            container_group_profile_name,
+            "str",
+            max_length=63,
+            min_length=1,
+            pattern=r"^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$",
         ),
     }
 
@@ -262,14 +209,99 @@ def build_delete_request(
     return HttpRequest(method="DELETE", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-class ContainerGroupProfilesOperations:
+def build_list_all_revisions_request(
+    resource_group_name: str, container_group_profile_name: str, subscription_id: str, **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-11-01-preview"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = kwargs.pop(
+        "template_url",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroupProfiles/{containerGroupProfileName}/revisions",
+    )  # pylint: disable=line-too-long
+    path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
+        "resourceGroupName": _SERIALIZER.url(
+            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
+        ),
+        "containerGroupProfileName": _SERIALIZER.url(
+            "container_group_profile_name",
+            container_group_profile_name,
+            "str",
+            max_length=63,
+            min_length=1,
+            pattern=r"^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$",
+        ),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_get_by_revision_number_request(
+    resource_group_name: str,
+    container_group_profile_name: str,
+    revision_number: str,
+    subscription_id: str,
+    **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-11-01-preview"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = kwargs.pop(
+        "template_url",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroupProfiles/{containerGroupProfileName}/revisions/{revisionNumber}",
+    )  # pylint: disable=line-too-long
+    path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
+        "resourceGroupName": _SERIALIZER.url(
+            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
+        ),
+        "containerGroupProfileName": _SERIALIZER.url(
+            "container_group_profile_name",
+            container_group_profile_name,
+            "str",
+            max_length=63,
+            min_length=1,
+            pattern=r"^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$",
+        ),
+        "revisionNumber": _SERIALIZER.url("revision_number", revision_number, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+class CGProfileOperations:
     """
     .. warning::
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
         :class:`~azure.mgmt.containerinstance.ContainerInstanceManagementClient`'s
-        :attr:`container_group_profiles` attribute.
+        :attr:`cg_profile` attribute.
     """
 
     models = _models
@@ -281,235 +313,6 @@ class ContainerGroupProfilesOperations:
         self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
-    @distributed_trace
-    def list(self, **kwargs: Any) -> Iterable["_models.ContainerGroupProfile"]:
-        """Get a list of container group profiles in the specified subscription.
-
-        Get a list of container group profiles in the specified subscription. This operation returns
-        properties of each container group profile including containers, image registry credentials,
-        restart policy, IP address type, OS type,volumes,current revision number, etc.
-
-        :return: An iterator like instance of either ContainerGroupProfile or the result of
-         cls(response)
-        :rtype:
-         ~azure.core.paging.ItemPaged[~azure.mgmt.containerinstance.models.ContainerGroupProfile]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.ContainerGroupProfileListResult] = kwargs.pop("cls", None)
-
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        def prepare_request(next_link=None):
-            if not next_link:
-
-                _request = build_list_request(
-                    subscription_id=self._config.subscription_id,
-                    api_version=api_version,
-                    headers=_headers,
-                    params=_params,
-                )
-                _request.url = self._client.format_url(_request.url)
-
-            else:
-                # make call to next link with the client's api-version
-                _parsed_next_link = urllib.parse.urlparse(next_link)
-                _next_request_params = case_insensitive_dict(
-                    {
-                        key: [urllib.parse.quote(v) for v in value]
-                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
-                    }
-                )
-                _next_request_params["api-version"] = self._config.api_version
-                _request = HttpRequest(
-                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
-                )
-                _request.url = self._client.format_url(_request.url)
-                _request.method = "GET"
-            return _request
-
-        def extract_data(pipeline_response):
-            deserialized = self._deserialize("ContainerGroupProfileListResult", pipeline_response)
-            list_of_elem = deserialized.value
-            if cls:
-                list_of_elem = cls(list_of_elem)  # type: ignore
-            return deserialized.next_link or None, iter(list_of_elem)
-
-        def get_next(next_link=None):
-            _request = prepare_request(next_link)
-
-            _stream = False
-            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                _request, stream=_stream, **kwargs
-            )
-            response = pipeline_response.http_response
-
-            if response.status_code not in [200]:
-                map_error(status_code=response.status_code, response=response, error_map=error_map)
-                raise HttpResponseError(response=response, error_format=ARMErrorFormat)
-
-            return pipeline_response
-
-        return ItemPaged(get_next, extract_data)
-
-    @distributed_trace
-    def list_by_resource_group(
-        self, resource_group_name: str, **kwargs: Any
-    ) -> Iterable["_models.ContainerGroupProfile"]:
-        """Get a list of container group profiles in the specified subscription and resource group.
-
-        Get a list of container group profiles in a specified subscription and resource group. This
-        operation returns properties of each container group profile including containers, image
-        registry credentials, restart policy, IP address type, OS type volumes, current revision
-        number, etc.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :return: An iterator like instance of either ContainerGroupProfile or the result of
-         cls(response)
-        :rtype:
-         ~azure.core.paging.ItemPaged[~azure.mgmt.containerinstance.models.ContainerGroupProfile]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.ContainerGroupProfileListResult] = kwargs.pop("cls", None)
-
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        def prepare_request(next_link=None):
-            if not next_link:
-
-                _request = build_list_by_resource_group_request(
-                    resource_group_name=resource_group_name,
-                    subscription_id=self._config.subscription_id,
-                    api_version=api_version,
-                    headers=_headers,
-                    params=_params,
-                )
-                _request.url = self._client.format_url(_request.url)
-
-            else:
-                # make call to next link with the client's api-version
-                _parsed_next_link = urllib.parse.urlparse(next_link)
-                _next_request_params = case_insensitive_dict(
-                    {
-                        key: [urllib.parse.quote(v) for v in value]
-                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
-                    }
-                )
-                _next_request_params["api-version"] = self._config.api_version
-                _request = HttpRequest(
-                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
-                )
-                _request.url = self._client.format_url(_request.url)
-                _request.method = "GET"
-            return _request
-
-        def extract_data(pipeline_response):
-            deserialized = self._deserialize("ContainerGroupProfileListResult", pipeline_response)
-            list_of_elem = deserialized.value
-            if cls:
-                list_of_elem = cls(list_of_elem)  # type: ignore
-            return deserialized.next_link or None, iter(list_of_elem)
-
-        def get_next(next_link=None):
-            _request = prepare_request(next_link)
-
-            _stream = False
-            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                _request, stream=_stream, **kwargs
-            )
-            response = pipeline_response.http_response
-
-            if response.status_code not in [200]:
-                map_error(status_code=response.status_code, response=response, error_map=error_map)
-                raise HttpResponseError(response=response, error_format=ARMErrorFormat)
-
-            return pipeline_response
-
-        return ItemPaged(get_next, extract_data)
-
-    @distributed_trace
-    def get(
-        self, resource_group_name: str, container_group_profile_name: str, **kwargs: Any
-    ) -> _models.ContainerGroupProfile:
-        """Get the properties of the specified container group profile.
-
-        Gets the properties of the specified container group profile in the specified subscription and
-        resource group. The operation returns the properties of container group profile including
-        containers, image registry credentials, restart policy, IP address type, OS type, volumes,
-        current revision number, etc.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param container_group_profile_name: The name of the container group profile. Required.
-        :type container_group_profile_name: str
-        :return: ContainerGroupProfile or the result of cls(response)
-        :rtype: ~azure.mgmt.containerinstance.models.ContainerGroupProfile
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.ContainerGroupProfile] = kwargs.pop("cls", None)
-
-        _request = build_get_request(
-            resource_group_name=resource_group_name,
-            container_group_profile_name=container_group_profile_name,
-            subscription_id=self._config.subscription_id,
-            api_version=api_version,
-            headers=_headers,
-            params=_params,
-        )
-        _request.url = self._client.format_url(_request.url)
-
-        _stream = False
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            _request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
-
-        deserialized = self._deserialize("ContainerGroupProfile", pipeline_response.http_response)
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
-
-        return deserialized  # type: ignore
-
     @overload
     def create_or_update(
         self,
@@ -520,17 +323,16 @@ class ContainerGroupProfilesOperations:
         content_type: str = "application/json",
         **kwargs: Any
     ) -> _models.ContainerGroupProfile:
-        """Create or update container group profiles.
+        """Create or Update a ContainerGroupProfile.
 
-        Create or update container group profiles with specified configurations.
+        Create a CGProfile if it doesn't exist or update an existing CGProfile.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param container_group_profile_name: The name of the container group profile. Required.
+        :param container_group_profile_name: ContainerGroupProfile name. Required.
         :type container_group_profile_name: str
-        :param container_group_profile: The properties of the container group profile to be created or
-         updated. Required.
+        :param container_group_profile: The ContainerGroupProfile object. Required.
         :type container_group_profile: ~azure.mgmt.containerinstance.models.ContainerGroupProfile
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
@@ -550,17 +352,16 @@ class ContainerGroupProfilesOperations:
         content_type: str = "application/json",
         **kwargs: Any
     ) -> _models.ContainerGroupProfile:
-        """Create or update container group profiles.
+        """Create or Update a ContainerGroupProfile.
 
-        Create or update container group profiles with specified configurations.
+        Create a CGProfile if it doesn't exist or update an existing CGProfile.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param container_group_profile_name: The name of the container group profile. Required.
+        :param container_group_profile_name: ContainerGroupProfile name. Required.
         :type container_group_profile_name: str
-        :param container_group_profile: The properties of the container group profile to be created or
-         updated. Required.
+        :param container_group_profile: The ContainerGroupProfile object. Required.
         :type container_group_profile: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
@@ -578,24 +379,24 @@ class ContainerGroupProfilesOperations:
         container_group_profile: Union[_models.ContainerGroupProfile, IO[bytes]],
         **kwargs: Any
     ) -> _models.ContainerGroupProfile:
-        """Create or update container group profiles.
+        """Create or Update a ContainerGroupProfile.
 
-        Create or update container group profiles with specified configurations.
+        Create a CGProfile if it doesn't exist or update an existing CGProfile.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param container_group_profile_name: The name of the container group profile. Required.
+        :param container_group_profile_name: ContainerGroupProfile name. Required.
         :type container_group_profile_name: str
-        :param container_group_profile: The properties of the container group profile to be created or
-         updated. Is either a ContainerGroupProfile type or a IO[bytes] type. Required.
+        :param container_group_profile: The ContainerGroupProfile object. Is either a
+         ContainerGroupProfile type or a IO[bytes] type. Required.
         :type container_group_profile: ~azure.mgmt.containerinstance.models.ContainerGroupProfile or
          IO[bytes]
         :return: ContainerGroupProfile or the result of cls(response)
         :rtype: ~azure.mgmt.containerinstance.models.ContainerGroupProfile
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -640,17 +441,23 @@ class ContainerGroupProfilesOperations:
 
         if response.status_code not in [200, 201]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        response_headers = {}
+        response_headers["x-ms-correlation-request-id"] = self._deserialize(
+            "str", response.headers.get("x-ms-correlation-request-id")
+        )
 
         deserialized = self._deserialize("ContainerGroupProfile", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
         return deserialized  # type: ignore
 
     @overload
-    def patch(
+    def update(
         self,
         resource_group_name: str,
         container_group_profile_name: str,
@@ -659,14 +466,14 @@ class ContainerGroupProfilesOperations:
         content_type: str = "application/json",
         **kwargs: Any
     ) -> _models.ContainerGroupProfile:
-        """Patch container group profiles.
+        """Container group profile PATCH REST API.
 
-        Patches container group profile with specified properties.
+        Update a specified container group profile.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param container_group_profile_name: The name of the container group profile. Required.
+        :param container_group_profile_name: ContainerGroupProfile name. Required.
         :type container_group_profile_name: str
         :param properties: The container group profile properties that need to be updated. Required.
         :type properties: ~azure.mgmt.containerinstance.models.ContainerGroupProfilePatch
@@ -679,7 +486,7 @@ class ContainerGroupProfilesOperations:
         """
 
     @overload
-    def patch(
+    def update(
         self,
         resource_group_name: str,
         container_group_profile_name: str,
@@ -688,14 +495,14 @@ class ContainerGroupProfilesOperations:
         content_type: str = "application/json",
         **kwargs: Any
     ) -> _models.ContainerGroupProfile:
-        """Patch container group profiles.
+        """Container group profile PATCH REST API.
 
-        Patches container group profile with specified properties.
+        Update a specified container group profile.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param container_group_profile_name: The name of the container group profile. Required.
+        :param container_group_profile_name: ContainerGroupProfile name. Required.
         :type container_group_profile_name: str
         :param properties: The container group profile properties that need to be updated. Required.
         :type properties: IO[bytes]
@@ -708,21 +515,21 @@ class ContainerGroupProfilesOperations:
         """
 
     @distributed_trace
-    def patch(
+    def update(
         self,
         resource_group_name: str,
         container_group_profile_name: str,
         properties: Union[_models.ContainerGroupProfilePatch, IO[bytes]],
         **kwargs: Any
     ) -> _models.ContainerGroupProfile:
-        """Patch container group profiles.
+        """Container group profile PATCH REST API.
 
-        Patches container group profile with specified properties.
+        Update a specified container group profile.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param container_group_profile_name: The name of the container group profile. Required.
+        :param container_group_profile_name: ContainerGroupProfile name. Required.
         :type container_group_profile_name: str
         :param properties: The container group profile properties that need to be updated. Is either a
          ContainerGroupProfilePatch type or a IO[bytes] type. Required.
@@ -731,7 +538,7 @@ class ContainerGroupProfilesOperations:
         :rtype: ~azure.mgmt.containerinstance.models.ContainerGroupProfile
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -754,7 +561,7 @@ class ContainerGroupProfilesOperations:
         else:
             _json = self._serialize.body(properties, "ContainerGroupProfilePatch")
 
-        _request = build_patch_request(
+        _request = build_update_request(
             resource_group_name=resource_group_name,
             container_group_profile_name=container_group_profile_name,
             subscription_id=self._config.subscription_id,
@@ -762,6 +569,71 @@ class ContainerGroupProfilesOperations:
             content_type=content_type,
             json=_json,
             content=_content,
+            headers=_headers,
+            params=_params,
+        )
+        _request.url = self._client.format_url(_request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        response_headers = {}
+        response_headers["x-ms-correlation-request-id"] = self._deserialize(
+            "str", response.headers.get("x-ms-correlation-request-id")
+        )
+
+        deserialized = self._deserialize("ContainerGroupProfile", pipeline_response.http_response)
+
+        if cls:
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
+
+        return deserialized  # type: ignore
+
+    @distributed_trace
+    def get(
+        self, resource_group_name: str, container_group_profile_name: str, **kwargs: Any
+    ) -> _models.ContainerGroupProfile:
+        """Display information about a specified ContainerGroupProfile.
+
+        Get the properties of the specified container group profile.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param container_group_profile_name: ContainerGroupProfile name. Required.
+        :type container_group_profile_name: str
+        :return: ContainerGroupProfile or the result of cls(response)
+        :rtype: ~azure.mgmt.containerinstance.models.ContainerGroupProfile
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        cls: ClsType[_models.ContainerGroupProfile] = kwargs.pop("cls", None)
+
+        _request = build_get_request(
+            resource_group_name=resource_group_name,
+            container_group_profile_name=container_group_profile_name,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
             headers=_headers,
             params=_params,
         )
@@ -785,25 +657,10 @@ class ContainerGroupProfilesOperations:
 
         return deserialized  # type: ignore
 
-    @distributed_trace
-    def delete(  # pylint: disable=inconsistent-return-statements
+    def _delete_initial(
         self, resource_group_name: str, container_group_profile_name: str, **kwargs: Any
-    ) -> None:
-        """Delete the specified container group profile.
-
-        Delete the specified container group profile in the specified subscription and resource group.
-        The operation does not delete other resources provided by the user, such as volumes.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param container_group_profile_name: The name of the container group profile. Required.
-        :type container_group_profile_name: str
-        :return: None or the result of cls(response)
-        :rtype: None
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+    ) -> Iterator[bytes]:
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -815,11 +672,237 @@ class ContainerGroupProfilesOperations:
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[None] = kwargs.pop("cls", None)
+        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
 
         _request = build_delete_request(
             resource_group_name=resource_group_name,
             container_group_profile_name=container_group_profile_name,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            headers=_headers,
+            params=_params,
+        )
+        _request.url = self._client.format_url(_request.url)
+
+        _decompress = kwargs.pop("decompress", True)
+        _stream = True
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [202, 204]:
+            try:
+                response.read()  # Load the body in memory and close the socket
+            except (StreamConsumedError, StreamClosedError):
+                pass
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        response_headers = {}
+        if response.status_code == 202:
+            response_headers["x-ms-correlation-request-id"] = self._deserialize(
+                "str", response.headers.get("x-ms-correlation-request-id")
+            )
+            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
+
+        deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
+
+        if cls:
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
+
+        return deserialized  # type: ignore
+
+    @distributed_trace
+    def begin_delete(
+        self, resource_group_name: str, container_group_profile_name: str, **kwargs: Any
+    ) -> LROPoller[None]:
+        """Container group profile DELETE REST API.
+
+        Deletes a container group profile.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param container_group_profile_name: ContainerGroupProfile name. Required.
+        :type container_group_profile_name: str
+        :return: An instance of LROPoller that returns either None or the result of cls(response)
+        :rtype: ~azure.core.polling.LROPoller[None]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        cls: ClsType[None] = kwargs.pop("cls", None)
+        polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
+        lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
+        cont_token: Optional[str] = kwargs.pop("continuation_token", None)
+        if cont_token is None:
+            raw_result = self._delete_initial(
+                resource_group_name=resource_group_name,
+                container_group_profile_name=container_group_profile_name,
+                api_version=api_version,
+                cls=lambda x, y, z: x,
+                headers=_headers,
+                params=_params,
+                **kwargs
+            )
+            raw_result.http_response.read()  # type: ignore
+        kwargs.pop("error_map", None)
+
+        def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
+            if cls:
+                return cls(pipeline_response, None, {})  # type: ignore
+
+        if polling is True:
+            polling_method: PollingMethod = cast(PollingMethod, ARMPolling(lro_delay, **kwargs))
+        elif polling is False:
+            polling_method = cast(PollingMethod, NoPolling())
+        else:
+            polling_method = polling
+        if cont_token:
+            return LROPoller[None].from_continuation_token(
+                polling_method=polling_method,
+                continuation_token=cont_token,
+                client=self._client,
+                deserialization_callback=get_long_running_output,
+            )
+        return LROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
+
+    @distributed_trace
+    def list_all_revisions(
+        self, resource_group_name: str, container_group_profile_name: str, **kwargs: Any
+    ) -> Iterable["_models.ContainerGroupProfile"]:
+        """Get a list of all the revisions of the specified container group profile in the given
+        subscription and resource group.
+
+        Get a list of all the revisions of the specified container group profile in the given
+        subscription and resource group. This operation returns properties of each revision of the
+        specified container group profile including containers, image registry credentials, restart
+        policy, IP address type, OS type volumes, revision number, etc.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param container_group_profile_name: ContainerGroupProfile name. Required.
+        :type container_group_profile_name: str
+        :return: An iterator like instance of either ContainerGroupProfile or the result of
+         cls(response)
+        :rtype:
+         ~azure.core.paging.ItemPaged[~azure.mgmt.containerinstance.models.ContainerGroupProfile]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        cls: ClsType[_models.ContainerGroupProfileListResult] = kwargs.pop("cls", None)
+
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        def prepare_request(next_link=None):
+            if not next_link:
+
+                _request = build_list_all_revisions_request(
+                    resource_group_name=resource_group_name,
+                    container_group_profile_name=container_group_profile_name,
+                    subscription_id=self._config.subscription_id,
+                    api_version=api_version,
+                    headers=_headers,
+                    params=_params,
+                )
+                _request.url = self._client.format_url(_request.url)
+
+            else:
+                # make call to next link with the client's api-version
+                _parsed_next_link = urllib.parse.urlparse(next_link)
+                _next_request_params = case_insensitive_dict(
+                    {
+                        key: [urllib.parse.quote(v) for v in value]
+                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
+                    }
+                )
+                _next_request_params["api-version"] = self._config.api_version
+                _request = HttpRequest(
+                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
+                )
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
+
+        def extract_data(pipeline_response):
+            deserialized = self._deserialize("ContainerGroupProfileListResult", pipeline_response)
+            list_of_elem = deserialized.value
+            if cls:
+                list_of_elem = cls(list_of_elem)  # type: ignore
+            return deserialized.next_link or None, iter(list_of_elem)
+
+        def get_next(next_link=None):
+            _request = prepare_request(next_link)
+
+            _stream = False
+            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+                _request, stream=_stream, **kwargs
+            )
+            response = pipeline_response.http_response
+
+            if response.status_code not in [200]:
+                map_error(status_code=response.status_code, response=response, error_map=error_map)
+                raise HttpResponseError(response=response, error_format=ARMErrorFormat)
+
+            return pipeline_response
+
+        return ItemPaged(get_next, extract_data)
+
+    @distributed_trace
+    def get_by_revision_number(
+        self, resource_group_name: str, container_group_profile_name: str, revision_number: str, **kwargs: Any
+    ) -> _models.ContainerGroupProfile:
+        """Get the properties of the specified revision of the container group profile.
+
+        Gets the properties of the specified revision of the container group profile in the given
+        subscription and resource group. The operation returns the properties of container group
+        profile including containers, image registry credentials, restart policy, IP address type, OS
+        type, volumes, current revision number, etc.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param container_group_profile_name: ContainerGroupProfile name. Required.
+        :type container_group_profile_name: str
+        :param revision_number: The revision number of the container group profile. Required.
+        :type revision_number: str
+        :return: ContainerGroupProfile or the result of cls(response)
+        :rtype: ~azure.mgmt.containerinstance.models.ContainerGroupProfile
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        cls: ClsType[_models.ContainerGroupProfile] = kwargs.pop("cls", None)
+
+        _request = build_get_by_revision_number_request(
+            resource_group_name=resource_group_name,
+            container_group_profile_name=container_group_profile_name,
+            revision_number=revision_number,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
             headers=_headers,
@@ -834,9 +917,13 @@ class ContainerGroupProfilesOperations:
 
         response = pipeline_response.http_response
 
-        if response.status_code not in [200, 204]:
+        if response.status_code not in [200]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
+        deserialized = self._deserialize("ContainerGroupProfile", pipeline_response.http_response)
+
         if cls:
-            return cls(pipeline_response, None, {})  # type: ignore
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
