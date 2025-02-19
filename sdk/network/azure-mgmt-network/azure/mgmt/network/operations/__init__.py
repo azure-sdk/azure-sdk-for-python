@@ -93,6 +93,17 @@ from ._operations import NetworkProfilesOperations  # type: ignore
 from ._operations import NetworkSecurityGroupsOperations  # type: ignore
 from ._operations import SecurityRulesOperations  # type: ignore
 from ._operations import DefaultSecurityRulesOperations  # type: ignore
+from ._operations import NetworkSecurityPerimetersOperations  # type: ignore
+from ._operations import NetworkSecurityPerimeterProfilesOperations  # type: ignore
+from ._operations import NetworkSecurityPerimeterAccessRulesOperations  # type: ignore
+from ._operations import NNetworkSecurityPerimeterAccessRulesOperations  # type: ignore
+from ._operations import NetworkSecurityPerimeterAssociationsOperations  # type: ignore
+from ._operations import NetworkSecurityPerimeterAssociableResourceTypesOperations  # type: ignore
+from ._operations import NetworkSecurityPerimeterLinksOperations  # type: ignore
+from ._operations import NNetworkSecurityPerimeterLinkReferencesOperations  # type: ignore
+from ._operations import NetworkSecurityPerimeterLinkReferencesOperations  # type: ignore
+from ._operations import NetworkSecurityPerimeterLoggingConfigurationsOperations  # type: ignore
+from ._operations import NetworkSecurityPerimeterOperationStatusesOperations  # type: ignore
 from ._operations import ReachabilityAnalysisIntentsOperations  # type: ignore
 from ._operations import ReachabilityAnalysisRunsOperations  # type: ignore
 from ._operations import VerifierWorkspacesOperations  # type: ignore
@@ -246,6 +257,17 @@ __all__ = [
     "NetworkSecurityGroupsOperations",
     "SecurityRulesOperations",
     "DefaultSecurityRulesOperations",
+    "NetworkSecurityPerimetersOperations",
+    "NetworkSecurityPerimeterProfilesOperations",
+    "NetworkSecurityPerimeterAccessRulesOperations",
+    "NNetworkSecurityPerimeterAccessRulesOperations",
+    "NetworkSecurityPerimeterAssociationsOperations",
+    "NetworkSecurityPerimeterAssociableResourceTypesOperations",
+    "NetworkSecurityPerimeterLinksOperations",
+    "NNetworkSecurityPerimeterLinkReferencesOperations",
+    "NetworkSecurityPerimeterLinkReferencesOperations",
+    "NetworkSecurityPerimeterLoggingConfigurationsOperations",
+    "NetworkSecurityPerimeterOperationStatusesOperations",
     "ReachabilityAnalysisIntentsOperations",
     "ReachabilityAnalysisRunsOperations",
     "VerifierWorkspacesOperations",

@@ -28,6 +28,7 @@ def main():
     client = NetworkManagementClient(
         credential=DefaultAzureCredential(),
         subscription_id="11111111-1111-1111-1111-111111111111",
+        base_url="BASE_URL",
     )
 
     client.ipam_pools.begin_delete(
@@ -37,6 +38,6 @@ def main():
     ).result()
 
 
-# x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/IpamPools_Delete.json
+# x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/IpamPools_Delete.json
 if __name__ == "__main__":
     main()
