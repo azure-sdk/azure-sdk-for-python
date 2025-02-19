@@ -1,0 +1,16 @@
+{
+    "CrossLanguagePackageId": "Microsoft.CodeTransparency",
+    "CrossLanguageDefinitionId": {
+        "azure.codetransparency.models.OperationStatus": "Microsoft.CodeTransparency.OperationStatus",
+        "azure.codetransparency.CodeTransparencyClient.create_entry": "Microsoft.CodeTransparency.createEntry",
+        "azure.codetransparency.CodeTransparencyClient.get_entry_status": "Microsoft.CodeTransparency.getEntryStatus",
+        "azure.codetransparency.CodeTransparencyClient.list_entry_statuses": "Microsoft.CodeTransparency.listEntryStatuses",
+        "azure.codetransparency.CodeTransparencyClient.get_entry": "Microsoft.CodeTransparency.getEntry",
+        "azure.codetransparency.CodeTransparencyClient.get_entry_receipt": "Microsoft.CodeTransparency.getEntryReceipt",
+        "azure.codetransparency.CodeTransparencyClient.list_entry_ids": "Microsoft.CodeTransparency.listEntryIds",
+        "azure.codetransparency.CodeTransparencyClient.get_parameters": "Microsoft.CodeTransparency.getParameters",
+        "azure.codetransparency.CodeTransparencyClient.get_did_config": "Microsoft.CodeTransparency.getDidConfig",
+        "azure.codetransparency.CodeTransparencyClient.get_code_transparency_config": "Microsoft.CodeTransparency.getCodeTransparencyConfig",
+        "azure.codetransparency.CodeTransparencyClient.get_code_transparency_version": "Microsoft.CodeTransparency.getCodeTransparencyVersion"
+    }
+}
