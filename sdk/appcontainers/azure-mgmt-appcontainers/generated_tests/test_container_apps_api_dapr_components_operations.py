@@ -20,11 +20,11 @@ class TestContainerAppsAPIDaprComponentsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list(self, resource_group):
+    def test_dapr_components_list(self, resource_group):
         response = self.client.dapr_components.list(
             resource_group_name=resource_group.name,
             environment_name="str",
-            api_version="2024-08-02-preview",
+            api_version="2025-02-02-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -32,12 +32,12 @@ class TestContainerAppsAPIDaprComponentsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_dapr_components_get(self, resource_group):
         response = self.client.dapr_components.get(
             resource_group_name=resource_group.name,
             environment_name="str",
             component_name="str",
-            api_version="2024-08-02-preview",
+            api_version="2025-02-02-preview",
         )
 
         # please add some check logic here by yourself
@@ -45,7 +45,7 @@ class TestContainerAppsAPIDaprComponentsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_create_or_update(self, resource_group):
+    def test_dapr_components_create_or_update(self, resource_group):
         response = self.client.dapr_components.create_or_update(
             resource_group_name=resource_group.name,
             environment_name="str",
@@ -74,7 +74,7 @@ class TestContainerAppsAPIDaprComponentsOperations(AzureMgmtRecordedTestCase):
                 "type": "str",
                 "version": "str",
             },
-            api_version="2024-08-02-preview",
+            api_version="2025-02-02-preview",
         )
 
         # please add some check logic here by yourself
@@ -82,12 +82,12 @@ class TestContainerAppsAPIDaprComponentsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_delete(self, resource_group):
+    def test_dapr_components_delete(self, resource_group):
         response = self.client.dapr_components.delete(
             resource_group_name=resource_group.name,
             environment_name="str",
             component_name="str",
-            api_version="2024-08-02-preview",
+            api_version="2025-02-02-preview",
         )
 
         # please add some check logic here by yourself
@@ -95,12 +95,12 @@ class TestContainerAppsAPIDaprComponentsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_secrets(self, resource_group):
+    def test_dapr_components_list_secrets(self, resource_group):
         response = self.client.dapr_components.list_secrets(
             resource_group_name=resource_group.name,
             environment_name="str",
             component_name="str",
-            api_version="2024-08-02-preview",
+            api_version="2025-02-02-preview",
         )
 
         # please add some check logic here by yourself
