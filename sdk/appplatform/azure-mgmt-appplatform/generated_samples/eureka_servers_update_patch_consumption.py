@@ -15,7 +15,7 @@ from azure.mgmt.appplatform import AppPlatformManagementClient
     pip install azure-identity
     pip install azure-mgmt-appplatform
 # USAGE
-    python services_delete.py
+    python eureka_servers_update_patch_consumption.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -30,12 +30,14 @@ def main():
         subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    client.services.begin_delete(
+    response = client.eureka_servers.begin_update_patch(
         resource_group_name="myResourceGroup",
         service_name="myservice",
+        eureka_server_resource={"properties": {"enabledState": "Enabled"}},
     ).result()
+    print(response)
 
 
-# x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/stable/2023-12-01/examples/Services_Delete.json
+# x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2024-05-01-preview/examples/EurekaServers_UpdatePatch_Consumption.json
 if __name__ == "__main__":
     main()

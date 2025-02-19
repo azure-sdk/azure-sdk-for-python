@@ -15,7 +15,7 @@ from azure.mgmt.appplatform import AppPlatformManagementClient
     pip install azure-identity
     pip install azure-mgmt-appplatform
 # USAGE
-    python services_create_or_update_enterprise.py
+    python job_start.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -30,25 +30,14 @@ def main():
         subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.services.begin_create_or_update(
+    response = client.job.begin_start(
         resource_group_name="myResourceGroup",
         service_name="myservice",
-        resource={
-            "location": "eastus",
-            "properties": {
-                "marketplaceResource": {
-                    "plan": "tanzu-asc-ent-mtr",
-                    "product": "azure-spring-cloud-vmware-tanzu-2",
-                    "publisher": "vmware-inc",
-                }
-            },
-            "sku": {"name": "E0", "tier": "Enterprise"},
-            "tags": {"key1": "value1"},
-        },
+        job_name="myjob",
     ).result()
     print(response)
 
 
-# x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/stable/2023-12-01/examples/Services_CreateOrUpdate_Enterprise.json
+# x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2024-05-01-preview/examples/Job_Start.json
 if __name__ == "__main__":
     main()
