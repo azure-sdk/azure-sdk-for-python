@@ -1,4 +1,3 @@
-# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8,7 +7,7 @@
 # --------------------------------------------------------------------------
 from io import IOBase
 import sys
-from typing import Any, AsyncIterable, Callable, Dict, IO, Optional, Type, TypeVar, Union, overload
+from typing import Any, AsyncIterable, Callable, Dict, IO, Optional, TypeVar, Union, overload
 import urllib.parse
 
 from azure.core.async_paging import AsyncItemPaged, AsyncList
@@ -40,7 +39,7 @@ from ...operations._app_attach_package_operations import (
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -73,13 +72,13 @@ class AppAttachPackageOperations:
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param app_attach_package_name: The name of the App Attach package. Required.
+        :param app_attach_package_name: The name of the App Attach package arm object. Required.
         :type app_attach_package_name: str
         :return: AppAttachPackage or the result of cls(response)
         :rtype: ~azure.mgmt.desktopvirtualization.models.AppAttachPackage
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -137,7 +136,7 @@ class AppAttachPackageOperations:
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param app_attach_package_name: The name of the App Attach package. Required.
+        :param app_attach_package_name: The name of the App Attach package arm object. Required.
         :type app_attach_package_name: str
         :param app_attach_package: Object containing App Attach Package definitions. Required.
         :type app_attach_package: ~azure.mgmt.desktopvirtualization.models.AppAttachPackage
@@ -164,7 +163,7 @@ class AppAttachPackageOperations:
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param app_attach_package_name: The name of the App Attach package. Required.
+        :param app_attach_package_name: The name of the App Attach package arm object. Required.
         :type app_attach_package_name: str
         :param app_attach_package: Object containing App Attach Package definitions. Required.
         :type app_attach_package: IO[bytes]
@@ -189,7 +188,7 @@ class AppAttachPackageOperations:
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param app_attach_package_name: The name of the App Attach package. Required.
+        :param app_attach_package_name: The name of the App Attach package arm object. Required.
         :type app_attach_package_name: str
         :param app_attach_package: Object containing App Attach Package definitions. Is either a
          AppAttachPackage type or a IO[bytes] type. Required.
@@ -199,7 +198,7 @@ class AppAttachPackageOperations:
         :rtype: ~azure.mgmt.desktopvirtualization.models.AppAttachPackage
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -255,21 +254,23 @@ class AppAttachPackageOperations:
         return deserialized  # type: ignore
 
     @distributed_trace_async
-    async def delete(  # pylint: disable=inconsistent-return-statements
-        self, resource_group_name: str, app_attach_package_name: str, **kwargs: Any
+    async def delete(
+        self, resource_group_name: str, app_attach_package_name: str, force: Optional[bool] = None, **kwargs: Any
     ) -> None:
         """Remove an App Attach Package.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param app_attach_package_name: The name of the App Attach package. Required.
+        :param app_attach_package_name: The name of the App Attach package arm object. Required.
         :type app_attach_package_name: str
+        :param force: Force flag to delete App Attach package. Default value is None.
+        :type force: bool
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -287,6 +288,7 @@ class AppAttachPackageOperations:
             resource_group_name=resource_group_name,
             app_attach_package_name=app_attach_package_name,
             subscription_id=self._config.subscription_id,
+            force=force,
             api_version=api_version,
             headers=_headers,
             params=_params,
@@ -323,7 +325,7 @@ class AppAttachPackageOperations:
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param app_attach_package_name: The name of the App Attach package. Required.
+        :param app_attach_package_name: The name of the App Attach package arm object. Required.
         :type app_attach_package_name: str
         :param app_attach_package_patch: Object containing App Attach Package definition. Default value
          is None.
@@ -351,7 +353,7 @@ class AppAttachPackageOperations:
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param app_attach_package_name: The name of the App Attach package. Required.
+        :param app_attach_package_name: The name of the App Attach package arm object. Required.
         :type app_attach_package_name: str
         :param app_attach_package_patch: Object containing App Attach Package definition. Default value
          is None.
@@ -377,7 +379,7 @@ class AppAttachPackageOperations:
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param app_attach_package_name: The name of the App Attach package. Required.
+        :param app_attach_package_name: The name of the App Attach package arm object. Required.
         :type app_attach_package_name: str
         :param app_attach_package_patch: Object containing App Attach Package definition. Is either a
          AppAttachPackagePatch type or a IO[bytes] type. Default value is None.
@@ -387,7 +389,7 @@ class AppAttachPackageOperations:
         :rtype: ~azure.mgmt.desktopvirtualization.models.AppAttachPackage
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -454,8 +456,8 @@ class AppAttachPackageOperations:
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param filter: OData filter expression. Valid properties for filtering are package name and
-         host pool. Default value is None.
+        :param filter: OData filter expression. Valid properties for filtering are package name, host
+         pool, package owner name, and custom data. Default value is None.
         :type filter: str
         :return: An iterator like instance of either AppAttachPackage or the result of cls(response)
         :rtype:
@@ -468,7 +470,7 @@ class AppAttachPackageOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.AppAttachPackageList] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -537,8 +539,8 @@ class AppAttachPackageOperations:
     ) -> AsyncIterable["_models.AppAttachPackage"]:
         """List App Attach packages in subscription.
 
-        :param filter: OData filter expression. Valid properties for filtering are package name, host
-         pool, and resource group. Default value is None.
+        :param filter: OData filter expression. Valid properties for filtering are package name,
+         resource group, host pool, package owner name, and custom data. Default value is None.
         :type filter: str
         :return: An iterator like instance of either AppAttachPackage or the result of cls(response)
         :rtype:
@@ -551,7 +553,7 @@ class AppAttachPackageOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.AppAttachPackageList] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
