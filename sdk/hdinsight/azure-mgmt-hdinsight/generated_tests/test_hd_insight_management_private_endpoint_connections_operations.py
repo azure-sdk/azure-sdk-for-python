@@ -20,7 +20,7 @@ class TestHDInsightManagementPrivateEndpointConnectionsOperations(AzureMgmtRecor
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_cluster(self, resource_group):
+    def test_private_endpoint_connections_list_by_cluster(self, resource_group):
         response = self.client.private_endpoint_connections.list_by_cluster(
             resource_group_name=resource_group.name,
             cluster_name="str",
@@ -32,7 +32,7 @@ class TestHDInsightManagementPrivateEndpointConnectionsOperations(AzureMgmtRecor
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_create_or_update(self, resource_group):
+    def test_private_endpoint_connections_begin_create_or_update(self, resource_group):
         response = self.client.private_endpoint_connections.begin_create_or_update(
             resource_group_name=resource_group.name,
             cluster_name="str",
@@ -62,7 +62,7 @@ class TestHDInsightManagementPrivateEndpointConnectionsOperations(AzureMgmtRecor
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_private_endpoint_connections_get(self, resource_group):
         response = self.client.private_endpoint_connections.get(
             resource_group_name=resource_group.name,
             cluster_name="str",
@@ -75,7 +75,7 @@ class TestHDInsightManagementPrivateEndpointConnectionsOperations(AzureMgmtRecor
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_delete(self, resource_group):
+    def test_private_endpoint_connections_begin_delete(self, resource_group):
         response = self.client.private_endpoint_connections.begin_delete(
             resource_group_name=resource_group.name,
             cluster_name="str",

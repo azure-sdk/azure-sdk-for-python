@@ -20,7 +20,7 @@ class TestHDInsightManagementConfigurationsOperations(AzureMgmtRecordedTestCase)
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list(self, resource_group):
+    def test_configurations_list(self, resource_group):
         response = self.client.configurations.list(
             resource_group_name=resource_group.name,
             cluster_name="str",
@@ -32,7 +32,7 @@ class TestHDInsightManagementConfigurationsOperations(AzureMgmtRecordedTestCase)
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_update(self, resource_group):
+    def test_configurations_begin_update(self, resource_group):
         response = self.client.configurations.begin_update(
             resource_group_name=resource_group.name,
             cluster_name="str",
@@ -46,7 +46,7 @@ class TestHDInsightManagementConfigurationsOperations(AzureMgmtRecordedTestCase)
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_configurations_get(self, resource_group):
         response = self.client.configurations.get(
             resource_group_name=resource_group.name,
             cluster_name="str",

@@ -1,4 +1,3 @@
-# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8,7 +7,7 @@
 # --------------------------------------------------------------------------
 from io import IOBase
 import sys
-from typing import Any, Callable, Dict, IO, Iterator, List, Optional, Type, TypeVar, Union, cast, overload
+from typing import Any, Callable, Dict, IO, Iterator, List, Optional, TypeVar, Union, cast, overload
 
 from azure.core.exceptions import (
     ClientAuthenticationError,
@@ -34,7 +33,7 @@ from .._serialization import Serializer
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
 
@@ -170,7 +169,7 @@ class VirtualMachinesOperations:
         :rtype: list[~azure.mgmt.hdinsight.models.HostInfo]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -216,7 +215,7 @@ class VirtualMachinesOperations:
     def _restart_hosts_initial(
         self, resource_group_name: str, cluster_name: str, hosts: Union[List[str], IO[bytes]], **kwargs: Any
     ) -> Iterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -406,7 +405,7 @@ class VirtualMachinesOperations:
         :rtype: ~azure.mgmt.hdinsight.models.AsyncOperationResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,

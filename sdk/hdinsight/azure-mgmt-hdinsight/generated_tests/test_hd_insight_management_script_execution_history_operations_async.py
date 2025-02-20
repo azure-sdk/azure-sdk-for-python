@@ -21,7 +21,7 @@ class TestHDInsightManagementScriptExecutionHistoryOperationsAsync(AzureMgmtReco
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_by_cluster(self, resource_group):
+    async def test_script_execution_history_list_by_cluster(self, resource_group):
         response = self.client.script_execution_history.list_by_cluster(
             resource_group_name=resource_group.name,
             cluster_name="str",
@@ -33,7 +33,7 @@ class TestHDInsightManagementScriptExecutionHistoryOperationsAsync(AzureMgmtReco
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_promote(self, resource_group):
+    async def test_script_execution_history_promote(self, resource_group):
         response = await self.client.script_execution_history.promote(
             resource_group_name=resource_group.name,
             cluster_name="str",

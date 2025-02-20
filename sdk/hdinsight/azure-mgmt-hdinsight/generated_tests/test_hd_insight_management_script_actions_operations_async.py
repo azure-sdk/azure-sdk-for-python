@@ -21,7 +21,7 @@ class TestHDInsightManagementScriptActionsOperationsAsync(AzureMgmtRecordedTestC
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_delete(self, resource_group):
+    async def test_script_actions_delete(self, resource_group):
         response = await self.client.script_actions.delete(
             resource_group_name=resource_group.name,
             cluster_name="str",
@@ -34,7 +34,7 @@ class TestHDInsightManagementScriptActionsOperationsAsync(AzureMgmtRecordedTestC
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_by_cluster(self, resource_group):
+    async def test_script_actions_list_by_cluster(self, resource_group):
         response = self.client.script_actions.list_by_cluster(
             resource_group_name=resource_group.name,
             cluster_name="str",
@@ -46,7 +46,7 @@ class TestHDInsightManagementScriptActionsOperationsAsync(AzureMgmtRecordedTestC
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get_execution_detail(self, resource_group):
+    async def test_script_actions_get_execution_detail(self, resource_group):
         response = await self.client.script_actions.get_execution_detail(
             resource_group_name=resource_group.name,
             cluster_name="str",
@@ -59,7 +59,7 @@ class TestHDInsightManagementScriptActionsOperationsAsync(AzureMgmtRecordedTestC
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get_execution_async_operation_status(self, resource_group):
+    async def test_script_actions_get_execution_async_operation_status(self, resource_group):
         response = await self.client.script_actions.get_execution_async_operation_status(
             resource_group_name=resource_group.name,
             cluster_name="str",

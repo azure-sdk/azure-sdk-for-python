@@ -21,7 +21,7 @@ class TestHDInsightManagementClustersOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_create(self, resource_group):
+    async def test_clusters_begin_create(self, resource_group):
         response = await (
             await self.client.clusters.begin_create(
                 resource_group_name=resource_group.name,
@@ -166,7 +166,7 @@ class TestHDInsightManagementClustersOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_update(self, resource_group):
+    async def test_clusters_update(self, resource_group):
         response = await self.client.clusters.update(
             resource_group_name=resource_group.name,
             cluster_name="str",
@@ -187,7 +187,7 @@ class TestHDInsightManagementClustersOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_delete(self, resource_group):
+    async def test_clusters_begin_delete(self, resource_group):
         response = await (
             await self.client.clusters.begin_delete(
                 resource_group_name=resource_group.name,
@@ -201,7 +201,7 @@ class TestHDInsightManagementClustersOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get(self, resource_group):
+    async def test_clusters_get(self, resource_group):
         response = await self.client.clusters.get(
             resource_group_name=resource_group.name,
             cluster_name="str",
@@ -213,7 +213,7 @@ class TestHDInsightManagementClustersOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_by_resource_group(self, resource_group):
+    async def test_clusters_list_by_resource_group(self, resource_group):
         response = self.client.clusters.list_by_resource_group(
             resource_group_name=resource_group.name,
             api_version="2024-08-01-preview",
@@ -224,7 +224,7 @@ class TestHDInsightManagementClustersOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_resize(self, resource_group):
+    async def test_clusters_begin_resize(self, resource_group):
         response = await (
             await self.client.clusters.begin_resize(
                 resource_group_name=resource_group.name,
@@ -240,7 +240,7 @@ class TestHDInsightManagementClustersOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_update_auto_scale_configuration(self, resource_group):
+    async def test_clusters_begin_update_auto_scale_configuration(self, resource_group):
         response = await (
             await self.client.clusters.begin_update_auto_scale_configuration(
                 resource_group_name=resource_group.name,
@@ -269,7 +269,7 @@ class TestHDInsightManagementClustersOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list(self, resource_group):
+    async def test_clusters_list(self, resource_group):
         response = self.client.clusters.list(
             api_version="2024-08-01-preview",
         )
@@ -279,7 +279,7 @@ class TestHDInsightManagementClustersOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_rotate_disk_encryption_key(self, resource_group):
+    async def test_clusters_begin_rotate_disk_encryption_key(self, resource_group):
         response = await (
             await self.client.clusters.begin_rotate_disk_encryption_key(
                 resource_group_name=resource_group.name,
@@ -294,7 +294,7 @@ class TestHDInsightManagementClustersOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get_gateway_settings(self, resource_group):
+    async def test_clusters_get_gateway_settings(self, resource_group):
         response = await self.client.clusters.get_gateway_settings(
             resource_group_name=resource_group.name,
             cluster_name="str",
@@ -306,7 +306,7 @@ class TestHDInsightManagementClustersOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_update_gateway_settings(self, resource_group):
+    async def test_clusters_begin_update_gateway_settings(self, resource_group):
         response = await (
             await self.client.clusters.begin_update_gateway_settings(
                 resource_group_name=resource_group.name,
@@ -325,7 +325,7 @@ class TestHDInsightManagementClustersOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get_azure_async_operation_status(self, resource_group):
+    async def test_clusters_get_azure_async_operation_status(self, resource_group):
         response = await self.client.clusters.get_azure_async_operation_status(
             resource_group_name=resource_group.name,
             cluster_name="str",
@@ -338,7 +338,7 @@ class TestHDInsightManagementClustersOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_update_identity_certificate(self, resource_group):
+    async def test_clusters_begin_update_identity_certificate(self, resource_group):
         response = await (
             await self.client.clusters.begin_update_identity_certificate(
                 resource_group_name=resource_group.name,
@@ -353,7 +353,7 @@ class TestHDInsightManagementClustersOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_execute_script_actions(self, resource_group):
+    async def test_clusters_begin_execute_script_actions(self, resource_group):
         response = await (
             await self.client.clusters.begin_execute_script_actions(
                 resource_group_name=resource_group.name,

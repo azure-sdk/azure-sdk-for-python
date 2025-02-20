@@ -20,7 +20,7 @@ class TestHDInsightManagementVirtualMachinesOperations(AzureMgmtRecordedTestCase
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_hosts(self, resource_group):
+    def test_virtual_machines_list_hosts(self, resource_group):
         response = self.client.virtual_machines.list_hosts(
             resource_group_name=resource_group.name,
             cluster_name="str",
@@ -32,7 +32,7 @@ class TestHDInsightManagementVirtualMachinesOperations(AzureMgmtRecordedTestCase
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_restart_hosts(self, resource_group):
+    def test_virtual_machines_begin_restart_hosts(self, resource_group):
         response = self.client.virtual_machines.begin_restart_hosts(
             resource_group_name=resource_group.name,
             cluster_name="str",
@@ -45,7 +45,7 @@ class TestHDInsightManagementVirtualMachinesOperations(AzureMgmtRecordedTestCase
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get_async_operation_status(self, resource_group):
+    def test_virtual_machines_get_async_operation_status(self, resource_group):
         response = self.client.virtual_machines.get_async_operation_status(
             resource_group_name=resource_group.name,
             cluster_name="str",

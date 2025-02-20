@@ -1,5 +1,5 @@
-# coding=utf-8
 # pylint: disable=too-many-lines
+# coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -16,10 +16,9 @@ from .. import _serialization
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 JSON = MutableMapping[str, Any]  # pylint: disable=unsubscriptable-object
 
@@ -352,7 +351,7 @@ class ApplicationListResult(_serialization.Model):
         self.next_link = None
 
 
-class ApplicationProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class ApplicationProperties(_serialization.Model):
     """The HDInsight cluster application GET response.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1267,7 +1266,7 @@ class ClusterCreateParametersExtended(_serialization.Model):
         self.identity = identity
 
 
-class ClusterCreateProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class ClusterCreateProperties(_serialization.Model):
     """The cluster create parameters.
 
     :ivar cluster_version: The version of the cluster.
@@ -1600,7 +1599,7 @@ class ClusterDiskEncryptionParameters(_serialization.Model):
         self.key_version = key_version
 
 
-class ClusterGetProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class ClusterGetProperties(_serialization.Model):
     """The properties of cluster.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1983,7 +1982,8 @@ class ClusterPatchParameters(_serialization.Model):
 
     :ivar tags: The resource tags.
     :vartype tags: dict[str, str]
-    :ivar identity: The identity of the cluster, if configured.
+    :ivar identity: The identity of the cluster, if configured. Setting this property will override
+     the existing identity configuration of the cluster.
     :vartype identity: ~azure.mgmt.hdinsight.models.ClusterIdentity
     """
 
@@ -2002,7 +2002,8 @@ class ClusterPatchParameters(_serialization.Model):
         """
         :keyword tags: The resource tags.
         :paramtype tags: dict[str, str]
-        :keyword identity: The identity of the cluster, if configured.
+        :keyword identity: The identity of the cluster, if configured. Setting this property will
+         override the existing identity configuration of the cluster.
         :paramtype identity: ~azure.mgmt.hdinsight.models.ClusterIdentity
         """
         super().__init__(**kwargs)
@@ -2801,7 +2802,7 @@ class LocalizedName(_serialization.Model):
         self.localized_value = localized_value
 
 
-class MetricSpecifications(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class MetricSpecifications(_serialization.Model):
     """The details of metric specifications.
 
     :ivar name: The name of the metric specification.
@@ -3672,7 +3673,7 @@ class ResourceId(_serialization.Model):
         self.id = id
 
 
-class Role(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class Role(_serialization.Model):
     """Describes a role on the cluster.
 
     :ivar name: The name of the role.
@@ -3822,7 +3823,7 @@ class RuntimeScriptAction(_serialization.Model):
         self.application_name = None
 
 
-class RuntimeScriptActionDetail(RuntimeScriptAction):  # pylint: disable=too-many-instance-attributes
+class RuntimeScriptActionDetail(RuntimeScriptAction):
     """The execution details of a script action.
 
     Variables are only populated by the server, and will be ignored when sending a request.

@@ -21,7 +21,7 @@ class TestHDInsightManagementApplicationsOperationsAsync(AzureMgmtRecordedTestCa
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_by_cluster(self, resource_group):
+    async def test_applications_list_by_cluster(self, resource_group):
         response = self.client.applications.list_by_cluster(
             resource_group_name=resource_group.name,
             cluster_name="str",
@@ -33,7 +33,7 @@ class TestHDInsightManagementApplicationsOperationsAsync(AzureMgmtRecordedTestCa
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get(self, resource_group):
+    async def test_applications_get(self, resource_group):
         response = await self.client.applications.get(
             resource_group_name=resource_group.name,
             cluster_name="str",
@@ -46,7 +46,7 @@ class TestHDInsightManagementApplicationsOperationsAsync(AzureMgmtRecordedTestCa
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_create(self, resource_group):
+    async def test_applications_begin_create(self, resource_group):
         response = await (
             await self.client.applications.begin_create(
                 resource_group_name=resource_group.name,
@@ -177,7 +177,7 @@ class TestHDInsightManagementApplicationsOperationsAsync(AzureMgmtRecordedTestCa
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_delete(self, resource_group):
+    async def test_applications_begin_delete(self, resource_group):
         response = await (
             await self.client.applications.begin_delete(
                 resource_group_name=resource_group.name,
@@ -192,7 +192,7 @@ class TestHDInsightManagementApplicationsOperationsAsync(AzureMgmtRecordedTestCa
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get_azure_async_operation_status(self, resource_group):
+    async def test_applications_get_azure_async_operation_status(self, resource_group):
         response = await self.client.applications.get_azure_async_operation_status(
             resource_group_name=resource_group.name,
             cluster_name="str",
