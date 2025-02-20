@@ -1,4 +1,3 @@
-# pylint: disable=too-many-lines
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,6 +6,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
+import sys
 from typing import Any, AsyncIterable, Callable, Dict, IO, List, Optional, TypeVar, Union, overload
 import urllib.parse
 
@@ -20,15 +20,13 @@ from azure.core.exceptions import (
     map_error,
 )
 from azure.core.pipeline import PipelineResponse
-from azure.core.pipeline.transport import AsyncHttpResponse
-from azure.core.rest import HttpRequest
+from azure.core.rest import AsyncHttpResponse, HttpRequest
 from azure.core.tracing.decorator import distributed_trace
 from azure.core.tracing.decorator_async import distributed_trace_async
 from azure.core.utils import case_insensitive_dict
 from azure.mgmt.core.exceptions import ARMErrorFormat
 
 from ... import models as _models
-from ..._vendor import _convert_request
 from ...operations._datastores_operations import (
     build_create_or_update_request,
     build_delete_request,
@@ -37,6 +35,10 @@ from ...operations._datastores_operations import (
     build_list_secrets_request,
 )
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -97,7 +99,6 @@ class DatastoresOperations:
         :type order_by: str
         :param order_by_asc: Order by property in ascending order. Default value is False.
         :type order_by_asc: bool
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either Datastore or the result of cls(response)
         :rtype:
          ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.machinelearningservices.models.Datastore]
@@ -109,7 +110,7 @@ class DatastoresOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.DatastoreResourceArmPaginatedResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -120,7 +121,7 @@ class DatastoresOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_request(
+                _request = build_list_request(
                     resource_group_name=resource_group_name,
                     workspace_name=workspace_name,
                     subscription_id=self._config.subscription_id,
@@ -132,12 +133,10 @@ class DatastoresOperations:
                     order_by=order_by,
                     order_by_asc=order_by_asc,
                     api_version=api_version,
-                    template_url=self.list.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -149,13 +148,12 @@ class DatastoresOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("DatastoreResourceArmPaginatedResult", pipeline_response)
@@ -165,11 +163,11 @@ class DatastoresOperations:
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -182,14 +180,8 @@ class DatastoresOperations:
 
         return AsyncItemPaged(get_next, extract_data)
 
-    list.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/datastores"
-    }
-
     @distributed_trace_async
-    async def delete(  # pylint: disable=inconsistent-return-statements
-        self, resource_group_name: str, workspace_name: str, name: str, **kwargs: Any
-    ) -> None:
+    async def delete(self, resource_group_name: str, workspace_name: str, name: str, **kwargs: Any) -> None:
         """Delete datastore.
 
         Delete datastore.
@@ -201,12 +193,11 @@ class DatastoresOperations:
         :type workspace_name: str
         :param name: Datastore name. Required.
         :type name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -220,22 +211,20 @@ class DatastoresOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_delete_request(
+        _request = build_delete_request(
             resource_group_name=resource_group_name,
             workspace_name=workspace_name,
             name=name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.delete.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -246,11 +235,7 @@ class DatastoresOperations:
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/datastores/{name}"
-    }
+            return cls(pipeline_response, None, {})  # type: ignore
 
     @distributed_trace_async
     async def get(self, resource_group_name: str, workspace_name: str, name: str, **kwargs: Any) -> _models.Datastore:
@@ -265,12 +250,11 @@ class DatastoresOperations:
         :type workspace_name: str
         :param name: Datastore name. Required.
         :type name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: Datastore or the result of cls(response)
         :rtype: ~azure.mgmt.machinelearningservices.models.Datastore
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -284,22 +268,20 @@ class DatastoresOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.Datastore] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             resource_group_name=resource_group_name,
             workspace_name=workspace_name,
             name=name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -309,16 +291,12 @@ class DatastoresOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("Datastore", pipeline_response)
+        deserialized = self._deserialize("Datastore", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/datastores/{name}"
-    }
+        return deserialized  # type: ignore
 
     @overload
     async def create_or_update(
@@ -350,7 +328,6 @@ class DatastoresOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: Datastore or the result of cls(response)
         :rtype: ~azure.mgmt.machinelearningservices.models.Datastore
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -362,7 +339,7 @@ class DatastoresOperations:
         resource_group_name: str,
         workspace_name: str,
         name: str,
-        body: IO,
+        body: IO[bytes],
         skip_validation: bool = False,
         *,
         content_type: str = "application/json",
@@ -380,13 +357,12 @@ class DatastoresOperations:
         :param name: Datastore name. Required.
         :type name: str
         :param body: Datastore entity to create or update. Required.
-        :type body: IO
+        :type body: IO[bytes]
         :param skip_validation: Flag to skip validation. Default value is False.
         :type skip_validation: bool
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: Datastore or the result of cls(response)
         :rtype: ~azure.mgmt.machinelearningservices.models.Datastore
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -398,7 +374,7 @@ class DatastoresOperations:
         resource_group_name: str,
         workspace_name: str,
         name: str,
-        body: Union[_models.Datastore, IO],
+        body: Union[_models.Datastore, IO[bytes]],
         skip_validation: bool = False,
         **kwargs: Any
     ) -> _models.Datastore:
@@ -413,20 +389,16 @@ class DatastoresOperations:
         :type workspace_name: str
         :param name: Datastore name. Required.
         :type name: str
-        :param body: Datastore entity to create or update. Is either a Datastore type or a IO type.
-         Required.
-        :type body: ~azure.mgmt.machinelearningservices.models.Datastore or IO
+        :param body: Datastore entity to create or update. Is either a Datastore type or a IO[bytes]
+         type. Required.
+        :type body: ~azure.mgmt.machinelearningservices.models.Datastore or IO[bytes]
         :param skip_validation: Flag to skip validation. Default value is False.
         :type skip_validation: bool
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: Datastore or the result of cls(response)
         :rtype: ~azure.mgmt.machinelearningservices.models.Datastore
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -449,7 +421,7 @@ class DatastoresOperations:
         else:
             _json = self._serialize.body(body, "Datastore")
 
-        request = build_create_or_update_request(
+        _request = build_create_or_update_request(
             resource_group_name=resource_group_name,
             workspace_name=workspace_name,
             name=name,
@@ -459,16 +431,14 @@ class DatastoresOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.create_or_update.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -478,20 +448,12 @@ class DatastoresOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        if response.status_code == 200:
-            deserialized = self._deserialize("Datastore", pipeline_response)
-
-        if response.status_code == 201:
-            deserialized = self._deserialize("Datastore", pipeline_response)
+        deserialized = self._deserialize("Datastore", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
 
         return deserialized  # type: ignore
-
-    create_or_update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/datastores/{name}"
-    }
 
     @distributed_trace_async
     async def list_secrets(
@@ -508,12 +470,11 @@ class DatastoresOperations:
         :type workspace_name: str
         :param name: Datastore name. Required.
         :type name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: DatastoreSecrets or the result of cls(response)
         :rtype: ~azure.mgmt.machinelearningservices.models.DatastoreSecrets
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -527,22 +488,20 @@ class DatastoresOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.DatastoreSecrets] = kwargs.pop("cls", None)
 
-        request = build_list_secrets_request(
+        _request = build_list_secrets_request(
             resource_group_name=resource_group_name,
             workspace_name=workspace_name,
             name=name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.list_secrets.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -552,13 +511,9 @@ class DatastoresOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("DatastoreSecrets", pipeline_response)
+        deserialized = self._deserialize("DatastoreSecrets", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    list_secrets.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/datastores/{name}/listSecrets"
-    }
+        return deserialized  # type: ignore
