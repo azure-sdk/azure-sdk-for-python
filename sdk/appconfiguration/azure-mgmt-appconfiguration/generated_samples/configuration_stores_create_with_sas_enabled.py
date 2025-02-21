@@ -15,7 +15,7 @@ from azure.mgmt.appconfiguration import AppConfigurationManagementClient
     pip install azure-identity
     pip install azure-mgmt-appconfiguration
 # USAGE
-    python configuration_stores_list_replicas.py
+    python configuration_stores_create_with_sas_enabled.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -30,14 +30,18 @@ def main():
         subscription_id="c80fb759-c965-4c6a-9110-9b2b2d038882",
     )
 
-    response = client.replicas.list_by_configuration_store(
+    response = client.configuration_stores.begin_create(
         resource_group_name="myResourceGroup",
         config_store_name="contoso",
-    )
-    for item in response:
-        print(item)
+        config_store_creation_parameters={
+            "location": "westus",
+            "properties": {"sas": {"status": "Enabled"}},
+            "sku": {"name": "Standard"},
+        },
+    ).result()
+    print(response)
 
 
-# x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/preview/2024-06-01-preview/examples/ConfigurationStoresListReplicas.json
+# x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/preview/2024-06-01-preview/examples/ConfigurationStoresCreateWithSasEnabled.json
 if __name__ == "__main__":
     main()

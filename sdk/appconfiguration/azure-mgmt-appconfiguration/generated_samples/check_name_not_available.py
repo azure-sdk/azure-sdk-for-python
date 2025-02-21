@@ -39,6 +39,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2024-05-01/examples/CheckNameNotAvailable.json
+# x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/preview/2024-06-01-preview/examples/CheckNameNotAvailable.json
 if __name__ == "__main__":
     main()

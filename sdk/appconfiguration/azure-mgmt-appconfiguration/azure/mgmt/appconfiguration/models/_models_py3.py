@@ -1,5 +1,5 @@
-# coding=utf-8
 # pylint: disable=too-many-lines
+# coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -13,7 +13,6 @@ from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 from .. import _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
@@ -213,7 +212,7 @@ class TrackedResource(Resource):
         self.location = location
 
 
-class ConfigurationStore(TrackedResource):  # pylint: disable=too-many-instance-attributes
+class ConfigurationStore(TrackedResource):
     """The configuration store along with all resource properties. The Configuration Store will have
     all information to begin utilizing it.
 
@@ -255,8 +254,10 @@ class ConfigurationStore(TrackedResource):  # pylint: disable=too-many-instance-
     :ivar public_network_access: Control permission for data plane traffic coming from public
      networks while private endpoint is enabled. Known values are: "Enabled" and "Disabled".
     :vartype public_network_access: str or ~azure.mgmt.appconfiguration.models.PublicNetworkAccess
-    :ivar disable_local_auth: Disables all authentication methods other than AAD authentication.
+    :ivar disable_local_auth: Disables access key authentication.
     :vartype disable_local_auth: bool
+    :ivar sas: The SAS authentication settings of the configuration store.
+    :vartype sas: ~azure.mgmt.appconfiguration.models.SasProperties
     :ivar soft_delete_retention_in_days: The amount of time in days that the configuration store
      will be retained when it is soft deleted.
     :vartype soft_delete_retention_in_days: int
@@ -269,6 +270,12 @@ class ConfigurationStore(TrackedResource):  # pylint: disable=too-many-instance-
     :ivar create_mode: Indicates whether the configuration store need to be recovered. Known values
      are: "Recover" and "Default".
     :vartype create_mode: str or ~azure.mgmt.appconfiguration.models.CreateMode
+    :ivar telemetry: Property specifying the configuration of telemetry for this configuration
+     store.
+    :vartype telemetry: ~azure.mgmt.appconfiguration.models.TelemetryProperties
+    :ivar experimentation: Property specifying the configuration of experimentation for this
+     configuration store.
+    :vartype experimentation: ~azure.mgmt.appconfiguration.models.ExperimentationProperties
     """
 
     _validation = {
@@ -303,10 +310,13 @@ class ConfigurationStore(TrackedResource):  # pylint: disable=too-many-instance-
         },
         "public_network_access": {"key": "properties.publicNetworkAccess", "type": "str"},
         "disable_local_auth": {"key": "properties.disableLocalAuth", "type": "bool"},
+        "sas": {"key": "properties.sas", "type": "SasProperties"},
         "soft_delete_retention_in_days": {"key": "properties.softDeleteRetentionInDays", "type": "int"},
         "enable_purge_protection": {"key": "properties.enablePurgeProtection", "type": "bool"},
         "data_plane_proxy": {"key": "properties.dataPlaneProxy", "type": "DataPlaneProxyProperties"},
         "create_mode": {"key": "properties.createMode", "type": "str"},
+        "telemetry": {"key": "properties.telemetry", "type": "TelemetryProperties"},
+        "experimentation": {"key": "properties.experimentation", "type": "ExperimentationProperties"},
     }
 
     def __init__(
@@ -319,10 +329,13 @@ class ConfigurationStore(TrackedResource):  # pylint: disable=too-many-instance-
         encryption: Optional["_models.EncryptionProperties"] = None,
         public_network_access: Optional[Union[str, "_models.PublicNetworkAccess"]] = None,
         disable_local_auth: bool = False,
+        sas: Optional["_models.SasProperties"] = None,
         soft_delete_retention_in_days: int = 7,
         enable_purge_protection: bool = False,
         data_plane_proxy: Optional["_models.DataPlaneProxyProperties"] = None,
         create_mode: Optional[Union[str, "_models.CreateMode"]] = None,
+        telemetry: Optional["_models.TelemetryProperties"] = None,
+        experimentation: Optional["_models.ExperimentationProperties"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -340,8 +353,10 @@ class ConfigurationStore(TrackedResource):  # pylint: disable=too-many-instance-
          networks while private endpoint is enabled. Known values are: "Enabled" and "Disabled".
         :paramtype public_network_access: str or
          ~azure.mgmt.appconfiguration.models.PublicNetworkAccess
-        :keyword disable_local_auth: Disables all authentication methods other than AAD authentication.
+        :keyword disable_local_auth: Disables access key authentication.
         :paramtype disable_local_auth: bool
+        :keyword sas: The SAS authentication settings of the configuration store.
+        :paramtype sas: ~azure.mgmt.appconfiguration.models.SasProperties
         :keyword soft_delete_retention_in_days: The amount of time in days that the configuration store
          will be retained when it is soft deleted.
         :paramtype soft_delete_retention_in_days: int
@@ -354,6 +369,12 @@ class ConfigurationStore(TrackedResource):  # pylint: disable=too-many-instance-
         :keyword create_mode: Indicates whether the configuration store need to be recovered. Known
          values are: "Recover" and "Default".
         :paramtype create_mode: str or ~azure.mgmt.appconfiguration.models.CreateMode
+        :keyword telemetry: Property specifying the configuration of telemetry for this configuration
+         store.
+        :paramtype telemetry: ~azure.mgmt.appconfiguration.models.TelemetryProperties
+        :keyword experimentation: Property specifying the configuration of experimentation for this
+         configuration store.
+        :paramtype experimentation: ~azure.mgmt.appconfiguration.models.ExperimentationProperties
         """
         super().__init__(tags=tags, location=location, **kwargs)
         self.identity = identity
@@ -366,10 +387,13 @@ class ConfigurationStore(TrackedResource):  # pylint: disable=too-many-instance-
         self.private_endpoint_connections = None
         self.public_network_access = public_network_access
         self.disable_local_auth = disable_local_auth
+        self.sas = sas
         self.soft_delete_retention_in_days = soft_delete_retention_in_days
         self.enable_purge_protection = enable_purge_protection
         self.data_plane_proxy = data_plane_proxy
         self.create_mode = create_mode
+        self.telemetry = telemetry
+        self.experimentation = experimentation
 
 
 class ConfigurationStoreListResult(_serialization.Model):
@@ -415,8 +439,10 @@ class ConfigurationStoreUpdateParameters(_serialization.Model):
     :vartype tags: dict[str, str]
     :ivar encryption: The encryption settings of the configuration store.
     :vartype encryption: ~azure.mgmt.appconfiguration.models.EncryptionProperties
-    :ivar disable_local_auth: Disables all authentication methods other than AAD authentication.
+    :ivar disable_local_auth: Disables access key authentication.
     :vartype disable_local_auth: bool
+    :ivar sas: The SAS authentication settings of the configuration store.
+    :vartype sas: ~azure.mgmt.appconfiguration.models.SasProperties
     :ivar public_network_access: Control permission for data plane traffic coming from public
      networks while private endpoint is enabled. Known values are: "Enabled" and "Disabled".
     :vartype public_network_access: str or ~azure.mgmt.appconfiguration.models.PublicNetworkAccess
@@ -426,6 +452,12 @@ class ConfigurationStoreUpdateParameters(_serialization.Model):
     :ivar data_plane_proxy: Property specifying the configuration of data plane proxy for Azure
      Resource Manager (ARM).
     :vartype data_plane_proxy: ~azure.mgmt.appconfiguration.models.DataPlaneProxyProperties
+    :ivar telemetry: Property specifying the configuration of telemetry to update for this
+     configuration store.
+    :vartype telemetry: ~azure.mgmt.appconfiguration.models.TelemetryProperties
+    :ivar experimentation: Property specifying the configuration of experimentation to update for
+     this configuration store.
+    :vartype experimentation: ~azure.mgmt.appconfiguration.models.ExperimentationProperties
     """
 
     _attribute_map = {
@@ -434,9 +466,12 @@ class ConfigurationStoreUpdateParameters(_serialization.Model):
         "tags": {"key": "tags", "type": "{str}"},
         "encryption": {"key": "properties.encryption", "type": "EncryptionProperties"},
         "disable_local_auth": {"key": "properties.disableLocalAuth", "type": "bool"},
+        "sas": {"key": "properties.sas", "type": "SasProperties"},
         "public_network_access": {"key": "properties.publicNetworkAccess", "type": "str"},
         "enable_purge_protection": {"key": "properties.enablePurgeProtection", "type": "bool"},
         "data_plane_proxy": {"key": "properties.dataPlaneProxy", "type": "DataPlaneProxyProperties"},
+        "telemetry": {"key": "properties.telemetry", "type": "TelemetryProperties"},
+        "experimentation": {"key": "properties.experimentation", "type": "ExperimentationProperties"},
     }
 
     def __init__(
@@ -447,9 +482,12 @@ class ConfigurationStoreUpdateParameters(_serialization.Model):
         tags: Optional[Dict[str, str]] = None,
         encryption: Optional["_models.EncryptionProperties"] = None,
         disable_local_auth: Optional[bool] = None,
+        sas: Optional["_models.SasProperties"] = None,
         public_network_access: Optional[Union[str, "_models.PublicNetworkAccess"]] = None,
         enable_purge_protection: Optional[bool] = None,
         data_plane_proxy: Optional["_models.DataPlaneProxyProperties"] = None,
+        telemetry: Optional["_models.TelemetryProperties"] = None,
+        experimentation: Optional["_models.ExperimentationProperties"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -461,8 +499,10 @@ class ConfigurationStoreUpdateParameters(_serialization.Model):
         :paramtype tags: dict[str, str]
         :keyword encryption: The encryption settings of the configuration store.
         :paramtype encryption: ~azure.mgmt.appconfiguration.models.EncryptionProperties
-        :keyword disable_local_auth: Disables all authentication methods other than AAD authentication.
+        :keyword disable_local_auth: Disables access key authentication.
         :paramtype disable_local_auth: bool
+        :keyword sas: The SAS authentication settings of the configuration store.
+        :paramtype sas: ~azure.mgmt.appconfiguration.models.SasProperties
         :keyword public_network_access: Control permission for data plane traffic coming from public
          networks while private endpoint is enabled. Known values are: "Enabled" and "Disabled".
         :paramtype public_network_access: str or
@@ -473,6 +513,12 @@ class ConfigurationStoreUpdateParameters(_serialization.Model):
         :keyword data_plane_proxy: Property specifying the configuration of data plane proxy for Azure
          Resource Manager (ARM).
         :paramtype data_plane_proxy: ~azure.mgmt.appconfiguration.models.DataPlaneProxyProperties
+        :keyword telemetry: Property specifying the configuration of telemetry to update for this
+         configuration store.
+        :paramtype telemetry: ~azure.mgmt.appconfiguration.models.TelemetryProperties
+        :keyword experimentation: Property specifying the configuration of experimentation to update
+         for this configuration store.
+        :paramtype experimentation: ~azure.mgmt.appconfiguration.models.ExperimentationProperties
         """
         super().__init__(**kwargs)
         self.identity = identity
@@ -480,9 +526,12 @@ class ConfigurationStoreUpdateParameters(_serialization.Model):
         self.tags = tags
         self.encryption = encryption
         self.disable_local_auth = disable_local_auth
+        self.sas = sas
         self.public_network_access = public_network_access
         self.enable_purge_protection = enable_purge_protection
         self.data_plane_proxy = data_plane_proxy
+        self.telemetry = telemetry
+        self.experimentation = experimentation
 
 
 class DataPlaneProxyProperties(_serialization.Model):
@@ -788,7 +837,37 @@ class ErrorResponseAutoGenerated(_serialization.Model):
         self.error = error
 
 
-class KeyValue(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class ExperimentationProperties(_serialization.Model):
+    """Experimentation settings.
+
+    :ivar resource_id: Resource ID of a resource enabling experimentation.
+    :vartype resource_id: str
+    :ivar data_plane_endpoint: The data plane endpoint of the Split experimentation workspace
+     resource where experimentation data can be retrieved.
+    :vartype data_plane_endpoint: str
+    """
+
+    _attribute_map = {
+        "resource_id": {"key": "resourceId", "type": "str"},
+        "data_plane_endpoint": {"key": "dataPlaneEndpoint", "type": "str"},
+    }
+
+    def __init__(
+        self, *, resource_id: Optional[str] = None, data_plane_endpoint: Optional[str] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword resource_id: Resource ID of a resource enabling experimentation.
+        :paramtype resource_id: str
+        :keyword data_plane_endpoint: The data plane endpoint of the Split experimentation workspace
+         resource where experimentation data can be retrieved.
+        :paramtype data_plane_endpoint: str
+        """
+        super().__init__(**kwargs)
+        self.resource_id = resource_id
+        self.data_plane_endpoint = data_plane_endpoint
+
+
+class KeyValue(_serialization.Model):
     """The key-value resource along with all resource properties.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -967,6 +1046,82 @@ class KeyVaultProperties(_serialization.Model):
         super().__init__(**kwargs)
         self.key_identifier = key_identifier
         self.identity_client_id = identity_client_id
+
+
+class SasTokenScope(_serialization.Model):
+    """The data plane resource scope that the SAS token is authorized to access.
+
+    You probably want to use the sub-classes and not this class directly. Known sub-classes are:
+    KvSasTokenScope, SnapshotSasTokenScope
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar resource_type: Required. Known values are: "Kv" and "Snapshot".
+    :vartype resource_type: str or ~azure.mgmt.appconfiguration.models.ResourceType
+    """
+
+    _validation = {
+        "resource_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "resource_type": {"key": "resourceType", "type": "str"},
+    }
+
+    _subtype_map = {"resource_type": {"Kv": "KvSasTokenScope", "Snapshot": "SnapshotSasTokenScope"}}
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.resource_type: Optional[str] = None
+
+
+class KvSasTokenScope(SasTokenScope):
+    """The key value resource scope that the SAS token is authorized to access.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar resource_type: Required. Known values are: "Kv" and "Snapshot".
+    :vartype resource_type: str or ~azure.mgmt.appconfiguration.models.ResourceType
+    :ivar key: A filter used to match keys. Syntax reference:
+     https://aka.ms/azconfig/docs/keyvaluefiltering.
+    :vartype key: str
+    :ivar label: A filter used to match labels. Syntax reference:
+     https://aka.ms/azconfig/docs/keyvaluefiltering.
+    :vartype label: str
+    :ivar tags: An array of tag filters used to match tags.
+    :vartype tags: list[str]
+    """
+
+    _validation = {
+        "resource_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "resource_type": {"key": "resourceType", "type": "str"},
+        "key": {"key": "key", "type": "str"},
+        "label": {"key": "label", "type": "str"},
+        "tags": {"key": "tags", "type": "[str]"},
+    }
+
+    def __init__(
+        self, *, key: Optional[str] = None, label: Optional[str] = None, tags: Optional[List[str]] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword key: A filter used to match keys. Syntax reference:
+         https://aka.ms/azconfig/docs/keyvaluefiltering.
+        :paramtype key: str
+        :keyword label: A filter used to match labels. Syntax reference:
+         https://aka.ms/azconfig/docs/keyvaluefiltering.
+        :paramtype label: str
+        :keyword tags: An array of tag filters used to match tags.
+        :paramtype tags: list[str]
+        """
+        super().__init__(**kwargs)
+        self.resource_type: str = "Kv"
+        self.key = key
+        self.label = label
+        self.tags = tags
 
 
 class LogSpecification(_serialization.Model):
@@ -1727,6 +1882,33 @@ class ReplicaListResult(_serialization.Model):
         self.next_link = next_link
 
 
+class ResetSasKindParameters(_serialization.Model):
+    """Parameters used for resetting SAS kind.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar name: The kind of the SAS token. Required. Known values are: "Primary" and "Secondary".
+    :vartype name: str or ~azure.mgmt.appconfiguration.models.SasKind
+    """
+
+    _validation = {
+        "name": {"required": True},
+    }
+
+    _attribute_map = {
+        "name": {"key": "name", "type": "str"},
+    }
+
+    def __init__(self, *, name: Union[str, "_models.SasKind"], **kwargs: Any) -> None:
+        """
+        :keyword name: The kind of the SAS token. Required. Known values are: "Primary" and
+         "Secondary".
+        :paramtype name: str or ~azure.mgmt.appconfiguration.models.SasKind
+        """
+        super().__init__(**kwargs)
+        self.name = name
+
+
 class ResourceIdentity(_serialization.Model):
     """An identity that can be associated with a resource.
 
@@ -1787,6 +1969,179 @@ class ResourceIdentity(_serialization.Model):
         self.tenant_id = None
 
 
+class SasKindInfo(_serialization.Model):
+    """Information about a specific kind of SAS token.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar name: The kind of the SAS token. Known values are: "Primary" and "Secondary".
+    :vartype name: str or ~azure.mgmt.appconfiguration.models.SasKind
+    :ivar last_modified_at: The last reset time of all tokens of the specified SAS kind.
+    :vartype last_modified_at: ~datetime.datetime
+    """
+
+    _validation = {
+        "name": {"readonly": True},
+        "last_modified_at": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "name": {"key": "name", "type": "str"},
+        "last_modified_at": {"key": "lastModifiedAt", "type": "iso-8601"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.name = None
+        self.last_modified_at = None
+
+
+class SasProperties(_serialization.Model):
+    """The SAS authentication settings of the configuration store.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar status: The status of the SAS token authentication. This property manages if SAS token
+     authentication is enabled or disabled. Known values are: "Enabled" and "Disabled".
+    :vartype status: str or ~azure.mgmt.appconfiguration.models.SasStatus
+    :ivar kinds: Information about different kinds of SAS token.
+    :vartype kinds: list[~azure.mgmt.appconfiguration.models.SasKindInfo]
+    """
+
+    _validation = {
+        "kinds": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "status": {"key": "status", "type": "str"},
+        "kinds": {"key": "kinds", "type": "[SasKindInfo]"},
+    }
+
+    def __init__(self, *, status: Optional[Union[str, "_models.SasStatus"]] = None, **kwargs: Any) -> None:
+        """
+        :keyword status: The status of the SAS token authentication. This property manages if SAS token
+         authentication is enabled or disabled. Known values are: "Enabled" and "Disabled".
+        :paramtype status: str or ~azure.mgmt.appconfiguration.models.SasStatus
+        """
+        super().__init__(**kwargs)
+        self.status = status
+        self.kinds = None
+
+
+class SasTokenGenerationParameters(_serialization.Model):
+    """Parameters used for generating SAS token.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar sas_token_scope: The data plane resource scope that the SAS token is authorized to
+     access. Required.
+    :vartype sas_token_scope: ~azure.mgmt.appconfiguration.models.SasTokenScope
+    :ivar expires: The time that the SAS token expires in the Universal ISO 8601 DateTime format.
+     Max allowed expiration is 1 year from the time of token creation. Required.
+    :vartype expires: ~datetime.datetime
+    :ivar cache_control_max_age: Time (in seconds) for which the data plane response may be cached
+     by clients. App Configuration sets the Cache-Control response header ``max-age`` to the value
+     that's specified on the SAS token. See `rfc9111
+     <https://www.rfc-editor.org/rfc/rfc9111#name-max-age-2>`_ for more details.
+    :vartype cache_control_max_age: float
+    :ivar kind: The kind of the SAS token. Required. Known values are: "Primary" and "Secondary".
+    :vartype kind: str or ~azure.mgmt.appconfiguration.models.SasKind
+    """
+
+    _validation = {
+        "sas_token_scope": {"required": True},
+        "expires": {"required": True},
+        "kind": {"required": True},
+    }
+
+    _attribute_map = {
+        "sas_token_scope": {"key": "sasTokenScope", "type": "SasTokenScope"},
+        "expires": {"key": "expires", "type": "iso-8601"},
+        "cache_control_max_age": {"key": "cacheControlMaxAge", "type": "float"},
+        "kind": {"key": "kind", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        sas_token_scope: "_models.SasTokenScope",
+        expires: datetime.datetime,
+        kind: Union[str, "_models.SasKind"],
+        cache_control_max_age: Optional[float] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword sas_token_scope: The data plane resource scope that the SAS token is authorized to
+         access. Required.
+        :paramtype sas_token_scope: ~azure.mgmt.appconfiguration.models.SasTokenScope
+        :keyword expires: The time that the SAS token expires in the Universal ISO 8601 DateTime
+         format. Max allowed expiration is 1 year from the time of token creation. Required.
+        :paramtype expires: ~datetime.datetime
+        :keyword cache_control_max_age: Time (in seconds) for which the data plane response may be
+         cached by clients. App Configuration sets the Cache-Control response header ``max-age`` to the
+         value that's specified on the SAS token. See `rfc9111
+         <https://www.rfc-editor.org/rfc/rfc9111#name-max-age-2>`_ for more details.
+        :paramtype cache_control_max_age: float
+        :keyword kind: The kind of the SAS token. Required. Known values are: "Primary" and
+         "Secondary".
+        :paramtype kind: str or ~azure.mgmt.appconfiguration.models.SasKind
+        """
+        super().__init__(**kwargs)
+        self.sas_token_scope = sas_token_scope
+        self.expires = expires
+        self.cache_control_max_age = cache_control_max_age
+        self.kind = kind
+
+
+class SasTokenGenerationResult(_serialization.Model):
+    """The result of a request to generate a SAS token.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar sas_token_scope: The data plane resource scope that the SAS token is authorized to
+     access.
+    :vartype sas_token_scope: ~azure.mgmt.appconfiguration.models.SasTokenScope
+    :ivar expires: The time that the SAS token expires in the Universal ISO 8601 DateTime format.
+     Max allowed expiration is 1 year from the time of token creation.
+    :vartype expires: ~datetime.datetime
+    :ivar cache_control_max_age: Time (in seconds) for which the data plane response may be cached
+     by clients. App Configuration sets the Cache-Control response header ``max-age`` to the value
+     that's specified on the SAS token. See `rfc9111
+     <https://www.rfc-editor.org/rfc/rfc9111#name-max-age-2>`_ for more details.
+    :vartype cache_control_max_age: float
+    :ivar kind: The kind of the SAS token. Known values are: "Primary" and "Secondary".
+    :vartype kind: str or ~azure.mgmt.appconfiguration.models.SasKind
+    :ivar value: The value of the SAS token.
+    :vartype value: str
+    """
+
+    _validation = {
+        "sas_token_scope": {"readonly": True},
+        "expires": {"readonly": True},
+        "cache_control_max_age": {"readonly": True},
+        "kind": {"readonly": True},
+        "value": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "sas_token_scope": {"key": "sasTokenScope", "type": "SasTokenScope"},
+        "expires": {"key": "expires", "type": "iso-8601"},
+        "cache_control_max_age": {"key": "cacheControlMaxAge", "type": "float"},
+        "kind": {"key": "kind", "type": "str"},
+        "value": {"key": "value", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.sas_token_scope = None
+        self.expires = None
+        self.cache_control_max_age = None
+        self.kind = None
+        self.value = None
+
+
 class ServiceSpecification(_serialization.Model):
     """Service specification payload.
 
@@ -1845,7 +2200,7 @@ class Sku(_serialization.Model):
         self.name = name
 
 
-class Snapshot(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class Snapshot(_serialization.Model):
     """The snapshot resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1962,6 +2317,37 @@ class Snapshot(_serialization.Model):  # pylint: disable=too-many-instance-attri
         self.etag = None
 
 
+class SnapshotSasTokenScope(SasTokenScope):
+    """The snapshot resource scope that the SAS token is authorized to access.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar resource_type: Required. Known values are: "Kv" and "Snapshot".
+    :vartype resource_type: str or ~azure.mgmt.appconfiguration.models.ResourceType
+    :ivar name: The name of the snapshot. Required.
+    :vartype name: str
+    """
+
+    _validation = {
+        "resource_type": {"required": True},
+        "name": {"required": True},
+    }
+
+    _attribute_map = {
+        "resource_type": {"key": "resourceType", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+    }
+
+    def __init__(self, *, name: str, **kwargs: Any) -> None:
+        """
+        :keyword name: The name of the snapshot. Required.
+        :paramtype name: str
+        """
+        super().__init__(**kwargs)
+        self.resource_type: str = "Snapshot"
+        self.name = name
+
+
 class SystemData(_serialization.Model):
     """Metadata pertaining to creation and last modification of the resource.
 
@@ -2024,6 +2410,26 @@ class SystemData(_serialization.Model):
         self.last_modified_by = last_modified_by
         self.last_modified_by_type = last_modified_by_type
         self.last_modified_at = last_modified_at
+
+
+class TelemetryProperties(_serialization.Model):
+    """Telemetry settings.
+
+    :ivar resource_id: Resource ID of a resource enabling telemetry collection.
+    :vartype resource_id: str
+    """
+
+    _attribute_map = {
+        "resource_id": {"key": "resourceId", "type": "str"},
+    }
+
+    def __init__(self, *, resource_id: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword resource_id: Resource ID of a resource enabling telemetry collection.
+        :paramtype resource_id: str
+        """
+        super().__init__(**kwargs)
+        self.resource_id = resource_id
 
 
 class UserIdentity(_serialization.Model):
