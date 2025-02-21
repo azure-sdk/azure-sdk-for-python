@@ -20,7 +20,7 @@ class TestSqlManagementDatabaseUsagesOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_database(self, resource_group):
+    def test_database_usages_list_by_database(self, resource_group):
         response = self.client.database_usages.list_by_database(
             resource_group_name=resource_group.name,
             server_name="str",
