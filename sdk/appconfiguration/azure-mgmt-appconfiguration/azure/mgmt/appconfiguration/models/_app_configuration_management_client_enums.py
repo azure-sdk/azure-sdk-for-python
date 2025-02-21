@@ -127,6 +127,31 @@ class ReplicaProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     CANCELED = "Canceled"
 
 
+class ResourceType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """ResourceType."""
+
+    KV = "Kv"
+    SNAPSHOT = "Snapshot"
+
+
+class SasKind(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The kind of the SAS token."""
+
+    PRIMARY = "Primary"
+    SECONDARY = "Secondary"
+
+
+class SasStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The status of the SAS token authentication. This property manages if SAS token authentication
+    is enabled or disabled.
+    """
+
+    ENABLED = "Enabled"
+    """SAS token authentication is enabled."""
+    DISABLED = "Disabled"
+    """SAS token authentication is disabled."""
+
+
 class SnapshotStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The current status of the snapshot."""
 

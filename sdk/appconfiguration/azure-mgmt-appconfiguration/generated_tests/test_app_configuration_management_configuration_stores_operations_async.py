@@ -21,9 +21,9 @@ class TestAppConfigurationManagementConfigurationStoresOperationsAsync(AzureMgmt
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list(self, resource_group):
+    async def test_configuration_stores_list(self, resource_group):
         response = self.client.configuration_stores.list(
-            api_version="2024-05-01",
+            api_version="2024-06-01-preview",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -31,10 +31,10 @@ class TestAppConfigurationManagementConfigurationStoresOperationsAsync(AzureMgmt
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_by_resource_group(self, resource_group):
+    async def test_configuration_stores_list_by_resource_group(self, resource_group):
         response = self.client.configuration_stores.list_by_resource_group(
             resource_group_name=resource_group.name,
-            api_version="2024-05-01",
+            api_version="2024-06-01-preview",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -42,11 +42,11 @@ class TestAppConfigurationManagementConfigurationStoresOperationsAsync(AzureMgmt
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get(self, resource_group):
+    async def test_configuration_stores_get(self, resource_group):
         response = await self.client.configuration_stores.get(
             resource_group_name=resource_group.name,
             config_store_name="str",
-            api_version="2024-05-01",
+            api_version="2024-06-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -54,7 +54,7 @@ class TestAppConfigurationManagementConfigurationStoresOperationsAsync(AzureMgmt
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_create(self, resource_group):
+    async def test_configuration_stores_begin_create(self, resource_group):
         response = await (
             await self.client.configuration_stores.begin_create(
                 resource_group_name=resource_group.name,
@@ -69,6 +69,7 @@ class TestAppConfigurationManagementConfigurationStoresOperationsAsync(AzureMgmt
                     "enablePurgeProtection": False,
                     "encryption": {"keyVaultProperties": {"identityClientId": "str", "keyIdentifier": "str"}},
                     "endpoint": "str",
+                    "experimentation": {"dataPlaneEndpoint": "str", "resourceId": "str"},
                     "id": "str",
                     "identity": {
                         "principalId": "str",
@@ -93,6 +94,7 @@ class TestAppConfigurationManagementConfigurationStoresOperationsAsync(AzureMgmt
                     ],
                     "provisioningState": "str",
                     "publicNetworkAccess": "str",
+                    "sas": {"kinds": [{"lastModifiedAt": "2020-02-20 00:00:00", "name": "str"}], "status": "str"},
                     "softDeleteRetentionInDays": 7,
                     "systemData": {
                         "createdAt": "2020-02-20 00:00:00",
@@ -103,9 +105,10 @@ class TestAppConfigurationManagementConfigurationStoresOperationsAsync(AzureMgmt
                         "lastModifiedByType": "str",
                     },
                     "tags": {"str": "str"},
+                    "telemetry": {"resourceId": "str"},
                     "type": "str",
                 },
-                api_version="2024-05-01",
+                api_version="2024-06-01-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -114,12 +117,12 @@ class TestAppConfigurationManagementConfigurationStoresOperationsAsync(AzureMgmt
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_delete(self, resource_group):
+    async def test_configuration_stores_begin_delete(self, resource_group):
         response = await (
             await self.client.configuration_stores.begin_delete(
                 resource_group_name=resource_group.name,
                 config_store_name="str",
-                api_version="2024-05-01",
+                api_version="2024-06-01-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -128,7 +131,7 @@ class TestAppConfigurationManagementConfigurationStoresOperationsAsync(AzureMgmt
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_update(self, resource_group):
+    async def test_configuration_stores_begin_update(self, resource_group):
         response = await (
             await self.client.configuration_stores.begin_update(
                 resource_group_name=resource_group.name,
@@ -138,6 +141,7 @@ class TestAppConfigurationManagementConfigurationStoresOperationsAsync(AzureMgmt
                     "disableLocalAuth": bool,
                     "enablePurgeProtection": bool,
                     "encryption": {"keyVaultProperties": {"identityClientId": "str", "keyIdentifier": "str"}},
+                    "experimentation": {"dataPlaneEndpoint": "str", "resourceId": "str"},
                     "identity": {
                         "principalId": "str",
                         "tenantId": "str",
@@ -145,10 +149,12 @@ class TestAppConfigurationManagementConfigurationStoresOperationsAsync(AzureMgmt
                         "userAssignedIdentities": {"str": {"clientId": "str", "principalId": "str"}},
                     },
                     "publicNetworkAccess": "str",
+                    "sas": {"kinds": [{"lastModifiedAt": "2020-02-20 00:00:00", "name": "str"}], "status": "str"},
                     "sku": {"name": "str"},
                     "tags": {"str": "str"},
+                    "telemetry": {"resourceId": "str"},
                 },
-                api_version="2024-05-01",
+                api_version="2024-06-01-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -157,11 +163,11 @@ class TestAppConfigurationManagementConfigurationStoresOperationsAsync(AzureMgmt
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_keys(self, resource_group):
+    async def test_configuration_stores_list_keys(self, resource_group):
         response = self.client.configuration_stores.list_keys(
             resource_group_name=resource_group.name,
             config_store_name="str",
-            api_version="2024-05-01",
+            api_version="2024-06-01-preview",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -169,12 +175,12 @@ class TestAppConfigurationManagementConfigurationStoresOperationsAsync(AzureMgmt
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_regenerate_key(self, resource_group):
+    async def test_configuration_stores_regenerate_key(self, resource_group):
         response = await self.client.configuration_stores.regenerate_key(
             resource_group_name=resource_group.name,
             config_store_name="str",
             regenerate_key_parameters={"id": "str"},
-            api_version="2024-05-01",
+            api_version="2024-06-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -182,9 +188,40 @@ class TestAppConfigurationManagementConfigurationStoresOperationsAsync(AzureMgmt
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_deleted(self, resource_group):
+    async def test_configuration_stores_generate_sas_token(self, resource_group):
+        response = await self.client.configuration_stores.generate_sas_token(
+            resource_group_name=resource_group.name,
+            config_store_name="str",
+            sas_token_generation_parameters={
+                "expires": "2020-02-20 00:00:00",
+                "kind": "str",
+                "sasTokenScope": "sas_token_scope",
+                "cacheControlMaxAge": 0.0,
+            },
+            api_version="2024-06-01-preview",
+        )
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy_async
+    async def test_configuration_stores_reset_sas_kind(self, resource_group):
+        response = await self.client.configuration_stores.reset_sas_kind(
+            resource_group_name=resource_group.name,
+            config_store_name="str",
+            reset_sas_kind_parameters={"name": "str"},
+            api_version="2024-06-01-preview",
+        )
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy_async
+    async def test_configuration_stores_list_deleted(self, resource_group):
         response = self.client.configuration_stores.list_deleted(
-            api_version="2024-05-01",
+            api_version="2024-06-01-preview",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -192,11 +229,11 @@ class TestAppConfigurationManagementConfigurationStoresOperationsAsync(AzureMgmt
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get_deleted(self, resource_group):
+    async def test_configuration_stores_get_deleted(self, resource_group):
         response = await self.client.configuration_stores.get_deleted(
             location="str",
             config_store_name="str",
-            api_version="2024-05-01",
+            api_version="2024-06-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -204,12 +241,12 @@ class TestAppConfigurationManagementConfigurationStoresOperationsAsync(AzureMgmt
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_purge_deleted(self, resource_group):
+    async def test_configuration_stores_begin_purge_deleted(self, resource_group):
         response = await (
             await self.client.configuration_stores.begin_purge_deleted(
                 location="str",
                 config_store_name="str",
-                api_version="2024-05-01",
+                api_version="2024-06-01-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 

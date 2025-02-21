@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines,too-many-statements
+# pylint: disable=too-many-lines
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8,7 +8,7 @@
 # --------------------------------------------------------------------------
 from io import IOBase
 import sys
-from typing import Any, AsyncIterable, AsyncIterator, Callable, Dict, IO, Optional, Type, TypeVar, Union, cast, overload
+from typing import Any, AsyncIterable, AsyncIterator, Callable, Dict, IO, Optional, TypeVar, Union, cast, overload
 import urllib.parse
 
 from azure.core.async_paging import AsyncItemPaged, AsyncList
@@ -35,6 +35,7 @@ from ... import models as _models
 from ...operations._configuration_stores_operations import (
     build_create_request,
     build_delete_request,
+    build_generate_sas_token_request,
     build_get_deleted_request,
     build_get_request,
     build_list_by_resource_group_request,
@@ -43,13 +44,14 @@ from ...operations._configuration_stores_operations import (
     build_list_request,
     build_purge_deleted_request,
     build_regenerate_key_request,
+    build_reset_sas_kind_request,
     build_update_request,
 )
 
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -93,7 +95,7 @@ class ConfigurationStoresOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.ConfigurationStoreListResult] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -180,7 +182,7 @@ class ConfigurationStoresOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.ConfigurationStoreListResult] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -256,7 +258,7 @@ class ConfigurationStoresOperations:
         :rtype: ~azure.mgmt.appconfiguration.models.ConfigurationStore
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -306,7 +308,7 @@ class ConfigurationStoresOperations:
         config_store_creation_parameters: Union[_models.ConfigurationStore, IO[bytes]],
         **kwargs: Any
     ) -> AsyncIterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -501,7 +503,7 @@ class ConfigurationStoresOperations:
     async def _delete_initial(
         self, resource_group_name: str, config_store_name: str, **kwargs: Any
     ) -> AsyncIterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -542,10 +544,18 @@ class ConfigurationStoresOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
+        response_headers = {}
+        if response.status_code == 202:
+            response_headers["Azure-AsyncOperation"] = self._deserialize(
+                "str", response.headers.get("Azure-AsyncOperation")
+            )
+            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
+
         deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
         return deserialized  # type: ignore
 
@@ -611,7 +621,7 @@ class ConfigurationStoresOperations:
         config_store_update_parameters: Union[_models.ConfigurationStoreUpdateParameters, IO[bytes]],
         **kwargs: Any
     ) -> AsyncIterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -830,7 +840,7 @@ class ConfigurationStoresOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.ApiKeyListResult] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -971,7 +981,7 @@ class ConfigurationStoresOperations:
         :rtype: ~azure.mgmt.appconfiguration.models.ApiKey
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1026,6 +1036,276 @@ class ConfigurationStoresOperations:
 
         return deserialized  # type: ignore
 
+    @overload
+    async def generate_sas_token(
+        self,
+        resource_group_name: str,
+        config_store_name: str,
+        sas_token_generation_parameters: _models.SasTokenGenerationParameters,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> _models.SasTokenGenerationResult:
+        """Generates a SAS token for scoped, read-only access of the specified configuration store.
+
+        :param resource_group_name: The name of the resource group to which the container registry
+         belongs. Required.
+        :type resource_group_name: str
+        :param config_store_name: The name of the configuration store. Required.
+        :type config_store_name: str
+        :param sas_token_generation_parameters: The object containing information for the SAS token
+         generation request. Required.
+        :type sas_token_generation_parameters:
+         ~azure.mgmt.appconfiguration.models.SasTokenGenerationParameters
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: SasTokenGenerationResult or the result of cls(response)
+        :rtype: ~azure.mgmt.appconfiguration.models.SasTokenGenerationResult
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    async def generate_sas_token(
+        self,
+        resource_group_name: str,
+        config_store_name: str,
+        sas_token_generation_parameters: IO[bytes],
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> _models.SasTokenGenerationResult:
+        """Generates a SAS token for scoped, read-only access of the specified configuration store.
+
+        :param resource_group_name: The name of the resource group to which the container registry
+         belongs. Required.
+        :type resource_group_name: str
+        :param config_store_name: The name of the configuration store. Required.
+        :type config_store_name: str
+        :param sas_token_generation_parameters: The object containing information for the SAS token
+         generation request. Required.
+        :type sas_token_generation_parameters: IO[bytes]
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: SasTokenGenerationResult or the result of cls(response)
+        :rtype: ~azure.mgmt.appconfiguration.models.SasTokenGenerationResult
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace_async
+    async def generate_sas_token(
+        self,
+        resource_group_name: str,
+        config_store_name: str,
+        sas_token_generation_parameters: Union[_models.SasTokenGenerationParameters, IO[bytes]],
+        **kwargs: Any
+    ) -> _models.SasTokenGenerationResult:
+        """Generates a SAS token for scoped, read-only access of the specified configuration store.
+
+        :param resource_group_name: The name of the resource group to which the container registry
+         belongs. Required.
+        :type resource_group_name: str
+        :param config_store_name: The name of the configuration store. Required.
+        :type config_store_name: str
+        :param sas_token_generation_parameters: The object containing information for the SAS token
+         generation request. Is either a SasTokenGenerationParameters type or a IO[bytes] type.
+         Required.
+        :type sas_token_generation_parameters:
+         ~azure.mgmt.appconfiguration.models.SasTokenGenerationParameters or IO[bytes]
+        :return: SasTokenGenerationResult or the result of cls(response)
+        :rtype: ~azure.mgmt.appconfiguration.models.SasTokenGenerationResult
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.SasTokenGenerationResult] = kwargs.pop("cls", None)
+
+        content_type = content_type or "application/json"
+        _json = None
+        _content = None
+        if isinstance(sas_token_generation_parameters, (IOBase, bytes)):
+            _content = sas_token_generation_parameters
+        else:
+            _json = self._serialize.body(sas_token_generation_parameters, "SasTokenGenerationParameters")
+
+        _request = build_generate_sas_token_request(
+            resource_group_name=resource_group_name,
+            config_store_name=config_store_name,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            content_type=content_type,
+            json=_json,
+            content=_content,
+            headers=_headers,
+            params=_params,
+        )
+        _request.url = self._client.format_url(_request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        deserialized = self._deserialize("SasTokenGenerationResult", pipeline_response.http_response)
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
+
+    @overload
+    async def reset_sas_kind(
+        self,
+        resource_group_name: str,
+        config_store_name: str,
+        reset_sas_kind_parameters: _models.ResetSasKindParameters,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> _models.ConfigurationStore:
+        """Reset SAS kind to invalidate all previously generated SAS tokens of the specified kind.
+
+        :param resource_group_name: The name of the resource group to which the container registry
+         belongs. Required.
+        :type resource_group_name: str
+        :param config_store_name: The name of the configuration store. Required.
+        :type config_store_name: str
+        :param reset_sas_kind_parameters: The object containing information for the SAS kind reset
+         request. Required.
+        :type reset_sas_kind_parameters: ~azure.mgmt.appconfiguration.models.ResetSasKindParameters
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: ConfigurationStore or the result of cls(response)
+        :rtype: ~azure.mgmt.appconfiguration.models.ConfigurationStore
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    async def reset_sas_kind(
+        self,
+        resource_group_name: str,
+        config_store_name: str,
+        reset_sas_kind_parameters: IO[bytes],
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> _models.ConfigurationStore:
+        """Reset SAS kind to invalidate all previously generated SAS tokens of the specified kind.
+
+        :param resource_group_name: The name of the resource group to which the container registry
+         belongs. Required.
+        :type resource_group_name: str
+        :param config_store_name: The name of the configuration store. Required.
+        :type config_store_name: str
+        :param reset_sas_kind_parameters: The object containing information for the SAS kind reset
+         request. Required.
+        :type reset_sas_kind_parameters: IO[bytes]
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: ConfigurationStore or the result of cls(response)
+        :rtype: ~azure.mgmt.appconfiguration.models.ConfigurationStore
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace_async
+    async def reset_sas_kind(
+        self,
+        resource_group_name: str,
+        config_store_name: str,
+        reset_sas_kind_parameters: Union[_models.ResetSasKindParameters, IO[bytes]],
+        **kwargs: Any
+    ) -> _models.ConfigurationStore:
+        """Reset SAS kind to invalidate all previously generated SAS tokens of the specified kind.
+
+        :param resource_group_name: The name of the resource group to which the container registry
+         belongs. Required.
+        :type resource_group_name: str
+        :param config_store_name: The name of the configuration store. Required.
+        :type config_store_name: str
+        :param reset_sas_kind_parameters: The object containing information for the SAS kind reset
+         request. Is either a ResetSasKindParameters type or a IO[bytes] type. Required.
+        :type reset_sas_kind_parameters: ~azure.mgmt.appconfiguration.models.ResetSasKindParameters or
+         IO[bytes]
+        :return: ConfigurationStore or the result of cls(response)
+        :rtype: ~azure.mgmt.appconfiguration.models.ConfigurationStore
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.ConfigurationStore] = kwargs.pop("cls", None)
+
+        content_type = content_type or "application/json"
+        _json = None
+        _content = None
+        if isinstance(reset_sas_kind_parameters, (IOBase, bytes)):
+            _content = reset_sas_kind_parameters
+        else:
+            _json = self._serialize.body(reset_sas_kind_parameters, "ResetSasKindParameters")
+
+        _request = build_reset_sas_kind_request(
+            resource_group_name=resource_group_name,
+            config_store_name=config_store_name,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            content_type=content_type,
+            json=_json,
+            content=_content,
+            headers=_headers,
+            params=_params,
+        )
+        _request.url = self._client.format_url(_request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        deserialized = self._deserialize("ConfigurationStore", pipeline_response.http_response)
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
+
     @distributed_trace
     def list_deleted(self, **kwargs: Any) -> AsyncIterable["_models.DeletedConfigurationStore"]:
         """Gets information about the deleted configuration stores in a subscription.
@@ -1042,7 +1322,7 @@ class ConfigurationStoresOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.DeletedConfigurationStoreListResult] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1117,7 +1397,7 @@ class ConfigurationStoresOperations:
         :rtype: ~azure.mgmt.appconfiguration.models.DeletedConfigurationStore
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1163,7 +1443,7 @@ class ConfigurationStoresOperations:
     async def _purge_deleted_initial(
         self, location: str, config_store_name: str, **kwargs: Any
     ) -> AsyncIterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1204,10 +1484,18 @@ class ConfigurationStoresOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
+        response_headers = {}
+        if response.status_code == 202:
+            response_headers["Azure-AsyncOperation"] = self._deserialize(
+                "str", response.headers.get("Azure-AsyncOperation")
+            )
+            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
+
         deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
         return deserialized  # type: ignore
 

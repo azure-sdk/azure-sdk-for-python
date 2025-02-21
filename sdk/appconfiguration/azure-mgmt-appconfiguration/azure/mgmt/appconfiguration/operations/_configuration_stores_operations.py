@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines,too-many-statements
+# pylint: disable=too-many-lines
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8,7 +8,7 @@
 # --------------------------------------------------------------------------
 from io import IOBase
 import sys
-from typing import Any, Callable, Dict, IO, Iterable, Iterator, Optional, Type, TypeVar, Union, cast, overload
+from typing import Any, Callable, Dict, IO, Iterable, Iterator, Optional, TypeVar, Union, cast, overload
 import urllib.parse
 
 from azure.core.exceptions import (
@@ -36,7 +36,7 @@ from .._serialization import Serializer
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
 
@@ -48,7 +48,7 @@ def build_list_request(subscription_id: str, *, skip_token: Optional[str] = None
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-06-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -78,7 +78,7 @@ def build_list_by_resource_group_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-06-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -110,7 +110,7 @@ def build_get_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-06-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -143,7 +143,7 @@ def build_create_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-06-01-preview"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -179,7 +179,7 @@ def build_delete_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-06-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -212,7 +212,7 @@ def build_update_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-06-01-preview"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -253,7 +253,7 @@ def build_list_keys_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-06-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -288,7 +288,7 @@ def build_regenerate_key_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-06-01-preview"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -318,11 +318,83 @@ def build_regenerate_key_request(
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
 
+def build_generate_sas_token_request(
+    resource_group_name: str, config_store_name: str, subscription_id: str, **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-06-01-preview"))
+    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = kwargs.pop(
+        "template_url",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/generateSasToken",
+    )  # pylint: disable=line-too-long
+    path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
+        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
+        "configStoreName": _SERIALIZER.url(
+            "config_store_name", config_store_name, "str", max_length=50, min_length=5, pattern=r"^[a-zA-Z0-9_-]*$"
+        ),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    if content_type is not None:
+        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_reset_sas_kind_request(
+    resource_group_name: str, config_store_name: str, subscription_id: str, **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-06-01-preview"))
+    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = kwargs.pop(
+        "template_url",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/resetSasKind",
+    )  # pylint: disable=line-too-long
+    path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
+        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
+        "configStoreName": _SERIALIZER.url(
+            "config_store_name", config_store_name, "str", max_length=50, min_length=5, pattern=r"^[a-zA-Z0-9_-]*$"
+        ),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    if content_type is not None:
+        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
+
+
 def build_list_deleted_request(subscription_id: str, **kwargs: Any) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-06-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -351,7 +423,7 @@ def build_get_deleted_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-06-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -384,7 +456,7 @@ def build_purge_deleted_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-05-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-06-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -449,7 +521,7 @@ class ConfigurationStoresOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.ConfigurationStoreListResult] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -535,7 +607,7 @@ class ConfigurationStoresOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.ConfigurationStoreListResult] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -611,7 +683,7 @@ class ConfigurationStoresOperations:
         :rtype: ~azure.mgmt.appconfiguration.models.ConfigurationStore
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -661,7 +733,7 @@ class ConfigurationStoresOperations:
         config_store_creation_parameters: Union[_models.ConfigurationStore, IO[bytes]],
         **kwargs: Any
     ) -> Iterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -851,7 +923,7 @@ class ConfigurationStoresOperations:
         )
 
     def _delete_initial(self, resource_group_name: str, config_store_name: str, **kwargs: Any) -> Iterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -892,10 +964,18 @@ class ConfigurationStoresOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
+        response_headers = {}
+        if response.status_code == 202:
+            response_headers["Azure-AsyncOperation"] = self._deserialize(
+                "str", response.headers.get("Azure-AsyncOperation")
+            )
+            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
+
         deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
         return deserialized  # type: ignore
 
@@ -959,7 +1039,7 @@ class ConfigurationStoresOperations:
         config_store_update_parameters: Union[_models.ConfigurationStoreUpdateParameters, IO[bytes]],
         **kwargs: Any
     ) -> Iterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1175,7 +1255,7 @@ class ConfigurationStoresOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.ApiKeyListResult] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1316,7 +1396,7 @@ class ConfigurationStoresOperations:
         :rtype: ~azure.mgmt.appconfiguration.models.ApiKey
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1371,6 +1451,276 @@ class ConfigurationStoresOperations:
 
         return deserialized  # type: ignore
 
+    @overload
+    def generate_sas_token(
+        self,
+        resource_group_name: str,
+        config_store_name: str,
+        sas_token_generation_parameters: _models.SasTokenGenerationParameters,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> _models.SasTokenGenerationResult:
+        """Generates a SAS token for scoped, read-only access of the specified configuration store.
+
+        :param resource_group_name: The name of the resource group to which the container registry
+         belongs. Required.
+        :type resource_group_name: str
+        :param config_store_name: The name of the configuration store. Required.
+        :type config_store_name: str
+        :param sas_token_generation_parameters: The object containing information for the SAS token
+         generation request. Required.
+        :type sas_token_generation_parameters:
+         ~azure.mgmt.appconfiguration.models.SasTokenGenerationParameters
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: SasTokenGenerationResult or the result of cls(response)
+        :rtype: ~azure.mgmt.appconfiguration.models.SasTokenGenerationResult
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    def generate_sas_token(
+        self,
+        resource_group_name: str,
+        config_store_name: str,
+        sas_token_generation_parameters: IO[bytes],
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> _models.SasTokenGenerationResult:
+        """Generates a SAS token for scoped, read-only access of the specified configuration store.
+
+        :param resource_group_name: The name of the resource group to which the container registry
+         belongs. Required.
+        :type resource_group_name: str
+        :param config_store_name: The name of the configuration store. Required.
+        :type config_store_name: str
+        :param sas_token_generation_parameters: The object containing information for the SAS token
+         generation request. Required.
+        :type sas_token_generation_parameters: IO[bytes]
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: SasTokenGenerationResult or the result of cls(response)
+        :rtype: ~azure.mgmt.appconfiguration.models.SasTokenGenerationResult
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace
+    def generate_sas_token(
+        self,
+        resource_group_name: str,
+        config_store_name: str,
+        sas_token_generation_parameters: Union[_models.SasTokenGenerationParameters, IO[bytes]],
+        **kwargs: Any
+    ) -> _models.SasTokenGenerationResult:
+        """Generates a SAS token for scoped, read-only access of the specified configuration store.
+
+        :param resource_group_name: The name of the resource group to which the container registry
+         belongs. Required.
+        :type resource_group_name: str
+        :param config_store_name: The name of the configuration store. Required.
+        :type config_store_name: str
+        :param sas_token_generation_parameters: The object containing information for the SAS token
+         generation request. Is either a SasTokenGenerationParameters type or a IO[bytes] type.
+         Required.
+        :type sas_token_generation_parameters:
+         ~azure.mgmt.appconfiguration.models.SasTokenGenerationParameters or IO[bytes]
+        :return: SasTokenGenerationResult or the result of cls(response)
+        :rtype: ~azure.mgmt.appconfiguration.models.SasTokenGenerationResult
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.SasTokenGenerationResult] = kwargs.pop("cls", None)
+
+        content_type = content_type or "application/json"
+        _json = None
+        _content = None
+        if isinstance(sas_token_generation_parameters, (IOBase, bytes)):
+            _content = sas_token_generation_parameters
+        else:
+            _json = self._serialize.body(sas_token_generation_parameters, "SasTokenGenerationParameters")
+
+        _request = build_generate_sas_token_request(
+            resource_group_name=resource_group_name,
+            config_store_name=config_store_name,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            content_type=content_type,
+            json=_json,
+            content=_content,
+            headers=_headers,
+            params=_params,
+        )
+        _request.url = self._client.format_url(_request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        deserialized = self._deserialize("SasTokenGenerationResult", pipeline_response.http_response)
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
+
+    @overload
+    def reset_sas_kind(
+        self,
+        resource_group_name: str,
+        config_store_name: str,
+        reset_sas_kind_parameters: _models.ResetSasKindParameters,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> _models.ConfigurationStore:
+        """Reset SAS kind to invalidate all previously generated SAS tokens of the specified kind.
+
+        :param resource_group_name: The name of the resource group to which the container registry
+         belongs. Required.
+        :type resource_group_name: str
+        :param config_store_name: The name of the configuration store. Required.
+        :type config_store_name: str
+        :param reset_sas_kind_parameters: The object containing information for the SAS kind reset
+         request. Required.
+        :type reset_sas_kind_parameters: ~azure.mgmt.appconfiguration.models.ResetSasKindParameters
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: ConfigurationStore or the result of cls(response)
+        :rtype: ~azure.mgmt.appconfiguration.models.ConfigurationStore
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    def reset_sas_kind(
+        self,
+        resource_group_name: str,
+        config_store_name: str,
+        reset_sas_kind_parameters: IO[bytes],
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> _models.ConfigurationStore:
+        """Reset SAS kind to invalidate all previously generated SAS tokens of the specified kind.
+
+        :param resource_group_name: The name of the resource group to which the container registry
+         belongs. Required.
+        :type resource_group_name: str
+        :param config_store_name: The name of the configuration store. Required.
+        :type config_store_name: str
+        :param reset_sas_kind_parameters: The object containing information for the SAS kind reset
+         request. Required.
+        :type reset_sas_kind_parameters: IO[bytes]
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: ConfigurationStore or the result of cls(response)
+        :rtype: ~azure.mgmt.appconfiguration.models.ConfigurationStore
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace
+    def reset_sas_kind(
+        self,
+        resource_group_name: str,
+        config_store_name: str,
+        reset_sas_kind_parameters: Union[_models.ResetSasKindParameters, IO[bytes]],
+        **kwargs: Any
+    ) -> _models.ConfigurationStore:
+        """Reset SAS kind to invalidate all previously generated SAS tokens of the specified kind.
+
+        :param resource_group_name: The name of the resource group to which the container registry
+         belongs. Required.
+        :type resource_group_name: str
+        :param config_store_name: The name of the configuration store. Required.
+        :type config_store_name: str
+        :param reset_sas_kind_parameters: The object containing information for the SAS kind reset
+         request. Is either a ResetSasKindParameters type or a IO[bytes] type. Required.
+        :type reset_sas_kind_parameters: ~azure.mgmt.appconfiguration.models.ResetSasKindParameters or
+         IO[bytes]
+        :return: ConfigurationStore or the result of cls(response)
+        :rtype: ~azure.mgmt.appconfiguration.models.ConfigurationStore
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.ConfigurationStore] = kwargs.pop("cls", None)
+
+        content_type = content_type or "application/json"
+        _json = None
+        _content = None
+        if isinstance(reset_sas_kind_parameters, (IOBase, bytes)):
+            _content = reset_sas_kind_parameters
+        else:
+            _json = self._serialize.body(reset_sas_kind_parameters, "ResetSasKindParameters")
+
+        _request = build_reset_sas_kind_request(
+            resource_group_name=resource_group_name,
+            config_store_name=config_store_name,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            content_type=content_type,
+            json=_json,
+            content=_content,
+            headers=_headers,
+            params=_params,
+        )
+        _request.url = self._client.format_url(_request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        deserialized = self._deserialize("ConfigurationStore", pipeline_response.http_response)
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
+
     @distributed_trace
     def list_deleted(self, **kwargs: Any) -> Iterable["_models.DeletedConfigurationStore"]:
         """Gets information about the deleted configuration stores in a subscription.
@@ -1387,7 +1737,7 @@ class ConfigurationStoresOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.DeletedConfigurationStoreListResult] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1460,7 +1810,7 @@ class ConfigurationStoresOperations:
         :rtype: ~azure.mgmt.appconfiguration.models.DeletedConfigurationStore
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1504,7 +1854,7 @@ class ConfigurationStoresOperations:
         return deserialized  # type: ignore
 
     def _purge_deleted_initial(self, location: str, config_store_name: str, **kwargs: Any) -> Iterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1545,10 +1895,18 @@ class ConfigurationStoresOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
+        response_headers = {}
+        if response.status_code == 202:
+            response_headers["Azure-AsyncOperation"] = self._deserialize(
+                "str", response.headers.get("Azure-AsyncOperation")
+            )
+            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
+
         deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
         return deserialized  # type: ignore
 
