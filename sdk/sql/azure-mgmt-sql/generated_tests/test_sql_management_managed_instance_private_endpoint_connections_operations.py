@@ -20,7 +20,7 @@ class TestSqlManagementManagedInstancePrivateEndpointConnectionsOperations(Azure
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_managed_instance_private_endpoint_connections_get(self, resource_group):
         response = self.client.managed_instance_private_endpoint_connections.get(
             resource_group_name=resource_group.name,
             managed_instance_name="str",
@@ -33,7 +33,7 @@ class TestSqlManagementManagedInstancePrivateEndpointConnectionsOperations(Azure
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_create_or_update(self, resource_group):
+    def test_managed_instance_private_endpoint_connections_begin_create_or_update(self, resource_group):
         response = self.client.managed_instance_private_endpoint_connections.begin_create_or_update(
             resource_group_name=resource_group.name,
             managed_instance_name="str",
@@ -54,7 +54,7 @@ class TestSqlManagementManagedInstancePrivateEndpointConnectionsOperations(Azure
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_delete(self, resource_group):
+    def test_managed_instance_private_endpoint_connections_begin_delete(self, resource_group):
         response = self.client.managed_instance_private_endpoint_connections.begin_delete(
             resource_group_name=resource_group.name,
             managed_instance_name="str",
@@ -67,7 +67,7 @@ class TestSqlManagementManagedInstancePrivateEndpointConnectionsOperations(Azure
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_managed_instance(self, resource_group):
+    def test_managed_instance_private_endpoint_connections_list_by_managed_instance(self, resource_group):
         response = self.client.managed_instance_private_endpoint_connections.list_by_managed_instance(
             resource_group_name=resource_group.name,
             managed_instance_name="str",

@@ -20,7 +20,7 @@ class TestSqlManagementMaintenanceWindowOptionsOperations(AzureMgmtRecordedTestC
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_maintenance_window_options_get(self, resource_group):
         response = self.client.maintenance_window_options.get(
             resource_group_name=resource_group.name,
             server_name="str",

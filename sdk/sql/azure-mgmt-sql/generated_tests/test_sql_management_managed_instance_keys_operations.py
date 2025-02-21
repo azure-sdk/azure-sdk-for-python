@@ -20,7 +20,7 @@ class TestSqlManagementManagedInstanceKeysOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_instance(self, resource_group):
+    def test_managed_instance_keys_list_by_instance(self, resource_group):
         response = self.client.managed_instance_keys.list_by_instance(
             resource_group_name=resource_group.name,
             managed_instance_name="str",
@@ -32,7 +32,7 @@ class TestSqlManagementManagedInstanceKeysOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_managed_instance_keys_get(self, resource_group):
         response = self.client.managed_instance_keys.get(
             resource_group_name=resource_group.name,
             managed_instance_name="str",
@@ -45,7 +45,7 @@ class TestSqlManagementManagedInstanceKeysOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_create_or_update(self, resource_group):
+    def test_managed_instance_keys_begin_create_or_update(self, resource_group):
         response = self.client.managed_instance_keys.begin_create_or_update(
             resource_group_name=resource_group.name,
             managed_instance_name="str",
@@ -69,7 +69,7 @@ class TestSqlManagementManagedInstanceKeysOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_delete(self, resource_group):
+    def test_managed_instance_keys_begin_delete(self, resource_group):
         response = self.client.managed_instance_keys.begin_delete(
             resource_group_name=resource_group.name,
             managed_instance_name="str",

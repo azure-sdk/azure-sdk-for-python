@@ -20,7 +20,7 @@ class TestSqlManagementDatabaseAutomaticTuningOperations(AzureMgmtRecordedTestCa
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_database_automatic_tuning_get(self, resource_group):
         response = self.client.database_automatic_tuning.get(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -33,7 +33,7 @@ class TestSqlManagementDatabaseAutomaticTuningOperations(AzureMgmtRecordedTestCa
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_update(self, resource_group):
+    def test_database_automatic_tuning_update(self, resource_group):
         response = self.client.database_automatic_tuning.update(
             resource_group_name=resource_group.name,
             server_name="str",
