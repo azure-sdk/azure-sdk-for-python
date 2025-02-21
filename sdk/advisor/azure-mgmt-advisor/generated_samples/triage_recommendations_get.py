@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.advisor import AdvisorManagementClient
 
 """
@@ -14,7 +15,7 @@ from azure.mgmt.advisor import AdvisorManagementClient
     pip install azure-identity
     pip install azure-mgmt-advisor
 # USAGE
-    python put_configurations.py
+    python triage_recommendations_get.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,31 +27,16 @@ from azure.mgmt.advisor import AdvisorManagementClient
 def main():
     client = AdvisorManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="subscriptionId",
+        subscription_id="00000000-1111-2222-3333-444444444444",
     )
 
-    response = client.configurations.create_in_subscription(
-        configuration_name="default",
-        config_contract={
-            "properties": {
-                "digests": [
-                    {
-                        "actionGroupResourceId": "/subscriptions/subscriptionId/resourceGroups/resourceGroup/providers/microsoft.insights/actionGroups/actionGroupName",
-                        "categories": ["HighAvailability", "Security", "Performance", "Cost", "OperationalExcellence"],
-                        "frequency": 30,
-                        "language": "en",
-                        "name": "digestConfigName",
-                        "state": "Active",
-                    }
-                ],
-                "exclude": True,
-                "lowCpuThreshold": "5",
-            }
-        },
+    response = client.triage_recommendations.get(
+        review_id="11111111-1111-2222-3333-444444444444",
+        recommendation_id="22222222-1111-2222-3333-444444444444",
     )
     print(response)
 
 
-# x-ms-original-file: specification/advisor/resource-manager/Microsoft.Advisor/stable/2020-01-01/examples/CreateConfiguration.json
+# x-ms-original-file: specification/advisor/resource-manager/Microsoft.Advisor/preview/2023-09-01-preview/examples/TriageRecommendationsGet.json
 if __name__ == "__main__":
     main()
