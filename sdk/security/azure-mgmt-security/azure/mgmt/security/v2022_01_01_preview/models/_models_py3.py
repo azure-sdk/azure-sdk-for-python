@@ -1,5 +1,4 @@
 # coding=utf-8
-# pylint: disable=too-many-lines
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -16,10 +15,9 @@ from ... import _serialization
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 JSON = MutableMapping[str, Any]  # pylint: disable=unsubscriptable-object
 
@@ -78,7 +76,7 @@ class Condition(_serialization.Model):
      see examples.
     :vartype value: str
     :ivar operator: The governance rule Condition's Operator, for example Equals for severity or In
-     for list of assessments, see examples. Known values are: "Equals" and "In".
+     for list of assessments, see examples. Known values are: "Equals", "In", and "In".
     :vartype operator: str or
      ~azure.mgmt.security.v2022_01_01_preview.models.GovernanceRuleConditionOperator
     """
@@ -105,7 +103,7 @@ class Condition(_serialization.Model):
          keys, see examples.
         :paramtype value: str
         :keyword operator: The governance rule Condition's Operator, for example Equals for severity or
-         In for list of assessments, see examples. Known values are: "Equals" and "In".
+         In for list of assessments, see examples. Known values are: "Equals", "In", and "In".
         :paramtype operator: str or
          ~azure.mgmt.security.v2022_01_01_preview.models.GovernanceRuleConditionOperator
         """
@@ -395,7 +393,7 @@ class GovernanceEmailNotification(_serialization.Model):
         self.disable_owner_email_notification = disable_owner_email_notification
 
 
-class GovernanceRule(Resource):  # pylint: disable=too-many-instance-attributes
+class GovernanceRule(Resource):
     """Governance rule over a given scope.
 
     Variables are only populated by the server, and will be ignored when sending a request.
