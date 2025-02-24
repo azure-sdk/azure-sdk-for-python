@@ -4769,7 +4769,8 @@ class NetworkProfile(_serialization.Model):
     :vartype network_interfaces:
      list[~azure.mgmt.compute.v2024_07_01.models.NetworkInterfaceReference]
     :ivar network_api_version: specifies the Microsoft.Network API version used when creating
-     networking resources in the Network Interface Configurations. "2020-11-01"
+     networking resources in the Network Interface Configurations. Known values are: "2020-11-01"
+     and "2022-11-01".
     :vartype network_api_version: str or ~azure.mgmt.compute.v2024_07_01.models.NetworkApiVersion
     :ivar network_interface_configurations: Specifies the networking configurations that will be
      used to create the virtual machine networking resources.
@@ -4800,7 +4801,8 @@ class NetworkProfile(_serialization.Model):
         :paramtype network_interfaces:
          list[~azure.mgmt.compute.v2024_07_01.models.NetworkInterfaceReference]
         :keyword network_api_version: specifies the Microsoft.Network API version used when creating
-         networking resources in the Network Interface Configurations. "2020-11-01"
+         networking resources in the Network Interface Configurations. Known values are: "2020-11-01"
+         and "2022-11-01".
         :paramtype network_api_version: str or ~azure.mgmt.compute.v2024_07_01.models.NetworkApiVersion
         :keyword network_interface_configurations: Specifies the networking configurations that will be
          used to create the virtual machine networking resources.
@@ -13239,7 +13241,7 @@ class VirtualMachineScaleSetNetworkProfile(_serialization.Model):
      list[~azure.mgmt.compute.v2024_07_01.models.VirtualMachineScaleSetNetworkConfiguration]
     :ivar network_api_version: specifies the Microsoft.Network API version used when creating
      networking resources in the Network Interface Configurations for Virtual Machine Scale Set with
-     orchestration mode 'Flexible'. "2020-11-01"
+     orchestration mode 'Flexible'. Known values are: "2020-11-01" and "2022-11-01".
     :vartype network_api_version: str or ~azure.mgmt.compute.v2024_07_01.models.NetworkApiVersion
     """
 
@@ -13270,7 +13272,7 @@ class VirtualMachineScaleSetNetworkProfile(_serialization.Model):
          list[~azure.mgmt.compute.v2024_07_01.models.VirtualMachineScaleSetNetworkConfiguration]
         :keyword network_api_version: specifies the Microsoft.Network API version used when creating
          networking resources in the Network Interface Configurations for Virtual Machine Scale Set with
-         orchestration mode 'Flexible'. "2020-11-01"
+         orchestration mode 'Flexible'. Known values are: "2020-11-01" and "2022-11-01".
         :paramtype network_api_version: str or ~azure.mgmt.compute.v2024_07_01.models.NetworkApiVersion
         """
         super().__init__(**kwargs)
@@ -14426,7 +14428,7 @@ class VirtualMachineScaleSetUpdateNetworkProfile(_serialization.Model):  # pylin
      list[~azure.mgmt.compute.v2024_07_01.models.VirtualMachineScaleSetUpdateNetworkConfiguration]
     :ivar network_api_version: specifies the Microsoft.Network API version used when creating
      networking resources in the Network Interface Configurations for Virtual Machine Scale Set with
-     orchestration mode 'Flexible'. "2020-11-01"
+     orchestration mode 'Flexible'. Known values are: "2020-11-01" and "2022-11-01".
     :vartype network_api_version: str or ~azure.mgmt.compute.v2024_07_01.models.NetworkApiVersion
     """
 
@@ -14459,7 +14461,7 @@ class VirtualMachineScaleSetUpdateNetworkProfile(_serialization.Model):  # pylin
          list[~azure.mgmt.compute.v2024_07_01.models.VirtualMachineScaleSetUpdateNetworkConfiguration]
         :keyword network_api_version: specifies the Microsoft.Network API version used when creating
          networking resources in the Network Interface Configurations for Virtual Machine Scale Set with
-         orchestration mode 'Flexible'. "2020-11-01"
+         orchestration mode 'Flexible'. Known values are: "2020-11-01" and "2022-11-01".
         :paramtype network_api_version: str or ~azure.mgmt.compute.v2024_07_01.models.NetworkApiVersion
         """
         super().__init__(**kwargs)

@@ -353,6 +353,7 @@ class NetworkApiVersion(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """
 
     TWO_THOUSAND_TWENTY11_01 = "2020-11-01"
+    TWO_THOUSAND_TWENTY_TWO11_01 = "2022-11-01"
 
 
 class NetworkInterfaceAuxiliaryMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
