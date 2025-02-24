@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -16,7 +17,7 @@ from azure.core.rest import AsyncHttpResponse, HttpRequest
 
 from .._serialization import Deserializer, Serializer
 from ._configuration import AIProjectClientConfiguration
-from .operations import AgentsOperations, ConnectionsOperations, EvaluationsOperations, TelemetryOperations
+from .operations import ConnectionsOperations, EvaluationsOperations, TelemetryOperations
 
 if TYPE_CHECKING:
     from azure.core.credentials_async import AsyncTokenCredential
@@ -25,8 +26,6 @@ if TYPE_CHECKING:
 class AIProjectClient:
     """AIProjectClient.
 
-    :ivar agents: AgentsOperations operations
-    :vartype agents: azure.ai.projects.aio.operations.AgentsOperations
     :ivar connections: ConnectionsOperations operations
     :vartype connections: azure.ai.projects.aio.operations.ConnectionsOperations
     :ivar telemetry: TelemetryOperations operations
@@ -62,7 +61,7 @@ class AIProjectClient:
         credential: "AsyncTokenCredential",
         **kwargs: Any
     ) -> None:
-        _endpoint = "{endpoint}/agents/v1.0/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{projectName}"  # pylint: disable=line-too-long
+        _endpoint = "{endpoint}/agents/v1.0/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{projectName}"
         self._config = AIProjectClientConfiguration(
             endpoint=endpoint,
             subscription_id=subscription_id,
@@ -93,7 +92,6 @@ class AIProjectClient:
         self._serialize = Serializer()
         self._deserialize = Deserializer()
         self._serialize.client_side_validation = False
-        self.agents = AgentsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.connections = ConnectionsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.telemetry = TelemetryOperations(self._client, self._config, self._serialize, self._deserialize)
         self.evaluations = EvaluationsOperations(self._client, self._config, self._serialize, self._deserialize)
