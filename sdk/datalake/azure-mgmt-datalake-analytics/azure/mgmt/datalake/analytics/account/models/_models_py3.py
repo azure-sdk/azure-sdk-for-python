@@ -1,5 +1,5 @@
-# coding=utf-8
 # pylint: disable=too-many-lines
+# coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -7,12 +7,11 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from typing import Dict, List, Optional, TYPE_CHECKING, Union
+from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 
 from .. import _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
@@ -27,7 +26,7 @@ class AddDataLakeStoreParameters(_serialization.Model):
         "suffix": {"key": "properties.suffix", "type": "str"},
     }
 
-    def __init__(self, *, suffix: Optional[str] = None, **kwargs):
+    def __init__(self, *, suffix: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword suffix: The optional suffix for the Data Lake Store account.
         :paramtype suffix: str
@@ -37,9 +36,10 @@ class AddDataLakeStoreParameters(_serialization.Model):
 
 
 class AddDataLakeStoreWithAccountParameters(_serialization.Model):
-    """The parameters used to add a new Data Lake Store account while creating a new Data Lake Analytics account.
+    """The parameters used to add a new Data Lake Store account while creating a new Data Lake
+    Analytics account.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The unique name of the Data Lake Store account to add. Required.
     :vartype name: str
@@ -56,7 +56,7 @@ class AddDataLakeStoreWithAccountParameters(_serialization.Model):
         "suffix": {"key": "properties.suffix", "type": "str"},
     }
 
-    def __init__(self, *, name: str, suffix: Optional[str] = None, **kwargs):
+    def __init__(self, *, name: str, suffix: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword name: The unique name of the Data Lake Store account to add. Required.
         :paramtype name: str
@@ -71,7 +71,7 @@ class AddDataLakeStoreWithAccountParameters(_serialization.Model):
 class AddStorageAccountParameters(_serialization.Model):
     """The parameters used to add a new Azure Storage account.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar access_key: The access key associated with this Azure Storage account that will be used
      to connect to it. Required.
@@ -89,7 +89,7 @@ class AddStorageAccountParameters(_serialization.Model):
         "suffix": {"key": "properties.suffix", "type": "str"},
     }
 
-    def __init__(self, *, access_key: str, suffix: str = "azuredatalakestore.net", **kwargs):
+    def __init__(self, *, access_key: str, suffix: str = "azuredatalakestore.net", **kwargs: Any) -> None:
         """
         :keyword access_key: The access key associated with this Azure Storage account that will be
          used to connect to it. Required.
@@ -103,9 +103,10 @@ class AddStorageAccountParameters(_serialization.Model):
 
 
 class AddStorageAccountWithAccountParameters(_serialization.Model):
-    """The parameters used to add a new Azure Storage account while creating a new Data Lake Analytics account.
+    """The parameters used to add a new Azure Storage account while creating a new Data Lake Analytics
+    account.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The unique name of the Azure Storage account to add. Required.
     :vartype name: str
@@ -127,7 +128,7 @@ class AddStorageAccountWithAccountParameters(_serialization.Model):
         "suffix": {"key": "properties.suffix", "type": "str"},
     }
 
-    def __init__(self, *, name: str, access_key: str, suffix: str = "azuredatalakestore.net", **kwargs):
+    def __init__(self, *, name: str, access_key: str, suffix: str = "azuredatalakestore.net", **kwargs: Any) -> None:
         """
         :keyword name: The unique name of the Azure Storage account to add. Required.
         :paramtype name: str
@@ -141,6 +142,40 @@ class AddStorageAccountWithAccountParameters(_serialization.Model):
         self.name = name
         self.access_key = access_key
         self.suffix = suffix
+
+
+class AnalyticsUnitsParameters(_serialization.Model):
+    """The Analytics Units.
+
+    :ivar id: The Account Id - Format:
+     /subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.DataLakeAnalytics/accounts/{accountName}.  # pylint: disable=line-too-long
+    :vartype id: str
+    :ivar new_system_max: The updated Analytics Units.
+    :vartype new_system_max: int
+    """
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "new_system_max": {"key": "newSystemMax", "type": "int"},
+    }
+
+    def __init__(
+        self,
+        *,
+        id: Optional[str] = None,  # pylint: disable=redefined-builtin
+        new_system_max: Optional[int] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword id: The Account Id - Format:
+         /subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.DataLakeAnalytics/accounts/{accountName}.  # pylint: disable=line-too-long
+        :paramtype id: str
+        :keyword new_system_max: The updated Analytics Units.
+        :paramtype new_system_max: int
+        """
+        super().__init__(**kwargs)
+        self.id = id
+        self.new_system_max = new_system_max
 
 
 class CapabilityInformation(_serialization.Model):
@@ -177,7 +212,7 @@ class CapabilityInformation(_serialization.Model):
         "migration_state": {"key": "migrationState", "type": "bool"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.subscription_id = None
@@ -190,7 +225,7 @@ class CapabilityInformation(_serialization.Model):
 class CheckNameAvailabilityParameters(_serialization.Model):
     """Data Lake Analytics account name availability check parameters.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The Data Lake Analytics name to check availability for. Required.
     :vartype name: str
@@ -210,7 +245,9 @@ class CheckNameAvailabilityParameters(_serialization.Model):
         "type": {"key": "type", "type": "str"},
     }
 
-    def __init__(self, *, name: str, type: Union[str, "_models.CheckNameAvailabilityParametersType"], **kwargs):
+    def __init__(
+        self, *, name: str, type: Union[str, "_models.CheckNameAvailabilityParametersType"], **kwargs: Any
+    ) -> None:
         """
         :keyword name: The Data Lake Analytics name to check availability for. Required.
         :paramtype name: str
@@ -249,7 +286,7 @@ class SubResource(_serialization.Model):
         "type": {"key": "type", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -300,7 +337,7 @@ class ComputePolicy(SubResource):
         "min_priority_per_job": {"key": "properties.minPriorityPerJob", "type": "int"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.object_id = None
@@ -330,7 +367,7 @@ class ComputePolicyListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -338,9 +375,10 @@ class ComputePolicyListResult(_serialization.Model):
 
 
 class CreateComputePolicyWithAccountParameters(_serialization.Model):
-    """The parameters used to create a new compute policy while creating a new Data Lake Analytics account.
+    """The parameters used to create a new compute policy while creating a new Data Lake Analytics
+    account.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The unique name of the compute policy to create. Required.
     :vartype name: str
@@ -382,8 +420,8 @@ class CreateComputePolicyWithAccountParameters(_serialization.Model):
         object_type: Union[str, "_models.AADObjectType"],
         max_degree_of_parallelism_per_job: Optional[int] = None,
         min_priority_per_job: Optional[int] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: The unique name of the compute policy to create. Required.
         :paramtype name: str
@@ -408,10 +446,10 @@ class CreateComputePolicyWithAccountParameters(_serialization.Model):
         self.min_priority_per_job = min_priority_per_job
 
 
-class CreateDataLakeAnalyticsAccountParameters(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class CreateDataLakeAnalyticsAccountParameters(_serialization.Model):
     """The parameters to use for creating a Data Lake Analytics account.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar location: The resource location. Required.
     :vartype location: str
@@ -441,6 +479,11 @@ class CreateDataLakeAnalyticsAccountParameters(_serialization.Model):  # pylint:
      values are: "Enabled" and "Disabled".
     :vartype firewall_allow_azure_ips: str or
      ~azure.mgmt.datalake.analytics.account.models.FirewallAllowAzureIpsState
+    :ivar mixed_tokens_mode: The current state of allowing or disallowing to use both Guarantee
+     Analytics Unit and Eco Analytics Unit together during Job execution. Known values are:
+     "Enabled" and "Disabled".
+    :vartype mixed_tokens_mode: str or
+     ~azure.mgmt.datalake.analytics.account.models.MixedTokensMode
     :ivar new_tier: The commitment tier for the next month. Known values are: "Consumption",
      "Commitment_100AUHours", "Commitment_500AUHours", "Commitment_1000AUHours",
      "Commitment_5000AUHours", "Commitment_10000AUHours", "Commitment_50000AUHours",
@@ -483,6 +526,7 @@ class CreateDataLakeAnalyticsAccountParameters(_serialization.Model):  # pylint:
         "firewall_rules": {"key": "properties.firewallRules", "type": "[CreateFirewallRuleWithAccountParameters]"},
         "firewall_state": {"key": "properties.firewallState", "type": "str"},
         "firewall_allow_azure_ips": {"key": "properties.firewallAllowAzureIps", "type": "str"},
+        "mixed_tokens_mode": {"key": "properties.mixedTokensMode", "type": "str"},
         "new_tier": {"key": "properties.newTier", "type": "str"},
         "max_job_count": {"key": "properties.maxJobCount", "type": "int"},
         "max_degree_of_parallelism": {"key": "properties.maxDegreeOfParallelism", "type": "int"},
@@ -503,14 +547,15 @@ class CreateDataLakeAnalyticsAccountParameters(_serialization.Model):  # pylint:
         firewall_rules: Optional[List["_models.CreateFirewallRuleWithAccountParameters"]] = None,
         firewall_state: Optional[Union[str, "_models.FirewallState"]] = None,
         firewall_allow_azure_ips: Optional[Union[str, "_models.FirewallAllowAzureIpsState"]] = None,
+        mixed_tokens_mode: Optional[Union[str, "_models.MixedTokensMode"]] = None,
         new_tier: Optional[Union[str, "_models.TierType"]] = None,
         max_job_count: int = 3,
         max_degree_of_parallelism: int = 30,
         max_degree_of_parallelism_per_job: int = 32,
         min_priority_per_job: Optional[int] = None,
         query_store_retention: int = 30,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword location: The resource location. Required.
         :paramtype location: str
@@ -541,6 +586,11 @@ class CreateDataLakeAnalyticsAccountParameters(_serialization.Model):  # pylint:
          values are: "Enabled" and "Disabled".
         :paramtype firewall_allow_azure_ips: str or
          ~azure.mgmt.datalake.analytics.account.models.FirewallAllowAzureIpsState
+        :keyword mixed_tokens_mode: The current state of allowing or disallowing to use both Guarantee
+         Analytics Unit and Eco Analytics Unit together during Job execution. Known values are:
+         "Enabled" and "Disabled".
+        :paramtype mixed_tokens_mode: str or
+         ~azure.mgmt.datalake.analytics.account.models.MixedTokensMode
         :keyword new_tier: The commitment tier for the next month. Known values are: "Consumption",
          "Commitment_100AUHours", "Commitment_500AUHours", "Commitment_1000AUHours",
          "Commitment_5000AUHours", "Commitment_10000AUHours", "Commitment_50000AUHours",
@@ -569,6 +619,7 @@ class CreateDataLakeAnalyticsAccountParameters(_serialization.Model):  # pylint:
         self.firewall_rules = firewall_rules
         self.firewall_state = firewall_state
         self.firewall_allow_azure_ips = firewall_allow_azure_ips
+        self.mixed_tokens_mode = mixed_tokens_mode
         self.new_tier = new_tier
         self.max_job_count = max_job_count
         self.max_degree_of_parallelism = max_degree_of_parallelism
@@ -578,9 +629,10 @@ class CreateDataLakeAnalyticsAccountParameters(_serialization.Model):  # pylint:
 
 
 class CreateFirewallRuleWithAccountParameters(_serialization.Model):
-    """The parameters used to create a new firewall rule while creating a new Data Lake Analytics account.
+    """The parameters used to create a new firewall rule while creating a new Data Lake Analytics
+    account.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The unique name of the firewall rule to create. Required.
     :vartype name: str
@@ -604,7 +656,7 @@ class CreateFirewallRuleWithAccountParameters(_serialization.Model):
         "end_ip_address": {"key": "properties.endIpAddress", "type": "str"},
     }
 
-    def __init__(self, *, name: str, start_ip_address: str, end_ip_address: str, **kwargs):
+    def __init__(self, *, name: str, start_ip_address: str, end_ip_address: str, **kwargs: Any) -> None:
         """
         :keyword name: The unique name of the firewall rule to create. Required.
         :paramtype name: str
@@ -624,7 +676,7 @@ class CreateFirewallRuleWithAccountParameters(_serialization.Model):
 class CreateOrUpdateComputePolicyParameters(_serialization.Model):
     """The parameters used to create a new compute policy.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar object_id: The AAD object identifier for the entity to create a policy for. Required.
     :vartype object_id: str
@@ -661,8 +713,8 @@ class CreateOrUpdateComputePolicyParameters(_serialization.Model):
         object_type: Union[str, "_models.AADObjectType"],
         max_degree_of_parallelism_per_job: Optional[int] = None,
         min_priority_per_job: Optional[int] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword object_id: The AAD object identifier for the entity to create a policy for. Required.
         :paramtype object_id: str
@@ -687,7 +739,7 @@ class CreateOrUpdateComputePolicyParameters(_serialization.Model):
 class CreateOrUpdateFirewallRuleParameters(_serialization.Model):
     """The parameters used to create a new firewall rule.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar start_ip_address: The start IP address for the firewall rule. This can be either ipv4 or
      ipv6. Start and End should be in the same protocol. Required.
@@ -707,7 +759,7 @@ class CreateOrUpdateFirewallRuleParameters(_serialization.Model):
         "end_ip_address": {"key": "properties.endIpAddress", "type": "str"},
     }
 
-    def __init__(self, *, start_ip_address: str, end_ip_address: str, **kwargs):
+    def __init__(self, *, start_ip_address: str, end_ip_address: str, **kwargs: Any) -> None:
         """
         :keyword start_ip_address: The start IP address for the firewall rule. This can be either ipv4
          or ipv6. Start and End should be in the same protocol. Required.
@@ -754,7 +806,7 @@ class Resource(_serialization.Model):
         "tags": {"key": "tags", "type": "{str}"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -764,8 +816,9 @@ class Resource(_serialization.Model):
         self.tags = None
 
 
-class DataLakeAnalyticsAccount(Resource):  # pylint: disable=too-many-instance-attributes
-    """A Data Lake Analytics account object, containing all information associated with the named Data Lake Analytics account.
+class DataLakeAnalyticsAccount(Resource):
+    """A Data Lake Analytics account object, containing all information associated with the named Data
+    Lake Analytics account.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -830,6 +883,11 @@ class DataLakeAnalyticsAccount(Resource):  # pylint: disable=too-many-instance-a
      values are: "Enabled" and "Disabled".
     :vartype firewall_allow_azure_ips: str or
      ~azure.mgmt.datalake.analytics.account.models.FirewallAllowAzureIpsState
+    :ivar mixed_tokens_mode: The current state of allowing or disallowing to use both Guarantee
+     Analytics Unit and Eco Analytics Unit together during Job execution. Known values are:
+     "Enabled" and "Disabled".
+    :vartype mixed_tokens_mode: str or
+     ~azure.mgmt.datalake.analytics.account.models.MixedTokensMode
     :ivar new_tier: The commitment tier for the next month. Known values are: "Consumption",
      "Commitment_100AUHours", "Commitment_500AUHours", "Commitment_1000AUHours",
      "Commitment_5000AUHours", "Commitment_10000AUHours", "Commitment_50000AUHours",
@@ -937,6 +995,7 @@ class DataLakeAnalyticsAccount(Resource):  # pylint: disable=too-many-instance-a
         "firewall_rules": {"key": "properties.firewallRules", "type": "[FirewallRule]"},
         "firewall_state": {"key": "properties.firewallState", "type": "str"},
         "firewall_allow_azure_ips": {"key": "properties.firewallAllowAzureIps", "type": "str"},
+        "mixed_tokens_mode": {"key": "properties.mixedTokensMode", "type": "str"},
         "new_tier": {"key": "properties.newTier", "type": "str"},
         "current_tier": {"key": "properties.currentTier", "type": "str"},
         "max_job_count": {"key": "properties.maxJobCount", "type": "int"},
@@ -958,13 +1017,14 @@ class DataLakeAnalyticsAccount(Resource):  # pylint: disable=too-many-instance-a
         public_data_lake_store_accounts: Optional[List["_models.DataLakeStoreAccountInformation"]] = None,
         firewall_state: Optional[Union[str, "_models.FirewallState"]] = None,
         firewall_allow_azure_ips: Optional[Union[str, "_models.FirewallAllowAzureIpsState"]] = None,
+        mixed_tokens_mode: Optional[Union[str, "_models.MixedTokensMode"]] = None,
         new_tier: Optional[Union[str, "_models.TierType"]] = None,
         max_job_count: int = 3,
         max_degree_of_parallelism: int = 30,
         max_degree_of_parallelism_per_job: Optional[int] = None,
         query_store_retention: int = 30,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword public_data_lake_store_accounts: The list of Data Lake Store accounts associated with
          this account.
@@ -978,6 +1038,11 @@ class DataLakeAnalyticsAccount(Resource):  # pylint: disable=too-many-instance-a
          values are: "Enabled" and "Disabled".
         :paramtype firewall_allow_azure_ips: str or
          ~azure.mgmt.datalake.analytics.account.models.FirewallAllowAzureIpsState
+        :keyword mixed_tokens_mode: The current state of allowing or disallowing to use both Guarantee
+         Analytics Unit and Eco Analytics Unit together during Job execution. Known values are:
+         "Enabled" and "Disabled".
+        :paramtype mixed_tokens_mode: str or
+         ~azure.mgmt.datalake.analytics.account.models.MixedTokensMode
         :keyword new_tier: The commitment tier for the next month. Known values are: "Consumption",
          "Commitment_100AUHours", "Commitment_500AUHours", "Commitment_1000AUHours",
          "Commitment_5000AUHours", "Commitment_10000AUHours", "Commitment_50000AUHours",
@@ -1012,6 +1077,7 @@ class DataLakeAnalyticsAccount(Resource):  # pylint: disable=too-many-instance-a
         self.firewall_rules = None
         self.firewall_state = firewall_state
         self.firewall_allow_azure_ips = firewall_allow_azure_ips
+        self.mixed_tokens_mode = mixed_tokens_mode
         self.new_tier = new_tier
         self.current_tier = None
         self.max_job_count = max_job_count
@@ -1027,8 +1093,9 @@ class DataLakeAnalyticsAccount(Resource):  # pylint: disable=too-many-instance-a
         self.debug_data_access_level = None
 
 
-class DataLakeAnalyticsAccountBasic(Resource):  # pylint: disable=too-many-instance-attributes
-    """A Data Lake Analytics account object, containing all information associated with the named Data Lake Analytics account.
+class DataLakeAnalyticsAccountBasic(Resource):
+    """A Data Lake Analytics account object, containing all information associated with the named Data
+    Lake Analytics account.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -1089,7 +1156,7 @@ class DataLakeAnalyticsAccountBasic(Resource):  # pylint: disable=too-many-insta
         "endpoint": {"key": "properties.endpoint", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.account_id = None
@@ -1126,7 +1193,7 @@ class DataLakeAnalyticsAccountListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -1135,7 +1202,8 @@ class DataLakeAnalyticsAccountListResult(_serialization.Model):
 
 
 class DataLakeAnalyticsAccountPropertiesBasic(_serialization.Model):
-    """The basic account specific properties that are associated with an underlying Data Lake Analytics account.
+    """The basic account specific properties that are associated with an underlying Data Lake
+    Analytics account.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -1176,7 +1244,7 @@ class DataLakeAnalyticsAccountPropertiesBasic(_serialization.Model):
         "endpoint": {"key": "endpoint", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.account_id = None
@@ -1187,10 +1255,9 @@ class DataLakeAnalyticsAccountPropertiesBasic(_serialization.Model):
         self.endpoint = None
 
 
-class DataLakeAnalyticsAccountProperties(
-    DataLakeAnalyticsAccountPropertiesBasic
-):  # pylint: disable=too-many-instance-attributes
-    """The account specific properties that are associated with an underlying Data Lake Analytics account. Returned only when retrieving a specific account.
+class DataLakeAnalyticsAccountProperties(DataLakeAnalyticsAccountPropertiesBasic):
+    """The account specific properties that are associated with an underlying Data Lake Analytics
+    account. Returned only when retrieving a specific account.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -1245,6 +1312,11 @@ class DataLakeAnalyticsAccountProperties(
      values are: "Enabled" and "Disabled".
     :vartype firewall_allow_azure_ips: str or
      ~azure.mgmt.datalake.analytics.account.models.FirewallAllowAzureIpsState
+    :ivar mixed_tokens_mode: The current state of allowing or disallowing to use both Guarantee
+     Analytics Unit and Eco Analytics Unit together during Job execution. Known values are:
+     "Enabled" and "Disabled".
+    :vartype mixed_tokens_mode: str or
+     ~azure.mgmt.datalake.analytics.account.models.MixedTokensMode
     :ivar new_tier: The commitment tier for the next month. Known values are: "Consumption",
      "Commitment_100AUHours", "Commitment_500AUHours", "Commitment_1000AUHours",
      "Commitment_5000AUHours", "Commitment_10000AUHours", "Commitment_50000AUHours",
@@ -1339,6 +1411,7 @@ class DataLakeAnalyticsAccountProperties(
         "firewall_rules": {"key": "firewallRules", "type": "[FirewallRule]"},
         "firewall_state": {"key": "firewallState", "type": "str"},
         "firewall_allow_azure_ips": {"key": "firewallAllowAzureIps", "type": "str"},
+        "mixed_tokens_mode": {"key": "mixedTokensMode", "type": "str"},
         "new_tier": {"key": "newTier", "type": "str"},
         "current_tier": {"key": "currentTier", "type": "str"},
         "max_job_count": {"key": "maxJobCount", "type": "int"},
@@ -1360,13 +1433,14 @@ class DataLakeAnalyticsAccountProperties(
         public_data_lake_store_accounts: Optional[List["_models.DataLakeStoreAccountInformation"]] = None,
         firewall_state: Optional[Union[str, "_models.FirewallState"]] = None,
         firewall_allow_azure_ips: Optional[Union[str, "_models.FirewallAllowAzureIpsState"]] = None,
+        mixed_tokens_mode: Optional[Union[str, "_models.MixedTokensMode"]] = None,
         new_tier: Optional[Union[str, "_models.TierType"]] = None,
         max_job_count: int = 3,
         max_degree_of_parallelism: int = 30,
         max_degree_of_parallelism_per_job: Optional[int] = None,
         query_store_retention: int = 30,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword public_data_lake_store_accounts: The list of Data Lake Store accounts associated with
          this account.
@@ -1380,6 +1454,11 @@ class DataLakeAnalyticsAccountProperties(
          values are: "Enabled" and "Disabled".
         :paramtype firewall_allow_azure_ips: str or
          ~azure.mgmt.datalake.analytics.account.models.FirewallAllowAzureIpsState
+        :keyword mixed_tokens_mode: The current state of allowing or disallowing to use both Guarantee
+         Analytics Unit and Eco Analytics Unit together during Job execution. Known values are:
+         "Enabled" and "Disabled".
+        :paramtype mixed_tokens_mode: str or
+         ~azure.mgmt.datalake.analytics.account.models.MixedTokensMode
         :keyword new_tier: The commitment tier for the next month. Known values are: "Consumption",
          "Commitment_100AUHours", "Commitment_500AUHours", "Commitment_1000AUHours",
          "Commitment_5000AUHours", "Commitment_10000AUHours", "Commitment_50000AUHours",
@@ -1408,6 +1487,7 @@ class DataLakeAnalyticsAccountProperties(
         self.firewall_rules = None
         self.firewall_state = firewall_state
         self.firewall_allow_azure_ips = firewall_allow_azure_ips
+        self.mixed_tokens_mode = mixed_tokens_mode
         self.new_tier = new_tier
         self.current_tier = None
         self.max_job_count = max_job_count
@@ -1452,13 +1532,13 @@ class DataLakeStoreAccountInformation(SubResource):
         "suffix": {"key": "properties.suffix", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.suffix = None
 
 
-class DataLakeStoreAccountInformationListResult(_serialization.Model):
+class DataLakeStoreAccountInformationListResult(_serialization.Model):  # pylint: disable=name-too-long
     """Data Lake Store account list information.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1480,7 +1560,7 @@ class DataLakeStoreAccountInformationListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -1508,7 +1588,7 @@ class ErrorAdditionalInfo(_serialization.Model):
         "info": {"key": "info", "type": "object"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.type = None
@@ -1549,7 +1629,7 @@ class ErrorDetail(_serialization.Model):
         "additional_info": {"key": "additionalInfo", "type": "[ErrorAdditionalInfo]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.code = None
@@ -1560,7 +1640,8 @@ class ErrorDetail(_serialization.Model):
 
 
 class ErrorResponse(_serialization.Model):
-    """Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.).
+    """Common error response for all Azure Resource Manager APIs to return error details for failed
+    operations. (This also follows the OData error response format.).
 
     :ivar error: The error object.
     :vartype error: ~azure.mgmt.datalake.analytics.account.models.ErrorDetail
@@ -1570,7 +1651,7 @@ class ErrorResponse(_serialization.Model):
         "error": {"key": "error", "type": "ErrorDetail"},
     }
 
-    def __init__(self, *, error: Optional["_models.ErrorDetail"] = None, **kwargs):
+    def __init__(self, *, error: Optional["_models.ErrorDetail"] = None, **kwargs: Any) -> None:
         """
         :keyword error: The error object.
         :paramtype error: ~azure.mgmt.datalake.analytics.account.models.ErrorDetail
@@ -1614,7 +1695,7 @@ class FirewallRule(SubResource):
         "end_ip_address": {"key": "properties.endIpAddress", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.start_ip_address = None
@@ -1642,7 +1723,7 @@ class FirewallRuleListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -1700,7 +1781,7 @@ class HiveMetastore(SubResource):
         "nested_resource_provisioning_state": {"key": "properties.nestedResourceProvisioningState", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.server_uri = None
@@ -1732,7 +1813,7 @@ class HiveMetastoreListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -1767,7 +1848,7 @@ class NameAvailabilityInformation(_serialization.Model):
         "message": {"key": "message", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.name_available = None
@@ -1805,7 +1886,7 @@ class Operation(_serialization.Model):
         "origin": {"key": "origin", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.name = None
@@ -1843,7 +1924,7 @@ class OperationDisplay(_serialization.Model):
         "description": {"key": "description", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.provider = None
@@ -1873,7 +1954,7 @@ class OperationListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -1903,8 +1984,8 @@ class OperationMetaLogSpecification(_serialization.Model):
         name: Optional[str] = None,
         display_name: Optional[str] = None,
         blob_duration: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: The name for OperationMetaLogSpecification.
         :paramtype name: str
@@ -1919,7 +2000,7 @@ class OperationMetaLogSpecification(_serialization.Model):
         self.blob_duration = blob_duration
 
 
-class OperationMetaMetricAvailabilitiesSpecification(_serialization.Model):
+class OperationMetaMetricAvailabilitiesSpecification(_serialization.Model):  # pylint: disable=name-too-long
     """OperationMetaMetricAvailabilitiesSpecification.
 
     :ivar time_grain: The timegrain for OperationMetaMetricAvailabilitiesSpecification.
@@ -1933,7 +2014,7 @@ class OperationMetaMetricAvailabilitiesSpecification(_serialization.Model):
         "blob_duration": {"key": "blobDuration", "type": "str"},
     }
 
-    def __init__(self, *, time_grain: Optional[str] = None, blob_duration: Optional[str] = None, **kwargs):
+    def __init__(self, *, time_grain: Optional[str] = None, blob_duration: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword time_grain: The timegrain for OperationMetaMetricAvailabilitiesSpecification.
         :paramtype time_grain: str
@@ -1981,8 +2062,8 @@ class OperationMetaMetricSpecification(_serialization.Model):
         unit: Optional[str] = None,
         aggregation_type: Optional[str] = None,
         availabilities: Optional[List["_models.OperationMetaMetricAvailabilitiesSpecification"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: The name for OperationMetaMetricSpecification.
         :paramtype name: str
@@ -2020,8 +2101,8 @@ class OperationMetaPropertyInfo(_serialization.Model):
     }
 
     def __init__(
-        self, *, service_specification: Optional["_models.OperationMetaServiceSpecification"] = None, **kwargs
-    ):
+        self, *, service_specification: Optional["_models.OperationMetaServiceSpecification"] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword service_specification: The operations OperationMetaServiceSpecification.
         :paramtype service_specification:
@@ -2052,8 +2133,8 @@ class OperationMetaServiceSpecification(_serialization.Model):
         *,
         metric_specifications: Optional[List["_models.OperationMetaMetricSpecification"]] = None,
         log_specifications: Optional[List["_models.OperationMetaLogSpecification"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword metric_specifications: The metricSpecifications for OperationMetaServiceSpecification.
         :paramtype metric_specifications:
@@ -2084,14 +2165,15 @@ class SasTokenInformation(_serialization.Model):
         "access_token": {"key": "accessToken", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.access_token = None
 
 
 class SasTokenInformationListResult(_serialization.Model):
-    """The SAS response that contains the storage account, container and associated SAS token for connection use.
+    """The SAS response that contains the storage account, container and associated SAS token for
+    connection use.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -2111,7 +2193,7 @@ class SasTokenInformationListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -2147,7 +2229,7 @@ class StorageAccountInformation(SubResource):
         "suffix": {"key": "properties.suffix", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.suffix = None
@@ -2174,7 +2256,7 @@ class StorageAccountInformationListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -2210,14 +2292,15 @@ class StorageContainer(SubResource):
         "last_modified_time": {"key": "properties.lastModifiedTime", "type": "iso-8601"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.last_modified_time = None
 
 
 class StorageContainerListResult(_serialization.Model):
-    """The list of blob containers associated with the storage account attached to the Data Lake Analytics account.
+    """The list of blob containers associated with the storage account attached to the Data Lake
+    Analytics account.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -2237,11 +2320,58 @@ class StorageContainerListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
         self.next_link = None
+
+
+class TransferAnalyticsUnitsParameters(_serialization.Model):
+    """The parameters used to transfer Analytics Units from one account to another.
+
+    :ivar new_system_max: Current Account's updated Analytics Units.
+    :vartype new_system_max: int
+    :ivar participants: The list of Accounts provides its Analytics Units except the current
+     Account.
+    :vartype participants:
+     list[~azure.mgmt.datalake.analytics.account.models.AnalyticsUnitsParameters]
+    :ivar recipients: The list of Accounts to receive the Analytics Units except the current
+     Account.
+    :vartype recipients:
+     list[~azure.mgmt.datalake.analytics.account.models.AnalyticsUnitsParameters]
+    """
+
+    _attribute_map = {
+        "new_system_max": {"key": "newSystemMax", "type": "int"},
+        "participants": {"key": "participants", "type": "[AnalyticsUnitsParameters]"},
+        "recipients": {"key": "recipients", "type": "[AnalyticsUnitsParameters]"},
+    }
+
+    def __init__(
+        self,
+        *,
+        new_system_max: Optional[int] = None,
+        participants: Optional[List["_models.AnalyticsUnitsParameters"]] = None,
+        recipients: Optional[List["_models.AnalyticsUnitsParameters"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword new_system_max: Current Account's updated Analytics Units.
+        :paramtype new_system_max: int
+        :keyword participants: The list of Accounts provides its Analytics Units except the current
+         Account.
+        :paramtype participants:
+         list[~azure.mgmt.datalake.analytics.account.models.AnalyticsUnitsParameters]
+        :keyword recipients: The list of Accounts to receive the Analytics Units except the current
+         Account.
+        :paramtype recipients:
+         list[~azure.mgmt.datalake.analytics.account.models.AnalyticsUnitsParameters]
+        """
+        super().__init__(**kwargs)
+        self.new_system_max = new_system_max
+        self.participants = participants
+        self.recipients = recipients
 
 
 class UpdateComputePolicyParameters(_serialization.Model):
@@ -2280,8 +2410,8 @@ class UpdateComputePolicyParameters(_serialization.Model):
         object_type: Optional[Union[str, "_models.AADObjectType"]] = None,
         max_degree_of_parallelism_per_job: Optional[int] = None,
         min_priority_per_job: Optional[int] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword object_id: The AAD object identifier for the entity to create a policy for.
         :paramtype object_id: str
@@ -2306,7 +2436,7 @@ class UpdateComputePolicyParameters(_serialization.Model):
 class UpdateComputePolicyWithAccountParameters(_serialization.Model):
     """The parameters used to update a compute policy while updating a Data Lake Analytics account.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The unique name of the compute policy to update. Required.
     :vartype name: str
@@ -2346,8 +2476,8 @@ class UpdateComputePolicyWithAccountParameters(_serialization.Model):
         object_type: Optional[Union[str, "_models.AADObjectType"]] = None,
         max_degree_of_parallelism_per_job: Optional[int] = None,
         min_priority_per_job: Optional[int] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: The unique name of the compute policy to update. Required.
         :paramtype name: str
@@ -2372,7 +2502,7 @@ class UpdateComputePolicyWithAccountParameters(_serialization.Model):
         self.min_priority_per_job = min_priority_per_job
 
 
-class UpdateDataLakeAnalyticsAccountParameters(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class UpdateDataLakeAnalyticsAccountParameters(_serialization.Model):
     """The parameters that can be used to update an existing Data Lake Analytics account.
 
     :ivar tags: The resource tags.
@@ -2399,6 +2529,11 @@ class UpdateDataLakeAnalyticsAccountParameters(_serialization.Model):  # pylint:
      values are: "Enabled" and "Disabled".
     :vartype firewall_allow_azure_ips: str or
      ~azure.mgmt.datalake.analytics.account.models.FirewallAllowAzureIpsState
+    :ivar mixed_tokens_mode: The current state of allowing or disallowing to use both Guarantee
+     Analytics Unit and Eco Analytics Unit together during Job execution. Known values are:
+     "Enabled" and "Disabled".
+    :vartype mixed_tokens_mode: str or
+     ~azure.mgmt.datalake.analytics.account.models.MixedTokensMode
     :ivar new_tier: The commitment tier to use for next month. Known values are: "Consumption",
      "Commitment_100AUHours", "Commitment_500AUHours", "Commitment_1000AUHours",
      "Commitment_5000AUHours", "Commitment_10000AUHours", "Commitment_50000AUHours",
@@ -2439,6 +2574,7 @@ class UpdateDataLakeAnalyticsAccountParameters(_serialization.Model):  # pylint:
         "firewall_rules": {"key": "properties.firewallRules", "type": "[UpdateFirewallRuleWithAccountParameters]"},
         "firewall_state": {"key": "properties.firewallState", "type": "str"},
         "firewall_allow_azure_ips": {"key": "properties.firewallAllowAzureIps", "type": "str"},
+        "mixed_tokens_mode": {"key": "properties.mixedTokensMode", "type": "str"},
         "new_tier": {"key": "properties.newTier", "type": "str"},
         "max_job_count": {"key": "properties.maxJobCount", "type": "int"},
         "max_degree_of_parallelism": {"key": "properties.maxDegreeOfParallelism", "type": "int"},
@@ -2457,14 +2593,15 @@ class UpdateDataLakeAnalyticsAccountParameters(_serialization.Model):  # pylint:
         firewall_rules: Optional[List["_models.UpdateFirewallRuleWithAccountParameters"]] = None,
         firewall_state: Optional[Union[str, "_models.FirewallState"]] = None,
         firewall_allow_azure_ips: Optional[Union[str, "_models.FirewallAllowAzureIpsState"]] = None,
+        mixed_tokens_mode: Optional[Union[str, "_models.MixedTokensMode"]] = None,
         new_tier: Optional[Union[str, "_models.TierType"]] = None,
         max_job_count: Optional[int] = None,
         max_degree_of_parallelism: Optional[int] = None,
         max_degree_of_parallelism_per_job: Optional[int] = None,
         min_priority_per_job: Optional[int] = None,
         query_store_retention: Optional[int] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: The resource tags.
         :paramtype tags: dict[str, str]
@@ -2491,6 +2628,11 @@ class UpdateDataLakeAnalyticsAccountParameters(_serialization.Model):  # pylint:
          values are: "Enabled" and "Disabled".
         :paramtype firewall_allow_azure_ips: str or
          ~azure.mgmt.datalake.analytics.account.models.FirewallAllowAzureIpsState
+        :keyword mixed_tokens_mode: The current state of allowing or disallowing to use both Guarantee
+         Analytics Unit and Eco Analytics Unit together during Job execution. Known values are:
+         "Enabled" and "Disabled".
+        :paramtype mixed_tokens_mode: str or
+         ~azure.mgmt.datalake.analytics.account.models.MixedTokensMode
         :keyword new_tier: The commitment tier to use for next month. Known values are: "Consumption",
          "Commitment_100AUHours", "Commitment_500AUHours", "Commitment_1000AUHours",
          "Commitment_5000AUHours", "Commitment_10000AUHours", "Commitment_50000AUHours",
@@ -2517,6 +2659,7 @@ class UpdateDataLakeAnalyticsAccountParameters(_serialization.Model):  # pylint:
         self.firewall_rules = firewall_rules
         self.firewall_state = firewall_state
         self.firewall_allow_azure_ips = firewall_allow_azure_ips
+        self.mixed_tokens_mode = mixed_tokens_mode
         self.new_tier = new_tier
         self.max_job_count = max_job_count
         self.max_degree_of_parallelism = max_degree_of_parallelism
@@ -2526,9 +2669,10 @@ class UpdateDataLakeAnalyticsAccountParameters(_serialization.Model):  # pylint:
 
 
 class UpdateDataLakeStoreWithAccountParameters(_serialization.Model):
-    """The parameters used to update a Data Lake Store account while updating a Data Lake Analytics account.
+    """The parameters used to update a Data Lake Store account while updating a Data Lake Analytics
+    account.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The unique name of the Data Lake Store account to update. Required.
     :vartype name: str
@@ -2545,7 +2689,7 @@ class UpdateDataLakeStoreWithAccountParameters(_serialization.Model):
         "suffix": {"key": "properties.suffix", "type": "str"},
     }
 
-    def __init__(self, *, name: str, suffix: Optional[str] = None, **kwargs):
+    def __init__(self, *, name: str, suffix: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword name: The unique name of the Data Lake Store account to update. Required.
         :paramtype name: str
@@ -2573,7 +2717,9 @@ class UpdateFirewallRuleParameters(_serialization.Model):
         "end_ip_address": {"key": "properties.endIpAddress", "type": "str"},
     }
 
-    def __init__(self, *, start_ip_address: Optional[str] = None, end_ip_address: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, start_ip_address: Optional[str] = None, end_ip_address: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword start_ip_address: The start IP address for the firewall rule. This can be either ipv4
          or ipv6. Start and End should be in the same protocol.
@@ -2590,7 +2736,7 @@ class UpdateFirewallRuleParameters(_serialization.Model):
 class UpdateFirewallRuleWithAccountParameters(_serialization.Model):
     """The parameters used to update a firewall rule while updating a Data Lake Analytics account.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The unique name of the firewall rule to update. Required.
     :vartype name: str
@@ -2613,8 +2759,8 @@ class UpdateFirewallRuleWithAccountParameters(_serialization.Model):
     }
 
     def __init__(
-        self, *, name: str, start_ip_address: Optional[str] = None, end_ip_address: Optional[str] = None, **kwargs
-    ):
+        self, *, name: str, start_ip_address: Optional[str] = None, end_ip_address: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword name: The unique name of the firewall rule to update. Required.
         :paramtype name: str
@@ -2646,7 +2792,7 @@ class UpdateStorageAccountParameters(_serialization.Model):
         "suffix": {"key": "properties.suffix", "type": "str"},
     }
 
-    def __init__(self, *, access_key: Optional[str] = None, suffix: Optional[str] = None, **kwargs):
+    def __init__(self, *, access_key: Optional[str] = None, suffix: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword access_key: The updated access key associated with this Azure Storage account that
          will be used to connect to it.
@@ -2659,10 +2805,11 @@ class UpdateStorageAccountParameters(_serialization.Model):
         self.suffix = suffix
 
 
-class UpdateStorageAccountWithAccountParameters(_serialization.Model):
-    """The parameters used to update an Azure Storage account while updating a Data Lake Analytics account.
+class UpdateStorageAccountWithAccountParameters(_serialization.Model):  # pylint: disable=name-too-long
+    """The parameters used to update an Azure Storage account while updating a Data Lake Analytics
+    account.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The unique name of the Azure Storage account to update. Required.
     :vartype name: str
@@ -2683,7 +2830,9 @@ class UpdateStorageAccountWithAccountParameters(_serialization.Model):
         "suffix": {"key": "properties.suffix", "type": "str"},
     }
 
-    def __init__(self, *, name: str, access_key: Optional[str] = None, suffix: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, name: str, access_key: Optional[str] = None, suffix: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword name: The unique name of the Azure Storage account to update. Required.
         :paramtype name: str
@@ -2734,7 +2883,7 @@ class VirtualNetworkRule(SubResource):
         "virtual_network_rule_state": {"key": "properties.virtualNetworkRuleState", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.subnet_id = None
@@ -2762,7 +2911,7 @@ class VirtualNetworkRuleListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
