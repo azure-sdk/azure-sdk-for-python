@@ -73,6 +73,15 @@ class FirewallState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     DISABLED = "Disabled"
 
 
+class MixedTokensMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The current state of allowing or disallowing to use both Guarantee Analytics Unit and Eco
+    Analytics Unit together during Job execution.
+    """
+
+    ENABLED = "Enabled"
+    DISABLED = "Disabled"
+
+
 class NestedResourceProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The current state of the NestedResourceProvisioning for this account."""
 
