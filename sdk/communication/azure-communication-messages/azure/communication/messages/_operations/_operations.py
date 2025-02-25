@@ -74,9 +74,7 @@ def build_notification_messages_send_request(**kwargs: Any) -> HttpRequest:
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_notification_messages_download_media_request(  # pylint: disable=name-too-long
-    id: str, **kwargs: Any
-) -> HttpRequest:
+def build_notification_messages_download_media_request(**kwargs: Any) -> HttpRequest:  # pylint: disable=name-too-long
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
@@ -84,12 +82,7 @@ def build_notification_messages_download_media_request(  # pylint: disable=name-
     accept = _headers.pop("Accept", "application/octet-stream")
 
     # Construct URL
-    _url = "/messages/streams/{id}"
-    path_format_arguments = {
-        "id": _SERIALIZER.url("id", id, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
+    _url = "/"
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -257,11 +250,9 @@ class NotificationMessagesClientOperationsMixin(NotificationMessagesClientMixinA
         return deserialized  # type: ignore
 
     @distributed_trace
-    def download_media(self, id: str, **kwargs: Any) -> Iterator[bytes]:
+    def download_media(self, **kwargs: Any) -> Iterator[bytes]:
         """Download the Media payload from a User to Business message.
 
-        :param id: The stream ID. Required.
-        :type id: str
         :return: Iterator[bytes]
         :rtype: Iterator[bytes]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -280,7 +271,6 @@ class NotificationMessagesClientOperationsMixin(NotificationMessagesClientMixinA
         cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
 
         _request = build_notification_messages_download_media_request(
-            id=id,
             api_version=self._config.api_version,
             headers=_headers,
             params=_params,
