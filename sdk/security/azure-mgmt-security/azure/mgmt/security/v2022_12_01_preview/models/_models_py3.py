@@ -1,5 +1,4 @@
 # coding=utf-8
-# pylint: disable=too-many-lines
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -7,9 +6,12 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from typing import Any, Optional
+from typing import Any, Optional, TYPE_CHECKING
 
 from ... import _serialization
+
+if TYPE_CHECKING:
+    from .. import models as _models
 
 
 class CloudErrorBody(_serialization.Model):
@@ -89,7 +91,7 @@ class Resource(_serialization.Model):
         self.type = None
 
 
-class DefenderForStorageSetting(Resource):  # pylint: disable=too-many-instance-attributes
+class DefenderForStorageSetting(Resource):
     """The Defender for Storage resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -100,115 +102,86 @@ class DefenderForStorageSetting(Resource):  # pylint: disable=too-many-instance-
     :vartype name: str
     :ivar type: Resource type.
     :vartype type: str
-    :ivar is_enabled_properties_is_enabled: Indicates whether Defender for Storage is enabled on
-     this storage account.
-    :vartype is_enabled_properties_is_enabled: bool
-    :ivar override_subscription_level_settings: Indicates whether the settings defined for this
-     storage account should override the settings defined for the subscription.
-    :vartype override_subscription_level_settings: bool
-    :ivar is_enabled_properties_sensitive_data_discovery_is_enabled: Indicates whether Sensitive
-     Data Discovery should be enabled.
-    :vartype is_enabled_properties_sensitive_data_discovery_is_enabled: bool
-    :ivar operation_status_properties_sensitive_data_discovery_operation_status: Upon failure or
-     partial success. Additional data describing Sensitive Data Discovery enable/disable operation.
-    :vartype operation_status_properties_sensitive_data_discovery_operation_status:
-     ~azure.mgmt.security.v2022_12_01_preview.models.OperationStatus
-    :ivar scan_results_event_grid_topic_resource_id: Optional. Resource id of an Event Grid Topic
-     to send scan results to.
-    :vartype scan_results_event_grid_topic_resource_id: str
-    :ivar operation_status_properties_malware_scanning_operation_status: Upon failure or partial
-     success. Additional data describing Malware Scanning enable/disable operation.
-    :vartype operation_status_properties_malware_scanning_operation_status:
-     ~azure.mgmt.security.v2022_12_01_preview.models.OperationStatus
-    :ivar is_enabled_properties_malware_scanning_on_upload_is_enabled: Indicates whether On Upload
-     malware scanning should be enabled.
-    :vartype is_enabled_properties_malware_scanning_on_upload_is_enabled: bool
-    :ivar cap_gb_per_month: Defines the max GB to be scanned per Month. Set to -1 if no capping is
-     needed.
-    :vartype cap_gb_per_month: int
+    :ivar properties: Defender for Storage resource properties.
+    :vartype properties:
+     ~azure.mgmt.security.v2022_12_01_preview.models.DefenderForStorageSettingProperties
     """
 
     _validation = {
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
-        "operation_status_properties_sensitive_data_discovery_operation_status": {"readonly": True},
-        "operation_status_properties_malware_scanning_operation_status": {"readonly": True},
     }
 
     _attribute_map = {
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
-        "is_enabled_properties_is_enabled": {"key": "properties.isEnabled", "type": "bool"},
-        "override_subscription_level_settings": {"key": "properties.overrideSubscriptionLevelSettings", "type": "bool"},
-        "is_enabled_properties_sensitive_data_discovery_is_enabled": {
-            "key": "properties.sensitiveDataDiscovery.isEnabled",
-            "type": "bool",
-        },
-        "operation_status_properties_sensitive_data_discovery_operation_status": {
-            "key": "properties.sensitiveDataDiscovery.operationStatus",
-            "type": "OperationStatus",
-        },
-        "scan_results_event_grid_topic_resource_id": {
-            "key": "properties.malwareScanning.scanResultsEventGridTopicResourceId",
-            "type": "str",
-        },
-        "operation_status_properties_malware_scanning_operation_status": {
-            "key": "properties.malwareScanning.operationStatus",
-            "type": "OperationStatus",
-        },
-        "is_enabled_properties_malware_scanning_on_upload_is_enabled": {
-            "key": "properties.malwareScanning.onUpload.isEnabled",
-            "type": "bool",
-        },
-        "cap_gb_per_month": {"key": "properties.malwareScanning.onUpload.capGBPerMonth", "type": "int"},
+        "properties": {"key": "properties", "type": "DefenderForStorageSettingProperties"},
+    }
+
+    def __init__(
+        self, *, properties: Optional["_models.DefenderForStorageSettingProperties"] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword properties: Defender for Storage resource properties.
+        :paramtype properties:
+         ~azure.mgmt.security.v2022_12_01_preview.models.DefenderForStorageSettingProperties
+        """
+        super().__init__(**kwargs)
+        self.properties = properties
+
+
+class DefenderForStorageSettingProperties(_serialization.Model):
+    """Defender for Storage resource properties.
+
+    :ivar is_enabled: Indicates whether Defender for Storage is enabled on this storage account.
+    :vartype is_enabled: bool
+    :ivar malware_scanning: Properties of Malware Scanning.
+    :vartype malware_scanning:
+     ~azure.mgmt.security.v2022_12_01_preview.models.MalwareScanningProperties
+    :ivar sensitive_data_discovery: Properties of Sensitive Data Discovery.
+    :vartype sensitive_data_discovery:
+     ~azure.mgmt.security.v2022_12_01_preview.models.SensitiveDataDiscoveryProperties
+    :ivar override_subscription_level_settings: Indicates whether the settings defined for this
+     storage account should override the settings defined for the subscription.
+    :vartype override_subscription_level_settings: bool
+    """
+
+    _attribute_map = {
+        "is_enabled": {"key": "isEnabled", "type": "bool"},
+        "malware_scanning": {"key": "malwareScanning", "type": "MalwareScanningProperties"},
+        "sensitive_data_discovery": {"key": "sensitiveDataDiscovery", "type": "SensitiveDataDiscoveryProperties"},
+        "override_subscription_level_settings": {"key": "overrideSubscriptionLevelSettings", "type": "bool"},
     }
 
     def __init__(
         self,
         *,
-        is_enabled_properties_is_enabled: Optional[bool] = None,
+        is_enabled: Optional[bool] = None,
+        malware_scanning: Optional["_models.MalwareScanningProperties"] = None,
+        sensitive_data_discovery: Optional["_models.SensitiveDataDiscoveryProperties"] = None,
         override_subscription_level_settings: Optional[bool] = None,
-        is_enabled_properties_sensitive_data_discovery_is_enabled: Optional[bool] = None,
-        scan_results_event_grid_topic_resource_id: Optional[str] = None,
-        is_enabled_properties_malware_scanning_on_upload_is_enabled: Optional[bool] = None,
-        cap_gb_per_month: Optional[int] = None,
         **kwargs: Any
     ) -> None:
         """
-        :keyword is_enabled_properties_is_enabled: Indicates whether Defender for Storage is enabled on
-         this storage account.
-        :paramtype is_enabled_properties_is_enabled: bool
+        :keyword is_enabled: Indicates whether Defender for Storage is enabled on this storage account.
+        :paramtype is_enabled: bool
+        :keyword malware_scanning: Properties of Malware Scanning.
+        :paramtype malware_scanning:
+         ~azure.mgmt.security.v2022_12_01_preview.models.MalwareScanningProperties
+        :keyword sensitive_data_discovery: Properties of Sensitive Data Discovery.
+        :paramtype sensitive_data_discovery:
+         ~azure.mgmt.security.v2022_12_01_preview.models.SensitiveDataDiscoveryProperties
         :keyword override_subscription_level_settings: Indicates whether the settings defined for this
          storage account should override the settings defined for the subscription.
         :paramtype override_subscription_level_settings: bool
-        :keyword is_enabled_properties_sensitive_data_discovery_is_enabled: Indicates whether Sensitive
-         Data Discovery should be enabled.
-        :paramtype is_enabled_properties_sensitive_data_discovery_is_enabled: bool
-        :keyword scan_results_event_grid_topic_resource_id: Optional. Resource id of an Event Grid
-         Topic to send scan results to.
-        :paramtype scan_results_event_grid_topic_resource_id: str
-        :keyword is_enabled_properties_malware_scanning_on_upload_is_enabled: Indicates whether On
-         Upload malware scanning should be enabled.
-        :paramtype is_enabled_properties_malware_scanning_on_upload_is_enabled: bool
-        :keyword cap_gb_per_month: Defines the max GB to be scanned per Month. Set to -1 if no capping
-         is needed.
-        :paramtype cap_gb_per_month: int
         """
         super().__init__(**kwargs)
-        self.is_enabled_properties_is_enabled = is_enabled_properties_is_enabled
+        self.is_enabled = is_enabled
+        self.malware_scanning = malware_scanning
+        self.sensitive_data_discovery = sensitive_data_discovery
         self.override_subscription_level_settings = override_subscription_level_settings
-        self.is_enabled_properties_sensitive_data_discovery_is_enabled = (
-            is_enabled_properties_sensitive_data_discovery_is_enabled
-        )
-        self.operation_status_properties_sensitive_data_discovery_operation_status = None
-        self.scan_results_event_grid_topic_resource_id = scan_results_event_grid_topic_resource_id
-        self.operation_status_properties_malware_scanning_operation_status = None
-        self.is_enabled_properties_malware_scanning_on_upload_is_enabled = (
-            is_enabled_properties_malware_scanning_on_upload_is_enabled
-        )
-        self.cap_gb_per_month = cap_gb_per_month
 
 
 class ErrorAdditionalInfo(_serialization.Model):
@@ -239,6 +212,81 @@ class ErrorAdditionalInfo(_serialization.Model):
         self.info = None
 
 
+class MalwareScanningProperties(_serialization.Model):
+    """Properties of Malware Scanning.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar on_upload: Properties of On Upload malware scanning.
+    :vartype on_upload: ~azure.mgmt.security.v2022_12_01_preview.models.OnUploadProperties
+    :ivar scan_results_event_grid_topic_resource_id: Optional. Resource id of an Event Grid Topic
+     to send scan results to.
+    :vartype scan_results_event_grid_topic_resource_id: str
+    :ivar operation_status: Upon failure or partial success. Additional data describing Malware
+     Scanning enable/disable operation.
+    :vartype operation_status: ~azure.mgmt.security.v2022_12_01_preview.models.OperationStatus
+    """
+
+    _validation = {
+        "operation_status": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "on_upload": {"key": "onUpload", "type": "OnUploadProperties"},
+        "scan_results_event_grid_topic_resource_id": {"key": "scanResultsEventGridTopicResourceId", "type": "str"},
+        "operation_status": {"key": "operationStatus", "type": "OperationStatus"},
+    }
+
+    def __init__(
+        self,
+        *,
+        on_upload: Optional["_models.OnUploadProperties"] = None,
+        scan_results_event_grid_topic_resource_id: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword on_upload: Properties of On Upload malware scanning.
+        :paramtype on_upload: ~azure.mgmt.security.v2022_12_01_preview.models.OnUploadProperties
+        :keyword scan_results_event_grid_topic_resource_id: Optional. Resource id of an Event Grid
+         Topic to send scan results to.
+        :paramtype scan_results_event_grid_topic_resource_id: str
+        """
+        super().__init__(**kwargs)
+        self.on_upload = on_upload
+        self.scan_results_event_grid_topic_resource_id = scan_results_event_grid_topic_resource_id
+        self.operation_status = None
+
+
+class OnUploadProperties(_serialization.Model):
+    """Properties of On Upload malware scanning.
+
+    :ivar is_enabled: Indicates whether On Upload malware scanning should be enabled.
+    :vartype is_enabled: bool
+    :ivar cap_gb_per_month: Defines the max GB to be scanned per Month. Set to -1 if no capping is
+     needed.
+    :vartype cap_gb_per_month: int
+    """
+
+    _attribute_map = {
+        "is_enabled": {"key": "isEnabled", "type": "bool"},
+        "cap_gb_per_month": {"key": "capGBPerMonth", "type": "int"},
+    }
+
+    def __init__(
+        self, *, is_enabled: Optional[bool] = None, cap_gb_per_month: Optional[int] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword is_enabled: Indicates whether On Upload malware scanning should be enabled.
+        :paramtype is_enabled: bool
+        :keyword cap_gb_per_month: Defines the max GB to be scanned per Month. Set to -1 if no capping
+         is needed.
+        :paramtype cap_gb_per_month: int
+        """
+        super().__init__(**kwargs)
+        self.is_enabled = is_enabled
+        self.cap_gb_per_month = cap_gb_per_month
+
+
 class OperationStatus(_serialization.Model):
     """A status describing the success/failure of the enablement/disablement operation.
 
@@ -263,3 +311,34 @@ class OperationStatus(_serialization.Model):
         super().__init__(**kwargs)
         self.code = code
         self.message = message
+
+
+class SensitiveDataDiscoveryProperties(_serialization.Model):
+    """Properties of Sensitive Data Discovery.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar is_enabled: Indicates whether Sensitive Data Discovery should be enabled.
+    :vartype is_enabled: bool
+    :ivar operation_status: Upon failure or partial success. Additional data describing Sensitive
+     Data Discovery enable/disable operation.
+    :vartype operation_status: ~azure.mgmt.security.v2022_12_01_preview.models.OperationStatus
+    """
+
+    _validation = {
+        "operation_status": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "is_enabled": {"key": "isEnabled", "type": "bool"},
+        "operation_status": {"key": "operationStatus", "type": "OperationStatus"},
+    }
+
+    def __init__(self, *, is_enabled: Optional[bool] = None, **kwargs: Any) -> None:
+        """
+        :keyword is_enabled: Indicates whether Sensitive Data Discovery should be enabled.
+        :paramtype is_enabled: bool
+        """
+        super().__init__(**kwargs)
+        self.is_enabled = is_enabled
+        self.operation_status = None
