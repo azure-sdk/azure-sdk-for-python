@@ -28,6 +28,7 @@ def main():
     client = NetworkManagementClient(
         credential=DefaultAzureCredential(),
         subscription_id="subid",
+        base_url="BASE_URL",
     )
 
     response = client.public_ip_addresses.get_cloud_service_public_ip_address(
@@ -41,6 +42,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/CloudServicePublicIpGet.json
+# x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/CloudServicePublicIpGet.json
 if __name__ == "__main__":
     main()

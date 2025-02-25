@@ -28,6 +28,7 @@ def main():
     client = NetworkManagementClient(
         credential=DefaultAzureCredential(),
         subscription_id="subId",
+        base_url="BASE_URL",
     )
 
     response = client.private_link_services.list_auto_approved_private_link_services_by_resource_group(
@@ -38,6 +39,6 @@ def main():
         print(item)
 
 
-# x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/AutoApprovedPrivateLinkServicesResourceGroupGet.json
+# x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/AutoApprovedPrivateLinkServicesResourceGroupGet.json
 if __name__ == "__main__":
     main()

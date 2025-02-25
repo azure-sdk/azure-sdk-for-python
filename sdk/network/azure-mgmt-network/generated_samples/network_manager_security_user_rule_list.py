@@ -28,6 +28,7 @@ def main():
     client = NetworkManagementClient(
         credential=DefaultAzureCredential(),
         subscription_id="00000000-0000-0000-0000-000000000000",
+        base_url="BASE_URL",
     )
 
     response = client.security_user_rules.list(
@@ -40,6 +41,6 @@ def main():
         print(item)
 
 
-# x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/NetworkManagerSecurityUserRuleList.json
+# x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/NetworkManagerSecurityUserRuleList.json
 if __name__ == "__main__":
     main()

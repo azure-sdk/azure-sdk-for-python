@@ -28,6 +28,7 @@ def main():
     client = NetworkManagementClient(
         credential=DefaultAzureCredential(),
         subscription_id="subid",
+        base_url="BASE_URL",
     )
 
     response = client.p2_svpn_gateways.begin_get_p2_s_vpn_connection_health_detailed(
@@ -41,6 +42,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/P2SVpnGatewayGetConnectionHealthDetailed.json
+# x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/P2SVpnGatewayGetConnectionHealthDetailed.json
 if __name__ == "__main__":
     main()
