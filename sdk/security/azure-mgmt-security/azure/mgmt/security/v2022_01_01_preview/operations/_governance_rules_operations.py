@@ -1,4 +1,3 @@
-# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8,7 +7,7 @@
 # --------------------------------------------------------------------------
 from io import IOBase
 import sys
-from typing import Any, Callable, Dict, IO, Iterable, Optional, Type, TypeVar, Union, cast, overload
+from typing import Any, Callable, Dict, IO, Iterable, Iterator, Optional, TypeVar, Union, cast, overload
 import urllib.parse
 
 from azure.core.exceptions import (
@@ -17,13 +16,14 @@ from azure.core.exceptions import (
     ResourceExistsError,
     ResourceNotFoundError,
     ResourceNotModifiedError,
+    StreamClosedError,
+    StreamConsumedError,
     map_error,
 )
 from azure.core.paging import ItemPaged
 from azure.core.pipeline import PipelineResponse
-from azure.core.pipeline.transport import HttpResponse
 from azure.core.polling import LROPoller, NoPolling, PollingMethod
-from azure.core.rest import HttpRequest
+from azure.core.rest import HttpRequest, HttpResponse
 from azure.core.tracing.decorator import distributed_trace
 from azure.core.utils import case_insensitive_dict
 from azure.mgmt.core.exceptions import ARMErrorFormat
@@ -31,12 +31,11 @@ from azure.mgmt.core.polling.arm_polling import ARMPolling
 
 from .. import models as _models
 from ..._serialization import Serializer
-from .._vendor import _convert_request
 
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
 
@@ -218,6 +217,7 @@ class GovernanceRulesOperations:
 
     @distributed_trace
     def list(self, scope: str, **kwargs: Any) -> Iterable["_models.GovernanceRule"]:
+        # pylint: disable=line-too-long
         """Get a list of all relevant governance rules over a scope.
 
         :param scope: The scope of the Governance rules. Valid scopes are: management group (format:
@@ -239,7 +239,7 @@ class GovernanceRulesOperations:
         )
         cls: ClsType[_models.GovernanceRuleList] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -256,7 +256,6 @@ class GovernanceRulesOperations:
                     headers=_headers,
                     params=_params,
                 )
-                _request = _convert_request(_request)
                 _request.url = self._client.format_url(_request.url)
 
             else:
@@ -272,7 +271,6 @@ class GovernanceRulesOperations:
                 _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                _request = _convert_request(_request)
                 _request.url = self._client.format_url(_request.url)
                 _request.method = "GET"
             return _request
@@ -303,6 +301,7 @@ class GovernanceRulesOperations:
 
     @distributed_trace
     def get(self, scope: str, rule_id: str, **kwargs: Any) -> _models.GovernanceRule:
+        # pylint: disable=line-too-long
         """Get a specific governance rule for the requested scope by ruleId.
 
         :param scope: The scope of the Governance rules. Valid scopes are: management group (format:
@@ -318,7 +317,7 @@ class GovernanceRulesOperations:
         :rtype: ~azure.mgmt.security.v2022_01_01_preview.models.GovernanceRule
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -341,7 +340,6 @@ class GovernanceRulesOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -355,7 +353,7 @@ class GovernanceRulesOperations:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("GovernanceRule", pipeline_response)
+        deserialized = self._deserialize("GovernanceRule", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -372,6 +370,7 @@ class GovernanceRulesOperations:
         content_type: str = "application/json",
         **kwargs: Any
     ) -> _models.GovernanceRule:
+        # pylint: disable=line-too-long
         """Creates or updates a governance rule over a given scope.
 
         :param scope: The scope of the Governance rules. Valid scopes are: management group (format:
@@ -403,6 +402,7 @@ class GovernanceRulesOperations:
         content_type: str = "application/json",
         **kwargs: Any
     ) -> _models.GovernanceRule:
+        # pylint: disable=line-too-long
         """Creates or updates a governance rule over a given scope.
 
         :param scope: The scope of the Governance rules. Valid scopes are: management group (format:
@@ -428,6 +428,7 @@ class GovernanceRulesOperations:
     def create_or_update(
         self, scope: str, rule_id: str, governance_rule: Union[_models.GovernanceRule, IO[bytes]], **kwargs: Any
     ) -> _models.GovernanceRule:
+        # pylint: disable=line-too-long
         """Creates or updates a governance rule over a given scope.
 
         :param scope: The scope of the Governance rules. Valid scopes are: management group (format:
@@ -447,7 +448,7 @@ class GovernanceRulesOperations:
         :rtype: ~azure.mgmt.security.v2022_01_01_preview.models.GovernanceRule
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -482,7 +483,6 @@ class GovernanceRulesOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -496,21 +496,15 @@ class GovernanceRulesOperations:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
-        if response.status_code == 200:
-            deserialized = self._deserialize("GovernanceRule", pipeline_response)
-
-        if response.status_code == 201:
-            deserialized = self._deserialize("GovernanceRule", pipeline_response)
+        deserialized = self._deserialize("GovernanceRule", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
 
         return deserialized  # type: ignore
 
-    def _delete_initial(  # pylint: disable=inconsistent-return-statements
-        self, scope: str, rule_id: str, **kwargs: Any
-    ) -> None:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+    def _delete_initial(self, scope: str, rule_id: str, **kwargs: Any) -> Iterator[bytes]:
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -524,7 +518,7 @@ class GovernanceRulesOperations:
         api_version: str = kwargs.pop(
             "api_version", _params.pop("api-version", self._api_version or "2022-01-01-preview")
         )
-        cls: ClsType[None] = kwargs.pop("cls", None)
+        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
 
         _request = build_delete_request(
             scope=scope,
@@ -533,10 +527,10 @@ class GovernanceRulesOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
-        _stream = False
+        _decompress = kwargs.pop("decompress", True)
+        _stream = True
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
@@ -544,6 +538,10 @@ class GovernanceRulesOperations:
         response = pipeline_response.http_response
 
         if response.status_code not in [200, 202, 204]:
+            try:
+                response.read()  # Load the body in memory and close the socket
+            except (StreamConsumedError, StreamClosedError):
+                pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
@@ -551,11 +549,16 @@ class GovernanceRulesOperations:
         if response.status_code == 202:
             response_headers["location"] = self._deserialize("str", response.headers.get("location"))
 
+        deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
+
         if cls:
-            return cls(pipeline_response, None, response_headers)  # type: ignore
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
+
+        return deserialized  # type: ignore
 
     @distributed_trace
     def begin_delete(self, scope: str, rule_id: str, **kwargs: Any) -> LROPoller[None]:
+        # pylint: disable=line-too-long
         """Delete a Governance rule over a given scope.
 
         :param scope: The scope of the Governance rules. Valid scopes are: management group (format:
@@ -582,7 +585,7 @@ class GovernanceRulesOperations:
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
         if cont_token is None:
-            raw_result = self._delete_initial(  # type: ignore
+            raw_result = self._delete_initial(
                 scope=scope,
                 rule_id=rule_id,
                 api_version=api_version,
@@ -591,6 +594,7 @@ class GovernanceRulesOperations:
                 params=_params,
                 **kwargs
             )
+            raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
@@ -614,14 +618,14 @@ class GovernanceRulesOperations:
             )
         return LROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
-    def _execute_initial(  # pylint: disable=inconsistent-return-statements
+    def _execute_initial(
         self,
         scope: str,
         rule_id: str,
         execute_governance_rule_params: Optional[Union[_models.ExecuteGovernanceRuleParams, IO[bytes]]] = None,
         **kwargs: Any
-    ) -> None:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+    ) -> Iterator[bytes]:
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -636,7 +640,7 @@ class GovernanceRulesOperations:
             "api_version", _params.pop("api-version", self._api_version or "2022-01-01-preview")
         )
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[None] = kwargs.pop("cls", None)
+        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
 
         content_type = content_type or "application/json"
         _json = None
@@ -659,10 +663,10 @@ class GovernanceRulesOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
-        _stream = False
+        _decompress = kwargs.pop("decompress", True)
+        _stream = True
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
@@ -670,14 +674,22 @@ class GovernanceRulesOperations:
         response = pipeline_response.http_response
 
         if response.status_code not in [202]:
+            try:
+                response.read()  # Load the body in memory and close the socket
+            except (StreamConsumedError, StreamClosedError):
+                pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
         response_headers = {}
         response_headers["location"] = self._deserialize("str", response.headers.get("location"))
 
+        deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
+
         if cls:
-            return cls(pipeline_response, None, response_headers)  # type: ignore
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
+
+        return deserialized  # type: ignore
 
     @overload
     def begin_execute(
@@ -689,6 +701,7 @@ class GovernanceRulesOperations:
         content_type: str = "application/json",
         **kwargs: Any
     ) -> LROPoller[None]:
+        # pylint: disable=line-too-long
         """Execute a governance rule.
 
         :param scope: The scope of the Governance rules. Valid scopes are: management group (format:
@@ -722,6 +735,7 @@ class GovernanceRulesOperations:
         content_type: str = "application/json",
         **kwargs: Any
     ) -> LROPoller[None]:
+        # pylint: disable=line-too-long
         """Execute a governance rule.
 
         :param scope: The scope of the Governance rules. Valid scopes are: management group (format:
@@ -752,6 +766,7 @@ class GovernanceRulesOperations:
         execute_governance_rule_params: Optional[Union[_models.ExecuteGovernanceRuleParams, IO[bytes]]] = None,
         **kwargs: Any
     ) -> LROPoller[None]:
+        # pylint: disable=line-too-long
         """Execute a governance rule.
 
         :param scope: The scope of the Governance rules. Valid scopes are: management group (format:
@@ -783,7 +798,7 @@ class GovernanceRulesOperations:
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
         if cont_token is None:
-            raw_result = self._execute_initial(  # type: ignore
+            raw_result = self._execute_initial(
                 scope=scope,
                 rule_id=rule_id,
                 execute_governance_rule_params=execute_governance_rule_params,
@@ -794,6 +809,7 @@ class GovernanceRulesOperations:
                 params=_params,
                 **kwargs
             )
+            raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
@@ -821,6 +837,7 @@ class GovernanceRulesOperations:
     def operation_results(
         self, scope: str, rule_id: str, operation_id: str, **kwargs: Any
     ) -> Optional[_models.OperationResultAutoGenerated]:
+        # pylint: disable=line-too-long
         """Get governance rules long run operation result for the requested scope by ruleId and
         operationId.
 
@@ -839,7 +856,7 @@ class GovernanceRulesOperations:
         :rtype: ~azure.mgmt.security.v2022_01_01_preview.models.OperationResultAutoGenerated or None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -863,7 +880,6 @@ class GovernanceRulesOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -880,7 +896,7 @@ class GovernanceRulesOperations:
         deserialized = None
         response_headers = {}
         if response.status_code == 200:
-            deserialized = self._deserialize("OperationResultAutoGenerated", pipeline_response)
+            deserialized = self._deserialize("OperationResultAutoGenerated", pipeline_response.http_response)
 
         if response.status_code == 202:
             response_headers["location"] = self._deserialize("str", response.headers.get("location"))
