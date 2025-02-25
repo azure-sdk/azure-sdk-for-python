@@ -6,8 +6,6 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from typing import Any, IO, Union
-
 from azure.identity import DefaultAzureCredential
 
 from azure.mgmt.healthcareapis import HealthcareApisManagementClient
@@ -42,7 +40,12 @@ def main():
                 "enableDataPartitions": False,
                 "storageConfiguration": {
                     "fileSystemName": "fileSystemName",
-                    "storageResourceId": "/subscriptions/ab309d4e-4c2e-4241-be2e-08e1c8dd4246/resourceGroups/rgname/providers/Microsoft.Storage/storageAccounts/accountname",
+                    "storageMonitorConfiguration": {
+                        "messageQueue": {"name": "queuename1", "timeToLiveInSeconds": 2592000},
+                        "poisonQueue": {"name": "queuename2", "timeToLiveInSeconds": 2592000},
+                        "systemTopicResourceId": "/subscriptions/aa39e6f9-c22e-4935-9ef1-1e4c9aa3c130/resourceGroups/rgname/providers/Microsoft.EventGrid/systemTopics/topicname",
+                    },
+                    "storageResourceId": "/subscriptions/aa39e6f9-c22e-4935-9ef1-1e4c9aa3c130/resourceGroups/rgname/providers/Microsoft.Storage/storageAccounts/accountname",
                 },
             },
         },
@@ -50,6 +53,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2024-03-31/examples/dicomservices/DicomServices_Create.json
+# x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/preview/2025-03-01-preview/examples/dicomservices/DicomServices_Create.json
 if __name__ == "__main__":
     main()
