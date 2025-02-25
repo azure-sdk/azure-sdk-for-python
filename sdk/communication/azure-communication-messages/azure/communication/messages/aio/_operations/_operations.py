@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -177,11 +178,9 @@ class NotificationMessagesClientOperationsMixin(NotificationMessagesClientMixinA
         return deserialized  # type: ignore
 
     @distributed_trace_async
-    async def download_media(self, id: str, **kwargs: Any) -> AsyncIterator[bytes]:
+    async def download_media(self, **kwargs: Any) -> AsyncIterator[bytes]:
         """Download the Media payload from a User to Business message.
 
-        :param id: The stream ID. Required.
-        :type id: str
         :return: AsyncIterator[bytes]
         :rtype: AsyncIterator[bytes]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -200,7 +199,6 @@ class NotificationMessagesClientOperationsMixin(NotificationMessagesClientMixinA
         cls: ClsType[AsyncIterator[bytes]] = kwargs.pop("cls", None)
 
         _request = build_notification_messages_download_media_request(
-            id=id,
             api_version=self._config.api_version,
             headers=_headers,
             params=_params,
