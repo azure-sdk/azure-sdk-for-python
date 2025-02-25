@@ -1,5 +1,4 @@
 # coding=utf-8
-# pylint: disable=too-many-lines
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -12,7 +11,6 @@ from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 from ... import _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
@@ -94,22 +92,51 @@ class Extension(_serialization.Model):
 
     All required parameters must be populated in order to send to server.
 
-    :ivar name: The extension name. Supported values are: :code:`<br>`:code:`<br>`\\
-     **AgentlessDiscoveryForKubernetes** - API-based discovery of information about Kubernetes
-     cluster architecture, workload objects, and setup. Required for Kubernetes inventory, identity
-     and network exposure detection, attack path analysis and risk hunting as part of the cloud
-     security explorer.
-     Available for CloudPosture plan.:code:`<br>`:code:`<br>`\\ **OnUploadMalwareScanning** -
-     Limits the GB to be scanned per month for each storage account within the subscription. Once
-     this limit reached on a given storage account, Blobs won't be scanned during current calendar
-     month.
-     Available for StorageAccounts plan.:code:`<br>`:code:`<br>`\\ **SensitiveDataDiscovery** -
+    :ivar name: The extension name. Supported values are: :code:`<br>`\\ :code:`<br>`\\
+     **AgentlessDiscoveryForKubernetes** - Provides zero footprint, API-based discovery of
+     Kubernetes clusters, their configurations and deployments. The collected data is used to create
+     a contextualized security graph for Kubernetes clusters, provide risk hunting capabilities, and
+     visualize risks and threats to  Kubernetes environments and workloads.\\ :code:`<br>`Available
+     for CloudPosture plan and Containers plan.\\ :code:`<br>`\\ :code:`<br>`\\
+     **OnUploadMalwareScanning** - Limits the GB to be scanned per month for each storage account
+     within the subscription. Once this limit reached on a given storage account, Blobs won't be
+     scanned during current calendar month.\\ :code:`<br>`Available for StorageAccounts plan
+     (DefenderForStorageV2 sub plans).\\ :code:`<br>`\\ :code:`<br>`\\ **SensitiveDataDiscovery** -
      Sensitive data discovery identifies Blob storage container with sensitive data such as
-     credentials, credit cards, and more, to help prioritize and investigate security events.
-     Available for StorageAccounts and CloudPosture plans.:code:`<br>`:code:`<br>`\\
-     **ContainerRegistriesVulnerabilityAssessments** - Provides vulnerability management for images
-     stored in your container registries.
-     Available for CloudPosture and Containers plans. Required.
+     credentials, credit cards, and more, to help prioritize and investigate security events.\\
+     :code:`<br>`Available for StorageAccounts plan (DefenderForStorageV2 sub plan) and CloudPosture
+     plan.\\ :code:`<br>`\\ :code:`<br>`\\ **ContainerRegistriesVulnerabilityAssessments** -
+     Provides vulnerability management for images stored in your container registries.\\
+     :code:`<br>`Available for CloudPosture plan and Containers plan.\\ :code:`<br>`\\
+     :code:`<br>`\\ **MdeDesignatedSubscription** - Direct onboarding is a seamless integration
+     between Defender for Endpoint and Defender for Cloud that doesn’t require extra software
+     deployment on your servers. The onboarded resources will be presented under a designated Azure
+     Subscription you configure\\ :code:`<br>`Available for VirtualMachines plan (P1 and P2 sub
+     plans).\\ :code:`<br>`\\ :code:`<br>`\\ **AgentlessVmScanning** - Scans your machines for
+     installed software, vulnerabilities, malware and secret scanning without relying on agents or
+     impacting machine performance. Learn more here
+     https://learn.microsoft.com/en-us/azure/defender-for-cloud/concept-agentless-data-collection.\\
+     :code:`<br>`Available for CloudPosture plan, VirtualMachines plan (P2 sub plan) and Containers
+     plan.\\ :code:`<br>`\\ :code:`<br>`\\ **EntraPermissionsManagement** - Permissions Management
+     provides Cloud Infrastructure Entitlement Management (CIEM) capabilities that helps
+     organizations to manage and control user access and entitlements in their cloud infrastructure
+     - important attack vector for cloud environments.\\ :code:`<br>`Permissions Management analyzes
+     all permissions and active usage, and suggests recommendations to reduce permissions to enforce
+     the principle of least privilege. Learn more here
+     https://learn.microsoft.com/en-us/azure/defender-for-cloud/permissions-management.\\
+     :code:`<br>`Available for CloudPosture plan. :code:`<br>`\\ :code:`<br>`\\
+     **FileIntegrityMonitoring** - File integrity monitoring (FIM), examines operating system
+     files.\\ :code:`<br>`Windows registries, Linux system files, in real time, for changes that
+     might indicate an attack.\\ :code:`<br>`Available for VirtualMachines plan (P2 sub plan).
+     :code:`<br>`\\ :code:`<br>`\\ **ContainerSensor** - The sensor is based on IG and provides a
+     rich threat detection suite for Kubernetes clusters, nodes, and workloads, powered by Microsoft
+     leading threat intelligence, provides mapping to MITRE ATT&CK framework.\\
+     :code:`<br>`Available for Containers plan. :code:`<br>`\\ :code:`<br>`\\ **AIPromptEvidence** -
+     Exposes the prompts passed between the user and the AI model as alert evidence. This helps
+     classify and triage the alerts with relevant user context. The prompt snippets will include
+     only segments of the user prompt or model response that were deemed suspicious and relevant for
+     security classifications. The prompt evidence will be available through Defender portal as part
+     of each alert.\\ :code:`<br>`Available for AI plan. :code:`<br>`\\ :code:`<br>`. Required.
     :vartype name: str
     :ivar is_enabled: Indicates whether the extension is enabled. Required. Known values are:
      "True" and "False".
@@ -143,22 +170,51 @@ class Extension(_serialization.Model):
         **kwargs: Any
     ) -> None:
         """
-        :keyword name: The extension name. Supported values are: :code:`<br>`:code:`<br>`\\
-         **AgentlessDiscoveryForKubernetes** - API-based discovery of information about Kubernetes
-         cluster architecture, workload objects, and setup. Required for Kubernetes inventory, identity
-         and network exposure detection, attack path analysis and risk hunting as part of the cloud
-         security explorer.
-         Available for CloudPosture plan.:code:`<br>`:code:`<br>`\\ **OnUploadMalwareScanning** -
-         Limits the GB to be scanned per month for each storage account within the subscription. Once
-         this limit reached on a given storage account, Blobs won't be scanned during current calendar
-         month.
-         Available for StorageAccounts plan.:code:`<br>`:code:`<br>`\\ **SensitiveDataDiscovery** -
+        :keyword name: The extension name. Supported values are: :code:`<br>`\\ :code:`<br>`\\
+         **AgentlessDiscoveryForKubernetes** - Provides zero footprint, API-based discovery of
+         Kubernetes clusters, their configurations and deployments. The collected data is used to create
+         a contextualized security graph for Kubernetes clusters, provide risk hunting capabilities, and
+         visualize risks and threats to  Kubernetes environments and workloads.\\ :code:`<br>`Available
+         for CloudPosture plan and Containers plan.\\ :code:`<br>`\\ :code:`<br>`\\
+         **OnUploadMalwareScanning** - Limits the GB to be scanned per month for each storage account
+         within the subscription. Once this limit reached on a given storage account, Blobs won't be
+         scanned during current calendar month.\\ :code:`<br>`Available for StorageAccounts plan
+         (DefenderForStorageV2 sub plans).\\ :code:`<br>`\\ :code:`<br>`\\ **SensitiveDataDiscovery** -
          Sensitive data discovery identifies Blob storage container with sensitive data such as
-         credentials, credit cards, and more, to help prioritize and investigate security events.
-         Available for StorageAccounts and CloudPosture plans.:code:`<br>`:code:`<br>`\\
-         **ContainerRegistriesVulnerabilityAssessments** - Provides vulnerability management for images
-         stored in your container registries.
-         Available for CloudPosture and Containers plans. Required.
+         credentials, credit cards, and more, to help prioritize and investigate security events.\\
+         :code:`<br>`Available for StorageAccounts plan (DefenderForStorageV2 sub plan) and CloudPosture
+         plan.\\ :code:`<br>`\\ :code:`<br>`\\ **ContainerRegistriesVulnerabilityAssessments** -
+         Provides vulnerability management for images stored in your container registries.\\
+         :code:`<br>`Available for CloudPosture plan and Containers plan.\\ :code:`<br>`\\
+         :code:`<br>`\\ **MdeDesignatedSubscription** - Direct onboarding is a seamless integration
+         between Defender for Endpoint and Defender for Cloud that doesn’t require extra software
+         deployment on your servers. The onboarded resources will be presented under a designated Azure
+         Subscription you configure\\ :code:`<br>`Available for VirtualMachines plan (P1 and P2 sub
+         plans).\\ :code:`<br>`\\ :code:`<br>`\\ **AgentlessVmScanning** - Scans your machines for
+         installed software, vulnerabilities, malware and secret scanning without relying on agents or
+         impacting machine performance. Learn more here
+         https://learn.microsoft.com/en-us/azure/defender-for-cloud/concept-agentless-data-collection.\\
+         :code:`<br>`Available for CloudPosture plan, VirtualMachines plan (P2 sub plan) and Containers
+         plan.\\ :code:`<br>`\\ :code:`<br>`\\ **EntraPermissionsManagement** - Permissions Management
+         provides Cloud Infrastructure Entitlement Management (CIEM) capabilities that helps
+         organizations to manage and control user access and entitlements in their cloud infrastructure
+         - important attack vector for cloud environments.\\ :code:`<br>`Permissions Management analyzes
+         all permissions and active usage, and suggests recommendations to reduce permissions to enforce
+         the principle of least privilege. Learn more here
+         https://learn.microsoft.com/en-us/azure/defender-for-cloud/permissions-management.\\
+         :code:`<br>`Available for CloudPosture plan. :code:`<br>`\\ :code:`<br>`\\
+         **FileIntegrityMonitoring** - File integrity monitoring (FIM), examines operating system
+         files.\\ :code:`<br>`Windows registries, Linux system files, in real time, for changes that
+         might indicate an attack.\\ :code:`<br>`Available for VirtualMachines plan (P2 sub plan).
+         :code:`<br>`\\ :code:`<br>`\\ **ContainerSensor** - The sensor is based on IG and provides a
+         rich threat detection suite for Kubernetes clusters, nodes, and workloads, powered by Microsoft
+         leading threat intelligence, provides mapping to MITRE ATT&CK framework.\\
+         :code:`<br>`Available for Containers plan. :code:`<br>`\\ :code:`<br>`\\ **AIPromptEvidence** -
+         Exposes the prompts passed between the user and the AI model as alert evidence. This helps
+         classify and triage the alerts with relevant user context. The prompt snippets will include
+         only segments of the user prompt or model response that were deemed suspicious and relevant for
+         security classifications. The prompt evidence will be available through Defender portal as part
+         of each alert.\\ :code:`<br>`Available for AI plan. :code:`<br>`\\ :code:`<br>`. Required.
         :paramtype name: str
         :keyword is_enabled: Indicates whether the extension is enabled. Required. Known values are:
          "True" and "False".
@@ -234,7 +290,7 @@ class Resource(_serialization.Model):
         self.type = None
 
 
-class Pricing(Resource):  # pylint: disable=too-many-instance-attributes
+class Pricing(Resource):
     """Microsoft Defender for Cloud is provided in two pricing tiers: free and standard. The standard
     tier offers advanced security capabilities, while the free tier offers basic security features.
 
