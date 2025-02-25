@@ -1,4 +1,3 @@
-# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8,7 +7,7 @@
 # --------------------------------------------------------------------------
 from io import IOBase
 import sys
-from typing import Any, Callable, Dict, IO, Iterable, Optional, Type, TypeVar, Union, overload
+from typing import Any, Callable, Dict, IO, Iterable, Optional, TypeVar, Union, overload
 import urllib.parse
 
 from azure.core.exceptions import (
@@ -32,7 +31,7 @@ from .._serialization import Serializer
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
 
@@ -46,7 +45,7 @@ def build_expand_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-04-03"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-08-08-preview"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -108,13 +107,14 @@ class MsixImagesOperations:
         **kwargs: Any
     ) -> Iterable["_models.ExpandMsixImage"]:
         """Expands and Lists MSIX packages in an Image, given the Image Path.
+        This action uses incorrect Msix casing intentionally to match the previous APIs.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param host_pool_name: The name of the host pool within the specified resource group. Required.
         :type host_pool_name: str
-        :param msix_image_uri: Object containing URI to MSIX Image. Required.
+        :param msix_image_uri: Required.
         :type msix_image_uri: ~azure.mgmt.desktopvirtualization.models.MSIXImageURI
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
@@ -135,13 +135,14 @@ class MsixImagesOperations:
         **kwargs: Any
     ) -> Iterable["_models.ExpandMsixImage"]:
         """Expands and Lists MSIX packages in an Image, given the Image Path.
+        This action uses incorrect Msix casing intentionally to match the previous APIs.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param host_pool_name: The name of the host pool within the specified resource group. Required.
         :type host_pool_name: str
-        :param msix_image_uri: Object containing URI to MSIX Image. Required.
+        :param msix_image_uri: Required.
         :type msix_image_uri: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
@@ -160,14 +161,14 @@ class MsixImagesOperations:
         **kwargs: Any
     ) -> Iterable["_models.ExpandMsixImage"]:
         """Expands and Lists MSIX packages in an Image, given the Image Path.
+        This action uses incorrect Msix casing intentionally to match the previous APIs.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param host_pool_name: The name of the host pool within the specified resource group. Required.
         :type host_pool_name: str
-        :param msix_image_uri: Object containing URI to MSIX Image. Is either a MSIXImageURI type or a
-         IO[bytes] type. Required.
+        :param msix_image_uri: Is either a MSIXImageURI type or a IO[bytes] type. Required.
         :type msix_image_uri: ~azure.mgmt.desktopvirtualization.models.MSIXImageURI or IO[bytes]
         :return: An iterator like instance of either ExpandMsixImage or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.desktopvirtualization.models.ExpandMsixImage]
@@ -180,7 +181,7 @@ class MsixImagesOperations:
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.ExpandMsixImageList] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -246,7 +247,8 @@ class MsixImagesOperations:
 
             if response.status_code not in [200]:
                 map_error(status_code=response.status_code, response=response, error_map=error_map)
-                raise HttpResponseError(response=response, error_format=ARMErrorFormat)
+                error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+                raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
             return pipeline_response
 
