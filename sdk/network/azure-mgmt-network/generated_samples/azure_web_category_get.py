@@ -28,6 +28,7 @@ def main():
     client = NetworkManagementClient(
         credential=DefaultAzureCredential(),
         subscription_id="4de8428a-4a92-4cea-90ff-b47128b8cab8",
+        base_url="BASE_URL",
     )
 
     response = client.web_categories.get(
@@ -36,6 +37,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/AzureWebCategoryGet.json
+# x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/AzureWebCategoryGet.json
 if __name__ == "__main__":
     main()
