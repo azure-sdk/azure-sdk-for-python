@@ -1,4 +1,3 @@
-# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8,7 +7,7 @@
 # --------------------------------------------------------------------------
 from io import IOBase
 import sys
-from typing import Any, AsyncIterable, Callable, Dict, IO, Optional, Type, TypeVar, Union, overload
+from typing import Any, AsyncIterable, Callable, Dict, IO, Optional, TypeVar, Union, overload
 import urllib.parse
 
 from azure.core.async_paging import AsyncItemPaged, AsyncList
@@ -32,7 +31,7 @@ from ...operations._app_attach_package_info_operations import build_import_metho
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -73,8 +72,7 @@ class AppAttachPackageInfoOperations:
         :type resource_group_name: str
         :param host_pool_name: The name of the host pool within the specified resource group. Required.
         :type host_pool_name: str
-        :param import_package_info_request: Object containing URI to package image and other optional
-         properties. Required.
+        :param import_package_info_request: Required.
         :type import_package_info_request:
          ~azure.mgmt.desktopvirtualization.models.ImportPackageInfoRequest
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
@@ -103,8 +101,7 @@ class AppAttachPackageInfoOperations:
         :type resource_group_name: str
         :param host_pool_name: The name of the host pool within the specified resource group. Required.
         :type host_pool_name: str
-        :param import_package_info_request: Object containing URI to package image and other optional
-         properties. Required.
+        :param import_package_info_request: Required.
         :type import_package_info_request: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
@@ -130,8 +127,8 @@ class AppAttachPackageInfoOperations:
         :type resource_group_name: str
         :param host_pool_name: The name of the host pool within the specified resource group. Required.
         :type host_pool_name: str
-        :param import_package_info_request: Object containing URI to package image and other optional
-         properties. Is either a ImportPackageInfoRequest type or a IO[bytes] type. Required.
+        :param import_package_info_request: Is either a ImportPackageInfoRequest type or a IO[bytes]
+         type. Required.
         :type import_package_info_request:
          ~azure.mgmt.desktopvirtualization.models.ImportPackageInfoRequest or IO[bytes]
         :return: An iterator like instance of either AppAttachPackage or the result of cls(response)
@@ -146,7 +143,7 @@ class AppAttachPackageInfoOperations:
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.AppAttachPackageList] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,

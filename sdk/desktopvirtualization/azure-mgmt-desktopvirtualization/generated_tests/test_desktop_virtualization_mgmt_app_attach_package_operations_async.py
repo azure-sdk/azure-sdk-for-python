@@ -21,11 +21,32 @@ class TestDesktopVirtualizationMgmtAppAttachPackageOperationsAsync(AzureMgmtReco
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get(self, resource_group):
+    async def test_app_attach_package_list_by_subscription(self, resource_group):
+        response = self.client.app_attach_package.list_by_subscription(
+            api_version="2024-08-08-preview",
+        )
+        result = [r async for r in response]
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy_async
+    async def test_app_attach_package_list_by_resource_group(self, resource_group):
+        response = self.client.app_attach_package.list_by_resource_group(
+            resource_group_name=resource_group.name,
+            api_version="2024-08-08-preview",
+        )
+        result = [r async for r in response]
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy_async
+    async def test_app_attach_package_get(self, resource_group):
         response = await self.client.app_attach_package.get(
             resource_group_name=resource_group.name,
             app_attach_package_name="str",
-            api_version="2024-04-03",
+            api_version="2024-08-08-preview",
         )
 
         # please add some check logic here by yourself
@@ -33,48 +54,49 @@ class TestDesktopVirtualizationMgmtAppAttachPackageOperationsAsync(AzureMgmtReco
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_create_or_update(self, resource_group):
+    async def test_app_attach_package_create_or_update(self, resource_group):
         response = await self.client.app_attach_package.create_or_update(
             resource_group_name=resource_group.name,
             app_attach_package_name="str",
             app_attach_package={
                 "location": "str",
-                "properties": {
-                    "failHealthCheckOnStagingFailure": "str",
-                    "hostPoolReferences": ["str"],
-                    "image": {
-                        "certificateExpiry": "2020-02-20 00:00:00",
-                        "certificateName": "str",
-                        "displayName": "str",
-                        "imagePath": "str",
-                        "isActive": bool,
-                        "isPackageTimestamped": "str",
-                        "isRegularRegistration": bool,
-                        "lastUpdated": "2020-02-20 00:00:00",
-                        "packageAlias": "str",
-                        "packageApplications": [
-                            {
-                                "appId": "str",
-                                "appUserModelID": "str",
-                                "description": "str",
-                                "friendlyName": "str",
-                                "iconImageName": "str",
-                                "rawIcon": bytes("bytes", encoding="utf-8"),
-                                "rawPng": bytes("bytes", encoding="utf-8"),
-                            }
-                        ],
-                        "packageDependencies": [{"dependencyName": "str", "minVersion": "str", "publisher": "str"}],
-                        "packageFamilyName": "str",
-                        "packageFullName": "str",
-                        "packageName": "str",
-                        "packageRelativePath": "str",
-                        "version": "str",
-                    },
-                    "keyVaultURL": "str",
-                    "provisioningState": "str",
-                },
+                "customData": "str",
+                "failHealthCheckOnStagingFailure": "str",
+                "hostPoolReferences": ["str"],
                 "id": "str",
+                "image": {
+                    "certificateExpiry": "2020-02-20 00:00:00",
+                    "certificateName": "str",
+                    "displayName": "str",
+                    "imagePath": "str",
+                    "isActive": bool,
+                    "isPackageTimestamped": "str",
+                    "isRegularRegistration": bool,
+                    "lastUpdated": "2020-02-20 00:00:00",
+                    "packageAlias": "str",
+                    "packageApplications": [
+                        {
+                            "appId": "str",
+                            "appUserModelID": "str",
+                            "description": "str",
+                            "friendlyName": "str",
+                            "iconImageName": "str",
+                            "rawIcon": bytes("bytes", encoding="utf-8"),
+                            "rawPng": bytes("bytes", encoding="utf-8"),
+                        }
+                    ],
+                    "packageDependencies": [{"dependencyName": "str", "minVersion": "str", "publisher": "str"}],
+                    "packageFamilyName": "str",
+                    "packageFullName": "str",
+                    "packageName": "str",
+                    "packageRelativePath": "str",
+                    "version": "str",
+                },
+                "keyVaultURL": "str",
                 "name": "str",
+                "packageLookbackUrl": "str",
+                "packageOwnerName": "str",
+                "provisioningState": "str",
                 "systemData": {
                     "createdAt": "2020-02-20 00:00:00",
                     "createdBy": "str",
@@ -86,7 +108,7 @@ class TestDesktopVirtualizationMgmtAppAttachPackageOperationsAsync(AzureMgmtReco
                 "tags": {"str": "str"},
                 "type": "str",
             },
-            api_version="2024-04-03",
+            api_version="2024-08-08-preview",
         )
 
         # please add some check logic here by yourself
@@ -94,23 +116,11 @@ class TestDesktopVirtualizationMgmtAppAttachPackageOperationsAsync(AzureMgmtReco
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_delete(self, resource_group):
-        response = await self.client.app_attach_package.delete(
-            resource_group_name=resource_group.name,
-            app_attach_package_name="str",
-            api_version="2024-04-03",
-        )
-
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy_async
-    async def test_update(self, resource_group):
+    async def test_app_attach_package_update(self, resource_group):
         response = await self.client.app_attach_package.update(
             resource_group_name=resource_group.name,
             app_attach_package_name="str",
-            api_version="2024-04-03",
+            api_version="2024-08-08-preview",
         )
 
         # please add some check logic here by yourself
@@ -118,21 +128,12 @@ class TestDesktopVirtualizationMgmtAppAttachPackageOperationsAsync(AzureMgmtReco
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_by_resource_group(self, resource_group):
-        response = self.client.app_attach_package.list_by_resource_group(
+    async def test_app_attach_package_delete(self, resource_group):
+        response = await self.client.app_attach_package.delete(
             resource_group_name=resource_group.name,
-            api_version="2024-04-03",
+            app_attach_package_name="str",
+            api_version="2024-08-08-preview",
         )
-        result = [r async for r in response]
-        # please add some check logic here by yourself
-        # ...
 
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy_async
-    async def test_list_by_subscription(self, resource_group):
-        response = self.client.app_attach_package.list_by_subscription(
-            api_version="2024-04-03",
-        )
-        result = [r async for r in response]
         # please add some check logic here by yourself
         # ...
