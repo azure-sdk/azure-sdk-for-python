@@ -1,5 +1,5 @@
-# coding=utf-8
 # pylint: disable=too-many-lines
+# coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -13,7 +13,6 @@ from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 from .. import _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
@@ -213,7 +212,7 @@ class TrackedResource(Resource):
         self.location = location
 
 
-class ConfigurationStore(TrackedResource):  # pylint: disable=too-many-instance-attributes
+class ConfigurationStore(TrackedResource):
     """The configuration store along with all resource properties. The Configuration Store will have
     all information to begin utilizing it.
 
@@ -269,6 +268,12 @@ class ConfigurationStore(TrackedResource):  # pylint: disable=too-many-instance-
     :ivar create_mode: Indicates whether the configuration store need to be recovered. Known values
      are: "Recover" and "Default".
     :vartype create_mode: str or ~azure.mgmt.appconfiguration.models.CreateMode
+    :ivar telemetry: Property specifying the configuration of telemetry for this configuration
+     store.
+    :vartype telemetry: ~azure.mgmt.appconfiguration.models.TelemetryProperties
+    :ivar managed_on_behalf_of_configuration: Managed On Behalf Of Configuration.
+    :vartype managed_on_behalf_of_configuration:
+     ~azure.mgmt.appconfiguration.models.ManagedOnBehalfOfConfiguration
     """
 
     _validation = {
@@ -282,6 +287,7 @@ class ConfigurationStore(TrackedResource):  # pylint: disable=too-many-instance-
         "creation_date": {"readonly": True},
         "endpoint": {"readonly": True},
         "private_endpoint_connections": {"readonly": True},
+        "managed_on_behalf_of_configuration": {"readonly": True},
     }
 
     _attribute_map = {
@@ -307,6 +313,11 @@ class ConfigurationStore(TrackedResource):  # pylint: disable=too-many-instance-
         "enable_purge_protection": {"key": "properties.enablePurgeProtection", "type": "bool"},
         "data_plane_proxy": {"key": "properties.dataPlaneProxy", "type": "DataPlaneProxyProperties"},
         "create_mode": {"key": "properties.createMode", "type": "str"},
+        "telemetry": {"key": "properties.telemetry", "type": "TelemetryProperties"},
+        "managed_on_behalf_of_configuration": {
+            "key": "properties.managedOnBehalfOfConfiguration",
+            "type": "ManagedOnBehalfOfConfiguration",
+        },
     }
 
     def __init__(
@@ -323,6 +334,7 @@ class ConfigurationStore(TrackedResource):  # pylint: disable=too-many-instance-
         enable_purge_protection: bool = False,
         data_plane_proxy: Optional["_models.DataPlaneProxyProperties"] = None,
         create_mode: Optional[Union[str, "_models.CreateMode"]] = None,
+        telemetry: Optional["_models.TelemetryProperties"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -354,6 +366,9 @@ class ConfigurationStore(TrackedResource):  # pylint: disable=too-many-instance-
         :keyword create_mode: Indicates whether the configuration store need to be recovered. Known
          values are: "Recover" and "Default".
         :paramtype create_mode: str or ~azure.mgmt.appconfiguration.models.CreateMode
+        :keyword telemetry: Property specifying the configuration of telemetry for this configuration
+         store.
+        :paramtype telemetry: ~azure.mgmt.appconfiguration.models.TelemetryProperties
         """
         super().__init__(tags=tags, location=location, **kwargs)
         self.identity = identity
@@ -370,6 +385,8 @@ class ConfigurationStore(TrackedResource):  # pylint: disable=too-many-instance-
         self.enable_purge_protection = enable_purge_protection
         self.data_plane_proxy = data_plane_proxy
         self.create_mode = create_mode
+        self.telemetry = telemetry
+        self.managed_on_behalf_of_configuration = None
 
 
 class ConfigurationStoreListResult(_serialization.Model):
@@ -426,6 +443,9 @@ class ConfigurationStoreUpdateParameters(_serialization.Model):
     :ivar data_plane_proxy: Property specifying the configuration of data plane proxy for Azure
      Resource Manager (ARM).
     :vartype data_plane_proxy: ~azure.mgmt.appconfiguration.models.DataPlaneProxyProperties
+    :ivar telemetry: Property specifying the configuration of telemetry to update for this
+     configuration store.
+    :vartype telemetry: ~azure.mgmt.appconfiguration.models.TelemetryProperties
     """
 
     _attribute_map = {
@@ -437,6 +457,7 @@ class ConfigurationStoreUpdateParameters(_serialization.Model):
         "public_network_access": {"key": "properties.publicNetworkAccess", "type": "str"},
         "enable_purge_protection": {"key": "properties.enablePurgeProtection", "type": "bool"},
         "data_plane_proxy": {"key": "properties.dataPlaneProxy", "type": "DataPlaneProxyProperties"},
+        "telemetry": {"key": "properties.telemetry", "type": "TelemetryProperties"},
     }
 
     def __init__(
@@ -450,6 +471,7 @@ class ConfigurationStoreUpdateParameters(_serialization.Model):
         public_network_access: Optional[Union[str, "_models.PublicNetworkAccess"]] = None,
         enable_purge_protection: Optional[bool] = None,
         data_plane_proxy: Optional["_models.DataPlaneProxyProperties"] = None,
+        telemetry: Optional["_models.TelemetryProperties"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -473,6 +495,9 @@ class ConfigurationStoreUpdateParameters(_serialization.Model):
         :keyword data_plane_proxy: Property specifying the configuration of data plane proxy for Azure
          Resource Manager (ARM).
         :paramtype data_plane_proxy: ~azure.mgmt.appconfiguration.models.DataPlaneProxyProperties
+        :keyword telemetry: Property specifying the configuration of telemetry to update for this
+         configuration store.
+        :paramtype telemetry: ~azure.mgmt.appconfiguration.models.TelemetryProperties
         """
         super().__init__(**kwargs)
         self.identity = identity
@@ -483,6 +508,7 @@ class ConfigurationStoreUpdateParameters(_serialization.Model):
         self.public_network_access = public_network_access
         self.enable_purge_protection = enable_purge_protection
         self.data_plane_proxy = data_plane_proxy
+        self.telemetry = telemetry
 
 
 class DataPlaneProxyProperties(_serialization.Model):
@@ -493,8 +519,8 @@ class DataPlaneProxyProperties(_serialization.Model):
      "Pass-through".
     :vartype authentication_mode: str or ~azure.mgmt.appconfiguration.models.AuthenticationMode
     :ivar private_link_delegation: The data plane proxy private link delegation. This property
-     manages if a request from delegated Azure Resource Manager (ARM) private link is allowed when
-     the data plane resource requires private link. Known values are: "Enabled" and "Disabled".
+     manages if a request from delegated ARM private link is allowed when the data plane resource
+     requires private link. Known values are: "Enabled" and "Disabled".
     :vartype private_link_delegation: str or
      ~azure.mgmt.appconfiguration.models.PrivateLinkDelegation
     """
@@ -517,8 +543,8 @@ class DataPlaneProxyProperties(_serialization.Model):
          "Pass-through".
         :paramtype authentication_mode: str or ~azure.mgmt.appconfiguration.models.AuthenticationMode
         :keyword private_link_delegation: The data plane proxy private link delegation. This property
-         manages if a request from delegated Azure Resource Manager (ARM) private link is allowed when
-         the data plane resource requires private link. Known values are: "Enabled" and "Disabled".
+         manages if a request from delegated ARM private link is allowed when the data plane resource
+         requires private link. Known values are: "Enabled" and "Disabled".
         :paramtype private_link_delegation: str or
          ~azure.mgmt.appconfiguration.models.PrivateLinkDelegation
         """
@@ -788,7 +814,96 @@ class ErrorResponseAutoGenerated(_serialization.Model):
         self.error = error
 
 
-class KeyValue(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class Experimentation(_serialization.Model):
+    """The experimentation resource.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: The resource ID.
+    :vartype id: str
+    :ivar name: The name of the experimentation.
+    :vartype name: str
+    :ivar type: The type of the resource.
+    :vartype type: str
+    :ivar managed_resource_group_name: The name of the managed resource group.
+    :vartype managed_resource_group_name: str
+    :ivar online_experimentation_workspace_resource_id: The resource ID of the managed
+     Microsoft.OnlineExperimentation/workspaces resource.
+    :vartype online_experimentation_workspace_resource_id: str
+    :ivar storage_account_resource_id: The resource ID of the managed
+     Microsoft.Storage/storageAccounts resource.
+    :vartype storage_account_resource_id: str
+    :ivar provisioning_state: The provisioning state of the experimentation. Known values are:
+     "Creating", "Updating", "Deleting", "Succeeded", "Failed", and "Canceled".
+    :vartype provisioning_state: str or ~azure.mgmt.appconfiguration.models.ProvisioningState
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "online_experimentation_workspace_resource_id": {"readonly": True},
+        "storage_account_resource_id": {"readonly": True},
+        "provisioning_state": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "managed_resource_group_name": {"key": "properties.managedResourceGroupName", "type": "str"},
+        "online_experimentation_workspace_resource_id": {
+            "key": "properties.onlineExperimentationWorkspaceResourceId",
+            "type": "str",
+        },
+        "storage_account_resource_id": {"key": "properties.storageAccountResourceId", "type": "str"},
+        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
+    }
+
+    def __init__(self, *, managed_resource_group_name: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword managed_resource_group_name: The name of the managed resource group.
+        :paramtype managed_resource_group_name: str
+        """
+        super().__init__(**kwargs)
+        self.id = None
+        self.name = None
+        self.type = None
+        self.managed_resource_group_name = managed_resource_group_name
+        self.online_experimentation_workspace_resource_id = None
+        self.storage_account_resource_id = None
+        self.provisioning_state = None
+
+
+class ExperimentationListResult(_serialization.Model):
+    """The result of a request to list experimentation.
+
+    :ivar value: The collection value.
+    :vartype value: list[~azure.mgmt.appconfiguration.models.Experimentation]
+    :ivar next_link: The URI that can be used to request the next set of paged results.
+    :vartype next_link: str
+    """
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[Experimentation]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self, *, value: Optional[List["_models.Experimentation"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: The collection value.
+        :paramtype value: list[~azure.mgmt.appconfiguration.models.Experimentation]
+        :keyword next_link: The URI that can be used to request the next set of paged results.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = next_link
+
+
+class KeyValue(_serialization.Model):
     """The key-value resource along with all resource properties.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1008,6 +1123,29 @@ class LogSpecification(_serialization.Model):
         self.blob_duration = blob_duration
 
 
+class ManagedOnBehalfOfConfiguration(_serialization.Model):
+    """Managed-On-Behalf-Of configuration properties. This configuration exists for the resources
+    where a resource provider manages those resources on behalf of the resource owner.
+
+    :ivar mobo_broker_resources: Managed-On-Behalf-Of broker resources.
+    :vartype mobo_broker_resources: list[~azure.mgmt.appconfiguration.models.MoboBrokerResource]
+    """
+
+    _attribute_map = {
+        "mobo_broker_resources": {"key": "moboBrokerResources", "type": "[MoboBrokerResource]"},
+    }
+
+    def __init__(
+        self, *, mobo_broker_resources: Optional[List["_models.MoboBrokerResource"]] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword mobo_broker_resources: Managed-On-Behalf-Of broker resources.
+        :paramtype mobo_broker_resources: list[~azure.mgmt.appconfiguration.models.MoboBrokerResource]
+        """
+        super().__init__(**kwargs)
+        self.mobo_broker_resources = mobo_broker_resources
+
+
 class MetricDimension(_serialization.Model):
     """Specifications of the Dimension of metrics.
 
@@ -1123,6 +1261,27 @@ class MetricSpecification(_serialization.Model):
         self.internal_metric_name = internal_metric_name
         self.dimensions = dimensions
         self.fill_gap_with_zero = fill_gap_with_zero
+
+
+class MoboBrokerResource(_serialization.Model):
+    """Managed-On-Behalf-Of broker resource. This resource is created by the Resource Provider to
+    manage some resources on behalf of the user.
+
+    :ivar id: Resource identifier of a Managed-On-Behalf-Of broker resource.
+    :vartype id: str
+    """
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+    }
+
+    def __init__(self, *, id: Optional[str] = None, **kwargs: Any) -> None:  # pylint: disable=redefined-builtin
+        """
+        :keyword id: Resource identifier of a Managed-On-Behalf-Of broker resource.
+        :paramtype id: str
+        """
+        super().__init__(**kwargs)
+        self.id = id
 
 
 class NameAvailabilityStatus(_serialization.Model):
@@ -1845,7 +2004,7 @@ class Sku(_serialization.Model):
         self.name = name
 
 
-class Snapshot(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class Snapshot(_serialization.Model):
     """The snapshot resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1881,8 +2040,7 @@ class Snapshot(_serialization.Model):  # pylint: disable=too-many-instance-attri
     :vartype size: int
     :ivar items_count: The amount of key-values in the snapshot.
     :vartype items_count: int
-    :ivar tags: The tags of the snapshot. NOTE: These are data plane tags, not Azure Resource
-     Manager (ARM) tags.
+    :ivar tags: The tags of the snapshot. NOTE: These are data plane tags, not ARM tags.
     :vartype tags: dict[str, str]
     :ivar etag: A value representing the current state of the snapshot.
     :vartype etag: str
@@ -1941,8 +2099,7 @@ class Snapshot(_serialization.Model):  # pylint: disable=too-many-instance-attri
          archived state before expiring. This property is only writable during the creation of a
          snapshot. If not specified, the default lifetime of key-value revisions will be used.
         :paramtype retention_period: int
-        :keyword tags: The tags of the snapshot. NOTE: These are data plane tags, not Azure Resource
-         Manager (ARM) tags.
+        :keyword tags: The tags of the snapshot. NOTE: These are data plane tags, not ARM tags.
         :paramtype tags: dict[str, str]
         """
         super().__init__(**kwargs)
@@ -2024,6 +2181,26 @@ class SystemData(_serialization.Model):
         self.last_modified_by = last_modified_by
         self.last_modified_by_type = last_modified_by_type
         self.last_modified_at = last_modified_at
+
+
+class TelemetryProperties(_serialization.Model):
+    """Telemetry settings.
+
+    :ivar resource_id: Resource ID of a resource enabling telemetry collection.
+    :vartype resource_id: str
+    """
+
+    _attribute_map = {
+        "resource_id": {"key": "resourceId", "type": "str"},
+    }
+
+    def __init__(self, *, resource_id: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword resource_id: Resource ID of a resource enabling telemetry collection.
+        :paramtype resource_id: str
+        """
+        super().__init__(**kwargs)
+        self.resource_id = resource_id
 
 
 class UserIdentity(_serialization.Model):
