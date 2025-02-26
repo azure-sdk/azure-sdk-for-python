@@ -20,7 +20,7 @@ class TestSqlManagementDatabasesOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_metrics(self, resource_group):
+    def test_databases_list_metrics(self, resource_group):
         response = self.client.databases.list_metrics(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -34,7 +34,7 @@ class TestSqlManagementDatabasesOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_metric_definitions(self, resource_group):
+    def test_databases_list_metric_definitions(self, resource_group):
         response = self.client.databases.list_metric_definitions(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -47,7 +47,7 @@ class TestSqlManagementDatabasesOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_server(self, resource_group):
+    def test_databases_list_by_server(self, resource_group):
         response = self.client.databases.list_by_server(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -59,7 +59,7 @@ class TestSqlManagementDatabasesOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_databases_get(self, resource_group):
         response = self.client.databases.get(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -72,7 +72,7 @@ class TestSqlManagementDatabasesOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_create_or_update(self, resource_group):
+    def test_databases_begin_create_or_update(self, resource_group):
         response = self.client.databases.begin_create_or_update(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -155,7 +155,7 @@ class TestSqlManagementDatabasesOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_delete(self, resource_group):
+    def test_databases_begin_delete(self, resource_group):
         response = self.client.databases.begin_delete(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -168,7 +168,7 @@ class TestSqlManagementDatabasesOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_update(self, resource_group):
+    def test_databases_begin_update(self, resource_group):
         response = self.client.databases.begin_update(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -243,7 +243,7 @@ class TestSqlManagementDatabasesOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_export(self, resource_group):
+    def test_databases_begin_export(self, resource_group):
         response = self.client.databases.begin_export(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -265,7 +265,7 @@ class TestSqlManagementDatabasesOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_failover(self, resource_group):
+    def test_databases_begin_failover(self, resource_group):
         response = self.client.databases.begin_failover(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -278,7 +278,7 @@ class TestSqlManagementDatabasesOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_import_method(self, resource_group):
+    def test_databases_begin_import_method(self, resource_group):
         response = self.client.databases.begin_import_method(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -300,7 +300,7 @@ class TestSqlManagementDatabasesOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_rename(self, resource_group):
+    def test_databases_rename(self, resource_group):
         response = self.client.databases.rename(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -314,7 +314,7 @@ class TestSqlManagementDatabasesOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_pause(self, resource_group):
+    def test_databases_begin_pause(self, resource_group):
         response = self.client.databases.begin_pause(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -327,7 +327,7 @@ class TestSqlManagementDatabasesOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_resume(self, resource_group):
+    def test_databases_begin_resume(self, resource_group):
         response = self.client.databases.begin_resume(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -340,7 +340,7 @@ class TestSqlManagementDatabasesOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_upgrade_data_warehouse(self, resource_group):
+    def test_databases_begin_upgrade_data_warehouse(self, resource_group):
         response = self.client.databases.begin_upgrade_data_warehouse(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -353,7 +353,7 @@ class TestSqlManagementDatabasesOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_elastic_pool(self, resource_group):
+    def test_databases_list_by_elastic_pool(self, resource_group):
         response = self.client.databases.list_by_elastic_pool(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -366,7 +366,7 @@ class TestSqlManagementDatabasesOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_inaccessible_by_server(self, resource_group):
+    def test_databases_list_inaccessible_by_server(self, resource_group):
         response = self.client.databases.list_inaccessible_by_server(
             resource_group_name=resource_group.name,
             server_name="str",

@@ -20,7 +20,7 @@ class TestSqlManagementInstanceFailoverGroupsOperations(AzureMgmtRecordedTestCas
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_location(self, resource_group):
+    def test_instance_failover_groups_list_by_location(self, resource_group):
         response = self.client.instance_failover_groups.list_by_location(
             resource_group_name=resource_group.name,
             location_name="str",
@@ -32,7 +32,7 @@ class TestSqlManagementInstanceFailoverGroupsOperations(AzureMgmtRecordedTestCas
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_instance_failover_groups_get(self, resource_group):
         response = self.client.instance_failover_groups.get(
             resource_group_name=resource_group.name,
             location_name="str",
@@ -45,7 +45,7 @@ class TestSqlManagementInstanceFailoverGroupsOperations(AzureMgmtRecordedTestCas
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_create_or_update(self, resource_group):
+    def test_instance_failover_groups_begin_create_or_update(self, resource_group):
         response = self.client.instance_failover_groups.begin_create_or_update(
             resource_group_name=resource_group.name,
             location_name="str",
@@ -70,7 +70,7 @@ class TestSqlManagementInstanceFailoverGroupsOperations(AzureMgmtRecordedTestCas
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_delete(self, resource_group):
+    def test_instance_failover_groups_begin_delete(self, resource_group):
         response = self.client.instance_failover_groups.begin_delete(
             resource_group_name=resource_group.name,
             location_name="str",
@@ -83,7 +83,7 @@ class TestSqlManagementInstanceFailoverGroupsOperations(AzureMgmtRecordedTestCas
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_failover(self, resource_group):
+    def test_instance_failover_groups_begin_failover(self, resource_group):
         response = self.client.instance_failover_groups.begin_failover(
             resource_group_name=resource_group.name,
             location_name="str",
@@ -96,7 +96,7 @@ class TestSqlManagementInstanceFailoverGroupsOperations(AzureMgmtRecordedTestCas
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_force_failover_allow_data_loss(self, resource_group):
+    def test_instance_failover_groups_begin_force_failover_allow_data_loss(self, resource_group):
         response = self.client.instance_failover_groups.begin_force_failover_allow_data_loss(
             resource_group_name=resource_group.name,
             location_name="str",
