@@ -20,7 +20,7 @@ class TestElasticSanMgmtVolumeGroupsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_elastic_san(self, resource_group):
+    def test_volume_groups_list_by_elastic_san(self, resource_group):
         response = self.client.volume_groups.list_by_elastic_san(
             resource_group_name=resource_group.name,
             elastic_san_name="str",
@@ -32,7 +32,7 @@ class TestElasticSanMgmtVolumeGroupsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_create(self, resource_group):
+    def test_volume_groups_begin_create(self, resource_group):
         response = self.client.volume_groups.begin_create(
             resource_group_name=resource_group.name,
             elastic_san_name="str",
@@ -107,7 +107,7 @@ class TestElasticSanMgmtVolumeGroupsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_update(self, resource_group):
+    def test_volume_groups_begin_update(self, resource_group):
         response = self.client.volume_groups.begin_update(
             resource_group_name=resource_group.name,
             elastic_san_name="str",
@@ -145,7 +145,7 @@ class TestElasticSanMgmtVolumeGroupsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_delete(self, resource_group):
+    def test_volume_groups_begin_delete(self, resource_group):
         response = self.client.volume_groups.begin_delete(
             resource_group_name=resource_group.name,
             elastic_san_name="str",
@@ -158,7 +158,7 @@ class TestElasticSanMgmtVolumeGroupsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_volume_groups_get(self, resource_group):
         response = self.client.volume_groups.get(
             resource_group_name=resource_group.name,
             elastic_san_name="str",

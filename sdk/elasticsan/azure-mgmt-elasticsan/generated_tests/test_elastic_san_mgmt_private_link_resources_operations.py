@@ -20,7 +20,7 @@ class TestElasticSanMgmtPrivateLinkResourcesOperations(AzureMgmtRecordedTestCase
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_elastic_san(self, resource_group):
+    def test_private_link_resources_list_by_elastic_san(self, resource_group):
         response = self.client.private_link_resources.list_by_elastic_san(
             resource_group_name=resource_group.name,
             elastic_san_name="str",

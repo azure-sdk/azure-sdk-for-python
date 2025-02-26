@@ -21,7 +21,7 @@ class TestElasticSanMgmtVolumeGroupsOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_by_elastic_san(self, resource_group):
+    async def test_volume_groups_list_by_elastic_san(self, resource_group):
         response = self.client.volume_groups.list_by_elastic_san(
             resource_group_name=resource_group.name,
             elastic_san_name="str",
@@ -33,7 +33,7 @@ class TestElasticSanMgmtVolumeGroupsOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_create(self, resource_group):
+    async def test_volume_groups_begin_create(self, resource_group):
         response = await (
             await self.client.volume_groups.begin_create(
                 resource_group_name=resource_group.name,
@@ -110,7 +110,7 @@ class TestElasticSanMgmtVolumeGroupsOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_update(self, resource_group):
+    async def test_volume_groups_begin_update(self, resource_group):
         response = await (
             await self.client.volume_groups.begin_update(
                 resource_group_name=resource_group.name,
@@ -150,7 +150,7 @@ class TestElasticSanMgmtVolumeGroupsOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_delete(self, resource_group):
+    async def test_volume_groups_begin_delete(self, resource_group):
         response = await (
             await self.client.volume_groups.begin_delete(
                 resource_group_name=resource_group.name,
@@ -165,7 +165,7 @@ class TestElasticSanMgmtVolumeGroupsOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get(self, resource_group):
+    async def test_volume_groups_get(self, resource_group):
         response = await self.client.volume_groups.get(
             resource_group_name=resource_group.name,
             elastic_san_name="str",

@@ -30,11 +30,10 @@ from .operations import (
 )
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from azure.core.credentials_async import AsyncTokenCredential
 
 
-class ElasticSanMgmtClient:  # pylint: disable=client-accepts-api-version-keyword,too-many-instance-attributes
+class ElasticSanMgmtClient:  # pylint: disable=too-many-instance-attributes
     """ElasticSanMgmtClient.
 
     :ivar operations: Operations operations

@@ -20,7 +20,7 @@ class TestElasticSanMgmtVolumesOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_create(self, resource_group):
+    def test_volumes_begin_create(self, resource_group):
         response = self.client.volumes.begin_create(
             resource_group_name=resource_group.name,
             elastic_san_name="str",
@@ -61,7 +61,7 @@ class TestElasticSanMgmtVolumesOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_update(self, resource_group):
+    def test_volumes_begin_update(self, resource_group):
         response = self.client.volumes.begin_update(
             resource_group_name=resource_group.name,
             elastic_san_name="str",
@@ -76,7 +76,7 @@ class TestElasticSanMgmtVolumesOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_delete(self, resource_group):
+    def test_volumes_begin_delete(self, resource_group):
         response = self.client.volumes.begin_delete(
             resource_group_name=resource_group.name,
             elastic_san_name="str",
@@ -90,7 +90,7 @@ class TestElasticSanMgmtVolumesOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_volumes_get(self, resource_group):
         response = self.client.volumes.get(
             resource_group_name=resource_group.name,
             elastic_san_name="str",
@@ -104,7 +104,7 @@ class TestElasticSanMgmtVolumesOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_volume_group(self, resource_group):
+    def test_volumes_list_by_volume_group(self, resource_group):
         response = self.client.volumes.list_by_volume_group(
             resource_group_name=resource_group.name,
             elastic_san_name="str",
