@@ -32,11 +32,10 @@ from .operations import (
 )
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from azure.core.credentials import TokenCredential
 
 
-class BatchManagementClient:  # pylint: disable=client-accepts-api-version-keyword,too-many-instance-attributes
+class BatchManagementClient:  # pylint: disable=too-many-instance-attributes
     """Batch Client.
 
     :ivar batch_account: BatchAccountOperations operations

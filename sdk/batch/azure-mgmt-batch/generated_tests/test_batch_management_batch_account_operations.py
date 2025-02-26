@@ -20,100 +20,7 @@ class TestBatchManagementBatchAccountOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_create(self, resource_group):
-        response = self.client.batch_account.begin_create(
-            resource_group_name=resource_group.name,
-            account_name="str",
-            parameters={
-                "location": "str",
-                "allowedAuthenticationModes": ["str"],
-                "autoStorage": {
-                    "storageAccountId": "str",
-                    "authenticationMode": "StorageKeys",
-                    "nodeIdentityReference": {"resourceId": "str"},
-                },
-                "encryption": {"keySource": "str", "keyVaultProperties": {"keyIdentifier": "str"}},
-                "identity": {
-                    "type": "str",
-                    "principalId": "str",
-                    "tenantId": "str",
-                    "userAssignedIdentities": {"str": {"clientId": "str", "principalId": "str"}},
-                },
-                "keyVaultReference": {"id": "str", "url": "str"},
-                "networkProfile": {
-                    "accountAccess": {"defaultAction": "str", "ipRules": [{"action": "Allow", "value": "str"}]},
-                    "nodeManagementAccess": {"defaultAction": "str", "ipRules": [{"action": "Allow", "value": "str"}]},
-                },
-                "poolAllocationMode": "str",
-                "publicNetworkAccess": "Enabled",
-                "tags": {"str": "str"},
-            },
-            api_version="2024-07-01",
-        ).result()  # call '.result()' to poll until service return final result
-
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
-    def test_update(self, resource_group):
-        response = self.client.batch_account.update(
-            resource_group_name=resource_group.name,
-            account_name="str",
-            parameters={
-                "allowedAuthenticationModes": ["str"],
-                "autoStorage": {
-                    "storageAccountId": "str",
-                    "authenticationMode": "StorageKeys",
-                    "nodeIdentityReference": {"resourceId": "str"},
-                },
-                "encryption": {"keySource": "str", "keyVaultProperties": {"keyIdentifier": "str"}},
-                "identity": {
-                    "type": "str",
-                    "principalId": "str",
-                    "tenantId": "str",
-                    "userAssignedIdentities": {"str": {"clientId": "str", "principalId": "str"}},
-                },
-                "networkProfile": {
-                    "accountAccess": {"defaultAction": "str", "ipRules": [{"action": "Allow", "value": "str"}]},
-                    "nodeManagementAccess": {"defaultAction": "str", "ipRules": [{"action": "Allow", "value": "str"}]},
-                },
-                "publicNetworkAccess": "Enabled",
-                "tags": {"str": "str"},
-            },
-            api_version="2024-07-01",
-        )
-
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
-    def test_begin_delete(self, resource_group):
-        response = self.client.batch_account.begin_delete(
-            resource_group_name=resource_group.name,
-            account_name="str",
-            api_version="2024-07-01",
-        ).result()  # call '.result()' to poll until service return final result
-
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
-    def test_get(self, resource_group):
-        response = self.client.batch_account.get(
-            resource_group_name=resource_group.name,
-            account_name="str",
-            api_version="2024-07-01",
-        )
-
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
-    def test_list(self, resource_group):
+    def test_batch_account_list(self, resource_group):
         response = self.client.batch_account.list(
             api_version="2024-07-01",
         )
@@ -123,7 +30,7 @@ class TestBatchManagementBatchAccountOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_resource_group(self, resource_group):
+    def test_batch_account_list_by_resource_group(self, resource_group):
         response = self.client.batch_account.list_by_resource_group(
             resource_group_name=resource_group.name,
             api_version="2024-07-01",
@@ -134,7 +41,7 @@ class TestBatchManagementBatchAccountOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_synchronize_auto_storage_keys(self, resource_group):
+    def test_batch_account_synchronize_auto_storage_keys(self, resource_group):
         response = self.client.batch_account.synchronize_auto_storage_keys(
             resource_group_name=resource_group.name,
             account_name="str",
@@ -146,7 +53,7 @@ class TestBatchManagementBatchAccountOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_regenerate_key(self, resource_group):
+    def test_batch_account_regenerate_key(self, resource_group):
         response = self.client.batch_account.regenerate_key(
             resource_group_name=resource_group.name,
             account_name="str",
@@ -159,7 +66,7 @@ class TestBatchManagementBatchAccountOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get_keys(self, resource_group):
+    def test_batch_account_get_keys(self, resource_group):
         response = self.client.batch_account.get_keys(
             resource_group_name=resource_group.name,
             account_name="str",
@@ -171,7 +78,7 @@ class TestBatchManagementBatchAccountOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_detectors(self, resource_group):
+    def test_batch_account_list_detectors(self, resource_group):
         response = self.client.batch_account.list_detectors(
             resource_group_name=resource_group.name,
             account_name="str",
@@ -183,7 +90,7 @@ class TestBatchManagementBatchAccountOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get_detector(self, resource_group):
+    def test_batch_account_get_detector(self, resource_group):
         response = self.client.batch_account.get_detector(
             resource_group_name=resource_group.name,
             account_name="str",
@@ -196,7 +103,7 @@ class TestBatchManagementBatchAccountOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_outbound_network_dependencies_endpoints(self, resource_group):
+    def test_batch_account_list_outbound_network_dependencies_endpoints(self, resource_group):
         response = self.client.batch_account.list_outbound_network_dependencies_endpoints(
             resource_group_name=resource_group.name,
             account_name="str",
