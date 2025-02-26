@@ -19,11 +19,9 @@ from .. import models as _models
 from ..._serialization import Deserializer, Serializer
 from ._configuration import KeyVaultManagementClientConfiguration
 from .operations import (
-    KeysOperations,
     MHSMPrivateEndpointConnectionsOperations,
     MHSMPrivateLinkResourcesOperations,
     MHSMRegionsOperations,
-    ManagedHsmKeysOperations,
     ManagedHsmsOperations,
     Operations,
     PrivateEndpointConnectionsOperations,
@@ -33,19 +31,13 @@ from .operations import (
 )
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from azure.core.credentials_async import AsyncTokenCredential
 
 
-class KeyVaultManagementClient:  # pylint: disable=client-accepts-api-version-keyword,too-many-instance-attributes
+class KeyVaultManagementClient:  # pylint: disable=too-many-instance-attributes
     """The Azure management API provides a RESTful set of web services that interact with Azure Key
     Vault.
 
-    :ivar keys: KeysOperations operations
-    :vartype keys: azure.mgmt.keyvault.v2023_02_01.aio.operations.KeysOperations
-    :ivar managed_hsm_keys: ManagedHsmKeysOperations operations
-    :vartype managed_hsm_keys:
-     azure.mgmt.keyvault.v2023_02_01.aio.operations.ManagedHsmKeysOperations
     :ivar vaults: VaultsOperations operations
     :vartype vaults: azure.mgmt.keyvault.v2023_02_01.aio.operations.VaultsOperations
     :ivar private_endpoint_connections: PrivateEndpointConnectionsOperations operations
@@ -116,10 +108,6 @@ class KeyVaultManagementClient:  # pylint: disable=client-accepts-api-version-ke
         self._serialize = Serializer(client_models)
         self._deserialize = Deserializer(client_models)
         self._serialize.client_side_validation = False
-        self.keys = KeysOperations(self._client, self._config, self._serialize, self._deserialize, "2023-02-01")
-        self.managed_hsm_keys = ManagedHsmKeysOperations(
-            self._client, self._config, self._serialize, self._deserialize, "2023-02-01"
-        )
         self.vaults = VaultsOperations(self._client, self._config, self._serialize, self._deserialize, "2023-02-01")
         self.private_endpoint_connections = PrivateEndpointConnectionsOperations(
             self._client, self._config, self._serialize, self._deserialize, "2023-02-01"
