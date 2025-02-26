@@ -1,0 +1,6 @@
+{
+  "commit": "a9105b7dabaa2f60eb4e5b3c90cb5f0ce7aae8b9",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/cognitiveservices/Speech.SpeechToText",
+  "@azure-tools/typespec-python": "0.38.4"
+}
