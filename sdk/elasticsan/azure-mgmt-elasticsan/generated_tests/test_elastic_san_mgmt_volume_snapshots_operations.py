@@ -20,7 +20,7 @@ class TestElasticSanMgmtVolumeSnapshotsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_volume_group(self, resource_group):
+    def test_volume_snapshots_list_by_volume_group(self, resource_group):
         response = self.client.volume_snapshots.list_by_volume_group(
             resource_group_name=resource_group.name,
             elastic_san_name="str",
@@ -33,7 +33,7 @@ class TestElasticSanMgmtVolumeSnapshotsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_create(self, resource_group):
+    def test_volume_snapshots_begin_create(self, resource_group):
         response = self.client.volume_snapshots.begin_create(
             resource_group_name=resource_group.name,
             elastic_san_name="str",
@@ -66,7 +66,7 @@ class TestElasticSanMgmtVolumeSnapshotsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_delete(self, resource_group):
+    def test_volume_snapshots_begin_delete(self, resource_group):
         response = self.client.volume_snapshots.begin_delete(
             resource_group_name=resource_group.name,
             elastic_san_name="str",
@@ -80,7 +80,7 @@ class TestElasticSanMgmtVolumeSnapshotsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_volume_snapshots_get(self, resource_group):
         response = self.client.volume_snapshots.get(
             resource_group_name=resource_group.name,
             elastic_san_name="str",

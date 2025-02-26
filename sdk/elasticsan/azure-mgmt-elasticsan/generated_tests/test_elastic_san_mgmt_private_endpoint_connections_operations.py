@@ -20,7 +20,7 @@ class TestElasticSanMgmtPrivateEndpointConnectionsOperations(AzureMgmtRecordedTe
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_create(self, resource_group):
+    def test_private_endpoint_connections_begin_create(self, resource_group):
         response = self.client.private_endpoint_connections.begin_create(
             resource_group_name=resource_group.name,
             elastic_san_name="str",
@@ -56,7 +56,7 @@ class TestElasticSanMgmtPrivateEndpointConnectionsOperations(AzureMgmtRecordedTe
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_private_endpoint_connections_get(self, resource_group):
         response = self.client.private_endpoint_connections.get(
             resource_group_name=resource_group.name,
             elastic_san_name="str",
@@ -69,7 +69,7 @@ class TestElasticSanMgmtPrivateEndpointConnectionsOperations(AzureMgmtRecordedTe
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_delete(self, resource_group):
+    def test_private_endpoint_connections_begin_delete(self, resource_group):
         response = self.client.private_endpoint_connections.begin_delete(
             resource_group_name=resource_group.name,
             elastic_san_name="str",
@@ -82,7 +82,7 @@ class TestElasticSanMgmtPrivateEndpointConnectionsOperations(AzureMgmtRecordedTe
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list(self, resource_group):
+    def test_private_endpoint_connections_list(self, resource_group):
         response = self.client.private_endpoint_connections.list(
             resource_group_name=resource_group.name,
             elastic_san_name="str",
