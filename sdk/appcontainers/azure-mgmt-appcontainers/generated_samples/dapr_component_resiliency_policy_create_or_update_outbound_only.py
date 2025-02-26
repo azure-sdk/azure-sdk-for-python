@@ -51,6 +51,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/DaprComponentResiliencyPolicy_CreateOrUpdate_OutboundOnly.json
+# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2025-02-02-preview/examples/DaprComponentResiliencyPolicy_CreateOrUpdate_OutboundOnly.json
 if __name__ == "__main__":
     main()
