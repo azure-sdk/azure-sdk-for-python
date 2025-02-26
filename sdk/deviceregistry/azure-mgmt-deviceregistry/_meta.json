@@ -1,6 +1,6 @@
 {
-  "commit": "6132d27fe22b7876e0064827a5ac70f7a6166ab9",
+  "commit": "fc65cf29fa9f13821e6cc0cf089b7e67663d9d2e",
   "repository_url": "https://github.com/Azure/azure-rest-api-specs",
   "typespec_src": "specification/deviceregistry/DeviceRegistry.Management",
-  "@azure-tools/typespec-python": "0.36.5"
+  "@azure-tools/typespec-python": "0.38.4"
 }
