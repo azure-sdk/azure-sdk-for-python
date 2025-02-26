@@ -1,5 +1,5 @@
-# coding=utf-8
 # pylint: disable=too-many-lines
+# coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -16,10 +16,9 @@ from .. import _serialization
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 JSON = MutableMapping[str, Any]  # pylint: disable=unsubscriptable-object
 
@@ -398,9 +397,9 @@ class AutomaticOSUpgradePolicy(_serialization.Model):
     :vartype disable_automatic_rollback: bool
     :ivar enable_automatic_os_upgrade: Indicates whether OS upgrades should automatically be
      applied to scale set instances in a rolling fashion when a newer version of the OS image
-     becomes available. :code:`<br />`:code:`<br />` If this is set to true for Windows based pools,
-     `WindowsConfiguration.enableAutomaticUpdates
-     <https://learn.microsoft.com/en-us/rest/api/batchmanagement/pool/create?tabs=HTTP#windowsconfiguration>`_
+     becomes available. :code:`<br />`\\ :code:`<br />` If this is set to true for Windows based
+     pools, `WindowsConfiguration.enableAutomaticUpdates
+     <https://learn.microsoft.com/rest/api/batchmanagement/pool/create?tabs=HTTP#windowsconfiguration>`_
      cannot be set to true.
     :vartype enable_automatic_os_upgrade: bool
     :ivar use_rolling_upgrade_policy: Indicates whether rolling upgrade policy should be used
@@ -432,9 +431,9 @@ class AutomaticOSUpgradePolicy(_serialization.Model):
         :paramtype disable_automatic_rollback: bool
         :keyword enable_automatic_os_upgrade: Indicates whether OS upgrades should automatically be
          applied to scale set instances in a rolling fashion when a newer version of the OS image
-         becomes available. :code:`<br />`:code:`<br />` If this is set to true for Windows based pools,
-         `WindowsConfiguration.enableAutomaticUpdates
-         <https://learn.microsoft.com/en-us/rest/api/batchmanagement/pool/create?tabs=HTTP#windowsconfiguration>`_
+         becomes available. :code:`<br />`\\ :code:`<br />` If this is set to true for Windows based
+         pools, `WindowsConfiguration.enableAutomaticUpdates
+         <https://learn.microsoft.com/rest/api/batchmanagement/pool/create?tabs=HTTP#windowsconfiguration>`_
          cannot be set to true.
         :paramtype enable_automatic_os_upgrade: bool
         :keyword use_rolling_upgrade_policy: Indicates whether rolling upgrade policy should be used
@@ -925,7 +924,7 @@ class AzureResource(_serialization.Model):
         self.tags = None
 
 
-class BatchAccount(AzureResource):  # pylint: disable=too-many-instance-attributes
+class BatchAccount(AzureResource):
     """Contains information about an Azure Batch account.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1503,7 +1502,7 @@ class BatchPoolIdentity(_serialization.Model):
         self.user_assigned_identities = user_assigned_identities
 
 
-class Certificate(AzureProxyResource):  # pylint: disable=too-many-instance-attributes
+class Certificate(AzureProxyResource):
     """Contains information about a certificate.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -2555,9 +2554,9 @@ class DiffDiskSettings(_serialization.Model):
      operating system should be in. e.g., cache disk space for Ephemeral OS disk provisioning. For
      more information on Ephemeral OS disk size requirements, please refer to Ephemeral OS disk size
      requirements for Windows VMs at
-     https://docs.microsoft.com/en-us/azure/virtual-machines/windows/ephemeral-os-disks#size-requirements
+     https://learn.microsoft.com/azure/virtual-machines/windows/ephemeral-os-disks#size-requirements
      and Linux VMs at
-     https://docs.microsoft.com/en-us/azure/virtual-machines/linux/ephemeral-os-disks#size-requirements.
+     https://learn.microsoft.com/azure/virtual-machines/linux/ephemeral-os-disks#size-requirements.
      Default value is "CacheDisk".
     :vartype placement: str
     """
@@ -2572,9 +2571,9 @@ class DiffDiskSettings(_serialization.Model):
          the operating system should be in. e.g., cache disk space for Ephemeral OS disk provisioning.
          For more information on Ephemeral OS disk size requirements, please refer to Ephemeral OS disk
          size requirements for Windows VMs at
-         https://docs.microsoft.com/en-us/azure/virtual-machines/windows/ephemeral-os-disks#size-requirements
+         https://learn.microsoft.com/azure/virtual-machines/windows/ephemeral-os-disks#size-requirements
          and Linux VMs at
-         https://docs.microsoft.com/en-us/azure/virtual-machines/linux/ephemeral-os-disks#size-requirements.
+         https://learn.microsoft.com/azure/virtual-machines/linux/ephemeral-os-disks#size-requirements.
          Default value is "CacheDisk".
         :paramtype placement: str
         """
@@ -2943,7 +2942,7 @@ class ImageReference(_serialization.Model):
     :ivar id: This property is mutually exclusive with other properties. The Azure Compute Gallery
      Image must have replicas in the same region as the Azure Batch account. For information about
      the firewall settings for the Batch node agent to communicate with the Batch service see
-     https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration.
+     https://learn.microsoft.com/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration.
     :vartype id: str
     :ivar shared_gallery_image_id: This property is mutually exclusive with other properties and
      can be fetched from shared gallery image GET call.
@@ -2988,7 +2987,7 @@ class ImageReference(_serialization.Model):
         :keyword id: This property is mutually exclusive with other properties. The Azure Compute
          Gallery Image must have replicas in the same region as the Azure Batch account. For information
          about the firewall settings for the Batch node agent to communicate with the Batch service see
-         https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration.
+         https://learn.microsoft.com/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration.
         :paramtype id: str
         :keyword shared_gallery_image_id: This property is mutually exclusive with other properties and
          can be fetched from shared gallery image GET call.
@@ -3021,8 +3020,8 @@ class InboundNatPool(_serialization.Model):
     :ivar protocol: The protocol of the endpoint. Required. Known values are: "TCP" and "UDP".
     :vartype protocol: str or ~azure.mgmt.batch.models.InboundEndpointProtocol
     :ivar backend_port: This must be unique within a Batch pool. Acceptable values are between 1
-     and 65535 except for 22, 3389, 29876 and 29877 as these are reserved. If any reserved values
-     are provided the request fails with HTTP status code 400. Required.
+     and 65535 except for 29876 and 29877 as these are reserved. If any reserved values are provided
+     the request fails with HTTP status code 400. Required.
     :vartype backend_port: int
     :ivar frontend_port_range_start: Acceptable values range between 1 and 65534 except ports from
      50000 to 55000 which are reserved. All ranges within a pool must be distinct and cannot
@@ -3079,8 +3078,8 @@ class InboundNatPool(_serialization.Model):
         :keyword protocol: The protocol of the endpoint. Required. Known values are: "TCP" and "UDP".
         :paramtype protocol: str or ~azure.mgmt.batch.models.InboundEndpointProtocol
         :keyword backend_port: This must be unique within a Batch pool. Acceptable values are between 1
-         and 65535 except for 22, 3389, 29876 and 29877 as these are reserved. If any reserved values
-         are provided the request fails with HTTP status code 400. Required.
+         and 65535 except for 29876 and 29877 as these are reserved. If any reserved values are provided
+         the request fails with HTTP status code 400. Required.
         :paramtype backend_port: int
         :keyword frontend_port_range_start: Acceptable values range between 1 and 65534 except ports
          from 50000 to 55000 which are reserved. All ranges within a pool must be distinct and cannot
@@ -3587,10 +3586,9 @@ class NetworkConfiguration(_serialization.Model):
      communication to the compute nodes in the specified subnet is denied by an NSG, then the Batch
      service will set the state of the compute nodes to unusable. If the specified VNet has any
      associated Network Security Groups (NSG), then a few reserved system ports must be enabled for
-     inbound communication. Enable ports 29876 and 29877, as well as port 22 for Linux and port 3389
-     for Windows. Also enable outbound connections to Azure Storage on port 443. For more details
-     see:
-     https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration.
+     inbound communication，including ports 29876 and 29877. Also enable outbound connections to
+     Azure Storage on port 443. For more details see:
+     https://learn.microsoft.com/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration.
     :vartype subnet_id: str
     :ivar dynamic_vnet_assignment_scope: The scope of dynamic vnet assignment. Known values are:
      "none" and "job".
@@ -3641,10 +3639,9 @@ class NetworkConfiguration(_serialization.Model):
          communication to the compute nodes in the specified subnet is denied by an NSG, then the Batch
          service will set the state of the compute nodes to unusable. If the specified VNet has any
          associated Network Security Groups (NSG), then a few reserved system ports must be enabled for
-         inbound communication. Enable ports 29876 and 29877, as well as port 22 for Linux and port 3389
-         for Windows. Also enable outbound connections to Azure Storage on port 443. For more details
-         see:
-         https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration.
+         inbound communication，including ports 29876 and 29877. Also enable outbound connections to
+         Azure Storage on port 443. For more details see:
+         https://learn.microsoft.com/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration.
         :paramtype subnet_id: str
         :keyword dynamic_vnet_assignment_scope: The scope of dynamic vnet assignment. Known values are:
          "none" and "job".
@@ -4383,7 +4380,7 @@ class OutboundEnvironmentEndpointCollection(_serialization.Model):
         self.next_link = next_link
 
 
-class Pool(AzureProxyResource):  # pylint: disable=too-many-instance-attributes
+class Pool(AzureProxyResource):
     """Contains information about a pool.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -4420,12 +4417,10 @@ class Pool(AzureProxyResource):  # pylint: disable=too-many-instance-attributes
     :ivar allocation_state_transition_time: The time at which the pool entered its current
      allocation state.
     :vartype allocation_state_transition_time: ~datetime.datetime
-    :ivar vm_size: For information about available VM sizes, see Sizes for Virtual Machines (Linux)
-     (https://azure.microsoft.com/documentation/articles/virtual-machines-linux-sizes/) or Sizes for
-     Virtual Machines (Windows)
-     (https://azure.microsoft.com/documentation/articles/virtual-machines-windows-sizes/). Batch
-     supports all Azure VM sizes except STANDARD_A0 and those with premium storage (STANDARD_GS,
-     STANDARD_DS, and STANDARD_DSV2 series).
+    :ivar vm_size: For information about available VM sizes, see Sizes for Virtual Machines in
+     Azure (https://learn.microsoft.com/azure/virtual-machines/sizes/overview). Batch supports all
+     Azure VM sizes except STANDARD_A0 and those with premium storage (STANDARD_GS, STANDARD_DS, and
+     STANDARD_DSV2 series).
     :vartype vm_size: str
     :ivar deployment_configuration: Deployment configuration properties.
     :vartype deployment_configuration: ~azure.mgmt.batch.models.DeploymentConfiguration
@@ -4592,12 +4587,10 @@ class Pool(AzureProxyResource):  # pylint: disable=too-many-instance-attributes
         :keyword display_name: The display name need not be unique and can contain any Unicode
          characters up to a maximum length of 1024.
         :paramtype display_name: str
-        :keyword vm_size: For information about available VM sizes, see Sizes for Virtual Machines
-         (Linux) (https://azure.microsoft.com/documentation/articles/virtual-machines-linux-sizes/) or
-         Sizes for Virtual Machines (Windows)
-         (https://azure.microsoft.com/documentation/articles/virtual-machines-windows-sizes/). Batch
-         supports all Azure VM sizes except STANDARD_A0 and those with premium storage (STANDARD_GS,
-         STANDARD_DS, and STANDARD_DSV2 series).
+        :keyword vm_size: For information about available VM sizes, see Sizes for Virtual Machines in
+         Azure (https://learn.microsoft.com/azure/virtual-machines/sizes/overview). Batch supports all
+         Azure VM sizes except STANDARD_A0 and those with premium storage (STANDARD_GS, STANDARD_DS, and
+         STANDARD_DSV2 series).
         :paramtype vm_size: str
         :keyword deployment_configuration: Deployment configuration properties.
         :paramtype deployment_configuration: ~azure.mgmt.batch.models.DeploymentConfiguration
@@ -5970,13 +5963,13 @@ class UpgradePolicy(_serialization.Model):
 
     All required parameters must be populated in order to send to server.
 
-    :ivar mode: Specifies the mode of an upgrade to virtual machines in the scale set.:code:`<br
-     />`:code:`<br />` Possible values are::code:`<br />`:code:`<br />` **Manual** - You  control
-     the application of updates to virtual machines in the scale set. You do this by using the
-     manualUpgrade action.:code:`<br />`:code:`<br />` **Automatic** - All virtual machines in the
-     scale set are automatically updated at the same time.:code:`<br />`:code:`<br />` **Rolling** -
-     Scale set performs updates in batches with an optional pause time in between. Required. Known
-     values are: "automatic", "manual", and "rolling".
+    :ivar mode: Specifies the mode of an upgrade to virtual machines in the scale set.\\ :code:`<br
+     />`\\ :code:`<br />` Possible values are:\\ :code:`<br />`\\ :code:`<br />` **Manual** - You
+     control the application of updates to virtual machines in the scale set. You do this by using
+     the manualUpgrade action.\\ :code:`<br />`\\ :code:`<br />` **Automatic** - All virtual
+     machines in the scale set are automatically updated at the same time.\\ :code:`<br />`\\
+     :code:`<br />` **Rolling** - Scale set performs updates in batches with an optional pause time
+     in between. Required. Known values are: "automatic", "manual", and "rolling".
     :vartype mode: str or ~azure.mgmt.batch.models.UpgradeMode
     :ivar automatic_os_upgrade_policy: The configuration parameters used for performing automatic
      OS upgrade.
@@ -6005,13 +5998,13 @@ class UpgradePolicy(_serialization.Model):
         **kwargs: Any
     ) -> None:
         """
-        :keyword mode: Specifies the mode of an upgrade to virtual machines in the scale set.:code:`<br
-         />`:code:`<br />` Possible values are::code:`<br />`:code:`<br />` **Manual** - You  control
-         the application of updates to virtual machines in the scale set. You do this by using the
-         manualUpgrade action.:code:`<br />`:code:`<br />` **Automatic** - All virtual machines in the
-         scale set are automatically updated at the same time.:code:`<br />`:code:`<br />` **Rolling** -
-         Scale set performs updates in batches with an optional pause time in between. Required. Known
-         values are: "automatic", "manual", and "rolling".
+        :keyword mode: Specifies the mode of an upgrade to virtual machines in the scale set.\\
+         :code:`<br />`\\ :code:`<br />` Possible values are:\\ :code:`<br />`\\ :code:`<br />`
+         **Manual** - You  control the application of updates to virtual machines in the scale set. You
+         do this by using the manualUpgrade action.\\ :code:`<br />`\\ :code:`<br />` **Automatic** -
+         All virtual machines in the scale set are automatically updated at the same time.\\ :code:`<br
+         />`\\ :code:`<br />` **Rolling** - Scale set performs updates in batches with an optional pause
+         time in between. Required. Known values are: "automatic", "manual", and "rolling".
         :paramtype mode: str or ~azure.mgmt.batch.models.UpgradeMode
         :keyword automatic_os_upgrade_policy: The configuration parameters used for performing
          automatic OS upgrade.
@@ -6162,7 +6155,7 @@ class UserIdentity(_serialization.Model):
         self.auto_user = auto_user
 
 
-class VirtualMachineConfiguration(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class VirtualMachineConfiguration(_serialization.Model):
     """The configuration for compute nodes in a pool based on the Azure Virtual Machines
     infrastructure.
 

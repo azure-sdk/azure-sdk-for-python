@@ -20,7 +20,7 @@ class TestBatchManagementApplicationOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_create(self, resource_group):
+    def test_application_create(self, resource_group):
         response = self.client.application.create(
             resource_group_name=resource_group.name,
             account_name="str",
@@ -33,7 +33,7 @@ class TestBatchManagementApplicationOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_delete(self, resource_group):
+    def test_application_delete(self, resource_group):
         response = self.client.application.delete(
             resource_group_name=resource_group.name,
             account_name="str",
@@ -46,7 +46,7 @@ class TestBatchManagementApplicationOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_application_get(self, resource_group):
         response = self.client.application.get(
             resource_group_name=resource_group.name,
             account_name="str",
@@ -59,7 +59,7 @@ class TestBatchManagementApplicationOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_update(self, resource_group):
+    def test_application_update(self, resource_group):
         response = self.client.application.update(
             resource_group_name=resource_group.name,
             account_name="str",
@@ -82,7 +82,7 @@ class TestBatchManagementApplicationOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list(self, resource_group):
+    def test_application_list(self, resource_group):
         response = self.client.application.list(
             resource_group_name=resource_group.name,
             account_name="str",
