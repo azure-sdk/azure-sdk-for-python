@@ -15,8 +15,8 @@ from azure.core.pipeline import policies
 from azure.core.rest import HttpRequest, HttpResponse
 
 from ._configuration import KeyVaultClientConfiguration
+from ._operations import KeyVaultClientOperationsMixin
 from ._serialization import Deserializer, Serializer
-from .operations import KeyVaultClientOperationsMixin, RoleAssignmentsOperations, RoleDefinitionsOperations
 
 if TYPE_CHECKING:
     from azure.core.credentials import TokenCredential
@@ -26,10 +26,6 @@ class KeyVaultClient(KeyVaultClientOperationsMixin):
     """The key vault client performs cryptographic key operations and vault operations against the Key
     Vault service.
 
-    :ivar role_assignments: RoleAssignmentsOperations operations
-    :vartype role_assignments: azure.keyvault.administration._generated.operations.RoleAssignmentsOperations
-    :ivar role_definitions: RoleDefinitionsOperations operations
-    :vartype role_definitions: azure.keyvault.administration._generated.operations.RoleDefinitionsOperations
     :param vault_base_url: Required.
     :type vault_base_url: str
     :param credential: Credential used to authenticate requests to the service. Required.
@@ -66,12 +62,6 @@ class KeyVaultClient(KeyVaultClientOperationsMixin):
         self._serialize = Serializer()
         self._deserialize = Deserializer()
         self._serialize.client_side_validation = False
-        self.role_assignments = RoleAssignmentsOperations(
-            self._client, self._config, self._serialize, self._deserialize
-        )
-        self.role_definitions = RoleDefinitionsOperations(
-            self._client, self._config, self._serialize, self._deserialize
-        )
 
     def send_request(self, request: HttpRequest, *, stream: bool = False, **kwargs: Any) -> HttpResponse:
         """Runs the network request through the client's chained policies.

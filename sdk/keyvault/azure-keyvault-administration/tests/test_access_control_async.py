@@ -7,7 +7,7 @@ import os
 import uuid
 
 import pytest
-from azure.keyvault.administration import KeyVaultDataAction, KeyVaultPermission,KeyVaultRoleScope
+from azure.keyvault.administration import KeyVaultDataAction, KeyVaultPermission, KeyVaultRoleScope
 from devtools_testutils import add_general_regex_sanitizer, set_bodiless_matcher
 from devtools_testutils.aio import recorded_by_proxy_async
 
@@ -31,7 +31,7 @@ class TestAccessControl(KeyVaultTestCase):
             value = os.environ["AZURE_CLIENT_ID"]
             return value
         return replay_value
-    
+
     @pytest.mark.asyncio
     @pytest.mark.parametrize("api_version", all_api_versions)
     @KeyVaultAccessControlClientPreparer()
@@ -48,14 +48,10 @@ class TestAccessControl(KeyVaultTestCase):
         # create custom role definition
         role_name = self.get_resource_name("role-name")
         definition_name = self.get_replayable_uuid("definition-name")
-        add_general_regex_sanitizer(regex=definition_name, value = "definition-name")
+        add_general_regex_sanitizer(regex=definition_name, value="definition-name")
         permissions = [KeyVaultPermission(data_actions=[KeyVaultDataAction.READ_HSM_KEY])]
         created_definition = await client.set_role_definition(
-            scope=scope,
-            name=definition_name,
-            role_name=role_name,
-            description="test",
-            permissions=permissions
+            scope=scope, name=definition_name, role_name=role_name, description="test", permissions=permissions
         )
         assert "/" in created_definition.assignable_scopes
         assert created_definition.role_name == role_name
@@ -66,9 +62,7 @@ class TestAccessControl(KeyVaultTestCase):
         assert created_definition.assignable_scopes == [KeyVaultRoleScope.GLOBAL]
 
         # update custom role definition
-        permissions = [
-            KeyVaultPermission(data_actions=[], not_data_actions=[KeyVaultDataAction.READ_HSM_KEY])
-        ]
+        permissions = [KeyVaultPermission(data_actions=[], not_data_actions=[KeyVaultDataAction.READ_HSM_KEY])]
         updated_definition = await client.set_role_definition(
             scope=scope, name=definition_name, permissions=permissions
         )
@@ -94,10 +88,9 @@ class TestAccessControl(KeyVaultTestCase):
         await client.delete_role_definition(scope, definition_name)
 
         async for d in client.list_role_definitions(scope):
-            assert (d.id != definition.id), "the role definition should have been deleted"
+            assert d.id != definition.id, "the role definition should have been deleted"
         if self.is_live:
             await asyncio.sleep(60)  # additional waiting to avoid conflicts with resources in other tests
-
 
     @pytest.mark.asyncio
     @pytest.mark.parametrize("api_version", all_api_versions)
@@ -114,20 +107,18 @@ class TestAccessControl(KeyVaultTestCase):
         definition = definitions[0]
         principal_id = self.get_service_principal_id()
         name = self.get_replayable_uuid("some-uuid")
-        add_general_regex_sanitizer(regex=name, value = "some-uuid")
-        
-        
+        add_general_regex_sanitizer(regex=name, value="some-uuid")
 
         created = await client.create_role_assignment(scope, definition.id, principal_id, name=name)
         assert created.name == name
-        #assert created.properties.principal_id == principal_id
+        # assert created.properties.principal_id == principal_id
         assert created.properties.role_definition_id == definition.id
         assert created.properties.scope == scope
 
         # should be able to get the new assignment
         got = await client.get_role_assignment(scope, name)
         assert got.name == name
-        #assert got.properties.principal_id == principal_id
+        # assert got.properties.principal_id == principal_id
         assert got.properties.role_definition_id == definition.id
         assert got.properties.scope == scope
 
