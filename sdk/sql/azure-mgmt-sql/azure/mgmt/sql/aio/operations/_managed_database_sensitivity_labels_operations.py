@@ -1,4 +1,3 @@
-# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8,7 +7,7 @@
 # --------------------------------------------------------------------------
 from io import IOBase
 import sys
-from typing import Any, AsyncIterable, Callable, Dict, IO, Literal, Optional, Type, TypeVar, Union, overload
+from typing import Any, AsyncIterable, Callable, Dict, IO, Literal, Optional, TypeVar, Union, overload
 
 from azure.core.async_paging import AsyncItemPaged, AsyncList
 from azure.core.exceptions import (
@@ -41,7 +40,7 @@ from ...operations._managed_database_sensitivity_labels_operations import (
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -99,7 +98,7 @@ class ManagedDatabaseSensitivityLabelsOperations:  # pylint: disable=name-too-lo
         :rtype: ~azure.mgmt.sql.models.SensitivityLabel
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -258,7 +257,7 @@ class ManagedDatabaseSensitivityLabelsOperations:  # pylint: disable=name-too-lo
         :rtype: ~azure.mgmt.sql.models.SensitivityLabel
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -319,7 +318,7 @@ class ManagedDatabaseSensitivityLabelsOperations:  # pylint: disable=name-too-lo
         return deserialized  # type: ignore
 
     @distributed_trace_async
-    async def delete(  # pylint: disable=inconsistent-return-statements
+    async def delete(
         self,
         resource_group_name: str,
         managed_instance_name: str,
@@ -348,7 +347,7 @@ class ManagedDatabaseSensitivityLabelsOperations:  # pylint: disable=name-too-lo
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -393,7 +392,7 @@ class ManagedDatabaseSensitivityLabelsOperations:  # pylint: disable=name-too-lo
             return cls(pipeline_response, None, {})  # type: ignore
 
     @distributed_trace_async
-    async def disable_recommendation(  # pylint: disable=inconsistent-return-statements
+    async def disable_recommendation(
         self,
         resource_group_name: str,
         managed_instance_name: str,
@@ -422,7 +421,7 @@ class ManagedDatabaseSensitivityLabelsOperations:  # pylint: disable=name-too-lo
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -467,7 +466,7 @@ class ManagedDatabaseSensitivityLabelsOperations:  # pylint: disable=name-too-lo
             return cls(pipeline_response, None, {})  # type: ignore
 
     @distributed_trace_async
-    async def enable_recommendation(  # pylint: disable=inconsistent-return-statements
+    async def enable_recommendation(
         self,
         resource_group_name: str,
         managed_instance_name: str,
@@ -497,7 +496,7 @@ class ManagedDatabaseSensitivityLabelsOperations:  # pylint: disable=name-too-lo
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -578,7 +577,7 @@ class ManagedDatabaseSensitivityLabelsOperations:  # pylint: disable=name-too-lo
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2020-11-01-preview"))
         cls: ClsType[_models.SensitivityLabelListResult] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -634,7 +633,7 @@ class ManagedDatabaseSensitivityLabelsOperations:  # pylint: disable=name-too-lo
         return AsyncItemPaged(get_next, extract_data)
 
     @overload
-    async def update(  # pylint: disable=inconsistent-return-statements
+    async def update(
         self,
         resource_group_name: str,
         managed_instance_name: str,
@@ -664,7 +663,7 @@ class ManagedDatabaseSensitivityLabelsOperations:  # pylint: disable=name-too-lo
         """
 
     @overload
-    async def update(  # pylint: disable=inconsistent-return-statements
+    async def update(
         self,
         resource_group_name: str,
         managed_instance_name: str,
@@ -694,7 +693,7 @@ class ManagedDatabaseSensitivityLabelsOperations:  # pylint: disable=name-too-lo
         """
 
     @distributed_trace_async
-    async def update(  # pylint: disable=inconsistent-return-statements
+    async def update(
         self,
         resource_group_name: str,
         managed_instance_name: str,
@@ -717,7 +716,7 @@ class ManagedDatabaseSensitivityLabelsOperations:  # pylint: disable=name-too-lo
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -806,7 +805,7 @@ class ManagedDatabaseSensitivityLabelsOperations:  # pylint: disable=name-too-lo
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2020-11-01-preview"))
         cls: ClsType[_models.SensitivityLabelListResult] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,

@@ -21,7 +21,7 @@ class TestSqlManagementDatabaseOperationsOperationsAsync(AzureMgmtRecordedTestCa
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_by_database(self, resource_group):
+    async def test_database_operations_list_by_database(self, resource_group):
         response = self.client.database_operations.list_by_database(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -34,7 +34,7 @@ class TestSqlManagementDatabaseOperationsOperationsAsync(AzureMgmtRecordedTestCa
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_cancel(self, resource_group):
+    async def test_database_operations_cancel(self, resource_group):
         response = await self.client.database_operations.cancel(
             resource_group_name=resource_group.name,
             server_name="str",
