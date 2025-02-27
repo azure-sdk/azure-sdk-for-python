@@ -20,7 +20,7 @@ class TestSqlManagementSubscriptionUsagesOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_location(self, resource_group):
+    def test_subscription_usages_list_by_location(self, resource_group):
         response = self.client.subscription_usages.list_by_location(
             location_name="str",
             api_version="2020-11-01-preview",
@@ -31,7 +31,7 @@ class TestSqlManagementSubscriptionUsagesOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_subscription_usages_get(self, resource_group):
         response = self.client.subscription_usages.get(
             location_name="str",
             usage_name="str",
