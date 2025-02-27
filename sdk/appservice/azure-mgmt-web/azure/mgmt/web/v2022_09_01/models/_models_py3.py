@@ -16782,8 +16782,8 @@ class RampUpRule(_serialization.Model):
      :code:`<code>ActionHostName</code>`.
     :vartype reroute_percentage: float
     :ivar change_step: In auto ramp up scenario this is the step to add/remove from
-     :code:`<code>ReroutePercentage</code>` until it reaches
-     \\n:code:`<code>MinReroutePercentage</code>` or
+     :code:`<code>ReroutePercentage</code>` until it reaches \\n\\
+     :code:`<code>MinReroutePercentage</code>` or
      :code:`<code>MaxReroutePercentage</code>`. Site metrics are checked every N minutes specified
      in :code:`<code>ChangeIntervalInMinutes</code>`.\\nCustom decision algorithm
      can be provided in TiPCallback site extension which URL can be specified in
@@ -16838,8 +16838,8 @@ class RampUpRule(_serialization.Model):
          :code:`<code>ActionHostName</code>`.
         :paramtype reroute_percentage: float
         :keyword change_step: In auto ramp up scenario this is the step to add/remove from
-         :code:`<code>ReroutePercentage</code>` until it reaches
-         \\n:code:`<code>MinReroutePercentage</code>` or
+         :code:`<code>ReroutePercentage</code>` until it reaches \\n\\
+         :code:`<code>MinReroutePercentage</code>` or
          :code:`<code>MaxReroutePercentage</code>`. Site metrics are checked every N minutes specified
          in :code:`<code>ChangeIntervalInMinutes</code>`.\\nCustom decision algorithm
          can be provided in TiPCallback site extension which URL can be specified in
