@@ -26,7 +26,7 @@ class BaseClientPreparer(AzureRecordedTestCase):
             self.container_uri = f"{storage_url}/{container_name}"
 
             self.sas_token = os.environ.get("BLOB_STORAGE_SAS_TOKEN")
-            
+
         else:
             self.managed_hsm_url = hsm_playback_url
             self.container_uri = container_playback_uri
@@ -40,7 +40,7 @@ class BaseClientPreparer(AzureRecordedTestCase):
         # Only set service principal credentials if user-based auth is not requested
         if use_pwsh == use_cli == use_vscode == use_azd == "false":
             self._set_mgmt_settings_real_values()
-    
+
     def _skip_if_not_configured(self, api_version, **kwargs):
         if self.is_live and api_version != DEFAULT_VERSION:
             pytest.skip("This test only uses the default API version for live tests")
@@ -56,7 +56,7 @@ class BaseClientPreparer(AzureRecordedTestCase):
 
 class KeyVaultBackupClientPreparer(BaseClientPreparer):
     def __init__(self, **kwargs) -> None:
-       super().__init__(**kwargs)
+        super().__init__(**kwargs)
 
     def __call__(self, fn):
         def _preparer(test_class, api_version, **kwargs):
@@ -67,6 +67,7 @@ class KeyVaultBackupClientPreparer(BaseClientPreparer):
 
             with client:
                 fn(test_class, client, **kwargs)
+
         return _preparer
 
     def create_backup_client(self, managed_identity_client_id, **kwargs):
@@ -83,7 +84,7 @@ class KeyVaultBackupClientPreparer(BaseClientPreparer):
 
 class KeyVaultBackupClientSasPreparer(BaseClientPreparer):
     def __init__(self, **kwargs) -> None:
-       super().__init__(**kwargs)
+        super().__init__(**kwargs)
 
     def __call__(self, fn):
         def _preparer(test_class, api_version, **kwargs):
@@ -95,6 +96,7 @@ class KeyVaultBackupClientSasPreparer(BaseClientPreparer):
 
             with client:
                 fn(test_class, client, **kwargs)
+
         return _preparer
 
     def create_backup_client(self, **kwargs):
@@ -117,6 +119,7 @@ class KeyVaultAccessControlClientPreparer(BaseClientPreparer):
 
             with client:
                 fn(test_class, client, **kwargs)
+
         return _preparer
 
     def create_access_control_client(self, **kwargs):
@@ -139,6 +142,7 @@ class KeyVaultSettingsClientPreparer(BaseClientPreparer):
 
             with client:
                 fn(test_class, client, **kwargs)
+
         return _preparer
 
     def create_settings_client(self, **kwargs):
