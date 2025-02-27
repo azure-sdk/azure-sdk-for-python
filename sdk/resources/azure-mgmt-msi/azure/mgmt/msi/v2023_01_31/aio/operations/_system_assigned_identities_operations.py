@@ -1,4 +1,3 @@
-# pylint: disable=too-many-lines
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -18,20 +17,18 @@ from azure.core.exceptions import (
     map_error,
 )
 from azure.core.pipeline import PipelineResponse
-from azure.core.pipeline.transport import AsyncHttpResponse
-from azure.core.rest import HttpRequest
+from azure.core.rest import AsyncHttpResponse, HttpRequest
 from azure.core.tracing.decorator_async import distributed_trace_async
 from azure.core.utils import case_insensitive_dict
 from azure.mgmt.core.exceptions import ARMErrorFormat
 
 from ... import models as _models
-from ..._vendor import _convert_request
 from ...operations._system_assigned_identities_operations import build_get_by_scope_request
 
-if sys.version_info >= (3, 8):
-    from typing import Literal  # pylint: disable=no-name-in-module, ungrouped-imports
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
 else:
-    from typing_extensions import Literal  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -54,6 +51,7 @@ class SystemAssignedIdentitiesOperations:
         self._config = input_args.pop(0) if input_args else kwargs.pop("config")
         self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
+        self._api_version = input_args.pop(0) if input_args else kwargs.pop("api_version")
 
     @distributed_trace_async
     async def get_by_scope(self, scope: str, **kwargs: Any) -> _models.SystemAssignedIdentity:
@@ -62,12 +60,11 @@ class SystemAssignedIdentitiesOperations:
         :param scope: The resource provider scope of the resource. Parent resource being extended by
          Managed Identities. Required.
         :type scope: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: SystemAssignedIdentity or the result of cls(response)
         :rtype: ~azure.mgmt.msi.v2023_01_31.models.SystemAssignedIdentity
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -78,21 +75,20 @@ class SystemAssignedIdentitiesOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2023-01-31"] = kwargs.pop("api_version", _params.pop("api-version", "2023-01-31"))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2023-01-31"))
         cls: ClsType[_models.SystemAssignedIdentity] = kwargs.pop("cls", None)
 
-        request = build_get_by_scope_request(
+        _request = build_get_by_scope_request(
             scope=scope,
             api_version=api_version,
-            template_url=self.get_by_scope.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -101,11 +97,9 @@ class SystemAssignedIdentitiesOperations:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("SystemAssignedIdentity", pipeline_response)
+        deserialized = self._deserialize("SystemAssignedIdentity", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get_by_scope.metadata = {"url": "/{scope}/providers/Microsoft.ManagedIdentity/identities/default"}
+        return deserialized  # type: ignore
