@@ -9,7 +9,6 @@
 from azure.identity import DefaultAzureCredential
 
 from azure.mgmt.web import WebSiteManagementClient
-
 """
 # PREREQUISITES
     pip install azure-identity
@@ -22,22 +21,20 @@ from azure.mgmt.web import WebSiteManagementClient
     AZURE_CLIENT_SECRET. For more info about how to get the value, please see:
     https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal
 """
-
-
 def main():
     client = WebSiteManagementClient(
         credential=DefaultAzureCredential(),
         subscription_id="4adb32ad-8327-4cbb-b775-b84b4465bb38",
     )
 
-    response = client.resource_health_metadata.get_by_site_slot(
-        resource_group_name="Default-Web-NorthCentralUS",
-        name="newsiteinnewASE-NCUS",
-        slot="Production",
+    response = client.resource_health_metadata.get_by_site(
+        resource_group_name='Default-Web-NorthCentralUS',
+        name='newsiteinnewASE-NCUS',
     )
     print(response)
 
-
 # x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/GetResourceHealthMetadataBySite.json
 if __name__ == "__main__":
+    main()
+ame__ == "__main__":
     main()
