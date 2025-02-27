@@ -1,0 +1,19 @@
+{
+    "CrossLanguagePackageId": "Microsoft.App.DynamicSessions",
+    "CrossLanguageDefinitionId": {
+        "azure.microsoft.app.dynamicsessions.models.SessionCodeExecutionRequest": "Microsoft.App.DynamicSessions.SessionCodeExecutionRequest",
+        "azure.microsoft.app.dynamicsessions.models.SessionCodeExecutionResource": "Microsoft.App.DynamicSessions.SessionCodeExecutionResource",
+        "azure.microsoft.app.dynamicsessions.models.SessionCodeExecutionResult": "Microsoft.App.DynamicSessions.SessionCodeExecutionResult",
+        "azure.microsoft.app.dynamicsessions.models.SessionResourceFile": "Microsoft.App.DynamicSessions.SessionResourceFile",
+        "azure.microsoft.app.dynamicsessions.models.CodeInputType": "Microsoft.App.DynamicSessions.CodeInputType",
+        "azure.microsoft.app.dynamicsessions.models.ExecutionType": "Microsoft.App.DynamicSessions.ExecutionType",
+        "azure.microsoft.app.dynamicsessions.models.OperationState": "Azure.Core.Foundations.OperationState",
+        "azure.microsoft.app.dynamicsessions.DynamicSessionsClient.code_execution.begin_execute": "Microsoft.App.DynamicSessions.CodeExecution.execute",
+        "azure.microsoft.app.dynamicsessions.DynamicSessionsClient.code_execution.get": "Microsoft.App.DynamicSessions.CodeExecution.get",
+        "azure.microsoft.app.dynamicsessions.DynamicSessionsClient.session_resource_files.list": "Microsoft.App.DynamicSessions.SessionResourceFiles.list",
+        "azure.microsoft.app.dynamicsessions.DynamicSessionsClient.session_resource_files.get": "Microsoft.App.DynamicSessions.SessionResourceFiles.get",
+        "azure.microsoft.app.dynamicsessions.DynamicSessionsClient.session_resource_files.delete": "Microsoft.App.DynamicSessions.SessionResourceFiles.delete",
+        "azure.microsoft.app.dynamicsessions.DynamicSessionsClient.session_resource_files.upload": "Microsoft.App.DynamicSessions.SessionResourceFiles.upload",
+        "azure.microsoft.app.dynamicsessions.DynamicSessionsClient.session_resource_files.get_content": "Microsoft.App.DynamicSessions.SessionResourceFiles.getContent"
+    }
+}
