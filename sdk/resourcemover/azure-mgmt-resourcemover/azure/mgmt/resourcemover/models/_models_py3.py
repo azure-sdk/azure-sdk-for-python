@@ -1,5 +1,5 @@
-# coding=utf-8
 # pylint: disable=too-many-lines
+# coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -16,10 +16,9 @@ from .. import _serialization
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 JSON = MutableMapping[str, Any]  # pylint: disable=unsubscriptable-object
 
@@ -89,7 +88,7 @@ class ResourceSettings(_serialization.Model):
     PublicIPAddressResourceSettings, VirtualNetworkResourceSettings, SqlServerResourceSettings,
     SqlDatabaseResourceSettings, SqlElasticPoolResourceSettings, ResourceGroupResourceSettings
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar resource_type: The resource type. For example, the value can be
      Microsoft.Compute/virtualMachines. Required.
@@ -150,7 +149,7 @@ class ResourceSettings(_serialization.Model):
 class AvailabilitySetResourceSettings(ResourceSettings):
     """Gets or sets the availability set resource settings.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar resource_type: The resource type. For example, the value can be
      Microsoft.Compute/virtualMachines. Required.
@@ -216,7 +215,7 @@ class AvailabilitySetResourceSettings(ResourceSettings):
 class AzureResourceReference(_serialization.Model):
     """Defines reference to an Azure resource.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar source_arm_resource_id: Gets the ARM resource ID of the tracked resource being
      referenced. Required.
@@ -343,7 +342,7 @@ class CloudErrorBody(_serialization.Model):
 class CommitRequest(_serialization.Model):
     """Defines the request body for commit operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar validate_only: Gets or sets a value indicating whether the operation needs to only run
      pre-requisite.
@@ -396,7 +395,7 @@ class CommitRequest(_serialization.Model):
 class DiscardRequest(_serialization.Model):
     """Defines the request body for discard operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar validate_only: Gets or sets a value indicating whether the operation needs to only run
      pre-requisite.
@@ -449,7 +448,7 @@ class DiscardRequest(_serialization.Model):
 class DiskEncryptionSetResourceSettings(ResourceSettings):
     """Defines the disk encryption set resource settings.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar resource_type: The resource type. For example, the value can be
      Microsoft.Compute/virtualMachines. Required.
@@ -663,7 +662,7 @@ class JobStatus(_serialization.Model):
 class KeyVaultResourceSettings(ResourceSettings):
     """Defines the key vault resource settings.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar resource_type: The resource type. For example, the value can be
      Microsoft.Compute/virtualMachines. Required.
@@ -723,7 +722,7 @@ class LBBackendAddressPoolResourceSettings(_serialization.Model):
         self.name = name
 
 
-class LBFrontendIPConfigurationResourceSettings(_serialization.Model):
+class LBFrontendIPConfigurationResourceSettings(_serialization.Model):  # pylint: disable=name-too-long
     """Defines load balancer frontend IP configuration properties.
 
     :ivar name: Gets or sets the frontend IP configuration name.
@@ -784,7 +783,7 @@ class LBFrontendIPConfigurationResourceSettings(_serialization.Model):
 class ProxyResourceReference(AzureResourceReference):
     """Defines reference to a proxy resource.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar source_arm_resource_id: Gets the ARM resource ID of the tracked resource being
      referenced. Required.
@@ -817,7 +816,7 @@ class ProxyResourceReference(AzureResourceReference):
 class LoadBalancerBackendAddressPoolReference(ProxyResourceReference):
     """Defines reference to load balancer backend address pools.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar source_arm_resource_id: Gets the ARM resource ID of the tracked resource being
      referenced. Required.
@@ -825,31 +824,12 @@ class LoadBalancerBackendAddressPoolReference(ProxyResourceReference):
     :ivar name: Gets the name of the proxy resource on the target side.
     :vartype name: str
     """
-
-    _validation = {
-        "source_arm_resource_id": {"required": True},
-    }
-
-    _attribute_map = {
-        "source_arm_resource_id": {"key": "sourceArmResourceId", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-    }
-
-    def __init__(self, *, source_arm_resource_id: str, name: Optional[str] = None, **kwargs: Any) -> None:
-        """
-        :keyword source_arm_resource_id: Gets the ARM resource ID of the tracked resource being
-         referenced. Required.
-        :paramtype source_arm_resource_id: str
-        :keyword name: Gets the name of the proxy resource on the target side.
-        :paramtype name: str
-        """
-        super().__init__(source_arm_resource_id=source_arm_resource_id, name=name, **kwargs)
 
 
 class LoadBalancerNatRuleReference(ProxyResourceReference):
     """Defines reference to load balancer NAT rules.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar source_arm_resource_id: Gets the ARM resource ID of the tracked resource being
      referenced. Required.
@@ -858,30 +838,11 @@ class LoadBalancerNatRuleReference(ProxyResourceReference):
     :vartype name: str
     """
 
-    _validation = {
-        "source_arm_resource_id": {"required": True},
-    }
-
-    _attribute_map = {
-        "source_arm_resource_id": {"key": "sourceArmResourceId", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-    }
-
-    def __init__(self, *, source_arm_resource_id: str, name: Optional[str] = None, **kwargs: Any) -> None:
-        """
-        :keyword source_arm_resource_id: Gets the ARM resource ID of the tracked resource being
-         referenced. Required.
-        :paramtype source_arm_resource_id: str
-        :keyword name: Gets the name of the proxy resource on the target side.
-        :paramtype name: str
-        """
-        super().__init__(source_arm_resource_id=source_arm_resource_id, name=name, **kwargs)
-
 
 class LoadBalancerResourceSettings(ResourceSettings):
     """Defines the load balancer resource settings.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar resource_type: The resource type. For example, the value can be
      Microsoft.Compute/virtualMachines. Required.
@@ -1165,17 +1126,6 @@ class MoveCollectionPropertiesErrors(MoveResourceError):
     :ivar properties: The move resource error body.
     :vartype properties: ~azure.mgmt.resourcemover.models.MoveResourceErrorBody
     """
-
-    _attribute_map = {
-        "properties": {"key": "properties", "type": "MoveResourceErrorBody"},
-    }
-
-    def __init__(self, *, properties: Optional["_models.MoveResourceErrorBody"] = None, **kwargs: Any) -> None:
-        """
-        :keyword properties: The move resource error body.
-        :paramtype properties: ~azure.mgmt.resourcemover.models.MoveResourceErrorBody
-        """
-        super().__init__(properties=properties, **kwargs)
 
 
 class MoveCollectionResultList(_serialization.Model):
@@ -1512,12 +1462,12 @@ class MoveResourceFilterProperties(_serialization.Model):
         self.provisioning_state = provisioning_state
 
 
-class MoveResourceProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class MoveResourceProperties(_serialization.Model):
     """Defines the move resource properties.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar provisioning_state: Defines the provisioning states. Known values are: "Succeeded",
      "Updating", "Creating", and "Failed".
@@ -1612,17 +1562,6 @@ class MoveResourcePropertiesErrors(MoveResourceError):
     :vartype properties: ~azure.mgmt.resourcemover.models.MoveResourceErrorBody
     """
 
-    _attribute_map = {
-        "properties": {"key": "properties", "type": "MoveResourceErrorBody"},
-    }
-
-    def __init__(self, *, properties: Optional["_models.MoveResourceErrorBody"] = None, **kwargs: Any) -> None:
-        """
-        :keyword properties: The move resource error body.
-        :paramtype properties: ~azure.mgmt.resourcemover.models.MoveResourceErrorBody
-        """
-        super().__init__(properties=properties, **kwargs)
-
 
 class MoveResourceStatus(_serialization.Model):
     """Defines the move resource status.
@@ -1685,36 +1624,11 @@ class MoveResourcePropertiesMoveStatus(MoveResourceStatus):
     :vartype errors: ~azure.mgmt.resourcemover.models.MoveResourceError
     """
 
-    _validation = {
-        "move_state": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "move_state": {"key": "moveState", "type": "str"},
-        "job_status": {"key": "jobStatus", "type": "JobStatus"},
-        "errors": {"key": "errors", "type": "MoveResourceError"},
-    }
-
-    def __init__(
-        self,
-        *,
-        job_status: Optional["_models.JobStatus"] = None,
-        errors: Optional["_models.MoveResourceError"] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword job_status: Defines the job status.
-        :paramtype job_status: ~azure.mgmt.resourcemover.models.JobStatus
-        :keyword errors: An error response from the azure resource mover service.
-        :paramtype errors: ~azure.mgmt.resourcemover.models.MoveResourceError
-        """
-        super().__init__(job_status=job_status, errors=errors, **kwargs)
-
 
 class NetworkInterfaceResourceSettings(ResourceSettings):
     """Defines the network interface resource settings.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar resource_type: The resource type. For example, the value can be
      Microsoft.Compute/virtualMachines. Required.
@@ -1782,7 +1696,7 @@ class NetworkInterfaceResourceSettings(ResourceSettings):
 class NetworkSecurityGroupResourceSettings(ResourceSettings):
     """Defines the NSG resource settings.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar resource_type: The resource type. For example, the value can be
      Microsoft.Compute/virtualMachines. Required.
@@ -1924,28 +1838,12 @@ class NicIpConfigurationResourceSettings(_serialization.Model):
 class NsgReference(AzureResourceReference):
     """Defines reference to NSG.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar source_arm_resource_id: Gets the ARM resource ID of the tracked resource being
      referenced. Required.
     :vartype source_arm_resource_id: str
     """
-
-    _validation = {
-        "source_arm_resource_id": {"required": True},
-    }
-
-    _attribute_map = {
-        "source_arm_resource_id": {"key": "sourceArmResourceId", "type": "str"},
-    }
-
-    def __init__(self, *, source_arm_resource_id: str, **kwargs: Any) -> None:
-        """
-        :keyword source_arm_resource_id: Gets the ARM resource ID of the tracked resource being
-         referenced. Required.
-        :paramtype source_arm_resource_id: str
-        """
-        super().__init__(source_arm_resource_id=source_arm_resource_id, **kwargs)
 
 
 class NsgSecurityRule(_serialization.Model):
@@ -2336,7 +2234,7 @@ class OperationStatusError(_serialization.Model):
 class PrepareRequest(_serialization.Model):
     """Defines the request body for initiate prepare operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar validate_only: Gets or sets a value indicating whether the operation needs to only run
      pre-requisite.
@@ -2389,7 +2287,7 @@ class PrepareRequest(_serialization.Model):
 class PublicIPAddressResourceSettings(ResourceSettings):
     """Defines the public IP address resource settings.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar resource_type: The resource type. For example, the value can be
      Microsoft.Compute/virtualMachines. Required.
@@ -2474,28 +2372,12 @@ class PublicIPAddressResourceSettings(ResourceSettings):
 class PublicIpReference(AzureResourceReference):
     """Defines reference to a public IP.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar source_arm_resource_id: Gets the ARM resource ID of the tracked resource being
      referenced. Required.
     :vartype source_arm_resource_id: str
     """
-
-    _validation = {
-        "source_arm_resource_id": {"required": True},
-    }
-
-    _attribute_map = {
-        "source_arm_resource_id": {"key": "sourceArmResourceId", "type": "str"},
-    }
-
-    def __init__(self, *, source_arm_resource_id: str, **kwargs: Any) -> None:
-        """
-        :keyword source_arm_resource_id: Gets the ARM resource ID of the tracked resource being
-         referenced. Required.
-        :paramtype source_arm_resource_id: str
-        """
-        super().__init__(source_arm_resource_id=source_arm_resource_id, **kwargs)
 
 
 class RequiredForResourcesCollection(_serialization.Model):
@@ -2522,7 +2404,7 @@ class RequiredForResourcesCollection(_serialization.Model):
 class ResourceGroupResourceSettings(ResourceSettings):
     """Defines the resource group resource settings.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar resource_type: The resource type. For example, the value can be
      Microsoft.Compute/virtualMachines. Required.
@@ -2565,7 +2447,7 @@ class ResourceGroupResourceSettings(ResourceSettings):
 class ResourceMoveRequest(_serialization.Model):
     """Defines the request body for resource move operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar validate_only: Gets or sets a value indicating whether the operation needs to only run
      pre-requisite.
@@ -2618,7 +2500,7 @@ class ResourceMoveRequest(_serialization.Model):
 class SqlDatabaseResourceSettings(ResourceSettings):
     """Defines the Sql Database resource settings.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar resource_type: The resource type. For example, the value can be
      Microsoft.Compute/virtualMachines. Required.
@@ -2677,7 +2559,7 @@ class SqlDatabaseResourceSettings(ResourceSettings):
 class SqlElasticPoolResourceSettings(ResourceSettings):
     """Defines the Sql ElasticPool resource settings.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar resource_type: The resource type. For example, the value can be
      Microsoft.Compute/virtualMachines. Required.
@@ -2736,7 +2618,7 @@ class SqlElasticPoolResourceSettings(ResourceSettings):
 class SqlServerResourceSettings(ResourceSettings):
     """Defines the SQL Server resource settings.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar resource_type: The resource type. For example, the value can be
      Microsoft.Compute/virtualMachines. Required.
@@ -2779,7 +2661,7 @@ class SqlServerResourceSettings(ResourceSettings):
 class SubnetReference(ProxyResourceReference):
     """Defines reference to subnet.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar source_arm_resource_id: Gets the ARM resource ID of the tracked resource being
      referenced. Required.
@@ -2787,25 +2669,6 @@ class SubnetReference(ProxyResourceReference):
     :ivar name: Gets the name of the proxy resource on the target side.
     :vartype name: str
     """
-
-    _validation = {
-        "source_arm_resource_id": {"required": True},
-    }
-
-    _attribute_map = {
-        "source_arm_resource_id": {"key": "sourceArmResourceId", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-    }
-
-    def __init__(self, *, source_arm_resource_id: str, name: Optional[str] = None, **kwargs: Any) -> None:
-        """
-        :keyword source_arm_resource_id: Gets the ARM resource ID of the tracked resource being
-         referenced. Required.
-        :paramtype source_arm_resource_id: str
-        :keyword name: Gets the name of the proxy resource on the target side.
-        :paramtype name: str
-        """
-        super().__init__(source_arm_resource_id=source_arm_resource_id, name=name, **kwargs)
 
 
 class SubnetResourceSettings(_serialization.Model):
@@ -3118,7 +2981,7 @@ class UpdateMoveCollectionRequest(_serialization.Model):
 class VirtualMachineResourceSettings(ResourceSettings):
     """Gets or sets the virtual machine resource settings.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar resource_type: The resource type. For example, the value can be
      Microsoft.Compute/virtualMachines. Required.
@@ -3202,7 +3065,7 @@ class VirtualMachineResourceSettings(ResourceSettings):
 class VirtualNetworkResourceSettings(ResourceSettings):
     """Defines the virtual network resource settings.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar resource_type: The resource type. For example, the value can be
      Microsoft.Compute/virtualMachines. Required.
