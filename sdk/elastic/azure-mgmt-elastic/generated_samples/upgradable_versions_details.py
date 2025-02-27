@@ -37,6 +37,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2024-06-15-preview/examples/UpgradableVersions_Details.json
+# x-ms-original-file: specification/elastic/resource-manager/Microsoft.Elastic/preview/2025-01-15-preview/examples/UpgradableVersions_Details.json
 if __name__ == "__main__":
     main()

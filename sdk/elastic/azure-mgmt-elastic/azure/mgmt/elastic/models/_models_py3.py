@@ -1,5 +1,5 @@
-# coding=utf-8
 # pylint: disable=too-many-lines
+# coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -13,7 +13,6 @@ from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 from .. import _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
@@ -65,11 +64,11 @@ class CompanyInfo(_serialization.Model):
     """
 
     _validation = {
-        "domain": {"max_length": 250},
-        "business": {"max_length": 64},
+        "domain": {"max_length": 256},
+        "business": {"max_length": 128},
         "employees_number": {"max_length": 20},
-        "state": {"max_length": 64},
-        "country": {"max_length": 64},
+        "state": {"max_length": 128},
+        "country": {"max_length": 128},
     }
 
     _attribute_map = {
@@ -113,14 +112,16 @@ class CompanyInfo(_serialization.Model):
 class ConnectedPartnerResourceProperties(_serialization.Model):
     """Connected Partner Resource Properties.
 
-    :ivar partner_deployment_name: Elastic deployment name.
+    :ivar partner_deployment_name: Elastic resource name.
     :vartype partner_deployment_name: str
-    :ivar partner_deployment_uri: Deployment URL of the elasticsearch in Elastic cloud deployment.
+    :ivar partner_deployment_uri: URL of the resource in Elastic cloud.
     :vartype partner_deployment_uri: str
-    :ivar azure_resource_id: The azure resource Id of the deployment.
+    :ivar azure_resource_id: The azure resource Id of the resource.
     :vartype azure_resource_id: str
-    :ivar location: The location of the deployment.
+    :ivar location: The location of the resource.
     :vartype location: str
+    :ivar type: The hosting type of the resource.
+    :vartype type: str
     """
 
     _attribute_map = {
@@ -128,6 +129,7 @@ class ConnectedPartnerResourceProperties(_serialization.Model):
         "partner_deployment_uri": {"key": "partnerDeploymentUri", "type": "str"},
         "azure_resource_id": {"key": "azureResourceId", "type": "str"},
         "location": {"key": "location", "type": "str"},
+        "type": {"key": "type", "type": "str"},
     }
 
     def __init__(
@@ -137,24 +139,27 @@ class ConnectedPartnerResourceProperties(_serialization.Model):
         partner_deployment_uri: Optional[str] = None,
         azure_resource_id: Optional[str] = None,
         location: Optional[str] = None,
+        type: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
-        :keyword partner_deployment_name: Elastic deployment name.
+        :keyword partner_deployment_name: Elastic resource name.
         :paramtype partner_deployment_name: str
-        :keyword partner_deployment_uri: Deployment URL of the elasticsearch in Elastic cloud
-         deployment.
+        :keyword partner_deployment_uri: URL of the resource in Elastic cloud.
         :paramtype partner_deployment_uri: str
-        :keyword azure_resource_id: The azure resource Id of the deployment.
+        :keyword azure_resource_id: The azure resource Id of the resource.
         :paramtype azure_resource_id: str
-        :keyword location: The location of the deployment.
+        :keyword location: The location of the resource.
         :paramtype location: str
+        :keyword type: The hosting type of the resource.
+        :paramtype type: str
         """
         super().__init__(**kwargs)
         self.partner_deployment_name = partner_deployment_name
         self.partner_deployment_uri = partner_deployment_uri
         self.azure_resource_id = azure_resource_id
         self.location = location
+        self.type = type
 
 
 class ConnectedPartnerResourcesListFormat(_serialization.Model):
@@ -231,6 +236,10 @@ class DeploymentInfoResponse(_serialization.Model):
     :vartype deployment_url: str
     :ivar marketplace_saas_info: Marketplace SaaS Info of the resource.
     :vartype marketplace_saas_info: ~azure.mgmt.elastic.models.MarketplaceSaaSInfo
+    :ivar project_type: Project Type - Applicable for Serverless only.
+    :vartype project_type: str
+    :ivar configuration_type: ConfigurationType Type - Applicable for Serverless only.
+    :vartype configuration_type: str
     """
 
     _validation = {
@@ -241,6 +250,8 @@ class DeploymentInfoResponse(_serialization.Model):
         "elasticsearch_end_point": {"readonly": True},
         "deployment_url": {"readonly": True},
         "marketplace_saas_info": {"readonly": True},
+        "project_type": {"readonly": True},
+        "configuration_type": {"readonly": True},
     }
 
     _attribute_map = {
@@ -251,6 +262,8 @@ class DeploymentInfoResponse(_serialization.Model):
         "elasticsearch_end_point": {"key": "elasticsearchEndPoint", "type": "str"},
         "deployment_url": {"key": "deploymentUrl", "type": "str"},
         "marketplace_saas_info": {"key": "marketplaceSaasInfo", "type": "MarketplaceSaaSInfo"},
+        "project_type": {"key": "projectType", "type": "str"},
+        "configuration_type": {"key": "configurationType", "type": "str"},
     }
 
     def __init__(self, **kwargs: Any) -> None:
@@ -263,6 +276,8 @@ class DeploymentInfoResponse(_serialization.Model):
         self.elasticsearch_end_point = None
         self.deployment_url = None
         self.marketplace_saas_info = None
+        self.project_type = None
+        self.configuration_type = None
 
 
 class ElasticCloudDeployment(_serialization.Model):
@@ -365,6 +380,8 @@ class ElasticMonitorResource(_serialization.Model):
     :vartype name: str
     :ivar type: The type of the monitor resource.
     :vartype type: str
+    :ivar kind: The kind of the Elastic resource - observability, security, search etc.
+    :vartype kind: str
     :ivar sku: SKU of the monitor resource.
     :vartype sku: ~azure.mgmt.elastic.models.ResourceSku
     :ivar properties: Properties of the monitor resource.
@@ -391,6 +408,7 @@ class ElasticMonitorResource(_serialization.Model):
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
+        "kind": {"key": "kind", "type": "str"},
         "sku": {"key": "sku", "type": "ResourceSku"},
         "properties": {"key": "properties", "type": "MonitorProperties"},
         "identity": {"key": "identity", "type": "IdentityProperties"},
@@ -403,6 +421,7 @@ class ElasticMonitorResource(_serialization.Model):
         self,
         *,
         location: str,
+        kind: Optional[str] = None,
         sku: Optional["_models.ResourceSku"] = None,
         properties: Optional["_models.MonitorProperties"] = None,
         identity: Optional["_models.IdentityProperties"] = None,
@@ -410,6 +429,8 @@ class ElasticMonitorResource(_serialization.Model):
         **kwargs: Any
     ) -> None:
         """
+        :keyword kind: The kind of the Elastic resource - observability, security, search etc.
+        :paramtype kind: str
         :keyword sku: SKU of the monitor resource.
         :paramtype sku: ~azure.mgmt.elastic.models.ResourceSku
         :keyword properties: Properties of the monitor resource.
@@ -425,6 +446,7 @@ class ElasticMonitorResource(_serialization.Model):
         self.id = None
         self.name = None
         self.type = None
+        self.kind = kind
         self.sku = sku
         self.properties = properties
         self.identity = identity
@@ -1591,7 +1613,7 @@ class MonitoringTagRulesProperties(_serialization.Model):
         self.log_rules = log_rules
 
 
-class MonitorProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class MonitorProperties(_serialization.Model):
     """Properties specific to the monitor resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1626,6 +1648,12 @@ class MonitorProperties(_serialization.Model):  # pylint: disable=too-many-insta
     :vartype liftr_resource_preference: int
     :ivar generate_api_key: Flag to determine if User API Key has to be generated and shared.
     :vartype generate_api_key: bool
+    :ivar hosting_type: Hosting type of the monitor resource - either Hosted deployments OR
+     Serverless Projects. Known values are: "Hosted" and "Serverless".
+    :vartype hosting_type: str or ~azure.mgmt.elastic.models.HostingType
+    :ivar project_details: Project details of the monitor resource IF it belongs to Serverless
+     offer kind.
+    :vartype project_details: ~azure.mgmt.elastic.models.ProjectDetails
     """
 
     _validation = {
@@ -1648,6 +1676,8 @@ class MonitorProperties(_serialization.Model):  # pylint: disable=too-many-insta
         "liftr_resource_category": {"key": "liftrResourceCategory", "type": "str"},
         "liftr_resource_preference": {"key": "liftrResourcePreference", "type": "int"},
         "generate_api_key": {"key": "generateApiKey", "type": "bool"},
+        "hosting_type": {"key": "hostingType", "type": "str"},
+        "project_details": {"key": "projectDetails", "type": "ProjectDetails"},
     }
 
     def __init__(
@@ -1663,6 +1693,8 @@ class MonitorProperties(_serialization.Model):  # pylint: disable=too-many-insta
         source_campaign_name: Optional[str] = None,
         source_campaign_id: Optional[str] = None,
         generate_api_key: Optional[bool] = None,
+        hosting_type: Optional[Union[str, "_models.HostingType"]] = None,
+        project_details: Optional["_models.ProjectDetails"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -1688,6 +1720,12 @@ class MonitorProperties(_serialization.Model):  # pylint: disable=too-many-insta
         :paramtype source_campaign_id: str
         :keyword generate_api_key: Flag to determine if User API Key has to be generated and shared.
         :paramtype generate_api_key: bool
+        :keyword hosting_type: Hosting type of the monitor resource - either Hosted deployments OR
+         Serverless Projects. Known values are: "Hosted" and "Serverless".
+        :paramtype hosting_type: str or ~azure.mgmt.elastic.models.HostingType
+        :keyword project_details: Project details of the monitor resource IF it belongs to Serverless
+         offer kind.
+        :paramtype project_details: ~azure.mgmt.elastic.models.ProjectDetails
         """
         super().__init__(**kwargs)
         self.provisioning_state = None
@@ -1703,6 +1741,8 @@ class MonitorProperties(_serialization.Model):  # pylint: disable=too-many-insta
         self.liftr_resource_category = None
         self.liftr_resource_preference = None
         self.generate_api_key = generate_api_key
+        self.hosting_type = hosting_type
+        self.project_details = project_details
 
 
 class OpenAIIntegrationProperties(_serialization.Model):
@@ -2087,6 +2127,42 @@ class PlanDetails(_serialization.Model):
         self.plan_name = plan_name
 
 
+class ProjectDetails(_serialization.Model):
+    """Project details of the monitor resource IF it belongs to Serverless offer kind.
+
+    :ivar project_type: Project type; ex: Elasticsearch / Observability / Security. Known values
+     are: "Elasticsearch", "Observability", "Security", and "NotApplicable".
+    :vartype project_type: str or ~azure.mgmt.elastic.models.ProjectType
+    :ivar configuration_type: Configuration type of the Elasticsearch project. Known values are:
+     "GeneralPurpose", "Vector", "TimeSeries", and "NotApplicable".
+    :vartype configuration_type: str or ~azure.mgmt.elastic.models.ConfigurationType
+    """
+
+    _attribute_map = {
+        "project_type": {"key": "projectType", "type": "str"},
+        "configuration_type": {"key": "configurationType", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        project_type: Optional[Union[str, "_models.ProjectType"]] = None,
+        configuration_type: Optional[Union[str, "_models.ConfigurationType"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword project_type: Project type; ex: Elasticsearch / Observability / Security. Known values
+         are: "Elasticsearch", "Observability", "Security", and "NotApplicable".
+        :paramtype project_type: str or ~azure.mgmt.elastic.models.ProjectType
+        :keyword configuration_type: Configuration type of the Elasticsearch project. Known values are:
+         "GeneralPurpose", "Vector", "TimeSeries", and "NotApplicable".
+        :paramtype configuration_type: str or ~azure.mgmt.elastic.models.ConfigurationType
+        """
+        super().__init__(**kwargs)
+        self.project_type = project_type
+        self.configuration_type = configuration_type
+
+
 class ResourceProviderDefaultErrorResponse(_serialization.Model):
     """RP default error response.
 
@@ -2414,9 +2490,9 @@ class UserInfo(_serialization.Model):
     """
 
     _validation = {
-        "first_name": {"max_length": 50},
-        "last_name": {"max_length": 50},
-        "company_name": {"max_length": 64},
+        "first_name": {"max_length": 128},
+        "last_name": {"max_length": 128},
+        "company_name": {"max_length": 128},
         "email_address": {
             "pattern": r'^([^<>()\[\]\.,;:\s@"]+(\.[^<>()\[\]\.,;:\s@"]+)*)@(([a-zA-Z-_0-9]+\.)+[a-zA-Z]{2,})$'
         },
