@@ -21,7 +21,7 @@ class TestSqlManagementManagedInstanceEncryptionProtectorsOperationsAsync(AzureM
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_revalidate(self, resource_group):
+    async def test_managed_instance_encryption_protectors_begin_revalidate(self, resource_group):
         response = await (
             await self.client.managed_instance_encryption_protectors.begin_revalidate(
                 resource_group_name=resource_group.name,
@@ -36,7 +36,7 @@ class TestSqlManagementManagedInstanceEncryptionProtectorsOperationsAsync(AzureM
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_by_instance(self, resource_group):
+    async def test_managed_instance_encryption_protectors_list_by_instance(self, resource_group):
         response = self.client.managed_instance_encryption_protectors.list_by_instance(
             resource_group_name=resource_group.name,
             managed_instance_name="str",
@@ -48,7 +48,7 @@ class TestSqlManagementManagedInstanceEncryptionProtectorsOperationsAsync(AzureM
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get(self, resource_group):
+    async def test_managed_instance_encryption_protectors_get(self, resource_group):
         response = await self.client.managed_instance_encryption_protectors.get(
             resource_group_name=resource_group.name,
             managed_instance_name="str",
@@ -61,7 +61,7 @@ class TestSqlManagementManagedInstanceEncryptionProtectorsOperationsAsync(AzureM
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_create_or_update(self, resource_group):
+    async def test_managed_instance_encryption_protectors_begin_create_or_update(self, resource_group):
         response = await (
             await self.client.managed_instance_encryption_protectors.begin_create_or_update(
                 resource_group_name=resource_group.name,

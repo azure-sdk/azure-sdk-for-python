@@ -21,7 +21,7 @@ class TestSqlManagementJobsOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_by_agent(self, resource_group):
+    async def test_jobs_list_by_agent(self, resource_group):
         response = self.client.jobs.list_by_agent(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -34,7 +34,7 @@ class TestSqlManagementJobsOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get(self, resource_group):
+    async def test_jobs_get(self, resource_group):
         response = await self.client.jobs.get(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -48,7 +48,7 @@ class TestSqlManagementJobsOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_create_or_update(self, resource_group):
+    async def test_jobs_create_or_update(self, resource_group):
         response = await self.client.jobs.create_or_update(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -76,7 +76,7 @@ class TestSqlManagementJobsOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_delete(self, resource_group):
+    async def test_jobs_delete(self, resource_group):
         response = await self.client.jobs.delete(
             resource_group_name=resource_group.name,
             server_name="str",

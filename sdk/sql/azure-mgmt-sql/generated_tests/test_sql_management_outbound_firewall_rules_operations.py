@@ -20,7 +20,7 @@ class TestSqlManagementOutboundFirewallRulesOperations(AzureMgmtRecordedTestCase
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_outbound_firewall_rules_get(self, resource_group):
         response = self.client.outbound_firewall_rules.get(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -33,7 +33,7 @@ class TestSqlManagementOutboundFirewallRulesOperations(AzureMgmtRecordedTestCase
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_create_or_update(self, resource_group):
+    def test_outbound_firewall_rules_begin_create_or_update(self, resource_group):
         response = self.client.outbound_firewall_rules.begin_create_or_update(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -47,7 +47,7 @@ class TestSqlManagementOutboundFirewallRulesOperations(AzureMgmtRecordedTestCase
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_delete(self, resource_group):
+    def test_outbound_firewall_rules_begin_delete(self, resource_group):
         response = self.client.outbound_firewall_rules.begin_delete(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -60,7 +60,7 @@ class TestSqlManagementOutboundFirewallRulesOperations(AzureMgmtRecordedTestCase
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_server(self, resource_group):
+    def test_outbound_firewall_rules_list_by_server(self, resource_group):
         response = self.client.outbound_firewall_rules.list_by_server(
             resource_group_name=resource_group.name,
             server_name="str",

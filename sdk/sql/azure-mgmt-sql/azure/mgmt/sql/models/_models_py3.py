@@ -1,5 +1,5 @@
-# coding=utf-8
 # pylint: disable=too-many-lines
+# coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -13,7 +13,6 @@ from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 from .. import _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
@@ -92,7 +91,7 @@ class ProxyResource(Resource):
     """
 
 
-class Advisor(ProxyResource):  # pylint: disable=too-many-instance-attributes
+class Advisor(ProxyResource):
     """Database, Server or Elastic Pool Advisor.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -835,7 +834,7 @@ class TrackedResource(Resource):
         self.tags = tags
 
 
-class Database(TrackedResource):  # pylint: disable=too-many-instance-attributes
+class Database(TrackedResource):
     """A database resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1615,7 +1614,7 @@ class DatabaseAutomaticTuning(ProxyResource):
         self.options = options
 
 
-class DatabaseBlobAuditingPolicy(ProxyResource):  # pylint: disable=too-many-instance-attributes
+class DatabaseBlobAuditingPolicy(ProxyResource):
     """A database blob auditing policy.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -2239,7 +2238,7 @@ class DatabaseListResult(_serialization.Model):
         self.next_link = None
 
 
-class DatabaseOperation(ProxyResource):  # pylint: disable=too-many-instance-attributes
+class DatabaseOperation(ProxyResource):
     """A database operation.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -2443,7 +2442,7 @@ class DatabaseSecurityAlertListResult(_serialization.Model):
         self.next_link = None
 
 
-class DatabaseSecurityAlertPolicy(ProxyResource):  # pylint: disable=too-many-instance-attributes
+class DatabaseSecurityAlertPolicy(ProxyResource):
     """A database security alert policy.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -2871,7 +2870,7 @@ class DatabaseTableListResult(_serialization.Model):
         self.next_link = None
 
 
-class DatabaseUpdate(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class DatabaseUpdate(_serialization.Model):
     """A database update resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -3792,7 +3791,7 @@ class DataMaskingPolicy(ProxyResource):
         self.masking_level = None
 
 
-class DataMaskingRule(ProxyResource):  # pylint: disable=too-many-instance-attributes
+class DataMaskingRule(ProxyResource):
     """Represents a database data masking rule.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -4100,7 +4099,7 @@ class DeletedServerListResult(_serialization.Model):
         self.next_link = None
 
 
-class DistributedAvailabilityGroup(ProxyResource):  # pylint: disable=too-many-instance-attributes
+class DistributedAvailabilityGroup(ProxyResource):
     """Distributed availability group between box and Sql Managed Instance.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -4217,7 +4216,7 @@ class DistributedAvailabilityGroup(ProxyResource):  # pylint: disable=too-many-i
         self.databases = databases
 
 
-class DistributedAvailabilityGroupDatabase(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class DistributedAvailabilityGroupDatabase(_serialization.Model):
     """Database specific information.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -4506,7 +4505,7 @@ class EditionCapability(_serialization.Model):
         self.reason = reason
 
 
-class ElasticPool(TrackedResource):  # pylint: disable=too-many-instance-attributes
+class ElasticPool(TrackedResource):
     """An elastic pool.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -4675,7 +4674,7 @@ class ElasticPool(TrackedResource):  # pylint: disable=too-many-instance-attribu
         self.availability_zone = availability_zone
 
 
-class ElasticPoolActivity(ProxyResource):  # pylint: disable=too-many-instance-attributes
+class ElasticPoolActivity(ProxyResource):
     """Represents the activity on an elastic pool.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -4839,7 +4838,7 @@ class ElasticPoolActivityListResult(_serialization.Model):
         self.value = value
 
 
-class ElasticPoolDatabaseActivity(ProxyResource):  # pylint: disable=too-many-instance-attributes
+class ElasticPoolDatabaseActivity(ProxyResource):
     """Represents the activity on an elastic pool.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -5058,7 +5057,7 @@ class ElasticPoolListResult(_serialization.Model):
         self.next_link = None
 
 
-class ElasticPoolOperation(ProxyResource):  # pylint: disable=too-many-instance-attributes
+class ElasticPoolOperation(ProxyResource):
     """A elastic pool operation.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -5306,7 +5305,7 @@ class ElasticPoolPerDatabaseSettings(_serialization.Model):
         self.max_capacity = max_capacity
 
 
-class ElasticPoolPerformanceLevelCapability(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class ElasticPoolPerformanceLevelCapability(_serialization.Model):
     """The Elastic Pool performance level capability.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -5396,7 +5395,7 @@ class ElasticPoolPerformanceLevelCapability(_serialization.Model):  # pylint: di
         self.reason = reason
 
 
-class ElasticPoolUpdate(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class ElasticPoolUpdate(_serialization.Model):
     """An elastic pool update.
 
     :ivar sku: An ARM Resource SKU.
@@ -5506,7 +5505,7 @@ class ElasticPoolUpdate(_serialization.Model):  # pylint: disable=too-many-insta
         self.availability_zone = availability_zone
 
 
-class EncryptionProtector(ProxyResource):  # pylint: disable=too-many-instance-attributes
+class EncryptionProtector(ProxyResource):
     """The server encryption protector.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -5908,7 +5907,7 @@ class ExportDatabaseDefinition(_serialization.Model):
         self.network_isolation = network_isolation
 
 
-class ExtendedDatabaseBlobAuditingPolicy(ProxyResource):  # pylint: disable=too-many-instance-attributes
+class ExtendedDatabaseBlobAuditingPolicy(ProxyResource):
     """An extended database blob auditing policy.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -6259,7 +6258,7 @@ class ExtendedDatabaseBlobAuditingPolicyListResult(_serialization.Model):  # pyl
         self.next_link = None
 
 
-class ExtendedServerBlobAuditingPolicy(ProxyResource):  # pylint: disable=too-many-instance-attributes
+class ExtendedServerBlobAuditingPolicy(ProxyResource):
     """An extended server blob auditing policy.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -6645,7 +6644,7 @@ class ExtendedServerBlobAuditingPolicyListResult(_serialization.Model):  # pylin
         self.next_link = None
 
 
-class FailoverGroup(ProxyResource):  # pylint: disable=too-many-instance-attributes
+class FailoverGroup(ProxyResource):
     """A failover group.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -7317,7 +7316,7 @@ class ImportExportExtensionsOperationResult(ProxyResource):
         self.error_message = None
 
 
-class ImportExportOperationResult(ProxyResource):  # pylint: disable=too-many-instance-attributes
+class ImportExportOperationResult(ProxyResource):
     """An ImportExport operation result resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -7402,7 +7401,7 @@ class ImportExportOperationResult(ProxyResource):  # pylint: disable=too-many-in
         self.private_endpoint_connections = None
 
 
-class ImportNewDatabaseDefinition(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class ImportNewDatabaseDefinition(_serialization.Model):
     """Contains the information necessary to perform import operation for new database.
 
     All required parameters must be populated in order to send to server.
@@ -7697,7 +7696,7 @@ class InstanceFailoverGroupReadWriteEndpoint(_serialization.Model):
         self.failover_with_data_loss_grace_period_minutes = failover_with_data_loss_grace_period_minutes
 
 
-class InstancePool(TrackedResource):  # pylint: disable=too-many-instance-attributes
+class InstancePool(TrackedResource):
     """An Azure SQL instance pool.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -8350,7 +8349,7 @@ class JobCredentialListResult(_serialization.Model):
         self.next_link = None
 
 
-class JobExecution(ProxyResource):  # pylint: disable=too-many-instance-attributes
+class JobExecution(ProxyResource):
     """An execution of a job.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -9468,7 +9467,7 @@ class LogSizeCapability(_serialization.Model):
         self.unit = None
 
 
-class LongTermRetentionBackup(ProxyResource):  # pylint: disable=too-many-instance-attributes
+class LongTermRetentionBackup(ProxyResource):
     """A long term retention backup.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -10049,7 +10048,7 @@ class ManagedBackupShortTermRetentionPolicyListResult(_serialization.Model):  # 
         self.next_link = None
 
 
-class ManagedDatabase(TrackedResource):  # pylint: disable=too-many-instance-attributes
+class ManagedDatabase(TrackedResource):
     """A managed database resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -10473,7 +10472,7 @@ class ManagedDatabaseMoveOperationListResult(_serialization.Model):
         self.next_link = None
 
 
-class ManagedDatabaseMoveOperationResult(ProxyResource):  # pylint: disable=too-many-instance-attributes
+class ManagedDatabaseMoveOperationResult(ProxyResource):
     """A managed database move operation.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -10632,7 +10631,7 @@ class ManagedDatabaseRestoreDetailsBackupSetProperties(_serialization.Model):  #
         self.restore_finished_timestamp_utc = None
 
 
-class ManagedDatabaseRestoreDetailsResult(ProxyResource):  # pylint: disable=too-many-instance-attributes
+class ManagedDatabaseRestoreDetailsResult(ProxyResource):
     """A managed database restore details.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -10811,7 +10810,7 @@ class ManagedDatabaseRestoreDetailsUnrestorableFileProperties(_serialization.Mod
         self.name = None
 
 
-class ManagedDatabaseSecurityAlertPolicy(ProxyResource):  # pylint: disable=too-many-instance-attributes
+class ManagedDatabaseSecurityAlertPolicy(ProxyResource):
     """A managed database security alert policy.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -10981,7 +10980,7 @@ class ManagedDatabaseStartMoveDefinition(_serialization.Model):
         self.operation_mode = operation_mode
 
 
-class ManagedDatabaseUpdate(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class ManagedDatabaseUpdate(_serialization.Model):
     """An managed database update.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -11222,7 +11221,7 @@ class ManagedDatabaseUpdate(_serialization.Model):  # pylint: disable=too-many-i
         self.is_ledger_on = is_ledger_on
 
 
-class ManagedInstance(TrackedResource):  # pylint: disable=too-many-instance-attributes
+class ManagedInstance(TrackedResource):
     """An Azure SQL managed instance.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -12693,7 +12692,7 @@ class ManagedInstanceMaintenanceConfigurationCapability(_serialization.Model):  
         self.reason = reason
 
 
-class ManagedInstanceOperation(ProxyResource):  # pylint: disable=too-many-instance-attributes
+class ManagedInstanceOperation(ProxyResource):
     """A managed instance operation.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -13310,7 +13309,7 @@ class ManagedInstanceQueryStatistics(_serialization.Model):
         self.next_link = None
 
 
-class ManagedInstanceUpdate(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class ManagedInstanceUpdate(_serialization.Model):
     """An update request for an Azure SQL Database managed instance.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -14126,7 +14125,7 @@ class ManagedServerDnsAliasListResult(_serialization.Model):
         self.next_link = None
 
 
-class ManagedServerSecurityAlertPolicy(ProxyResource):  # pylint: disable=too-many-instance-attributes
+class ManagedServerSecurityAlertPolicy(ProxyResource):
     """A managed server security alert policy.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -15817,7 +15816,7 @@ class ReadScaleCapability(_serialization.Model):
         self.reason = reason
 
 
-class RecommendedAction(ProxyResource):  # pylint: disable=too-many-instance-attributes
+class RecommendedAction(ProxyResource):
     """Database, Server or Elastic Pool Recommended Action.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -16610,7 +16609,7 @@ class Remediation(_serialization.Model):
         self.portal_link = None
 
 
-class ReplicationLink(ProxyResource):  # pylint: disable=too-many-instance-attributes
+class ReplicationLink(ProxyResource):
     """A replication link.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -16851,7 +16850,7 @@ class ResourceMoveDefinition(_serialization.Model):
         self.id = id
 
 
-class RestorableDroppedDatabase(ProxyResource):  # pylint: disable=too-many-instance-attributes
+class RestorableDroppedDatabase(ProxyResource):
     """A restorable dropped database resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -17208,7 +17207,7 @@ class ScheduleItem(_serialization.Model):
         self.stop_time = stop_time
 
 
-class SecurityEvent(ProxyResource):  # pylint: disable=too-many-instance-attributes
+class SecurityEvent(ProxyResource):
     """A security event.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -17402,7 +17401,7 @@ class SecurityEventSqlInjectionAdditionalProperties(_serialization.Model):  # py
         self.error_message = None
 
 
-class SensitivityLabel(ProxyResource):  # pylint: disable=too-many-instance-attributes
+class SensitivityLabel(ProxyResource):
     """A sensitivity label.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -17617,7 +17616,7 @@ class SensitivityLabelUpdateList(_serialization.Model):
         self.operations = operations
 
 
-class Server(TrackedResource):  # pylint: disable=too-many-instance-attributes
+class Server(TrackedResource):
     """An Azure SQL Database server.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -18028,7 +18027,7 @@ class ServerAzureADOnlyAuthentication(ProxyResource):
         self.azure_ad_only_authentication = azure_ad_only_authentication
 
 
-class ServerBlobAuditingPolicy(ProxyResource):  # pylint: disable=too-many-instance-attributes
+class ServerBlobAuditingPolicy(ProxyResource):
     """A server blob auditing policy.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -18977,7 +18976,7 @@ class ServerInfo(_serialization.Model):
         self.server_id = server_id
 
 
-class ServerKey(ProxyResource):  # pylint: disable=too-many-instance-attributes
+class ServerKey(ProxyResource):
     """A server key.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -19117,7 +19116,7 @@ class ServerListResult(_serialization.Model):
         self.next_link = None
 
 
-class ServerOperation(ProxyResource):  # pylint: disable=too-many-instance-attributes
+class ServerOperation(ProxyResource):
     """A server operation.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -19269,7 +19268,7 @@ class ServerPrivateEndpointConnection(_serialization.Model):
         self.properties = None
 
 
-class ServerSecurityAlertPolicy(ProxyResource):  # pylint: disable=too-many-instance-attributes
+class ServerSecurityAlertPolicy(ProxyResource):
     """A server security alert policy.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -19532,7 +19531,7 @@ class ServerTrustGroupListResult(_serialization.Model):
         self.next_link = None
 
 
-class ServerUpdate(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class ServerUpdate(_serialization.Model):
     """An update request for an Azure SQL Database server.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -19997,7 +19996,7 @@ class ServiceObjective(ProxyResource):
         self.enabled = None
 
 
-class ServiceObjectiveCapability(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class ServiceObjectiveCapability(_serialization.Model):
     """The service objectives capability.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -20430,7 +20429,7 @@ class SQLVulnerabilityAssessmentScanListResult(_serialization.Model):
         self.next_link = None
 
 
-class SqlVulnerabilityAssessmentScanRecord(ProxyResource):  # pylint: disable=too-many-instance-attributes
+class SqlVulnerabilityAssessmentScanRecord(ProxyResource):
     """A vulnerability assessment scan record.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -20579,7 +20578,7 @@ class SqlVulnerabilityAssessmentScanRecordListResult(_serialization.Model):  # p
         self.next_link = None
 
 
-class SqlVulnerabilityAssessmentScanResults(ProxyResource):  # pylint: disable=too-many-instance-attributes
+class SqlVulnerabilityAssessmentScanResults(ProxyResource):
     """SqlVulnerabilityAssessmentScanResults.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -21378,7 +21377,7 @@ class SyncFullSchemaTableColumn(_serialization.Model):
         self.quoted_name = None
 
 
-class SyncGroup(ProxyResource):  # pylint: disable=too-many-instance-attributes
+class SyncGroup(ProxyResource):
     """An Azure SQL Database sync group.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -21711,7 +21710,7 @@ class SyncGroupSchemaTableColumn(_serialization.Model):
         self.data_type = data_type
 
 
-class SyncMember(ProxyResource):  # pylint: disable=too-many-instance-attributes
+class SyncMember(ProxyResource):
     """An Azure SQL Database sync member.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -22739,7 +22738,7 @@ class VulnerabilityAssessmentScanError(_serialization.Model):
         self.message = None
 
 
-class VulnerabilityAssessmentScanRecord(ProxyResource):  # pylint: disable=too-many-instance-attributes
+class VulnerabilityAssessmentScanRecord(ProxyResource):
     """A vulnerability assessment scan record.
 
     Variables are only populated by the server, and will be ignored when sending a request.
