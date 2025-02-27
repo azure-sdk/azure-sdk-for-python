@@ -58,19 +58,21 @@ class ManagedClusterVersionOperations:
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
     @distributed_trace_async
-    async def get(self, location: str, cluster_version: str, **kwargs: Any) -> _models.ManagedClusterCodeVersionResult:
-        """Gets information about a Service Fabric managed cluster code version available in the specified
-        location.
+    async def list_by_environment(
+        self, location: str, environment: Union[str, _models.Environment], **kwargs: Any
+    ) -> List[_models.ManagedClusterCodeVersionResult]:
+        """Gets the list of Service Fabric cluster code versions available for the specified environment.
 
-        Gets information about an available Service Fabric managed cluster code version.
+        Gets all available code versions for Service Fabric cluster resources by environment.
 
         :param location: The location for the cluster code versions. This is different from cluster
          location. Required.
         :type location: str
-        :param cluster_version: The cluster code version. Required.
-        :type cluster_version: str
-        :return: ManagedClusterCodeVersionResult or the result of cls(response)
-        :rtype: ~azure.mgmt.servicefabricmanagedclusters.models.ManagedClusterCodeVersionResult
+        :param environment: The operating system of the cluster. Known values are: "Windows" and
+         "Linux". Required.
+        :type environment: str or ~azure.mgmt.servicefabricmanagedclusters.models.Environment
+        :return: list of ManagedClusterCodeVersionResult or the result of cls(response)
+        :rtype: list[~azure.mgmt.servicefabricmanagedclusters.models.ManagedClusterCodeVersionResult]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -85,11 +87,11 @@ class ManagedClusterVersionOperations:
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.ManagedClusterCodeVersionResult] = kwargs.pop("cls", None)
+        cls: ClsType[List[_models.ManagedClusterCodeVersionResult]] = kwargs.pop("cls", None)
 
-        _request = build_get_request(
+        _request = build_list_by_environment_request(
             location=location,
-            cluster_version=cluster_version,
+            environment=environment,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
             headers=_headers,
@@ -106,10 +108,10 @@ class ManagedClusterVersionOperations:
 
         if response.status_code not in [200]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = self._deserialize.failsafe_deserialize(_models.ErrorModel, pipeline_response)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("ManagedClusterCodeVersionResult", pipeline_response.http_response)
+        deserialized = self._deserialize("[ManagedClusterCodeVersionResult]", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -118,11 +120,7 @@ class ManagedClusterVersionOperations:
 
     @distributed_trace_async
     async def get_by_environment(
-        self,
-        location: str,
-        environment: Union[str, _models.ManagedClusterVersionEnvironment],
-        cluster_version: str,
-        **kwargs: Any
+        self, location: str, environment: Union[str, _models.Environment], cluster_version: str, **kwargs: Any
     ) -> _models.ManagedClusterCodeVersionResult:
         """Gets information about a Service Fabric cluster code version available for the specified
         environment.
@@ -132,10 +130,9 @@ class ManagedClusterVersionOperations:
         :param location: The location for the cluster code versions. This is different from cluster
          location. Required.
         :type location: str
-        :param environment: The operating system of the cluster. The default means all. "Windows"
-         Required.
-        :type environment: str or
-         ~azure.mgmt.servicefabricmanagedclusters.models.ManagedClusterVersionEnvironment
+        :param environment: The operating system of the cluster. Known values are: "Windows" and
+         "Linux". Required.
+        :type environment: str or ~azure.mgmt.servicefabricmanagedclusters.models.Environment
         :param cluster_version: The cluster code version. Required.
         :type cluster_version: str
         :return: ManagedClusterCodeVersionResult or the result of cls(response)
@@ -176,7 +173,7 @@ class ManagedClusterVersionOperations:
 
         if response.status_code not in [200]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = self._deserialize.failsafe_deserialize(_models.ErrorModel, pipeline_response)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         deserialized = self._deserialize("ManagedClusterCodeVersionResult", pipeline_response.http_response)
@@ -231,7 +228,7 @@ class ManagedClusterVersionOperations:
 
         if response.status_code not in [200]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = self._deserialize.failsafe_deserialize(_models.ErrorModel, pipeline_response)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         deserialized = self._deserialize("[ManagedClusterCodeVersionResult]", pipeline_response.http_response)
@@ -242,22 +239,19 @@ class ManagedClusterVersionOperations:
         return deserialized  # type: ignore
 
     @distributed_trace_async
-    async def list_by_environment(
-        self, location: str, environment: Union[str, _models.ManagedClusterVersionEnvironment], **kwargs: Any
-    ) -> List[_models.ManagedClusterCodeVersionResult]:
-        """Gets the list of Service Fabric cluster code versions available for the specified environment.
+    async def get(self, location: str, cluster_version: str, **kwargs: Any) -> _models.ManagedClusterCodeVersionResult:
+        """Gets information about a Service Fabric managed cluster code version available in the specified
+        location.
 
-        Gets all available code versions for Service Fabric cluster resources by environment.
+        Gets information about an available Service Fabric managed cluster code version.
 
         :param location: The location for the cluster code versions. This is different from cluster
          location. Required.
         :type location: str
-        :param environment: The operating system of the cluster. The default means all. "Windows"
-         Required.
-        :type environment: str or
-         ~azure.mgmt.servicefabricmanagedclusters.models.ManagedClusterVersionEnvironment
-        :return: list of ManagedClusterCodeVersionResult or the result of cls(response)
-        :rtype: list[~azure.mgmt.servicefabricmanagedclusters.models.ManagedClusterCodeVersionResult]
+        :param cluster_version: The cluster code version. Required.
+        :type cluster_version: str
+        :return: ManagedClusterCodeVersionResult or the result of cls(response)
+        :rtype: ~azure.mgmt.servicefabricmanagedclusters.models.ManagedClusterCodeVersionResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -272,11 +266,11 @@ class ManagedClusterVersionOperations:
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[List[_models.ManagedClusterCodeVersionResult]] = kwargs.pop("cls", None)
+        cls: ClsType[_models.ManagedClusterCodeVersionResult] = kwargs.pop("cls", None)
 
-        _request = build_list_by_environment_request(
+        _request = build_get_request(
             location=location,
-            environment=environment,
+            cluster_version=cluster_version,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
             headers=_headers,
@@ -293,10 +287,10 @@ class ManagedClusterVersionOperations:
 
         if response.status_code not in [200]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = self._deserialize.failsafe_deserialize(_models.ErrorModel, pipeline_response)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("[ManagedClusterCodeVersionResult]", pipeline_response.http_response)
+        deserialized = self._deserialize("ManagedClusterCodeVersionResult", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore

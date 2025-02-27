@@ -58,8 +58,7 @@ class OperationResultsOperations:
 
         Get long running operation result.
 
-        :param location: The location for the cluster code versions. This is different from cluster
-         location. Required.
+        :param location: The name of Azure region. Required.
         :type location: str
         :param operation_id: operation identifier. Required.
         :type operation_id: str
@@ -100,7 +99,7 @@ class OperationResultsOperations:
 
         if response.status_code not in [200, 202, 204]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = self._deserialize.failsafe_deserialize(_models.ErrorModel, pipeline_response)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         response_headers = {}
