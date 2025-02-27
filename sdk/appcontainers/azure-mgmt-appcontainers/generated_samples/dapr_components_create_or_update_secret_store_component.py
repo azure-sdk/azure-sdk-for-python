@@ -61,6 +61,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/DaprComponents_CreateOrUpdate_SecretStoreComponent.json
+# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-10-02-preview/examples/DaprComponents_CreateOrUpdate_SecretStoreComponent.json
 if __name__ == "__main__":
     main()

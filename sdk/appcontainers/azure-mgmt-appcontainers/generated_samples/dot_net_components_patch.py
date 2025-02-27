@@ -44,6 +44,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/DotNetComponents_Patch.json
+# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-10-02-preview/examples/DotNetComponents_Patch.json
 if __name__ == "__main__":
     main()

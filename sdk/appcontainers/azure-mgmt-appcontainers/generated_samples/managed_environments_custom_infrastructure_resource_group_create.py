@@ -37,6 +37,7 @@ def main():
             "location": "East US",
             "properties": {
                 "appLogsConfiguration": {"logAnalyticsConfiguration": {"customerId": "string", "sharedKey": "string"}},
+                "availabilityZones": ["1", "2", "3"],
                 "customDomainConfiguration": {
                     "certificatePassword": "1234",
                     "certificateValue": "Y2VydA==",
@@ -76,6 +77,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/ManagedEnvironments_CustomInfrastructureResourceGroup_Create.json
+# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-10-02-preview/examples/ManagedEnvironments_CustomInfrastructureResourceGroup_Create.json
 if __name__ == "__main__":
     main()

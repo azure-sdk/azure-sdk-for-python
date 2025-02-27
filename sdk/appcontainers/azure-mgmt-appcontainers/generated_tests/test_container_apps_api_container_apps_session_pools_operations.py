@@ -20,9 +20,9 @@ class TestContainerAppsAPIContainerAppsSessionPoolsOperations(AzureMgmtRecordedT
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_subscription(self, resource_group):
+    def test_container_apps_session_pools_list_by_subscription(self, resource_group):
         response = self.client.container_apps_session_pools.list_by_subscription(
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -30,10 +30,10 @@ class TestContainerAppsAPIContainerAppsSessionPoolsOperations(AzureMgmtRecordedT
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_resource_group(self, resource_group):
+    def test_container_apps_session_pools_list_by_resource_group(self, resource_group):
         response = self.client.container_apps_session_pools.list_by_resource_group(
             resource_group_name=resource_group.name,
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -41,11 +41,11 @@ class TestContainerAppsAPIContainerAppsSessionPoolsOperations(AzureMgmtRecordedT
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_container_apps_session_pools_get(self, resource_group):
         response = self.client.container_apps_session_pools.get(
             resource_group_name=resource_group.name,
             session_pool_name="str",
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         )
 
         # please add some check logic here by yourself
@@ -53,7 +53,7 @@ class TestContainerAppsAPIContainerAppsSessionPoolsOperations(AzureMgmtRecordedT
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_create_or_update(self, resource_group):
+    def test_container_apps_session_pools_begin_create_or_update(self, resource_group):
         response = self.client.container_apps_session_pools.begin_create_or_update(
             resource_group_name=resource_group.name,
             session_pool_name="str",
@@ -82,6 +82,13 @@ class TestContainerAppsAPIContainerAppsSessionPoolsOperations(AzureMgmtRecordedT
                 "dynamicPoolConfiguration": {"cooldownPeriodInSeconds": 0, "executionType": "str"},
                 "environmentId": "str",
                 "id": "str",
+                "identity": {
+                    "type": "str",
+                    "principalId": "str",
+                    "tenantId": "str",
+                    "userAssignedIdentities": {"str": {"clientId": "str", "principalId": "str"}},
+                },
+                "managedIdentitySettings": [{"identity": "str", "lifecycle": "str"}],
                 "name": "str",
                 "nodeCount": 0,
                 "poolManagementEndpoint": "str",
@@ -101,7 +108,7 @@ class TestContainerAppsAPIContainerAppsSessionPoolsOperations(AzureMgmtRecordedT
                 "tags": {"str": "str"},
                 "type": "str",
             },
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -109,7 +116,7 @@ class TestContainerAppsAPIContainerAppsSessionPoolsOperations(AzureMgmtRecordedT
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_update(self, resource_group):
+    def test_container_apps_session_pools_begin_update(self, resource_group):
         response = self.client.container_apps_session_pools.begin_update(
             resource_group_name=resource_group.name,
             session_pool_name="str",
@@ -134,11 +141,17 @@ class TestContainerAppsAPIContainerAppsSessionPoolsOperations(AzureMgmtRecordedT
                     },
                 },
                 "dynamicPoolConfiguration": {"cooldownPeriodInSeconds": 0, "executionType": "str"},
+                "identity": {
+                    "type": "str",
+                    "principalId": "str",
+                    "tenantId": "str",
+                    "userAssignedIdentities": {"str": {"clientId": "str", "principalId": "str"}},
+                },
                 "scaleConfiguration": {"maxConcurrentSessions": 0, "readySessionInstances": 0},
                 "secrets": [{"name": "str", "value": "str"}],
                 "sessionNetworkConfiguration": {"status": "str"},
             },
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -146,11 +159,11 @@ class TestContainerAppsAPIContainerAppsSessionPoolsOperations(AzureMgmtRecordedT
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_delete(self, resource_group):
+    def test_container_apps_session_pools_begin_delete(self, resource_group):
         response = self.client.container_apps_session_pools.begin_delete(
             resource_group_name=resource_group.name,
             session_pool_name="str",
-            api_version="2024-08-02-preview",
+            api_version="2024-10-02-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
