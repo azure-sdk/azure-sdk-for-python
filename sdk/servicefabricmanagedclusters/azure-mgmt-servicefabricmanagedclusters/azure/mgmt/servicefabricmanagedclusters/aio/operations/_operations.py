@@ -55,14 +55,12 @@ class Operations:
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
     @distributed_trace
-    def list(self, **kwargs: Any) -> AsyncIterable["_models.OperationResult"]:
-        """Lists all of the available Service Fabric resource provider API operations.
+    def list(self, **kwargs: Any) -> AsyncIterable["_models.Operation"]:
+        """List the operations for the provider.
 
-        Get the list of available Service Fabric resource provider API operations.
-
-        :return: An iterator like instance of either OperationResult or the result of cls(response)
+        :return: An iterator like instance of either Operation or the result of cls(response)
         :rtype:
-         ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.servicefabricmanagedclusters.models.OperationResult]
+         ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.servicefabricmanagedclusters.models.Operation]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
@@ -124,7 +122,7 @@ class Operations:
 
             if response.status_code not in [200]:
                 map_error(status_code=response.status_code, response=response, error_map=error_map)
-                error = self._deserialize.failsafe_deserialize(_models.ErrorModel, pipeline_response)
+                error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
                 raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
             return pipeline_response

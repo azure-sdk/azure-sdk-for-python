@@ -20,13 +20,26 @@ class TestServiceFabricManagedClustersManagementServicesOperations(AzureMgmtReco
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
+    def test_services_list_by_applications(self, resource_group):
+        response = self.client.services.list_by_applications(
+            resource_group_name=resource_group.name,
+            cluster_name="str",
+            application_name="str",
+            api_version="2024-11-01-preview",
+        )
+        result = [r for r in response]
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy
     def test_services_get(self, resource_group):
         response = self.client.services.get(
             resource_group_name=resource_group.name,
             cluster_name="str",
             application_name="str",
             service_name="str",
-            api_version="2024-09-01-preview",
+            api_version="2024-11-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -41,10 +54,28 @@ class TestServiceFabricManagedClustersManagementServicesOperations(AzureMgmtReco
             application_name="str",
             service_name="str",
             parameters={
+                "correlationScheme": [{"scheme": "str", "serviceName": "str"}],
+                "defaultMoveCost": "str",
                 "id": "str",
                 "location": "str",
                 "name": "str",
-                "properties": "service_resource_properties",
+                "partitionDescription": "partition",
+                "placementConstraints": "str",
+                "provisioningState": "str",
+                "scalingPolicies": [{"scalingMechanism": "scaling_mechanism", "scalingTrigger": "scaling_trigger"}],
+                "serviceDnsName": "str",
+                "serviceLoadMetrics": [
+                    {
+                        "name": "str",
+                        "defaultLoad": 0,
+                        "primaryDefaultLoad": 0,
+                        "secondaryDefaultLoad": 0,
+                        "weight": "str",
+                    }
+                ],
+                "servicePackageActivationMode": "str",
+                "servicePlacementPolicies": ["service_placement_policy"],
+                "serviceTypeName": "str",
                 "systemData": {
                     "createdAt": "2020-02-20 00:00:00",
                     "createdBy": "str",
@@ -56,7 +87,7 @@ class TestServiceFabricManagedClustersManagementServicesOperations(AzureMgmtReco
                 "tags": {"str": "str"},
                 "type": "str",
             },
-            api_version="2024-09-01-preview",
+            api_version="2024-11-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -71,7 +102,7 @@ class TestServiceFabricManagedClustersManagementServicesOperations(AzureMgmtReco
             application_name="str",
             service_name="str",
             parameters={"tags": {"str": "str"}},
-            api_version="2024-09-01-preview",
+            api_version="2024-11-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -85,21 +116,8 @@ class TestServiceFabricManagedClustersManagementServicesOperations(AzureMgmtReco
             cluster_name="str",
             application_name="str",
             service_name="str",
-            api_version="2024-09-01-preview",
+            api_version="2024-11-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
-    def test_services_list_by_applications(self, resource_group):
-        response = self.client.services.list_by_applications(
-            resource_group_name=resource_group.name,
-            cluster_name="str",
-            application_name="str",
-            api_version="2024-09-01-preview",
-        )
-        result = [r for r in response]
         # please add some check logic here by yourself
         # ...

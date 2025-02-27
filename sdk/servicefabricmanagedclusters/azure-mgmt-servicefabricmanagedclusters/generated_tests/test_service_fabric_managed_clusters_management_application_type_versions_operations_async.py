@@ -21,13 +21,26 @@ class TestServiceFabricManagedClustersManagementApplicationTypeVersionsOperation
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
+    async def test_application_type_versions_list_by_application_types(self, resource_group):
+        response = self.client.application_type_versions.list_by_application_types(
+            resource_group_name=resource_group.name,
+            cluster_name="str",
+            application_type_name="str",
+            api_version="2024-11-01-preview",
+        )
+        result = [r async for r in response]
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy_async
     async def test_application_type_versions_get(self, resource_group):
         response = await self.client.application_type_versions.get(
             resource_group_name=resource_group.name,
             cluster_name="str",
             application_type_name="str",
             version="str",
-            api_version="2024-09-01-preview",
+            api_version="2024-11-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -59,7 +72,7 @@ class TestServiceFabricManagedClustersManagementApplicationTypeVersionsOperation
                     "tags": {"str": "str"},
                     "type": "str",
                 },
-                api_version="2024-09-01-preview",
+                api_version="2024-11-01-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -75,7 +88,7 @@ class TestServiceFabricManagedClustersManagementApplicationTypeVersionsOperation
             application_type_name="str",
             version="str",
             parameters={"tags": {"str": "str"}},
-            api_version="2024-09-01-preview",
+            api_version="2024-11-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -90,22 +103,9 @@ class TestServiceFabricManagedClustersManagementApplicationTypeVersionsOperation
                 cluster_name="str",
                 application_type_name="str",
                 version="str",
-                api_version="2024-09-01-preview",
+                api_version="2024-11-01-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy_async
-    async def test_application_type_versions_list_by_application_types(self, resource_group):
-        response = self.client.application_type_versions.list_by_application_types(
-            resource_group_name=resource_group.name,
-            cluster_name="str",
-            application_type_name="str",
-            api_version="2024-09-01-preview",
-        )
-        result = [r async for r in response]
         # please add some check logic here by yourself
         # ...
