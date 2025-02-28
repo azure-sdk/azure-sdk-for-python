@@ -20,7 +20,7 @@ class TestSqlManagementDatabaseAdvisorsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_database(self, resource_group):
+    def test_database_advisors_list_by_database(self, resource_group):
         response = self.client.database_advisors.list_by_database(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -33,7 +33,7 @@ class TestSqlManagementDatabaseAdvisorsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_database_advisors_get(self, resource_group):
         response = self.client.database_advisors.get(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -47,7 +47,7 @@ class TestSqlManagementDatabaseAdvisorsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_update(self, resource_group):
+    def test_database_advisors_update(self, resource_group):
         response = self.client.database_advisors.update(
             resource_group_name=resource_group.name,
             server_name="str",

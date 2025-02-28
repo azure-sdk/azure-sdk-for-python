@@ -21,7 +21,7 @@ class TestSqlManagementDatabaseRecommendedActionsOperationsAsync(AzureMgmtRecord
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_by_database_advisor(self, resource_group):
+    async def test_database_recommended_actions_list_by_database_advisor(self, resource_group):
         response = await self.client.database_recommended_actions.list_by_database_advisor(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -35,7 +35,7 @@ class TestSqlManagementDatabaseRecommendedActionsOperationsAsync(AzureMgmtRecord
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get(self, resource_group):
+    async def test_database_recommended_actions_get(self, resource_group):
         response = await self.client.database_recommended_actions.get(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -50,7 +50,7 @@ class TestSqlManagementDatabaseRecommendedActionsOperationsAsync(AzureMgmtRecord
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_update(self, resource_group):
+    async def test_database_recommended_actions_update(self, resource_group):
         response = await self.client.database_recommended_actions.update(
             resource_group_name=resource_group.name,
             server_name="str",
