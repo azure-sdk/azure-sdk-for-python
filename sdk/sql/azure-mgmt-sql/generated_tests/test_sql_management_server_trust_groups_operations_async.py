@@ -21,7 +21,7 @@ class TestSqlManagementServerTrustGroupsOperationsAsync(AzureMgmtRecordedTestCas
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get(self, resource_group):
+    async def test_server_trust_groups_get(self, resource_group):
         response = await self.client.server_trust_groups.get(
             resource_group_name=resource_group.name,
             location_name="str",
@@ -34,7 +34,7 @@ class TestSqlManagementServerTrustGroupsOperationsAsync(AzureMgmtRecordedTestCas
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_create_or_update(self, resource_group):
+    async def test_server_trust_groups_begin_create_or_update(self, resource_group):
         response = await (
             await self.client.server_trust_groups.begin_create_or_update(
                 resource_group_name=resource_group.name,
@@ -56,7 +56,7 @@ class TestSqlManagementServerTrustGroupsOperationsAsync(AzureMgmtRecordedTestCas
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_delete(self, resource_group):
+    async def test_server_trust_groups_begin_delete(self, resource_group):
         response = await (
             await self.client.server_trust_groups.begin_delete(
                 resource_group_name=resource_group.name,
@@ -71,7 +71,7 @@ class TestSqlManagementServerTrustGroupsOperationsAsync(AzureMgmtRecordedTestCas
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_by_location(self, resource_group):
+    async def test_server_trust_groups_list_by_location(self, resource_group):
         response = self.client.server_trust_groups.list_by_location(
             resource_group_name=resource_group.name,
             location_name="str",
@@ -83,7 +83,7 @@ class TestSqlManagementServerTrustGroupsOperationsAsync(AzureMgmtRecordedTestCas
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_by_instance(self, resource_group):
+    async def test_server_trust_groups_list_by_instance(self, resource_group):
         response = self.client.server_trust_groups.list_by_instance(
             resource_group_name=resource_group.name,
             managed_instance_name="str",
