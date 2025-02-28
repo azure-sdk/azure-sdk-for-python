@@ -52,23 +52,8 @@ if TYPE_CHECKING:
 class StorageManagementClient:  # pylint: disable=too-many-instance-attributes
     """The Azure Storage Management API.
 
-    :ivar blob_services: BlobServicesOperations operations
-    :vartype blob_services: azure.mgmt.storage.v2024_01_01.aio.operations.BlobServicesOperations
-    :ivar blob_containers: BlobContainersOperations operations
-    :vartype blob_containers:
-     azure.mgmt.storage.v2024_01_01.aio.operations.BlobContainersOperations
-    :ivar file_services: FileServicesOperations operations
-    :vartype file_services: azure.mgmt.storage.v2024_01_01.aio.operations.FileServicesOperations
-    :ivar file_shares: FileSharesOperations operations
-    :vartype file_shares: azure.mgmt.storage.v2024_01_01.aio.operations.FileSharesOperations
-    :ivar queue_services: QueueServicesOperations operations
-    :vartype queue_services: azure.mgmt.storage.v2024_01_01.aio.operations.QueueServicesOperations
-    :ivar queue: QueueOperations operations
-    :vartype queue: azure.mgmt.storage.v2024_01_01.aio.operations.QueueOperations
     :ivar operations: Operations operations
     :vartype operations: azure.mgmt.storage.v2024_01_01.aio.operations.Operations
-    :ivar skus: SkusOperations operations
-    :vartype skus: azure.mgmt.storage.v2024_01_01.aio.operations.SkusOperations
     :ivar storage_accounts: StorageAccountsOperations operations
     :vartype storage_accounts:
      azure.mgmt.storage.v2024_01_01.aio.operations.StorageAccountsOperations
@@ -77,45 +62,60 @@ class StorageManagementClient:  # pylint: disable=too-many-instance-attributes
      azure.mgmt.storage.v2024_01_01.aio.operations.DeletedAccountsOperations
     :ivar usages: UsagesOperations operations
     :vartype usages: azure.mgmt.storage.v2024_01_01.aio.operations.UsagesOperations
-    :ivar management_policies: ManagementPoliciesOperations operations
-    :vartype management_policies:
-     azure.mgmt.storage.v2024_01_01.aio.operations.ManagementPoliciesOperations
+    :ivar skus: SkusOperations operations
+    :vartype skus: azure.mgmt.storage.v2024_01_01.aio.operations.SkusOperations
+    :ivar blob_services: BlobServicesOperations operations
+    :vartype blob_services: azure.mgmt.storage.v2024_01_01.aio.operations.BlobServicesOperations
+    :ivar blob_containers: BlobContainersOperations operations
+    :vartype blob_containers:
+     azure.mgmt.storage.v2024_01_01.aio.operations.BlobContainersOperations
+    :ivar encryption_scopes: EncryptionScopesOperations operations
+    :vartype encryption_scopes:
+     azure.mgmt.storage.v2024_01_01.aio.operations.EncryptionScopesOperations
+    :ivar file_services: FileServicesOperations operations
+    :vartype file_services: azure.mgmt.storage.v2024_01_01.aio.operations.FileServicesOperations
+    :ivar file_shares: FileSharesOperations operations
+    :vartype file_shares: azure.mgmt.storage.v2024_01_01.aio.operations.FileSharesOperations
     :ivar blob_inventory_policies: BlobInventoryPoliciesOperations operations
     :vartype blob_inventory_policies:
      azure.mgmt.storage.v2024_01_01.aio.operations.BlobInventoryPoliciesOperations
+    :ivar local_users: LocalUsersOperations operations
+    :vartype local_users: azure.mgmt.storage.v2024_01_01.aio.operations.LocalUsersOperations
+    :ivar management_policies: ManagementPoliciesOperations operations
+    :vartype management_policies:
+     azure.mgmt.storage.v2024_01_01.aio.operations.ManagementPoliciesOperations
+    :ivar network_security_perimeter_configurations:
+     NetworkSecurityPerimeterConfigurationsOperations operations
+    :vartype network_security_perimeter_configurations:
+     azure.mgmt.storage.v2024_01_01.aio.operations.NetworkSecurityPerimeterConfigurationsOperations
+    :ivar object_replication_policies: ObjectReplicationPoliciesOperations operations
+    :vartype object_replication_policies:
+     azure.mgmt.storage.v2024_01_01.aio.operations.ObjectReplicationPoliciesOperations
     :ivar private_endpoint_connections: PrivateEndpointConnectionsOperations operations
     :vartype private_endpoint_connections:
      azure.mgmt.storage.v2024_01_01.aio.operations.PrivateEndpointConnectionsOperations
     :ivar private_link_resources: PrivateLinkResourcesOperations operations
     :vartype private_link_resources:
      azure.mgmt.storage.v2024_01_01.aio.operations.PrivateLinkResourcesOperations
-    :ivar object_replication_policies: ObjectReplicationPoliciesOperations operations
-    :vartype object_replication_policies:
-     azure.mgmt.storage.v2024_01_01.aio.operations.ObjectReplicationPoliciesOperations
-    :ivar local_users: LocalUsersOperations operations
-    :vartype local_users: azure.mgmt.storage.v2024_01_01.aio.operations.LocalUsersOperations
-    :ivar encryption_scopes: EncryptionScopesOperations operations
-    :vartype encryption_scopes:
-     azure.mgmt.storage.v2024_01_01.aio.operations.EncryptionScopesOperations
-    :ivar table_services: TableServicesOperations operations
-    :vartype table_services: azure.mgmt.storage.v2024_01_01.aio.operations.TableServicesOperations
-    :ivar table: TableOperations operations
-    :vartype table: azure.mgmt.storage.v2024_01_01.aio.operations.TableOperations
-    :ivar network_security_perimeter_configurations:
-     NetworkSecurityPerimeterConfigurationsOperations operations
-    :vartype network_security_perimeter_configurations:
-     azure.mgmt.storage.v2024_01_01.aio.operations.NetworkSecurityPerimeterConfigurationsOperations
-    :ivar storage_task_assignments: StorageTaskAssignmentsOperations operations
-    :vartype storage_task_assignments:
-     azure.mgmt.storage.v2024_01_01.aio.operations.StorageTaskAssignmentsOperations
+    :ivar queue_services: QueueServicesOperations operations
+    :vartype queue_services: azure.mgmt.storage.v2024_01_01.aio.operations.QueueServicesOperations
+    :ivar queue: QueueOperations operations
+    :vartype queue: azure.mgmt.storage.v2024_01_01.aio.operations.QueueOperations
     :ivar storage_task_assignments_instances_report:
      StorageTaskAssignmentsInstancesReportOperations operations
     :vartype storage_task_assignments_instances_report:
      azure.mgmt.storage.v2024_01_01.aio.operations.StorageTaskAssignmentsInstancesReportOperations
+    :ivar storage_task_assignments: StorageTaskAssignmentsOperations operations
+    :vartype storage_task_assignments:
+     azure.mgmt.storage.v2024_01_01.aio.operations.StorageTaskAssignmentsOperations
     :ivar storage_task_assignment_instances_report: StorageTaskAssignmentInstancesReportOperations
      operations
     :vartype storage_task_assignment_instances_report:
      azure.mgmt.storage.v2024_01_01.aio.operations.StorageTaskAssignmentInstancesReportOperations
+    :ivar table_services: TableServicesOperations operations
+    :vartype table_services: azure.mgmt.storage.v2024_01_01.aio.operations.TableServicesOperations
+    :ivar table: TableOperations operations
+    :vartype table: azure.mgmt.storage.v2024_01_01.aio.operations.TableOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials_async.AsyncTokenCredential
     :param subscription_id: The ID of the target subscription. Required.
@@ -163,10 +163,22 @@ class StorageManagementClient:  # pylint: disable=too-many-instance-attributes
         self._serialize = Serializer(client_models)
         self._deserialize = Deserializer(client_models)
         self._serialize.client_side_validation = False
+        self.operations = Operations(self._client, self._config, self._serialize, self._deserialize, "2024-01-01")
+        self.storage_accounts = StorageAccountsOperations(
+            self._client, self._config, self._serialize, self._deserialize, "2024-01-01"
+        )
+        self.deleted_accounts = DeletedAccountsOperations(
+            self._client, self._config, self._serialize, self._deserialize, "2024-01-01"
+        )
+        self.usages = UsagesOperations(self._client, self._config, self._serialize, self._deserialize, "2024-01-01")
+        self.skus = SkusOperations(self._client, self._config, self._serialize, self._deserialize, "2024-01-01")
         self.blob_services = BlobServicesOperations(
             self._client, self._config, self._serialize, self._deserialize, "2024-01-01"
         )
         self.blob_containers = BlobContainersOperations(
+            self._client, self._config, self._serialize, self._deserialize, "2024-01-01"
+        )
+        self.encryption_scopes = EncryptionScopesOperations(
             self._client, self._config, self._serialize, self._deserialize, "2024-01-01"
         )
         self.file_services = FileServicesOperations(
@@ -175,23 +187,19 @@ class StorageManagementClient:  # pylint: disable=too-many-instance-attributes
         self.file_shares = FileSharesOperations(
             self._client, self._config, self._serialize, self._deserialize, "2024-01-01"
         )
-        self.queue_services = QueueServicesOperations(
+        self.blob_inventory_policies = BlobInventoryPoliciesOperations(
             self._client, self._config, self._serialize, self._deserialize, "2024-01-01"
         )
-        self.queue = QueueOperations(self._client, self._config, self._serialize, self._deserialize, "2024-01-01")
-        self.operations = Operations(self._client, self._config, self._serialize, self._deserialize, "2024-01-01")
-        self.skus = SkusOperations(self._client, self._config, self._serialize, self._deserialize, "2024-01-01")
-        self.storage_accounts = StorageAccountsOperations(
+        self.local_users = LocalUsersOperations(
             self._client, self._config, self._serialize, self._deserialize, "2024-01-01"
         )
-        self.deleted_accounts = DeletedAccountsOperations(
-            self._client, self._config, self._serialize, self._deserialize, "2024-01-01"
-        )
-        self.usages = UsagesOperations(self._client, self._config, self._serialize, self._deserialize, "2024-01-01")
         self.management_policies = ManagementPoliciesOperations(
             self._client, self._config, self._serialize, self._deserialize, "2024-01-01"
         )
-        self.blob_inventory_policies = BlobInventoryPoliciesOperations(
+        self.network_security_perimeter_configurations = NetworkSecurityPerimeterConfigurationsOperations(
+            self._client, self._config, self._serialize, self._deserialize, "2024-01-01"
+        )
+        self.object_replication_policies = ObjectReplicationPoliciesOperations(
             self._client, self._config, self._serialize, self._deserialize, "2024-01-01"
         )
         self.private_endpoint_connections = PrivateEndpointConnectionsOperations(
@@ -200,31 +208,23 @@ class StorageManagementClient:  # pylint: disable=too-many-instance-attributes
         self.private_link_resources = PrivateLinkResourcesOperations(
             self._client, self._config, self._serialize, self._deserialize, "2024-01-01"
         )
-        self.object_replication_policies = ObjectReplicationPoliciesOperations(
+        self.queue_services = QueueServicesOperations(
             self._client, self._config, self._serialize, self._deserialize, "2024-01-01"
         )
-        self.local_users = LocalUsersOperations(
+        self.queue = QueueOperations(self._client, self._config, self._serialize, self._deserialize, "2024-01-01")
+        self.storage_task_assignments_instances_report = StorageTaskAssignmentsInstancesReportOperations(
             self._client, self._config, self._serialize, self._deserialize, "2024-01-01"
         )
-        self.encryption_scopes = EncryptionScopesOperations(
+        self.storage_task_assignments = StorageTaskAssignmentsOperations(
+            self._client, self._config, self._serialize, self._deserialize, "2024-01-01"
+        )
+        self.storage_task_assignment_instances_report = StorageTaskAssignmentInstancesReportOperations(
             self._client, self._config, self._serialize, self._deserialize, "2024-01-01"
         )
         self.table_services = TableServicesOperations(
             self._client, self._config, self._serialize, self._deserialize, "2024-01-01"
         )
         self.table = TableOperations(self._client, self._config, self._serialize, self._deserialize, "2024-01-01")
-        self.network_security_perimeter_configurations = NetworkSecurityPerimeterConfigurationsOperations(
-            self._client, self._config, self._serialize, self._deserialize, "2024-01-01"
-        )
-        self.storage_task_assignments = StorageTaskAssignmentsOperations(
-            self._client, self._config, self._serialize, self._deserialize, "2024-01-01"
-        )
-        self.storage_task_assignments_instances_report = StorageTaskAssignmentsInstancesReportOperations(
-            self._client, self._config, self._serialize, self._deserialize, "2024-01-01"
-        )
-        self.storage_task_assignment_instances_report = StorageTaskAssignmentInstancesReportOperations(
-            self._client, self._config, self._serialize, self._deserialize, "2024-01-01"
-        )
 
     def _send_request(
         self, request: HttpRequest, *, stream: bool = False, **kwargs: Any

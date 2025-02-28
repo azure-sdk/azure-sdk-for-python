@@ -6,8 +6,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 import sys
-from typing import Any, Callable, Dict, Iterable, Optional, TypeVar
-import urllib.parse
+from typing import Any, Callable, Dict, Optional, TypeVar
 
 from azure.core.exceptions import (
     ClientAuthenticationError,
@@ -17,7 +16,6 @@ from azure.core.exceptions import (
     ResourceNotModifiedError,
     map_error,
 )
-from azure.core.paging import ItemPaged
 from azure.core.pipeline import PipelineResponse
 from azure.core.rest import HttpRequest, HttpResponse
 from azure.core.tracing.decorator import distributed_trace
@@ -51,7 +49,7 @@ def build_list_by_location_request(location: str, subscription_id: str, **kwargs
     )  # pylint: disable=line-too-long
     path_format_arguments = {
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
-        "location": _SERIALIZER.url("location", location, "str"),
+        "location": _SERIALIZER.url("location", location, "str", min_length=1),
     }
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
@@ -86,22 +84,16 @@ class UsagesOperations:
         self._api_version = input_args.pop(0) if input_args else kwargs.pop("api_version")
 
     @distributed_trace
-    def list_by_location(self, location: str, **kwargs: Any) -> Iterable["_models.Usage"]:
+    def list_by_location(self, location: str, **kwargs: Any) -> _models.UsageListResult:
         """Gets the current usage count and the limit for the resources of the location under the
         subscription.
 
-        :param location: The location of the Azure Storage resource. Required.
+        :param location: The name of Azure region. Required.
         :type location: str
-        :return: An iterator like instance of either Usage or the result of cls(response)
-        :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.storage.v2024_01_01.models.Usage]
+        :return: UsageListResult or the result of cls(response)
+        :rtype: ~azure.mgmt.storage.v2024_01_01.models.UsageListResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2024-01-01"))
-        cls: ClsType[_models.UsageListResult] = kwargs.pop("cls", None)
-
         error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
@@ -110,55 +102,36 @@ class UsagesOperations:
         }
         error_map.update(kwargs.pop("error_map", {}) or {})
 
-        def prepare_request(next_link=None):
-            if not next_link:
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-                _request = build_list_by_location_request(
-                    location=location,
-                    subscription_id=self._config.subscription_id,
-                    api_version=api_version,
-                    headers=_headers,
-                    params=_params,
-                )
-                _request.url = self._client.format_url(_request.url)
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2024-01-01"))
+        cls: ClsType[_models.UsageListResult] = kwargs.pop("cls", None)
 
-            else:
-                # make call to next link with the client's api-version
-                _parsed_next_link = urllib.parse.urlparse(next_link)
-                _next_request_params = case_insensitive_dict(
-                    {
-                        key: [urllib.parse.quote(v) for v in value]
-                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
-                    }
-                )
-                _next_request_params["api-version"] = self._api_version
-                _request = HttpRequest(
-                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
-                )
-                _request.url = self._client.format_url(_request.url)
-                _request.method = "GET"
-            return _request
+        _request = build_list_by_location_request(
+            location=location,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            headers=_headers,
+            params=_params,
+        )
+        _request.url = self._client.format_url(_request.url)
 
-        def extract_data(pipeline_response):
-            deserialized = self._deserialize("UsageListResult", pipeline_response)
-            list_of_elem = deserialized.value
-            if cls:
-                list_of_elem = cls(list_of_elem)  # type: ignore
-            return None, iter(list_of_elem)
+        _stream = False
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
 
-        def get_next(next_link=None):
-            _request = prepare_request(next_link)
+        response = pipeline_response.http_response
 
-            _stream = False
-            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                _request, stream=_stream, **kwargs
-            )
-            response = pipeline_response.http_response
+        if response.status_code not in [200]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-            if response.status_code not in [200]:
-                map_error(status_code=response.status_code, response=response, error_map=error_map)
-                raise HttpResponseError(response=response, error_format=ARMErrorFormat)
+        deserialized = self._deserialize("UsageListResult", pipeline_response.http_response)
 
-            return pipeline_response
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return ItemPaged(get_next, extract_data)
+        return deserialized  # type: ignore
