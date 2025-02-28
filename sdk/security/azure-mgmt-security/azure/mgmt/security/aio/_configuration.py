@@ -27,23 +27,17 @@ class SecurityCenterConfiguration:
 
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials_async.AsyncTokenCredential
-    :param subscription_id: The ID of the target subscription. Required.
-    :type subscription_id: str
     """
 
     def __init__(
         self,
         credential: "AsyncTokenCredential",
-        subscription_id: str,
         **kwargs: Any
     ) -> None:
         if credential is None:
             raise ValueError("Parameter 'credential' must not be None.")
-        if subscription_id is None:
-            raise ValueError("Parameter 'subscription_id' must not be None.")
 
         self.credential = credential
-        self.subscription_id = subscription_id
         self.credential_scopes = kwargs.pop('credential_scopes', ['https://management.azure.com/.default'])
         kwargs.setdefault('sdk_moniker', 'azure-mgmt-security/{}'.format(VERSION))
         self.polling_interval = kwargs.get("polling_interval", 30)
