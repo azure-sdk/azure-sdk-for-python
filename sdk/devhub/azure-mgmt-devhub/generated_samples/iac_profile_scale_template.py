@@ -15,7 +15,7 @@ from azure.mgmt.devhub import DevHubMgmtClient
     pip install azure-identity
     pip install azure-mgmt-devhub
 # USAGE
-    python workflow_list_by_resource_group.py
+    python iac_profile_scale_template.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -27,16 +27,20 @@ from azure.mgmt.devhub import DevHubMgmtClient
 def main():
     client = DevHubMgmtClient(
         credential=DefaultAzureCredential(),
-        subscription_id="00000000-0000-0000-0000-000000000000",
+        subscription_id="a0a37f63-7183-4e86-9ac7-ce8036a3ed31",
     )
 
-    response = client.workflow.list_by_resource_group(
+    response = client.iac_profiles.scale(
         resource_group_name="resourceGroup1",
+        iac_profile_name="iacprofile",
+        parameters={
+            "scaleRequirement": [{"numberOfStore": 10, "region": "useast", "stage": "dev"}],
+            "templateName": "base",
+        },
     )
-    for item in response:
-        print(item)
+    print(response)
 
 
-# x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2024-08-01-preview/examples/Workflow_ListByResourceGroup.json
+# x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2024-08-01-preview/examples/IacProfile_ScaleTemplate.json
 if __name__ == "__main__":
     main()
