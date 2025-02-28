@@ -10,6 +10,7 @@
 # --------------------------------------------------------------------------
 
 from typing import Any, Optional, TYPE_CHECKING
+from typing_extensions import Self
 
 from azure.core.pipeline import policies
 from azure.mgmt.core import AsyncARMPipelineClient
@@ -44,8 +45,6 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
 
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials_async.AsyncTokenCredential
-    :param subscription_id: The ID of the target subscription. Required.
-    :type subscription_id: str
     :param api_version: API version to use if no profile is provided, or if missing in profile.
     :type api_version: str
     :param base_url: Service URL
@@ -55,13 +54,11 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no Retry-After header is present.
     """
 
-    DEFAULT_API_VERSION = '2024-04-01'
+    DEFAULT_API_VERSION = '2024-08-01'
     _PROFILE_TAG = "azure.mgmt.security.SecurityCenter"
     LATEST_PROFILE = ProfileDefinition({
         _PROFILE_TAG: {
             None: DEFAULT_API_VERSION,
-            'adaptive_application_controls': '2020-01-01',
-            'adaptive_network_hardenings': '2020-01-01',
             'advanced_threat_protection': '2019-01-01',
             'alerts': '2022-01-01',
             'alerts_suppression_rules': '2019-01-01-preview',
@@ -76,15 +73,25 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
             'assessments_metadata': '2021-06-01',
             'auto_provisioning_settings': '2017-08-01-preview',
             'automations': '2019-01-01-preview',
+            'azure_dev_ops_orgs': '2024-04-01',
+            'azure_dev_ops_projects': '2024-04-01',
+            'azure_dev_ops_repos': '2024-04-01',
             'compliance_results': '2017-08-01',
             'compliances': '2017-08-01-preview',
             'connectors': '2020-01-01-preview',
             'custom_assessment_automations': '2021-07-01-preview',
             'custom_entity_store_assignments': '2021-07-01-preview',
             'defender_for_storage': '2022-12-01-preview',
+            'dev_ops_configurations': '2024-04-01',
+            'dev_ops_operation_results': '2024-04-01',
             'device_security_groups': '2019-08-01',
             'discovered_security_solutions': '2020-01-01',
             'external_security_solutions': '2020-01-01',
+            'git_hub_owners': '2024-04-01',
+            'git_hub_repos': '2024-04-01',
+            'git_lab_groups': '2024-04-01',
+            'git_lab_projects': '2024-04-01',
+            'git_lab_subgroups': '2024-04-01',
             'governance_assignments': '2022-01-01-preview',
             'governance_rules': '2022-01-01-preview',
             'health_report': '2023-02-01-preview',
@@ -131,7 +138,6 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
     def __init__(
         self,
         credential: "AsyncTokenCredential",
-        subscription_id: str,
         api_version: Optional[str] = None,
         base_url: str = "https://management.azure.com",
         profile: KnownProfiles = KnownProfiles.default,
@@ -139,7 +145,7 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
     ) -> None:
         if api_version:
             kwargs.setdefault('api_version', api_version)
-        self._config = SecurityCenterConfiguration(credential, subscription_id, **kwargs)
+        self._config = SecurityCenterConfiguration(credential, **kwargs)
         _policies = kwargs.pop("policies", None)
         if _policies is None:
             _policies = [
@@ -158,7 +164,7 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
                 policies.SensitiveHeaderCleanupPolicy(**kwargs) if self._config.redirect_policy else None,
                 self._config.http_logging_policy,
             ]
-        self._client = AsyncARMPipelineClient(base_url=base_url, policies=_policies, **kwargs)
+        self._client: AsyncARMPipelineClient = AsyncARMPipelineClient(base_url=base_url, policies=_policies, **kwargs)
         super(SecurityCenter, self).__init__(
             api_version=api_version,
             profile=profile
@@ -209,6 +215,7 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
            * 2023-11-15: :mod:`v2023_11_15.models<azure.mgmt.security.v2023_11_15.models>`
            * 2024-01-01: :mod:`v2024_01_01.models<azure.mgmt.security.v2024_01_01.models>`
            * 2024-04-01: :mod:`v2024_04_01.models<azure.mgmt.security.v2024_04_01.models>`
+           * 2024-08-01: :mod:`v2024_08_01.models<azure.mgmt.security.v2024_08_01.models>`
         """
         if api_version == '2015-06-01-preview':
             from ..v2015_06_01_preview import models
@@ -321,35 +328,10 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
         elif api_version == '2024-04-01':
             from ..v2024_04_01 import models
             return models
+        elif api_version == '2024-08-01':
+            from ..v2024_08_01 import models
+            return models
         raise ValueError("API version {} is not available".format(api_version))
-
-    @property
-    def adaptive_application_controls(self):
-        """Instance depends on the API version:
-
-           * 2020-01-01: :class:`AdaptiveApplicationControlsOperations<azure.mgmt.security.v2020_01_01.aio.operations.AdaptiveApplicationControlsOperations>`
-        """
-        api_version = self._get_api_version('adaptive_application_controls')
-        if api_version == '2020-01-01':
-            from ..v2020_01_01.aio.operations import AdaptiveApplicationControlsOperations as OperationClass
-        else:
-            raise ValueError("API version {} does not have operation group 'adaptive_application_controls'".format(api_version))
-        self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
-
-    @property
-    def adaptive_network_hardenings(self):
-        """Instance depends on the API version:
-
-           * 2020-01-01: :class:`AdaptiveNetworkHardeningsOperations<azure.mgmt.security.v2020_01_01.aio.operations.AdaptiveNetworkHardeningsOperations>`
-        """
-        api_version = self._get_api_version('adaptive_network_hardenings')
-        if api_version == '2020-01-01':
-            from ..v2020_01_01.aio.operations import AdaptiveNetworkHardeningsOperations as OperationClass
-        else:
-            raise ValueError("API version {} does not have operation group 'adaptive_network_hardenings'".format(api_version))
-        self._config.api_version = api_version
-        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
     def advanced_threat_protection(self):
@@ -674,6 +656,20 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
             from ..v2021_07_01_preview.aio.operations import CustomEntityStoreAssignmentsOperations as OperationClass
         else:
             raise ValueError("API version {} does not have operation group 'custom_entity_store_assignments'".format(api_version))
+        self._config.api_version = api_version
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
+
+    @property
+    def custom_recommendations(self):
+        """Instance depends on the API version:
+
+           * 2024-08-01: :class:`CustomRecommendationsOperations<azure.mgmt.security.v2024_08_01.aio.operations.CustomRecommendationsOperations>`
+        """
+        api_version = self._get_api_version('custom_recommendations')
+        if api_version == '2024-08-01':
+            from ..v2024_08_01.aio.operations import CustomRecommendationsOperations as OperationClass
+        else:
+            raise ValueError("API version {} does not have operation group 'custom_recommendations'".format(api_version))
         self._config.api_version = api_version
         return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
@@ -1258,6 +1254,20 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
         return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
     @property
+    def security_standards(self):
+        """Instance depends on the API version:
+
+           * 2024-08-01: :class:`SecurityStandardsOperations<azure.mgmt.security.v2024_08_01.aio.operations.SecurityStandardsOperations>`
+        """
+        api_version = self._get_api_version('security_standards')
+        if api_version == '2024-08-01':
+            from ..v2024_08_01.aio.operations import SecurityStandardsOperations as OperationClass
+        else:
+            raise ValueError("API version {} does not have operation group 'security_standards'".format(api_version))
+        self._config.api_version = api_version
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
+
+    @property
     def sensitivity_settings(self):
         """Instance depends on the API version:
 
@@ -1381,6 +1391,20 @@ class SecurityCenter(MultiApiClientMixin, _SDKClient):
             from ..v2023_02_01_preview.aio.operations import SqlVulnerabilityAssessmentScansOperations as OperationClass
         else:
             raise ValueError("API version {} does not have operation group 'sql_vulnerability_assessment_scans'".format(api_version))
+        self._config.api_version = api_version
+        return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
+
+    @property
+    def standard_assignments(self):
+        """Instance depends on the API version:
+
+           * 2024-08-01: :class:`StandardAssignmentsOperations<azure.mgmt.security.v2024_08_01.aio.operations.StandardAssignmentsOperations>`
+        """
+        api_version = self._get_api_version('standard_assignments')
+        if api_version == '2024-08-01':
+            from ..v2024_08_01.aio.operations import StandardAssignmentsOperations as OperationClass
+        else:
+            raise ValueError("API version {} does not have operation group 'standard_assignments'".format(api_version))
         self._config.api_version = api_version
         return OperationClass(self._client, self._config, Serializer(self._models_dict(api_version)), Deserializer(self._models_dict(api_version)), api_version)
 
