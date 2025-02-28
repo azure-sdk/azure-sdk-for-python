@@ -30,7 +30,7 @@ def main():
         subscription_id="8efdecc5-919e-44eb-b179-915dca89ebf9",
     )
 
-    response = client.connected_environments_storages.create_or_update(
+    response = client.connected_environments_storages.begin_create_or_update(
         resource_group_name="examplerg",
         connected_environment_name="env",
         storage_name="jlaw-demo1",
@@ -44,10 +44,10 @@ def main():
                 }
             }
         },
-    )
+    ).result()
     print(response)
 
 
-# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/ConnectedEnvironmentsStorages_CreateOrUpdate.json
+# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2025-02-02-preview/examples/ConnectedEnvironmentsStorages_CreateOrUpdate.json
 if __name__ == "__main__":
     main()
