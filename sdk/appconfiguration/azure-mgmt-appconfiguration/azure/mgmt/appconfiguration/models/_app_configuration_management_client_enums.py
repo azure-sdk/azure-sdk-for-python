@@ -26,9 +26,9 @@ class AuthenticationMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The local authentication mode. Users are not required to have data plane permissions if local
     authentication is not disabled."""
     PASS_THROUGH = "Pass-through"
-    """The pass-through authentication mode. User identity will be passed through from Azure Resource
-    Manager (ARM), requiring user to have data plane action permissions (Available via App
-    Configuration Data Owner/ App Configuration Data Reader)."""
+    """The pass-through authentication mode. User identity will be passed through from ARM, requiring
+    user to have data plane action permissions (Available via App Configuration Data Owner/ App
+    Configuration Data Reader)."""
 
 
 class CompositionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -86,13 +86,11 @@ class IdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
 class PrivateLinkDelegation(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The data plane proxy private link delegation. This property manages if a request from delegated
-    Azure Resource Manager (ARM) private link is allowed when the data plane resource requires
-    private link.
+    ARM private link is allowed when the data plane resource requires private link.
     """
 
     ENABLED = "Enabled"
-    """Azure Resource Manager (ARM) private endpoint is required if the resource requires private
-    link."""
+    """ARM private endpoint is required if the resource requires private link."""
     DISABLED = "Disabled"
     """Request is denied if the resource requires private link."""
 
