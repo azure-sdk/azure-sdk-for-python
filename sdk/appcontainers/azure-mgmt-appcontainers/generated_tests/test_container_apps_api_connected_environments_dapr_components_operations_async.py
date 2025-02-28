@@ -21,11 +21,11 @@ class TestContainerAppsAPIConnectedEnvironmentsDaprComponentsOperationsAsync(Azu
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list(self, resource_group):
+    async def test_connected_environments_dapr_components_list(self, resource_group):
         response = self.client.connected_environments_dapr_components.list(
             resource_group_name=resource_group.name,
             connected_environment_name="str",
-            api_version="2024-08-02-preview",
+            api_version="2025-02-02-preview",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -33,12 +33,12 @@ class TestContainerAppsAPIConnectedEnvironmentsDaprComponentsOperationsAsync(Azu
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get(self, resource_group):
+    async def test_connected_environments_dapr_components_get(self, resource_group):
         response = await self.client.connected_environments_dapr_components.get(
             resource_group_name=resource_group.name,
             connected_environment_name="str",
             component_name="str",
-            api_version="2024-08-02-preview",
+            api_version="2025-02-02-preview",
         )
 
         # please add some check logic here by yourself
@@ -46,62 +46,68 @@ class TestContainerAppsAPIConnectedEnvironmentsDaprComponentsOperationsAsync(Azu
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_create_or_update(self, resource_group):
-        response = await self.client.connected_environments_dapr_components.create_or_update(
-            resource_group_name=resource_group.name,
-            connected_environment_name="str",
-            component_name="str",
-            dapr_component_envelope={
-                "componentType": "str",
-                "id": "str",
-                "ignoreErrors": False,
-                "initTimeout": "str",
-                "metadata": [{"name": "str", "secretRef": "str", "value": "str"}],
-                "name": "str",
-                "scopes": ["str"],
-                "secretStoreComponent": "str",
-                "secrets": [{"identity": "str", "keyVaultUrl": "str", "name": "str", "value": "str"}],
-                "serviceComponentBind": [
-                    {"metadata": {"name": "str", "value": "str"}, "name": "str", "serviceId": "str"}
-                ],
-                "systemData": {
-                    "createdAt": "2020-02-20 00:00:00",
-                    "createdBy": "str",
-                    "createdByType": "str",
-                    "lastModifiedAt": "2020-02-20 00:00:00",
-                    "lastModifiedBy": "str",
-                    "lastModifiedByType": "str",
+    async def test_connected_environments_dapr_components_begin_create_or_update(self, resource_group):
+        response = await (
+            await self.client.connected_environments_dapr_components.begin_create_or_update(
+                resource_group_name=resource_group.name,
+                connected_environment_name="str",
+                component_name="str",
+                dapr_component_envelope={
+                    "componentType": "str",
+                    "deploymentErrors": "str",
+                    "id": "str",
+                    "ignoreErrors": False,
+                    "initTimeout": "str",
+                    "metadata": [{"name": "str", "secretRef": "str", "value": "str"}],
+                    "name": "str",
+                    "provisioningState": "str",
+                    "scopes": ["str"],
+                    "secretStoreComponent": "str",
+                    "secrets": [{"identity": "str", "keyVaultUrl": "str", "name": "str", "value": "str"}],
+                    "serviceComponentBind": [
+                        {"metadata": {"name": "str", "value": "str"}, "name": "str", "serviceId": "str"}
+                    ],
+                    "systemData": {
+                        "createdAt": "2020-02-20 00:00:00",
+                        "createdBy": "str",
+                        "createdByType": "str",
+                        "lastModifiedAt": "2020-02-20 00:00:00",
+                        "lastModifiedBy": "str",
+                        "lastModifiedByType": "str",
+                    },
+                    "type": "str",
+                    "version": "str",
                 },
-                "type": "str",
-                "version": "str",
-            },
-            api_version="2024-08-02-preview",
-        )
+                api_version="2025-02-02-preview",
+            )
+        ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
         # ...
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_delete(self, resource_group):
-        response = await self.client.connected_environments_dapr_components.delete(
-            resource_group_name=resource_group.name,
-            connected_environment_name="str",
-            component_name="str",
-            api_version="2024-08-02-preview",
-        )
+    async def test_connected_environments_dapr_components_begin_delete(self, resource_group):
+        response = await (
+            await self.client.connected_environments_dapr_components.begin_delete(
+                resource_group_name=resource_group.name,
+                connected_environment_name="str",
+                component_name="str",
+                api_version="2025-02-02-preview",
+            )
+        ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
         # ...
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_secrets(self, resource_group):
+    async def test_connected_environments_dapr_components_list_secrets(self, resource_group):
         response = await self.client.connected_environments_dapr_components.list_secrets(
             resource_group_name=resource_group.name,
             connected_environment_name="str",
             component_name="str",
-            api_version="2024-08-02-preview",
+            api_version="2025-02-02-preview",
         )
 
         # please add some check logic here by yourself
