@@ -28,6 +28,7 @@ def main():
     client = NetworkManagementClient(
         credential=DefaultAzureCredential(),
         subscription_id="00000000-0000-0000-0000-000000000000",
+        base_url="BASE_URL",
     )
 
     response = client.connectivity_configurations.create_or_update(
@@ -44,6 +45,11 @@ def main():
                         "useHubGateway": "True",
                     }
                 ],
+                "connectivityCapabilities": {
+                    "connectedGroupAddressOverlap": "Allowed",
+                    "connectedGroupPrivateEndpointScale": "Standard",
+                    "peeringEnforcement": "Unenforced",
+                },
                 "connectivityTopology": "HubAndSpoke",
                 "deleteExistingPeering": "True",
                 "description": "Sample Configuration",
@@ -60,6 +66,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/NetworkManagerConnectivityConfigurationPut.json
+# x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/NetworkManagerConnectivityConfigurationPut.json
 if __name__ == "__main__":
     main()
