@@ -1,0 +1,6 @@
+{
+  "commit": "7e1f873a2c0fd3219a97116683246adafad7e1e1",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/quantum/Quantum.Workspace",
+  "@azure-tools/typespec-python": "0.38.4"
+}

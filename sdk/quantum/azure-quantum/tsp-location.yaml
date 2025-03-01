@@ -1,0 +1,4 @@
+directory: specification/quantum/Quantum.Workspace
+commit: 7e1f873a2c0fd3219a97116683246adafad7e1e1
+repo: Azure/azure-rest-api-specs
+additionalDirectories: 
