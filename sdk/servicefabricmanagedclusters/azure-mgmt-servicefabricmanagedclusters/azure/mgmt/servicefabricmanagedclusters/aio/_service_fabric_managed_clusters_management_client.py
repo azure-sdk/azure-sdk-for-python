@@ -43,6 +43,23 @@ if TYPE_CHECKING:
 class ServiceFabricManagedClustersManagementClient:  # pylint: disable=too-many-instance-attributes,name-too-long
     """Service Fabric Managed Clusters Management Client.
 
+    :ivar operations: Operations operations
+    :vartype operations: azure.mgmt.servicefabricmanagedclusters.aio.operations.Operations
+    :ivar managed_cluster_version: ManagedClusterVersionOperations operations
+    :vartype managed_cluster_version:
+     azure.mgmt.servicefabricmanagedclusters.aio.operations.ManagedClusterVersionOperations
+    :ivar operation_results: OperationResultsOperations operations
+    :vartype operation_results:
+     azure.mgmt.servicefabricmanagedclusters.aio.operations.OperationResultsOperations
+    :ivar operation_status: OperationStatusOperations operations
+    :vartype operation_status:
+     azure.mgmt.servicefabricmanagedclusters.aio.operations.OperationStatusOperations
+    :ivar managed_unsupported_vm_sizes: ManagedUnsupportedVMSizesOperations operations
+    :vartype managed_unsupported_vm_sizes:
+     azure.mgmt.servicefabricmanagedclusters.aio.operations.ManagedUnsupportedVMSizesOperations
+    :ivar managed_clusters: ManagedClustersOperations operations
+    :vartype managed_clusters:
+     azure.mgmt.servicefabricmanagedclusters.aio.operations.ManagedClustersOperations
     :ivar application_types: ApplicationTypesOperations operations
     :vartype application_types:
      azure.mgmt.servicefabricmanagedclusters.aio.operations.ApplicationTypesOperations
@@ -54,32 +71,15 @@ class ServiceFabricManagedClustersManagementClient:  # pylint: disable=too-many-
      azure.mgmt.servicefabricmanagedclusters.aio.operations.ApplicationsOperations
     :ivar services: ServicesOperations operations
     :vartype services: azure.mgmt.servicefabricmanagedclusters.aio.operations.ServicesOperations
-    :ivar managed_clusters: ManagedClustersOperations operations
-    :vartype managed_clusters:
-     azure.mgmt.servicefabricmanagedclusters.aio.operations.ManagedClustersOperations
-    :ivar managed_az_resiliency_status: ManagedAzResiliencyStatusOperations operations
-    :vartype managed_az_resiliency_status:
-     azure.mgmt.servicefabricmanagedclusters.aio.operations.ManagedAzResiliencyStatusOperations
-    :ivar managed_maintenance_window_status: ManagedMaintenanceWindowStatusOperations operations
-    :vartype managed_maintenance_window_status:
-     azure.mgmt.servicefabricmanagedclusters.aio.operations.ManagedMaintenanceWindowStatusOperations
     :ivar managed_apply_maintenance_window: ManagedApplyMaintenanceWindowOperations operations
     :vartype managed_apply_maintenance_window:
      azure.mgmt.servicefabricmanagedclusters.aio.operations.ManagedApplyMaintenanceWindowOperations
-    :ivar managed_cluster_version: ManagedClusterVersionOperations operations
-    :vartype managed_cluster_version:
-     azure.mgmt.servicefabricmanagedclusters.aio.operations.ManagedClusterVersionOperations
-    :ivar managed_unsupported_vm_sizes: ManagedUnsupportedVMSizesOperations operations
-    :vartype managed_unsupported_vm_sizes:
-     azure.mgmt.servicefabricmanagedclusters.aio.operations.ManagedUnsupportedVMSizesOperations
-    :ivar operation_status: OperationStatusOperations operations
-    :vartype operation_status:
-     azure.mgmt.servicefabricmanagedclusters.aio.operations.OperationStatusOperations
-    :ivar operation_results: OperationResultsOperations operations
-    :vartype operation_results:
-     azure.mgmt.servicefabricmanagedclusters.aio.operations.OperationResultsOperations
-    :ivar operations: Operations operations
-    :vartype operations: azure.mgmt.servicefabricmanagedclusters.aio.operations.Operations
+    :ivar managed_maintenance_window_status: ManagedMaintenanceWindowStatusOperations operations
+    :vartype managed_maintenance_window_status:
+     azure.mgmt.servicefabricmanagedclusters.aio.operations.ManagedMaintenanceWindowStatusOperations
+    :ivar managed_az_resiliency_status: ManagedAzResiliencyStatusOperations operations
+    :vartype managed_az_resiliency_status:
+     azure.mgmt.servicefabricmanagedclusters.aio.operations.ManagedAzResiliencyStatusOperations
     :ivar node_types: NodeTypesOperations operations
     :vartype node_types: azure.mgmt.servicefabricmanagedclusters.aio.operations.NodeTypesOperations
     :ivar node_type_skus: NodeTypeSkusOperations operations
@@ -87,11 +87,11 @@ class ServiceFabricManagedClustersManagementClient:  # pylint: disable=too-many-
      azure.mgmt.servicefabricmanagedclusters.aio.operations.NodeTypeSkusOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials_async.AsyncTokenCredential
-    :param subscription_id: The customer subscription identifier. Required.
+    :param subscription_id: The ID of the target subscription. Required.
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2024-09-01-preview". Note that overriding
+    :keyword api_version: Api Version. Default value is "2024-11-01-preview". Note that overriding
      this default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
@@ -132,6 +132,22 @@ class ServiceFabricManagedClustersManagementClient:  # pylint: disable=too-many-
         self._serialize = Serializer(client_models)
         self._deserialize = Deserializer(client_models)
         self._serialize.client_side_validation = False
+        self.operations = Operations(self._client, self._config, self._serialize, self._deserialize)
+        self.managed_cluster_version = ManagedClusterVersionOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.operation_results = OperationResultsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.operation_status = OperationStatusOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.managed_unsupported_vm_sizes = ManagedUnsupportedVMSizesOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.managed_clusters = ManagedClustersOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
         self.application_types = ApplicationTypesOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
@@ -140,31 +156,15 @@ class ServiceFabricManagedClustersManagementClient:  # pylint: disable=too-many-
         )
         self.applications = ApplicationsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.services = ServicesOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.managed_clusters = ManagedClustersOperations(
-            self._client, self._config, self._serialize, self._deserialize
-        )
-        self.managed_az_resiliency_status = ManagedAzResiliencyStatusOperations(
+        self.managed_apply_maintenance_window = ManagedApplyMaintenanceWindowOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
         self.managed_maintenance_window_status = ManagedMaintenanceWindowStatusOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
-        self.managed_apply_maintenance_window = ManagedApplyMaintenanceWindowOperations(
+        self.managed_az_resiliency_status = ManagedAzResiliencyStatusOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
-        self.managed_cluster_version = ManagedClusterVersionOperations(
-            self._client, self._config, self._serialize, self._deserialize
-        )
-        self.managed_unsupported_vm_sizes = ManagedUnsupportedVMSizesOperations(
-            self._client, self._config, self._serialize, self._deserialize
-        )
-        self.operation_status = OperationStatusOperations(
-            self._client, self._config, self._serialize, self._deserialize
-        )
-        self.operation_results = OperationResultsOperations(
-            self._client, self._config, self._serialize, self._deserialize
-        )
-        self.operations = Operations(self._client, self._config, self._serialize, self._deserialize)
         self.node_types = NodeTypesOperations(self._client, self._config, self._serialize, self._deserialize)
         self.node_type_skus = NodeTypeSkusOperations(self._client, self._config, self._serialize, self._deserialize)
 

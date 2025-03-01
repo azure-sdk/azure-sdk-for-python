@@ -20,11 +20,11 @@ class TestServiceFabricManagedClustersManagementManagedClusterVersionOperations(
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_managed_cluster_version_get(self, resource_group):
-        response = self.client.managed_cluster_version.get(
+    def test_managed_cluster_version_list_by_environment(self, resource_group):
+        response = self.client.managed_cluster_version.list_by_environment(
             location="str",
-            cluster_version="str",
-            api_version="2024-09-01-preview",
+            environment="str",
+            api_version="2024-11-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -37,7 +37,7 @@ class TestServiceFabricManagedClustersManagementManagedClusterVersionOperations(
             location="str",
             environment="str",
             cluster_version="str",
-            api_version="2024-09-01-preview",
+            api_version="2024-11-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -48,7 +48,7 @@ class TestServiceFabricManagedClustersManagementManagedClusterVersionOperations(
     def test_managed_cluster_version_list(self, resource_group):
         response = self.client.managed_cluster_version.list(
             location="str",
-            api_version="2024-09-01-preview",
+            api_version="2024-11-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -56,11 +56,11 @@ class TestServiceFabricManagedClustersManagementManagedClusterVersionOperations(
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_managed_cluster_version_list_by_environment(self, resource_group):
-        response = self.client.managed_cluster_version.list_by_environment(
+    def test_managed_cluster_version_get(self, resource_group):
+        response = self.client.managed_cluster_version.get(
             location="str",
-            environment="str",
-            api_version="2024-09-01-preview",
+            cluster_version="str",
+            api_version="2024-11-01-preview",
         )
 
         # please add some check logic here by yourself

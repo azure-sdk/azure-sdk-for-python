@@ -12,19 +12,19 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from ._patch import *  # pylint: disable=unused-wildcard-import
 
+from ._operations import Operations  # type: ignore
+from ._managed_cluster_version_operations import ManagedClusterVersionOperations  # type: ignore
+from ._operation_results_operations import OperationResultsOperations  # type: ignore
+from ._operation_status_operations import OperationStatusOperations  # type: ignore
+from ._managed_unsupported_vm_sizes_operations import ManagedUnsupportedVMSizesOperations  # type: ignore
+from ._managed_clusters_operations import ManagedClustersOperations  # type: ignore
 from ._application_types_operations import ApplicationTypesOperations  # type: ignore
 from ._application_type_versions_operations import ApplicationTypeVersionsOperations  # type: ignore
 from ._applications_operations import ApplicationsOperations  # type: ignore
 from ._services_operations import ServicesOperations  # type: ignore
-from ._managed_clusters_operations import ManagedClustersOperations  # type: ignore
-from ._managed_az_resiliency_status_operations import ManagedAzResiliencyStatusOperations  # type: ignore
-from ._managed_maintenance_window_status_operations import ManagedMaintenanceWindowStatusOperations  # type: ignore
 from ._managed_apply_maintenance_window_operations import ManagedApplyMaintenanceWindowOperations  # type: ignore
-from ._managed_cluster_version_operations import ManagedClusterVersionOperations  # type: ignore
-from ._managed_unsupported_vm_sizes_operations import ManagedUnsupportedVMSizesOperations  # type: ignore
-from ._operation_status_operations import OperationStatusOperations  # type: ignore
-from ._operation_results_operations import OperationResultsOperations  # type: ignore
-from ._operations import Operations  # type: ignore
+from ._managed_maintenance_window_status_operations import ManagedMaintenanceWindowStatusOperations  # type: ignore
+from ._managed_az_resiliency_status_operations import ManagedAzResiliencyStatusOperations  # type: ignore
 from ._node_types_operations import NodeTypesOperations  # type: ignore
 from ._node_type_skus_operations import NodeTypeSkusOperations  # type: ignore
 
@@ -33,19 +33,19 @@ from ._patch import *
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
+    "Operations",
+    "ManagedClusterVersionOperations",
+    "OperationResultsOperations",
+    "OperationStatusOperations",
+    "ManagedUnsupportedVMSizesOperations",
+    "ManagedClustersOperations",
     "ApplicationTypesOperations",
     "ApplicationTypeVersionsOperations",
     "ApplicationsOperations",
     "ServicesOperations",
-    "ManagedClustersOperations",
-    "ManagedAzResiliencyStatusOperations",
-    "ManagedMaintenanceWindowStatusOperations",
     "ManagedApplyMaintenanceWindowOperations",
-    "ManagedClusterVersionOperations",
-    "ManagedUnsupportedVMSizesOperations",
-    "OperationStatusOperations",
-    "OperationResultsOperations",
-    "Operations",
+    "ManagedMaintenanceWindowStatusOperations",
+    "ManagedAzResiliencyStatusOperations",
     "NodeTypesOperations",
     "NodeTypeSkusOperations",
 ]
