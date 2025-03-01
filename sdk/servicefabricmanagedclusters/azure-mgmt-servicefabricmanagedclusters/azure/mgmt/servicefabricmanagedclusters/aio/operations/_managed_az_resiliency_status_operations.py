@@ -59,10 +59,8 @@ class ManagedAzResiliencyStatusOperations:
         """Action to get Az Resiliency Status of all the Base resources constituting Service Fabric
         Managed Clusters.
 
-        Action to get Az Resiliency Status of all the Base resources constituting Service Fabric
-        Managed Clusters.
-
-        :param resource_group_name: The name of the resource group. Required.
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
         :type resource_group_name: str
         :param cluster_name: The name of the cluster resource. Required.
         :type cluster_name: str
@@ -103,7 +101,7 @@ class ManagedAzResiliencyStatusOperations:
 
         if response.status_code not in [200]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = self._deserialize.failsafe_deserialize(_models.ErrorModel, pipeline_response)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         deserialized = self._deserialize("ManagedAzResiliencyStatus", pipeline_response.http_response)

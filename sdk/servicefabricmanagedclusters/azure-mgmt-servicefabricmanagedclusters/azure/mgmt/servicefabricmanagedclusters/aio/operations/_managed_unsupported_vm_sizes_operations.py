@@ -59,8 +59,6 @@ class ManagedUnsupportedVMSizesOperations:
     def list(self, location: str, **kwargs: Any) -> AsyncIterable["_models.ManagedVMSize"]:
         """Get the lists of unsupported vm sizes for Service Fabric Managed Clusters.
 
-        Get the lists of unsupported vm sizes for Service Fabric Managed Clusters.
-
         :param location: The location for the cluster code versions. This is different from cluster
          location. Required.
         :type location: str
@@ -130,7 +128,7 @@ class ManagedUnsupportedVMSizesOperations:
 
             if response.status_code not in [200]:
                 map_error(status_code=response.status_code, response=response, error_map=error_map)
-                error = self._deserialize.failsafe_deserialize(_models.ErrorModel, pipeline_response)
+                error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
                 raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
             return pipeline_response
@@ -140,8 +138,6 @@ class ManagedUnsupportedVMSizesOperations:
     @distributed_trace_async
     async def get(self, location: str, vm_size: str, **kwargs: Any) -> _models.ManagedVMSize:
         """Get unsupported vm size for Service Fabric Managed Clusters.
-
-        Get unsupported vm size for Service Fabric Managed Clusters.
 
         :param location: The location for the cluster code versions. This is different from cluster
          location. Required.
@@ -185,7 +181,7 @@ class ManagedUnsupportedVMSizesOperations:
 
         if response.status_code not in [200]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = self._deserialize.failsafe_deserialize(_models.ErrorModel, pipeline_response)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         deserialized = self._deserialize("ManagedVMSize", pipeline_response.http_response)
