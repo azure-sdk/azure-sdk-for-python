@@ -8,6 +8,7 @@
 
 from copy import deepcopy
 from typing import Any, TYPE_CHECKING
+from typing_extensions import Self
 
 from azure.core.pipeline import policies
 from azure.core.rest import HttpRequest, HttpResponse
@@ -18,8 +19,6 @@ from . import models as _models
 from .._serialization import Deserializer, Serializer
 from ._configuration import SecurityCenterConfiguration
 from .operations import (
-    AdaptiveApplicationControlsOperations,
-    AdaptiveNetworkHardeningsOperations,
     AllowedConnectionsOperations,
     AssessmentsMetadataOperations,
     AssessmentsOperations,
@@ -36,22 +35,15 @@ from .operations import (
 )
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from azure.core.credentials import TokenCredential
 
 
-class SecurityCenter:  # pylint: disable=client-accepts-api-version-keyword,too-many-instance-attributes
+class SecurityCenter:  # pylint: disable=too-many-instance-attributes
     """API spec for Microsoft.Security (Azure Security Center) resource provider.
 
-    :ivar adaptive_network_hardenings: AdaptiveNetworkHardeningsOperations operations
-    :vartype adaptive_network_hardenings:
-     azure.mgmt.security.v2020_01_01.operations.AdaptiveNetworkHardeningsOperations
     :ivar allowed_connections: AllowedConnectionsOperations operations
     :vartype allowed_connections:
      azure.mgmt.security.v2020_01_01.operations.AllowedConnectionsOperations
-    :ivar adaptive_application_controls: AdaptiveApplicationControlsOperations operations
-    :vartype adaptive_application_controls:
-     azure.mgmt.security.v2020_01_01.operations.AdaptiveApplicationControlsOperations
     :ivar assessments_metadata: AssessmentsMetadataOperations operations
     :vartype assessments_metadata:
      azure.mgmt.security.v2020_01_01.operations.AssessmentsMetadataOperations
@@ -130,13 +122,7 @@ class SecurityCenter:  # pylint: disable=client-accepts-api-version-keyword,too-
         self._serialize = Serializer(client_models)
         self._deserialize = Deserializer(client_models)
         self._serialize.client_side_validation = False
-        self.adaptive_network_hardenings = AdaptiveNetworkHardeningsOperations(
-            self._client, self._config, self._serialize, self._deserialize, "2020-01-01"
-        )
         self.allowed_connections = AllowedConnectionsOperations(
-            self._client, self._config, self._serialize, self._deserialize, "2020-01-01"
-        )
-        self.adaptive_application_controls = AdaptiveApplicationControlsOperations(
             self._client, self._config, self._serialize, self._deserialize, "2020-01-01"
         )
         self.assessments_metadata = AssessmentsMetadataOperations(
@@ -199,7 +185,7 @@ class SecurityCenter:  # pylint: disable=client-accepts-api-version-keyword,too-
     def close(self) -> None:
         self._client.close()
 
-    def __enter__(self) -> "SecurityCenter":
+    def __enter__(self) -> Self:
         self._client.__enter__()
         return self
 
