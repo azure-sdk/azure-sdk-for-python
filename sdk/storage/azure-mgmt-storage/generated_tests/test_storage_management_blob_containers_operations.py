@@ -24,9 +24,24 @@ class TestStorageManagementBlobContainersOperations(AzureMgmtRecordedTestCase):
         response = self.client.blob_containers.list(
             resource_group_name=resource_group.name,
             account_name="str",
+            blob_services_name="str",
             api_version="2024-01-01",
         )
         result = [r for r in response]
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy
+    def test_blob_containers_get(self, resource_group):
+        response = self.client.blob_containers.get(
+            resource_group_name=resource_group.name,
+            account_name="str",
+            blob_services_name="str",
+            container_name="str",
+            api_version="2024-01-01",
+        )
+
         # please add some check logic here by yourself
         # ...
 
@@ -36,15 +51,16 @@ class TestStorageManagementBlobContainersOperations(AzureMgmtRecordedTestCase):
         response = self.client.blob_containers.create(
             resource_group_name=resource_group.name,
             account_name="str",
+            blob_services_name="str",
             container_name="str",
             blob_container={
                 "defaultEncryptionScope": "str",
                 "deleted": bool,
                 "deletedTime": "2020-02-20 00:00:00",
                 "denyEncryptionScopeOverride": bool,
+                "eTag": "str",
                 "enableNfsV3AllSquash": bool,
                 "enableNfsV3RootSquash": bool,
-                "etag": "str",
                 "hasImmutabilityPolicy": bool,
                 "hasLegalHold": bool,
                 "id": "str",
@@ -96,6 +112,14 @@ class TestStorageManagementBlobContainersOperations(AzureMgmtRecordedTestCase):
                 "name": "str",
                 "publicAccess": "str",
                 "remainingRetentionDays": 0,
+                "systemData": {
+                    "createdAt": "2020-02-20 00:00:00",
+                    "createdBy": "str",
+                    "createdByType": "str",
+                    "lastModifiedAt": "2020-02-20 00:00:00",
+                    "lastModifiedBy": "str",
+                    "lastModifiedByType": "str",
+                },
                 "type": "str",
                 "version": "str",
             },
@@ -111,15 +135,16 @@ class TestStorageManagementBlobContainersOperations(AzureMgmtRecordedTestCase):
         response = self.client.blob_containers.update(
             resource_group_name=resource_group.name,
             account_name="str",
+            blob_services_name="str",
             container_name="str",
             blob_container={
                 "defaultEncryptionScope": "str",
                 "deleted": bool,
                 "deletedTime": "2020-02-20 00:00:00",
                 "denyEncryptionScopeOverride": bool,
+                "eTag": "str",
                 "enableNfsV3AllSquash": bool,
                 "enableNfsV3RootSquash": bool,
-                "etag": "str",
                 "hasImmutabilityPolicy": bool,
                 "hasLegalHold": bool,
                 "id": "str",
@@ -171,22 +196,17 @@ class TestStorageManagementBlobContainersOperations(AzureMgmtRecordedTestCase):
                 "name": "str",
                 "publicAccess": "str",
                 "remainingRetentionDays": 0,
+                "systemData": {
+                    "createdAt": "2020-02-20 00:00:00",
+                    "createdBy": "str",
+                    "createdByType": "str",
+                    "lastModifiedAt": "2020-02-20 00:00:00",
+                    "lastModifiedBy": "str",
+                    "lastModifiedByType": "str",
+                },
                 "type": "str",
                 "version": "str",
             },
-            api_version="2024-01-01",
-        )
-
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
-    def test_blob_containers_get(self, resource_group):
-        response = self.client.blob_containers.get(
-            resource_group_name=resource_group.name,
-            account_name="str",
-            container_name="str",
             api_version="2024-01-01",
         )
 
@@ -199,21 +219,8 @@ class TestStorageManagementBlobContainersOperations(AzureMgmtRecordedTestCase):
         response = self.client.blob_containers.delete(
             resource_group_name=resource_group.name,
             account_name="str",
+            blob_services_name="str",
             container_name="str",
-            api_version="2024-01-01",
-        )
-
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
-    def test_blob_containers_set_legal_hold(self, resource_group):
-        response = self.client.blob_containers.set_legal_hold(
-            resource_group_name=resource_group.name,
-            account_name="str",
-            container_name="str",
-            legal_hold={"tags": ["str"], "allowProtectedAppendWritesAll": bool, "hasLegalHold": bool},
             api_version="2024-01-01",
         )
 
@@ -226,22 +233,9 @@ class TestStorageManagementBlobContainersOperations(AzureMgmtRecordedTestCase):
         response = self.client.blob_containers.clear_legal_hold(
             resource_group_name=resource_group.name,
             account_name="str",
+            blob_services_name="str",
             container_name="str",
             legal_hold={"tags": ["str"], "allowProtectedAppendWritesAll": bool, "hasLegalHold": bool},
-            api_version="2024-01-01",
-        )
-
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
-    def test_blob_containers_create_or_update_immutability_policy(self, resource_group):
-        response = self.client.blob_containers.create_or_update_immutability_policy(
-            resource_group_name=resource_group.name,
-            account_name="str",
-            container_name="str",
-            immutability_policy_name="default",
             api_version="2024-01-01",
         )
 
@@ -254,8 +248,41 @@ class TestStorageManagementBlobContainersOperations(AzureMgmtRecordedTestCase):
         response = self.client.blob_containers.get_immutability_policy(
             resource_group_name=resource_group.name,
             account_name="str",
+            blob_services_name="str",
             container_name="str",
-            immutability_policy_name="default",
+            immutability_policy_name="str",
+            api_version="2024-01-01",
+        )
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy
+    def test_blob_containers_create_or_update_immutability_policy(self, resource_group):
+        response = self.client.blob_containers.create_or_update_immutability_policy(
+            resource_group_name=resource_group.name,
+            account_name="str",
+            blob_services_name="str",
+            container_name="str",
+            immutability_policy_name="str",
+            parameters={
+                "allowProtectedAppendWrites": bool,
+                "allowProtectedAppendWritesAll": bool,
+                "id": "str",
+                "immutabilityPeriodSinceCreationInDays": 0,
+                "name": "str",
+                "state": "str",
+                "systemData": {
+                    "createdAt": "2020-02-20 00:00:00",
+                    "createdBy": "str",
+                    "createdByType": "str",
+                    "lastModifiedAt": "2020-02-20 00:00:00",
+                    "lastModifiedBy": "str",
+                    "lastModifiedByType": "str",
+                },
+                "type": "str",
+            },
             api_version="2024-01-01",
         )
 
@@ -268,22 +295,9 @@ class TestStorageManagementBlobContainersOperations(AzureMgmtRecordedTestCase):
         response = self.client.blob_containers.delete_immutability_policy(
             resource_group_name=resource_group.name,
             account_name="str",
+            blob_services_name="str",
             container_name="str",
-            if_match="str",
-            immutability_policy_name="default",
-            api_version="2024-01-01",
-        )
-
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
-    def test_blob_containers_lock_immutability_policy(self, resource_group):
-        response = self.client.blob_containers.lock_immutability_policy(
-            resource_group_name=resource_group.name,
-            account_name="str",
-            container_name="str",
+            immutability_policy_name="str",
             if_match="str",
             api_version="2024-01-01",
         )
@@ -297,7 +311,25 @@ class TestStorageManagementBlobContainersOperations(AzureMgmtRecordedTestCase):
         response = self.client.blob_containers.extend_immutability_policy(
             resource_group_name=resource_group.name,
             account_name="str",
+            blob_services_name="str",
             container_name="str",
+            immutability_policy_name="str",
+            if_match="str",
+            api_version="2024-01-01",
+        )
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy
+    def test_blob_containers_lock_immutability_policy(self, resource_group):
+        response = self.client.blob_containers.lock_immutability_policy(
+            resource_group_name=resource_group.name,
+            account_name="str",
+            blob_services_name="str",
+            container_name="str",
+            immutability_policy_name="str",
             if_match="str",
             api_version="2024-01-01",
         )
@@ -311,6 +343,7 @@ class TestStorageManagementBlobContainersOperations(AzureMgmtRecordedTestCase):
         response = self.client.blob_containers.lease(
             resource_group_name=resource_group.name,
             account_name="str",
+            blob_services_name="str",
             container_name="str",
             api_version="2024-01-01",
         )
@@ -324,9 +357,25 @@ class TestStorageManagementBlobContainersOperations(AzureMgmtRecordedTestCase):
         response = self.client.blob_containers.begin_object_level_worm(
             resource_group_name=resource_group.name,
             account_name="str",
+            blob_services_name="str",
             container_name="str",
             api_version="2024-01-01",
         ).result()  # call '.result()' to poll until service return final result
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy
+    def test_blob_containers_set_legal_hold(self, resource_group):
+        response = self.client.blob_containers.set_legal_hold(
+            resource_group_name=resource_group.name,
+            account_name="str",
+            blob_services_name="str",
+            container_name="str",
+            legal_hold={"tags": ["str"], "allowProtectedAppendWritesAll": bool, "hasLegalHold": bool},
+            api_version="2024-01-01",
+        )
 
         # please add some check logic here by yourself
         # ...
