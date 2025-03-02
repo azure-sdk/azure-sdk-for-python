@@ -1,5 +1,5 @@
-# coding=utf-8
 # pylint: disable=too-many-lines
+# coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -13,7 +13,6 @@ from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 from ... import _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
@@ -358,7 +357,7 @@ class TrackedResource(Resource, AzureTrackedResourceLocation, Kind, ETag, Tags):
         self.type = None
 
 
-class Automation(TrackedResource):  # pylint: disable=too-many-instance-attributes
+class Automation(TrackedResource):
     """The security automation resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1223,7 +1222,7 @@ class OnPremiseSqlResourceDetails(OnPremiseResourceDetails):
         self.database_name = database_name
 
 
-class RegulatoryComplianceAssessment(Resource):  # pylint: disable=too-many-instance-attributes
+class RegulatoryComplianceAssessment(Resource):
     """Regulatory compliance assessment details and state.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1559,7 +1558,7 @@ class ScopeElement(_serialization.Model):
         self.field = field
 
 
-class SecuritySubAssessment(Resource):  # pylint: disable=too-many-instance-attributes
+class SecuritySubAssessment(Resource):
     """Security sub-assessment on a resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
