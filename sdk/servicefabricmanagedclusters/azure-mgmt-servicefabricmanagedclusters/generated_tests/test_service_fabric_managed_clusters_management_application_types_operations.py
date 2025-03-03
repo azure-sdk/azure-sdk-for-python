@@ -20,12 +20,24 @@ class TestServiceFabricManagedClustersManagementApplicationTypesOperations(Azure
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
+    def test_application_types_list(self, resource_group):
+        response = self.client.application_types.list(
+            resource_group_name=resource_group.name,
+            cluster_name="str",
+            api_version="2024-11-01-preview",
+        )
+        result = [r for r in response]
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy
     def test_application_types_get(self, resource_group):
         response = self.client.application_types.get(
             resource_group_name=resource_group.name,
             cluster_name="str",
             application_type_name="str",
-            api_version="2024-09-01-preview",
+            api_version="2024-11-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -54,7 +66,7 @@ class TestServiceFabricManagedClustersManagementApplicationTypesOperations(Azure
                 "tags": {"str": "str"},
                 "type": "str",
             },
-            api_version="2024-09-01-preview",
+            api_version="2024-11-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -68,7 +80,7 @@ class TestServiceFabricManagedClustersManagementApplicationTypesOperations(Azure
             cluster_name="str",
             application_type_name="str",
             parameters={"tags": {"str": "str"}},
-            api_version="2024-09-01-preview",
+            api_version="2024-11-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -81,20 +93,8 @@ class TestServiceFabricManagedClustersManagementApplicationTypesOperations(Azure
             resource_group_name=resource_group.name,
             cluster_name="str",
             application_type_name="str",
-            api_version="2024-09-01-preview",
+            api_version="2024-11-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
-    def test_application_types_list(self, resource_group):
-        response = self.client.application_types.list(
-            resource_group_name=resource_group.name,
-            cluster_name="str",
-            api_version="2024-09-01-preview",
-        )
-        result = [r for r in response]
         # please add some check logic here by yourself
         # ...

@@ -20,10 +20,9 @@ class TestServiceFabricManagedClustersManagementManagedClustersOperations(AzureM
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_managed_clusters_list_by_resource_group(self, resource_group):
-        response = self.client.managed_clusters.list_by_resource_group(
-            resource_group_name=resource_group.name,
-            api_version="2024-09-01-preview",
+    def test_managed_clusters_list_by_subscription(self, resource_group):
+        response = self.client.managed_clusters.list_by_subscription(
+            api_version="2024-11-01-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -31,9 +30,10 @@ class TestServiceFabricManagedClustersManagementManagedClustersOperations(AzureM
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_managed_clusters_list_by_subscription(self, resource_group):
-        response = self.client.managed_clusters.list_by_subscription(
-            api_version="2024-09-01-preview",
+    def test_managed_clusters_list_by_resource_group(self, resource_group):
+        response = self.client.managed_clusters.list_by_resource_group(
+            resource_group_name=resource_group.name,
+            api_version="2024-11-01-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -45,7 +45,7 @@ class TestServiceFabricManagedClustersManagementManagedClustersOperations(AzureM
         response = self.client.managed_clusters.get(
             resource_group_name=resource_group.name,
             cluster_name="str",
-            api_version="2024-09-01-preview",
+            api_version="2024-11-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -151,7 +151,7 @@ class TestServiceFabricManagedClustersManagementManagedClustersOperations(AzureM
                         "maxPercentDeltaUnhealthyApplications": 0,
                         "maxPercentUpgradeDomainDeltaUnhealthyNodes": 0,
                     },
-                    "forceRestart": bool,
+                    "forceRestart": False,
                     "healthPolicy": {"maxPercentUnhealthyApplications": 0, "maxPercentUnhealthyNodes": 0},
                     "monitoringPolicy": {
                         "healthCheckRetryTimeout": "str",
@@ -166,7 +166,7 @@ class TestServiceFabricManagedClustersManagementManagedClustersOperations(AzureM
                 "zonalResiliency": False,
                 "zonalUpdateMode": "str",
             },
-            api_version="2024-09-01-preview",
+            api_version="2024-11-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -179,7 +179,7 @@ class TestServiceFabricManagedClustersManagementManagedClustersOperations(AzureM
             resource_group_name=resource_group.name,
             cluster_name="str",
             parameters={"tags": {"str": "str"}},
-            api_version="2024-09-01-preview",
+            api_version="2024-11-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -191,7 +191,63 @@ class TestServiceFabricManagedClustersManagementManagedClustersOperations(AzureM
         response = self.client.managed_clusters.begin_delete(
             resource_group_name=resource_group.name,
             cluster_name="str",
-            api_version="2024-09-01-preview",
+            api_version="2024-11-01-preview",
+        ).result()  # call '.result()' to poll until service return final result
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy
+    def test_managed_clusters_get_fault_simulation(self, resource_group):
+        response = self.client.managed_clusters.get_fault_simulation(
+            resource_group_name=resource_group.name,
+            cluster_name="str",
+            parameters={"simulationId": "str"},
+            api_version="2024-11-01-preview",
+        )
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy
+    def test_managed_clusters_list_fault_simulation(self, resource_group):
+        response = self.client.managed_clusters.list_fault_simulation(
+            resource_group_name=resource_group.name,
+            cluster_name="str",
+            api_version="2024-11-01-preview",
+        )
+        result = [r for r in response]
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy
+    def test_managed_clusters_begin_start_fault_simulation(self, resource_group):
+        response = self.client.managed_clusters.begin_start_fault_simulation(
+            resource_group_name=resource_group.name,
+            cluster_name="str",
+            parameters={
+                "faultKind": "Zone",
+                "constraints": {"expirationTime": "2020-02-20 00:00:00"},
+                "force": bool,
+                "zones": ["str"],
+            },
+            api_version="2024-11-01-preview",
+        ).result()  # call '.result()' to poll until service return final result
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy
+    def test_managed_clusters_begin_stop_fault_simulation(self, resource_group):
+        response = self.client.managed_clusters.begin_stop_fault_simulation(
+            resource_group_name=resource_group.name,
+            cluster_name="str",
+            parameters={"simulationId": "str"},
+            api_version="2024-11-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
