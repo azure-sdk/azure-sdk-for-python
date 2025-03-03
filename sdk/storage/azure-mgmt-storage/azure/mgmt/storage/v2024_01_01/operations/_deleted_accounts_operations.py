@@ -62,7 +62,7 @@ def build_list_request(subscription_id: str, **kwargs: Any) -> HttpRequest:
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_get_request(deleted_account_name: str, location: str, subscription_id: str, **kwargs: Any) -> HttpRequest:
+def build_get_request(location: str, deleted_account_name: str, subscription_id: str, **kwargs: Any) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
@@ -75,11 +75,11 @@ def build_get_request(deleted_account_name: str, location: str, subscription_id:
         "/subscriptions/{subscriptionId}/providers/Microsoft.Storage/locations/{location}/deletedAccounts/{deletedAccountName}",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "location": _SERIALIZER.url("location", location, "str", min_length=1),
         "deletedAccountName": _SERIALIZER.url(
             "deleted_account_name", deleted_account_name, "str", max_length=24, min_length=3
         ),
-        "location": _SERIALIZER.url("location", location, "str"),
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
     }
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
@@ -189,13 +189,13 @@ class DeletedAccountsOperations:
         return ItemPaged(get_next, extract_data)
 
     @distributed_trace
-    def get(self, deleted_account_name: str, location: str, **kwargs: Any) -> _models.DeletedAccount:
+    def get(self, location: str, deleted_account_name: str, **kwargs: Any) -> _models.DeletedAccount:
         """Get properties of specified deleted account resource.
 
+        :param location: The name of Azure region. Required.
+        :type location: str
         :param deleted_account_name: Name of the deleted storage account. Required.
         :type deleted_account_name: str
-        :param location: The location of the deleted storage account. Required.
-        :type location: str
         :return: DeletedAccount or the result of cls(response)
         :rtype: ~azure.mgmt.storage.v2024_01_01.models.DeletedAccount
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -215,8 +215,8 @@ class DeletedAccountsOperations:
         cls: ClsType[_models.DeletedAccount] = kwargs.pop("cls", None)
 
         _request = build_get_request(
-            deleted_account_name=deleted_account_name,
             location=location,
+            deleted_account_name=deleted_account_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
             headers=_headers,
