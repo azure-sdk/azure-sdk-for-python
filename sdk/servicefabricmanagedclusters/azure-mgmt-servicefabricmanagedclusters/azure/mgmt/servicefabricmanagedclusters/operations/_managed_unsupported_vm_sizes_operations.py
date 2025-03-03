@@ -42,7 +42,7 @@ def build_list_request(location: str, subscription_id: str, **kwargs: Any) -> Ht
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-01-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-11-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -51,8 +51,8 @@ def build_list_request(location: str, subscription_id: str, **kwargs: Any) -> Ht
         "/subscriptions/{subscriptionId}/providers/Microsoft.ServiceFabric/locations/{location}/managedUnsupportedVMSizes",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
         "location": _SERIALIZER.url("location", location, "str"),
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
     }
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
@@ -70,7 +70,7 @@ def build_get_request(location: str, vm_size: str, subscription_id: str, **kwarg
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-01-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-11-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -79,8 +79,8 @@ def build_get_request(location: str, vm_size: str, subscription_id: str, **kwarg
         "/subscriptions/{subscriptionId}/providers/Microsoft.ServiceFabric/locations/{location}/managedUnsupportedVMSizes/{vmSize}",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
         "location": _SERIALIZER.url("location", location, "str"),
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
         "vmSize": _SERIALIZER.url("vm_size", vm_size, "str"),
     }
 
@@ -117,8 +117,6 @@ class ManagedUnsupportedVMSizesOperations:
     @distributed_trace
     def list(self, location: str, **kwargs: Any) -> Iterable["_models.ManagedVMSize"]:
         """Get the lists of unsupported vm sizes for Service Fabric Managed Clusters.
-
-        Get the lists of unsupported vm sizes for Service Fabric Managed Clusters.
 
         :param location: The location for the cluster code versions. This is different from cluster
          location. Required.
@@ -189,7 +187,7 @@ class ManagedUnsupportedVMSizesOperations:
 
             if response.status_code not in [200]:
                 map_error(status_code=response.status_code, response=response, error_map=error_map)
-                error = self._deserialize.failsafe_deserialize(_models.ErrorModel, pipeline_response)
+                error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
                 raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
             return pipeline_response
@@ -199,8 +197,6 @@ class ManagedUnsupportedVMSizesOperations:
     @distributed_trace
     def get(self, location: str, vm_size: str, **kwargs: Any) -> _models.ManagedVMSize:
         """Get unsupported vm size for Service Fabric Managed Clusters.
-
-        Get unsupported vm size for Service Fabric Managed Clusters.
 
         :param location: The location for the cluster code versions. This is different from cluster
          location. Required.
@@ -244,7 +240,7 @@ class ManagedUnsupportedVMSizesOperations:
 
         if response.status_code not in [200]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = self._deserialize.failsafe_deserialize(_models.ErrorModel, pipeline_response)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         deserialized = self._deserialize("ManagedVMSize", pipeline_response.http_response)
