@@ -32,6 +32,19 @@ class TestStorageManagementFileSharesOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
+    def test_file_shares_get(self, resource_group):
+        response = self.client.file_shares.get(
+            resource_group_name=resource_group.name,
+            account_name="str",
+            share_name="str",
+            api_version="2024-01-01",
+        )
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy
     def test_file_shares_create(self, resource_group):
         response = self.client.file_shares.create(
             resource_group_name=resource_group.name,
@@ -43,8 +56,8 @@ class TestStorageManagementFileSharesOperations(AzureMgmtRecordedTestCase):
                 "accessTierStatus": "str",
                 "deleted": bool,
                 "deletedTime": "2020-02-20 00:00:00",
+                "eTag": "str",
                 "enabledProtocols": "str",
-                "etag": "str",
                 "fileSharePaidBursting": {
                     "paidBurstingEnabled": bool,
                     "paidBurstingMaxBandwidthMibps": 0,
@@ -79,6 +92,14 @@ class TestStorageManagementFileSharesOperations(AzureMgmtRecordedTestCase):
                     }
                 ],
                 "snapshotTime": "2020-02-20 00:00:00",
+                "systemData": {
+                    "createdAt": "2020-02-20 00:00:00",
+                    "createdBy": "str",
+                    "createdByType": "str",
+                    "lastModifiedAt": "2020-02-20 00:00:00",
+                    "lastModifiedBy": "str",
+                    "lastModifiedByType": "str",
+                },
                 "type": "str",
                 "version": "str",
             },
@@ -101,8 +122,8 @@ class TestStorageManagementFileSharesOperations(AzureMgmtRecordedTestCase):
                 "accessTierStatus": "str",
                 "deleted": bool,
                 "deletedTime": "2020-02-20 00:00:00",
+                "eTag": "str",
                 "enabledProtocols": "str",
-                "etag": "str",
                 "fileSharePaidBursting": {
                     "paidBurstingEnabled": bool,
                     "paidBurstingMaxBandwidthMibps": 0,
@@ -137,22 +158,17 @@ class TestStorageManagementFileSharesOperations(AzureMgmtRecordedTestCase):
                     }
                 ],
                 "snapshotTime": "2020-02-20 00:00:00",
+                "systemData": {
+                    "createdAt": "2020-02-20 00:00:00",
+                    "createdBy": "str",
+                    "createdByType": "str",
+                    "lastModifiedAt": "2020-02-20 00:00:00",
+                    "lastModifiedBy": "str",
+                    "lastModifiedByType": "str",
+                },
                 "type": "str",
                 "version": "str",
             },
-            api_version="2024-01-01",
-        )
-
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
-    def test_file_shares_get(self, resource_group):
-        response = self.client.file_shares.get(
-            resource_group_name=resource_group.name,
-            account_name="str",
-            share_name="str",
             api_version="2024-01-01",
         )
 
@@ -174,12 +190,11 @@ class TestStorageManagementFileSharesOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_file_shares_restore(self, resource_group):
-        response = self.client.file_shares.restore(
+    def test_file_shares_lease(self, resource_group):
+        response = self.client.file_shares.lease(
             resource_group_name=resource_group.name,
             account_name="str",
             share_name="str",
-            deleted_share={"deletedShareName": "str", "deletedShareVersion": "str"},
             api_version="2024-01-01",
         )
 
@@ -188,11 +203,12 @@ class TestStorageManagementFileSharesOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_file_shares_lease(self, resource_group):
-        response = self.client.file_shares.lease(
+    def test_file_shares_restore(self, resource_group):
+        response = self.client.file_shares.restore(
             resource_group_name=resource_group.name,
             account_name="str",
             share_name="str",
+            deleted_share={"deletedShareName": "str", "deletedShareVersion": "str"},
             api_version="2024-01-01",
         )
 
