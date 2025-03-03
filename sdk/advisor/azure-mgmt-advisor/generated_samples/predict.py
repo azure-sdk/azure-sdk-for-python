@@ -15,7 +15,7 @@ from azure.mgmt.advisor import AdvisorManagementClient
     pip install azure-identity
     pip install azure-mgmt-advisor
 # USAGE
-    python create_suppression.py
+    python predict.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -27,18 +27,26 @@ from azure.mgmt.advisor import AdvisorManagementClient
 def main():
     client = AdvisorManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="SUBSCRIPTION_ID",
+        subscription_id="subscriptionId",
     )
 
-    response = client.suppressions.create(
-        resource_uri="resourceUri",
-        recommendation_id="recommendationId",
-        name="suppressionName1",
-        suppression_contract={"properties": {"ttl": "07:00:00:00"}},
+    response = client.predict(
+        prediction_request={
+            "properties": {
+                "extendedProperties": {
+                    "deploymentType": "Linux_IaaS_Software_Store",
+                    "numberOfInstances": 10,
+                    "region": "CentralUS",
+                    "sku": "Standard_Dv4",
+                    "type": "iaas",
+                },
+                "predictionType": "PredictiveRightsizing",
+            }
+        },
     )
     print(response)
 
 
-# x-ms-original-file: specification/advisor/resource-manager/Microsoft.Advisor/stable/2025-01-01/examples/CreateSuppression.json
+# x-ms-original-file: specification/advisor/resource-manager/Microsoft.Advisor/stable/2025-01-01/examples/Predict.json
 if __name__ == "__main__":
     main()
