@@ -201,8 +201,10 @@ class AgentPool(SubResource):
      system pools. The default value is 1.
     :vartype count: int
     :ivar vm_size: VM size availability varies by region. If a node contains insufficient compute
-     resources (memory, cpu, etc) pods might fail to run correctly. For more details on restricted
-     VM sizes, see: https://docs.microsoft.com/azure/aks/quotas-skus-regions.
+     resources (memory, cpu, etc) pods might fail to run correctly. If this field is not specified,
+     AKS will attempt to find an appropriate VM SKU for your pool, based on quota and capacity. For
+     more details on restricted VM sizes, see:
+     https://docs.microsoft.com/azure/aks/quotas-skus-regions.
     :vartype vm_size: str
     :ivar os_disk_size_gb: OS Disk Size in GB to be used to specify the disk size for every machine
      in the master/agent pool. If you specify 0, it will apply the default osDisk size according to
@@ -482,8 +484,10 @@ class AgentPool(SubResource):
          system pools. The default value is 1.
         :paramtype count: int
         :keyword vm_size: VM size availability varies by region. If a node contains insufficient
-         compute resources (memory, cpu, etc) pods might fail to run correctly. For more details on
-         restricted VM sizes, see: https://docs.microsoft.com/azure/aks/quotas-skus-regions.
+         compute resources (memory, cpu, etc) pods might fail to run correctly. If this field is not
+         specified, AKS will attempt to find an appropriate VM SKU for your pool, based on quota and
+         capacity. For more details on restricted VM sizes, see:
+         https://docs.microsoft.com/azure/aks/quotas-skus-regions.
         :paramtype vm_size: str
         :keyword os_disk_size_gb: OS Disk Size in GB to be used to specify the disk size for every
          machine in the master/agent pool. If you specify 0, it will apply the default osDisk size
@@ -1020,7 +1024,7 @@ class AgentPoolUpgradeSettings(_serialization.Model):
     :ivar max_surge: This can either be set to an integer (e.g. '5') or a percentage (e.g. '50%').
      If a percentage is specified, it is the percentage of the total agent pool size at the time of
      the upgrade. For percentages, fractional nodes are rounded up. If not specified, the default is
-     1. For more information, including best practices, see:
+     10%. For more information, including best practices, see:
      https://docs.microsoft.com/azure/aks/upgrade-cluster#customize-node-surge-upgrade.
     :vartype max_surge: str
     :ivar drain_timeout_in_minutes: The amount of time (in minutes) to wait on eviction of pods and
@@ -1057,7 +1061,7 @@ class AgentPoolUpgradeSettings(_serialization.Model):
         :keyword max_surge: This can either be set to an integer (e.g. '5') or a percentage (e.g.
          '50%'). If a percentage is specified, it is the percentage of the total agent pool size at the
          time of the upgrade. For percentages, fractional nodes are rounded up. If not specified, the
-         default is 1. For more information, including best practices, see:
+         default is 10%. For more information, including best practices, see:
          https://docs.microsoft.com/azure/aks/upgrade-cluster#customize-node-surge-upgrade.
         :paramtype max_surge: str
         :keyword drain_timeout_in_minutes: The amount of time (in minutes) to wait on eviction of pods
@@ -3636,8 +3640,10 @@ class ManagedClusterAgentPoolProfileProperties(_serialization.Model):
      system pools. The default value is 1.
     :vartype count: int
     :ivar vm_size: VM size availability varies by region. If a node contains insufficient compute
-     resources (memory, cpu, etc) pods might fail to run correctly. For more details on restricted
-     VM sizes, see: https://docs.microsoft.com/azure/aks/quotas-skus-regions.
+     resources (memory, cpu, etc) pods might fail to run correctly. If this field is not specified,
+     AKS will attempt to find an appropriate VM SKU for your pool, based on quota and capacity. For
+     more details on restricted VM sizes, see:
+     https://docs.microsoft.com/azure/aks/quotas-skus-regions.
     :vartype vm_size: str
     :ivar os_disk_size_gb: OS Disk Size in GB to be used to specify the disk size for every machine
      in the master/agent pool. If you specify 0, it will apply the default osDisk size according to
@@ -3910,8 +3916,10 @@ class ManagedClusterAgentPoolProfileProperties(_serialization.Model):
          system pools. The default value is 1.
         :paramtype count: int
         :keyword vm_size: VM size availability varies by region. If a node contains insufficient
-         compute resources (memory, cpu, etc) pods might fail to run correctly. For more details on
-         restricted VM sizes, see: https://docs.microsoft.com/azure/aks/quotas-skus-regions.
+         compute resources (memory, cpu, etc) pods might fail to run correctly. If this field is not
+         specified, AKS will attempt to find an appropriate VM SKU for your pool, based on quota and
+         capacity. For more details on restricted VM sizes, see:
+         https://docs.microsoft.com/azure/aks/quotas-skus-regions.
         :paramtype vm_size: str
         :keyword os_disk_size_gb: OS Disk Size in GB to be used to specify the disk size for every
          machine in the master/agent pool. If you specify 0, it will apply the default osDisk size
@@ -4132,8 +4140,10 @@ class ManagedClusterAgentPoolProfile(ManagedClusterAgentPoolProfileProperties):
      system pools. The default value is 1.
     :vartype count: int
     :ivar vm_size: VM size availability varies by region. If a node contains insufficient compute
-     resources (memory, cpu, etc) pods might fail to run correctly. For more details on restricted
-     VM sizes, see: https://docs.microsoft.com/azure/aks/quotas-skus-regions.
+     resources (memory, cpu, etc) pods might fail to run correctly. If this field is not specified,
+     AKS will attempt to find an appropriate VM SKU for your pool, based on quota and capacity. For
+     more details on restricted VM sizes, see:
+     https://docs.microsoft.com/azure/aks/quotas-skus-regions.
     :vartype vm_size: str
     :ivar os_disk_size_gb: OS Disk Size in GB to be used to specify the disk size for every machine
      in the master/agent pool. If you specify 0, it will apply the default osDisk size according to
@@ -4411,8 +4421,10 @@ class ManagedClusterAgentPoolProfile(ManagedClusterAgentPoolProfileProperties):
          system pools. The default value is 1.
         :paramtype count: int
         :keyword vm_size: VM size availability varies by region. If a node contains insufficient
-         compute resources (memory, cpu, etc) pods might fail to run correctly. For more details on
-         restricted VM sizes, see: https://docs.microsoft.com/azure/aks/quotas-skus-regions.
+         compute resources (memory, cpu, etc) pods might fail to run correctly. If this field is not
+         specified, AKS will attempt to find an appropriate VM SKU for your pool, based on quota and
+         capacity. For more details on restricted VM sizes, see:
+         https://docs.microsoft.com/azure/aks/quotas-skus-regions.
         :paramtype vm_size: str
         :keyword os_disk_size_gb: OS Disk Size in GB to be used to specify the disk size for every
          machine in the master/agent pool. If you specify 0, it will apply the default osDisk size
