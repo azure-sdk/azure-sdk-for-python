@@ -28,6 +28,7 @@ def main():
     client = NetworkManagementClient(
         credential=DefaultAzureCredential(),
         subscription_id="subid",
+        base_url="BASE_URL",
     )
 
     response = client.application_gateway_private_endpoint_connections.get(
@@ -38,6 +39,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/ApplicationGatewayPrivateEndpointConnectionGet.json
+# x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/ApplicationGatewayPrivateEndpointConnectionGet.json
 if __name__ == "__main__":
     main()
