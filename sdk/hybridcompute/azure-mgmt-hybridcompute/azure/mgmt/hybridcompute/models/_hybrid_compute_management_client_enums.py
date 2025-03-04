@@ -266,8 +266,10 @@ class PatchServiceUsed(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
 
 class ProgramYear(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Describes the program year the volume license is for."""
+    """Specifies if machine is enabled to use the Trusted Platform Module (TPM)."""
 
+    TPM = "TPM"
+    DEFAULT = "Default"
     YEAR1 = "Year 1"
     YEAR2 = "Year 2"
     YEAR3 = "Year 3"
