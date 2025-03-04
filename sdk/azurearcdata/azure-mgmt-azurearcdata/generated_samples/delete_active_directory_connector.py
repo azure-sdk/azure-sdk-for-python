@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.azurearcdata import AzureArcDataManagementClient
 
 """
@@ -29,14 +30,13 @@ def main():
         subscription_id="00000000-1111-2222-3333-444444444444",
     )
 
-    response = client.active_directory_connectors.begin_delete(
+    client.active_directory_connectors.begin_delete(
         resource_group_name="testrg",
         data_controller_name="testdataController",
         active_directory_connector_name="testADConnector",
     ).result()
-    print(response)
 
 
-# x-ms-original-file: specification/azurearcdata/resource-manager/Microsoft.AzureArcData/preview/2022-03-01-preview/examples/DeleteActiveDirectoryConnector.json
+# x-ms-original-file: specification/azurearcdata/resource-manager/Microsoft.AzureArcData/preview/2025-03-01-preview/examples/DeleteActiveDirectoryConnector.json
 if __name__ == "__main__":
     main()
