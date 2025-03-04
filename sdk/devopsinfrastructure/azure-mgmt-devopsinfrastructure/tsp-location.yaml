@@ -1,4 +1,4 @@
 directory: specification/devopsinfrastructure/Microsoft.DevOpsInfrastructure.Management
-commit: 95e89f00932d2a8f04ff80e28f8ce10ee586ca7d
+commit: 203d98d48deb3c3daead3101d106a1977eba2453
 repo: Azure/azure-rest-api-specs
 additionalDirectories: 
