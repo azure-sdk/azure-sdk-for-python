@@ -30,7 +30,7 @@ def main():
         subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.container_group_profile.get_by_revision_number(
+    response = client.cg_profile.get_by_revision_number(
         resource_group_name="demo",
         container_group_profile_name="demo1",
         revision_number="1",
@@ -38,6 +38,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/preview/2024-05-01-preview/examples/ContainerGroupProfileGetByRevisionNumber.json
+# x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/preview/2024-11-01-preview/examples/ContainerGroupProfileGetByRevisionNumber.json
 if __name__ == "__main__":
     main()
