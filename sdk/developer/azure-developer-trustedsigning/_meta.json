@@ -1,0 +1,6 @@
+{
+  "commit": "0e9ecde1ed47d0564a174ec2f18a487b670e4288",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/trustedsigning/TrustedSigning",
+  "@azure-tools/typespec-python": "0.38.4"
+}
