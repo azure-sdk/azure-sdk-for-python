@@ -24,7 +24,7 @@ class TestContainerRegistryManagementWebhooksOperations(AzureMgmtRecordedTestCas
         response = self.client.webhooks.list(
             resource_group_name=resource_group.name,
             registry_name="str",
-            api_version="2023-07-01",
+            api_version="2025-04-01",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -37,7 +37,7 @@ class TestContainerRegistryManagementWebhooksOperations(AzureMgmtRecordedTestCas
             resource_group_name=resource_group.name,
             registry_name="str",
             webhook_name="str",
-            api_version="2023-07-01",
+            api_version="2025-04-01",
         )
 
         # please add some check logic here by yourself
@@ -59,7 +59,7 @@ class TestContainerRegistryManagementWebhooksOperations(AzureMgmtRecordedTestCas
                 "status": "str",
                 "tags": {"str": "str"},
             },
-            api_version="2023-07-01",
+            api_version="2025-04-01",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -72,7 +72,7 @@ class TestContainerRegistryManagementWebhooksOperations(AzureMgmtRecordedTestCas
             resource_group_name=resource_group.name,
             registry_name="str",
             webhook_name="str",
-            api_version="2023-07-01",
+            api_version="2025-04-01",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -93,7 +93,7 @@ class TestContainerRegistryManagementWebhooksOperations(AzureMgmtRecordedTestCas
                 "status": "str",
                 "tags": {"str": "str"},
             },
-            api_version="2023-07-01",
+            api_version="2025-04-01",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -106,7 +106,7 @@ class TestContainerRegistryManagementWebhooksOperations(AzureMgmtRecordedTestCas
             resource_group_name=resource_group.name,
             registry_name="str",
             webhook_name="str",
-            api_version="2023-07-01",
+            api_version="2025-04-01",
         )
 
         # please add some check logic here by yourself
@@ -119,7 +119,7 @@ class TestContainerRegistryManagementWebhooksOperations(AzureMgmtRecordedTestCas
             resource_group_name=resource_group.name,
             registry_name="str",
             webhook_name="str",
-            api_version="2023-07-01",
+            api_version="2025-04-01",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -132,7 +132,7 @@ class TestContainerRegistryManagementWebhooksOperations(AzureMgmtRecordedTestCas
             resource_group_name=resource_group.name,
             registry_name="str",
             webhook_name="str",
-            api_version="2023-07-01",
+            api_version="2025-04-01",
         )
 
         # please add some check logic here by yourself
