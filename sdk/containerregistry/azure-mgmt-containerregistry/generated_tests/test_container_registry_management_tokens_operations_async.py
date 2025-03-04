@@ -25,7 +25,7 @@ class TestContainerRegistryManagementTokensOperationsAsync(AzureMgmtRecordedTest
         response = self.client.tokens.list(
             resource_group_name=resource_group.name,
             registry_name="str",
-            api_version="2023-07-01",
+            api_version="2025-04-01",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -38,7 +38,7 @@ class TestContainerRegistryManagementTokensOperationsAsync(AzureMgmtRecordedTest
             resource_group_name=resource_group.name,
             registry_name="str",
             token_name="str",
-            api_version="2023-07-01",
+            api_version="2025-04-01",
         )
 
         # please add some check logic here by yourself
@@ -87,7 +87,7 @@ class TestContainerRegistryManagementTokensOperationsAsync(AzureMgmtRecordedTest
                     },
                     "type": "str",
                 },
-                api_version="2023-07-01",
+                api_version="2025-04-01",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -102,7 +102,7 @@ class TestContainerRegistryManagementTokensOperationsAsync(AzureMgmtRecordedTest
                 resource_group_name=resource_group.name,
                 registry_name="str",
                 token_name="str",
-                api_version="2023-07-01",
+                api_version="2025-04-01",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -139,7 +139,7 @@ class TestContainerRegistryManagementTokensOperationsAsync(AzureMgmtRecordedTest
                     "scopeMapId": "str",
                     "status": "str",
                 },
-                api_version="2023-07-01",
+                api_version="2025-04-01",
             )
         ).result()  # call '.result()' to poll until service return final result
 
