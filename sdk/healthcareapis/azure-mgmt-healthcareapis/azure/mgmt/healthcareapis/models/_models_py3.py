@@ -1,5 +1,5 @@
-# coding=utf-8
 # pylint: disable=too-many-lines
+# coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -16,10 +16,9 @@ from .. import _serialization
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 JSON = MutableMapping[str, Any]  # pylint: disable=unsubscriptable-object
 
@@ -303,7 +302,7 @@ class TaggedResource(ResourceTags, LocationBasedResource):
         self.tags = tags
 
 
-class DicomService(TaggedResource, ServiceManagedIdentity):  # pylint: disable=too-many-instance-attributes
+class DicomService(TaggedResource, ServiceManagedIdentity):
     """The description of Dicom Service.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -668,7 +667,7 @@ class ErrorDetailsInternal(_serialization.Model):
         self.target = None
 
 
-class FhirService(TaggedResource, ServiceManagedIdentity):  # pylint: disable=too-many-instance-attributes
+class FhirService(TaggedResource, ServiceManagedIdentity):
     """The description of Fhir Service.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1136,7 +1135,7 @@ class ImplementationGuidesConfiguration(_serialization.Model):
         self.us_core_missing_data = us_core_missing_data
 
 
-class IotConnector(TaggedResource, ServiceManagedIdentity):  # pylint: disable=too-many-instance-attributes
+class IotConnector(TaggedResource, ServiceManagedIdentity):
     """IoT Connector definition.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1683,7 +1682,7 @@ class MetricDimension(_serialization.Model):
         self.to_be_exported_for_shoebox = to_be_exported_for_shoebox
 
 
-class MetricSpecification(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class MetricSpecification(_serialization.Model):
     """Specifications of the Metrics for Azure Monitoring.
 
     :ivar name: Name of the metric.
