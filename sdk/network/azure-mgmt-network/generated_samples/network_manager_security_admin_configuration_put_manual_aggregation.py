@@ -28,6 +28,7 @@ def main():
     client = NetworkManagementClient(
         credential=DefaultAzureCredential(),
         subscription_id="11111111-1111-1111-1111-111111111111",
+        base_url="BASE_URL",
     )
 
     response = client.security_admin_configurations.create_or_update(
@@ -44,6 +45,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/NetworkManagerSecurityAdminConfigurationPut_ManualAggregation.json
+# x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/NetworkManagerSecurityAdminConfigurationPut_ManualAggregation.json
 if __name__ == "__main__":
     main()
