@@ -2990,6 +2990,10 @@ class GalleryApplication(Resource):
      :code:`<br>` **Windows** :code:`<br>`\\ :code:`<br>` **Linux**. Known values are: "Windows" and
      "Linux".
     :vartype supported_os_type: str or ~azure.mgmt.compute.v2021_07_01.models.OperatingSystemTypes
+    :ivar provisioning_state: The provisioning state, which only appears in the response. Known
+     values are: "Creating", "Updating", "Failed", "Succeeded", "Deleting", and "Migrating".
+    :vartype provisioning_state: str or
+     ~azure.mgmt.compute.v2021_07_01.models.GalleryApplicationPropertiesProvisioningState
     """
 
     _validation = {
@@ -2997,6 +3001,7 @@ class GalleryApplication(Resource):
         "name": {"readonly": True},
         "type": {"readonly": True},
         "location": {"required": True},
+        "provisioning_state": {"readonly": True},
     }
 
     _attribute_map = {
@@ -3011,6 +3016,7 @@ class GalleryApplication(Resource):
         "release_note_uri": {"key": "properties.releaseNoteUri", "type": "str"},
         "end_of_life_date": {"key": "properties.endOfLifeDate", "type": "iso-8601"},
         "supported_os_type": {"key": "properties.supportedOSType", "type": "str"},
+        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
     }
 
     def __init__(
@@ -3057,6 +3063,7 @@ class GalleryApplication(Resource):
         self.release_note_uri = release_note_uri
         self.end_of_life_date = end_of_life_date
         self.supported_os_type = supported_os_type
+        self.provisioning_state = None
 
 
 class GalleryApplicationList(_serialization.Model):
@@ -3166,12 +3173,17 @@ class GalleryApplicationUpdate(UpdateResourceDefinition):
      :code:`<br>` **Windows** :code:`<br>`\\ :code:`<br>` **Linux**. Known values are: "Windows" and
      "Linux".
     :vartype supported_os_type: str or ~azure.mgmt.compute.v2021_07_01.models.OperatingSystemTypes
+    :ivar provisioning_state: The provisioning state, which only appears in the response. Known
+     values are: "Creating", "Updating", "Failed", "Succeeded", "Deleting", and "Migrating".
+    :vartype provisioning_state: str or
+     ~azure.mgmt.compute.v2021_07_01.models.GalleryApplicationPropertiesProvisioningState
     """
 
     _validation = {
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
+        "provisioning_state": {"readonly": True},
     }
 
     _attribute_map = {
@@ -3185,6 +3197,7 @@ class GalleryApplicationUpdate(UpdateResourceDefinition):
         "release_note_uri": {"key": "properties.releaseNoteUri", "type": "str"},
         "end_of_life_date": {"key": "properties.endOfLifeDate", "type": "iso-8601"},
         "supported_os_type": {"key": "properties.supportedOSType", "type": "str"},
+        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
     }
 
     def __init__(
@@ -3228,6 +3241,7 @@ class GalleryApplicationUpdate(UpdateResourceDefinition):
         self.release_note_uri = release_note_uri
         self.end_of_life_date = end_of_life_date
         self.supported_os_type = supported_os_type
+        self.provisioning_state = None
 
 
 class GalleryApplicationVersion(Resource):
