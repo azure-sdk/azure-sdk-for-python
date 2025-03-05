@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.azurearcdata import AzureArcDataManagementClient
 
 """
@@ -29,13 +30,12 @@ def main():
         subscription_id="00000000-1111-2222-3333-444444444444",
     )
 
-    response = client.sql_server_instances.begin_delete(
+    client.sql_server_instances.begin_delete(
         resource_group_name="testrg",
         sql_server_instance_name="testsqlServerInstance",
     ).result()
-    print(response)
 
 
-# x-ms-original-file: specification/azurearcdata/resource-manager/Microsoft.AzureArcData/preview/2022-03-01-preview/examples/DeleteSqlServerInstance.json
+# x-ms-original-file: specification/azurearcdata/resource-manager/Microsoft.AzureArcData/preview/2025-03-01-preview/examples/DeleteSqlServerInstance.json
 if __name__ == "__main__":
     main()
