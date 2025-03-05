@@ -1,5 +1,5 @@
-# coding=utf-8
 # pylint: disable=too-many-lines
+# coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -13,28 +13,27 @@ from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 from .. import _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
-class AutoScaleProperties(_serialization.Model):
-    """The auto scale settings on Elastic San Appliance.
+class DiskSnapshotList(_serialization.Model):
+    """object to hold array of Disk Snapshot ARM IDs.
 
-    :ivar scale_up_properties: Scale up settings on Elastic San Appliance.
-    :vartype scale_up_properties: ~azure.mgmt.elasticsan.models.ScaleUpProperties
+    :ivar disk_snapshot_ids: array of DiskSnapshot ARM IDs.
+    :vartype disk_snapshot_ids: list[str]
     """
 
     _attribute_map = {
-        "scale_up_properties": {"key": "scaleUpProperties", "type": "ScaleUpProperties"},
+        "disk_snapshot_ids": {"key": "diskSnapshotIds", "type": "[str]"},
     }
 
-    def __init__(self, *, scale_up_properties: Optional["_models.ScaleUpProperties"] = None, **kwargs: Any) -> None:
+    def __init__(self, *, disk_snapshot_ids: Optional[List[str]] = None, **kwargs: Any) -> None:
         """
-        :keyword scale_up_properties: Scale up settings on Elastic San Appliance.
-        :paramtype scale_up_properties: ~azure.mgmt.elasticsan.models.ScaleUpProperties
+        :keyword disk_snapshot_ids: array of DiskSnapshot ARM IDs.
+        :paramtype disk_snapshot_ids: list[str]
         """
         super().__init__(**kwargs)
-        self.scale_up_properties = scale_up_properties
+        self.disk_snapshot_ids = disk_snapshot_ids
 
 
 class Resource(_serialization.Model):
@@ -227,7 +226,7 @@ class ElasticSanList(_serialization.Model):
         self.next_link = None
 
 
-class ElasticSanProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class ElasticSanProperties(_serialization.Model):
     """Elastic San response properties.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -262,8 +261,6 @@ class ElasticSanProperties(_serialization.Model):  # pylint: disable=too-many-in
      optional but if passed in, must be 'Enabled' or 'Disabled'. Known values are: "Enabled" and
      "Disabled".
     :vartype public_network_access: str or ~azure.mgmt.elasticsan.models.PublicNetworkAccess
-    :ivar auto_scale_properties: Auto Scale Properties for Elastic San Appliance.
-    :vartype auto_scale_properties: ~azure.mgmt.elasticsan.models.AutoScaleProperties
     """
 
     _validation = {
@@ -292,7 +289,6 @@ class ElasticSanProperties(_serialization.Model):  # pylint: disable=too-many-in
         "total_size_ti_b": {"key": "totalSizeTiB", "type": "int"},
         "private_endpoint_connections": {"key": "privateEndpointConnections", "type": "[PrivateEndpointConnection]"},
         "public_network_access": {"key": "publicNetworkAccess", "type": "str"},
-        "auto_scale_properties": {"key": "autoScaleProperties", "type": "AutoScaleProperties"},
     }
 
     def __init__(
@@ -303,7 +299,6 @@ class ElasticSanProperties(_serialization.Model):  # pylint: disable=too-many-in
         extended_capacity_size_ti_b: int,
         availability_zones: Optional[List[str]] = None,
         public_network_access: Optional[Union[str, "_models.PublicNetworkAccess"]] = None,
-        auto_scale_properties: Optional["_models.AutoScaleProperties"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -320,8 +315,6 @@ class ElasticSanProperties(_serialization.Model):  # pylint: disable=too-many-in
          optional but if passed in, must be 'Enabled' or 'Disabled'. Known values are: "Enabled" and
          "Disabled".
         :paramtype public_network_access: str or ~azure.mgmt.elasticsan.models.PublicNetworkAccess
-        :keyword auto_scale_properties: Auto Scale Properties for Elastic San Appliance.
-        :paramtype auto_scale_properties: ~azure.mgmt.elasticsan.models.AutoScaleProperties
         """
         super().__init__(**kwargs)
         self.sku = sku
@@ -336,7 +329,6 @@ class ElasticSanProperties(_serialization.Model):  # pylint: disable=too-many-in
         self.total_size_ti_b = None
         self.private_endpoint_connections = None
         self.public_network_access = public_network_access
-        self.auto_scale_properties = auto_scale_properties
 
 
 class ElasticSanUpdate(_serialization.Model):
@@ -382,15 +374,12 @@ class ElasticSanUpdateProperties(_serialization.Model):
      Value is optional but if passed in, must be 'Enabled' or 'Disabled'. Known values are:
      "Enabled" and "Disabled".
     :vartype public_network_access: str or ~azure.mgmt.elasticsan.models.PublicNetworkAccess
-    :ivar auto_scale_properties: Auto Scale Properties for Elastic San Appliance.
-    :vartype auto_scale_properties: ~azure.mgmt.elasticsan.models.AutoScaleProperties
     """
 
     _attribute_map = {
         "base_size_ti_b": {"key": "baseSizeTiB", "type": "int"},
         "extended_capacity_size_ti_b": {"key": "extendedCapacitySizeTiB", "type": "int"},
         "public_network_access": {"key": "publicNetworkAccess", "type": "str"},
-        "auto_scale_properties": {"key": "autoScaleProperties", "type": "AutoScaleProperties"},
     }
 
     def __init__(
@@ -399,7 +388,6 @@ class ElasticSanUpdateProperties(_serialization.Model):
         base_size_ti_b: Optional[int] = None,
         extended_capacity_size_ti_b: Optional[int] = None,
         public_network_access: Optional[Union[str, "_models.PublicNetworkAccess"]] = None,
-        auto_scale_properties: Optional["_models.AutoScaleProperties"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -411,14 +399,11 @@ class ElasticSanUpdateProperties(_serialization.Model):
          Value is optional but if passed in, must be 'Enabled' or 'Disabled'. Known values are:
          "Enabled" and "Disabled".
         :paramtype public_network_access: str or ~azure.mgmt.elasticsan.models.PublicNetworkAccess
-        :keyword auto_scale_properties: Auto Scale Properties for Elastic San Appliance.
-        :paramtype auto_scale_properties: ~azure.mgmt.elasticsan.models.AutoScaleProperties
         """
         super().__init__(**kwargs)
         self.base_size_ti_b = base_size_ti_b
         self.extended_capacity_size_ti_b = extended_capacity_size_ti_b
         self.public_network_access = public_network_access
-        self.auto_scale_properties = auto_scale_properties
 
 
 class EncryptionIdentity(_serialization.Model):
@@ -904,6 +889,26 @@ class OperationListResult(_serialization.Model):
         self.next_link = None
 
 
+class PreValidationResponse(_serialization.Model):
+    """response object for pre validation api.
+
+    :ivar validation_status: a status value indicating success or failure of validation.
+    :vartype validation_status: str
+    """
+
+    _attribute_map = {
+        "validation_status": {"key": "validationStatus", "type": "str"},
+    }
+
+    def __init__(self, *, validation_status: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword validation_status: a status value indicating success or failure of validation.
+        :paramtype validation_status: str
+        """
+        super().__init__(**kwargs)
+        self.validation_status = validation_status
+
+
 class PrivateEndpoint(_serialization.Model):
     """Response for PrivateEndpoint.
 
@@ -1234,59 +1239,6 @@ class ProxyResource(Resource):
      information.
     :vartype system_data: ~azure.mgmt.elasticsan.models.SystemData
     """
-
-
-class ScaleUpProperties(_serialization.Model):
-    """Scale up properties on Elastic San Appliance.
-
-    :ivar unused_size_ti_b: Unused size on Elastic San appliance in TiB.
-    :vartype unused_size_ti_b: int
-    :ivar increase_capacity_unit_by_ti_b: Unit to increase Capacity Unit on Elastic San appliance
-     in TiB.
-    :vartype increase_capacity_unit_by_ti_b: int
-    :ivar capacity_unit_scale_up_limit_ti_b: Maximum scale up size on Elastic San appliance in TiB.
-    :vartype capacity_unit_scale_up_limit_ti_b: int
-    :ivar auto_scale_policy_enforcement: Enable or Disable scale up setting on Elastic San
-     Appliance. Known values are: "None", "Enabled", and "Disabled".
-    :vartype auto_scale_policy_enforcement: str or
-     ~azure.mgmt.elasticsan.models.AutoScalePolicyEnforcement
-    """
-
-    _attribute_map = {
-        "unused_size_ti_b": {"key": "unusedSizeTiB", "type": "int"},
-        "increase_capacity_unit_by_ti_b": {"key": "increaseCapacityUnitByTiB", "type": "int"},
-        "capacity_unit_scale_up_limit_ti_b": {"key": "capacityUnitScaleUpLimitTiB", "type": "int"},
-        "auto_scale_policy_enforcement": {"key": "autoScalePolicyEnforcement", "type": "str"},
-    }
-
-    def __init__(
-        self,
-        *,
-        unused_size_ti_b: Optional[int] = None,
-        increase_capacity_unit_by_ti_b: Optional[int] = None,
-        capacity_unit_scale_up_limit_ti_b: Optional[int] = None,
-        auto_scale_policy_enforcement: Optional[Union[str, "_models.AutoScalePolicyEnforcement"]] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword unused_size_ti_b: Unused size on Elastic San appliance in TiB.
-        :paramtype unused_size_ti_b: int
-        :keyword increase_capacity_unit_by_ti_b: Unit to increase Capacity Unit on Elastic San
-         appliance in TiB.
-        :paramtype increase_capacity_unit_by_ti_b: int
-        :keyword capacity_unit_scale_up_limit_ti_b: Maximum scale up size on Elastic San appliance in
-         TiB.
-        :paramtype capacity_unit_scale_up_limit_ti_b: int
-        :keyword auto_scale_policy_enforcement: Enable or Disable scale up setting on Elastic San
-         Appliance. Known values are: "None", "Enabled", and "Disabled".
-        :paramtype auto_scale_policy_enforcement: str or
-         ~azure.mgmt.elasticsan.models.AutoScalePolicyEnforcement
-        """
-        super().__init__(**kwargs)
-        self.unused_size_ti_b = unused_size_ti_b
-        self.increase_capacity_unit_by_ti_b = increase_capacity_unit_by_ti_b
-        self.capacity_unit_scale_up_limit_ti_b = capacity_unit_scale_up_limit_ti_b
-        self.auto_scale_policy_enforcement = auto_scale_policy_enforcement
 
 
 class Sku(_serialization.Model):
@@ -2121,6 +2073,26 @@ class VolumeList(_serialization.Model):
         super().__init__(**kwargs)
         self.value = value
         self.next_link = None
+
+
+class VolumeNameList(_serialization.Model):
+    """object to hold array of volume names.
+
+    :ivar volume_names: array of volume names.
+    :vartype volume_names: list[str]
+    """
+
+    _attribute_map = {
+        "volume_names": {"key": "volumeNames", "type": "[str]"},
+    }
+
+    def __init__(self, *, volume_names: Optional[List[str]] = None, **kwargs: Any) -> None:
+        """
+        :keyword volume_names: array of volume names.
+        :paramtype volume_names: list[str]
+        """
+        super().__init__(**kwargs)
+        self.volume_names = volume_names
 
 
 class VolumeProperties(_serialization.Model):
