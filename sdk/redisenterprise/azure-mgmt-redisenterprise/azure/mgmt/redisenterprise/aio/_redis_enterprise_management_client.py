@@ -19,7 +19,6 @@ from .. import models as _models
 from .._serialization import Deserializer, Serializer
 from ._configuration import RedisEnterpriseManagementClientConfiguration
 from .operations import (
-    AccessPolicyAssignmentOperations,
     DatabasesOperations,
     Operations,
     OperationsStatusOperations,
@@ -29,11 +28,10 @@ from .operations import (
 )
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from azure.core.credentials_async import AsyncTokenCredential
 
 
-class RedisEnterpriseManagementClient:  # pylint: disable=client-accepts-api-version-keyword,too-many-instance-attributes
+class RedisEnterpriseManagementClient:
     """REST API for managing Redis Enterprise resources in Azure.
 
     :ivar operations: Operations operations
@@ -45,9 +43,6 @@ class RedisEnterpriseManagementClient:  # pylint: disable=client-accepts-api-ver
     :vartype redis_enterprise: azure.mgmt.redisenterprise.aio.operations.RedisEnterpriseOperations
     :ivar databases: DatabasesOperations operations
     :vartype databases: azure.mgmt.redisenterprise.aio.operations.DatabasesOperations
-    :ivar access_policy_assignment: AccessPolicyAssignmentOperations operations
-    :vartype access_policy_assignment:
-     azure.mgmt.redisenterprise.aio.operations.AccessPolicyAssignmentOperations
     :ivar private_endpoint_connections: PrivateEndpointConnectionsOperations operations
     :vartype private_endpoint_connections:
      azure.mgmt.redisenterprise.aio.operations.PrivateEndpointConnectionsOperations
@@ -60,8 +55,8 @@ class RedisEnterpriseManagementClient:  # pylint: disable=client-accepts-api-ver
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2024-09-01-preview". Note that overriding
-     this default value may result in unsupported behavior.
+    :keyword api_version: Api Version. Default value is "2025-04-01". Note that overriding this
+     default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
      Retry-After header is present.
@@ -109,9 +104,6 @@ class RedisEnterpriseManagementClient:  # pylint: disable=client-accepts-api-ver
             self._client, self._config, self._serialize, self._deserialize
         )
         self.databases = DatabasesOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.access_policy_assignment = AccessPolicyAssignmentOperations(
-            self._client, self._config, self._serialize, self._deserialize
-        )
         self.private_endpoint_connections = PrivateEndpointConnectionsOperations(
             self._client, self._config, self._serialize, self._deserialize
         )

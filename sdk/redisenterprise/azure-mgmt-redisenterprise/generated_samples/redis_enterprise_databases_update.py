@@ -27,7 +27,7 @@ from azure.mgmt.redisenterprise import RedisEnterpriseManagementClient
 def main():
     client = RedisEnterpriseManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="e7b5a9d2-6b6a-4d2f-9143-20d9a10f5b8f",
+        subscription_id="subid",
     )
 
     response = client.databases.begin_update(
@@ -36,7 +36,6 @@ def main():
         database_name="default",
         parameters={
             "properties": {
-                "accessKeysAuthentication": "Enabled",
                 "clientProtocol": "Encrypted",
                 "evictionPolicy": "AllKeysLRU",
                 "persistence": {"rdbEnabled": True, "rdbFrequency": "12h"},
@@ -46,6 +45,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/preview/2024-09-01-preview/examples/RedisEnterpriseDatabasesUpdate.json
+# x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/stable/2025-04-01/examples/RedisEnterpriseDatabasesUpdate.json
 if __name__ == "__main__":
     main()

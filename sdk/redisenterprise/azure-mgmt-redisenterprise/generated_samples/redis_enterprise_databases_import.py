@@ -27,7 +27,7 @@ from azure.mgmt.redisenterprise import RedisEnterpriseManagementClient
 def main():
     client = RedisEnterpriseManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="e7b5a9d2-6b6a-4d2f-9143-20d9a10f5b8f",
+        subscription_id="subid",
     )
 
     client.databases.begin_import_method(
@@ -43,6 +43,6 @@ def main():
     ).result()
 
 
-# x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/preview/2024-09-01-preview/examples/RedisEnterpriseDatabasesImport.json
+# x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/stable/2025-04-01/examples/RedisEnterpriseDatabasesImport.json
 if __name__ == "__main__":
     main()
