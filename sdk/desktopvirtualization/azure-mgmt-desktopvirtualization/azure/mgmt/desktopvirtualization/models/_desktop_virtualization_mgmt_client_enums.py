@@ -14,26 +14,37 @@ class AppAttachPackageArchitectures(str, Enum, metaclass=CaseInsensitiveEnumMeta
     """Possible device architectures that an app attach package can be configured for."""
 
     ARM = "ARM"
+    """ARM 32-bit"""
     ARM64 = "ARM64"
+    """ARM 64-bit"""
     X86 = "x86"
+    """32-bit x86"""
     X64 = "x64"
+    """64-bit"""
     NEUTRAL = "Neutral"
+    """Any architecture can be used"""
     X86_A64 = "x86a64"
+    """X86 Compiled Hybrid Portable Executable for ARM64"""
     ALL = "ALL"
+    """Select all listed applications, no filters"""
 
 
 class ApplicationGroupType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Resource Type of ApplicationGroup."""
 
     REMOTE_APP = "RemoteApp"
+    """Application group is Remote and can launch individual applications without a Desktop."""
     DESKTOP = "Desktop"
+    """Application Group delivers a full expected Desktop experience"""
 
 
 class ApplicationType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Application type of application."""
 
     REMOTE_APP = "RemoteApp"
+    """Remote Applications (non-desktop)"""
     DESKTOP = "Desktop"
+    """Desktop Applications"""
 
 
 class CommandLineSetting(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -43,8 +54,11 @@ class CommandLineSetting(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """
 
     DO_NOT_ALLOW = "DoNotAllow"
+    """Cannot be launched with command line arguments."""
     ALLOW = "Allow"
+    """Can optionally be launched with command line arguments."""
     REQUIRE = "Require"
+    """Required to be launched with command line arguments."""
 
 
 class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -57,7 +71,7 @@ class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
 
 class DayOfWeek(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Day of the week."""
+    """Day of the week. Modeled as string."""
 
     MONDAY = "Monday"
     TUESDAY = "Tuesday"
@@ -68,12 +82,35 @@ class DayOfWeek(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     SUNDAY = "Sunday"
 
 
+class DirectUDP(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Direct UDP Connection Settings."""
+
+    DEFAULT = "Default"
+    """AVD-wide settings are used to determine connection availability"""
+    ENABLED = "Enabled"
+    """UDP will attempt this connection type when making connections."""
+    DISABLED = "Disabled"
+    """UDP will not attempt this connection type when making connections"""
+
+
+class DomainJoinType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The type of domain join done by the virtual machine."""
+
+    ACTIVE_DIRECTORY = "ActiveDirectory"
+    """Using microsoft active directory."""
+    AZURE_ACTIVE_DIRECTORY = "AzureActiveDirectory"
+    """Using microsoft azure active directory."""
+
+
 class FailHealthCheckOnStagingFailure(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Parameter indicating how the health check should behave if this package fails staging."""
 
     UNHEALTHY = "Unhealthy"
+    """Health Check will report unhealthy"""
     NEEDS_ASSISTANCE = "NeedsAssistance"
+    """Health Check will report NeedsAssistance"""
     DO_NOT_FAIL = "DoNotFail"
+    """Health Check will not report failure"""
 
 
 class HealthCheckName(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -126,7 +163,7 @@ class HealthCheckName(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     APP_ATTACH_HEALTH_CHECK = "AppAttachHealthCheck"
     """Verifies that the AppAttachService is healthy (there were no issues during package staging).
     The AppAttachService is used to enable the staging/registration (and eventual
-    deregistration/destaging) of MSIX apps that have been set up by the tenant admin. This checks
+    de-registration/destaging) of MSIX apps that have been set up by the tenant admin. This checks
     whether the component had any failures during package staging. Failures in staging will prevent
     some MSIX apps from working properly for the end user. If this check fails, it is non fatal and
     the machine still can service connections, main issue may be certain apps will not work for
@@ -147,14 +184,16 @@ class HealthCheckResult(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
 
 class HostpoolPublicNetworkAccess(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Enabled allows this resource to be accessed from both public and private networks, Disabled
-    allows this resource to only be accessed via private endpoints.
-    """
+    """Enabled to allow this resource to be access from the public network."""
 
     ENABLED = "Enabled"
+    """Allows this resource to be accessed from the public network"""
     DISABLED = "Disabled"
+    """Prevents this resource from being accessed from the public network"""
     ENABLED_FOR_SESSION_HOSTS_ONLY = "EnabledForSessionHostsOnly"
+    """Allows SessionHosts to be accessed from the public network"""
     ENABLED_FOR_CLIENTS_ONLY = "EnabledForClientsOnly"
+    """Allows Clients to be accessed from the public network"""
 
 
 class HostPoolType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -171,84 +210,193 @@ class HostPoolType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     PersonalDesktopAssignmentType must be Direct."""
 
 
+class HostPoolUpdateAction(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Action types for controlling hostpool update."""
+
+    START = "Start"
+    """Start the hostpool update."""
+    PAUSE = "Pause"
+    """Pause the hostpool update."""
+    CANCEL = "Cancel"
+    """Cancel the hostpool update."""
+    RETRY = "Retry"
+    """Retry the hostpool update."""
+    RESUME = "Resume"
+    """Resume the hostpool update"""
+
+
 class LoadBalancerType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The type of the load balancer."""
 
     BREADTH_FIRST = "BreadthFirst"
+    """Uses BreadthFirst algorithm for load balancing."""
     DEPTH_FIRST = "DepthFirst"
+    """Uses DepthFirst algorithm for load balancing."""
     PERSISTENT = "Persistent"
+    """Maintains persistent connections."""
+    MULTIPLE_PERSISTENT = "MultiplePersistent"
+    """Maintains multiple persistents connections."""
+
+
+class ManagedPrivateUDP(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Managed Private UDP Connection Settings."""
+
+    DEFAULT = "Default"
+    """AVD-wide settings are used to determine connection availability"""
+    ENABLED = "Enabled"
+    """UDP will attempt this connection type when making connections."""
+    DISABLED = "Disabled"
+    """UDP will not attempt this connection type when making connections"""
+
+
+class ManagedServiceIdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Type of managed service identity (where both SystemAssigned and UserAssigned types are
+    allowed).
+    """
+
+    NONE = "None"
+    SYSTEM_ASSIGNED = "SystemAssigned"
+    USER_ASSIGNED = "UserAssigned"
+    SYSTEM_ASSIGNED_USER_ASSIGNED = "SystemAssigned,UserAssigned"
+
+
+class ManagementType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The type of management for the hostpool."""
+
+    AUTOMATED = "Automated"
+    """Automated management of the hostpool"""
+    STANDARD = "Standard"
+    """Standard management of the hostpool"""
 
 
 class PackageTimestamped(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Is package timestamped so it can ignore the certificate expiry date."""
 
     TIMESTAMPED = "Timestamped"
+    """Package is timestamped"""
     NOT_TIMESTAMPED = "NotTimestamped"
+    """Package is not timestamped, use certificate expiry date"""
 
 
 class PersonalDesktopAssignmentType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """PersonalDesktopAssignment type for HostPool."""
 
     AUTOMATIC = "Automatic"
+    """Automatically assigns an available personal desktop to the user."""
     DIRECT = "Direct"
+    """Manually assigns a specific personal desktop to the user."""
 
 
 class PreferredAppGroupType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The type of preferred application group type, default to Desktop Application Group."""
 
     NONE = "None"
+    """Internal Use Only"""
     DESKTOP = "Desktop"
+    """Use Desktop Application Group"""
     RAIL_APPLICATIONS = "RailApplications"
+    """Use RailApplications (RemoteApp)"""
 
 
 class PrivateEndpointConnectionProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The current provisioning state."""
 
     SUCCEEDED = "Succeeded"
+    """Provisioning was successful"""
     CREATING = "Creating"
+    """A PrivateEndpointConnection is being created"""
     DELETING = "Deleting"
+    """A PrivateEndpointConnection is being deleted"""
     FAILED = "Failed"
+    """Provisioning failed"""
 
 
 class PrivateEndpointServiceConnectionStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The private endpoint connection status."""
 
     PENDING = "Pending"
+    """Connection is Pending"""
     APPROVED = "Approved"
+    """Connection was Approved"""
     REJECTED = "Rejected"
+    """Connection was rejected"""
 
 
 class ProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The current provisioning state."""
 
     SUCCEEDED = "Succeeded"
+    """Provisioning Successful"""
     PROVISIONING = "Provisioning"
+    """Provisioning in Progress"""
     FAILED = "Failed"
+    """Provisioning Failed"""
     CANCELED = "Canceled"
+    """Provisioning was Canceled"""
+
+
+class ProvisioningStateSHC(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Provisioning state of the Session Host Configuration."""
+
+    SUCCEEDED = "Succeeded"
+    """Provisioning Successful"""
+    FAILED = "Failed"
+    """Provisioning Failed"""
+    CANCELED = "Canceled"
+    """Provisioning was Canceled"""
+    PROVISIONING = "Provisioning"
+    """Provisioning in Progress"""
 
 
 class PublicNetworkAccess(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Enabled allows this resource to be accessed from both public and private networks, Disabled
-    allows this resource to only be accessed via private endpoints.
-    """
+    """Enabled to allow this resource to be access from the public network."""
 
     ENABLED = "Enabled"
+    """This resource is accessible from the public network."""
     DISABLED = "Disabled"
+    """This resource is not accessible from the public network."""
+
+
+class PublicUDP(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Public UDP Connection Settings."""
+
+    DEFAULT = "Default"
+    """AVD-wide settings are used to determine connection availability"""
+    ENABLED = "Enabled"
+    """UDP will attempt this connection type when making connections."""
+    DISABLED = "Disabled"
+    """UDP will not attempt this connection type when making connections"""
 
 
 class RegistrationTokenOperation(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The type of resetting the token."""
 
     DELETE = "Delete"
+    """Delete operation"""
     NONE = "None"
+    """No Operation"""
     UPDATE = "Update"
+    """Update Operation"""
+
+
+class RelayUDP(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Relay UDP Connection Settings."""
+
+    DEFAULT = "Default"
+    """AVD-wide settings are used to determine connection availability"""
+    ENABLED = "Enabled"
+    """UDP will attempt this connection type when making connections."""
+    DISABLED = "Disabled"
+    """UDP will not attempt this connection type when making connections"""
 
 
 class RemoteApplicationType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Resource Type of Application."""
 
     IN_BUILT = "InBuilt"
+    """Built-in applications"""
     MSIX_APPLICATION = "MsixApplication"
+    """Imported MSIX application packages"""
 
 
 class ScalingHostPoolType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -256,26 +404,21 @@ class ScalingHostPoolType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     POOLED = "Pooled"
     """Users get a new (random) SessionHost every time it connects to the HostPool."""
-
-
-class ScalingScheduleDaysOfWeekItem(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """ScalingScheduleDaysOfWeekItem."""
-
-    SUNDAY = "Sunday"
-    MONDAY = "Monday"
-    TUESDAY = "Tuesday"
-    WEDNESDAY = "Wednesday"
-    THURSDAY = "Thursday"
-    FRIDAY = "Friday"
-    SATURDAY = "Saturday"
+    PERSONAL = "Personal"
+    """Users will be assigned a SessionHost either by administrators (PersonalDesktopAssignmentType =
+    Direct) or upon connecting to the pool (PersonalDesktopAssignmentType = Automatic). They will
+    always be redirected to their assigned SessionHost."""
 
 
 class SessionHandlingOperation(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Action to be taken after a user disconnect during the ramp up period."""
 
     NONE = "None"
+    """No action will be taken after disconnect"""
     DEALLOCATE = "Deallocate"
+    """Session Host will be deallocated after disconnect"""
     HIBERNATE = "Hibernate"
+    """Session Host will hibernate after disconnect"""
 
 
 class SessionHostComponentUpdateType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -291,18 +434,51 @@ class SessionHostLoadBalancingAlgorithm(str, Enum, metaclass=CaseInsensitiveEnum
     """Load balancing algorithm for ramp up period."""
 
     BREADTH_FIRST = "BreadthFirst"
+    """Breadth First Algorithm for Load Balancing"""
     DEPTH_FIRST = "DepthFirst"
+    """Depth First Algorithm for Load Balancing"""
+
+
+class SessionHostManagementUpdateOperationStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Operation status for SessionHostManagementUpdate."""
+
+    ERROR = "Error"
+    """The operation has an error."""
+    SCHEDULED = "Scheduled"
+    """The operation is scheduled."""
+    UPDATING_SESSION_HOSTS = "UpdatingSessionHosts"
+    """The operation is currently updating Session Hosts."""
+    VALIDATING_SESSION_HOST_UPDATE = "ValidatingSessionHostUpdate"
+    """The operation is validating the update."""
+    PAUSED = "Paused"
+    """The operation is paused."""
+    PAUSING = "Pausing"
+    """The operation is pausing."""
+    CANCELLING = "Cancelling"
+    """Canceling the operation."""
+    SUCCEEDED = "Succeeded"
+    """The operation succeeded."""
+    FAILED = "Failed"
+    """The operation failed."""
+    CANCELLED = "Cancelled"
+    """The operation is canceled"""
 
 
 class SessionState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """State of user session."""
 
     UNKNOWN = "Unknown"
+    """SessionState is unknown"""
     ACTIVE = "Active"
+    """Session is active"""
     DISCONNECTED = "Disconnected"
+    """Session is disconnected"""
     PENDING = "Pending"
+    """Session is pending connection"""
     LOG_OFF = "LogOff"
+    """Session is logging off"""
     USER_PROFILE_DISK_MOUNTED = "UserProfileDiskMounted"
+    """Session has mounted user profile disk"""
 
 
 class SetStartVMOnConnect(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -312,7 +488,9 @@ class SetStartVMOnConnect(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """
 
     ENABLE = "Enable"
+    """Start VM on Connect is enabled"""
     DISABLE = "Disable"
+    """Start VM on Connect is disabled, must use rampUpAutoStartHosts or turn on manually"""
 
 
 class SkuTier(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -330,9 +508,13 @@ class SSOSecretType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The type of single sign on Secret Type."""
 
     SHARED_KEY = "SharedKey"
+    """The SSO Secret is a Shared Key."""
     CERTIFICATE = "Certificate"
+    """The SSO Secret is a Certificate."""
     SHARED_KEY_IN_KEY_VAULT = "SharedKeyInKeyVault"
+    """The SSO Secret is a SharedKey that is stored in KeyVault."""
     CERTIFICATE_IN_KEY_VAULT = "CertificateInKeyVault"
+    """The SSO Secret is a Certificate that is stored in KeyVault."""
 
 
 class StartupBehavior(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -386,14 +568,53 @@ class StopHostsWhen(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Specifies when to stop hosts during ramp down period."""
 
     ZERO_SESSIONS = "ZeroSessions"
+    """Zero Total Sessions"""
     ZERO_ACTIVE_SESSIONS = "ZeroActiveSessions"
+    """Zero Active Sessions"""
+
+
+class Type(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The type of image session hosts use in the hostpool."""
+
+    MARKETPLACE = "Marketplace"
+    """Using default marketplace images offered by Azure Marketplace."""
+    CUSTOM = "Custom"
+    """Using a custom image."""
 
 
 class UpdateState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Update state of a SessionHost."""
 
     INITIAL = "Initial"
+    """Update is initializing"""
     PENDING = "Pending"
+    """Update is pending"""
     STARTED = "Started"
+    """Update has started"""
     SUCCEEDED = "Succeeded"
+    """Update has succeeded"""
     FAILED = "Failed"
+    """Update has failed"""
+
+
+class VirtualMachineDiskType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The disk type used by virtual machine in hostpool session host."""
+
+    STANDARD_LRS = "Standard_LRS"
+    """Standard HDD locally redundant storage. Best for backup, non-critical, and infrequent access."""
+    PREMIUM_LRS = "Premium_LRS"
+    """Premium SSD locally redundant storage. Best for production and performance sensitive workloads."""
+    STANDARD_SSD_LRS = "StandardSSD_LRS"
+    """Standard SSD locally redundant storage. Best for web servers, lightly used enterprise
+    applications and dev/test."""
+
+
+class VirtualMachineSecurityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The security type used by virtual machine in hostpool session host. Default is Standard."""
+
+    STANDARD = "Standard"
+    """Standard security protocol. No additional parameters"""
+    TRUSTED_LAUNCH = "TrustedLaunch"
+    """TrustedLaunch allows for secure boot and vTpm"""
+    CONFIDENTIAL_VM = "ConfidentialVM"
+    """Confidential Virtual Machine security protocol"""
