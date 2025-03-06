@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.dynatrace import DynatraceObservabilityMgmtClient
 
 """
@@ -26,7 +27,7 @@ from azure.mgmt.dynatrace import DynatraceObservabilityMgmtClient
 def main():
     client = DynatraceObservabilityMgmtClient(
         credential=DefaultAzureCredential(),
-        subscription_id="nqmcgifgaqlf",
+        subscription_id="1d701e7e-3150-4d33-9279-d4ea03e9110e",
     )
 
     response = client.monitors.get_marketplace_saa_s_resource_details(
@@ -35,6 +36,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/stable/2023-04-27/examples/Monitors_GetMarketplaceSaaSResourceDetails_MaximumSet_Gen.json
+# x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/stable/2024-04-24/examples/Monitors_GetMarketplaceSaaSResourceDetails_MaximumSet_Gen.json
 if __name__ == "__main__":
     main()
