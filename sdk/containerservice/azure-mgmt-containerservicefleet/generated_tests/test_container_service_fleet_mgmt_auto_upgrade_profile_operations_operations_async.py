@@ -15,16 +15,21 @@ AZURE_LOCATION = "eastus"
 
 
 @pytest.mark.skip("you may need to update the auto-generated test case before run it")
-class TestContainerServiceFleetMgmtOperationsAsync(AzureMgmtRecordedTestCase):
+class TestContainerServiceFleetMgmtAutoUpgradeProfileOperationsOperationsAsync(AzureMgmtRecordedTestCase):
     def setup_method(self, method):
         self.client = self.create_mgmt_client(ContainerServiceFleetMgmtClient, is_async=True)
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_operations_list(self, resource_group):
-        response = self.client.operations.list(
-            api_version="2025-03-01",
-        )
-        result = [r async for r in response]
+    async def test_auto_upgrade_profile_operations_begin_generate_update_run(self, resource_group):
+        response = await (
+            await self.client.auto_upgrade_profile_operations.begin_generate_update_run(
+                resource_group_name=resource_group.name,
+                fleet_name="str",
+                auto_upgrade_profile_name="str",
+                api_version="2025-03-01",
+            )
+        ).result()  # call '.result()' to poll until service return final result
+
         # please add some check logic here by yourself
         # ...
