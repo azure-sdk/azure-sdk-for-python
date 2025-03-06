@@ -1,4 +1,3 @@
-# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,7 +6,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 import sys
-from typing import Any, Callable, Dict, Iterable, Optional, Type, TypeVar
+from typing import Any, Callable, Dict, Iterable, Optional, TypeVar
 import urllib.parse
 
 from azure.core.exceptions import (
@@ -20,20 +19,18 @@ from azure.core.exceptions import (
 )
 from azure.core.paging import ItemPaged
 from azure.core.pipeline import PipelineResponse
-from azure.core.pipeline.transport import HttpResponse
-from azure.core.rest import HttpRequest
+from azure.core.rest import HttpRequest, HttpResponse
 from azure.core.tracing.decorator import distributed_trace
 from azure.core.utils import case_insensitive_dict
 from azure.mgmt.core.exceptions import ARMErrorFormat
 
 from .. import models as _models
 from .._serialization import Serializer
-from .._vendor import SearchManagementClientMixinABC, _convert_request
 
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
 
@@ -53,7 +50,7 @@ def build_create_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-06-01-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-05-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -63,9 +60,7 @@ def build_create_request(
     )  # pylint: disable=line-too-long
     path_format_arguments = {
         "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "searchServiceName": _SERIALIZER.url(
-            "search_service_name", search_service_name, "str", pattern=r"^(?=.{2,60}$)[a-z0-9][a-z0-9]+(-[a-z0-9]+)*$"
-        ),
+        "searchServiceName": _SERIALIZER.url("search_service_name", search_service_name, "str"),
         "name": _SERIALIZER.url("name", name, "str"),
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
     }
@@ -94,7 +89,7 @@ def build_list_by_search_service_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-06-01-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-05-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -104,9 +99,7 @@ def build_list_by_search_service_request(
     )  # pylint: disable=line-too-long
     path_format_arguments = {
         "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "searchServiceName": _SERIALIZER.url(
-            "search_service_name", search_service_name, "str", pattern=r"^(?=.{2,60}$)[a-z0-9][a-z0-9]+(-[a-z0-9]+)*$"
-        ),
+        "searchServiceName": _SERIALIZER.url("search_service_name", search_service_name, "str"),
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
     }
 
@@ -135,7 +128,7 @@ def build_delete_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-06-01-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-05-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -145,9 +138,7 @@ def build_delete_request(
     )  # pylint: disable=line-too-long
     path_format_arguments = {
         "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "searchServiceName": _SERIALIZER.url(
-            "search_service_name", search_service_name, "str", pattern=r"^(?=.{2,60}$)[a-z0-9][a-z0-9]+(-[a-z0-9]+)*$"
-        ),
+        "searchServiceName": _SERIALIZER.url("search_service_name", search_service_name, "str"),
         "key": _SERIALIZER.url("key", key, "str"),
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
     }
@@ -202,8 +193,8 @@ class QueryKeysOperations:
         :param resource_group_name: The name of the resource group within the current subscription. You
          can obtain this value from the Azure Resource Manager API or the portal. Required.
         :type resource_group_name: str
-        :param search_service_name: The name of the Azure AI Search service associated with the
-         specified resource group. Required.
+        :param search_service_name: The name of the search service associated with the specified
+         resource group. Required.
         :type search_service_name: str
         :param name: The name of the new query API key. Required.
         :type name: str
@@ -214,7 +205,7 @@ class QueryKeysOperations:
         :rtype: ~azure.mgmt.search.models.QueryKey
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -242,7 +233,6 @@ class QueryKeysOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -256,7 +246,7 @@ class QueryKeysOperations:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("QueryKey", pipeline_response)
+        deserialized = self._deserialize("QueryKey", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -271,7 +261,7 @@ class QueryKeysOperations:
         search_management_request_options: Optional[_models.SearchManagementRequestOptions] = None,
         **kwargs: Any
     ) -> Iterable["_models.QueryKey"]:
-        """Returns the list of query API keys for the given Azure AI Search service.
+        """Returns the list of query API keys for the given search service.
 
         .. seealso::
            - https://aka.ms/search-manage
@@ -279,8 +269,8 @@ class QueryKeysOperations:
         :param resource_group_name: The name of the resource group within the current subscription. You
          can obtain this value from the Azure Resource Manager API or the portal. Required.
         :type resource_group_name: str
-        :param search_service_name: The name of the Azure AI Search service associated with the
-         specified resource group. Required.
+        :param search_service_name: The name of the search service associated with the specified
+         resource group. Required.
         :type search_service_name: str
         :param search_management_request_options: Parameter group. Default value is None.
         :type search_management_request_options:
@@ -295,7 +285,7 @@ class QueryKeysOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.ListQueryKeysResult] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -318,7 +308,6 @@ class QueryKeysOperations:
                     headers=_headers,
                     params=_params,
                 )
-                _request = _convert_request(_request)
                 _request.url = self._client.format_url(_request.url)
 
             else:
@@ -334,7 +323,6 @@ class QueryKeysOperations:
                 _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                _request = _convert_request(_request)
                 _request.url = self._client.format_url(_request.url)
                 _request.method = "GET"
             return _request
@@ -381,8 +369,8 @@ class QueryKeysOperations:
         :param resource_group_name: The name of the resource group within the current subscription. You
          can obtain this value from the Azure Resource Manager API or the portal. Required.
         :type resource_group_name: str
-        :param search_service_name: The name of the Azure AI Search service associated with the
-         specified resource group. Required.
+        :param search_service_name: The name of the search service associated with the specified
+         resource group. Required.
         :type search_service_name: str
         :param key: The query key to be deleted. Query keys are identified by value, not by name.
          Required.
@@ -394,7 +382,7 @@ class QueryKeysOperations:
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -422,7 +410,6 @@ class QueryKeysOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
