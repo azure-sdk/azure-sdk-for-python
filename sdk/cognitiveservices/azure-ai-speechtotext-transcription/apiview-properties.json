@@ -1,0 +1,33 @@
+{
+    "CrossLanguagePackageId": "SpeechToText",
+    "CrossLanguageDefinitionId": {
+        "azure.ai.speechtotext.transcription.models.ChannelCombinedPhrases": "SpeechToText.FastTranscriptionClient.ChannelCombinedPhrases",
+        "azure.ai.speechtotext.transcription.models.DiarizationProperties": "SpeechToText.BatchTranscriptionClient.DiarizationProperties",
+        "azure.ai.speechtotext.transcription.models.EntityError": "SpeechToText.EntityError",
+        "azure.ai.speechtotext.transcription.models.EntityReference": "SpeechToText.EntityReference",
+        "azure.ai.speechtotext.transcription.models.FileLinks": "SpeechToText.BatchTranscriptionClient.FileLinks",
+        "azure.ai.speechtotext.transcription.models.FileProperties": "SpeechToText.BatchTranscriptionClient.FileProperties",
+        "azure.ai.speechtotext.transcription.models.LanguageIdentificationProperties": "SpeechToText.BatchTranscriptionClient.LanguageIdentificationProperties",
+        "azure.ai.speechtotext.transcription.models.TranscribeConfig": "SpeechToText.FastTranscriptionClient.TranscribeDefinition",
+        "azure.ai.speechtotext.transcription.models.TranscribeDiarizationProperties": "SpeechToText.FastTranscriptionClient.TranscribeDiarizationProperties",
+        "azure.ai.speechtotext.transcription.models.TranscribedPhrase": "SpeechToText.FastTranscriptionClient.Phrase",
+        "azure.ai.speechtotext.transcription.models.TranscribedWord": "SpeechToText.FastTranscriptionClient.Word",
+        "azure.ai.speechtotext.transcription.models.TranscribeResult": "SpeechToText.FastTranscriptionClient.TranscribeResult",
+        "azure.ai.speechtotext.transcription.models.TranscriptionFile": "SpeechToText.BatchTranscriptionClient.TranscriptionFile",
+        "azure.ai.speechtotext.transcription.models.TranscriptionJob": "SpeechToText.BatchTranscriptionClient.TranscriptionJob",
+        "azure.ai.speechtotext.transcription.models.TranscriptionLinks": "SpeechToText.BatchTranscriptionClient.TranscriptionLinks",
+        "azure.ai.speechtotext.transcription.models.TranscriptionProperties": "SpeechToText.BatchTranscriptionClient.TranscriptionProperties",
+        "azure.ai.speechtotext.transcription.models.PunctuationMode": "SpeechToText.BatchTranscriptionClient.PunctuationMode",
+        "azure.ai.speechtotext.transcription.models.ProfanityFilterMode": "SpeechToText.ProfanityFilterMode",
+        "azure.ai.speechtotext.transcription.models.LanguageIdentificationMode": "SpeechToText.BatchTranscriptionClient.LanguageIdentificationMode",
+        "azure.ai.speechtotext.transcription.models.JobStatus": "SpeechToText.BatchTranscriptionClient.JobStatus",
+        "azure.ai.speechtotext.transcription.models.FileKind": "SpeechToText.BatchTranscriptionClient.FileKind",
+        "azure.ai.speechtotext.transcription.SpeechToTextClient.batch_transcription_client.submit_transcription": "SpeechToText.BatchTranscriptionClient.submitTranscription",
+        "azure.ai.speechtotext.transcription.SpeechToTextClient.batch_transcription_client.get_transcription": "SpeechToText.BatchTranscriptionClient.getTranscription",
+        "azure.ai.speechtotext.transcription.SpeechToTextClient.batch_transcription_client.patch_transcription": "SpeechToText.BatchTranscriptionClient.patchTranscription",
+        "azure.ai.speechtotext.transcription.SpeechToTextClient.batch_transcription_client.delete_transcription": "SpeechToText.BatchTranscriptionClient.deleteTranscription",
+        "azure.ai.speechtotext.transcription.SpeechToTextClient.batch_transcription_client.list_transcriptions": "SpeechToText.BatchTranscriptionClient.listTranscriptions",
+        "azure.ai.speechtotext.transcription.SpeechToTextClient.batch_transcription_client.list_transcription_files": "SpeechToText.BatchTranscriptionClient.listTranscriptionFiles",
+        "azure.ai.speechtotext.transcription.SpeechToTextClient.fast_transcription_client.transcribe": "SpeechToText.FastTranscriptionClient.transcribe"
+    }
+}
