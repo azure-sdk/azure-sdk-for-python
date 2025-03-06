@@ -1,5 +1,5 @@
-# coding=utf-8
 # pylint: disable=too-many-lines
+# coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -13,7 +13,6 @@ from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 from .. import _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
@@ -280,7 +279,7 @@ class Resource(_serialization.Model):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -316,7 +315,7 @@ class ProxyResource(Resource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -325,22 +324,6 @@ class ProxyResource(Resource):
     :vartype type: str
     """
 
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-
 
 class DynatraceSingleSignOnResource(ProxyResource):
     """Single sign-on configurations for a given monitor resource.
@@ -348,7 +331,7 @@ class DynatraceSingleSignOnResource(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -424,7 +407,7 @@ class DynatraceSingleSignOnResource(ProxyResource):
 class DynatraceSingleSignOnResourceListResult(_serialization.Model):
     """The response of a DynatraceSingleSignOnResource list operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: The items on this page. Required.
     :vartype value: list[~azure.mgmt.dynatrace.models.DynatraceSingleSignOnResource]
@@ -640,7 +623,7 @@ class IdentityProperties(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar tenant_id: The Active Directory tenant id of the principal.
     :vartype tenant_id: str
@@ -723,7 +706,7 @@ class LinkableEnvironmentListResponse(_serialization.Model):
 class LinkableEnvironmentRequest(_serialization.Model):
     """Request for getting all the linkable environments for a user.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar tenant_id: Tenant Id of the user in which they want to link the environment. Required.
     :vartype tenant_id: str
@@ -863,7 +846,7 @@ class LogRules(_serialization.Model):
 class MarketplaceSaaSResourceDetailsRequest(_serialization.Model):
     """Request for getting Marketplace SaaS resource details for a tenant Id.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar tenant_id: Tenant Id. Required.
     :vartype tenant_id: str
@@ -1088,10 +1071,10 @@ class TrackedResource(Resource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1131,15 +1114,15 @@ class TrackedResource(Resource):
         self.location = location
 
 
-class MonitorResource(TrackedResource):  # pylint: disable=too-many-instance-attributes
+class MonitorResource(TrackedResource):
     """Dynatrace Monitor Resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1260,7 +1243,7 @@ class MonitorResource(TrackedResource):  # pylint: disable=too-many-instance-att
 class MonitorResourceListResult(_serialization.Model):
     """The response of a MonitorResource list operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: The items on this page. Required.
     :vartype value: list[~azure.mgmt.dynatrace.models.MonitorResource]
@@ -1481,7 +1464,7 @@ class PlanData(_serialization.Model):
 class SSODetailsRequest(_serialization.Model):
     """Request for getting sso details for a user.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar user_principal: user principal id of the user. Required.
     :vartype user_principal: str
@@ -1629,7 +1612,7 @@ class TagRule(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1689,7 +1672,7 @@ class TagRule(ProxyResource):
 class TagRuleListResult(_serialization.Model):
     """The response of a TagRule list operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: The items on this page. Required.
     :vartype value: list[~azure.mgmt.dynatrace.models.TagRule]
@@ -1721,7 +1704,7 @@ class TagRuleListResult(_serialization.Model):
 class UserAssignedIdentity(_serialization.Model):
     """A managed identity assigned by the user.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar client_id: The active directory client identifier for this principal. Required.
     :vartype client_id: str
