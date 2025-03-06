@@ -1,4 +1,3 @@
-# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8,7 +7,7 @@
 # --------------------------------------------------------------------------
 import datetime
 import sys
-from typing import Any, Callable, Dict, List, Optional, Type, TypeVar, Union
+from typing import Any, Callable, Dict, List, Optional, TypeVar, Union
 
 from azure.core.exceptions import (
     ClientAuthenticationError,
@@ -19,20 +18,18 @@ from azure.core.exceptions import (
     map_error,
 )
 from azure.core.pipeline import PipelineResponse
-from azure.core.pipeline.transport import HttpResponse
-from azure.core.rest import HttpRequest
+from azure.core.rest import HttpRequest, HttpResponse
 from azure.core.tracing.decorator import distributed_trace
 from azure.core.utils import case_insensitive_dict
 from azure.mgmt.core.exceptions import ARMErrorFormat
 
 from .. import models as _models
 from .._serialization import Serializer
-from .._vendor import CdnManagementClientMixinABC, _convert_request
 
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
 
@@ -59,7 +56,7 @@ def build_get_log_analytics_metrics_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-02-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -72,7 +69,9 @@ def build_get_log_analytics_metrics_request(
         "resourceGroupName": _SERIALIZER.url(
             "resource_group_name", resource_group_name, "str", max_length=90, min_length=1, pattern=r"^[-\w\._\(\)]+$"
         ),
-        "profileName": _SERIALIZER.url("profile_name", profile_name, "str"),
+        "profileName": _SERIALIZER.url(
+            "profile_name", profile_name, "str", max_length=260, min_length=1, pattern=r"^[a-zA-Z0-9]+(-*[a-zA-Z0-9])*$"
+        ),
     }
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
@@ -118,7 +117,7 @@ def build_get_log_analytics_rankings_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-02-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -131,7 +130,9 @@ def build_get_log_analytics_rankings_request(
         "resourceGroupName": _SERIALIZER.url(
             "resource_group_name", resource_group_name, "str", max_length=90, min_length=1, pattern=r"^[-\w\._\(\)]+$"
         ),
-        "profileName": _SERIALIZER.url("profile_name", profile_name, "str"),
+        "profileName": _SERIALIZER.url(
+            "profile_name", profile_name, "str", max_length=260, min_length=1, pattern=r"^[a-zA-Z0-9]+(-*[a-zA-Z0-9])*$"
+        ),
     }
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
@@ -160,7 +161,7 @@ def build_get_log_analytics_locations_request(  # pylint: disable=name-too-long
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-02-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -173,7 +174,9 @@ def build_get_log_analytics_locations_request(  # pylint: disable=name-too-long
         "resourceGroupName": _SERIALIZER.url(
             "resource_group_name", resource_group_name, "str", max_length=90, min_length=1, pattern=r"^[-\w\._\(\)]+$"
         ),
-        "profileName": _SERIALIZER.url("profile_name", profile_name, "str"),
+        "profileName": _SERIALIZER.url(
+            "profile_name", profile_name, "str", max_length=260, min_length=1, pattern=r"^[a-zA-Z0-9]+(-*[a-zA-Z0-9])*$"
+        ),
     }
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
@@ -193,7 +196,7 @@ def build_get_log_analytics_resources_request(  # pylint: disable=name-too-long
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-02-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -206,7 +209,9 @@ def build_get_log_analytics_resources_request(  # pylint: disable=name-too-long
         "resourceGroupName": _SERIALIZER.url(
             "resource_group_name", resource_group_name, "str", max_length=90, min_length=1, pattern=r"^[-\w\._\(\)]+$"
         ),
-        "profileName": _SERIALIZER.url("profile_name", profile_name, "str"),
+        "profileName": _SERIALIZER.url(
+            "profile_name", profile_name, "str", max_length=260, min_length=1, pattern=r"^[a-zA-Z0-9]+(-*[a-zA-Z0-9])*$"
+        ),
     }
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
@@ -237,7 +242,7 @@ def build_get_waf_log_analytics_metrics_request(  # pylint: disable=name-too-lon
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-02-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -250,7 +255,9 @@ def build_get_waf_log_analytics_metrics_request(  # pylint: disable=name-too-lon
         "resourceGroupName": _SERIALIZER.url(
             "resource_group_name", resource_group_name, "str", max_length=90, min_length=1, pattern=r"^[-\w\._\(\)]+$"
         ),
-        "profileName": _SERIALIZER.url("profile_name", profile_name, "str"),
+        "profileName": _SERIALIZER.url(
+            "profile_name", profile_name, "str", max_length=260, min_length=1, pattern=r"^[a-zA-Z0-9]+(-*[a-zA-Z0-9])*$"
+        ),
     }
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
@@ -291,7 +298,7 @@ def build_get_waf_log_analytics_rankings_request(  # pylint: disable=name-too-lo
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-02-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-09-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -304,7 +311,9 @@ def build_get_waf_log_analytics_rankings_request(  # pylint: disable=name-too-lo
         "resourceGroupName": _SERIALIZER.url(
             "resource_group_name", resource_group_name, "str", max_length=90, min_length=1, pattern=r"^[-\w\._\(\)]+$"
         ),
-        "profileName": _SERIALIZER.url("profile_name", profile_name, "str"),
+        "profileName": _SERIALIZER.url(
+            "profile_name", profile_name, "str", max_length=260, min_length=1, pattern=r"^[a-zA-Z0-9]+(-*[a-zA-Z0-9])*$"
+        ),
     }
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
@@ -366,8 +375,8 @@ class LogAnalyticsOperations:
 
         :param resource_group_name: Name of the Resource group within the Azure subscription. Required.
         :type resource_group_name: str
-        :param profile_name: Name of the Azure Front Door Standard or Azure Front Door Premium profile
-         which is unique within the resource group. which is unique within the resource group. Required.
+        :param profile_name: Name of the Azure Front Door Standard or Azure Front Door Premium which is
+         unique within the resource group. Required.
         :type profile_name: str
         :param metrics: Required.
         :type metrics: list[str or ~azure.mgmt.cdn.models.LogMetric]
@@ -391,7 +400,7 @@ class LogAnalyticsOperations:
         :rtype: ~azure.mgmt.cdn.models.MetricsResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -422,7 +431,6 @@ class LogAnalyticsOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -437,7 +445,7 @@ class LogAnalyticsOperations:
             error = self._deserialize.failsafe_deserialize(_models.AfdErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("MetricsResponse", pipeline_response)
+        deserialized = self._deserialize("MetricsResponse", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -461,8 +469,8 @@ class LogAnalyticsOperations:
 
         :param resource_group_name: Name of the Resource group within the Azure subscription. Required.
         :type resource_group_name: str
-        :param profile_name: Name of the Azure Front Door Standard or Azure Front Door Premium profile
-         which is unique within the resource group. which is unique within the resource group. Required.
+        :param profile_name: Name of the Azure Front Door Standard or Azure Front Door Premium which is
+         unique within the resource group. Required.
         :type profile_name: str
         :param rankings: Required.
         :type rankings: list[str or ~azure.mgmt.cdn.models.LogRanking]
@@ -480,7 +488,7 @@ class LogAnalyticsOperations:
         :rtype: ~azure.mgmt.cdn.models.RankingsResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -508,7 +516,6 @@ class LogAnalyticsOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -523,7 +530,7 @@ class LogAnalyticsOperations:
             error = self._deserialize.failsafe_deserialize(_models.AfdErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("RankingsResponse", pipeline_response)
+        deserialized = self._deserialize("RankingsResponse", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -538,14 +545,14 @@ class LogAnalyticsOperations:
 
         :param resource_group_name: Name of the Resource group within the Azure subscription. Required.
         :type resource_group_name: str
-        :param profile_name: Name of the Azure Front Door Standard or Azure Front Door Premium profile
-         which is unique within the resource group. which is unique within the resource group. Required.
+        :param profile_name: Name of the Azure Front Door Standard or Azure Front Door Premium which is
+         unique within the resource group. Required.
         :type profile_name: str
         :return: ContinentsResponse or the result of cls(response)
         :rtype: ~azure.mgmt.cdn.models.ContinentsResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -567,7 +574,6 @@ class LogAnalyticsOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -582,7 +588,7 @@ class LogAnalyticsOperations:
             error = self._deserialize.failsafe_deserialize(_models.AfdErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("ContinentsResponse", pipeline_response)
+        deserialized = self._deserialize("ContinentsResponse", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -597,14 +603,14 @@ class LogAnalyticsOperations:
 
         :param resource_group_name: Name of the Resource group within the Azure subscription. Required.
         :type resource_group_name: str
-        :param profile_name: Name of the Azure Front Door Standard or Azure Front Door Premium profile
-         which is unique within the resource group. which is unique within the resource group. Required.
+        :param profile_name: Name of the Azure Front Door Standard or Azure Front Door Premium which is
+         unique within the resource group. Required.
         :type profile_name: str
         :return: ResourcesResponse or the result of cls(response)
         :rtype: ~azure.mgmt.cdn.models.ResourcesResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -626,7 +632,6 @@ class LogAnalyticsOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -641,7 +646,7 @@ class LogAnalyticsOperations:
             error = self._deserialize.failsafe_deserialize(_models.AfdErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("ResourcesResponse", pipeline_response)
+        deserialized = self._deserialize("ResourcesResponse", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -666,8 +671,8 @@ class LogAnalyticsOperations:
 
         :param resource_group_name: Name of the Resource group within the Azure subscription. Required.
         :type resource_group_name: str
-        :param profile_name: Name of the Azure Front Door Standard or Azure Front Door Premium profile
-         which is unique within the resource group. which is unique within the resource group. Required.
+        :param profile_name: Name of the Azure Front Door Standard or Azure Front Door Premium which is
+         unique within the resource group. Required.
         :type profile_name: str
         :param metrics: Required.
         :type metrics: list[str or ~azure.mgmt.cdn.models.WafMetric]
@@ -687,7 +692,7 @@ class LogAnalyticsOperations:
         :rtype: ~azure.mgmt.cdn.models.WafMetricsResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -716,7 +721,6 @@ class LogAnalyticsOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -731,7 +735,7 @@ class LogAnalyticsOperations:
             error = self._deserialize.failsafe_deserialize(_models.AfdErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("WafMetricsResponse", pipeline_response)
+        deserialized = self._deserialize("WafMetricsResponse", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -756,8 +760,8 @@ class LogAnalyticsOperations:
 
         :param resource_group_name: Name of the Resource group within the Azure subscription. Required.
         :type resource_group_name: str
-        :param profile_name: Name of the Azure Front Door Standard or Azure Front Door Premium profile
-         which is unique within the resource group. which is unique within the resource group. Required.
+        :param profile_name: Name of the Azure Front Door Standard or Azure Front Door Premium which is
+         unique within the resource group. Required.
         :type profile_name: str
         :param metrics: Required.
         :type metrics: list[str or ~azure.mgmt.cdn.models.WafMetric]
@@ -777,7 +781,7 @@ class LogAnalyticsOperations:
         :rtype: ~azure.mgmt.cdn.models.WafRankingsResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -806,7 +810,6 @@ class LogAnalyticsOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -821,7 +824,7 @@ class LogAnalyticsOperations:
             error = self._deserialize.failsafe_deserialize(_models.AfdErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("WafRankingsResponse", pipeline_response)
+        deserialized = self._deserialize("WafRankingsResponse", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
