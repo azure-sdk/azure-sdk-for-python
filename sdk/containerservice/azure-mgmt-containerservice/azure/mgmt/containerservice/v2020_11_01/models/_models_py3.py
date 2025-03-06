@@ -3048,6 +3048,8 @@ class ManagedClusterListResult(_serialization.Model):
 class ManagedClusterLoadBalancerProfile(_serialization.Model):
     """Profile of the managed cluster load balancer.
 
+    Variables are only populated by the server, and will be ignored when sending a request.
+
     :ivar managed_outbound_i_ps: Desired managed outbound IPs for the cluster load balancer.
     :vartype managed_outbound_i_ps:
      ~azure.mgmt.containerservice.v2020_11_01.models.ManagedClusterLoadBalancerProfileManagedOutboundIPs
@@ -3071,6 +3073,7 @@ class ManagedClusterLoadBalancerProfile(_serialization.Model):
     """
 
     _validation = {
+        "effective_outbound_i_ps": {"readonly": True},
         "allocated_outbound_ports": {"maximum": 64000, "minimum": 0},
         "idle_timeout_in_minutes": {"maximum": 120, "minimum": 4},
     }
@@ -3096,7 +3099,6 @@ class ManagedClusterLoadBalancerProfile(_serialization.Model):
         managed_outbound_i_ps: Optional["_models.ManagedClusterLoadBalancerProfileManagedOutboundIPs"] = None,
         outbound_ip_prefixes: Optional["_models.ManagedClusterLoadBalancerProfileOutboundIPPrefixes"] = None,
         outbound_i_ps: Optional["_models.ManagedClusterLoadBalancerProfileOutboundIPs"] = None,
-        effective_outbound_i_ps: Optional[List["_models.ResourceReference"]] = None,
         allocated_outbound_ports: int = 0,
         idle_timeout_in_minutes: int = 30,
         **kwargs: Any
@@ -3112,10 +3114,6 @@ class ManagedClusterLoadBalancerProfile(_serialization.Model):
         :keyword outbound_i_ps: Desired outbound IP resources for the cluster load balancer.
         :paramtype outbound_i_ps:
          ~azure.mgmt.containerservice.v2020_11_01.models.ManagedClusterLoadBalancerProfileOutboundIPs
-        :keyword effective_outbound_i_ps: The effective outbound IP resources of the cluster load
-         balancer.
-        :paramtype effective_outbound_i_ps:
-         list[~azure.mgmt.containerservice.v2020_11_01.models.ResourceReference]
         :keyword allocated_outbound_ports: Desired number of allocated SNAT ports per VM. Allowed
          values must be in the range of 0 to 64000 (inclusive). The default value is 0 which results in
          Azure dynamically allocating ports.
@@ -3128,7 +3126,7 @@ class ManagedClusterLoadBalancerProfile(_serialization.Model):
         self.managed_outbound_i_ps = managed_outbound_i_ps
         self.outbound_ip_prefixes = outbound_ip_prefixes
         self.outbound_i_ps = outbound_i_ps
-        self.effective_outbound_i_ps = effective_outbound_i_ps
+        self.effective_outbound_i_ps = None
         self.allocated_outbound_ports = allocated_outbound_ports
         self.idle_timeout_in_minutes = idle_timeout_in_minutes
 
