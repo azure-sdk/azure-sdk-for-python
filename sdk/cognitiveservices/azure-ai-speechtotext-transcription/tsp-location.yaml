@@ -1,0 +1,4 @@
+directory: specification/cognitiveservices/Speech.SpeechToText
+commit: 9823722ee98a9c1fce37a4155c0038f19d3d111b
+repo: Azure/azure-rest-api-specs
+additionalDirectories: 
