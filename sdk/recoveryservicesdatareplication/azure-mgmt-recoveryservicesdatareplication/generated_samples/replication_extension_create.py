@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.recoveryservicesdatareplication import RecoveryServicesDataReplicationMgmtClient
 
 """
@@ -33,10 +34,11 @@ def main():
         resource_group_name="rgrecoveryservicesdatareplication",
         vault_name="4",
         replication_extension_name="g16yjJ",
+        body={"properties": {"customProperties": {"instanceType": "ReplicationExtensionModelCustomProperties"}}},
     ).result()
     print(response)
 
 
-# x-ms-original-file: specification/recoveryservicesdatareplication/resource-manager/Microsoft.DataReplication/preview/2021-02-16-preview/examples/ReplicationExtension_Create.json
+# x-ms-original-file: specification/recoveryservicesdatareplication/resource-manager/Microsoft.DataReplication/stable/2024-09-01/examples/ReplicationExtension_Create.json
 if __name__ == "__main__":
     main()
