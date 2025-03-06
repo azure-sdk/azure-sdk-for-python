@@ -28,6 +28,7 @@ def main():
     client = NetworkManagementClient(
         credential=DefaultAzureCredential(),
         subscription_id="e747cc13-97d4-4a79-b463-42d7f4e558f2",
+        base_url="BASE_URL",
     )
 
     response = client.firewall_policy_rule_collection_groups.begin_create_or_update(
@@ -60,6 +61,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/FirewallPolicyRuleCollectionGroupWithWebCategoriesPut.json
+# x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/FirewallPolicyRuleCollectionGroupWithWebCategoriesPut.json
 if __name__ == "__main__":
     main()

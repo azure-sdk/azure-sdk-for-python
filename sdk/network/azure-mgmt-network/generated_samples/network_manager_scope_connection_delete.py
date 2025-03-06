@@ -28,6 +28,7 @@ def main():
     client = NetworkManagementClient(
         credential=DefaultAzureCredential(),
         subscription_id="00000000-0000-0000-0000-000000000000",
+        base_url="BASE_URL",
     )
 
     client.scope_connections.delete(
@@ -37,6 +38,6 @@ def main():
     )
 
 
-# x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/NetworkManagerScopeConnectionDelete.json
+# x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/NetworkManagerScopeConnectionDelete.json
 if __name__ == "__main__":
     main()

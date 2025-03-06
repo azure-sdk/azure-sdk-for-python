@@ -28,6 +28,7 @@ def main():
     client = NetworkManagementClient(
         credential=DefaultAzureCredential(),
         subscription_id="subId",
+        base_url="BASE_URL",
     )
 
     response = client.private_dns_zone_groups.begin_create_or_update(
@@ -49,6 +50,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/PrivateEndpointDnsZoneGroupCreate.json
+# x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/PrivateEndpointDnsZoneGroupCreate.json
 if __name__ == "__main__":
     main()

@@ -28,6 +28,7 @@ def main():
     client = NetworkManagementClient(
         credential=DefaultAzureCredential(),
         subscription_id="11111111-1111-1111-1111-111111111111",
+        base_url="BASE_URL",
     )
 
     response = client.static_cidrs.list(
@@ -39,6 +40,6 @@ def main():
         print(item)
 
 
-# x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/StaticCidrs_List.json
+# x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/StaticCidrs_List.json
 if __name__ == "__main__":
     main()

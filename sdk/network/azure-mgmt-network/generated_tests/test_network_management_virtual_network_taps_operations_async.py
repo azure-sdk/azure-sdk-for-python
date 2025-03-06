@@ -26,7 +26,7 @@ class TestNetworkManagementVirtualNetworkTapsOperationsAsync(AzureMgmtRecordedTe
             await self.client.virtual_network_taps.begin_delete(
                 resource_group_name=resource_group.name,
                 tap_name="str",
-                api_version="2024-05-01",
+                api_version="2024-07-01",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -39,7 +39,7 @@ class TestNetworkManagementVirtualNetworkTapsOperationsAsync(AzureMgmtRecordedTe
         response = await self.client.virtual_network_taps.get(
             resource_group_name=resource_group.name,
             tap_name="str",
-            api_version="2024-05-01",
+            api_version="2024-07-01",
         )
 
         # please add some check logic here by yourself
@@ -4443,7 +4443,7 @@ class TestNetworkManagementVirtualNetworkTapsOperationsAsync(AzureMgmtRecordedTe
                     "tags": {"str": "str"},
                     "type": "str",
                 },
-                api_version="2024-05-01",
+                api_version="2024-07-01",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -4457,7 +4457,7 @@ class TestNetworkManagementVirtualNetworkTapsOperationsAsync(AzureMgmtRecordedTe
             resource_group_name=resource_group.name,
             tap_name="str",
             tap_parameters={"tags": {"str": "str"}},
-            api_version="2024-05-01",
+            api_version="2024-07-01",
         )
 
         # please add some check logic here by yourself
@@ -4467,7 +4467,7 @@ class TestNetworkManagementVirtualNetworkTapsOperationsAsync(AzureMgmtRecordedTe
     @recorded_by_proxy_async
     async def test_virtual_network_taps_list_all(self, resource_group):
         response = self.client.virtual_network_taps.list_all(
-            api_version="2024-05-01",
+            api_version="2024-07-01",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -4478,7 +4478,7 @@ class TestNetworkManagementVirtualNetworkTapsOperationsAsync(AzureMgmtRecordedTe
     async def test_virtual_network_taps_list_by_resource_group(self, resource_group):
         response = self.client.virtual_network_taps.list_by_resource_group(
             resource_group_name=resource_group.name,
-            api_version="2024-05-01",
+            api_version="2024-07-01",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
