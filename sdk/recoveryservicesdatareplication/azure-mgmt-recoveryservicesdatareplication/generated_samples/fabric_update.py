@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.recoveryservicesdatareplication import RecoveryServicesDataReplicationMgmtClient
 
 """
@@ -30,12 +31,13 @@ def main():
     )
 
     response = client.fabric.begin_update(
-        resource_group_name="rgrecoveryservicesdatareplication",
+        resource_group_name="rgswagger_2024-09-01",
         fabric_name="wPR",
+        body={"properties": {"customProperties": {"instanceType": "FabricModelCustomProperties"}}, "tags": {}},
     ).result()
     print(response)
 
 
-# x-ms-original-file: specification/recoveryservicesdatareplication/resource-manager/Microsoft.DataReplication/preview/2021-02-16-preview/examples/Fabric_Update.json
+# x-ms-original-file: specification/recoveryservicesdatareplication/resource-manager/Microsoft.DataReplication/stable/2024-09-01/examples/Fabric_Update.json
 if __name__ == "__main__":
     main()

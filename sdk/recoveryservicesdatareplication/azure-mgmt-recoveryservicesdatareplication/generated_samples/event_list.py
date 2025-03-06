@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.recoveryservicesdatareplication import RecoveryServicesDataReplicationMgmtClient
 
 """
@@ -30,13 +31,13 @@ def main():
     )
 
     response = client.event.list(
-        resource_group_name="rgrecoveryservicesdatareplication",
+        resource_group_name="rgswagger_2024-09-01",
         vault_name="4",
     )
     for item in response:
         print(item)
 
 
-# x-ms-original-file: specification/recoveryservicesdatareplication/resource-manager/Microsoft.DataReplication/preview/2021-02-16-preview/examples/Event_List.json
+# x-ms-original-file: specification/recoveryservicesdatareplication/resource-manager/Microsoft.DataReplication/stable/2024-09-01/examples/Event_List.json
 if __name__ == "__main__":
     main()
