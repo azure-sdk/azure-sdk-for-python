@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines,too-many-statements
+# pylint: disable=too-many-lines
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8,7 +8,7 @@
 # --------------------------------------------------------------------------
 from io import IOBase
 import sys
-from typing import Any, AsyncIterable, AsyncIterator, Callable, Dict, IO, Optional, Type, TypeVar, Union, cast, overload
+from typing import Any, AsyncIterable, AsyncIterator, Callable, Dict, IO, Optional, TypeVar, Union, cast, overload
 import urllib.parse
 
 from azure.core.async_paging import AsyncItemPaged, AsyncList
@@ -78,7 +78,7 @@ from ...operations._workload_networks_operations import (
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -123,7 +123,7 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.WorkloadNetworkList] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -199,7 +199,7 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
         :rtype: ~azure.mgmt.avs.models.WorkloadNetwork
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -263,7 +263,7 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.WorkloadNetworkDhcpList] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -343,7 +343,7 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
         :rtype: ~azure.mgmt.avs.models.WorkloadNetworkDhcp
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -395,7 +395,7 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
         workload_network_dhcp: Union[_models.WorkloadNetworkDhcp, IO[bytes]],
         **kwargs: Any
     ) -> AsyncIterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -607,7 +607,7 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
         workload_network_dhcp: Union[_models.WorkloadNetworkDhcp, IO[bytes]],
         **kwargs: Any
     ) -> AsyncIterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -814,7 +814,7 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
     async def _delete_dhcp_initial(
         self, resource_group_name: str, private_cloud_name: str, dhcp_id: str, **kwargs: Any
     ) -> AsyncIterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -951,7 +951,7 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.WorkloadNetworkDnsServicesList] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1031,7 +1031,7 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
         :rtype: ~azure.mgmt.avs.models.WorkloadNetworkDnsService
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1083,7 +1083,7 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
         workload_network_dns_service: Union[_models.WorkloadNetworkDnsService, IO[bytes]],
         **kwargs: Any
     ) -> AsyncIterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1296,7 +1296,7 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
         workload_network_dns_service: Union[_models.WorkloadNetworkDnsService, IO[bytes]],
         **kwargs: Any
     ) -> AsyncIterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1504,7 +1504,7 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
     async def _delete_dns_service_initial(
         self, resource_group_name: str, dns_service_id: str, private_cloud_name: str, **kwargs: Any
     ) -> AsyncIterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1640,7 +1640,7 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.WorkloadNetworkDnsZonesList] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1720,7 +1720,7 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
         :rtype: ~azure.mgmt.avs.models.WorkloadNetworkDnsZone
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1772,7 +1772,7 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
         workload_network_dns_zone: Union[_models.WorkloadNetworkDnsZone, IO[bytes]],
         **kwargs: Any
     ) -> AsyncIterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1984,7 +1984,7 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
         workload_network_dns_zone: Union[_models.WorkloadNetworkDnsZone, IO[bytes]],
         **kwargs: Any
     ) -> AsyncIterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -2191,7 +2191,7 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
     async def _delete_dns_zone_initial(
         self, resource_group_name: str, dns_zone_id: str, private_cloud_name: str, **kwargs: Any
     ) -> AsyncIterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -2327,7 +2327,7 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.WorkloadNetworkGatewayList] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -2407,7 +2407,7 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
         :rtype: ~azure.mgmt.avs.models.WorkloadNetworkGateway
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -2474,7 +2474,7 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.WorkloadNetworkPortMirroringList] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -2554,7 +2554,7 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
         :rtype: ~azure.mgmt.avs.models.WorkloadNetworkPortMirroring
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -2606,7 +2606,7 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
         workload_network_port_mirroring: Union[_models.WorkloadNetworkPortMirroring, IO[bytes]],
         **kwargs: Any
     ) -> AsyncIterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -2819,7 +2819,7 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
         workload_network_port_mirroring: Union[_models.WorkloadNetworkPortMirroring, IO[bytes]],
         **kwargs: Any
     ) -> AsyncIterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -3027,7 +3027,7 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
     async def _delete_port_mirroring_initial(
         self, resource_group_name: str, port_mirroring_id: str, private_cloud_name: str, **kwargs: Any
     ) -> AsyncIterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -3163,7 +3163,7 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.WorkloadNetworkPublicIPsList] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -3243,7 +3243,7 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
         :rtype: ~azure.mgmt.avs.models.WorkloadNetworkPublicIP
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -3295,7 +3295,7 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
         workload_network_public_ip: Union[_models.WorkloadNetworkPublicIP, IO[bytes]],
         **kwargs: Any
     ) -> AsyncIterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -3502,7 +3502,7 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
     async def _delete_public_ip_initial(
         self, resource_group_name: str, public_ip_id: str, private_cloud_name: str, **kwargs: Any
     ) -> AsyncIterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -3638,7 +3638,7 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.WorkloadNetworkSegmentsList] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -3718,7 +3718,7 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
         :rtype: ~azure.mgmt.avs.models.WorkloadNetworkSegment
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -3770,7 +3770,7 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
         workload_network_segment: Union[_models.WorkloadNetworkSegment, IO[bytes]],
         **kwargs: Any
     ) -> AsyncIterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -3982,7 +3982,7 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
         workload_network_segment: Union[_models.WorkloadNetworkSegment, IO[bytes]],
         **kwargs: Any
     ) -> AsyncIterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -4189,7 +4189,7 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
     async def _delete_segment_initial(
         self, resource_group_name: str, private_cloud_name: str, segment_id: str, **kwargs: Any
     ) -> AsyncIterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -4326,7 +4326,7 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.WorkloadNetworkVirtualMachinesList] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -4406,7 +4406,7 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
         :rtype: ~azure.mgmt.avs.models.WorkloadNetworkVirtualMachine
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -4472,7 +4472,7 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.WorkloadNetworkVMGroupsList] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -4552,7 +4552,7 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
         :rtype: ~azure.mgmt.avs.models.WorkloadNetworkVMGroup
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -4604,7 +4604,7 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
         workload_network_vm_group: Union[_models.WorkloadNetworkVMGroup, IO[bytes]],
         **kwargs: Any
     ) -> AsyncIterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -4816,7 +4816,7 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
         workload_network_vm_group: Union[_models.WorkloadNetworkVMGroup, IO[bytes]],
         **kwargs: Any
     ) -> AsyncIterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -5023,7 +5023,7 @@ class WorkloadNetworksOperations:  # pylint: disable=too-many-public-methods
     async def _delete_vm_group_initial(
         self, resource_group_name: str, vm_group_id: str, private_cloud_name: str, **kwargs: Any
     ) -> AsyncIterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
