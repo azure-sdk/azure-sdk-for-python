@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # ------------------------------------
 # Copyright (c) Microsoft Corporation.
 # Licensed under the MIT License.
@@ -11,6 +12,7 @@ from _test_case import KeysClientPreparer, get_decorator
 from _keys_test_case import KeysTestCase
 
 all_api_versions = get_decorator(only_vault=True)
+
 
 class TestCryptoExamples(KeyVaultTestCase, KeysTestCase):
     @pytest.mark.parametrize("api_version,is_hsm", all_api_versions)
