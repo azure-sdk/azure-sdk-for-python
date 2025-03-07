@@ -20,7 +20,7 @@ class TestCognitiveServicesManagementAccountsOperations(AzureMgmtRecordedTestCas
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_create(self, resource_group):
+    def test_accounts_begin_create(self, resource_group):
         response = self.client.accounts.begin_create(
             resource_group_name=resource_group.name,
             account_name="str",
@@ -165,7 +165,7 @@ class TestCognitiveServicesManagementAccountsOperations(AzureMgmtRecordedTestCas
                 "tags": {"str": "str"},
                 "type": "str",
             },
-            api_version="2024-10-01",
+            api_version="2025-04-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -173,7 +173,7 @@ class TestCognitiveServicesManagementAccountsOperations(AzureMgmtRecordedTestCas
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_update(self, resource_group):
+    def test_accounts_begin_update(self, resource_group):
         response = self.client.accounts.begin_update(
             resource_group_name=resource_group.name,
             account_name="str",
@@ -318,7 +318,7 @@ class TestCognitiveServicesManagementAccountsOperations(AzureMgmtRecordedTestCas
                 "tags": {"str": "str"},
                 "type": "str",
             },
-            api_version="2024-10-01",
+            api_version="2025-04-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -326,11 +326,11 @@ class TestCognitiveServicesManagementAccountsOperations(AzureMgmtRecordedTestCas
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_delete(self, resource_group):
+    def test_accounts_begin_delete(self, resource_group):
         response = self.client.accounts.begin_delete(
             resource_group_name=resource_group.name,
             account_name="str",
-            api_version="2024-10-01",
+            api_version="2025-04-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -338,11 +338,11 @@ class TestCognitiveServicesManagementAccountsOperations(AzureMgmtRecordedTestCas
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_accounts_get(self, resource_group):
         response = self.client.accounts.get(
             resource_group_name=resource_group.name,
             account_name="str",
-            api_version="2024-10-01",
+            api_version="2025-04-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -350,10 +350,10 @@ class TestCognitiveServicesManagementAccountsOperations(AzureMgmtRecordedTestCas
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_resource_group(self, resource_group):
+    def test_accounts_list_by_resource_group(self, resource_group):
         response = self.client.accounts.list_by_resource_group(
             resource_group_name=resource_group.name,
-            api_version="2024-10-01",
+            api_version="2025-04-01-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -361,9 +361,9 @@ class TestCognitiveServicesManagementAccountsOperations(AzureMgmtRecordedTestCas
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list(self, resource_group):
+    def test_accounts_list(self, resource_group):
         response = self.client.accounts.list(
-            api_version="2024-10-01",
+            api_version="2025-04-01-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -371,11 +371,11 @@ class TestCognitiveServicesManagementAccountsOperations(AzureMgmtRecordedTestCas
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_keys(self, resource_group):
+    def test_accounts_list_keys(self, resource_group):
         response = self.client.accounts.list_keys(
             resource_group_name=resource_group.name,
             account_name="str",
-            api_version="2024-10-01",
+            api_version="2025-04-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -383,12 +383,12 @@ class TestCognitiveServicesManagementAccountsOperations(AzureMgmtRecordedTestCas
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_regenerate_key(self, resource_group):
+    def test_accounts_regenerate_key(self, resource_group):
         response = self.client.accounts.regenerate_key(
             resource_group_name=resource_group.name,
             account_name="str",
             key_name="str",
-            api_version="2024-10-01",
+            api_version="2025-04-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -396,11 +396,11 @@ class TestCognitiveServicesManagementAccountsOperations(AzureMgmtRecordedTestCas
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_skus(self, resource_group):
+    def test_accounts_list_skus(self, resource_group):
         response = self.client.accounts.list_skus(
             resource_group_name=resource_group.name,
             account_name="str",
-            api_version="2024-10-01",
+            api_version="2025-04-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -408,11 +408,11 @@ class TestCognitiveServicesManagementAccountsOperations(AzureMgmtRecordedTestCas
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_usages(self, resource_group):
+    def test_accounts_list_usages(self, resource_group):
         response = self.client.accounts.list_usages(
             resource_group_name=resource_group.name,
             account_name="str",
-            api_version="2024-10-01",
+            api_version="2025-04-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -420,11 +420,11 @@ class TestCognitiveServicesManagementAccountsOperations(AzureMgmtRecordedTestCas
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_models(self, resource_group):
+    def test_accounts_list_models(self, resource_group):
         response = self.client.accounts.list_models(
             resource_group_name=resource_group.name,
             account_name="str",
-            api_version="2024-10-01",
+            api_version="2025-04-01-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
