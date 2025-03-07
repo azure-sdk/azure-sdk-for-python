@@ -1,0 +1,19 @@
+{
+    "CrossLanguagePackageId": "Microsoft.App.DynamicSessions",
+    "CrossLanguageDefinitionId": {
+        "microsoft.app.dynamicsessions.models.SessionCodeExecutionRequest": "Microsoft.App.DynamicSessions.SessionCodeExecutionRequest",
+        "microsoft.app.dynamicsessions.models.SessionCodeExecutionResource": "Microsoft.App.DynamicSessions.SessionCodeExecutionResource",
+        "microsoft.app.dynamicsessions.models.SessionCodeExecutionResult": "Microsoft.App.DynamicSessions.SessionCodeExecutionResult",
+        "microsoft.app.dynamicsessions.models.SessionResourceFile": "Microsoft.App.DynamicSessions.SessionResourceFile",
+        "microsoft.app.dynamicsessions.models.CodeInputType": "Microsoft.App.DynamicSessions.CodeInputType",
+        "microsoft.app.dynamicsessions.models.ExecutionType": "Microsoft.App.DynamicSessions.ExecutionType",
+        "microsoft.app.dynamicsessions.models.OperationState": "Azure.Core.Foundations.OperationState",
+        "microsoft.app.dynamicsessions.DynamicSessionsClient.code_execution.begin_execute": "Microsoft.App.DynamicSessions.CodeExecution.execute",
+        "microsoft.app.dynamicsessions.DynamicSessionsClient.code_execution.get": "Microsoft.App.DynamicSessions.CodeExecution.get",
+        "microsoft.app.dynamicsessions.DynamicSessionsClient.session_resource_files.list": "Microsoft.App.DynamicSessions.SessionResourceFiles.list",
+        "microsoft.app.dynamicsessions.DynamicSessionsClient.session_resource_files.get": "Microsoft.App.DynamicSessions.SessionResourceFiles.get",
+        "microsoft.app.dynamicsessions.DynamicSessionsClient.session_resource_files.delete": "Microsoft.App.DynamicSessions.SessionResourceFiles.delete",
+        "microsoft.app.dynamicsessions.DynamicSessionsClient.session_resource_files.upload": "Microsoft.App.DynamicSessions.SessionResourceFiles.upload",
+        "microsoft.app.dynamicsessions.DynamicSessionsClient.session_resource_files.get_content": "Microsoft.App.DynamicSessions.SessionResourceFiles.getContent"
+    }
+}
