@@ -21,11 +21,11 @@ class TestDesktopVirtualizationMgmtPrivateLinkResourcesOperationsAsync(AzureMgmt
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_by_workspace(self, resource_group):
-        response = self.client.private_link_resources.list_by_workspace(
+    async def test_private_link_resources_list_by_host_pool(self, resource_group):
+        response = self.client.private_link_resources.list_by_host_pool(
             resource_group_name=resource_group.name,
-            workspace_name="str",
-            api_version="2024-04-03",
+            host_pool_name="str",
+            api_version="2024-08-08-preview",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -33,11 +33,11 @@ class TestDesktopVirtualizationMgmtPrivateLinkResourcesOperationsAsync(AzureMgmt
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_by_host_pool(self, resource_group):
-        response = self.client.private_link_resources.list_by_host_pool(
+    async def test_private_link_resources_list_by_workspace(self, resource_group):
+        response = self.client.private_link_resources.list_by_workspace(
             resource_group_name=resource_group.name,
-            host_pool_name="str",
-            api_version="2024-04-03",
+            workspace_name="str",
+            api_version="2024-08-08-preview",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
