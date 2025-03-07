@@ -8,11 +8,14 @@
 
 from copy import deepcopy
 from typing import Any, TYPE_CHECKING
+from typing_extensions import Self
 
+from azure.core.pipeline import policies
 from azure.core.rest import HttpRequest, HttpResponse
 from azure.mgmt.core import ARMPipelineClient
+from azure.mgmt.core.policies import ARMAutoResourceProviderRegistrationPolicy
 
-from . import models
+from . import models as _models
 from ._configuration import PortalConfiguration
 from ._serialization import Deserializer, Serializer
 from .operations import (
@@ -23,31 +26,29 @@ from .operations import (
 )
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from azure.core.credentials import TokenCredential
 
 
-class Portal:  # pylint: disable=client-accepts-api-version-keyword
+class Portal:
     """Allows creation and deletion of Azure Shared Dashboards.
 
     :ivar operations: Operations operations
     :vartype operations: azure.mgmt.portal.operations.Operations
     :ivar dashboards: DashboardsOperations operations
     :vartype dashboards: azure.mgmt.portal.operations.DashboardsOperations
-    :ivar tenant_configurations: TenantConfigurationsOperations operations
-    :vartype tenant_configurations: azure.mgmt.portal.operations.TenantConfigurationsOperations
     :ivar list_tenant_configuration_violations: ListTenantConfigurationViolationsOperations
      operations
     :vartype list_tenant_configuration_violations:
      azure.mgmt.portal.operations.ListTenantConfigurationViolationsOperations
+    :ivar tenant_configurations: TenantConfigurationsOperations operations
+    :vartype tenant_configurations: azure.mgmt.portal.operations.TenantConfigurationsOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials.TokenCredential
-    :param subscription_id: The Azure subscription ID. This is a GUID-formatted string (e.g.
-     00000000-0000-0000-0000-000000000000). Required.
+    :param subscription_id: The ID of the target subscription. The value must be an UUID. Required.
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2020-09-01-preview". Note that overriding
+    :keyword api_version: Api Version. Default value is "2025-04-01-preview". Note that overriding
      this default value may result in unsupported behavior.
     :paramtype api_version: str
     """
@@ -60,22 +61,40 @@ class Portal:  # pylint: disable=client-accepts-api-version-keyword
         **kwargs: Any
     ) -> None:
         self._config = PortalConfiguration(credential=credential, subscription_id=subscription_id, **kwargs)
-        self._client = ARMPipelineClient(base_url=base_url, config=self._config, **kwargs)
+        _policies = kwargs.pop("policies", None)
+        if _policies is None:
+            _policies = [
+                policies.RequestIdPolicy(**kwargs),
+                self._config.headers_policy,
+                self._config.user_agent_policy,
+                self._config.proxy_policy,
+                policies.ContentDecodePolicy(**kwargs),
+                ARMAutoResourceProviderRegistrationPolicy(),
+                self._config.redirect_policy,
+                self._config.retry_policy,
+                self._config.authentication_policy,
+                self._config.custom_hook_policy,
+                self._config.logging_policy,
+                policies.DistributedTracingPolicy(**kwargs),
+                policies.SensitiveHeaderCleanupPolicy(**kwargs) if self._config.redirect_policy else None,
+                self._config.http_logging_policy,
+            ]
+        self._client: ARMPipelineClient = ARMPipelineClient(base_url=base_url, policies=_policies, **kwargs)
 
-        client_models = {k: v for k, v in models.__dict__.items() if isinstance(v, type)}
+        client_models = {k: v for k, v in _models.__dict__.items() if isinstance(v, type)}
         self._serialize = Serializer(client_models)
         self._deserialize = Deserializer(client_models)
         self._serialize.client_side_validation = False
         self.operations = Operations(self._client, self._config, self._serialize, self._deserialize)
         self.dashboards = DashboardsOperations(self._client, self._config, self._serialize, self._deserialize)
-        self.tenant_configurations = TenantConfigurationsOperations(
-            self._client, self._config, self._serialize, self._deserialize
-        )
         self.list_tenant_configuration_violations = ListTenantConfigurationViolationsOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
+        self.tenant_configurations = TenantConfigurationsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
 
-    def _send_request(self, request: HttpRequest, **kwargs: Any) -> HttpResponse:
+    def _send_request(self, request: HttpRequest, *, stream: bool = False, **kwargs: Any) -> HttpResponse:
         """Runs the network request through the client's chained policies.
 
         >>> from azure.core.rest import HttpRequest
@@ -95,17 +114,14 @@ class Portal:  # pylint: disable=client-accepts-api-version-keyword
 
         request_copy = deepcopy(request)
         request_copy.url = self._client.format_url(request_copy.url)
-        return self._client.send_request(request_copy, **kwargs)
+        return self._client.send_request(request_copy, stream=stream, **kwargs)  # type: ignore
 
-    def close(self):
-        # type: () -> None
+    def close(self) -> None:
         self._client.close()
 
-    def __enter__(self):
-        # type: () -> Portal
+    def __enter__(self) -> Self:
         self._client.__enter__()
         return self
 
-    def __exit__(self, *exc_details):
-        # type: (Any) -> None
+    def __exit__(self, *exc_details: Any) -> None:
         self._client.__exit__(*exc_details)

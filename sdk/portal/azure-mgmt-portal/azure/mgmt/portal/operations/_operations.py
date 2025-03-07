@@ -1,4 +1,3 @@
-# pylint: disable=too-many-lines
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -20,20 +19,18 @@ from azure.core.exceptions import (
 )
 from azure.core.paging import ItemPaged
 from azure.core.pipeline import PipelineResponse
-from azure.core.pipeline.transport import HttpResponse
-from azure.core.rest import HttpRequest
+from azure.core.rest import HttpRequest, HttpResponse
 from azure.core.tracing.decorator import distributed_trace
 from azure.core.utils import case_insensitive_dict
 from azure.mgmt.core.exceptions import ARMErrorFormat
 
 from .. import models as _models
 from .._serialization import Serializer
-from .._vendor import _convert_request
 
-if sys.version_info >= (3, 8):
-    from typing import Literal  # pylint: disable=no-name-in-module, ungrouped-imports
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
 else:
-    from typing_extensions import Literal  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
 
@@ -45,9 +42,7 @@ def build_list_request(**kwargs: Any) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version = kwargs.pop(
-        "api_version", _params.pop("api-version", "2020-09-01-preview")
-    )  # type: Literal["2020-09-01-preview"]
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-04-01-preview"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -82,24 +77,20 @@ class Operations:
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
     @distributed_trace
-    def list(self, **kwargs: Any) -> Iterable["_models.ResourceProviderOperation"]:
-        """The Microsoft Portal operations API.
+    def list(self, **kwargs: Any) -> Iterable["_models.Operation"]:
+        """List the operations for the provider.
 
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: An iterator like instance of either ResourceProviderOperation or the result of
-         cls(response)
-        :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.portal.models.ResourceProviderOperation]
+        :return: An iterator like instance of either Operation or the result of cls(response)
+        :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.portal.models.Operation]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version = kwargs.pop(
-            "api_version", _params.pop("api-version", self._config.api_version)
-        )  # type: Literal["2020-09-01-preview"]
-        cls = kwargs.pop("cls", None)  # type: ClsType[_models.ResourceProviderOperationList]
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        cls: ClsType[_models.OperationListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -110,14 +101,12 @@ class Operations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_request(
+                _request = build_list_request(
                     api_version=api_version,
-                    template_url=self.list.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)  # type: ignore
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -129,26 +118,26 @@ class Operations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)  # type: ignore
-                request.method = "GET"
-            return request
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
-            deserialized = self._deserialize("ResourceProviderOperationList", pipeline_response)
+            deserialized = self._deserialize("OperationListResult", pipeline_response)
             list_of_elem = deserialized.value
             if cls:
-                list_of_elem = cls(list_of_elem)
+                list_of_elem = cls(list_of_elem)  # type: ignore
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
-            pipeline_response = self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
-                request, stream=False, **kwargs
+            _stream = False
+            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -160,5 +149,3 @@ class Operations:
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list.metadata = {"url": "/providers/Microsoft.Portal/operations"}  # type: ignore

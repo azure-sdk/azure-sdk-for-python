@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.portal import Portal
 
 """
@@ -14,7 +15,7 @@ from azure.mgmt.portal import Portal
     pip install azure-identity
     pip install azure-mgmt-portal
 # USAGE
-    python delete_tenant_configuration.py
+    python tenant_configurations_delete.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,12 +30,11 @@ def main():
         subscription_id="SUBSCRIPTION_ID",
     )
 
-    response = client.tenant_configurations.delete(
+    client.tenant_configurations.delete(
         configuration_name="default",
     )
-    print(response)
 
 
-# x-ms-original-file: specification/portal/resource-manager/Microsoft.Portal/preview/2020-09-01-preview/examples/TenantConfiguration/DeleteTenantConfiguration.json
+# x-ms-original-file: specification/portal/resource-manager/Microsoft.Portal/preview/2025-04-01-preview/examples/TenantConfigurations_Delete.json
 if __name__ == "__main__":
     main()
