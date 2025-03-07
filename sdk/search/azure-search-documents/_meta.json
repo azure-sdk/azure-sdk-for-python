@@ -1,0 +1,6 @@
+{
+  "commit": "7974890cb2530ff3ba71fb3ecaa5d76f0d9ed85d",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/search/Azure.Search",
+  "@azure-tools/typespec-python": "0.39.0"
+}
