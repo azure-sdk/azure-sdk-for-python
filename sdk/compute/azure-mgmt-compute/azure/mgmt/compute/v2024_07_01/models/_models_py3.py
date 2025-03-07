@@ -12233,7 +12233,7 @@ class VirtualMachineScaleSetExtension(SubResourceReadOnly):
      upgraded by the platform if there is a newer version of the extension available.
     :vartype enable_automatic_upgrade: bool
     :ivar settings: Json formatted public settings for the extension.
-    :vartype settings: JSON
+    :vartype settings: any
     :ivar protected_settings: The extension can contain either protectedSettings or
      protectedSettingsFromKeyVault or no protected settings at all.
     :vartype protected_settings: JSON
@@ -12289,7 +12289,7 @@ class VirtualMachineScaleSetExtension(SubResourceReadOnly):
         type_handler_version: Optional[str] = None,
         auto_upgrade_minor_version: Optional[bool] = None,
         enable_automatic_upgrade: Optional[bool] = None,
-        settings: Optional[JSON] = None,
+        settings: Optional[Any] = None,
         protected_settings: Optional[JSON] = None,
         provision_after_extensions: Optional[List[str]] = None,
         suppress_failures: Optional[bool] = None,
@@ -12317,7 +12317,7 @@ class VirtualMachineScaleSetExtension(SubResourceReadOnly):
          upgraded by the platform if there is a newer version of the extension available.
         :paramtype enable_automatic_upgrade: bool
         :keyword settings: Json formatted public settings for the extension.
-        :paramtype settings: JSON
+        :paramtype settings: any
         :keyword protected_settings: The extension can contain either protectedSettings or
          protectedSettingsFromKeyVault or no protected settings at all.
         :paramtype protected_settings: JSON
@@ -12453,7 +12453,7 @@ class VirtualMachineScaleSetExtensionUpdate(SubResourceReadOnly):
      upgraded by the platform if there is a newer version of the extension available.
     :vartype enable_automatic_upgrade: bool
     :ivar settings: Json formatted public settings for the extension.
-    :vartype settings: JSON
+    :vartype settings: any
     :ivar protected_settings: The extension can contain either protectedSettings or
      protectedSettingsFromKeyVault or no protected settings at all.
     :vartype protected_settings: JSON
@@ -12509,7 +12509,7 @@ class VirtualMachineScaleSetExtensionUpdate(SubResourceReadOnly):
         type_handler_version: Optional[str] = None,
         auto_upgrade_minor_version: Optional[bool] = None,
         enable_automatic_upgrade: Optional[bool] = None,
-        settings: Optional[JSON] = None,
+        settings: Optional[Any] = None,
         protected_settings: Optional[JSON] = None,
         provision_after_extensions: Optional[List[str]] = None,
         suppress_failures: Optional[bool] = None,
@@ -12535,7 +12535,7 @@ class VirtualMachineScaleSetExtensionUpdate(SubResourceReadOnly):
          upgraded by the platform if there is a newer version of the extension available.
         :paramtype enable_automatic_upgrade: bool
         :keyword settings: Json formatted public settings for the extension.
-        :paramtype settings: JSON
+        :paramtype settings: any
         :keyword protected_settings: The extension can contain either protectedSettings or
          protectedSettingsFromKeyVault or no protected settings at all.
         :paramtype protected_settings: JSON
