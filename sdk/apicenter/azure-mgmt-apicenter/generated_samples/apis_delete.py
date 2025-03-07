@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.apicenter import ApiCenterMgmtClient
 
 """
@@ -37,6 +38,6 @@ def main():
     )
 
 
-# x-ms-original-file: specification/apicenter/resource-manager/Microsoft.ApiCenter/stable/2024-03-01/examples/Apis_Delete.json
+# x-ms-original-file: specification/apicenter/resource-manager/Microsoft.ApiCenter/preview/2024-12-15-preview/examples/Apis_Delete.json
 if __name__ == "__main__":
     main()
