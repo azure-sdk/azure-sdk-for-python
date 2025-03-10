@@ -1,4 +1,3 @@
-# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,7 +6,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 import sys
-from typing import Any, AsyncIterable, Callable, Dict, Optional, Type, TypeVar
+from typing import Any, AsyncIterable, Callable, Dict, Optional, TypeVar
 import urllib.parse
 
 from azure.core.async_paging import AsyncItemPaged, AsyncList
@@ -31,7 +30,7 @@ from ...operations._usages_operations import build_list_request
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -56,15 +55,11 @@ class UsagesOperations:
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
     @distributed_trace
-    def list(self, location: str, filter: Optional[str] = None, **kwargs: Any) -> AsyncIterable["_models.Usage"]:
+    def list(self, location: str, **kwargs: Any) -> AsyncIterable["_models.Usage"]:
         """Get usages for the requested subscription.
 
         :param location: Resource location. Required.
         :type location: str
-        :param filter: An OData filter expression that describes a subset of usages to return. The
-         supported parameter is name.value (name of the metric, can have an or of multiple names).
-         Default value is None.
-        :type filter: str
         :return: An iterator like instance of either Usage or the result of cls(response)
         :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.cognitiveservices.models.Usage]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -75,7 +70,7 @@ class UsagesOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.UsageListResult] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -89,7 +84,6 @@ class UsagesOperations:
                 _request = build_list_request(
                     location=location,
                     subscription_id=self._config.subscription_id,
-                    filter=filter,
                     api_version=api_version,
                     headers=_headers,
                     params=_params,
