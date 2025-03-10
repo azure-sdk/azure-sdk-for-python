@@ -1,4 +1,3 @@
-# pylint: disable=too-many-lines
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -18,20 +17,18 @@ from azure.core.exceptions import (
     map_error,
 )
 from azure.core.pipeline import PipelineResponse
-from azure.core.pipeline.transport import AsyncHttpResponse
-from azure.core.rest import HttpRequest
+from azure.core.rest import AsyncHttpResponse, HttpRequest
 from azure.core.tracing.decorator_async import distributed_trace_async
 from azure.core.utils import case_insensitive_dict
 from azure.mgmt.core.exceptions import ARMErrorFormat
 
 from ... import models as _models
-from ..._vendor import _convert_request
 from ...operations._integration_runtime_credentials_operations import build_sync_request
 
-if sys.version_info >= (3, 8):
-    from typing import Literal  # pylint: disable=no-name-in-module, ungrouped-imports
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
 else:
-    from typing_extensions import Literal  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -56,7 +53,7 @@ class IntegrationRuntimeCredentialsOperations:
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
     @distributed_trace_async
-    async def sync(  # pylint: disable=inconsistent-return-statements
+    async def sync(
         self, resource_group_name: str, workspace_name: str, integration_runtime_name: str, **kwargs: Any
     ) -> None:
         """Sync integration runtime credentials.
@@ -73,12 +70,11 @@ class IntegrationRuntimeCredentialsOperations:
         :type workspace_name: str
         :param integration_runtime_name: Integration runtime name. Required.
         :type integration_runtime_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -89,26 +85,23 @@ class IntegrationRuntimeCredentialsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2021-06-01-preview"] = kwargs.pop(
-            "api_version", _params.pop("api-version", "2021-06-01-preview")
-        )
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2021-06-01-preview"))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_sync_request(
+        _request = build_sync_request(
             resource_group_name=resource_group_name,
             workspace_name=workspace_name,
             integration_runtime_name=integration_runtime_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.sync.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -119,8 +112,4 @@ class IntegrationRuntimeCredentialsOperations:
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    sync.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}/syncCredentials"
-    }
+            return cls(pipeline_response, None, {})  # type: ignore
