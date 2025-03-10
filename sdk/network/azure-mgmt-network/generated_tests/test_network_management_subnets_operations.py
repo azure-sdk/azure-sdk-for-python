@@ -25,7 +25,7 @@ class TestNetworkManagementSubnetsOperations(AzureMgmtRecordedTestCase):
             resource_group_name=resource_group.name,
             virtual_network_name="str",
             subnet_name="str",
-            api_version="2024-05-01",
+            api_version="2024-07-01",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -38,7 +38,7 @@ class TestNetworkManagementSubnetsOperations(AzureMgmtRecordedTestCase):
             resource_group_name=resource_group.name,
             virtual_network_name="str",
             subnet_name="str",
-            api_version="2024-05-01",
+            api_version="2024-07-01",
         )
 
         # please add some check logic here by yourself
@@ -2103,7 +2103,7 @@ class TestNetworkManagementSubnetsOperations(AzureMgmtRecordedTestCase):
                 "sharingScope": "str",
                 "type": "str",
             },
-            api_version="2024-05-01",
+            api_version="2024-07-01",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -2132,7 +2132,7 @@ class TestNetworkManagementSubnetsOperations(AzureMgmtRecordedTestCase):
                 ],
                 "serviceName": "str",
             },
-            api_version="2024-05-01",
+            api_version="2024-07-01",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -2146,7 +2146,7 @@ class TestNetworkManagementSubnetsOperations(AzureMgmtRecordedTestCase):
             virtual_network_name="str",
             subnet_name="str",
             unprepare_network_policies_request_parameters={"serviceName": "str"},
-            api_version="2024-05-01",
+            api_version="2024-07-01",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -2158,7 +2158,7 @@ class TestNetworkManagementSubnetsOperations(AzureMgmtRecordedTestCase):
         response = self.client.subnets.list(
             resource_group_name=resource_group.name,
             virtual_network_name="str",
-            api_version="2024-05-01",
+            api_version="2024-07-01",
         )
         result = [r for r in response]
         # please add some check logic here by yourself

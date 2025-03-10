@@ -26,7 +26,7 @@ class TestNetworkManagementNetworkSecurityGroupsOperationsAsync(AzureMgmtRecorde
             await self.client.network_security_groups.begin_delete(
                 resource_group_name=resource_group.name,
                 network_security_group_name="str",
-                api_version="2024-05-01",
+                api_version="2024-07-01",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -39,7 +39,7 @@ class TestNetworkManagementNetworkSecurityGroupsOperationsAsync(AzureMgmtRecorde
         response = await self.client.network_security_groups.get(
             resource_group_name=resource_group.name,
             network_security_group_name="str",
-            api_version="2024-05-01",
+            api_version="2024-07-01",
         )
 
         # please add some check logic here by yourself
@@ -5080,7 +5080,7 @@ class TestNetworkManagementNetworkSecurityGroupsOperationsAsync(AzureMgmtRecorde
                     "tags": {"str": "str"},
                     "type": "str",
                 },
-                api_version="2024-05-01",
+                api_version="2024-07-01",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -5094,7 +5094,7 @@ class TestNetworkManagementNetworkSecurityGroupsOperationsAsync(AzureMgmtRecorde
             resource_group_name=resource_group.name,
             network_security_group_name="str",
             parameters={"tags": {"str": "str"}},
-            api_version="2024-05-01",
+            api_version="2024-07-01",
         )
 
         # please add some check logic here by yourself
@@ -5104,7 +5104,7 @@ class TestNetworkManagementNetworkSecurityGroupsOperationsAsync(AzureMgmtRecorde
     @recorded_by_proxy_async
     async def test_network_security_groups_list_all(self, resource_group):
         response = self.client.network_security_groups.list_all(
-            api_version="2024-05-01",
+            api_version="2024-07-01",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -5115,7 +5115,7 @@ class TestNetworkManagementNetworkSecurityGroupsOperationsAsync(AzureMgmtRecorde
     async def test_network_security_groups_list(self, resource_group):
         response = self.client.network_security_groups.list(
             resource_group_name=resource_group.name,
-            api_version="2024-05-01",
+            api_version="2024-07-01",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
