@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.advisor import AdvisorManagementClient
 
 """
@@ -26,7 +27,7 @@ from azure.mgmt.advisor import AdvisorManagementClient
 def main():
     client = AdvisorManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="subscriptionId",
+        subscription_id="a5481ee1-95df-47d0-85d4-dd3f0dfa19bc",
     )
 
     response = client.recommendations.list()
@@ -34,6 +35,6 @@ def main():
         print(item)
 
 
-# x-ms-original-file: specification/advisor/resource-manager/Microsoft.Advisor/stable/2020-01-01/examples/ListRecommendations.json
+# x-ms-original-file: specification/advisor/resource-manager/Microsoft.Advisor/preview/2024-11-18-preview/examples/ListRecommendations.json
 if __name__ == "__main__":
     main()
