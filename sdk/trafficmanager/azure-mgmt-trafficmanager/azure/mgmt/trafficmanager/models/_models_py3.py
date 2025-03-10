@@ -1,5 +1,5 @@
-# coding=utf-8
 # pylint: disable=too-many-lines
+# coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -13,11 +13,10 @@ from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 from .. import _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
-class CheckTrafficManagerRelativeDnsNameAvailabilityParameters(_serialization.Model):
+class CheckTrafficManagerRelativeDnsNameAvailabilityParameters(_serialization.Model):  # pylint: disable=name-too-long
     """Parameters supplied to check Traffic Manager name operation.
 
     :ivar name: The name of the resource.
@@ -160,7 +159,7 @@ class Resource(_serialization.Model):
     """The core properties of ARM resources.
 
     :ivar id: Fully qualified resource Id for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficManagerProfiles/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficManagerProfiles/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -184,7 +183,7 @@ class Resource(_serialization.Model):
     ) -> None:
         """
         :keyword id: Fully qualified resource Id for the resource. Ex -
-         /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficManagerProfiles/{resourceName}.
+         /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficManagerProfiles/{resourceName}.  # pylint: disable=line-too-long
         :paramtype id: str
         :keyword name: The name of the resource.
         :paramtype name: str
@@ -202,7 +201,7 @@ class ProxyResource(Resource):
     required location and tags.
 
     :ivar id: Fully qualified resource Id for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficManagerProfiles/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficManagerProfiles/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -210,37 +209,12 @@ class ProxyResource(Resource):
     :vartype type: str
     """
 
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-    }
 
-    def __init__(
-        self,
-        *,
-        id: Optional[str] = None,  # pylint: disable=redefined-builtin
-        name: Optional[str] = None,
-        type: Optional[str] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword id: Fully qualified resource Id for the resource. Ex -
-         /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficManagerProfiles/{resourceName}.
-        :paramtype id: str
-        :keyword name: The name of the resource.
-        :paramtype name: str
-        :keyword type: The type of the resource. Ex- Microsoft.Network/trafficManagerProfiles.
-        :paramtype type: str
-        """
-        super().__init__(id=id, name=name, type=type, **kwargs)
-
-
-class Endpoint(ProxyResource):  # pylint: disable=too-many-instance-attributes
+class Endpoint(ProxyResource):
     """Class representing a Traffic Manager endpoint.
 
     :ivar id: Fully qualified resource Id for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficManagerProfiles/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficManagerProfiles/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -344,7 +318,7 @@ class Endpoint(ProxyResource):  # pylint: disable=too-many-instance-attributes
     ) -> None:
         """
         :keyword id: Fully qualified resource Id for the resource. Ex -
-         /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficManagerProfiles/{resourceName}.
+         /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficManagerProfiles/{resourceName}.  # pylint: disable=line-too-long
         :paramtype id: str
         :keyword name: The name of the resource.
         :paramtype name: str
@@ -510,7 +484,7 @@ class HeatMapModel(ProxyResource):
     """Class representing a Traffic Manager HeatMap.
 
     :ivar id: Fully qualified resource Id for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficManagerProfiles/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficManagerProfiles/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -550,7 +524,7 @@ class HeatMapModel(ProxyResource):
     ) -> None:
         """
         :keyword id: Fully qualified resource Id for the resource. Ex -
-         /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficManagerProfiles/{resourceName}.
+         /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficManagerProfiles/{resourceName}.  # pylint: disable=line-too-long
         :paramtype id: str
         :keyword name: The name of the resource.
         :paramtype name: str
@@ -700,7 +674,7 @@ class MonitorConfigCustomHeadersItem(_serialization.Model):
         self.value = value
 
 
-class MonitorConfigExpectedStatusCodeRangesItem(_serialization.Model):
+class MonitorConfigExpectedStatusCodeRangesItem(_serialization.Model):  # pylint: disable=name-too-long
     """Min and max value of a status code range.
 
     :ivar min: Min status code.
@@ -736,7 +710,7 @@ class TrackedResource(Resource):
     """The resource model definition for a ARM tracked top level resource.
 
     :ivar id: Fully qualified resource Id for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficManagerProfiles/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficManagerProfiles/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -768,7 +742,7 @@ class TrackedResource(Resource):
     ) -> None:
         """
         :keyword id: Fully qualified resource Id for the resource. Ex -
-         /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficManagerProfiles/{resourceName}.
+         /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficManagerProfiles/{resourceName}.  # pylint: disable=line-too-long
         :paramtype id: str
         :keyword name: The name of the resource.
         :paramtype name: str
@@ -784,11 +758,11 @@ class TrackedResource(Resource):
         self.location = location
 
 
-class Profile(TrackedResource):  # pylint: disable=too-many-instance-attributes
+class Profile(TrackedResource):
     """Class representing a Traffic Manager profile.
 
     :ivar id: Fully qualified resource Id for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficManagerProfiles/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficManagerProfiles/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -858,7 +832,7 @@ class Profile(TrackedResource):  # pylint: disable=too-many-instance-attributes
     ) -> None:
         """
         :keyword id: Fully qualified resource Id for the resource. Ex -
-         /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficManagerProfiles/{resourceName}.
+         /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficManagerProfiles/{resourceName}.  # pylint: disable=line-too-long
         :paramtype id: str
         :keyword name: The name of the resource.
         :paramtype name: str
@@ -928,7 +902,7 @@ class ProfileListResult(_serialization.Model):
 class QueryExperience(_serialization.Model):
     """Class representing a Traffic Manager HeatMap query experience properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar endpoint_id: The id of the endpoint from the 'endpoints' array which these queries were
      routed to. Required.
@@ -1056,7 +1030,7 @@ class TrafficManagerGeographicHierarchy(ProxyResource):
     """Class representing the Geographic hierarchy used with the Geographic traffic routing method.
 
     :ivar id: Fully qualified resource Id for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficManagerProfiles/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficManagerProfiles/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1085,7 +1059,7 @@ class TrafficManagerGeographicHierarchy(ProxyResource):
     ) -> None:
         """
         :keyword id: Fully qualified resource Id for the resource. Ex -
-         /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficManagerProfiles/{resourceName}.
+         /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficManagerProfiles/{resourceName}.  # pylint: disable=line-too-long
         :paramtype id: str
         :keyword name: The name of the resource.
         :paramtype name: str
@@ -1158,7 +1132,7 @@ class UserMetricsModel(ProxyResource):
     """Class representing Traffic Manager User Metrics.
 
     :ivar id: Fully qualified resource Id for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficManagerProfiles/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficManagerProfiles/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1186,7 +1160,7 @@ class UserMetricsModel(ProxyResource):
     ) -> None:
         """
         :keyword id: Fully qualified resource Id for the resource. Ex -
-         /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficManagerProfiles/{resourceName}.
+         /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/trafficManagerProfiles/{resourceName}.  # pylint: disable=line-too-long
         :paramtype id: str
         :keyword name: The name of the resource.
         :paramtype name: str
