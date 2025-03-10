@@ -34,8 +34,7 @@ def main():
         resource_group_name="res7687",
         account_name="sto9699",
     )
-    for item in response:
-        print(item)
+    print(response)
 
 
 # x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/StorageAccountListBlobInventoryPolicy.json

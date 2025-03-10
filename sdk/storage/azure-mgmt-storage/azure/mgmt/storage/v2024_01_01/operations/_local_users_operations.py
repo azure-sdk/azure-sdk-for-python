@@ -61,13 +61,13 @@ def build_list_request(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/localUsers",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
         "resourceGroupName": _SERIALIZER.url(
-            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1, pattern=r"^[-\w\._\(\)]+$"
+            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
         "accountName": _SERIALIZER.url(
             "account_name", account_name, "str", max_length=24, min_length=3, pattern=r"^[a-z0-9]+$"
         ),
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
     }
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
@@ -102,13 +102,13 @@ def build_get_request(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/localUsers/{username}",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
         "resourceGroupName": _SERIALIZER.url(
-            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1, pattern=r"^[-\w\._\(\)]+$"
+            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
         "accountName": _SERIALIZER.url(
             "account_name", account_name, "str", max_length=24, min_length=3, pattern=r"^[a-z0-9]+$"
         ),
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
         "username": _SERIALIZER.url("username", username, "str", max_length=64, min_length=3),
     }
 
@@ -139,13 +139,13 @@ def build_create_or_update_request(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/localUsers/{username}",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
         "resourceGroupName": _SERIALIZER.url(
-            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1, pattern=r"^[-\w\._\(\)]+$"
+            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
         "accountName": _SERIALIZER.url(
             "account_name", account_name, "str", max_length=24, min_length=3, pattern=r"^[a-z0-9]+$"
         ),
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
         "username": _SERIALIZER.url("username", username, "str", max_length=64, min_length=3),
     }
 
@@ -177,13 +177,13 @@ def build_delete_request(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/localUsers/{username}",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
         "resourceGroupName": _SERIALIZER.url(
-            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1, pattern=r"^[-\w\._\(\)]+$"
+            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
         "accountName": _SERIALIZER.url(
             "account_name", account_name, "str", max_length=24, min_length=3, pattern=r"^[a-z0-9]+$"
         ),
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
         "username": _SERIALIZER.url("username", username, "str", max_length=64, min_length=3),
     }
 
@@ -213,13 +213,13 @@ def build_list_keys_request(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/localUsers/{username}/listKeys",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
         "resourceGroupName": _SERIALIZER.url(
-            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1, pattern=r"^[-\w\._\(\)]+$"
+            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
         "accountName": _SERIALIZER.url(
             "account_name", account_name, "str", max_length=24, min_length=3, pattern=r"^[a-z0-9]+$"
         ),
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
         "username": _SERIALIZER.url("username", username, "str", max_length=64, min_length=3),
     }
 
@@ -249,13 +249,13 @@ def build_regenerate_password_request(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/localUsers/{username}/regeneratePassword",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
         "resourceGroupName": _SERIALIZER.url(
-            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1, pattern=r"^[-\w\._\(\)]+$"
+            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
         "accountName": _SERIALIZER.url(
             "account_name", account_name, "str", max_length=24, min_length=3, pattern=r"^[a-z0-9]+$"
         ),
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
         "username": _SERIALIZER.url("username", username, "str", max_length=64, min_length=3),
     }
 
@@ -302,8 +302,8 @@ class LocalUsersOperations:
     ) -> Iterable["_models.LocalUser"]:
         """List the local users associated with the storage account.
 
-        :param resource_group_name: The name of the resource group within the user's subscription. The
-         name is case insensitive. Required.
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
         :type resource_group_name: str
         :param account_name: The name of the storage account within the specified resource group.
          Storage account names must be between 3 and 24 characters in length and use numbers and
@@ -374,7 +374,7 @@ class LocalUsersOperations:
             list_of_elem = deserialized.value
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
-            return None, iter(list_of_elem)
+            return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
             _request = prepare_request(next_link)
@@ -398,8 +398,8 @@ class LocalUsersOperations:
     def get(self, resource_group_name: str, account_name: str, username: str, **kwargs: Any) -> _models.LocalUser:
         """Get the local user of the storage account by username.
 
-        :param resource_group_name: The name of the resource group within the user's subscription. The
-         name is case insensitive. Required.
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
         :type resource_group_name: str
         :param account_name: The name of the storage account within the specified resource group.
          Storage account names must be between 3 and 24 characters in length and use numbers and
@@ -470,8 +470,8 @@ class LocalUsersOperations:
         """Create or update the properties of a local user associated with the storage account. Properties
         for NFSv3 enablement and extended groups cannot be set with other properties.
 
-        :param resource_group_name: The name of the resource group within the user's subscription. The
-         name is case insensitive. Required.
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
         :type resource_group_name: str
         :param account_name: The name of the storage account within the specified resource group.
          Storage account names must be between 3 and 24 characters in length and use numbers and
@@ -504,8 +504,8 @@ class LocalUsersOperations:
         """Create or update the properties of a local user associated with the storage account. Properties
         for NFSv3 enablement and extended groups cannot be set with other properties.
 
-        :param resource_group_name: The name of the resource group within the user's subscription. The
-         name is case insensitive. Required.
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
         :type resource_group_name: str
         :param account_name: The name of the storage account within the specified resource group.
          Storage account names must be between 3 and 24 characters in length and use numbers and
@@ -536,8 +536,8 @@ class LocalUsersOperations:
         """Create or update the properties of a local user associated with the storage account. Properties
         for NFSv3 enablement and extended groups cannot be set with other properties.
 
-        :param resource_group_name: The name of the resource group within the user's subscription. The
-         name is case insensitive. Required.
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
         :type resource_group_name: str
         :param account_name: The name of the storage account within the specified resource group.
          Storage account names must be between 3 and 24 characters in length and use numbers and
@@ -615,8 +615,8 @@ class LocalUsersOperations:
     ) -> None:
         """Deletes the local user associated with the specified storage account.
 
-        :param resource_group_name: The name of the resource group within the user's subscription. The
-         name is case insensitive. Required.
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
         :type resource_group_name: str
         :param account_name: The name of the storage account within the specified resource group.
          Storage account names must be between 3 and 24 characters in length and use numbers and
@@ -675,8 +675,8 @@ class LocalUsersOperations:
     ) -> _models.LocalUserKeys:
         """List SSH authorized keys and shared key of the local user.
 
-        :param resource_group_name: The name of the resource group within the user's subscription. The
-         name is case insensitive. Required.
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
         :type resource_group_name: str
         :param account_name: The name of the storage account within the specified resource group.
          Storage account names must be between 3 and 24 characters in length and use numbers and
@@ -739,8 +739,8 @@ class LocalUsersOperations:
     ) -> _models.LocalUserRegeneratePasswordResult:
         """Regenerate the local user SSH password.
 
-        :param resource_group_name: The name of the resource group within the user's subscription. The
-         name is case insensitive. Required.
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
         :type resource_group_name: str
         :param account_name: The name of the storage account within the specified resource group.
          Storage account names must be between 3 and 24 characters in length and use numbers and
