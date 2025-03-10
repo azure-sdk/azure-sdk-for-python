@@ -47,6 +47,7 @@ def main():
                                 "cluster": {
                                     "azureServiceEndpoint": "core.windows.net",
                                     "cloudAccountName": "myasestoragacct",
+                                    "hardwareClass": "Medium",
                                     "name": "testHCICluster",
                                     "witnessPath": "Cloud",
                                     "witnessType": "Cloud",
@@ -180,6 +181,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/StackHCI/stable/2024-04-01/examples/PutDeploymentSettings.json
+# x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/StackHCI/preview/2025-02-01-preview/examples/PutDeploymentSettings.json
 if __name__ == "__main__":
     main()

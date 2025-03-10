@@ -86,6 +86,15 @@ class ClusterNodeType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     THIRD_PARTY = "ThirdParty"
 
 
+class ClusterPattern(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Supported Storage Pattern for HCI Cluster."""
+
+    STANDARD = "Standard"
+    """Standard cluster."""
+    RACK_AWARE = "RackAware"
+    """RackAware cluster."""
+
+
 class ComplianceAssignmentType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Represents the compliance assignment type of a resource."""
 
@@ -128,7 +137,7 @@ class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
 
 class DeploymentMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The deployment mode of EnterpriseCloudEngine(ECE) action for a cluster."""
+    """Deployment mode to trigger job."""
 
     VALIDATE = "Validate"
     """Validate ECE action deployment for a cluster."""
@@ -141,6 +150,21 @@ class DeviceKind(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     HCI = "HCI"
     """Arc-enabled edge device with HCI OS."""
+
+
+class DeviceLogCollectionStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Represents the status of a log collection operation."""
+
+    NOT_STARTED = "NotStarted"
+    """Log collection operation has not been initiated."""
+    RUNNING = "Running"
+    """Indicates that the log collection operation is currently running."""
+    FAILED = "Failed"
+    """Indicates that the log collection operation has failed."""
+    SUCCEEDED = "Succeeded"
+    """Indicates that the log collection operation has completed successfully."""
+    CANCELED = "Canceled"
+    """Indicates that the log collection operation has completed successfully."""
 
 
 class DeviceState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -185,6 +209,29 @@ class EceSecrets(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """WitnessStorageKey used for setting up a cloud witness for AzureStackHCI cluster."""
 
 
+class EdgeDeviceJobType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Common Job Types supported."""
+
+    COLLECT_LOG = "CollectLog"
+    """Job to collect logs from the device."""
+    REMOTE_SUPPORT = "RemoteSupport"
+    """Job to provide remote support to the device."""
+
+
+class EdgeDeviceKind(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Edge device kind."""
+
+    HCI = "HCI"
+    """Arc-enabled edge device with HCI OS."""
+
+
+class EdgeSolutionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Edge solution type."""
+
+    WINDOWS_SERVER = "WindowsServer"
+    """Edge solution for Windows based edge devices."""
+
+
 class ExtensionAggregateState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Aggregate state of Arc Extensions across the nodes in this HCI cluster."""
 
@@ -215,6 +262,26 @@ class ExtensionManagedBy(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     AZURE = "Azure"
 
 
+class HardwareClass(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Hardware class of the cluster."""
+
+    SMALL = "Small"
+    """The hardware class is small."""
+    MEDIUM = "Medium"
+    """The hardware class is medium. This corresponds to the default"""
+    LARGE = "Large"
+    """The hardware class is large."""
+
+
+class HciEdgeDeviceJobType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Job Type supported."""
+
+    COLLECT_LOG = "CollectLog"
+    """Job to collect logs from the device."""
+    REMOTE_SUPPORT = "RemoteSupport"
+    """Job to provide remote support to the device."""
+
+
 class HealthState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """HealthState."""
 
@@ -231,6 +298,35 @@ class ImdsAttestation(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     DISABLED = "Disabled"
     ENABLED = "Enabled"
+
+
+class JobStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Represents the various statuses a job can have throughout its lifecycle."""
+
+    NOT_SPECIFIED = "NotSpecified"
+    """The job status has not been specified."""
+    VALIDATION_IN_PROGRESS = "ValidationInProgress"
+    """The job is currently undergoing validation."""
+    VALIDATION_SUCCESS = "ValidationSuccess"
+    """The job has successfully passed validation."""
+    VALIDATION_FAILED = "ValidationFailed"
+    """The job has failed validation."""
+    DEPLOYMENT_IN_PROGRESS = "DeploymentInProgress"
+    """The job's deployment is currently in progress."""
+    DEPLOYMENT_FAILED = "DeploymentFailed"
+    """The job's deployment has failed."""
+    DEPLOYMENT_SUCCESS = "DeploymentSuccess"
+    """The job has been successfully deployed."""
+    SUCCEEDED = "Succeeded"
+    """The job has succeeded."""
+    FAILED = "Failed"
+    """The job has failed."""
+    CANCELED = "Canceled"
+    """The job has been canceled."""
+    PAUSED = "Paused"
+    """The job is paused."""
+    SCHEDULED = "Scheduled"
+    """The job is scheduled to run."""
 
 
 class LogCollectionJobType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -354,6 +450,15 @@ class ProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     DISABLE_IN_PROGRESS = "DisableInProgress"
 
 
+class RdmaCapability(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Describes the RDMA capability of the network adapter."""
+
+    ENABLED = "Enabled"
+    """Network Adapter on the device is RDMA Capable"""
+    DISABLED = "Disabled"
+    """Network Adapter on the device is RDMA Capable"""
+
+
 class RebootRequirement(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """RebootRequirement."""
 
@@ -362,11 +467,29 @@ class RebootRequirement(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     FALSE = "False"
 
 
+class RemoteSupportAccessLevel(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Defines the level of remote support access granted."""
+
+    NONE = "None"
+    """No remote support access is granted."""
+    DIAGNOSTICS = "Diagnostics"
+    """Access is limited to diagnostics information only."""
+    DIAGNOSTICS_AND_REPAIR = "DiagnosticsAndRepair"
+    """Access includes diagnostics information and the ability to perform repairs."""
+
+
 class RemoteSupportType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Remote Support Type for cluster."""
 
     ENABLE = "Enable"
     REVOKE = "Revoke"
+
+
+class SecretsType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Type of secrets to store."""
+
+    BACKUP_SECRETS = "BackupSecrets"
+    """Backup secrets type"""
 
 
 class ServiceName(str, Enum, metaclass=CaseInsensitiveEnumMeta):
