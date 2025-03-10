@@ -39,6 +39,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/CustomDomains_EnableCustomHttpsUsingBYOC.json
+# x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-09-01/examples/CustomDomains_EnableCustomHttpsUsingBYOC.json
 if __name__ == "__main__":
     main()
