@@ -74,6 +74,10 @@ def main():
                 "routingWeight": 0,
                 "sharedKey": "Abc123",
                 "trafficSelectorPolicies": [],
+                "tunnelProperties": [
+                    {"bgpPeeringAddress": "10.78.1.17", "tunnelIpAddress": "10.78.1.5"},
+                    {"bgpPeeringAddress": "10.78.1.20", "tunnelIpAddress": "10.78.1.7"},
+                ],
                 "usePolicyBasedTrafficSelectors": False,
                 "virtualNetworkGateway1": {
                     "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw",
@@ -109,6 +113,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/VirtualNetworkGatewayConnectionCreate.json
+# x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/VirtualNetworkGatewayConnectionCreate.json
 if __name__ == "__main__":
     main()
