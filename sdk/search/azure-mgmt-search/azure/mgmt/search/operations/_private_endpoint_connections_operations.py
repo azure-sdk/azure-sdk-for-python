@@ -1,4 +1,3 @@
-# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8,7 +7,7 @@
 # --------------------------------------------------------------------------
 from io import IOBase
 import sys
-from typing import Any, Callable, Dict, IO, Iterable, Optional, Type, TypeVar, Union, overload
+from typing import Any, Callable, Dict, IO, Iterable, Optional, TypeVar, Union, overload
 import urllib.parse
 
 from azure.core.exceptions import (
@@ -21,20 +20,18 @@ from azure.core.exceptions import (
 )
 from azure.core.paging import ItemPaged
 from azure.core.pipeline import PipelineResponse
-from azure.core.pipeline.transport import HttpResponse
-from azure.core.rest import HttpRequest
+from azure.core.rest import HttpRequest, HttpResponse
 from azure.core.tracing.decorator import distributed_trace
 from azure.core.utils import case_insensitive_dict
 from azure.mgmt.core.exceptions import ARMErrorFormat
 
 from .. import models as _models
 from .._serialization import Serializer
-from .._vendor import SearchManagementClientMixinABC, _convert_request
 
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
 
@@ -54,7 +51,7 @@ def build_update_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-06-01-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-05-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -65,9 +62,7 @@ def build_update_request(
     )  # pylint: disable=line-too-long
     path_format_arguments = {
         "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "searchServiceName": _SERIALIZER.url(
-            "search_service_name", search_service_name, "str", pattern=r"^(?=.{2,60}$)[a-z0-9][a-z0-9]+(-[a-z0-9]+)*$"
-        ),
+        "searchServiceName": _SERIALIZER.url("search_service_name", search_service_name, "str"),
         "privateEndpointConnectionName": _SERIALIZER.url(
             "private_endpoint_connection_name", private_endpoint_connection_name, "str"
         ),
@@ -101,7 +96,7 @@ def build_get_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-06-01-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-05-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -111,9 +106,7 @@ def build_get_request(
     )  # pylint: disable=line-too-long
     path_format_arguments = {
         "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "searchServiceName": _SERIALIZER.url(
-            "search_service_name", search_service_name, "str", pattern=r"^(?=.{2,60}$)[a-z0-9][a-z0-9]+(-[a-z0-9]+)*$"
-        ),
+        "searchServiceName": _SERIALIZER.url("search_service_name", search_service_name, "str"),
         "privateEndpointConnectionName": _SERIALIZER.url(
             "private_endpoint_connection_name", private_endpoint_connection_name, "str"
         ),
@@ -145,7 +138,7 @@ def build_delete_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-06-01-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-05-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -155,9 +148,7 @@ def build_delete_request(
     )  # pylint: disable=line-too-long
     path_format_arguments = {
         "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "searchServiceName": _SERIALIZER.url(
-            "search_service_name", search_service_name, "str", pattern=r"^(?=.{2,60}$)[a-z0-9][a-z0-9]+(-[a-z0-9]+)*$"
-        ),
+        "searchServiceName": _SERIALIZER.url("search_service_name", search_service_name, "str"),
         "privateEndpointConnectionName": _SERIALIZER.url(
             "private_endpoint_connection_name", private_endpoint_connection_name, "str"
         ),
@@ -188,7 +179,7 @@ def build_list_by_service_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-06-01-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-05-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -199,9 +190,7 @@ def build_list_by_service_request(
     path_format_arguments = {
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
         "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "searchServiceName": _SERIALIZER.url(
-            "search_service_name", search_service_name, "str", pattern=r"^(?=.{2,60}$)[a-z0-9][a-z0-9]+(-[a-z0-9]+)*$"
-        ),
+        "searchServiceName": _SERIALIZER.url("search_service_name", search_service_name, "str"),
     }
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
@@ -248,7 +237,7 @@ class PrivateEndpointConnectionsOperations:
         content_type: str = "application/json",
         **kwargs: Any
     ) -> _models.PrivateEndpointConnection:
-        """Updates a private endpoint connection to the search service in the given resource group.
+        """Updates a Private Endpoint connection to the search service in the given resource group.
 
         .. seealso::
            - https://aka.ms/search-manage
@@ -256,11 +245,11 @@ class PrivateEndpointConnectionsOperations:
         :param resource_group_name: The name of the resource group within the current subscription. You
          can obtain this value from the Azure Resource Manager API or the portal. Required.
         :type resource_group_name: str
-        :param search_service_name: The name of the Azure AI Search service associated with the
-         specified resource group. Required.
+        :param search_service_name: The name of the search service associated with the specified
+         resource group. Required.
         :type search_service_name: str
         :param private_endpoint_connection_name: The name of the private endpoint connection to the
-         Azure AI Search service with the specified resource group. Required.
+         search service with the specified resource group. Required.
         :type private_endpoint_connection_name: str
         :param private_endpoint_connection: The definition of the private endpoint connection to
          update. Required.
@@ -288,7 +277,7 @@ class PrivateEndpointConnectionsOperations:
         content_type: str = "application/json",
         **kwargs: Any
     ) -> _models.PrivateEndpointConnection:
-        """Updates a private endpoint connection to the search service in the given resource group.
+        """Updates a Private Endpoint connection to the search service in the given resource group.
 
         .. seealso::
            - https://aka.ms/search-manage
@@ -296,11 +285,11 @@ class PrivateEndpointConnectionsOperations:
         :param resource_group_name: The name of the resource group within the current subscription. You
          can obtain this value from the Azure Resource Manager API or the portal. Required.
         :type resource_group_name: str
-        :param search_service_name: The name of the Azure AI Search service associated with the
-         specified resource group. Required.
+        :param search_service_name: The name of the search service associated with the specified
+         resource group. Required.
         :type search_service_name: str
         :param private_endpoint_connection_name: The name of the private endpoint connection to the
-         Azure AI Search service with the specified resource group. Required.
+         search service with the specified resource group. Required.
         :type private_endpoint_connection_name: str
         :param private_endpoint_connection: The definition of the private endpoint connection to
          update. Required.
@@ -326,7 +315,7 @@ class PrivateEndpointConnectionsOperations:
         search_management_request_options: Optional[_models.SearchManagementRequestOptions] = None,
         **kwargs: Any
     ) -> _models.PrivateEndpointConnection:
-        """Updates a private endpoint connection to the search service in the given resource group.
+        """Updates a Private Endpoint connection to the search service in the given resource group.
 
         .. seealso::
            - https://aka.ms/search-manage
@@ -334,11 +323,11 @@ class PrivateEndpointConnectionsOperations:
         :param resource_group_name: The name of the resource group within the current subscription. You
          can obtain this value from the Azure Resource Manager API or the portal. Required.
         :type resource_group_name: str
-        :param search_service_name: The name of the Azure AI Search service associated with the
-         specified resource group. Required.
+        :param search_service_name: The name of the search service associated with the specified
+         resource group. Required.
         :type search_service_name: str
         :param private_endpoint_connection_name: The name of the private endpoint connection to the
-         Azure AI Search service with the specified resource group. Required.
+         search service with the specified resource group. Required.
         :type private_endpoint_connection_name: str
         :param private_endpoint_connection: The definition of the private endpoint connection to
          update. Is either a PrivateEndpointConnection type or a IO[bytes] type. Required.
@@ -351,7 +340,7 @@ class PrivateEndpointConnectionsOperations:
         :rtype: ~azure.mgmt.search.models.PrivateEndpointConnection
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -390,7 +379,6 @@ class PrivateEndpointConnectionsOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -404,7 +392,7 @@ class PrivateEndpointConnectionsOperations:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("PrivateEndpointConnection", pipeline_response)
+        deserialized = self._deserialize("PrivateEndpointConnection", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -429,11 +417,11 @@ class PrivateEndpointConnectionsOperations:
         :param resource_group_name: The name of the resource group within the current subscription. You
          can obtain this value from the Azure Resource Manager API or the portal. Required.
         :type resource_group_name: str
-        :param search_service_name: The name of the Azure AI Search service associated with the
-         specified resource group. Required.
+        :param search_service_name: The name of the search service associated with the specified
+         resource group. Required.
         :type search_service_name: str
         :param private_endpoint_connection_name: The name of the private endpoint connection to the
-         Azure AI Search service with the specified resource group. Required.
+         search service with the specified resource group. Required.
         :type private_endpoint_connection_name: str
         :param search_management_request_options: Parameter group. Default value is None.
         :type search_management_request_options:
@@ -442,7 +430,7 @@ class PrivateEndpointConnectionsOperations:
         :rtype: ~azure.mgmt.search.models.PrivateEndpointConnection
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -470,7 +458,6 @@ class PrivateEndpointConnectionsOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -484,7 +471,7 @@ class PrivateEndpointConnectionsOperations:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("PrivateEndpointConnection", pipeline_response)
+        deserialized = self._deserialize("PrivateEndpointConnection", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -508,11 +495,11 @@ class PrivateEndpointConnectionsOperations:
         :param resource_group_name: The name of the resource group within the current subscription. You
          can obtain this value from the Azure Resource Manager API or the portal. Required.
         :type resource_group_name: str
-        :param search_service_name: The name of the Azure AI Search service associated with the
-         specified resource group. Required.
+        :param search_service_name: The name of the search service associated with the specified
+         resource group. Required.
         :type search_service_name: str
         :param private_endpoint_connection_name: The name of the private endpoint connection to the
-         Azure AI Search service with the specified resource group. Required.
+         search service with the specified resource group. Required.
         :type private_endpoint_connection_name: str
         :param search_management_request_options: Parameter group. Default value is None.
         :type search_management_request_options:
@@ -521,7 +508,7 @@ class PrivateEndpointConnectionsOperations:
         :rtype: ~azure.mgmt.search.models.PrivateEndpointConnection or None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -549,7 +536,6 @@ class PrivateEndpointConnectionsOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -565,7 +551,7 @@ class PrivateEndpointConnectionsOperations:
 
         deserialized = None
         if response.status_code == 200:
-            deserialized = self._deserialize("PrivateEndpointConnection", pipeline_response)
+            deserialized = self._deserialize("PrivateEndpointConnection", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -588,8 +574,8 @@ class PrivateEndpointConnectionsOperations:
         :param resource_group_name: The name of the resource group within the current subscription. You
          can obtain this value from the Azure Resource Manager API or the portal. Required.
         :type resource_group_name: str
-        :param search_service_name: The name of the Azure AI Search service associated with the
-         specified resource group. Required.
+        :param search_service_name: The name of the search service associated with the specified
+         resource group. Required.
         :type search_service_name: str
         :param search_management_request_options: Parameter group. Default value is None.
         :type search_management_request_options:
@@ -605,7 +591,7 @@ class PrivateEndpointConnectionsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.PrivateEndpointConnectionListResult] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -628,7 +614,6 @@ class PrivateEndpointConnectionsOperations:
                     headers=_headers,
                     params=_params,
                 )
-                _request = _convert_request(_request)
                 _request.url = self._client.format_url(_request.url)
 
             else:
@@ -644,7 +629,6 @@ class PrivateEndpointConnectionsOperations:
                 _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                _request = _convert_request(_request)
                 _request.url = self._client.format_url(_request.url)
                 _request.method = "GET"
             return _request

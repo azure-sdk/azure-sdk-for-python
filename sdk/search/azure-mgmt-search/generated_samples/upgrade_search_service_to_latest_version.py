@@ -15,7 +15,7 @@ from azure.mgmt.search import SearchManagementClient
     pip install azure-identity
     pip install azure-mgmt-search
 # USAGE
-    python network_security_perimeter_configurations_get.py
+    python upgrade_search_service_to_latest_version.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -30,14 +30,13 @@ def main():
         subscription_id="subid",
     )
 
-    response = client.network_security_perimeter_configurations.get(
+    response = client.services.begin_upgrade(
         resource_group_name="rg1",
         search_service_name="mysearchservice",
-        nsp_config_name="00000001-2222-3333-4444-111144444444.assoc1",
-    )
+    ).result()
     print(response)
 
 
-# x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2024-06-01-preview/examples/NetworkSecurityPerimeterConfigurationsGet.json
+# x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2025-05-01/examples/UpgradeSearchServiceToLatestVersion.json
 if __name__ == "__main__":
     main()
