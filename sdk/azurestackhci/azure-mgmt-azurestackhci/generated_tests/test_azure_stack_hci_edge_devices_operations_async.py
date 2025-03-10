@@ -21,10 +21,10 @@ class TestAzureStackHCIEdgeDevicesOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list(self, resource_group):
+    async def test_edge_devices_list(self, resource_group):
         response = self.client.edge_devices.list(
             resource_uri="str",
-            api_version="2024-04-01",
+            api_version="2025-02-01-preview",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -32,11 +32,11 @@ class TestAzureStackHCIEdgeDevicesOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get(self, resource_group):
+    async def test_edge_devices_get(self, resource_group):
         response = await self.client.edge_devices.get(
             resource_uri="str",
             edge_device_name="default",
-            api_version="2024-04-01",
+            api_version="2025-02-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -44,7 +44,7 @@ class TestAzureStackHCIEdgeDevicesOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_create_or_update(self, resource_group):
+    async def test_edge_devices_begin_create_or_update(self, resource_group):
         response = await (
             await self.client.edge_devices.begin_create_or_update(
                 resource_uri="str",
@@ -84,6 +84,7 @@ class TestAzureStackHCIEdgeDevicesOperationsAsync(AzureMgmtRecordedTestCase):
                                     }
                                 ]
                             },
+                            "hardwareProfile": {"processorType": "str"},
                             "networkProfile": {
                                 "hostNetwork": {
                                     "enableStorageAutoIp": bool,
@@ -144,6 +145,7 @@ class TestAzureStackHCIEdgeDevicesOperationsAsync(AzureMgmtRecordedTestCase):
                                         "macAddress": "str",
                                         "nicStatus": "str",
                                         "nicType": "str",
+                                        "rdmaCapability": "Disabled",
                                         "slot": "str",
                                         "subnetMask": "str",
                                         "switchName": "str",
@@ -162,6 +164,7 @@ class TestAzureStackHCIEdgeDevicesOperationsAsync(AzureMgmtRecordedTestCase):
                             },
                             "osProfile": {"assemblyVersion": "str", "bootType": "str"},
                             "sbeDeploymentPackageInfo": {"code": "str", "message": "str", "sbeManifest": "str"},
+                            "storageProfile": {"poolableDisksCount": 0},
                         },
                     },
                     "systemData": {
@@ -175,7 +178,7 @@ class TestAzureStackHCIEdgeDevicesOperationsAsync(AzureMgmtRecordedTestCase):
                     "type": "str",
                 },
                 edge_device_name="default",
-                api_version="2024-04-01",
+                api_version="2025-02-01-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -184,12 +187,12 @@ class TestAzureStackHCIEdgeDevicesOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_delete(self, resource_group):
+    async def test_edge_devices_begin_delete(self, resource_group):
         response = await (
             await self.client.edge_devices.begin_delete(
                 resource_uri="str",
                 edge_device_name="default",
-                api_version="2024-04-01",
+                api_version="2025-02-01-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -198,13 +201,13 @@ class TestAzureStackHCIEdgeDevicesOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_validate(self, resource_group):
+    async def test_edge_devices_begin_validate(self, resource_group):
         response = await (
             await self.client.edge_devices.begin_validate(
                 resource_uri="str",
                 validate_request={"edgeDeviceIds": ["str"], "additionalInfo": "str"},
                 edge_device_name="default",
-                api_version="2024-04-01",
+                api_version="2025-02-01-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 

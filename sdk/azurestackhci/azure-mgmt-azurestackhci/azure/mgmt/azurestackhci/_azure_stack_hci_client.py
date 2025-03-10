@@ -22,6 +22,7 @@ from .operations import (
     ArcSettingsOperations,
     ClustersOperations,
     DeploymentSettingsOperations,
+    EdgeDeviceJobsOperations,
     EdgeDevicesOperations,
     ExtensionsOperations,
     OffersOperations,
@@ -32,14 +33,14 @@ from .operations import (
     UpdateRunsOperations,
     UpdateSummariesOperations,
     UpdatesOperations,
+    ValidatedSolutionRecipesOperations,
 )
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from azure.core.credentials import TokenCredential
 
 
-class AzureStackHCIClient:  # pylint: disable=client-accepts-api-version-keyword,too-many-instance-attributes
+class AzureStackHCIClient:  # pylint: disable=too-many-instance-attributes
     """Azure Stack HCI management service.
 
     :ivar arc_settings: ArcSettingsOperations operations
@@ -48,6 +49,8 @@ class AzureStackHCIClient:  # pylint: disable=client-accepts-api-version-keyword
     :vartype clusters: azure.mgmt.azurestackhci.operations.ClustersOperations
     :ivar deployment_settings: DeploymentSettingsOperations operations
     :vartype deployment_settings: azure.mgmt.azurestackhci.operations.DeploymentSettingsOperations
+    :ivar edge_device_jobs: EdgeDeviceJobsOperations operations
+    :vartype edge_device_jobs: azure.mgmt.azurestackhci.operations.EdgeDeviceJobsOperations
     :ivar edge_devices: EdgeDevicesOperations operations
     :vartype edge_devices: azure.mgmt.azurestackhci.operations.EdgeDevicesOperations
     :ivar extensions: ExtensionsOperations operations
@@ -64,18 +67,21 @@ class AzureStackHCIClient:  # pylint: disable=client-accepts-api-version-keyword
     :vartype skus: azure.mgmt.azurestackhci.operations.SkusOperations
     :ivar update_runs: UpdateRunsOperations operations
     :vartype update_runs: azure.mgmt.azurestackhci.operations.UpdateRunsOperations
-    :ivar update_summaries: UpdateSummariesOperations operations
-    :vartype update_summaries: azure.mgmt.azurestackhci.operations.UpdateSummariesOperations
     :ivar updates: UpdatesOperations operations
     :vartype updates: azure.mgmt.azurestackhci.operations.UpdatesOperations
+    :ivar update_summaries: UpdateSummariesOperations operations
+    :vartype update_summaries: azure.mgmt.azurestackhci.operations.UpdateSummariesOperations
+    :ivar validated_solution_recipes: ValidatedSolutionRecipesOperations operations
+    :vartype validated_solution_recipes:
+     azure.mgmt.azurestackhci.operations.ValidatedSolutionRecipesOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials.TokenCredential
     :param subscription_id: The ID of the target subscription. The value must be an UUID. Required.
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2024-04-01". Note that overriding this
-     default value may result in unsupported behavior.
+    :keyword api_version: Api Version. Default value is "2025-02-01-preview". Note that overriding
+     this default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
      Retry-After header is present.
@@ -120,6 +126,7 @@ class AzureStackHCIClient:  # pylint: disable=client-accepts-api-version-keyword
         self.deployment_settings = DeploymentSettingsOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
+        self.edge_device_jobs = EdgeDeviceJobsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.edge_devices = EdgeDevicesOperations(self._client, self._config, self._serialize, self._deserialize)
         self.extensions = ExtensionsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.offers = OffersOperations(self._client, self._config, self._serialize, self._deserialize)
@@ -130,10 +137,13 @@ class AzureStackHCIClient:  # pylint: disable=client-accepts-api-version-keyword
         )
         self.skus = SkusOperations(self._client, self._config, self._serialize, self._deserialize)
         self.update_runs = UpdateRunsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.updates = UpdatesOperations(self._client, self._config, self._serialize, self._deserialize)
         self.update_summaries = UpdateSummariesOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
-        self.updates = UpdatesOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.validated_solution_recipes = ValidatedSolutionRecipesOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
 
     def _send_request(self, request: HttpRequest, *, stream: bool = False, **kwargs: Any) -> HttpResponse:
         """Runs the network request through the client's chained policies.

@@ -15,7 +15,7 @@ from azure.mgmt.azurestackhci import AzureStackHCIClient
     pip install azure-identity
     pip install azure-mgmt-azurestackhci
 # USAGE
-    python list_operations.py
+    python validated_solution_recipes_list_by_subscription_location_resource.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -27,13 +27,16 @@ from azure.mgmt.azurestackhci import AzureStackHCIClient
 def main():
     client = AzureStackHCIClient(
         credential=DefaultAzureCredential(),
-        subscription_id="SUBSCRIPTION_ID",
+        subscription_id="b8d594e5-51f3-4c11-9c54-a7771b81c712",
     )
 
-    response = client.operations.list()
-    print(response)
+    response = client.validated_solution_recipes.list_by_subscription_location_resource(
+        location="westus2",
+    )
+    for item in response:
+        print(item)
 
 
-# x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/operations/stable/2024-04-01/examples/ListOperations.json
+# x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/StackHCI/preview/2025-02-01-preview/examples/ValidatedSolutionRecipes_ListBySubscriptionLocationResource.json
 if __name__ == "__main__":
     main()
