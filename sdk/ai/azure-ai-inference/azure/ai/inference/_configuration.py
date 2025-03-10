@@ -53,9 +53,9 @@ class ChatCompletionsClientConfiguration:  # pylint: disable=too-many-instance-a
 
     def _infer_policy(self, **kwargs):
         if isinstance(self.credential, AzureKeyCredential):
-            return policies.AzureKeyCredentialPolicy(self.credential, "Authorization", prefix="Bearer", **kwargs)
-        if isinstance(self.credential, AzureKeyCredential):
             return policies.AzureKeyCredentialPolicy(self.credential, "api-key", **kwargs)
+        if isinstance(self.credential, AzureKeyCredential):
+            return policies.AzureKeyCredentialPolicy(self.credential, "Authorization", prefix="Bearer", **kwargs)
         if hasattr(self.credential, "get_token"):
             return policies.BearerTokenCredentialPolicy(self.credential, *self.credential_scopes, **kwargs)
         raise TypeError(f"Unsupported credential: {self.credential}")
@@ -110,9 +110,9 @@ class EmbeddingsClientConfiguration:  # pylint: disable=too-many-instance-attrib
 
     def _infer_policy(self, **kwargs):
         if isinstance(self.credential, AzureKeyCredential):
-            return policies.AzureKeyCredentialPolicy(self.credential, "Authorization", prefix="Bearer", **kwargs)
-        if isinstance(self.credential, AzureKeyCredential):
             return policies.AzureKeyCredentialPolicy(self.credential, "api-key", **kwargs)
+        if isinstance(self.credential, AzureKeyCredential):
+            return policies.AzureKeyCredentialPolicy(self.credential, "Authorization", prefix="Bearer", **kwargs)
         if hasattr(self.credential, "get_token"):
             return policies.BearerTokenCredentialPolicy(self.credential, *self.credential_scopes, **kwargs)
         raise TypeError(f"Unsupported credential: {self.credential}")
@@ -167,9 +167,9 @@ class ImageEmbeddingsClientConfiguration:  # pylint: disable=too-many-instance-a
 
     def _infer_policy(self, **kwargs):
         if isinstance(self.credential, AzureKeyCredential):
-            return policies.AzureKeyCredentialPolicy(self.credential, "Authorization", prefix="Bearer", **kwargs)
-        if isinstance(self.credential, AzureKeyCredential):
             return policies.AzureKeyCredentialPolicy(self.credential, "api-key", **kwargs)
+        if isinstance(self.credential, AzureKeyCredential):
+            return policies.AzureKeyCredentialPolicy(self.credential, "Authorization", prefix="Bearer", **kwargs)
         if hasattr(self.credential, "get_token"):
             return policies.BearerTokenCredentialPolicy(self.credential, *self.credential_scopes, **kwargs)
         raise TypeError(f"Unsupported credential: {self.credential}")
