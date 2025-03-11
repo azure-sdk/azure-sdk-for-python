@@ -8,6 +8,7 @@
 
 from copy import deepcopy
 from typing import Any, Awaitable, TYPE_CHECKING
+from typing_extensions import Self
 
 from azure.core.pipeline import policies
 from azure.core.rest import AsyncHttpResponse, HttpRequest
@@ -43,13 +44,10 @@ from .operations import (
 )
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from azure.core.credentials_async import AsyncTokenCredential
 
 
-class CdnManagementClient(
-    CdnManagementClientOperationsMixin
-):  # pylint: disable=client-accepts-api-version-keyword,too-many-instance-attributes
+class CdnManagementClient(CdnManagementClientOperationsMixin):  # pylint: disable=too-many-instance-attributes
     """Cdn Management Client.
 
     :ivar afd_profiles: AFDProfilesOperations operations
@@ -100,7 +98,7 @@ class CdnManagementClient(
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2024-02-01". Note that overriding this
+    :keyword api_version: Api Version. Default value is "2025-04-15". Note that overriding this
      default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
@@ -198,7 +196,7 @@ class CdnManagementClient(
     async def close(self) -> None:
         await self._client.close()
 
-    async def __aenter__(self) -> "CdnManagementClient":
+    async def __aenter__(self) -> Self:
         await self._client.__aenter__()
         return self
 
