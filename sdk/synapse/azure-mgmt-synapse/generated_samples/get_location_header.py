@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.synapse import SynapseManagementClient
 
 """
@@ -29,12 +30,11 @@ def main():
         subscription_id="00000000-1111-2222-3333-444444444444",
     )
 
-    response = client.operations.get_location_header_result(
+    client.operations.get_location_header_result(
         resource_group_name="resourceGroup1",
         workspace_name="workspace1",
         operation_id="01234567-89ab-4def-0123-456789abcdef",
     )
-    print(response)
 
 
 # x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/GetLocationHeader.json

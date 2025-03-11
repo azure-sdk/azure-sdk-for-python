@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.synapse import SynapseManagementClient
 
 """
@@ -29,14 +30,13 @@ def main():
         subscription_id="00000000-1111-2222-3333-444444444444",
     )
 
-    response = client.sql_pool_workload_classifier.begin_delete(
+    client.sql_pool_workload_classifier.begin_delete(
         resource_group_name="sqlcrudtest-6852",
         workspace_name="sqlcrudtest-2080",
         sql_pool_name="sqlcrudtest-9187",
         workload_group_name="wlm_workloadgroup",
         workload_classifier_name="wlm_workloadclassifier",
     ).result()
-    print(response)
 
 
 # x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/DeleteSqlPoolWorkloadGroupWorkloadClassifer.json

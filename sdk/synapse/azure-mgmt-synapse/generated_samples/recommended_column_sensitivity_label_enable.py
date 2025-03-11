@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.synapse import SynapseManagementClient
 
 """
@@ -29,7 +30,7 @@ def main():
         subscription_id="00000000-1111-2222-3333-444444444444",
     )
 
-    response = client.sql_pool_sensitivity_labels.enable_recommendation(
+    client.sql_pool_sensitivity_labels.enable_recommendation(
         resource_group_name="myRG",
         workspace_name="myServer",
         sql_pool_name="myDatabase",
@@ -37,7 +38,6 @@ def main():
         table_name="myTable",
         column_name="myColumn",
     )
-    print(response)
 
 
 # x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/RecommendedColumnSensitivityLabelEnable.json
