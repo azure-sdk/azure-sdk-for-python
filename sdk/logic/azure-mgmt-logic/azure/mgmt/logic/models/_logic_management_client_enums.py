@@ -10,504 +10,761 @@ from enum import Enum
 from azure.core import CaseInsensitiveEnumMeta
 
 
+class ActionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs."""
+
+    INTERNAL = "Internal"
+
+
 class AgreementType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The agreement type."""
 
     NOT_SPECIFIED = "NotSpecified"
+    """Represents a not specified agreement type."""
     AS2 = "AS2"
+    """Represents an AS2 agreement type."""
     X12 = "X12"
+    """Represents an X12 agreement type."""
     EDIFACT = "Edifact"
+    """Represents an Edifact agreement type."""
 
 
 class ApiDeploymentParameterVisibility(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The Api deployment parameter visibility."""
 
     NOT_SPECIFIED = "NotSpecified"
+    """Represents a state where the value is not specified."""
     DEFAULT = "Default"
+    """Represents a default API deployment parameter visibility."""
     INTERNAL = "Internal"
+    """Represents an internal API deployment parameter visibility."""
 
 
 class ApiTier(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The Api tier."""
 
     NOT_SPECIFIED = "NotSpecified"
+    """Represents a state where the value is not specified."""
     ENTERPRISE = "Enterprise"
+    """Represents an enterprise API tier."""
     STANDARD = "Standard"
+    """Represents a standard API tier."""
     PREMIUM = "Premium"
+    """Represents a premium API tier."""
 
 
 class ApiType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """ApiType."""
+    """The API type."""
 
     NOT_SPECIFIED = "NotSpecified"
+    """Represents a state where the value is not specified."""
     REST = "Rest"
+    """Represents a REST API type."""
     SOAP = "Soap"
+    """Represents a SOAP API type."""
 
 
-class AzureAsyncOperationState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The Azure async operation state."""
+class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The type of identity that created the resource."""
 
-    FAILED = "Failed"
-    SUCCEEDED = "Succeeded"
-    PENDING = "Pending"
-    CANCELED = "Canceled"
+    USER = "User"
+    APPLICATION = "Application"
+    MANAGED_IDENTITY = "ManagedIdentity"
+    KEY = "Key"
 
 
 class DayOfWeek(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The day of the week."""
 
     SUNDAY = "Sunday"
+    """Represents day of a week Sunday."""
     MONDAY = "Monday"
+    """Represents day of a week Monday."""
     TUESDAY = "Tuesday"
+    """Represents day of a week Tuesday."""
     WEDNESDAY = "Wednesday"
+    """Represents day of a week Wednesday."""
     THURSDAY = "Thursday"
+    """Represents day of a week Thursday."""
     FRIDAY = "Friday"
+    """Represents day of a week Friday."""
     SATURDAY = "Saturday"
+    """Represents day of a week Saturday."""
 
 
 class DaysOfWeek(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """DaysOfWeek."""
+    """The days of a week."""
 
     SUNDAY = "Sunday"
+    """Represents day of a week Sunday."""
     MONDAY = "Monday"
+    """Represents day of a week Monday."""
     TUESDAY = "Tuesday"
+    """Represents day of a week Tuesday."""
     WEDNESDAY = "Wednesday"
+    """Represents day of a week Wednesday."""
     THURSDAY = "Thursday"
+    """Represents day of a week Thursday."""
     FRIDAY = "Friday"
+    """Represents day of a week Friday."""
     SATURDAY = "Saturday"
+    """Represents day of a week Saturday."""
 
 
 class EdifactCharacterSet(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The edifact character set."""
 
     NOT_SPECIFIED = "NotSpecified"
+    """Represents a state where the value is not specified."""
     UNOB = "UNOB"
+    """Represents the UNOB Edifact character set."""
     UNOA = "UNOA"
+    """Represents the UNOA Edifact character set."""
     UNOC = "UNOC"
+    """Represents the UNOC Edifact character set."""
     UNOD = "UNOD"
+    """Represents the UNOD Edifact character set."""
     UNOE = "UNOE"
+    """Represents the UNOE Edifact character set."""
     UNOF = "UNOF"
+    """Represents the UNOF Edifact character set."""
     UNOG = "UNOG"
+    """Represents the UNOG Edifact character set."""
     UNOH = "UNOH"
+    """Represents the UNOH Edifact character set."""
     UNOI = "UNOI"
+    """Represents the UNOI Edifact character set."""
     UNOJ = "UNOJ"
+    """Represents the UNOJ Edifact character set."""
     UNOK = "UNOK"
+    """Represents the UNOK Edifact character set."""
     UNOX = "UNOX"
+    """Represents the UNOX Edifact character set."""
     UNOY = "UNOY"
+    """Represents the UNOY Edifact character set."""
     KECA = "KECA"
+    """Represents the KECA Edifact character set."""
 
 
 class EdifactDecimalIndicator(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The edifact decimal indicator."""
 
     NOT_SPECIFIED = "NotSpecified"
+    """Represents a not specified edifact decimal indicator."""
     COMMA = "Comma"
+    """Represents a comma edifact decimal indicator."""
     DECIMAL = "Decimal"
+    """Represents a decimal edifact decimal indicator."""
 
 
 class EncryptionAlgorithm(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The encryption algorithm."""
 
     NOT_SPECIFIED = "NotSpecified"
+    """Represents a state where the value is not specified."""
     NONE = "None"
+    """Represents no encryption algorithm."""
     DES3 = "DES3"
+    """Represents the DES3 encryption algorithm."""
     RC2 = "RC2"
+    """Represents the RC2 encryption algorithm."""
     AES128 = "AES128"
+    """Represents the AES-128 encryption algorithm."""
     AES192 = "AES192"
+    """Represents the AES-192 encryption algorithm."""
     AES256 = "AES256"
-
-
-class ErrorResponseCode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The error response code."""
-
-    NOT_SPECIFIED = "NotSpecified"
-    INTEGRATION_SERVICE_ENVIRONMENT_NOT_FOUND = "IntegrationServiceEnvironmentNotFound"
-    INTERNAL_SERVER_ERROR = "InternalServerError"
-    INVALID_OPERATION_ID = "InvalidOperationId"
+    """Represents the AES-256 encryption algorithm."""
 
 
 class EventLevel(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The event level."""
 
     LOG_ALWAYS = "LogAlways"
+    """Represents a log always event level."""
     CRITICAL = "Critical"
+    """Represents a critical event level."""
     ERROR = "Error"
+    """Represents an error event level."""
     WARNING = "Warning"
+    """Represents a warning event level."""
     INFORMATIONAL = "Informational"
+    """Represents an information event level."""
     VERBOSE = "Verbose"
+    """Represents a verbose event level."""
 
 
 class HashingAlgorithm(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The signing or hashing algorithm."""
 
     NOT_SPECIFIED = "NotSpecified"
+    """Represents a state where the value is not specified."""
     NONE = "None"
+    """Represents no hashing algorithm."""
     MD5 = "MD5"
+    """Represents the MD5 hashing algorithm."""
     SHA1 = "SHA1"
+    """Represents the SHA1 hashing algorithm."""
     SHA2256 = "SHA2256"
+    """Represents the SHA2-256 hashing algorithm."""
     SHA2384 = "SHA2384"
+    """Represents the SHA2-384 hashing algorithm."""
     SHA2512 = "SHA2512"
+    """Represents the SHA2-512 hashing algorithm."""
 
 
 class IntegrationAccountSkuName(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The integration account sku name."""
 
     NOT_SPECIFIED = "NotSpecified"
+    """Represents a state where the value is not specified."""
     FREE = "Free"
+    """Represents a free integration account SKU."""
     BASIC = "Basic"
+    """Represents a basic integration account SKU."""
     STANDARD = "Standard"
+    """Represents a standard integration account SKU."""
 
 
 class IntegrationServiceEnvironmentAccessEndpointType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The integration service environment access endpoint type."""
 
     NOT_SPECIFIED = "NotSpecified"
+    """Represents a state where the value is not specified."""
     EXTERNAL = "External"
+    """Represents an external access endpoint type."""
     INTERNAL = "Internal"
+    """Represents an internal access endpoint type."""
 
 
 class IntegrationServiceEnvironmentNetworkDependencyCategoryType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The integration service environment network dependency category type."""
 
     NOT_SPECIFIED = "NotSpecified"
+    """Represents a state where the value is not specified."""
     AZURE_STORAGE = "AzureStorage"
+    """Represents an Azure Storage network dependency category type."""
     AZURE_MANAGEMENT = "AzureManagement"
+    """Represents an Azure Management network dependency category type."""
     AZURE_ACTIVE_DIRECTORY = "AzureActiveDirectory"
+    """Represents an Azure Active Directory network dependency category type."""
     SSL_CERTIFICATE_VERIFICATION = "SSLCertificateVerification"
+    """Represents an SSL Certificate Verification network dependency category type."""
     DIAGNOSTIC_LOGS_AND_METRICS = "DiagnosticLogsAndMetrics"
+    """Represents a Diagnostic Logs and Metrics network dependency category type."""
     INTEGRATION_SERVICE_ENVIRONMENT_CONNECTORS = "IntegrationServiceEnvironmentConnectors"
+    """Represents an Integration Service Environment Connectors network dependency category type."""
     REDIS_CACHE = "RedisCache"
+    """Represents a Redis Cache network dependency category type."""
     ACCESS_ENDPOINTS = "AccessEndpoints"
+    """Represents an Access Endpoints network dependency category type."""
     RECOVERY_SERVICE = "RecoveryService"
+    """Represents a Recovery Service network dependency category type."""
     SQL = "SQL"
+    """Represents a SQL network dependency category type."""
     REGIONAL_SERVICE = "RegionalService"
-
-
-class IntegrationServiceEnvironmentNetworkDependencyHealthState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The integration service environment network dependency health state."""
-
-    NOT_SPECIFIED = "NotSpecified"
-    HEALTHY = "Healthy"
-    UNHEALTHY = "Unhealthy"
-    UNKNOWN = "Unknown"
+    """Represents a Regional Service network dependency category type."""
 
 
 class IntegrationServiceEnvironmentNetworkEndPointAccessibilityState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The integration service environment network endpoint accessibility state."""
 
     NOT_SPECIFIED = "NotSpecified"
+    """Represents a state where the value is not specified."""
     UNKNOWN = "Unknown"
+    """Represents an unknown network endpoint accessibility state."""
     AVAILABLE = "Available"
+    """Represents an available network endpoint accessibility state."""
     NOT_AVAILABLE = "NotAvailable"
+    """Represents a not available network endpoint accessibility state."""
 
 
 class IntegrationServiceEnvironmentSkuName(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The integration service environment sku name."""
 
     NOT_SPECIFIED = "NotSpecified"
+    """Represents a state where the value is not specified."""
     PREMIUM = "Premium"
+    """Represents a premium integration service environment SKU."""
     DEVELOPER = "Developer"
+    """Represents a developer integration service environment SKU."""
 
 
 class IntegrationServiceEnvironmentSkuScaleType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The integration service environment sku scale type."""
 
     MANUAL = "Manual"
+    """Represents a manual scale type."""
     AUTOMATIC = "Automatic"
+    """Represents an automatic scale type."""
     NONE = "None"
+    """Represents no scale type."""
 
 
 class KeyType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The key type."""
 
     NOT_SPECIFIED = "NotSpecified"
+    """Represents a state where the value is not specified."""
     PRIMARY = "Primary"
+    """Represents a primary key type."""
     SECONDARY = "Secondary"
+    """Represents a secondary key type."""
 
 
 class ManagedServiceIdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Type of managed service identity. The type 'SystemAssigned' includes an implicitly created
-    identity. The type 'None' will remove any identities from the resource.
+    """Type of managed service identity (where both SystemAssigned and UserAssigned types are
+    allowed).
     """
 
+    NONE = "None"
     SYSTEM_ASSIGNED = "SystemAssigned"
     USER_ASSIGNED = "UserAssigned"
-    NONE = "None"
+    SYSTEM_ASSIGNED_USER_ASSIGNED = "SystemAssigned,UserAssigned"
 
 
 class MapType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The map type."""
 
     NOT_SPECIFIED = "NotSpecified"
+    """Represents a state where the value is not specified."""
     XSLT = "Xslt"
+    """Represents an XSLT map type."""
     XSLT20 = "Xslt20"
+    """Represents an XSLT 2.0 map type."""
     XSLT30 = "Xslt30"
+    """Represents an XSLT 3.0 map type."""
     LIQUID = "Liquid"
+    """Represents a Liquid map type."""
 
 
 class MessageFilterType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The message filter type."""
 
     NOT_SPECIFIED = "NotSpecified"
+    """Represents a state where the value is not specified."""
     INCLUDE = "Include"
+    """Represents an include message filter type."""
     EXCLUDE = "Exclude"
+    """Represents an exclude message filter type."""
 
 
 class OpenAuthenticationProviderType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Open authentication policy provider type."""
 
     AAD = "AAD"
+    """Represents Azure Active Directory (AAD) provider type."""
+
+
+class Origin(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit
+    logs UX. Default value is "user,system".
+    """
+
+    USER = "user"
+    SYSTEM = "system"
+    USER_SYSTEM = "user,system"
 
 
 class ParameterType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The parameter type."""
 
     NOT_SPECIFIED = "NotSpecified"
+    """Represents a state where the value is not specified."""
     STRING = "String"
+    """Represents a string parameter type."""
     SECURE_STRING = "SecureString"
+    """Represents a secure string parameter type."""
     INT = "Int"
+    """Represents an integer parameter type."""
     FLOAT = "Float"
+    """Represents a float parameter type."""
     BOOL = "Bool"
+    """Represents a boolean parameter type."""
     ARRAY = "Array"
+    """Represents an array parameter type."""
     OBJECT = "Object"
+    """Represents an object parameter type."""
     SECURE_OBJECT = "SecureObject"
+    """Represents a secure object parameter type."""
+    INT_ENUM = "Int"
+    """Represents an integer parameter type."""
 
 
 class PartnerType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The partner type."""
 
     NOT_SPECIFIED = "NotSpecified"
-    B2_B = "B2B"
+    """Represents a state where the value is not specified."""
+    B2_B = "B2b"
+    """Represents a B2b partner type."""
 
 
 class RecurrenceFrequency(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The recurrence frequency."""
 
     NOT_SPECIFIED = "NotSpecified"
+    """Represents a state where the value is not specified."""
     SECOND = "Second"
+    """Represents a recurrence frequency of seconds."""
     MINUTE = "Minute"
+    """Represents a recurrence frequency of minutes."""
     HOUR = "Hour"
+    """Represents a recurrence frequency of hours."""
     DAY = "Day"
+    """Represents a recurrence frequency of days."""
     WEEK = "Week"
+    """Represents a recurrence frequency of weeks."""
     MONTH = "Month"
+    """Represents a recurrence frequency of months."""
     YEAR = "Year"
+    """Represents a recurrence frequency of years."""
 
 
 class SchemaType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The schema type."""
 
     NOT_SPECIFIED = "NotSpecified"
+    """Represents a state where the value is not specified."""
     XML = "Xml"
+    """Represents an XML schema type."""
 
 
 class SegmentTerminatorSuffix(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The segment terminator suffix."""
 
     NOT_SPECIFIED = "NotSpecified"
+    """Represents a not specified segment terminator suffix."""
     NONE = "None"
+    """Represents a none segment terminator suffix."""
     CR = "CR"
+    """Represents a CR segment terminator suffix."""
     LF = "LF"
+    """Represents a LF segment terminator suffix."""
     CRLF = "CRLF"
+    """Represents a CRLF segment terminator suffix."""
 
 
 class SigningAlgorithm(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The signing or hashing algorithm."""
 
     NOT_SPECIFIED = "NotSpecified"
+    """Represents a state where the value is not specified."""
     DEFAULT = "Default"
+    """Represents the default signing algorithm."""
     SHA1 = "SHA1"
+    """Represents the SHA1 signing algorithm."""
     SHA2256 = "SHA2256"
+    """Represents the SHA2-256 signing algorithm."""
     SHA2384 = "SHA2384"
+    """Represents the SHA2-384 signing algorithm."""
     SHA2512 = "SHA2512"
+    """Represents the SHA2-512 signing algorithm."""
 
 
 class SkuName(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The sku name."""
 
     NOT_SPECIFIED = "NotSpecified"
+    """Represents a state where the value is not specified."""
     FREE = "Free"
+    """Represents a free SKU."""
     SHARED = "Shared"
+    """Represents a shared SKU."""
     BASIC = "Basic"
+    """Represents a basic SKU."""
     STANDARD = "Standard"
+    """Represents a standard SKU."""
     PREMIUM = "Premium"
+    """Represents a premium SKU."""
 
 
 class StatusAnnotation(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The status annotation."""
 
     NOT_SPECIFIED = "NotSpecified"
+    """Represents a state where the value is not specified."""
     PREVIEW = "Preview"
+    """Represents a preview status annotation."""
     PRODUCTION = "Production"
+    """Represents a production status annotation."""
 
 
 class SwaggerSchemaType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The swagger schema type."""
 
     STRING = "String"
+    """Represents a string schema type."""
     NUMBER = "Number"
+    """Represents a number schema type."""
     INTEGER = "Integer"
+    """Represents an integer schema type."""
     BOOLEAN = "Boolean"
+    """Represents a boolean schema type."""
     ARRAY = "Array"
+    """Represents an array schema type."""
     FILE = "File"
+    """Represents a file schema type."""
     OBJECT = "Object"
+    """Represents an object schema type."""
     NULL = "Null"
+    """Represents a null schema type."""
 
 
 class TrackEventsOperationOptions(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The track events operation options."""
 
     NONE = "None"
+    """Represents no track events operation options."""
     DISABLE_SOURCE_INFO_ENRICH = "DisableSourceInfoEnrich"
+    """Represents disabling source info enrichment for track events operation."""
 
 
 class TrackingRecordType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The tracking record type."""
 
     NOT_SPECIFIED = "NotSpecified"
+    """Represents a state where the value is not specified."""
     CUSTOM = "Custom"
-    AS2_MESSAGE = "AS2Message"
-    AS2_MDN = "AS2MDN"
+    """Represents a custom tracking record type."""
+    AS2_MESSAGE = "As2Message"
+    """Represents an AS2 message tracking record type."""
+    AS2_MDN = "As2MDN"
+    """Represents an AS2 MDN tracking record type."""
     X12_INTERCHANGE = "X12Interchange"
+    """Represents an X12 interchange tracking record type."""
     X12_FUNCTIONAL_GROUP = "X12FunctionalGroup"
+    """Represents an X12 functional group tracking record type."""
     X12_TRANSACTION_SET = "X12TransactionSet"
+    """Represents an X12 transaction set tracking record type."""
     X12_INTERCHANGE_ACKNOWLEDGMENT = "X12InterchangeAcknowledgment"
+    """Represents an X12 interchange acknowledgment tracking record type."""
     X12_FUNCTIONAL_GROUP_ACKNOWLEDGMENT = "X12FunctionalGroupAcknowledgment"
+    """Represents an X12 functional group acknowledgment tracking record type."""
     X12_TRANSACTION_SET_ACKNOWLEDGMENT = "X12TransactionSetAcknowledgment"
+    """Represents an X12 transaction set acknowledgment tracking record type."""
     EDIFACT_INTERCHANGE = "EdifactInterchange"
+    """Represents an Edifact interchange tracking record type."""
     EDIFACT_FUNCTIONAL_GROUP = "EdifactFunctionalGroup"
+    """Represents an Edifact functional group tracking record type."""
     EDIFACT_TRANSACTION_SET = "EdifactTransactionSet"
+    """Represents an Edifact transaction set tracking record type."""
     EDIFACT_INTERCHANGE_ACKNOWLEDGMENT = "EdifactInterchangeAcknowledgment"
+    """Represents an Edifact interchange acknowledgment tracking record type."""
     EDIFACT_FUNCTIONAL_GROUP_ACKNOWLEDGMENT = "EdifactFunctionalGroupAcknowledgment"
+    """Represents an Edifact functional group acknowledgment tracking record type."""
     EDIFACT_TRANSACTION_SET_ACKNOWLEDGMENT = "EdifactTransactionSetAcknowledgment"
+    """Represents an Edifact transaction set acknowledgment tracking record type."""
 
 
 class TrailingSeparatorPolicy(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The trailing separator policy."""
 
     NOT_SPECIFIED = "NotSpecified"
+    """Represents a state where the value is not specified."""
     NOT_ALLOWED = "NotAllowed"
+    """Represents a policy where trailing separators are not allowed."""
     OPTIONAL = "Optional"
+    """Represents a policy where trailing separators are optional."""
     MANDATORY = "Mandatory"
+    """Represents a policy where trailing separators are mandatory."""
 
 
 class UsageIndicator(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The usage indicator."""
 
     NOT_SPECIFIED = "NotSpecified"
+    """Represents a state where the value is not specified."""
     TEST = "Test"
+    """Represents a test usage indicator."""
     INFORMATION = "Information"
+    """Represents an information usage indicator."""
     PRODUCTION = "Production"
+    """Represents a production usage indicator."""
 
 
 class WorkflowProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The workflow provisioning state."""
 
     NOT_SPECIFIED = "NotSpecified"
+    """Represents a state where the value is not specified."""
     ACCEPTED = "Accepted"
+    """Represents a state where the workflow is accepted."""
     RUNNING = "Running"
+    """Represents a state where the workflow is running."""
     READY = "Ready"
+    """Represents a state where the workflow is ready."""
     CREATING = "Creating"
+    """Represents a state where the workflow is creating."""
     CREATED = "Created"
+    """Represents a state where the workflow is created."""
     DELETING = "Deleting"
+    """Represents a state where the workflow is deleting."""
     DELETED = "Deleted"
+    """Represents a state where the workflow is deleted."""
     CANCELED = "Canceled"
+    """Represents a state where the workflow is canceled."""
     FAILED = "Failed"
+    """Represents a state where the workflow is failed."""
     SUCCEEDED = "Succeeded"
+    """Represents a state where the workflow is succeeded."""
     MOVING = "Moving"
+    """Represents a state where the workflow is moving."""
     UPDATING = "Updating"
+    """Represents a state where the workflow is updating."""
     REGISTERING = "Registering"
+    """Represents a state where the workflow is registering."""
     REGISTERED = "Registered"
+    """Represents a state where the workflow is registered."""
     UNREGISTERING = "Unregistering"
+    """Represents a state where the workflow is unregistering."""
     UNREGISTERED = "Unregistered"
+    """Represents a state where the workflow is unregistered."""
     COMPLETED = "Completed"
+    """Represents a state where the workflow is completed."""
     RENEWING = "Renewing"
+    """Represents a state where the workflow is renewing."""
     PENDING = "Pending"
+    """Represents a state where the workflow is pending."""
     WAITING = "Waiting"
+    """Represents a state where the workflow is waiting."""
     IN_PROGRESS = "InProgress"
+    """Represents a state where the workflow is in progress."""
 
 
 class WorkflowState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The workflow state."""
 
     NOT_SPECIFIED = "NotSpecified"
+    """Represents a state where the value is not specified."""
     COMPLETED = "Completed"
+    """Represents a state where the workflow is completed."""
     ENABLED = "Enabled"
+    """Represents a state where the workflow is enabled."""
     DISABLED = "Disabled"
+    """Represents a state where the workflow is disabled."""
     DELETED = "Deleted"
+    """Represents a state where the workflow is deleted."""
     SUSPENDED = "Suspended"
+    """Represents a state where the workflow is suspended."""
 
 
 class WorkflowStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The workflow status."""
 
     NOT_SPECIFIED = "NotSpecified"
+    """Represents a state where the value is not specified."""
     PAUSED = "Paused"
+    """Represents a paused workflow status."""
     RUNNING = "Running"
+    """Represents a running workflow status."""
     WAITING = "Waiting"
+    """Represents a waiting workflow status."""
     SUCCEEDED = "Succeeded"
+    """Represents a succeeded workflow status."""
     SKIPPED = "Skipped"
+    """Represents a skipped workflow status."""
     SUSPENDED = "Suspended"
+    """Represents a suspended workflow status."""
     CANCELLED = "Cancelled"
+    """Represents a cancelled workflow status."""
     FAILED = "Failed"
+    """Represents a failed workflow status."""
     FAULTED = "Faulted"
+    """Represents a faulted workflow status."""
     TIMED_OUT = "TimedOut"
+    """Represents a timed out workflow status."""
     ABORTED = "Aborted"
+    """Represents an aborted workflow status."""
     IGNORED = "Ignored"
+    """Represents an ignored workflow status."""
 
 
 class WorkflowTriggerProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The workflow trigger provisioning state."""
 
     NOT_SPECIFIED = "NotSpecified"
+    """Represents a state where the value is not specified."""
     ACCEPTED = "Accepted"
+    """Represents a state where the workflow trigger is accepted."""
     RUNNING = "Running"
+    """Represents a state where the workflow trigger is running."""
     READY = "Ready"
+    """Represents a state where the workflow trigger is ready."""
     CREATING = "Creating"
+    """Represents a state where the workflow trigger is creating."""
     CREATED = "Created"
+    """Represents a state where the workflow trigger is created."""
     DELETING = "Deleting"
+    """Represents a state where the workflow trigger is deleting."""
     DELETED = "Deleted"
+    """Represents a state where the workflow trigger is deleted."""
     CANCELED = "Canceled"
+    """Represents a state where the workflow trigger is canceled."""
     FAILED = "Failed"
+    """Represents a state where the workflow trigger is failed."""
     SUCCEEDED = "Succeeded"
+    """Represents a state where the workflow trigger is succeeded."""
     MOVING = "Moving"
+    """Represents a state where the workflow trigger is moving."""
     UPDATING = "Updating"
+    """Represents a state where the workflow trigger is updating."""
     REGISTERING = "Registering"
+    """Represents a state where the workflow trigger is registering."""
     REGISTERED = "Registered"
+    """Represents a state where the workflow trigger is registered."""
     UNREGISTERING = "Unregistering"
+    """Represents a state where the workflow trigger is unregistering."""
     UNREGISTERED = "Unregistered"
+    """Represents a state where the workflow trigger is unregistered."""
     COMPLETED = "Completed"
+    """Represents a state where the workflow trigger is completed."""
 
 
 class WsdlImportMethod(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The WSDL import method."""
 
     NOT_SPECIFIED = "NotSpecified"
+    """Represents a state where the value is not specified."""
     SOAP_TO_REST = "SoapToRest"
+    """Represents a SOAP to REST WSDL import method."""
     SOAP_PASS_THROUGH = "SoapPassThrough"
+    """Represents a SOAP Pass Through WSDL import method."""
 
 
 class X12CharacterSet(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The X12 character set."""
 
     NOT_SPECIFIED = "NotSpecified"
+    """Represents a state where the value is not specified."""
     BASIC = "Basic"
+    """Represents the basic X12 character set."""
     EXTENDED = "Extended"
+    """Represents the extended X12 character set."""
     UTF8 = "UTF8"
+    """Represents the UTF-8 X12 character set."""
 
 
 class X12DateFormat(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The x12 date format."""
 
     NOT_SPECIFIED = "NotSpecified"
+    """Represents a state where the value is not specified."""
     CCYYMMDD = "CCYYMMDD"
+    """Represents the CCYYMMDD date format."""
     YYMMDD = "YYMMDD"
+    """Represents the YYMMDD date format."""
 
 
 class X12TimeFormat(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The x12 time format."""
 
     NOT_SPECIFIED = "NotSpecified"
+    """Represents a state where the value is not specified."""
     HHMM = "HHMM"
+    """Represents the HHMM time format."""
     HHMMSS = "HHMMSS"
+    """Represents the HHMMSS time format."""
     HHMMS_SDD = "HHMMSSdd"
+    """Represents the HHMMSSdd time format."""
     HHMMS_SD = "HHMMSSd"
+    """Represents the HHMMSSd time format."""
