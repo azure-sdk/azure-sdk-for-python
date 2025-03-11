@@ -98,9 +98,19 @@ from .operations import (
     NetworkManagersOperations,
     NetworkProfilesOperations,
     NetworkSecurityGroupsOperations,
+    NetworkSecurityPerimeterAccessRulesOperations,
+    NetworkSecurityPerimeterAssociableResourceTypesOperations,
+    NetworkSecurityPerimeterAssociationsOperations,
+    NetworkSecurityPerimeterLinkReferencesOperations,
+    NetworkSecurityPerimeterLinksOperations,
+    NetworkSecurityPerimeterLoggingConfigurationsOperations,
+    NetworkSecurityPerimeterOperationStatusesOperations,
+    NetworkSecurityPerimeterProfilesOperations,
+    NetworkSecurityPerimetersOperations,
     NetworkVirtualApplianceConnectionsOperations,
     NetworkVirtualAppliancesOperations,
     NetworkWatchersOperations,
+    NspAssociationReconcileOperations,
     Operations,
     P2SVpnGatewaysOperations,
     PacketCapturesOperations,
@@ -399,6 +409,43 @@ class NetworkManagementClient(
     :vartype security_rules: azure.mgmt.network.operations.SecurityRulesOperations
     :ivar default_security_rules: DefaultSecurityRulesOperations operations
     :vartype default_security_rules: azure.mgmt.network.operations.DefaultSecurityRulesOperations
+    :ivar network_security_perimeters: NetworkSecurityPerimetersOperations operations
+    :vartype network_security_perimeters:
+     azure.mgmt.network.operations.NetworkSecurityPerimetersOperations
+    :ivar network_security_perimeter_profiles: NetworkSecurityPerimeterProfilesOperations
+     operations
+    :vartype network_security_perimeter_profiles:
+     azure.mgmt.network.operations.NetworkSecurityPerimeterProfilesOperations
+    :ivar network_security_perimeter_access_rules: NetworkSecurityPerimeterAccessRulesOperations
+     operations
+    :vartype network_security_perimeter_access_rules:
+     azure.mgmt.network.operations.NetworkSecurityPerimeterAccessRulesOperations
+    :ivar network_security_perimeter_associations: NetworkSecurityPerimeterAssociationsOperations
+     operations
+    :vartype network_security_perimeter_associations:
+     azure.mgmt.network.operations.NetworkSecurityPerimeterAssociationsOperations
+    :ivar nsp_association_reconcile: NspAssociationReconcileOperations operations
+    :vartype nsp_association_reconcile:
+     azure.mgmt.network.operations.NspAssociationReconcileOperations
+    :ivar network_security_perimeter_associable_resource_types:
+     NetworkSecurityPerimeterAssociableResourceTypesOperations operations
+    :vartype network_security_perimeter_associable_resource_types:
+     azure.mgmt.network.operations.NetworkSecurityPerimeterAssociableResourceTypesOperations
+    :ivar network_security_perimeter_links: NetworkSecurityPerimeterLinksOperations operations
+    :vartype network_security_perimeter_links:
+     azure.mgmt.network.operations.NetworkSecurityPerimeterLinksOperations
+    :ivar network_security_perimeter_link_references:
+     NetworkSecurityPerimeterLinkReferencesOperations operations
+    :vartype network_security_perimeter_link_references:
+     azure.mgmt.network.operations.NetworkSecurityPerimeterLinkReferencesOperations
+    :ivar network_security_perimeter_logging_configurations:
+     NetworkSecurityPerimeterLoggingConfigurationsOperations operations
+    :vartype network_security_perimeter_logging_configurations:
+     azure.mgmt.network.operations.NetworkSecurityPerimeterLoggingConfigurationsOperations
+    :ivar network_security_perimeter_operation_statuses:
+     NetworkSecurityPerimeterOperationStatusesOperations operations
+    :vartype network_security_perimeter_operation_statuses:
+     azure.mgmt.network.operations.NetworkSecurityPerimeterOperationStatusesOperations
     :ivar reachability_analysis_intents: ReachabilityAnalysisIntentsOperations operations
     :vartype reachability_analysis_intents:
      azure.mgmt.network.operations.ReachabilityAnalysisIntentsOperations
@@ -813,6 +860,40 @@ class NetworkManagementClient(
         )
         self.security_rules = SecurityRulesOperations(self._client, self._config, self._serialize, self._deserialize)
         self.default_security_rules = DefaultSecurityRulesOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.network_security_perimeters = NetworkSecurityPerimetersOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.network_security_perimeter_profiles = NetworkSecurityPerimeterProfilesOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.network_security_perimeter_access_rules = NetworkSecurityPerimeterAccessRulesOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.network_security_perimeter_associations = NetworkSecurityPerimeterAssociationsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.nsp_association_reconcile = NspAssociationReconcileOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.network_security_perimeter_associable_resource_types = (
+            NetworkSecurityPerimeterAssociableResourceTypesOperations(
+                self._client, self._config, self._serialize, self._deserialize
+            )
+        )
+        self.network_security_perimeter_links = NetworkSecurityPerimeterLinksOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.network_security_perimeter_link_references = NetworkSecurityPerimeterLinkReferencesOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.network_security_perimeter_logging_configurations = (
+            NetworkSecurityPerimeterLoggingConfigurationsOperations(
+                self._client, self._config, self._serialize, self._deserialize
+            )
+        )
+        self.network_security_perimeter_operation_statuses = NetworkSecurityPerimeterOperationStatusesOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
         self.reachability_analysis_intents = ReachabilityAnalysisIntentsOperations(
