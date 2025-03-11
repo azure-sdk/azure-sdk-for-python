@@ -103,6 +103,13 @@ class HighAvailability(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     DISABLED = "Disabled"
 
 
+class Kind(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Distinguishes the kind of cluster. Read-only."""
+
+    V1 = "v1"
+    V2 = "v2"
+
+
 class LinkState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """State of the link between the database resources."""
 
@@ -207,6 +214,7 @@ class ResourceState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     DISABLED = "Disabled"
     SCALING = "Scaling"
     SCALING_FAILED = "ScalingFailed"
+    MOVING = "Moving"
 
 
 class SkuName(str, Enum, metaclass=CaseInsensitiveEnumMeta):
