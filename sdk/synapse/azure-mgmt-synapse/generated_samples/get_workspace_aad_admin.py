@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.synapse import SynapseManagementClient
 
 """
@@ -29,7 +30,7 @@ def main():
         subscription_id="00000000-1111-2222-3333-444444444444",
     )
 
-    response = client.workspace_aad_admins.get(
+    response = client.workspace_sql_aad_admins.get(
         resource_group_name="resourceGroup1",
         workspace_name="workspace1",
     )
