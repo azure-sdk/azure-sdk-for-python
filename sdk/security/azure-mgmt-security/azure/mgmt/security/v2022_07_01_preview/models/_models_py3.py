@@ -1,5 +1,4 @@
 # coding=utf-8
-# pylint: disable=too-many-lines
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -15,10 +14,9 @@ from ... import _serialization
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 JSON = MutableMapping[str, Any]  # pylint: disable=unsubscriptable-object
 
@@ -131,7 +129,7 @@ class ApplicationCondition(_serialization.Model):
     :ivar value: The application Condition's Value like IDs that contain some string, see examples.
     :vartype value: str
     :ivar operator: The application Condition's Operator, for example Contains for id or In for
-     list of possible IDs, see examples. Known values are: "Contains", "Equals", and "In".
+     list of possible IDs, see examples. Known values are: "Contains", "Equals", "In", and "In".
     :vartype operator: str or
      ~azure.mgmt.security.v2022_07_01_preview.models.ApplicationConditionOperator
     """
@@ -157,7 +155,7 @@ class ApplicationCondition(_serialization.Model):
          examples.
         :paramtype value: str
         :keyword operator: The application Condition's Operator, for example Contains for id or In for
-         list of possible IDs, see examples. Known values are: "Contains", "Equals", and "In".
+         list of possible IDs, see examples. Known values are: "Contains", "Equals", "In", and "In".
         :paramtype operator: str or
          ~azure.mgmt.security.v2022_07_01_preview.models.ApplicationConditionOperator
         """
