@@ -1,0 +1,6 @@
+{
+  "commit": "7640890e2dad5646caf8f707529ae47d65f2909a",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/ai/HealthInsights/HealthInsights.RadiologyInsights",
+  "@azure-tools/typespec-python": "0.39.1"
+}
