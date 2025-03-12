@@ -1,0 +1,6 @@
+{
+  "commit": "62883368d03c0007341d8b9d9bd05bab20ebb50c",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/loadtestservice/LoadTestService",
+  "@azure-tools/typespec-python": "0.39.1"
+}
