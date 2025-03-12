@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.dashboard import DashboardManagementClient
 
 """
@@ -37,6 +38,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/dashboard/resource-manager/Microsoft.Dashboard/stable/2023-09-01/examples/PrivateEndpointConnections_Get.json
+# x-ms-original-file: specification/dashboard/resource-manager/Microsoft.Dashboard/stable/2024-10-01/examples/PrivateEndpointConnections_Get.json
 if __name__ == "__main__":
     main()
