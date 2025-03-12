@@ -8,7 +8,7 @@
 # --------------------------------------------------------------------------
 from io import IOBase
 import sys
-from typing import Any, Callable, Dict, IO, Iterable, Iterator, Literal, Optional, TypeVar, Union, cast, overload
+from typing import Any, Callable, Dict, IO, Iterable, Iterator, Optional, TypeVar, Union, cast, overload
 import urllib.parse
 
 from azure.core.exceptions import (
@@ -49,7 +49,7 @@ def build_list_request(
     account_name: str,
     subscription_id: str,
     *,
-    maxpagesize: Optional[str] = None,
+    maxpagesize: Optional[int] = None,
     filter: Optional[str] = None,
     include: Optional[Union[str, _models.ListContainersInclude]] = None,
     **kwargs: Any
@@ -66,13 +66,13 @@ def build_list_request(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
         "resourceGroupName": _SERIALIZER.url(
-            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1, pattern=r"^[-\w\._\(\)]+$"
+            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
         "accountName": _SERIALIZER.url(
             "account_name", account_name, "str", max_length=24, min_length=3, pattern=r"^[a-z0-9]+$"
         ),
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
     }
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
@@ -80,11 +80,47 @@ def build_list_request(
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
     if maxpagesize is not None:
-        _params["$maxpagesize"] = _SERIALIZER.query("maxpagesize", maxpagesize, "str")
+        _params["$maxpagesize"] = _SERIALIZER.query("maxpagesize", maxpagesize, "int", maximum=5000, minimum=1)
     if filter is not None:
         _params["$filter"] = _SERIALIZER.query("filter", filter, "str")
     if include is not None:
         _params["$include"] = _SERIALIZER.query("include", include, "str")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_get_request(
+    resource_group_name: str, account_name: str, container_name: str, subscription_id: str, **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = kwargs.pop(
+        "template_url",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}",
+    )  # pylint: disable=line-too-long
+    path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "resourceGroupName": _SERIALIZER.url(
+            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
+        ),
+        "accountName": _SERIALIZER.url(
+            "account_name", account_name, "str", max_length=24, min_length=3, pattern=r"^[a-z0-9]+$"
+        ),
+        "containerName": _SERIALIZER.url("container_name", container_name, "str", max_length=63, min_length=3),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
 
     # Construct headers
     _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
@@ -108,14 +144,14 @@ def build_create_request(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
         "resourceGroupName": _SERIALIZER.url(
-            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1, pattern=r"^[-\w\._\(\)]+$"
+            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
         "accountName": _SERIALIZER.url(
             "account_name", account_name, "str", max_length=24, min_length=3, pattern=r"^[a-z0-9]+$"
         ),
         "containerName": _SERIALIZER.url("container_name", container_name, "str", max_length=63, min_length=3),
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
     }
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
@@ -147,14 +183,14 @@ def build_update_request(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
         "resourceGroupName": _SERIALIZER.url(
-            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1, pattern=r"^[-\w\._\(\)]+$"
+            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
         "accountName": _SERIALIZER.url(
             "account_name", account_name, "str", max_length=24, min_length=3, pattern=r"^[a-z0-9]+$"
         ),
         "containerName": _SERIALIZER.url("container_name", container_name, "str", max_length=63, min_length=3),
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
     }
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
@@ -170,96 +206,29 @@ def build_update_request(
     return HttpRequest(method="PATCH", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_get_request(
-    resource_group_name: str, account_name: str, container_name: str, subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = kwargs.pop(
-        "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}",
-    )  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "resourceGroupName": _SERIALIZER.url(
-            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1, pattern=r"^[-\w\._\(\)]+$"
-        ),
-        "accountName": _SERIALIZER.url(
-            "account_name", account_name, "str", max_length=24, min_length=3, pattern=r"^[a-z0-9]+$"
-        ),
-        "containerName": _SERIALIZER.url("container_name", container_name, "str", max_length=63, min_length=3),
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
 def build_delete_request(
     resource_group_name: str, account_name: str, container_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01"))
+    accept = _headers.pop("Accept", "application/json")
+
     # Construct URL
     _url = kwargs.pop(
         "template_url",
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
         "resourceGroupName": _SERIALIZER.url(
-            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1, pattern=r"^[-\w\._\(\)]+$"
+            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
         "accountName": _SERIALIZER.url(
             "account_name", account_name, "str", max_length=24, min_length=3, pattern=r"^[a-z0-9]+$"
         ),
         "containerName": _SERIALIZER.url("container_name", container_name, "str", max_length=63, min_length=3),
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    return HttpRequest(method="DELETE", url=_url, params=_params, **kwargs)
-
-
-def build_set_legal_hold_request(
-    resource_group_name: str, account_name: str, container_name: str, subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01"))
-    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = kwargs.pop(
-        "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/setLegalHold",
-    )  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "resourceGroupName": _SERIALIZER.url(
-            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1, pattern=r"^[-\w\._\(\)]+$"
-        ),
-        "accountName": _SERIALIZER.url(
-            "account_name", account_name, "str", max_length=24, min_length=3, pattern=r"^[a-z0-9]+$"
-        ),
-        "containerName": _SERIALIZER.url("container_name", container_name, "str", max_length=63, min_length=3),
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
     }
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
@@ -268,11 +237,9 @@ def build_set_legal_hold_request(
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
 
     # Construct headers
-    if content_type is not None:
-        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
     _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
-    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
+    return HttpRequest(method="DELETE", url=_url, params=_params, headers=_headers, **kwargs)
 
 
 def build_clear_legal_hold_request(
@@ -291,14 +258,14 @@ def build_clear_legal_hold_request(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/clearLegalHold",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
         "resourceGroupName": _SERIALIZER.url(
-            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1, pattern=r"^[-\w\._\(\)]+$"
+            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
         "accountName": _SERIALIZER.url(
             "account_name", account_name, "str", max_length=24, min_length=3, pattern=r"^[a-z0-9]+$"
         ),
         "containerName": _SERIALIZER.url("container_name", container_name, "str", max_length=63, min_length=3),
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
     }
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
@@ -314,10 +281,11 @@ def build_clear_legal_hold_request(
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_create_or_update_immutability_policy_request(  # pylint: disable=name-too-long
+def build_get_immutability_policy_request(
     resource_group_name: str,
     account_name: str,
     container_name: str,
+    immutability_policy_name: str,
     subscription_id: str,
     *,
     if_match: Optional[str] = None,
@@ -326,26 +294,24 @@ def build_create_or_update_immutability_policy_request(  # pylint: disable=name-
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    immutability_policy_name: Literal["default"] = kwargs.pop("immutability_policy_name", "default")
     api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01"))
-    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
     _url = kwargs.pop(
         "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/immutabilityPolicies/{immutabilityPolicyName}",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/immutabilityPolicies/{ImmutabilityPolicyName}",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
         "resourceGroupName": _SERIALIZER.url(
-            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1, pattern=r"^[-\w\._\(\)]+$"
+            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
         "accountName": _SERIALIZER.url(
             "account_name", account_name, "str", max_length=24, min_length=3, pattern=r"^[a-z0-9]+$"
         ),
         "containerName": _SERIALIZER.url("container_name", container_name, "str", max_length=63, min_length=3),
-        "immutabilityPolicyName": _SERIALIZER.url("immutability_policy_name", immutability_policy_name, "str"),
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "ImmutabilityPolicyName": _SERIALIZER.url("immutability_policy_name", immutability_policy_name, "str"),
     }
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
@@ -355,7 +321,54 @@ def build_create_or_update_immutability_policy_request(  # pylint: disable=name-
 
     # Construct headers
     if if_match is not None:
-        _headers["If-Match"] = _SERIALIZER.header("if_match", if_match, "str")
+        _headers["if-match"] = _SERIALIZER.header("if_match", if_match, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_create_or_update_immutability_policy_request(  # pylint: disable=name-too-long
+    resource_group_name: str,
+    account_name: str,
+    container_name: str,
+    immutability_policy_name: str,
+    subscription_id: str,
+    *,
+    if_match: Optional[str] = None,
+    **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01"))
+    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = kwargs.pop(
+        "template_url",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/immutabilityPolicies/{ImmutabilityPolicyName}",
+    )  # pylint: disable=line-too-long
+    path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "resourceGroupName": _SERIALIZER.url(
+            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
+        ),
+        "accountName": _SERIALIZER.url(
+            "account_name", account_name, "str", max_length=24, min_length=3, pattern=r"^[a-z0-9]+$"
+        ),
+        "containerName": _SERIALIZER.url("container_name", container_name, "str", max_length=63, min_length=3),
+        "ImmutabilityPolicyName": _SERIALIZER.url("immutability_policy_name", immutability_policy_name, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    if if_match is not None:
+        _headers["if-match"] = _SERIALIZER.header("if_match", if_match, "str")
     if content_type is not None:
         _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
     _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
@@ -363,56 +376,11 @@ def build_create_or_update_immutability_policy_request(  # pylint: disable=name-
     return HttpRequest(method="PUT", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_get_immutability_policy_request(
-    resource_group_name: str,
-    account_name: str,
-    container_name: str,
-    subscription_id: str,
-    *,
-    if_match: Optional[str] = None,
-    **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    immutability_policy_name: Literal["default"] = kwargs.pop("immutability_policy_name", "default")
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = kwargs.pop(
-        "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/immutabilityPolicies/{immutabilityPolicyName}",
-    )  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "resourceGroupName": _SERIALIZER.url(
-            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1, pattern=r"^[-\w\._\(\)]+$"
-        ),
-        "accountName": _SERIALIZER.url(
-            "account_name", account_name, "str", max_length=24, min_length=3, pattern=r"^[a-z0-9]+$"
-        ),
-        "containerName": _SERIALIZER.url("container_name", container_name, "str", max_length=63, min_length=3),
-        "immutabilityPolicyName": _SERIALIZER.url("immutability_policy_name", immutability_policy_name, "str"),
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    if if_match is not None:
-        _headers["If-Match"] = _SERIALIZER.header("if_match", if_match, "str")
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
 def build_delete_immutability_policy_request(
     resource_group_name: str,
     account_name: str,
     container_name: str,
+    immutability_policy_name: str,
     subscription_id: str,
     *,
     if_match: str,
@@ -421,25 +389,24 @@ def build_delete_immutability_policy_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    immutability_policy_name: Literal["default"] = kwargs.pop("immutability_policy_name", "default")
     api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
     _url = kwargs.pop(
         "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/immutabilityPolicies/{immutabilityPolicyName}",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/immutabilityPolicies/{ImmutabilityPolicyName}",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
         "resourceGroupName": _SERIALIZER.url(
-            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1, pattern=r"^[-\w\._\(\)]+$"
+            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
         "accountName": _SERIALIZER.url(
             "account_name", account_name, "str", max_length=24, min_length=3, pattern=r"^[a-z0-9]+$"
         ),
         "containerName": _SERIALIZER.url("container_name", container_name, "str", max_length=63, min_length=3),
-        "immutabilityPolicyName": _SERIALIZER.url("immutability_policy_name", immutability_policy_name, "str"),
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "ImmutabilityPolicyName": _SERIALIZER.url("immutability_policy_name", immutability_policy_name, "str"),
     }
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
@@ -448,59 +415,17 @@ def build_delete_immutability_policy_request(
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
 
     # Construct headers
-    _headers["If-Match"] = _SERIALIZER.header("if_match", if_match, "str")
+    _headers["if-match"] = _SERIALIZER.header("if_match", if_match, "str")
     _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="DELETE", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_lock_immutability_policy_request(
-    resource_group_name: str,
-    account_name: str,
-    container_name: str,
-    subscription_id: str,
-    *,
-    if_match: str,
-    **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = kwargs.pop(
-        "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/immutabilityPolicies/default/lock",
-    )  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "resourceGroupName": _SERIALIZER.url(
-            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1, pattern=r"^[-\w\._\(\)]+$"
-        ),
-        "accountName": _SERIALIZER.url(
-            "account_name", account_name, "str", max_length=24, min_length=3, pattern=r"^[a-z0-9]+$"
-        ),
-        "containerName": _SERIALIZER.url("container_name", container_name, "str", max_length=63, min_length=3),
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["If-Match"] = _SERIALIZER.header("if_match", if_match, "str")
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
 
 def build_extend_immutability_policy_request(
     resource_group_name: str,
     account_name: str,
     container_name: str,
+    immutability_policy_name: str,
     subscription_id: str,
     *,
     if_match: str,
@@ -516,17 +441,18 @@ def build_extend_immutability_policy_request(
     # Construct URL
     _url = kwargs.pop(
         "template_url",
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/immutabilityPolicies/default/extend",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/immutabilityPolicies/{ImmutabilityPolicyName}/extend",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
         "resourceGroupName": _SERIALIZER.url(
-            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1, pattern=r"^[-\w\._\(\)]+$"
+            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
         "accountName": _SERIALIZER.url(
             "account_name", account_name, "str", max_length=24, min_length=3, pattern=r"^[a-z0-9]+$"
         ),
         "containerName": _SERIALIZER.url("container_name", container_name, "str", max_length=63, min_length=3),
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "ImmutabilityPolicyName": _SERIALIZER.url("immutability_policy_name", immutability_policy_name, "str"),
     }
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
@@ -535,9 +461,54 @@ def build_extend_immutability_policy_request(
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
 
     # Construct headers
-    _headers["If-Match"] = _SERIALIZER.header("if_match", if_match, "str")
+    _headers["if-match"] = _SERIALIZER.header("if_match", if_match, "str")
     if content_type is not None:
         _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_lock_immutability_policy_request(
+    resource_group_name: str,
+    account_name: str,
+    container_name: str,
+    immutability_policy_name: str,
+    subscription_id: str,
+    *,
+    if_match: str,
+    **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = kwargs.pop(
+        "template_url",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/immutabilityPolicies/{ImmutabilityPolicyName}/lock",
+    )  # pylint: disable=line-too-long
+    path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "resourceGroupName": _SERIALIZER.url(
+            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
+        ),
+        "accountName": _SERIALIZER.url(
+            "account_name", account_name, "str", max_length=24, min_length=3, pattern=r"^[a-z0-9]+$"
+        ),
+        "containerName": _SERIALIZER.url("container_name", container_name, "str", max_length=63, min_length=3),
+        "ImmutabilityPolicyName": _SERIALIZER.url("immutability_policy_name", immutability_policy_name, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    _headers["if-match"] = _SERIALIZER.header("if_match", if_match, "str")
     _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
@@ -559,14 +530,14 @@ def build_lease_request(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/lease",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
         "resourceGroupName": _SERIALIZER.url(
-            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1, pattern=r"^[-\w\._\(\)]+$"
+            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
         "accountName": _SERIALIZER.url(
             "account_name", account_name, "str", max_length=24, min_length=3, pattern=r"^[a-z0-9]+$"
         ),
         "containerName": _SERIALIZER.url("container_name", container_name, "str", max_length=63, min_length=3),
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
     }
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
@@ -597,14 +568,14 @@ def build_object_level_worm_request(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/migrate",
     )  # pylint: disable=line-too-long
     path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
         "resourceGroupName": _SERIALIZER.url(
-            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1, pattern=r"^[-\w\._\(\)]+$"
+            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
         ),
         "accountName": _SERIALIZER.url(
             "account_name", account_name, "str", max_length=24, min_length=3, pattern=r"^[a-z0-9]+$"
         ),
         "containerName": _SERIALIZER.url("container_name", container_name, "str", max_length=63, min_length=3),
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
     }
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
@@ -613,6 +584,45 @@ def build_object_level_worm_request(
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
 
     # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_set_legal_hold_request(
+    resource_group_name: str, account_name: str, container_name: str, subscription_id: str, **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01"))
+    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = kwargs.pop(
+        "template_url",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/setLegalHold",
+    )  # pylint: disable=line-too-long
+    path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "resourceGroupName": _SERIALIZER.url(
+            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
+        ),
+        "accountName": _SERIALIZER.url(
+            "account_name", account_name, "str", max_length=24, min_length=3, pattern=r"^[a-z0-9]+$"
+        ),
+        "containerName": _SERIALIZER.url("container_name", container_name, "str", max_length=63, min_length=3),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    if content_type is not None:
+        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
     _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
@@ -643,7 +653,7 @@ class BlobContainersOperations:
         self,
         resource_group_name: str,
         account_name: str,
-        maxpagesize: Optional[str] = None,
+        maxpagesize: Optional[int] = None,
         filter: Optional[str] = None,
         include: Optional[Union[str, _models.ListContainersInclude]] = None,
         **kwargs: Any
@@ -651,8 +661,8 @@ class BlobContainersOperations:
         """Lists all containers and does not support a prefix like data plane. Also SRP today does not
         return continuation token.
 
-        :param resource_group_name: The name of the resource group within the user's subscription. The
-         name is case insensitive. Required.
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
         :type resource_group_name: str
         :param account_name: The name of the storage account within the specified resource group.
          Storage account names must be between 3 and 24 characters in length and use numbers and
@@ -660,7 +670,7 @@ class BlobContainersOperations:
         :type account_name: str
         :param maxpagesize: Optional. Specified maximum number of containers that can be included in
          the list. Default value is None.
-        :type maxpagesize: str
+        :type maxpagesize: int
         :param filter: Optional. When specified, only container names starting with the filter will be
          listed. Default value is None.
         :type filter: str
@@ -736,11 +746,78 @@ class BlobContainersOperations:
 
             if response.status_code not in [200]:
                 map_error(status_code=response.status_code, response=response, error_map=error_map)
-                raise HttpResponseError(response=response, error_format=ARMErrorFormat)
+                error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+                raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
+
+    @distributed_trace
+    def get(
+        self, resource_group_name: str, account_name: str, container_name: str, **kwargs: Any
+    ) -> _models.BlobContainer:
+        """Gets properties of a specified container.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param account_name: The name of the storage account within the specified resource group.
+         Storage account names must be between 3 and 24 characters in length and use numbers and
+         lower-case letters only. Required.
+        :type account_name: str
+        :param container_name: The name of the blob container within the specified storage account.
+         Blob container names must be between 3 and 63 characters in length and use numbers, lower-case
+         letters and dash (-) only. Every dash (-) character must be immediately preceded and followed
+         by a letter or number. Required.
+        :type container_name: str
+        :return: BlobContainer or the result of cls(response)
+        :rtype: ~azure.mgmt.storage.v2024_01_01.models.BlobContainer
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2024-01-01"))
+        cls: ClsType[_models.BlobContainer] = kwargs.pop("cls", None)
+
+        _request = build_get_request(
+            resource_group_name=resource_group_name,
+            account_name=account_name,
+            container_name=container_name,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            headers=_headers,
+            params=_params,
+        )
+        _request.url = self._client.format_url(_request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        deserialized = self._deserialize("BlobContainer", pipeline_response.http_response)
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
 
     @overload
     def create(
@@ -757,8 +834,8 @@ class BlobContainersOperations:
         resource includes metadata and properties for that container. It does not include a list of the
         blobs contained by the container.
 
-        :param resource_group_name: The name of the resource group within the user's subscription. The
-         name is case insensitive. Required.
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
         :type resource_group_name: str
         :param account_name: The name of the storage account within the specified resource group.
          Storage account names must be between 3 and 24 characters in length and use numbers and
@@ -794,8 +871,8 @@ class BlobContainersOperations:
         resource includes metadata and properties for that container. It does not include a list of the
         blobs contained by the container.
 
-        :param resource_group_name: The name of the resource group within the user's subscription. The
-         name is case insensitive. Required.
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
         :type resource_group_name: str
         :param account_name: The name of the storage account within the specified resource group.
          Storage account names must be between 3 and 24 characters in length and use numbers and
@@ -829,8 +906,8 @@ class BlobContainersOperations:
         resource includes metadata and properties for that container. It does not include a list of the
         blobs contained by the container.
 
-        :param resource_group_name: The name of the resource group within the user's subscription. The
-         name is case insensitive. Required.
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
         :type resource_group_name: str
         :param account_name: The name of the storage account within the specified resource group.
          Storage account names must be between 3 and 24 characters in length and use numbers and
@@ -894,7 +971,8 @@ class BlobContainersOperations:
 
         if response.status_code not in [200, 201]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         deserialized = self._deserialize("BlobContainer", pipeline_response.http_response)
 
@@ -917,8 +995,8 @@ class BlobContainersOperations:
         """Updates container properties as specified in request body. Properties not mentioned in the
         request will be unchanged. Update fails if the specified container doesn't already exist.
 
-        :param resource_group_name: The name of the resource group within the user's subscription. The
-         name is case insensitive. Required.
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
         :type resource_group_name: str
         :param account_name: The name of the storage account within the specified resource group.
          Storage account names must be between 3 and 24 characters in length and use numbers and
@@ -953,8 +1031,8 @@ class BlobContainersOperations:
         """Updates container properties as specified in request body. Properties not mentioned in the
         request will be unchanged. Update fails if the specified container doesn't already exist.
 
-        :param resource_group_name: The name of the resource group within the user's subscription. The
-         name is case insensitive. Required.
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
         :type resource_group_name: str
         :param account_name: The name of the storage account within the specified resource group.
          Storage account names must be between 3 and 24 characters in length and use numbers and
@@ -987,8 +1065,8 @@ class BlobContainersOperations:
         """Updates container properties as specified in request body. Properties not mentioned in the
         request will be unchanged. Update fails if the specified container doesn't already exist.
 
-        :param resource_group_name: The name of the resource group within the user's subscription. The
-         name is case insensitive. Required.
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
         :type resource_group_name: str
         :param account_name: The name of the storage account within the specified resource group.
          Storage account names must be between 3 and 24 characters in length and use numbers and
@@ -1052,72 +1130,8 @@ class BlobContainersOperations:
 
         if response.status_code not in [200]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
-
-        deserialized = self._deserialize("BlobContainer", pipeline_response.http_response)
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
-
-        return deserialized  # type: ignore
-
-    @distributed_trace
-    def get(
-        self, resource_group_name: str, account_name: str, container_name: str, **kwargs: Any
-    ) -> _models.BlobContainer:
-        """Gets properties of a specified container.
-
-        :param resource_group_name: The name of the resource group within the user's subscription. The
-         name is case insensitive. Required.
-        :type resource_group_name: str
-        :param account_name: The name of the storage account within the specified resource group.
-         Storage account names must be between 3 and 24 characters in length and use numbers and
-         lower-case letters only. Required.
-        :type account_name: str
-        :param container_name: The name of the blob container within the specified storage account.
-         Blob container names must be between 3 and 63 characters in length and use numbers, lower-case
-         letters and dash (-) only. Every dash (-) character must be immediately preceded and followed
-         by a letter or number. Required.
-        :type container_name: str
-        :return: BlobContainer or the result of cls(response)
-        :rtype: ~azure.mgmt.storage.v2024_01_01.models.BlobContainer
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        error_map: MutableMapping = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2024-01-01"))
-        cls: ClsType[_models.BlobContainer] = kwargs.pop("cls", None)
-
-        _request = build_get_request(
-            resource_group_name=resource_group_name,
-            account_name=account_name,
-            container_name=container_name,
-            subscription_id=self._config.subscription_id,
-            api_version=api_version,
-            headers=_headers,
-            params=_params,
-        )
-        _request.url = self._client.format_url(_request.url)
-
-        _stream = False
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            _request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         deserialized = self._deserialize("BlobContainer", pipeline_response.http_response)
 
@@ -1132,8 +1146,8 @@ class BlobContainersOperations:
     ) -> None:
         """Deletes specified container under its account.
 
-        :param resource_group_name: The name of the resource group within the user's subscription. The
-         name is case insensitive. Required.
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
         :type resource_group_name: str
         :param account_name: The name of the storage account within the specified resource group.
          Storage account names must be between 3 and 24 characters in length and use numbers and
@@ -1182,173 +1196,13 @@ class BlobContainersOperations:
 
         if response.status_code not in [200, 204]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if cls:
             return cls(pipeline_response, None, {})  # type: ignore
 
     @overload
-    def set_legal_hold(
-        self,
-        resource_group_name: str,
-        account_name: str,
-        container_name: str,
-        legal_hold: _models.LegalHold,
-        *,
-        content_type: str = "application/json",
-        **kwargs: Any
-    ) -> _models.LegalHold:
-        """Sets legal hold tags. Setting the same tag results in an idempotent operation. SetLegalHold
-        follows an append pattern and does not clear out the existing tags that are not specified in
-        the request.
-
-        :param resource_group_name: The name of the resource group within the user's subscription. The
-         name is case insensitive. Required.
-        :type resource_group_name: str
-        :param account_name: The name of the storage account within the specified resource group.
-         Storage account names must be between 3 and 24 characters in length and use numbers and
-         lower-case letters only. Required.
-        :type account_name: str
-        :param container_name: The name of the blob container within the specified storage account.
-         Blob container names must be between 3 and 63 characters in length and use numbers, lower-case
-         letters and dash (-) only. Every dash (-) character must be immediately preceded and followed
-         by a letter or number. Required.
-        :type container_name: str
-        :param legal_hold: The LegalHold property that will be set to a blob container. Required.
-        :type legal_hold: ~azure.mgmt.storage.v2024_01_01.models.LegalHold
-        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :return: LegalHold or the result of cls(response)
-        :rtype: ~azure.mgmt.storage.v2024_01_01.models.LegalHold
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @overload
-    def set_legal_hold(
-        self,
-        resource_group_name: str,
-        account_name: str,
-        container_name: str,
-        legal_hold: IO[bytes],
-        *,
-        content_type: str = "application/json",
-        **kwargs: Any
-    ) -> _models.LegalHold:
-        """Sets legal hold tags. Setting the same tag results in an idempotent operation. SetLegalHold
-        follows an append pattern and does not clear out the existing tags that are not specified in
-        the request.
-
-        :param resource_group_name: The name of the resource group within the user's subscription. The
-         name is case insensitive. Required.
-        :type resource_group_name: str
-        :param account_name: The name of the storage account within the specified resource group.
-         Storage account names must be between 3 and 24 characters in length and use numbers and
-         lower-case letters only. Required.
-        :type account_name: str
-        :param container_name: The name of the blob container within the specified storage account.
-         Blob container names must be between 3 and 63 characters in length and use numbers, lower-case
-         letters and dash (-) only. Every dash (-) character must be immediately preceded and followed
-         by a letter or number. Required.
-        :type container_name: str
-        :param legal_hold: The LegalHold property that will be set to a blob container. Required.
-        :type legal_hold: IO[bytes]
-        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :return: LegalHold or the result of cls(response)
-        :rtype: ~azure.mgmt.storage.v2024_01_01.models.LegalHold
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @distributed_trace
-    def set_legal_hold(
-        self,
-        resource_group_name: str,
-        account_name: str,
-        container_name: str,
-        legal_hold: Union[_models.LegalHold, IO[bytes]],
-        **kwargs: Any
-    ) -> _models.LegalHold:
-        """Sets legal hold tags. Setting the same tag results in an idempotent operation. SetLegalHold
-        follows an append pattern and does not clear out the existing tags that are not specified in
-        the request.
-
-        :param resource_group_name: The name of the resource group within the user's subscription. The
-         name is case insensitive. Required.
-        :type resource_group_name: str
-        :param account_name: The name of the storage account within the specified resource group.
-         Storage account names must be between 3 and 24 characters in length and use numbers and
-         lower-case letters only. Required.
-        :type account_name: str
-        :param container_name: The name of the blob container within the specified storage account.
-         Blob container names must be between 3 and 63 characters in length and use numbers, lower-case
-         letters and dash (-) only. Every dash (-) character must be immediately preceded and followed
-         by a letter or number. Required.
-        :type container_name: str
-        :param legal_hold: The LegalHold property that will be set to a blob container. Is either a
-         LegalHold type or a IO[bytes] type. Required.
-        :type legal_hold: ~azure.mgmt.storage.v2024_01_01.models.LegalHold or IO[bytes]
-        :return: LegalHold or the result of cls(response)
-        :rtype: ~azure.mgmt.storage.v2024_01_01.models.LegalHold
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        error_map: MutableMapping = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2024-01-01"))
-        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.LegalHold] = kwargs.pop("cls", None)
-
-        content_type = content_type or "application/json"
-        _json = None
-        _content = None
-        if isinstance(legal_hold, (IOBase, bytes)):
-            _content = legal_hold
-        else:
-            _json = self._serialize.body(legal_hold, "LegalHold")
-
-        _request = build_set_legal_hold_request(
-            resource_group_name=resource_group_name,
-            account_name=account_name,
-            container_name=container_name,
-            subscription_id=self._config.subscription_id,
-            api_version=api_version,
-            content_type=content_type,
-            json=_json,
-            content=_content,
-            headers=_headers,
-            params=_params,
-        )
-        _request.url = self._client.format_url(_request.url)
-
-        _stream = False
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            _request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
-
-        deserialized = self._deserialize("LegalHold", pipeline_response.http_response)
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
-
-        return deserialized  # type: ignore
-
-    @overload
     def clear_legal_hold(
         self,
         resource_group_name: str,
@@ -1362,8 +1216,8 @@ class BlobContainersOperations:
         """Clears legal hold tags. Clearing the same or non-existent tag results in an idempotent
         operation. ClearLegalHold clears out only the specified tags in the request.
 
-        :param resource_group_name: The name of the resource group within the user's subscription. The
-         name is case insensitive. Required.
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
         :type resource_group_name: str
         :param account_name: The name of the storage account within the specified resource group.
          Storage account names must be between 3 and 24 characters in length and use numbers and
@@ -1398,8 +1252,8 @@ class BlobContainersOperations:
         """Clears legal hold tags. Clearing the same or non-existent tag results in an idempotent
         operation. ClearLegalHold clears out only the specified tags in the request.
 
-        :param resource_group_name: The name of the resource group within the user's subscription. The
-         name is case insensitive. Required.
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
         :type resource_group_name: str
         :param account_name: The name of the storage account within the specified resource group.
          Storage account names must be between 3 and 24 characters in length and use numbers and
@@ -1432,8 +1286,8 @@ class BlobContainersOperations:
         """Clears legal hold tags. Clearing the same or non-existent tag results in an idempotent
         operation. ClearLegalHold clears out only the specified tags in the request.
 
-        :param resource_group_name: The name of the resource group within the user's subscription. The
-         name is case insensitive. Required.
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
         :type resource_group_name: str
         :param account_name: The name of the storage account within the specified resource group.
          Storage account names must be between 3 and 24 characters in length and use numbers and
@@ -1497,7 +1351,8 @@ class BlobContainersOperations:
 
         if response.status_code not in [200]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         deserialized = self._deserialize("LegalHold", pipeline_response.http_response)
 
@@ -1506,23 +1361,21 @@ class BlobContainersOperations:
 
         return deserialized  # type: ignore
 
-    @overload
-    def create_or_update_immutability_policy(
+    @distributed_trace
+    def get_immutability_policy(
         self,
         resource_group_name: str,
         account_name: str,
         container_name: str,
+        immutability_policy_name: str,
         if_match: Optional[str] = None,
-        parameters: Optional[_models.ImmutabilityPolicy] = None,
-        *,
-        content_type: str = "application/json",
         **kwargs: Any
     ) -> _models.ImmutabilityPolicy:
-        """Creates or updates an unlocked immutability policy. ETag in If-Match is honored if given but
-        not required for this operation.
+        """Gets the existing immutability policy along with the corresponding ETag in response headers and
+        body.
 
-        :param resource_group_name: The name of the resource group within the user's subscription. The
-         name is case insensitive. Required.
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
         :type resource_group_name: str
         :param account_name: The name of the storage account within the specified resource group.
          Storage account names must be between 3 and 24 characters in length and use numbers and
@@ -1533,13 +1386,102 @@ class BlobContainersOperations:
          letters and dash (-) only. Every dash (-) character must be immediately preceded and followed
          by a letter or number. Required.
         :type container_name: str
-        :param if_match: The entity state (ETag) version of the immutability policy to update must be
-         returned to the server for all update operations. The ETag value must include the leading and
-         trailing double quotes as returned by the service. Default value is None.
+        :param immutability_policy_name: Required.
+        :type immutability_policy_name: str
+        :param if_match: The entity state (ETag) version of the immutability policy to update. A value
+         of "*" can be used to apply the operation only if the immutability policy already exists. If
+         omitted, this operation will always be applied. Default value is None.
         :type if_match: str
+        :return: ImmutabilityPolicy or the result of cls(response)
+        :rtype: ~azure.mgmt.storage.v2024_01_01.models.ImmutabilityPolicy
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2024-01-01"))
+        cls: ClsType[_models.ImmutabilityPolicy] = kwargs.pop("cls", None)
+
+        _request = build_get_immutability_policy_request(
+            resource_group_name=resource_group_name,
+            account_name=account_name,
+            container_name=container_name,
+            immutability_policy_name=immutability_policy_name,
+            subscription_id=self._config.subscription_id,
+            if_match=if_match,
+            api_version=api_version,
+            headers=_headers,
+            params=_params,
+        )
+        _request.url = self._client.format_url(_request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        response_headers = {}
+        response_headers["ETag"] = self._deserialize("str", response.headers.get("ETag"))
+
+        deserialized = self._deserialize("ImmutabilityPolicy", pipeline_response.http_response)
+
+        if cls:
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
+
+        return deserialized  # type: ignore
+
+    @overload
+    def create_or_update_immutability_policy(
+        self,
+        resource_group_name: str,
+        account_name: str,
+        container_name: str,
+        immutability_policy_name: str,
+        parameters: _models.ImmutabilityPolicy,
+        if_match: Optional[str] = None,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> _models.ImmutabilityPolicy:
+        """Creates or updates an unlocked immutability policy. ETag in If-Match is honored if given but
+        not required for this operation.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param account_name: The name of the storage account within the specified resource group.
+         Storage account names must be between 3 and 24 characters in length and use numbers and
+         lower-case letters only. Required.
+        :type account_name: str
+        :param container_name: The name of the blob container within the specified storage account.
+         Blob container names must be between 3 and 63 characters in length and use numbers, lower-case
+         letters and dash (-) only. Every dash (-) character must be immediately preceded and followed
+         by a letter or number. Required.
+        :type container_name: str
+        :param immutability_policy_name: Required.
+        :type immutability_policy_name: str
         :param parameters: The ImmutabilityPolicy Properties that will be created or updated to a blob
-         container. Default value is None.
+         container. Required.
         :type parameters: ~azure.mgmt.storage.v2024_01_01.models.ImmutabilityPolicy
+        :param if_match: The entity state (ETag) version of the immutability policy to update. A value
+         of "*" can be used to apply the operation only if the immutability policy already exists. If
+         omitted, this operation will always be applied. Default value is None.
+        :type if_match: str
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
@@ -1554,8 +1496,9 @@ class BlobContainersOperations:
         resource_group_name: str,
         account_name: str,
         container_name: str,
+        immutability_policy_name: str,
+        parameters: IO[bytes],
         if_match: Optional[str] = None,
-        parameters: Optional[IO[bytes]] = None,
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -1563,8 +1506,8 @@ class BlobContainersOperations:
         """Creates or updates an unlocked immutability policy. ETag in If-Match is honored if given but
         not required for this operation.
 
-        :param resource_group_name: The name of the resource group within the user's subscription. The
-         name is case insensitive. Required.
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
         :type resource_group_name: str
         :param account_name: The name of the storage account within the specified resource group.
          Storage account names must be between 3 and 24 characters in length and use numbers and
@@ -1575,13 +1518,15 @@ class BlobContainersOperations:
          letters and dash (-) only. Every dash (-) character must be immediately preceded and followed
          by a letter or number. Required.
         :type container_name: str
-        :param if_match: The entity state (ETag) version of the immutability policy to update must be
-         returned to the server for all update operations. The ETag value must include the leading and
-         trailing double quotes as returned by the service. Default value is None.
-        :type if_match: str
+        :param immutability_policy_name: Required.
+        :type immutability_policy_name: str
         :param parameters: The ImmutabilityPolicy Properties that will be created or updated to a blob
-         container. Default value is None.
+         container. Required.
         :type parameters: IO[bytes]
+        :param if_match: The entity state (ETag) version of the immutability policy to update. A value
+         of "*" can be used to apply the operation only if the immutability policy already exists. If
+         omitted, this operation will always be applied. Default value is None.
+        :type if_match: str
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
@@ -1596,15 +1541,16 @@ class BlobContainersOperations:
         resource_group_name: str,
         account_name: str,
         container_name: str,
+        immutability_policy_name: str,
+        parameters: Union[_models.ImmutabilityPolicy, IO[bytes]],
         if_match: Optional[str] = None,
-        parameters: Optional[Union[_models.ImmutabilityPolicy, IO[bytes]]] = None,
         **kwargs: Any
     ) -> _models.ImmutabilityPolicy:
         """Creates or updates an unlocked immutability policy. ETag in If-Match is honored if given but
         not required for this operation.
 
-        :param resource_group_name: The name of the resource group within the user's subscription. The
-         name is case insensitive. Required.
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
         :type resource_group_name: str
         :param account_name: The name of the storage account within the specified resource group.
          Storage account names must be between 3 and 24 characters in length and use numbers and
@@ -1615,13 +1561,15 @@ class BlobContainersOperations:
          letters and dash (-) only. Every dash (-) character must be immediately preceded and followed
          by a letter or number. Required.
         :type container_name: str
-        :param if_match: The entity state (ETag) version of the immutability policy to update must be
-         returned to the server for all update operations. The ETag value must include the leading and
-         trailing double quotes as returned by the service. Default value is None.
-        :type if_match: str
+        :param immutability_policy_name: Required.
+        :type immutability_policy_name: str
         :param parameters: The ImmutabilityPolicy Properties that will be created or updated to a blob
-         container. Is either a ImmutabilityPolicy type or a IO[bytes] type. Default value is None.
+         container. Is either a ImmutabilityPolicy type or a IO[bytes] type. Required.
         :type parameters: ~azure.mgmt.storage.v2024_01_01.models.ImmutabilityPolicy or IO[bytes]
+        :param if_match: The entity state (ETag) version of the immutability policy to update. A value
+         of "*" can be used to apply the operation only if the immutability policy already exists. If
+         omitted, this operation will always be applied. Default value is None.
+        :type if_match: str
         :return: ImmutabilityPolicy or the result of cls(response)
         :rtype: ~azure.mgmt.storage.v2024_01_01.models.ImmutabilityPolicy
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1637,7 +1585,6 @@ class BlobContainersOperations:
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        immutability_policy_name: Literal["default"] = kwargs.pop("immutability_policy_name", "default")
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2024-01-01"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.ImmutabilityPolicy] = kwargs.pop("cls", None)
@@ -1648,18 +1595,15 @@ class BlobContainersOperations:
         if isinstance(parameters, (IOBase, bytes)):
             _content = parameters
         else:
-            if parameters is not None:
-                _json = self._serialize.body(parameters, "ImmutabilityPolicy")
-            else:
-                _json = None
+            _json = self._serialize.body(parameters, "ImmutabilityPolicy")
 
         _request = build_create_or_update_immutability_policy_request(
             resource_group_name=resource_group_name,
             account_name=account_name,
             container_name=container_name,
+            immutability_policy_name=immutability_policy_name,
             subscription_id=self._config.subscription_id,
             if_match=if_match,
-            immutability_policy_name=immutability_policy_name,
             api_version=api_version,
             content_type=content_type,
             json=_json,
@@ -1678,88 +1622,8 @@ class BlobContainersOperations:
 
         if response.status_code not in [200]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
-
-        response_headers = {}
-        response_headers["ETag"] = self._deserialize("str", response.headers.get("ETag"))
-
-        deserialized = self._deserialize("ImmutabilityPolicy", pipeline_response.http_response)
-
-        if cls:
-            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
-
-        return deserialized  # type: ignore
-
-    @distributed_trace
-    def get_immutability_policy(
-        self,
-        resource_group_name: str,
-        account_name: str,
-        container_name: str,
-        if_match: Optional[str] = None,
-        **kwargs: Any
-    ) -> _models.ImmutabilityPolicy:
-        """Gets the existing immutability policy along with the corresponding ETag in response headers and
-        body.
-
-        :param resource_group_name: The name of the resource group within the user's subscription. The
-         name is case insensitive. Required.
-        :type resource_group_name: str
-        :param account_name: The name of the storage account within the specified resource group.
-         Storage account names must be between 3 and 24 characters in length and use numbers and
-         lower-case letters only. Required.
-        :type account_name: str
-        :param container_name: The name of the blob container within the specified storage account.
-         Blob container names must be between 3 and 63 characters in length and use numbers, lower-case
-         letters and dash (-) only. Every dash (-) character must be immediately preceded and followed
-         by a letter or number. Required.
-        :type container_name: str
-        :param if_match: The entity state (ETag) version of the immutability policy to update must be
-         returned to the server for all update operations. The ETag value must include the leading and
-         trailing double quotes as returned by the service. Default value is None.
-        :type if_match: str
-        :return: ImmutabilityPolicy or the result of cls(response)
-        :rtype: ~azure.mgmt.storage.v2024_01_01.models.ImmutabilityPolicy
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        error_map: MutableMapping = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        immutability_policy_name: Literal["default"] = kwargs.pop("immutability_policy_name", "default")
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2024-01-01"))
-        cls: ClsType[_models.ImmutabilityPolicy] = kwargs.pop("cls", None)
-
-        _request = build_get_immutability_policy_request(
-            resource_group_name=resource_group_name,
-            account_name=account_name,
-            container_name=container_name,
-            subscription_id=self._config.subscription_id,
-            if_match=if_match,
-            immutability_policy_name=immutability_policy_name,
-            api_version=api_version,
-            headers=_headers,
-            params=_params,
-        )
-        _request.url = self._client.format_url(_request.url)
-
-        _stream = False
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            _request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         response_headers = {}
         response_headers["ETag"] = self._deserialize("str", response.headers.get("ETag"))
@@ -1773,15 +1637,21 @@ class BlobContainersOperations:
 
     @distributed_trace
     def delete_immutability_policy(
-        self, resource_group_name: str, account_name: str, container_name: str, if_match: str, **kwargs: Any
+        self,
+        resource_group_name: str,
+        account_name: str,
+        container_name: str,
+        immutability_policy_name: str,
+        if_match: str,
+        **kwargs: Any
     ) -> _models.ImmutabilityPolicy:
         """Aborts an unlocked immutability policy. The response of delete has
         immutabilityPeriodSinceCreationInDays set to 0. ETag in If-Match is required for this
         operation. Deleting a locked immutability policy is not allowed, the only way is to delete the
         container after deleting all expired blobs inside the policy locked container.
 
-        :param resource_group_name: The name of the resource group within the user's subscription. The
-         name is case insensitive. Required.
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
         :type resource_group_name: str
         :param account_name: The name of the storage account within the specified resource group.
          Storage account names must be between 3 and 24 characters in length and use numbers and
@@ -1792,9 +1662,11 @@ class BlobContainersOperations:
          letters and dash (-) only. Every dash (-) character must be immediately preceded and followed
          by a letter or number. Required.
         :type container_name: str
-        :param if_match: The entity state (ETag) version of the immutability policy to update must be
-         returned to the server for all update operations. The ETag value must include the leading and
-         trailing double quotes as returned by the service. Required.
+        :param immutability_policy_name: Required.
+        :type immutability_policy_name: str
+        :param if_match: The entity state (ETag) version of the immutability policy to update. A value
+         of "*" can be used to apply the operation only if the immutability policy already exists. If
+         omitted, this operation will always be applied. Required.
         :type if_match: str
         :return: ImmutabilityPolicy or the result of cls(response)
         :rtype: ~azure.mgmt.storage.v2024_01_01.models.ImmutabilityPolicy
@@ -1811,7 +1683,6 @@ class BlobContainersOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        immutability_policy_name: Literal["default"] = kwargs.pop("immutability_policy_name", "default")
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2024-01-01"))
         cls: ClsType[_models.ImmutabilityPolicy] = kwargs.pop("cls", None)
 
@@ -1819,81 +1690,7 @@ class BlobContainersOperations:
             resource_group_name=resource_group_name,
             account_name=account_name,
             container_name=container_name,
-            subscription_id=self._config.subscription_id,
-            if_match=if_match,
             immutability_policy_name=immutability_policy_name,
-            api_version=api_version,
-            headers=_headers,
-            params=_params,
-        )
-        _request.url = self._client.format_url(_request.url)
-
-        _stream = False
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            _request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
-
-        response_headers = {}
-        response_headers["ETag"] = self._deserialize("str", response.headers.get("ETag"))
-
-        deserialized = self._deserialize("ImmutabilityPolicy", pipeline_response.http_response)
-
-        if cls:
-            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
-
-        return deserialized  # type: ignore
-
-    @distributed_trace
-    def lock_immutability_policy(
-        self, resource_group_name: str, account_name: str, container_name: str, if_match: str, **kwargs: Any
-    ) -> _models.ImmutabilityPolicy:
-        """Sets the ImmutabilityPolicy to Locked state. The only action allowed on a Locked policy is
-        ExtendImmutabilityPolicy action. ETag in If-Match is required for this operation.
-
-        :param resource_group_name: The name of the resource group within the user's subscription. The
-         name is case insensitive. Required.
-        :type resource_group_name: str
-        :param account_name: The name of the storage account within the specified resource group.
-         Storage account names must be between 3 and 24 characters in length and use numbers and
-         lower-case letters only. Required.
-        :type account_name: str
-        :param container_name: The name of the blob container within the specified storage account.
-         Blob container names must be between 3 and 63 characters in length and use numbers, lower-case
-         letters and dash (-) only. Every dash (-) character must be immediately preceded and followed
-         by a letter or number. Required.
-        :type container_name: str
-        :param if_match: The entity state (ETag) version of the immutability policy to update must be
-         returned to the server for all update operations. The ETag value must include the leading and
-         trailing double quotes as returned by the service. Required.
-        :type if_match: str
-        :return: ImmutabilityPolicy or the result of cls(response)
-        :rtype: ~azure.mgmt.storage.v2024_01_01.models.ImmutabilityPolicy
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        error_map: MutableMapping = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2024-01-01"))
-        cls: ClsType[_models.ImmutabilityPolicy] = kwargs.pop("cls", None)
-
-        _request = build_lock_immutability_policy_request(
-            resource_group_name=resource_group_name,
-            account_name=account_name,
-            container_name=container_name,
             subscription_id=self._config.subscription_id,
             if_match=if_match,
             api_version=api_version,
@@ -1911,7 +1708,8 @@ class BlobContainersOperations:
 
         if response.status_code not in [200]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         response_headers = {}
         response_headers["ETag"] = self._deserialize("str", response.headers.get("ETag"))
@@ -1929,6 +1727,7 @@ class BlobContainersOperations:
         resource_group_name: str,
         account_name: str,
         container_name: str,
+        immutability_policy_name: str,
         if_match: str,
         parameters: Optional[_models.ImmutabilityPolicy] = None,
         *,
@@ -1939,8 +1738,8 @@ class BlobContainersOperations:
         action allowed on a Locked policy will be this action. ETag in If-Match is required for this
         operation.
 
-        :param resource_group_name: The name of the resource group within the user's subscription. The
-         name is case insensitive. Required.
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
         :type resource_group_name: str
         :param account_name: The name of the storage account within the specified resource group.
          Storage account names must be between 3 and 24 characters in length and use numbers and
@@ -1951,9 +1750,11 @@ class BlobContainersOperations:
          letters and dash (-) only. Every dash (-) character must be immediately preceded and followed
          by a letter or number. Required.
         :type container_name: str
-        :param if_match: The entity state (ETag) version of the immutability policy to update must be
-         returned to the server for all update operations. The ETag value must include the leading and
-         trailing double quotes as returned by the service. Required.
+        :param immutability_policy_name: Required.
+        :type immutability_policy_name: str
+        :param if_match: The entity state (ETag) version of the immutability policy to update. A value
+         of "*" can be used to apply the operation only if the immutability policy already exists. If
+         omitted, this operation will always be applied. Required.
         :type if_match: str
         :param parameters: The ImmutabilityPolicy Properties that will be extended for a blob
          container. Default value is None.
@@ -1972,6 +1773,7 @@ class BlobContainersOperations:
         resource_group_name: str,
         account_name: str,
         container_name: str,
+        immutability_policy_name: str,
         if_match: str,
         parameters: Optional[IO[bytes]] = None,
         *,
@@ -1982,8 +1784,8 @@ class BlobContainersOperations:
         action allowed on a Locked policy will be this action. ETag in If-Match is required for this
         operation.
 
-        :param resource_group_name: The name of the resource group within the user's subscription. The
-         name is case insensitive. Required.
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
         :type resource_group_name: str
         :param account_name: The name of the storage account within the specified resource group.
          Storage account names must be between 3 and 24 characters in length and use numbers and
@@ -1994,9 +1796,11 @@ class BlobContainersOperations:
          letters and dash (-) only. Every dash (-) character must be immediately preceded and followed
          by a letter or number. Required.
         :type container_name: str
-        :param if_match: The entity state (ETag) version of the immutability policy to update must be
-         returned to the server for all update operations. The ETag value must include the leading and
-         trailing double quotes as returned by the service. Required.
+        :param immutability_policy_name: Required.
+        :type immutability_policy_name: str
+        :param if_match: The entity state (ETag) version of the immutability policy to update. A value
+         of "*" can be used to apply the operation only if the immutability policy already exists. If
+         omitted, this operation will always be applied. Required.
         :type if_match: str
         :param parameters: The ImmutabilityPolicy Properties that will be extended for a blob
          container. Default value is None.
@@ -2015,6 +1819,7 @@ class BlobContainersOperations:
         resource_group_name: str,
         account_name: str,
         container_name: str,
+        immutability_policy_name: str,
         if_match: str,
         parameters: Optional[Union[_models.ImmutabilityPolicy, IO[bytes]]] = None,
         **kwargs: Any
@@ -2023,8 +1828,8 @@ class BlobContainersOperations:
         action allowed on a Locked policy will be this action. ETag in If-Match is required for this
         operation.
 
-        :param resource_group_name: The name of the resource group within the user's subscription. The
-         name is case insensitive. Required.
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
         :type resource_group_name: str
         :param account_name: The name of the storage account within the specified resource group.
          Storage account names must be between 3 and 24 characters in length and use numbers and
@@ -2035,9 +1840,11 @@ class BlobContainersOperations:
          letters and dash (-) only. Every dash (-) character must be immediately preceded and followed
          by a letter or number. Required.
         :type container_name: str
-        :param if_match: The entity state (ETag) version of the immutability policy to update must be
-         returned to the server for all update operations. The ETag value must include the leading and
-         trailing double quotes as returned by the service. Required.
+        :param immutability_policy_name: Required.
+        :type immutability_policy_name: str
+        :param if_match: The entity state (ETag) version of the immutability policy to update. A value
+         of "*" can be used to apply the operation only if the immutability policy already exists. If
+         omitted, this operation will always be applied. Required.
         :type if_match: str
         :param parameters: The ImmutabilityPolicy Properties that will be extended for a blob
          container. Is either a ImmutabilityPolicy type or a IO[bytes] type. Default value is None.
@@ -2076,6 +1883,7 @@ class BlobContainersOperations:
             resource_group_name=resource_group_name,
             account_name=account_name,
             container_name=container_name,
+            immutability_policy_name=immutability_policy_name,
             subscription_id=self._config.subscription_id,
             if_match=if_match,
             api_version=api_version,
@@ -2096,7 +1904,92 @@ class BlobContainersOperations:
 
         if response.status_code not in [200]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        response_headers = {}
+        response_headers["ETag"] = self._deserialize("str", response.headers.get("ETag"))
+
+        deserialized = self._deserialize("ImmutabilityPolicy", pipeline_response.http_response)
+
+        if cls:
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
+
+        return deserialized  # type: ignore
+
+    @distributed_trace
+    def lock_immutability_policy(
+        self,
+        resource_group_name: str,
+        account_name: str,
+        container_name: str,
+        immutability_policy_name: str,
+        if_match: str,
+        **kwargs: Any
+    ) -> _models.ImmutabilityPolicy:
+        """Sets the ImmutabilityPolicy to Locked state. The only action allowed on a Locked policy is
+        ExtendImmutabilityPolicy action. ETag in If-Match is required for this operation.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param account_name: The name of the storage account within the specified resource group.
+         Storage account names must be between 3 and 24 characters in length and use numbers and
+         lower-case letters only. Required.
+        :type account_name: str
+        :param container_name: The name of the blob container within the specified storage account.
+         Blob container names must be between 3 and 63 characters in length and use numbers, lower-case
+         letters and dash (-) only. Every dash (-) character must be immediately preceded and followed
+         by a letter or number. Required.
+        :type container_name: str
+        :param immutability_policy_name: Required.
+        :type immutability_policy_name: str
+        :param if_match: The entity state (ETag) version of the immutability policy to update. A value
+         of "*" can be used to apply the operation only if the immutability policy already exists. If
+         omitted, this operation will always be applied. Required.
+        :type if_match: str
+        :return: ImmutabilityPolicy or the result of cls(response)
+        :rtype: ~azure.mgmt.storage.v2024_01_01.models.ImmutabilityPolicy
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2024-01-01"))
+        cls: ClsType[_models.ImmutabilityPolicy] = kwargs.pop("cls", None)
+
+        _request = build_lock_immutability_policy_request(
+            resource_group_name=resource_group_name,
+            account_name=account_name,
+            container_name=container_name,
+            immutability_policy_name=immutability_policy_name,
+            subscription_id=self._config.subscription_id,
+            if_match=if_match,
+            api_version=api_version,
+            headers=_headers,
+            params=_params,
+        )
+        _request.url = self._client.format_url(_request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         response_headers = {}
         response_headers["ETag"] = self._deserialize("str", response.headers.get("ETag"))
@@ -2122,8 +2015,8 @@ class BlobContainersOperations:
         """The Lease Container operation establishes and manages a lock on a container for delete
         operations. The lock duration can be 15 to 60 seconds, or can be infinite.
 
-        :param resource_group_name: The name of the resource group within the user's subscription. The
-         name is case insensitive. Required.
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
         :type resource_group_name: str
         :param account_name: The name of the storage account within the specified resource group.
          Storage account names must be between 3 and 24 characters in length and use numbers and
@@ -2158,8 +2051,8 @@ class BlobContainersOperations:
         """The Lease Container operation establishes and manages a lock on a container for delete
         operations. The lock duration can be 15 to 60 seconds, or can be infinite.
 
-        :param resource_group_name: The name of the resource group within the user's subscription. The
-         name is case insensitive. Required.
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
         :type resource_group_name: str
         :param account_name: The name of the storage account within the specified resource group.
          Storage account names must be between 3 and 24 characters in length and use numbers and
@@ -2192,8 +2085,8 @@ class BlobContainersOperations:
         """The Lease Container operation establishes and manages a lock on a container for delete
         operations. The lock duration can be 15 to 60 seconds, or can be infinite.
 
-        :param resource_group_name: The name of the resource group within the user's subscription. The
-         name is case insensitive. Required.
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
         :type resource_group_name: str
         :param account_name: The name of the storage account within the specified resource group.
          Storage account names must be between 3 and 24 characters in length and use numbers and
@@ -2260,7 +2153,8 @@ class BlobContainersOperations:
 
         if response.status_code not in [200]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         deserialized = self._deserialize("LeaseContainerResponse", pipeline_response.http_response)
 
@@ -2311,12 +2205,18 @@ class BlobContainersOperations:
             except (StreamConsumedError, StreamClosedError):
                 pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        response_headers = {}
+        if response.status_code == 202:
+            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
 
         deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
         return deserialized  # type: ignore
 
@@ -2329,8 +2229,8 @@ class BlobContainersOperations:
         or unlocked state, Account level versioning must be enabled and there should be no Legal hold
         on the container.
 
-        :param resource_group_name: The name of the resource group within the user's subscription. The
-         name is case insensitive. Required.
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
         :type resource_group_name: str
         :param account_name: The name of the storage account within the specified resource group.
          Storage account names must be between 3 and 24 characters in length and use numbers and
@@ -2387,3 +2287,165 @@ class BlobContainersOperations:
                 deserialization_callback=get_long_running_output,
             )
         return LROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
+
+    @overload
+    def set_legal_hold(
+        self,
+        resource_group_name: str,
+        account_name: str,
+        container_name: str,
+        legal_hold: _models.LegalHold,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> _models.LegalHold:
+        """Sets legal hold tags. Setting the same tag results in an idempotent operation. SetLegalHold
+        follows an append pattern and does not clear out the existing tags that are not specified in
+        the request.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param account_name: The name of the storage account within the specified resource group.
+         Storage account names must be between 3 and 24 characters in length and use numbers and
+         lower-case letters only. Required.
+        :type account_name: str
+        :param container_name: The name of the blob container within the specified storage account.
+         Blob container names must be between 3 and 63 characters in length and use numbers, lower-case
+         letters and dash (-) only. Every dash (-) character must be immediately preceded and followed
+         by a letter or number. Required.
+        :type container_name: str
+        :param legal_hold: The LegalHold property that will be set to a blob container. Required.
+        :type legal_hold: ~azure.mgmt.storage.v2024_01_01.models.LegalHold
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: LegalHold or the result of cls(response)
+        :rtype: ~azure.mgmt.storage.v2024_01_01.models.LegalHold
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    def set_legal_hold(
+        self,
+        resource_group_name: str,
+        account_name: str,
+        container_name: str,
+        legal_hold: IO[bytes],
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> _models.LegalHold:
+        """Sets legal hold tags. Setting the same tag results in an idempotent operation. SetLegalHold
+        follows an append pattern and does not clear out the existing tags that are not specified in
+        the request.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param account_name: The name of the storage account within the specified resource group.
+         Storage account names must be between 3 and 24 characters in length and use numbers and
+         lower-case letters only. Required.
+        :type account_name: str
+        :param container_name: The name of the blob container within the specified storage account.
+         Blob container names must be between 3 and 63 characters in length and use numbers, lower-case
+         letters and dash (-) only. Every dash (-) character must be immediately preceded and followed
+         by a letter or number. Required.
+        :type container_name: str
+        :param legal_hold: The LegalHold property that will be set to a blob container. Required.
+        :type legal_hold: IO[bytes]
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: LegalHold or the result of cls(response)
+        :rtype: ~azure.mgmt.storage.v2024_01_01.models.LegalHold
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace
+    def set_legal_hold(
+        self,
+        resource_group_name: str,
+        account_name: str,
+        container_name: str,
+        legal_hold: Union[_models.LegalHold, IO[bytes]],
+        **kwargs: Any
+    ) -> _models.LegalHold:
+        """Sets legal hold tags. Setting the same tag results in an idempotent operation. SetLegalHold
+        follows an append pattern and does not clear out the existing tags that are not specified in
+        the request.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param account_name: The name of the storage account within the specified resource group.
+         Storage account names must be between 3 and 24 characters in length and use numbers and
+         lower-case letters only. Required.
+        :type account_name: str
+        :param container_name: The name of the blob container within the specified storage account.
+         Blob container names must be between 3 and 63 characters in length and use numbers, lower-case
+         letters and dash (-) only. Every dash (-) character must be immediately preceded and followed
+         by a letter or number. Required.
+        :type container_name: str
+        :param legal_hold: The LegalHold property that will be set to a blob container. Is either a
+         LegalHold type or a IO[bytes] type. Required.
+        :type legal_hold: ~azure.mgmt.storage.v2024_01_01.models.LegalHold or IO[bytes]
+        :return: LegalHold or the result of cls(response)
+        :rtype: ~azure.mgmt.storage.v2024_01_01.models.LegalHold
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2024-01-01"))
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.LegalHold] = kwargs.pop("cls", None)
+
+        content_type = content_type or "application/json"
+        _json = None
+        _content = None
+        if isinstance(legal_hold, (IOBase, bytes)):
+            _content = legal_hold
+        else:
+            _json = self._serialize.body(legal_hold, "LegalHold")
+
+        _request = build_set_legal_hold_request(
+            resource_group_name=resource_group_name,
+            account_name=account_name,
+            container_name=container_name,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            content_type=content_type,
+            json=_json,
+            content=_content,
+            headers=_headers,
+            params=_params,
+        )
+        _request.url = self._client.format_url(_request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        deserialized = self._deserialize("LegalHold", pipeline_response.http_response)
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore

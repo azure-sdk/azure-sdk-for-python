@@ -31,8 +31,8 @@ def main():
     )
 
     response = client.deleted_accounts.get(
-        deleted_account_name="sto1125",
         location="eastus",
+        deleted_account_name="sto1125",
     )
     print(response)
 
