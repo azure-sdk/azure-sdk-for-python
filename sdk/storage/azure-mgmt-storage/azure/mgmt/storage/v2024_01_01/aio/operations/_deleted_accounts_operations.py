@@ -133,13 +133,13 @@ class DeletedAccountsOperations:
         return AsyncItemPaged(get_next, extract_data)
 
     @distributed_trace_async
-    async def get(self, deleted_account_name: str, location: str, **kwargs: Any) -> _models.DeletedAccount:
+    async def get(self, location: str, deleted_account_name: str, **kwargs: Any) -> _models.DeletedAccount:
         """Get properties of specified deleted account resource.
 
+        :param location: The name of Azure region. Required.
+        :type location: str
         :param deleted_account_name: Name of the deleted storage account. Required.
         :type deleted_account_name: str
-        :param location: The location of the deleted storage account. Required.
-        :type location: str
         :return: DeletedAccount or the result of cls(response)
         :rtype: ~azure.mgmt.storage.v2024_01_01.models.DeletedAccount
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -159,8 +159,8 @@ class DeletedAccountsOperations:
         cls: ClsType[_models.DeletedAccount] = kwargs.pop("cls", None)
 
         _request = build_get_request(
-            deleted_account_name=deleted_account_name,
             location=location,
+            deleted_account_name=deleted_account_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
             headers=_headers,

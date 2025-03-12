@@ -26,7 +26,7 @@ class TestStorageManagementObjectReplicationPoliciesOperations(AzureMgmtRecorded
             account_name="str",
             api_version="2024-01-01",
         )
-        result = [r for r in response]
+
         # please add some check logic here by yourself
         # ...
 
@@ -54,7 +54,6 @@ class TestStorageManagementObjectReplicationPoliciesOperations(AzureMgmtRecorded
                 "destinationAccount": "str",
                 "enabledTime": "2020-02-20 00:00:00",
                 "id": "str",
-                "metrics": {"enabled": bool},
                 "name": "str",
                 "policyId": "str",
                 "rules": [
@@ -66,6 +65,14 @@ class TestStorageManagementObjectReplicationPoliciesOperations(AzureMgmtRecorded
                     }
                 ],
                 "sourceAccount": "str",
+                "systemData": {
+                    "createdAt": "2020-02-20 00:00:00",
+                    "createdBy": "str",
+                    "createdByType": "str",
+                    "lastModifiedAt": "2020-02-20 00:00:00",
+                    "lastModifiedBy": "str",
+                    "lastModifiedByType": "str",
+                },
                 "type": "str",
             },
             api_version="2024-01-01",
