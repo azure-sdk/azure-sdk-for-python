@@ -33,11 +33,11 @@ def main():
     response = client.query_keys.create(
         resource_group_name="rg1",
         search_service_name="mysearchservice",
-        name="An API key granting read-only access to the documents collection of an index.",
+        name="Query key for browser-based clients",
     )
     print(response)
 
 
-# x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2024-06-01-preview/examples/SearchCreateQueryKey.json
+# x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2025-05-01/examples/SearchCreateQueryKey.json
 if __name__ == "__main__":
     main()
