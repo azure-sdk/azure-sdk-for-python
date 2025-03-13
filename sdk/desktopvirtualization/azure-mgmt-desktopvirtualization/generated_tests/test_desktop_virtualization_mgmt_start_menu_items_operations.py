@@ -20,11 +20,11 @@ class TestDesktopVirtualizationMgmtStartMenuItemsOperations(AzureMgmtRecordedTes
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list(self, resource_group):
+    def test_start_menu_items_list(self, resource_group):
         response = self.client.start_menu_items.list(
             resource_group_name=resource_group.name,
             application_group_name="str",
-            api_version="2024-04-03",
+            api_version="2024-11-01-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself

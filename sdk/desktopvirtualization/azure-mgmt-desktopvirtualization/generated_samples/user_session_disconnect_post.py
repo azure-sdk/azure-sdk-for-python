@@ -38,6 +38,6 @@ def main():
     )
 
 
-# x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2024-04-03/examples/UserSession_Disconnect_Post.json
+# x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/preview/2024-11-01-preview/examples/UserSession_Disconnect_Post.json
 if __name__ == "__main__":
     main()

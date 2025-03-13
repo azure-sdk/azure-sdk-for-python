@@ -1,4 +1,3 @@
-# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8,7 +7,7 @@
 # --------------------------------------------------------------------------
 from io import IOBase
 import sys
-from typing import Any, AsyncIterable, Callable, Dict, IO, Optional, Type, TypeVar, Union, overload
+from typing import Any, AsyncIterable, Callable, Dict, IO, Optional, TypeVar, Union, overload
 import urllib.parse
 
 from azure.core.async_paging import AsyncItemPaged, AsyncList
@@ -40,7 +39,7 @@ from ...operations._user_sessions_operations import (
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -102,7 +101,7 @@ class UserSessionsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.UserSessionList] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -189,7 +188,7 @@ class UserSessionsOperations:
         :rtype: ~azure.mgmt.desktopvirtualization.models.UserSession
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -234,7 +233,7 @@ class UserSessionsOperations:
         return deserialized  # type: ignore
 
     @distributed_trace_async
-    async def delete(  # pylint: disable=inconsistent-return-statements
+    async def delete(
         self,
         resource_group_name: str,
         host_pool_name: str,
@@ -262,7 +261,7 @@ class UserSessionsOperations:
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -341,7 +340,7 @@ class UserSessionsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.UserSessionList] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -408,7 +407,7 @@ class UserSessionsOperations:
         return AsyncItemPaged(get_next, extract_data)
 
     @distributed_trace_async
-    async def disconnect(  # pylint: disable=inconsistent-return-statements
+    async def disconnect(
         self, resource_group_name: str, host_pool_name: str, session_host_name: str, user_session_id: str, **kwargs: Any
     ) -> None:
         """Disconnect a userSession.
@@ -428,7 +427,7 @@ class UserSessionsOperations:
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -469,7 +468,7 @@ class UserSessionsOperations:
             return cls(pipeline_response, None, {})  # type: ignore
 
     @overload
-    async def send_message(  # pylint: disable=inconsistent-return-statements
+    async def send_message(
         self,
         resource_group_name: str,
         host_pool_name: str,
@@ -505,7 +504,7 @@ class UserSessionsOperations:
         """
 
     @overload
-    async def send_message(  # pylint: disable=inconsistent-return-statements
+    async def send_message(
         self,
         resource_group_name: str,
         host_pool_name: str,
@@ -541,7 +540,7 @@ class UserSessionsOperations:
         """
 
     @distributed_trace_async
-    async def send_message(  # pylint: disable=inconsistent-return-statements
+    async def send_message(
         self,
         resource_group_name: str,
         host_pool_name: str,
@@ -570,7 +569,7 @@ class UserSessionsOperations:
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,

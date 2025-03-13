@@ -44,16 +44,21 @@ def main():
                 },
                 "customRdpProperty": None,
                 "description": "des1",
+                "directUDP": "Enabled",
                 "friendlyName": "friendly",
                 "hostPoolType": "Pooled",
                 "loadBalancerType": "BreadthFirst",
+                "managedPrivateUDP": "Enabled",
+                "managementType": "Automated",
                 "maxSessionLimit": 999999,
                 "personalDesktopAssignmentType": "Automatic",
                 "preferredAppGroupType": "Desktop",
+                "publicUDP": "Enabled",
                 "registrationInfo": {
                     "expirationTime": "2020-10-01T14:01:54.9571247Z",
                     "registrationTokenOperation": "Update",
                 },
+                "relayUDP": "Enabled",
                 "ssoClientId": "client",
                 "ssoClientSecretKeyVaultPath": "https://keyvault/secret",
                 "ssoSecretType": "SharedKey",
@@ -67,6 +72,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2024-04-03/examples/HostPool_Create.json
+# x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/preview/2024-11-01-preview/examples/HostPool_Create.json
 if __name__ == "__main__":
     main()
