@@ -21,7 +21,7 @@ class TestSqlManagementServerUsagesOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_by_server(self, resource_group):
+    async def test_server_usages_list_by_server(self, resource_group):
         response = self.client.server_usages.list_by_server(
             resource_group_name=resource_group.name,
             server_name="str",
