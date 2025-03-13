@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.devhub import DevHubMgmtClient
 
 """
@@ -26,7 +27,7 @@ from azure.mgmt.devhub import DevHubMgmtClient
 def main():
     client = DevHubMgmtClient(
         credential=DefaultAzureCredential(),
-        subscription_id="subscriptionId1",
+        subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
     response = client.workflow.list()
@@ -34,6 +35,6 @@ def main():
         print(item)
 
 
-# x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2022-10-11-preview/examples/Workflow_List.json
+# x-ms-original-file: specification/developerhub/resource-manager/Microsoft.DevHub/preview/2025-03-01-preview/examples/Workflow_List.json
 if __name__ == "__main__":
     main()
