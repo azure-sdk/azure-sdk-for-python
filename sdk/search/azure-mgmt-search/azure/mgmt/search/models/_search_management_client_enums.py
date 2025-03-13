@@ -32,6 +32,26 @@ class AdminKeyKind(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The secondary API key for the search service."""
 
 
+class ComputeType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Configure this property to support the search service using either the Default Compute or Azure
+    Confidential Compute.
+    """
+
+    DEFAULT = "default"
+    """Create the service with the Default Compute."""
+    CONFIDENTIAL = "confidential"
+    """Create the service with Azure Confidential Compute."""
+
+
+class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The type of identity that created the resource."""
+
+    USER = "User"
+    APPLICATION = "Application"
+    MANAGED_IDENTITY = "ManagedIdentity"
+    KEY = "Key"
+
+
 class HostingMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Applicable only for the standard3 SKU. You can set this property to enable up to 3 high density
     partitions that allow up to 1000 indexes, which is much higher than the maximum indexes allowed
@@ -46,25 +66,15 @@ class HostingMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
 
 class IdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes
-    both an identity created by the system and a set of user assigned identities. The type 'None'
-    will remove all identities from the service.
-    """
+    """The identity type."""
 
     NONE = "None"
-    """Indicates that any identity associated with the search service needs to be removed."""
     SYSTEM_ASSIGNED = "SystemAssigned"
-    """Indicates that system-assigned identity for the search service will be enabled."""
-    USER_ASSIGNED = "UserAssigned"
-    """Indicates that one or more user assigned identities will be assigned to the search service."""
-    SYSTEM_ASSIGNED_USER_ASSIGNED = "SystemAssigned, UserAssigned"
-    """Indicates that system-assigned identity for the search service will be enabled along with the
-    assignment of one or more user assigned identities."""
 
 
 class PrivateLinkServiceConnectionProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The provisioning state of the private link service connection. Valid values are Updating,
-    Deleting, Failed, Succeeded, Incomplete, or Canceled.
+    Deleting, Failed, Succeeded, or Incomplete.
     """
 
     UPDATING = "Updating"
@@ -80,7 +90,7 @@ class PrivateLinkServiceConnectionProvisioningState(str, Enum, metaclass=CaseIns
     """Provisioning request for the private link service connection resource has been accepted but the
     process of creation has not commenced yet."""
     CANCELED = "Canceled"
-    """Provisioning request for the private link service connection resource has been canceled."""
+    """Provisioning request for the private link service connection resource has been canceled"""
 
 
 class PrivateLinkServiceConnectionStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -101,18 +111,18 @@ class PrivateLinkServiceConnectionStatus(str, Enum, metaclass=CaseInsensitiveEnu
 class ProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The state of the last provisioning operation performed on the search service. Provisioning is
     an intermediate state that occurs while service capacity is being established. After capacity
-    is set up, provisioningState changes to either 'Succeeded' or 'Failed'. Client applications can
+    is set up, provisioningState changes to either 'succeeded' or 'failed'. Client applications can
     poll provisioning status (the recommended polling interval is from 30 seconds to one minute) by
     using the Get Search Service operation to see when an operation is completed. If you are using
-    the free service, this value tends to come back as 'Succeeded' directly in the call to Create
+    the free service, this value tends to come back as 'succeeded' directly in the call to Create
     search service. This is because the free service uses capacity that is already set up.
     """
 
-    SUCCEEDED = "Succeeded"
+    SUCCEEDED = "succeeded"
     """The last provisioning operation has completed successfully."""
-    PROVISIONING = "Provisioning"
+    PROVISIONING = "provisioning"
     """The search service is being provisioned or scaled up or down."""
-    FAILED = "Failed"
+    FAILED = "failed"
     """The last provisioning operation has failed."""
 
 
@@ -123,76 +133,51 @@ class PublicNetworkAccess(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """
 
     ENABLED = "enabled"
-    """The search service is accessible from traffic originating from the public internet."""
     DISABLED = "disabled"
-    """The search service is not accessible from traffic originating from the public internet. Access
-    is only permitted over approved private endpoint connections."""
-
-
-class SearchBypass(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Possible origins of inbound traffic that can bypass the rules defined in the 'ipRules' section."""
-
-    NONE = "None"
-    """Indicates that no origin can bypass the rules defined in the 'ipRules' section. This is the
-    default."""
-    AZURE_PORTAL = "AzurePortal"
-    """Indicates that requests originating from the Azure portal can bypass the rules defined in the
-    'ipRules' section."""
-    AZURE_SERVICES = "AzureServices"
-    """Indicates that requests originating from Azure trusted services can bypass the rules defined in
-    the 'ipRules' section."""
-
-
-class SearchDisabledDataExfiltrationOption(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """A specific data exfiltration scenario that is disabled for the service."""
-
-    ALL = "All"
-    """Indicates that all data exfiltration scenarios are disabled."""
 
 
 class SearchEncryptionComplianceStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Returns the status of search service compliance with respect to non-CMK-encrypted objects. If a
-    service has more than one unencrypted object, and enforcement is enabled, the service is marked
-    as noncompliant.
+    """Describes whether the search service is compliant or not with respect to having
+    non-customer-encrypted resources. If a service has more than one non-customer-encrypted
+    resource and 'Enforcement' is 'enabled' then the service will be marked as 'nonCompliant'.
     """
 
     COMPLIANT = "Compliant"
-    """Indicates that the search service is compliant, either because the number of non-CMK-encrypted
-    objects is zero or enforcement is disabled."""
+    """Indicates that the search service is compliant, either because number of non-customer-encrypted
+    resources is zero or enforcement is disabled."""
     NON_COMPLIANT = "NonCompliant"
-    """Indicates that the search service has more than one non-CMK-encrypted objects."""
+    """Indicates that the search service has more than one non-customer-encrypted resources."""
 
 
 class SearchEncryptionWithCmk(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Describes how a search service should enforce compliance if it finds objects that aren't
-    encrypted with the customer-managed key.
+    """Describes how a search service should enforce having one or more non-customer-encrypted
+    resources.
     """
 
     DISABLED = "Disabled"
-    """No enforcement of customer-managed key encryption will be made. Only the built-in
-    service-managed encryption is used."""
+    """No enforcement will be made and the search service can have non-customer-encrypted resources."""
     ENABLED = "Enabled"
-    """Search service will be marked as non-compliant if one or more objects aren't encrypted with a
-    customer-managed key."""
+    """Search service will be marked as non-compliant if there are one or more non-customer-encrypted
+    resources."""
     UNSPECIFIED = "Unspecified"
     """Enforcement policy is not explicitly specified, with the behavior being the same as if it were
     set to 'Disabled'."""
 
 
 class SearchSemanticSearch(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Sets options that control the availability of semantic search. This configuration is only
-    possible for certain Azure AI Search SKUs in certain locations.
+    """Sets options that control the availability of semantic ranking. This configuration is only
+    possible for certain search SKUs in certain locations.
     """
 
     DISABLED = "disabled"
-    """Indicates that semantic reranker is disabled for the search service. This is the default."""
+    """Indicates that semantic ranking is disabled for the search service."""
     FREE = "free"
-    """Enables semantic reranker on a search service and indicates that it is to be used within the
-    limits of the free plan. The free plan would cap the volume of semantic ranking requests and is
-    offered at no extra charge. This is the default for newly provisioned search services."""
+    """Enables semantic ranking on a search service and indicates that it is to be used within the
+    limits of the free tier. This would cap the volume of semantic ranking requests and is offered
+    at no extra charge. This is the default for newly provisioned search services."""
     STANDARD = "standard"
-    """Enables semantic reranker on a search service as a billable feature, with higher throughput and
-    volume of semantically reranked queries."""
+    """Enables semantic ranking on a search service as a billable feature, with higher throughput and
+    volume of semantic ranking requests."""
 
 
 class SearchServiceStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -202,11 +187,10 @@ class SearchServiceStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     'degraded': The search service is degraded. This can occur when the underlying search units are
     not healthy. The search service is most likely operational, but performance might be slow and
     some requests might be dropped. 'disabled': The search service is disabled. In this state, the
-    service will reject all API requests. 'error': The search service is in an error state.
-    'stopped': The search service is in a subscription that's disabled. If your service is in the
-    degraded, disabled, or error states, it means the Azure AI Search team is actively
-    investigating the underlying issue. Dedicated services in these states are still chargeable
-    based on the number of search units provisioned.
+    service will reject all API requests. 'error': The search service is in an error state. If your
+    service is in the degraded, disabled, or error states, Microsoft is actively investigating the
+    underlying issue. Dedicated services in these states are still chargeable based on the number
+    of search units provisioned.
     """
 
     RUNNING = "running"
@@ -222,8 +206,6 @@ class SearchServiceStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     ERROR = "error"
     """The search service is in error state, indicating either a failure to provision or to be
     deleted."""
-    STOPPED = "stopped"
-    """The search service is in a subscription that's disabled."""
 
 
 class SharedPrivateLinkResourceAsyncOperationResult(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -240,17 +222,10 @@ class SharedPrivateLinkResourceProvisioningState(str, Enum, metaclass=CaseInsens
     """
 
     UPDATING = "Updating"
-    """The shared private link resource is in the process of being created along with other resources
-    for it to be fully functional."""
     DELETING = "Deleting"
-    """The shared private link resource is in the process of being deleted."""
     FAILED = "Failed"
-    """The shared private link resource has failed to be provisioned or deleted."""
     SUCCEEDED = "Succeeded"
-    """The shared private link resource has finished provisioning and is ready for approval."""
     INCOMPLETE = "Incomplete"
-    """Provisioning request for the shared private link resource has been accepted but the process of
-    creation has not commenced yet."""
 
 
 class SharedPrivateLinkResourceStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -259,13 +234,9 @@ class SharedPrivateLinkResourceStatus(str, Enum, metaclass=CaseInsensitiveEnumMe
     """
 
     PENDING = "Pending"
-    """The shared private link resource has been created and is pending approval."""
     APPROVED = "Approved"
-    """The shared private link resource is approved and is ready for use."""
     REJECTED = "Rejected"
-    """The shared private link resource has been rejected and cannot be used."""
     DISCONNECTED = "Disconnected"
-    """The shared private link resource has been removed from the service."""
 
 
 class SkuName(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -302,6 +273,6 @@ class UnavailableNameReason(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """
 
     INVALID = "Invalid"
-    """The search service name doesn't match naming requirements."""
+    """The search service name does not match naming requirements."""
     ALREADY_EXISTS = "AlreadyExists"
     """The search service name is already assigned to a different search service."""

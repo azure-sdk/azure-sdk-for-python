@@ -6,8 +6,6 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from typing import Any, IO, Union
-
 from azure.identity import DefaultAzureCredential
 
 from azure.mgmt.search import SearchManagementClient
@@ -36,14 +34,9 @@ def main():
         resource_group_name="rg1",
         search_service_name="mysearchservice",
         service={
-            "identity": {
-                "type": "SystemAssigned, UserAssigned",
-                "userAssignedIdentities": {
-                    "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/user-mi": {}
-                },
-            },
+            "identity": {"type": "SystemAssigned"},
             "location": "westus",
-            "properties": {"hostingMode": "default", "partitionCount": 1, "replicaCount": 3},
+            "properties": {"computeType": "default", "hostingMode": "default", "partitionCount": 1, "replicaCount": 3},
             "sku": {"name": "standard"},
             "tags": {"app-name": "My e-commerce app"},
         },
@@ -51,6 +44,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2024-06-01-preview/examples/SearchCreateOrUpdateServiceWithIdentity.json
+# x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2025-05-01/examples/SearchCreateOrUpdateServiceWithIdentity.json
 if __name__ == "__main__":
     main()
