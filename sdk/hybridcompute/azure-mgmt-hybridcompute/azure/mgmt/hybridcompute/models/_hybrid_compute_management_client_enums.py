@@ -127,6 +127,13 @@ class HotpatchEnablementStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     ENABLED = "Enabled"
 
 
+class IdentityKeyStore(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Specifies the identity key store a machine is using."""
+
+    TPM = "TPM"
+    DEFAULT = "Default"
+
+
 class InstanceViewTypes(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """InstanceViewTypes."""
 
