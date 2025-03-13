@@ -20,7 +20,7 @@ class TestSqlManagementJobExecutionsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_agent(self, resource_group):
+    def test_job_executions_list_by_agent(self, resource_group):
         response = self.client.job_executions.list_by_agent(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -33,7 +33,7 @@ class TestSqlManagementJobExecutionsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_cancel(self, resource_group):
+    def test_job_executions_cancel(self, resource_group):
         response = self.client.job_executions.cancel(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -48,7 +48,7 @@ class TestSqlManagementJobExecutionsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_create(self, resource_group):
+    def test_job_executions_begin_create(self, resource_group):
         response = self.client.job_executions.begin_create(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -62,7 +62,7 @@ class TestSqlManagementJobExecutionsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_job(self, resource_group):
+    def test_job_executions_list_by_job(self, resource_group):
         response = self.client.job_executions.list_by_job(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -76,7 +76,7 @@ class TestSqlManagementJobExecutionsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_job_executions_get(self, resource_group):
         response = self.client.job_executions.get(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -91,7 +91,7 @@ class TestSqlManagementJobExecutionsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_create_or_update(self, resource_group):
+    def test_job_executions_begin_create_or_update(self, resource_group):
         response = self.client.job_executions.begin_create_or_update(
             resource_group_name=resource_group.name,
             server_name="str",

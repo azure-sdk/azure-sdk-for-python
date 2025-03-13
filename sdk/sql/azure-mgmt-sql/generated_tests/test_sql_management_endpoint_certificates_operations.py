@@ -20,7 +20,7 @@ class TestSqlManagementEndpointCertificatesOperations(AzureMgmtRecordedTestCase)
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_instance(self, resource_group):
+    def test_endpoint_certificates_list_by_instance(self, resource_group):
         response = self.client.endpoint_certificates.list_by_instance(
             resource_group_name=resource_group.name,
             managed_instance_name="str",
@@ -32,7 +32,7 @@ class TestSqlManagementEndpointCertificatesOperations(AzureMgmtRecordedTestCase)
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_endpoint_certificates_get(self, resource_group):
         response = self.client.endpoint_certificates.get(
             resource_group_name=resource_group.name,
             managed_instance_name="str",

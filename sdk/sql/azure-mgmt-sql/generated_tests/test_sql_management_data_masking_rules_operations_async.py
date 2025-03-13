@@ -21,7 +21,7 @@ class TestSqlManagementDataMaskingRulesOperationsAsync(AzureMgmtRecordedTestCase
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_create_or_update(self, resource_group):
+    async def test_data_masking_rules_create_or_update(self, resource_group):
         response = await self.client.data_masking_rules.create_or_update(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -54,7 +54,7 @@ class TestSqlManagementDataMaskingRulesOperationsAsync(AzureMgmtRecordedTestCase
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_by_database(self, resource_group):
+    async def test_data_masking_rules_list_by_database(self, resource_group):
         response = self.client.data_masking_rules.list_by_database(
             resource_group_name=resource_group.name,
             server_name="str",

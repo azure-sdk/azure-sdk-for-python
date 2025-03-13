@@ -21,7 +21,7 @@ class TestSqlManagementRestorePointsOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_by_database(self, resource_group):
+    async def test_restore_points_list_by_database(self, resource_group):
         response = self.client.restore_points.list_by_database(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -34,7 +34,7 @@ class TestSqlManagementRestorePointsOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_create(self, resource_group):
+    async def test_restore_points_begin_create(self, resource_group):
         response = await (
             await self.client.restore_points.begin_create(
                 resource_group_name=resource_group.name,
@@ -50,7 +50,7 @@ class TestSqlManagementRestorePointsOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get(self, resource_group):
+    async def test_restore_points_get(self, resource_group):
         response = await self.client.restore_points.get(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -64,7 +64,7 @@ class TestSqlManagementRestorePointsOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_delete(self, resource_group):
+    async def test_restore_points_delete(self, resource_group):
         response = await self.client.restore_points.delete(
             resource_group_name=resource_group.name,
             server_name="str",
