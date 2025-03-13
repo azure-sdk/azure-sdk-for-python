@@ -1,4 +1,3 @@
-# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8,7 +7,7 @@
 # --------------------------------------------------------------------------
 from io import IOBase
 import sys
-from typing import Any, AsyncIterable, AsyncIterator, Callable, Dict, IO, Optional, Type, TypeVar, Union, cast, overload
+from typing import Any, AsyncIterable, AsyncIterator, Callable, Dict, IO, Optional, TypeVar, Union, cast, overload
 import urllib.parse
 
 from azure.core.async_paging import AsyncItemPaged, AsyncList
@@ -43,7 +42,7 @@ from ...operations._volumes_operations import (
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -76,7 +75,7 @@ class VolumesOperations:
         parameters: Union[_models.Volume, IO[bytes]],
         **kwargs: Any
     ) -> AsyncIterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -294,7 +293,7 @@ class VolumesOperations:
         parameters: Union[_models.VolumeUpdate, IO[bytes]],
         **kwargs: Any
     ) -> AsyncIterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -515,9 +514,10 @@ class VolumesOperations:
         volume_name: str,
         x_ms_delete_snapshots: Optional[Union[str, _models.XMsDeleteSnapshots]] = None,
         x_ms_force_delete: Optional[Union[str, _models.XMsForceDelete]] = None,
+        delete_type: Optional[Union[str, _models.DeleteType]] = None,
         **kwargs: Any
     ) -> AsyncIterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -539,6 +539,7 @@ class VolumesOperations:
             subscription_id=self._config.subscription_id,
             x_ms_delete_snapshots=x_ms_delete_snapshots,
             x_ms_force_delete=x_ms_force_delete,
+            delete_type=delete_type,
             api_version=api_version,
             headers=_headers,
             params=_params,
@@ -582,6 +583,7 @@ class VolumesOperations:
         volume_name: str,
         x_ms_delete_snapshots: Optional[Union[str, _models.XMsDeleteSnapshots]] = None,
         x_ms_force_delete: Optional[Union[str, _models.XMsForceDelete]] = None,
+        delete_type: Optional[Union[str, _models.DeleteType]] = None,
         **kwargs: Any
     ) -> AsyncLROPoller[None]:
         """Delete an Volume.
@@ -603,6 +605,10 @@ class VolumesOperations:
          value are only true or false. Default value is false. Known values are: "true" and "false".
          Default value is None.
         :type x_ms_force_delete: str or ~azure.mgmt.elasticsan.models.XMsForceDelete
+        :param delete_type: Optional. Specifies that the delete operation should be a permanent delete
+         for the soft deleted volume. The value of deleteType can only be 'permanent'. "permanent"
+         Default value is None.
+        :type delete_type: str or ~azure.mgmt.elasticsan.models.DeleteType
         :return: An instance of AsyncLROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -623,6 +629,7 @@ class VolumesOperations:
                 volume_name=volume_name,
                 x_ms_delete_snapshots=x_ms_delete_snapshots,
                 x_ms_force_delete=x_ms_force_delete,
+                delete_type=delete_type,
                 api_version=api_version,
                 cls=lambda x, y, z: x,
                 headers=_headers,
@@ -672,7 +679,7 @@ class VolumesOperations:
         :rtype: ~azure.mgmt.elasticsan.models.Volume
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -719,7 +726,12 @@ class VolumesOperations:
 
     @distributed_trace
     def list_by_volume_group(
-        self, resource_group_name: str, elastic_san_name: str, volume_group_name: str, **kwargs: Any
+        self,
+        resource_group_name: str,
+        elastic_san_name: str,
+        volume_group_name: str,
+        x_ms_access_soft_deleted_resources: Optional[Union[str, _models.XMsAccessSoftDeletedResources]] = None,
+        **kwargs: Any
     ) -> AsyncIterable["_models.Volume"]:
         """List Volumes in a VolumeGroup.
 
@@ -730,6 +742,11 @@ class VolumesOperations:
         :type elastic_san_name: str
         :param volume_group_name: The name of the VolumeGroup. Required.
         :type volume_group_name: str
+        :param x_ms_access_soft_deleted_resources: Optional, returns only soft deleted volumes if set
+         to true. If set to false or if not specified, returns only active volumes. Known values are:
+         "true" and "false". Default value is None.
+        :type x_ms_access_soft_deleted_resources: str or
+         ~azure.mgmt.elasticsan.models.XMsAccessSoftDeletedResources
         :return: An iterator like instance of either Volume or the result of cls(response)
         :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.elasticsan.models.Volume]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -740,7 +757,7 @@ class VolumesOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.VolumeList] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -756,6 +773,7 @@ class VolumesOperations:
                     elastic_san_name=elastic_san_name,
                     volume_group_name=volume_group_name,
                     subscription_id=self._config.subscription_id,
+                    x_ms_access_soft_deleted_resources=x_ms_access_soft_deleted_resources,
                     api_version=api_version,
                     headers=_headers,
                     params=_params,
