@@ -271,6 +271,7 @@ class ParameterType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     ARRAY = "Array"
     OBJECT = "Object"
     SECURE_OBJECT = "SecureObject"
+    INT_ENUM = "Int"
 
 
 class PartnerType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
