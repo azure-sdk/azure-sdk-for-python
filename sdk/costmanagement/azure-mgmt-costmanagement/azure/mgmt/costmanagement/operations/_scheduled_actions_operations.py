@@ -7,6 +7,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
+import sys
 from typing import Any, Callable, Dict, IO, Iterable, Optional, TypeVar, Union, overload
 import urllib.parse
 
@@ -20,16 +21,18 @@ from azure.core.exceptions import (
 )
 from azure.core.paging import ItemPaged
 from azure.core.pipeline import PipelineResponse
-from azure.core.pipeline.transport import HttpResponse
-from azure.core.rest import HttpRequest
+from azure.core.rest import HttpRequest, HttpResponse
 from azure.core.tracing.decorator import distributed_trace
 from azure.core.utils import case_insensitive_dict
 from azure.mgmt.core.exceptions import ARMErrorFormat
 
 from .. import models as _models
 from .._serialization import Serializer
-from .._vendor import _convert_request, _format_url_section
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
 
@@ -41,7 +44,7 @@ def build_list_request(*, filter: Optional[str] = None, **kwargs: Any) -> HttpRe
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-10-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-03-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -62,7 +65,7 @@ def build_list_by_scope_request(scope: str, *, filter: Optional[str] = None, **k
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-10-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-03-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -71,7 +74,7 @@ def build_list_by_scope_request(scope: str, *, filter: Optional[str] = None, **k
         "scope": _SERIALIZER.url("scope", scope, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -88,7 +91,7 @@ def build_create_or_update_request(name: str, *, if_match: Optional[str] = None,
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-10-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-03-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -98,7 +101,7 @@ def build_create_or_update_request(name: str, *, if_match: Optional[str] = None,
         "name": _SERIALIZER.url("name", name, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -117,7 +120,7 @@ def build_get_request(name: str, **kwargs: Any) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-10-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-03-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -126,7 +129,7 @@ def build_get_request(name: str, **kwargs: Any) -> HttpRequest:
         "name": _SERIALIZER.url("name", name, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -141,7 +144,7 @@ def build_delete_request(name: str, **kwargs: Any) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-10-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-03-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -150,7 +153,7 @@ def build_delete_request(name: str, **kwargs: Any) -> HttpRequest:
         "name": _SERIALIZER.url("name", name, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -167,7 +170,7 @@ def build_create_or_update_by_scope_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-10-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-03-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -178,7 +181,7 @@ def build_create_or_update_by_scope_request(
         "name": _SERIALIZER.url("name", name, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -197,7 +200,7 @@ def build_get_by_scope_request(scope: str, name: str, **kwargs: Any) -> HttpRequ
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-10-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-03-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -207,7 +210,7 @@ def build_get_by_scope_request(scope: str, name: str, **kwargs: Any) -> HttpRequ
         "name": _SERIALIZER.url("name", name, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -222,7 +225,7 @@ def build_delete_by_scope_request(scope: str, name: str, **kwargs: Any) -> HttpR
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-10-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-03-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -232,7 +235,7 @@ def build_delete_by_scope_request(scope: str, name: str, **kwargs: Any) -> HttpR
         "name": _SERIALIZER.url("name", name, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -247,7 +250,7 @@ def build_run_request(name: str, **kwargs: Any) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-10-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-03-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -256,7 +259,7 @@ def build_run_request(name: str, **kwargs: Any) -> HttpRequest:
         "name": _SERIALIZER.url("name", name, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -271,7 +274,7 @@ def build_run_by_scope_request(scope: str, name: str, **kwargs: Any) -> HttpRequ
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-10-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-03-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -281,7 +284,7 @@ def build_run_by_scope_request(scope: str, name: str, **kwargs: Any) -> HttpRequ
         "name": _SERIALIZER.url("name", name, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -296,7 +299,7 @@ def build_check_name_availability_request(**kwargs: Any) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-10-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-03-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -314,11 +317,13 @@ def build_check_name_availability_request(**kwargs: Any) -> HttpRequest:
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_check_name_availability_by_scope_request(scope: str, **kwargs: Any) -> HttpRequest:
+def build_check_name_availability_by_scope_request(  # pylint: disable=name-too-long
+    scope: str, **kwargs: Any
+) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2022-10-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-03-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -328,7 +333,7 @@ def build_check_name_availability_by_scope_request(scope: str, **kwargs: Any) ->
         "scope": _SERIALIZER.url("scope", scope, "str"),
     }
 
-    _url: str = _format_url_section(_url, **path_format_arguments)  # type: ignore
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
@@ -370,7 +375,6 @@ class ScheduledActionsOperations:
         :param filter: May be used to filter scheduled actions by properties/viewId. Supported operator
          is 'eq'. Default value is None.
         :type filter: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either ScheduledAction or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.costmanagement.models.ScheduledAction]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -381,7 +385,7 @@ class ScheduledActionsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.ScheduledActionListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -392,15 +396,13 @@ class ScheduledActionsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_request(
+                _request = build_list_request(
                     filter=filter,
                     api_version=api_version,
-                    template_url=self.list.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -412,13 +414,12 @@ class ScheduledActionsOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("ScheduledActionListResult", pipeline_response)
@@ -428,11 +429,11 @@ class ScheduledActionsOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -446,8 +447,6 @@ class ScheduledActionsOperations:
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list.metadata = {"url": "/providers/Microsoft.CostManagement/scheduledActions"}
 
     @distributed_trace
     def list_by_scope(
@@ -479,7 +478,6 @@ class ScheduledActionsOperations:
         :param filter: May be used to filter scheduled actions by properties/viewId. Supported operator
          is 'eq'. Default value is None.
         :type filter: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either ScheduledAction or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.costmanagement.models.ScheduledAction]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -490,7 +488,7 @@ class ScheduledActionsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.ScheduledActionListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -501,16 +499,14 @@ class ScheduledActionsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_by_scope_request(
+                _request = build_list_by_scope_request(
                     scope=scope,
                     filter=filter,
                     api_version=api_version,
-                    template_url=self.list_by_scope.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -522,13 +518,12 @@ class ScheduledActionsOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("ScheduledActionListResult", pipeline_response)
@@ -538,11 +533,11 @@ class ScheduledActionsOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -557,8 +552,6 @@ class ScheduledActionsOperations:
 
         return ItemPaged(get_next, extract_data)
 
-    list_by_scope.metadata = {"url": "/{scope}/providers/Microsoft.CostManagement/scheduledActions"}
-
     @overload
     def create_or_update(
         self,
@@ -582,7 +575,6 @@ class ScheduledActionsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ScheduledAction or the result of cls(response)
         :rtype: ~azure.mgmt.costmanagement.models.ScheduledAction
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -592,7 +584,7 @@ class ScheduledActionsOperations:
     def create_or_update(
         self,
         name: str,
-        scheduled_action: IO,
+        scheduled_action: IO[bytes],
         if_match: Optional[str] = None,
         *,
         content_type: str = "application/json",
@@ -603,7 +595,7 @@ class ScheduledActionsOperations:
         :param name: Scheduled action name. Required.
         :type name: str
         :param scheduled_action: Scheduled action to be created or updated. Required.
-        :type scheduled_action: IO
+        :type scheduled_action: IO[bytes]
         :param if_match: ETag of the Entity. Not required when creating an entity. Optional when
          updating an entity and can be specified to achieve optimistic concurrency. Default value is
          None.
@@ -611,7 +603,6 @@ class ScheduledActionsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ScheduledAction or the result of cls(response)
         :rtype: ~azure.mgmt.costmanagement.models.ScheduledAction
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -621,7 +612,7 @@ class ScheduledActionsOperations:
     def create_or_update(
         self,
         name: str,
-        scheduled_action: Union[_models.ScheduledAction, IO],
+        scheduled_action: Union[_models.ScheduledAction, IO[bytes]],
         if_match: Optional[str] = None,
         **kwargs: Any
     ) -> _models.ScheduledAction:
@@ -630,21 +621,17 @@ class ScheduledActionsOperations:
         :param name: Scheduled action name. Required.
         :type name: str
         :param scheduled_action: Scheduled action to be created or updated. Is either a ScheduledAction
-         type or a IO type. Required.
-        :type scheduled_action: ~azure.mgmt.costmanagement.models.ScheduledAction or IO
+         type or a IO[bytes] type. Required.
+        :type scheduled_action: ~azure.mgmt.costmanagement.models.ScheduledAction or IO[bytes]
         :param if_match: ETag of the Entity. Not required when creating an entity. Optional when
          updating an entity and can be specified to achieve optimistic concurrency. Default value is
          None.
         :type if_match: str
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ScheduledAction or the result of cls(response)
         :rtype: ~azure.mgmt.costmanagement.models.ScheduledAction
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -667,23 +654,21 @@ class ScheduledActionsOperations:
         else:
             _json = self._serialize.body(scheduled_action, "ScheduledAction")
 
-        request = build_create_or_update_request(
+        _request = build_create_or_update_request(
             name=name,
             if_match=if_match,
             api_version=api_version,
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.create_or_update.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -693,18 +678,12 @@ class ScheduledActionsOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponseWithNestedDetails, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        if response.status_code == 200:
-            deserialized = self._deserialize("ScheduledAction", pipeline_response)
-
-        if response.status_code == 201:
-            deserialized = self._deserialize("ScheduledAction", pipeline_response)
+        deserialized = self._deserialize("ScheduledAction", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
 
         return deserialized  # type: ignore
-
-    create_or_update.metadata = {"url": "/providers/Microsoft.CostManagement/scheduledActions/{name}"}
 
     @distributed_trace
     def get(self, name: str, **kwargs: Any) -> _models.ScheduledAction:
@@ -715,12 +694,11 @@ class ScheduledActionsOperations:
 
         :param name: Scheduled action name. Required.
         :type name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ScheduledAction or the result of cls(response)
         :rtype: ~azure.mgmt.costmanagement.models.ScheduledAction
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -734,19 +712,17 @@ class ScheduledActionsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.ScheduledAction] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             name=name,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -756,14 +732,12 @@ class ScheduledActionsOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponseWithNestedDetails, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("ScheduledAction", pipeline_response)
+        deserialized = self._deserialize("ScheduledAction", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {"url": "/providers/Microsoft.CostManagement/scheduledActions/{name}"}
+        return deserialized  # type: ignore
 
     @distributed_trace
     def delete(self, name: str, **kwargs: Any) -> None:  # pylint: disable=inconsistent-return-statements
@@ -774,12 +748,11 @@ class ScheduledActionsOperations:
 
         :param name: Scheduled action name. Required.
         :type name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -793,19 +766,17 @@ class ScheduledActionsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_delete_request(
+        _request = build_delete_request(
             name=name,
             api_version=api_version,
-            template_url=self.delete.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -816,9 +787,7 @@ class ScheduledActionsOperations:
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    delete.metadata = {"url": "/providers/Microsoft.CostManagement/scheduledActions/{name}"}
+            return cls(pipeline_response, None, {})  # type: ignore
 
     @overload
     def create_or_update_by_scope(
@@ -862,7 +831,6 @@ class ScheduledActionsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ScheduledAction or the result of cls(response)
         :rtype: ~azure.mgmt.costmanagement.models.ScheduledAction
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -873,7 +841,7 @@ class ScheduledActionsOperations:
         self,
         scope: str,
         name: str,
-        scheduled_action: IO,
+        scheduled_action: IO[bytes],
         if_match: Optional[str] = None,
         *,
         content_type: str = "application/json",
@@ -902,7 +870,7 @@ class ScheduledActionsOperations:
         :param name: Scheduled action name. Required.
         :type name: str
         :param scheduled_action: Scheduled action to be created or updated. Required.
-        :type scheduled_action: IO
+        :type scheduled_action: IO[bytes]
         :param if_match: ETag of the Entity. Not required when creating an entity. Optional when
          updating an entity and can be specified to achieve optimistic concurrency. Default value is
          None.
@@ -910,7 +878,6 @@ class ScheduledActionsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ScheduledAction or the result of cls(response)
         :rtype: ~azure.mgmt.costmanagement.models.ScheduledAction
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -921,7 +888,7 @@ class ScheduledActionsOperations:
         self,
         scope: str,
         name: str,
-        scheduled_action: Union[_models.ScheduledAction, IO],
+        scheduled_action: Union[_models.ScheduledAction, IO[bytes]],
         if_match: Optional[str] = None,
         **kwargs: Any
     ) -> _models.ScheduledAction:
@@ -948,21 +915,17 @@ class ScheduledActionsOperations:
         :param name: Scheduled action name. Required.
         :type name: str
         :param scheduled_action: Scheduled action to be created or updated. Is either a ScheduledAction
-         type or a IO type. Required.
-        :type scheduled_action: ~azure.mgmt.costmanagement.models.ScheduledAction or IO
+         type or a IO[bytes] type. Required.
+        :type scheduled_action: ~azure.mgmt.costmanagement.models.ScheduledAction or IO[bytes]
         :param if_match: ETag of the Entity. Not required when creating an entity. Optional when
          updating an entity and can be specified to achieve optimistic concurrency. Default value is
          None.
         :type if_match: str
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ScheduledAction or the result of cls(response)
         :rtype: ~azure.mgmt.costmanagement.models.ScheduledAction
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -985,7 +948,7 @@ class ScheduledActionsOperations:
         else:
             _json = self._serialize.body(scheduled_action, "ScheduledAction")
 
-        request = build_create_or_update_by_scope_request(
+        _request = build_create_or_update_by_scope_request(
             scope=scope,
             name=name,
             if_match=if_match,
@@ -993,16 +956,14 @@ class ScheduledActionsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.create_or_update_by_scope.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1012,18 +973,12 @@ class ScheduledActionsOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponseWithNestedDetails, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        if response.status_code == 200:
-            deserialized = self._deserialize("ScheduledAction", pipeline_response)
-
-        if response.status_code == 201:
-            deserialized = self._deserialize("ScheduledAction", pipeline_response)
+        deserialized = self._deserialize("ScheduledAction", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
 
         return deserialized  # type: ignore
-
-    create_or_update_by_scope.metadata = {"url": "/{scope}/providers/Microsoft.CostManagement/scheduledActions/{name}"}
 
     @distributed_trace
     def get_by_scope(self, scope: str, name: str, **kwargs: Any) -> _models.ScheduledAction:
@@ -1052,12 +1007,11 @@ class ScheduledActionsOperations:
         :type scope: str
         :param name: Scheduled action name. Required.
         :type name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ScheduledAction or the result of cls(response)
         :rtype: ~azure.mgmt.costmanagement.models.ScheduledAction
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1071,20 +1025,18 @@ class ScheduledActionsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.ScheduledAction] = kwargs.pop("cls", None)
 
-        request = build_get_by_scope_request(
+        _request = build_get_by_scope_request(
             scope=scope,
             name=name,
             api_version=api_version,
-            template_url=self.get_by_scope.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1094,14 +1046,12 @@ class ScheduledActionsOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponseWithNestedDetails, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("ScheduledAction", pipeline_response)
+        deserialized = self._deserialize("ScheduledAction", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get_by_scope.metadata = {"url": "/{scope}/providers/Microsoft.CostManagement/scheduledActions/{name}"}
+        return deserialized  # type: ignore
 
     @distributed_trace
     def delete_by_scope(  # pylint: disable=inconsistent-return-statements
@@ -1132,12 +1082,11 @@ class ScheduledActionsOperations:
         :type scope: str
         :param name: Scheduled action name. Required.
         :type name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1151,20 +1100,18 @@ class ScheduledActionsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_delete_by_scope_request(
+        _request = build_delete_by_scope_request(
             scope=scope,
             name=name,
             api_version=api_version,
-            template_url=self.delete_by_scope.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1175,9 +1122,7 @@ class ScheduledActionsOperations:
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    delete_by_scope.metadata = {"url": "/{scope}/providers/Microsoft.CostManagement/scheduledActions/{name}"}
+            return cls(pipeline_response, None, {})  # type: ignore
 
     @distributed_trace
     def run(self, name: str, **kwargs: Any) -> None:  # pylint: disable=inconsistent-return-statements
@@ -1185,12 +1130,11 @@ class ScheduledActionsOperations:
 
         :param name: Scheduled action name. Required.
         :type name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1204,19 +1148,17 @@ class ScheduledActionsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_run_request(
+        _request = build_run_request(
             name=name,
             api_version=api_version,
-            template_url=self.run.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1227,9 +1169,7 @@ class ScheduledActionsOperations:
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    run.metadata = {"url": "/providers/Microsoft.CostManagement/scheduledActions/{name}/execute"}
+            return cls(pipeline_response, None, {})  # type: ignore
 
     @distributed_trace
     def run_by_scope(  # pylint: disable=inconsistent-return-statements
@@ -1257,12 +1197,11 @@ class ScheduledActionsOperations:
         :type scope: str
         :param name: Scheduled action name. Required.
         :type name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1276,20 +1215,18 @@ class ScheduledActionsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_run_by_scope_request(
+        _request = build_run_by_scope_request(
             scope=scope,
             name=name,
             api_version=api_version,
-            template_url=self.run_by_scope.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1300,9 +1237,7 @@ class ScheduledActionsOperations:
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    run_by_scope.metadata = {"url": "/{scope}/providers/Microsoft.CostManagement/scheduledActions/{name}/execute"}
+            return cls(pipeline_response, None, {})  # type: ignore
 
     @overload
     def check_name_availability(
@@ -1320,7 +1255,6 @@ class ScheduledActionsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: CheckNameAvailabilityResponse or the result of cls(response)
         :rtype: ~azure.mgmt.costmanagement.models.CheckNameAvailabilityResponse
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1328,16 +1262,15 @@ class ScheduledActionsOperations:
 
     @overload
     def check_name_availability(
-        self, check_name_availability_request: IO, *, content_type: str = "application/json", **kwargs: Any
+        self, check_name_availability_request: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.CheckNameAvailabilityResponse:
         """Checks availability and correctness of the name for a scheduled action.
 
         :param check_name_availability_request: Scheduled action to be created or updated. Required.
-        :type check_name_availability_request: IO
+        :type check_name_availability_request: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: CheckNameAvailabilityResponse or the result of cls(response)
         :rtype: ~azure.mgmt.costmanagement.models.CheckNameAvailabilityResponse
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1345,23 +1278,19 @@ class ScheduledActionsOperations:
 
     @distributed_trace
     def check_name_availability(
-        self, check_name_availability_request: Union[_models.CheckNameAvailabilityRequest, IO], **kwargs: Any
+        self, check_name_availability_request: Union[_models.CheckNameAvailabilityRequest, IO[bytes]], **kwargs: Any
     ) -> _models.CheckNameAvailabilityResponse:
         """Checks availability and correctness of the name for a scheduled action.
 
         :param check_name_availability_request: Scheduled action to be created or updated. Is either a
-         CheckNameAvailabilityRequest type or a IO type. Required.
+         CheckNameAvailabilityRequest type or a IO[bytes] type. Required.
         :type check_name_availability_request:
-         ~azure.mgmt.costmanagement.models.CheckNameAvailabilityRequest or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         ~azure.mgmt.costmanagement.models.CheckNameAvailabilityRequest or IO[bytes]
         :return: CheckNameAvailabilityResponse or the result of cls(response)
         :rtype: ~azure.mgmt.costmanagement.models.CheckNameAvailabilityResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1384,21 +1313,19 @@ class ScheduledActionsOperations:
         else:
             _json = self._serialize.body(check_name_availability_request, "CheckNameAvailabilityRequest")
 
-        request = build_check_name_availability_request(
+        _request = build_check_name_availability_request(
             api_version=api_version,
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.check_name_availability.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1408,14 +1335,12 @@ class ScheduledActionsOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponseWithNestedDetails, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("CheckNameAvailabilityResponse", pipeline_response)
+        deserialized = self._deserialize("CheckNameAvailabilityResponse", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    check_name_availability.metadata = {"url": "/providers/Microsoft.CostManagement/checkNameAvailability"}
+        return deserialized  # type: ignore
 
     @overload
     def check_name_availability_by_scope(
@@ -1452,7 +1377,6 @@ class ScheduledActionsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: CheckNameAvailabilityResponse or the result of cls(response)
         :rtype: ~azure.mgmt.costmanagement.models.CheckNameAvailabilityResponse
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1460,7 +1384,12 @@ class ScheduledActionsOperations:
 
     @overload
     def check_name_availability_by_scope(
-        self, scope: str, check_name_availability_request: IO, *, content_type: str = "application/json", **kwargs: Any
+        self,
+        scope: str,
+        check_name_availability_request: IO[bytes],
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
     ) -> _models.CheckNameAvailabilityResponse:
         """Checks availability and correctness of the name for a scheduled action within the given scope.
 
@@ -1483,11 +1412,10 @@ class ScheduledActionsOperations:
          Required.
         :type scope: str
         :param check_name_availability_request: Scheduled action to be created or updated. Required.
-        :type check_name_availability_request: IO
+        :type check_name_availability_request: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: CheckNameAvailabilityResponse or the result of cls(response)
         :rtype: ~azure.mgmt.costmanagement.models.CheckNameAvailabilityResponse
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1497,7 +1425,7 @@ class ScheduledActionsOperations:
     def check_name_availability_by_scope(
         self,
         scope: str,
-        check_name_availability_request: Union[_models.CheckNameAvailabilityRequest, IO],
+        check_name_availability_request: Union[_models.CheckNameAvailabilityRequest, IO[bytes]],
         **kwargs: Any
     ) -> _models.CheckNameAvailabilityResponse:
         """Checks availability and correctness of the name for a scheduled action within the given scope.
@@ -1521,18 +1449,14 @@ class ScheduledActionsOperations:
          Required.
         :type scope: str
         :param check_name_availability_request: Scheduled action to be created or updated. Is either a
-         CheckNameAvailabilityRequest type or a IO type. Required.
+         CheckNameAvailabilityRequest type or a IO[bytes] type. Required.
         :type check_name_availability_request:
-         ~azure.mgmt.costmanagement.models.CheckNameAvailabilityRequest or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         ~azure.mgmt.costmanagement.models.CheckNameAvailabilityRequest or IO[bytes]
         :return: CheckNameAvailabilityResponse or the result of cls(response)
         :rtype: ~azure.mgmt.costmanagement.models.CheckNameAvailabilityResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1555,22 +1479,20 @@ class ScheduledActionsOperations:
         else:
             _json = self._serialize.body(check_name_availability_request, "CheckNameAvailabilityRequest")
 
-        request = build_check_name_availability_by_scope_request(
+        _request = build_check_name_availability_by_scope_request(
             scope=scope,
             api_version=api_version,
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.check_name_availability_by_scope.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1580,13 +1502,9 @@ class ScheduledActionsOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponseWithNestedDetails, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("CheckNameAvailabilityResponse", pipeline_response)
+        deserialized = self._deserialize("CheckNameAvailabilityResponse", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    check_name_availability_by_scope.metadata = {
-        "url": "/{scope}/providers/Microsoft.CostManagement/checkNameAvailability"
-    }
+        return deserialized  # type: ignore
