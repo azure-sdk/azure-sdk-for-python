@@ -1,4 +1,4 @@
 directory: specification/azurefleet/AzureFleet.Management
-commit: fda3d5e4ae4c69aa72ddfdf5ca1b6d5795a03e71
+commit: 997dd0a25b6a409592a0a121336767a674d934b7
 repo: Azure/azure-rest-api-specs
 additionalDirectories: 
