@@ -1,6 +1,6 @@
 {
-  "commit": "ed3e7186654df4ec286c3d92f03dfa6c14b37279",
+  "commit": "8f6744026f8f69f599f4713dadf1109f04e23a31",
   "repository_url": "https://github.com/Azure/azure-rest-api-specs",
   "typespec_src": "specification/terraform/Microsoft.AzureTerraform.Management",
-  "@azure-tools/typespec-python": "0.36.1"
+  "@azure-tools/typespec-python": "0.39.1"
 }
