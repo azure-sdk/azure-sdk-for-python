@@ -1,0 +1,6 @@
+{
+  "commit": "394dc38616b1c5d3717154016b0d80c794f37227",
+  "repository_url": "https://github.com/test-repo-billy/azure-rest-api-specs",
+  "typespec_src": "specification/verifiedid/Microsoft.VerifiedId.Management",
+  "@azure-tools/typespec-python": "0.39.1"
+}
