@@ -1,6 +1,6 @@
 {
-  "commit": "9ce76c4f113368361dac4de5d0a71eb058602756",
+  "commit": "8f6744026f8f69f599f4713dadf1109f04e23a31",
   "repository_url": "https://github.com/Azure/azure-rest-api-specs",
   "typespec_src": "specification/fabric/Microsoft.Fabric.Management",
-  "@azure-tools/typespec-python": "0.36.0"
+  "@azure-tools/typespec-python": "0.39.1"
 }
