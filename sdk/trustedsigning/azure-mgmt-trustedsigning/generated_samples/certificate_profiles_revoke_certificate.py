@@ -44,6 +44,6 @@ def main():
     )
 
 
-# x-ms-original-file: 2024-02-05-preview/CertificateProfiles_RevokeCertificate.json
+# x-ms-original-file: 2025-03-30/CertificateProfiles_RevokeCertificate.json
 if __name__ == "__main__":
     main()
