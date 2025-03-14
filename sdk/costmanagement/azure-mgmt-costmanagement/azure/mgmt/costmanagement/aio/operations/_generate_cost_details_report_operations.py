@@ -1,4 +1,3 @@
-# pylint: disable=too-many-lines
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,7 +6,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-from typing import Any, Callable, Dict, IO, Optional, TypeVar, Union, cast, overload
+import sys
+from typing import Any, AsyncIterator, Callable, Dict, IO, Optional, TypeVar, Union, cast, overload
 
 from azure.core.exceptions import (
     ClientAuthenticationError,
@@ -15,24 +15,28 @@ from azure.core.exceptions import (
     ResourceExistsError,
     ResourceNotFoundError,
     ResourceNotModifiedError,
+    StreamClosedError,
+    StreamConsumedError,
     map_error,
 )
 from azure.core.pipeline import PipelineResponse
-from azure.core.pipeline.transport import AsyncHttpResponse
 from azure.core.polling import AsyncLROPoller, AsyncNoPolling, AsyncPollingMethod
-from azure.core.rest import HttpRequest
+from azure.core.rest import AsyncHttpResponse, HttpRequest
 from azure.core.tracing.decorator_async import distributed_trace_async
 from azure.core.utils import case_insensitive_dict
 from azure.mgmt.core.exceptions import ARMErrorFormat
 from azure.mgmt.core.polling.async_arm_polling import AsyncARMPolling
 
 from ... import models as _models
-from ..._vendor import _convert_request
 from ...operations._generate_cost_details_report_operations import (
     build_create_operation_request,
     build_get_operation_results_request,
 )
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -57,9 +61,12 @@ class GenerateCostDetailsReportOperations:
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
     async def _create_operation_initial(
-        self, scope: str, parameters: Union[_models.GenerateCostDetailsReportRequestDefinition, IO], **kwargs: Any
-    ) -> Optional[_models.CostDetailsOperationResults]:
-        error_map = {
+        self,
+        scope: str,
+        parameters: Union[_models.GenerateCostDetailsReportRequestDefinition, IO[bytes]],
+        **kwargs: Any
+    ) -> AsyncIterator[bytes]:
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -72,7 +79,7 @@ class GenerateCostDetailsReportOperations:
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[Optional[_models.CostDetailsOperationResults]] = kwargs.pop("cls", None)
+        cls: ClsType[AsyncIterator[bytes]] = kwargs.pop("cls", None)
 
         content_type = content_type or "application/json"
         _json = None
@@ -82,50 +89,47 @@ class GenerateCostDetailsReportOperations:
         else:
             _json = self._serialize.body(parameters, "GenerateCostDetailsReportRequestDefinition")
 
-        request = build_create_operation_request(
+        _request = build_create_operation_request(
             scope=scope,
             api_version=api_version,
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._create_operation_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
-        _stream = False
+        _decompress = kwargs.pop("decompress", True)
+        _stream = True
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
 
         if response.status_code not in [200, 202, 204]:
+            try:
+                await response.read()  # Load the body in memory and close the socket
+            except (StreamConsumedError, StreamClosedError):
+                pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             error = self._deserialize.failsafe_deserialize(
                 _models.GenerateCostDetailsReportErrorResponse, pipeline_response
             )
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = None
         response_headers = {}
-        if response.status_code == 200:
-            deserialized = self._deserialize("CostDetailsOperationResults", pipeline_response)
-
         if response.status_code == 202:
             response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
             response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
 
+        deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
+
         if cls:
-            return cls(pipeline_response, deserialized, response_headers)
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
-        return deserialized
-
-    _create_operation_initial.metadata = {
-        "url": "/{scope}/providers/Microsoft.CostManagement/generateCostDetailsReport"
-    }
+        return deserialized  # type: ignore
 
     @overload
     async def begin_create_operation(
@@ -147,27 +151,20 @@ class GenerateCostDetailsReportOperations:
         response along with details on the report blob(s) that are available for download. The details
         on the file(s) available for download will be available in the polling response body. To
         Understand cost details (formerly known as usage details) fields found in files ,see
-        https://learn.microsoft.com/azure/cost-management-billing/automate/understand-usage-details-fields.
+        https://learn.microsoft.com/en-us/azure/cost-management-billing/automate/understand-usage-details-fields.
 
         .. seealso::
            - https://docs.microsoft.com/en-us/rest/api/costmanagement/
 
-        :param scope: The ARM Resource ID for subscription, resource group, billing account, or other
-         billing scopes. For details, see https://aka.ms/costmgmt/scopes. Required.
+        :param scope: The ARM Resource ID for subscription, billing account, or other billing
+         scopes.Currently Resource Group and Management Group are not supported. For details, see
+         https://aka.ms/costmgmt/scopes. Required.
         :type scope: str
         :param parameters: Parameters supplied to the Create cost details operation. Required.
         :type parameters: ~azure.mgmt.costmanagement.models.GenerateCostDetailsReportRequestDefinition
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either CostDetailsOperationResults or the
          result of cls(response)
         :rtype:
@@ -177,7 +174,7 @@ class GenerateCostDetailsReportOperations:
 
     @overload
     async def begin_create_operation(
-        self, scope: str, parameters: IO, *, content_type: str = "application/json", **kwargs: Any
+        self, scope: str, parameters: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
     ) -> AsyncLROPoller[_models.CostDetailsOperationResults]:
         """This API is the replacement for all previously release Usage Details APIs. Request to generate
         a cost details report for the provided date range, billing period (Only enterprise customers)
@@ -190,27 +187,20 @@ class GenerateCostDetailsReportOperations:
         response along with details on the report blob(s) that are available for download. The details
         on the file(s) available for download will be available in the polling response body. To
         Understand cost details (formerly known as usage details) fields found in files ,see
-        https://learn.microsoft.com/azure/cost-management-billing/automate/understand-usage-details-fields.
+        https://learn.microsoft.com/en-us/azure/cost-management-billing/automate/understand-usage-details-fields.
 
         .. seealso::
            - https://docs.microsoft.com/en-us/rest/api/costmanagement/
 
-        :param scope: The ARM Resource ID for subscription, resource group, billing account, or other
-         billing scopes. For details, see https://aka.ms/costmgmt/scopes. Required.
+        :param scope: The ARM Resource ID for subscription, billing account, or other billing
+         scopes.Currently Resource Group and Management Group are not supported. For details, see
+         https://aka.ms/costmgmt/scopes. Required.
         :type scope: str
         :param parameters: Parameters supplied to the Create cost details operation. Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either CostDetailsOperationResults or the
          result of cls(response)
         :rtype:
@@ -220,7 +210,10 @@ class GenerateCostDetailsReportOperations:
 
     @distributed_trace_async
     async def begin_create_operation(
-        self, scope: str, parameters: Union[_models.GenerateCostDetailsReportRequestDefinition, IO], **kwargs: Any
+        self,
+        scope: str,
+        parameters: Union[_models.GenerateCostDetailsReportRequestDefinition, IO[bytes]],
+        **kwargs: Any
     ) -> AsyncLROPoller[_models.CostDetailsOperationResults]:
         """This API is the replacement for all previously release Usage Details APIs. Request to generate
         a cost details report for the provided date range, billing period (Only enterprise customers)
@@ -233,29 +226,19 @@ class GenerateCostDetailsReportOperations:
         response along with details on the report blob(s) that are available for download. The details
         on the file(s) available for download will be available in the polling response body. To
         Understand cost details (formerly known as usage details) fields found in files ,see
-        https://learn.microsoft.com/azure/cost-management-billing/automate/understand-usage-details-fields.
+        https://learn.microsoft.com/en-us/azure/cost-management-billing/automate/understand-usage-details-fields.
 
         .. seealso::
            - https://docs.microsoft.com/en-us/rest/api/costmanagement/
 
-        :param scope: The ARM Resource ID for subscription, resource group, billing account, or other
-         billing scopes. For details, see https://aka.ms/costmgmt/scopes. Required.
+        :param scope: The ARM Resource ID for subscription, billing account, or other billing
+         scopes.Currently Resource Group and Management Group are not supported. For details, see
+         https://aka.ms/costmgmt/scopes. Required.
         :type scope: str
         :param parameters: Parameters supplied to the Create cost details operation. Is either a
-         GenerateCostDetailsReportRequestDefinition type or a IO type. Required.
+         GenerateCostDetailsReportRequestDefinition type or a IO[bytes] type. Required.
         :type parameters: ~azure.mgmt.costmanagement.models.GenerateCostDetailsReportRequestDefinition
-         or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+         or IO[bytes]
         :return: An instance of AsyncLROPoller that returns either CostDetailsOperationResults or the
          result of cls(response)
         :rtype:
@@ -282,12 +265,13 @@ class GenerateCostDetailsReportOperations:
                 params=_params,
                 **kwargs
             )
+            await raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):
-            deserialized = self._deserialize("CostDetailsOperationResults", pipeline_response)
+            deserialized = self._deserialize("CostDetailsOperationResults", pipeline_response.http_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -299,20 +283,20 @@ class GenerateCostDetailsReportOperations:
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[_models.CostDetailsOperationResults].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_create_operation.metadata = {"url": "/{scope}/providers/Microsoft.CostManagement/generateCostDetailsReport"}
+        return AsyncLROPoller[_models.CostDetailsOperationResults](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     async def _get_operation_results_initial(
         self, scope: str, operation_id: str, **kwargs: Any
-    ) -> Optional[_models.CostDetailsOperationResults]:
-        error_map = {
+    ) -> AsyncIterator[bytes]:
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -324,43 +308,40 @@ class GenerateCostDetailsReportOperations:
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[Optional[_models.CostDetailsOperationResults]] = kwargs.pop("cls", None)
+        cls: ClsType[AsyncIterator[bytes]] = kwargs.pop("cls", None)
 
-        request = build_get_operation_results_request(
+        _request = build_get_operation_results_request(
             scope=scope,
             operation_id=operation_id,
             api_version=api_version,
-            template_url=self._get_operation_results_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
-        _stream = False
+        _decompress = kwargs.pop("decompress", True)
+        _stream = True
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
 
         if response.status_code not in [200, 202]:
+            try:
+                await response.read()  # Load the body in memory and close the socket
+            except (StreamConsumedError, StreamClosedError):
+                pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = None
-        if response.status_code == 200:
-            deserialized = self._deserialize("CostDetailsOperationResults", pipeline_response)
+        deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _get_operation_results_initial.metadata = {
-        "url": "/{scope}/providers/Microsoft.CostManagement/costDetailsOperationResults/{operationId}"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace_async
     async def begin_get_operation_results(
@@ -369,19 +350,12 @@ class GenerateCostDetailsReportOperations:
         """Get the result of the specified operation. This link is provided in the CostDetails creation
         request response Location header.
 
-        :param scope: The ARM Resource ID for subscription, resource group, billing account, or other
-         billing scopes. For details, see https://aka.ms/costmgmt/scopes. Required.
+        :param scope: The ARM Resource ID for subscription, billing account, or other billing
+         scopes.Currently Resource Group and Management Group are not supported. For details, see
+         https://aka.ms/costmgmt/scopes. Required.
         :type scope: str
         :param operation_id: The target operation Id. Required.
         :type operation_id: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either CostDetailsOperationResults or the
          result of cls(response)
         :rtype:
@@ -406,12 +380,13 @@ class GenerateCostDetailsReportOperations:
                 params=_params,
                 **kwargs
             )
+            await raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):
-            deserialized = self._deserialize("CostDetailsOperationResults", pipeline_response)
+            deserialized = self._deserialize("CostDetailsOperationResults", pipeline_response.http_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -423,14 +398,12 @@ class GenerateCostDetailsReportOperations:
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[_models.CostDetailsOperationResults].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_get_operation_results.metadata = {
-        "url": "/{scope}/providers/Microsoft.CostManagement/costDetailsOperationResults/{operationId}"
-    }
+        return AsyncLROPoller[_models.CostDetailsOperationResults](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )

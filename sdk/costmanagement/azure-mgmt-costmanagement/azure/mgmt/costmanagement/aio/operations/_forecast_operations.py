@@ -1,4 +1,3 @@
-# pylint: disable=too-many-lines
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,6 +6,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
+import sys
 from typing import Any, Callable, Dict, IO, Optional, TypeVar, Union, overload
 
 from azure.core.exceptions import (
@@ -18,16 +18,18 @@ from azure.core.exceptions import (
     map_error,
 )
 from azure.core.pipeline import PipelineResponse
-from azure.core.pipeline.transport import AsyncHttpResponse
-from azure.core.rest import HttpRequest
+from azure.core.rest import AsyncHttpResponse, HttpRequest
 from azure.core.tracing.decorator_async import distributed_trace_async
 from azure.core.utils import case_insensitive_dict
 from azure.mgmt.core.exceptions import ARMErrorFormat
 
 from ... import models as _models
-from ..._vendor import _convert_request
 from ...operations._forecast_operations import build_external_cloud_provider_usage_request, build_usage_request
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -61,6 +63,7 @@ class ForecastOperations:
         content_type: str = "application/json",
         **kwargs: Any
     ) -> Optional[_models.ForecastResult]:
+        # pylint: disable=line-too-long
         """Lists the forecast charges for scope defined.
 
         .. seealso::
@@ -93,7 +96,6 @@ class ForecastOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ForecastResult or None or the result of cls(response)
         :rtype: ~azure.mgmt.costmanagement.models.ForecastResult or None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -103,12 +105,13 @@ class ForecastOperations:
     async def usage(
         self,
         scope: str,
-        parameters: IO,
+        parameters: IO[bytes],
         filter: Optional[str] = None,
         *,
         content_type: str = "application/json",
         **kwargs: Any
     ) -> Optional[_models.ForecastResult]:
+        # pylint: disable=line-too-long
         """Lists the forecast charges for scope defined.
 
         .. seealso::
@@ -133,7 +136,7 @@ class ForecastOperations:
         :type scope: str
         :param parameters: Parameters supplied to the CreateOrUpdate Forecast Config operation.
          Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :param filter: May be used to filter forecasts by properties/usageDate (Utc time),
          properties/chargeType or properties/grain. The filter supports 'eq', 'lt', 'gt', 'le', 'ge',
          and 'and'. It does not currently support 'ne', 'or', or 'not'. Default value is None.
@@ -141,7 +144,6 @@ class ForecastOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ForecastResult or None or the result of cls(response)
         :rtype: ~azure.mgmt.costmanagement.models.ForecastResult or None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -149,8 +151,13 @@ class ForecastOperations:
 
     @distributed_trace_async
     async def usage(
-        self, scope: str, parameters: Union[_models.ForecastDefinition, IO], filter: Optional[str] = None, **kwargs: Any
+        self,
+        scope: str,
+        parameters: Union[_models.ForecastDefinition, IO[bytes]],
+        filter: Optional[str] = None,
+        **kwargs: Any
     ) -> Optional[_models.ForecastResult]:
+        # pylint: disable=line-too-long
         """Lists the forecast charges for scope defined.
 
         .. seealso::
@@ -174,21 +181,17 @@ class ForecastOperations:
          specific for partners. Required.
         :type scope: str
         :param parameters: Parameters supplied to the CreateOrUpdate Forecast Config operation. Is
-         either a ForecastDefinition type or a IO type. Required.
-        :type parameters: ~azure.mgmt.costmanagement.models.ForecastDefinition or IO
+         either a ForecastDefinition type or a IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.costmanagement.models.ForecastDefinition or IO[bytes]
         :param filter: May be used to filter forecasts by properties/usageDate (Utc time),
          properties/chargeType or properties/grain. The filter supports 'eq', 'lt', 'gt', 'le', 'ge',
          and 'and'. It does not currently support 'ne', 'or', or 'not'. Default value is None.
         :type filter: str
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ForecastResult or None or the result of cls(response)
         :rtype: ~azure.mgmt.costmanagement.models.ForecastResult or None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -211,23 +214,21 @@ class ForecastOperations:
         else:
             _json = self._serialize.body(parameters, "ForecastDefinition")
 
-        request = build_usage_request(
+        _request = build_usage_request(
             scope=scope,
             filter=filter,
             api_version=api_version,
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.usage.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -239,14 +240,12 @@ class ForecastOperations:
 
         deserialized = None
         if response.status_code == 200:
-            deserialized = self._deserialize("ForecastResult", pipeline_response)
+            deserialized = self._deserialize("ForecastResult", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    usage.metadata = {"url": "/{scope}/providers/Microsoft.CostManagement/forecast"}
+        return deserialized  # type: ignore
 
     @overload
     async def external_cloud_provider_usage(
@@ -284,7 +283,6 @@ class ForecastOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ForecastResult or the result of cls(response)
         :rtype: ~azure.mgmt.costmanagement.models.ForecastResult
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -295,7 +293,7 @@ class ForecastOperations:
         self,
         external_cloud_provider_type: Union[str, _models.ExternalCloudProviderType],
         external_cloud_provider_id: str,
-        parameters: IO,
+        parameters: IO[bytes],
         filter: Optional[str] = None,
         *,
         content_type: str = "application/json",
@@ -318,7 +316,7 @@ class ForecastOperations:
         :type external_cloud_provider_id: str
         :param parameters: Parameters supplied to the CreateOrUpdate Forecast Config operation.
          Required.
-        :type parameters: IO
+        :type parameters: IO[bytes]
         :param filter: May be used to filter forecasts by properties/usageDate (Utc time),
          properties/chargeType or properties/grain. The filter supports 'eq', 'lt', 'gt', 'le', 'ge',
          and 'and'. It does not currently support 'ne', 'or', or 'not'. Default value is None.
@@ -326,7 +324,6 @@ class ForecastOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ForecastResult or the result of cls(response)
         :rtype: ~azure.mgmt.costmanagement.models.ForecastResult
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -337,7 +334,7 @@ class ForecastOperations:
         self,
         external_cloud_provider_type: Union[str, _models.ExternalCloudProviderType],
         external_cloud_provider_id: str,
-        parameters: Union[_models.ForecastDefinition, IO],
+        parameters: Union[_models.ForecastDefinition, IO[bytes]],
         filter: Optional[str] = None,
         **kwargs: Any
     ) -> _models.ForecastResult:
@@ -357,21 +354,17 @@ class ForecastOperations:
          Required.
         :type external_cloud_provider_id: str
         :param parameters: Parameters supplied to the CreateOrUpdate Forecast Config operation. Is
-         either a ForecastDefinition type or a IO type. Required.
-        :type parameters: ~azure.mgmt.costmanagement.models.ForecastDefinition or IO
+         either a ForecastDefinition type or a IO[bytes] type. Required.
+        :type parameters: ~azure.mgmt.costmanagement.models.ForecastDefinition or IO[bytes]
         :param filter: May be used to filter forecasts by properties/usageDate (Utc time),
          properties/chargeType or properties/grain. The filter supports 'eq', 'lt', 'gt', 'le', 'ge',
          and 'and'. It does not currently support 'ne', 'or', or 'not'. Default value is None.
         :type filter: str
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: ForecastResult or the result of cls(response)
         :rtype: ~azure.mgmt.costmanagement.models.ForecastResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -394,7 +387,7 @@ class ForecastOperations:
         else:
             _json = self._serialize.body(parameters, "ForecastDefinition")
 
-        request = build_external_cloud_provider_usage_request(
+        _request = build_external_cloud_provider_usage_request(
             external_cloud_provider_type=external_cloud_provider_type,
             external_cloud_provider_id=external_cloud_provider_id,
             filter=filter,
@@ -402,16 +395,14 @@ class ForecastOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.external_cloud_provider_usage.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -421,13 +412,9 @@ class ForecastOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("ForecastResult", pipeline_response)
+        deserialized = self._deserialize("ForecastResult", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    external_cloud_provider_usage.metadata = {
-        "url": "/providers/Microsoft.CostManagement/{externalCloudProviderType}/{externalCloudProviderId}/forecast"
-    }
+        return deserialized  # type: ignore
