@@ -1,6 +1,6 @@
 {
-  "commit": "07da438f8dc690946b39511467744ed889434de5",
+  "commit": "8f6744026f8f69f599f4713dadf1109f04e23a31",
   "repository_url": "https://github.com/Azure/azure-rest-api-specs",
   "typespec_src": "specification/databasewatcher/DatabaseWatcher.Management",
-  "@azure-tools/typespec-python": "0.38.2"
+  "@azure-tools/typespec-python": "0.39.1"
 }
