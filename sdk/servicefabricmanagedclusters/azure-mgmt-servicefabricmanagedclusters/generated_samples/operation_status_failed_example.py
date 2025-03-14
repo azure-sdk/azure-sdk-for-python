@@ -15,7 +15,7 @@ from azure.mgmt.servicefabricmanagedclusters import ServiceFabricManagedClusters
     pip install azure-identity
     pip install azure-mgmt-servicefabricmanagedclusters
 # USAGE
-    python node_type_delete_operation_example.py
+    python operation_status_failed_example.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -30,13 +30,13 @@ def main():
         subscription_id="SUBSCRIPTION_ID",
     )
 
-    client.node_types.begin_delete(
-        resource_group_name="resRg",
-        cluster_name="myCluster",
-        node_type_name="BE",
-    ).result()
+    response = client.operation_status.get(
+        location="eastus",
+        operation_id="00000000-0000-0000-0000-000000001234",
+    )
+    print(response)
 
 
-# x-ms-original-file: 2024-11-01-preview/NodeTypeDeleteOperation_example.json
+# x-ms-original-file: 2024-11-01-preview/OperationStatusFailed_example.json
 if __name__ == "__main__":
     main()
