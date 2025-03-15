@@ -21,7 +21,7 @@ class TestSqlManagementReplicationLinksOperationsAsync(AzureMgmtRecordedTestCase
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_by_database(self, resource_group):
+    async def test_replication_links_list_by_database(self, resource_group):
         response = self.client.replication_links.list_by_database(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -34,7 +34,7 @@ class TestSqlManagementReplicationLinksOperationsAsync(AzureMgmtRecordedTestCase
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get(self, resource_group):
+    async def test_replication_links_get(self, resource_group):
         response = await self.client.replication_links.get(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -48,7 +48,7 @@ class TestSqlManagementReplicationLinksOperationsAsync(AzureMgmtRecordedTestCase
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_create_or_update(self, resource_group):
+    async def test_replication_links_begin_create_or_update(self, resource_group):
         response = await (
             await self.client.replication_links.begin_create_or_update(
                 resource_group_name=resource_group.name,
@@ -81,7 +81,7 @@ class TestSqlManagementReplicationLinksOperationsAsync(AzureMgmtRecordedTestCase
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_delete(self, resource_group):
+    async def test_replication_links_begin_delete(self, resource_group):
         response = await (
             await self.client.replication_links.begin_delete(
                 resource_group_name=resource_group.name,
@@ -97,7 +97,7 @@ class TestSqlManagementReplicationLinksOperationsAsync(AzureMgmtRecordedTestCase
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_update(self, resource_group):
+    async def test_replication_links_begin_update(self, resource_group):
         response = await (
             await self.client.replication_links.begin_update(
                 resource_group_name=resource_group.name,
@@ -114,7 +114,7 @@ class TestSqlManagementReplicationLinksOperationsAsync(AzureMgmtRecordedTestCase
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_failover(self, resource_group):
+    async def test_replication_links_begin_failover(self, resource_group):
         response = await (
             await self.client.replication_links.begin_failover(
                 resource_group_name=resource_group.name,
@@ -130,7 +130,7 @@ class TestSqlManagementReplicationLinksOperationsAsync(AzureMgmtRecordedTestCase
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_failover_allow_data_loss(self, resource_group):
+    async def test_replication_links_begin_failover_allow_data_loss(self, resource_group):
         response = await (
             await self.client.replication_links.begin_failover_allow_data_loss(
                 resource_group_name=resource_group.name,
@@ -146,7 +146,7 @@ class TestSqlManagementReplicationLinksOperationsAsync(AzureMgmtRecordedTestCase
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_by_server(self, resource_group):
+    async def test_replication_links_list_by_server(self, resource_group):
         response = self.client.replication_links.list_by_server(
             resource_group_name=resource_group.name,
             server_name="str",

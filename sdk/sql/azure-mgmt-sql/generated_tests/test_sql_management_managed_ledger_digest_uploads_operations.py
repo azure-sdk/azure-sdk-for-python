@@ -20,7 +20,7 @@ class TestSqlManagementManagedLedgerDigestUploadsOperations(AzureMgmtRecordedTes
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_database(self, resource_group):
+    def test_managed_ledger_digest_uploads_list_by_database(self, resource_group):
         response = self.client.managed_ledger_digest_uploads.list_by_database(
             resource_group_name=resource_group.name,
             managed_instance_name="str",
@@ -33,7 +33,7 @@ class TestSqlManagementManagedLedgerDigestUploadsOperations(AzureMgmtRecordedTes
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_managed_ledger_digest_uploads_get(self, resource_group):
         response = self.client.managed_ledger_digest_uploads.get(
             resource_group_name=resource_group.name,
             managed_instance_name="str",
@@ -47,7 +47,7 @@ class TestSqlManagementManagedLedgerDigestUploadsOperations(AzureMgmtRecordedTes
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_create_or_update(self, resource_group):
+    def test_managed_ledger_digest_uploads_begin_create_or_update(self, resource_group):
         response = self.client.managed_ledger_digest_uploads.begin_create_or_update(
             resource_group_name=resource_group.name,
             managed_instance_name="str",
@@ -62,7 +62,7 @@ class TestSqlManagementManagedLedgerDigestUploadsOperations(AzureMgmtRecordedTes
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_disable(self, resource_group):
+    def test_managed_ledger_digest_uploads_begin_disable(self, resource_group):
         response = self.client.managed_ledger_digest_uploads.begin_disable(
             resource_group_name=resource_group.name,
             managed_instance_name="str",

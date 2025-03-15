@@ -21,7 +21,7 @@ class TestSqlManagementManagedInstanceOperationsOperationsAsync(AzureMgmtRecorde
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_by_managed_instance(self, resource_group):
+    async def test_managed_instance_operations_list_by_managed_instance(self, resource_group):
         response = self.client.managed_instance_operations.list_by_managed_instance(
             resource_group_name=resource_group.name,
             managed_instance_name="str",
@@ -33,7 +33,7 @@ class TestSqlManagementManagedInstanceOperationsOperationsAsync(AzureMgmtRecorde
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get(self, resource_group):
+    async def test_managed_instance_operations_get(self, resource_group):
         response = await self.client.managed_instance_operations.get(
             resource_group_name=resource_group.name,
             managed_instance_name="str",
@@ -46,7 +46,7 @@ class TestSqlManagementManagedInstanceOperationsOperationsAsync(AzureMgmtRecorde
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_cancel(self, resource_group):
+    async def test_managed_instance_operations_cancel(self, resource_group):
         response = await self.client.managed_instance_operations.cancel(
             resource_group_name=resource_group.name,
             managed_instance_name="str",

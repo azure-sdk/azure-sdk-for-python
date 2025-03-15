@@ -21,7 +21,7 @@ class TestSqlManagementDeletedServersOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list(self, resource_group):
+    async def test_deleted_servers_list(self, resource_group):
         response = self.client.deleted_servers.list(
             api_version="2020-11-01-preview",
         )
@@ -31,7 +31,7 @@ class TestSqlManagementDeletedServersOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get(self, resource_group):
+    async def test_deleted_servers_get(self, resource_group):
         response = await self.client.deleted_servers.get(
             location_name="str",
             deleted_server_name="str",
@@ -43,7 +43,7 @@ class TestSqlManagementDeletedServersOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_by_location(self, resource_group):
+    async def test_deleted_servers_list_by_location(self, resource_group):
         response = self.client.deleted_servers.list_by_location(
             location_name="str",
             api_version="2020-11-01-preview",
@@ -54,7 +54,7 @@ class TestSqlManagementDeletedServersOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_recover(self, resource_group):
+    async def test_deleted_servers_begin_recover(self, resource_group):
         response = await (
             await self.client.deleted_servers.begin_recover(
                 location_name="str",

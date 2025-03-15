@@ -20,7 +20,7 @@ class TestSqlManagementDistributedAvailabilityGroupsOperations(AzureMgmtRecorded
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_instance(self, resource_group):
+    def test_distributed_availability_groups_list_by_instance(self, resource_group):
         response = self.client.distributed_availability_groups.list_by_instance(
             resource_group_name=resource_group.name,
             managed_instance_name="str",
@@ -32,7 +32,7 @@ class TestSqlManagementDistributedAvailabilityGroupsOperations(AzureMgmtRecorded
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_distributed_availability_groups_get(self, resource_group):
         response = self.client.distributed_availability_groups.get(
             resource_group_name=resource_group.name,
             managed_instance_name="str",
@@ -45,7 +45,7 @@ class TestSqlManagementDistributedAvailabilityGroupsOperations(AzureMgmtRecorded
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_create_or_update(self, resource_group):
+    def test_distributed_availability_groups_begin_create_or_update(self, resource_group):
         response = self.client.distributed_availability_groups.begin_create_or_update(
             resource_group_name=resource_group.name,
             managed_instance_name="str",
@@ -98,7 +98,7 @@ class TestSqlManagementDistributedAvailabilityGroupsOperations(AzureMgmtRecorded
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_delete(self, resource_group):
+    def test_distributed_availability_groups_begin_delete(self, resource_group):
         response = self.client.distributed_availability_groups.begin_delete(
             resource_group_name=resource_group.name,
             managed_instance_name="str",
@@ -111,7 +111,7 @@ class TestSqlManagementDistributedAvailabilityGroupsOperations(AzureMgmtRecorded
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_update(self, resource_group):
+    def test_distributed_availability_groups_begin_update(self, resource_group):
         response = self.client.distributed_availability_groups.begin_update(
             resource_group_name=resource_group.name,
             managed_instance_name="str",
@@ -164,7 +164,7 @@ class TestSqlManagementDistributedAvailabilityGroupsOperations(AzureMgmtRecorded
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_failover(self, resource_group):
+    def test_distributed_availability_groups_begin_failover(self, resource_group):
         response = self.client.distributed_availability_groups.begin_failover(
             resource_group_name=resource_group.name,
             managed_instance_name="str",
@@ -178,7 +178,7 @@ class TestSqlManagementDistributedAvailabilityGroupsOperations(AzureMgmtRecorded
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_set_role(self, resource_group):
+    def test_distributed_availability_groups_begin_set_role(self, resource_group):
         response = self.client.distributed_availability_groups.begin_set_role(
             resource_group_name=resource_group.name,
             managed_instance_name="str",
