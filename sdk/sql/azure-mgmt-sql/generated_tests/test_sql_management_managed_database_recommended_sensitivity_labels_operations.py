@@ -20,7 +20,7 @@ class TestSqlManagementManagedDatabaseRecommendedSensitivityLabelsOperations(Azu
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_update(self, resource_group):
+    def test_managed_database_recommended_sensitivity_labels_update(self, resource_group):
         response = self.client.managed_database_recommended_sensitivity_labels.update(
             resource_group_name=resource_group.name,
             managed_instance_name="str",

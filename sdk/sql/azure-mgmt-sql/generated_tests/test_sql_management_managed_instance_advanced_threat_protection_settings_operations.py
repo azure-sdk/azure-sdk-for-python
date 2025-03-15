@@ -20,7 +20,7 @@ class TestSqlManagementManagedInstanceAdvancedThreatProtectionSettingsOperations
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_instance(self, resource_group):
+    def test_managed_instance_advanced_threat_protection_settings_list_by_instance(self, resource_group):
         response = self.client.managed_instance_advanced_threat_protection_settings.list_by_instance(
             resource_group_name=resource_group.name,
             managed_instance_name="str",
@@ -32,7 +32,7 @@ class TestSqlManagementManagedInstanceAdvancedThreatProtectionSettingsOperations
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_managed_instance_advanced_threat_protection_settings_get(self, resource_group):
         response = self.client.managed_instance_advanced_threat_protection_settings.get(
             resource_group_name=resource_group.name,
             managed_instance_name="str",
@@ -45,7 +45,7 @@ class TestSqlManagementManagedInstanceAdvancedThreatProtectionSettingsOperations
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_create_or_update(self, resource_group):
+    def test_managed_instance_advanced_threat_protection_settings_begin_create_or_update(self, resource_group):
         response = self.client.managed_instance_advanced_threat_protection_settings.begin_create_or_update(
             resource_group_name=resource_group.name,
             managed_instance_name="str",
