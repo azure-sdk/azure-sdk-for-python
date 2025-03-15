@@ -15,7 +15,7 @@ from azure.mgmt.search import SearchManagementClient
     pip install azure-identity
     pip install azure-mgmt-search
 # USAGE
-    python search_list_operations.py
+    python upgrade_search_service_to_latest_version.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -27,14 +27,16 @@ from azure.mgmt.search import SearchManagementClient
 def main():
     client = SearchManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="SUBSCRIPTION_ID",
+        subscription_id="subid",
     )
 
-    response = client.operations.list()
-    for item in response:
-        print(item)
+    response = client.service.begin_upgrade(
+        resource_group_name="rg1",
+        search_service_name="mysearchservice",
+    ).result()
+    print(response)
 
 
-# x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2024-06-01-preview/examples/SearchListOperations.json
+# x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2025-05-01/examples/UpgradeSearchServiceToLatestVersion.json
 if __name__ == "__main__":
     main()
