@@ -1,0 +1,6 @@
+{
+  "commit": "6820abf77ef45b66d8d1232e619c1fc03816f90e",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/manufacturingdatasolution/ManufacturingDataSolution.Copilot",
+  "@azure-tools/typespec-python": "0.39.1"
+}
