@@ -1,5 +1,5 @@
-# coding=utf-8
 # pylint: disable=too-many-lines
+# coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -7,6 +7,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+import datetime
 import sys
 from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 
@@ -15,17 +16,15 @@ from .. import _serialization
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 JSON = MutableMapping[str, Any]  # pylint: disable=unsubscriptable-object
 
 
 class AdminKeyResult(_serialization.Model):
-    """Response containing the primary and secondary admin API keys for a given Azure AI Search
-    service.
+    """Response containing the primary and secondary admin API keys for a given search service.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -271,18 +270,17 @@ class DataPlaneAuthOptions(_serialization.Model):
 
 class EncryptionWithCmk(_serialization.Model):
     """Describes a policy that determines how resources within the search service are to be encrypted
-    with customer managed keys.
+    with customer=managed keys.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar enforcement: Describes how a search service should enforce compliance if it finds objects
-     that aren't encrypted with the customer-managed key. Known values are: "Disabled", "Enabled",
-     and "Unspecified".
+    :ivar enforcement: Describes how a search service should enforce having one or more
+     non-customer-encrypted resources. Known values are: "Disabled", "Enabled", and "Unspecified".
     :vartype enforcement: str or ~azure.mgmt.search.models.SearchEncryptionWithCmk
-    :ivar encryption_compliance_status: Returns the status of search service compliance with
-     respect to non-CMK-encrypted objects. If a service has more than one unencrypted object, and
-     enforcement is enabled, the service is marked as noncompliant. Known values are: "Compliant"
-     and "NonCompliant".
+    :ivar encryption_compliance_status: Describes whether the search service is compliant or not
+     with respect to having non-customer-encrypted resources. If a service has more than one
+     non-customer-encrypted resource and 'Enforcement' is 'enabled' then the service will be marked
+     as 'nonCompliant'. Known values are: "Compliant" and "NonCompliant".
     :vartype encryption_compliance_status: str or
      ~azure.mgmt.search.models.SearchEncryptionComplianceStatus
     """
@@ -300,9 +298,8 @@ class EncryptionWithCmk(_serialization.Model):
         self, *, enforcement: Optional[Union[str, "_models.SearchEncryptionWithCmk"]] = None, **kwargs: Any
     ) -> None:
         """
-        :keyword enforcement: Describes how a search service should enforce compliance if it finds
-         objects that aren't encrypted with the customer-managed key. Known values are: "Disabled",
-         "Enabled", and "Unspecified".
+        :keyword enforcement: Describes how a search service should enforce having one or more
+         non-customer-encrypted resources. Known values are: "Disabled", "Enabled", and "Unspecified".
         :paramtype enforcement: str or ~azure.mgmt.search.models.SearchEncryptionWithCmk
         """
         super().__init__(**kwargs)
@@ -374,10 +371,10 @@ class Identity(_serialization.Model):
 
 
 class IpRule(_serialization.Model):
-    """The IP restriction rule of the Azure AI Search service.
+    """The IP restriction rule of the search service.
 
-    :ivar value: Value corresponding to a single IPv4 address (eg., 123.1.2.3) or an IP range in
-     CIDR format (eg., 123.1.2.3/24) to be allowed.
+    :ivar value: Value corresponding to a single IPv4 address (for example, 123.1.2.3) or an IP
+     range in CIDR format (for example, 123.1.2.3/24) to be allowed.
     :vartype value: str
     """
 
@@ -387,8 +384,8 @@ class IpRule(_serialization.Model):
 
     def __init__(self, *, value: Optional[str] = None, **kwargs: Any) -> None:
         """
-        :keyword value: Value corresponding to a single IPv4 address (eg., 123.1.2.3) or an IP range in
-         CIDR format (eg., 123.1.2.3/24) to be allowed.
+        :keyword value: Value corresponding to a single IPv4 address (for example, 123.1.2.3) or an IP
+         range in CIDR format (for example, 123.1.2.3/24) to be allowed.
         :paramtype value: str
         """
         super().__init__(**kwargs)
@@ -396,11 +393,11 @@ class IpRule(_serialization.Model):
 
 
 class ListQueryKeysResult(_serialization.Model):
-    """Response containing the query API keys for a given Azure AI Search service.
+    """Response containing the query API keys for a given search service.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar value: The query keys for the Azure AI Search service.
+    :ivar value: The query keys for the search service.
     :vartype value: list[~azure.mgmt.search.models.QueryKey]
     :ivar next_link: Request URL that can be used to query next page of query keys. Returned when
      the total number of requested query keys exceed maximum page size.
@@ -435,7 +432,7 @@ class NetworkRuleSet(_serialization.Model):
      be the exclusive access method.
     :vartype ip_rules: list[~azure.mgmt.search.models.IpRule]
     :ivar bypass: Possible origins of inbound traffic that can bypass the rules defined in the
-     'ipRules' section. Known values are: "None", "AzurePortal", and "AzureServices".
+     'ipRules' section. Known values are: "None" and "AzureServices".
     :vartype bypass: str or ~azure.mgmt.search.models.SearchBypass
     """
 
@@ -460,7 +457,7 @@ class NetworkRuleSet(_serialization.Model):
          be the exclusive access method.
         :paramtype ip_rules: list[~azure.mgmt.search.models.IpRule]
         :keyword bypass: Possible origins of inbound traffic that can bypass the rules defined in the
-         'ipRules' section. Known values are: "None", "AzurePortal", and "AzureServices".
+         'ipRules' section. Known values are: "None" and "AzureServices".
         :paramtype bypass: str or ~azure.mgmt.search.models.SearchBypass
         """
         super().__init__(**kwargs)
@@ -1060,8 +1057,7 @@ class OperationListResult(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar value: The list of operations by Azure AI Search, some supported by the resource provider
-     and others by data plane APIs.
+    :ivar value: The list of operations supported by the resource provider.
     :vartype value: list[~azure.mgmt.search.models.Operation]
     :ivar next_link: The URL to get the next set of operation list results, if any.
     :vartype next_link: str
@@ -1250,7 +1246,7 @@ class OperationServiceSpecification(_serialization.Model):
 
 
 class PrivateEndpointConnection(Resource):
-    """Describes an existing private endpoint connection to the Azure AI Search service.
+    """Describes an existing private endpoint connection to the search service.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -1263,7 +1259,7 @@ class PrivateEndpointConnection(Resource):
      "Microsoft.Storage/storageAccounts".
     :vartype type: str
     :ivar properties: Describes the properties of an existing private endpoint connection to the
-     Azure AI Search service.
+     search service.
     :vartype properties: ~azure.mgmt.search.models.PrivateEndpointConnectionProperties
     """
 
@@ -1285,7 +1281,7 @@ class PrivateEndpointConnection(Resource):
     ) -> None:
         """
         :keyword properties: Describes the properties of an existing private endpoint connection to the
-         Azure AI Search service.
+         search service.
         :paramtype properties: ~azure.mgmt.search.models.PrivateEndpointConnectionProperties
         """
         super().__init__(**kwargs)
@@ -1293,11 +1289,11 @@ class PrivateEndpointConnection(Resource):
 
 
 class PrivateEndpointConnectionListResult(_serialization.Model):
-    """Response containing a list of private endpoint connections.
+    """Response containing a list of Private Endpoint connections.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar value: The list of private endpoint connections.
+    :ivar value: The list of Private Endpoint connections.
     :vartype value: list[~azure.mgmt.search.models.PrivateEndpointConnection]
     :ivar next_link: Request URL that can be used to query next page of private endpoint
      connections. Returned when the total number of requested private endpoint connections exceed
@@ -1323,20 +1319,21 @@ class PrivateEndpointConnectionListResult(_serialization.Model):
 
 
 class PrivateEndpointConnectionProperties(_serialization.Model):
-    """Describes the properties of an existing private endpoint connection to the search service.
+    """Describes the properties of an existing Private Endpoint connection to the search service.
 
     :ivar private_endpoint: The private endpoint resource from Microsoft.Network provider.
     :vartype private_endpoint:
      ~azure.mgmt.search.models.PrivateEndpointConnectionPropertiesPrivateEndpoint
-    :ivar private_link_service_connection_state: Describes the current state of an existing Azure
-     Private Link service connection to the private endpoint.
+    :ivar private_link_service_connection_state: Describes the current state of an existing Private
+     Link Service connection to the Azure Private Endpoint.
     :vartype private_link_service_connection_state:
      ~azure.mgmt.search.models.PrivateEndpointConnectionPropertiesPrivateLinkServiceConnectionState
-    :ivar group_id: The group ID of the Azure resource for which the private link service is for.
+    :ivar group_id: The group id from the provider of resource the private link service connection
+     is for.
     :vartype group_id: str
     :ivar provisioning_state: The provisioning state of the private link service connection. Valid
-     values are Updating, Deleting, Failed, Succeeded, Incomplete, or Canceled. Known values are:
-     "Updating", "Deleting", "Failed", "Succeeded", "Incomplete", and "Canceled".
+     values are Updating, Deleting, Failed, Succeeded, or Incomplete. Known values are: "Updating",
+     "Deleting", "Failed", "Succeeded", "Incomplete", and "Canceled".
     :vartype provisioning_state: str or
      ~azure.mgmt.search.models.PrivateLinkServiceConnectionProvisioningState
     """
@@ -1367,15 +1364,15 @@ class PrivateEndpointConnectionProperties(_serialization.Model):
         :paramtype private_endpoint:
          ~azure.mgmt.search.models.PrivateEndpointConnectionPropertiesPrivateEndpoint
         :keyword private_link_service_connection_state: Describes the current state of an existing
-         Azure Private Link service connection to the private endpoint.
+         Private Link Service connection to the Azure Private Endpoint.
         :paramtype private_link_service_connection_state:
          ~azure.mgmt.search.models.PrivateEndpointConnectionPropertiesPrivateLinkServiceConnectionState
-        :keyword group_id: The group ID of the Azure resource for which the private link service is
-         for.
+        :keyword group_id: The group id from the provider of resource the private link service
+         connection is for.
         :paramtype group_id: str
         :keyword provisioning_state: The provisioning state of the private link service connection.
-         Valid values are Updating, Deleting, Failed, Succeeded, Incomplete, or Canceled. Known values
-         are: "Updating", "Deleting", "Failed", "Succeeded", "Incomplete", and "Canceled".
+         Valid values are Updating, Deleting, Failed, Succeeded, or Incomplete. Known values are:
+         "Updating", "Deleting", "Failed", "Succeeded", "Incomplete", and "Canceled".
         :paramtype provisioning_state: str or
          ~azure.mgmt.search.models.PrivateLinkServiceConnectionProvisioningState
         """
@@ -1389,7 +1386,7 @@ class PrivateEndpointConnectionProperties(_serialization.Model):
 class PrivateEndpointConnectionPropertiesPrivateEndpoint(_serialization.Model):  # pylint: disable=name-too-long
     """The private endpoint resource from Microsoft.Network provider.
 
-    :ivar id: The resource ID of the private endpoint resource from Microsoft.Network provider.
+    :ivar id: The resource id of the private endpoint resource from Microsoft.Network provider.
     :vartype id: str
     """
 
@@ -1399,7 +1396,7 @@ class PrivateEndpointConnectionPropertiesPrivateEndpoint(_serialization.Model): 
 
     def __init__(self, *, id: Optional[str] = None, **kwargs: Any) -> None:  # pylint: disable=redefined-builtin
         """
-        :keyword id: The resource ID of the private endpoint resource from Microsoft.Network provider.
+        :keyword id: The resource id of the private endpoint resource from Microsoft.Network provider.
         :paramtype id: str
         """
         super().__init__(**kwargs)
@@ -1409,8 +1406,8 @@ class PrivateEndpointConnectionPropertiesPrivateEndpoint(_serialization.Model): 
 class PrivateEndpointConnectionPropertiesPrivateLinkServiceConnectionState(
     _serialization.Model
 ):  # pylint: disable=name-too-long
-    """Describes the current state of an existing Azure Private Link service connection to the private
-    endpoint.
+    """Describes the current state of an existing Private Link Service connection to the Azure Private
+    Endpoint.
 
     :ivar status: Status of the the private link service connection. Valid values are Pending,
      Approved, Rejected, or Disconnected. Known values are: "Pending", "Approved", "Rejected", and
@@ -1453,7 +1450,7 @@ class PrivateEndpointConnectionPropertiesPrivateLinkServiceConnectionState(
 
 
 class PrivateLinkResource(Resource):
-    """Describes a supported private link resource for the Azure AI Search service.
+    """Describes a supported private link resource for the search service.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -1465,8 +1462,8 @@ class PrivateLinkResource(Resource):
     :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
      "Microsoft.Storage/storageAccounts".
     :vartype type: str
-    :ivar properties: Describes the properties of a supported private link resource for the Azure
-     AI Search service.
+    :ivar properties: Describes the properties of a supported private link resource for the search
+     service.
     :vartype properties: ~azure.mgmt.search.models.PrivateLinkResourceProperties
     """
 
@@ -1491,9 +1488,9 @@ class PrivateLinkResource(Resource):
 
 
 class PrivateLinkResourceProperties(_serialization.Model):
-    """Describes the properties of a supported private link resource for the Azure AI Search service.
-    For a given API version, this represents the 'supported' groupIds when creating a shared
-    private link resource.
+    """Describes the properties of a supported private link resource for the search service. For a
+    given API version, this represents the 'supported' groupIds when creating a shared private link
+    resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -1504,7 +1501,7 @@ class PrivateLinkResourceProperties(_serialization.Model):
     :ivar required_zone_names: The list of required DNS zone names of the private link resource.
     :vartype required_zone_names: list[str]
     :ivar shareable_private_link_resource_types: The list of resources that are onboarded to
-     private link service, that are supported by Azure AI Search.
+     private link service and that are supported by search.
     :vartype shareable_private_link_resource_types:
      list[~azure.mgmt.search.models.ShareablePrivateLinkResourceType]
     """
@@ -1559,13 +1556,11 @@ class PrivateLinkResourcesResult(_serialization.Model):
 
 
 class QueryKey(_serialization.Model):
-    """Describes an API key for a given Azure AI Search service that conveys read-only permissions on
-    the docs collection of an index.
+    """Describes an API key for a given search service that has permissions for query operations only.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar name: The name of the query API key. Query names are optional, but assigning a name can
-     help you remember how it's used.
+    :ivar name: The name of the query API key; may be empty.
     :vartype name: str
     :ivar key: The value of the query API key.
     :vartype key: str
@@ -1770,7 +1765,7 @@ class TrackedResource(Resource):
         self.location = location
 
 
-class SearchService(TrackedResource):  # pylint: disable=too-many-instance-attributes
+class SearchService(TrackedResource):
     """Describes an Azure AI Search service and its current state.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1794,6 +1789,9 @@ class SearchService(TrackedResource):  # pylint: disable=too-many-instance-attri
     :vartype sku: ~azure.mgmt.search.models.Sku
     :ivar identity: The identity of the resource.
     :vartype identity: ~azure.mgmt.search.models.Identity
+    :ivar system_data: Azure Resource Manager metadata of the search service containing createdBy
+     and modifiedBy information.
+    :vartype system_data: ~azure.mgmt.search.models.SystemData
     :ivar replica_count: The number of replicas in the search service. If specified, it must be a
      value between 1 and 12 inclusive for standard SKUs or between 1 and 3 inclusive for basic SKU.
     :vartype replica_count: int
@@ -1801,12 +1799,17 @@ class SearchService(TrackedResource):  # pylint: disable=too-many-instance-attri
      1, 2, 3, 4, 6, or 12. Values greater than 1 are only valid for standard SKUs. For 'standard3'
      services with hostingMode set to 'highDensity', the allowed values are between 1 and 3.
     :vartype partition_count: int
+    :ivar endpoint: The endpoint of the Azure AI Search service.
+    :vartype endpoint: str
     :ivar hosting_mode: Applicable only for the standard3 SKU. You can set this property to enable
      up to 3 high density partitions that allow up to 1000 indexes, which is much higher than the
      maximum indexes allowed for any other SKU. For the standard3 SKU, the value is either 'default'
      or 'highDensity'. For all other SKUs, this value must be 'default'. Known values are: "default"
      and "highDensity".
     :vartype hosting_mode: str or ~azure.mgmt.search.models.HostingMode
+    :ivar compute_type: Configure this property to support the search service using either the
+     Default Compute or Azure Confidential Compute. Known values are: "default" and "confidential".
+    :vartype compute_type: str or ~azure.mgmt.search.models.ComputeType
     :ivar public_network_access: This value can be set to 'enabled' to avoid breaking changes on
      existing customer resources and templates. If set to 'disabled', traffic over public interface
      is not allowed, and private endpoint connections would be the exclusive access method. Known
@@ -1819,11 +1822,10 @@ class SearchService(TrackedResource):  # pylint: disable=too-many-instance-attri
      units are not healthy. The search service is most likely operational, but performance might be
      slow and some requests might be dropped. 'disabled': The search service is disabled. In this
      state, the service will reject all API requests. 'error': The search service is in an error
-     state. 'stopped': The search service is in a subscription that's disabled. If your service is
-     in the degraded, disabled, or error states, it means the Azure AI Search team is actively
+     state. If your service is in the degraded, disabled, or error states, Microsoft is actively
      investigating the underlying issue. Dedicated services in these states are still chargeable
      based on the number of search units provisioned. Known values are: "running", "provisioning",
-     "deleting", "degraded", "disabled", "error", and "stopped".
+     "deleting", "degraded", "disabled", and "error".
     :vartype status: str or ~azure.mgmt.search.models.SearchServiceStatus
     :ivar status_details: The details of the search service status.
     :vartype status_details: str
@@ -1840,12 +1842,6 @@ class SearchService(TrackedResource):  # pylint: disable=too-many-instance-attri
     :ivar network_rule_set: Network specific rules that determine how the Azure AI Search service
      may be reached.
     :vartype network_rule_set: ~azure.mgmt.search.models.NetworkRuleSet
-    :ivar disabled_data_exfiltration_options: A list of data exfiltration scenarios that are
-     explicitly disallowed for the search service. Currently, the only supported value is 'All' to
-     disable all possible data export scenarios with more fine grained controls planned for the
-     future.
-    :vartype disabled_data_exfiltration_options: list[str or
-     ~azure.mgmt.search.models.SearchDisabledDataExfiltrationOption]
     :ivar encryption_with_cmk: Specifies any policy regarding encryption of resources (such as
      indexes) using customer manager keys within a search service.
     :vartype encryption_with_cmk: ~azure.mgmt.search.models.EncryptionWithCmk
@@ -1856,21 +1852,23 @@ class SearchService(TrackedResource):  # pylint: disable=too-many-instance-attri
     :ivar auth_options: Defines the options for how the data plane API of a search service
      authenticates requests. This cannot be set if 'disableLocalAuth' is set to true.
     :vartype auth_options: ~azure.mgmt.search.models.DataPlaneAuthOptions
-    :ivar semantic_search: Sets options that control the availability of semantic search. This
-     configuration is only possible for certain Azure AI Search SKUs in certain locations. Known
-     values are: "disabled", "free", and "standard".
-    :vartype semantic_search: str or ~azure.mgmt.search.models.SearchSemanticSearch
-    :ivar private_endpoint_connections: The list of private endpoint connections to the Azure AI
-     Search service.
+    :ivar private_endpoint_connections: The list of private endpoint connections to the search
+     service.
     :vartype private_endpoint_connections:
      list[~azure.mgmt.search.models.PrivateEndpointConnection]
+    :ivar semantic_search: Sets options that control the availability of semantic search. This
+     configuration is only possible for certain search SKUs in certain locations. Known values are:
+     "disabled", "free", and "standard".
+    :vartype semantic_search: str or ~azure.mgmt.search.models.SearchSemanticSearch
     :ivar shared_private_link_resources: The list of shared private link resources managed by the
-     Azure AI Search service.
+     search service.
     :vartype shared_private_link_resources:
      list[~azure.mgmt.search.models.SharedPrivateLinkResource]
-    :ivar e_tag: A system generated property representing the service's etag that can be for
-     optimistic concurrency control during updates.
-    :vartype e_tag: str
+    :ivar upgrade_available: Indicates whether or not the search service has an upgrade available.
+    :vartype upgrade_available: bool
+    :ivar service_upgrade_date: The date and time the search service was last upgraded. This field
+     will be null until the service gets upgraded for the first time.
+    :vartype service_upgrade_date: ~datetime.datetime
     """
 
     _validation = {
@@ -1878,6 +1876,7 @@ class SearchService(TrackedResource):  # pylint: disable=too-many-instance-attri
         "name": {"readonly": True},
         "type": {"readonly": True},
         "location": {"required": True},
+        "system_data": {"readonly": True},
         "replica_count": {"maximum": 12, "minimum": 1},
         "partition_count": {"maximum": 12, "minimum": 1},
         "status": {"readonly": True},
@@ -1885,7 +1884,8 @@ class SearchService(TrackedResource):  # pylint: disable=too-many-instance-attri
         "provisioning_state": {"readonly": True},
         "private_endpoint_connections": {"readonly": True},
         "shared_private_link_resources": {"readonly": True},
-        "e_tag": {"readonly": True},
+        "upgrade_available": {"readonly": True},
+        "service_upgrade_date": {"readonly": True},
     }
 
     _attribute_map = {
@@ -1896,31 +1896,34 @@ class SearchService(TrackedResource):  # pylint: disable=too-many-instance-attri
         "location": {"key": "location", "type": "str"},
         "sku": {"key": "sku", "type": "Sku"},
         "identity": {"key": "identity", "type": "Identity"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
         "replica_count": {"key": "properties.replicaCount", "type": "int"},
         "partition_count": {"key": "properties.partitionCount", "type": "int"},
+        "endpoint": {"key": "properties.endpoint", "type": "str"},
         "hosting_mode": {"key": "properties.hostingMode", "type": "str"},
+        "compute_type": {"key": "properties.computeType", "type": "str"},
         "public_network_access": {"key": "properties.publicNetworkAccess", "type": "str"},
         "status": {"key": "properties.status", "type": "str"},
         "status_details": {"key": "properties.statusDetails", "type": "str"},
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
         "network_rule_set": {"key": "properties.networkRuleSet", "type": "NetworkRuleSet"},
-        "disabled_data_exfiltration_options": {"key": "properties.disabledDataExfiltrationOptions", "type": "[str]"},
         "encryption_with_cmk": {"key": "properties.encryptionWithCmk", "type": "EncryptionWithCmk"},
         "disable_local_auth": {"key": "properties.disableLocalAuth", "type": "bool"},
         "auth_options": {"key": "properties.authOptions", "type": "DataPlaneAuthOptions"},
-        "semantic_search": {"key": "properties.semanticSearch", "type": "str"},
         "private_endpoint_connections": {
             "key": "properties.privateEndpointConnections",
             "type": "[PrivateEndpointConnection]",
         },
+        "semantic_search": {"key": "properties.semanticSearch", "type": "str"},
         "shared_private_link_resources": {
             "key": "properties.sharedPrivateLinkResources",
             "type": "[SharedPrivateLinkResource]",
         },
-        "e_tag": {"key": "properties.eTag", "type": "str"},
+        "upgrade_available": {"key": "properties.upgradeAvailable", "type": "bool"},
+        "service_upgrade_date": {"key": "properties.serviceUpgradeDate", "type": "iso-8601"},
     }
 
-    def __init__(
+    def __init__(  # pylint: disable=too-many-locals
         self,
         *,
         location: str,
@@ -1929,12 +1932,11 @@ class SearchService(TrackedResource):  # pylint: disable=too-many-instance-attri
         identity: Optional["_models.Identity"] = None,
         replica_count: int = 1,
         partition_count: int = 1,
+        endpoint: Optional[str] = None,
         hosting_mode: Union[str, "_models.HostingMode"] = "default",
+        compute_type: Optional[Union[str, "_models.ComputeType"]] = None,
         public_network_access: Union[str, "_models.PublicNetworkAccess"] = "enabled",
         network_rule_set: Optional["_models.NetworkRuleSet"] = None,
-        disabled_data_exfiltration_options: Optional[
-            List[Union[str, "_models.SearchDisabledDataExfiltrationOption"]]
-        ] = None,
         encryption_with_cmk: Optional["_models.EncryptionWithCmk"] = None,
         disable_local_auth: Optional[bool] = None,
         auth_options: Optional["_models.DataPlaneAuthOptions"] = None,
@@ -1960,12 +1962,17 @@ class SearchService(TrackedResource):  # pylint: disable=too-many-instance-attri
          'standard3' services with hostingMode set to 'highDensity', the allowed values are between 1
          and 3.
         :paramtype partition_count: int
+        :keyword endpoint: The endpoint of the Azure AI Search service.
+        :paramtype endpoint: str
         :keyword hosting_mode: Applicable only for the standard3 SKU. You can set this property to
          enable up to 3 high density partitions that allow up to 1000 indexes, which is much higher than
          the maximum indexes allowed for any other SKU. For the standard3 SKU, the value is either
          'default' or 'highDensity'. For all other SKUs, this value must be 'default'. Known values are:
          "default" and "highDensity".
         :paramtype hosting_mode: str or ~azure.mgmt.search.models.HostingMode
+        :keyword compute_type: Configure this property to support the search service using either the
+         Default Compute or Azure Confidential Compute. Known values are: "default" and "confidential".
+        :paramtype compute_type: str or ~azure.mgmt.search.models.ComputeType
         :keyword public_network_access: This value can be set to 'enabled' to avoid breaking changes on
          existing customer resources and templates. If set to 'disabled', traffic over public interface
          is not allowed, and private endpoint connections would be the exclusive access method. Known
@@ -1974,12 +1981,6 @@ class SearchService(TrackedResource):  # pylint: disable=too-many-instance-attri
         :keyword network_rule_set: Network specific rules that determine how the Azure AI Search
          service may be reached.
         :paramtype network_rule_set: ~azure.mgmt.search.models.NetworkRuleSet
-        :keyword disabled_data_exfiltration_options: A list of data exfiltration scenarios that are
-         explicitly disallowed for the search service. Currently, the only supported value is 'All' to
-         disable all possible data export scenarios with more fine grained controls planned for the
-         future.
-        :paramtype disabled_data_exfiltration_options: list[str or
-         ~azure.mgmt.search.models.SearchDisabledDataExfiltrationOption]
         :keyword encryption_with_cmk: Specifies any policy regarding encryption of resources (such as
          indexes) using customer manager keys within a search service.
         :paramtype encryption_with_cmk: ~azure.mgmt.search.models.EncryptionWithCmk
@@ -1991,33 +1992,36 @@ class SearchService(TrackedResource):  # pylint: disable=too-many-instance-attri
          authenticates requests. This cannot be set if 'disableLocalAuth' is set to true.
         :paramtype auth_options: ~azure.mgmt.search.models.DataPlaneAuthOptions
         :keyword semantic_search: Sets options that control the availability of semantic search. This
-         configuration is only possible for certain Azure AI Search SKUs in certain locations. Known
-         values are: "disabled", "free", and "standard".
+         configuration is only possible for certain search SKUs in certain locations. Known values are:
+         "disabled", "free", and "standard".
         :paramtype semantic_search: str or ~azure.mgmt.search.models.SearchSemanticSearch
         """
         super().__init__(tags=tags, location=location, **kwargs)
         self.sku = sku
         self.identity = identity
+        self.system_data = None
         self.replica_count = replica_count
         self.partition_count = partition_count
+        self.endpoint = endpoint
         self.hosting_mode = hosting_mode
+        self.compute_type = compute_type
         self.public_network_access = public_network_access
         self.status = None
         self.status_details = None
         self.provisioning_state = None
         self.network_rule_set = network_rule_set
-        self.disabled_data_exfiltration_options = disabled_data_exfiltration_options
         self.encryption_with_cmk = encryption_with_cmk
         self.disable_local_auth = disable_local_auth
         self.auth_options = auth_options
-        self.semantic_search = semantic_search
         self.private_endpoint_connections = None
+        self.semantic_search = semantic_search
         self.shared_private_link_resources = None
-        self.e_tag = None
+        self.upgrade_available = None
+        self.service_upgrade_date = None
 
 
 class SearchServiceListResult(_serialization.Model):
-    """Response containing a list of Azure AI Search services.
+    """Response containing a list of search services.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -2045,8 +2049,8 @@ class SearchServiceListResult(_serialization.Model):
         self.next_link = None
 
 
-class SearchServiceUpdate(Resource):  # pylint: disable=too-many-instance-attributes
-    """The parameters used to update an Azure AI Search service.
+class SearchServiceUpdate(Resource):
+    """The parameters used to update a search service.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -2058,8 +2062,8 @@ class SearchServiceUpdate(Resource):  # pylint: disable=too-many-instance-attrib
     :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
      "Microsoft.Storage/storageAccounts".
     :vartype type: str
-    :ivar sku: The SKU of the search service, which determines price tier and capacity limits. This
-     property is required when creating a new search service.
+    :ivar sku: The SKU of the search service, which determines the billing rate and capacity
+     limits. This property is required when creating a new search service.
     :vartype sku: ~azure.mgmt.search.models.Sku
     :ivar location: The geographic location of the resource. This must be one of the supported and
      registered Azure geo regions (for example, West US, East US, Southeast Asia, and so forth).
@@ -2067,8 +2071,7 @@ class SearchServiceUpdate(Resource):  # pylint: disable=too-many-instance-attrib
     :vartype location: str
     :ivar tags: Tags to help categorize the resource in the Azure portal.
     :vartype tags: dict[str, str]
-    :ivar identity: Details about the search service identity. A null value indicates that the
-     search service has no identity assigned.
+    :ivar identity: The identity of the resource.
     :vartype identity: ~azure.mgmt.search.models.Identity
     :ivar replica_count: The number of replicas in the search service. If specified, it must be a
      value between 1 and 12 inclusive for standard SKUs or between 1 and 3 inclusive for basic SKU.
@@ -2077,12 +2080,17 @@ class SearchServiceUpdate(Resource):  # pylint: disable=too-many-instance-attrib
      1, 2, 3, 4, 6, or 12. Values greater than 1 are only valid for standard SKUs. For 'standard3'
      services with hostingMode set to 'highDensity', the allowed values are between 1 and 3.
     :vartype partition_count: int
+    :ivar endpoint: The endpoint of the Azure AI Search service.
+    :vartype endpoint: str
     :ivar hosting_mode: Applicable only for the standard3 SKU. You can set this property to enable
      up to 3 high density partitions that allow up to 1000 indexes, which is much higher than the
      maximum indexes allowed for any other SKU. For the standard3 SKU, the value is either 'default'
      or 'highDensity'. For all other SKUs, this value must be 'default'. Known values are: "default"
      and "highDensity".
     :vartype hosting_mode: str or ~azure.mgmt.search.models.HostingMode
+    :ivar compute_type: Configure this property to support the search service using either the
+     Default Compute or Azure Confidential Compute. Known values are: "default" and "confidential".
+    :vartype compute_type: str or ~azure.mgmt.search.models.ComputeType
     :ivar public_network_access: This value can be set to 'enabled' to avoid breaking changes on
      existing customer resources and templates. If set to 'disabled', traffic over public interface
      is not allowed, and private endpoint connections would be the exclusive access method. Known
@@ -2095,11 +2103,10 @@ class SearchServiceUpdate(Resource):  # pylint: disable=too-many-instance-attrib
      units are not healthy. The search service is most likely operational, but performance might be
      slow and some requests might be dropped. 'disabled': The search service is disabled. In this
      state, the service will reject all API requests. 'error': The search service is in an error
-     state. 'stopped': The search service is in a subscription that's disabled. If your service is
-     in the degraded, disabled, or error states, it means the Azure AI Search team is actively
+     state. If your service is in the degraded, disabled, or error states, Microsoft is actively
      investigating the underlying issue. Dedicated services in these states are still chargeable
      based on the number of search units provisioned. Known values are: "running", "provisioning",
-     "deleting", "degraded", "disabled", "error", and "stopped".
+     "deleting", "degraded", "disabled", and "error".
     :vartype status: str or ~azure.mgmt.search.models.SearchServiceStatus
     :ivar status_details: The details of the search service status.
     :vartype status_details: str
@@ -2116,12 +2123,6 @@ class SearchServiceUpdate(Resource):  # pylint: disable=too-many-instance-attrib
     :ivar network_rule_set: Network specific rules that determine how the Azure AI Search service
      may be reached.
     :vartype network_rule_set: ~azure.mgmt.search.models.NetworkRuleSet
-    :ivar disabled_data_exfiltration_options: A list of data exfiltration scenarios that are
-     explicitly disallowed for the search service. Currently, the only supported value is 'All' to
-     disable all possible data export scenarios with more fine grained controls planned for the
-     future.
-    :vartype disabled_data_exfiltration_options: list[str or
-     ~azure.mgmt.search.models.SearchDisabledDataExfiltrationOption]
     :ivar encryption_with_cmk: Specifies any policy regarding encryption of resources (such as
      indexes) using customer manager keys within a search service.
     :vartype encryption_with_cmk: ~azure.mgmt.search.models.EncryptionWithCmk
@@ -2132,21 +2133,23 @@ class SearchServiceUpdate(Resource):  # pylint: disable=too-many-instance-attrib
     :ivar auth_options: Defines the options for how the data plane API of a search service
      authenticates requests. This cannot be set if 'disableLocalAuth' is set to true.
     :vartype auth_options: ~azure.mgmt.search.models.DataPlaneAuthOptions
-    :ivar semantic_search: Sets options that control the availability of semantic search. This
-     configuration is only possible for certain Azure AI Search SKUs in certain locations. Known
-     values are: "disabled", "free", and "standard".
-    :vartype semantic_search: str or ~azure.mgmt.search.models.SearchSemanticSearch
-    :ivar private_endpoint_connections: The list of private endpoint connections to the Azure AI
-     Search service.
+    :ivar private_endpoint_connections: The list of private endpoint connections to the search
+     service.
     :vartype private_endpoint_connections:
      list[~azure.mgmt.search.models.PrivateEndpointConnection]
+    :ivar semantic_search: Sets options that control the availability of semantic search. This
+     configuration is only possible for certain search SKUs in certain locations. Known values are:
+     "disabled", "free", and "standard".
+    :vartype semantic_search: str or ~azure.mgmt.search.models.SearchSemanticSearch
     :ivar shared_private_link_resources: The list of shared private link resources managed by the
-     Azure AI Search service.
+     search service.
     :vartype shared_private_link_resources:
      list[~azure.mgmt.search.models.SharedPrivateLinkResource]
-    :ivar e_tag: A system generated property representing the service's etag that can be for
-     optimistic concurrency control during updates.
-    :vartype e_tag: str
+    :ivar upgrade_available: Indicates whether or not the search service has an upgrade available.
+    :vartype upgrade_available: bool
+    :ivar service_upgrade_date: The date and time the search service was last upgraded. This field
+     will be null until the service gets upgraded for the first time.
+    :vartype service_upgrade_date: ~datetime.datetime
     """
 
     _validation = {
@@ -2160,7 +2163,8 @@ class SearchServiceUpdate(Resource):  # pylint: disable=too-many-instance-attrib
         "provisioning_state": {"readonly": True},
         "private_endpoint_connections": {"readonly": True},
         "shared_private_link_resources": {"readonly": True},
-        "e_tag": {"readonly": True},
+        "upgrade_available": {"readonly": True},
+        "service_upgrade_date": {"readonly": True},
     }
 
     _attribute_map = {
@@ -2173,29 +2177,31 @@ class SearchServiceUpdate(Resource):  # pylint: disable=too-many-instance-attrib
         "identity": {"key": "identity", "type": "Identity"},
         "replica_count": {"key": "properties.replicaCount", "type": "int"},
         "partition_count": {"key": "properties.partitionCount", "type": "int"},
+        "endpoint": {"key": "properties.endpoint", "type": "str"},
         "hosting_mode": {"key": "properties.hostingMode", "type": "str"},
+        "compute_type": {"key": "properties.computeType", "type": "str"},
         "public_network_access": {"key": "properties.publicNetworkAccess", "type": "str"},
         "status": {"key": "properties.status", "type": "str"},
         "status_details": {"key": "properties.statusDetails", "type": "str"},
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
         "network_rule_set": {"key": "properties.networkRuleSet", "type": "NetworkRuleSet"},
-        "disabled_data_exfiltration_options": {"key": "properties.disabledDataExfiltrationOptions", "type": "[str]"},
         "encryption_with_cmk": {"key": "properties.encryptionWithCmk", "type": "EncryptionWithCmk"},
         "disable_local_auth": {"key": "properties.disableLocalAuth", "type": "bool"},
         "auth_options": {"key": "properties.authOptions", "type": "DataPlaneAuthOptions"},
-        "semantic_search": {"key": "properties.semanticSearch", "type": "str"},
         "private_endpoint_connections": {
             "key": "properties.privateEndpointConnections",
             "type": "[PrivateEndpointConnection]",
         },
+        "semantic_search": {"key": "properties.semanticSearch", "type": "str"},
         "shared_private_link_resources": {
             "key": "properties.sharedPrivateLinkResources",
             "type": "[SharedPrivateLinkResource]",
         },
-        "e_tag": {"key": "properties.eTag", "type": "str"},
+        "upgrade_available": {"key": "properties.upgradeAvailable", "type": "bool"},
+        "service_upgrade_date": {"key": "properties.serviceUpgradeDate", "type": "iso-8601"},
     }
 
-    def __init__(
+    def __init__(  # pylint: disable=too-many-locals
         self,
         *,
         sku: Optional["_models.Sku"] = None,
@@ -2204,12 +2210,11 @@ class SearchServiceUpdate(Resource):  # pylint: disable=too-many-instance-attrib
         identity: Optional["_models.Identity"] = None,
         replica_count: int = 1,
         partition_count: int = 1,
+        endpoint: Optional[str] = None,
         hosting_mode: Union[str, "_models.HostingMode"] = "default",
+        compute_type: Optional[Union[str, "_models.ComputeType"]] = None,
         public_network_access: Union[str, "_models.PublicNetworkAccess"] = "enabled",
         network_rule_set: Optional["_models.NetworkRuleSet"] = None,
-        disabled_data_exfiltration_options: Optional[
-            List[Union[str, "_models.SearchDisabledDataExfiltrationOption"]]
-        ] = None,
         encryption_with_cmk: Optional["_models.EncryptionWithCmk"] = None,
         disable_local_auth: Optional[bool] = None,
         auth_options: Optional["_models.DataPlaneAuthOptions"] = None,
@@ -2217,8 +2222,8 @@ class SearchServiceUpdate(Resource):  # pylint: disable=too-many-instance-attrib
         **kwargs: Any
     ) -> None:
         """
-        :keyword sku: The SKU of the search service, which determines price tier and capacity limits.
-         This property is required when creating a new search service.
+        :keyword sku: The SKU of the search service, which determines the billing rate and capacity
+         limits. This property is required when creating a new search service.
         :paramtype sku: ~azure.mgmt.search.models.Sku
         :keyword location: The geographic location of the resource. This must be one of the supported
          and registered Azure geo regions (for example, West US, East US, Southeast Asia, and so forth).
@@ -2226,8 +2231,7 @@ class SearchServiceUpdate(Resource):  # pylint: disable=too-many-instance-attrib
         :paramtype location: str
         :keyword tags: Tags to help categorize the resource in the Azure portal.
         :paramtype tags: dict[str, str]
-        :keyword identity: Details about the search service identity. A null value indicates that the
-         search service has no identity assigned.
+        :keyword identity: The identity of the resource.
         :paramtype identity: ~azure.mgmt.search.models.Identity
         :keyword replica_count: The number of replicas in the search service. If specified, it must be
          a value between 1 and 12 inclusive for standard SKUs or between 1 and 3 inclusive for basic
@@ -2238,12 +2242,17 @@ class SearchServiceUpdate(Resource):  # pylint: disable=too-many-instance-attrib
          'standard3' services with hostingMode set to 'highDensity', the allowed values are between 1
          and 3.
         :paramtype partition_count: int
+        :keyword endpoint: The endpoint of the Azure AI Search service.
+        :paramtype endpoint: str
         :keyword hosting_mode: Applicable only for the standard3 SKU. You can set this property to
          enable up to 3 high density partitions that allow up to 1000 indexes, which is much higher than
          the maximum indexes allowed for any other SKU. For the standard3 SKU, the value is either
          'default' or 'highDensity'. For all other SKUs, this value must be 'default'. Known values are:
          "default" and "highDensity".
         :paramtype hosting_mode: str or ~azure.mgmt.search.models.HostingMode
+        :keyword compute_type: Configure this property to support the search service using either the
+         Default Compute or Azure Confidential Compute. Known values are: "default" and "confidential".
+        :paramtype compute_type: str or ~azure.mgmt.search.models.ComputeType
         :keyword public_network_access: This value can be set to 'enabled' to avoid breaking changes on
          existing customer resources and templates. If set to 'disabled', traffic over public interface
          is not allowed, and private endpoint connections would be the exclusive access method. Known
@@ -2252,12 +2261,6 @@ class SearchServiceUpdate(Resource):  # pylint: disable=too-many-instance-attrib
         :keyword network_rule_set: Network specific rules that determine how the Azure AI Search
          service may be reached.
         :paramtype network_rule_set: ~azure.mgmt.search.models.NetworkRuleSet
-        :keyword disabled_data_exfiltration_options: A list of data exfiltration scenarios that are
-         explicitly disallowed for the search service. Currently, the only supported value is 'All' to
-         disable all possible data export scenarios with more fine grained controls planned for the
-         future.
-        :paramtype disabled_data_exfiltration_options: list[str or
-         ~azure.mgmt.search.models.SearchDisabledDataExfiltrationOption]
         :keyword encryption_with_cmk: Specifies any policy regarding encryption of resources (such as
          indexes) using customer manager keys within a search service.
         :paramtype encryption_with_cmk: ~azure.mgmt.search.models.EncryptionWithCmk
@@ -2269,8 +2272,8 @@ class SearchServiceUpdate(Resource):  # pylint: disable=too-many-instance-attrib
          authenticates requests. This cannot be set if 'disableLocalAuth' is set to true.
         :paramtype auth_options: ~azure.mgmt.search.models.DataPlaneAuthOptions
         :keyword semantic_search: Sets options that control the availability of semantic search. This
-         configuration is only possible for certain Azure AI Search SKUs in certain locations. Known
-         values are: "disabled", "free", and "standard".
+         configuration is only possible for certain search SKUs in certain locations. Known values are:
+         "disabled", "free", and "standard".
         :paramtype semantic_search: str or ~azure.mgmt.search.models.SearchSemanticSearch
         """
         super().__init__(**kwargs)
@@ -2280,36 +2283,38 @@ class SearchServiceUpdate(Resource):  # pylint: disable=too-many-instance-attrib
         self.identity = identity
         self.replica_count = replica_count
         self.partition_count = partition_count
+        self.endpoint = endpoint
         self.hosting_mode = hosting_mode
+        self.compute_type = compute_type
         self.public_network_access = public_network_access
         self.status = None
         self.status_details = None
         self.provisioning_state = None
         self.network_rule_set = network_rule_set
-        self.disabled_data_exfiltration_options = disabled_data_exfiltration_options
         self.encryption_with_cmk = encryption_with_cmk
         self.disable_local_auth = disable_local_auth
         self.auth_options = auth_options
-        self.semantic_search = semantic_search
         self.private_endpoint_connections = None
+        self.semantic_search = semantic_search
         self.shared_private_link_resources = None
-        self.e_tag = None
+        self.upgrade_available = None
+        self.service_upgrade_date = None
 
 
 class ShareablePrivateLinkResourceProperties(_serialization.Model):
-    """Describes the properties of a resource type that has been onboarded to private link service,
-    supported by Azure AI Search.
+    """Describes the properties of a resource type that has been onboarded to private link service and
+    that's supported by search.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar type: The resource provider type for the resource that has been onboarded to private link
-     service, supported by Azure AI Search.
+     service and that's supported by search.
     :vartype type: str
     :ivar group_id: The resource provider group id for the resource that has been onboarded to
-     private link service, supported by Azure AI Search.
+     private link service and that's supported by search.
     :vartype group_id: str
     :ivar description: The description of the resource type that has been onboarded to private link
-     service, supported by Azure AI Search.
+     service and that's supported by search.
     :vartype description: str
     """
 
@@ -2334,16 +2339,16 @@ class ShareablePrivateLinkResourceProperties(_serialization.Model):
 
 
 class ShareablePrivateLinkResourceType(_serialization.Model):
-    """Describes an resource type that has been onboarded to private link service, supported by Azure
-    AI Search.
+    """Describes a resource type that has been onboarded to private link service and that's supported
+    by search.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar name: The name of the resource type that has been onboarded to private link service,
-     supported by Azure AI Search.
+    :ivar name: The name of the resource type that has been onboarded to private link service and
+     that's supported by search.
     :vartype name: str
     :ivar properties: Describes the properties of a resource type that has been onboarded to
-     private link service, supported by Azure AI Search.
+     private link service and that's supported by search.
     :vartype properties: ~azure.mgmt.search.models.ShareablePrivateLinkResourceProperties
     """
 
@@ -2365,7 +2370,7 @@ class ShareablePrivateLinkResourceType(_serialization.Model):
 
 
 class SharedPrivateLinkResource(Resource):
-    """Describes a shared private link resource managed by the Azure AI Search service.
+    """Describes a Shared Private Link Resource managed by the search service.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -2377,8 +2382,8 @@ class SharedPrivateLinkResource(Resource):
     :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
      "Microsoft.Storage/storageAccounts".
     :vartype type: str
-    :ivar properties: Describes the properties of a shared private link resource managed by the
-     Azure AI Search service.
+    :ivar properties: Describes the properties of a Shared Private Link Resource managed by the
+     search service.
     :vartype properties: ~azure.mgmt.search.models.SharedPrivateLinkResourceProperties
     """
 
@@ -2399,8 +2404,8 @@ class SharedPrivateLinkResource(Resource):
         self, *, properties: Optional["_models.SharedPrivateLinkResourceProperties"] = None, **kwargs: Any
     ) -> None:
         """
-        :keyword properties: Describes the properties of a shared private link resource managed by the
-         Azure AI Search service.
+        :keyword properties: Describes the properties of a Shared Private Link Resource managed by the
+         search service.
         :paramtype properties: ~azure.mgmt.search.models.SharedPrivateLinkResourceProperties
         """
         super().__init__(**kwargs)
@@ -2408,11 +2413,11 @@ class SharedPrivateLinkResource(Resource):
 
 
 class SharedPrivateLinkResourceListResult(_serialization.Model):
-    """Response containing a list of shared private link resources.
+    """Response containing a list of Shared Private Link Resources.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar value: The list of shared private link resources.
+    :ivar value: The list of Shared Private Link Resources.
     :vartype value: list[~azure.mgmt.search.models.SharedPrivateLinkResource]
     :ivar next_link: The URL to get the next set of shared private link resources, if there are
      any.
@@ -2440,19 +2445,20 @@ class SharedPrivateLinkResourceListResult(_serialization.Model):
 
 
 class SharedPrivateLinkResourceProperties(_serialization.Model):
-    """Describes the properties of an existing shared private link resource managed by the Azure AI
-    Search service.
+    """Describes the properties of an existing Shared Private Link Resource managed by the search
+    service.
 
-    :ivar private_link_resource_id: The resource ID of the resource the shared private link
+    :ivar private_link_resource_id: The resource id of the resource the shared private link
      resource is for.
     :vartype private_link_resource_id: str
-    :ivar group_id: The group ID from the provider of resource the shared private link resource is
+    :ivar group_id: The group id from the provider of resource the shared private link resource is
      for.
     :vartype group_id: str
-    :ivar request_message: The message for requesting approval of the shared private link resource.
+    :ivar request_message: The request message for requesting approval of the shared private link
+     resource.
     :vartype request_message: str
     :ivar resource_region: Optional. Can be used to specify the Azure Resource Manager location of
-     the resource for which a shared private link is being created. This is only required for those
+     the resource to which a shared private link is to be created. This is only required for those
      resources whose DNS configuration are regional (such as Azure Kubernetes Service).
     :vartype resource_region: str
     :ivar status: Status of the shared private link resource. Valid values are Pending, Approved,
@@ -2487,17 +2493,17 @@ class SharedPrivateLinkResourceProperties(_serialization.Model):
         **kwargs: Any
     ) -> None:
         """
-        :keyword private_link_resource_id: The resource ID of the resource the shared private link
+        :keyword private_link_resource_id: The resource id of the resource the shared private link
          resource is for.
         :paramtype private_link_resource_id: str
-        :keyword group_id: The group ID from the provider of resource the shared private link resource
+        :keyword group_id: The group id from the provider of resource the shared private link resource
          is for.
         :paramtype group_id: str
-        :keyword request_message: The message for requesting approval of the shared private link
-         resource.
+        :keyword request_message: The request message for requesting approval of the shared private
+         link resource.
         :paramtype request_message: str
         :keyword resource_region: Optional. Can be used to specify the Azure Resource Manager location
-         of the resource for which a shared private link is being created. This is only required for
+         of the resource to which a shared private link is to be created. This is only required for
          those resources whose DNS configuration are regional (such as Azure Kubernetes Service).
         :paramtype resource_region: str
         :keyword status: Status of the shared private link resource. Valid values are Pending,
@@ -2553,6 +2559,70 @@ class Sku(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.name = name
+
+
+class SystemData(_serialization.Model):
+    """Metadata pertaining to creation and last modification of the resource.
+
+    :ivar created_by: The identity that created the resource.
+    :vartype created_by: str
+    :ivar created_by_type: The type of identity that created the resource. Known values are:
+     "User", "Application", "ManagedIdentity", and "Key".
+    :vartype created_by_type: str or ~azure.mgmt.search.models.CreatedByType
+    :ivar created_at: The timestamp of resource creation (UTC).
+    :vartype created_at: ~datetime.datetime
+    :ivar last_modified_by: The identity that last modified the resource.
+    :vartype last_modified_by: str
+    :ivar last_modified_by_type: The type of identity that last modified the resource. Known values
+     are: "User", "Application", "ManagedIdentity", and "Key".
+    :vartype last_modified_by_type: str or ~azure.mgmt.search.models.CreatedByType
+    :ivar last_modified_at: The timestamp of resource last modification (UTC).
+    :vartype last_modified_at: ~datetime.datetime
+    """
+
+    _attribute_map = {
+        "created_by": {"key": "createdBy", "type": "str"},
+        "created_by_type": {"key": "createdByType", "type": "str"},
+        "created_at": {"key": "createdAt", "type": "iso-8601"},
+        "last_modified_by": {"key": "lastModifiedBy", "type": "str"},
+        "last_modified_by_type": {"key": "lastModifiedByType", "type": "str"},
+        "last_modified_at": {"key": "lastModifiedAt", "type": "iso-8601"},
+    }
+
+    def __init__(
+        self,
+        *,
+        created_by: Optional[str] = None,
+        created_by_type: Optional[Union[str, "_models.CreatedByType"]] = None,
+        created_at: Optional[datetime.datetime] = None,
+        last_modified_by: Optional[str] = None,
+        last_modified_by_type: Optional[Union[str, "_models.CreatedByType"]] = None,
+        last_modified_at: Optional[datetime.datetime] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword created_by: The identity that created the resource.
+        :paramtype created_by: str
+        :keyword created_by_type: The type of identity that created the resource. Known values are:
+         "User", "Application", "ManagedIdentity", and "Key".
+        :paramtype created_by_type: str or ~azure.mgmt.search.models.CreatedByType
+        :keyword created_at: The timestamp of resource creation (UTC).
+        :paramtype created_at: ~datetime.datetime
+        :keyword last_modified_by: The identity that last modified the resource.
+        :paramtype last_modified_by: str
+        :keyword last_modified_by_type: The type of identity that last modified the resource. Known
+         values are: "User", "Application", "ManagedIdentity", and "Key".
+        :paramtype last_modified_by_type: str or ~azure.mgmt.search.models.CreatedByType
+        :keyword last_modified_at: The timestamp of resource last modification (UTC).
+        :paramtype last_modified_at: ~datetime.datetime
+        """
+        super().__init__(**kwargs)
+        self.created_by = created_by
+        self.created_by_type = created_by_type
+        self.created_at = created_at
+        self.last_modified_by = last_modified_by
+        self.last_modified_by_type = last_modified_by_type
+        self.last_modified_at = last_modified_at
 
 
 class UserAssignedManagedIdentity(_serialization.Model):
