@@ -20,7 +20,7 @@ class TestSqlManagementElasticPoolsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_metrics(self, resource_group):
+    def test_elastic_pools_list_metrics(self, resource_group):
         response = self.client.elastic_pools.list_metrics(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -34,7 +34,7 @@ class TestSqlManagementElasticPoolsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_metric_definitions(self, resource_group):
+    def test_elastic_pools_list_metric_definitions(self, resource_group):
         response = self.client.elastic_pools.list_metric_definitions(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -47,7 +47,7 @@ class TestSqlManagementElasticPoolsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_server(self, resource_group):
+    def test_elastic_pools_list_by_server(self, resource_group):
         response = self.client.elastic_pools.list_by_server(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -59,7 +59,7 @@ class TestSqlManagementElasticPoolsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_elastic_pools_get(self, resource_group):
         response = self.client.elastic_pools.get(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -72,7 +72,7 @@ class TestSqlManagementElasticPoolsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_create_or_update(self, resource_group):
+    def test_elastic_pools_begin_create_or_update(self, resource_group):
         response = self.client.elastic_pools.begin_create_or_update(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -105,7 +105,7 @@ class TestSqlManagementElasticPoolsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_delete(self, resource_group):
+    def test_elastic_pools_begin_delete(self, resource_group):
         response = self.client.elastic_pools.begin_delete(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -118,7 +118,7 @@ class TestSqlManagementElasticPoolsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_update(self, resource_group):
+    def test_elastic_pools_begin_update(self, resource_group):
         response = self.client.elastic_pools.begin_update(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -144,7 +144,7 @@ class TestSqlManagementElasticPoolsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_failover(self, resource_group):
+    def test_elastic_pools_begin_failover(self, resource_group):
         response = self.client.elastic_pools.begin_failover(
             resource_group_name=resource_group.name,
             server_name="str",

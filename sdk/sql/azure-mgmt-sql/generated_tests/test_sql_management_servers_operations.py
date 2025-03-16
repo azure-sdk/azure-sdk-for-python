@@ -20,7 +20,7 @@ class TestSqlManagementServersOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_check_name_availability(self, resource_group):
+    def test_servers_check_name_availability(self, resource_group):
         response = self.client.servers.check_name_availability(
             parameters={"name": "str", "type": "Microsoft.Sql/servers"},
             api_version="2023-05-01-preview",
@@ -31,7 +31,7 @@ class TestSqlManagementServersOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list(self, resource_group):
+    def test_servers_list(self, resource_group):
         response = self.client.servers.list(
             api_version="2023-05-01-preview",
         )
@@ -41,7 +41,7 @@ class TestSqlManagementServersOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_resource_group(self, resource_group):
+    def test_servers_list_by_resource_group(self, resource_group):
         response = self.client.servers.list_by_resource_group(
             resource_group_name=resource_group.name,
             api_version="2023-05-01-preview",
@@ -52,7 +52,7 @@ class TestSqlManagementServersOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_servers_get(self, resource_group):
         response = self.client.servers.get(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -64,7 +64,7 @@ class TestSqlManagementServersOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_create_or_update(self, resource_group):
+    def test_servers_begin_create_or_update(self, resource_group):
         response = self.client.servers.begin_create_or_update(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -127,7 +127,7 @@ class TestSqlManagementServersOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_delete(self, resource_group):
+    def test_servers_begin_delete(self, resource_group):
         response = self.client.servers.begin_delete(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -139,7 +139,7 @@ class TestSqlManagementServersOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_update(self, resource_group):
+    def test_servers_begin_update(self, resource_group):
         response = self.client.servers.begin_update(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -197,7 +197,7 @@ class TestSqlManagementServersOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_import_database(self, resource_group):
+    def test_servers_begin_import_database(self, resource_group):
         response = self.client.servers.begin_import_database(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -222,7 +222,7 @@ class TestSqlManagementServersOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_refresh_status(self, resource_group):
+    def test_servers_begin_refresh_status(self, resource_group):
         response = self.client.servers.begin_refresh_status(
             resource_group_name=resource_group.name,
             server_name="str",

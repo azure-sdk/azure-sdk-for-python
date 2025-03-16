@@ -21,7 +21,7 @@ class TestSqlManagementSynapseLinkWorkspacesOperationsAsync(AzureMgmtRecordedTes
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_by_database(self, resource_group):
+    async def test_synapse_link_workspaces_list_by_database(self, resource_group):
         response = self.client.synapse_link_workspaces.list_by_database(
             resource_group_name=resource_group.name,
             server_name="str",

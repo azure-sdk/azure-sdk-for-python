@@ -20,7 +20,7 @@ class TestSqlManagementManagedServerDnsAliasesOperations(AzureMgmtRecordedTestCa
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_managed_instance(self, resource_group):
+    def test_managed_server_dns_aliases_list_by_managed_instance(self, resource_group):
         response = self.client.managed_server_dns_aliases.list_by_managed_instance(
             resource_group_name=resource_group.name,
             managed_instance_name="str",
@@ -32,7 +32,7 @@ class TestSqlManagementManagedServerDnsAliasesOperations(AzureMgmtRecordedTestCa
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_managed_server_dns_aliases_get(self, resource_group):
         response = self.client.managed_server_dns_aliases.get(
             resource_group_name=resource_group.name,
             managed_instance_name="str",
@@ -45,7 +45,7 @@ class TestSqlManagementManagedServerDnsAliasesOperations(AzureMgmtRecordedTestCa
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_create_or_update(self, resource_group):
+    def test_managed_server_dns_aliases_begin_create_or_update(self, resource_group):
         response = self.client.managed_server_dns_aliases.begin_create_or_update(
             resource_group_name=resource_group.name,
             managed_instance_name="str",
@@ -59,7 +59,7 @@ class TestSqlManagementManagedServerDnsAliasesOperations(AzureMgmtRecordedTestCa
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_delete(self, resource_group):
+    def test_managed_server_dns_aliases_begin_delete(self, resource_group):
         response = self.client.managed_server_dns_aliases.begin_delete(
             resource_group_name=resource_group.name,
             managed_instance_name="str",
@@ -72,7 +72,7 @@ class TestSqlManagementManagedServerDnsAliasesOperations(AzureMgmtRecordedTestCa
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_acquire(self, resource_group):
+    def test_managed_server_dns_aliases_begin_acquire(self, resource_group):
         response = self.client.managed_server_dns_aliases.begin_acquire(
             resource_group_name=resource_group.name,
             managed_instance_name="str",

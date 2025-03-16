@@ -20,7 +20,7 @@ class TestSqlManagementManagedDatabaseMoveOperationsOperations(AzureMgmtRecorded
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_location(self, resource_group):
+    def test_managed_database_move_operations_list_by_location(self, resource_group):
         response = self.client.managed_database_move_operations.list_by_location(
             resource_group_name=resource_group.name,
             location_name="str",
@@ -32,7 +32,7 @@ class TestSqlManagementManagedDatabaseMoveOperationsOperations(AzureMgmtRecorded
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_managed_database_move_operations_get(self, resource_group):
         response = self.client.managed_database_move_operations.get(
             resource_group_name=resource_group.name,
             location_name="str",

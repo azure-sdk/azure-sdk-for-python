@@ -20,7 +20,7 @@ class TestSqlManagementSyncAgentsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_sync_agents_get(self, resource_group):
         response = self.client.sync_agents.get(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -33,7 +33,7 @@ class TestSqlManagementSyncAgentsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_create_or_update(self, resource_group):
+    def test_sync_agents_begin_create_or_update(self, resource_group):
         response = self.client.sync_agents.begin_create_or_update(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -57,7 +57,7 @@ class TestSqlManagementSyncAgentsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_delete(self, resource_group):
+    def test_sync_agents_begin_delete(self, resource_group):
         response = self.client.sync_agents.begin_delete(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -70,7 +70,7 @@ class TestSqlManagementSyncAgentsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_server(self, resource_group):
+    def test_sync_agents_list_by_server(self, resource_group):
         response = self.client.sync_agents.list_by_server(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -82,7 +82,7 @@ class TestSqlManagementSyncAgentsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_generate_key(self, resource_group):
+    def test_sync_agents_generate_key(self, resource_group):
         response = self.client.sync_agents.generate_key(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -95,7 +95,7 @@ class TestSqlManagementSyncAgentsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_linked_databases(self, resource_group):
+    def test_sync_agents_list_linked_databases(self, resource_group):
         response = self.client.sync_agents.list_linked_databases(
             resource_group_name=resource_group.name,
             server_name="str",

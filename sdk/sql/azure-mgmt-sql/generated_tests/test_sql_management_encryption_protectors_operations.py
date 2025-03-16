@@ -20,7 +20,7 @@ class TestSqlManagementEncryptionProtectorsOperations(AzureMgmtRecordedTestCase)
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_server(self, resource_group):
+    def test_encryption_protectors_list_by_server(self, resource_group):
         response = self.client.encryption_protectors.list_by_server(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -32,7 +32,7 @@ class TestSqlManagementEncryptionProtectorsOperations(AzureMgmtRecordedTestCase)
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_encryption_protectors_get(self, resource_group):
         response = self.client.encryption_protectors.get(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -45,7 +45,7 @@ class TestSqlManagementEncryptionProtectorsOperations(AzureMgmtRecordedTestCase)
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_create_or_update(self, resource_group):
+    def test_encryption_protectors_begin_create_or_update(self, resource_group):
         response = self.client.encryption_protectors.begin_create_or_update(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -71,7 +71,7 @@ class TestSqlManagementEncryptionProtectorsOperations(AzureMgmtRecordedTestCase)
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_revalidate(self, resource_group):
+    def test_encryption_protectors_begin_revalidate(self, resource_group):
         response = self.client.encryption_protectors.begin_revalidate(
             resource_group_name=resource_group.name,
             server_name="str",
