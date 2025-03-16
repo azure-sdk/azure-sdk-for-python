@@ -20,7 +20,7 @@ class TestSqlManagementServerAzureADAdministratorsOperations(AzureMgmtRecordedTe
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_server_azure_ad_administrators_get(self, resource_group):
         response = self.client.server_azure_ad_administrators.get(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -33,7 +33,7 @@ class TestSqlManagementServerAzureADAdministratorsOperations(AzureMgmtRecordedTe
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_create_or_update(self, resource_group):
+    def test_server_azure_ad_administrators_begin_create_or_update(self, resource_group):
         response = self.client.server_azure_ad_administrators.begin_create_or_update(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -56,7 +56,7 @@ class TestSqlManagementServerAzureADAdministratorsOperations(AzureMgmtRecordedTe
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_delete(self, resource_group):
+    def test_server_azure_ad_administrators_begin_delete(self, resource_group):
         response = self.client.server_azure_ad_administrators.begin_delete(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -69,7 +69,7 @@ class TestSqlManagementServerAzureADAdministratorsOperations(AzureMgmtRecordedTe
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_server(self, resource_group):
+    def test_server_azure_ad_administrators_list_by_server(self, resource_group):
         response = self.client.server_azure_ad_administrators.list_by_server(
             resource_group_name=resource_group.name,
             server_name="str",
