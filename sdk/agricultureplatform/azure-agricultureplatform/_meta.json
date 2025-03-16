@@ -1,0 +1,6 @@
+{
+  "commit": "f8250f612e58fe83b9ff2da5d183743bb10451ca",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/agricultureplatform/AgriculturePlatform.DataPlane",
+  "@azure-tools/typespec-python": "0.39.1"
+}
