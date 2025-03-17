@@ -20,7 +20,7 @@ class TestSqlManagementInstancePoolsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list(self, resource_group):
+    def test_instance_pools_list(self, resource_group):
         response = self.client.instance_pools.list(
             api_version="2023-05-01-preview",
         )
@@ -30,7 +30,7 @@ class TestSqlManagementInstancePoolsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_resource_group(self, resource_group):
+    def test_instance_pools_list_by_resource_group(self, resource_group):
         response = self.client.instance_pools.list_by_resource_group(
             resource_group_name=resource_group.name,
             api_version="2023-05-01-preview",
@@ -41,7 +41,7 @@ class TestSqlManagementInstancePoolsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_instance_pools_get(self, resource_group):
         response = self.client.instance_pools.get(
             resource_group_name=resource_group.name,
             instance_pool_name="str",
@@ -53,7 +53,7 @@ class TestSqlManagementInstancePoolsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_create_or_update(self, resource_group):
+    def test_instance_pools_begin_create_or_update(self, resource_group):
         response = self.client.instance_pools.begin_create_or_update(
             resource_group_name=resource_group.name,
             instance_pool_name="str",
@@ -78,7 +78,7 @@ class TestSqlManagementInstancePoolsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_delete(self, resource_group):
+    def test_instance_pools_begin_delete(self, resource_group):
         response = self.client.instance_pools.begin_delete(
             resource_group_name=resource_group.name,
             instance_pool_name="str",
@@ -90,7 +90,7 @@ class TestSqlManagementInstancePoolsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_update(self, resource_group):
+    def test_instance_pools_begin_update(self, resource_group):
         response = self.client.instance_pools.begin_update(
             resource_group_name=resource_group.name,
             instance_pool_name="str",

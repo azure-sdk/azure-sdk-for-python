@@ -20,7 +20,7 @@ class TestSqlManagementLongTermRetentionBackupsOperations(AzureMgmtRecordedTestC
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_location(self, resource_group):
+    def test_long_term_retention_backups_list_by_location(self, resource_group):
         response = self.client.long_term_retention_backups.list_by_location(
             location_name="str",
             api_version="2023-05-01-preview",
@@ -31,7 +31,7 @@ class TestSqlManagementLongTermRetentionBackupsOperations(AzureMgmtRecordedTestC
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_server(self, resource_group):
+    def test_long_term_retention_backups_list_by_server(self, resource_group):
         response = self.client.long_term_retention_backups.list_by_server(
             location_name="str",
             long_term_retention_server_name="str",
@@ -43,7 +43,7 @@ class TestSqlManagementLongTermRetentionBackupsOperations(AzureMgmtRecordedTestC
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_database(self, resource_group):
+    def test_long_term_retention_backups_list_by_database(self, resource_group):
         response = self.client.long_term_retention_backups.list_by_database(
             location_name="str",
             long_term_retention_server_name="str",
@@ -56,7 +56,7 @@ class TestSqlManagementLongTermRetentionBackupsOperations(AzureMgmtRecordedTestC
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_long_term_retention_backups_get(self, resource_group):
         response = self.client.long_term_retention_backups.get(
             location_name="str",
             long_term_retention_server_name="str",
@@ -70,7 +70,7 @@ class TestSqlManagementLongTermRetentionBackupsOperations(AzureMgmtRecordedTestC
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_delete(self, resource_group):
+    def test_long_term_retention_backups_begin_delete(self, resource_group):
         response = self.client.long_term_retention_backups.begin_delete(
             location_name="str",
             long_term_retention_server_name="str",
@@ -84,7 +84,7 @@ class TestSqlManagementLongTermRetentionBackupsOperations(AzureMgmtRecordedTestC
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_change_access_tier(self, resource_group):
+    def test_long_term_retention_backups_begin_change_access_tier(self, resource_group):
         response = self.client.long_term_retention_backups.begin_change_access_tier(
             location_name="str",
             long_term_retention_server_name="str",
@@ -99,7 +99,7 @@ class TestSqlManagementLongTermRetentionBackupsOperations(AzureMgmtRecordedTestC
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_copy(self, resource_group):
+    def test_long_term_retention_backups_begin_copy(self, resource_group):
         response = self.client.long_term_retention_backups.begin_copy(
             location_name="str",
             long_term_retention_server_name="str",
@@ -121,7 +121,7 @@ class TestSqlManagementLongTermRetentionBackupsOperations(AzureMgmtRecordedTestC
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_update(self, resource_group):
+    def test_long_term_retention_backups_begin_update(self, resource_group):
         response = self.client.long_term_retention_backups.begin_update(
             location_name="str",
             long_term_retention_server_name="str",
@@ -136,7 +136,7 @@ class TestSqlManagementLongTermRetentionBackupsOperations(AzureMgmtRecordedTestC
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_resource_group_location(self, resource_group):
+    def test_long_term_retention_backups_list_by_resource_group_location(self, resource_group):
         response = self.client.long_term_retention_backups.list_by_resource_group_location(
             resource_group_name=resource_group.name,
             location_name="str",
@@ -148,7 +148,7 @@ class TestSqlManagementLongTermRetentionBackupsOperations(AzureMgmtRecordedTestC
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_resource_group_server(self, resource_group):
+    def test_long_term_retention_backups_list_by_resource_group_server(self, resource_group):
         response = self.client.long_term_retention_backups.list_by_resource_group_server(
             resource_group_name=resource_group.name,
             location_name="str",
@@ -161,7 +161,7 @@ class TestSqlManagementLongTermRetentionBackupsOperations(AzureMgmtRecordedTestC
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_resource_group_database(self, resource_group):
+    def test_long_term_retention_backups_list_by_resource_group_database(self, resource_group):
         response = self.client.long_term_retention_backups.list_by_resource_group_database(
             resource_group_name=resource_group.name,
             location_name="str",
@@ -175,7 +175,7 @@ class TestSqlManagementLongTermRetentionBackupsOperations(AzureMgmtRecordedTestC
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get_by_resource_group(self, resource_group):
+    def test_long_term_retention_backups_get_by_resource_group(self, resource_group):
         response = self.client.long_term_retention_backups.get_by_resource_group(
             resource_group_name=resource_group.name,
             location_name="str",
@@ -190,7 +190,7 @@ class TestSqlManagementLongTermRetentionBackupsOperations(AzureMgmtRecordedTestC
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_delete_by_resource_group(self, resource_group):
+    def test_long_term_retention_backups_begin_delete_by_resource_group(self, resource_group):
         response = self.client.long_term_retention_backups.begin_delete_by_resource_group(
             resource_group_name=resource_group.name,
             location_name="str",
@@ -205,7 +205,7 @@ class TestSqlManagementLongTermRetentionBackupsOperations(AzureMgmtRecordedTestC
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_change_access_tier_by_resource_group(self, resource_group):
+    def test_long_term_retention_backups_begin_change_access_tier_by_resource_group(self, resource_group):
         response = self.client.long_term_retention_backups.begin_change_access_tier_by_resource_group(
             resource_group_name=resource_group.name,
             location_name="str",
@@ -221,7 +221,7 @@ class TestSqlManagementLongTermRetentionBackupsOperations(AzureMgmtRecordedTestC
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_copy_by_resource_group(self, resource_group):
+    def test_long_term_retention_backups_begin_copy_by_resource_group(self, resource_group):
         response = self.client.long_term_retention_backups.begin_copy_by_resource_group(
             resource_group_name=resource_group.name,
             location_name="str",
@@ -244,7 +244,7 @@ class TestSqlManagementLongTermRetentionBackupsOperations(AzureMgmtRecordedTestC
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_update_by_resource_group(self, resource_group):
+    def test_long_term_retention_backups_begin_update_by_resource_group(self, resource_group):
         response = self.client.long_term_retention_backups.begin_update_by_resource_group(
             resource_group_name=resource_group.name,
             location_name="str",

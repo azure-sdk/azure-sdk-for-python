@@ -20,7 +20,7 @@ class TestSqlManagementManagedInstancePrivateLinkResourcesOperations(AzureMgmtRe
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_managed_instance(self, resource_group):
+    def test_managed_instance_private_link_resources_list_by_managed_instance(self, resource_group):
         response = self.client.managed_instance_private_link_resources.list_by_managed_instance(
             resource_group_name=resource_group.name,
             managed_instance_name="str",
@@ -32,7 +32,7 @@ class TestSqlManagementManagedInstancePrivateLinkResourcesOperations(AzureMgmtRe
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_managed_instance_private_link_resources_get(self, resource_group):
         response = self.client.managed_instance_private_link_resources.get(
             resource_group_name=resource_group.name,
             managed_instance_name="str",

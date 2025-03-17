@@ -20,7 +20,7 @@ class TestSqlManagementSyncGroupsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_sync_database_ids(self, resource_group):
+    def test_sync_groups_list_sync_database_ids(self, resource_group):
         response = self.client.sync_groups.list_sync_database_ids(
             location_name="str",
             api_version="2020-11-01-preview",
@@ -31,7 +31,7 @@ class TestSqlManagementSyncGroupsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_refresh_hub_schema(self, resource_group):
+    def test_sync_groups_begin_refresh_hub_schema(self, resource_group):
         response = self.client.sync_groups.begin_refresh_hub_schema(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -45,7 +45,7 @@ class TestSqlManagementSyncGroupsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_hub_schemas(self, resource_group):
+    def test_sync_groups_list_hub_schemas(self, resource_group):
         response = self.client.sync_groups.list_hub_schemas(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -59,7 +59,7 @@ class TestSqlManagementSyncGroupsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_logs(self, resource_group):
+    def test_sync_groups_list_logs(self, resource_group):
         response = self.client.sync_groups.list_logs(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -76,7 +76,7 @@ class TestSqlManagementSyncGroupsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_cancel_sync(self, resource_group):
+    def test_sync_groups_cancel_sync(self, resource_group):
         response = self.client.sync_groups.cancel_sync(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -90,7 +90,7 @@ class TestSqlManagementSyncGroupsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_trigger_sync(self, resource_group):
+    def test_sync_groups_trigger_sync(self, resource_group):
         response = self.client.sync_groups.trigger_sync(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -104,7 +104,7 @@ class TestSqlManagementSyncGroupsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_sync_groups_get(self, resource_group):
         response = self.client.sync_groups.get(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -118,7 +118,7 @@ class TestSqlManagementSyncGroupsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_create_or_update(self, resource_group):
+    def test_sync_groups_begin_create_or_update(self, resource_group):
         response = self.client.sync_groups.begin_create_or_update(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -155,7 +155,7 @@ class TestSqlManagementSyncGroupsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_delete(self, resource_group):
+    def test_sync_groups_begin_delete(self, resource_group):
         response = self.client.sync_groups.begin_delete(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -169,7 +169,7 @@ class TestSqlManagementSyncGroupsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_update(self, resource_group):
+    def test_sync_groups_begin_update(self, resource_group):
         response = self.client.sync_groups.begin_update(
             resource_group_name=resource_group.name,
             server_name="str",
@@ -206,7 +206,7 @@ class TestSqlManagementSyncGroupsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_database(self, resource_group):
+    def test_sync_groups_list_by_database(self, resource_group):
         response = self.client.sync_groups.list_by_database(
             resource_group_name=resource_group.name,
             server_name="str",

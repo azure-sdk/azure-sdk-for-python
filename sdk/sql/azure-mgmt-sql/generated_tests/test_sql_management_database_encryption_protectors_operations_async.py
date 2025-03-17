@@ -21,7 +21,7 @@ class TestSqlManagementDatabaseEncryptionProtectorsOperationsAsync(AzureMgmtReco
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_revalidate(self, resource_group):
+    async def test_database_encryption_protectors_begin_revalidate(self, resource_group):
         response = await (
             await self.client.database_encryption_protectors.begin_revalidate(
                 resource_group_name=resource_group.name,
@@ -37,7 +37,7 @@ class TestSqlManagementDatabaseEncryptionProtectorsOperationsAsync(AzureMgmtReco
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_revert(self, resource_group):
+    async def test_database_encryption_protectors_begin_revert(self, resource_group):
         response = await (
             await self.client.database_encryption_protectors.begin_revert(
                 resource_group_name=resource_group.name,
