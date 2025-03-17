@@ -24,6 +24,6 @@ class TestStorageManagementSkusOperations(AzureMgmtRecordedTestCase):
         response = self.client.skus.list(
             api_version="2024-01-01",
         )
-        result = [r for r in response]
+
         # please add some check logic here by yourself
         # ...

@@ -32,6 +32,19 @@ class TestStorageManagementBlobContainersOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
+    def test_blob_containers_get(self, resource_group):
+        response = self.client.blob_containers.get(
+            resource_group_name=resource_group.name,
+            account_name="str",
+            container_name="str",
+            api_version="2024-01-01",
+        )
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy
     def test_blob_containers_create(self, resource_group):
         response = self.client.blob_containers.create(
             resource_group_name=resource_group.name,
@@ -96,6 +109,14 @@ class TestStorageManagementBlobContainersOperations(AzureMgmtRecordedTestCase):
                 "name": "str",
                 "publicAccess": "str",
                 "remainingRetentionDays": 0,
+                "systemData": {
+                    "createdAt": "2020-02-20 00:00:00",
+                    "createdBy": "str",
+                    "createdByType": "str",
+                    "lastModifiedAt": "2020-02-20 00:00:00",
+                    "lastModifiedBy": "str",
+                    "lastModifiedByType": "str",
+                },
                 "type": "str",
                 "version": "str",
             },
@@ -171,22 +192,17 @@ class TestStorageManagementBlobContainersOperations(AzureMgmtRecordedTestCase):
                 "name": "str",
                 "publicAccess": "str",
                 "remainingRetentionDays": 0,
+                "systemData": {
+                    "createdAt": "2020-02-20 00:00:00",
+                    "createdBy": "str",
+                    "createdByType": "str",
+                    "lastModifiedAt": "2020-02-20 00:00:00",
+                    "lastModifiedBy": "str",
+                    "lastModifiedByType": "str",
+                },
                 "type": "str",
                 "version": "str",
             },
-            api_version="2024-01-01",
-        )
-
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
-    def test_blob_containers_get(self, resource_group):
-        response = self.client.blob_containers.get(
-            resource_group_name=resource_group.name,
-            account_name="str",
-            container_name="str",
             api_version="2024-01-01",
         )
 
@@ -200,20 +216,6 @@ class TestStorageManagementBlobContainersOperations(AzureMgmtRecordedTestCase):
             resource_group_name=resource_group.name,
             account_name="str",
             container_name="str",
-            api_version="2024-01-01",
-        )
-
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
-    def test_blob_containers_set_legal_hold(self, resource_group):
-        response = self.client.blob_containers.set_legal_hold(
-            resource_group_name=resource_group.name,
-            account_name="str",
-            container_name="str",
-            legal_hold={"tags": ["str"], "allowProtectedAppendWritesAll": bool, "hasLegalHold": bool},
             api_version="2024-01-01",
         )
 
@@ -236,12 +238,12 @@ class TestStorageManagementBlobContainersOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_blob_containers_create_or_update_immutability_policy(self, resource_group):
-        response = self.client.blob_containers.create_or_update_immutability_policy(
+    def test_blob_containers_get_immutability_policy(self, resource_group):
+        response = self.client.blob_containers.get_immutability_policy(
             resource_group_name=resource_group.name,
             account_name="str",
             container_name="str",
-            immutability_policy_name="default",
+            immutability_policy_name="str",
             api_version="2024-01-01",
         )
 
@@ -250,12 +252,30 @@ class TestStorageManagementBlobContainersOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_blob_containers_get_immutability_policy(self, resource_group):
-        response = self.client.blob_containers.get_immutability_policy(
+    def test_blob_containers_create_or_update_immutability_policy(self, resource_group):
+        response = self.client.blob_containers.create_or_update_immutability_policy(
             resource_group_name=resource_group.name,
             account_name="str",
             container_name="str",
-            immutability_policy_name="default",
+            immutability_policy_name="str",
+            parameters={
+                "allowProtectedAppendWrites": bool,
+                "allowProtectedAppendWritesAll": bool,
+                "etag": "str",
+                "id": "str",
+                "immutabilityPeriodSinceCreationInDays": 0,
+                "name": "str",
+                "state": "str",
+                "systemData": {
+                    "createdAt": "2020-02-20 00:00:00",
+                    "createdBy": "str",
+                    "createdByType": "str",
+                    "lastModifiedAt": "2020-02-20 00:00:00",
+                    "lastModifiedBy": "str",
+                    "lastModifiedByType": "str",
+                },
+                "type": "str",
+            },
             api_version="2024-01-01",
         )
 
@@ -269,21 +289,7 @@ class TestStorageManagementBlobContainersOperations(AzureMgmtRecordedTestCase):
             resource_group_name=resource_group.name,
             account_name="str",
             container_name="str",
-            if_match="str",
-            immutability_policy_name="default",
-            api_version="2024-01-01",
-        )
-
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
-    def test_blob_containers_lock_immutability_policy(self, resource_group):
-        response = self.client.blob_containers.lock_immutability_policy(
-            resource_group_name=resource_group.name,
-            account_name="str",
-            container_name="str",
+            immutability_policy_name="str",
             if_match="str",
             api_version="2024-01-01",
         )
@@ -298,6 +304,22 @@ class TestStorageManagementBlobContainersOperations(AzureMgmtRecordedTestCase):
             resource_group_name=resource_group.name,
             account_name="str",
             container_name="str",
+            immutability_policy_name="str",
+            if_match="str",
+            api_version="2024-01-01",
+        )
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy
+    def test_blob_containers_lock_immutability_policy(self, resource_group):
+        response = self.client.blob_containers.lock_immutability_policy(
+            resource_group_name=resource_group.name,
+            account_name="str",
+            container_name="str",
+            immutability_policy_name="str",
             if_match="str",
             api_version="2024-01-01",
         )
@@ -327,6 +349,20 @@ class TestStorageManagementBlobContainersOperations(AzureMgmtRecordedTestCase):
             container_name="str",
             api_version="2024-01-01",
         ).result()  # call '.result()' to poll until service return final result
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy
+    def test_blob_containers_set_legal_hold(self, resource_group):
+        response = self.client.blob_containers.set_legal_hold(
+            resource_group_name=resource_group.name,
+            account_name="str",
+            container_name="str",
+            legal_hold={"tags": ["str"], "allowProtectedAppendWritesAll": bool, "hasLegalHold": bool},
+            api_version="2024-01-01",
+        )
 
         # please add some check logic here by yourself
         # ...
