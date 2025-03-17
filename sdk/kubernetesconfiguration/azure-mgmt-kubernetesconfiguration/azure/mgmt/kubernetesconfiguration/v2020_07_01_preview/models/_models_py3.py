@@ -1,5 +1,4 @@
 # coding=utf-8
-# pylint: disable=too-many-lines
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -13,7 +12,6 @@ from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 from ... import _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
@@ -118,7 +116,7 @@ class ConfigurationIdentity(_serialization.Model):
 class ErrorDefinition(_serialization.Model):
     """Error definition.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar code: Service specific error code which serves as the substatus for the HTTP error code.
      Required.
@@ -185,7 +183,7 @@ class Resource(_serialization.Model):
     :ivar type: Resource type.
     :vartype type: str
     :ivar system_data: Top level metadata
-     https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/common-api-contracts.md#system-metadata-for-all-azure-resources.
+     https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/common-api-contracts.md#system-metadata-for-all-azure-resources.  # pylint: disable=line-too-long
     :vartype system_data: ~azure.mgmt.kubernetesconfiguration.v2020_07_01_preview.models.SystemData
     """
 
@@ -205,7 +203,7 @@ class Resource(_serialization.Model):
     def __init__(self, *, system_data: Optional["_models.SystemData"] = None, **kwargs: Any) -> None:
         """
         :keyword system_data: Top level metadata
-         https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/common-api-contracts.md#system-metadata-for-all-azure-resources.
+         https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/common-api-contracts.md#system-metadata-for-all-azure-resources.  # pylint: disable=line-too-long
         :paramtype system_data:
          ~azure.mgmt.kubernetesconfiguration.v2020_07_01_preview.models.SystemData
         """
@@ -228,34 +226,12 @@ class ProxyResource(Resource):
     :ivar type: Resource type.
     :vartype type: str
     :ivar system_data: Top level metadata
-     https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/common-api-contracts.md#system-metadata-for-all-azure-resources.
+     https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/common-api-contracts.md#system-metadata-for-all-azure-resources.  # pylint: disable=line-too-long
     :vartype system_data: ~azure.mgmt.kubernetesconfiguration.v2020_07_01_preview.models.SystemData
     """
 
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-    }
 
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "system_data": {"key": "systemData", "type": "SystemData"},
-    }
-
-    def __init__(self, *, system_data: Optional["_models.SystemData"] = None, **kwargs: Any) -> None:
-        """
-        :keyword system_data: Top level metadata
-         https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/common-api-contracts.md#system-metadata-for-all-azure-resources.
-        :paramtype system_data:
-         ~azure.mgmt.kubernetesconfiguration.v2020_07_01_preview.models.SystemData
-        """
-        super().__init__(system_data=system_data, **kwargs)
-
-
-class ExtensionInstance(ProxyResource):  # pylint: disable=too-many-instance-attributes
+class ExtensionInstance(ProxyResource):
     """The Extension Instance object.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -267,7 +243,7 @@ class ExtensionInstance(ProxyResource):  # pylint: disable=too-many-instance-att
     :ivar type: Resource type.
     :vartype type: str
     :ivar system_data: Top level metadata
-     https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/common-api-contracts.md#system-metadata-for-all-azure-resources.
+     https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/common-api-contracts.md#system-metadata-for-all-azure-resources.  # pylint: disable=line-too-long
     :vartype system_data: ~azure.mgmt.kubernetesconfiguration.v2020_07_01_preview.models.SystemData
     :ivar extension_type: Type of the Extension, of which this resource is an instance of.  It must
      be one of the Extension Types registered with Microsoft.KubernetesConfiguration by the
@@ -363,7 +339,7 @@ class ExtensionInstance(ProxyResource):  # pylint: disable=too-many-instance-att
     ) -> None:
         """
         :keyword system_data: Top level metadata
-         https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/common-api-contracts.md#system-metadata-for-all-azure-resources.
+         https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/common-api-contracts.md#system-metadata-for-all-azure-resources.  # pylint: disable=line-too-long
         :paramtype system_data:
          ~azure.mgmt.kubernetesconfiguration.v2020_07_01_preview.models.SystemData
         :keyword extension_type: Type of the Extension, of which this resource is an instance of.  It
@@ -788,7 +764,7 @@ class ScopeNamespace(_serialization.Model):
         self.target_namespace = target_namespace
 
 
-class SourceControlConfiguration(ProxyResource):  # pylint: disable=too-many-instance-attributes
+class SourceControlConfiguration(ProxyResource):
     """The SourceControl Configuration object returned in Get & Put response.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -800,7 +776,7 @@ class SourceControlConfiguration(ProxyResource):  # pylint: disable=too-many-ins
     :ivar type: Resource type.
     :vartype type: str
     :ivar system_data: Top level metadata
-     https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/common-api-contracts.md#system-metadata-for-all-azure-resources.
+     https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/common-api-contracts.md#system-metadata-for-all-azure-resources.  # pylint: disable=line-too-long
     :vartype system_data: ~azure.mgmt.kubernetesconfiguration.v2020_07_01_preview.models.SystemData
     :ivar repository_url: Url of the SourceControl Repository.
     :vartype repository_url: str
@@ -889,7 +865,7 @@ class SourceControlConfiguration(ProxyResource):  # pylint: disable=too-many-ins
     ) -> None:
         """
         :keyword system_data: Top level metadata
-         https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/common-api-contracts.md#system-metadata-for-all-azure-resources.
+         https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/common-api-contracts.md#system-metadata-for-all-azure-resources.  # pylint: disable=line-too-long
         :paramtype system_data:
          ~azure.mgmt.kubernetesconfiguration.v2020_07_01_preview.models.SystemData
         :keyword repository_url: Url of the SourceControl Repository.
