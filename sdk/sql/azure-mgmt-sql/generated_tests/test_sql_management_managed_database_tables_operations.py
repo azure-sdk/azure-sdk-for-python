@@ -20,7 +20,7 @@ class TestSqlManagementManagedDatabaseTablesOperations(AzureMgmtRecordedTestCase
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_schema(self, resource_group):
+    def test_managed_database_tables_list_by_schema(self, resource_group):
         response = self.client.managed_database_tables.list_by_schema(
             resource_group_name=resource_group.name,
             managed_instance_name="str",
@@ -34,7 +34,7 @@ class TestSqlManagementManagedDatabaseTablesOperations(AzureMgmtRecordedTestCase
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_managed_database_tables_get(self, resource_group):
         response = self.client.managed_database_tables.get(
             resource_group_name=resource_group.name,
             managed_instance_name="str",
