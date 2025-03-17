@@ -22,9 +22,9 @@ class TestStorageManagementSkusOperationsAsync(AzureMgmtRecordedTestCase):
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
     async def test_skus_list(self, resource_group):
-        response = self.client.skus.list(
+        response = await self.client.skus.list(
             api_version="2024-01-01",
         )
-        result = [r async for r in response]
+
         # please add some check logic here by yourself
         # ...
