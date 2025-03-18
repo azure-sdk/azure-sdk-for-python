@@ -1,0 +1,6 @@
+{
+  "commit": "2da765395331baaf0a8c8f6dbb7ef03df8a12084",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/agricultureplatform/AgriculturePlatform.Management",
+  "@azure-tools/typespec-python": "0.39.1"
+}
