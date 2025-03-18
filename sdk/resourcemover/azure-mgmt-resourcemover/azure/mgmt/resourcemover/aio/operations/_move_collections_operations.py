@@ -7,7 +7,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-from typing import Any, AsyncIterable, Callable, Dict, IO, Optional, TypeVar, Union, cast, overload
+import sys
+from typing import Any, AsyncIterable, AsyncIterator, Callable, Dict, IO, Optional, TypeVar, Union, cast, overload
 import urllib.parse
 
 from azure.core.async_paging import AsyncItemPaged, AsyncList
@@ -17,12 +18,13 @@ from azure.core.exceptions import (
     ResourceExistsError,
     ResourceNotFoundError,
     ResourceNotModifiedError,
+    StreamClosedError,
+    StreamConsumedError,
     map_error,
 )
 from azure.core.pipeline import PipelineResponse
-from azure.core.pipeline.transport import AsyncHttpResponse
 from azure.core.polling import AsyncLROPoller, AsyncNoPolling, AsyncPollingMethod
-from azure.core.rest import HttpRequest
+from azure.core.rest import AsyncHttpResponse, HttpRequest
 from azure.core.tracing.decorator import distributed_trace
 from azure.core.tracing.decorator_async import distributed_trace_async
 from azure.core.utils import case_insensitive_dict
@@ -30,7 +32,6 @@ from azure.mgmt.core.exceptions import ARMErrorFormat
 from azure.mgmt.core.polling.async_arm_polling import AsyncARMPolling
 
 from ... import models as _models
-from ..._vendor import _convert_request
 from ...operations._move_collections_operations import (
     build_bulk_remove_request,
     build_commit_request,
@@ -47,6 +48,10 @@ from ...operations._move_collections_operations import (
     build_update_request,
 )
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -91,7 +96,6 @@ class MoveCollectionsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: MoveCollection or the result of cls(response)
         :rtype: ~azure.mgmt.resourcemover.models.MoveCollection
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -102,7 +106,7 @@ class MoveCollectionsOperations:
         self,
         resource_group_name: str,
         move_collection_name: str,
-        body: Optional[IO] = None,
+        body: Optional[IO[bytes]] = None,
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -114,11 +118,10 @@ class MoveCollectionsOperations:
         :param move_collection_name: The Move Collection Name. Required.
         :type move_collection_name: str
         :param body: Default value is None.
-        :type body: IO
+        :type body: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: MoveCollection or the result of cls(response)
         :rtype: ~azure.mgmt.resourcemover.models.MoveCollection
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -129,7 +132,7 @@ class MoveCollectionsOperations:
         self,
         resource_group_name: str,
         move_collection_name: str,
-        body: Optional[Union[_models.MoveCollection, IO]] = None,
+        body: Optional[Union[_models.MoveCollection, IO[bytes]]] = None,
         **kwargs: Any
     ) -> _models.MoveCollection:
         """Creates or updates a move collection.
@@ -138,17 +141,13 @@ class MoveCollectionsOperations:
         :type resource_group_name: str
         :param move_collection_name: The Move Collection Name. Required.
         :type move_collection_name: str
-        :param body: Is either a MoveCollection type or a IO type. Default value is None.
-        :type body: ~azure.mgmt.resourcemover.models.MoveCollection or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+        :param body: Is either a MoveCollection type or a IO[bytes] type. Default value is None.
+        :type body: ~azure.mgmt.resourcemover.models.MoveCollection or IO[bytes]
         :return: MoveCollection or the result of cls(response)
         :rtype: ~azure.mgmt.resourcemover.models.MoveCollection
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -174,7 +173,7 @@ class MoveCollectionsOperations:
             else:
                 _json = None
 
-        request = build_create_request(
+        _request = build_create_request(
             resource_group_name=resource_group_name,
             move_collection_name=move_collection_name,
             subscription_id=self._config.subscription_id,
@@ -182,16 +181,14 @@ class MoveCollectionsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.create.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -200,20 +197,12 @@ class MoveCollectionsOperations:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
-        if response.status_code == 200:
-            deserialized = self._deserialize("MoveCollection", pipeline_response)
-
-        if response.status_code == 201:
-            deserialized = self._deserialize("MoveCollection", pipeline_response)
+        deserialized = self._deserialize("MoveCollection", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
 
         return deserialized  # type: ignore
-
-    create.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/moveCollections/{moveCollectionName}"
-    }
 
     @overload
     async def update(
@@ -236,7 +225,6 @@ class MoveCollectionsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: MoveCollection or the result of cls(response)
         :rtype: ~azure.mgmt.resourcemover.models.MoveCollection
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -247,7 +235,7 @@ class MoveCollectionsOperations:
         self,
         resource_group_name: str,
         move_collection_name: str,
-        body: Optional[IO] = None,
+        body: Optional[IO[bytes]] = None,
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -259,11 +247,10 @@ class MoveCollectionsOperations:
         :param move_collection_name: The Move Collection Name. Required.
         :type move_collection_name: str
         :param body: Default value is None.
-        :type body: IO
+        :type body: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: MoveCollection or the result of cls(response)
         :rtype: ~azure.mgmt.resourcemover.models.MoveCollection
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -274,7 +261,7 @@ class MoveCollectionsOperations:
         self,
         resource_group_name: str,
         move_collection_name: str,
-        body: Optional[Union[_models.UpdateMoveCollectionRequest, IO]] = None,
+        body: Optional[Union[_models.UpdateMoveCollectionRequest, IO[bytes]]] = None,
         **kwargs: Any
     ) -> _models.MoveCollection:
         """Updates a move collection.
@@ -283,17 +270,14 @@ class MoveCollectionsOperations:
         :type resource_group_name: str
         :param move_collection_name: The Move Collection Name. Required.
         :type move_collection_name: str
-        :param body: Is either a UpdateMoveCollectionRequest type or a IO type. Default value is None.
-        :type body: ~azure.mgmt.resourcemover.models.UpdateMoveCollectionRequest or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+        :param body: Is either a UpdateMoveCollectionRequest type or a IO[bytes] type. Default value is
+         None.
+        :type body: ~azure.mgmt.resourcemover.models.UpdateMoveCollectionRequest or IO[bytes]
         :return: MoveCollection or the result of cls(response)
         :rtype: ~azure.mgmt.resourcemover.models.MoveCollection
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -319,7 +303,7 @@ class MoveCollectionsOperations:
             else:
                 _json = None
 
-        request = build_update_request(
+        _request = build_update_request(
             resource_group_name=resource_group_name,
             move_collection_name=move_collection_name,
             subscription_id=self._config.subscription_id,
@@ -327,16 +311,14 @@ class MoveCollectionsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.update.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -345,21 +327,17 @@ class MoveCollectionsOperations:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("MoveCollection", pipeline_response)
+        deserialized = self._deserialize("MoveCollection", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/moveCollections/{moveCollectionName}"
-    }
+        return deserialized  # type: ignore
 
     async def _delete_initial(
         self, resource_group_name: str, move_collection_name: str, **kwargs: Any
-    ) -> Optional[_models.OperationStatus]:
-        error_map = {
+    ) -> AsyncIterator[bytes]:
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -371,43 +349,40 @@ class MoveCollectionsOperations:
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[Optional[_models.OperationStatus]] = kwargs.pop("cls", None)
+        cls: ClsType[AsyncIterator[bytes]] = kwargs.pop("cls", None)
 
-        request = build_delete_request(
+        _request = build_delete_request(
             resource_group_name=resource_group_name,
             move_collection_name=move_collection_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._delete_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
-        _stream = False
+        _decompress = kwargs.pop("decompress", True)
+        _stream = True
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
 
         if response.status_code not in [200, 202, 204]:
+            try:
+                await response.read()  # Load the body in memory and close the socket
+            except (StreamConsumedError, StreamClosedError):
+                pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
-        deserialized = None
-        if response.status_code == 200:
-            deserialized = self._deserialize("OperationStatus", pipeline_response)
+        deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _delete_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/moveCollections/{moveCollectionName}"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace_async
     async def begin_delete(
@@ -419,14 +394,6 @@ class MoveCollectionsOperations:
         :type resource_group_name: str
         :param move_collection_name: The Move Collection Name. Required.
         :type move_collection_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either OperationStatus or the result of
          cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.resourcemover.models.OperationStatus]
@@ -450,12 +417,13 @@ class MoveCollectionsOperations:
                 params=_params,
                 **kwargs
             )
+            await raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):
-            deserialized = self._deserialize("OperationStatus", pipeline_response)
+            deserialized = self._deserialize("OperationStatus", pipeline_response.http_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -468,17 +436,15 @@ class MoveCollectionsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[_models.OperationStatus].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/moveCollections/{moveCollectionName}"
-    }
+        return AsyncLROPoller[_models.OperationStatus](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     @distributed_trace_async
     async def get(self, resource_group_name: str, move_collection_name: str, **kwargs: Any) -> _models.MoveCollection:
@@ -488,12 +454,11 @@ class MoveCollectionsOperations:
         :type resource_group_name: str
         :param move_collection_name: The Move Collection Name. Required.
         :type move_collection_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: MoveCollection or the result of cls(response)
         :rtype: ~azure.mgmt.resourcemover.models.MoveCollection
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -507,21 +472,19 @@ class MoveCollectionsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.MoveCollection] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             resource_group_name=resource_group_name,
             move_collection_name=move_collection_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -530,25 +493,21 @@ class MoveCollectionsOperations:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("MoveCollection", pipeline_response)
+        deserialized = self._deserialize("MoveCollection", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/moveCollections/{moveCollectionName}"
-    }
+        return deserialized  # type: ignore
 
     async def _prepare_initial(
         self,
         resource_group_name: str,
         move_collection_name: str,
-        body: Optional[Union[_models.PrepareRequest, IO]] = None,
+        body: Optional[Union[_models.PrepareRequest, IO[bytes]]] = None,
         **kwargs: Any
-    ) -> Optional[_models.OperationStatus]:
-        error_map = {
+    ) -> AsyncIterator[bytes]:
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -561,7 +520,7 @@ class MoveCollectionsOperations:
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[Optional[_models.OperationStatus]] = kwargs.pop("cls", None)
+        cls: ClsType[AsyncIterator[bytes]] = kwargs.pop("cls", None)
 
         content_type = content_type or "application/json"
         _json = None
@@ -574,7 +533,7 @@ class MoveCollectionsOperations:
             else:
                 _json = None
 
-        request = build_prepare_request(
+        _request = build_prepare_request(
             resource_group_name=resource_group_name,
             move_collection_name=move_collection_name,
             subscription_id=self._config.subscription_id,
@@ -582,36 +541,33 @@ class MoveCollectionsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._prepare_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
-        _stream = False
+        _decompress = kwargs.pop("decompress", True)
+        _stream = True
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
 
         if response.status_code not in [200, 202]:
+            try:
+                await response.read()  # Load the body in memory and close the socket
+            except (StreamConsumedError, StreamClosedError):
+                pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
-        deserialized = None
-        if response.status_code == 200:
-            deserialized = self._deserialize("OperationStatus", pipeline_response)
+        deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _prepare_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/moveCollections/{moveCollectionName}/prepare"
-    }
+        return deserialized  # type: ignore
 
     @overload
     async def begin_prepare(
@@ -638,14 +594,6 @@ class MoveCollectionsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either OperationStatus or the result of
          cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.resourcemover.models.OperationStatus]
@@ -657,7 +605,7 @@ class MoveCollectionsOperations:
         self,
         resource_group_name: str,
         move_collection_name: str,
-        body: Optional[IO] = None,
+        body: Optional[IO[bytes]] = None,
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -673,18 +621,10 @@ class MoveCollectionsOperations:
         :param move_collection_name: The Move Collection Name. Required.
         :type move_collection_name: str
         :param body: Default value is None.
-        :type body: IO
+        :type body: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either OperationStatus or the result of
          cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.resourcemover.models.OperationStatus]
@@ -696,7 +636,7 @@ class MoveCollectionsOperations:
         self,
         resource_group_name: str,
         move_collection_name: str,
-        body: Optional[Union[_models.PrepareRequest, IO]] = None,
+        body: Optional[Union[_models.PrepareRequest, IO[bytes]]] = None,
         **kwargs: Any
     ) -> AsyncLROPoller[_models.OperationStatus]:
         """Initiates prepare for the set of resources included in the request body. The prepare operation
@@ -709,19 +649,8 @@ class MoveCollectionsOperations:
         :type resource_group_name: str
         :param move_collection_name: The Move Collection Name. Required.
         :type move_collection_name: str
-        :param body: Is either a PrepareRequest type or a IO type. Default value is None.
-        :type body: ~azure.mgmt.resourcemover.models.PrepareRequest or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+        :param body: Is either a PrepareRequest type or a IO[bytes] type. Default value is None.
+        :type body: ~azure.mgmt.resourcemover.models.PrepareRequest or IO[bytes]
         :return: An instance of AsyncLROPoller that returns either OperationStatus or the result of
          cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.resourcemover.models.OperationStatus]
@@ -748,12 +677,13 @@ class MoveCollectionsOperations:
                 params=_params,
                 **kwargs
             )
+            await raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):
-            deserialized = self._deserialize("OperationStatus", pipeline_response)
+            deserialized = self._deserialize("OperationStatus", pipeline_response.http_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -766,26 +696,24 @@ class MoveCollectionsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[_models.OperationStatus].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_prepare.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/moveCollections/{moveCollectionName}/prepare"
-    }
+        return AsyncLROPoller[_models.OperationStatus](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     async def _initiate_move_initial(
         self,
         resource_group_name: str,
         move_collection_name: str,
-        body: Optional[Union[_models.ResourceMoveRequest, IO]] = None,
+        body: Optional[Union[_models.ResourceMoveRequest, IO[bytes]]] = None,
         **kwargs: Any
-    ) -> Optional[_models.OperationStatus]:
-        error_map = {
+    ) -> AsyncIterator[bytes]:
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -798,7 +726,7 @@ class MoveCollectionsOperations:
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[Optional[_models.OperationStatus]] = kwargs.pop("cls", None)
+        cls: ClsType[AsyncIterator[bytes]] = kwargs.pop("cls", None)
 
         content_type = content_type or "application/json"
         _json = None
@@ -811,7 +739,7 @@ class MoveCollectionsOperations:
             else:
                 _json = None
 
-        request = build_initiate_move_request(
+        _request = build_initiate_move_request(
             resource_group_name=resource_group_name,
             move_collection_name=move_collection_name,
             subscription_id=self._config.subscription_id,
@@ -819,36 +747,33 @@ class MoveCollectionsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._initiate_move_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
-        _stream = False
+        _decompress = kwargs.pop("decompress", True)
+        _stream = True
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
 
         if response.status_code not in [200, 202]:
+            try:
+                await response.read()  # Load the body in memory and close the socket
+            except (StreamConsumedError, StreamClosedError):
+                pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
-        deserialized = None
-        if response.status_code == 200:
-            deserialized = self._deserialize("OperationStatus", pipeline_response)
+        deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _initiate_move_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/moveCollections/{moveCollectionName}/initiateMove"
-    }
+        return deserialized  # type: ignore
 
     @overload
     async def begin_initiate_move(
@@ -875,14 +800,6 @@ class MoveCollectionsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either OperationStatus or the result of
          cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.resourcemover.models.OperationStatus]
@@ -894,7 +811,7 @@ class MoveCollectionsOperations:
         self,
         resource_group_name: str,
         move_collection_name: str,
-        body: Optional[IO] = None,
+        body: Optional[IO[bytes]] = None,
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -910,18 +827,10 @@ class MoveCollectionsOperations:
         :param move_collection_name: The Move Collection Name. Required.
         :type move_collection_name: str
         :param body: Default value is None.
-        :type body: IO
+        :type body: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either OperationStatus or the result of
          cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.resourcemover.models.OperationStatus]
@@ -933,7 +842,7 @@ class MoveCollectionsOperations:
         self,
         resource_group_name: str,
         move_collection_name: str,
-        body: Optional[Union[_models.ResourceMoveRequest, IO]] = None,
+        body: Optional[Union[_models.ResourceMoveRequest, IO[bytes]]] = None,
         **kwargs: Any
     ) -> AsyncLROPoller[_models.OperationStatus]:
         """Moves the set of resources included in the request body. The move operation is triggered after
@@ -946,19 +855,8 @@ class MoveCollectionsOperations:
         :type resource_group_name: str
         :param move_collection_name: The Move Collection Name. Required.
         :type move_collection_name: str
-        :param body: Is either a ResourceMoveRequest type or a IO type. Default value is None.
-        :type body: ~azure.mgmt.resourcemover.models.ResourceMoveRequest or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+        :param body: Is either a ResourceMoveRequest type or a IO[bytes] type. Default value is None.
+        :type body: ~azure.mgmt.resourcemover.models.ResourceMoveRequest or IO[bytes]
         :return: An instance of AsyncLROPoller that returns either OperationStatus or the result of
          cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.resourcemover.models.OperationStatus]
@@ -985,12 +883,13 @@ class MoveCollectionsOperations:
                 params=_params,
                 **kwargs
             )
+            await raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):
-            deserialized = self._deserialize("OperationStatus", pipeline_response)
+            deserialized = self._deserialize("OperationStatus", pipeline_response.http_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -1003,26 +902,24 @@ class MoveCollectionsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[_models.OperationStatus].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_initiate_move.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/moveCollections/{moveCollectionName}/initiateMove"
-    }
+        return AsyncLROPoller[_models.OperationStatus](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     async def _commit_initial(
         self,
         resource_group_name: str,
         move_collection_name: str,
-        body: Optional[Union[_models.CommitRequest, IO]] = None,
+        body: Optional[Union[_models.CommitRequest, IO[bytes]]] = None,
         **kwargs: Any
-    ) -> Optional[_models.OperationStatus]:
-        error_map = {
+    ) -> AsyncIterator[bytes]:
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1035,7 +932,7 @@ class MoveCollectionsOperations:
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[Optional[_models.OperationStatus]] = kwargs.pop("cls", None)
+        cls: ClsType[AsyncIterator[bytes]] = kwargs.pop("cls", None)
 
         content_type = content_type or "application/json"
         _json = None
@@ -1048,7 +945,7 @@ class MoveCollectionsOperations:
             else:
                 _json = None
 
-        request = build_commit_request(
+        _request = build_commit_request(
             resource_group_name=resource_group_name,
             move_collection_name=move_collection_name,
             subscription_id=self._config.subscription_id,
@@ -1056,36 +953,33 @@ class MoveCollectionsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._commit_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
-        _stream = False
+        _decompress = kwargs.pop("decompress", True)
+        _stream = True
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
 
         if response.status_code not in [200, 202]:
+            try:
+                await response.read()  # Load the body in memory and close the socket
+            except (StreamConsumedError, StreamClosedError):
+                pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
-        deserialized = None
-        if response.status_code == 200:
-            deserialized = self._deserialize("OperationStatus", pipeline_response)
+        deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _commit_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/moveCollections/{moveCollectionName}/commit"
-    }
+        return deserialized  # type: ignore
 
     @overload
     async def begin_commit(
@@ -1112,14 +1006,6 @@ class MoveCollectionsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either OperationStatus or the result of
          cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.resourcemover.models.OperationStatus]
@@ -1131,7 +1017,7 @@ class MoveCollectionsOperations:
         self,
         resource_group_name: str,
         move_collection_name: str,
-        body: Optional[IO] = None,
+        body: Optional[IO[bytes]] = None,
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -1147,18 +1033,10 @@ class MoveCollectionsOperations:
         :param move_collection_name: The Move Collection Name. Required.
         :type move_collection_name: str
         :param body: Default value is None.
-        :type body: IO
+        :type body: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either OperationStatus or the result of
          cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.resourcemover.models.OperationStatus]
@@ -1170,7 +1048,7 @@ class MoveCollectionsOperations:
         self,
         resource_group_name: str,
         move_collection_name: str,
-        body: Optional[Union[_models.CommitRequest, IO]] = None,
+        body: Optional[Union[_models.CommitRequest, IO[bytes]]] = None,
         **kwargs: Any
     ) -> AsyncLROPoller[_models.OperationStatus]:
         """Commits the set of resources included in the request body. The commit operation is triggered on
@@ -1183,19 +1061,8 @@ class MoveCollectionsOperations:
         :type resource_group_name: str
         :param move_collection_name: The Move Collection Name. Required.
         :type move_collection_name: str
-        :param body: Is either a CommitRequest type or a IO type. Default value is None.
-        :type body: ~azure.mgmt.resourcemover.models.CommitRequest or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+        :param body: Is either a CommitRequest type or a IO[bytes] type. Default value is None.
+        :type body: ~azure.mgmt.resourcemover.models.CommitRequest or IO[bytes]
         :return: An instance of AsyncLROPoller that returns either OperationStatus or the result of
          cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.resourcemover.models.OperationStatus]
@@ -1222,12 +1089,13 @@ class MoveCollectionsOperations:
                 params=_params,
                 **kwargs
             )
+            await raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):
-            deserialized = self._deserialize("OperationStatus", pipeline_response)
+            deserialized = self._deserialize("OperationStatus", pipeline_response.http_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -1240,26 +1108,24 @@ class MoveCollectionsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[_models.OperationStatus].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_commit.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/moveCollections/{moveCollectionName}/commit"
-    }
+        return AsyncLROPoller[_models.OperationStatus](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     async def _discard_initial(
         self,
         resource_group_name: str,
         move_collection_name: str,
-        body: Optional[Union[_models.DiscardRequest, IO]] = None,
+        body: Optional[Union[_models.DiscardRequest, IO[bytes]]] = None,
         **kwargs: Any
-    ) -> Optional[_models.OperationStatus]:
-        error_map = {
+    ) -> AsyncIterator[bytes]:
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1272,7 +1138,7 @@ class MoveCollectionsOperations:
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[Optional[_models.OperationStatus]] = kwargs.pop("cls", None)
+        cls: ClsType[AsyncIterator[bytes]] = kwargs.pop("cls", None)
 
         content_type = content_type or "application/json"
         _json = None
@@ -1285,7 +1151,7 @@ class MoveCollectionsOperations:
             else:
                 _json = None
 
-        request = build_discard_request(
+        _request = build_discard_request(
             resource_group_name=resource_group_name,
             move_collection_name=move_collection_name,
             subscription_id=self._config.subscription_id,
@@ -1293,36 +1159,33 @@ class MoveCollectionsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._discard_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
-        _stream = False
+        _decompress = kwargs.pop("decompress", True)
+        _stream = True
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
 
         if response.status_code not in [200, 202]:
+            try:
+                await response.read()  # Load the body in memory and close the socket
+            except (StreamConsumedError, StreamClosedError):
+                pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
-        deserialized = None
-        if response.status_code == 200:
-            deserialized = self._deserialize("OperationStatus", pipeline_response)
+        deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _discard_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/moveCollections/{moveCollectionName}/discard"
-    }
+        return deserialized  # type: ignore
 
     @overload
     async def begin_discard(
@@ -1349,14 +1212,6 @@ class MoveCollectionsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either OperationStatus or the result of
          cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.resourcemover.models.OperationStatus]
@@ -1368,7 +1223,7 @@ class MoveCollectionsOperations:
         self,
         resource_group_name: str,
         move_collection_name: str,
-        body: Optional[IO] = None,
+        body: Optional[IO[bytes]] = None,
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -1384,18 +1239,10 @@ class MoveCollectionsOperations:
         :param move_collection_name: The Move Collection Name. Required.
         :type move_collection_name: str
         :param body: Default value is None.
-        :type body: IO
+        :type body: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either OperationStatus or the result of
          cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.resourcemover.models.OperationStatus]
@@ -1407,7 +1254,7 @@ class MoveCollectionsOperations:
         self,
         resource_group_name: str,
         move_collection_name: str,
-        body: Optional[Union[_models.DiscardRequest, IO]] = None,
+        body: Optional[Union[_models.DiscardRequest, IO[bytes]]] = None,
         **kwargs: Any
     ) -> AsyncLROPoller[_models.OperationStatus]:
         """Discards the set of resources included in the request body. The discard operation is triggered
@@ -1420,19 +1267,8 @@ class MoveCollectionsOperations:
         :type resource_group_name: str
         :param move_collection_name: The Move Collection Name. Required.
         :type move_collection_name: str
-        :param body: Is either a DiscardRequest type or a IO type. Default value is None.
-        :type body: ~azure.mgmt.resourcemover.models.DiscardRequest or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+        :param body: Is either a DiscardRequest type or a IO[bytes] type. Default value is None.
+        :type body: ~azure.mgmt.resourcemover.models.DiscardRequest or IO[bytes]
         :return: An instance of AsyncLROPoller that returns either OperationStatus or the result of
          cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.resourcemover.models.OperationStatus]
@@ -1459,12 +1295,13 @@ class MoveCollectionsOperations:
                 params=_params,
                 **kwargs
             )
+            await raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):
-            deserialized = self._deserialize("OperationStatus", pipeline_response)
+            deserialized = self._deserialize("OperationStatus", pipeline_response.http_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -1477,22 +1314,20 @@ class MoveCollectionsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[_models.OperationStatus].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_discard.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/moveCollections/{moveCollectionName}/discard"
-    }
+        return AsyncLROPoller[_models.OperationStatus](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     async def _resolve_dependencies_initial(
         self, resource_group_name: str, move_collection_name: str, **kwargs: Any
-    ) -> Optional[_models.OperationStatus]:
-        error_map = {
+    ) -> AsyncIterator[bytes]:
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1504,43 +1339,40 @@ class MoveCollectionsOperations:
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[Optional[_models.OperationStatus]] = kwargs.pop("cls", None)
+        cls: ClsType[AsyncIterator[bytes]] = kwargs.pop("cls", None)
 
-        request = build_resolve_dependencies_request(
+        _request = build_resolve_dependencies_request(
             resource_group_name=resource_group_name,
             move_collection_name=move_collection_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._resolve_dependencies_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
-        _stream = False
+        _decompress = kwargs.pop("decompress", True)
+        _stream = True
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
 
         if response.status_code not in [200, 202]:
+            try:
+                await response.read()  # Load the body in memory and close the socket
+            except (StreamConsumedError, StreamClosedError):
+                pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
-        deserialized = None
-        if response.status_code == 200:
-            deserialized = self._deserialize("OperationStatus", pipeline_response)
+        deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _resolve_dependencies_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/moveCollections/{moveCollectionName}/resolveDependencies"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace_async
     async def begin_resolve_dependencies(
@@ -1552,14 +1384,6 @@ class MoveCollectionsOperations:
         :type resource_group_name: str
         :param move_collection_name: The Move Collection Name. Required.
         :type move_collection_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either OperationStatus or the result of
          cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.resourcemover.models.OperationStatus]
@@ -1583,12 +1407,13 @@ class MoveCollectionsOperations:
                 params=_params,
                 **kwargs
             )
+            await raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):
-            deserialized = self._deserialize("OperationStatus", pipeline_response)
+            deserialized = self._deserialize("OperationStatus", pipeline_response.http_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -1601,26 +1426,24 @@ class MoveCollectionsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[_models.OperationStatus].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_resolve_dependencies.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/moveCollections/{moveCollectionName}/resolveDependencies"
-    }
+        return AsyncLROPoller[_models.OperationStatus](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     async def _bulk_remove_initial(
         self,
         resource_group_name: str,
         move_collection_name: str,
-        body: Optional[Union[_models.BulkRemoveRequest, IO]] = None,
+        body: Optional[Union[_models.BulkRemoveRequest, IO[bytes]]] = None,
         **kwargs: Any
-    ) -> Optional[_models.OperationStatus]:
-        error_map = {
+    ) -> AsyncIterator[bytes]:
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1633,7 +1456,7 @@ class MoveCollectionsOperations:
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[Optional[_models.OperationStatus]] = kwargs.pop("cls", None)
+        cls: ClsType[AsyncIterator[bytes]] = kwargs.pop("cls", None)
 
         content_type = content_type or "application/json"
         _json = None
@@ -1646,7 +1469,7 @@ class MoveCollectionsOperations:
             else:
                 _json = None
 
-        request = build_bulk_remove_request(
+        _request = build_bulk_remove_request(
             resource_group_name=resource_group_name,
             move_collection_name=move_collection_name,
             subscription_id=self._config.subscription_id,
@@ -1654,36 +1477,33 @@ class MoveCollectionsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._bulk_remove_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
-        _stream = False
+        _decompress = kwargs.pop("decompress", True)
+        _stream = True
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
 
         if response.status_code not in [200, 202]:
+            try:
+                await response.read()  # Load the body in memory and close the socket
+            except (StreamConsumedError, StreamClosedError):
+                pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
-        deserialized = None
-        if response.status_code == 200:
-            deserialized = self._deserialize("OperationStatus", pipeline_response)
+        deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    _bulk_remove_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/moveCollections/{moveCollectionName}/bulkRemove"
-    }
+        return deserialized  # type: ignore
 
     @overload
     async def begin_bulk_remove(
@@ -1708,14 +1528,6 @@ class MoveCollectionsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either OperationStatus or the result of
          cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.resourcemover.models.OperationStatus]
@@ -1727,7 +1539,7 @@ class MoveCollectionsOperations:
         self,
         resource_group_name: str,
         move_collection_name: str,
-        body: Optional[IO] = None,
+        body: Optional[IO[bytes]] = None,
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -1741,18 +1553,10 @@ class MoveCollectionsOperations:
         :param move_collection_name: Required.
         :type move_collection_name: str
         :param body: Default value is None.
-        :type body: IO
+        :type body: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either OperationStatus or the result of
          cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.resourcemover.models.OperationStatus]
@@ -1764,7 +1568,7 @@ class MoveCollectionsOperations:
         self,
         resource_group_name: str,
         move_collection_name: str,
-        body: Optional[Union[_models.BulkRemoveRequest, IO]] = None,
+        body: Optional[Union[_models.BulkRemoveRequest, IO[bytes]]] = None,
         **kwargs: Any
     ) -> AsyncLROPoller[_models.OperationStatus]:
         """Removes the set of move resources included in the request body from move collection. The
@@ -1775,19 +1579,8 @@ class MoveCollectionsOperations:
         :type resource_group_name: str
         :param move_collection_name: Required.
         :type move_collection_name: str
-        :param body: Is either a BulkRemoveRequest type or a IO type. Default value is None.
-        :type body: ~azure.mgmt.resourcemover.models.BulkRemoveRequest or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+        :param body: Is either a BulkRemoveRequest type or a IO[bytes] type. Default value is None.
+        :type body: ~azure.mgmt.resourcemover.models.BulkRemoveRequest or IO[bytes]
         :return: An instance of AsyncLROPoller that returns either OperationStatus or the result of
          cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.resourcemover.models.OperationStatus]
@@ -1814,12 +1607,13 @@ class MoveCollectionsOperations:
                 params=_params,
                 **kwargs
             )
+            await raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):
-            deserialized = self._deserialize("OperationStatus", pipeline_response)
+            deserialized = self._deserialize("OperationStatus", pipeline_response.http_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -1832,17 +1626,15 @@ class MoveCollectionsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[_models.OperationStatus].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_bulk_remove.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/moveCollections/{moveCollectionName}/bulkRemove"
-    }
+        return AsyncLROPoller[_models.OperationStatus](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     @distributed_trace
     def list_move_collections_by_subscription(self, **kwargs: Any) -> AsyncIterable["_models.MoveCollection"]:
@@ -1850,7 +1642,6 @@ class MoveCollectionsOperations:
 
         Get all the Move Collections in the subscription.
 
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either MoveCollection or the result of cls(response)
         :rtype:
          ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.resourcemover.models.MoveCollection]
@@ -1862,7 +1653,7 @@ class MoveCollectionsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.MoveCollectionResultList] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1873,15 +1664,13 @@ class MoveCollectionsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_move_collections_by_subscription_request(
+                _request = build_list_move_collections_by_subscription_request(
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_move_collections_by_subscription.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -1893,13 +1682,12 @@ class MoveCollectionsOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("MoveCollectionResultList", pipeline_response)
@@ -1909,11 +1697,11 @@ class MoveCollectionsOperations:
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -1924,10 +1712,6 @@ class MoveCollectionsOperations:
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    list_move_collections_by_subscription.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.Migrate/moveCollections"
-    }
 
     @distributed_trace
     def list_move_collections_by_resource_group(
@@ -1939,7 +1723,6 @@ class MoveCollectionsOperations:
 
         :param resource_group_name: The Resource Group Name. Required.
         :type resource_group_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either MoveCollection or the result of cls(response)
         :rtype:
          ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.resourcemover.models.MoveCollection]
@@ -1951,7 +1734,7 @@ class MoveCollectionsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.MoveCollectionResultList] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1962,16 +1745,14 @@ class MoveCollectionsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_move_collections_by_resource_group_request(
+                _request = build_list_move_collections_by_resource_group_request(
                     resource_group_name=resource_group_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_move_collections_by_resource_group.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -1983,13 +1764,12 @@ class MoveCollectionsOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("MoveCollectionResultList", pipeline_response)
@@ -1999,11 +1779,11 @@ class MoveCollectionsOperations:
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -2014,10 +1794,6 @@ class MoveCollectionsOperations:
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    list_move_collections_by_resource_group.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/moveCollections"
-    }
 
     @distributed_trace_async
     async def list_required_for(
@@ -2031,12 +1807,11 @@ class MoveCollectionsOperations:
         :type move_collection_name: str
         :param source_id: The sourceId for which the api is invoked. Required.
         :type source_id: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: RequiredForResourcesCollection or the result of cls(response)
         :rtype: ~azure.mgmt.resourcemover.models.RequiredForResourcesCollection
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -2050,22 +1825,20 @@ class MoveCollectionsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.RequiredForResourcesCollection] = kwargs.pop("cls", None)
 
-        request = build_list_required_for_request(
+        _request = build_list_required_for_request(
             resource_group_name=resource_group_name,
             move_collection_name=move_collection_name,
             subscription_id=self._config.subscription_id,
             source_id=source_id,
             api_version=api_version,
-            template_url=self.list_required_for.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -2074,13 +1847,9 @@ class MoveCollectionsOperations:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("RequiredForResourcesCollection", pipeline_response)
+        deserialized = self._deserialize("RequiredForResourcesCollection", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    list_required_for.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Migrate/moveCollections/{moveCollectionName}/requiredFor"
-    }
+        return deserialized  # type: ignore
