@@ -71,6 +71,7 @@ class MoveType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     REGION_TO_REGION = "RegionToRegion"
     REGION_TO_ZONE = "RegionToZone"
+    AVAILABILITY_SET_TO_VMSS_FLEX = "AvailabilitySetToVMSSFlex"
 
 
 class ProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
