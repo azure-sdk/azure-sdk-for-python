@@ -20,9 +20,9 @@ class TestContainerAppsAPIConnectedEnvironmentsOperations(AzureMgmtRecordedTestC
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_subscription(self, resource_group):
+    def test_connected_environments_list_by_subscription(self, resource_group):
         response = self.client.connected_environments.list_by_subscription(
-            api_version="2024-08-02-preview",
+            api_version="2025-01-01",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -30,10 +30,10 @@ class TestContainerAppsAPIConnectedEnvironmentsOperations(AzureMgmtRecordedTestC
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_resource_group(self, resource_group):
+    def test_connected_environments_list_by_resource_group(self, resource_group):
         response = self.client.connected_environments.list_by_resource_group(
             resource_group_name=resource_group.name,
-            api_version="2024-08-02-preview",
+            api_version="2025-01-01",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -41,11 +41,11 @@ class TestContainerAppsAPIConnectedEnvironmentsOperations(AzureMgmtRecordedTestC
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_connected_environments_get(self, resource_group):
         response = self.client.connected_environments.get(
             resource_group_name=resource_group.name,
             connected_environment_name="str",
-            api_version="2024-08-02-preview",
+            api_version="2025-01-01",
         )
 
         # please add some check logic here by yourself
@@ -53,7 +53,7 @@ class TestContainerAppsAPIConnectedEnvironmentsOperations(AzureMgmtRecordedTestC
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_create_or_update(self, resource_group):
+    def test_connected_environments_begin_create_or_update(self, resource_group):
         response = self.client.connected_environments.begin_create_or_update(
             resource_group_name=resource_group.name,
             connected_environment_name="str",
@@ -88,7 +88,7 @@ class TestContainerAppsAPIConnectedEnvironmentsOperations(AzureMgmtRecordedTestC
                 "tags": {"str": "str"},
                 "type": "str",
             },
-            api_version="2024-08-02-preview",
+            api_version="2025-01-01",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -96,11 +96,11 @@ class TestContainerAppsAPIConnectedEnvironmentsOperations(AzureMgmtRecordedTestC
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_delete(self, resource_group):
+    def test_connected_environments_begin_delete(self, resource_group):
         response = self.client.connected_environments.begin_delete(
             resource_group_name=resource_group.name,
             connected_environment_name="str",
-            api_version="2024-08-02-preview",
+            api_version="2025-01-01",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -108,11 +108,42 @@ class TestContainerAppsAPIConnectedEnvironmentsOperations(AzureMgmtRecordedTestC
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_update(self, resource_group):
+    def test_connected_environments_update(self, resource_group):
         response = self.client.connected_environments.update(
             resource_group_name=resource_group.name,
             connected_environment_name="str",
-            api_version="2024-08-02-preview",
+            environment_envelope={
+                "location": "str",
+                "customDomainConfiguration": {
+                    "certificateKeyVaultProperties": {"identity": "str", "keyVaultUrl": "str"},
+                    "certificatePassword": "str",
+                    "certificateValue": bytes("bytes", encoding="utf-8"),
+                    "customDomainVerificationId": "str",
+                    "dnsSuffix": "str",
+                    "expirationDate": "2020-02-20 00:00:00",
+                    "subjectName": "str",
+                    "thumbprint": "str",
+                },
+                "daprAIConnectionString": "str",
+                "defaultDomain": "str",
+                "deploymentErrors": "str",
+                "extendedLocation": {"name": "str", "type": "str"},
+                "id": "str",
+                "name": "str",
+                "provisioningState": "str",
+                "staticIp": "str",
+                "systemData": {
+                    "createdAt": "2020-02-20 00:00:00",
+                    "createdBy": "str",
+                    "createdByType": "str",
+                    "lastModifiedAt": "2020-02-20 00:00:00",
+                    "lastModifiedBy": "str",
+                    "lastModifiedByType": "str",
+                },
+                "tags": {"str": "str"},
+                "type": "str",
+            },
+            api_version="2025-01-01",
         )
 
         # please add some check logic here by yourself
@@ -120,12 +151,12 @@ class TestContainerAppsAPIConnectedEnvironmentsOperations(AzureMgmtRecordedTestC
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_check_name_availability(self, resource_group):
+    def test_connected_environments_check_name_availability(self, resource_group):
         response = self.client.connected_environments.check_name_availability(
             resource_group_name=resource_group.name,
             connected_environment_name="str",
             check_name_availability_request={"name": "str", "type": "str"},
-            api_version="2024-08-02-preview",
+            api_version="2025-01-01",
         )
 
         # please add some check logic here by yourself

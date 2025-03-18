@@ -33,10 +33,11 @@ def main():
     response = client.connected_environments.update(
         resource_group_name="examplerg",
         connected_environment_name="testenv",
+        environment_envelope={"location": "East US", "tags": {"tag1": "value1", "tag2": "value2"}},
     )
     print(response)
 
 
-# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/ConnectedEnvironments_Patch.json
+# x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2025-01-01/examples/ConnectedEnvironments_Patch.json
 if __name__ == "__main__":
     main()
