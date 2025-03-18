@@ -25,7 +25,7 @@ class TestNetworkManagementVirtualHubIpConfigurationOperations(AzureMgmtRecorded
             resource_group_name=resource_group.name,
             virtual_hub_name="str",
             ip_config_name="str",
-            api_version="2024-05-01",
+            api_version="2024-07-01",
         )
 
         # please add some check logic here by yourself
@@ -1533,6 +1533,7 @@ class TestNetworkManagementVirtualHubIpConfigurationOperations(AzureMgmtRecorded
                         "publicIpPrefixes": [{"id": "str"}],
                         "resourceGuid": "str",
                         "sku": {"name": "str"},
+                        "sourceVirtualNetwork": {"id": "str"},
                         "subnets": [{"id": "str"}],
                         "tags": {"str": "str"},
                         "type": "str",
@@ -1626,6 +1627,7 @@ class TestNetworkManagementVirtualHubIpConfigurationOperations(AzureMgmtRecorded
                                     "publicIpPrefixes": [{"id": "str"}],
                                     "resourceGuid": "str",
                                     "sku": {"name": "str"},
+                                    "sourceVirtualNetwork": {"id": "str"},
                                     "subnets": [{"id": "str"}],
                                     "tags": {"str": "str"},
                                     "type": "str",
@@ -1897,6 +1899,7 @@ class TestNetworkManagementVirtualHubIpConfigurationOperations(AzureMgmtRecorded
                                                 "publicIpPrefixes": [{"id": "str"}],
                                                 "resourceGuid": "str",
                                                 "sku": {"name": "str"},
+                                                "sourceVirtualNetwork": {"id": "str"},
                                                 "subnets": [{"id": "str"}],
                                                 "tags": {"str": "str"},
                                                 "type": "str",
@@ -1973,6 +1976,7 @@ class TestNetworkManagementVirtualHubIpConfigurationOperations(AzureMgmtRecorded
                                                             "publicIpPrefixes": [{"id": "str"}],
                                                             "resourceGuid": "str",
                                                             "sku": {"name": "str"},
+                                                            "sourceVirtualNetwork": {"id": "str"},
                                                             "subnets": [{"id": "str"}],
                                                             "tags": {"str": "str"},
                                                             "type": "str",
@@ -2175,6 +2179,7 @@ class TestNetworkManagementVirtualHubIpConfigurationOperations(AzureMgmtRecorded
                                                     "publicIpPrefixes": [{"id": "str"}],
                                                     "resourceGuid": "str",
                                                     "sku": {"name": "str"},
+                                                    "sourceVirtualNetwork": {"id": "str"},
                                                     "subnets": [{"id": "str"}],
                                                     "tags": {"str": "str"},
                                                     "type": "str",
@@ -2358,6 +2363,7 @@ class TestNetworkManagementVirtualHubIpConfigurationOperations(AzureMgmtRecorded
                                                         "publicIpPrefixes": [{"id": "str"}],
                                                         "resourceGuid": "str",
                                                         "sku": {"name": "str"},
+                                                        "sourceVirtualNetwork": {"id": "str"},
                                                         "subnets": [{"id": "str"}],
                                                         "tags": {"str": "str"},
                                                         "type": "str",
@@ -2525,6 +2531,7 @@ class TestNetworkManagementVirtualHubIpConfigurationOperations(AzureMgmtRecorded
                                                         "publicIpPrefixes": [{"id": "str"}],
                                                         "resourceGuid": "str",
                                                         "sku": {"name": "str"},
+                                                        "sourceVirtualNetwork": {"id": "str"},
                                                         "subnets": [{"id": "str"}],
                                                         "tags": {"str": "str"},
                                                         "type": "str",
@@ -2827,6 +2834,7 @@ class TestNetworkManagementVirtualHubIpConfigurationOperations(AzureMgmtRecorded
                                                     "publicIpPrefixes": [{"id": "str"}],
                                                     "resourceGuid": "str",
                                                     "sku": {"name": "str"},
+                                                    "sourceVirtualNetwork": {"id": "str"},
                                                     "subnets": [{"id": "str"}],
                                                     "tags": {"str": "str"},
                                                     "type": "str",
@@ -2903,6 +2911,7 @@ class TestNetworkManagementVirtualHubIpConfigurationOperations(AzureMgmtRecorded
                                                                 "publicIpPrefixes": [{"id": "str"}],
                                                                 "resourceGuid": "str",
                                                                 "sku": {"name": "str"},
+                                                                "sourceVirtualNetwork": {"id": "str"},
                                                                 "subnets": [{"id": "str"}],
                                                                 "tags": {"str": "str"},
                                                                 "type": "str",
@@ -3175,6 +3184,7 @@ class TestNetworkManagementVirtualHubIpConfigurationOperations(AzureMgmtRecorded
                                                         "publicIpPrefixes": [{"id": "str"}],
                                                         "resourceGuid": "str",
                                                         "sku": {"name": "str"},
+                                                        "sourceVirtualNetwork": {"id": "str"},
                                                         "subnets": [{"id": "str"}],
                                                         "tags": {"str": "str"},
                                                         "type": "str",
@@ -3289,6 +3299,7 @@ class TestNetworkManagementVirtualHubIpConfigurationOperations(AzureMgmtRecorded
                                                             "publicIpPrefixes": [{"id": "str"}],
                                                             "resourceGuid": "str",
                                                             "sku": {"name": "str"},
+                                                            "sourceVirtualNetwork": {"id": "str"},
                                                             "subnets": [{"id": "str"}],
                                                             "tags": {"str": "str"},
                                                             "type": "str",
@@ -3458,6 +3469,7 @@ class TestNetworkManagementVirtualHubIpConfigurationOperations(AzureMgmtRecorded
                                                             "publicIpPrefixes": [{"id": "str"}],
                                                             "resourceGuid": "str",
                                                             "sku": {"name": "str"},
+                                                            "sourceVirtualNetwork": {"id": "str"},
                                                             "subnets": [{"id": "str"}],
                                                             "tags": {"str": "str"},
                                                             "type": "str",
@@ -3613,7 +3625,7 @@ class TestNetworkManagementVirtualHubIpConfigurationOperations(AzureMgmtRecorded
                 },
                 "type": "str",
             },
-            api_version="2024-05-01",
+            api_version="2024-07-01",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -3626,7 +3638,7 @@ class TestNetworkManagementVirtualHubIpConfigurationOperations(AzureMgmtRecorded
             resource_group_name=resource_group.name,
             virtual_hub_name="str",
             ip_config_name="str",
-            api_version="2024-05-01",
+            api_version="2024-07-01",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -3638,7 +3650,7 @@ class TestNetworkManagementVirtualHubIpConfigurationOperations(AzureMgmtRecorded
         response = self.client.virtual_hub_ip_configuration.list(
             resource_group_name=resource_group.name,
             virtual_hub_name="str",
-            api_version="2024-05-01",
+            api_version="2024-07-01",
         )
         result = [r for r in response]
         # please add some check logic here by yourself

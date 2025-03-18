@@ -23,7 +23,7 @@ class TestNetworkManagementWebApplicationFirewallPoliciesOperations(AzureMgmtRec
     def test_web_application_firewall_policies_list(self, resource_group):
         response = self.client.web_application_firewall_policies.list(
             resource_group_name=resource_group.name,
-            api_version="2024-05-01",
+            api_version="2024-07-01",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -33,7 +33,7 @@ class TestNetworkManagementWebApplicationFirewallPoliciesOperations(AzureMgmtRec
     @recorded_by_proxy
     def test_web_application_firewall_policies_list_all(self, resource_group):
         response = self.client.web_application_firewall_policies.list_all(
-            api_version="2024-05-01",
+            api_version="2024-07-01",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -45,7 +45,7 @@ class TestNetworkManagementWebApplicationFirewallPoliciesOperations(AzureMgmtRec
         response = self.client.web_application_firewall_policies.get(
             resource_group_name=resource_group.name,
             policy_name="str",
-            api_version="2024-05-01",
+            api_version="2024-07-01",
         )
 
         # please add some check logic here by yourself
@@ -1156,6 +1156,7 @@ class TestNetworkManagementWebApplicationFirewallPoliciesOperations(AzureMgmtRec
                                                 "publicIpPrefixes": [{"id": "str"}],
                                                 "resourceGuid": "str",
                                                 "sku": {"name": "str"},
+                                                "sourceVirtualNetwork": {"id": "str"},
                                                 "subnets": [{"id": "str"}],
                                                 "tags": {"str": "str"},
                                                 "type": "str",
@@ -1252,6 +1253,7 @@ class TestNetworkManagementWebApplicationFirewallPoliciesOperations(AzureMgmtRec
                                                             "publicIpPrefixes": [{"id": "str"}],
                                                             "resourceGuid": "str",
                                                             "sku": {"name": "str"},
+                                                            "sourceVirtualNetwork": {"id": "str"},
                                                             "subnets": [{"id": "str"}],
                                                             "tags": {"str": "str"},
                                                             "type": "str",
@@ -1550,6 +1552,7 @@ class TestNetworkManagementWebApplicationFirewallPoliciesOperations(AzureMgmtRec
                                                                             "publicIpPrefixes": [{"id": "str"}],
                                                                             "resourceGuid": "str",
                                                                             "sku": {"name": "str"},
+                                                                            "sourceVirtualNetwork": {"id": "str"},
                                                                             "subnets": [{"id": "str"}],
                                                                             "tags": {"str": "str"},
                                                                             "type": "str",
@@ -1743,6 +1746,7 @@ class TestNetworkManagementWebApplicationFirewallPoliciesOperations(AzureMgmtRec
                                                                                 "publicIpPrefixes": [{"id": "str"}],
                                                                                 "resourceGuid": "str",
                                                                                 "sku": {"name": "str"},
+                                                                                "sourceVirtualNetwork": {"id": "str"},
                                                                                 "subnets": [{"id": "str"}],
                                                                                 "tags": {"str": "str"},
                                                                                 "type": "str",
@@ -2144,6 +2148,7 @@ class TestNetworkManagementWebApplicationFirewallPoliciesOperations(AzureMgmtRec
                                                                                 "publicIpPrefixes": [{"id": "str"}],
                                                                                 "resourceGuid": "str",
                                                                                 "sku": {"name": "str"},
+                                                                                "sourceVirtualNetwork": {"id": "str"},
                                                                                 "subnets": [{"id": "str"}],
                                                                                 "tags": {"str": "str"},
                                                                                 "type": "str",
@@ -2265,6 +2270,9 @@ class TestNetworkManagementWebApplicationFirewallPoliciesOperations(AzureMgmtRec
                                                                                     "publicIpPrefixes": [{"id": "str"}],
                                                                                     "resourceGuid": "str",
                                                                                     "sku": {"name": "str"},
+                                                                                    "sourceVirtualNetwork": {
+                                                                                        "id": "str"
+                                                                                    },
                                                                                     "subnets": [{"id": "str"}],
                                                                                     "tags": {"str": "str"},
                                                                                     "type": "str",
@@ -3383,6 +3391,7 @@ class TestNetworkManagementWebApplicationFirewallPoliciesOperations(AzureMgmtRec
                                                             "publicIpPrefixes": [{"id": "str"}],
                                                             "resourceGuid": "str",
                                                             "sku": {"name": "str"},
+                                                            "sourceVirtualNetwork": {"id": "str"},
                                                             "subnets": [{"id": "str"}],
                                                             "tags": {"str": "str"},
                                                             "type": "str",
@@ -3480,6 +3489,7 @@ class TestNetworkManagementWebApplicationFirewallPoliciesOperations(AzureMgmtRec
                                                                         "publicIpPrefixes": [{"id": "str"}],
                                                                         "resourceGuid": "str",
                                                                         "sku": {"name": "str"},
+                                                                        "sourceVirtualNetwork": {"id": "str"},
                                                                         "subnets": [{"id": "str"}],
                                                                         "tags": {"str": "str"},
                                                                         "type": "str",
@@ -5009,6 +5019,7 @@ class TestNetworkManagementWebApplicationFirewallPoliciesOperations(AzureMgmtRec
                                                             "publicIpPrefixes": [{"id": "str"}],
                                                             "resourceGuid": "str",
                                                             "sku": {"name": "str"},
+                                                            "sourceVirtualNetwork": {"id": "str"},
                                                             "subnets": [{"id": "str"}],
                                                             "tags": {"str": "str"},
                                                             "type": "str",
@@ -5105,6 +5116,7 @@ class TestNetworkManagementWebApplicationFirewallPoliciesOperations(AzureMgmtRec
                                                                         "publicIpPrefixes": [{"id": "str"}],
                                                                         "resourceGuid": "str",
                                                                         "sku": {"name": "str"},
+                                                                        "sourceVirtualNetwork": {"id": "str"},
                                                                         "subnets": [{"id": "str"}],
                                                                         "tags": {"str": "str"},
                                                                         "type": "str",
@@ -5731,6 +5743,7 @@ class TestNetworkManagementWebApplicationFirewallPoliciesOperations(AzureMgmtRec
                                                                         "publicIpPrefixes": [{"id": "str"}],
                                                                         "resourceGuid": "str",
                                                                         "sku": {"name": "str"},
+                                                                        "sourceVirtualNetwork": {"id": "str"},
                                                                         "subnets": [{"id": "str"}],
                                                                         "tags": {"str": "str"},
                                                                         "type": "str",
@@ -5835,6 +5848,9 @@ class TestNetworkManagementWebApplicationFirewallPoliciesOperations(AzureMgmtRec
                                                                                     "publicIpPrefixes": [{"id": "str"}],
                                                                                     "resourceGuid": "str",
                                                                                     "sku": {"name": "str"},
+                                                                                    "sourceVirtualNetwork": {
+                                                                                        "id": "str"
+                                                                                    },
                                                                                     "subnets": [{"id": "str"}],
                                                                                     "tags": {"str": "str"},
                                                                                     "type": "str",
@@ -6352,6 +6368,7 @@ class TestNetworkManagementWebApplicationFirewallPoliciesOperations(AzureMgmtRec
                                                                         "publicIpPrefixes": [{"id": "str"}],
                                                                         "resourceGuid": "str",
                                                                         "sku": {"name": "str"},
+                                                                        "sourceVirtualNetwork": {"id": "str"},
                                                                         "subnets": [{"id": "str"}],
                                                                         "tags": {"str": "str"},
                                                                         "type": "str",
@@ -6583,6 +6600,7 @@ class TestNetworkManagementWebApplicationFirewallPoliciesOperations(AzureMgmtRec
                                                                             "publicIpPrefixes": [{"id": "str"}],
                                                                             "resourceGuid": "str",
                                                                             "sku": {"name": "str"},
+                                                                            "sourceVirtualNetwork": {"id": "str"},
                                                                             "subnets": [{"id": "str"}],
                                                                             "tags": {"str": "str"},
                                                                             "type": "str",
@@ -7198,6 +7216,7 @@ class TestNetworkManagementWebApplicationFirewallPoliciesOperations(AzureMgmtRec
                                                                 "publicIpPrefixes": [{"id": "str"}],
                                                                 "resourceGuid": "str",
                                                                 "sku": {"name": "str"},
+                                                                "sourceVirtualNetwork": {"id": "str"},
                                                                 "subnets": [{"id": "str"}],
                                                                 "tags": {"str": "str"},
                                                                 "type": "str",
@@ -7298,6 +7317,7 @@ class TestNetworkManagementWebApplicationFirewallPoliciesOperations(AzureMgmtRec
                                                                             "publicIpPrefixes": [{"id": "str"}],
                                                                             "resourceGuid": "str",
                                                                             "sku": {"name": "str"},
+                                                                            "sourceVirtualNetwork": {"id": "str"},
                                                                             "subnets": [{"id": "str"}],
                                                                             "tags": {"str": "str"},
                                                                             "type": "str",
@@ -7956,6 +7976,7 @@ class TestNetworkManagementWebApplicationFirewallPoliciesOperations(AzureMgmtRec
                                                                     "publicIpPrefixes": [{"id": "str"}],
                                                                     "resourceGuid": "str",
                                                                     "sku": {"name": "str"},
+                                                                    "sourceVirtualNetwork": {"id": "str"},
                                                                     "subnets": [{"id": "str"}],
                                                                     "tags": {"str": "str"},
                                                                     "type": "str",
@@ -8058,6 +8079,7 @@ class TestNetworkManagementWebApplicationFirewallPoliciesOperations(AzureMgmtRec
                                                                                 "publicIpPrefixes": [{"id": "str"}],
                                                                                 "resourceGuid": "str",
                                                                                 "sku": {"name": "str"},
+                                                                                "sourceVirtualNetwork": {"id": "str"},
                                                                                 "subnets": [{"id": "str"}],
                                                                                 "tags": {"str": "str"},
                                                                                 "type": "str",
@@ -8775,6 +8797,7 @@ class TestNetworkManagementWebApplicationFirewallPoliciesOperations(AzureMgmtRec
                                                                     "publicIpPrefixes": [{"id": "str"}],
                                                                     "resourceGuid": "str",
                                                                     "sku": {"name": "str"},
+                                                                    "sourceVirtualNetwork": {"id": "str"},
                                                                     "subnets": [{"id": "str"}],
                                                                     "tags": {"str": "str"},
                                                                     "type": "str",
@@ -8876,6 +8899,7 @@ class TestNetworkManagementWebApplicationFirewallPoliciesOperations(AzureMgmtRec
                                                                                 "publicIpPrefixes": [{"id": "str"}],
                                                                                 "resourceGuid": "str",
                                                                                 "sku": {"name": "str"},
+                                                                                "sourceVirtualNetwork": {"id": "str"},
                                                                                 "subnets": [{"id": "str"}],
                                                                                 "tags": {"str": "str"},
                                                                                 "type": "str",
@@ -9263,6 +9287,7 @@ class TestNetworkManagementWebApplicationFirewallPoliciesOperations(AzureMgmtRec
                                                         "publicIpPrefixes": [{"id": "str"}],
                                                         "resourceGuid": "str",
                                                         "sku": {"name": "str"},
+                                                        "sourceVirtualNetwork": {"id": "str"},
                                                         "subnets": [{"id": "str"}],
                                                         "tags": {"str": "str"},
                                                         "type": "str",
@@ -9551,6 +9576,7 @@ class TestNetworkManagementWebApplicationFirewallPoliciesOperations(AzureMgmtRec
                                                                     "publicIpPrefixes": [{"id": "str"}],
                                                                     "resourceGuid": "str",
                                                                     "sku": {"name": "str"},
+                                                                    "sourceVirtualNetwork": {"id": "str"},
                                                                     "subnets": [{"id": "str"}],
                                                                     "tags": {"str": "str"},
                                                                     "type": "str",
@@ -9632,6 +9658,7 @@ class TestNetworkManagementWebApplicationFirewallPoliciesOperations(AzureMgmtRec
                                                                                 "publicIpPrefixes": [{"id": "str"}],
                                                                                 "resourceGuid": "str",
                                                                                 "sku": {"name": "str"},
+                                                                                "sourceVirtualNetwork": {"id": "str"},
                                                                                 "subnets": [{"id": "str"}],
                                                                                 "tags": {"str": "str"},
                                                                                 "type": "str",
@@ -9765,6 +9792,7 @@ class TestNetworkManagementWebApplicationFirewallPoliciesOperations(AzureMgmtRec
                                                                         "publicIpPrefixes": [{"id": "str"}],
                                                                         "resourceGuid": "str",
                                                                         "sku": {"name": "str"},
+                                                                        "sourceVirtualNetwork": {"id": "str"},
                                                                         "subnets": [{"id": "str"}],
                                                                         "tags": {"str": "str"},
                                                                         "type": "str",
@@ -9882,6 +9910,7 @@ class TestNetworkManagementWebApplicationFirewallPoliciesOperations(AzureMgmtRec
                                                                             "publicIpPrefixes": [{"id": "str"}],
                                                                             "resourceGuid": "str",
                                                                             "sku": {"name": "str"},
+                                                                            "sourceVirtualNetwork": {"id": "str"},
                                                                             "subnets": [{"id": "str"}],
                                                                             "tags": {"str": "str"},
                                                                             "type": "str",
@@ -10058,6 +10087,7 @@ class TestNetworkManagementWebApplicationFirewallPoliciesOperations(AzureMgmtRec
                                                                             "publicIpPrefixes": [{"id": "str"}],
                                                                             "resourceGuid": "str",
                                                                             "sku": {"name": "str"},
+                                                                            "sourceVirtualNetwork": {"id": "str"},
                                                                             "subnets": [{"id": "str"}],
                                                                             "tags": {"str": "str"},
                                                                             "type": "str",
@@ -10535,6 +10565,7 @@ class TestNetworkManagementWebApplicationFirewallPoliciesOperations(AzureMgmtRec
                         {
                             "ruleSetType": "str",
                             "ruleSetVersion": "str",
+                            "computedDisabledRules": [{"ruleGroupName": "str", "rules": ["str"]}],
                             "ruleGroupOverrides": [
                                 {
                                     "ruleGroupName": "str",
@@ -10600,7 +10631,7 @@ class TestNetworkManagementWebApplicationFirewallPoliciesOperations(AzureMgmtRec
                 "tags": {"str": "str"},
                 "type": "str",
             },
-            api_version="2024-05-01",
+            api_version="2024-07-01",
         )
 
         # please add some check logic here by yourself
@@ -10612,7 +10643,7 @@ class TestNetworkManagementWebApplicationFirewallPoliciesOperations(AzureMgmtRec
         response = self.client.web_application_firewall_policies.begin_delete(
             resource_group_name=resource_group.name,
             policy_name="str",
-            api_version="2024-05-01",
+            api_version="2024-07-01",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
