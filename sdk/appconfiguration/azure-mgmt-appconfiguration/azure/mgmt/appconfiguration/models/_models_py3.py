@@ -1,5 +1,5 @@
-# coding=utf-8
 # pylint: disable=too-many-lines
+# coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -13,7 +13,6 @@ from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 from .. import _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
@@ -213,7 +212,7 @@ class TrackedResource(Resource):
         self.location = location
 
 
-class ConfigurationStore(TrackedResource):  # pylint: disable=too-many-instance-attributes
+class ConfigurationStore(TrackedResource):
     """The configuration store along with all resource properties. The Configuration Store will have
     all information to begin utilizing it.
 
@@ -260,6 +259,10 @@ class ConfigurationStore(TrackedResource):  # pylint: disable=too-many-instance-
     :ivar soft_delete_retention_in_days: The amount of time in days that the configuration store
      will be retained when it is soft deleted.
     :vartype soft_delete_retention_in_days: int
+    :ivar default_key_value_revision_retention_period_in_seconds: The duration in seconds to retain
+     new key value revisions. Defaults to 604800 (7 days) for Free SKU stores and 2592000 (30 days)
+     for Standard SKU stores and Premium SKU stores.
+    :vartype default_key_value_revision_retention_period_in_seconds: int
     :ivar enable_purge_protection: Property specifying whether protection against purge is enabled
      for this configuration store.
     :vartype enable_purge_protection: bool
@@ -269,6 +272,9 @@ class ConfigurationStore(TrackedResource):  # pylint: disable=too-many-instance-
     :ivar create_mode: Indicates whether the configuration store need to be recovered. Known values
      are: "Recover" and "Default".
     :vartype create_mode: str or ~azure.mgmt.appconfiguration.models.CreateMode
+    :ivar telemetry: Property specifying the configuration of telemetry for this configuration
+     store.
+    :vartype telemetry: ~azure.mgmt.appconfiguration.models.TelemetryProperties
     """
 
     _validation = {
@@ -304,9 +310,14 @@ class ConfigurationStore(TrackedResource):  # pylint: disable=too-many-instance-
         "public_network_access": {"key": "properties.publicNetworkAccess", "type": "str"},
         "disable_local_auth": {"key": "properties.disableLocalAuth", "type": "bool"},
         "soft_delete_retention_in_days": {"key": "properties.softDeleteRetentionInDays", "type": "int"},
+        "default_key_value_revision_retention_period_in_seconds": {
+            "key": "properties.defaultKeyValueRevisionRetentionPeriodInSeconds",
+            "type": "int",
+        },
         "enable_purge_protection": {"key": "properties.enablePurgeProtection", "type": "bool"},
         "data_plane_proxy": {"key": "properties.dataPlaneProxy", "type": "DataPlaneProxyProperties"},
         "create_mode": {"key": "properties.createMode", "type": "str"},
+        "telemetry": {"key": "properties.telemetry", "type": "TelemetryProperties"},
     }
 
     def __init__(
@@ -320,9 +331,11 @@ class ConfigurationStore(TrackedResource):  # pylint: disable=too-many-instance-
         public_network_access: Optional[Union[str, "_models.PublicNetworkAccess"]] = None,
         disable_local_auth: bool = False,
         soft_delete_retention_in_days: int = 7,
+        default_key_value_revision_retention_period_in_seconds: Optional[int] = None,
         enable_purge_protection: bool = False,
         data_plane_proxy: Optional["_models.DataPlaneProxyProperties"] = None,
         create_mode: Optional[Union[str, "_models.CreateMode"]] = None,
+        telemetry: Optional["_models.TelemetryProperties"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -345,6 +358,10 @@ class ConfigurationStore(TrackedResource):  # pylint: disable=too-many-instance-
         :keyword soft_delete_retention_in_days: The amount of time in days that the configuration store
          will be retained when it is soft deleted.
         :paramtype soft_delete_retention_in_days: int
+        :keyword default_key_value_revision_retention_period_in_seconds: The duration in seconds to
+         retain new key value revisions. Defaults to 604800 (7 days) for Free SKU stores and 2592000 (30
+         days) for Standard SKU stores and Premium SKU stores.
+        :paramtype default_key_value_revision_retention_period_in_seconds: int
         :keyword enable_purge_protection: Property specifying whether protection against purge is
          enabled for this configuration store.
         :paramtype enable_purge_protection: bool
@@ -354,6 +371,9 @@ class ConfigurationStore(TrackedResource):  # pylint: disable=too-many-instance-
         :keyword create_mode: Indicates whether the configuration store need to be recovered. Known
          values are: "Recover" and "Default".
         :paramtype create_mode: str or ~azure.mgmt.appconfiguration.models.CreateMode
+        :keyword telemetry: Property specifying the configuration of telemetry for this configuration
+         store.
+        :paramtype telemetry: ~azure.mgmt.appconfiguration.models.TelemetryProperties
         """
         super().__init__(tags=tags, location=location, **kwargs)
         self.identity = identity
@@ -367,9 +387,13 @@ class ConfigurationStore(TrackedResource):  # pylint: disable=too-many-instance-
         self.public_network_access = public_network_access
         self.disable_local_auth = disable_local_auth
         self.soft_delete_retention_in_days = soft_delete_retention_in_days
+        self.default_key_value_revision_retention_period_in_seconds = (
+            default_key_value_revision_retention_period_in_seconds
+        )
         self.enable_purge_protection = enable_purge_protection
         self.data_plane_proxy = data_plane_proxy
         self.create_mode = create_mode
+        self.telemetry = telemetry
 
 
 class ConfigurationStoreListResult(_serialization.Model):
@@ -426,6 +450,13 @@ class ConfigurationStoreUpdateParameters(_serialization.Model):
     :ivar data_plane_proxy: Property specifying the configuration of data plane proxy for Azure
      Resource Manager (ARM).
     :vartype data_plane_proxy: ~azure.mgmt.appconfiguration.models.DataPlaneProxyProperties
+    :ivar telemetry: Property specifying the configuration of telemetry to update for this
+     configuration store.
+    :vartype telemetry: ~azure.mgmt.appconfiguration.models.TelemetryProperties
+    :ivar default_key_value_revision_retention_period_in_seconds: The duration in seconds to retain
+     new key value revisions. Defaults to 604800 (7 days) for Free SKU stores and 2592000 (30 days)
+     for Standard SKU stores and Premium SKU stores.
+    :vartype default_key_value_revision_retention_period_in_seconds: int
     """
 
     _attribute_map = {
@@ -437,6 +468,11 @@ class ConfigurationStoreUpdateParameters(_serialization.Model):
         "public_network_access": {"key": "properties.publicNetworkAccess", "type": "str"},
         "enable_purge_protection": {"key": "properties.enablePurgeProtection", "type": "bool"},
         "data_plane_proxy": {"key": "properties.dataPlaneProxy", "type": "DataPlaneProxyProperties"},
+        "telemetry": {"key": "properties.telemetry", "type": "TelemetryProperties"},
+        "default_key_value_revision_retention_period_in_seconds": {
+            "key": "properties.defaultKeyValueRevisionRetentionPeriodInSeconds",
+            "type": "int",
+        },
     }
 
     def __init__(
@@ -450,6 +486,8 @@ class ConfigurationStoreUpdateParameters(_serialization.Model):
         public_network_access: Optional[Union[str, "_models.PublicNetworkAccess"]] = None,
         enable_purge_protection: Optional[bool] = None,
         data_plane_proxy: Optional["_models.DataPlaneProxyProperties"] = None,
+        telemetry: Optional["_models.TelemetryProperties"] = None,
+        default_key_value_revision_retention_period_in_seconds: Optional[int] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -473,6 +511,13 @@ class ConfigurationStoreUpdateParameters(_serialization.Model):
         :keyword data_plane_proxy: Property specifying the configuration of data plane proxy for Azure
          Resource Manager (ARM).
         :paramtype data_plane_proxy: ~azure.mgmt.appconfiguration.models.DataPlaneProxyProperties
+        :keyword telemetry: Property specifying the configuration of telemetry to update for this
+         configuration store.
+        :paramtype telemetry: ~azure.mgmt.appconfiguration.models.TelemetryProperties
+        :keyword default_key_value_revision_retention_period_in_seconds: The duration in seconds to
+         retain new key value revisions. Defaults to 604800 (7 days) for Free SKU stores and 2592000 (30
+         days) for Standard SKU stores and Premium SKU stores.
+        :paramtype default_key_value_revision_retention_period_in_seconds: int
         """
         super().__init__(**kwargs)
         self.identity = identity
@@ -483,6 +528,10 @@ class ConfigurationStoreUpdateParameters(_serialization.Model):
         self.public_network_access = public_network_access
         self.enable_purge_protection = enable_purge_protection
         self.data_plane_proxy = data_plane_proxy
+        self.telemetry = telemetry
+        self.default_key_value_revision_retention_period_in_seconds = (
+            default_key_value_revision_retention_period_in_seconds
+        )
 
 
 class DataPlaneProxyProperties(_serialization.Model):
@@ -788,7 +837,7 @@ class ErrorResponseAutoGenerated(_serialization.Model):
         self.error = error
 
 
-class KeyValue(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class KeyValue(_serialization.Model):
     """The key-value resource along with all resource properties.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1845,7 +1894,7 @@ class Sku(_serialization.Model):
         self.name = name
 
 
-class Snapshot(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class Snapshot(_serialization.Model):
     """The snapshot resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -2024,6 +2073,26 @@ class SystemData(_serialization.Model):
         self.last_modified_by = last_modified_by
         self.last_modified_by_type = last_modified_by_type
         self.last_modified_at = last_modified_at
+
+
+class TelemetryProperties(_serialization.Model):
+    """Telemetry settings.
+
+    :ivar resource_id: Resource ID of a resource enabling telemetry collection.
+    :vartype resource_id: str
+    """
+
+    _attribute_map = {
+        "resource_id": {"key": "resourceId", "type": "str"},
+    }
+
+    def __init__(self, *, resource_id: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword resource_id: Resource ID of a resource enabling telemetry collection.
+        :paramtype resource_id: str
+        """
+        super().__init__(**kwargs)
+        self.resource_id = resource_id
 
 
 class UserIdentity(_serialization.Model):
