@@ -20,9 +20,9 @@ class TestContainerAppsAPIManagedEnvironmentsOperations(AzureMgmtRecordedTestCas
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_subscription(self, resource_group):
+    def test_managed_environments_list_by_subscription(self, resource_group):
         response = self.client.managed_environments.list_by_subscription(
-            api_version="2024-08-02-preview",
+            api_version="2025-02-02-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -30,10 +30,10 @@ class TestContainerAppsAPIManagedEnvironmentsOperations(AzureMgmtRecordedTestCas
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_resource_group(self, resource_group):
+    def test_managed_environments_list_by_resource_group(self, resource_group):
         response = self.client.managed_environments.list_by_resource_group(
             resource_group_name=resource_group.name,
-            api_version="2024-08-02-preview",
+            api_version="2025-02-02-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -41,11 +41,11 @@ class TestContainerAppsAPIManagedEnvironmentsOperations(AzureMgmtRecordedTestCas
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_managed_environments_get(self, resource_group):
         response = self.client.managed_environments.get(
             resource_group_name=resource_group.name,
             environment_name="str",
-            api_version="2024-08-02-preview",
+            api_version="2025-02-02-preview",
         )
 
         # please add some check logic here by yourself
@@ -53,7 +53,7 @@ class TestContainerAppsAPIManagedEnvironmentsOperations(AzureMgmtRecordedTestCas
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_create_or_update(self, resource_group):
+    def test_managed_environments_begin_create_or_update(self, resource_group):
         response = self.client.managed_environments.begin_create_or_update(
             resource_group_name=resource_group.name,
             environment_name="str",
@@ -64,6 +64,7 @@ class TestContainerAppsAPIManagedEnvironmentsOperations(AzureMgmtRecordedTestCas
                     "destination": "str",
                     "logAnalyticsConfiguration": {"customerId": "str", "dynamicJsonColumns": bool, "sharedKey": "str"},
                 },
+                "availabilityZones": ["str"],
                 "customDomainConfiguration": {
                     "certificateKeyVaultProperties": {"identity": "str", "keyVaultUrl": "str"},
                     "certificatePassword": "str",
@@ -88,6 +89,13 @@ class TestContainerAppsAPIManagedEnvironmentsOperations(AzureMgmtRecordedTestCas
                     "userAssignedIdentities": {"str": {"clientId": "str", "principalId": "str"}},
                 },
                 "infrastructureResourceGroup": "str",
+                "ingressConfiguration": {
+                    "headerCountLimit": 0,
+                    "requestIdleTimeout": 0,
+                    "scale": {"maxReplicas": 0, "minReplicas": 0},
+                    "terminationGracePeriodSeconds": 0,
+                    "workloadProfileName": "str",
+                },
                 "kedaConfiguration": {"version": "str"},
                 "kind": "str",
                 "name": "str",
@@ -132,6 +140,7 @@ class TestContainerAppsAPIManagedEnvironmentsOperations(AzureMgmtRecordedTestCas
                         "type": "str",
                     }
                 ],
+                "privateLinkDefaultDomain": "str",
                 "provisioningState": "str",
                 "publicNetworkAccess": "str",
                 "staticIp": "str",
@@ -163,7 +172,7 @@ class TestContainerAppsAPIManagedEnvironmentsOperations(AzureMgmtRecordedTestCas
                 ],
                 "zoneRedundant": bool,
             },
-            api_version="2024-08-02-preview",
+            api_version="2025-02-02-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -171,11 +180,11 @@ class TestContainerAppsAPIManagedEnvironmentsOperations(AzureMgmtRecordedTestCas
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_delete(self, resource_group):
+    def test_managed_environments_begin_delete(self, resource_group):
         response = self.client.managed_environments.begin_delete(
             resource_group_name=resource_group.name,
             environment_name="str",
-            api_version="2024-08-02-preview",
+            api_version="2025-02-02-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -183,7 +192,7 @@ class TestContainerAppsAPIManagedEnvironmentsOperations(AzureMgmtRecordedTestCas
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_update(self, resource_group):
+    def test_managed_environments_begin_update(self, resource_group):
         response = self.client.managed_environments.begin_update(
             resource_group_name=resource_group.name,
             environment_name="str",
@@ -194,6 +203,7 @@ class TestContainerAppsAPIManagedEnvironmentsOperations(AzureMgmtRecordedTestCas
                     "destination": "str",
                     "logAnalyticsConfiguration": {"customerId": "str", "dynamicJsonColumns": bool, "sharedKey": "str"},
                 },
+                "availabilityZones": ["str"],
                 "customDomainConfiguration": {
                     "certificateKeyVaultProperties": {"identity": "str", "keyVaultUrl": "str"},
                     "certificatePassword": "str",
@@ -218,6 +228,13 @@ class TestContainerAppsAPIManagedEnvironmentsOperations(AzureMgmtRecordedTestCas
                     "userAssignedIdentities": {"str": {"clientId": "str", "principalId": "str"}},
                 },
                 "infrastructureResourceGroup": "str",
+                "ingressConfiguration": {
+                    "headerCountLimit": 0,
+                    "requestIdleTimeout": 0,
+                    "scale": {"maxReplicas": 0, "minReplicas": 0},
+                    "terminationGracePeriodSeconds": 0,
+                    "workloadProfileName": "str",
+                },
                 "kedaConfiguration": {"version": "str"},
                 "kind": "str",
                 "name": "str",
@@ -262,6 +279,7 @@ class TestContainerAppsAPIManagedEnvironmentsOperations(AzureMgmtRecordedTestCas
                         "type": "str",
                     }
                 ],
+                "privateLinkDefaultDomain": "str",
                 "provisioningState": "str",
                 "publicNetworkAccess": "str",
                 "staticIp": "str",
@@ -293,7 +311,7 @@ class TestContainerAppsAPIManagedEnvironmentsOperations(AzureMgmtRecordedTestCas
                 ],
                 "zoneRedundant": bool,
             },
-            api_version="2024-08-02-preview",
+            api_version="2025-02-02-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -301,11 +319,11 @@ class TestContainerAppsAPIManagedEnvironmentsOperations(AzureMgmtRecordedTestCas
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get_auth_token(self, resource_group):
+    def test_managed_environments_get_auth_token(self, resource_group):
         response = self.client.managed_environments.get_auth_token(
             resource_group_name=resource_group.name,
             environment_name="str",
-            api_version="2024-08-02-preview",
+            api_version="2025-02-02-preview",
         )
 
         # please add some check logic here by yourself
@@ -313,11 +331,11 @@ class TestContainerAppsAPIManagedEnvironmentsOperations(AzureMgmtRecordedTestCas
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_workload_profile_states(self, resource_group):
+    def test_managed_environments_list_workload_profile_states(self, resource_group):
         response = self.client.managed_environments.list_workload_profile_states(
             resource_group_name=resource_group.name,
             environment_name="str",
-            api_version="2024-08-02-preview",
+            api_version="2025-02-02-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
