@@ -39,7 +39,7 @@ class CommunicationMessageKind(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 class CommunicationMessagesChannel(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The type of the communication messages channel."""
 
-    WHATSAPP = "whatsApp"
+    WHATS_APP = "whatsApp"
     """The WhatsApp communication messages channel type."""
 
 
@@ -73,10 +73,21 @@ class MessageContentKind(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The Url content type."""
 
 
+class MessagePlatformKind(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Defines the type of message platform."""
+
+    COMMUNICATION = "communication"
+    """Azure Communication platform."""
+    BOT = "bot"
+    """Bot platform."""
+    WHATS_APP = "whatsApp"
+    """WhatsApp platform."""
+
+
 class MessageTemplateBindingsKind(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The type of the message template."""
 
-    WHATSAPP = "whatsApp"
+    WHATS_APP = "whatsApp"
     """The WhatsApp template type."""
 
 
@@ -108,6 +119,26 @@ class MessageTemplateValueKind(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The location template parameter type."""
     QUICK_ACTION = "quickAction"
     """The quick action template parameter type."""
+
+
+class OutboundDeliveryStrategyKind(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The options of the outbound delivery strategy for messages sent by participants in a
+    conversation.
+    """
+
+    INTERNAL_ONLY = "internalOnly"
+    """Delivery strategy for internal only."""
+    ALL_PARTICIPANTS = "allParticipants"
+    """Delivery strategy for all participants."""
+
+
+class ParticipantKind(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The type of a participant in a threaded conversation."""
+
+    INTERNAL = "internal"
+    """A participant internal to Azure Communication Services."""
+    EXTERNAL = "external"
+    """A participant on other platforms"""
 
 
 class RepeatabilityResult(str, Enum, metaclass=CaseInsensitiveEnumMeta):
