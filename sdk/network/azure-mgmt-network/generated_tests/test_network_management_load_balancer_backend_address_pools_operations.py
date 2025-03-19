@@ -24,7 +24,7 @@ class TestNetworkManagementLoadBalancerBackendAddressPoolsOperations(AzureMgmtRe
         response = self.client.load_balancer_backend_address_pools.list(
             resource_group_name=resource_group.name,
             load_balancer_name="str",
-            api_version="2024-05-01",
+            api_version="2024-07-01",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -37,7 +37,7 @@ class TestNetworkManagementLoadBalancerBackendAddressPoolsOperations(AzureMgmtRe
             resource_group_name=resource_group.name,
             load_balancer_name="str",
             backend_address_pool_name="str",
-            api_version="2024-05-01",
+            api_version="2024-07-01",
         )
 
         # please add some check logic here by yourself
@@ -1072,6 +1072,7 @@ class TestNetworkManagementLoadBalancerBackendAddressPoolsOperations(AzureMgmtRe
                                 "publicIpPrefixes": [{"id": "str"}],
                                 "resourceGuid": "str",
                                 "sku": {"name": "str"},
+                                "sourceVirtualNetwork": {"id": "str"},
                                 "subnets": [{"id": "str"}],
                                 "tags": {"str": "str"},
                                 "type": "str",
@@ -1165,6 +1166,7 @@ class TestNetworkManagementLoadBalancerBackendAddressPoolsOperations(AzureMgmtRe
                                             "publicIpPrefixes": [{"id": "str"}],
                                             "resourceGuid": "str",
                                             "sku": {"name": "str"},
+                                            "sourceVirtualNetwork": {"id": "str"},
                                             "subnets": [{"id": "str"}],
                                             "tags": {"str": "str"},
                                             "type": "str",
@@ -1454,6 +1456,7 @@ class TestNetworkManagementLoadBalancerBackendAddressPoolsOperations(AzureMgmtRe
                                                             "publicIpPrefixes": [{"id": "str"}],
                                                             "resourceGuid": "str",
                                                             "sku": {"name": "str"},
+                                                            "sourceVirtualNetwork": {"id": "str"},
                                                             "subnets": [{"id": "str"}],
                                                             "tags": {"str": "str"},
                                                             "type": "str",
@@ -1637,6 +1640,7 @@ class TestNetworkManagementLoadBalancerBackendAddressPoolsOperations(AzureMgmtRe
                                                                 "publicIpPrefixes": [{"id": "str"}],
                                                                 "resourceGuid": "str",
                                                                 "sku": {"name": "str"},
+                                                                "sourceVirtualNetwork": {"id": "str"},
                                                                 "subnets": [{"id": "str"}],
                                                                 "tags": {"str": "str"},
                                                                 "type": "str",
@@ -2027,6 +2031,7 @@ class TestNetworkManagementLoadBalancerBackendAddressPoolsOperations(AzureMgmtRe
                                                                 "publicIpPrefixes": [{"id": "str"}],
                                                                 "resourceGuid": "str",
                                                                 "sku": {"name": "str"},
+                                                                "sourceVirtualNetwork": {"id": "str"},
                                                                 "subnets": [{"id": "str"}],
                                                                 "tags": {"str": "str"},
                                                                 "type": "str",
@@ -2141,6 +2146,7 @@ class TestNetworkManagementLoadBalancerBackendAddressPoolsOperations(AzureMgmtRe
                                                                     "publicIpPrefixes": [{"id": "str"}],
                                                                     "resourceGuid": "str",
                                                                     "sku": {"name": "str"},
+                                                                    "sourceVirtualNetwork": {"id": "str"},
                                                                     "subnets": [{"id": "str"}],
                                                                     "tags": {"str": "str"},
                                                                     "type": "str",
@@ -3185,6 +3191,7 @@ class TestNetworkManagementLoadBalancerBackendAddressPoolsOperations(AzureMgmtRe
                                             "publicIpPrefixes": [{"id": "str"}],
                                             "resourceGuid": "str",
                                             "sku": {"name": "str"},
+                                            "sourceVirtualNetwork": {"id": "str"},
                                             "subnets": [{"id": "str"}],
                                             "tags": {"str": "str"},
                                             "type": "str",
@@ -3282,6 +3289,7 @@ class TestNetworkManagementLoadBalancerBackendAddressPoolsOperations(AzureMgmtRe
                                                         "publicIpPrefixes": [{"id": "str"}],
                                                         "resourceGuid": "str",
                                                         "sku": {"name": "str"},
+                                                        "sourceVirtualNetwork": {"id": "str"},
                                                         "subnets": [{"id": "str"}],
                                                         "tags": {"str": "str"},
                                                         "type": "str",
@@ -4144,7 +4152,7 @@ class TestNetworkManagementLoadBalancerBackendAddressPoolsOperations(AzureMgmtRe
                 "type": "str",
                 "virtualNetwork": {"id": "str"},
             },
-            api_version="2024-05-01",
+            api_version="2024-07-01",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -4157,7 +4165,7 @@ class TestNetworkManagementLoadBalancerBackendAddressPoolsOperations(AzureMgmtRe
             resource_group_name=resource_group.name,
             load_balancer_name="str",
             backend_address_pool_name="str",
-            api_version="2024-05-01",
+            api_version="2024-07-01",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
