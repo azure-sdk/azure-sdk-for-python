@@ -37,6 +37,6 @@ def main():
         print(item)
 
 
-# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/Builders_ListByResourceGroup.json
+# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-10-02-preview/examples/Builders_ListByResourceGroup.json
 if __name__ == "__main__":
     main()

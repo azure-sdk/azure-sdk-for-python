@@ -92,6 +92,7 @@ def main():
                         "traffic": [{"label": "production", "revisionName": "testcontainerApp0-ab1234", "weight": 100}],
                     },
                     "maxInactiveRevisions": 10,
+                    "revisionTransitionThreshold": 100,
                     "service": {"type": "redis"},
                 },
                 "environmentId": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.App/managedEnvironments/demokube",
@@ -161,6 +162,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/ContainerApps_SourceToCloudApp_CreateOrUpdate.json
+# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-10-02-preview/examples/ContainerApps_SourceToCloudApp_CreateOrUpdate.json
 if __name__ == "__main__":
     main()
