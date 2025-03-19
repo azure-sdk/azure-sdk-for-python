@@ -1,0 +1,6 @@
+{
+  "commit": "9d75e75f004cc695e5106a956009c44de3bfe8a3",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/liftrweightsandbiases/Liftr.WeightsAndBiases.Management",
+  "@azure-tools/typespec-python": "0.39.1"
+}
