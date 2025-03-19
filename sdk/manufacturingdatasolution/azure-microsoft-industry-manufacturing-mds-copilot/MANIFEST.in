@@ -1,0 +1,10 @@
+include *.md
+include LICENSE
+include azure/microsoft/industry/manufacturing/mds/copilot/py.typed
+recursive-include tests *.py
+recursive-include samples *.py *.md
+include azure/__init__.py
+include azure/microsoft/__init__.py
+include azure/microsoft/industry/__init__.py
+include azure/microsoft/industry/manufacturing/__init__.py
+include azure/microsoft/industry/manufacturing/mds/__init__.py
