@@ -30,7 +30,9 @@ def main():
         subscription_id="subid",
     )
 
-    response = client.network_experiment_profiles.list()
+    response = client.network_experiment_profiles.list_by_resource_group(
+        resource_group_name="MyResourceGroup",
+    )
     for item in response:
         print(item)
 
