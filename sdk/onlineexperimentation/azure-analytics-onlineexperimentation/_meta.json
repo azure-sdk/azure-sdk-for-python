@@ -1,0 +1,6 @@
+{
+  "commit": "56838412a8978dc95af92d58f7310ebcff69ec34",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/onlineexperimentation/Azure.Analytics.OnlineExperimentation",
+  "@azure-tools/typespec-python": "0.39.1"
+}
