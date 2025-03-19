@@ -1,5 +1,5 @@
-# coding=utf-8
 # pylint: disable=too-many-lines
+# coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -13,7 +13,6 @@ from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 from .. import _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
@@ -56,7 +55,7 @@ class AzureAsyncOperationResult(_serialization.Model):
         self.error = error
 
 
-class Backend(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class Backend(_serialization.Model):
     """Backend address of a frontDoor load balancer.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1006,7 +1005,7 @@ class Resource(_serialization.Model):
         self.tags = tags
 
 
-class Experiment(Resource):  # pylint: disable=too-many-instance-attributes
+class Experiment(Resource):
     """Defines the properties of an Experiment.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1262,7 +1261,7 @@ class ForwardingConfiguration(RouteConfiguration):
         self.backend_pool = backend_pool
 
 
-class FrontDoor(Resource):  # pylint: disable=too-many-instance-attributes
+class FrontDoor(Resource):
     """Front Door represents a collection of backend endpoints to route traffic to along with rules
     that specify how traffic is sent there.
 
@@ -1512,7 +1511,7 @@ class FrontDoorUpdateParameters(_serialization.Model):
         self.enabled_state = enabled_state
 
 
-class FrontDoorProperties(FrontDoorUpdateParameters):  # pylint: disable=too-many-instance-attributes
+class FrontDoorProperties(FrontDoorUpdateParameters):
     """The JSON object that contains the properties required to create an endpoint.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1629,7 +1628,7 @@ class FrontDoorProperties(FrontDoorUpdateParameters):  # pylint: disable=too-man
         self.extended_properties = None
 
 
-class FrontendEndpoint(SubResource):  # pylint: disable=too-many-instance-attributes
+class FrontendEndpoint(SubResource):
     """A frontend endpoint used for routing.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -2394,7 +2393,7 @@ class LatencyMetric(_serialization.Model):
         self.b_upper95_ci = None
 
 
-class LatencyScorecard(Resource):  # pylint: disable=too-many-instance-attributes
+class LatencyScorecard(Resource):
     """Defines the LatencyScorecard.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -3585,9 +3584,9 @@ class RedirectConfiguration(RouteConfiguration):
     :vartype custom_fragment: str
     :ivar custom_query_string: The set of query strings to be placed in the redirect URL. Setting
      this value would replace any existing query string; leave empty to preserve the incoming query
-     string. Query string must be in :code:`<key>`=:code:`<value>` format. The first ? and & will be
-     added automatically so do not include them in the front, but do separate multiple query strings
-     with &.
+     string. Query string must be in :code:`<key>`=\\ :code:`<value>` format. The first ? and & will
+     be added automatically so do not include them in the front, but do separate multiple query
+     strings with &.
     :vartype custom_query_string: str
     """
 
@@ -3634,8 +3633,8 @@ class RedirectConfiguration(RouteConfiguration):
         :paramtype custom_fragment: str
         :keyword custom_query_string: The set of query strings to be placed in the redirect URL.
          Setting this value would replace any existing query string; leave empty to preserve the
-         incoming query string. Query string must be in :code:`<key>`=:code:`<value>` format. The first
-         ? and & will be added automatically so do not include them in the front, but do separate
+         incoming query string. Query string must be in :code:`<key>`=\\ :code:`<value>` format. The
+         first ? and & will be added automatically so do not include them in the front, but do separate
          multiple query strings with &.
         :paramtype custom_query_string: str
         """
@@ -3649,7 +3648,7 @@ class RedirectConfiguration(RouteConfiguration):
         self.custom_query_string = custom_query_string
 
 
-class RoutingRule(SubResource):  # pylint: disable=too-many-instance-attributes
+class RoutingRule(SubResource):
     """A routing rule represents a specification for traffic to treat and where to send it, along with
     health probe information.
 
@@ -4279,7 +4278,7 @@ class RulesEngineRule(_serialization.Model):
     :vartype match_conditions: list[~azure.mgmt.frontdoor.models.RulesEngineMatchCondition]
     :ivar match_processing_behavior: If this rule is a match should the rules engine continue
      running the remaining rules or stop. If not present, defaults to Continue. Known values are:
-     "Continue" and "Stop".
+     "Continue", "Stop", and "Continue".
     :vartype match_processing_behavior: str or ~azure.mgmt.frontdoor.models.MatchProcessingBehavior
     """
 
@@ -4320,7 +4319,7 @@ class RulesEngineRule(_serialization.Model):
         :paramtype match_conditions: list[~azure.mgmt.frontdoor.models.RulesEngineMatchCondition]
         :keyword match_processing_behavior: If this rule is a match should the rules engine continue
          running the remaining rules or stop. If not present, defaults to Continue. Known values are:
-         "Continue" and "Stop".
+         "Continue", "Stop", and "Continue".
         :paramtype match_processing_behavior: str or
          ~azure.mgmt.frontdoor.models.MatchProcessingBehavior
         """
@@ -4394,7 +4393,7 @@ class TagsObject(_serialization.Model):
         self.tags = tags
 
 
-class Timeseries(Resource):  # pylint: disable=too-many-instance-attributes
+class Timeseries(Resource):
     """Defines the Timeseries.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -4581,7 +4580,7 @@ class ValidateCustomDomainOutput(_serialization.Model):
         self.message = None
 
 
-class WebApplicationFirewallPolicy(Resource):  # pylint: disable=too-many-instance-attributes
+class WebApplicationFirewallPolicy(Resource):
     """Defines web application firewall policy.
 
     Variables are only populated by the server, and will be ignored when sending a request.
