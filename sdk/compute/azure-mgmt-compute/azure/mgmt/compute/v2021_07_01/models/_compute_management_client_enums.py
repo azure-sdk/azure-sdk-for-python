@@ -180,6 +180,17 @@ class ExtendedLocationTypes(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     EDGE_ZONE = "EdgeZone"
 
 
+class GalleryApplicationPropertiesProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The provisioning state, which only appears in the response."""
+
+    CREATING = "Creating"
+    UPDATING = "Updating"
+    FAILED = "Failed"
+    SUCCEEDED = "Succeeded"
+    DELETING = "Deleting"
+    MIGRATING = "Migrating"
+
+
 class GalleryApplicationVersionPropertiesProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The provisioning state, which only appears in the response."""
 
