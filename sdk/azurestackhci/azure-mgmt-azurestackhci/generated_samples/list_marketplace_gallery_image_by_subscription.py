@@ -15,7 +15,7 @@ from azure.mgmt.azurestackhci import AzureStackHCIClient
     pip install azure-identity
     pip install azure-mgmt-azurestackhci
 # USAGE
-    python configure_remote_support.py
+    python list_marketplace_gallery_image_by_subscription.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -30,20 +30,11 @@ def main():
         subscription_id="fd3c3665-1729-4b7b-9a38-238e83b0f98b",
     )
 
-    response = client.clusters.begin_configure_remote_support(
-        resource_group_name="test-rg",
-        cluster_name="mycluster",
-        remote_support_request={
-            "properties": {
-                "accessLevel": "Diagnostics",
-                "expirationTimeStamp": "2020-01-01T17:18:19.1234567Z",
-                "remoteSupportType": "Enable",
-            }
-        },
-    ).result()
-    print(response)
+    response = client.marketplace_gallery_images.list_all()
+    for item in response:
+        print(item)
 
 
-# x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/StackHCI/stable/2024-04-01/examples/ConfigureRemoteSupport.json
+# x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/stable/2024-01-01/examples/ListMarketplaceGalleryImageBySubscription.json
 if __name__ == "__main__":
     main()

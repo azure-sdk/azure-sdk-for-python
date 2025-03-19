@@ -24,22 +24,31 @@ from .operations import (
     DeploymentSettingsOperations,
     EdgeDevicesOperations,
     ExtensionsOperations,
+    GalleryImagesOperations,
+    GuestAgentOperations,
+    GuestAgentsOperations,
+    HybridIdentityMetadataOperations,
+    LogicalNetworksOperations,
+    MarketplaceGalleryImagesOperations,
+    NetworkInterfacesOperations,
     OffersOperations,
     Operations,
     PublishersOperations,
     SecuritySettingsOperations,
     SkusOperations,
+    StorageContainersOperations,
     UpdateRunsOperations,
     UpdateSummariesOperations,
     UpdatesOperations,
+    VirtualHardDisksOperations,
+    VirtualMachineInstancesOperations,
 )
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from azure.core.credentials_async import AsyncTokenCredential
 
 
-class AzureStackHCIClient:  # pylint: disable=client-accepts-api-version-keyword,too-many-instance-attributes
+class AzureStackHCIClient:  # pylint: disable=too-many-instance-attributes
     """Azure Stack HCI management service.
 
     :ivar arc_settings: ArcSettingsOperations operations
@@ -53,6 +62,16 @@ class AzureStackHCIClient:  # pylint: disable=client-accepts-api-version-keyword
     :vartype edge_devices: azure.mgmt.azurestackhci.aio.operations.EdgeDevicesOperations
     :ivar extensions: ExtensionsOperations operations
     :vartype extensions: azure.mgmt.azurestackhci.aio.operations.ExtensionsOperations
+    :ivar gallery_images: GalleryImagesOperations operations
+    :vartype gallery_images: azure.mgmt.azurestackhci.aio.operations.GalleryImagesOperations
+    :ivar logical_networks: LogicalNetworksOperations operations
+    :vartype logical_networks: azure.mgmt.azurestackhci.aio.operations.LogicalNetworksOperations
+    :ivar marketplace_gallery_images: MarketplaceGalleryImagesOperations operations
+    :vartype marketplace_gallery_images:
+     azure.mgmt.azurestackhci.aio.operations.MarketplaceGalleryImagesOperations
+    :ivar network_interfaces: NetworkInterfacesOperations operations
+    :vartype network_interfaces:
+     azure.mgmt.azurestackhci.aio.operations.NetworkInterfacesOperations
     :ivar offers: OffersOperations operations
     :vartype offers: azure.mgmt.azurestackhci.aio.operations.OffersOperations
     :ivar operations: Operations operations
@@ -63,19 +82,34 @@ class AzureStackHCIClient:  # pylint: disable=client-accepts-api-version-keyword
     :vartype security_settings: azure.mgmt.azurestackhci.aio.operations.SecuritySettingsOperations
     :ivar skus: SkusOperations operations
     :vartype skus: azure.mgmt.azurestackhci.aio.operations.SkusOperations
+    :ivar storage_containers: StorageContainersOperations operations
+    :vartype storage_containers:
+     azure.mgmt.azurestackhci.aio.operations.StorageContainersOperations
     :ivar update_runs: UpdateRunsOperations operations
     :vartype update_runs: azure.mgmt.azurestackhci.aio.operations.UpdateRunsOperations
     :ivar update_summaries: UpdateSummariesOperations operations
     :vartype update_summaries: azure.mgmt.azurestackhci.aio.operations.UpdateSummariesOperations
     :ivar updates: UpdatesOperations operations
     :vartype updates: azure.mgmt.azurestackhci.aio.operations.UpdatesOperations
+    :ivar virtual_hard_disks: VirtualHardDisksOperations operations
+    :vartype virtual_hard_disks: azure.mgmt.azurestackhci.aio.operations.VirtualHardDisksOperations
+    :ivar virtual_machine_instances: VirtualMachineInstancesOperations operations
+    :vartype virtual_machine_instances:
+     azure.mgmt.azurestackhci.aio.operations.VirtualMachineInstancesOperations
+    :ivar hybrid_identity_metadata: HybridIdentityMetadataOperations operations
+    :vartype hybrid_identity_metadata:
+     azure.mgmt.azurestackhci.aio.operations.HybridIdentityMetadataOperations
+    :ivar guest_agent: GuestAgentOperations operations
+    :vartype guest_agent: azure.mgmt.azurestackhci.aio.operations.GuestAgentOperations
+    :ivar guest_agents: GuestAgentsOperations operations
+    :vartype guest_agents: azure.mgmt.azurestackhci.aio.operations.GuestAgentsOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials_async.AsyncTokenCredential
-    :param subscription_id: The ID of the target subscription. The value must be an UUID. Required.
+    :param subscription_id: The ID of the target subscription. Required.
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2024-04-01". Note that overriding this
+    :keyword api_version: Api Version. Default value is "2024-01-01". Note that overriding this
      default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
@@ -123,6 +157,16 @@ class AzureStackHCIClient:  # pylint: disable=client-accepts-api-version-keyword
         )
         self.edge_devices = EdgeDevicesOperations(self._client, self._config, self._serialize, self._deserialize)
         self.extensions = ExtensionsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.gallery_images = GalleryImagesOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.logical_networks = LogicalNetworksOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.marketplace_gallery_images = MarketplaceGalleryImagesOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.network_interfaces = NetworkInterfacesOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
         self.offers = OffersOperations(self._client, self._config, self._serialize, self._deserialize)
         self.operations = Operations(self._client, self._config, self._serialize, self._deserialize)
         self.publishers = PublishersOperations(self._client, self._config, self._serialize, self._deserialize)
@@ -130,11 +174,25 @@ class AzureStackHCIClient:  # pylint: disable=client-accepts-api-version-keyword
             self._client, self._config, self._serialize, self._deserialize
         )
         self.skus = SkusOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.storage_containers = StorageContainersOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
         self.update_runs = UpdateRunsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.update_summaries = UpdateSummariesOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
         self.updates = UpdatesOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.virtual_hard_disks = VirtualHardDisksOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.virtual_machine_instances = VirtualMachineInstancesOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.hybrid_identity_metadata = HybridIdentityMetadataOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.guest_agent = GuestAgentOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.guest_agents = GuestAgentsOperations(self._client, self._config, self._serialize, self._deserialize)
 
     def _send_request(
         self, request: HttpRequest, *, stream: bool = False, **kwargs: Any

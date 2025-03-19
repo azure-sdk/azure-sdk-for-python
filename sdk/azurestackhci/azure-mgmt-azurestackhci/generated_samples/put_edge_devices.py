@@ -15,7 +15,7 @@ from azure.mgmt.azurestackhci import AzureStackHCIClient
     pip install azure-identity
     pip install azure-mgmt-azurestackhci
 # USAGE
-    python create_hci_edge_device.py
+    python put_edge_devices.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -33,7 +33,6 @@ def main():
     response = client.edge_devices.begin_create_or_update(
         resource_uri="subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/ArcInstance-rg/providers/Microsoft.HybridCompute/machines/Node-1",
         resource={
-            "kind": "HCI",
             "properties": {
                 "deviceConfiguration": {
                     "deviceMetadata": "",
@@ -51,12 +50,12 @@ def main():
                         }
                     ],
                 }
-            },
+            }
         },
     ).result()
     print(response)
 
 
-# x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/StackHCI/stable/2024-04-01/examples/CreateHciEdgeDevice.json
+# x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/stable/2024-01-01/examples/PutEdgeDevices.json
 if __name__ == "__main__":
     main()
