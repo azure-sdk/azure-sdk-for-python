@@ -1,0 +1,18 @@
+{
+    "CrossLanguagePackageId": "Azure.AI.ChatProtocol",
+    "CrossLanguageDefinitionId": {
+        "azure.ai.chatprotocol.models.ChatChoice": "Azure.AI.ChatProtocol.ChatChoice",
+        "azure.ai.chatprotocol.models.ChatCompletion": "Azure.AI.ChatProtocol.ChatCompletion",
+        "azure.ai.chatprotocol.models.ChatCompletionChunk": "Azure.AI.ChatProtocol.ChatCompletionChunk",
+        "azure.ai.chatprotocol.models.ChatMessage": "Azure.AI.ChatProtocol.ChatMessage",
+        "azure.ai.chatprotocol.models.ChatMessageDelta": "Azure.AI.ChatProtocol.ChatMessageDelta",
+        "azure.ai.chatprotocol.models.ChoiceDelta": "Azure.AI.ChatProtocol.ChoiceDelta",
+        "azure.ai.chatprotocol.models.TextChatMessage": "Azure.AI.ChatProtocol.TextChatMessage",
+        "azure.ai.chatprotocol.models.TextChatMessageDelta": "Azure.AI.ChatProtocol.TextChatMessageDelta",
+        "azure.ai.chatprotocol.models.MessageKind": "Azure.AI.ChatProtocol.MessageKind",
+        "azure.ai.chatprotocol.models.ChatRole": "Azure.AI.ChatProtocol.ChatRole",
+        "azure.ai.chatprotocol.models.FinishReason": "Azure.AI.ChatProtocol.FinishReason",
+        "azure.ai.chatprotocol.ChatProtocolClient.chat.create_streaming": "Azure.AI.ChatProtocol.Chat.createStreaming",
+        "azure.ai.chatprotocol.ChatProtocolClient.chat.create": "Azure.AI.ChatProtocol.Chat.create"
+    }
+}
