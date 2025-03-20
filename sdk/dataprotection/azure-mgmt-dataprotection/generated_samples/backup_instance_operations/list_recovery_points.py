@@ -39,6 +39,6 @@ def main():
         print(item)
 
 
-# x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/BackupInstanceOperations/ListRecoveryPoints.json
+# x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2025-02-01/examples/BackupInstanceOperations/ListRecoveryPoints.json
 if __name__ == "__main__":
     main()
