@@ -1,0 +1,25 @@
+{
+    "CrossLanguagePackageId": "Azure.Ai.Speech.BatchTranscription",
+    "CrossLanguageDefinitionId": {
+        "azure.ai.batchtranscription.models.DiarizationProperties": "Azure.Ai.Speech.BatchTranscription.DiarizationProperties",
+        "azure.ai.batchtranscription.models.EntityError": "Azure.Ai.Speech.BatchTranscription.EntityError",
+        "azure.ai.batchtranscription.models.EntityReference": "Azure.Ai.Speech.BatchTranscription.EntityReference",
+        "azure.ai.batchtranscription.models.FileLinks": "Azure.Ai.Speech.BatchTranscription.FileLinks",
+        "azure.ai.batchtranscription.models.FileProperties": "Azure.Ai.Speech.BatchTranscription.FileProperties",
+        "azure.ai.batchtranscription.models.LanguageIdentificationProperties": "Azure.Ai.Speech.BatchTranscription.LanguageIdentificationProperties",
+        "azure.ai.batchtranscription.models.TranscriptionFile": "Azure.Ai.Speech.BatchTranscription.TranscriptionFile",
+        "azure.ai.batchtranscription.models.TranscriptionJob": "Azure.Ai.Speech.BatchTranscription.TranscriptionJob",
+        "azure.ai.batchtranscription.models.TranscriptionLinks": "Azure.Ai.Speech.BatchTranscription.TranscriptionLinks",
+        "azure.ai.batchtranscription.models.TranscriptionProperties": "Azure.Ai.Speech.BatchTranscription.TranscriptionProperties",
+        "azure.ai.batchtranscription.models.PunctuationMode": "Azure.Ai.Speech.BatchTranscription.PunctuationMode",
+        "azure.ai.batchtranscription.models.ProfanityFilterMode": "Azure.Ai.Speech.BatchTranscription.ProfanityFilterMode",
+        "azure.ai.batchtranscription.models.LanguageIdentificationMode": "Azure.Ai.Speech.BatchTranscription.LanguageIdentificationMode",
+        "azure.ai.batchtranscription.models.TranscriptionStatus": "Azure.Ai.Speech.BatchTranscription.TranscriptionStatus",
+        "azure.ai.batchtranscription.models.FileKind": "Azure.Ai.Speech.BatchTranscription.FileKind",
+        "azure.ai.batchtranscription.BatchTranscriptionClient.start_transcription": "Azure.Ai.Speech.BatchTranscription.startTranscription",
+        "azure.ai.batchtranscription.BatchTranscriptionClient.get_transcription": "Azure.Ai.Speech.BatchTranscription.getTranscription",
+        "azure.ai.batchtranscription.BatchTranscriptionClient.delete_transcription": "Azure.Ai.Speech.BatchTranscription.deleteTranscription",
+        "azure.ai.batchtranscription.BatchTranscriptionClient.list_transcriptions": "Azure.Ai.Speech.BatchTranscription.listTranscriptions",
+        "azure.ai.batchtranscription.BatchTranscriptionClient.list_transcription_files": "Azure.Ai.Speech.BatchTranscription.listTranscriptionFiles"
+    }
+}

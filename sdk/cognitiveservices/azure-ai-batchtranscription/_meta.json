@@ -1,0 +1,6 @@
+{
+  "commit": "c91dd9e41b32a33fbca08bc8fde7a7ba42ce7291",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/cognitiveservices/Speech.BatchTranscription",
+  "@azure-tools/typespec-python": "0.39.1"
+}
