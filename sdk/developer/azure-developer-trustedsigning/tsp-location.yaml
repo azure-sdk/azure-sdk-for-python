@@ -1,0 +1,4 @@
+directory: specification/trustedsigning/TrustedSigning
+commit: 0b374b551115f07a076f5dd5c14aa89c124cc775
+repo: Azure/azure-rest-api-specs
+additionalDirectories: 
