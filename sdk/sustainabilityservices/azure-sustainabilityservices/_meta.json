@@ -1,0 +1,6 @@
+{
+  "commit": "a3c84869e16e32d4be69ce355d0581691560cff5",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/sustainabilityservices/Microsoft.SustainabilityServices",
+  "@azure-tools/typespec-python": "0.40.0"
+}
