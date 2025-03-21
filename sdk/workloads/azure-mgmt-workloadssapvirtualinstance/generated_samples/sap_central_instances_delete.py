@@ -14,7 +14,7 @@ from  import WorkloadsSapVirtualInstanceMgmtClient
     pip install azure-identity
     pip install azure-mgmt-workloadssapvirtualinstance
 # USAGE
-    python operations_list.py
+    python sap_central_instances_delete.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -27,11 +27,12 @@ def main():
         subscription_id="SUBSCRIPTION_ID",
     )
 
-    response = client.operations.list(
-    )
-    for item in response:
-        print(item)
+    client.sap_central_server_instances.begin_delete(
+        resource_group_name='test-rg',
+        sap_virtual_instance_name='X00',
+        central_instance_name='centralServer',
+    ).result()
 
-# x-ms-original-file: 2024-09-01/Operations_List.json
+# x-ms-original-file: 2024-09-01/SapCentralInstances_Delete.json
 if __name__ == "__main__":
     main()

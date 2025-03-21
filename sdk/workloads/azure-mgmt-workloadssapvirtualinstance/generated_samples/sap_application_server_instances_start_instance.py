@@ -14,7 +14,7 @@ from  import WorkloadsSapVirtualInstanceMgmtClient
     pip install azure-identity
     pip install azure-mgmt-workloadssapvirtualinstance
 # USAGE
-    python operations_list.py
+    python sap_application_server_instances_start_instance.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -27,11 +27,13 @@ def main():
         subscription_id="SUBSCRIPTION_ID",
     )
 
-    response = client.operations.list(
-    )
-    for item in response:
-        print(item)
+    response = client.sap_application_server_instances.begin_start(
+        resource_group_name='test-rg',
+        sap_virtual_instance_name='X00',
+        application_instance_name='app01',
+    ).result()
+    print(response)
 
-# x-ms-original-file: 2024-09-01/Operations_List.json
+# x-ms-original-file: 2024-09-01/SapApplicationServerInstances_StartInstance.json
 if __name__ == "__main__":
     main()
