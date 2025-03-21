@@ -1,4 +1,3 @@
-# pylint: disable=too-many-lines
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,6 +6,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
+import sys
 from typing import Any, AsyncIterable, Callable, Dict, IO, Optional, TypeVar, Union, overload
 import urllib.parse
 
@@ -20,15 +20,13 @@ from azure.core.exceptions import (
     map_error,
 )
 from azure.core.pipeline import PipelineResponse
-from azure.core.pipeline.transport import AsyncHttpResponse
-from azure.core.rest import HttpRequest
+from azure.core.rest import AsyncHttpResponse, HttpRequest
 from azure.core.tracing.decorator import distributed_trace
 from azure.core.tracing.decorator_async import distributed_trace_async
 from azure.core.utils import case_insensitive_dict
 from azure.mgmt.core.exceptions import ARMErrorFormat
 
 from ... import models as _models
-from ..._vendor import _convert_request
 from ...operations._workspaces_operations import (
     build_create_request,
     build_delete_request,
@@ -39,6 +37,10 @@ from ...operations._workspaces_operations import (
     build_update_request,
 )
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -66,7 +68,6 @@ class WorkspacesOperations:
     def list_by_subscription(self, **kwargs: Any) -> AsyncIterable["_models.Workspace"]:
         """Lists all of the firmware analysis workspaces in the specified subscription.
 
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either Workspace or the result of cls(response)
         :rtype:
          ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.iotfirmwaredefense.models.Workspace]
@@ -76,9 +77,9 @@ class WorkspacesOperations:
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.WorkspaceList] = kwargs.pop("cls", None)
+        cls: ClsType[_models.WorkspaceListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -89,15 +90,13 @@ class WorkspacesOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_by_subscription_request(
+                _request = build_list_by_subscription_request(
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_by_subscription.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -109,27 +108,26 @@ class WorkspacesOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
-            deserialized = self._deserialize("WorkspaceList", pipeline_response)
+            deserialized = self._deserialize("WorkspaceListResult", pipeline_response)
             list_of_elem = deserialized.value
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -141,10 +139,6 @@ class WorkspacesOperations:
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    list_by_subscription.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.IoTFirmwareDefense/workspaces"
-    }
 
     @distributed_trace
     def list_by_resource_group(self, resource_group_name: str, **kwargs: Any) -> AsyncIterable["_models.Workspace"]:
@@ -153,7 +147,6 @@ class WorkspacesOperations:
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either Workspace or the result of cls(response)
         :rtype:
          ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.iotfirmwaredefense.models.Workspace]
@@ -163,9 +156,9 @@ class WorkspacesOperations:
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.WorkspaceList] = kwargs.pop("cls", None)
+        cls: ClsType[_models.WorkspaceListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -176,16 +169,14 @@ class WorkspacesOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_by_resource_group_request(
+                _request = build_list_by_resource_group_request(
                     resource_group_name=resource_group_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_by_resource_group.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -197,27 +188,26 @@ class WorkspacesOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
-            deserialized = self._deserialize("WorkspaceList", pipeline_response)
+            deserialized = self._deserialize("WorkspaceListResult", pipeline_response)
             list_of_elem = deserialized.value
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -230,89 +220,20 @@ class WorkspacesOperations:
 
         return AsyncItemPaged(get_next, extract_data)
 
-    list_by_resource_group.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces"
-    }
-
-    @overload
-    async def create(
-        self,
-        resource_group_name: str,
-        workspace_name: str,
-        workspace: _models.Workspace,
-        *,
-        content_type: str = "application/json",
-        **kwargs: Any
-    ) -> _models.Workspace:
-        """The operation to create or update a firmware analysis workspace.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param workspace_name: The name of the firmware analysis workspace. Required.
-        :type workspace_name: str
-        :param workspace: Parameters when creating a firmware analysis workspace. Required.
-        :type workspace: ~azure.mgmt.iotfirmwaredefense.models.Workspace
-        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: Workspace or the result of cls(response)
-        :rtype: ~azure.mgmt.iotfirmwaredefense.models.Workspace
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @overload
-    async def create(
-        self,
-        resource_group_name: str,
-        workspace_name: str,
-        workspace: IO,
-        *,
-        content_type: str = "application/json",
-        **kwargs: Any
-    ) -> _models.Workspace:
-        """The operation to create or update a firmware analysis workspace.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param workspace_name: The name of the firmware analysis workspace. Required.
-        :type workspace_name: str
-        :param workspace: Parameters when creating a firmware analysis workspace. Required.
-        :type workspace: IO
-        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: Workspace or the result of cls(response)
-        :rtype: ~azure.mgmt.iotfirmwaredefense.models.Workspace
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
     @distributed_trace_async
-    async def create(
-        self, resource_group_name: str, workspace_name: str, workspace: Union[_models.Workspace, IO], **kwargs: Any
-    ) -> _models.Workspace:
-        """The operation to create or update a firmware analysis workspace.
+    async def get(self, resource_group_name: str, workspace_name: str, **kwargs: Any) -> _models.Workspace:
+        """Get firmware analysis workspace.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param workspace_name: The name of the firmware analysis workspace. Required.
         :type workspace_name: str
-        :param workspace: Parameters when creating a firmware analysis workspace. Is either a Workspace
-         type or a IO type. Required.
-        :type workspace: ~azure.mgmt.iotfirmwaredefense.models.Workspace or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: Workspace or the result of cls(response)
         :rtype: ~azure.mgmt.iotfirmwaredefense.models.Workspace
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -320,186 +241,25 @@ class WorkspacesOperations:
         }
         error_map.update(kwargs.pop("error_map", {}) or {})
 
-        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.Workspace] = kwargs.pop("cls", None)
 
-        content_type = content_type or "application/json"
-        _json = None
-        _content = None
-        if isinstance(workspace, (IOBase, bytes)):
-            _content = workspace
-        else:
-            _json = self._serialize.body(workspace, "Workspace")
-
-        request = build_create_request(
+        _request = build_get_request(
             resource_group_name=resource_group_name,
             workspace_name=workspace_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            content_type=content_type,
-            json=_json,
-            content=_content,
-            template_url=self.create.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200, 201]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
-            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
-
-        if response.status_code == 200:
-            deserialized = self._deserialize("Workspace", pipeline_response)
-
-        if response.status_code == 201:
-            deserialized = self._deserialize("Workspace", pipeline_response)
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
-
-        return deserialized  # type: ignore
-
-    create.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}"
-    }
-
-    @overload
-    async def update(
-        self,
-        resource_group_name: str,
-        workspace_name: str,
-        workspace: _models.WorkspaceUpdateDefinition,
-        *,
-        content_type: str = "application/json",
-        **kwargs: Any
-    ) -> _models.Workspace:
-        """The operation to update a firmware analysis workspaces.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param workspace_name: The name of the firmware analysis workspace. Required.
-        :type workspace_name: str
-        :param workspace: Parameters when updating a firmware analysis workspace. Required.
-        :type workspace: ~azure.mgmt.iotfirmwaredefense.models.WorkspaceUpdateDefinition
-        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: Workspace or the result of cls(response)
-        :rtype: ~azure.mgmt.iotfirmwaredefense.models.Workspace
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @overload
-    async def update(
-        self,
-        resource_group_name: str,
-        workspace_name: str,
-        workspace: IO,
-        *,
-        content_type: str = "application/json",
-        **kwargs: Any
-    ) -> _models.Workspace:
-        """The operation to update a firmware analysis workspaces.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param workspace_name: The name of the firmware analysis workspace. Required.
-        :type workspace_name: str
-        :param workspace: Parameters when updating a firmware analysis workspace. Required.
-        :type workspace: IO
-        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: Workspace or the result of cls(response)
-        :rtype: ~azure.mgmt.iotfirmwaredefense.models.Workspace
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @distributed_trace_async
-    async def update(
-        self,
-        resource_group_name: str,
-        workspace_name: str,
-        workspace: Union[_models.WorkspaceUpdateDefinition, IO],
-        **kwargs: Any
-    ) -> _models.Workspace:
-        """The operation to update a firmware analysis workspaces.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param workspace_name: The name of the firmware analysis workspace. Required.
-        :type workspace_name: str
-        :param workspace: Parameters when updating a firmware analysis workspace. Is either a
-         WorkspaceUpdateDefinition type or a IO type. Required.
-        :type workspace: ~azure.mgmt.iotfirmwaredefense.models.WorkspaceUpdateDefinition or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: Workspace or the result of cls(response)
-        :rtype: ~azure.mgmt.iotfirmwaredefense.models.Workspace
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        error_map = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.Workspace] = kwargs.pop("cls", None)
-
-        content_type = content_type or "application/json"
-        _json = None
-        _content = None
-        if isinstance(workspace, (IOBase, bytes)):
-            _content = workspace
-        else:
-            _json = self._serialize.body(workspace, "WorkspaceUpdateDefinition")
-
-        request = build_update_request(
-            resource_group_name=resource_group_name,
-            workspace_name=workspace_name,
-            subscription_id=self._config.subscription_id,
-            api_version=api_version,
-            content_type=content_type,
-            json=_json,
-            content=_content,
-            template_url=self.update.metadata["url"],
-            headers=_headers,
-            params=_params,
-        )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
-
-        _stream = False
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -509,21 +269,277 @@ class WorkspacesOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("Workspace", pipeline_response)
+        deserialized = self._deserialize("Workspace", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
+        return deserialized  # type: ignore
 
-    update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}"
-    }
+    @overload
+    async def create(
+        self,
+        resource_group_name: str,
+        workspace_name: str,
+        resource: _models.Workspace,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> _models.Workspace:
+        """The operation to create or update a firmware analysis workspace.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param workspace_name: The name of the firmware analysis workspace. Required.
+        :type workspace_name: str
+        :param resource: Parameters when creating a firmware analysis workspace. Required.
+        :type resource: ~azure.mgmt.iotfirmwaredefense.models.Workspace
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: Workspace or the result of cls(response)
+        :rtype: ~azure.mgmt.iotfirmwaredefense.models.Workspace
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    async def create(
+        self,
+        resource_group_name: str,
+        workspace_name: str,
+        resource: IO[bytes],
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> _models.Workspace:
+        """The operation to create or update a firmware analysis workspace.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param workspace_name: The name of the firmware analysis workspace. Required.
+        :type workspace_name: str
+        :param resource: Parameters when creating a firmware analysis workspace. Required.
+        :type resource: IO[bytes]
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: Workspace or the result of cls(response)
+        :rtype: ~azure.mgmt.iotfirmwaredefense.models.Workspace
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
 
     @distributed_trace_async
-    async def delete(  # pylint: disable=inconsistent-return-statements
-        self, resource_group_name: str, workspace_name: str, **kwargs: Any
-    ) -> None:
+    async def create(
+        self,
+        resource_group_name: str,
+        workspace_name: str,
+        resource: Union[_models.Workspace, IO[bytes]],
+        **kwargs: Any
+    ) -> _models.Workspace:
+        """The operation to create or update a firmware analysis workspace.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param workspace_name: The name of the firmware analysis workspace. Required.
+        :type workspace_name: str
+        :param resource: Parameters when creating a firmware analysis workspace. Is either a Workspace
+         type or a IO[bytes] type. Required.
+        :type resource: ~azure.mgmt.iotfirmwaredefense.models.Workspace or IO[bytes]
+        :return: Workspace or the result of cls(response)
+        :rtype: ~azure.mgmt.iotfirmwaredefense.models.Workspace
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.Workspace] = kwargs.pop("cls", None)
+
+        content_type = content_type or "application/json"
+        _json = None
+        _content = None
+        if isinstance(resource, (IOBase, bytes)):
+            _content = resource
+        else:
+            _json = self._serialize.body(resource, "Workspace")
+
+        _request = build_create_request(
+            resource_group_name=resource_group_name,
+            workspace_name=workspace_name,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            content_type=content_type,
+            json=_json,
+            content=_content,
+            headers=_headers,
+            params=_params,
+        )
+        _request.url = self._client.format_url(_request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200, 201]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        deserialized = self._deserialize("Workspace", pipeline_response.http_response)
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
+
+    @overload
+    async def update(
+        self,
+        resource_group_name: str,
+        workspace_name: str,
+        properties: _models.WorkspaceUpdate,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> _models.Workspace:
+        """The operation to update a firmware analysis workspaces.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param workspace_name: The name of the firmware analysis workspace. Required.
+        :type workspace_name: str
+        :param properties: Parameters when updating a firmware analysis workspace. Required.
+        :type properties: ~azure.mgmt.iotfirmwaredefense.models.WorkspaceUpdate
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: Workspace or the result of cls(response)
+        :rtype: ~azure.mgmt.iotfirmwaredefense.models.Workspace
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    async def update(
+        self,
+        resource_group_name: str,
+        workspace_name: str,
+        properties: IO[bytes],
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> _models.Workspace:
+        """The operation to update a firmware analysis workspaces.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param workspace_name: The name of the firmware analysis workspace. Required.
+        :type workspace_name: str
+        :param properties: Parameters when updating a firmware analysis workspace. Required.
+        :type properties: IO[bytes]
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: Workspace or the result of cls(response)
+        :rtype: ~azure.mgmt.iotfirmwaredefense.models.Workspace
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace_async
+    async def update(
+        self,
+        resource_group_name: str,
+        workspace_name: str,
+        properties: Union[_models.WorkspaceUpdate, IO[bytes]],
+        **kwargs: Any
+    ) -> _models.Workspace:
+        """The operation to update a firmware analysis workspaces.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param workspace_name: The name of the firmware analysis workspace. Required.
+        :type workspace_name: str
+        :param properties: Parameters when updating a firmware analysis workspace. Is either a
+         WorkspaceUpdate type or a IO[bytes] type. Required.
+        :type properties: ~azure.mgmt.iotfirmwaredefense.models.WorkspaceUpdate or IO[bytes]
+        :return: Workspace or the result of cls(response)
+        :rtype: ~azure.mgmt.iotfirmwaredefense.models.Workspace
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.Workspace] = kwargs.pop("cls", None)
+
+        content_type = content_type or "application/json"
+        _json = None
+        _content = None
+        if isinstance(properties, (IOBase, bytes)):
+            _content = properties
+        else:
+            _json = self._serialize.body(properties, "WorkspaceUpdate")
+
+        _request = build_update_request(
+            resource_group_name=resource_group_name,
+            workspace_name=workspace_name,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            content_type=content_type,
+            json=_json,
+            content=_content,
+            headers=_headers,
+            params=_params,
+        )
+        _request.url = self._client.format_url(_request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        deserialized = self._deserialize("Workspace", pipeline_response.http_response)
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
+
+    @distributed_trace_async
+    async def delete(self, resource_group_name: str, workspace_name: str, **kwargs: Any) -> None:
         """The operation to delete a firmware analysis workspace.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -531,12 +547,11 @@ class WorkspacesOperations:
         :type resource_group_name: str
         :param workspace_name: The name of the firmware analysis workspace. Required.
         :type workspace_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: None or the result of cls(response)
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -550,21 +565,19 @@ class WorkspacesOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[None] = kwargs.pop("cls", None)
 
-        request = build_delete_request(
+        _request = build_delete_request(
             resource_group_name=resource_group_name,
             workspace_name=workspace_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.delete.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -575,98 +588,30 @@ class WorkspacesOperations:
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if cls:
-            return cls(pipeline_response, None, {})
-
-    delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}"
-    }
-
-    @distributed_trace_async
-    async def get(self, resource_group_name: str, workspace_name: str, **kwargs: Any) -> _models.Workspace:
-        """Get firmware analysis workspace.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param workspace_name: The name of the firmware analysis workspace. Required.
-        :type workspace_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: Workspace or the result of cls(response)
-        :rtype: ~azure.mgmt.iotfirmwaredefense.models.Workspace
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        error_map = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.Workspace] = kwargs.pop("cls", None)
-
-        request = build_get_request(
-            resource_group_name=resource_group_name,
-            workspace_name=workspace_name,
-            subscription_id=self._config.subscription_id,
-            api_version=api_version,
-            template_url=self.get.metadata["url"],
-            headers=_headers,
-            params=_params,
-        )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
-
-        _stream = False
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
-            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
-
-        deserialized = self._deserialize("Workspace", pipeline_response)
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})
-
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}"
-    }
+            return cls(pipeline_response, None, {})  # type: ignore
 
     @overload
     async def generate_upload_url(
         self,
         resource_group_name: str,
         workspace_name: str,
-        generate_upload_url: _models.GenerateUploadUrlRequest,
+        body: _models.GenerateUploadUrlRequest,
         *,
         content_type: str = "application/json",
         **kwargs: Any
     ) -> _models.UrlToken:
-        """The operation to get a url for file upload.
+        """Generate a URL for uploading a firmware image.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param workspace_name: The name of the firmware analysis workspace. Required.
         :type workspace_name: str
-        :param generate_upload_url: Parameters when requesting a URL to upload firmware. Required.
-        :type generate_upload_url: ~azure.mgmt.iotfirmwaredefense.models.GenerateUploadUrlRequest
+        :param body: Parameters when requesting a URL to upload firmware. Required.
+        :type body: ~azure.mgmt.iotfirmwaredefense.models.GenerateUploadUrlRequest
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: UrlToken or the result of cls(response)
         :rtype: ~azure.mgmt.iotfirmwaredefense.models.UrlToken
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -677,24 +622,23 @@ class WorkspacesOperations:
         self,
         resource_group_name: str,
         workspace_name: str,
-        generate_upload_url: IO,
+        body: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
     ) -> _models.UrlToken:
-        """The operation to get a url for file upload.
+        """Generate a URL for uploading a firmware image.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param workspace_name: The name of the firmware analysis workspace. Required.
         :type workspace_name: str
-        :param generate_upload_url: Parameters when requesting a URL to upload firmware. Required.
-        :type generate_upload_url: IO
+        :param body: Parameters when requesting a URL to upload firmware. Required.
+        :type body: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: UrlToken or the result of cls(response)
         :rtype: ~azure.mgmt.iotfirmwaredefense.models.UrlToken
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -705,28 +649,24 @@ class WorkspacesOperations:
         self,
         resource_group_name: str,
         workspace_name: str,
-        generate_upload_url: Union[_models.GenerateUploadUrlRequest, IO],
+        body: Union[_models.GenerateUploadUrlRequest, IO[bytes]],
         **kwargs: Any
     ) -> _models.UrlToken:
-        """The operation to get a url for file upload.
+        """Generate a URL for uploading a firmware image.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :param workspace_name: The name of the firmware analysis workspace. Required.
         :type workspace_name: str
-        :param generate_upload_url: Parameters when requesting a URL to upload firmware. Is either a
-         GenerateUploadUrlRequest type or a IO type. Required.
-        :type generate_upload_url: ~azure.mgmt.iotfirmwaredefense.models.GenerateUploadUrlRequest or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+        :param body: Parameters when requesting a URL to upload firmware. Is either a
+         GenerateUploadUrlRequest type or a IO[bytes] type. Required.
+        :type body: ~azure.mgmt.iotfirmwaredefense.models.GenerateUploadUrlRequest or IO[bytes]
         :return: UrlToken or the result of cls(response)
         :rtype: ~azure.mgmt.iotfirmwaredefense.models.UrlToken
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -744,12 +684,12 @@ class WorkspacesOperations:
         content_type = content_type or "application/json"
         _json = None
         _content = None
-        if isinstance(generate_upload_url, (IOBase, bytes)):
-            _content = generate_upload_url
+        if isinstance(body, (IOBase, bytes)):
+            _content = body
         else:
-            _json = self._serialize.body(generate_upload_url, "GenerateUploadUrlRequest")
+            _json = self._serialize.body(body, "GenerateUploadUrlRequest")
 
-        request = build_generate_upload_url_request(
+        _request = build_generate_upload_url_request(
             resource_group_name=resource_group_name,
             workspace_name=workspace_name,
             subscription_id=self._config.subscription_id,
@@ -757,16 +697,14 @@ class WorkspacesOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.generate_upload_url.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -776,13 +714,9 @@ class WorkspacesOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("UrlToken", pipeline_response)
+        deserialized = self._deserialize("UrlToken", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    generate_upload_url.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTFirmwareDefense/workspaces/{workspaceName}/generateUploadUrl"
-    }
+        return deserialized  # type: ignore
