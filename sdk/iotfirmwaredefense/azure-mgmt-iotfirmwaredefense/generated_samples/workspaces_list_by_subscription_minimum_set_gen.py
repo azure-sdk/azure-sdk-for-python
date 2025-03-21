@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.iotfirmwaredefense import IoTFirmwareDefenseMgmtClient
 
 """
@@ -26,7 +27,7 @@ from azure.mgmt.iotfirmwaredefense import IoTFirmwareDefenseMgmtClient
 def main():
     client = IoTFirmwareDefenseMgmtClient(
         credential=DefaultAzureCredential(),
-        subscription_id="5443A01A-5242-4950-AC1A-2DD362180254",
+        subscription_id="5C707B5F-6130-4F71-819E-953A28942E88",
     )
 
     response = client.workspaces.list_by_subscription()
@@ -34,6 +35,6 @@ def main():
         print(item)
 
 
-# x-ms-original-file: specification/fist/resource-manager/Microsoft.IoTFirmwareDefense/stable/2024-01-10/examples/Workspaces_ListBySubscription_MinimumSet_Gen.json
+# x-ms-original-file: specification/fist/resource-manager/Microsoft.IoTFirmwareDefense/preview/2025-04-01-preview/examples/Workspaces_ListBySubscription_MinimumSet_Gen.json
 if __name__ == "__main__":
     main()
