@@ -14,7 +14,7 @@ from  import WorkloadsSapVirtualInstanceMgmtClient
     pip install azure-identity
     pip install azure-mgmt-workloadssapvirtualinstance
 # USAGE
-    python operations_list.py
+    python sap_virtual_instances_invoke_sap_supported_sku_distributed.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -27,11 +27,12 @@ def main():
         subscription_id="SUBSCRIPTION_ID",
     )
 
-    response = client.operations.list(
+    response = client.sap_virtual_instances.get_sap_supported_sku(
+        location='centralus',
+        body={'appLocation': 'eastus', 'databaseType': 'HANA', 'deploymentType': 'ThreeTier', 'environment': 'Prod', 'sapProduct': 'S4HANA'},
     )
-    for item in response:
-        print(item)
+    print(response)
 
-# x-ms-original-file: 2024-09-01/Operations_List.json
+# x-ms-original-file: 2024-09-01/SapVirtualInstances_InvokeSapSupportedSku_Distributed.json
 if __name__ == "__main__":
     main()
