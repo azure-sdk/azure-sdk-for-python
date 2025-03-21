@@ -59,3 +59,5 @@ extends:
     #   safeName: azureaigenerative
     - name: azure-ai-resources
       safeName: azureairesources
+    - name: azure-ai-projects-dp1
+      safeName: azureaiprojectsdp1
