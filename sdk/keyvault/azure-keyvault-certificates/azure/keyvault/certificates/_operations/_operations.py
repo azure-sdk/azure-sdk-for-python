@@ -45,31 +45,6 @@ _SERIALIZER = Serializer()
 _SERIALIZER.client_side_validation = False
 
 
-def build_key_vault_get_certificates_request(
-    *, maxresults: Optional[int] = None, include_pending: Optional[bool] = None, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "7.6-preview.2"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/certificates"
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-    if maxresults is not None:
-        _params["maxresults"] = _SERIALIZER.query("maxresults", maxresults, "int")
-    if include_pending is not None:
-        _params["includePending"] = _SERIALIZER.query("include_pending", include_pending, "bool")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
 def build_key_vault_delete_certificate_request(  # pylint: disable=name-too-long
     certificate_name: str, **kwargs: Any
 ) -> HttpRequest:
@@ -154,29 +129,6 @@ def build_key_vault_delete_certificate_contacts_request(**kwargs: Any) -> HttpRe
     _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="DELETE", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_key_vault_get_certificate_issuers_request(  # pylint: disable=name-too-long
-    *, maxresults: Optional[int] = None, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "7.6-preview.2"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/certificates/issuers"
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-    if maxresults is not None:
-        _params["maxresults"] = _SERIALIZER.query("maxresults", maxresults, "int")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
 def build_key_vault_set_certificate_issuer_request(  # pylint: disable=name-too-long
@@ -345,34 +297,6 @@ def build_key_vault_import_certificate_request(  # pylint: disable=name-too-long
     _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_key_vault_get_certificate_versions_request(  # pylint: disable=name-too-long
-    certificate_name: str, *, maxresults: Optional[int] = None, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "7.6-preview.2"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/certificates/{certificate-name}/versions"
-    path_format_arguments = {
-        "certificate-name": _SERIALIZER.url("certificate_name", certificate_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-    if maxresults is not None:
-        _params["maxresults"] = _SERIALIZER.query("maxresults", maxresults, "int")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
 def build_key_vault_get_certificate_policy_request(  # pylint: disable=name-too-long
@@ -645,31 +569,6 @@ def build_key_vault_restore_certificate_request(**kwargs: Any) -> HttpRequest:  
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_key_vault_get_deleted_certificates_request(  # pylint: disable=name-too-long
-    *, maxresults: Optional[int] = None, include_pending: Optional[bool] = None, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "7.6-preview.2"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/deletedcertificates"
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-    if maxresults is not None:
-        _params["maxresults"] = _SERIALIZER.query("maxresults", maxresults, "int")
-    if include_pending is not None:
-        _params["includePending"] = _SERIALIZER.query("include_pending", include_pending, "bool")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
 def build_key_vault_get_deleted_certificate_request(  # pylint: disable=name-too-long
     certificate_name: str, **kwargs: Any
 ) -> HttpRequest:
@@ -748,103 +647,108 @@ def build_key_vault_recover_deleted_certificate_request(  # pylint: disable=name
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
 
+def build_key_vault_get_certificates_request(
+    *, maxresults: Optional[int] = None, include_pending: Optional[bool] = None, **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "7.6-preview.2"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/certificates"
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+    if maxresults is not None:
+        _params["maxresults"] = _SERIALIZER.query("maxresults", maxresults, "int")
+    if include_pending is not None:
+        _params["includePending"] = _SERIALIZER.query("include_pending", include_pending, "bool")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_key_vault_get_certificate_issuers_request(  # pylint: disable=name-too-long
+    *, maxresults: Optional[int] = None, **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "7.6-preview.2"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/certificates/issuers"
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+    if maxresults is not None:
+        _params["maxresults"] = _SERIALIZER.query("maxresults", maxresults, "int")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_key_vault_get_certificate_versions_request(  # pylint: disable=name-too-long
+    certificate_name: str, *, maxresults: Optional[int] = None, **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "7.6-preview.2"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/certificates/{certificate-name}/versions"
+    path_format_arguments = {
+        "certificate-name": _SERIALIZER.url("certificate_name", certificate_name, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+    if maxresults is not None:
+        _params["maxresults"] = _SERIALIZER.query("maxresults", maxresults, "int")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_key_vault_get_deleted_certificates_request(  # pylint: disable=name-too-long
+    *, maxresults: Optional[int] = None, include_pending: Optional[bool] = None, **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "7.6-preview.2"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/deletedcertificates"
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+    if maxresults is not None:
+        _params["maxresults"] = _SERIALIZER.query("maxresults", maxresults, "int")
+    if include_pending is not None:
+        _params["includePending"] = _SERIALIZER.query("include_pending", include_pending, "bool")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
+
+
 class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=too-many-public-methods
-
-    @distributed_trace
-    def get_certificates(
-        self, *, maxresults: Optional[int] = None, include_pending: Optional[bool] = None, **kwargs: Any
-    ) -> Iterable["_models.CertificateItem"]:
-        """List certificates in a specified key vault.
-
-        The GetCertificates operation returns the set of certificates resources in the specified key
-        vault. This operation requires the certificates/list permission.
-
-        :keyword maxresults: Maximum number of results to return in a page. If not specified the
-         service will return up to 25 results. Default value is None.
-        :paramtype maxresults: int
-        :keyword include_pending: Specifies whether to include certificates which are not completely
-         provisioned. Default value is None.
-        :paramtype include_pending: bool
-        :return: An iterator like instance of CertificateItem
-        :rtype: ~azure.core.paging.ItemPaged[~azure.keyvault.certificates._generated.models.CertificateItem]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = kwargs.pop("params", {}) or {}
-
-        cls: ClsType[List[_models.CertificateItem]] = kwargs.pop("cls", None)
-
-        error_map: MutableMapping = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        def prepare_request(next_link=None):
-            if not next_link:
-
-                _request = build_key_vault_get_certificates_request(
-                    maxresults=maxresults,
-                    include_pending=include_pending,
-                    api_version=self._config.api_version,
-                    headers=_headers,
-                    params=_params,
-                )
-                path_format_arguments = {
-                    "vaultBaseUrl": self._serialize.url(
-                        "self._config.vault_base_url", self._config.vault_base_url, "str", skip_quote=True
-                    ),
-                }
-                _request.url = self._client.format_url(_request.url, **path_format_arguments)
-
-            else:
-                # make call to next link with the client's api-version
-                _parsed_next_link = urllib.parse.urlparse(next_link)
-                _next_request_params = case_insensitive_dict(
-                    {
-                        key: [urllib.parse.quote(v) for v in value]
-                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
-                    }
-                )
-                _next_request_params["api-version"] = self._config.api_version
-                _request = HttpRequest(
-                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
-                )
-                path_format_arguments = {
-                    "vaultBaseUrl": self._serialize.url(
-                        "self._config.vault_base_url", self._config.vault_base_url, "str", skip_quote=True
-                    ),
-                }
-                _request.url = self._client.format_url(_request.url, **path_format_arguments)
-
-            return _request
-
-        def extract_data(pipeline_response):
-            deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.CertificateItem], deserialized["value"])
-            if cls:
-                list_of_elem = cls(list_of_elem)  # type: ignore
-            return deserialized.get("nextLink") or None, iter(list_of_elem)
-
-        def get_next(next_link=None):
-            _request = prepare_request(next_link)
-
-            _stream = False
-            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                _request, stream=_stream, **kwargs
-            )
-            response = pipeline_response.http_response
-
-            if response.status_code not in [200]:
-                map_error(status_code=response.status_code, response=response, error_map=error_map)
-                error = _failsafe_deserialize(_models.KeyVaultError, response.json())
-                raise HttpResponseError(response=response, model=error)
-
-            return pipeline_response
-
-        return ItemPaged(get_next, extract_data)
 
     @distributed_trace
     def delete_certificate(self, certificate_name: str, **kwargs: Any) -> _models.DeletedCertificateBundle:
@@ -858,7 +762,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :type certificate_name: str
         :return: DeletedCertificateBundle. The DeletedCertificateBundle is compatible with
          MutableMapping
-        :rtype: ~azure.keyvault.certificates._generated.models.DeletedCertificateBundle
+        :rtype: ~azure.keyvault.certificates.models.DeletedCertificateBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -924,12 +828,12 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         certificates/managecontacts permission.
 
         :param contacts: The contacts for the key vault certificate. Required.
-        :type contacts: ~azure.keyvault.certificates._generated.models.Contacts
+        :type contacts: ~azure.keyvault.certificates.models.Contacts
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :return: Contacts. The Contacts is compatible with MutableMapping
-        :rtype: ~azure.keyvault.certificates._generated.models.Contacts
+        :rtype: ~azure.keyvault.certificates.models.Contacts
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -948,7 +852,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: Contacts. The Contacts is compatible with MutableMapping
-        :rtype: ~azure.keyvault.certificates._generated.models.Contacts
+        :rtype: ~azure.keyvault.certificates.models.Contacts
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -967,7 +871,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: Contacts. The Contacts is compatible with MutableMapping
-        :rtype: ~azure.keyvault.certificates._generated.models.Contacts
+        :rtype: ~azure.keyvault.certificates.models.Contacts
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -982,9 +886,9 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
 
         :param contacts: The contacts for the key vault certificate. Is one of the following types:
          Contacts, JSON, IO[bytes] Required.
-        :type contacts: ~azure.keyvault.certificates._generated.models.Contacts or JSON or IO[bytes]
+        :type contacts: ~azure.keyvault.certificates.models.Contacts or JSON or IO[bytes]
         :return: Contacts. The Contacts is compatible with MutableMapping
-        :rtype: ~azure.keyvault.certificates._generated.models.Contacts
+        :rtype: ~azure.keyvault.certificates.models.Contacts
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -1057,7 +961,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         specified key vault. This operation requires the certificates/managecontacts permission.
 
         :return: Contacts. The Contacts is compatible with MutableMapping
-        :rtype: ~azure.keyvault.certificates._generated.models.Contacts
+        :rtype: ~azure.keyvault.certificates.models.Contacts
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -1120,7 +1024,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         the certificates/managecontacts permission.
 
         :return: Contacts. The Contacts is compatible with MutableMapping
-        :rtype: ~azure.keyvault.certificates._generated.models.Contacts
+        :rtype: ~azure.keyvault.certificates.models.Contacts
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -1175,99 +1079,6 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
 
         return deserialized  # type: ignore
 
-    @distributed_trace
-    def get_certificate_issuers(
-        self, *, maxresults: Optional[int] = None, **kwargs: Any
-    ) -> Iterable["_models.CertificateIssuerItem"]:
-        """List certificate issuers for a specified key vault.
-
-        The GetCertificateIssuers operation returns the set of certificate issuer resources in the
-        specified key vault. This operation requires the certificates/manageissuers/getissuers
-        permission.
-
-        :keyword maxresults: Maximum number of results to return in a page. If not specified the
-         service will return up to 25 results. Default value is None.
-        :paramtype maxresults: int
-        :return: An iterator like instance of CertificateIssuerItem
-        :rtype: ~azure.core.paging.ItemPaged[~azure.keyvault.certificates._generated.models.CertificateIssuerItem]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = kwargs.pop("params", {}) or {}
-
-        cls: ClsType[List[_models.CertificateIssuerItem]] = kwargs.pop("cls", None)
-
-        error_map: MutableMapping = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        def prepare_request(next_link=None):
-            if not next_link:
-
-                _request = build_key_vault_get_certificate_issuers_request(
-                    maxresults=maxresults,
-                    api_version=self._config.api_version,
-                    headers=_headers,
-                    params=_params,
-                )
-                path_format_arguments = {
-                    "vaultBaseUrl": self._serialize.url(
-                        "self._config.vault_base_url", self._config.vault_base_url, "str", skip_quote=True
-                    ),
-                }
-                _request.url = self._client.format_url(_request.url, **path_format_arguments)
-
-            else:
-                # make call to next link with the client's api-version
-                _parsed_next_link = urllib.parse.urlparse(next_link)
-                _next_request_params = case_insensitive_dict(
-                    {
-                        key: [urllib.parse.quote(v) for v in value]
-                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
-                    }
-                )
-                _next_request_params["api-version"] = self._config.api_version
-                _request = HttpRequest(
-                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
-                )
-                path_format_arguments = {
-                    "vaultBaseUrl": self._serialize.url(
-                        "self._config.vault_base_url", self._config.vault_base_url, "str", skip_quote=True
-                    ),
-                }
-                _request.url = self._client.format_url(_request.url, **path_format_arguments)
-
-            return _request
-
-        def extract_data(pipeline_response):
-            deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.CertificateIssuerItem], deserialized["value"])
-            if cls:
-                list_of_elem = cls(list_of_elem)  # type: ignore
-            return deserialized.get("nextLink") or None, iter(list_of_elem)
-
-        def get_next(next_link=None):
-            _request = prepare_request(next_link)
-
-            _stream = False
-            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                _request, stream=_stream, **kwargs
-            )
-            response = pipeline_response.http_response
-
-            if response.status_code not in [200]:
-                map_error(status_code=response.status_code, response=response, error_map=error_map)
-                error = _failsafe_deserialize(_models.KeyVaultError, response.json())
-                raise HttpResponseError(response=response, model=error)
-
-            return pipeline_response
-
-        return ItemPaged(get_next, extract_data)
-
     @overload
     def set_certificate_issuer(
         self,
@@ -1287,12 +1098,12 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          identifiable or sensitive information. Required.
         :type issuer_name: str
         :param parameter: Certificate issuer set parameter. Required.
-        :type parameter: ~azure.keyvault.certificates._generated.models.CertificateIssuerSetParameters
+        :type parameter: ~azure.keyvault.certificates.models.CertificateIssuerSetParameters
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :return: IssuerBundle. The IssuerBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.certificates._generated.models.IssuerBundle
+        :rtype: ~azure.keyvault.certificates.models.IssuerBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -1315,7 +1126,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: IssuerBundle. The IssuerBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.certificates._generated.models.IssuerBundle
+        :rtype: ~azure.keyvault.certificates.models.IssuerBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -1338,7 +1149,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: IssuerBundle. The IssuerBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.certificates._generated.models.IssuerBundle
+        :rtype: ~azure.keyvault.certificates.models.IssuerBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -1357,10 +1168,10 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :type issuer_name: str
         :param parameter: Certificate issuer set parameter. Is one of the following types:
          CertificateIssuerSetParameters, JSON, IO[bytes] Required.
-        :type parameter: ~azure.keyvault.certificates._generated.models.CertificateIssuerSetParameters or JSON or
+        :type parameter: ~azure.keyvault.certificates.models.CertificateIssuerSetParameters or JSON or
          IO[bytes]
         :return: IssuerBundle. The IssuerBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.certificates._generated.models.IssuerBundle
+        :rtype: ~azure.keyvault.certificates.models.IssuerBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -1443,12 +1254,12 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :param issuer_name: The name of the issuer. Required.
         :type issuer_name: str
         :param parameter: Certificate issuer update parameter. Required.
-        :type parameter: ~azure.keyvault.certificates._generated.models.CertificateIssuerUpdateParameters
+        :type parameter: ~azure.keyvault.certificates.models.CertificateIssuerUpdateParameters
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :return: IssuerBundle. The IssuerBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.certificates._generated.models.IssuerBundle
+        :rtype: ~azure.keyvault.certificates.models.IssuerBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -1469,7 +1280,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: IssuerBundle. The IssuerBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.certificates._generated.models.IssuerBundle
+        :rtype: ~azure.keyvault.certificates.models.IssuerBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -1490,7 +1301,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: IssuerBundle. The IssuerBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.certificates._generated.models.IssuerBundle
+        :rtype: ~azure.keyvault.certificates.models.IssuerBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -1510,10 +1321,10 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :type issuer_name: str
         :param parameter: Certificate issuer update parameter. Is one of the following types:
          CertificateIssuerUpdateParameters, JSON, IO[bytes] Required.
-        :type parameter: ~azure.keyvault.certificates._generated.models.CertificateIssuerUpdateParameters or JSON
+        :type parameter: ~azure.keyvault.certificates.models.CertificateIssuerUpdateParameters or JSON
          or IO[bytes]
         :return: IssuerBundle. The IssuerBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.certificates._generated.models.IssuerBundle
+        :rtype: ~azure.keyvault.certificates.models.IssuerBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -1590,7 +1401,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :param issuer_name: The name of the issuer. Required.
         :type issuer_name: str
         :return: IssuerBundle. The IssuerBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.certificates._generated.models.IssuerBundle
+        :rtype: ~azure.keyvault.certificates.models.IssuerBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -1656,7 +1467,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :param issuer_name: The name of the issuer. Required.
         :type issuer_name: str
         :return: IssuerBundle. The IssuerBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.certificates._generated.models.IssuerBundle
+        :rtype: ~azure.keyvault.certificates.models.IssuerBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -1731,12 +1542,12 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          personally identifiable or sensitive information. Required.
         :type certificate_name: str
         :param parameters: The parameters to create a certificate. Required.
-        :type parameters: ~azure.keyvault.certificates._generated.models.CertificateCreateParameters
+        :type parameters: ~azure.keyvault.certificates.models.CertificateCreateParameters
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :return: CertificateOperation. The CertificateOperation is compatible with MutableMapping
-        :rtype: ~azure.keyvault.certificates._generated.models.CertificateOperation
+        :rtype: ~azure.keyvault.certificates.models.CertificateOperation
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -1759,7 +1570,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: CertificateOperation. The CertificateOperation is compatible with MutableMapping
-        :rtype: ~azure.keyvault.certificates._generated.models.CertificateOperation
+        :rtype: ~azure.keyvault.certificates.models.CertificateOperation
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -1782,7 +1593,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: CertificateOperation. The CertificateOperation is compatible with MutableMapping
-        :rtype: ~azure.keyvault.certificates._generated.models.CertificateOperation
+        :rtype: ~azure.keyvault.certificates.models.CertificateOperation
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -1804,10 +1615,10 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :type certificate_name: str
         :param parameters: The parameters to create a certificate. Is one of the following types:
          CertificateCreateParameters, JSON, IO[bytes] Required.
-        :type parameters: ~azure.keyvault.certificates._generated.models.CertificateCreateParameters or JSON or
+        :type parameters: ~azure.keyvault.certificates.models.CertificateCreateParameters or JSON or
          IO[bytes]
         :return: CertificateOperation. The CertificateOperation is compatible with MutableMapping
-        :rtype: ~azure.keyvault.certificates._generated.models.CertificateOperation
+        :rtype: ~azure.keyvault.certificates.models.CertificateOperation
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -1894,12 +1705,12 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          personally identifiable or sensitive information. Required.
         :type certificate_name: str
         :param parameters: The parameters to import the certificate. Required.
-        :type parameters: ~azure.keyvault.certificates._generated.models.CertificateImportParameters
+        :type parameters: ~azure.keyvault.certificates.models.CertificateImportParameters
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :return: CertificateBundle. The CertificateBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.certificates._generated.models.CertificateBundle
+        :rtype: ~azure.keyvault.certificates.models.CertificateBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -1924,7 +1735,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: CertificateBundle. The CertificateBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.certificates._generated.models.CertificateBundle
+        :rtype: ~azure.keyvault.certificates.models.CertificateBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -1949,7 +1760,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: CertificateBundle. The CertificateBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.certificates._generated.models.CertificateBundle
+        :rtype: ~azure.keyvault.certificates.models.CertificateBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -1973,10 +1784,10 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :type certificate_name: str
         :param parameters: The parameters to import the certificate. Is one of the following types:
          CertificateImportParameters, JSON, IO[bytes] Required.
-        :type parameters: ~azure.keyvault.certificates._generated.models.CertificateImportParameters or JSON or
+        :type parameters: ~azure.keyvault.certificates.models.CertificateImportParameters or JSON or
          IO[bytes]
         :return: CertificateBundle. The CertificateBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.certificates._generated.models.CertificateBundle
+        :rtype: ~azure.keyvault.certificates.models.CertificateBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -2043,101 +1854,6 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         return deserialized  # type: ignore
 
     @distributed_trace
-    def get_certificate_versions(
-        self, certificate_name: str, *, maxresults: Optional[int] = None, **kwargs: Any
-    ) -> Iterable["_models.CertificateItem"]:
-        """List the versions of a certificate.
-
-        The GetCertificateVersions operation returns the versions of a certificate in the specified key
-        vault. This operation requires the certificates/list permission.
-
-        :param certificate_name: The name of the certificate. Required.
-        :type certificate_name: str
-        :keyword maxresults: Maximum number of results to return in a page. If not specified the
-         service will return up to 25 results. Default value is None.
-        :paramtype maxresults: int
-        :return: An iterator like instance of CertificateItem
-        :rtype: ~azure.core.paging.ItemPaged[~azure.keyvault.certificates._generated.models.CertificateItem]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = kwargs.pop("params", {}) or {}
-
-        cls: ClsType[List[_models.CertificateItem]] = kwargs.pop("cls", None)
-
-        error_map: MutableMapping = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        def prepare_request(next_link=None):
-            if not next_link:
-
-                _request = build_key_vault_get_certificate_versions_request(
-                    certificate_name=certificate_name,
-                    maxresults=maxresults,
-                    api_version=self._config.api_version,
-                    headers=_headers,
-                    params=_params,
-                )
-                path_format_arguments = {
-                    "vaultBaseUrl": self._serialize.url(
-                        "self._config.vault_base_url", self._config.vault_base_url, "str", skip_quote=True
-                    ),
-                }
-                _request.url = self._client.format_url(_request.url, **path_format_arguments)
-
-            else:
-                # make call to next link with the client's api-version
-                _parsed_next_link = urllib.parse.urlparse(next_link)
-                _next_request_params = case_insensitive_dict(
-                    {
-                        key: [urllib.parse.quote(v) for v in value]
-                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
-                    }
-                )
-                _next_request_params["api-version"] = self._config.api_version
-                _request = HttpRequest(
-                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
-                )
-                path_format_arguments = {
-                    "vaultBaseUrl": self._serialize.url(
-                        "self._config.vault_base_url", self._config.vault_base_url, "str", skip_quote=True
-                    ),
-                }
-                _request.url = self._client.format_url(_request.url, **path_format_arguments)
-
-            return _request
-
-        def extract_data(pipeline_response):
-            deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.CertificateItem], deserialized["value"])
-            if cls:
-                list_of_elem = cls(list_of_elem)  # type: ignore
-            return deserialized.get("nextLink") or None, iter(list_of_elem)
-
-        def get_next(next_link=None):
-            _request = prepare_request(next_link)
-
-            _stream = False
-            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                _request, stream=_stream, **kwargs
-            )
-            response = pipeline_response.http_response
-
-            if response.status_code not in [200]:
-                map_error(status_code=response.status_code, response=response, error_map=error_map)
-                error = _failsafe_deserialize(_models.KeyVaultError, response.json())
-                raise HttpResponseError(response=response, model=error)
-
-            return pipeline_response
-
-        return ItemPaged(get_next, extract_data)
-
-    @distributed_trace
     def get_certificate_policy(self, certificate_name: str, **kwargs: Any) -> _models.CertificatePolicy:
         """Lists the policy for a certificate.
 
@@ -2147,7 +1863,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :param certificate_name: The name of the certificate in a given key vault. Required.
         :type certificate_name: str
         :return: CertificatePolicy. The CertificatePolicy is compatible with MutableMapping
-        :rtype: ~azure.keyvault.certificates._generated.models.CertificatePolicy
+        :rtype: ~azure.keyvault.certificates.models.CertificatePolicy
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -2220,12 +1936,12 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :param certificate_name: The name of the certificate in the given vault. Required.
         :type certificate_name: str
         :param certificate_policy: The policy for the certificate. Required.
-        :type certificate_policy: ~azure.keyvault.certificates._generated.models.CertificatePolicy
+        :type certificate_policy: ~azure.keyvault.certificates.models.CertificatePolicy
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :return: CertificatePolicy. The CertificatePolicy is compatible with MutableMapping
-        :rtype: ~azure.keyvault.certificates._generated.models.CertificatePolicy
+        :rtype: ~azure.keyvault.certificates.models.CertificatePolicy
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -2246,7 +1962,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: CertificatePolicy. The CertificatePolicy is compatible with MutableMapping
-        :rtype: ~azure.keyvault.certificates._generated.models.CertificatePolicy
+        :rtype: ~azure.keyvault.certificates.models.CertificatePolicy
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -2272,7 +1988,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: CertificatePolicy. The CertificatePolicy is compatible with MutableMapping
-        :rtype: ~azure.keyvault.certificates._generated.models.CertificatePolicy
+        :rtype: ~azure.keyvault.certificates.models.CertificatePolicy
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -2292,10 +2008,10 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :type certificate_name: str
         :param certificate_policy: The policy for the certificate. Is one of the following types:
          CertificatePolicy, JSON, IO[bytes] Required.
-        :type certificate_policy: ~azure.keyvault.certificates._generated.models.CertificatePolicy or JSON or
+        :type certificate_policy: ~azure.keyvault.certificates.models.CertificatePolicy or JSON or
          IO[bytes]
         :return: CertificatePolicy. The CertificatePolicy is compatible with MutableMapping
-        :rtype: ~azure.keyvault.certificates._generated.models.CertificatePolicy
+        :rtype: ~azure.keyvault.certificates.models.CertificatePolicy
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -2382,12 +2098,12 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :param certificate_version: The version of the certificate. Required.
         :type certificate_version: str
         :param parameters: The parameters for certificate update. Required.
-        :type parameters: ~azure.keyvault.certificates._generated.models.CertificateUpdateParameters
+        :type parameters: ~azure.keyvault.certificates.models.CertificateUpdateParameters
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :return: CertificateBundle. The CertificateBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.certificates._generated.models.CertificateBundle
+        :rtype: ~azure.keyvault.certificates.models.CertificateBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -2417,7 +2133,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: CertificateBundle. The CertificateBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.certificates._generated.models.CertificateBundle
+        :rtype: ~azure.keyvault.certificates.models.CertificateBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -2447,7 +2163,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: CertificateBundle. The CertificateBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.certificates._generated.models.CertificateBundle
+        :rtype: ~azure.keyvault.certificates.models.CertificateBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -2471,10 +2187,10 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :type certificate_version: str
         :param parameters: The parameters for certificate update. Is one of the following types:
          CertificateUpdateParameters, JSON, IO[bytes] Required.
-        :type parameters: ~azure.keyvault.certificates._generated.models.CertificateUpdateParameters or JSON or
+        :type parameters: ~azure.keyvault.certificates.models.CertificateUpdateParameters or JSON or
          IO[bytes]
         :return: CertificateBundle. The CertificateBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.certificates._generated.models.CertificateBundle
+        :rtype: ~azure.keyvault.certificates.models.CertificateBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -2556,7 +2272,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          not specified, the latest version of the certificate is returned. Required.
         :type certificate_version: str
         :return: CertificateBundle. The CertificateBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.certificates._generated.models.CertificateBundle
+        :rtype: ~azure.keyvault.certificates.models.CertificateBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -2631,12 +2347,12 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :type certificate_name: str
         :param certificate_operation: The certificate operation response. Required.
         :type certificate_operation:
-         ~azure.keyvault.certificates._generated.models.CertificateOperationUpdateParameter
+         ~azure.keyvault.certificates.models.CertificateOperationUpdateParameter
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :return: CertificateOperation. The CertificateOperation is compatible with MutableMapping
-        :rtype: ~azure.keyvault.certificates._generated.models.CertificateOperation
+        :rtype: ~azure.keyvault.certificates.models.CertificateOperation
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -2662,7 +2378,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: CertificateOperation. The CertificateOperation is compatible with MutableMapping
-        :rtype: ~azure.keyvault.certificates._generated.models.CertificateOperation
+        :rtype: ~azure.keyvault.certificates.models.CertificateOperation
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -2688,7 +2404,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: CertificateOperation. The CertificateOperation is compatible with MutableMapping
-        :rtype: ~azure.keyvault.certificates._generated.models.CertificateOperation
+        :rtype: ~azure.keyvault.certificates.models.CertificateOperation
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -2709,9 +2425,9 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :param certificate_operation: The certificate operation response. Is one of the following
          types: CertificateOperationUpdateParameter, JSON, IO[bytes] Required.
         :type certificate_operation:
-         ~azure.keyvault.certificates._generated.models.CertificateOperationUpdateParameter or JSON or IO[bytes]
+         ~azure.keyvault.certificates.models.CertificateOperationUpdateParameter or JSON or IO[bytes]
         :return: CertificateOperation. The CertificateOperation is compatible with MutableMapping
-        :rtype: ~azure.keyvault.certificates._generated.models.CertificateOperation
+        :rtype: ~azure.keyvault.certificates.models.CertificateOperation
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -2787,7 +2503,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :param certificate_name: The name of the certificate. Required.
         :type certificate_name: str
         :return: CertificateOperation. The CertificateOperation is compatible with MutableMapping
-        :rtype: ~azure.keyvault.certificates._generated.models.CertificateOperation
+        :rtype: ~azure.keyvault.certificates.models.CertificateOperation
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -2854,7 +2570,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :param certificate_name: The name of the certificate. Required.
         :type certificate_name: str
         :return: CertificateOperation. The CertificateOperation is compatible with MutableMapping
-        :rtype: ~azure.keyvault.certificates._generated.models.CertificateOperation
+        :rtype: ~azure.keyvault.certificates.models.CertificateOperation
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -2928,12 +2644,12 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :param certificate_name: The name of the certificate. Required.
         :type certificate_name: str
         :param parameters: The parameters to merge certificate. Required.
-        :type parameters: ~azure.keyvault.certificates._generated.models.CertificateMergeParameters
+        :type parameters: ~azure.keyvault.certificates.models.CertificateMergeParameters
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :return: CertificateBundle. The CertificateBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.certificates._generated.models.CertificateBundle
+        :rtype: ~azure.keyvault.certificates.models.CertificateBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -2955,7 +2671,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: CertificateBundle. The CertificateBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.certificates._generated.models.CertificateBundle
+        :rtype: ~azure.keyvault.certificates.models.CertificateBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -2977,7 +2693,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: CertificateBundle. The CertificateBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.certificates._generated.models.CertificateBundle
+        :rtype: ~azure.keyvault.certificates.models.CertificateBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -2998,10 +2714,10 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :type certificate_name: str
         :param parameters: The parameters to merge certificate. Is one of the following types:
          CertificateMergeParameters, JSON, IO[bytes] Required.
-        :type parameters: ~azure.keyvault.certificates._generated.models.CertificateMergeParameters or JSON or
+        :type parameters: ~azure.keyvault.certificates.models.CertificateMergeParameters or JSON or
          IO[bytes]
         :return: CertificateBundle. The CertificateBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.certificates._generated.models.CertificateBundle
+        :rtype: ~azure.keyvault.certificates.models.CertificateBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -3078,7 +2794,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :param certificate_name: The name of the certificate. Required.
         :type certificate_name: str
         :return: BackupCertificateResult. The BackupCertificateResult is compatible with MutableMapping
-        :rtype: ~azure.keyvault.certificates._generated.models.BackupCertificateResult
+        :rtype: ~azure.keyvault.certificates.models.BackupCertificateResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -3144,12 +2860,12 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         certificates/restore permission.
 
         :param parameters: The parameters to restore the certificate. Required.
-        :type parameters: ~azure.keyvault.certificates._generated.models.CertificateRestoreParameters
+        :type parameters: ~azure.keyvault.certificates.models.CertificateRestoreParameters
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :return: CertificateBundle. The CertificateBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.certificates._generated.models.CertificateBundle
+        :rtype: ~azure.keyvault.certificates.models.CertificateBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -3168,7 +2884,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: CertificateBundle. The CertificateBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.certificates._generated.models.CertificateBundle
+        :rtype: ~azure.keyvault.certificates.models.CertificateBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -3187,7 +2903,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: CertificateBundle. The CertificateBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.certificates._generated.models.CertificateBundle
+        :rtype: ~azure.keyvault.certificates.models.CertificateBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -3202,10 +2918,10 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
 
         :param parameters: The parameters to restore the certificate. Is one of the following types:
          CertificateRestoreParameters, JSON, IO[bytes] Required.
-        :type parameters: ~azure.keyvault.certificates._generated.models.CertificateRestoreParameters or JSON or
+        :type parameters: ~azure.keyvault.certificates.models.CertificateRestoreParameters or JSON or
          IO[bytes]
         :return: CertificateBundle. The CertificateBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.certificates._generated.models.CertificateBundle
+        :rtype: ~azure.keyvault.certificates.models.CertificateBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -3271,105 +2987,6 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         return deserialized  # type: ignore
 
     @distributed_trace
-    def get_deleted_certificates(
-        self, *, maxresults: Optional[int] = None, include_pending: Optional[bool] = None, **kwargs: Any
-    ) -> Iterable["_models.DeletedCertificateItem"]:
-        """Lists the deleted certificates in the specified vault currently available for recovery.
-
-        The GetDeletedCertificates operation retrieves the certificates in the current vault which are
-        in a deleted state and ready for recovery or purging. This operation includes deletion-specific
-        information. This operation requires the certificates/get/list permission. This operation can
-        only be enabled on soft-delete enabled vaults.
-
-        :keyword maxresults: Maximum number of results to return in a page. If not specified the
-         service will return up to 25 results. Default value is None.
-        :paramtype maxresults: int
-        :keyword include_pending: Specifies whether to include certificates which are not completely
-         provisioned. Default value is None.
-        :paramtype include_pending: bool
-        :return: An iterator like instance of DeletedCertificateItem
-        :rtype:
-         ~azure.core.paging.ItemPaged[~azure.keyvault.certificates._generated.models.DeletedCertificateItem]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = kwargs.pop("params", {}) or {}
-
-        cls: ClsType[List[_models.DeletedCertificateItem]] = kwargs.pop("cls", None)
-
-        error_map: MutableMapping = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        def prepare_request(next_link=None):
-            if not next_link:
-
-                _request = build_key_vault_get_deleted_certificates_request(
-                    maxresults=maxresults,
-                    include_pending=include_pending,
-                    api_version=self._config.api_version,
-                    headers=_headers,
-                    params=_params,
-                )
-                path_format_arguments = {
-                    "vaultBaseUrl": self._serialize.url(
-                        "self._config.vault_base_url", self._config.vault_base_url, "str", skip_quote=True
-                    ),
-                }
-                _request.url = self._client.format_url(_request.url, **path_format_arguments)
-
-            else:
-                # make call to next link with the client's api-version
-                _parsed_next_link = urllib.parse.urlparse(next_link)
-                _next_request_params = case_insensitive_dict(
-                    {
-                        key: [urllib.parse.quote(v) for v in value]
-                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
-                    }
-                )
-                _next_request_params["api-version"] = self._config.api_version
-                _request = HttpRequest(
-                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
-                )
-                path_format_arguments = {
-                    "vaultBaseUrl": self._serialize.url(
-                        "self._config.vault_base_url", self._config.vault_base_url, "str", skip_quote=True
-                    ),
-                }
-                _request.url = self._client.format_url(_request.url, **path_format_arguments)
-
-            return _request
-
-        def extract_data(pipeline_response):
-            deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.DeletedCertificateItem], deserialized["value"])
-            if cls:
-                list_of_elem = cls(list_of_elem)  # type: ignore
-            return deserialized.get("nextLink") or None, iter(list_of_elem)
-
-        def get_next(next_link=None):
-            _request = prepare_request(next_link)
-
-            _stream = False
-            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                _request, stream=_stream, **kwargs
-            )
-            response = pipeline_response.http_response
-
-            if response.status_code not in [200]:
-                map_error(status_code=response.status_code, response=response, error_map=error_map)
-                error = _failsafe_deserialize(_models.KeyVaultError, response.json())
-                raise HttpResponseError(response=response, model=error)
-
-            return pipeline_response
-
-        return ItemPaged(get_next, extract_data)
-
-    @distributed_trace
     def get_deleted_certificate(self, certificate_name: str, **kwargs: Any) -> _models.DeletedCertificateBundle:
         """Retrieves information about the specified deleted certificate.
 
@@ -3381,7 +2998,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :type certificate_name: str
         :return: DeletedCertificateBundle. The DeletedCertificateBundle is compatible with
          MutableMapping
-        :rtype: ~azure.keyvault.certificates._generated.models.DeletedCertificateBundle
+        :rtype: ~azure.keyvault.certificates.models.DeletedCertificateBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -3506,7 +3123,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :param certificate_name: The name of the deleted certificate. Required.
         :type certificate_name: str
         :return: CertificateBundle. The CertificateBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.certificates._generated.models.CertificateBundle
+        :rtype: ~azure.keyvault.certificates.models.CertificateBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -3561,3 +3178,386 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
             return cls(pipeline_response, deserialized, {})  # type: ignore
 
         return deserialized  # type: ignore
+
+    @distributed_trace
+    def get_certificates(
+        self, *, maxresults: Optional[int] = None, include_pending: Optional[bool] = None, **kwargs: Any
+    ) -> Iterable["_models.CertificateItem"]:
+        """List certificates in a specified key vault.
+
+        The GetCertificates operation returns the set of certificates resources in the specified key
+        vault. This operation requires the certificates/list permission.
+
+        :keyword maxresults: Maximum number of results to return in a page. If not specified the
+         service will return up to 25 results. Default value is None.
+        :paramtype maxresults: int
+        :keyword include_pending: Specifies whether to include certificates which are not completely
+         provisioned. Default value is None.
+        :paramtype include_pending: bool
+        :return: An iterator like instance of CertificateItem
+        :rtype: ~azure.core.paging.ItemPaged[~azure.keyvault.certificates.models.CertificateItem]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = kwargs.pop("params", {}) or {}
+
+        cls: ClsType[List[_models.CertificateItem]] = kwargs.pop("cls", None)
+
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        def prepare_request(next_link=None):
+            if not next_link:
+
+                _request = build_key_vault_get_certificates_request(
+                    maxresults=maxresults,
+                    include_pending=include_pending,
+                    api_version=self._config.api_version,
+                    headers=_headers,
+                    params=_params,
+                )
+                path_format_arguments = {
+                    "vaultBaseUrl": self._serialize.url(
+                        "self._config.vault_base_url", self._config.vault_base_url, "str", skip_quote=True
+                    ),
+                }
+                _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+            else:
+                # make call to next link with the client's api-version
+                _parsed_next_link = urllib.parse.urlparse(next_link)
+                _next_request_params = case_insensitive_dict(
+                    {
+                        key: [urllib.parse.quote(v) for v in value]
+                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
+                    }
+                )
+                _next_request_params["api-version"] = self._config.api_version
+                _request = HttpRequest(
+                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
+                )
+                path_format_arguments = {
+                    "vaultBaseUrl": self._serialize.url(
+                        "self._config.vault_base_url", self._config.vault_base_url, "str", skip_quote=True
+                    ),
+                }
+                _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+            return _request
+
+        def extract_data(pipeline_response):
+            deserialized = pipeline_response.http_response.json()
+            list_of_elem = _deserialize(List[_models.CertificateItem], deserialized.get("value", []))
+            if cls:
+                list_of_elem = cls(list_of_elem)  # type: ignore
+            return deserialized.get("nextLink") or None, iter(list_of_elem)
+
+        def get_next(next_link=None):
+            _request = prepare_request(next_link)
+
+            _stream = False
+            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+                _request, stream=_stream, **kwargs
+            )
+            response = pipeline_response.http_response
+
+            if response.status_code not in [200]:
+                map_error(status_code=response.status_code, response=response, error_map=error_map)
+                error = _failsafe_deserialize(_models.KeyVaultError, response.json())
+                raise HttpResponseError(response=response, model=error)
+
+            return pipeline_response
+
+        return ItemPaged(get_next, extract_data)
+
+    @distributed_trace
+    def get_certificate_issuers(
+        self, *, maxresults: Optional[int] = None, **kwargs: Any
+    ) -> Iterable["_models.CertificateIssuerItem"]:
+        """List certificate issuers for a specified key vault.
+
+        The GetCertificateIssuers operation returns the set of certificate issuer resources in the
+        specified key vault. This operation requires the certificates/manageissuers/getissuers
+        permission.
+
+        :keyword maxresults: Maximum number of results to return in a page. If not specified the
+         service will return up to 25 results. Default value is None.
+        :paramtype maxresults: int
+        :return: An iterator like instance of CertificateIssuerItem
+        :rtype: ~azure.core.paging.ItemPaged[~azure.keyvault.certificates.models.CertificateIssuerItem]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = kwargs.pop("params", {}) or {}
+
+        cls: ClsType[List[_models.CertificateIssuerItem]] = kwargs.pop("cls", None)
+
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        def prepare_request(next_link=None):
+            if not next_link:
+
+                _request = build_key_vault_get_certificate_issuers_request(
+                    maxresults=maxresults,
+                    api_version=self._config.api_version,
+                    headers=_headers,
+                    params=_params,
+                )
+                path_format_arguments = {
+                    "vaultBaseUrl": self._serialize.url(
+                        "self._config.vault_base_url", self._config.vault_base_url, "str", skip_quote=True
+                    ),
+                }
+                _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+            else:
+                # make call to next link with the client's api-version
+                _parsed_next_link = urllib.parse.urlparse(next_link)
+                _next_request_params = case_insensitive_dict(
+                    {
+                        key: [urllib.parse.quote(v) for v in value]
+                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
+                    }
+                )
+                _next_request_params["api-version"] = self._config.api_version
+                _request = HttpRequest(
+                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
+                )
+                path_format_arguments = {
+                    "vaultBaseUrl": self._serialize.url(
+                        "self._config.vault_base_url", self._config.vault_base_url, "str", skip_quote=True
+                    ),
+                }
+                _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+            return _request
+
+        def extract_data(pipeline_response):
+            deserialized = pipeline_response.http_response.json()
+            list_of_elem = _deserialize(List[_models.CertificateIssuerItem], deserialized.get("value", []))
+            if cls:
+                list_of_elem = cls(list_of_elem)  # type: ignore
+            return deserialized.get("nextLink") or None, iter(list_of_elem)
+
+        def get_next(next_link=None):
+            _request = prepare_request(next_link)
+
+            _stream = False
+            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+                _request, stream=_stream, **kwargs
+            )
+            response = pipeline_response.http_response
+
+            if response.status_code not in [200]:
+                map_error(status_code=response.status_code, response=response, error_map=error_map)
+                error = _failsafe_deserialize(_models.KeyVaultError, response.json())
+                raise HttpResponseError(response=response, model=error)
+
+            return pipeline_response
+
+        return ItemPaged(get_next, extract_data)
+
+    @distributed_trace
+    def get_certificate_versions(
+        self, certificate_name: str, *, maxresults: Optional[int] = None, **kwargs: Any
+    ) -> Iterable["_models.CertificateItem"]:
+        """List the versions of a certificate.
+
+        The GetCertificateVersions operation returns the versions of a certificate in the specified key
+        vault. This operation requires the certificates/list permission.
+
+        :param certificate_name: The name of the certificate. Required.
+        :type certificate_name: str
+        :keyword maxresults: Maximum number of results to return in a page. If not specified the
+         service will return up to 25 results. Default value is None.
+        :paramtype maxresults: int
+        :return: An iterator like instance of CertificateItem
+        :rtype: ~azure.core.paging.ItemPaged[~azure.keyvault.certificates.models.CertificateItem]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = kwargs.pop("params", {}) or {}
+
+        cls: ClsType[List[_models.CertificateItem]] = kwargs.pop("cls", None)
+
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        def prepare_request(next_link=None):
+            if not next_link:
+
+                _request = build_key_vault_get_certificate_versions_request(
+                    certificate_name=certificate_name,
+                    maxresults=maxresults,
+                    api_version=self._config.api_version,
+                    headers=_headers,
+                    params=_params,
+                )
+                path_format_arguments = {
+                    "vaultBaseUrl": self._serialize.url(
+                        "self._config.vault_base_url", self._config.vault_base_url, "str", skip_quote=True
+                    ),
+                }
+                _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+            else:
+                # make call to next link with the client's api-version
+                _parsed_next_link = urllib.parse.urlparse(next_link)
+                _next_request_params = case_insensitive_dict(
+                    {
+                        key: [urllib.parse.quote(v) for v in value]
+                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
+                    }
+                )
+                _next_request_params["api-version"] = self._config.api_version
+                _request = HttpRequest(
+                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
+                )
+                path_format_arguments = {
+                    "vaultBaseUrl": self._serialize.url(
+                        "self._config.vault_base_url", self._config.vault_base_url, "str", skip_quote=True
+                    ),
+                }
+                _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+            return _request
+
+        def extract_data(pipeline_response):
+            deserialized = pipeline_response.http_response.json()
+            list_of_elem = _deserialize(List[_models.CertificateItem], deserialized.get("value", []))
+            if cls:
+                list_of_elem = cls(list_of_elem)  # type: ignore
+            return deserialized.get("nextLink") or None, iter(list_of_elem)
+
+        def get_next(next_link=None):
+            _request = prepare_request(next_link)
+
+            _stream = False
+            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+                _request, stream=_stream, **kwargs
+            )
+            response = pipeline_response.http_response
+
+            if response.status_code not in [200]:
+                map_error(status_code=response.status_code, response=response, error_map=error_map)
+                error = _failsafe_deserialize(_models.KeyVaultError, response.json())
+                raise HttpResponseError(response=response, model=error)
+
+            return pipeline_response
+
+        return ItemPaged(get_next, extract_data)
+
+    @distributed_trace
+    def get_deleted_certificates(
+        self, *, maxresults: Optional[int] = None, include_pending: Optional[bool] = None, **kwargs: Any
+    ) -> Iterable["_models.DeletedCertificateItem"]:
+        """Lists the deleted certificates in the specified vault currently available for recovery.
+
+        The GetDeletedCertificates operation retrieves the certificates in the current vault which are
+        in a deleted state and ready for recovery or purging. This operation includes deletion-specific
+        information. This operation requires the certificates/get/list permission. This operation can
+        only be enabled on soft-delete enabled vaults.
+
+        :keyword maxresults: Maximum number of results to return in a page. If not specified the
+         service will return up to 25 results. Default value is None.
+        :paramtype maxresults: int
+        :keyword include_pending: Specifies whether to include certificates which are not completely
+         provisioned. Default value is None.
+        :paramtype include_pending: bool
+        :return: An iterator like instance of DeletedCertificateItem
+        :rtype:
+         ~azure.core.paging.ItemPaged[~azure.keyvault.certificates.models.DeletedCertificateItem]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = kwargs.pop("params", {}) or {}
+
+        cls: ClsType[List[_models.DeletedCertificateItem]] = kwargs.pop("cls", None)
+
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        def prepare_request(next_link=None):
+            if not next_link:
+
+                _request = build_key_vault_get_deleted_certificates_request(
+                    maxresults=maxresults,
+                    include_pending=include_pending,
+                    api_version=self._config.api_version,
+                    headers=_headers,
+                    params=_params,
+                )
+                path_format_arguments = {
+                    "vaultBaseUrl": self._serialize.url(
+                        "self._config.vault_base_url", self._config.vault_base_url, "str", skip_quote=True
+                    ),
+                }
+                _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+            else:
+                # make call to next link with the client's api-version
+                _parsed_next_link = urllib.parse.urlparse(next_link)
+                _next_request_params = case_insensitive_dict(
+                    {
+                        key: [urllib.parse.quote(v) for v in value]
+                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
+                    }
+                )
+                _next_request_params["api-version"] = self._config.api_version
+                _request = HttpRequest(
+                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
+                )
+                path_format_arguments = {
+                    "vaultBaseUrl": self._serialize.url(
+                        "self._config.vault_base_url", self._config.vault_base_url, "str", skip_quote=True
+                    ),
+                }
+                _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+            return _request
+
+        def extract_data(pipeline_response):
+            deserialized = pipeline_response.http_response.json()
+            list_of_elem = _deserialize(List[_models.DeletedCertificateItem], deserialized.get("value", []))
+            if cls:
+                list_of_elem = cls(list_of_elem)  # type: ignore
+            return deserialized.get("nextLink") or None, iter(list_of_elem)
+
+        def get_next(next_link=None):
+            _request = prepare_request(next_link)
+
+            _stream = False
+            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+                _request, stream=_stream, **kwargs
+            )
+            response = pipeline_response.http_response
+
+            if response.status_code not in [200]:
+                map_error(status_code=response.status_code, response=response, error_map=error_map)
+                error = _failsafe_deserialize(_models.KeyVaultError, response.json())
+                raise HttpResponseError(response=response, model=error)
+
+            return pipeline_response
+
+        return ItemPaged(get_next, extract_data)
