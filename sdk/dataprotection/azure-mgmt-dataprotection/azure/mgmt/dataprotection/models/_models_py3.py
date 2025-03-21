@@ -1,5 +1,5 @@
-# coding=utf-8
 # pylint: disable=too-many-lines
+# coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -13,7 +13,6 @@ from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 from .. import _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
@@ -277,7 +276,7 @@ class AzureBackupRecoveryPoint(_serialization.Model):
         self.object_type: Optional[str] = None
 
 
-class AzureBackupDiscreteRecoveryPoint(AzureBackupRecoveryPoint):  # pylint: disable=too-many-instance-attributes
+class AzureBackupDiscreteRecoveryPoint(AzureBackupRecoveryPoint):
     """Azure backup discrete RecoveryPoint.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -450,8 +449,7 @@ class DppWorkerRequest(_serialization.Model):
     :vartype subscription_id: str
     :ivar uri:
     :vartype uri: str
-    :ivar headers: Dictionary of
-     <components·ikn5y4·schemas·dppworkerrequest·properties·headers·additionalproperties>.
+    :ivar headers: Request headers.
     :vartype headers: dict[str, list[str]]
     :ivar supported_group_versions:
     :vartype supported_group_versions: list[str]
@@ -490,8 +488,7 @@ class DppWorkerRequest(_serialization.Model):
         :paramtype subscription_id: str
         :keyword uri:
         :paramtype uri: str
-        :keyword headers: Dictionary of
-         <components·ikn5y4·schemas·dppworkerrequest·properties·headers·additionalproperties>.
+        :keyword headers: Request headers.
         :paramtype headers: dict[str, list[str]]
         :keyword supported_group_versions:
         :paramtype supported_group_versions: list[str]
@@ -519,8 +516,7 @@ class AzureBackupFindRestorableTimeRangesRequestResource(DppWorkerRequest):  # p
     :vartype subscription_id: str
     :ivar uri:
     :vartype uri: str
-    :ivar headers: Dictionary of
-     <components·ikn5y4·schemas·dppworkerrequest·properties·headers·additionalproperties>.
+    :ivar headers: Request headers.
     :vartype headers: dict[str, list[str]]
     :ivar supported_group_versions:
     :vartype supported_group_versions: list[str]
@@ -563,8 +559,7 @@ class AzureBackupFindRestorableTimeRangesRequestResource(DppWorkerRequest):  # p
         :paramtype subscription_id: str
         :keyword uri:
         :paramtype uri: str
-        :keyword headers: Dictionary of
-         <components·ikn5y4·schemas·dppworkerrequest·properties·headers·additionalproperties>.
+        :keyword headers: Request headers.
         :paramtype headers: dict[str, list[str]]
         :keyword supported_group_versions:
         :paramtype supported_group_versions: list[str]
@@ -708,7 +703,7 @@ class AzureBackupFindRestorableTimeRangesResponseResource(DppResource):  # pylin
         self.properties = properties
 
 
-class AzureBackupJob(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class AzureBackupJob(_serialization.Model):
     """AzureBackup Job Class.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -767,8 +762,8 @@ class AzureBackupJob(_serialization.Model):  # pylint: disable=too-many-instance
     :vartype source_subscription_id: str
     :ivar start_time: StartTime of the job(in UTC). Required.
     :vartype start_time: ~datetime.datetime
-    :ivar status: Status of the job like InProgress/Success/Failed/Cancelled/SuccessWithWarning.
-     Required.
+    :ivar status: Status of the job like
+     InProgress/Completed/Failed/Cancelled/CompletedWithWarnings/Cancelling/Paused. Required.
     :vartype status: str
     :ivar subscription_id: Subscription Id of the corresponding backup vault. Required.
     :vartype subscription_id: str
@@ -908,8 +903,8 @@ class AzureBackupJob(_serialization.Model):  # pylint: disable=too-many-instance
         :paramtype source_subscription_id: str
         :keyword start_time: StartTime of the job(in UTC). Required.
         :paramtype start_time: ~datetime.datetime
-        :keyword status: Status of the job like InProgress/Success/Failed/Cancelled/SuccessWithWarning.
-         Required.
+        :keyword status: Status of the job like
+         InProgress/Completed/Failed/Cancelled/CompletedWithWarnings/Cancelling/Paused. Required.
         :paramtype status: str
         :keyword subscription_id: Subscription Id of the corresponding backup vault. Required.
         :paramtype subscription_id: str
@@ -1909,7 +1904,7 @@ class BackupDatasourceParameters(_serialization.Model):
         self.object_type: Optional[str] = None
 
 
-class BackupInstance(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class BackupInstance(_serialization.Model):
     """Backup Instance.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -2277,7 +2272,7 @@ class BackupSchedule(_serialization.Model):
         self.time_zone = time_zone
 
 
-class BackupVault(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class BackupVault(_serialization.Model):
     """Backup Vault.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -3630,7 +3625,7 @@ class DefaultResourceProperties(BaseResourceProperties):
         self.object_type: str = "DefaultResourceProperties"
 
 
-class DeletedBackupInstance(BackupInstance):  # pylint: disable=too-many-instance-attributes
+class DeletedBackupInstance(BackupInstance):
     """Deleted Backup Instance.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -4922,6 +4917,9 @@ class KubernetesClusterBackupDatasourceParameters(BackupDatasourceParameters):  
     :ivar snapshot_volumes: Gets or sets the volume snapshot property. This property if enabled
      will take volume snapshots during backup. Required.
     :vartype snapshot_volumes: bool
+    :ivar included_volume_types: Gets or sets the include volume types property. This property sets
+     the volume types to be included during backup.
+    :vartype included_volume_types: list[str or ~azure.mgmt.dataprotection.models.AKSVolumeTypes]
     :ivar include_cluster_scope_resources: Gets or sets the include cluster resources property.
      This property if enabled will include cluster scope resources during backup. Required.
     :vartype include_cluster_scope_resources: bool
@@ -4954,6 +4952,7 @@ class KubernetesClusterBackupDatasourceParameters(BackupDatasourceParameters):  
     _attribute_map = {
         "object_type": {"key": "objectType", "type": "str"},
         "snapshot_volumes": {"key": "snapshotVolumes", "type": "bool"},
+        "included_volume_types": {"key": "includedVolumeTypes", "type": "[str]"},
         "include_cluster_scope_resources": {"key": "includeClusterScopeResources", "type": "bool"},
         "included_namespaces": {"key": "includedNamespaces", "type": "[str]"},
         "excluded_namespaces": {"key": "excludedNamespaces", "type": "[str]"},
@@ -4968,6 +4967,7 @@ class KubernetesClusterBackupDatasourceParameters(BackupDatasourceParameters):  
         *,
         snapshot_volumes: bool,
         include_cluster_scope_resources: bool,
+        included_volume_types: Optional[List[Union[str, "_models.AKSVolumeTypes"]]] = None,
         included_namespaces: Optional[List[str]] = None,
         excluded_namespaces: Optional[List[str]] = None,
         included_resource_types: Optional[List[str]] = None,
@@ -4980,6 +4980,9 @@ class KubernetesClusterBackupDatasourceParameters(BackupDatasourceParameters):  
         :keyword snapshot_volumes: Gets or sets the volume snapshot property. This property if enabled
          will take volume snapshots during backup. Required.
         :paramtype snapshot_volumes: bool
+        :keyword included_volume_types: Gets or sets the include volume types property. This property
+         sets the volume types to be included during backup.
+        :paramtype included_volume_types: list[str or ~azure.mgmt.dataprotection.models.AKSVolumeTypes]
         :keyword include_cluster_scope_resources: Gets or sets the include cluster resources property.
          This property if enabled will include cluster scope resources during backup. Required.
         :paramtype include_cluster_scope_resources: bool
@@ -5006,6 +5009,7 @@ class KubernetesClusterBackupDatasourceParameters(BackupDatasourceParameters):  
         super().__init__(**kwargs)
         self.object_type: str = "KubernetesClusterBackupDatasourceParameters"
         self.snapshot_volumes = snapshot_volumes
+        self.included_volume_types = included_volume_types
         self.include_cluster_scope_resources = include_cluster_scope_resources
         self.included_namespaces = included_namespaces
         self.excluded_namespaces = excluded_namespaces
@@ -5015,7 +5019,7 @@ class KubernetesClusterBackupDatasourceParameters(BackupDatasourceParameters):  
         self.backup_hook_references = backup_hook_references
 
 
-class KubernetesClusterRestoreCriteria(ItemLevelRestoreCriteria):  # pylint: disable=too-many-instance-attributes
+class KubernetesClusterRestoreCriteria(ItemLevelRestoreCriteria):
     """kubernetes Cluster Backup target info for restore operation.
 
     All required parameters must be populated in order to send to server.
@@ -5150,9 +5154,7 @@ class KubernetesClusterRestoreCriteria(ItemLevelRestoreCriteria):  # pylint: dis
         self.resource_modifier_reference = resource_modifier_reference
 
 
-class KubernetesClusterVaultTierRestoreCriteria(
-    ItemLevelRestoreCriteria
-):  # pylint: disable=too-many-instance-attributes,name-too-long
+class KubernetesClusterVaultTierRestoreCriteria(ItemLevelRestoreCriteria):  # pylint: disable=name-too-long
     """kubernetes Cluster Backup target info for restore operation from vault.
 
     All required parameters must be populated in order to send to server.
@@ -7545,6 +7547,32 @@ class ValidateCrossRegionRestoreRequestObject(_serialization.Model):
 
 class ValidateForBackupRequest(_serialization.Model):
     """Validate for backup request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar backup_instance: Backup Instance. Required.
+    :vartype backup_instance: ~azure.mgmt.dataprotection.models.BackupInstance
+    """
+
+    _validation = {
+        "backup_instance": {"required": True},
+    }
+
+    _attribute_map = {
+        "backup_instance": {"key": "backupInstance", "type": "BackupInstance"},
+    }
+
+    def __init__(self, *, backup_instance: "_models.BackupInstance", **kwargs: Any) -> None:
+        """
+        :keyword backup_instance: Backup Instance. Required.
+        :paramtype backup_instance: ~azure.mgmt.dataprotection.models.BackupInstance
+        """
+        super().__init__(**kwargs)
+        self.backup_instance = backup_instance
+
+
+class ValidateForModifyBackupRequest(_serialization.Model):
+    """Validate for modify backup request.
 
     All required parameters must be populated in order to send to server.
 
