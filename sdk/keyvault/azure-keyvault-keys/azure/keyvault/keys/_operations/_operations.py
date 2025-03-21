@@ -201,55 +201,6 @@ def build_key_vault_get_key_request(key_name: str, key_version: str, **kwargs: A
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_key_vault_get_key_versions_request(
-    key_name: str, *, maxresults: Optional[int] = None, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "7.6-preview.2"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/keys/{key-name}/versions"
-    path_format_arguments = {
-        "key-name": _SERIALIZER.url("key_name", key_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-    if maxresults is not None:
-        _params["maxresults"] = _SERIALIZER.query("maxresults", maxresults, "int")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_key_vault_get_keys_request(*, maxresults: Optional[int] = None, **kwargs: Any) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "7.6-preview.2"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/keys"
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-    if maxresults is not None:
-        _params["maxresults"] = _SERIALIZER.query("maxresults", maxresults, "int")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
 def build_key_vault_backup_key_request(key_name: str, **kwargs: Any) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
@@ -492,27 +443,6 @@ def build_key_vault_release_request(key_name: str, key_version: str, **kwargs: A
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
 
-def build_key_vault_get_deleted_keys_request(*, maxresults: Optional[int] = None, **kwargs: Any) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "7.6-preview.2"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/deletedkeys"
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-    if maxresults is not None:
-        _params["maxresults"] = _SERIALIZER.query("maxresults", maxresults, "int")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
 def build_key_vault_get_deleted_key_request(key_name: str, **kwargs: Any) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
@@ -693,6 +623,76 @@ def build_key_vault_get_key_attestation_request(  # pylint: disable=name-too-lon
     return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
+def build_key_vault_get_key_versions_request(
+    key_name: str, *, maxresults: Optional[int] = None, **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "7.6-preview.2"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/keys/{key-name}/versions"
+    path_format_arguments = {
+        "key-name": _SERIALIZER.url("key_name", key_name, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+    if maxresults is not None:
+        _params["maxresults"] = _SERIALIZER.query("maxresults", maxresults, "int")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_key_vault_get_keys_request(*, maxresults: Optional[int] = None, **kwargs: Any) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "7.6-preview.2"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/keys"
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+    if maxresults is not None:
+        _params["maxresults"] = _SERIALIZER.query("maxresults", maxresults, "int")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_key_vault_get_deleted_keys_request(*, maxresults: Optional[int] = None, **kwargs: Any) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "7.6-preview.2"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/deletedkeys"
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+    if maxresults is not None:
+        _params["maxresults"] = _SERIALIZER.query("maxresults", maxresults, "int")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
+
+
 class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=too-many-public-methods
 
     @overload
@@ -716,12 +716,12 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Required.
         :type key_name: str
         :param parameters: The parameters to create a key. Required.
-        :type parameters: ~azure.keyvault.keys._generated.models.KeyCreateParameters
+        :type parameters: ~azure.keyvault.keys.models.KeyCreateParameters
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyBundle. The KeyBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyBundle
+        :rtype: ~azure.keyvault.keys.models.KeyBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -746,7 +746,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyBundle. The KeyBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyBundle
+        :rtype: ~azure.keyvault.keys.models.KeyBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -771,7 +771,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyBundle. The KeyBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyBundle
+        :rtype: ~azure.keyvault.keys.models.KeyBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -792,9 +792,9 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :type key_name: str
         :param parameters: The parameters to create a key. Is one of the following types:
          KeyCreateParameters, JSON, IO[bytes] Required.
-        :type parameters: ~azure.keyvault.keys._generated.models.KeyCreateParameters or JSON or IO[bytes]
+        :type parameters: ~azure.keyvault.keys.models.KeyCreateParameters or JSON or IO[bytes]
         :return: KeyBundle. The KeyBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyBundle
+        :rtype: ~azure.keyvault.keys.models.KeyBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -872,7 +872,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          specified key. Required.
         :type key_name: str
         :return: KeyBundle. The KeyBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyBundle
+        :rtype: ~azure.keyvault.keys.models.KeyBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -949,12 +949,12 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          identifiable or sensitive information. Required.
         :type key_name: str
         :param parameters: The parameters to import a key. Required.
-        :type parameters: ~azure.keyvault.keys._generated.models.KeyImportParameters
+        :type parameters: ~azure.keyvault.keys.models.KeyImportParameters
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyBundle. The KeyBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyBundle
+        :rtype: ~azure.keyvault.keys.models.KeyBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -979,7 +979,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyBundle. The KeyBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyBundle
+        :rtype: ~azure.keyvault.keys.models.KeyBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -1004,7 +1004,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyBundle. The KeyBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyBundle
+        :rtype: ~azure.keyvault.keys.models.KeyBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -1025,9 +1025,9 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :type key_name: str
         :param parameters: The parameters to import a key. Is one of the following types:
          KeyImportParameters, JSON, IO[bytes] Required.
-        :type parameters: ~azure.keyvault.keys._generated.models.KeyImportParameters or JSON or IO[bytes]
+        :type parameters: ~azure.keyvault.keys.models.KeyImportParameters or JSON or IO[bytes]
         :return: KeyBundle. The KeyBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyBundle
+        :rtype: ~azure.keyvault.keys.models.KeyBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -1105,7 +1105,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :param key_name: The name of the key to delete. Required.
         :type key_name: str
         :return: DeletedKeyBundle. The DeletedKeyBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.DeletedKeyBundle
+        :rtype: ~azure.keyvault.keys.models.DeletedKeyBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -1183,12 +1183,12 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :param key_version: The version of the key to update. Required.
         :type key_version: str
         :param parameters: The parameters of the key to update. Required.
-        :type parameters: ~azure.keyvault.keys._generated.models.KeyUpdateParameters
+        :type parameters: ~azure.keyvault.keys.models.KeyUpdateParameters
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyBundle. The KeyBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyBundle
+        :rtype: ~azure.keyvault.keys.models.KeyBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -1219,7 +1219,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyBundle. The KeyBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyBundle
+        :rtype: ~azure.keyvault.keys.models.KeyBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -1250,7 +1250,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyBundle. The KeyBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyBundle
+        :rtype: ~azure.keyvault.keys.models.KeyBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -1275,9 +1275,9 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :type key_version: str
         :param parameters: The parameters of the key to update. Is one of the following types:
          KeyUpdateParameters, JSON, IO[bytes] Required.
-        :type parameters: ~azure.keyvault.keys._generated.models.KeyUpdateParameters or JSON or IO[bytes]
+        :type parameters: ~azure.keyvault.keys.models.KeyUpdateParameters or JSON or IO[bytes]
         :return: KeyBundle. The KeyBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyBundle
+        :rtype: ~azure.keyvault.keys.models.KeyBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -1358,7 +1358,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Required.
         :type key_version: str
         :return: KeyBundle. The KeyBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyBundle
+        :rtype: ~azure.keyvault.keys.models.KeyBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -1416,193 +1416,6 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         return deserialized  # type: ignore
 
     @distributed_trace
-    def get_key_versions(
-        self, key_name: str, *, maxresults: Optional[int] = None, **kwargs: Any
-    ) -> Iterable["_models.KeyItem"]:
-        """Retrieves a list of individual key versions with the same key name.
-
-        The full key identifier, attributes, and tags are provided in the response. This operation
-        requires the keys/list permission.
-
-        :param key_name: The name of the key. Required.
-        :type key_name: str
-        :keyword maxresults: Maximum number of results to return in a page. If not specified the
-         service will return up to 25 results. Default value is None.
-        :paramtype maxresults: int
-        :return: An iterator like instance of KeyItem
-        :rtype: ~azure.core.paging.ItemPaged[~azure.keyvault.keys._generated.models.KeyItem]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = kwargs.pop("params", {}) or {}
-
-        cls: ClsType[List[_models.KeyItem]] = kwargs.pop("cls", None)
-
-        error_map: MutableMapping = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        def prepare_request(next_link=None):
-            if not next_link:
-
-                _request = build_key_vault_get_key_versions_request(
-                    key_name=key_name,
-                    maxresults=maxresults,
-                    api_version=self._config.api_version,
-                    headers=_headers,
-                    params=_params,
-                )
-                path_format_arguments = {
-                    "vaultBaseUrl": self._serialize.url(
-                        "self._config.vault_base_url", self._config.vault_base_url, "str", skip_quote=True
-                    ),
-                }
-                _request.url = self._client.format_url(_request.url, **path_format_arguments)
-
-            else:
-                # make call to next link with the client's api-version
-                _parsed_next_link = urllib.parse.urlparse(next_link)
-                _next_request_params = case_insensitive_dict(
-                    {
-                        key: [urllib.parse.quote(v) for v in value]
-                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
-                    }
-                )
-                _next_request_params["api-version"] = self._config.api_version
-                _request = HttpRequest(
-                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
-                )
-                path_format_arguments = {
-                    "vaultBaseUrl": self._serialize.url(
-                        "self._config.vault_base_url", self._config.vault_base_url, "str", skip_quote=True
-                    ),
-                }
-                _request.url = self._client.format_url(_request.url, **path_format_arguments)
-
-            return _request
-
-        def extract_data(pipeline_response):
-            deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.KeyItem], deserialized["value"])
-            if cls:
-                list_of_elem = cls(list_of_elem)  # type: ignore
-            return deserialized.get("nextLink") or None, iter(list_of_elem)
-
-        def get_next(next_link=None):
-            _request = prepare_request(next_link)
-
-            _stream = False
-            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                _request, stream=_stream, **kwargs
-            )
-            response = pipeline_response.http_response
-
-            if response.status_code not in [200]:
-                map_error(status_code=response.status_code, response=response, error_map=error_map)
-                error = _failsafe_deserialize(_models.KeyVaultError, response.json())
-                raise HttpResponseError(response=response, model=error)
-
-            return pipeline_response
-
-        return ItemPaged(get_next, extract_data)
-
-    @distributed_trace
-    def get_keys(self, *, maxresults: Optional[int] = None, **kwargs: Any) -> Iterable["_models.KeyItem"]:
-        """List keys in the specified vault.
-
-        Retrieves a list of the keys in the Key Vault as JSON Web Key structures that contain the
-        public part of a stored key. The LIST operation is applicable to all key types, however only
-        the base key identifier, attributes, and tags are provided in the response. Individual versions
-        of a key are not listed in the response. This operation requires the keys/list permission.
-
-        :keyword maxresults: Maximum number of results to return in a page. If not specified the
-         service will return up to 25 results. Default value is None.
-        :paramtype maxresults: int
-        :return: An iterator like instance of KeyItem
-        :rtype: ~azure.core.paging.ItemPaged[~azure.keyvault.keys._generated.models.KeyItem]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = kwargs.pop("params", {}) or {}
-
-        cls: ClsType[List[_models.KeyItem]] = kwargs.pop("cls", None)
-
-        error_map: MutableMapping = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        def prepare_request(next_link=None):
-            if not next_link:
-
-                _request = build_key_vault_get_keys_request(
-                    maxresults=maxresults,
-                    api_version=self._config.api_version,
-                    headers=_headers,
-                    params=_params,
-                )
-                path_format_arguments = {
-                    "vaultBaseUrl": self._serialize.url(
-                        "self._config.vault_base_url", self._config.vault_base_url, "str", skip_quote=True
-                    ),
-                }
-                _request.url = self._client.format_url(_request.url, **path_format_arguments)
-
-            else:
-                # make call to next link with the client's api-version
-                _parsed_next_link = urllib.parse.urlparse(next_link)
-                _next_request_params = case_insensitive_dict(
-                    {
-                        key: [urllib.parse.quote(v) for v in value]
-                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
-                    }
-                )
-                _next_request_params["api-version"] = self._config.api_version
-                _request = HttpRequest(
-                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
-                )
-                path_format_arguments = {
-                    "vaultBaseUrl": self._serialize.url(
-                        "self._config.vault_base_url", self._config.vault_base_url, "str", skip_quote=True
-                    ),
-                }
-                _request.url = self._client.format_url(_request.url, **path_format_arguments)
-
-            return _request
-
-        def extract_data(pipeline_response):
-            deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.KeyItem], deserialized["value"])
-            if cls:
-                list_of_elem = cls(list_of_elem)  # type: ignore
-            return deserialized.get("nextLink") or None, iter(list_of_elem)
-
-        def get_next(next_link=None):
-            _request = prepare_request(next_link)
-
-            _stream = False
-            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                _request, stream=_stream, **kwargs
-            )
-            response = pipeline_response.http_response
-
-            if response.status_code not in [200]:
-                map_error(status_code=response.status_code, response=response, error_map=error_map)
-                error = _failsafe_deserialize(_models.KeyVaultError, response.json())
-                raise HttpResponseError(response=response, model=error)
-
-            return pipeline_response
-
-        return ItemPaged(get_next, extract_data)
-
-    @distributed_trace
     def backup_key(self, key_name: str, **kwargs: Any) -> _models.BackupKeyResult:
         """Requests that a backup of the specified key be downloaded to the client.
 
@@ -1621,7 +1434,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :param key_name: The name of the key. Required.
         :type key_name: str
         :return: BackupKeyResult. The BackupKeyResult is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.BackupKeyResult
+        :rtype: ~azure.keyvault.keys.models.BackupKeyResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -1695,12 +1508,12 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         in the target Key Vault. This operation requires the keys/restore permission.
 
         :param parameters: The parameters to restore the key. Required.
-        :type parameters: ~azure.keyvault.keys._generated.models.KeyRestoreParameters
+        :type parameters: ~azure.keyvault.keys.models.KeyRestoreParameters
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyBundle. The KeyBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyBundle
+        :rtype: ~azure.keyvault.keys.models.KeyBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -1727,7 +1540,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyBundle. The KeyBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyBundle
+        :rtype: ~azure.keyvault.keys.models.KeyBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -1754,7 +1567,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyBundle. The KeyBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyBundle
+        :rtype: ~azure.keyvault.keys.models.KeyBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -1777,9 +1590,9 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
 
         :param parameters: The parameters to restore the key. Is one of the following types:
          KeyRestoreParameters, JSON, IO[bytes] Required.
-        :type parameters: ~azure.keyvault.keys._generated.models.KeyRestoreParameters or JSON or IO[bytes]
+        :type parameters: ~azure.keyvault.keys.models.KeyRestoreParameters or JSON or IO[bytes]
         :return: KeyBundle. The KeyBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyBundle
+        :rtype: ~azure.keyvault.keys.models.KeyBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -1870,12 +1683,12 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :param key_version: The version of the key. Required.
         :type key_version: str
         :param parameters: The parameters for the encryption operation. Required.
-        :type parameters: ~azure.keyvault.keys._generated.models.KeyOperationsParameters
+        :type parameters: ~azure.keyvault.keys.models.KeyOperationsParameters
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyOperationResult. The KeyOperationResult is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyOperationResult
+        :rtype: ~azure.keyvault.keys.models.KeyOperationResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -1910,7 +1723,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyOperationResult. The KeyOperationResult is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyOperationResult
+        :rtype: ~azure.keyvault.keys.models.KeyOperationResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -1945,7 +1758,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyOperationResult. The KeyOperationResult is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyOperationResult
+        :rtype: ~azure.keyvault.keys.models.KeyOperationResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -1974,9 +1787,9 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :type key_version: str
         :param parameters: The parameters for the encryption operation. Is one of the following types:
          KeyOperationsParameters, JSON, IO[bytes] Required.
-        :type parameters: ~azure.keyvault.keys._generated.models.KeyOperationsParameters or JSON or IO[bytes]
+        :type parameters: ~azure.keyvault.keys.models.KeyOperationsParameters or JSON or IO[bytes]
         :return: KeyOperationResult. The KeyOperationResult is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyOperationResult
+        :rtype: ~azure.keyvault.keys.models.KeyOperationResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -2062,7 +1875,8 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         stored in Azure Key Vault since it uses the private portion of the key. This operation requires
         the keys/decrypt permission. Microsoft recommends not to use CBC algorithms for decryption
         without first ensuring the integrity of the ciphertext using an HMAC, for example. See
-        https://learn.microsoft.com/dotnet/standard/security/vulnerabilities-cbc-mode for more
+        `https://learn.microsoft.com/dotnet/standard/security/vulnerabilities-cbc-mode
+        <https://learn.microsoft.com/dotnet/standard/security/vulnerabilities-cbc-mode>`_ for more
         information.
 
         :param key_name: The name of the key. Required.
@@ -2070,12 +1884,12 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :param key_version: The version of the key. Required.
         :type key_version: str
         :param parameters: The parameters for the decryption operation. Required.
-        :type parameters: ~azure.keyvault.keys._generated.models.KeyOperationsParameters
+        :type parameters: ~azure.keyvault.keys.models.KeyOperationsParameters
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyOperationResult. The KeyOperationResult is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyOperationResult
+        :rtype: ~azure.keyvault.keys.models.KeyOperationResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -2098,7 +1912,8 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         stored in Azure Key Vault since it uses the private portion of the key. This operation requires
         the keys/decrypt permission. Microsoft recommends not to use CBC algorithms for decryption
         without first ensuring the integrity of the ciphertext using an HMAC, for example. See
-        https://learn.microsoft.com/dotnet/standard/security/vulnerabilities-cbc-mode for more
+        `https://learn.microsoft.com/dotnet/standard/security/vulnerabilities-cbc-mode
+        <https://learn.microsoft.com/dotnet/standard/security/vulnerabilities-cbc-mode>`_ for more
         information.
 
         :param key_name: The name of the key. Required.
@@ -2111,7 +1926,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyOperationResult. The KeyOperationResult is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyOperationResult
+        :rtype: ~azure.keyvault.keys.models.KeyOperationResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -2134,7 +1949,8 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         stored in Azure Key Vault since it uses the private portion of the key. This operation requires
         the keys/decrypt permission. Microsoft recommends not to use CBC algorithms for decryption
         without first ensuring the integrity of the ciphertext using an HMAC, for example. See
-        https://learn.microsoft.com/dotnet/standard/security/vulnerabilities-cbc-mode for more
+        `https://learn.microsoft.com/dotnet/standard/security/vulnerabilities-cbc-mode
+        <https://learn.microsoft.com/dotnet/standard/security/vulnerabilities-cbc-mode>`_ for more
         information.
 
         :param key_name: The name of the key. Required.
@@ -2147,7 +1963,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyOperationResult. The KeyOperationResult is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyOperationResult
+        :rtype: ~azure.keyvault.keys.models.KeyOperationResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -2168,7 +1984,8 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         stored in Azure Key Vault since it uses the private portion of the key. This operation requires
         the keys/decrypt permission. Microsoft recommends not to use CBC algorithms for decryption
         without first ensuring the integrity of the ciphertext using an HMAC, for example. See
-        https://learn.microsoft.com/dotnet/standard/security/vulnerabilities-cbc-mode for more
+        `https://learn.microsoft.com/dotnet/standard/security/vulnerabilities-cbc-mode
+        <https://learn.microsoft.com/dotnet/standard/security/vulnerabilities-cbc-mode>`_ for more
         information.
 
         :param key_name: The name of the key. Required.
@@ -2177,9 +1994,9 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :type key_version: str
         :param parameters: The parameters for the decryption operation. Is one of the following types:
          KeyOperationsParameters, JSON, IO[bytes] Required.
-        :type parameters: ~azure.keyvault.keys._generated.models.KeyOperationsParameters or JSON or IO[bytes]
+        :type parameters: ~azure.keyvault.keys.models.KeyOperationsParameters or JSON or IO[bytes]
         :return: KeyOperationResult. The KeyOperationResult is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyOperationResult
+        :rtype: ~azure.keyvault.keys.models.KeyOperationResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -2267,12 +2084,12 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :param key_version: The version of the key. Required.
         :type key_version: str
         :param parameters: The parameters for the signing operation. Required.
-        :type parameters: ~azure.keyvault.keys._generated.models.KeySignParameters
+        :type parameters: ~azure.keyvault.keys.models.KeySignParameters
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyOperationResult. The KeyOperationResult is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyOperationResult
+        :rtype: ~azure.keyvault.keys.models.KeyOperationResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -2302,7 +2119,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyOperationResult. The KeyOperationResult is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyOperationResult
+        :rtype: ~azure.keyvault.keys.models.KeyOperationResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -2332,7 +2149,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyOperationResult. The KeyOperationResult is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyOperationResult
+        :rtype: ~azure.keyvault.keys.models.KeyOperationResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -2356,9 +2173,9 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :type key_version: str
         :param parameters: The parameters for the signing operation. Is one of the following types:
          KeySignParameters, JSON, IO[bytes] Required.
-        :type parameters: ~azure.keyvault.keys._generated.models.KeySignParameters or JSON or IO[bytes]
+        :type parameters: ~azure.keyvault.keys.models.KeySignParameters or JSON or IO[bytes]
         :return: KeyOperationResult. The KeyOperationResult is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyOperationResult
+        :rtype: ~azure.keyvault.keys.models.KeyOperationResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -2448,12 +2265,12 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :param key_version: The version of the key. Required.
         :type key_version: str
         :param parameters: The parameters for verify operations. Required.
-        :type parameters: ~azure.keyvault.keys._generated.models.KeyVerifyParameters
+        :type parameters: ~azure.keyvault.keys.models.KeyVerifyParameters
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyVerifyResult. The KeyVerifyResult is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyVerifyResult
+        :rtype: ~azure.keyvault.keys.models.KeyVerifyResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -2485,7 +2302,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyVerifyResult. The KeyVerifyResult is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyVerifyResult
+        :rtype: ~azure.keyvault.keys.models.KeyVerifyResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -2517,7 +2334,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyVerifyResult. The KeyVerifyResult is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyVerifyResult
+        :rtype: ~azure.keyvault.keys.models.KeyVerifyResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -2543,9 +2360,9 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :type key_version: str
         :param parameters: The parameters for verify operations. Is one of the following types:
          KeyVerifyParameters, JSON, IO[bytes] Required.
-        :type parameters: ~azure.keyvault.keys._generated.models.KeyVerifyParameters or JSON or IO[bytes]
+        :type parameters: ~azure.keyvault.keys.models.KeyVerifyParameters or JSON or IO[bytes]
         :return: KeyVerifyResult. The KeyVerifyResult is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyVerifyResult
+        :rtype: ~azure.keyvault.keys.models.KeyVerifyResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -2636,12 +2453,12 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :param key_version: The version of the key. Required.
         :type key_version: str
         :param parameters: The parameters for wrap operation. Required.
-        :type parameters: ~azure.keyvault.keys._generated.models.KeyOperationsParameters
+        :type parameters: ~azure.keyvault.keys.models.KeyOperationsParameters
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyOperationResult. The KeyOperationResult is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyOperationResult
+        :rtype: ~azure.keyvault.keys.models.KeyOperationResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -2674,7 +2491,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyOperationResult. The KeyOperationResult is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyOperationResult
+        :rtype: ~azure.keyvault.keys.models.KeyOperationResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -2707,7 +2524,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyOperationResult. The KeyOperationResult is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyOperationResult
+        :rtype: ~azure.keyvault.keys.models.KeyOperationResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -2734,9 +2551,9 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :type key_version: str
         :param parameters: The parameters for wrap operation. Is one of the following types:
          KeyOperationsParameters, JSON, IO[bytes] Required.
-        :type parameters: ~azure.keyvault.keys._generated.models.KeyOperationsParameters or JSON or IO[bytes]
+        :type parameters: ~azure.keyvault.keys.models.KeyOperationsParameters or JSON or IO[bytes]
         :return: KeyOperationResult. The KeyOperationResult is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyOperationResult
+        :rtype: ~azure.keyvault.keys.models.KeyOperationResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -2825,12 +2642,12 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :param key_version: The version of the key. Required.
         :type key_version: str
         :param parameters: The parameters for the key operation. Required.
-        :type parameters: ~azure.keyvault.keys._generated.models.KeyOperationsParameters
+        :type parameters: ~azure.keyvault.keys.models.KeyOperationsParameters
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyOperationResult. The KeyOperationResult is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyOperationResult
+        :rtype: ~azure.keyvault.keys.models.KeyOperationResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -2861,7 +2678,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyOperationResult. The KeyOperationResult is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyOperationResult
+        :rtype: ~azure.keyvault.keys.models.KeyOperationResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -2892,7 +2709,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyOperationResult. The KeyOperationResult is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyOperationResult
+        :rtype: ~azure.keyvault.keys.models.KeyOperationResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -2917,9 +2734,9 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :type key_version: str
         :param parameters: The parameters for the key operation. Is one of the following types:
          KeyOperationsParameters, JSON, IO[bytes] Required.
-        :type parameters: ~azure.keyvault.keys._generated.models.KeyOperationsParameters or JSON or IO[bytes]
+        :type parameters: ~azure.keyvault.keys.models.KeyOperationsParameters or JSON or IO[bytes]
         :return: KeyOperationResult. The KeyOperationResult is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyOperationResult
+        :rtype: ~azure.keyvault.keys.models.KeyOperationResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -3007,12 +2824,12 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Required.
         :type key_version: str
         :param parameters: The parameters for the key release operation. Required.
-        :type parameters: ~azure.keyvault.keys._generated.models.KeyReleaseParameters
+        :type parameters: ~azure.keyvault.keys.models.KeyReleaseParameters
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyReleaseResult. The KeyReleaseResult is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyReleaseResult
+        :rtype: ~azure.keyvault.keys.models.KeyReleaseResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -3042,7 +2859,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyReleaseResult. The KeyReleaseResult is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyReleaseResult
+        :rtype: ~azure.keyvault.keys.models.KeyReleaseResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -3072,7 +2889,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyReleaseResult. The KeyReleaseResult is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyReleaseResult
+        :rtype: ~azure.keyvault.keys.models.KeyReleaseResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -3096,9 +2913,9 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :type key_version: str
         :param parameters: The parameters for the key release operation. Is one of the following types:
          KeyReleaseParameters, JSON, IO[bytes] Required.
-        :type parameters: ~azure.keyvault.keys._generated.models.KeyReleaseParameters or JSON or IO[bytes]
+        :type parameters: ~azure.keyvault.keys.models.KeyReleaseParameters or JSON or IO[bytes]
         :return: KeyReleaseResult. The KeyReleaseResult is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyReleaseResult
+        :rtype: ~azure.keyvault.keys.models.KeyReleaseResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -3166,101 +2983,6 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         return deserialized  # type: ignore
 
     @distributed_trace
-    def get_deleted_keys(
-        self, *, maxresults: Optional[int] = None, **kwargs: Any
-    ) -> Iterable["_models.DeletedKeyItem"]:
-        """Lists the deleted keys in the specified vault.
-
-        Retrieves a list of the keys in the Key Vault as JSON Web Key structures that contain the
-        public part of a deleted key. This operation includes deletion-specific information. The Get
-        Deleted Keys operation is applicable for vaults enabled for soft-delete. While the operation
-        can be invoked on any vault, it will return an error if invoked on a non soft-delete enabled
-        vault. This operation requires the keys/list permission.
-
-        :keyword maxresults: Maximum number of results to return in a page. If not specified the
-         service will return up to 25 results. Default value is None.
-        :paramtype maxresults: int
-        :return: An iterator like instance of DeletedKeyItem
-        :rtype: ~azure.core.paging.ItemPaged[~azure.keyvault.keys._generated.models.DeletedKeyItem]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = kwargs.pop("params", {}) or {}
-
-        cls: ClsType[List[_models.DeletedKeyItem]] = kwargs.pop("cls", None)
-
-        error_map: MutableMapping = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        def prepare_request(next_link=None):
-            if not next_link:
-
-                _request = build_key_vault_get_deleted_keys_request(
-                    maxresults=maxresults,
-                    api_version=self._config.api_version,
-                    headers=_headers,
-                    params=_params,
-                )
-                path_format_arguments = {
-                    "vaultBaseUrl": self._serialize.url(
-                        "self._config.vault_base_url", self._config.vault_base_url, "str", skip_quote=True
-                    ),
-                }
-                _request.url = self._client.format_url(_request.url, **path_format_arguments)
-
-            else:
-                # make call to next link with the client's api-version
-                _parsed_next_link = urllib.parse.urlparse(next_link)
-                _next_request_params = case_insensitive_dict(
-                    {
-                        key: [urllib.parse.quote(v) for v in value]
-                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
-                    }
-                )
-                _next_request_params["api-version"] = self._config.api_version
-                _request = HttpRequest(
-                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
-                )
-                path_format_arguments = {
-                    "vaultBaseUrl": self._serialize.url(
-                        "self._config.vault_base_url", self._config.vault_base_url, "str", skip_quote=True
-                    ),
-                }
-                _request.url = self._client.format_url(_request.url, **path_format_arguments)
-
-            return _request
-
-        def extract_data(pipeline_response):
-            deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.DeletedKeyItem], deserialized["value"])
-            if cls:
-                list_of_elem = cls(list_of_elem)  # type: ignore
-            return deserialized.get("nextLink") or None, iter(list_of_elem)
-
-        def get_next(next_link=None):
-            _request = prepare_request(next_link)
-
-            _stream = False
-            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                _request, stream=_stream, **kwargs
-            )
-            response = pipeline_response.http_response
-
-            if response.status_code not in [200]:
-                map_error(status_code=response.status_code, response=response, error_map=error_map)
-                error = _failsafe_deserialize(_models.KeyVaultError, response.json())
-                raise HttpResponseError(response=response, model=error)
-
-            return pipeline_response
-
-        return ItemPaged(get_next, extract_data)
-
-    @distributed_trace
     def get_deleted_key(self, key_name: str, **kwargs: Any) -> _models.DeletedKeyBundle:
         """Gets the public part of a deleted key.
 
@@ -3271,7 +2993,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :param key_name: The name of the key. Required.
         :type key_name: str
         :return: DeletedKeyBundle. The DeletedKeyBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.DeletedKeyBundle
+        :rtype: ~azure.keyvault.keys.models.DeletedKeyBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -3394,7 +3116,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :param key_name: The name of the deleted key. Required.
         :type key_name: str
         :return: KeyBundle. The KeyBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyBundle
+        :rtype: ~azure.keyvault.keys.models.KeyBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -3460,7 +3182,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :param key_name: The name of the key in a given key vault. Required.
         :type key_name: str
         :return: KeyRotationPolicy. The KeyRotationPolicy is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyRotationPolicy
+        :rtype: ~azure.keyvault.keys.models.KeyRotationPolicy
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -3533,12 +3255,12 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :param key_name: The name of the key in the given vault. Required.
         :type key_name: str
         :param key_rotation_policy: The policy for the key. Required.
-        :type key_rotation_policy: ~azure.keyvault.keys._generated.models.KeyRotationPolicy
+        :type key_rotation_policy: ~azure.keyvault.keys.models.KeyRotationPolicy
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyRotationPolicy. The KeyRotationPolicy is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyRotationPolicy
+        :rtype: ~azure.keyvault.keys.models.KeyRotationPolicy
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -3559,7 +3281,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyRotationPolicy. The KeyRotationPolicy is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyRotationPolicy
+        :rtype: ~azure.keyvault.keys.models.KeyRotationPolicy
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -3580,7 +3302,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyRotationPolicy. The KeyRotationPolicy is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyRotationPolicy
+        :rtype: ~azure.keyvault.keys.models.KeyRotationPolicy
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -3597,9 +3319,9 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :type key_name: str
         :param key_rotation_policy: The policy for the key. Is one of the following types:
          KeyRotationPolicy, JSON, IO[bytes] Required.
-        :type key_rotation_policy: ~azure.keyvault.keys._generated.models.KeyRotationPolicy or JSON or IO[bytes]
+        :type key_rotation_policy: ~azure.keyvault.keys.models.KeyRotationPolicy or JSON or IO[bytes]
         :return: KeyRotationPolicy. The KeyRotationPolicy is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyRotationPolicy
+        :rtype: ~azure.keyvault.keys.models.KeyRotationPolicy
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -3674,12 +3396,12 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         Get the requested number of bytes containing random values from a managed HSM.
 
         :param parameters: The request object to get random bytes. Required.
-        :type parameters: ~azure.keyvault.keys._generated.models.GetRandomBytesRequest
+        :type parameters: ~azure.keyvault.keys.models.GetRandomBytesRequest
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :return: RandomBytes. The RandomBytes is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.RandomBytes
+        :rtype: ~azure.keyvault.keys.models.RandomBytes
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -3697,7 +3419,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: RandomBytes. The RandomBytes is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.RandomBytes
+        :rtype: ~azure.keyvault.keys.models.RandomBytes
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -3715,7 +3437,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: RandomBytes. The RandomBytes is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.RandomBytes
+        :rtype: ~azure.keyvault.keys.models.RandomBytes
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -3729,9 +3451,9 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
 
         :param parameters: The request object to get random bytes. Is one of the following types:
          GetRandomBytesRequest, JSON, IO[bytes] Required.
-        :type parameters: ~azure.keyvault.keys._generated.models.GetRandomBytesRequest or JSON or IO[bytes]
+        :type parameters: ~azure.keyvault.keys.models.GetRandomBytesRequest or JSON or IO[bytes]
         :return: RandomBytes. The RandomBytes is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.RandomBytes
+        :rtype: ~azure.keyvault.keys.models.RandomBytes
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -3814,7 +3536,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          key attestation blob is returned. Required.
         :type key_version: str
         :return: KeyBundle. The KeyBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyBundle
+        :rtype: ~azure.keyvault.keys.models.KeyBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -3870,3 +3592,285 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
             return cls(pipeline_response, deserialized, {})  # type: ignore
 
         return deserialized  # type: ignore
+
+    @distributed_trace
+    def get_key_versions(
+        self, key_name: str, *, maxresults: Optional[int] = None, **kwargs: Any
+    ) -> Iterable["_models.KeyItem"]:
+        """Retrieves a list of individual key versions with the same key name.
+
+        The full key identifier, attributes, and tags are provided in the response. This operation
+        requires the keys/list permission.
+
+        :param key_name: The name of the key. Required.
+        :type key_name: str
+        :keyword maxresults: Maximum number of results to return in a page. If not specified the
+         service will return up to 25 results. Default value is None.
+        :paramtype maxresults: int
+        :return: An iterator like instance of KeyItem
+        :rtype: ~azure.core.paging.ItemPaged[~azure.keyvault.keys.models.KeyItem]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = kwargs.pop("params", {}) or {}
+
+        cls: ClsType[List[_models.KeyItem]] = kwargs.pop("cls", None)
+
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        def prepare_request(next_link=None):
+            if not next_link:
+
+                _request = build_key_vault_get_key_versions_request(
+                    key_name=key_name,
+                    maxresults=maxresults,
+                    api_version=self._config.api_version,
+                    headers=_headers,
+                    params=_params,
+                )
+                path_format_arguments = {
+                    "vaultBaseUrl": self._serialize.url(
+                        "self._config.vault_base_url", self._config.vault_base_url, "str", skip_quote=True
+                    ),
+                }
+                _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+            else:
+                # make call to next link with the client's api-version
+                _parsed_next_link = urllib.parse.urlparse(next_link)
+                _next_request_params = case_insensitive_dict(
+                    {
+                        key: [urllib.parse.quote(v) for v in value]
+                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
+                    }
+                )
+                _next_request_params["api-version"] = self._config.api_version
+                _request = HttpRequest(
+                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
+                )
+                path_format_arguments = {
+                    "vaultBaseUrl": self._serialize.url(
+                        "self._config.vault_base_url", self._config.vault_base_url, "str", skip_quote=True
+                    ),
+                }
+                _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+            return _request
+
+        def extract_data(pipeline_response):
+            deserialized = pipeline_response.http_response.json()
+            list_of_elem = _deserialize(List[_models.KeyItem], deserialized.get("value", []))
+            if cls:
+                list_of_elem = cls(list_of_elem)  # type: ignore
+            return deserialized.get("nextLink") or None, iter(list_of_elem)
+
+        def get_next(next_link=None):
+            _request = prepare_request(next_link)
+
+            _stream = False
+            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+                _request, stream=_stream, **kwargs
+            )
+            response = pipeline_response.http_response
+
+            if response.status_code not in [200]:
+                map_error(status_code=response.status_code, response=response, error_map=error_map)
+                error = _failsafe_deserialize(_models.KeyVaultError, response.json())
+                raise HttpResponseError(response=response, model=error)
+
+            return pipeline_response
+
+        return ItemPaged(get_next, extract_data)
+
+    @distributed_trace
+    def get_keys(self, *, maxresults: Optional[int] = None, **kwargs: Any) -> Iterable["_models.KeyItem"]:
+        """List keys in the specified vault.
+
+        Retrieves a list of the keys in the Key Vault as JSON Web Key structures that contain the
+        public part of a stored key. The LIST operation is applicable to all key types, however only
+        the base key identifier, attributes, and tags are provided in the response. Individual versions
+        of a key are not listed in the response. This operation requires the keys/list permission.
+
+        :keyword maxresults: Maximum number of results to return in a page. If not specified the
+         service will return up to 25 results. Default value is None.
+        :paramtype maxresults: int
+        :return: An iterator like instance of KeyItem
+        :rtype: ~azure.core.paging.ItemPaged[~azure.keyvault.keys.models.KeyItem]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = kwargs.pop("params", {}) or {}
+
+        cls: ClsType[List[_models.KeyItem]] = kwargs.pop("cls", None)
+
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        def prepare_request(next_link=None):
+            if not next_link:
+
+                _request = build_key_vault_get_keys_request(
+                    maxresults=maxresults,
+                    api_version=self._config.api_version,
+                    headers=_headers,
+                    params=_params,
+                )
+                path_format_arguments = {
+                    "vaultBaseUrl": self._serialize.url(
+                        "self._config.vault_base_url", self._config.vault_base_url, "str", skip_quote=True
+                    ),
+                }
+                _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+            else:
+                # make call to next link with the client's api-version
+                _parsed_next_link = urllib.parse.urlparse(next_link)
+                _next_request_params = case_insensitive_dict(
+                    {
+                        key: [urllib.parse.quote(v) for v in value]
+                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
+                    }
+                )
+                _next_request_params["api-version"] = self._config.api_version
+                _request = HttpRequest(
+                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
+                )
+                path_format_arguments = {
+                    "vaultBaseUrl": self._serialize.url(
+                        "self._config.vault_base_url", self._config.vault_base_url, "str", skip_quote=True
+                    ),
+                }
+                _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+            return _request
+
+        def extract_data(pipeline_response):
+            deserialized = pipeline_response.http_response.json()
+            list_of_elem = _deserialize(List[_models.KeyItem], deserialized.get("value", []))
+            if cls:
+                list_of_elem = cls(list_of_elem)  # type: ignore
+            return deserialized.get("nextLink") or None, iter(list_of_elem)
+
+        def get_next(next_link=None):
+            _request = prepare_request(next_link)
+
+            _stream = False
+            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+                _request, stream=_stream, **kwargs
+            )
+            response = pipeline_response.http_response
+
+            if response.status_code not in [200]:
+                map_error(status_code=response.status_code, response=response, error_map=error_map)
+                error = _failsafe_deserialize(_models.KeyVaultError, response.json())
+                raise HttpResponseError(response=response, model=error)
+
+            return pipeline_response
+
+        return ItemPaged(get_next, extract_data)
+
+    @distributed_trace
+    def get_deleted_keys(
+        self, *, maxresults: Optional[int] = None, **kwargs: Any
+    ) -> Iterable["_models.DeletedKeyItem"]:
+        """Lists the deleted keys in the specified vault.
+
+        Retrieves a list of the keys in the Key Vault as JSON Web Key structures that contain the
+        public part of a deleted key. This operation includes deletion-specific information. The Get
+        Deleted Keys operation is applicable for vaults enabled for soft-delete. While the operation
+        can be invoked on any vault, it will return an error if invoked on a non soft-delete enabled
+        vault. This operation requires the keys/list permission.
+
+        :keyword maxresults: Maximum number of results to return in a page. If not specified the
+         service will return up to 25 results. Default value is None.
+        :paramtype maxresults: int
+        :return: An iterator like instance of DeletedKeyItem
+        :rtype: ~azure.core.paging.ItemPaged[~azure.keyvault.keys.models.DeletedKeyItem]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = kwargs.pop("params", {}) or {}
+
+        cls: ClsType[List[_models.DeletedKeyItem]] = kwargs.pop("cls", None)
+
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        def prepare_request(next_link=None):
+            if not next_link:
+
+                _request = build_key_vault_get_deleted_keys_request(
+                    maxresults=maxresults,
+                    api_version=self._config.api_version,
+                    headers=_headers,
+                    params=_params,
+                )
+                path_format_arguments = {
+                    "vaultBaseUrl": self._serialize.url(
+                        "self._config.vault_base_url", self._config.vault_base_url, "str", skip_quote=True
+                    ),
+                }
+                _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+            else:
+                # make call to next link with the client's api-version
+                _parsed_next_link = urllib.parse.urlparse(next_link)
+                _next_request_params = case_insensitive_dict(
+                    {
+                        key: [urllib.parse.quote(v) for v in value]
+                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
+                    }
+                )
+                _next_request_params["api-version"] = self._config.api_version
+                _request = HttpRequest(
+                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
+                )
+                path_format_arguments = {
+                    "vaultBaseUrl": self._serialize.url(
+                        "self._config.vault_base_url", self._config.vault_base_url, "str", skip_quote=True
+                    ),
+                }
+                _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+            return _request
+
+        def extract_data(pipeline_response):
+            deserialized = pipeline_response.http_response.json()
+            list_of_elem = _deserialize(List[_models.DeletedKeyItem], deserialized.get("value", []))
+            if cls:
+                list_of_elem = cls(list_of_elem)  # type: ignore
+            return deserialized.get("nextLink") or None, iter(list_of_elem)
+
+        def get_next(next_link=None):
+            _request = prepare_request(next_link)
+
+            _stream = False
+            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+                _request, stream=_stream, **kwargs
+            )
+            response = pipeline_response.http_response
+
+            if response.status_code not in [200]:
+                map_error(status_code=response.status_code, response=response, error_map=error_map)
+                error = _failsafe_deserialize(_models.KeyVaultError, response.json())
+                raise HttpResponseError(response=response, model=error)
+
+            return pipeline_response
+
+        return ItemPaged(get_next, extract_data)
