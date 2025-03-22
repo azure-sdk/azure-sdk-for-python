@@ -9,7 +9,7 @@
 from io import IOBase
 import json
 import sys
-from typing import Any, Callable, Dict, IO, Iterable, List, Optional, TYPE_CHECKING, TypeVar, Union, overload
+from typing import Any, Callable, Dict, IO, Iterable, Iterator, List, Optional, TYPE_CHECKING, TypeVar, Union, overload
 import urllib.parse
 
 from azure.core import PipelineClient
@@ -115,9 +115,9 @@ def build_agents_get_agent_request(agent_id: str, **kwargs: Any) -> HttpRequest:
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
-    _url = "/assistants/{agentId}"
+    _url = "/assistants/{assistantId}"
     path_format_arguments = {
-        "agentId": _SERIALIZER.url("agent_id", agent_id, "str"),
+        "assistantId": _SERIALIZER.url("agent_id", agent_id, "str"),
     }
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
@@ -140,9 +140,9 @@ def build_agents_update_agent_request(agent_id: str, **kwargs: Any) -> HttpReque
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
-    _url = "/assistants/{agentId}"
+    _url = "/assistants/{assistantId}"
     path_format_arguments = {
-        "agentId": _SERIALIZER.url("agent_id", agent_id, "str"),
+        "assistantId": _SERIALIZER.url("agent_id", agent_id, "str"),
     }
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
@@ -166,9 +166,9 @@ def build_agents_delete_agent_request(agent_id: str, **kwargs: Any) -> HttpReque
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
-    _url = "/assistants/{agentId}"
+    _url = "/assistants/{assistantId}"
     path_format_arguments = {
-        "agentId": _SERIALIZER.url("agent_id", agent_id, "str"),
+        "assistantId": _SERIALIZER.url("agent_id", agent_id, "str"),
     }
 
     _url: str = _url.format(**path_format_arguments)  # type: ignore
@@ -778,7 +778,7 @@ def build_agents_get_file_content_request(file_id: str, **kwargs: Any) -> HttpRe
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-07-01-preview"))
-    accept = _headers.pop("Accept", "application/json")
+    accept = _headers.pop("Accept", "application/octet-stream")
 
     # Construct URL
     _url = "/files/{fileId}/content"
@@ -1731,12 +1731,16 @@ class AgentsOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
-            "subscriptionId": self._serialize.url("self._config.subscription_id", self._config.subscription_id, "str"),
-            "resourceGroupName": self._serialize.url(
-                "self._config.resource_group_name", self._config.resource_group_name, "str"
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "subscriptionId": self._serialize.url(
+                "self._config.subscription_id", self._config.subscription_id, "str", skip_quote=True
             ),
-            "projectName": self._serialize.url("self._config.project_name", self._config.project_name, "str"),
+            "resourceGroupName": self._serialize.url(
+                "self._config.resource_group_name", self._config.resource_group_name, "str", skip_quote=True
+            ),
+            "projectName": self._serialize.url(
+                "self._config.project_name", self._config.project_name, "str", skip_quote=True
+            ),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -1822,12 +1826,16 @@ class AgentsOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
-            "subscriptionId": self._serialize.url("self._config.subscription_id", self._config.subscription_id, "str"),
-            "resourceGroupName": self._serialize.url(
-                "self._config.resource_group_name", self._config.resource_group_name, "str"
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "subscriptionId": self._serialize.url(
+                "self._config.subscription_id", self._config.subscription_id, "str", skip_quote=True
             ),
-            "projectName": self._serialize.url("self._config.project_name", self._config.project_name, "str"),
+            "resourceGroupName": self._serialize.url(
+                "self._config.resource_group_name", self._config.resource_group_name, "str", skip_quote=True
+            ),
+            "projectName": self._serialize.url(
+                "self._config.project_name", self._config.project_name, "str", skip_quote=True
+            ),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -1887,12 +1895,16 @@ class AgentsOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
-            "subscriptionId": self._serialize.url("self._config.subscription_id", self._config.subscription_id, "str"),
-            "resourceGroupName": self._serialize.url(
-                "self._config.resource_group_name", self._config.resource_group_name, "str"
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "subscriptionId": self._serialize.url(
+                "self._config.subscription_id", self._config.subscription_id, "str", skip_quote=True
             ),
-            "projectName": self._serialize.url("self._config.project_name", self._config.project_name, "str"),
+            "resourceGroupName": self._serialize.url(
+                "self._config.resource_group_name", self._config.resource_group_name, "str", skip_quote=True
+            ),
+            "projectName": self._serialize.url(
+                "self._config.project_name", self._config.project_name, "str", skip_quote=True
+            ),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -2138,12 +2150,16 @@ class AgentsOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
-            "subscriptionId": self._serialize.url("self._config.subscription_id", self._config.subscription_id, "str"),
-            "resourceGroupName": self._serialize.url(
-                "self._config.resource_group_name", self._config.resource_group_name, "str"
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "subscriptionId": self._serialize.url(
+                "self._config.subscription_id", self._config.subscription_id, "str", skip_quote=True
             ),
-            "projectName": self._serialize.url("self._config.project_name", self._config.project_name, "str"),
+            "resourceGroupName": self._serialize.url(
+                "self._config.resource_group_name", self._config.resource_group_name, "str", skip_quote=True
+            ),
+            "projectName": self._serialize.url(
+                "self._config.project_name", self._config.project_name, "str", skip_quote=True
+            ),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -2203,12 +2219,16 @@ class AgentsOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
-            "subscriptionId": self._serialize.url("self._config.subscription_id", self._config.subscription_id, "str"),
-            "resourceGroupName": self._serialize.url(
-                "self._config.resource_group_name", self._config.resource_group_name, "str"
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "subscriptionId": self._serialize.url(
+                "self._config.subscription_id", self._config.subscription_id, "str", skip_quote=True
             ),
-            "projectName": self._serialize.url("self._config.project_name", self._config.project_name, "str"),
+            "resourceGroupName": self._serialize.url(
+                "self._config.resource_group_name", self._config.resource_group_name, "str", skip_quote=True
+            ),
+            "projectName": self._serialize.url(
+                "self._config.project_name", self._config.project_name, "str", skip_quote=True
+            ),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -2368,12 +2388,16 @@ class AgentsOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
-            "subscriptionId": self._serialize.url("self._config.subscription_id", self._config.subscription_id, "str"),
-            "resourceGroupName": self._serialize.url(
-                "self._config.resource_group_name", self._config.resource_group_name, "str"
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "subscriptionId": self._serialize.url(
+                "self._config.subscription_id", self._config.subscription_id, "str", skip_quote=True
             ),
-            "projectName": self._serialize.url("self._config.project_name", self._config.project_name, "str"),
+            "resourceGroupName": self._serialize.url(
+                "self._config.resource_group_name", self._config.resource_group_name, "str", skip_quote=True
+            ),
+            "projectName": self._serialize.url(
+                "self._config.project_name", self._config.project_name, "str", skip_quote=True
+            ),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -2433,12 +2457,16 @@ class AgentsOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
-            "subscriptionId": self._serialize.url("self._config.subscription_id", self._config.subscription_id, "str"),
-            "resourceGroupName": self._serialize.url(
-                "self._config.resource_group_name", self._config.resource_group_name, "str"
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "subscriptionId": self._serialize.url(
+                "self._config.subscription_id", self._config.subscription_id, "str", skip_quote=True
             ),
-            "projectName": self._serialize.url("self._config.project_name", self._config.project_name, "str"),
+            "resourceGroupName": self._serialize.url(
+                "self._config.resource_group_name", self._config.resource_group_name, "str", skip_quote=True
+            ),
+            "projectName": self._serialize.url(
+                "self._config.project_name", self._config.project_name, "str", skip_quote=True
+            ),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -2601,12 +2629,16 @@ class AgentsOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
-            "subscriptionId": self._serialize.url("self._config.subscription_id", self._config.subscription_id, "str"),
-            "resourceGroupName": self._serialize.url(
-                "self._config.resource_group_name", self._config.resource_group_name, "str"
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "subscriptionId": self._serialize.url(
+                "self._config.subscription_id", self._config.subscription_id, "str", skip_quote=True
             ),
-            "projectName": self._serialize.url("self._config.project_name", self._config.project_name, "str"),
+            "resourceGroupName": self._serialize.url(
+                "self._config.resource_group_name", self._config.resource_group_name, "str", skip_quote=True
+            ),
+            "projectName": self._serialize.url(
+                "self._config.project_name", self._config.project_name, "str", skip_quote=True
+            ),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -2666,12 +2698,16 @@ class AgentsOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
-            "subscriptionId": self._serialize.url("self._config.subscription_id", self._config.subscription_id, "str"),
-            "resourceGroupName": self._serialize.url(
-                "self._config.resource_group_name", self._config.resource_group_name, "str"
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "subscriptionId": self._serialize.url(
+                "self._config.subscription_id", self._config.subscription_id, "str", skip_quote=True
             ),
-            "projectName": self._serialize.url("self._config.project_name", self._config.project_name, "str"),
+            "resourceGroupName": self._serialize.url(
+                "self._config.resource_group_name", self._config.resource_group_name, "str", skip_quote=True
+            ),
+            "projectName": self._serialize.url(
+                "self._config.project_name", self._config.project_name, "str", skip_quote=True
+            ),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -2719,12 +2755,11 @@ class AgentsOperations:  # pylint: disable=too-many-public-methods
         :type thread_id: str
         :keyword role: The role of the entity that is creating the message. Allowed values include:
 
-
-         * ``user``\\ : Indicates the message is sent by an actual user and should be used in most
-           cases to represent user-generated messages.
-         * ``assistant``\\ : Indicates the message is generated by the agent. Use this value to insert
-           messages from the agent into the
-           conversation. Known values are: "user" and "assistant". Required.
+         * `user`: Indicates the message is sent by an actual user and should be used in most
+         cases to represent user-generated messages.
+         * `assistant`: Indicates the message is generated by the agent. Use this value to insert
+         messages from the agent into the
+         conversation. Known values are: "user" and "assistant". Required.
         :paramtype role: str or ~azure.ai.projects.models.MessageRole
         :keyword content: The textual content of the initial message. Currently, robust input including
          images and annotated text may only be provided via
@@ -2802,12 +2837,11 @@ class AgentsOperations:  # pylint: disable=too-many-public-methods
         :type body: JSON or IO[bytes]
         :keyword role: The role of the entity that is creating the message. Allowed values include:
 
-
-         * ``user``\\ : Indicates the message is sent by an actual user and should be used in most
-           cases to represent user-generated messages.
-         * ``assistant``\\ : Indicates the message is generated by the agent. Use this value to insert
-           messages from the agent into the
-           conversation. Known values are: "user" and "assistant". Required.
+         * `user`: Indicates the message is sent by an actual user and should be used in most
+         cases to represent user-generated messages.
+         * `assistant`: Indicates the message is generated by the agent. Use this value to insert
+         messages from the agent into the
+         conversation. Known values are: "user" and "assistant". Required.
         :paramtype role: str or ~azure.ai.projects.models.MessageRole
         :keyword content: The textual content of the initial message. Currently, robust input including
          images and annotated text may only be provided via
@@ -2862,12 +2896,16 @@ class AgentsOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
-            "subscriptionId": self._serialize.url("self._config.subscription_id", self._config.subscription_id, "str"),
-            "resourceGroupName": self._serialize.url(
-                "self._config.resource_group_name", self._config.resource_group_name, "str"
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "subscriptionId": self._serialize.url(
+                "self._config.subscription_id", self._config.subscription_id, "str", skip_quote=True
             ),
-            "projectName": self._serialize.url("self._config.project_name", self._config.project_name, "str"),
+            "resourceGroupName": self._serialize.url(
+                "self._config.resource_group_name", self._config.resource_group_name, "str", skip_quote=True
+            ),
+            "projectName": self._serialize.url(
+                "self._config.project_name", self._config.project_name, "str", skip_quote=True
+            ),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -2961,12 +2999,16 @@ class AgentsOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
-            "subscriptionId": self._serialize.url("self._config.subscription_id", self._config.subscription_id, "str"),
-            "resourceGroupName": self._serialize.url(
-                "self._config.resource_group_name", self._config.resource_group_name, "str"
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "subscriptionId": self._serialize.url(
+                "self._config.subscription_id", self._config.subscription_id, "str", skip_quote=True
             ),
-            "projectName": self._serialize.url("self._config.project_name", self._config.project_name, "str"),
+            "resourceGroupName": self._serialize.url(
+                "self._config.resource_group_name", self._config.resource_group_name, "str", skip_quote=True
+            ),
+            "projectName": self._serialize.url(
+                "self._config.project_name", self._config.project_name, "str", skip_quote=True
+            ),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -3029,12 +3071,16 @@ class AgentsOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
-            "subscriptionId": self._serialize.url("self._config.subscription_id", self._config.subscription_id, "str"),
-            "resourceGroupName": self._serialize.url(
-                "self._config.resource_group_name", self._config.resource_group_name, "str"
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "subscriptionId": self._serialize.url(
+                "self._config.subscription_id", self._config.subscription_id, "str", skip_quote=True
             ),
-            "projectName": self._serialize.url("self._config.project_name", self._config.project_name, "str"),
+            "resourceGroupName": self._serialize.url(
+                "self._config.resource_group_name", self._config.resource_group_name, "str", skip_quote=True
+            ),
+            "projectName": self._serialize.url(
+                "self._config.project_name", self._config.project_name, "str", skip_quote=True
+            ),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -3194,12 +3240,16 @@ class AgentsOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
-            "subscriptionId": self._serialize.url("self._config.subscription_id", self._config.subscription_id, "str"),
-            "resourceGroupName": self._serialize.url(
-                "self._config.resource_group_name", self._config.resource_group_name, "str"
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "subscriptionId": self._serialize.url(
+                "self._config.subscription_id", self._config.subscription_id, "str", skip_quote=True
             ),
-            "projectName": self._serialize.url("self._config.project_name", self._config.project_name, "str"),
+            "resourceGroupName": self._serialize.url(
+                "self._config.resource_group_name", self._config.resource_group_name, "str", skip_quote=True
+            ),
+            "projectName": self._serialize.url(
+                "self._config.project_name", self._config.project_name, "str", skip_quote=True
+            ),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -3284,8 +3334,8 @@ class AgentsOperations:  # pylint: disable=too-many-public-methods
         :keyword tools: The overridden list of enabled tools that the agent should use to run the
          thread. Default value is None.
         :paramtype tools: list[~azure.ai.projects.models.ToolDefinition]
-        :keyword stream_parameter: If ``true``\\ , returns a stream of events that happen during the
-         Run as server-sent events,
+        :keyword stream_parameter: If ``true``, returns a stream of events that happen during the Run
+         as server-sent events,
          terminating when the Run enters a terminal state with a ``data: [DONE]`` message. Default
          value is None.
         :paramtype stream_parameter: bool
@@ -3454,8 +3504,8 @@ class AgentsOperations:  # pylint: disable=too-many-public-methods
         :keyword tools: The overridden list of enabled tools that the agent should use to run the
          thread. Default value is None.
         :paramtype tools: list[~azure.ai.projects.models.ToolDefinition]
-        :keyword stream_parameter: If ``true``\\ , returns a stream of events that happen during the
-         Run as server-sent events,
+        :keyword stream_parameter: If ``true``, returns a stream of events that happen during the Run
+         as server-sent events,
          terminating when the Run enters a terminal state with a ``data: [DONE]`` message. Default
          value is None.
         :paramtype stream_parameter: bool
@@ -3564,12 +3614,16 @@ class AgentsOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
-            "subscriptionId": self._serialize.url("self._config.subscription_id", self._config.subscription_id, "str"),
-            "resourceGroupName": self._serialize.url(
-                "self._config.resource_group_name", self._config.resource_group_name, "str"
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "subscriptionId": self._serialize.url(
+                "self._config.subscription_id", self._config.subscription_id, "str", skip_quote=True
             ),
-            "projectName": self._serialize.url("self._config.project_name", self._config.project_name, "str"),
+            "resourceGroupName": self._serialize.url(
+                "self._config.resource_group_name", self._config.resource_group_name, "str", skip_quote=True
+            ),
+            "projectName": self._serialize.url(
+                "self._config.project_name", self._config.project_name, "str", skip_quote=True
+            ),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -3659,12 +3713,16 @@ class AgentsOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
-            "subscriptionId": self._serialize.url("self._config.subscription_id", self._config.subscription_id, "str"),
-            "resourceGroupName": self._serialize.url(
-                "self._config.resource_group_name", self._config.resource_group_name, "str"
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "subscriptionId": self._serialize.url(
+                "self._config.subscription_id", self._config.subscription_id, "str", skip_quote=True
             ),
-            "projectName": self._serialize.url("self._config.project_name", self._config.project_name, "str"),
+            "resourceGroupName": self._serialize.url(
+                "self._config.resource_group_name", self._config.resource_group_name, "str", skip_quote=True
+            ),
+            "projectName": self._serialize.url(
+                "self._config.project_name", self._config.project_name, "str", skip_quote=True
+            ),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -3727,12 +3785,16 @@ class AgentsOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
-            "subscriptionId": self._serialize.url("self._config.subscription_id", self._config.subscription_id, "str"),
-            "resourceGroupName": self._serialize.url(
-                "self._config.resource_group_name", self._config.resource_group_name, "str"
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "subscriptionId": self._serialize.url(
+                "self._config.subscription_id", self._config.subscription_id, "str", skip_quote=True
             ),
-            "projectName": self._serialize.url("self._config.project_name", self._config.project_name, "str"),
+            "resourceGroupName": self._serialize.url(
+                "self._config.resource_group_name", self._config.resource_group_name, "str", skip_quote=True
+            ),
+            "projectName": self._serialize.url(
+                "self._config.project_name", self._config.project_name, "str", skip_quote=True
+            ),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -3892,12 +3954,16 @@ class AgentsOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
-            "subscriptionId": self._serialize.url("self._config.subscription_id", self._config.subscription_id, "str"),
-            "resourceGroupName": self._serialize.url(
-                "self._config.resource_group_name", self._config.resource_group_name, "str"
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "subscriptionId": self._serialize.url(
+                "self._config.subscription_id", self._config.subscription_id, "str", skip_quote=True
             ),
-            "projectName": self._serialize.url("self._config.project_name", self._config.project_name, "str"),
+            "resourceGroupName": self._serialize.url(
+                "self._config.resource_group_name", self._config.resource_group_name, "str", skip_quote=True
+            ),
+            "projectName": self._serialize.url(
+                "self._config.project_name", self._config.project_name, "str", skip_quote=True
+            ),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -4069,12 +4135,16 @@ class AgentsOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
-            "subscriptionId": self._serialize.url("self._config.subscription_id", self._config.subscription_id, "str"),
-            "resourceGroupName": self._serialize.url(
-                "self._config.resource_group_name", self._config.resource_group_name, "str"
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "subscriptionId": self._serialize.url(
+                "self._config.subscription_id", self._config.subscription_id, "str", skip_quote=True
             ),
-            "projectName": self._serialize.url("self._config.project_name", self._config.project_name, "str"),
+            "resourceGroupName": self._serialize.url(
+                "self._config.resource_group_name", self._config.resource_group_name, "str", skip_quote=True
+            ),
+            "projectName": self._serialize.url(
+                "self._config.project_name", self._config.project_name, "str", skip_quote=True
+            ),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -4137,12 +4207,16 @@ class AgentsOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
-            "subscriptionId": self._serialize.url("self._config.subscription_id", self._config.subscription_id, "str"),
-            "resourceGroupName": self._serialize.url(
-                "self._config.resource_group_name", self._config.resource_group_name, "str"
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "subscriptionId": self._serialize.url(
+                "self._config.subscription_id", self._config.subscription_id, "str", skip_quote=True
             ),
-            "projectName": self._serialize.url("self._config.project_name", self._config.project_name, "str"),
+            "resourceGroupName": self._serialize.url(
+                "self._config.resource_group_name", self._config.resource_group_name, "str", skip_quote=True
+            ),
+            "projectName": self._serialize.url(
+                "self._config.project_name", self._config.project_name, "str", skip_quote=True
+            ),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -4217,8 +4291,8 @@ class AgentsOperations:  # pylint: disable=too-many-public-methods
         :keyword tool_resources: Override the tools the agent can use for this run. This is useful for
          modifying the behavior on a per-run basis. Default value is None.
         :paramtype tool_resources: ~azure.ai.projects.models.UpdateToolResourcesOptions
-        :keyword stream_parameter: If ``true``\\ , returns a stream of events that happen during the
-         Run as server-sent events,
+        :keyword stream_parameter: If ``true``, returns a stream of events that happen during the Run
+         as server-sent events,
          terminating when the Run enters a terminal state with a ``data: [DONE]`` message. Default
          value is None.
         :paramtype stream_parameter: bool
@@ -4351,8 +4425,8 @@ class AgentsOperations:  # pylint: disable=too-many-public-methods
         :keyword tool_resources: Override the tools the agent can use for this run. This is useful for
          modifying the behavior on a per-run basis. Default value is None.
         :paramtype tool_resources: ~azure.ai.projects.models.UpdateToolResourcesOptions
-        :keyword stream_parameter: If ``true``\\ , returns a stream of events that happen during the
-         Run as server-sent events,
+        :keyword stream_parameter: If ``true``, returns a stream of events that happen during the Run
+         as server-sent events,
          terminating when the Run enters a terminal state with a ``data: [DONE]`` message. Default
          value is None.
         :paramtype stream_parameter: bool
@@ -4459,12 +4533,16 @@ class AgentsOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
-            "subscriptionId": self._serialize.url("self._config.subscription_id", self._config.subscription_id, "str"),
-            "resourceGroupName": self._serialize.url(
-                "self._config.resource_group_name", self._config.resource_group_name, "str"
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "subscriptionId": self._serialize.url(
+                "self._config.subscription_id", self._config.subscription_id, "str", skip_quote=True
             ),
-            "projectName": self._serialize.url("self._config.project_name", self._config.project_name, "str"),
+            "resourceGroupName": self._serialize.url(
+                "self._config.resource_group_name", self._config.resource_group_name, "str", skip_quote=True
+            ),
+            "projectName": self._serialize.url(
+                "self._config.project_name", self._config.project_name, "str", skip_quote=True
+            ),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -4544,12 +4622,16 @@ class AgentsOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
-            "subscriptionId": self._serialize.url("self._config.subscription_id", self._config.subscription_id, "str"),
-            "resourceGroupName": self._serialize.url(
-                "self._config.resource_group_name", self._config.resource_group_name, "str"
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "subscriptionId": self._serialize.url(
+                "self._config.subscription_id", self._config.subscription_id, "str", skip_quote=True
             ),
-            "projectName": self._serialize.url("self._config.project_name", self._config.project_name, "str"),
+            "resourceGroupName": self._serialize.url(
+                "self._config.resource_group_name", self._config.resource_group_name, "str", skip_quote=True
+            ),
+            "projectName": self._serialize.url(
+                "self._config.project_name", self._config.project_name, "str", skip_quote=True
+            ),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -4650,12 +4732,16 @@ class AgentsOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
-            "subscriptionId": self._serialize.url("self._config.subscription_id", self._config.subscription_id, "str"),
-            "resourceGroupName": self._serialize.url(
-                "self._config.resource_group_name", self._config.resource_group_name, "str"
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "subscriptionId": self._serialize.url(
+                "self._config.subscription_id", self._config.subscription_id, "str", skip_quote=True
             ),
-            "projectName": self._serialize.url("self._config.project_name", self._config.project_name, "str"),
+            "resourceGroupName": self._serialize.url(
+                "self._config.resource_group_name", self._config.resource_group_name, "str", skip_quote=True
+            ),
+            "projectName": self._serialize.url(
+                "self._config.project_name", self._config.project_name, "str", skip_quote=True
+            ),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -4719,12 +4805,16 @@ class AgentsOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
-            "subscriptionId": self._serialize.url("self._config.subscription_id", self._config.subscription_id, "str"),
-            "resourceGroupName": self._serialize.url(
-                "self._config.resource_group_name", self._config.resource_group_name, "str"
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "subscriptionId": self._serialize.url(
+                "self._config.subscription_id", self._config.subscription_id, "str", skip_quote=True
             ),
-            "projectName": self._serialize.url("self._config.project_name", self._config.project_name, "str"),
+            "resourceGroupName": self._serialize.url(
+                "self._config.resource_group_name", self._config.resource_group_name, "str", skip_quote=True
+            ),
+            "projectName": self._serialize.url(
+                "self._config.project_name", self._config.project_name, "str", skip_quote=True
+            ),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -4845,12 +4935,16 @@ class AgentsOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
-            "subscriptionId": self._serialize.url("self._config.subscription_id", self._config.subscription_id, "str"),
-            "resourceGroupName": self._serialize.url(
-                "self._config.resource_group_name", self._config.resource_group_name, "str"
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "subscriptionId": self._serialize.url(
+                "self._config.subscription_id", self._config.subscription_id, "str", skip_quote=True
             ),
-            "projectName": self._serialize.url("self._config.project_name", self._config.project_name, "str"),
+            "resourceGroupName": self._serialize.url(
+                "self._config.resource_group_name", self._config.resource_group_name, "str", skip_quote=True
+            ),
+            "projectName": self._serialize.url(
+                "self._config.project_name", self._config.project_name, "str", skip_quote=True
+            ),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -4910,12 +5004,16 @@ class AgentsOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
-            "subscriptionId": self._serialize.url("self._config.subscription_id", self._config.subscription_id, "str"),
-            "resourceGroupName": self._serialize.url(
-                "self._config.resource_group_name", self._config.resource_group_name, "str"
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "subscriptionId": self._serialize.url(
+                "self._config.subscription_id", self._config.subscription_id, "str", skip_quote=True
             ),
-            "projectName": self._serialize.url("self._config.project_name", self._config.project_name, "str"),
+            "resourceGroupName": self._serialize.url(
+                "self._config.resource_group_name", self._config.resource_group_name, "str", skip_quote=True
+            ),
+            "projectName": self._serialize.url(
+                "self._config.project_name", self._config.project_name, "str", skip_quote=True
+            ),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -4975,12 +5073,16 @@ class AgentsOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
-            "subscriptionId": self._serialize.url("self._config.subscription_id", self._config.subscription_id, "str"),
-            "resourceGroupName": self._serialize.url(
-                "self._config.resource_group_name", self._config.resource_group_name, "str"
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "subscriptionId": self._serialize.url(
+                "self._config.subscription_id", self._config.subscription_id, "str", skip_quote=True
             ),
-            "projectName": self._serialize.url("self._config.project_name", self._config.project_name, "str"),
+            "resourceGroupName": self._serialize.url(
+                "self._config.resource_group_name", self._config.resource_group_name, "str", skip_quote=True
+            ),
+            "projectName": self._serialize.url(
+                "self._config.project_name", self._config.project_name, "str", skip_quote=True
+            ),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -5011,13 +5113,13 @@ class AgentsOperations:  # pylint: disable=too-many-public-methods
         return deserialized  # type: ignore
 
     @distributed_trace
-    def _get_file_content(self, file_id: str, **kwargs: Any) -> bytes:
+    def _get_file_content(self, file_id: str, **kwargs: Any) -> Iterator[bytes]:
         """Retrieves the raw content of a specific file.
 
         :param file_id: The ID of the file to retrieve. Required.
         :type file_id: str
-        :return: bytes
-        :rtype: bytes
+        :return: Iterator[bytes]
+        :rtype: Iterator[bytes]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -5031,7 +5133,7 @@ class AgentsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[bytes] = kwargs.pop("cls", None)
+        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
 
         _request = build_agents_get_file_content_request(
             file_id=file_id,
@@ -5040,16 +5142,20 @@ class AgentsOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
-            "subscriptionId": self._serialize.url("self._config.subscription_id", self._config.subscription_id, "str"),
-            "resourceGroupName": self._serialize.url(
-                "self._config.resource_group_name", self._config.resource_group_name, "str"
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "subscriptionId": self._serialize.url(
+                "self._config.subscription_id", self._config.subscription_id, "str", skip_quote=True
             ),
-            "projectName": self._serialize.url("self._config.project_name", self._config.project_name, "str"),
+            "resourceGroupName": self._serialize.url(
+                "self._config.resource_group_name", self._config.resource_group_name, "str", skip_quote=True
+            ),
+            "projectName": self._serialize.url(
+                "self._config.project_name", self._config.project_name, "str", skip_quote=True
+            ),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
-        _stream = kwargs.pop("stream", False)
+        _stream = kwargs.pop("stream", True)
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
@@ -5065,10 +5171,7 @@ class AgentsOperations:  # pylint: disable=too-many-public-methods
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response)
 
-        if _stream:
-            deserialized = response.iter_bytes()
-        else:
-            deserialized = _deserialize(bytes, response.json(), format="base64")
+        deserialized = response.iter_bytes()
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -5131,12 +5234,16 @@ class AgentsOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
-            "subscriptionId": self._serialize.url("self._config.subscription_id", self._config.subscription_id, "str"),
-            "resourceGroupName": self._serialize.url(
-                "self._config.resource_group_name", self._config.resource_group_name, "str"
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "subscriptionId": self._serialize.url(
+                "self._config.subscription_id", self._config.subscription_id, "str", skip_quote=True
             ),
-            "projectName": self._serialize.url("self._config.project_name", self._config.project_name, "str"),
+            "resourceGroupName": self._serialize.url(
+                "self._config.resource_group_name", self._config.resource_group_name, "str", skip_quote=True
+            ),
+            "projectName": self._serialize.url(
+                "self._config.project_name", self._config.project_name, "str", skip_quote=True
+            ),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -5317,12 +5424,16 @@ class AgentsOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
-            "subscriptionId": self._serialize.url("self._config.subscription_id", self._config.subscription_id, "str"),
-            "resourceGroupName": self._serialize.url(
-                "self._config.resource_group_name", self._config.resource_group_name, "str"
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "subscriptionId": self._serialize.url(
+                "self._config.subscription_id", self._config.subscription_id, "str", skip_quote=True
             ),
-            "projectName": self._serialize.url("self._config.project_name", self._config.project_name, "str"),
+            "resourceGroupName": self._serialize.url(
+                "self._config.resource_group_name", self._config.resource_group_name, "str", skip_quote=True
+            ),
+            "projectName": self._serialize.url(
+                "self._config.project_name", self._config.project_name, "str", skip_quote=True
+            ),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -5382,12 +5493,16 @@ class AgentsOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
-            "subscriptionId": self._serialize.url("self._config.subscription_id", self._config.subscription_id, "str"),
-            "resourceGroupName": self._serialize.url(
-                "self._config.resource_group_name", self._config.resource_group_name, "str"
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "subscriptionId": self._serialize.url(
+                "self._config.subscription_id", self._config.subscription_id, "str", skip_quote=True
             ),
-            "projectName": self._serialize.url("self._config.project_name", self._config.project_name, "str"),
+            "resourceGroupName": self._serialize.url(
+                "self._config.resource_group_name", self._config.resource_group_name, "str", skip_quote=True
+            ),
+            "projectName": self._serialize.url(
+                "self._config.project_name", self._config.project_name, "str", skip_quote=True
+            ),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -5548,12 +5663,16 @@ class AgentsOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
-            "subscriptionId": self._serialize.url("self._config.subscription_id", self._config.subscription_id, "str"),
-            "resourceGroupName": self._serialize.url(
-                "self._config.resource_group_name", self._config.resource_group_name, "str"
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "subscriptionId": self._serialize.url(
+                "self._config.subscription_id", self._config.subscription_id, "str", skip_quote=True
             ),
-            "projectName": self._serialize.url("self._config.project_name", self._config.project_name, "str"),
+            "resourceGroupName": self._serialize.url(
+                "self._config.resource_group_name", self._config.resource_group_name, "str", skip_quote=True
+            ),
+            "projectName": self._serialize.url(
+                "self._config.project_name", self._config.project_name, "str", skip_quote=True
+            ),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -5614,12 +5733,16 @@ class AgentsOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
-            "subscriptionId": self._serialize.url("self._config.subscription_id", self._config.subscription_id, "str"),
-            "resourceGroupName": self._serialize.url(
-                "self._config.resource_group_name", self._config.resource_group_name, "str"
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "subscriptionId": self._serialize.url(
+                "self._config.subscription_id", self._config.subscription_id, "str", skip_quote=True
             ),
-            "projectName": self._serialize.url("self._config.project_name", self._config.project_name, "str"),
+            "resourceGroupName": self._serialize.url(
+                "self._config.resource_group_name", self._config.resource_group_name, "str", skip_quote=True
+            ),
+            "projectName": self._serialize.url(
+                "self._config.project_name", self._config.project_name, "str", skip_quote=True
+            ),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -5714,12 +5837,16 @@ class AgentsOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
-            "subscriptionId": self._serialize.url("self._config.subscription_id", self._config.subscription_id, "str"),
-            "resourceGroupName": self._serialize.url(
-                "self._config.resource_group_name", self._config.resource_group_name, "str"
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "subscriptionId": self._serialize.url(
+                "self._config.subscription_id", self._config.subscription_id, "str", skip_quote=True
             ),
-            "projectName": self._serialize.url("self._config.project_name", self._config.project_name, "str"),
+            "resourceGroupName": self._serialize.url(
+                "self._config.resource_group_name", self._config.resource_group_name, "str", skip_quote=True
+            ),
+            "projectName": self._serialize.url(
+                "self._config.project_name", self._config.project_name, "str", skip_quote=True
+            ),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -5876,12 +6003,16 @@ class AgentsOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
-            "subscriptionId": self._serialize.url("self._config.subscription_id", self._config.subscription_id, "str"),
-            "resourceGroupName": self._serialize.url(
-                "self._config.resource_group_name", self._config.resource_group_name, "str"
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "subscriptionId": self._serialize.url(
+                "self._config.subscription_id", self._config.subscription_id, "str", skip_quote=True
             ),
-            "projectName": self._serialize.url("self._config.project_name", self._config.project_name, "str"),
+            "resourceGroupName": self._serialize.url(
+                "self._config.resource_group_name", self._config.resource_group_name, "str", skip_quote=True
+            ),
+            "projectName": self._serialize.url(
+                "self._config.project_name", self._config.project_name, "str", skip_quote=True
+            ),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -5944,12 +6075,16 @@ class AgentsOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
-            "subscriptionId": self._serialize.url("self._config.subscription_id", self._config.subscription_id, "str"),
-            "resourceGroupName": self._serialize.url(
-                "self._config.resource_group_name", self._config.resource_group_name, "str"
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "subscriptionId": self._serialize.url(
+                "self._config.subscription_id", self._config.subscription_id, "str", skip_quote=True
             ),
-            "projectName": self._serialize.url("self._config.project_name", self._config.project_name, "str"),
+            "resourceGroupName": self._serialize.url(
+                "self._config.resource_group_name", self._config.resource_group_name, "str", skip_quote=True
+            ),
+            "projectName": self._serialize.url(
+                "self._config.project_name", self._config.project_name, "str", skip_quote=True
+            ),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -6017,12 +6152,16 @@ class AgentsOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
-            "subscriptionId": self._serialize.url("self._config.subscription_id", self._config.subscription_id, "str"),
-            "resourceGroupName": self._serialize.url(
-                "self._config.resource_group_name", self._config.resource_group_name, "str"
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "subscriptionId": self._serialize.url(
+                "self._config.subscription_id", self._config.subscription_id, "str", skip_quote=True
             ),
-            "projectName": self._serialize.url("self._config.project_name", self._config.project_name, "str"),
+            "resourceGroupName": self._serialize.url(
+                "self._config.resource_group_name", self._config.resource_group_name, "str", skip_quote=True
+            ),
+            "projectName": self._serialize.url(
+                "self._config.project_name", self._config.project_name, "str", skip_quote=True
+            ),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -6179,12 +6318,16 @@ class AgentsOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
-            "subscriptionId": self._serialize.url("self._config.subscription_id", self._config.subscription_id, "str"),
-            "resourceGroupName": self._serialize.url(
-                "self._config.resource_group_name", self._config.resource_group_name, "str"
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "subscriptionId": self._serialize.url(
+                "self._config.subscription_id", self._config.subscription_id, "str", skip_quote=True
             ),
-            "projectName": self._serialize.url("self._config.project_name", self._config.project_name, "str"),
+            "resourceGroupName": self._serialize.url(
+                "self._config.resource_group_name", self._config.resource_group_name, "str", skip_quote=True
+            ),
+            "projectName": self._serialize.url(
+                "self._config.project_name", self._config.project_name, "str", skip_quote=True
+            ),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -6249,12 +6392,16 @@ class AgentsOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
-            "subscriptionId": self._serialize.url("self._config.subscription_id", self._config.subscription_id, "str"),
-            "resourceGroupName": self._serialize.url(
-                "self._config.resource_group_name", self._config.resource_group_name, "str"
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "subscriptionId": self._serialize.url(
+                "self._config.subscription_id", self._config.subscription_id, "str", skip_quote=True
             ),
-            "projectName": self._serialize.url("self._config.project_name", self._config.project_name, "str"),
+            "resourceGroupName": self._serialize.url(
+                "self._config.resource_group_name", self._config.resource_group_name, "str", skip_quote=True
+            ),
+            "projectName": self._serialize.url(
+                "self._config.project_name", self._config.project_name, "str", skip_quote=True
+            ),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -6320,12 +6467,16 @@ class AgentsOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
-            "subscriptionId": self._serialize.url("self._config.subscription_id", self._config.subscription_id, "str"),
-            "resourceGroupName": self._serialize.url(
-                "self._config.resource_group_name", self._config.resource_group_name, "str"
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "subscriptionId": self._serialize.url(
+                "self._config.subscription_id", self._config.subscription_id, "str", skip_quote=True
             ),
-            "projectName": self._serialize.url("self._config.project_name", self._config.project_name, "str"),
+            "resourceGroupName": self._serialize.url(
+                "self._config.resource_group_name", self._config.resource_group_name, "str", skip_quote=True
+            ),
+            "projectName": self._serialize.url(
+                "self._config.project_name", self._config.project_name, "str", skip_quote=True
+            ),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -6424,12 +6575,16 @@ class AgentsOperations:  # pylint: disable=too-many-public-methods
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
-            "subscriptionId": self._serialize.url("self._config.subscription_id", self._config.subscription_id, "str"),
-            "resourceGroupName": self._serialize.url(
-                "self._config.resource_group_name", self._config.resource_group_name, "str"
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "subscriptionId": self._serialize.url(
+                "self._config.subscription_id", self._config.subscription_id, "str", skip_quote=True
             ),
-            "projectName": self._serialize.url("self._config.project_name", self._config.project_name, "str"),
+            "resourceGroupName": self._serialize.url(
+                "self._config.resource_group_name", self._config.resource_group_name, "str", skip_quote=True
+            ),
+            "projectName": self._serialize.url(
+                "self._config.project_name", self._config.project_name, "str", skip_quote=True
+            ),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -6504,12 +6659,16 @@ class ConnectionsOperations:
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
-            "subscriptionId": self._serialize.url("self._config.subscription_id", self._config.subscription_id, "str"),
-            "resourceGroupName": self._serialize.url(
-                "self._config.resource_group_name", self._config.resource_group_name, "str"
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "subscriptionId": self._serialize.url(
+                "self._config.subscription_id", self._config.subscription_id, "str", skip_quote=True
             ),
-            "projectName": self._serialize.url("self._config.project_name", self._config.project_name, "str"),
+            "resourceGroupName": self._serialize.url(
+                "self._config.resource_group_name", self._config.resource_group_name, "str", skip_quote=True
+            ),
+            "projectName": self._serialize.url(
+                "self._config.project_name", self._config.project_name, "str", skip_quote=True
+            ),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -6553,8 +6712,8 @@ class ConnectionsOperations:
         """List the details of all the connections (not including their credentials).
 
         :keyword category: Category of the workspace connection. Known values are: "AzureOpenAI",
-         "Serverless", "AzureBlob", "AIServices", "CognitiveSearch", and "API Key". Default value is
-         None.
+         "Serverless", "AzureBlob", "AIServices", "CognitiveSearch", "ApiKey", "CustomKeys", and
+         "CognitiveService". Default value is None.
         :paramtype category: str or ~azure.ai.projects.models.ConnectionType
         :keyword include_all: Indicates whether to list datastores. Service default: do not list
          datastores. Default value is None.
@@ -6587,12 +6746,16 @@ class ConnectionsOperations:
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
-            "subscriptionId": self._serialize.url("self._config.subscription_id", self._config.subscription_id, "str"),
-            "resourceGroupName": self._serialize.url(
-                "self._config.resource_group_name", self._config.resource_group_name, "str"
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "subscriptionId": self._serialize.url(
+                "self._config.subscription_id", self._config.subscription_id, "str", skip_quote=True
             ),
-            "projectName": self._serialize.url("self._config.project_name", self._config.project_name, "str"),
+            "resourceGroupName": self._serialize.url(
+                "self._config.resource_group_name", self._config.resource_group_name, "str", skip_quote=True
+            ),
+            "projectName": self._serialize.url(
+                "self._config.project_name", self._config.project_name, "str", skip_quote=True
+            ),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -6654,12 +6817,16 @@ class ConnectionsOperations:
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
-            "subscriptionId": self._serialize.url("self._config.subscription_id", self._config.subscription_id, "str"),
-            "resourceGroupName": self._serialize.url(
-                "self._config.resource_group_name", self._config.resource_group_name, "str"
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "subscriptionId": self._serialize.url(
+                "self._config.subscription_id", self._config.subscription_id, "str", skip_quote=True
             ),
-            "projectName": self._serialize.url("self._config.project_name", self._config.project_name, "str"),
+            "resourceGroupName": self._serialize.url(
+                "self._config.resource_group_name", self._config.resource_group_name, "str", skip_quote=True
+            ),
+            "projectName": self._serialize.url(
+                "self._config.project_name", self._config.project_name, "str", skip_quote=True
+            ),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -6755,12 +6922,16 @@ class ConnectionsOperations:
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
-            "subscriptionId": self._serialize.url("self._config.subscription_id", self._config.subscription_id, "str"),
-            "resourceGroupName": self._serialize.url(
-                "self._config.resource_group_name", self._config.resource_group_name, "str"
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "subscriptionId": self._serialize.url(
+                "self._config.subscription_id", self._config.subscription_id, "str", skip_quote=True
             ),
-            "projectName": self._serialize.url("self._config.project_name", self._config.project_name, "str"),
+            "resourceGroupName": self._serialize.url(
+                "self._config.resource_group_name", self._config.resource_group_name, "str", skip_quote=True
+            ),
+            "projectName": self._serialize.url(
+                "self._config.project_name", self._config.project_name, "str", skip_quote=True
+            ),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -6845,12 +7016,16 @@ class TelemetryOperations:
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
-            "subscriptionId": self._serialize.url("self._config.subscription_id", self._config.subscription_id, "str"),
-            "resourceGroupName": self._serialize.url(
-                "self._config.resource_group_name", self._config.resource_group_name, "str"
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "subscriptionId": self._serialize.url(
+                "self._config.subscription_id", self._config.subscription_id, "str", skip_quote=True
             ),
-            "projectName": self._serialize.url("self._config.project_name", self._config.project_name, "str"),
+            "resourceGroupName": self._serialize.url(
+                "self._config.resource_group_name", self._config.resource_group_name, "str", skip_quote=True
+            ),
+            "projectName": self._serialize.url(
+                "self._config.project_name", self._config.project_name, "str", skip_quote=True
+            ),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -6930,12 +7105,16 @@ class EvaluationsOperations:
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
-            "subscriptionId": self._serialize.url("self._config.subscription_id", self._config.subscription_id, "str"),
-            "resourceGroupName": self._serialize.url(
-                "self._config.resource_group_name", self._config.resource_group_name, "str"
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "subscriptionId": self._serialize.url(
+                "self._config.subscription_id", self._config.subscription_id, "str", skip_quote=True
             ),
-            "projectName": self._serialize.url("self._config.project_name", self._config.project_name, "str"),
+            "resourceGroupName": self._serialize.url(
+                "self._config.resource_group_name", self._config.resource_group_name, "str", skip_quote=True
+            ),
+            "projectName": self._serialize.url(
+                "self._config.project_name", self._config.project_name, "str", skip_quote=True
+            ),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -7056,12 +7235,16 @@ class EvaluationsOperations:
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
-            "subscriptionId": self._serialize.url("self._config.subscription_id", self._config.subscription_id, "str"),
-            "resourceGroupName": self._serialize.url(
-                "self._config.resource_group_name", self._config.resource_group_name, "str"
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "subscriptionId": self._serialize.url(
+                "self._config.subscription_id", self._config.subscription_id, "str", skip_quote=True
             ),
-            "projectName": self._serialize.url("self._config.project_name", self._config.project_name, "str"),
+            "resourceGroupName": self._serialize.url(
+                "self._config.resource_group_name", self._config.resource_group_name, "str", skip_quote=True
+            ),
+            "projectName": self._serialize.url(
+                "self._config.project_name", self._config.project_name, "str", skip_quote=True
+            ),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -7131,14 +7314,18 @@ class EvaluationsOperations:
                     params=_params,
                 )
                 path_format_arguments = {
-                    "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
+                    "endpoint": self._serialize.url(
+                        "self._config.endpoint", self._config.endpoint, "str", skip_quote=True
+                    ),
                     "subscriptionId": self._serialize.url(
-                        "self._config.subscription_id", self._config.subscription_id, "str"
+                        "self._config.subscription_id", self._config.subscription_id, "str", skip_quote=True
                     ),
                     "resourceGroupName": self._serialize.url(
-                        "self._config.resource_group_name", self._config.resource_group_name, "str"
+                        "self._config.resource_group_name", self._config.resource_group_name, "str", skip_quote=True
                     ),
-                    "projectName": self._serialize.url("self._config.project_name", self._config.project_name, "str"),
+                    "projectName": self._serialize.url(
+                        "self._config.project_name", self._config.project_name, "str", skip_quote=True
+                    ),
                 }
                 _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -7156,14 +7343,18 @@ class EvaluationsOperations:
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
                 path_format_arguments = {
-                    "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
+                    "endpoint": self._serialize.url(
+                        "self._config.endpoint", self._config.endpoint, "str", skip_quote=True
+                    ),
                     "subscriptionId": self._serialize.url(
-                        "self._config.subscription_id", self._config.subscription_id, "str"
+                        "self._config.subscription_id", self._config.subscription_id, "str", skip_quote=True
                     ),
                     "resourceGroupName": self._serialize.url(
-                        "self._config.resource_group_name", self._config.resource_group_name, "str"
+                        "self._config.resource_group_name", self._config.resource_group_name, "str", skip_quote=True
                     ),
-                    "projectName": self._serialize.url("self._config.project_name", self._config.project_name, "str"),
+                    "projectName": self._serialize.url(
+                        "self._config.project_name", self._config.project_name, "str", skip_quote=True
+                    ),
                 }
                 _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -7171,7 +7362,7 @@ class EvaluationsOperations:
 
         def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.Evaluation], deserialized["value"])
+            list_of_elem = _deserialize(List[_models.Evaluation], deserialized.get("value", []))
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
             return deserialized.get("nextLink") or None, iter(list_of_elem)
@@ -7297,12 +7488,16 @@ class EvaluationsOperations:
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
-            "subscriptionId": self._serialize.url("self._config.subscription_id", self._config.subscription_id, "str"),
-            "resourceGroupName": self._serialize.url(
-                "self._config.resource_group_name", self._config.resource_group_name, "str"
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "subscriptionId": self._serialize.url(
+                "self._config.subscription_id", self._config.subscription_id, "str", skip_quote=True
             ),
-            "projectName": self._serialize.url("self._config.project_name", self._config.project_name, "str"),
+            "resourceGroupName": self._serialize.url(
+                "self._config.resource_group_name", self._config.resource_group_name, "str", skip_quote=True
+            ),
+            "projectName": self._serialize.url(
+                "self._config.project_name", self._config.project_name, "str", skip_quote=True
+            ),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -7368,12 +7563,16 @@ class EvaluationsOperations:
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
-            "subscriptionId": self._serialize.url("self._config.subscription_id", self._config.subscription_id, "str"),
-            "resourceGroupName": self._serialize.url(
-                "self._config.resource_group_name", self._config.resource_group_name, "str"
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "subscriptionId": self._serialize.url(
+                "self._config.subscription_id", self._config.subscription_id, "str", skip_quote=True
             ),
-            "projectName": self._serialize.url("self._config.project_name", self._config.project_name, "str"),
+            "resourceGroupName": self._serialize.url(
+                "self._config.resource_group_name", self._config.resource_group_name, "str", skip_quote=True
+            ),
+            "projectName": self._serialize.url(
+                "self._config.project_name", self._config.project_name, "str", skip_quote=True
+            ),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -7511,12 +7710,16 @@ class EvaluationsOperations:
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
-            "subscriptionId": self._serialize.url("self._config.subscription_id", self._config.subscription_id, "str"),
-            "resourceGroupName": self._serialize.url(
-                "self._config.resource_group_name", self._config.resource_group_name, "str"
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "subscriptionId": self._serialize.url(
+                "self._config.subscription_id", self._config.subscription_id, "str", skip_quote=True
             ),
-            "projectName": self._serialize.url("self._config.project_name", self._config.project_name, "str"),
+            "resourceGroupName": self._serialize.url(
+                "self._config.resource_group_name", self._config.resource_group_name, "str", skip_quote=True
+            ),
+            "projectName": self._serialize.url(
+                "self._config.project_name", self._config.project_name, "str", skip_quote=True
+            ),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -7591,14 +7794,18 @@ class EvaluationsOperations:
                     params=_params,
                 )
                 path_format_arguments = {
-                    "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
+                    "endpoint": self._serialize.url(
+                        "self._config.endpoint", self._config.endpoint, "str", skip_quote=True
+                    ),
                     "subscriptionId": self._serialize.url(
-                        "self._config.subscription_id", self._config.subscription_id, "str"
+                        "self._config.subscription_id", self._config.subscription_id, "str", skip_quote=True
                     ),
                     "resourceGroupName": self._serialize.url(
-                        "self._config.resource_group_name", self._config.resource_group_name, "str"
+                        "self._config.resource_group_name", self._config.resource_group_name, "str", skip_quote=True
                     ),
-                    "projectName": self._serialize.url("self._config.project_name", self._config.project_name, "str"),
+                    "projectName": self._serialize.url(
+                        "self._config.project_name", self._config.project_name, "str", skip_quote=True
+                    ),
                 }
                 _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -7616,14 +7823,18 @@ class EvaluationsOperations:
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
                 path_format_arguments = {
-                    "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
+                    "endpoint": self._serialize.url(
+                        "self._config.endpoint", self._config.endpoint, "str", skip_quote=True
+                    ),
                     "subscriptionId": self._serialize.url(
-                        "self._config.subscription_id", self._config.subscription_id, "str"
+                        "self._config.subscription_id", self._config.subscription_id, "str", skip_quote=True
                     ),
                     "resourceGroupName": self._serialize.url(
-                        "self._config.resource_group_name", self._config.resource_group_name, "str"
+                        "self._config.resource_group_name", self._config.resource_group_name, "str", skip_quote=True
                     ),
-                    "projectName": self._serialize.url("self._config.project_name", self._config.project_name, "str"),
+                    "projectName": self._serialize.url(
+                        "self._config.project_name", self._config.project_name, "str", skip_quote=True
+                    ),
                 }
                 _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -7631,7 +7842,7 @@ class EvaluationsOperations:
 
         def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.EvaluationSchedule], deserialized["value"])
+            list_of_elem = _deserialize(List[_models.EvaluationSchedule], deserialized.get("value", []))
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
             return deserialized.get("nextLink") or None, iter(list_of_elem)
@@ -7683,12 +7894,16 @@ class EvaluationsOperations:
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
-            "subscriptionId": self._serialize.url("self._config.subscription_id", self._config.subscription_id, "str"),
-            "resourceGroupName": self._serialize.url(
-                "self._config.resource_group_name", self._config.resource_group_name, "str"
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
+            "subscriptionId": self._serialize.url(
+                "self._config.subscription_id", self._config.subscription_id, "str", skip_quote=True
             ),
-            "projectName": self._serialize.url("self._config.project_name", self._config.project_name, "str"),
+            "resourceGroupName": self._serialize.url(
+                "self._config.resource_group_name", self._config.resource_group_name, "str", skip_quote=True
+            ),
+            "projectName": self._serialize.url(
+                "self._config.project_name", self._config.project_name, "str", skip_quote=True
+            ),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
