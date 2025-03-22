@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=line-too-long,useless-suppression,too-many-lines
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -93,12 +93,12 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Required.
         :type key_name: str
         :param parameters: The parameters to create a key. Required.
-        :type parameters: ~azure.keyvault.keys._generated.models.KeyCreateParameters
+        :type parameters: ~azure.keyvault.keys.models.KeyCreateParameters
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyBundle. The KeyBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyBundle
+        :rtype: ~azure.keyvault.keys.models.KeyBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -123,7 +123,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyBundle. The KeyBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyBundle
+        :rtype: ~azure.keyvault.keys.models.KeyBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -148,7 +148,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyBundle. The KeyBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyBundle
+        :rtype: ~azure.keyvault.keys.models.KeyBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -169,9 +169,9 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :type key_name: str
         :param parameters: The parameters to create a key. Is one of the following types:
          KeyCreateParameters, JSON, IO[bytes] Required.
-        :type parameters: ~azure.keyvault.keys._generated.models.KeyCreateParameters or JSON or IO[bytes]
+        :type parameters: ~azure.keyvault.keys.models.KeyCreateParameters or JSON or IO[bytes]
         :return: KeyBundle. The KeyBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyBundle
+        :rtype: ~azure.keyvault.keys.models.KeyBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -249,7 +249,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          specified key. Required.
         :type key_name: str
         :return: KeyBundle. The KeyBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyBundle
+        :rtype: ~azure.keyvault.keys.models.KeyBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -326,12 +326,12 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          identifiable or sensitive information. Required.
         :type key_name: str
         :param parameters: The parameters to import a key. Required.
-        :type parameters: ~azure.keyvault.keys._generated.models.KeyImportParameters
+        :type parameters: ~azure.keyvault.keys.models.KeyImportParameters
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyBundle. The KeyBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyBundle
+        :rtype: ~azure.keyvault.keys.models.KeyBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -356,7 +356,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyBundle. The KeyBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyBundle
+        :rtype: ~azure.keyvault.keys.models.KeyBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -381,7 +381,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyBundle. The KeyBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyBundle
+        :rtype: ~azure.keyvault.keys.models.KeyBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -402,9 +402,9 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :type key_name: str
         :param parameters: The parameters to import a key. Is one of the following types:
          KeyImportParameters, JSON, IO[bytes] Required.
-        :type parameters: ~azure.keyvault.keys._generated.models.KeyImportParameters or JSON or IO[bytes]
+        :type parameters: ~azure.keyvault.keys.models.KeyImportParameters or JSON or IO[bytes]
         :return: KeyBundle. The KeyBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyBundle
+        :rtype: ~azure.keyvault.keys.models.KeyBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -482,7 +482,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :param key_name: The name of the key to delete. Required.
         :type key_name: str
         :return: DeletedKeyBundle. The DeletedKeyBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.DeletedKeyBundle
+        :rtype: ~azure.keyvault.keys.models.DeletedKeyBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -560,12 +560,12 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :param key_version: The version of the key to update. Required.
         :type key_version: str
         :param parameters: The parameters of the key to update. Required.
-        :type parameters: ~azure.keyvault.keys._generated.models.KeyUpdateParameters
+        :type parameters: ~azure.keyvault.keys.models.KeyUpdateParameters
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyBundle. The KeyBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyBundle
+        :rtype: ~azure.keyvault.keys.models.KeyBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -596,7 +596,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyBundle. The KeyBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyBundle
+        :rtype: ~azure.keyvault.keys.models.KeyBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -627,7 +627,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyBundle. The KeyBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyBundle
+        :rtype: ~azure.keyvault.keys.models.KeyBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -652,9 +652,9 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :type key_version: str
         :param parameters: The parameters of the key to update. Is one of the following types:
          KeyUpdateParameters, JSON, IO[bytes] Required.
-        :type parameters: ~azure.keyvault.keys._generated.models.KeyUpdateParameters or JSON or IO[bytes]
+        :type parameters: ~azure.keyvault.keys.models.KeyUpdateParameters or JSON or IO[bytes]
         :return: KeyBundle. The KeyBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyBundle
+        :rtype: ~azure.keyvault.keys.models.KeyBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -735,7 +735,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Required.
         :type key_version: str
         :return: KeyBundle. The KeyBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyBundle
+        :rtype: ~azure.keyvault.keys.models.KeyBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -807,7 +807,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          service will return up to 25 results. Default value is None.
         :paramtype maxresults: int
         :return: An iterator like instance of KeyItem
-        :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.keyvault.keys._generated.models.KeyItem]
+        :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.keyvault.keys.models.KeyItem]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
@@ -864,7 +864,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
 
         async def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.KeyItem], deserialized["value"])
+            list_of_elem = _deserialize(List[_models.KeyItem], deserialized.get("value", []))
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
             return deserialized.get("nextLink") or None, AsyncList(list_of_elem)
@@ -900,7 +900,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          service will return up to 25 results. Default value is None.
         :paramtype maxresults: int
         :return: An iterator like instance of KeyItem
-        :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.keyvault.keys._generated.models.KeyItem]
+        :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.keyvault.keys.models.KeyItem]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
@@ -956,7 +956,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
 
         async def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.KeyItem], deserialized["value"])
+            list_of_elem = _deserialize(List[_models.KeyItem], deserialized.get("value", []))
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
             return deserialized.get("nextLink") or None, AsyncList(list_of_elem)
@@ -998,7 +998,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :param key_name: The name of the key. Required.
         :type key_name: str
         :return: BackupKeyResult. The BackupKeyResult is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.BackupKeyResult
+        :rtype: ~azure.keyvault.keys.models.BackupKeyResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -1072,12 +1072,12 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         in the target Key Vault. This operation requires the keys/restore permission.
 
         :param parameters: The parameters to restore the key. Required.
-        :type parameters: ~azure.keyvault.keys._generated.models.KeyRestoreParameters
+        :type parameters: ~azure.keyvault.keys.models.KeyRestoreParameters
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyBundle. The KeyBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyBundle
+        :rtype: ~azure.keyvault.keys.models.KeyBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -1104,7 +1104,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyBundle. The KeyBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyBundle
+        :rtype: ~azure.keyvault.keys.models.KeyBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -1131,7 +1131,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyBundle. The KeyBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyBundle
+        :rtype: ~azure.keyvault.keys.models.KeyBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -1154,9 +1154,9 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
 
         :param parameters: The parameters to restore the key. Is one of the following types:
          KeyRestoreParameters, JSON, IO[bytes] Required.
-        :type parameters: ~azure.keyvault.keys._generated.models.KeyRestoreParameters or JSON or IO[bytes]
+        :type parameters: ~azure.keyvault.keys.models.KeyRestoreParameters or JSON or IO[bytes]
         :return: KeyBundle. The KeyBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyBundle
+        :rtype: ~azure.keyvault.keys.models.KeyBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -1247,12 +1247,12 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :param key_version: The version of the key. Required.
         :type key_version: str
         :param parameters: The parameters for the encryption operation. Required.
-        :type parameters: ~azure.keyvault.keys._generated.models.KeyOperationsParameters
+        :type parameters: ~azure.keyvault.keys.models.KeyOperationsParameters
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyOperationResult. The KeyOperationResult is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyOperationResult
+        :rtype: ~azure.keyvault.keys.models.KeyOperationResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -1287,7 +1287,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyOperationResult. The KeyOperationResult is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyOperationResult
+        :rtype: ~azure.keyvault.keys.models.KeyOperationResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -1322,7 +1322,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyOperationResult. The KeyOperationResult is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyOperationResult
+        :rtype: ~azure.keyvault.keys.models.KeyOperationResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -1351,9 +1351,9 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :type key_version: str
         :param parameters: The parameters for the encryption operation. Is one of the following types:
          KeyOperationsParameters, JSON, IO[bytes] Required.
-        :type parameters: ~azure.keyvault.keys._generated.models.KeyOperationsParameters or JSON or IO[bytes]
+        :type parameters: ~azure.keyvault.keys.models.KeyOperationsParameters or JSON or IO[bytes]
         :return: KeyOperationResult. The KeyOperationResult is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyOperationResult
+        :rtype: ~azure.keyvault.keys.models.KeyOperationResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -1439,7 +1439,8 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         stored in Azure Key Vault since it uses the private portion of the key. This operation requires
         the keys/decrypt permission. Microsoft recommends not to use CBC algorithms for decryption
         without first ensuring the integrity of the ciphertext using an HMAC, for example. See
-        https://learn.microsoft.com/dotnet/standard/security/vulnerabilities-cbc-mode for more
+        `https://learn.microsoft.com/dotnet/standard/security/vulnerabilities-cbc-mode
+        <https://learn.microsoft.com/dotnet/standard/security/vulnerabilities-cbc-mode>`_ for more
         information.
 
         :param key_name: The name of the key. Required.
@@ -1447,12 +1448,12 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :param key_version: The version of the key. Required.
         :type key_version: str
         :param parameters: The parameters for the decryption operation. Required.
-        :type parameters: ~azure.keyvault.keys._generated.models.KeyOperationsParameters
+        :type parameters: ~azure.keyvault.keys.models.KeyOperationsParameters
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyOperationResult. The KeyOperationResult is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyOperationResult
+        :rtype: ~azure.keyvault.keys.models.KeyOperationResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -1475,7 +1476,8 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         stored in Azure Key Vault since it uses the private portion of the key. This operation requires
         the keys/decrypt permission. Microsoft recommends not to use CBC algorithms for decryption
         without first ensuring the integrity of the ciphertext using an HMAC, for example. See
-        https://learn.microsoft.com/dotnet/standard/security/vulnerabilities-cbc-mode for more
+        `https://learn.microsoft.com/dotnet/standard/security/vulnerabilities-cbc-mode
+        <https://learn.microsoft.com/dotnet/standard/security/vulnerabilities-cbc-mode>`_ for more
         information.
 
         :param key_name: The name of the key. Required.
@@ -1488,7 +1490,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyOperationResult. The KeyOperationResult is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyOperationResult
+        :rtype: ~azure.keyvault.keys.models.KeyOperationResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -1511,7 +1513,8 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         stored in Azure Key Vault since it uses the private portion of the key. This operation requires
         the keys/decrypt permission. Microsoft recommends not to use CBC algorithms for decryption
         without first ensuring the integrity of the ciphertext using an HMAC, for example. See
-        https://learn.microsoft.com/dotnet/standard/security/vulnerabilities-cbc-mode for more
+        `https://learn.microsoft.com/dotnet/standard/security/vulnerabilities-cbc-mode
+        <https://learn.microsoft.com/dotnet/standard/security/vulnerabilities-cbc-mode>`_ for more
         information.
 
         :param key_name: The name of the key. Required.
@@ -1524,7 +1527,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyOperationResult. The KeyOperationResult is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyOperationResult
+        :rtype: ~azure.keyvault.keys.models.KeyOperationResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -1545,7 +1548,8 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         stored in Azure Key Vault since it uses the private portion of the key. This operation requires
         the keys/decrypt permission. Microsoft recommends not to use CBC algorithms for decryption
         without first ensuring the integrity of the ciphertext using an HMAC, for example. See
-        https://learn.microsoft.com/dotnet/standard/security/vulnerabilities-cbc-mode for more
+        `https://learn.microsoft.com/dotnet/standard/security/vulnerabilities-cbc-mode
+        <https://learn.microsoft.com/dotnet/standard/security/vulnerabilities-cbc-mode>`_ for more
         information.
 
         :param key_name: The name of the key. Required.
@@ -1554,9 +1558,9 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :type key_version: str
         :param parameters: The parameters for the decryption operation. Is one of the following types:
          KeyOperationsParameters, JSON, IO[bytes] Required.
-        :type parameters: ~azure.keyvault.keys._generated.models.KeyOperationsParameters or JSON or IO[bytes]
+        :type parameters: ~azure.keyvault.keys.models.KeyOperationsParameters or JSON or IO[bytes]
         :return: KeyOperationResult. The KeyOperationResult is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyOperationResult
+        :rtype: ~azure.keyvault.keys.models.KeyOperationResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -1644,12 +1648,12 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :param key_version: The version of the key. Required.
         :type key_version: str
         :param parameters: The parameters for the signing operation. Required.
-        :type parameters: ~azure.keyvault.keys._generated.models.KeySignParameters
+        :type parameters: ~azure.keyvault.keys.models.KeySignParameters
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyOperationResult. The KeyOperationResult is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyOperationResult
+        :rtype: ~azure.keyvault.keys.models.KeyOperationResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -1679,7 +1683,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyOperationResult. The KeyOperationResult is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyOperationResult
+        :rtype: ~azure.keyvault.keys.models.KeyOperationResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -1709,7 +1713,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyOperationResult. The KeyOperationResult is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyOperationResult
+        :rtype: ~azure.keyvault.keys.models.KeyOperationResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -1733,9 +1737,9 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :type key_version: str
         :param parameters: The parameters for the signing operation. Is one of the following types:
          KeySignParameters, JSON, IO[bytes] Required.
-        :type parameters: ~azure.keyvault.keys._generated.models.KeySignParameters or JSON or IO[bytes]
+        :type parameters: ~azure.keyvault.keys.models.KeySignParameters or JSON or IO[bytes]
         :return: KeyOperationResult. The KeyOperationResult is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyOperationResult
+        :rtype: ~azure.keyvault.keys.models.KeyOperationResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -1825,12 +1829,12 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :param key_version: The version of the key. Required.
         :type key_version: str
         :param parameters: The parameters for verify operations. Required.
-        :type parameters: ~azure.keyvault.keys._generated.models.KeyVerifyParameters
+        :type parameters: ~azure.keyvault.keys.models.KeyVerifyParameters
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyVerifyResult. The KeyVerifyResult is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyVerifyResult
+        :rtype: ~azure.keyvault.keys.models.KeyVerifyResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -1862,7 +1866,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyVerifyResult. The KeyVerifyResult is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyVerifyResult
+        :rtype: ~azure.keyvault.keys.models.KeyVerifyResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -1894,7 +1898,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyVerifyResult. The KeyVerifyResult is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyVerifyResult
+        :rtype: ~azure.keyvault.keys.models.KeyVerifyResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -1920,9 +1924,9 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :type key_version: str
         :param parameters: The parameters for verify operations. Is one of the following types:
          KeyVerifyParameters, JSON, IO[bytes] Required.
-        :type parameters: ~azure.keyvault.keys._generated.models.KeyVerifyParameters or JSON or IO[bytes]
+        :type parameters: ~azure.keyvault.keys.models.KeyVerifyParameters or JSON or IO[bytes]
         :return: KeyVerifyResult. The KeyVerifyResult is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyVerifyResult
+        :rtype: ~azure.keyvault.keys.models.KeyVerifyResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -2013,12 +2017,12 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :param key_version: The version of the key. Required.
         :type key_version: str
         :param parameters: The parameters for wrap operation. Required.
-        :type parameters: ~azure.keyvault.keys._generated.models.KeyOperationsParameters
+        :type parameters: ~azure.keyvault.keys.models.KeyOperationsParameters
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyOperationResult. The KeyOperationResult is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyOperationResult
+        :rtype: ~azure.keyvault.keys.models.KeyOperationResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -2051,7 +2055,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyOperationResult. The KeyOperationResult is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyOperationResult
+        :rtype: ~azure.keyvault.keys.models.KeyOperationResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -2084,7 +2088,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyOperationResult. The KeyOperationResult is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyOperationResult
+        :rtype: ~azure.keyvault.keys.models.KeyOperationResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -2111,9 +2115,9 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :type key_version: str
         :param parameters: The parameters for wrap operation. Is one of the following types:
          KeyOperationsParameters, JSON, IO[bytes] Required.
-        :type parameters: ~azure.keyvault.keys._generated.models.KeyOperationsParameters or JSON or IO[bytes]
+        :type parameters: ~azure.keyvault.keys.models.KeyOperationsParameters or JSON or IO[bytes]
         :return: KeyOperationResult. The KeyOperationResult is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyOperationResult
+        :rtype: ~azure.keyvault.keys.models.KeyOperationResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -2202,12 +2206,12 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :param key_version: The version of the key. Required.
         :type key_version: str
         :param parameters: The parameters for the key operation. Required.
-        :type parameters: ~azure.keyvault.keys._generated.models.KeyOperationsParameters
+        :type parameters: ~azure.keyvault.keys.models.KeyOperationsParameters
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyOperationResult. The KeyOperationResult is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyOperationResult
+        :rtype: ~azure.keyvault.keys.models.KeyOperationResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -2238,7 +2242,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyOperationResult. The KeyOperationResult is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyOperationResult
+        :rtype: ~azure.keyvault.keys.models.KeyOperationResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -2269,7 +2273,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyOperationResult. The KeyOperationResult is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyOperationResult
+        :rtype: ~azure.keyvault.keys.models.KeyOperationResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -2294,9 +2298,9 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :type key_version: str
         :param parameters: The parameters for the key operation. Is one of the following types:
          KeyOperationsParameters, JSON, IO[bytes] Required.
-        :type parameters: ~azure.keyvault.keys._generated.models.KeyOperationsParameters or JSON or IO[bytes]
+        :type parameters: ~azure.keyvault.keys.models.KeyOperationsParameters or JSON or IO[bytes]
         :return: KeyOperationResult. The KeyOperationResult is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyOperationResult
+        :rtype: ~azure.keyvault.keys.models.KeyOperationResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -2384,12 +2388,12 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Required.
         :type key_version: str
         :param parameters: The parameters for the key release operation. Required.
-        :type parameters: ~azure.keyvault.keys._generated.models.KeyReleaseParameters
+        :type parameters: ~azure.keyvault.keys.models.KeyReleaseParameters
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyReleaseResult. The KeyReleaseResult is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyReleaseResult
+        :rtype: ~azure.keyvault.keys.models.KeyReleaseResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -2419,7 +2423,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyReleaseResult. The KeyReleaseResult is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyReleaseResult
+        :rtype: ~azure.keyvault.keys.models.KeyReleaseResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -2449,7 +2453,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyReleaseResult. The KeyReleaseResult is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyReleaseResult
+        :rtype: ~azure.keyvault.keys.models.KeyReleaseResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -2473,9 +2477,9 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :type key_version: str
         :param parameters: The parameters for the key release operation. Is one of the following types:
          KeyReleaseParameters, JSON, IO[bytes] Required.
-        :type parameters: ~azure.keyvault.keys._generated.models.KeyReleaseParameters or JSON or IO[bytes]
+        :type parameters: ~azure.keyvault.keys.models.KeyReleaseParameters or JSON or IO[bytes]
         :return: KeyReleaseResult. The KeyReleaseResult is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyReleaseResult
+        :rtype: ~azure.keyvault.keys.models.KeyReleaseResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -2558,7 +2562,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          service will return up to 25 results. Default value is None.
         :paramtype maxresults: int
         :return: An iterator like instance of DeletedKeyItem
-        :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.keyvault.keys._generated.models.DeletedKeyItem]
+        :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.keyvault.keys.models.DeletedKeyItem]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
@@ -2614,7 +2618,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
 
         async def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.DeletedKeyItem], deserialized["value"])
+            list_of_elem = _deserialize(List[_models.DeletedKeyItem], deserialized.get("value", []))
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
             return deserialized.get("nextLink") or None, AsyncList(list_of_elem)
@@ -2648,7 +2652,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :param key_name: The name of the key. Required.
         :type key_name: str
         :return: DeletedKeyBundle. The DeletedKeyBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.DeletedKeyBundle
+        :rtype: ~azure.keyvault.keys.models.DeletedKeyBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -2771,7 +2775,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :param key_name: The name of the deleted key. Required.
         :type key_name: str
         :return: KeyBundle. The KeyBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyBundle
+        :rtype: ~azure.keyvault.keys.models.KeyBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -2837,7 +2841,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :param key_name: The name of the key in a given key vault. Required.
         :type key_name: str
         :return: KeyRotationPolicy. The KeyRotationPolicy is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyRotationPolicy
+        :rtype: ~azure.keyvault.keys.models.KeyRotationPolicy
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -2910,12 +2914,12 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :param key_name: The name of the key in the given vault. Required.
         :type key_name: str
         :param key_rotation_policy: The policy for the key. Required.
-        :type key_rotation_policy: ~azure.keyvault.keys._generated.models.KeyRotationPolicy
+        :type key_rotation_policy: ~azure.keyvault.keys.models.KeyRotationPolicy
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyRotationPolicy. The KeyRotationPolicy is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyRotationPolicy
+        :rtype: ~azure.keyvault.keys.models.KeyRotationPolicy
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -2936,7 +2940,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyRotationPolicy. The KeyRotationPolicy is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyRotationPolicy
+        :rtype: ~azure.keyvault.keys.models.KeyRotationPolicy
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -2957,7 +2961,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: KeyRotationPolicy. The KeyRotationPolicy is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyRotationPolicy
+        :rtype: ~azure.keyvault.keys.models.KeyRotationPolicy
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -2974,9 +2978,9 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         :type key_name: str
         :param key_rotation_policy: The policy for the key. Is one of the following types:
          KeyRotationPolicy, JSON, IO[bytes] Required.
-        :type key_rotation_policy: ~azure.keyvault.keys._generated.models.KeyRotationPolicy or JSON or IO[bytes]
+        :type key_rotation_policy: ~azure.keyvault.keys.models.KeyRotationPolicy or JSON or IO[bytes]
         :return: KeyRotationPolicy. The KeyRotationPolicy is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyRotationPolicy
+        :rtype: ~azure.keyvault.keys.models.KeyRotationPolicy
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -3051,12 +3055,12 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
         Get the requested number of bytes containing random values from a managed HSM.
 
         :param parameters: The request object to get random bytes. Required.
-        :type parameters: ~azure.keyvault.keys._generated.models.GetRandomBytesRequest
+        :type parameters: ~azure.keyvault.keys.models.GetRandomBytesRequest
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :return: RandomBytes. The RandomBytes is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.RandomBytes
+        :rtype: ~azure.keyvault.keys.models.RandomBytes
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -3074,7 +3078,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: RandomBytes. The RandomBytes is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.RandomBytes
+        :rtype: ~azure.keyvault.keys.models.RandomBytes
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -3092,7 +3096,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          Default value is "application/json".
         :paramtype content_type: str
         :return: RandomBytes. The RandomBytes is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.RandomBytes
+        :rtype: ~azure.keyvault.keys.models.RandomBytes
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -3106,9 +3110,9 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
 
         :param parameters: The request object to get random bytes. Is one of the following types:
          GetRandomBytesRequest, JSON, IO[bytes] Required.
-        :type parameters: ~azure.keyvault.keys._generated.models.GetRandomBytesRequest or JSON or IO[bytes]
+        :type parameters: ~azure.keyvault.keys.models.GetRandomBytesRequest or JSON or IO[bytes]
         :return: RandomBytes. The RandomBytes is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.RandomBytes
+        :rtype: ~azure.keyvault.keys.models.RandomBytes
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -3191,7 +3195,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):  # pylint: disable=
          key attestation blob is returned. Required.
         :type key_version: str
         :return: KeyBundle. The KeyBundle is compatible with MutableMapping
-        :rtype: ~azure.keyvault.keys._generated.models.KeyBundle
+        :rtype: ~azure.keyvault.keys.models.KeyBundle
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
