@@ -32,6 +32,26 @@ class AdminKeyKind(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The secondary API key for the search service."""
 
 
+class ComputeType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Configure this property to support the search service using either the Default Compute or Azure
+    Confidential Compute.
+    """
+
+    DEFAULT = "default"
+    """Create the service with the Default Compute."""
+    CONFIDENTIAL = "confidential"
+    """Create the service with Azure Confidential Compute."""
+
+
+class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The type of identity that created the resource."""
+
+    USER = "User"
+    APPLICATION = "Application"
+    MANAGED_IDENTITY = "ManagedIdentity"
+    KEY = "Key"
+
+
 class HostingMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Applicable only for the standard3 SKU. You can set this property to enable up to 3 high density
     partitions that allow up to 1000 indexes, which is much higher than the maximum indexes allowed
@@ -108,11 +128,11 @@ class ProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     search service. This is because the free service uses capacity that is already set up.
     """
 
-    SUCCEEDED = "Succeeded"
+    SUCCEEDED = "succeeded"
     """The last provisioning operation has completed successfully."""
-    PROVISIONING = "Provisioning"
+    PROVISIONING = "provisioning"
     """The search service is being provisioned or scaled up or down."""
-    FAILED = "Failed"
+    FAILED = "failed"
     """The last provisioning operation has failed."""
 
 
@@ -135,9 +155,6 @@ class SearchBypass(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     NONE = "None"
     """Indicates that no origin can bypass the rules defined in the 'ipRules' section. This is the
     default."""
-    AZURE_PORTAL = "AzurePortal"
-    """Indicates that requests originating from the Azure portal can bypass the rules defined in the
-    'ipRules' section."""
     AZURE_SERVICES = "AzureServices"
     """Indicates that requests originating from Azure trusted services can bypass the rules defined in
     the 'ipRules' section."""
