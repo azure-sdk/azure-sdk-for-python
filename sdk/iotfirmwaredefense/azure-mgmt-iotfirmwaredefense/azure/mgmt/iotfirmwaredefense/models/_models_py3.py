@@ -1,5 +1,5 @@
-# coding=utf-8
 # pylint: disable=too-many-lines
+# coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -13,29 +13,93 @@ from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 from .. import _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
+
+
+class AzureResourceManagerCommonTypesSkuUpdate(_serialization.Model):
+    """The resource model definition representing SKU.
+
+    :ivar name: The name of the SKU. Ex - P3. It is typically a letter+number code.
+    :vartype name: str
+    :ivar tier: This field is required to be implemented by the Resource Provider if the service
+     has more than one tier, but is not required on a PUT. Known values are: "Free", "Basic",
+     "Standard", and "Premium".
+    :vartype tier: str or ~azure.mgmt.iotfirmwaredefense.models.SkuTier
+    :ivar size: The SKU size. When the name field is the combination of tier and some other value,
+     this would be the standalone code.
+    :vartype size: str
+    :ivar family: If the service has different generations of hardware, for the same SKU, then that
+     can be captured here.
+    :vartype family: str
+    :ivar capacity: If the SKU supports scale out/in then the capacity integer should be included.
+     If scale out/in is not possible for the resource this may be omitted.
+    :vartype capacity: int
+    """
+
+    _attribute_map = {
+        "name": {"key": "name", "type": "str"},
+        "tier": {"key": "tier", "type": "str"},
+        "size": {"key": "size", "type": "str"},
+        "family": {"key": "family", "type": "str"},
+        "capacity": {"key": "capacity", "type": "int"},
+    }
+
+    def __init__(
+        self,
+        *,
+        name: Optional[str] = None,
+        tier: Optional[Union[str, "_models.SkuTier"]] = None,
+        size: Optional[str] = None,
+        family: Optional[str] = None,
+        capacity: Optional[int] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword name: The name of the SKU. Ex - P3. It is typically a letter+number code.
+        :paramtype name: str
+        :keyword tier: This field is required to be implemented by the Resource Provider if the service
+         has more than one tier, but is not required on a PUT. Known values are: "Free", "Basic",
+         "Standard", and "Premium".
+        :paramtype tier: str or ~azure.mgmt.iotfirmwaredefense.models.SkuTier
+        :keyword size: The SKU size. When the name field is the combination of tier and some other
+         value, this would be the standalone code.
+        :paramtype size: str
+        :keyword family: If the service has different generations of hardware, for the same SKU, then
+         that can be captured here.
+        :paramtype family: str
+        :keyword capacity: If the SKU supports scale out/in then the capacity integer should be
+         included. If scale out/in is not possible for the resource this may be omitted.
+        :paramtype capacity: int
+        """
+        super().__init__(**kwargs)
+        self.name = name
+        self.tier = tier
+        self.size = size
+        self.family = family
+        self.capacity = capacity
 
 
 class BinaryHardeningFeatures(_serialization.Model):
     """Binary hardening features.
 
-    :ivar nx: NX (no-execute) flag.
-    :vartype nx: bool
-    :ivar pie: PIE (position independent executable) flag.
-    :vartype pie: bool
-    :ivar relro: RELRO (relocation read-only) flag.
-    :vartype relro: bool
-    :ivar canary: Canary (stack canaries) flag.
+    :ivar no_execute: Flag indicating the binary's stack is set to NX (no-execute).
+    :vartype no_execute: bool
+    :ivar position_independent_executable: Flag indicating the binary was compiled to be a position
+     independent executable.
+    :vartype position_independent_executable: bool
+    :ivar relocation_read_only: Flag indicating the binary has enabled relocation read-only
+     protections.
+    :vartype relocation_read_only: bool
+    :ivar canary: Flag indicating if the binary was compiled with stack canaries enabled.
     :vartype canary: bool
-    :ivar stripped: Stripped flag.
+    :ivar stripped: Flag indicating if debug symbols have been stripped from the binary.
     :vartype stripped: bool
     """
 
     _attribute_map = {
-        "nx": {"key": "nx", "type": "bool"},
-        "pie": {"key": "pie", "type": "bool"},
-        "relro": {"key": "relro", "type": "bool"},
+        "no_execute": {"key": "noExecute", "type": "bool"},
+        "position_independent_executable": {"key": "positionIndependentExecutable", "type": "bool"},
+        "relocation_read_only": {"key": "relocationReadOnly", "type": "bool"},
         "canary": {"key": "canary", "type": "bool"},
         "stripped": {"key": "stripped", "type": "bool"},
     }
@@ -43,61 +107,33 @@ class BinaryHardeningFeatures(_serialization.Model):
     def __init__(
         self,
         *,
-        nx: Optional[bool] = None,
-        pie: Optional[bool] = None,
-        relro: Optional[bool] = None,
+        no_execute: Optional[bool] = None,
+        position_independent_executable: Optional[bool] = None,
+        relocation_read_only: Optional[bool] = None,
         canary: Optional[bool] = None,
         stripped: Optional[bool] = None,
         **kwargs: Any
     ) -> None:
         """
-        :keyword nx: NX (no-execute) flag.
-        :paramtype nx: bool
-        :keyword pie: PIE (position independent executable) flag.
-        :paramtype pie: bool
-        :keyword relro: RELRO (relocation read-only) flag.
-        :paramtype relro: bool
-        :keyword canary: Canary (stack canaries) flag.
+        :keyword no_execute: Flag indicating the binary's stack is set to NX (no-execute).
+        :paramtype no_execute: bool
+        :keyword position_independent_executable: Flag indicating the binary was compiled to be a
+         position independent executable.
+        :paramtype position_independent_executable: bool
+        :keyword relocation_read_only: Flag indicating the binary has enabled relocation read-only
+         protections.
+        :paramtype relocation_read_only: bool
+        :keyword canary: Flag indicating if the binary was compiled with stack canaries enabled.
         :paramtype canary: bool
-        :keyword stripped: Stripped flag.
+        :keyword stripped: Flag indicating if debug symbols have been stripped from the binary.
         :paramtype stripped: bool
         """
         super().__init__(**kwargs)
-        self.nx = nx
-        self.pie = pie
-        self.relro = relro
+        self.no_execute = no_execute
+        self.position_independent_executable = position_independent_executable
+        self.relocation_read_only = relocation_read_only
         self.canary = canary
         self.stripped = stripped
-
-
-class BinaryHardeningListResult(_serialization.Model):
-    """List of binary hardening results.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar value: The list of binary hardening results.
-    :vartype value: list[~azure.mgmt.iotfirmwaredefense.models.BinaryHardeningResource]
-    :ivar next_link: The uri to fetch the next page of resources.
-    :vartype next_link: str
-    """
-
-    _validation = {
-        "value": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "value": {"key": "value", "type": "[BinaryHardeningResource]"},
-        "next_link": {"key": "nextLink", "type": "str"},
-    }
-
-    def __init__(self, *, next_link: Optional[str] = None, **kwargs: Any) -> None:
-        """
-        :keyword next_link: The uri to fetch the next page of resources.
-        :paramtype next_link: str
-        """
-        super().__init__(**kwargs)
-        self.value = None
-        self.next_link = next_link
 
 
 class Resource(_serialization.Model):
@@ -106,7 +142,7 @@ class Resource(_serialization.Model):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -141,13 +177,14 @@ class Resource(_serialization.Model):
         self.system_data = None
 
 
-class BinaryHardeningResource(Resource):
-    """binary hardening analysis result resource.
+class ProxyResource(Resource):
+    """The resource model definition for a Azure Resource Manager proxy resource. It will not have
+    tags and a location.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -157,7 +194,26 @@ class BinaryHardeningResource(Resource):
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
     :vartype system_data: ~azure.mgmt.iotfirmwaredefense.models.SystemData
-    :ivar properties: The properties of a binary hardening result found within a firmware image.
+    """
+
+
+class BinaryHardeningResource(ProxyResource):
+    """The object representing a firmware analysis binary hardening result resource.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.iotfirmwaredefense.models.SystemData
+    :ivar properties: The resource-specific properties for this resource.
     :vartype properties: ~azure.mgmt.iotfirmwaredefense.models.BinaryHardeningResult
     """
 
@@ -178,50 +234,98 @@ class BinaryHardeningResource(Resource):
 
     def __init__(self, *, properties: Optional["_models.BinaryHardeningResult"] = None, **kwargs: Any) -> None:
         """
-        :keyword properties: The properties of a binary hardening result found within a firmware image.
+        :keyword properties: The resource-specific properties for this resource.
         :paramtype properties: ~azure.mgmt.iotfirmwaredefense.models.BinaryHardeningResult
         """
         super().__init__(**kwargs)
         self.properties = properties
 
 
+class BinaryHardeningResourceListResult(_serialization.Model):
+    """The response of a BinaryHardeningResource list operation.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar value: The BinaryHardeningResource items on this page. Required.
+    :vartype value: list[~azure.mgmt.iotfirmwaredefense.models.BinaryHardeningResource]
+    :ivar next_link: The link to the next page of items.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "value": {"required": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[BinaryHardeningResource]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self, *, value: List["_models.BinaryHardeningResource"], next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: The BinaryHardeningResource items on this page. Required.
+        :paramtype value: list[~azure.mgmt.iotfirmwaredefense.models.BinaryHardeningResource]
+        :keyword next_link: The link to the next page of items.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = next_link
+
+
 class BinaryHardeningResult(_serialization.Model):
     """Binary hardening of a firmware.
 
+    Variables are only populated by the server, and will be ignored when sending a request.
+
     :ivar binary_hardening_id: ID for the binary hardening result.
     :vartype binary_hardening_id: str
-    :ivar features: Binary hardening features.
-    :vartype features: ~azure.mgmt.iotfirmwaredefense.models.BinaryHardeningFeatures
-    :ivar architecture: The architecture of the uploaded firmware.
-    :vartype architecture: str
-    :ivar file_path: The executable path.
+    :ivar security_hardening_features: The security hardening features of the binary.
+    :vartype security_hardening_features:
+     ~azure.mgmt.iotfirmwaredefense.models.BinaryHardeningFeatures
+    :ivar executable_architecture: The architecture of the binary being reported on.
+    :vartype executable_architecture: str
+    :ivar file_path: The path to the binary in the firmware.
     :vartype file_path: str
-    :ivar class_property: The executable class to indicate 32 or 64 bit.
-    :vartype class_property: str
-    :ivar runpath: The runpath of the uploaded firmware.
+    :ivar executable_class: The executable class to indicate 32 or 64 bit. Known values are: "x86"
+     and "x64".
+    :vartype executable_class: str or ~azure.mgmt.iotfirmwaredefense.models.ExecutableClass
+    :ivar runpath: The runpath property of the uploaded binary, which is a method of specifying
+     additional paths to load objects at runtime.
     :vartype runpath: str
-    :ivar rpath: The rpath of the uploaded firmware.
+    :ivar rpath: The rpath property of the uploaded binary, which is a deprecated method of
+     specifying additional paths to load objects at runtime.
     :vartype rpath: str
+    :ivar provisioning_state: The status of the last operation. Known values are: "Succeeded",
+     "Failed", "Canceled", "Pending", "Extracting", and "Analyzing".
+    :vartype provisioning_state: str or ~azure.mgmt.iotfirmwaredefense.models.ProvisioningState
     """
+
+    _validation = {
+        "provisioning_state": {"readonly": True},
+    }
 
     _attribute_map = {
         "binary_hardening_id": {"key": "binaryHardeningId", "type": "str"},
-        "features": {"key": "features", "type": "BinaryHardeningFeatures"},
-        "architecture": {"key": "architecture", "type": "str"},
+        "security_hardening_features": {"key": "securityHardeningFeatures", "type": "BinaryHardeningFeatures"},
+        "executable_architecture": {"key": "executableArchitecture", "type": "str"},
         "file_path": {"key": "filePath", "type": "str"},
-        "class_property": {"key": "class", "type": "str"},
+        "executable_class": {"key": "executableClass", "type": "str"},
         "runpath": {"key": "runpath", "type": "str"},
         "rpath": {"key": "rpath", "type": "str"},
+        "provisioning_state": {"key": "provisioningState", "type": "str"},
     }
 
     def __init__(
         self,
         *,
         binary_hardening_id: Optional[str] = None,
-        features: Optional["_models.BinaryHardeningFeatures"] = None,
-        architecture: Optional[str] = None,
+        security_hardening_features: Optional["_models.BinaryHardeningFeatures"] = None,
+        executable_architecture: Optional[str] = None,
         file_path: Optional[str] = None,
-        class_property: Optional[str] = None,
+        executable_class: Optional[Union[str, "_models.ExecutableClass"]] = None,
         runpath: Optional[str] = None,
         rpath: Optional[str] = None,
         **kwargs: Any
@@ -229,27 +333,32 @@ class BinaryHardeningResult(_serialization.Model):
         """
         :keyword binary_hardening_id: ID for the binary hardening result.
         :paramtype binary_hardening_id: str
-        :keyword features: Binary hardening features.
-        :paramtype features: ~azure.mgmt.iotfirmwaredefense.models.BinaryHardeningFeatures
-        :keyword architecture: The architecture of the uploaded firmware.
-        :paramtype architecture: str
-        :keyword file_path: The executable path.
+        :keyword security_hardening_features: The security hardening features of the binary.
+        :paramtype security_hardening_features:
+         ~azure.mgmt.iotfirmwaredefense.models.BinaryHardeningFeatures
+        :keyword executable_architecture: The architecture of the binary being reported on.
+        :paramtype executable_architecture: str
+        :keyword file_path: The path to the binary in the firmware.
         :paramtype file_path: str
-        :keyword class_property: The executable class to indicate 32 or 64 bit.
-        :paramtype class_property: str
-        :keyword runpath: The runpath of the uploaded firmware.
+        :keyword executable_class: The executable class to indicate 32 or 64 bit. Known values are:
+         "x86" and "x64".
+        :paramtype executable_class: str or ~azure.mgmt.iotfirmwaredefense.models.ExecutableClass
+        :keyword runpath: The runpath property of the uploaded binary, which is a method of specifying
+         additional paths to load objects at runtime.
         :paramtype runpath: str
-        :keyword rpath: The rpath of the uploaded firmware.
+        :keyword rpath: The rpath property of the uploaded binary, which is a deprecated method of
+         specifying additional paths to load objects at runtime.
         :paramtype rpath: str
         """
         super().__init__(**kwargs)
         self.binary_hardening_id = binary_hardening_id
-        self.features = features
-        self.architecture = architecture
+        self.security_hardening_features = security_hardening_features
+        self.executable_architecture = executable_architecture
         self.file_path = file_path
-        self.class_property = class_property
+        self.executable_class = executable_class
         self.runpath = runpath
         self.rpath = rpath
+        self.provisioning_state = None
 
 
 class SummaryResourceProperties(_serialization.Model):
@@ -259,25 +368,32 @@ class SummaryResourceProperties(_serialization.Model):
     BinaryHardeningSummaryResource, CveSummary, CryptoCertificateSummaryResource,
     CryptoKeySummaryResource, FirmwareSummary
 
-    All required parameters must be populated in order to send to Azure.
+    Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar summary_type: Describes the type of summary. Required. Known values are: "Firmware",
-     "CVE", "BinaryHardening", "CryptoCertificate", and "CryptoKey".
+    All required parameters must be populated in order to send to server.
+
+    :ivar summary_type: The type of summary. Required. Known values are: "Firmware",
+     "CommonVulnerabilitiesAndExposures", "BinaryHardening", "CryptoCertificate", and "CryptoKey".
     :vartype summary_type: str or ~azure.mgmt.iotfirmwaredefense.models.SummaryType
+    :ivar provisioning_state: The status of the last operation. Known values are: "Succeeded",
+     "Failed", "Canceled", "Pending", "Extracting", and "Analyzing".
+    :vartype provisioning_state: str or ~azure.mgmt.iotfirmwaredefense.models.ProvisioningState
     """
 
     _validation = {
         "summary_type": {"required": True},
+        "provisioning_state": {"readonly": True},
     }
 
     _attribute_map = {
         "summary_type": {"key": "summaryType", "type": "str"},
+        "provisioning_state": {"key": "provisioningState", "type": "str"},
     }
 
     _subtype_map = {
         "summary_type": {
             "BinaryHardening": "BinaryHardeningSummaryResource",
-            "CVE": "CveSummary",
+            "CommonVulnerabilitiesAndExposures": "CveSummary",
             "CryptoCertificate": "CryptoCertificateSummaryResource",
             "CryptoKey": "CryptoKeySummaryResource",
             "Firmware": "FirmwareSummary",
@@ -288,88 +404,103 @@ class SummaryResourceProperties(_serialization.Model):
         """ """
         super().__init__(**kwargs)
         self.summary_type: Optional[str] = None
+        self.provisioning_state = None
 
 
 class BinaryHardeningSummaryResource(SummaryResourceProperties):
     """Properties for a binary hardening analysis summary.
 
-    All required parameters must be populated in order to send to Azure.
+    Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar summary_type: Describes the type of summary. Required. Known values are: "Firmware",
-     "CVE", "BinaryHardening", "CryptoCertificate", and "CryptoKey".
+    All required parameters must be populated in order to send to server.
+
+    :ivar summary_type: The type of summary. Required. Known values are: "Firmware",
+     "CommonVulnerabilitiesAndExposures", "BinaryHardening", "CryptoCertificate", and "CryptoKey".
     :vartype summary_type: str or ~azure.mgmt.iotfirmwaredefense.models.SummaryType
+    :ivar provisioning_state: The status of the last operation. Known values are: "Succeeded",
+     "Failed", "Canceled", "Pending", "Extracting", and "Analyzing".
+    :vartype provisioning_state: str or ~azure.mgmt.iotfirmwaredefense.models.ProvisioningState
     :ivar total_files: Total number of binaries that were analyzed.
     :vartype total_files: int
-    :ivar nx: NX summary percentage.
-    :vartype nx: int
-    :ivar pie: PIE summary percentage.
-    :vartype pie: int
-    :ivar relro: RELRO summary percentage.
-    :vartype relro: int
-    :ivar canary: Canary summary percentage.
-    :vartype canary: int
-    :ivar stripped: Stripped summary percentage.
-    :vartype stripped: int
+    :ivar not_executable_stack_count: Total number of analyzed files that were found to have a
+     nonexecutable stack.
+    :vartype not_executable_stack_count: int
+    :ivar position_independent_executable_count: Total number of analyzed files that were compiled
+     to be a position independent executable.
+    :vartype position_independent_executable_count: int
+    :ivar relocation_read_only_count: Total number of analyzed files that have enabled relocation
+     read-only protections.
+    :vartype relocation_read_only_count: int
+    :ivar stack_canary_count: Total number of analyzed files that have stack canaries enabled.
+    :vartype stack_canary_count: int
+    :ivar stripped_binary_count: Total number of analyzed files that have debug symbols stripped.
+    :vartype stripped_binary_count: int
     """
 
     _validation = {
         "summary_type": {"required": True},
+        "provisioning_state": {"readonly": True},
     }
 
     _attribute_map = {
         "summary_type": {"key": "summaryType", "type": "str"},
+        "provisioning_state": {"key": "provisioningState", "type": "str"},
         "total_files": {"key": "totalFiles", "type": "int"},
-        "nx": {"key": "nx", "type": "int"},
-        "pie": {"key": "pie", "type": "int"},
-        "relro": {"key": "relro", "type": "int"},
-        "canary": {"key": "canary", "type": "int"},
-        "stripped": {"key": "stripped", "type": "int"},
+        "not_executable_stack_count": {"key": "notExecutableStackCount", "type": "int"},
+        "position_independent_executable_count": {"key": "positionIndependentExecutableCount", "type": "int"},
+        "relocation_read_only_count": {"key": "relocationReadOnlyCount", "type": "int"},
+        "stack_canary_count": {"key": "stackCanaryCount", "type": "int"},
+        "stripped_binary_count": {"key": "strippedBinaryCount", "type": "int"},
     }
 
     def __init__(
         self,
         *,
         total_files: Optional[int] = None,
-        nx: Optional[int] = None,
-        pie: Optional[int] = None,
-        relro: Optional[int] = None,
-        canary: Optional[int] = None,
-        stripped: Optional[int] = None,
+        not_executable_stack_count: Optional[int] = None,
+        position_independent_executable_count: Optional[int] = None,
+        relocation_read_only_count: Optional[int] = None,
+        stack_canary_count: Optional[int] = None,
+        stripped_binary_count: Optional[int] = None,
         **kwargs: Any
     ) -> None:
         """
         :keyword total_files: Total number of binaries that were analyzed.
         :paramtype total_files: int
-        :keyword nx: NX summary percentage.
-        :paramtype nx: int
-        :keyword pie: PIE summary percentage.
-        :paramtype pie: int
-        :keyword relro: RELRO summary percentage.
-        :paramtype relro: int
-        :keyword canary: Canary summary percentage.
-        :paramtype canary: int
-        :keyword stripped: Stripped summary percentage.
-        :paramtype stripped: int
+        :keyword not_executable_stack_count: Total number of analyzed files that were found to have a
+         nonexecutable stack.
+        :paramtype not_executable_stack_count: int
+        :keyword position_independent_executable_count: Total number of analyzed files that were
+         compiled to be a position independent executable.
+        :paramtype position_independent_executable_count: int
+        :keyword relocation_read_only_count: Total number of analyzed files that have enabled
+         relocation read-only protections.
+        :paramtype relocation_read_only_count: int
+        :keyword stack_canary_count: Total number of analyzed files that have stack canaries enabled.
+        :paramtype stack_canary_count: int
+        :keyword stripped_binary_count: Total number of analyzed files that have debug symbols
+         stripped.
+        :paramtype stripped_binary_count: int
         """
         super().__init__(**kwargs)
         self.summary_type: str = "BinaryHardening"
         self.total_files = total_files
-        self.nx = nx
-        self.pie = pie
-        self.relro = relro
-        self.canary = canary
-        self.stripped = stripped
+        self.not_executable_stack_count = not_executable_stack_count
+        self.position_independent_executable_count = position_independent_executable_count
+        self.relocation_read_only_count = relocation_read_only_count
+        self.stack_canary_count = stack_canary_count
+        self.stripped_binary_count = stripped_binary_count
 
 
-class CryptoCertificate(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class CryptoCertificate(_serialization.Model):
     """Crypto certificate properties.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar crypto_cert_id: ID for the certificate result.
     :vartype crypto_cert_id: str
-    :ivar name: Name of the certificate.
-    :vartype name: str
+    :ivar certificate_name: Name of the certificate.
+    :vartype certificate_name: str
     :ivar subject: Subject information of the certificate.
     :vartype subject: ~azure.mgmt.iotfirmwaredefense.models.CryptoCertificateEntity
     :ivar issuer: Issuer information of the certificate.
@@ -378,22 +509,22 @@ class CryptoCertificate(_serialization.Model):  # pylint: disable=too-many-insta
     :vartype issued_date: ~datetime.datetime
     :ivar expiration_date: Expiration date for the certificate.
     :vartype expiration_date: ~datetime.datetime
-    :ivar role: Role of the certificate (Root CA, etc).
-    :vartype role: str
+    :ivar certificate_role: Role of the certificate (Root CA, etc).
+    :vartype certificate_role: str
     :ivar signature_algorithm: The signature algorithm used in the certificate.
     :vartype signature_algorithm: str
-    :ivar key_size: Size of the certificate's key in bits.
-    :vartype key_size: int
-    :ivar key_algorithm: Key algorithm used in the certificate.
-    :vartype key_algorithm: str
+    :ivar certificate_key_size: Size of the certificate's key in bits.
+    :vartype certificate_key_size: int
+    :ivar certificate_key_algorithm: Key algorithm used in the certificate.
+    :vartype certificate_key_algorithm: str
     :ivar encoding: Encoding used for the certificate.
     :vartype encoding: str
     :ivar serial_number: Serial number of the certificate.
     :vartype serial_number: str
     :ivar fingerprint: Fingerprint of the certificate.
     :vartype fingerprint: str
-    :ivar usage: List of functions the certificate can fulfill.
-    :vartype usage: list[str]
+    :ivar certificate_usage: List of functions the certificate can fulfill.
+    :vartype certificate_usage: list[str or ~azure.mgmt.iotfirmwaredefense.models.CertificateUsage]
     :ivar file_paths: List of files where this certificate was found.
     :vartype file_paths: list[str]
     :ivar paired_key: A matching paired private key.
@@ -402,57 +533,63 @@ class CryptoCertificate(_serialization.Model):  # pylint: disable=too-many-insta
     :vartype is_expired: bool
     :ivar is_self_signed: Indicates if the certificate is self-signed.
     :vartype is_self_signed: bool
-    :ivar is_weak_signature: Indicates the signature algorithm used is insecure.
+    :ivar is_weak_signature: Indicates the signature algorithm used is insecure according to NIST
+     guidance.
     :vartype is_weak_signature: bool
     :ivar is_short_key_size: Indicates the certificate's key size is considered too small to be
-     secure for the key algorithm.
+     secure for the key algorithm according to NIST guidance.
     :vartype is_short_key_size: bool
+    :ivar provisioning_state: The status of the last operation. Known values are: "Succeeded",
+     "Failed", "Canceled", "Pending", "Extracting", and "Analyzing".
+    :vartype provisioning_state: str or ~azure.mgmt.iotfirmwaredefense.models.ProvisioningState
     """
 
     _validation = {
         "file_paths": {"readonly": True},
+        "provisioning_state": {"readonly": True},
     }
 
     _attribute_map = {
         "crypto_cert_id": {"key": "cryptoCertId", "type": "str"},
-        "name": {"key": "name", "type": "str"},
+        "certificate_name": {"key": "certificateName", "type": "str"},
         "subject": {"key": "subject", "type": "CryptoCertificateEntity"},
         "issuer": {"key": "issuer", "type": "CryptoCertificateEntity"},
         "issued_date": {"key": "issuedDate", "type": "iso-8601"},
         "expiration_date": {"key": "expirationDate", "type": "iso-8601"},
-        "role": {"key": "role", "type": "str"},
+        "certificate_role": {"key": "certificateRole", "type": "str"},
         "signature_algorithm": {"key": "signatureAlgorithm", "type": "str"},
-        "key_size": {"key": "keySize", "type": "int"},
-        "key_algorithm": {"key": "keyAlgorithm", "type": "str"},
+        "certificate_key_size": {"key": "certificateKeySize", "type": "int"},
+        "certificate_key_algorithm": {"key": "certificateKeyAlgorithm", "type": "str"},
         "encoding": {"key": "encoding", "type": "str"},
         "serial_number": {"key": "serialNumber", "type": "str"},
         "fingerprint": {"key": "fingerprint", "type": "str"},
-        "usage": {"key": "usage", "type": "[str]"},
+        "certificate_usage": {"key": "certificateUsage", "type": "[str]"},
         "file_paths": {"key": "filePaths", "type": "[str]"},
         "paired_key": {"key": "pairedKey", "type": "PairedKey"},
         "is_expired": {"key": "isExpired", "type": "bool"},
         "is_self_signed": {"key": "isSelfSigned", "type": "bool"},
         "is_weak_signature": {"key": "isWeakSignature", "type": "bool"},
         "is_short_key_size": {"key": "isShortKeySize", "type": "bool"},
+        "provisioning_state": {"key": "provisioningState", "type": "str"},
     }
 
     def __init__(
         self,
         *,
         crypto_cert_id: Optional[str] = None,
-        name: Optional[str] = None,
+        certificate_name: Optional[str] = None,
         subject: Optional["_models.CryptoCertificateEntity"] = None,
         issuer: Optional["_models.CryptoCertificateEntity"] = None,
         issued_date: Optional[datetime.datetime] = None,
         expiration_date: Optional[datetime.datetime] = None,
-        role: Optional[str] = None,
+        certificate_role: Optional[str] = None,
         signature_algorithm: Optional[str] = None,
-        key_size: Optional[int] = None,
-        key_algorithm: Optional[str] = None,
+        certificate_key_size: Optional[int] = None,
+        certificate_key_algorithm: Optional[str] = None,
         encoding: Optional[str] = None,
         serial_number: Optional[str] = None,
         fingerprint: Optional[str] = None,
-        usage: Optional[List[str]] = None,
+        certificate_usage: Optional[List[Union[str, "_models.CertificateUsage"]]] = None,
         paired_key: Optional["_models.PairedKey"] = None,
         is_expired: Optional[bool] = None,
         is_self_signed: Optional[bool] = None,
@@ -463,8 +600,8 @@ class CryptoCertificate(_serialization.Model):  # pylint: disable=too-many-insta
         """
         :keyword crypto_cert_id: ID for the certificate result.
         :paramtype crypto_cert_id: str
-        :keyword name: Name of the certificate.
-        :paramtype name: str
+        :keyword certificate_name: Name of the certificate.
+        :paramtype certificate_name: str
         :keyword subject: Subject information of the certificate.
         :paramtype subject: ~azure.mgmt.iotfirmwaredefense.models.CryptoCertificateEntity
         :keyword issuer: Issuer information of the certificate.
@@ -473,55 +610,58 @@ class CryptoCertificate(_serialization.Model):  # pylint: disable=too-many-insta
         :paramtype issued_date: ~datetime.datetime
         :keyword expiration_date: Expiration date for the certificate.
         :paramtype expiration_date: ~datetime.datetime
-        :keyword role: Role of the certificate (Root CA, etc).
-        :paramtype role: str
+        :keyword certificate_role: Role of the certificate (Root CA, etc).
+        :paramtype certificate_role: str
         :keyword signature_algorithm: The signature algorithm used in the certificate.
         :paramtype signature_algorithm: str
-        :keyword key_size: Size of the certificate's key in bits.
-        :paramtype key_size: int
-        :keyword key_algorithm: Key algorithm used in the certificate.
-        :paramtype key_algorithm: str
+        :keyword certificate_key_size: Size of the certificate's key in bits.
+        :paramtype certificate_key_size: int
+        :keyword certificate_key_algorithm: Key algorithm used in the certificate.
+        :paramtype certificate_key_algorithm: str
         :keyword encoding: Encoding used for the certificate.
         :paramtype encoding: str
         :keyword serial_number: Serial number of the certificate.
         :paramtype serial_number: str
         :keyword fingerprint: Fingerprint of the certificate.
         :paramtype fingerprint: str
-        :keyword usage: List of functions the certificate can fulfill.
-        :paramtype usage: list[str]
+        :keyword certificate_usage: List of functions the certificate can fulfill.
+        :paramtype certificate_usage: list[str or
+         ~azure.mgmt.iotfirmwaredefense.models.CertificateUsage]
         :keyword paired_key: A matching paired private key.
         :paramtype paired_key: ~azure.mgmt.iotfirmwaredefense.models.PairedKey
         :keyword is_expired: Indicates if the certificate is expired.
         :paramtype is_expired: bool
         :keyword is_self_signed: Indicates if the certificate is self-signed.
         :paramtype is_self_signed: bool
-        :keyword is_weak_signature: Indicates the signature algorithm used is insecure.
+        :keyword is_weak_signature: Indicates the signature algorithm used is insecure according to
+         NIST guidance.
         :paramtype is_weak_signature: bool
         :keyword is_short_key_size: Indicates the certificate's key size is considered too small to be
-         secure for the key algorithm.
+         secure for the key algorithm according to NIST guidance.
         :paramtype is_short_key_size: bool
         """
         super().__init__(**kwargs)
         self.crypto_cert_id = crypto_cert_id
-        self.name = name
+        self.certificate_name = certificate_name
         self.subject = subject
         self.issuer = issuer
         self.issued_date = issued_date
         self.expiration_date = expiration_date
-        self.role = role
+        self.certificate_role = certificate_role
         self.signature_algorithm = signature_algorithm
-        self.key_size = key_size
-        self.key_algorithm = key_algorithm
+        self.certificate_key_size = certificate_key_size
+        self.certificate_key_algorithm = certificate_key_algorithm
         self.encoding = encoding
         self.serial_number = serial_number
         self.fingerprint = fingerprint
-        self.usage = usage
+        self.certificate_usage = certificate_usage
         self.file_paths = None
         self.paired_key = paired_key
         self.is_expired = is_expired
         self.is_self_signed = is_self_signed
         self.is_weak_signature = is_weak_signature
         self.is_short_key_size = is_short_key_size
+        self.provisioning_state = None
 
 
 class CryptoCertificateEntity(_serialization.Model):
@@ -577,43 +717,13 @@ class CryptoCertificateEntity(_serialization.Model):
         self.country = country
 
 
-class CryptoCertificateListResult(_serialization.Model):
-    """List of crypto certificates.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar value: The list of crypto certificate results.
-    :vartype value: list[~azure.mgmt.iotfirmwaredefense.models.CryptoCertificateResource]
-    :ivar next_link: The uri to fetch the next page of resources.
-    :vartype next_link: str
-    """
-
-    _validation = {
-        "value": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "value": {"key": "value", "type": "[CryptoCertificateResource]"},
-        "next_link": {"key": "nextLink", "type": "str"},
-    }
-
-    def __init__(self, *, next_link: Optional[str] = None, **kwargs: Any) -> None:
-        """
-        :keyword next_link: The uri to fetch the next page of resources.
-        :paramtype next_link: str
-        """
-        super().__init__(**kwargs)
-        self.value = None
-        self.next_link = next_link
-
-
-class CryptoCertificateResource(Resource):
-    """Crypto certificate resource.
+class CryptoCertificateResource(ProxyResource):
+    """The object representing a firmware analysis crypto certificate resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -623,7 +733,7 @@ class CryptoCertificateResource(Resource):
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
     :vartype system_data: ~azure.mgmt.iotfirmwaredefense.models.SystemData
-    :ivar properties: The properties of a crypto certificate found within a firmware image.
+    :ivar properties: The resource-specific properties for this resource.
     :vartype properties: ~azure.mgmt.iotfirmwaredefense.models.CryptoCertificate
     """
 
@@ -644,91 +754,135 @@ class CryptoCertificateResource(Resource):
 
     def __init__(self, *, properties: Optional["_models.CryptoCertificate"] = None, **kwargs: Any) -> None:
         """
-        :keyword properties: The properties of a crypto certificate found within a firmware image.
+        :keyword properties: The resource-specific properties for this resource.
         :paramtype properties: ~azure.mgmt.iotfirmwaredefense.models.CryptoCertificate
         """
         super().__init__(**kwargs)
         self.properties = properties
 
 
+class CryptoCertificateResourceListResult(_serialization.Model):
+    """The response of a CryptoCertificateResource list operation.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar value: The CryptoCertificateResource items on this page. Required.
+    :vartype value: list[~azure.mgmt.iotfirmwaredefense.models.CryptoCertificateResource]
+    :ivar next_link: The link to the next page of items.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "value": {"required": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[CryptoCertificateResource]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self, *, value: List["_models.CryptoCertificateResource"], next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: The CryptoCertificateResource items on this page. Required.
+        :paramtype value: list[~azure.mgmt.iotfirmwaredefense.models.CryptoCertificateResource]
+        :keyword next_link: The link to the next page of items.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = next_link
+
+
 class CryptoCertificateSummaryResource(SummaryResourceProperties):
     """Properties for cryptographic certificate summary.
 
-    All required parameters must be populated in order to send to Azure.
+    Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar summary_type: Describes the type of summary. Required. Known values are: "Firmware",
-     "CVE", "BinaryHardening", "CryptoCertificate", and "CryptoKey".
+    All required parameters must be populated in order to send to server.
+
+    :ivar summary_type: The type of summary. Required. Known values are: "Firmware",
+     "CommonVulnerabilitiesAndExposures", "BinaryHardening", "CryptoCertificate", and "CryptoKey".
     :vartype summary_type: str or ~azure.mgmt.iotfirmwaredefense.models.SummaryType
-    :ivar total_certificates: Total number of certificates found.
-    :vartype total_certificates: int
-    :ivar paired_keys: Total number of paired private keys found for the certificates.
-    :vartype paired_keys: int
-    :ivar expired: Total number of expired certificates found.
-    :vartype expired: int
-    :ivar expiring_soon: Total number of nearly expired certificates found.
-    :vartype expiring_soon: int
-    :ivar weak_signature: Total number of certificates found using a weak signature algorithm.
-    :vartype weak_signature: int
-    :ivar self_signed: Total number of certificates found that are self-signed.
-    :vartype self_signed: int
-    :ivar short_key_size: Total number of certificates found that have an insecure key size for the
-     key algorithm.
-    :vartype short_key_size: int
+    :ivar provisioning_state: The status of the last operation. Known values are: "Succeeded",
+     "Failed", "Canceled", "Pending", "Extracting", and "Analyzing".
+    :vartype provisioning_state: str or ~azure.mgmt.iotfirmwaredefense.models.ProvisioningState
+    :ivar total_certificate_count: Total number of certificates found.
+    :vartype total_certificate_count: int
+    :ivar paired_key_count: Total number of paired private keys found for the certificates.
+    :vartype paired_key_count: int
+    :ivar expired_certificate_count: Total number of expired certificates found.
+    :vartype expired_certificate_count: int
+    :ivar expiring_soon_certificate_count: Total number of nearly expired certificates found.
+    :vartype expiring_soon_certificate_count: int
+    :ivar weak_signature_count: Total number of certificates found using a weak signature
+     algorithm.
+    :vartype weak_signature_count: int
+    :ivar self_signed_certificate_count: Total number of certificates found that are self-signed.
+    :vartype self_signed_certificate_count: int
+    :ivar short_key_size_count: Total number of certificates found that have an insecure key size
+     for the key algorithm.
+    :vartype short_key_size_count: int
     """
 
     _validation = {
         "summary_type": {"required": True},
+        "provisioning_state": {"readonly": True},
     }
 
     _attribute_map = {
         "summary_type": {"key": "summaryType", "type": "str"},
-        "total_certificates": {"key": "totalCertificates", "type": "int"},
-        "paired_keys": {"key": "pairedKeys", "type": "int"},
-        "expired": {"key": "expired", "type": "int"},
-        "expiring_soon": {"key": "expiringSoon", "type": "int"},
-        "weak_signature": {"key": "weakSignature", "type": "int"},
-        "self_signed": {"key": "selfSigned", "type": "int"},
-        "short_key_size": {"key": "shortKeySize", "type": "int"},
+        "provisioning_state": {"key": "provisioningState", "type": "str"},
+        "total_certificate_count": {"key": "totalCertificateCount", "type": "int"},
+        "paired_key_count": {"key": "pairedKeyCount", "type": "int"},
+        "expired_certificate_count": {"key": "expiredCertificateCount", "type": "int"},
+        "expiring_soon_certificate_count": {"key": "expiringSoonCertificateCount", "type": "int"},
+        "weak_signature_count": {"key": "weakSignatureCount", "type": "int"},
+        "self_signed_certificate_count": {"key": "selfSignedCertificateCount", "type": "int"},
+        "short_key_size_count": {"key": "shortKeySizeCount", "type": "int"},
     }
 
     def __init__(
         self,
         *,
-        total_certificates: Optional[int] = None,
-        paired_keys: Optional[int] = None,
-        expired: Optional[int] = None,
-        expiring_soon: Optional[int] = None,
-        weak_signature: Optional[int] = None,
-        self_signed: Optional[int] = None,
-        short_key_size: Optional[int] = None,
+        total_certificate_count: Optional[int] = None,
+        paired_key_count: Optional[int] = None,
+        expired_certificate_count: Optional[int] = None,
+        expiring_soon_certificate_count: Optional[int] = None,
+        weak_signature_count: Optional[int] = None,
+        self_signed_certificate_count: Optional[int] = None,
+        short_key_size_count: Optional[int] = None,
         **kwargs: Any
     ) -> None:
         """
-        :keyword total_certificates: Total number of certificates found.
-        :paramtype total_certificates: int
-        :keyword paired_keys: Total number of paired private keys found for the certificates.
-        :paramtype paired_keys: int
-        :keyword expired: Total number of expired certificates found.
-        :paramtype expired: int
-        :keyword expiring_soon: Total number of nearly expired certificates found.
-        :paramtype expiring_soon: int
-        :keyword weak_signature: Total number of certificates found using a weak signature algorithm.
-        :paramtype weak_signature: int
-        :keyword self_signed: Total number of certificates found that are self-signed.
-        :paramtype self_signed: int
-        :keyword short_key_size: Total number of certificates found that have an insecure key size for
-         the key algorithm.
-        :paramtype short_key_size: int
+        :keyword total_certificate_count: Total number of certificates found.
+        :paramtype total_certificate_count: int
+        :keyword paired_key_count: Total number of paired private keys found for the certificates.
+        :paramtype paired_key_count: int
+        :keyword expired_certificate_count: Total number of expired certificates found.
+        :paramtype expired_certificate_count: int
+        :keyword expiring_soon_certificate_count: Total number of nearly expired certificates found.
+        :paramtype expiring_soon_certificate_count: int
+        :keyword weak_signature_count: Total number of certificates found using a weak signature
+         algorithm.
+        :paramtype weak_signature_count: int
+        :keyword self_signed_certificate_count: Total number of certificates found that are
+         self-signed.
+        :paramtype self_signed_certificate_count: int
+        :keyword short_key_size_count: Total number of certificates found that have an insecure key
+         size for the key algorithm.
+        :paramtype short_key_size_count: int
         """
         super().__init__(**kwargs)
         self.summary_type: str = "CryptoCertificate"
-        self.total_certificates = total_certificates
-        self.paired_keys = paired_keys
-        self.expired = expired
-        self.expiring_soon = expiring_soon
-        self.weak_signature = weak_signature
-        self.self_signed = self_signed
-        self.short_key_size = short_key_size
+        self.total_certificate_count = total_certificate_count
+        self.paired_key_count = paired_key_count
+        self.expired_certificate_count = expired_certificate_count
+        self.expiring_soon_certificate_count = expiring_soon_certificate_count
+        self.weak_signature_count = weak_signature_count
+        self.self_signed_certificate_count = self_signed_certificate_count
+        self.short_key_size_count = short_key_size_count
 
 
 class CryptoKey(_serialization.Model):
@@ -738,10 +892,10 @@ class CryptoKey(_serialization.Model):
 
     :ivar crypto_key_id: ID for the key result.
     :vartype crypto_key_id: str
-    :ivar key_type: Type of the key (public or private).
-    :vartype key_type: str
-    :ivar key_size: Size of the key in bits.
-    :vartype key_size: int
+    :ivar key_type: Type of the key (public or private). Known values are: "Public" and "Private".
+    :vartype key_type: str or ~azure.mgmt.iotfirmwaredefense.models.CryptoKeyType
+    :ivar crypto_key_size: Size of the key in bits.
+    :vartype crypto_key_size: int
     :ivar key_algorithm: Key algorithm name.
     :vartype key_algorithm: str
     :ivar usage: Functions the key can fulfill.
@@ -751,31 +905,36 @@ class CryptoKey(_serialization.Model):
     :ivar paired_key: A matching paired key or certificate.
     :vartype paired_key: ~azure.mgmt.iotfirmwaredefense.models.PairedKey
     :ivar is_short_key_size: Indicates the key size is considered too small to be secure for the
-     algorithm.
+     algorithm according to NIST guidance.
     :vartype is_short_key_size: bool
+    :ivar provisioning_state: The status of the last operation. Known values are: "Succeeded",
+     "Failed", "Canceled", "Pending", "Extracting", and "Analyzing".
+    :vartype provisioning_state: str or ~azure.mgmt.iotfirmwaredefense.models.ProvisioningState
     """
 
     _validation = {
         "file_paths": {"readonly": True},
+        "provisioning_state": {"readonly": True},
     }
 
     _attribute_map = {
         "crypto_key_id": {"key": "cryptoKeyId", "type": "str"},
         "key_type": {"key": "keyType", "type": "str"},
-        "key_size": {"key": "keySize", "type": "int"},
+        "crypto_key_size": {"key": "cryptoKeySize", "type": "int"},
         "key_algorithm": {"key": "keyAlgorithm", "type": "str"},
         "usage": {"key": "usage", "type": "[str]"},
         "file_paths": {"key": "filePaths", "type": "[str]"},
         "paired_key": {"key": "pairedKey", "type": "PairedKey"},
         "is_short_key_size": {"key": "isShortKeySize", "type": "bool"},
+        "provisioning_state": {"key": "provisioningState", "type": "str"},
     }
 
     def __init__(
         self,
         *,
         crypto_key_id: Optional[str] = None,
-        key_type: Optional[str] = None,
-        key_size: Optional[int] = None,
+        key_type: Optional[Union[str, "_models.CryptoKeyType"]] = None,
+        crypto_key_size: Optional[int] = None,
         key_algorithm: Optional[str] = None,
         usage: Optional[List[str]] = None,
         paired_key: Optional["_models.PairedKey"] = None,
@@ -785,10 +944,11 @@ class CryptoKey(_serialization.Model):
         """
         :keyword crypto_key_id: ID for the key result.
         :paramtype crypto_key_id: str
-        :keyword key_type: Type of the key (public or private).
-        :paramtype key_type: str
-        :keyword key_size: Size of the key in bits.
-        :paramtype key_size: int
+        :keyword key_type: Type of the key (public or private). Known values are: "Public" and
+         "Private".
+        :paramtype key_type: str or ~azure.mgmt.iotfirmwaredefense.models.CryptoKeyType
+        :keyword crypto_key_size: Size of the key in bits.
+        :paramtype crypto_key_size: int
         :keyword key_algorithm: Key algorithm name.
         :paramtype key_algorithm: str
         :keyword usage: Functions the key can fulfill.
@@ -796,57 +956,28 @@ class CryptoKey(_serialization.Model):
         :keyword paired_key: A matching paired key or certificate.
         :paramtype paired_key: ~azure.mgmt.iotfirmwaredefense.models.PairedKey
         :keyword is_short_key_size: Indicates the key size is considered too small to be secure for the
-         algorithm.
+         algorithm according to NIST guidance.
         :paramtype is_short_key_size: bool
         """
         super().__init__(**kwargs)
         self.crypto_key_id = crypto_key_id
         self.key_type = key_type
-        self.key_size = key_size
+        self.crypto_key_size = crypto_key_size
         self.key_algorithm = key_algorithm
         self.usage = usage
         self.file_paths = None
         self.paired_key = paired_key
         self.is_short_key_size = is_short_key_size
+        self.provisioning_state = None
 
 
-class CryptoKeyListResult(_serialization.Model):
-    """List of crypto keys.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar value: The list of crypto key results.
-    :vartype value: list[~azure.mgmt.iotfirmwaredefense.models.CryptoKeyResource]
-    :ivar next_link: The uri to fetch the next page of resources.
-    :vartype next_link: str
-    """
-
-    _validation = {
-        "value": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "value": {"key": "value", "type": "[CryptoKeyResource]"},
-        "next_link": {"key": "nextLink", "type": "str"},
-    }
-
-    def __init__(self, *, next_link: Optional[str] = None, **kwargs: Any) -> None:
-        """
-        :keyword next_link: The uri to fetch the next page of resources.
-        :paramtype next_link: str
-        """
-        super().__init__(**kwargs)
-        self.value = None
-        self.next_link = next_link
-
-
-class CryptoKeyResource(Resource):
-    """Crypto key resource.
+class CryptoKeyResource(ProxyResource):
+    """The object representing a firmware analysis crypto key resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -856,7 +987,7 @@ class CryptoKeyResource(Resource):
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
     :vartype system_data: ~azure.mgmt.iotfirmwaredefense.models.SystemData
-    :ivar properties: The properties of a crypto key found within a firmware image.
+    :ivar properties: The resource-specific properties for this resource.
     :vartype properties: ~azure.mgmt.iotfirmwaredefense.models.CryptoKey
     """
 
@@ -877,117 +1008,120 @@ class CryptoKeyResource(Resource):
 
     def __init__(self, *, properties: Optional["_models.CryptoKey"] = None, **kwargs: Any) -> None:
         """
-        :keyword properties: The properties of a crypto key found within a firmware image.
+        :keyword properties: The resource-specific properties for this resource.
         :paramtype properties: ~azure.mgmt.iotfirmwaredefense.models.CryptoKey
         """
         super().__init__(**kwargs)
         self.properties = properties
 
 
+class CryptoKeyResourceListResult(_serialization.Model):
+    """The response of a CryptoKeyResource list operation.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar value: The CryptoKeyResource items on this page. Required.
+    :vartype value: list[~azure.mgmt.iotfirmwaredefense.models.CryptoKeyResource]
+    :ivar next_link: The link to the next page of items.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "value": {"required": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[CryptoKeyResource]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self, *, value: List["_models.CryptoKeyResource"], next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: The CryptoKeyResource items on this page. Required.
+        :paramtype value: list[~azure.mgmt.iotfirmwaredefense.models.CryptoKeyResource]
+        :keyword next_link: The link to the next page of items.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = next_link
+
+
 class CryptoKeySummaryResource(SummaryResourceProperties):
     """Properties for cryptographic key summary.
 
-    All required parameters must be populated in order to send to Azure.
+    Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar summary_type: Describes the type of summary. Required. Known values are: "Firmware",
-     "CVE", "BinaryHardening", "CryptoCertificate", and "CryptoKey".
+    All required parameters must be populated in order to send to server.
+
+    :ivar summary_type: The type of summary. Required. Known values are: "Firmware",
+     "CommonVulnerabilitiesAndExposures", "BinaryHardening", "CryptoCertificate", and "CryptoKey".
     :vartype summary_type: str or ~azure.mgmt.iotfirmwaredefense.models.SummaryType
-    :ivar total_keys: Total number of cryptographic keys found.
-    :vartype total_keys: int
-    :ivar public_keys: Total number of (non-certificate) public keys found.
-    :vartype public_keys: int
-    :ivar private_keys: Total number of private keys found.
-    :vartype private_keys: int
-    :ivar paired_keys: Total number of keys found that have a matching paired key or certificate.
-    :vartype paired_keys: int
-    :ivar short_key_size: Total number of keys found that have an insecure key size for the
+    :ivar provisioning_state: The status of the last operation. Known values are: "Succeeded",
+     "Failed", "Canceled", "Pending", "Extracting", and "Analyzing".
+    :vartype provisioning_state: str or ~azure.mgmt.iotfirmwaredefense.models.ProvisioningState
+    :ivar total_key_count: Total number of cryptographic keys found.
+    :vartype total_key_count: int
+    :ivar public_key_count: Total number of (non-certificate) public keys found.
+    :vartype public_key_count: int
+    :ivar private_key_count: Total number of private keys found.
+    :vartype private_key_count: int
+    :ivar paired_key_count: Total number of keys found that have a matching paired key or
+     certificate.
+    :vartype paired_key_count: int
+    :ivar short_key_size_count: Total number of keys found that have an insecure key size for the
      algorithm.
-    :vartype short_key_size: int
+    :vartype short_key_size_count: int
     """
 
     _validation = {
         "summary_type": {"required": True},
+        "provisioning_state": {"readonly": True},
     }
 
     _attribute_map = {
         "summary_type": {"key": "summaryType", "type": "str"},
-        "total_keys": {"key": "totalKeys", "type": "int"},
-        "public_keys": {"key": "publicKeys", "type": "int"},
-        "private_keys": {"key": "privateKeys", "type": "int"},
-        "paired_keys": {"key": "pairedKeys", "type": "int"},
-        "short_key_size": {"key": "shortKeySize", "type": "int"},
+        "provisioning_state": {"key": "provisioningState", "type": "str"},
+        "total_key_count": {"key": "totalKeyCount", "type": "int"},
+        "public_key_count": {"key": "publicKeyCount", "type": "int"},
+        "private_key_count": {"key": "privateKeyCount", "type": "int"},
+        "paired_key_count": {"key": "pairedKeyCount", "type": "int"},
+        "short_key_size_count": {"key": "shortKeySizeCount", "type": "int"},
     }
 
     def __init__(
         self,
         *,
-        total_keys: Optional[int] = None,
-        public_keys: Optional[int] = None,
-        private_keys: Optional[int] = None,
-        paired_keys: Optional[int] = None,
-        short_key_size: Optional[int] = None,
+        total_key_count: Optional[int] = None,
+        public_key_count: Optional[int] = None,
+        private_key_count: Optional[int] = None,
+        paired_key_count: Optional[int] = None,
+        short_key_size_count: Optional[int] = None,
         **kwargs: Any
     ) -> None:
         """
-        :keyword total_keys: Total number of cryptographic keys found.
-        :paramtype total_keys: int
-        :keyword public_keys: Total number of (non-certificate) public keys found.
-        :paramtype public_keys: int
-        :keyword private_keys: Total number of private keys found.
-        :paramtype private_keys: int
-        :keyword paired_keys: Total number of keys found that have a matching paired key or
+        :keyword total_key_count: Total number of cryptographic keys found.
+        :paramtype total_key_count: int
+        :keyword public_key_count: Total number of (non-certificate) public keys found.
+        :paramtype public_key_count: int
+        :keyword private_key_count: Total number of private keys found.
+        :paramtype private_key_count: int
+        :keyword paired_key_count: Total number of keys found that have a matching paired key or
          certificate.
-        :paramtype paired_keys: int
-        :keyword short_key_size: Total number of keys found that have an insecure key size for the
-         algorithm.
-        :paramtype short_key_size: int
+        :paramtype paired_key_count: int
+        :keyword short_key_size_count: Total number of keys found that have an insecure key size for
+         the algorithm.
+        :paramtype short_key_size_count: int
         """
         super().__init__(**kwargs)
         self.summary_type: str = "CryptoKey"
-        self.total_keys = total_keys
-        self.public_keys = public_keys
-        self.private_keys = private_keys
-        self.paired_keys = paired_keys
-        self.short_key_size = short_key_size
-
-
-class CveComponent(_serialization.Model):
-    """Properties of the SBOM component for a CVE.
-
-    :ivar component_id: ID of the SBOM component.
-    :vartype component_id: str
-    :ivar name: Name of the SBOM component.
-    :vartype name: str
-    :ivar version: Version of the SBOM component.
-    :vartype version: str
-    """
-
-    _attribute_map = {
-        "component_id": {"key": "componentId", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "version": {"key": "version", "type": "str"},
-    }
-
-    def __init__(
-        self,
-        *,
-        component_id: Optional[str] = None,
-        name: Optional[str] = None,
-        version: Optional[str] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword component_id: ID of the SBOM component.
-        :paramtype component_id: str
-        :keyword name: Name of the SBOM component.
-        :paramtype name: str
-        :keyword version: Version of the SBOM component.
-        :paramtype version: str
-        """
-        super().__init__(**kwargs)
-        self.component_id = component_id
-        self.name = name
-        self.version = version
+        self.total_key_count = total_key_count
+        self.public_key_count = public_key_count
+        self.private_key_count = private_key_count
+        self.paired_key_count = paired_key_count
+        self.short_key_size_count = short_key_size_count
 
 
 class CveLink(_serialization.Model):
@@ -1016,43 +1150,13 @@ class CveLink(_serialization.Model):
         self.label = label
 
 
-class CveListResult(_serialization.Model):
-    """List of CVE results.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar value: The list of CVE results.
-    :vartype value: list[~azure.mgmt.iotfirmwaredefense.models.CveResource]
-    :ivar next_link: The uri to fetch the next page of resources.
-    :vartype next_link: str
-    """
-
-    _validation = {
-        "value": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "value": {"key": "value", "type": "[CveResource]"},
-        "next_link": {"key": "nextLink", "type": "str"},
-    }
-
-    def __init__(self, *, next_link: Optional[str] = None, **kwargs: Any) -> None:
-        """
-        :keyword next_link: The uri to fetch the next page of resources.
-        :paramtype next_link: str
-        """
-        super().__init__(**kwargs)
-        self.value = None
-        self.next_link = next_link
-
-
-class CveResource(Resource):
-    """CVE analysis result resource.
+class CveResource(ProxyResource):
+    """The object representing a firmware analysis CVE result resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1062,7 +1166,7 @@ class CveResource(Resource):
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
     :vartype system_data: ~azure.mgmt.iotfirmwaredefense.models.SystemData
-    :ivar properties: The properties of a CVE result found within a firmware image.
+    :ivar properties: The resource-specific properties for this resource.
     :vartype properties: ~azure.mgmt.iotfirmwaredefense.models.CveResult
     """
 
@@ -1083,11 +1187,43 @@ class CveResource(Resource):
 
     def __init__(self, *, properties: Optional["_models.CveResult"] = None, **kwargs: Any) -> None:
         """
-        :keyword properties: The properties of a CVE result found within a firmware image.
+        :keyword properties: The resource-specific properties for this resource.
         :paramtype properties: ~azure.mgmt.iotfirmwaredefense.models.CveResult
         """
         super().__init__(**kwargs)
         self.properties = properties
+
+
+class CveResourceListResult(_serialization.Model):
+    """The response of a CveResource list operation.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar value: The CveResource items on this page. Required.
+    :vartype value: list[~azure.mgmt.iotfirmwaredefense.models.CveResource]
+    :ivar next_link: The link to the next page of items.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "value": {"required": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[CveResource]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(self, *, value: List["_models.CveResource"], next_link: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword value: The CveResource items on this page. Required.
+        :paramtype value: list[~azure.mgmt.iotfirmwaredefense.models.CveResource]
+        :keyword next_link: The link to the next page of items.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = next_link
 
 
 class CveResult(_serialization.Model):
@@ -1097,154 +1233,204 @@ class CveResult(_serialization.Model):
 
     :ivar cve_id: ID of the CVE result.
     :vartype cve_id: str
-    :ivar component: The SBOM component for the CVE.
-    :vartype component: ~azure.mgmt.iotfirmwaredefense.models.CveComponent
+    :ivar component_id: ID of the affected SBOM component.
+    :vartype component_id: str
+    :ivar component_name: Name of the affected SBOM component.
+    :vartype component_name: str
+    :ivar component_version: Version of the affected SBOM component.
+    :vartype component_version: str
     :ivar severity: Severity of the CVE.
     :vartype severity: str
-    :ivar name: Name of the CVE.
-    :vartype name: str
-    :ivar cvss_score: A single CVSS score to represent the CVE. If a V3 score is specified, then it
-     will use the V3 score. Otherwise if the V2 score is specified it will be the V2 score.
-    :vartype cvss_score: str
-    :ivar cvss_version: CVSS version of the CVE.
-    :vartype cvss_version: str
-    :ivar cvss_v2_score: CVSS V2 score of the CVE.
-    :vartype cvss_v2_score: str
-    :ivar cvss_v3_score: CVSS V3 score of the CVE.
-    :vartype cvss_v3_score: str
+    :ivar cve_name: Name of the CVE.
+    :vartype cve_name: str
+    :ivar effective_cvss_score: The most recent CVSS score of the CVE.
+    :vartype effective_cvss_score: float
+    :ivar effective_cvss_version: The version of the effectiveCvssScore property.
+    :vartype effective_cvss_version: int
+    :ivar cvss_scores: All known CVSS scores for the CVE.
+    :vartype cvss_scores: list[~azure.mgmt.iotfirmwaredefense.models.CvssScore]
     :ivar links: The list of reference links for the CVE.
     :vartype links: list[~azure.mgmt.iotfirmwaredefense.models.CveLink]
     :ivar description: The CVE description.
     :vartype description: str
+    :ivar provisioning_state: The status of the last operation. Known values are: "Succeeded",
+     "Failed", "Canceled", "Pending", "Extracting", and "Analyzing".
+    :vartype provisioning_state: str or ~azure.mgmt.iotfirmwaredefense.models.ProvisioningState
     """
 
     _validation = {
         "links": {"readonly": True},
+        "provisioning_state": {"readonly": True},
     }
 
     _attribute_map = {
         "cve_id": {"key": "cveId", "type": "str"},
-        "component": {"key": "component", "type": "CveComponent"},
+        "component_id": {"key": "componentId", "type": "str"},
+        "component_name": {"key": "componentName", "type": "str"},
+        "component_version": {"key": "componentVersion", "type": "str"},
         "severity": {"key": "severity", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "cvss_score": {"key": "cvssScore", "type": "str"},
-        "cvss_version": {"key": "cvssVersion", "type": "str"},
-        "cvss_v2_score": {"key": "cvssV2Score", "type": "str"},
-        "cvss_v3_score": {"key": "cvssV3Score", "type": "str"},
+        "cve_name": {"key": "cveName", "type": "str"},
+        "effective_cvss_score": {"key": "effectiveCvssScore", "type": "float"},
+        "effective_cvss_version": {"key": "effectiveCvssVersion", "type": "int"},
+        "cvss_scores": {"key": "cvssScores", "type": "[CvssScore]"},
         "links": {"key": "links", "type": "[CveLink]"},
         "description": {"key": "description", "type": "str"},
+        "provisioning_state": {"key": "provisioningState", "type": "str"},
     }
 
     def __init__(
         self,
         *,
         cve_id: Optional[str] = None,
-        component: Optional["_models.CveComponent"] = None,
+        component_id: Optional[str] = None,
+        component_name: Optional[str] = None,
+        component_version: Optional[str] = None,
         severity: Optional[str] = None,
-        name: Optional[str] = None,
-        cvss_score: Optional[str] = None,
-        cvss_version: Optional[str] = None,
-        cvss_v2_score: Optional[str] = None,
-        cvss_v3_score: Optional[str] = None,
+        cve_name: Optional[str] = None,
+        effective_cvss_score: Optional[float] = None,
+        effective_cvss_version: Optional[int] = None,
+        cvss_scores: Optional[List["_models.CvssScore"]] = None,
         description: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
         :keyword cve_id: ID of the CVE result.
         :paramtype cve_id: str
-        :keyword component: The SBOM component for the CVE.
-        :paramtype component: ~azure.mgmt.iotfirmwaredefense.models.CveComponent
+        :keyword component_id: ID of the affected SBOM component.
+        :paramtype component_id: str
+        :keyword component_name: Name of the affected SBOM component.
+        :paramtype component_name: str
+        :keyword component_version: Version of the affected SBOM component.
+        :paramtype component_version: str
         :keyword severity: Severity of the CVE.
         :paramtype severity: str
-        :keyword name: Name of the CVE.
-        :paramtype name: str
-        :keyword cvss_score: A single CVSS score to represent the CVE. If a V3 score is specified, then
-         it will use the V3 score. Otherwise if the V2 score is specified it will be the V2 score.
-        :paramtype cvss_score: str
-        :keyword cvss_version: CVSS version of the CVE.
-        :paramtype cvss_version: str
-        :keyword cvss_v2_score: CVSS V2 score of the CVE.
-        :paramtype cvss_v2_score: str
-        :keyword cvss_v3_score: CVSS V3 score of the CVE.
-        :paramtype cvss_v3_score: str
+        :keyword cve_name: Name of the CVE.
+        :paramtype cve_name: str
+        :keyword effective_cvss_score: The most recent CVSS score of the CVE.
+        :paramtype effective_cvss_score: float
+        :keyword effective_cvss_version: The version of the effectiveCvssScore property.
+        :paramtype effective_cvss_version: int
+        :keyword cvss_scores: All known CVSS scores for the CVE.
+        :paramtype cvss_scores: list[~azure.mgmt.iotfirmwaredefense.models.CvssScore]
         :keyword description: The CVE description.
         :paramtype description: str
         """
         super().__init__(**kwargs)
         self.cve_id = cve_id
-        self.component = component
+        self.component_id = component_id
+        self.component_name = component_name
+        self.component_version = component_version
         self.severity = severity
-        self.name = name
-        self.cvss_score = cvss_score
-        self.cvss_version = cvss_version
-        self.cvss_v2_score = cvss_v2_score
-        self.cvss_v3_score = cvss_v3_score
+        self.cve_name = cve_name
+        self.effective_cvss_score = effective_cvss_score
+        self.effective_cvss_version = effective_cvss_version
+        self.cvss_scores = cvss_scores
         self.links = None
         self.description = description
+        self.provisioning_state = None
 
 
 class CveSummary(SummaryResourceProperties):
     """Properties for a CVE analysis summary.
 
-    All required parameters must be populated in order to send to Azure.
+    Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar summary_type: Describes the type of summary. Required. Known values are: "Firmware",
-     "CVE", "BinaryHardening", "CryptoCertificate", and "CryptoKey".
+    All required parameters must be populated in order to send to server.
+
+    :ivar summary_type: The type of summary. Required. Known values are: "Firmware",
+     "CommonVulnerabilitiesAndExposures", "BinaryHardening", "CryptoCertificate", and "CryptoKey".
     :vartype summary_type: str or ~azure.mgmt.iotfirmwaredefense.models.SummaryType
-    :ivar critical: The total number of critical severity CVEs detected.
-    :vartype critical: int
-    :ivar high: The total number of high severity CVEs detected.
-    :vartype high: int
-    :ivar medium: The total number of medium severity CVEs detected.
-    :vartype medium: int
-    :ivar low: The total number of low severity CVEs detected.
-    :vartype low: int
-    :ivar unknown: The total number of unknown severity CVEs detected.
-    :vartype unknown: int
+    :ivar provisioning_state: The status of the last operation. Known values are: "Succeeded",
+     "Failed", "Canceled", "Pending", "Extracting", and "Analyzing".
+    :vartype provisioning_state: str or ~azure.mgmt.iotfirmwaredefense.models.ProvisioningState
+    :ivar critical_cve_count: The total number of critical severity CVEs detected.
+    :vartype critical_cve_count: int
+    :ivar high_cve_count: The total number of high severity CVEs detected.
+    :vartype high_cve_count: int
+    :ivar medium_cve_count: The total number of medium severity CVEs detected.
+    :vartype medium_cve_count: int
+    :ivar low_cve_count: The total number of low severity CVEs detected.
+    :vartype low_cve_count: int
+    :ivar unknown_cve_count: The total number of unknown severity CVEs detected.
+    :vartype unknown_cve_count: int
     """
 
     _validation = {
         "summary_type": {"required": True},
+        "provisioning_state": {"readonly": True},
     }
 
     _attribute_map = {
         "summary_type": {"key": "summaryType", "type": "str"},
-        "critical": {"key": "critical", "type": "int"},
-        "high": {"key": "high", "type": "int"},
-        "medium": {"key": "medium", "type": "int"},
-        "low": {"key": "low", "type": "int"},
-        "unknown": {"key": "unknown", "type": "int"},
+        "provisioning_state": {"key": "provisioningState", "type": "str"},
+        "critical_cve_count": {"key": "criticalCveCount", "type": "int"},
+        "high_cve_count": {"key": "highCveCount", "type": "int"},
+        "medium_cve_count": {"key": "mediumCveCount", "type": "int"},
+        "low_cve_count": {"key": "lowCveCount", "type": "int"},
+        "unknown_cve_count": {"key": "unknownCveCount", "type": "int"},
     }
 
     def __init__(
         self,
         *,
-        critical: Optional[int] = None,
-        high: Optional[int] = None,
-        medium: Optional[int] = None,
-        low: Optional[int] = None,
-        unknown: Optional[int] = None,
+        critical_cve_count: Optional[int] = None,
+        high_cve_count: Optional[int] = None,
+        medium_cve_count: Optional[int] = None,
+        low_cve_count: Optional[int] = None,
+        unknown_cve_count: Optional[int] = None,
         **kwargs: Any
     ) -> None:
         """
-        :keyword critical: The total number of critical severity CVEs detected.
-        :paramtype critical: int
-        :keyword high: The total number of high severity CVEs detected.
-        :paramtype high: int
-        :keyword medium: The total number of medium severity CVEs detected.
-        :paramtype medium: int
-        :keyword low: The total number of low severity CVEs detected.
-        :paramtype low: int
-        :keyword unknown: The total number of unknown severity CVEs detected.
-        :paramtype unknown: int
+        :keyword critical_cve_count: The total number of critical severity CVEs detected.
+        :paramtype critical_cve_count: int
+        :keyword high_cve_count: The total number of high severity CVEs detected.
+        :paramtype high_cve_count: int
+        :keyword medium_cve_count: The total number of medium severity CVEs detected.
+        :paramtype medium_cve_count: int
+        :keyword low_cve_count: The total number of low severity CVEs detected.
+        :paramtype low_cve_count: int
+        :keyword unknown_cve_count: The total number of unknown severity CVEs detected.
+        :paramtype unknown_cve_count: int
         """
         super().__init__(**kwargs)
-        self.summary_type: str = "CVE"
-        self.critical = critical
-        self.high = high
-        self.medium = medium
-        self.low = low
-        self.unknown = unknown
+        self.summary_type: str = "CommonVulnerabilitiesAndExposures"
+        self.critical_cve_count = critical_cve_count
+        self.high_cve_count = high_cve_count
+        self.medium_cve_count = medium_cve_count
+        self.low_cve_count = low_cve_count
+        self.unknown_cve_count = unknown_cve_count
+
+
+class CvssScore(_serialization.Model):
+    """Common Vulnerability Scoring System values.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar version: The version of the Common Vulnerability Scoring System (CVSS). Required.
+    :vartype version: int
+    :ivar score: The score of the CVE according to the CVSS specified.
+    :vartype score: float
+    """
+
+    _validation = {
+        "version": {"required": True},
+    }
+
+    _attribute_map = {
+        "version": {"key": "version", "type": "int"},
+        "score": {"key": "score", "type": "float"},
+    }
+
+    def __init__(self, *, version: int, score: Optional[float] = None, **kwargs: Any) -> None:
+        """
+        :keyword version: The version of the Common Vulnerability Scoring System (CVSS). Required.
+        :paramtype version: int
+        :keyword score: The score of the CVE according to the CVSS specified.
+        :paramtype score: float
+        """
+        super().__init__(**kwargs)
+        self.version = version
+        self.score = score
 
 
 class ErrorAdditionalInfo(_serialization.Model):
@@ -1339,13 +1525,13 @@ class ErrorResponse(_serialization.Model):
         self.error = error
 
 
-class Firmware(Resource):
+class Firmware(ProxyResource):
     """Firmware definition.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1355,7 +1541,7 @@ class Firmware(Resource):
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
     :vartype system_data: ~azure.mgmt.iotfirmwaredefense.models.SystemData
-    :ivar properties: The properties of a firmware.
+    :ivar properties: The resource-specific properties for this resource.
     :vartype properties: ~azure.mgmt.iotfirmwaredefense.models.FirmwareProperties
     """
 
@@ -1376,26 +1562,26 @@ class Firmware(Resource):
 
     def __init__(self, *, properties: Optional["_models.FirmwareProperties"] = None, **kwargs: Any) -> None:
         """
-        :keyword properties: The properties of a firmware.
+        :keyword properties: The resource-specific properties for this resource.
         :paramtype properties: ~azure.mgmt.iotfirmwaredefense.models.FirmwareProperties
         """
         super().__init__(**kwargs)
         self.properties = properties
 
 
-class FirmwareList(_serialization.Model):
-    """List of firmwares.
+class FirmwareListResult(_serialization.Model):
+    """The response of a Firmware list operation.
 
-    Variables are only populated by the server, and will be ignored when sending a request.
+    All required parameters must be populated in order to send to server.
 
-    :ivar value: The list of firmwares.
+    :ivar value: The Firmware items on this page. Required.
     :vartype value: list[~azure.mgmt.iotfirmwaredefense.models.Firmware]
-    :ivar next_link: The uri to fetch the next page of asset.
+    :ivar next_link: The link to the next page of items.
     :vartype next_link: str
     """
 
     _validation = {
-        "value": {"readonly": True},
+        "value": {"required": True},
     }
 
     _attribute_map = {
@@ -1403,13 +1589,15 @@ class FirmwareList(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, next_link: Optional[str] = None, **kwargs: Any) -> None:
+    def __init__(self, *, value: List["_models.Firmware"], next_link: Optional[str] = None, **kwargs: Any) -> None:
         """
-        :keyword next_link: The uri to fetch the next page of asset.
+        :keyword value: The Firmware items on this page. Required.
+        :paramtype value: list[~azure.mgmt.iotfirmwaredefense.models.Firmware]
+        :keyword next_link: The link to the next page of items.
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
-        self.value = None
+        self.value = value
         self.next_link = next_link
 
 
@@ -1435,12 +1623,15 @@ class FirmwareProperties(_serialization.Model):
     :vartype status: str or ~azure.mgmt.iotfirmwaredefense.models.Status
     :ivar status_messages: A list of errors or other messages generated during firmware analysis.
     :vartype status_messages: list[~azure.mgmt.iotfirmwaredefense.models.StatusMessage]
-    :ivar provisioning_state: Provisioning state of the resource. Known values are: "Accepted",
-     "Succeeded", "Canceled", and "Failed".
+    :ivar provisioning_state: Provisioning state of the resource. Known values are: "Succeeded",
+     "Failed", "Canceled", "Pending", "Extracting", and "Analyzing".
     :vartype provisioning_state: str or ~azure.mgmt.iotfirmwaredefense.models.ProvisioningState
     """
 
     _validation = {
+        "vendor": {"pattern": r'^[a-zA-Z0-9][a-zA-Z0-9-_. ,\'"~=(){}:]*$'},
+        "model": {"pattern": r'^[a-zA-Z0-9][a-zA-Z0-9-_. ,\'"~=(){}:]*$'},
+        "version": {"pattern": r'^[a-zA-Z0-9][a-zA-Z0-9-_. ,\'"~=(){}:]*$'},
         "provisioning_state": {"readonly": True},
     }
 
@@ -1465,7 +1656,7 @@ class FirmwareProperties(_serialization.Model):
         version: Optional[str] = None,
         description: Optional[str] = None,
         file_size: Optional[int] = None,
-        status: Union[str, "_models.Status"] = "Pending",
+        status: Optional[Union[str, "_models.Status"]] = None,
         status_messages: Optional[List["_models.StatusMessage"]] = None,
         **kwargs: Any
     ) -> None:
@@ -1504,11 +1695,16 @@ class FirmwareProperties(_serialization.Model):
 class FirmwareSummary(SummaryResourceProperties):
     """Properties for high level summary of firmware analysis results.
 
-    All required parameters must be populated in order to send to Azure.
+    Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar summary_type: Describes the type of summary. Required. Known values are: "Firmware",
-     "CVE", "BinaryHardening", "CryptoCertificate", and "CryptoKey".
+    All required parameters must be populated in order to send to server.
+
+    :ivar summary_type: The type of summary. Required. Known values are: "Firmware",
+     "CommonVulnerabilitiesAndExposures", "BinaryHardening", "CryptoCertificate", and "CryptoKey".
     :vartype summary_type: str or ~azure.mgmt.iotfirmwaredefense.models.SummaryType
+    :ivar provisioning_state: The status of the last operation. Known values are: "Succeeded",
+     "Failed", "Canceled", "Pending", "Extracting", and "Analyzing".
+    :vartype provisioning_state: str or ~azure.mgmt.iotfirmwaredefense.models.ProvisioningState
     :ivar extracted_size: Total extracted size of the firmware in bytes.
     :vartype extracted_size: int
     :ivar file_size: Firmware file size in bytes.
@@ -1527,10 +1723,12 @@ class FirmwareSummary(SummaryResourceProperties):
 
     _validation = {
         "summary_type": {"required": True},
+        "provisioning_state": {"readonly": True},
     }
 
     _attribute_map = {
         "summary_type": {"key": "summaryType", "type": "str"},
+        "provisioning_state": {"key": "provisioningState", "type": "str"},
         "extracted_size": {"key": "extractedSize", "type": "int"},
         "file_size": {"key": "fileSize", "type": "int"},
         "extracted_file_count": {"key": "extractedFileCount", "type": "int"},
@@ -1743,37 +1941,33 @@ class OperationListResult(_serialization.Model):
 class PairedKey(_serialization.Model):
     """Details of a matching paired key or certificate.
 
-    :ivar id: ID of the paired key or certificate.
-    :vartype id: str
+    :ivar paired_key_id: ID of the paired key or certificate.
+    :vartype paired_key_id: str
     :ivar type: The type indicating whether the paired object is a key or certificate.
     :vartype type: str
     """
 
     _attribute_map = {
-        "id": {"key": "id", "type": "str"},
+        "paired_key_id": {"key": "pairedKeyId", "type": "str"},
         "type": {"key": "type", "type": "str"},
     }
 
-    def __init__(
-        self,
-        *,
-        id: Optional[str] = None,  # pylint: disable=redefined-builtin
-        type: Optional[str] = None,
-        **kwargs: Any
-    ) -> None:
+    def __init__(self, *, paired_key_id: Optional[str] = None, type: Optional[str] = None, **kwargs: Any) -> None:
         """
-        :keyword id: ID of the paired key or certificate.
-        :paramtype id: str
+        :keyword paired_key_id: ID of the paired key or certificate.
+        :paramtype paired_key_id: str
         :keyword type: The type indicating whether the paired object is a key or certificate.
         :paramtype type: str
         """
         super().__init__(**kwargs)
-        self.id = id
+        self.paired_key_id = paired_key_id
         self.type = type
 
 
 class PasswordHash(_serialization.Model):
     """Password hash properties.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar password_hash_id: ID for password hash.
     :vartype password_hash_id: str
@@ -1789,7 +1983,14 @@ class PasswordHash(_serialization.Model):
     :vartype username: str
     :ivar algorithm: Algorithm of the password hash.
     :vartype algorithm: str
+    :ivar provisioning_state: The status of the last operation. Known values are: "Succeeded",
+     "Failed", "Canceled", "Pending", "Extracting", and "Analyzing".
+    :vartype provisioning_state: str or ~azure.mgmt.iotfirmwaredefense.models.ProvisioningState
     """
+
+    _validation = {
+        "provisioning_state": {"readonly": True},
+    }
 
     _attribute_map = {
         "password_hash_id": {"key": "passwordHashId", "type": "str"},
@@ -1799,6 +2000,7 @@ class PasswordHash(_serialization.Model):
         "context": {"key": "context", "type": "str"},
         "username": {"key": "username", "type": "str"},
         "algorithm": {"key": "algorithm", "type": "str"},
+        "provisioning_state": {"key": "provisioningState", "type": "str"},
     }
 
     def __init__(
@@ -1837,45 +2039,16 @@ class PasswordHash(_serialization.Model):
         self.context = context
         self.username = username
         self.algorithm = algorithm
+        self.provisioning_state = None
 
 
-class PasswordHashListResult(_serialization.Model):
-    """List of password hash results.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar value: The list of password hash results.
-    :vartype value: list[~azure.mgmt.iotfirmwaredefense.models.PasswordHashResource]
-    :ivar next_link: The uri to fetch the next page of resources.
-    :vartype next_link: str
-    """
-
-    _validation = {
-        "value": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "value": {"key": "value", "type": "[PasswordHashResource]"},
-        "next_link": {"key": "nextLink", "type": "str"},
-    }
-
-    def __init__(self, *, next_link: Optional[str] = None, **kwargs: Any) -> None:
-        """
-        :keyword next_link: The uri to fetch the next page of resources.
-        :paramtype next_link: str
-        """
-        super().__init__(**kwargs)
-        self.value = None
-        self.next_link = next_link
-
-
-class PasswordHashResource(Resource):
-    """Password hash resource.
+class PasswordHashResource(ProxyResource):
+    """The object representing a firmware analysis password hash result resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1885,7 +2058,7 @@ class PasswordHashResource(Resource):
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
     :vartype system_data: ~azure.mgmt.iotfirmwaredefense.models.SystemData
-    :ivar properties: The properties of a password hash found within a firmware image.
+    :ivar properties: The resource-specific properties for this resource.
     :vartype properties: ~azure.mgmt.iotfirmwaredefense.models.PasswordHash
     """
 
@@ -1906,15 +2079,51 @@ class PasswordHashResource(Resource):
 
     def __init__(self, *, properties: Optional["_models.PasswordHash"] = None, **kwargs: Any) -> None:
         """
-        :keyword properties: The properties of a password hash found within a firmware image.
+        :keyword properties: The resource-specific properties for this resource.
         :paramtype properties: ~azure.mgmt.iotfirmwaredefense.models.PasswordHash
         """
         super().__init__(**kwargs)
         self.properties = properties
 
 
+class PasswordHashResourceListResult(_serialization.Model):
+    """The response of a PasswordHashResource list operation.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar value: The PasswordHashResource items on this page. Required.
+    :vartype value: list[~azure.mgmt.iotfirmwaredefense.models.PasswordHashResource]
+    :ivar next_link: The link to the next page of items.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "value": {"required": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[PasswordHashResource]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self, *, value: List["_models.PasswordHashResource"], next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: The PasswordHashResource items on this page. Required.
+        :paramtype value: list[~azure.mgmt.iotfirmwaredefense.models.PasswordHashResource]
+        :keyword next_link: The link to the next page of items.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = next_link
+
+
 class SbomComponent(_serialization.Model):
     """SBOM component of a firmware.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar component_id: ID for the component.
     :vartype component_id: str
@@ -1924,9 +2133,17 @@ class SbomComponent(_serialization.Model):
     :vartype version: str
     :ivar license: License for the component.
     :vartype license: str
-    :ivar file_paths: File paths related to the component.
+    :ivar file_paths: File paths related to the component. Note, relatedFiles should be used
+     instead of this property.
     :vartype file_paths: list[str]
+    :ivar provisioning_state: The status of the last operation. Known values are: "Succeeded",
+     "Failed", "Canceled", "Pending", "Extracting", and "Analyzing".
+    :vartype provisioning_state: str or ~azure.mgmt.iotfirmwaredefense.models.ProvisioningState
     """
+
+    _validation = {
+        "provisioning_state": {"readonly": True},
+    }
 
     _attribute_map = {
         "component_id": {"key": "componentId", "type": "str"},
@@ -1934,6 +2151,7 @@ class SbomComponent(_serialization.Model):
         "version": {"key": "version", "type": "str"},
         "license": {"key": "license", "type": "str"},
         "file_paths": {"key": "filePaths", "type": "[str]"},
+        "provisioning_state": {"key": "provisioningState", "type": "str"},
     }
 
     def __init__(
@@ -1955,7 +2173,8 @@ class SbomComponent(_serialization.Model):
         :paramtype version: str
         :keyword license: License for the component.
         :paramtype license: str
-        :keyword file_paths: File paths related to the component.
+        :keyword file_paths: File paths related to the component. Note, relatedFiles should be used
+         instead of this property.
         :paramtype file_paths: list[str]
         """
         super().__init__(**kwargs)
@@ -1964,45 +2183,16 @@ class SbomComponent(_serialization.Model):
         self.version = version
         self.license = license
         self.file_paths = file_paths
+        self.provisioning_state = None
 
 
-class SbomComponentListResult(_serialization.Model):
-    """List of SBOM results.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar value: The list of SBOM components.
-    :vartype value: list[~azure.mgmt.iotfirmwaredefense.models.SbomComponentResource]
-    :ivar next_link: The uri to fetch the next page of resources.
-    :vartype next_link: str
-    """
-
-    _validation = {
-        "value": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "value": {"key": "value", "type": "[SbomComponentResource]"},
-        "next_link": {"key": "nextLink", "type": "str"},
-    }
-
-    def __init__(self, *, next_link: Optional[str] = None, **kwargs: Any) -> None:
-        """
-        :keyword next_link: The uri to fetch the next page of resources.
-        :paramtype next_link: str
-        """
-        super().__init__(**kwargs)
-        self.value = None
-        self.next_link = next_link
-
-
-class SbomComponentResource(Resource):
-    """SBOM analysis result resource.
+class SbomComponentResource(ProxyResource):
+    """The object representing a firmware analysis SBOM component result resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -2012,7 +2202,7 @@ class SbomComponentResource(Resource):
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
     :vartype system_data: ~azure.mgmt.iotfirmwaredefense.models.SystemData
-    :ivar properties: The properties of an SBOM component found within a firmware image.
+    :ivar properties: The resource-specific properties for this resource.
     :vartype properties: ~azure.mgmt.iotfirmwaredefense.models.SbomComponent
     """
 
@@ -2033,11 +2223,114 @@ class SbomComponentResource(Resource):
 
     def __init__(self, *, properties: Optional["_models.SbomComponent"] = None, **kwargs: Any) -> None:
         """
-        :keyword properties: The properties of an SBOM component found within a firmware image.
+        :keyword properties: The resource-specific properties for this resource.
         :paramtype properties: ~azure.mgmt.iotfirmwaredefense.models.SbomComponent
         """
         super().__init__(**kwargs)
         self.properties = properties
+
+
+class SbomComponentResourceListResult(_serialization.Model):
+    """The response of a SbomComponentResource list operation.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar value: The SbomComponentResource items on this page. Required.
+    :vartype value: list[~azure.mgmt.iotfirmwaredefense.models.SbomComponentResource]
+    :ivar next_link: The link to the next page of items.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "value": {"required": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[SbomComponentResource]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self, *, value: List["_models.SbomComponentResource"], next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: The SbomComponentResource items on this page. Required.
+        :paramtype value: list[~azure.mgmt.iotfirmwaredefense.models.SbomComponentResource]
+        :keyword next_link: The link to the next page of items.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = next_link
+
+
+class Sku(_serialization.Model):
+    """The resource model definition representing SKU.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar name: The name of the SKU. E.g. P3. It is typically a letter+number code. Required.
+    :vartype name: str
+    :ivar tier: This field is required to be implemented by the Resource Provider if the service
+     has more than one tier, but is not required on a PUT. Known values are: "Free", "Basic",
+     "Standard", and "Premium".
+    :vartype tier: str or ~azure.mgmt.iotfirmwaredefense.models.SkuTier
+    :ivar size: The SKU size. When the name field is the combination of tier and some other value,
+     this would be the standalone code.
+    :vartype size: str
+    :ivar family: If the service has different generations of hardware, for the same SKU, then that
+     can be captured here.
+    :vartype family: str
+    :ivar capacity: If the SKU supports scale out/in then the capacity integer should be included.
+     If scale out/in is not possible for the resource this may be omitted.
+    :vartype capacity: int
+    """
+
+    _validation = {
+        "name": {"required": True},
+    }
+
+    _attribute_map = {
+        "name": {"key": "name", "type": "str"},
+        "tier": {"key": "tier", "type": "str"},
+        "size": {"key": "size", "type": "str"},
+        "family": {"key": "family", "type": "str"},
+        "capacity": {"key": "capacity", "type": "int"},
+    }
+
+    def __init__(
+        self,
+        *,
+        name: str,
+        tier: Optional[Union[str, "_models.SkuTier"]] = None,
+        size: Optional[str] = None,
+        family: Optional[str] = None,
+        capacity: Optional[int] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword name: The name of the SKU. E.g. P3. It is typically a letter+number code. Required.
+        :paramtype name: str
+        :keyword tier: This field is required to be implemented by the Resource Provider if the service
+         has more than one tier, but is not required on a PUT. Known values are: "Free", "Basic",
+         "Standard", and "Premium".
+        :paramtype tier: str or ~azure.mgmt.iotfirmwaredefense.models.SkuTier
+        :keyword size: The SKU size. When the name field is the combination of tier and some other
+         value, this would be the standalone code.
+        :paramtype size: str
+        :keyword family: If the service has different generations of hardware, for the same SKU, then
+         that can be captured here.
+        :paramtype family: str
+        :keyword capacity: If the SKU supports scale out/in then the capacity integer should be
+         included. If scale out/in is not possible for the resource this may be omitted.
+        :paramtype capacity: int
+        """
+        super().__init__(**kwargs)
+        self.name = name
+        self.tier = tier
+        self.size = size
+        self.family = family
+        self.capacity = capacity
 
 
 class StatusMessage(_serialization.Model):
@@ -2066,43 +2359,13 @@ class StatusMessage(_serialization.Model):
         self.message = message
 
 
-class SummaryListResult(_serialization.Model):
-    """List of analysis summaries.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar value: The list of summaries.
-    :vartype value: list[~azure.mgmt.iotfirmwaredefense.models.SummaryResource]
-    :ivar next_link: The uri to fetch the next page of resources.
-    :vartype next_link: str
-    """
-
-    _validation = {
-        "value": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "value": {"key": "value", "type": "[SummaryResource]"},
-        "next_link": {"key": "nextLink", "type": "str"},
-    }
-
-    def __init__(self, *, next_link: Optional[str] = None, **kwargs: Any) -> None:
-        """
-        :keyword next_link: The uri to fetch the next page of resources.
-        :paramtype next_link: str
-        """
-        super().__init__(**kwargs)
-        self.value = None
-        self.next_link = next_link
-
-
-class SummaryResource(Resource):
+class SummaryResource(ProxyResource):
     """The object representing a firmware analysis summary resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -2112,7 +2375,7 @@ class SummaryResource(Resource):
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
     :vartype system_data: ~azure.mgmt.iotfirmwaredefense.models.SystemData
-    :ivar properties: Properties of an analysis summary.
+    :ivar properties: The resource-specific properties for this resource.
     :vartype properties: ~azure.mgmt.iotfirmwaredefense.models.SummaryResourceProperties
     """
 
@@ -2121,7 +2384,6 @@ class SummaryResource(Resource):
         "name": {"readonly": True},
         "type": {"readonly": True},
         "system_data": {"readonly": True},
-        "properties": {"readonly": True},
     }
 
     _attribute_map = {
@@ -2132,10 +2394,47 @@ class SummaryResource(Resource):
         "properties": {"key": "properties", "type": "SummaryResourceProperties"},
     }
 
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
+    def __init__(self, *, properties: Optional["_models.SummaryResourceProperties"] = None, **kwargs: Any) -> None:
+        """
+        :keyword properties: The resource-specific properties for this resource.
+        :paramtype properties: ~azure.mgmt.iotfirmwaredefense.models.SummaryResourceProperties
+        """
         super().__init__(**kwargs)
-        self.properties = None
+        self.properties = properties
+
+
+class SummaryResourceListResult(_serialization.Model):
+    """The response of a SummaryResource list operation.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar value: The SummaryResource items on this page. Required.
+    :vartype value: list[~azure.mgmt.iotfirmwaredefense.models.SummaryResource]
+    :ivar next_link: The link to the next page of items.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "value": {"required": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[SummaryResource]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self, *, value: List["_models.SummaryResource"], next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: The SummaryResource items on this page. Required.
+        :paramtype value: list[~azure.mgmt.iotfirmwaredefense.models.SummaryResource]
+        :keyword next_link: The link to the next page of items.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = next_link
 
 
 class SystemData(_serialization.Model):
@@ -2208,10 +2507,10 @@ class TrackedResource(Resource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -2279,15 +2578,128 @@ class UrlToken(_serialization.Model):
         self.url = None
 
 
+class UsageMetric(ProxyResource):
+    """The object representing how many firmwares the user has uploaded to the workspace.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.iotfirmwaredefense.models.SystemData
+    :ivar properties: The resource-specific properties for this resource.
+    :vartype properties: ~azure.mgmt.iotfirmwaredefense.models.UsageMetricProperties
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "properties": {"key": "properties", "type": "UsageMetricProperties"},
+    }
+
+    def __init__(self, *, properties: Optional["_models.UsageMetricProperties"] = None, **kwargs: Any) -> None:
+        """
+        :keyword properties: The resource-specific properties for this resource.
+        :paramtype properties: ~azure.mgmt.iotfirmwaredefense.models.UsageMetricProperties
+        """
+        super().__init__(**kwargs)
+        self.properties = properties
+
+
+class UsageMetricListResult(_serialization.Model):
+    """The response of a UsageMetric list operation.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar value: The UsageMetric items on this page. Required.
+    :vartype value: list[~azure.mgmt.iotfirmwaredefense.models.UsageMetric]
+    :ivar next_link: The link to the next page of items.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "value": {"required": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[UsageMetric]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(self, *, value: List["_models.UsageMetric"], next_link: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword value: The UsageMetric items on this page. Required.
+        :paramtype value: list[~azure.mgmt.iotfirmwaredefense.models.UsageMetric]
+        :keyword next_link: The link to the next page of items.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = next_link
+
+
+class UsageMetricProperties(_serialization.Model):
+    """Properties of a workspaces usage metrics.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar monthly_firmware_upload_count: The number of firmware analysis jobs that have been
+     submitted in the current month. Required.
+    :vartype monthly_firmware_upload_count: int
+    :ivar total_firmware_count: The total number of firmwares that are in the workspace. Required.
+    :vartype total_firmware_count: int
+    :ivar provisioning_state: The status of the last operation. Known values are: "Succeeded",
+     "Failed", "Canceled", "Pending", "Extracting", and "Analyzing".
+    :vartype provisioning_state: str or ~azure.mgmt.iotfirmwaredefense.models.ProvisioningState
+    """
+
+    _validation = {
+        "monthly_firmware_upload_count": {"required": True, "readonly": True},
+        "total_firmware_count": {"required": True, "readonly": True},
+        "provisioning_state": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "monthly_firmware_upload_count": {"key": "monthlyFirmwareUploadCount", "type": "int"},
+        "total_firmware_count": {"key": "totalFirmwareCount", "type": "int"},
+        "provisioning_state": {"key": "provisioningState", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.monthly_firmware_upload_count = None
+        self.total_firmware_count = None
+        self.provisioning_state = None
+
+
 class Workspace(TrackedResource):
     """Firmware analysis workspace.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -2301,8 +2713,10 @@ class Workspace(TrackedResource):
     :vartype tags: dict[str, str]
     :ivar location: The geo-location where the resource lives. Required.
     :vartype location: str
-    :ivar properties: Workspace properties.
+    :ivar properties: The resource-specific properties for this resource.
     :vartype properties: ~azure.mgmt.iotfirmwaredefense.models.WorkspaceProperties
+    :ivar sku: The SKU (Stock Keeping Unit) assigned to this resource.
+    :vartype sku: ~azure.mgmt.iotfirmwaredefense.models.Sku
     """
 
     _validation = {
@@ -2321,6 +2735,7 @@ class Workspace(TrackedResource):
         "tags": {"key": "tags", "type": "{str}"},
         "location": {"key": "location", "type": "str"},
         "properties": {"key": "properties", "type": "WorkspaceProperties"},
+        "sku": {"key": "sku", "type": "Sku"},
     }
 
     def __init__(
@@ -2329,6 +2744,7 @@ class Workspace(TrackedResource):
         location: str,
         tags: Optional[Dict[str, str]] = None,
         properties: Optional["_models.WorkspaceProperties"] = None,
+        sku: Optional["_models.Sku"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -2336,26 +2752,29 @@ class Workspace(TrackedResource):
         :paramtype tags: dict[str, str]
         :keyword location: The geo-location where the resource lives. Required.
         :paramtype location: str
-        :keyword properties: Workspace properties.
+        :keyword properties: The resource-specific properties for this resource.
         :paramtype properties: ~azure.mgmt.iotfirmwaredefense.models.WorkspaceProperties
+        :keyword sku: The SKU (Stock Keeping Unit) assigned to this resource.
+        :paramtype sku: ~azure.mgmt.iotfirmwaredefense.models.Sku
         """
         super().__init__(tags=tags, location=location, **kwargs)
         self.properties = properties
+        self.sku = sku
 
 
-class WorkspaceList(_serialization.Model):
-    """Return a list of firmware analysis workspaces.
+class WorkspaceListResult(_serialization.Model):
+    """The response of a Workspace list operation.
 
-    Variables are only populated by the server, and will be ignored when sending a request.
+    All required parameters must be populated in order to send to server.
 
-    :ivar value: The list of firmware analysis workspaces.
+    :ivar value: The Workspace items on this page. Required.
     :vartype value: list[~azure.mgmt.iotfirmwaredefense.models.Workspace]
-    :ivar next_link: The uri to fetch the next page of asset.
+    :ivar next_link: The link to the next page of items.
     :vartype next_link: str
     """
 
     _validation = {
-        "value": {"readonly": True},
+        "value": {"required": True},
     }
 
     _attribute_map = {
@@ -2363,13 +2782,15 @@ class WorkspaceList(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, *, next_link: Optional[str] = None, **kwargs: Any) -> None:
+    def __init__(self, *, value: List["_models.Workspace"], next_link: Optional[str] = None, **kwargs: Any) -> None:
         """
-        :keyword next_link: The uri to fetch the next page of asset.
+        :keyword value: The Workspace items on this page. Required.
+        :paramtype value: list[~azure.mgmt.iotfirmwaredefense.models.Workspace]
+        :keyword next_link: The link to the next page of items.
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
-        self.value = None
+        self.value = value
         self.next_link = next_link
 
 
@@ -2378,8 +2799,8 @@ class WorkspaceProperties(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar provisioning_state: Provisioning state of the resource. Known values are: "Accepted",
-     "Succeeded", "Canceled", and "Failed".
+    :ivar provisioning_state: Provisioning state of the resource. Known values are: "Succeeded",
+     "Failed", "Canceled", "Pending", "Extracting", and "Analyzing".
     :vartype provisioning_state: str or ~azure.mgmt.iotfirmwaredefense.models.ProvisioningState
     """
 
@@ -2397,21 +2818,33 @@ class WorkspaceProperties(_serialization.Model):
         self.provisioning_state = None
 
 
-class WorkspaceUpdateDefinition(_serialization.Model):
-    """Firmware analysis workspace.
+class WorkspaceUpdate(_serialization.Model):
+    """The type used for update operations of the Workspace.
 
-    :ivar properties: The editable workspace properties.
-    :vartype properties: ~azure.mgmt.iotfirmwaredefense.models.WorkspaceProperties
+    :ivar sku: The SKU (Stock Keeping Unit) assigned to this resource.
+    :vartype sku: ~azure.mgmt.iotfirmwaredefense.models.AzureResourceManagerCommonTypesSkuUpdate
+    :ivar tags: Resource tags.
+    :vartype tags: dict[str, str]
     """
 
     _attribute_map = {
-        "properties": {"key": "properties", "type": "WorkspaceProperties"},
+        "sku": {"key": "sku", "type": "AzureResourceManagerCommonTypesSkuUpdate"},
+        "tags": {"key": "tags", "type": "{str}"},
     }
 
-    def __init__(self, *, properties: Optional["_models.WorkspaceProperties"] = None, **kwargs: Any) -> None:
+    def __init__(
+        self,
+        *,
+        sku: Optional["_models.AzureResourceManagerCommonTypesSkuUpdate"] = None,
+        tags: Optional[Dict[str, str]] = None,
+        **kwargs: Any
+    ) -> None:
         """
-        :keyword properties: The editable workspace properties.
-        :paramtype properties: ~azure.mgmt.iotfirmwaredefense.models.WorkspaceProperties
+        :keyword sku: The SKU (Stock Keeping Unit) assigned to this resource.
+        :paramtype sku: ~azure.mgmt.iotfirmwaredefense.models.AzureResourceManagerCommonTypesSkuUpdate
+        :keyword tags: Resource tags.
+        :paramtype tags: dict[str, str]
         """
         super().__init__(**kwargs)
-        self.properties = properties
+        self.sku = sku
+        self.tags = tags

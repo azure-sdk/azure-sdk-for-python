@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.iotfirmwaredefense import IoTFirmwareDefenseMgmtClient
 
 """
@@ -14,7 +15,7 @@ from azure.mgmt.iotfirmwaredefense import IoTFirmwareDefenseMgmtClient
     pip install azure-identity
     pip install azure-mgmt-iotfirmwaredefense
 # USAGE
-    python firmwares_generate_download_url_minimum_set_gen.py
+    python firmwares_create_minimum_set_gen.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,14 +30,15 @@ def main():
         subscription_id="685C0C6F-9867-4B1C-A534-AA3A05B54BCE",
     )
 
-    response = client.firmwares.generate_download_url(
+    response = client.firmwares.create(
         resource_group_name="rgworkspaces-firmwares",
         workspace_name="A7",
         firmware_id="umrkdttp",
+        resource={"properties": {}},
     )
     print(response)
 
 
-# x-ms-original-file: specification/fist/resource-manager/Microsoft.IoTFirmwareDefense/stable/2024-01-10/examples/Firmwares_GenerateDownloadUrl_MinimumSet_Gen.json
+# x-ms-original-file: specification/fist/resource-manager/Microsoft.IoTFirmwareDefense/preview/2025-04-01-preview/examples/Firmwares_Create_MinimumSet_Gen.json
 if __name__ == "__main__":
     main()

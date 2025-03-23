@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.iotfirmwaredefense import IoTFirmwareDefenseMgmtClient
 
 """
@@ -26,29 +27,29 @@ from azure.mgmt.iotfirmwaredefense import IoTFirmwareDefenseMgmtClient
 def main():
     client = IoTFirmwareDefenseMgmtClient(
         credential=DefaultAzureCredential(),
-        subscription_id="685C0C6F-9867-4B1C-A534-AA3A05B54BCE",
+        subscription_id="5C707B5F-6130-4F71-819E-953A28942E88",
     )
 
     response = client.firmwares.create(
-        resource_group_name="rgworkspaces-firmwares",
-        workspace_name="A7",
-        firmware_id="umrkdttp",
-        firmware={
+        resource_group_name="rgiotfirmwaredefense",
+        workspace_name="exampleWorkspaceName",
+        firmware_id="00000000-0000-0000-0000-000000000000",
+        resource={
             "properties": {
-                "description": "uz",
-                "fileName": "wresexxulcdsdd",
-                "fileSize": 17,
-                "model": "f",
+                "description": "sqt",
+                "fileName": "dmnqhyxssutvnewntlb",
+                "fileSize": 30,
+                "model": "wmyfbyjsggbvxcuin",
                 "status": "Pending",
-                "statusMessages": [{"message": "ulvhmhokezathzzauiitu"}],
-                "vendor": "vycmdhgtmepcptyoubztiuudpkcpd",
-                "version": "s",
+                "statusMessages": [{"errorCode": 20, "message": "edtylkjvj"}],
+                "vendor": "hymojocxpxqhtblioaavylnzyg",
+                "version": "nhtxzslgcbtptu",
             }
         },
     )
     print(response)
 
 
-# x-ms-original-file: specification/fist/resource-manager/Microsoft.IoTFirmwareDefense/stable/2024-01-10/examples/Firmwares_Create_MaximumSet_Gen.json
+# x-ms-original-file: specification/fist/resource-manager/Microsoft.IoTFirmwareDefense/preview/2025-04-01-preview/examples/Firmwares_Create_MaximumSet_Gen.json
 if __name__ == "__main__":
     main()

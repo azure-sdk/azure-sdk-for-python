@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.iotfirmwaredefense import IoTFirmwareDefenseMgmtClient
 
 """
@@ -32,11 +33,11 @@ def main():
     response = client.workspaces.create(
         resource_group_name="rgworkspaces",
         workspace_name="E___-3",
-        workspace={"location": "jjwbseilitjgdrhbvvkwviqj"},
+        resource={"location": "emiscxuo", "properties": {}},
     )
     print(response)
 
 
-# x-ms-original-file: specification/fist/resource-manager/Microsoft.IoTFirmwareDefense/stable/2024-01-10/examples/Workspaces_Create_MinimumSet_Gen.json
+# x-ms-original-file: specification/fist/resource-manager/Microsoft.IoTFirmwareDefense/preview/2025-04-01-preview/examples/Workspaces_Create_MinimumSet_Gen.json
 if __name__ == "__main__":
     main()

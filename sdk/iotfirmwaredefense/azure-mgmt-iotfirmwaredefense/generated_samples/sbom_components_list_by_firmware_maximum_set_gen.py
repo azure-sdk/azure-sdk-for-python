@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.iotfirmwaredefense import IoTFirmwareDefenseMgmtClient
 
 """
@@ -26,18 +27,18 @@ from azure.mgmt.iotfirmwaredefense import IoTFirmwareDefenseMgmtClient
 def main():
     client = IoTFirmwareDefenseMgmtClient(
         credential=DefaultAzureCredential(),
-        subscription_id="00000000-0000-0000-0000-000000000000",
+        subscription_id="5C707B5F-6130-4F71-819E-953A28942E88",
     )
 
     response = client.sbom_components.list_by_firmware(
-        resource_group_name="FirmwareAnalysisRG",
-        workspace_name="default",
-        firmware_id="109a9886-50bf-85a8-9d75-000000000000",
+        resource_group_name="rgiotfirmwaredefense",
+        workspace_name="exampleWorkspaceName",
+        firmware_id="00000000-0000-0000-0000-000000000000",
     )
     for item in response:
         print(item)
 
 
-# x-ms-original-file: specification/fist/resource-manager/Microsoft.IoTFirmwareDefense/stable/2024-01-10/examples/SbomComponents_ListByFirmware_MaximumSet_Gen.json
+# x-ms-original-file: specification/fist/resource-manager/Microsoft.IoTFirmwareDefense/preview/2025-04-01-preview/examples/SbomComponents_ListByFirmware_MaximumSet_Gen.json
 if __name__ == "__main__":
     main()

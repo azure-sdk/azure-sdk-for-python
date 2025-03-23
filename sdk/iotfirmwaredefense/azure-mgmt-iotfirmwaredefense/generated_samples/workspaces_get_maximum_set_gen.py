@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.iotfirmwaredefense import IoTFirmwareDefenseMgmtClient
 
 """
@@ -26,16 +27,16 @@ from azure.mgmt.iotfirmwaredefense import IoTFirmwareDefenseMgmtClient
 def main():
     client = IoTFirmwareDefenseMgmtClient(
         credential=DefaultAzureCredential(),
-        subscription_id="9781B4B5-0922-472A-80F0-B743D0596694",
+        subscription_id="5C707B5F-6130-4F71-819E-953A28942E88",
     )
 
     response = client.workspaces.get(
-        resource_group_name="rgworkspaces",
-        workspace_name="E_US",
+        resource_group_name="rgiotfirmwaredefense",
+        workspace_name="exampleWorkspaceName",
     )
     print(response)
 
 
-# x-ms-original-file: specification/fist/resource-manager/Microsoft.IoTFirmwareDefense/stable/2024-01-10/examples/Workspaces_Get_MaximumSet_Gen.json
+# x-ms-original-file: specification/fist/resource-manager/Microsoft.IoTFirmwareDefense/preview/2025-04-01-preview/examples/Workspaces_Get_MaximumSet_Gen.json
 if __name__ == "__main__":
     main()
