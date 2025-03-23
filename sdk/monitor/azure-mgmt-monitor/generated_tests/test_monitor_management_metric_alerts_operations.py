@@ -20,32 +20,11 @@ class TestMonitorManagementMetricAlertsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_metric_alerts_list_by_subscription(self, resource_group):
-        response = self.client.metric_alerts.list_by_subscription(
-            api_version="2018-03-01",
-        )
-        result = [r for r in response]
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
-    def test_metric_alerts_list_by_resource_group(self, resource_group):
-        response = self.client.metric_alerts.list_by_resource_group(
-            resource_group_name=resource_group.name,
-            api_version="2018-03-01",
-        )
-        result = [r for r in response]
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
     def test_metric_alerts_get(self, resource_group):
         response = self.client.metric_alerts.get(
             resource_group_name=resource_group.name,
             rule_name="str",
-            api_version="2018-03-01",
+            api_version="2024-03-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -58,26 +37,27 @@ class TestMonitorManagementMetricAlertsOperations(AzureMgmtRecordedTestCase):
             resource_group_name=resource_group.name,
             rule_name="str",
             parameters={
-                "criteria": "metric_alert_criteria",
-                "enabled": bool,
-                "evaluationFrequency": "1 day, 0:00:00",
-                "location": "str",
-                "scopes": ["str"],
-                "severity": 0,
-                "windowSize": "1 day, 0:00:00",
-                "actions": [{"actionGroupId": "str", "webHookProperties": {"str": "str"}}],
-                "autoMitigate": bool,
-                "description": "str",
+                "kind": "str",
                 "id": "str",
-                "isMigrated": bool,
-                "lastUpdatedTime": "2020-02-20 00:00:00",
+                "location": "str",
                 "name": "str",
+                "properties": {
+                    "enabled": bool,
+                    "evaluationFrequency": "str",
+                    "scopes": ["str"],
+                    "severity": 0,
+                    "actionProperties": {"str": "str"},
+                    "actions": [{"actionGroupId": "str"}],
+                    "autoMitigate": bool,
+                    "customProperties": {"str": "str"},
+                    "description": "str",
+                    "targetResourceRegion": "str",
+                    "targetResourceType": "str",
+                },
                 "tags": {"str": "str"},
-                "targetResourceRegion": "str",
-                "targetResourceType": "str",
                 "type": "str",
             },
-            api_version="2018-03-01",
+            api_version="2024-03-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -89,23 +69,8 @@ class TestMonitorManagementMetricAlertsOperations(AzureMgmtRecordedTestCase):
         response = self.client.metric_alerts.update(
             resource_group_name=resource_group.name,
             rule_name="str",
-            parameters={
-                "actions": [{"actionGroupId": "str", "webHookProperties": {"str": "str"}}],
-                "autoMitigate": bool,
-                "criteria": "metric_alert_criteria",
-                "description": "str",
-                "enabled": bool,
-                "evaluationFrequency": "1 day, 0:00:00",
-                "isMigrated": bool,
-                "lastUpdatedTime": "2020-02-20 00:00:00",
-                "scopes": ["str"],
-                "severity": 0,
-                "tags": {"str": "str"},
-                "targetResourceRegion": "str",
-                "targetResourceType": "str",
-                "windowSize": "1 day, 0:00:00",
-            },
-            api_version="2018-03-01",
+            parameters={"properties": {"actions": [{"actionGroupId": "str"}], "enabled": bool}, "tags": {"str": "str"}},
+            api_version="2024-03-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -117,7 +82,28 @@ class TestMonitorManagementMetricAlertsOperations(AzureMgmtRecordedTestCase):
         response = self.client.metric_alerts.delete(
             resource_group_name=resource_group.name,
             rule_name="str",
-            api_version="2018-03-01",
+            api_version="2024-03-01-preview",
+        )
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy
+    def test_metric_alerts_list_by_resource_group(self, resource_group):
+        response = self.client.metric_alerts.list_by_resource_group(
+            resource_group_name=resource_group.name,
+            api_version="2024-03-01-preview",
+        )
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy
+    def test_metric_alerts_list_by_subscription(self, resource_group):
+        response = self.client.metric_alerts.list_by_subscription(
+            api_version="2024-03-01-preview",
         )
 
         # please add some check logic here by yourself

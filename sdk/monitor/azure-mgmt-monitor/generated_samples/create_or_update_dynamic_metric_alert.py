@@ -15,7 +15,7 @@ from azure.mgmt.monitor import MonitorManagementClient
     pip install azure-identity
     pip install azure-mgmt-monitor
 # USAGE
-    python update_metric_alert.py
+    python create_or_update_dynamic_metric_alert.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -30,24 +30,38 @@ def main():
         subscription_id="14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7",
     )
 
-    response = client.metric_alerts.update(
+    response = client.metric_alerts.create_or_update(
         resource_group_name="gigtest",
-        rule_name="highcpu",
+        rule_name="dynamiccpu",
         parameters={
+            "kind": "Query",
+            "location": "global",
             "properties": {
                 "actions": [
                     {
-                        "actionGroupId": "/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourcegroups/gigtest/providers/microsoft.insights/actiongroups/newgroup"
+                        "actionGroupId": "/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourcegroups/gigtest/providers/microsoft.insights/actiongroups/group2"
                     }
                 ],
-                "enabled": False,
+                "criteria": {
+                    "query": 'Perf | where ObjectName == "Processor" and CounterName == "% Processor Time" | summarize AggregatedValue = avg(CounterValue) by bin(TimeGenerated, 5m)'
+                },
+                "description": "This is a dynamic metric alert",
+                "enabled": True,
+                "evaluationFrequency": "PT1M",
+                "resolveConfiguration": {"autoResolved": True, "timeToResolve": "PT15M"},
+                "scopes": [
+                    "/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourceGroups/gigtest/providers/Microsoft.Compute/virtualMachines/gigwadme"
+                ],
+                "severity": 3,
             },
-            "tags": {"key1": "value1", "key2": "value2"},
+            "tags": {
+                "hidden-link:/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/Rac46PostSwapRG/providers/Microsoft.Web/sites/leoalerttest": "Resource"
+            },
         },
     )
     print(response)
 
 
-# x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2024-03-01-preview/examples/updateMetricAlert.json
+# x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2024-03-01-preview/examples/createOrUpdateDynamicMetricAlert.json
 if __name__ == "__main__":
     main()
