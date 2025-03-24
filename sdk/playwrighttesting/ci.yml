@@ -32,3 +32,5 @@ extends:
     Artifacts:
     - name: azure-mgmt-playwrighttesting
       safeName: azuremgmtplaywrighttesting
+    - name: azure-developer-microsoftplaywrighttesting
+      safeName: azuredevelopermicrosoftplaywrighttesting
