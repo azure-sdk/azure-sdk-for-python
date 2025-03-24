@@ -8,12 +8,12 @@
 
 from azure.identity import DefaultAzureCredential
 
-from azure.mgmt.connectedcache import ConnectedCacheMgmtClient
+from microsoft.connectedcache import ConnectedCacheMgmtClient
 
 """
 # PREREQUISITES
     pip install azure-identity
-    pip install azure-mgmt-connectedcache
+    pip install microsoft-connectedcache
 # USAGE
     python isp_customers_list_by_resource_group_maximum_set_gen.py
 

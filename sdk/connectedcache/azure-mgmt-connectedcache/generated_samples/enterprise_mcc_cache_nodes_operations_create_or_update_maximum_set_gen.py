@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8,12 +9,12 @@
 
 from azure.identity import DefaultAzureCredential
 
-from azure.mgmt.connectedcache import ConnectedCacheMgmtClient
+from microsoft.connectedcache import ConnectedCacheMgmtClient
 
 """
 # PREREQUISITES
     pip install azure-identity
-    pip install azure-mgmt-connectedcache
+    pip install microsoft-connectedcache
 # USAGE
     python enterprise_mcc_cache_nodes_operations_create_or_update_maximum_set_gen.py
 

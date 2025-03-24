@@ -35,25 +35,25 @@ class ConnectedCacheMgmtClient:  # pylint: disable=too-many-instance-attributes
     """Microsoft Connected Cache Rest Api version 2023-05-01-preview.
 
     :ivar operations: Operations operations
-    :vartype operations: azure.mgmt.connectedcache.operations.Operations
+    :vartype operations: microsoft.connectedcache.operations.Operations
     :ivar enterprise_customer_operations: EnterpriseCustomerOperationsOperations operations
     :vartype enterprise_customer_operations:
-     azure.mgmt.connectedcache.operations.EnterpriseCustomerOperationsOperations
+     microsoft.connectedcache.operations.EnterpriseCustomerOperationsOperations
     :ivar cache_nodes_operations: CacheNodesOperationsOperations operations
     :vartype cache_nodes_operations:
-     azure.mgmt.connectedcache.operations.CacheNodesOperationsOperations
+     microsoft.connectedcache.operations.CacheNodesOperationsOperations
     :ivar isp_customers: IspCustomersOperations operations
-    :vartype isp_customers: azure.mgmt.connectedcache.operations.IspCustomersOperations
+    :vartype isp_customers: microsoft.connectedcache.operations.IspCustomersOperations
     :ivar isp_cache_nodes_operations: IspCacheNodesOperationsOperations operations
     :vartype isp_cache_nodes_operations:
-     azure.mgmt.connectedcache.operations.IspCacheNodesOperationsOperations
+     microsoft.connectedcache.operations.IspCacheNodesOperationsOperations
     :ivar enterprise_mcc_customers: EnterpriseMccCustomersOperations operations
     :vartype enterprise_mcc_customers:
-     azure.mgmt.connectedcache.operations.EnterpriseMccCustomersOperations
+     microsoft.connectedcache.operations.EnterpriseMccCustomersOperations
     :ivar enterprise_mcc_cache_nodes_operations: EnterpriseMccCacheNodesOperationsOperations
      operations
     :vartype enterprise_mcc_cache_nodes_operations:
-     azure.mgmt.connectedcache.operations.EnterpriseMccCacheNodesOperationsOperations
+     microsoft.connectedcache.operations.EnterpriseMccCacheNodesOperationsOperations
     :param credential: Credential used to authenticate requests to the service. Required.
     :type credential: ~azure.core.credentials.TokenCredential
     :param subscription_id: The ID of the target subscription. The value must be an UUID. Required.

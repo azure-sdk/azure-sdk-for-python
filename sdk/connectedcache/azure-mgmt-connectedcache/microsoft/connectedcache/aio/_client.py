@@ -35,25 +35,25 @@ class ConnectedCacheMgmtClient:  # pylint: disable=too-many-instance-attributes
     """Microsoft Connected Cache Rest Api version 2023-05-01-preview.
 
     :ivar operations: Operations operations
-    :vartype operations: azure.mgmt.connectedcache.aio.operations.Operations
+    :vartype operations: microsoft.connectedcache.aio.operations.Operations
     :ivar enterprise_customer_operations: EnterpriseCustomerOperationsOperations operations
     :vartype enterprise_customer_operations:
-     azure.mgmt.connectedcache.aio.operations.EnterpriseCustomerOperationsOperations
+     microsoft.connectedcache.aio.operations.EnterpriseCustomerOperationsOperations
     :ivar cache_nodes_operations: CacheNodesOperationsOperations operations
     :vartype cache_nodes_operations:
-     azure.mgmt.connectedcache.aio.operations.CacheNodesOperationsOperations
+     microsoft.connectedcache.aio.operations.CacheNodesOperationsOperations
     :ivar isp_customers: IspCustomersOperations operations
-    :vartype isp_customers: azure.mgmt.connectedcache.aio.operations.IspCustomersOperations
+    :vartype isp_customers: microsoft.connectedcache.aio.operations.IspCustomersOperations
     :ivar isp_cache_nodes_operations: IspCacheNodesOperationsOperations operations
     :vartype isp_cache_nodes_operations:
-     azure.mgmt.connectedcache.aio.operations.IspCacheNodesOperationsOperations
+     microsoft.connectedcache.aio.operations.IspCacheNodesOperationsOperations
     :ivar enterprise_mcc_customers: EnterpriseMccCustomersOperations operations
     :vartype enterprise_mcc_customers:
-     azure.mgmt.connectedcache.aio.operations.EnterpriseMccCustomersOperations
+     microsoft.connectedcache.aio.operations.EnterpriseMccCustomersOperations
     :ivar enterprise_mcc_cache_nodes_operations: EnterpriseMccCacheNodesOperationsOperations
      operations
     :vartype enterprise_mcc_cache_nodes_operations:
-     azure.mgmt.connectedcache.aio.operations.EnterpriseMccCacheNodesOperationsOperations
+     microsoft.connectedcache.aio.operations.EnterpriseMccCacheNodesOperationsOperations
     :param credential: Credential used to authenticate requests to the service. Required.
     :type credential: ~azure.core.credentials_async.AsyncTokenCredential
     :param subscription_id: The ID of the target subscription. The value must be an UUID. Required.
