@@ -8,12 +8,12 @@
 
 from azure.identity import DefaultAzureCredential
 
-from azure.mgmt.databasewatcher import DatabaseWatcherMgmtClient
+from microsoft.databasewatcher import DatabaseWatcherMgmtClient
 
 """
 # PREREQUISITES
     pip install azure-identity
-    pip install azure-mgmt-databasewatcher
+    pip install microsoft-databasewatcher
 # USAGE
     python shared_private_link_resources_list_by_watcher_maximum_set_gen.py
 

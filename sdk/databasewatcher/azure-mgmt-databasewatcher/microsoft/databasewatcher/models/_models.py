@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=line-too-long,useless-suppression,too-many-lines
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -21,10 +21,8 @@ if TYPE_CHECKING:
 class Resource(_model_base.Model):
     """Common fields that are returned in the response for all Azure Resource Manager resources.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -33,12 +31,12 @@ class Resource(_model_base.Model):
     :vartype type: str
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
-    :vartype system_data: ~azure.mgmt.databasewatcher.models.SystemData
+    :vartype system_data: ~microsoft.databasewatcher.models.SystemData
     """
 
     id: Optional[str] = rest_field(visibility=["read"])
     """Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long"""
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}."""
     name: Optional[str] = rest_field(visibility=["read"])
     """The name of the resource."""
     type: Optional[str] = rest_field(visibility=["read"])
@@ -52,10 +50,8 @@ class ProxyResource(Resource):
     """The resource model definition for a Azure Resource Manager proxy resource. It will not have
     tags and a location.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -64,7 +60,7 @@ class ProxyResource(Resource):
     :vartype type: str
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
-    :vartype system_data: ~azure.mgmt.databasewatcher.models.SystemData
+    :vartype system_data: ~microsoft.databasewatcher.models.SystemData
     """
 
 
@@ -72,10 +68,8 @@ class AlertRuleResource(ProxyResource):
     """Concrete proxy resource types can be created by aliasing this type using a specific property
     type.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -84,12 +78,14 @@ class AlertRuleResource(ProxyResource):
     :vartype type: str
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
-    :vartype system_data: ~azure.mgmt.databasewatcher.models.SystemData
+    :vartype system_data: ~microsoft.databasewatcher.models.SystemData
     :ivar properties: The resource-specific properties for this resource.
-    :vartype properties: ~azure.mgmt.databasewatcher.models.AlertRuleResourceProperties
+    :vartype properties: ~microsoft.databasewatcher.models.AlertRuleResourceProperties
     """
 
-    properties: Optional["_models.AlertRuleResourceProperties"] = rest_field()
+    properties: Optional["_models.AlertRuleResourceProperties"] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
     """The resource-specific properties for this resource."""
 
     @overload
@@ -113,44 +109,48 @@ class AlertRuleResource(ProxyResource):
 class AlertRuleResourceProperties(_model_base.Model):
     """The generic properties of the alert rule proxy resource.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
-
     :ivar alert_rule_resource_id: The resource ID of the alert rule resource. Required.
     :vartype alert_rule_resource_id: str
     :ivar created_with_properties: The properties with which the alert rule resource was created.
      Required. Known values are: "CreatedWithActionGroup" and "None".
     :vartype created_with_properties: str or
-     ~azure.mgmt.databasewatcher.models.AlertRuleCreationProperties
+     ~microsoft.databasewatcher.models.AlertRuleCreationProperties
     :ivar creation_time: The creation time of the alert rule resource. Required.
     :vartype creation_time: ~datetime.datetime
     :ivar provisioning_state: The provisioning state of the alert rule resource. Known values are:
      "Succeeded", "Failed", and "Canceled".
-    :vartype provisioning_state: str or
-     ~azure.mgmt.databasewatcher.models.ResourceProvisioningState
+    :vartype provisioning_state: str or ~microsoft.databasewatcher.models.ResourceProvisioningState
     :ivar alert_rule_template_id: The template ID associated with alert rule resource. Required.
     :vartype alert_rule_template_id: str
     :ivar alert_rule_template_version: The alert rule template version. Required.
     :vartype alert_rule_template_version: str
     """
 
-    alert_rule_resource_id: str = rest_field(name="alertRuleResourceId")
+    alert_rule_resource_id: str = rest_field(
+        name="alertRuleResourceId", visibility=["read", "create", "update", "delete", "query"]
+    )
     """The resource ID of the alert rule resource. Required."""
     created_with_properties: Union[str, "_models.AlertRuleCreationProperties"] = rest_field(
-        name="createdWithProperties"
+        name="createdWithProperties", visibility=["read", "create", "update", "delete", "query"]
     )
     """The properties with which the alert rule resource was created. Required. Known values are:
      \"CreatedWithActionGroup\" and \"None\"."""
-    creation_time: datetime.datetime = rest_field(name="creationTime", format="rfc3339")
+    creation_time: datetime.datetime = rest_field(
+        name="creationTime", visibility=["read", "create", "update", "delete", "query"], format="rfc3339"
+    )
     """The creation time of the alert rule resource. Required."""
     provisioning_state: Optional[Union[str, "_models.ResourceProvisioningState"]] = rest_field(
         name="provisioningState", visibility=["read"]
     )
     """The provisioning state of the alert rule resource. Known values are: \"Succeeded\", \"Failed\",
      and \"Canceled\"."""
-    alert_rule_template_id: str = rest_field(name="alertRuleTemplateId")
+    alert_rule_template_id: str = rest_field(
+        name="alertRuleTemplateId", visibility=["read", "create", "update", "delete", "query"]
+    )
     """The template ID associated with alert rule resource. Required."""
-    alert_rule_template_version: str = rest_field(name="alertRuleTemplateVersion")
+    alert_rule_template_version: str = rest_field(
+        name="alertRuleTemplateVersion", visibility=["read", "create", "update", "delete", "query"]
+    )
     """The alert rule template version. Required."""
 
     @overload
@@ -178,7 +178,6 @@ class AlertRuleResourceProperties(_model_base.Model):
 class Datastore(_model_base.Model):
     """The properties of a data store.
 
-
     :ivar adx_cluster_resource_id: The Azure resource ID of an Azure Data Explorer cluster.
     :vartype adx_cluster_resource_id: str
     :ivar kusto_cluster_display_name: The Kusto cluster display name.
@@ -193,22 +192,36 @@ class Datastore(_model_base.Model):
     :vartype kusto_management_url: str
     :ivar kusto_offering_type: The type of a Kusto offering. Required. Known values are: "adx",
      "free", and "fabric".
-    :vartype kusto_offering_type: str or ~azure.mgmt.databasewatcher.models.KustoOfferingType
+    :vartype kusto_offering_type: str or ~microsoft.databasewatcher.models.KustoOfferingType
     """
 
-    adx_cluster_resource_id: Optional[str] = rest_field(name="adxClusterResourceId")
+    adx_cluster_resource_id: Optional[str] = rest_field(
+        name="adxClusterResourceId", visibility=["read", "create", "update", "delete", "query"]
+    )
     """The Azure resource ID of an Azure Data Explorer cluster."""
-    kusto_cluster_display_name: Optional[str] = rest_field(name="kustoClusterDisplayName")
+    kusto_cluster_display_name: Optional[str] = rest_field(
+        name="kustoClusterDisplayName", visibility=["read", "create", "update", "delete", "query"]
+    )
     """The Kusto cluster display name."""
-    kusto_cluster_uri: str = rest_field(name="kustoClusterUri")
+    kusto_cluster_uri: str = rest_field(
+        name="kustoClusterUri", visibility=["read", "create", "update", "delete", "query"]
+    )
     """The Kusto cluster URI. Required."""
-    kusto_data_ingestion_uri: str = rest_field(name="kustoDataIngestionUri")
+    kusto_data_ingestion_uri: str = rest_field(
+        name="kustoDataIngestionUri", visibility=["read", "create", "update", "delete", "query"]
+    )
     """The Kusto data ingestion URI. Required."""
-    kusto_database_name: str = rest_field(name="kustoDatabaseName")
+    kusto_database_name: str = rest_field(
+        name="kustoDatabaseName", visibility=["read", "create", "update", "delete", "query"]
+    )
     """The name of a Kusto database. Required."""
-    kusto_management_url: str = rest_field(name="kustoManagementUrl")
+    kusto_management_url: str = rest_field(
+        name="kustoManagementUrl", visibility=["read", "create", "update", "delete", "query"]
+    )
     """The Kusto management URL. Required."""
-    kusto_offering_type: Union[str, "_models.KustoOfferingType"] = rest_field(name="kustoOfferingType")
+    kusto_offering_type: Union[str, "_models.KustoOfferingType"] = rest_field(
+        name="kustoOfferingType", visibility=["read", "create", "update", "delete", "query"]
+    )
     """The type of a Kusto offering. Required. Known values are: \"adx\", \"free\", and \"fabric\"."""
 
     @overload
@@ -238,8 +251,6 @@ class Datastore(_model_base.Model):
 class ErrorAdditionalInfo(_model_base.Model):
     """The resource management error additional info.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
     :ivar type: The additional info type.
     :vartype type: str
     :ivar info: The additional info.
@@ -255,8 +266,6 @@ class ErrorAdditionalInfo(_model_base.Model):
 class ErrorDetail(_model_base.Model):
     """The error detail.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
     :ivar code: The error code.
     :vartype code: str
     :ivar message: The error message.
@@ -264,9 +273,9 @@ class ErrorDetail(_model_base.Model):
     :ivar target: The error target.
     :vartype target: str
     :ivar details: The error details.
-    :vartype details: list[~azure.mgmt.databasewatcher.models.ErrorDetail]
+    :vartype details: list[~microsoft.databasewatcher.models.ErrorDetail]
     :ivar additional_info: The error additional info.
-    :vartype additional_info: list[~azure.mgmt.databasewatcher.models.ErrorAdditionalInfo]
+    :vartype additional_info: list[~microsoft.databasewatcher.models.ErrorAdditionalInfo]
     """
 
     code: Optional[str] = rest_field(visibility=["read"])
@@ -288,10 +297,10 @@ class ErrorResponse(_model_base.Model):
     operations.
 
     :ivar error: The error object.
-    :vartype error: ~azure.mgmt.databasewatcher.models.ErrorDetail
+    :vartype error: ~microsoft.databasewatcher.models.ErrorDetail
     """
 
-    error: Optional["_models.ErrorDetail"] = rest_field()
+    error: Optional["_models.ErrorDetail"] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """The error object."""
 
     @overload
@@ -316,10 +325,8 @@ class HealthValidation(ProxyResource):
     """Concrete proxy resource types can be created by aliasing this type using a specific property
     type.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -328,12 +335,14 @@ class HealthValidation(ProxyResource):
     :vartype type: str
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
-    :vartype system_data: ~azure.mgmt.databasewatcher.models.SystemData
+    :vartype system_data: ~microsoft.databasewatcher.models.SystemData
     :ivar properties: The resource-specific properties for this resource.
-    :vartype properties: ~azure.mgmt.databasewatcher.models.HealthValidationProperties
+    :vartype properties: ~microsoft.databasewatcher.models.HealthValidationProperties
     """
 
-    properties: Optional["_models.HealthValidationProperties"] = rest_field()
+    properties: Optional["_models.HealthValidationProperties"] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
     """The resource-specific properties for this resource."""
 
     @overload
@@ -357,22 +366,18 @@ class HealthValidation(ProxyResource):
 class HealthValidationProperties(_model_base.Model):
     """The generic properties of the health validation resource.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
-
     :ivar start_time: The start time of health validation, in UTC. Required.
     :vartype start_time: ~datetime.datetime
     :ivar end_time: The end time of health validation, in UTC. Required.
     :vartype end_time: ~datetime.datetime
     :ivar status: The current health validation status. Required. Known values are: "NotStarted",
      "Running", "Succeeded", "Failed", "Canceled", and "TimedOut".
-    :vartype status: str or ~azure.mgmt.databasewatcher.models.ValidationStatus
+    :vartype status: str or ~microsoft.databasewatcher.models.ValidationStatus
     :ivar issues: The list of issues found by health validation. Required.
-    :vartype issues: list[~azure.mgmt.databasewatcher.models.ValidationIssue]
+    :vartype issues: list[~microsoft.databasewatcher.models.ValidationIssue]
     :ivar provisioning_state: The provisioning state of the health validation resource. Known
      values are: "Succeeded", "Failed", and "Canceled".
-    :vartype provisioning_state: str or
-     ~azure.mgmt.databasewatcher.models.ResourceProvisioningState
+    :vartype provisioning_state: str or ~microsoft.databasewatcher.models.ResourceProvisioningState
     """
 
     start_time: datetime.datetime = rest_field(name="startTime", visibility=["read"], format="rfc3339")
@@ -394,9 +399,6 @@ class HealthValidationProperties(_model_base.Model):
 class ManagedServiceIdentityV4(_model_base.Model):
     """Managed service identity (system assigned and/or user assigned identities).
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
-
     :ivar principal_id: The service principal ID of the system assigned identity. This property
      will only be provided for a system assigned identity.
     :vartype principal_id: str
@@ -405,10 +407,10 @@ class ManagedServiceIdentityV4(_model_base.Model):
     :vartype tenant_id: str
     :ivar type: The type of managed identity assigned to this resource. Required. Known values are:
      "None", "SystemAssigned", "UserAssigned", and "SystemAssigned, UserAssigned".
-    :vartype type: str or ~azure.mgmt.databasewatcher.models.ManagedServiceIdentityType
+    :vartype type: str or ~microsoft.databasewatcher.models.ManagedServiceIdentityType
     :ivar user_assigned_identities: The identities assigned to this resource by the user.
     :vartype user_assigned_identities: dict[str,
-     ~azure.mgmt.databasewatcher.models.UserAssignedIdentity]
+     ~microsoft.databasewatcher.models.UserAssignedIdentity]
     """
 
     principal_id: Optional[str] = rest_field(name="principalId", visibility=["read"])
@@ -417,11 +419,13 @@ class ManagedServiceIdentityV4(_model_base.Model):
     tenant_id: Optional[str] = rest_field(name="tenantId", visibility=["read"])
     """The tenant ID of the system assigned identity. This property will only be provided for a system
      assigned identity."""
-    type: Union[str, "_models.ManagedServiceIdentityType"] = rest_field()
+    type: Union[str, "_models.ManagedServiceIdentityType"] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
     """The type of managed identity assigned to this resource. Required. Known values are: \"None\",
      \"SystemAssigned\", \"UserAssigned\", and \"SystemAssigned, UserAssigned\"."""
     user_assigned_identities: Optional[Dict[str, "_models.UserAssignedIdentity"]] = rest_field(
-        name="userAssignedIdentities"
+        name="userAssignedIdentities", visibility=["read", "create", "update", "delete", "query"]
     )
     """The identities assigned to this resource by the user."""
 
@@ -447,8 +451,6 @@ class ManagedServiceIdentityV4(_model_base.Model):
 class Operation(_model_base.Model):
     """Details of a REST API operation, returned from the Resource Provider Operations API.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
     :ivar name: The name of the operation, as per Resource-Based Access Control (RBAC). Examples:
      "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action".
     :vartype name: str
@@ -456,14 +458,14 @@ class Operation(_model_base.Model):
      data-plane operations and "false" for Azure Resource Manager/control-plane operations.
     :vartype is_data_action: bool
     :ivar display: Localized display information for this particular operation.
-    :vartype display: ~azure.mgmt.databasewatcher.models.OperationDisplay
+    :vartype display: ~microsoft.databasewatcher.models.OperationDisplay
     :ivar origin: The intended executor of the operation; as in Resource Based Access Control
      (RBAC) and audit logs UX. Default value is "user,system". Known values are: "user", "system",
      and "user,system".
-    :vartype origin: str or ~azure.mgmt.databasewatcher.models.Origin
+    :vartype origin: str or ~microsoft.databasewatcher.models.Origin
     :ivar action_type: Extensible enum. Indicates the action type. "Internal" refers to actions
      that are for internal only APIs. "Internal"
-    :vartype action_type: str or ~azure.mgmt.databasewatcher.models.ActionType
+    :vartype action_type: str or ~microsoft.databasewatcher.models.ActionType
     """
 
     name: Optional[str] = rest_field(visibility=["read"])
@@ -473,7 +475,9 @@ class Operation(_model_base.Model):
     is_data_action: Optional[bool] = rest_field(name="isDataAction", visibility=["read"])
     """Whether the operation applies to data-plane. This is \"true\" for data-plane operations and
      \"false\" for Azure Resource Manager/control-plane operations."""
-    display: Optional["_models.OperationDisplay"] = rest_field()
+    display: Optional["_models.OperationDisplay"] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
     """Localized display information for this particular operation."""
     origin: Optional[Union[str, "_models.Origin"]] = rest_field(visibility=["read"])
     """The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit
@@ -503,8 +507,6 @@ class Operation(_model_base.Model):
 
 class OperationDisplay(_model_base.Model):
     """Localized display information for and operation.
-
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar provider: The localized friendly form of the resource provider name, e.g. "Microsoft
      Monitoring Insights" or "Microsoft Compute".
@@ -538,10 +540,8 @@ class SharedPrivateLinkResource(ProxyResource):
     """Concrete proxy resource types can be created by aliasing this type using a specific property
     type.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -550,12 +550,14 @@ class SharedPrivateLinkResource(ProxyResource):
     :vartype type: str
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
-    :vartype system_data: ~azure.mgmt.databasewatcher.models.SystemData
+    :vartype system_data: ~microsoft.databasewatcher.models.SystemData
     :ivar properties: The resource-specific properties for this resource.
-    :vartype properties: ~azure.mgmt.databasewatcher.models.SharedPrivateLinkResourceProperties
+    :vartype properties: ~microsoft.databasewatcher.models.SharedPrivateLinkResourceProperties
     """
 
-    properties: Optional["_models.SharedPrivateLinkResourceProperties"] = rest_field()
+    properties: Optional["_models.SharedPrivateLinkResourceProperties"] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
     """The resource-specific properties for this resource."""
 
     @overload
@@ -579,9 +581,6 @@ class SharedPrivateLinkResource(ProxyResource):
 class SharedPrivateLinkResourceProperties(_model_base.Model):
     """The generic properties of a Shared Private Link resource.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
-
     :ivar private_link_resource_id: The resource ID of the resource the shared private link
      resource is for. Required.
     :vartype private_link_resource_id: str
@@ -591,30 +590,37 @@ class SharedPrivateLinkResourceProperties(_model_base.Model):
     :ivar request_message: The request message for requesting approval of the shared private link
      resource. Required.
     :vartype request_message: str
-    :ivar dns_zone: The DNS zone to be included in the DNS name of the shared private link. Value
-     is required for Azure Data Explorer clusters and SQL managed instances. The value to use is the
-     second segment of the host FQDN name of the resource that the shared private link resource is
-     for.
+    :ivar dns_zone: The DNS zone segment to be included in the DNS name of the shared private link.
+     Value is required for Azure Data Explorer clusters and SQL managed instances, and must be
+     omitted for SQL logical servers and key vaults. The value is the second segment of the host
+     FQDN name of the resource that the shared private link resource is for. For example: if the
+     host name is 'adx-cluster-21187695.eastus.kusto.windows.net', then the value is 'eastus'; if
+     the host name is 'sql-mi-23961134.767d5869f605.database.windows.net', then the value is
+     '767d5869f605'.
     :vartype dns_zone: str
     :ivar status: Status of the shared private link resource. Can be Pending, Approved, Rejected or
      Disconnected. Known values are: "Pending", "Approved", "Rejected", and "Disconnected".
-    :vartype status: str or ~azure.mgmt.databasewatcher.models.SharedPrivateLinkResourceStatus
+    :vartype status: str or ~microsoft.databasewatcher.models.SharedPrivateLinkResourceStatus
     :ivar provisioning_state: The provisioning state of the resource. Known values are:
      "Succeeded", "Failed", and "Canceled".
-    :vartype provisioning_state: str or
-     ~azure.mgmt.databasewatcher.models.ResourceProvisioningState
+    :vartype provisioning_state: str or ~microsoft.databasewatcher.models.ResourceProvisioningState
     """
 
-    private_link_resource_id: str = rest_field(name="privateLinkResourceId")
+    private_link_resource_id: str = rest_field(
+        name="privateLinkResourceId", visibility=["read", "create", "update", "delete", "query"]
+    )
     """The resource ID of the resource the shared private link resource is for. Required."""
-    group_id: str = rest_field(name="groupId")
+    group_id: str = rest_field(name="groupId", visibility=["read", "create", "update", "delete", "query"])
     """The group id from the provider of resource the shared private link resource is for. Required."""
-    request_message: str = rest_field(name="requestMessage")
+    request_message: str = rest_field(name="requestMessage", visibility=["read", "create", "update", "delete", "query"])
     """The request message for requesting approval of the shared private link resource. Required."""
-    dns_zone: Optional[str] = rest_field(name="dnsZone")
-    """The DNS zone to be included in the DNS name of the shared private link. Value is required for
-     Azure Data Explorer clusters and SQL managed instances. The value to use is the second segment
-     of the host FQDN name of the resource that the shared private link resource is for."""
+    dns_zone: Optional[str] = rest_field(name="dnsZone", visibility=["read", "create", "update", "delete", "query"])
+    """The DNS zone segment to be included in the DNS name of the shared private link. Value is
+     required for Azure Data Explorer clusters and SQL managed instances, and must be omitted for
+     SQL logical servers and key vaults. The value is the second segment of the host FQDN name of
+     the resource that the shared private link resource is for. For example: if the host name is
+     'adx-cluster-21187695.eastus.kusto.windows.net', then the value is 'eastus'; if the host name
+     is 'sql-mi-23961134.767d5869f605.database.windows.net', then the value is '767d5869f605'."""
     status: Optional[Union[str, "_models.SharedPrivateLinkResourceStatus"]] = rest_field(visibility=["read"])
     """Status of the shared private link resource. Can be Pending, Approved, Rejected or Disconnected.
      Known values are: \"Pending\", \"Approved\", \"Rejected\", and \"Disconnected\"."""
@@ -651,42 +657,49 @@ class TargetProperties(_model_base.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     SqlDbSingleDatabaseTargetProperties, SqlDbElasticPoolTargetProperties, SqlMiTargetProperties
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
-
     :ivar target_type: Discriminator property for TargetProperties. Required. Default value is
      None.
     :vartype target_type: str
     :ivar target_authentication_type: The type of authentication to use when connecting to a
      target. Required. Known values are: "Aad" and "Sql".
     :vartype target_authentication_type: str or
-     ~azure.mgmt.databasewatcher.models.TargetAuthenticationType
+     ~microsoft.databasewatcher.models.TargetAuthenticationType
     :ivar target_vault: To use SQL authentication when connecting to targets, specify the vault
      where the login name and password secrets are stored.
-    :vartype target_vault: ~azure.mgmt.databasewatcher.models.VaultSecret
-    :ivar connection_server_name: The server name to use in the connection string when connecting
-     to a target. Port number and instance name must be specified separately. Required.
+    :vartype target_vault: ~microsoft.databasewatcher.models.VaultSecret
+    :ivar connection_server_name: The FQDN host name of the server to use in the connection string
+     when connecting to a target. For example, for an Azure SQL logical server in the Azure
+     commercial cloud, the value might be 'sql-logical-server-22092780.database.windows.net'; for an
+     Azure SQL managed instance in the Azure commercial cloud, the value might be
+     'sql-mi-39441134.767d5869f605.database.windows.net'. Port number and instance name must be
+     specified separately. Required.
     :vartype connection_server_name: str
     :ivar provisioning_state: The provisioning state of the resource. Known values are:
      "Succeeded", "Failed", and "Canceled".
-    :vartype provisioning_state: str or
-     ~azure.mgmt.databasewatcher.models.ResourceProvisioningState
+    :vartype provisioning_state: str or ~microsoft.databasewatcher.models.ResourceProvisioningState
     """
 
     __mapping__: Dict[str, _model_base.Model] = {}
     target_type: str = rest_discriminator(name="targetType")
     """Discriminator property for TargetProperties. Required. Default value is None."""
     target_authentication_type: Union[str, "_models.TargetAuthenticationType"] = rest_field(
-        name="targetAuthenticationType"
+        name="targetAuthenticationType", visibility=["read", "create", "update", "delete", "query"]
     )
     """The type of authentication to use when connecting to a target. Required. Known values are:
      \"Aad\" and \"Sql\"."""
-    target_vault: Optional["_models.VaultSecret"] = rest_field(name="targetVault")
+    target_vault: Optional["_models.VaultSecret"] = rest_field(
+        name="targetVault", visibility=["read", "create", "update", "delete", "query"]
+    )
     """To use SQL authentication when connecting to targets, specify the vault where the login name
      and password secrets are stored."""
-    connection_server_name: str = rest_field(name="connectionServerName")
-    """The server name to use in the connection string when connecting to a target. Port number and
-     instance name must be specified separately. Required."""
+    connection_server_name: str = rest_field(
+        name="connectionServerName", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """The FQDN host name of the server to use in the connection string when connecting to a target.
+     For example, for an Azure SQL logical server in the Azure commercial cloud, the value might be
+     'sql-logical-server-22092780.database.windows.net'; for an Azure SQL managed instance in the
+     Azure commercial cloud, the value might be 'sql-mi-39441134.767d5869f605.database.windows.net'.
+     Port number and instance name must be specified separately. Required."""
     provisioning_state: Optional[Union[str, "_models.ResourceProvisioningState"]] = rest_field(
         name="provisioningState", visibility=["read"]
     )
@@ -715,25 +728,25 @@ class TargetProperties(_model_base.Model):
 
 
 class SqlDbElasticPoolTargetProperties(TargetProperties, discriminator="SqlEp"):
-    """The properties specific to elastic pool in Azure SQL Database.
-
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
+    """The properties specific to an elastic pool in Azure SQL Database.
 
     :ivar target_authentication_type: The type of authentication to use when connecting to a
      target. Required. Known values are: "Aad" and "Sql".
     :vartype target_authentication_type: str or
-     ~azure.mgmt.databasewatcher.models.TargetAuthenticationType
+     ~microsoft.databasewatcher.models.TargetAuthenticationType
     :ivar target_vault: To use SQL authentication when connecting to targets, specify the vault
      where the login name and password secrets are stored.
-    :vartype target_vault: ~azure.mgmt.databasewatcher.models.VaultSecret
-    :ivar connection_server_name: The server name to use in the connection string when connecting
-     to a target. Port number and instance name must be specified separately. Required.
+    :vartype target_vault: ~microsoft.databasewatcher.models.VaultSecret
+    :ivar connection_server_name: The FQDN host name of the server to use in the connection string
+     when connecting to a target. For example, for an Azure SQL logical server in the Azure
+     commercial cloud, the value might be 'sql-logical-server-22092780.database.windows.net'; for an
+     Azure SQL managed instance in the Azure commercial cloud, the value might be
+     'sql-mi-39441134.767d5869f605.database.windows.net'. Port number and instance name must be
+     specified separately. Required.
     :vartype connection_server_name: str
     :ivar provisioning_state: The provisioning state of the resource. Known values are:
      "Succeeded", "Failed", and "Canceled".
-    :vartype provisioning_state: str or
-     ~azure.mgmt.databasewatcher.models.ResourceProvisioningState
+    :vartype provisioning_state: str or ~microsoft.databasewatcher.models.ResourceProvisioningState
     :ivar target_type: The Azure SQL DB elastic pool target. Required. Default value is "SqlEp".
     :vartype target_type: str
     :ivar sql_ep_resource_id: The Azure resource ID of an Azure SQL DB elastic pool target.
@@ -747,13 +760,19 @@ class SqlDbElasticPoolTargetProperties(TargetProperties, discriminator="SqlEp"):
     :vartype read_intent: bool
     """
 
-    target_type: Literal["SqlEp"] = rest_discriminator(name="targetType")  # type: ignore
+    target_type: Literal["SqlEp"] = rest_discriminator(name="targetType", visibility=["read", "create", "update", "delete", "query"])  # type: ignore
     """The Azure SQL DB elastic pool target. Required. Default value is \"SqlEp\"."""
-    sql_ep_resource_id: str = rest_field(name="sqlEpResourceId")
+    sql_ep_resource_id: str = rest_field(
+        name="sqlEpResourceId", visibility=["read", "create", "update", "delete", "query"]
+    )
     """The Azure resource ID of an Azure SQL DB elastic pool target. Required."""
-    anchor_database_resource_id: str = rest_field(name="anchorDatabaseResourceId")
+    anchor_database_resource_id: str = rest_field(
+        name="anchorDatabaseResourceId", visibility=["read", "create", "update", "delete", "query"]
+    )
     """The Azure resource ID of the anchor database used to connect to an elastic pool. Required."""
-    read_intent: Optional[bool] = rest_field(name="readIntent")
+    read_intent: Optional[bool] = rest_field(
+        name="readIntent", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Set to true to monitor a high availability replica of specified target, if any."""
 
     @overload
@@ -780,40 +799,43 @@ class SqlDbElasticPoolTargetProperties(TargetProperties, discriminator="SqlEp"):
 
 
 class SqlDbSingleDatabaseTargetProperties(TargetProperties, discriminator="SqlDb"):
-    """The properties specific to single database in Azure SQL Database.
-
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
+    """The properties specific to a database in Azure SQL Database.
 
     :ivar target_authentication_type: The type of authentication to use when connecting to a
      target. Required. Known values are: "Aad" and "Sql".
     :vartype target_authentication_type: str or
-     ~azure.mgmt.databasewatcher.models.TargetAuthenticationType
+     ~microsoft.databasewatcher.models.TargetAuthenticationType
     :ivar target_vault: To use SQL authentication when connecting to targets, specify the vault
      where the login name and password secrets are stored.
-    :vartype target_vault: ~azure.mgmt.databasewatcher.models.VaultSecret
-    :ivar connection_server_name: The server name to use in the connection string when connecting
-     to a target. Port number and instance name must be specified separately. Required.
+    :vartype target_vault: ~microsoft.databasewatcher.models.VaultSecret
+    :ivar connection_server_name: The FQDN host name of the server to use in the connection string
+     when connecting to a target. For example, for an Azure SQL logical server in the Azure
+     commercial cloud, the value might be 'sql-logical-server-22092780.database.windows.net'; for an
+     Azure SQL managed instance in the Azure commercial cloud, the value might be
+     'sql-mi-39441134.767d5869f605.database.windows.net'. Port number and instance name must be
+     specified separately. Required.
     :vartype connection_server_name: str
     :ivar provisioning_state: The provisioning state of the resource. Known values are:
      "Succeeded", "Failed", and "Canceled".
-    :vartype provisioning_state: str or
-     ~azure.mgmt.databasewatcher.models.ResourceProvisioningState
+    :vartype provisioning_state: str or ~microsoft.databasewatcher.models.ResourceProvisioningState
     :ivar target_type: The Azure SQL DB single database target. Required. Default value is "SqlDb".
     :vartype target_type: str
-    :ivar sql_db_resource_id: The Azure resource ID of an Azure SQL DB single database target.
-     Required.
+    :ivar sql_db_resource_id: The Azure resource ID of an Azure SQL DB database target. Required.
     :vartype sql_db_resource_id: str
     :ivar read_intent: Set to true to monitor a high availability replica of specified target, if
      any.
     :vartype read_intent: bool
     """
 
-    target_type: Literal["SqlDb"] = rest_discriminator(name="targetType")  # type: ignore
+    target_type: Literal["SqlDb"] = rest_discriminator(name="targetType", visibility=["read", "create", "update", "delete", "query"])  # type: ignore
     """The Azure SQL DB single database target. Required. Default value is \"SqlDb\"."""
-    sql_db_resource_id: str = rest_field(name="sqlDbResourceId")
-    """The Azure resource ID of an Azure SQL DB single database target. Required."""
-    read_intent: Optional[bool] = rest_field(name="readIntent")
+    sql_db_resource_id: str = rest_field(
+        name="sqlDbResourceId", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """The Azure resource ID of an Azure SQL DB database target. Required."""
+    read_intent: Optional[bool] = rest_field(
+        name="readIntent", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Set to true to monitor a high availability replica of specified target, if any."""
 
     @overload
@@ -841,23 +863,23 @@ class SqlDbSingleDatabaseTargetProperties(TargetProperties, discriminator="SqlDb
 class SqlMiTargetProperties(TargetProperties, discriminator="SqlMi"):
     """The properties specific to Azure SQL Managed Instance targets.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
-
     :ivar target_authentication_type: The type of authentication to use when connecting to a
      target. Required. Known values are: "Aad" and "Sql".
     :vartype target_authentication_type: str or
-     ~azure.mgmt.databasewatcher.models.TargetAuthenticationType
+     ~microsoft.databasewatcher.models.TargetAuthenticationType
     :ivar target_vault: To use SQL authentication when connecting to targets, specify the vault
      where the login name and password secrets are stored.
-    :vartype target_vault: ~azure.mgmt.databasewatcher.models.VaultSecret
-    :ivar connection_server_name: The server name to use in the connection string when connecting
-     to a target. Port number and instance name must be specified separately. Required.
+    :vartype target_vault: ~microsoft.databasewatcher.models.VaultSecret
+    :ivar connection_server_name: The FQDN host name of the server to use in the connection string
+     when connecting to a target. For example, for an Azure SQL logical server in the Azure
+     commercial cloud, the value might be 'sql-logical-server-22092780.database.windows.net'; for an
+     Azure SQL managed instance in the Azure commercial cloud, the value might be
+     'sql-mi-39441134.767d5869f605.database.windows.net'. Port number and instance name must be
+     specified separately. Required.
     :vartype connection_server_name: str
     :ivar provisioning_state: The provisioning state of the resource. Known values are:
      "Succeeded", "Failed", and "Canceled".
-    :vartype provisioning_state: str or
-     ~azure.mgmt.databasewatcher.models.ResourceProvisioningState
+    :vartype provisioning_state: str or ~microsoft.databasewatcher.models.ResourceProvisioningState
     :ivar target_type: The Azure SQL Managed Instance target. Required. Default value is "SqlMi".
     :vartype target_type: str
     :ivar sql_mi_resource_id: The Azure resource ID of an Azure SQL Managed Instance target.
@@ -871,14 +893,20 @@ class SqlMiTargetProperties(TargetProperties, discriminator="SqlMi"):
     :vartype read_intent: bool
     """
 
-    target_type: Literal["SqlMi"] = rest_discriminator(name="targetType")  # type: ignore
+    target_type: Literal["SqlMi"] = rest_discriminator(name="targetType", visibility=["read", "create", "update", "delete", "query"])  # type: ignore
     """The Azure SQL Managed Instance target. Required. Default value is \"SqlMi\"."""
-    sql_mi_resource_id: str = rest_field(name="sqlMiResourceId")
+    sql_mi_resource_id: str = rest_field(
+        name="sqlMiResourceId", visibility=["read", "create", "update", "delete", "query"]
+    )
     """The Azure resource ID of an Azure SQL Managed Instance target. Required."""
-    connection_tcp_port: Optional[int] = rest_field(name="connectionTcpPort")
+    connection_tcp_port: Optional[int] = rest_field(
+        name="connectionTcpPort", visibility=["read", "create", "update", "delete", "query"]
+    )
     """The TCP port number to optionally use in the connection string when connecting to an Azure SQL
      Managed Instance target."""
-    read_intent: Optional[bool] = rest_field(name="readIntent")
+    read_intent: Optional[bool] = rest_field(
+        name="readIntent", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Set to true to monitor a high availability replica of specified target, if any."""
 
     @overload
@@ -911,31 +939,41 @@ class SystemData(_model_base.Model):
     :vartype created_by: str
     :ivar created_by_type: The type of identity that created the resource. Known values are:
      "User", "Application", "ManagedIdentity", and "Key".
-    :vartype created_by_type: str or ~azure.mgmt.databasewatcher.models.CreatedByType
+    :vartype created_by_type: str or ~microsoft.databasewatcher.models.CreatedByType
     :ivar created_at: The timestamp of resource creation (UTC).
     :vartype created_at: ~datetime.datetime
     :ivar last_modified_by: The identity that last modified the resource.
     :vartype last_modified_by: str
     :ivar last_modified_by_type: The type of identity that last modified the resource. Known values
      are: "User", "Application", "ManagedIdentity", and "Key".
-    :vartype last_modified_by_type: str or ~azure.mgmt.databasewatcher.models.CreatedByType
+    :vartype last_modified_by_type: str or ~microsoft.databasewatcher.models.CreatedByType
     :ivar last_modified_at: The timestamp of resource last modification (UTC).
     :vartype last_modified_at: ~datetime.datetime
     """
 
-    created_by: Optional[str] = rest_field(name="createdBy")
+    created_by: Optional[str] = rest_field(name="createdBy", visibility=["read", "create", "update", "delete", "query"])
     """The identity that created the resource."""
-    created_by_type: Optional[Union[str, "_models.CreatedByType"]] = rest_field(name="createdByType")
+    created_by_type: Optional[Union[str, "_models.CreatedByType"]] = rest_field(
+        name="createdByType", visibility=["read", "create", "update", "delete", "query"]
+    )
     """The type of identity that created the resource. Known values are: \"User\", \"Application\",
      \"ManagedIdentity\", and \"Key\"."""
-    created_at: Optional[datetime.datetime] = rest_field(name="createdAt", format="rfc3339")
+    created_at: Optional[datetime.datetime] = rest_field(
+        name="createdAt", visibility=["read", "create", "update", "delete", "query"], format="rfc3339"
+    )
     """The timestamp of resource creation (UTC)."""
-    last_modified_by: Optional[str] = rest_field(name="lastModifiedBy")
+    last_modified_by: Optional[str] = rest_field(
+        name="lastModifiedBy", visibility=["read", "create", "update", "delete", "query"]
+    )
     """The identity that last modified the resource."""
-    last_modified_by_type: Optional[Union[str, "_models.CreatedByType"]] = rest_field(name="lastModifiedByType")
+    last_modified_by_type: Optional[Union[str, "_models.CreatedByType"]] = rest_field(
+        name="lastModifiedByType", visibility=["read", "create", "update", "delete", "query"]
+    )
     """The type of identity that last modified the resource. Known values are: \"User\",
      \"Application\", \"ManagedIdentity\", and \"Key\"."""
-    last_modified_at: Optional[datetime.datetime] = rest_field(name="lastModifiedAt", format="rfc3339")
+    last_modified_at: Optional[datetime.datetime] = rest_field(
+        name="lastModifiedAt", visibility=["read", "create", "update", "delete", "query"], format="rfc3339"
+    )
     """The timestamp of resource last modification (UTC)."""
 
     @overload
@@ -965,10 +1003,8 @@ class Target(ProxyResource):
     """Concrete proxy resource types can be created by aliasing this type using a specific property
     type.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -977,12 +1013,14 @@ class Target(ProxyResource):
     :vartype type: str
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
-    :vartype system_data: ~azure.mgmt.databasewatcher.models.SystemData
+    :vartype system_data: ~microsoft.databasewatcher.models.SystemData
     :ivar properties: The resource-specific properties for this resource.
-    :vartype properties: ~azure.mgmt.databasewatcher.models.TargetProperties
+    :vartype properties: ~microsoft.databasewatcher.models.TargetProperties
     """
 
-    properties: Optional["_models.TargetProperties"] = rest_field()
+    properties: Optional["_models.TargetProperties"] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
     """The resource-specific properties for this resource."""
 
     @overload
@@ -1007,11 +1045,8 @@ class TrackedResource(Resource):
     """The resource model definition for an Azure Resource Manager tracked top level resource which
     has 'tags' and a 'location'.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
-
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1020,14 +1055,14 @@ class TrackedResource(Resource):
     :vartype type: str
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
-    :vartype system_data: ~azure.mgmt.databasewatcher.models.SystemData
+    :vartype system_data: ~microsoft.databasewatcher.models.SystemData
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
     :ivar location: The geo-location where the resource lives. Required.
     :vartype location: str
     """
 
-    tags: Optional[Dict[str, str]] = rest_field()
+    tags: Optional[Dict[str, str]] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """Resource tags."""
     location: str = rest_field(visibility=["read", "create"])
     """The geo-location where the resource lives. Required."""
@@ -1054,25 +1089,20 @@ class TrackedResource(Resource):
 class UserAssignedIdentity(_model_base.Model):
     """User assigned identity properties.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar principal_id: The principal ID of the assigned identity.
-    :vartype principal_id: str
     :ivar client_id: The client ID of the assigned identity.
     :vartype client_id: str
+    :ivar principal_id: The principal ID of the assigned identity.
+    :vartype principal_id: str
     """
 
-    principal_id: Optional[str] = rest_field(name="principalId", visibility=["read"])
-    """The principal ID of the assigned identity."""
     client_id: Optional[str] = rest_field(name="clientId", visibility=["read"])
     """The client ID of the assigned identity."""
+    principal_id: Optional[str] = rest_field(name="principalId", visibility=["read"])
+    """The principal ID of the assigned identity."""
 
 
 class ValidationIssue(_model_base.Model):
     """The model of a health validation issue.
-
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
 
     :ivar error_code: The error code of the issue. Required.
     :vartype error_code: str
@@ -1120,12 +1150,18 @@ class VaultSecret(_model_base.Model):
     :vartype akv_target_password: str
     """
 
-    akv_resource_id: Optional[str] = rest_field(name="akvResourceId")
+    akv_resource_id: Optional[str] = rest_field(
+        name="akvResourceId", visibility=["read", "create", "update", "delete", "query"]
+    )
     """The Azure resource ID of the Key Vault instance storing database authentication secrets."""
-    akv_target_user: Optional[str] = rest_field(name="akvTargetUser")
+    akv_target_user: Optional[str] = rest_field(
+        name="akvTargetUser", visibility=["read", "create", "update", "delete", "query"]
+    )
     """The path to the Key Vault secret storing the login name (aka user name, aka account name) for
      authentication to a target."""
-    akv_target_password: Optional[str] = rest_field(name="akvTargetPassword")
+    akv_target_password: Optional[str] = rest_field(
+        name="akvTargetPassword", visibility=["read", "create", "update", "delete", "query"]
+    )
     """The path to the Key Vault secret storing the password for authentication to a target."""
 
     @overload
@@ -1151,11 +1187,8 @@ class VaultSecret(_model_base.Model):
 class Watcher(TrackedResource):
     """The DatabaseWatcherProviderHub resource.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
-
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1164,20 +1197,24 @@ class Watcher(TrackedResource):
     :vartype type: str
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
-    :vartype system_data: ~azure.mgmt.databasewatcher.models.SystemData
+    :vartype system_data: ~microsoft.databasewatcher.models.SystemData
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
     :ivar location: The geo-location where the resource lives. Required.
     :vartype location: str
     :ivar properties: The resource-specific properties for this resource.
-    :vartype properties: ~azure.mgmt.databasewatcher.models.WatcherProperties
+    :vartype properties: ~microsoft.databasewatcher.models.WatcherProperties
     :ivar identity: The managed service identities assigned to this resource.
-    :vartype identity: ~azure.mgmt.databasewatcher.models.ManagedServiceIdentityV4
+    :vartype identity: ~microsoft.databasewatcher.models.ManagedServiceIdentityV4
     """
 
-    properties: Optional["_models.WatcherProperties"] = rest_field()
+    properties: Optional["_models.WatcherProperties"] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
     """The resource-specific properties for this resource."""
-    identity: Optional["_models.ManagedServiceIdentityV4"] = rest_field()
+    identity: Optional["_models.ManagedServiceIdentityV4"] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
     """The managed service identities assigned to this resource."""
 
     @overload
@@ -1204,23 +1241,21 @@ class Watcher(TrackedResource):
 class WatcherProperties(_model_base.Model):
     """The RP specific properties of the resource.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
     :ivar datastore: The data store for collected monitoring data.
-    :vartype datastore: ~azure.mgmt.databasewatcher.models.Datastore
+    :vartype datastore: ~microsoft.databasewatcher.models.Datastore
     :ivar status: The monitoring collection status of the watcher. Known values are: "Starting",
      "Running", "Stopping", "Stopped", and "Deleting".
-    :vartype status: str or ~azure.mgmt.databasewatcher.models.WatcherStatus
+    :vartype status: str or ~microsoft.databasewatcher.models.WatcherStatus
     :ivar provisioning_state: The provisioning state of the resource watcher. Known values are:
      "Succeeded", "Failed", and "Canceled".
     :vartype provisioning_state: str or
-     ~azure.mgmt.databasewatcher.models.DatabaseWatcherProvisioningState
+     ~microsoft.databasewatcher.models.DatabaseWatcherProvisioningState
     :ivar default_alert_rule_identity_resource_id: The resource ID of a user-assigned managed
      identity that will be assigned to a new alert rule.
     :vartype default_alert_rule_identity_resource_id: str
     """
 
-    datastore: Optional["_models.Datastore"] = rest_field()
+    datastore: Optional["_models.Datastore"] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """The data store for collected monitoring data."""
     status: Optional[Union[str, "_models.WatcherStatus"]] = rest_field(visibility=["read"])
     """The monitoring collection status of the watcher. Known values are: \"Starting\", \"Running\",
@@ -1230,7 +1265,9 @@ class WatcherProperties(_model_base.Model):
     )
     """The provisioning state of the resource watcher. Known values are: \"Succeeded\", \"Failed\",
      and \"Canceled\"."""
-    default_alert_rule_identity_resource_id: Optional[str] = rest_field(name="defaultAlertRuleIdentityResourceId")
+    default_alert_rule_identity_resource_id: Optional[str] = rest_field(
+        name="defaultAlertRuleIdentityResourceId", visibility=["read", "create", "update", "delete", "query"]
+    )
     """The resource ID of a user-assigned managed identity that will be assigned to a new alert rule."""
 
     @overload
@@ -1256,18 +1293,22 @@ class WatcherUpdate(_model_base.Model):
     """The type used for update operations of the Watcher.
 
     :ivar identity: The managed service identities assigned to this resource.
-    :vartype identity: ~azure.mgmt.databasewatcher.models.ManagedServiceIdentityV4
+    :vartype identity: ~microsoft.databasewatcher.models.ManagedServiceIdentityV4
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
     :ivar properties: The resource-specific properties for this resource.
-    :vartype properties: ~azure.mgmt.databasewatcher.models.WatcherUpdateProperties
+    :vartype properties: ~microsoft.databasewatcher.models.WatcherUpdateProperties
     """
 
-    identity: Optional["_models.ManagedServiceIdentityV4"] = rest_field()
+    identity: Optional["_models.ManagedServiceIdentityV4"] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
     """The managed service identities assigned to this resource."""
-    tags: Optional[Dict[str, str]] = rest_field()
+    tags: Optional[Dict[str, str]] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """Resource tags."""
-    properties: Optional["_models.WatcherUpdateProperties"] = rest_field()
+    properties: Optional["_models.WatcherUpdateProperties"] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
     """The resource-specific properties for this resource."""
 
     @overload
@@ -1294,15 +1335,17 @@ class WatcherUpdateProperties(_model_base.Model):
     """The updatable properties of the Watcher.
 
     :ivar datastore: The data store for collected monitoring data.
-    :vartype datastore: ~azure.mgmt.databasewatcher.models.Datastore
+    :vartype datastore: ~microsoft.databasewatcher.models.Datastore
     :ivar default_alert_rule_identity_resource_id: The resource ID of a user-assigned managed
      identity that will be assigned to a new alert rule.
     :vartype default_alert_rule_identity_resource_id: str
     """
 
-    datastore: Optional["_models.Datastore"] = rest_field()
+    datastore: Optional["_models.Datastore"] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """The data store for collected monitoring data."""
-    default_alert_rule_identity_resource_id: Optional[str] = rest_field(name="defaultAlertRuleIdentityResourceId")
+    default_alert_rule_identity_resource_id: Optional[str] = rest_field(
+        name="defaultAlertRuleIdentityResourceId", visibility=["read", "create", "update", "delete", "query"]
+    )
     """The resource ID of a user-assigned managed identity that will be assigned to a new alert rule."""
 
     @overload

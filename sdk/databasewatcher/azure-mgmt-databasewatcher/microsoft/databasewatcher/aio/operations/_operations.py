@@ -9,10 +9,11 @@
 from io import IOBase
 import json
 import sys
-from typing import Any, Callable, Dict, IO, Iterable, Iterator, List, Optional, TypeVar, Union, cast, overload
+from typing import Any, AsyncIterable, AsyncIterator, Callable, Dict, IO, List, Optional, TypeVar, Union, cast, overload
 import urllib.parse
 
-from azure.core import PipelineClient
+from azure.core import AsyncPipelineClient
+from azure.core.async_paging import AsyncItemPaged, AsyncList
 from azure.core.exceptions import (
     ClientAuthenticationError,
     HttpResponseError,
@@ -23,735 +24,54 @@ from azure.core.exceptions import (
     StreamConsumedError,
     map_error,
 )
-from azure.core.paging import ItemPaged
 from azure.core.pipeline import PipelineResponse
-from azure.core.polling import LROPoller, NoPolling, PollingMethod
-from azure.core.rest import HttpRequest, HttpResponse
+from azure.core.polling import AsyncLROPoller, AsyncNoPolling, AsyncPollingMethod
+from azure.core.rest import AsyncHttpResponse, HttpRequest
 from azure.core.tracing.decorator import distributed_trace
+from azure.core.tracing.decorator_async import distributed_trace_async
 from azure.core.utils import case_insensitive_dict
 from azure.mgmt.core.exceptions import ARMErrorFormat
-from azure.mgmt.core.polling.arm_polling import ARMPolling
+from azure.mgmt.core.polling.async_arm_polling import AsyncARMPolling
 
-from .. import models as _models
+from ... import models as _models
+from ..._model_base import SdkJSONEncoder, _deserialize, _failsafe_deserialize
+from ..._serialization import Deserializer, Serializer
+from ..._validation import api_version_validation
+from ...operations._operations import (
+    build_alert_rule_resources_create_or_update_request,
+    build_alert_rule_resources_delete_request,
+    build_alert_rule_resources_get_request,
+    build_alert_rule_resources_list_by_parent_request,
+    build_health_validations_get_request,
+    build_health_validations_list_by_parent_request,
+    build_health_validations_start_validation_request,
+    build_operations_list_request,
+    build_shared_private_link_resources_create_request,
+    build_shared_private_link_resources_delete_request,
+    build_shared_private_link_resources_get_request,
+    build_shared_private_link_resources_list_by_watcher_request,
+    build_targets_create_or_update_request,
+    build_targets_delete_request,
+    build_targets_get_request,
+    build_targets_list_by_watcher_request,
+    build_watchers_create_or_update_request,
+    build_watchers_delete_request,
+    build_watchers_get_request,
+    build_watchers_list_by_resource_group_request,
+    build_watchers_list_by_subscription_request,
+    build_watchers_start_request,
+    build_watchers_stop_request,
+    build_watchers_update_request,
+)
 from .._configuration import DatabaseWatcherMgmtClientConfiguration
-from .._model_base import SdkJSONEncoder, _deserialize, _failsafe_deserialize
-from .._serialization import Deserializer, Serializer
-from .._validation import api_version_validation
 
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
     from typing import MutableMapping  # type: ignore
 T = TypeVar("T")
-ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
+ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 JSON = MutableMapping[str, Any]  # pylint: disable=unsubscriptable-object
-
-_SERIALIZER = Serializer()
-_SERIALIZER.client_side_validation = False
-
-
-def build_operations_list_request(**kwargs: Any) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-01-02"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/providers/Microsoft.DatabaseWatcher/operations"
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_watchers_get_request(
-    resource_group_name: str, watcher_name: str, subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-01-02"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}"  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "watcherName": _SERIALIZER.url("watcher_name", watcher_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_watchers_create_or_update_request(
-    resource_group_name: str, watcher_name: str, subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-01-02"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}"  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "watcherName": _SERIALIZER.url("watcher_name", watcher_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    if content_type is not None:
-        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="PUT", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_watchers_update_request(
-    resource_group_name: str, watcher_name: str, subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-01-02"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}"  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "watcherName": _SERIALIZER.url("watcher_name", watcher_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    if content_type is not None:
-        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="PATCH", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_watchers_delete_request(
-    resource_group_name: str, watcher_name: str, subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-01-02"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}"  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "watcherName": _SERIALIZER.url("watcher_name", watcher_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="DELETE", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_watchers_list_by_resource_group_request(  # pylint: disable=name-too-long
-    resource_group_name: str, subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-01-02"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers"  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_watchers_list_by_subscription_request(  # pylint: disable=name-too-long
-    subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-01-02"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/providers/Microsoft.DatabaseWatcher/watchers"
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_watchers_start_request(
-    resource_group_name: str, watcher_name: str, subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-01-02"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/start"  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "watcherName": _SERIALIZER.url("watcher_name", watcher_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_watchers_stop_request(
-    resource_group_name: str, watcher_name: str, subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-01-02"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/stop"  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "watcherName": _SERIALIZER.url("watcher_name", watcher_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_alert_rule_resources_get_request(
-    resource_group_name: str, watcher_name: str, alert_rule_resource_name: str, subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-01-02"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/alertRuleResources/{alertRuleResourceName}"  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "watcherName": _SERIALIZER.url("watcher_name", watcher_name, "str"),
-        "alertRuleResourceName": _SERIALIZER.url("alert_rule_resource_name", alert_rule_resource_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_alert_rule_resources_create_or_update_request(  # pylint: disable=name-too-long
-    resource_group_name: str, watcher_name: str, alert_rule_resource_name: str, subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-01-02"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/alertRuleResources/{alertRuleResourceName}"  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "watcherName": _SERIALIZER.url("watcher_name", watcher_name, "str"),
-        "alertRuleResourceName": _SERIALIZER.url("alert_rule_resource_name", alert_rule_resource_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    if content_type is not None:
-        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="PUT", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_alert_rule_resources_delete_request(  # pylint: disable=name-too-long
-    resource_group_name: str, watcher_name: str, alert_rule_resource_name: str, subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-01-02"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/alertRuleResources/{alertRuleResourceName}"  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "watcherName": _SERIALIZER.url("watcher_name", watcher_name, "str"),
-        "alertRuleResourceName": _SERIALIZER.url("alert_rule_resource_name", alert_rule_resource_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="DELETE", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_alert_rule_resources_list_by_parent_request(  # pylint: disable=name-too-long
-    resource_group_name: str, watcher_name: str, subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-01-02"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/alertRuleResources"  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "watcherName": _SERIALIZER.url("watcher_name", watcher_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_health_validations_get_request(
-    resource_group_name: str, watcher_name: str, health_validation_name: str, subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-01-02"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/healthValidations/{healthValidationName}"  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "watcherName": _SERIALIZER.url("watcher_name", watcher_name, "str"),
-        "healthValidationName": _SERIALIZER.url("health_validation_name", health_validation_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_health_validations_list_by_parent_request(  # pylint: disable=name-too-long
-    resource_group_name: str, watcher_name: str, subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-01-02"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/healthValidations"  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "watcherName": _SERIALIZER.url("watcher_name", watcher_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_health_validations_start_validation_request(  # pylint: disable=name-too-long
-    resource_group_name: str, watcher_name: str, health_validation_name: str, subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-01-02"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/healthValidations/{healthValidationName}/startValidation"  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "watcherName": _SERIALIZER.url("watcher_name", watcher_name, "str"),
-        "healthValidationName": _SERIALIZER.url("health_validation_name", health_validation_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_targets_get_request(
-    resource_group_name: str, watcher_name: str, target_name: str, subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-01-02"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/targets/{targetName}"  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "watcherName": _SERIALIZER.url("watcher_name", watcher_name, "str"),
-        "targetName": _SERIALIZER.url("target_name", target_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_targets_create_or_update_request(
-    resource_group_name: str, watcher_name: str, target_name: str, subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-01-02"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/targets/{targetName}"  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "watcherName": _SERIALIZER.url("watcher_name", watcher_name, "str"),
-        "targetName": _SERIALIZER.url("target_name", target_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    if content_type is not None:
-        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="PUT", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_targets_delete_request(
-    resource_group_name: str, watcher_name: str, target_name: str, subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-01-02"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/targets/{targetName}"  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "watcherName": _SERIALIZER.url("watcher_name", watcher_name, "str"),
-        "targetName": _SERIALIZER.url("target_name", target_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="DELETE", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_targets_list_by_watcher_request(
-    resource_group_name: str, watcher_name: str, subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-01-02"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/targets"  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "watcherName": _SERIALIZER.url("watcher_name", watcher_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_shared_private_link_resources_get_request(  # pylint: disable=name-too-long
-    resource_group_name: str,
-    watcher_name: str,
-    shared_private_link_resource_name: str,
-    subscription_id: str,
-    **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-01-02"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}"  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "watcherName": _SERIALIZER.url("watcher_name", watcher_name, "str"),
-        "sharedPrivateLinkResourceName": _SERIALIZER.url(
-            "shared_private_link_resource_name", shared_private_link_resource_name, "str"
-        ),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_shared_private_link_resources_create_request(  # pylint: disable=name-too-long
-    resource_group_name: str,
-    watcher_name: str,
-    shared_private_link_resource_name: str,
-    subscription_id: str,
-    **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-01-02"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}"  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "watcherName": _SERIALIZER.url("watcher_name", watcher_name, "str"),
-        "sharedPrivateLinkResourceName": _SERIALIZER.url(
-            "shared_private_link_resource_name", shared_private_link_resource_name, "str"
-        ),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    if content_type is not None:
-        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="PUT", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_shared_private_link_resources_delete_request(  # pylint: disable=name-too-long
-    resource_group_name: str,
-    watcher_name: str,
-    shared_private_link_resource_name: str,
-    subscription_id: str,
-    **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-01-02"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}"  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "watcherName": _SERIALIZER.url("watcher_name", watcher_name, "str"),
-        "sharedPrivateLinkResourceName": _SERIALIZER.url(
-            "shared_private_link_resource_name", shared_private_link_resource_name, "str"
-        ),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="DELETE", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_shared_private_link_resources_list_by_watcher_request(  # pylint: disable=name-too-long
-    resource_group_name: str, watcher_name: str, subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-01-02"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/sharedPrivateLinkResources"  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "watcherName": _SERIALIZER.url("watcher_name", watcher_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
 class Operations:
@@ -760,23 +80,23 @@ class Operations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.databasewatcher.DatabaseWatcherMgmtClient`'s
+        :class:`~microsoft.databasewatcher.aio.DatabaseWatcherMgmtClient`'s
         :attr:`operations` attribute.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
-        self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
+        self._client: AsyncPipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
         self._config: DatabaseWatcherMgmtClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
     @distributed_trace
-    def list(self, **kwargs: Any) -> Iterable["_models.Operation"]:
+    def list(self, **kwargs: Any) -> AsyncIterable["_models.Operation"]:
         """List the operations for the provider.
 
         :return: An iterator like instance of Operation
-        :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.databasewatcher.models.Operation]
+        :rtype: ~azure.core.async_paging.AsyncItemPaged[~microsoft.databasewatcher.models.Operation]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
@@ -829,18 +149,18 @@ class Operations:
 
             return _request
 
-        def extract_data(pipeline_response):
+        async def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.Operation], deserialized["value"])
+            list_of_elem = _deserialize(List[_models.Operation], deserialized.get("value", []))
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
-            return deserialized.get("nextLink") or None, iter(list_of_elem)
+            return deserialized.get("nextLink") or None, AsyncList(list_of_elem)
 
-        def get_next(next_link=None):
+        async def get_next(next_link=None):
             _request = prepare_request(next_link)
 
             _stream = False
-            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
                 _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
@@ -852,7 +172,7 @@ class Operations:
 
             return pipeline_response
 
-        return ItemPaged(get_next, extract_data)
+        return AsyncItemPaged(get_next, extract_data)
 
 
 class WatchersOperations:
@@ -861,19 +181,19 @@ class WatchersOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.databasewatcher.DatabaseWatcherMgmtClient`'s
+        :class:`~microsoft.databasewatcher.aio.DatabaseWatcherMgmtClient`'s
         :attr:`watchers` attribute.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
-        self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
+        self._client: AsyncPipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
         self._config: DatabaseWatcherMgmtClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
-    @distributed_trace
-    def get(self, resource_group_name: str, watcher_name: str, **kwargs: Any) -> _models.Watcher:
+    @distributed_trace_async
+    async def get(self, resource_group_name: str, watcher_name: str, **kwargs: Any) -> _models.Watcher:
         """Get a Watcher.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -882,7 +202,7 @@ class WatchersOperations:
         :param watcher_name: The database watcher name. Required.
         :type watcher_name: str
         :return: Watcher. The Watcher is compatible with MutableMapping
-        :rtype: ~azure.mgmt.databasewatcher.models.Watcher
+        :rtype: ~microsoft.databasewatcher.models.Watcher
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -912,7 +232,7 @@ class WatchersOperations:
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -921,7 +241,7 @@ class WatchersOperations:
         if response.status_code not in [200]:
             if _stream:
                 try:
-                    response.read()  # Load the body in memory and close the socket
+                    await response.read()  # Load the body in memory and close the socket
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
@@ -938,13 +258,13 @@ class WatchersOperations:
 
         return deserialized  # type: ignore
 
-    def _create_or_update_initial(
+    async def _create_or_update_initial(
         self,
         resource_group_name: str,
         watcher_name: str,
         resource: Union[_models.Watcher, JSON, IO[bytes]],
         **kwargs: Any
-    ) -> Iterator[bytes]:
+    ) -> AsyncIterator[bytes]:
         error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
@@ -957,7 +277,7 @@ class WatchersOperations:
         _params = kwargs.pop("params", {}) or {}
 
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
+        cls: ClsType[AsyncIterator[bytes]] = kwargs.pop("cls", None)
 
         content_type = content_type or "application/json"
         _content = None
@@ -982,7 +302,7 @@ class WatchersOperations:
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = True
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -990,7 +310,7 @@ class WatchersOperations:
 
         if response.status_code not in [200, 201]:
             try:
-                response.read()  # Load the body in memory and close the socket
+                await response.read()  # Load the body in memory and close the socket
             except (StreamConsumedError, StreamClosedError):
                 pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
@@ -1009,7 +329,7 @@ class WatchersOperations:
         return deserialized  # type: ignore
 
     @overload
-    def begin_create_or_update(
+    async def begin_create_or_update(
         self,
         resource_group_name: str,
         watcher_name: str,
@@ -1017,7 +337,7 @@ class WatchersOperations:
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> LROPoller[_models.Watcher]:
+    ) -> AsyncLROPoller[_models.Watcher]:
         """Create a Watcher.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -1026,18 +346,18 @@ class WatchersOperations:
         :param watcher_name: The database watcher name. Required.
         :type watcher_name: str
         :param resource: Resource create parameters. Required.
-        :type resource: ~azure.mgmt.databasewatcher.models.Watcher
+        :type resource: ~microsoft.databasewatcher.models.Watcher
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of LROPoller that returns Watcher. The Watcher is compatible with
+        :return: An instance of AsyncLROPoller that returns Watcher. The Watcher is compatible with
          MutableMapping
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.databasewatcher.models.Watcher]
+        :rtype: ~azure.core.polling.AsyncLROPoller[~microsoft.databasewatcher.models.Watcher]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    def begin_create_or_update(
+    async def begin_create_or_update(
         self,
         resource_group_name: str,
         watcher_name: str,
@@ -1045,7 +365,7 @@ class WatchersOperations:
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> LROPoller[_models.Watcher]:
+    ) -> AsyncLROPoller[_models.Watcher]:
         """Create a Watcher.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -1058,14 +378,14 @@ class WatchersOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of LROPoller that returns Watcher. The Watcher is compatible with
+        :return: An instance of AsyncLROPoller that returns Watcher. The Watcher is compatible with
          MutableMapping
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.databasewatcher.models.Watcher]
+        :rtype: ~azure.core.polling.AsyncLROPoller[~microsoft.databasewatcher.models.Watcher]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    def begin_create_or_update(
+    async def begin_create_or_update(
         self,
         resource_group_name: str,
         watcher_name: str,
@@ -1073,7 +393,7 @@ class WatchersOperations:
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> LROPoller[_models.Watcher]:
+    ) -> AsyncLROPoller[_models.Watcher]:
         """Create a Watcher.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -1086,20 +406,20 @@ class WatchersOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of LROPoller that returns Watcher. The Watcher is compatible with
+        :return: An instance of AsyncLROPoller that returns Watcher. The Watcher is compatible with
          MutableMapping
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.databasewatcher.models.Watcher]
+        :rtype: ~azure.core.polling.AsyncLROPoller[~microsoft.databasewatcher.models.Watcher]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
-    @distributed_trace
-    def begin_create_or_update(
+    @distributed_trace_async
+    async def begin_create_or_update(
         self,
         resource_group_name: str,
         watcher_name: str,
         resource: Union[_models.Watcher, JSON, IO[bytes]],
         **kwargs: Any
-    ) -> LROPoller[_models.Watcher]:
+    ) -> AsyncLROPoller[_models.Watcher]:
         """Create a Watcher.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -1109,10 +429,10 @@ class WatchersOperations:
         :type watcher_name: str
         :param resource: Resource create parameters. Is one of the following types: Watcher, JSON,
          IO[bytes] Required.
-        :type resource: ~azure.mgmt.databasewatcher.models.Watcher or JSON or IO[bytes]
-        :return: An instance of LROPoller that returns Watcher. The Watcher is compatible with
+        :type resource: ~microsoft.databasewatcher.models.Watcher or JSON or IO[bytes]
+        :return: An instance of AsyncLROPoller that returns Watcher. The Watcher is compatible with
          MutableMapping
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.databasewatcher.models.Watcher]
+        :rtype: ~azure.core.polling.AsyncLROPoller[~microsoft.databasewatcher.models.Watcher]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -1120,11 +440,11 @@ class WatchersOperations:
 
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.Watcher] = kwargs.pop("cls", None)
-        polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
+        polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
         if cont_token is None:
-            raw_result = self._create_or_update_initial(
+            raw_result = await self._create_or_update_initial(
                 resource_group_name=resource_group_name,
                 watcher_name=watcher_name,
                 resource=resource,
@@ -1134,7 +454,7 @@ class WatchersOperations:
                 params=_params,
                 **kwargs
             )
-            raw_result.http_response.read()  # type: ignore
+            await raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):
@@ -1149,31 +469,31 @@ class WatchersOperations:
         }
 
         if polling is True:
-            polling_method: PollingMethod = cast(
-                PollingMethod, ARMPolling(lro_delay, path_format_arguments=path_format_arguments, **kwargs)
+            polling_method: AsyncPollingMethod = cast(
+                AsyncPollingMethod, AsyncARMPolling(lro_delay, path_format_arguments=path_format_arguments, **kwargs)
             )
         elif polling is False:
-            polling_method = cast(PollingMethod, NoPolling())
+            polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller[_models.Watcher].from_continuation_token(
+            return AsyncLROPoller[_models.Watcher].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller[_models.Watcher](
+        return AsyncLROPoller[_models.Watcher](
             self._client, raw_result, get_long_running_output, polling_method  # type: ignore
         )
 
-    def _update_initial(
+    async def _update_initial(
         self,
         resource_group_name: str,
         watcher_name: str,
         properties: Union[_models.WatcherUpdate, JSON, IO[bytes]],
         **kwargs: Any
-    ) -> Iterator[bytes]:
+    ) -> AsyncIterator[bytes]:
         error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
@@ -1186,7 +506,7 @@ class WatchersOperations:
         _params = kwargs.pop("params", {}) or {}
 
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
+        cls: ClsType[AsyncIterator[bytes]] = kwargs.pop("cls", None)
 
         content_type = content_type or "application/json"
         _content = None
@@ -1211,7 +531,7 @@ class WatchersOperations:
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = True
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -1219,7 +539,7 @@ class WatchersOperations:
 
         if response.status_code not in [200, 202]:
             try:
-                response.read()  # Load the body in memory and close the socket
+                await response.read()  # Load the body in memory and close the socket
             except (StreamConsumedError, StreamClosedError):
                 pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
@@ -1239,7 +559,7 @@ class WatchersOperations:
         return deserialized  # type: ignore
 
     @overload
-    def begin_update(
+    async def begin_update(
         self,
         resource_group_name: str,
         watcher_name: str,
@@ -1247,7 +567,7 @@ class WatchersOperations:
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> LROPoller[_models.Watcher]:
+    ) -> AsyncLROPoller[_models.Watcher]:
         """Update a Watcher.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -1256,18 +576,18 @@ class WatchersOperations:
         :param watcher_name: The database watcher name. Required.
         :type watcher_name: str
         :param properties: The resource properties to be updated. Required.
-        :type properties: ~azure.mgmt.databasewatcher.models.WatcherUpdate
+        :type properties: ~microsoft.databasewatcher.models.WatcherUpdate
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of LROPoller that returns Watcher. The Watcher is compatible with
+        :return: An instance of AsyncLROPoller that returns Watcher. The Watcher is compatible with
          MutableMapping
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.databasewatcher.models.Watcher]
+        :rtype: ~azure.core.polling.AsyncLROPoller[~microsoft.databasewatcher.models.Watcher]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    def begin_update(
+    async def begin_update(
         self,
         resource_group_name: str,
         watcher_name: str,
@@ -1275,7 +595,7 @@ class WatchersOperations:
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> LROPoller[_models.Watcher]:
+    ) -> AsyncLROPoller[_models.Watcher]:
         """Update a Watcher.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -1288,14 +608,14 @@ class WatchersOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of LROPoller that returns Watcher. The Watcher is compatible with
+        :return: An instance of AsyncLROPoller that returns Watcher. The Watcher is compatible with
          MutableMapping
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.databasewatcher.models.Watcher]
+        :rtype: ~azure.core.polling.AsyncLROPoller[~microsoft.databasewatcher.models.Watcher]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    def begin_update(
+    async def begin_update(
         self,
         resource_group_name: str,
         watcher_name: str,
@@ -1303,7 +623,7 @@ class WatchersOperations:
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> LROPoller[_models.Watcher]:
+    ) -> AsyncLROPoller[_models.Watcher]:
         """Update a Watcher.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -1316,20 +636,20 @@ class WatchersOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of LROPoller that returns Watcher. The Watcher is compatible with
+        :return: An instance of AsyncLROPoller that returns Watcher. The Watcher is compatible with
          MutableMapping
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.databasewatcher.models.Watcher]
+        :rtype: ~azure.core.polling.AsyncLROPoller[~microsoft.databasewatcher.models.Watcher]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
-    @distributed_trace
-    def begin_update(
+    @distributed_trace_async
+    async def begin_update(
         self,
         resource_group_name: str,
         watcher_name: str,
         properties: Union[_models.WatcherUpdate, JSON, IO[bytes]],
         **kwargs: Any
-    ) -> LROPoller[_models.Watcher]:
+    ) -> AsyncLROPoller[_models.Watcher]:
         """Update a Watcher.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -1339,10 +659,10 @@ class WatchersOperations:
         :type watcher_name: str
         :param properties: The resource properties to be updated. Is one of the following types:
          WatcherUpdate, JSON, IO[bytes] Required.
-        :type properties: ~azure.mgmt.databasewatcher.models.WatcherUpdate or JSON or IO[bytes]
-        :return: An instance of LROPoller that returns Watcher. The Watcher is compatible with
+        :type properties: ~microsoft.databasewatcher.models.WatcherUpdate or JSON or IO[bytes]
+        :return: An instance of AsyncLROPoller that returns Watcher. The Watcher is compatible with
          MutableMapping
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.databasewatcher.models.Watcher]
+        :rtype: ~azure.core.polling.AsyncLROPoller[~microsoft.databasewatcher.models.Watcher]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -1350,11 +670,11 @@ class WatchersOperations:
 
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.Watcher] = kwargs.pop("cls", None)
-        polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
+        polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
         if cont_token is None:
-            raw_result = self._update_initial(
+            raw_result = await self._update_initial(
                 resource_group_name=resource_group_name,
                 watcher_name=watcher_name,
                 properties=properties,
@@ -1364,7 +684,7 @@ class WatchersOperations:
                 params=_params,
                 **kwargs
             )
-            raw_result.http_response.read()  # type: ignore
+            await raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):
@@ -1379,25 +699,25 @@ class WatchersOperations:
         }
 
         if polling is True:
-            polling_method: PollingMethod = cast(
-                PollingMethod, ARMPolling(lro_delay, path_format_arguments=path_format_arguments, **kwargs)
+            polling_method: AsyncPollingMethod = cast(
+                AsyncPollingMethod, AsyncARMPolling(lro_delay, path_format_arguments=path_format_arguments, **kwargs)
             )
         elif polling is False:
-            polling_method = cast(PollingMethod, NoPolling())
+            polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller[_models.Watcher].from_continuation_token(
+            return AsyncLROPoller[_models.Watcher].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller[_models.Watcher](
+        return AsyncLROPoller[_models.Watcher](
             self._client, raw_result, get_long_running_output, polling_method  # type: ignore
         )
 
-    def _delete_initial(self, resource_group_name: str, watcher_name: str, **kwargs: Any) -> Iterator[bytes]:
+    async def _delete_initial(self, resource_group_name: str, watcher_name: str, **kwargs: Any) -> AsyncIterator[bytes]:
         error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
@@ -1409,7 +729,7 @@ class WatchersOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
+        cls: ClsType[AsyncIterator[bytes]] = kwargs.pop("cls", None)
 
         _request = build_watchers_delete_request(
             resource_group_name=resource_group_name,
@@ -1425,7 +745,7 @@ class WatchersOperations:
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = True
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -1433,7 +753,7 @@ class WatchersOperations:
 
         if response.status_code not in [202, 204]:
             try:
-                response.read()  # Load the body in memory and close the socket
+                await response.read()  # Load the body in memory and close the socket
             except (StreamConsumedError, StreamClosedError):
                 pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
@@ -1452,8 +772,8 @@ class WatchersOperations:
 
         return deserialized  # type: ignore
 
-    @distributed_trace
-    def begin_delete(self, resource_group_name: str, watcher_name: str, **kwargs: Any) -> LROPoller[None]:
+    @distributed_trace_async
+    async def begin_delete(self, resource_group_name: str, watcher_name: str, **kwargs: Any) -> AsyncLROPoller[None]:
         """Delete a Watcher.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -1461,19 +781,19 @@ class WatchersOperations:
         :type resource_group_name: str
         :param watcher_name: The database watcher name. Required.
         :type watcher_name: str
-        :return: An instance of LROPoller that returns None
-        :rtype: ~azure.core.polling.LROPoller[None]
+        :return: An instance of AsyncLROPoller that returns None
+        :rtype: ~azure.core.polling.AsyncLROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
         cls: ClsType[None] = kwargs.pop("cls", None)
-        polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
+        polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
         if cont_token is None:
-            raw_result = self._delete_initial(
+            raw_result = await self._delete_initial(
                 resource_group_name=resource_group_name,
                 watcher_name=watcher_name,
                 cls=lambda x, y, z: x,
@@ -1481,7 +801,7 @@ class WatchersOperations:
                 params=_params,
                 **kwargs
             )
-            raw_result.http_response.read()  # type: ignore
+            await raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
@@ -1493,31 +813,31 @@ class WatchersOperations:
         }
 
         if polling is True:
-            polling_method: PollingMethod = cast(
-                PollingMethod, ARMPolling(lro_delay, path_format_arguments=path_format_arguments, **kwargs)
+            polling_method: AsyncPollingMethod = cast(
+                AsyncPollingMethod, AsyncARMPolling(lro_delay, path_format_arguments=path_format_arguments, **kwargs)
             )
         elif polling is False:
-            polling_method = cast(PollingMethod, NoPolling())
+            polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller[None].from_continuation_token(
+            return AsyncLROPoller[None].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
+        return AsyncLROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     @distributed_trace
-    def list_by_resource_group(self, resource_group_name: str, **kwargs: Any) -> Iterable["_models.Watcher"]:
+    def list_by_resource_group(self, resource_group_name: str, **kwargs: Any) -> AsyncIterable["_models.Watcher"]:
         """List Watcher resources by resource group.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :return: An iterator like instance of Watcher
-        :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.databasewatcher.models.Watcher]
+        :rtype: ~azure.core.async_paging.AsyncItemPaged[~microsoft.databasewatcher.models.Watcher]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
@@ -1572,18 +892,18 @@ class WatchersOperations:
 
             return _request
 
-        def extract_data(pipeline_response):
+        async def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.Watcher], deserialized["value"])
+            list_of_elem = _deserialize(List[_models.Watcher], deserialized.get("value", []))
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
-            return deserialized.get("nextLink") or None, iter(list_of_elem)
+            return deserialized.get("nextLink") or None, AsyncList(list_of_elem)
 
-        def get_next(next_link=None):
+        async def get_next(next_link=None):
             _request = prepare_request(next_link)
 
             _stream = False
-            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
                 _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
@@ -1595,14 +915,14 @@ class WatchersOperations:
 
             return pipeline_response
 
-        return ItemPaged(get_next, extract_data)
+        return AsyncItemPaged(get_next, extract_data)
 
     @distributed_trace
-    def list_by_subscription(self, **kwargs: Any) -> Iterable["_models.Watcher"]:
+    def list_by_subscription(self, **kwargs: Any) -> AsyncIterable["_models.Watcher"]:
         """List Watcher resources by subscription ID.
 
         :return: An iterator like instance of Watcher
-        :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.databasewatcher.models.Watcher]
+        :rtype: ~azure.core.async_paging.AsyncItemPaged[~microsoft.databasewatcher.models.Watcher]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
@@ -1656,18 +976,18 @@ class WatchersOperations:
 
             return _request
 
-        def extract_data(pipeline_response):
+        async def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.Watcher], deserialized["value"])
+            list_of_elem = _deserialize(List[_models.Watcher], deserialized.get("value", []))
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
-            return deserialized.get("nextLink") or None, iter(list_of_elem)
+            return deserialized.get("nextLink") or None, AsyncList(list_of_elem)
 
-        def get_next(next_link=None):
+        async def get_next(next_link=None):
             _request = prepare_request(next_link)
 
             _stream = False
-            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
                 _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
@@ -1679,9 +999,9 @@ class WatchersOperations:
 
             return pipeline_response
 
-        return ItemPaged(get_next, extract_data)
+        return AsyncItemPaged(get_next, extract_data)
 
-    def _start_initial(self, resource_group_name: str, watcher_name: str, **kwargs: Any) -> Iterator[bytes]:
+    async def _start_initial(self, resource_group_name: str, watcher_name: str, **kwargs: Any) -> AsyncIterator[bytes]:
         error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
@@ -1693,7 +1013,7 @@ class WatchersOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
+        cls: ClsType[AsyncIterator[bytes]] = kwargs.pop("cls", None)
 
         _request = build_watchers_start_request(
             resource_group_name=resource_group_name,
@@ -1709,7 +1029,7 @@ class WatchersOperations:
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = True
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -1717,7 +1037,7 @@ class WatchersOperations:
 
         if response.status_code not in [200, 202]:
             try:
-                response.read()  # Load the body in memory and close the socket
+                await response.read()  # Load the body in memory and close the socket
             except (StreamConsumedError, StreamClosedError):
                 pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
@@ -1736,8 +1056,8 @@ class WatchersOperations:
 
         return deserialized  # type: ignore
 
-    @distributed_trace
-    def begin_start(self, resource_group_name: str, watcher_name: str, **kwargs: Any) -> LROPoller[None]:
+    @distributed_trace_async
+    async def begin_start(self, resource_group_name: str, watcher_name: str, **kwargs: Any) -> AsyncLROPoller[None]:
         """The action to start monitoring all targets configured for a database watcher.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -1745,19 +1065,19 @@ class WatchersOperations:
         :type resource_group_name: str
         :param watcher_name: The database watcher name. Required.
         :type watcher_name: str
-        :return: An instance of LROPoller that returns None
-        :rtype: ~azure.core.polling.LROPoller[None]
+        :return: An instance of AsyncLROPoller that returns None
+        :rtype: ~azure.core.polling.AsyncLROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
         cls: ClsType[None] = kwargs.pop("cls", None)
-        polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
+        polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
         if cont_token is None:
-            raw_result = self._start_initial(
+            raw_result = await self._start_initial(
                 resource_group_name=resource_group_name,
                 watcher_name=watcher_name,
                 cls=lambda x, y, z: x,
@@ -1765,7 +1085,7 @@ class WatchersOperations:
                 params=_params,
                 **kwargs
             )
-            raw_result.http_response.read()  # type: ignore
+            await raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
@@ -1777,23 +1097,23 @@ class WatchersOperations:
         }
 
         if polling is True:
-            polling_method: PollingMethod = cast(
-                PollingMethod, ARMPolling(lro_delay, path_format_arguments=path_format_arguments, **kwargs)
+            polling_method: AsyncPollingMethod = cast(
+                AsyncPollingMethod, AsyncARMPolling(lro_delay, path_format_arguments=path_format_arguments, **kwargs)
             )
         elif polling is False:
-            polling_method = cast(PollingMethod, NoPolling())
+            polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller[None].from_continuation_token(
+            return AsyncLROPoller[None].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
+        return AsyncLROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
-    def _stop_initial(self, resource_group_name: str, watcher_name: str, **kwargs: Any) -> Iterator[bytes]:
+    async def _stop_initial(self, resource_group_name: str, watcher_name: str, **kwargs: Any) -> AsyncIterator[bytes]:
         error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
@@ -1805,7 +1125,7 @@ class WatchersOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
+        cls: ClsType[AsyncIterator[bytes]] = kwargs.pop("cls", None)
 
         _request = build_watchers_stop_request(
             resource_group_name=resource_group_name,
@@ -1821,7 +1141,7 @@ class WatchersOperations:
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = True
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -1829,7 +1149,7 @@ class WatchersOperations:
 
         if response.status_code not in [200, 202]:
             try:
-                response.read()  # Load the body in memory and close the socket
+                await response.read()  # Load the body in memory and close the socket
             except (StreamConsumedError, StreamClosedError):
                 pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
@@ -1848,8 +1168,8 @@ class WatchersOperations:
 
         return deserialized  # type: ignore
 
-    @distributed_trace
-    def begin_stop(self, resource_group_name: str, watcher_name: str, **kwargs: Any) -> LROPoller[None]:
+    @distributed_trace_async
+    async def begin_stop(self, resource_group_name: str, watcher_name: str, **kwargs: Any) -> AsyncLROPoller[None]:
         """The action to stop monitoring all targets configured for a database watcher.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -1857,19 +1177,19 @@ class WatchersOperations:
         :type resource_group_name: str
         :param watcher_name: The database watcher name. Required.
         :type watcher_name: str
-        :return: An instance of LROPoller that returns None
-        :rtype: ~azure.core.polling.LROPoller[None]
+        :return: An instance of AsyncLROPoller that returns None
+        :rtype: ~azure.core.polling.AsyncLROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
         cls: ClsType[None] = kwargs.pop("cls", None)
-        polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
+        polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
         if cont_token is None:
-            raw_result = self._stop_initial(
+            raw_result = await self._stop_initial(
                 resource_group_name=resource_group_name,
                 watcher_name=watcher_name,
                 cls=lambda x, y, z: x,
@@ -1877,7 +1197,7 @@ class WatchersOperations:
                 params=_params,
                 **kwargs
             )
-            raw_result.http_response.read()  # type: ignore
+            await raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
@@ -1889,21 +1209,21 @@ class WatchersOperations:
         }
 
         if polling is True:
-            polling_method: PollingMethod = cast(
-                PollingMethod, ARMPolling(lro_delay, path_format_arguments=path_format_arguments, **kwargs)
+            polling_method: AsyncPollingMethod = cast(
+                AsyncPollingMethod, AsyncARMPolling(lro_delay, path_format_arguments=path_format_arguments, **kwargs)
             )
         elif polling is False:
-            polling_method = cast(PollingMethod, NoPolling())
+            polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller[None].from_continuation_token(
+            return AsyncLROPoller[None].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
+        return AsyncLROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
 
 class AlertRuleResourcesOperations:
@@ -1912,18 +1232,18 @@ class AlertRuleResourcesOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.databasewatcher.DatabaseWatcherMgmtClient`'s
+        :class:`~microsoft.databasewatcher.aio.DatabaseWatcherMgmtClient`'s
         :attr:`alert_rule_resources` attribute.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
-        self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
+        self._client: AsyncPipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
         self._config: DatabaseWatcherMgmtClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
-    @distributed_trace
+    @distributed_trace_async
     @api_version_validation(
         method_added_on="2024-07-19-preview",
         params_added_on={
@@ -1937,7 +1257,7 @@ class AlertRuleResourcesOperations:
             ]
         },
     )
-    def get(
+    async def get(
         self, resource_group_name: str, watcher_name: str, alert_rule_resource_name: str, **kwargs: Any
     ) -> _models.AlertRuleResource:
         """Get a AlertRuleResource.
@@ -1950,7 +1270,7 @@ class AlertRuleResourcesOperations:
         :param alert_rule_resource_name: The alert rule proxy resource name. Required.
         :type alert_rule_resource_name: str
         :return: AlertRuleResource. The AlertRuleResource is compatible with MutableMapping
-        :rtype: ~azure.mgmt.databasewatcher.models.AlertRuleResource
+        :rtype: ~microsoft.databasewatcher.models.AlertRuleResource
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -1981,7 +1301,7 @@ class AlertRuleResourcesOperations:
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -1990,7 +1310,7 @@ class AlertRuleResourcesOperations:
         if response.status_code not in [200]:
             if _stream:
                 try:
-                    response.read()  # Load the body in memory and close the socket
+                    await response.read()  # Load the body in memory and close the socket
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
@@ -2008,7 +1328,7 @@ class AlertRuleResourcesOperations:
         return deserialized  # type: ignore
 
     @overload
-    def create_or_update(
+    async def create_or_update(
         self,
         resource_group_name: str,
         watcher_name: str,
@@ -2028,17 +1348,17 @@ class AlertRuleResourcesOperations:
         :param alert_rule_resource_name: The alert rule proxy resource name. Required.
         :type alert_rule_resource_name: str
         :param resource: Resource create parameters. Required.
-        :type resource: ~azure.mgmt.databasewatcher.models.AlertRuleResource
+        :type resource: ~microsoft.databasewatcher.models.AlertRuleResource
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :return: AlertRuleResource. The AlertRuleResource is compatible with MutableMapping
-        :rtype: ~azure.mgmt.databasewatcher.models.AlertRuleResource
+        :rtype: ~microsoft.databasewatcher.models.AlertRuleResource
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    def create_or_update(
+    async def create_or_update(
         self,
         resource_group_name: str,
         watcher_name: str,
@@ -2063,12 +1383,12 @@ class AlertRuleResourcesOperations:
          Default value is "application/json".
         :paramtype content_type: str
         :return: AlertRuleResource. The AlertRuleResource is compatible with MutableMapping
-        :rtype: ~azure.mgmt.databasewatcher.models.AlertRuleResource
+        :rtype: ~microsoft.databasewatcher.models.AlertRuleResource
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    def create_or_update(
+    async def create_or_update(
         self,
         resource_group_name: str,
         watcher_name: str,
@@ -2093,11 +1413,11 @@ class AlertRuleResourcesOperations:
          Default value is "application/json".
         :paramtype content_type: str
         :return: AlertRuleResource. The AlertRuleResource is compatible with MutableMapping
-        :rtype: ~azure.mgmt.databasewatcher.models.AlertRuleResource
+        :rtype: ~microsoft.databasewatcher.models.AlertRuleResource
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
-    @distributed_trace
+    @distributed_trace_async
     @api_version_validation(
         method_added_on="2024-07-19-preview",
         params_added_on={
@@ -2112,7 +1432,7 @@ class AlertRuleResourcesOperations:
             ]
         },
     )
-    def create_or_update(
+    async def create_or_update(
         self,
         resource_group_name: str,
         watcher_name: str,
@@ -2131,9 +1451,9 @@ class AlertRuleResourcesOperations:
         :type alert_rule_resource_name: str
         :param resource: Resource create parameters. Is one of the following types: AlertRuleResource,
          JSON, IO[bytes] Required.
-        :type resource: ~azure.mgmt.databasewatcher.models.AlertRuleResource or JSON or IO[bytes]
+        :type resource: ~microsoft.databasewatcher.models.AlertRuleResource or JSON or IO[bytes]
         :return: AlertRuleResource. The AlertRuleResource is compatible with MutableMapping
-        :rtype: ~azure.mgmt.databasewatcher.models.AlertRuleResource
+        :rtype: ~microsoft.databasewatcher.models.AlertRuleResource
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -2174,7 +1494,7 @@ class AlertRuleResourcesOperations:
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -2183,7 +1503,7 @@ class AlertRuleResourcesOperations:
         if response.status_code not in [200, 201]:
             if _stream:
                 try:
-                    response.read()  # Load the body in memory and close the socket
+                    await response.read()  # Load the body in memory and close the socket
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
@@ -2200,7 +1520,7 @@ class AlertRuleResourcesOperations:
 
         return deserialized  # type: ignore
 
-    @distributed_trace
+    @distributed_trace_async
     @api_version_validation(
         method_added_on="2024-07-19-preview",
         params_added_on={
@@ -2214,7 +1534,7 @@ class AlertRuleResourcesOperations:
             ]
         },
     )
-    def delete(  # pylint: disable=inconsistent-return-statements
+    async def delete(
         self, resource_group_name: str, watcher_name: str, alert_rule_resource_name: str, **kwargs: Any
     ) -> None:
         """Delete a AlertRuleResource.
@@ -2258,7 +1578,7 @@ class AlertRuleResourcesOperations:
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = False
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -2281,7 +1601,7 @@ class AlertRuleResourcesOperations:
     )
     def list_by_parent(
         self, resource_group_name: str, watcher_name: str, **kwargs: Any
-    ) -> Iterable["_models.AlertRuleResource"]:
+    ) -> AsyncIterable["_models.AlertRuleResource"]:
         """List AlertRuleResource resources by Watcher.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -2290,7 +1610,8 @@ class AlertRuleResourcesOperations:
         :param watcher_name: The database watcher name. Required.
         :type watcher_name: str
         :return: An iterator like instance of AlertRuleResource
-        :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.databasewatcher.models.AlertRuleResource]
+        :rtype:
+         ~azure.core.async_paging.AsyncItemPaged[~microsoft.databasewatcher.models.AlertRuleResource]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
@@ -2346,18 +1667,18 @@ class AlertRuleResourcesOperations:
 
             return _request
 
-        def extract_data(pipeline_response):
+        async def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.AlertRuleResource], deserialized["value"])
+            list_of_elem = _deserialize(List[_models.AlertRuleResource], deserialized.get("value", []))
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
-            return deserialized.get("nextLink") or None, iter(list_of_elem)
+            return deserialized.get("nextLink") or None, AsyncList(list_of_elem)
 
-        def get_next(next_link=None):
+        async def get_next(next_link=None):
             _request = prepare_request(next_link)
 
             _stream = False
-            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
                 _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
@@ -2369,7 +1690,7 @@ class AlertRuleResourcesOperations:
 
             return pipeline_response
 
-        return ItemPaged(get_next, extract_data)
+        return AsyncItemPaged(get_next, extract_data)
 
 
 class HealthValidationsOperations:
@@ -2378,18 +1699,18 @@ class HealthValidationsOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.databasewatcher.DatabaseWatcherMgmtClient`'s
+        :class:`~microsoft.databasewatcher.aio.DatabaseWatcherMgmtClient`'s
         :attr:`health_validations` attribute.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
-        self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
+        self._client: AsyncPipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
         self._config: DatabaseWatcherMgmtClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
-    @distributed_trace
+    @distributed_trace_async
     @api_version_validation(
         method_added_on="2024-10-01-preview",
         params_added_on={
@@ -2403,7 +1724,7 @@ class HealthValidationsOperations:
             ]
         },
     )
-    def get(
+    async def get(
         self, resource_group_name: str, watcher_name: str, health_validation_name: str, **kwargs: Any
     ) -> _models.HealthValidation:
         """Get a HealthValidation.
@@ -2416,7 +1737,7 @@ class HealthValidationsOperations:
         :param health_validation_name: The health validation resource name. Required.
         :type health_validation_name: str
         :return: HealthValidation. The HealthValidation is compatible with MutableMapping
-        :rtype: ~azure.mgmt.databasewatcher.models.HealthValidation
+        :rtype: ~microsoft.databasewatcher.models.HealthValidation
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -2447,7 +1768,7 @@ class HealthValidationsOperations:
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -2456,7 +1777,7 @@ class HealthValidationsOperations:
         if response.status_code not in [200]:
             if _stream:
                 try:
-                    response.read()  # Load the body in memory and close the socket
+                    await response.read()  # Load the body in memory and close the socket
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
@@ -2482,7 +1803,7 @@ class HealthValidationsOperations:
     )
     def list_by_parent(
         self, resource_group_name: str, watcher_name: str, **kwargs: Any
-    ) -> Iterable["_models.HealthValidation"]:
+    ) -> AsyncIterable["_models.HealthValidation"]:
         """List HealthValidation resources by Watcher.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -2491,7 +1812,8 @@ class HealthValidationsOperations:
         :param watcher_name: The database watcher name. Required.
         :type watcher_name: str
         :return: An iterator like instance of HealthValidation
-        :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.databasewatcher.models.HealthValidation]
+        :rtype:
+         ~azure.core.async_paging.AsyncItemPaged[~microsoft.databasewatcher.models.HealthValidation]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
@@ -2547,18 +1869,18 @@ class HealthValidationsOperations:
 
             return _request
 
-        def extract_data(pipeline_response):
+        async def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.HealthValidation], deserialized["value"])
+            list_of_elem = _deserialize(List[_models.HealthValidation], deserialized.get("value", []))
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
-            return deserialized.get("nextLink") or None, iter(list_of_elem)
+            return deserialized.get("nextLink") or None, AsyncList(list_of_elem)
 
-        def get_next(next_link=None):
+        async def get_next(next_link=None):
             _request = prepare_request(next_link)
 
             _stream = False
-            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
                 _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
@@ -2570,7 +1892,7 @@ class HealthValidationsOperations:
 
             return pipeline_response
 
-        return ItemPaged(get_next, extract_data)
+        return AsyncItemPaged(get_next, extract_data)
 
     @api_version_validation(
         method_added_on="2024-10-01-preview",
@@ -2585,9 +1907,9 @@ class HealthValidationsOperations:
             ]
         },
     )
-    def _start_validation_initial(
+    async def _start_validation_initial(
         self, resource_group_name: str, watcher_name: str, health_validation_name: str, **kwargs: Any
-    ) -> Iterator[bytes]:
+    ) -> AsyncIterator[bytes]:
         error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
@@ -2599,7 +1921,7 @@ class HealthValidationsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
+        cls: ClsType[AsyncIterator[bytes]] = kwargs.pop("cls", None)
 
         _request = build_health_validations_start_validation_request(
             resource_group_name=resource_group_name,
@@ -2616,7 +1938,7 @@ class HealthValidationsOperations:
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = True
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -2624,7 +1946,7 @@ class HealthValidationsOperations:
 
         if response.status_code not in [200, 202]:
             try:
-                response.read()  # Load the body in memory and close the socket
+                await response.read()  # Load the body in memory and close the socket
             except (StreamConsumedError, StreamClosedError):
                 pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
@@ -2643,7 +1965,7 @@ class HealthValidationsOperations:
 
         return deserialized  # type: ignore
 
-    @distributed_trace
+    @distributed_trace_async
     @api_version_validation(
         method_added_on="2024-10-01-preview",
         params_added_on={
@@ -2657,9 +1979,9 @@ class HealthValidationsOperations:
             ]
         },
     )
-    def begin_start_validation(
+    async def begin_start_validation(
         self, resource_group_name: str, watcher_name: str, health_validation_name: str, **kwargs: Any
-    ) -> LROPoller[_models.HealthValidation]:
+    ) -> AsyncLROPoller[_models.HealthValidation]:
         """Starts health validation for a watcher.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -2669,20 +1991,20 @@ class HealthValidationsOperations:
         :type watcher_name: str
         :param health_validation_name: The health validation resource name. Required.
         :type health_validation_name: str
-        :return: An instance of LROPoller that returns HealthValidation. The HealthValidation is
+        :return: An instance of AsyncLROPoller that returns HealthValidation. The HealthValidation is
          compatible with MutableMapping
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.databasewatcher.models.HealthValidation]
+        :rtype: ~azure.core.polling.AsyncLROPoller[~microsoft.databasewatcher.models.HealthValidation]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
         cls: ClsType[_models.HealthValidation] = kwargs.pop("cls", None)
-        polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
+        polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
         if cont_token is None:
-            raw_result = self._start_validation_initial(
+            raw_result = await self._start_validation_initial(
                 resource_group_name=resource_group_name,
                 watcher_name=watcher_name,
                 health_validation_name=health_validation_name,
@@ -2691,7 +2013,7 @@ class HealthValidationsOperations:
                 params=_params,
                 **kwargs
             )
-            raw_result.http_response.read()  # type: ignore
+            await raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):
@@ -2710,21 +2032,21 @@ class HealthValidationsOperations:
         }
 
         if polling is True:
-            polling_method: PollingMethod = cast(
-                PollingMethod, ARMPolling(lro_delay, path_format_arguments=path_format_arguments, **kwargs)
+            polling_method: AsyncPollingMethod = cast(
+                AsyncPollingMethod, AsyncARMPolling(lro_delay, path_format_arguments=path_format_arguments, **kwargs)
             )
         elif polling is False:
-            polling_method = cast(PollingMethod, NoPolling())
+            polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller[_models.HealthValidation].from_continuation_token(
+            return AsyncLROPoller[_models.HealthValidation].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller[_models.HealthValidation](
+        return AsyncLROPoller[_models.HealthValidation](
             self._client, raw_result, get_long_running_output, polling_method  # type: ignore
         )
 
@@ -2735,19 +2057,19 @@ class TargetsOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.databasewatcher.DatabaseWatcherMgmtClient`'s
+        :class:`~microsoft.databasewatcher.aio.DatabaseWatcherMgmtClient`'s
         :attr:`targets` attribute.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
-        self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
+        self._client: AsyncPipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
         self._config: DatabaseWatcherMgmtClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
-    @distributed_trace
-    def get(self, resource_group_name: str, watcher_name: str, target_name: str, **kwargs: Any) -> _models.Target:
+    @distributed_trace_async
+    async def get(self, resource_group_name: str, watcher_name: str, target_name: str, **kwargs: Any) -> _models.Target:
         """Get a Target.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -2758,7 +2080,7 @@ class TargetsOperations:
         :param target_name: The target resource name. Required.
         :type target_name: str
         :return: Target. The Target is compatible with MutableMapping
-        :rtype: ~azure.mgmt.databasewatcher.models.Target
+        :rtype: ~microsoft.databasewatcher.models.Target
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -2789,7 +2111,7 @@ class TargetsOperations:
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -2798,7 +2120,7 @@ class TargetsOperations:
         if response.status_code not in [200]:
             if _stream:
                 try:
-                    response.read()  # Load the body in memory and close the socket
+                    await response.read()  # Load the body in memory and close the socket
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
@@ -2816,7 +2138,7 @@ class TargetsOperations:
         return deserialized  # type: ignore
 
     @overload
-    def create_or_update(
+    async def create_or_update(
         self,
         resource_group_name: str,
         watcher_name: str,
@@ -2836,17 +2158,17 @@ class TargetsOperations:
         :param target_name: The target resource name. Required.
         :type target_name: str
         :param resource: Resource create parameters. Required.
-        :type resource: ~azure.mgmt.databasewatcher.models.Target
+        :type resource: ~microsoft.databasewatcher.models.Target
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :return: Target. The Target is compatible with MutableMapping
-        :rtype: ~azure.mgmt.databasewatcher.models.Target
+        :rtype: ~microsoft.databasewatcher.models.Target
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    def create_or_update(
+    async def create_or_update(
         self,
         resource_group_name: str,
         watcher_name: str,
@@ -2871,12 +2193,12 @@ class TargetsOperations:
          Default value is "application/json".
         :paramtype content_type: str
         :return: Target. The Target is compatible with MutableMapping
-        :rtype: ~azure.mgmt.databasewatcher.models.Target
+        :rtype: ~microsoft.databasewatcher.models.Target
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    def create_or_update(
+    async def create_or_update(
         self,
         resource_group_name: str,
         watcher_name: str,
@@ -2901,12 +2223,12 @@ class TargetsOperations:
          Default value is "application/json".
         :paramtype content_type: str
         :return: Target. The Target is compatible with MutableMapping
-        :rtype: ~azure.mgmt.databasewatcher.models.Target
+        :rtype: ~microsoft.databasewatcher.models.Target
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
-    @distributed_trace
-    def create_or_update(
+    @distributed_trace_async
+    async def create_or_update(
         self,
         resource_group_name: str,
         watcher_name: str,
@@ -2925,9 +2247,9 @@ class TargetsOperations:
         :type target_name: str
         :param resource: Resource create parameters. Is one of the following types: Target, JSON,
          IO[bytes] Required.
-        :type resource: ~azure.mgmt.databasewatcher.models.Target or JSON or IO[bytes]
+        :type resource: ~microsoft.databasewatcher.models.Target or JSON or IO[bytes]
         :return: Target. The Target is compatible with MutableMapping
-        :rtype: ~azure.mgmt.databasewatcher.models.Target
+        :rtype: ~microsoft.databasewatcher.models.Target
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -2968,7 +2290,7 @@ class TargetsOperations:
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -2977,7 +2299,7 @@ class TargetsOperations:
         if response.status_code not in [200, 201]:
             if _stream:
                 try:
-                    response.read()  # Load the body in memory and close the socket
+                    await response.read()  # Load the body in memory and close the socket
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
@@ -2994,10 +2316,8 @@ class TargetsOperations:
 
         return deserialized  # type: ignore
 
-    @distributed_trace
-    def delete(  # pylint: disable=inconsistent-return-statements
-        self, resource_group_name: str, watcher_name: str, target_name: str, **kwargs: Any
-    ) -> None:
+    @distributed_trace_async
+    async def delete(self, resource_group_name: str, watcher_name: str, target_name: str, **kwargs: Any) -> None:
         """Delete a Target.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -3039,7 +2359,7 @@ class TargetsOperations:
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = False
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -3054,7 +2374,9 @@ class TargetsOperations:
             return cls(pipeline_response, None, {})  # type: ignore
 
     @distributed_trace
-    def list_by_watcher(self, resource_group_name: str, watcher_name: str, **kwargs: Any) -> Iterable["_models.Target"]:
+    def list_by_watcher(
+        self, resource_group_name: str, watcher_name: str, **kwargs: Any
+    ) -> AsyncIterable["_models.Target"]:
         """List Target resources by Watcher.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -3063,7 +2385,7 @@ class TargetsOperations:
         :param watcher_name: The database watcher name. Required.
         :type watcher_name: str
         :return: An iterator like instance of Target
-        :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.databasewatcher.models.Target]
+        :rtype: ~azure.core.async_paging.AsyncItemPaged[~microsoft.databasewatcher.models.Target]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
@@ -3119,18 +2441,18 @@ class TargetsOperations:
 
             return _request
 
-        def extract_data(pipeline_response):
+        async def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.Target], deserialized["value"])
+            list_of_elem = _deserialize(List[_models.Target], deserialized.get("value", []))
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
-            return deserialized.get("nextLink") or None, iter(list_of_elem)
+            return deserialized.get("nextLink") or None, AsyncList(list_of_elem)
 
-        def get_next(next_link=None):
+        async def get_next(next_link=None):
             _request = prepare_request(next_link)
 
             _stream = False
-            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
                 _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
@@ -3142,7 +2464,7 @@ class TargetsOperations:
 
             return pipeline_response
 
-        return ItemPaged(get_next, extract_data)
+        return AsyncItemPaged(get_next, extract_data)
 
 
 class SharedPrivateLinkResourcesOperations:
@@ -3151,19 +2473,19 @@ class SharedPrivateLinkResourcesOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.databasewatcher.DatabaseWatcherMgmtClient`'s
+        :class:`~microsoft.databasewatcher.aio.DatabaseWatcherMgmtClient`'s
         :attr:`shared_private_link_resources` attribute.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
-        self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
+        self._client: AsyncPipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
         self._config: DatabaseWatcherMgmtClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
-    @distributed_trace
-    def get(
+    @distributed_trace_async
+    async def get(
         self, resource_group_name: str, watcher_name: str, shared_private_link_resource_name: str, **kwargs: Any
     ) -> _models.SharedPrivateLinkResource:
         """Get a SharedPrivateLinkResource.
@@ -3177,7 +2499,7 @@ class SharedPrivateLinkResourcesOperations:
         :type shared_private_link_resource_name: str
         :return: SharedPrivateLinkResource. The SharedPrivateLinkResource is compatible with
          MutableMapping
-        :rtype: ~azure.mgmt.databasewatcher.models.SharedPrivateLinkResource
+        :rtype: ~microsoft.databasewatcher.models.SharedPrivateLinkResource
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -3208,7 +2530,7 @@ class SharedPrivateLinkResourcesOperations:
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -3217,7 +2539,7 @@ class SharedPrivateLinkResourcesOperations:
         if response.status_code not in [200]:
             if _stream:
                 try:
-                    response.read()  # Load the body in memory and close the socket
+                    await response.read()  # Load the body in memory and close the socket
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
@@ -3234,14 +2556,14 @@ class SharedPrivateLinkResourcesOperations:
 
         return deserialized  # type: ignore
 
-    def _create_initial(
+    async def _create_initial(
         self,
         resource_group_name: str,
         watcher_name: str,
         shared_private_link_resource_name: str,
         resource: Union[_models.SharedPrivateLinkResource, JSON, IO[bytes]],
         **kwargs: Any
-    ) -> Iterator[bytes]:
+    ) -> AsyncIterator[bytes]:
         error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
@@ -3254,7 +2576,7 @@ class SharedPrivateLinkResourcesOperations:
         _params = kwargs.pop("params", {}) or {}
 
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
+        cls: ClsType[AsyncIterator[bytes]] = kwargs.pop("cls", None)
 
         content_type = content_type or "application/json"
         _content = None
@@ -3280,7 +2602,7 @@ class SharedPrivateLinkResourcesOperations:
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = True
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -3288,7 +2610,7 @@ class SharedPrivateLinkResourcesOperations:
 
         if response.status_code not in [200, 201]:
             try:
-                response.read()  # Load the body in memory and close the socket
+                await response.read()  # Load the body in memory and close the socket
             except (StreamConsumedError, StreamClosedError):
                 pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
@@ -3307,7 +2629,7 @@ class SharedPrivateLinkResourcesOperations:
         return deserialized  # type: ignore
 
     @overload
-    def begin_create(
+    async def begin_create(
         self,
         resource_group_name: str,
         watcher_name: str,
@@ -3316,7 +2638,7 @@ class SharedPrivateLinkResourcesOperations:
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> LROPoller[_models.SharedPrivateLinkResource]:
+    ) -> AsyncLROPoller[_models.SharedPrivateLinkResource]:
         """Create a SharedPrivateLinkResource.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -3327,19 +2649,19 @@ class SharedPrivateLinkResourcesOperations:
         :param shared_private_link_resource_name: The Shared Private Link resource name. Required.
         :type shared_private_link_resource_name: str
         :param resource: Resource create parameters. Required.
-        :type resource: ~azure.mgmt.databasewatcher.models.SharedPrivateLinkResource
+        :type resource: ~microsoft.databasewatcher.models.SharedPrivateLinkResource
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of LROPoller that returns SharedPrivateLinkResource. The
+        :return: An instance of AsyncLROPoller that returns SharedPrivateLinkResource. The
          SharedPrivateLinkResource is compatible with MutableMapping
         :rtype:
-         ~azure.core.polling.LROPoller[~azure.mgmt.databasewatcher.models.SharedPrivateLinkResource]
+         ~azure.core.polling.AsyncLROPoller[~microsoft.databasewatcher.models.SharedPrivateLinkResource]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    def begin_create(
+    async def begin_create(
         self,
         resource_group_name: str,
         watcher_name: str,
@@ -3348,7 +2670,7 @@ class SharedPrivateLinkResourcesOperations:
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> LROPoller[_models.SharedPrivateLinkResource]:
+    ) -> AsyncLROPoller[_models.SharedPrivateLinkResource]:
         """Create a SharedPrivateLinkResource.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -3363,15 +2685,15 @@ class SharedPrivateLinkResourcesOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of LROPoller that returns SharedPrivateLinkResource. The
+        :return: An instance of AsyncLROPoller that returns SharedPrivateLinkResource. The
          SharedPrivateLinkResource is compatible with MutableMapping
         :rtype:
-         ~azure.core.polling.LROPoller[~azure.mgmt.databasewatcher.models.SharedPrivateLinkResource]
+         ~azure.core.polling.AsyncLROPoller[~microsoft.databasewatcher.models.SharedPrivateLinkResource]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    def begin_create(
+    async def begin_create(
         self,
         resource_group_name: str,
         watcher_name: str,
@@ -3380,7 +2702,7 @@ class SharedPrivateLinkResourcesOperations:
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> LROPoller[_models.SharedPrivateLinkResource]:
+    ) -> AsyncLROPoller[_models.SharedPrivateLinkResource]:
         """Create a SharedPrivateLinkResource.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -3395,22 +2717,22 @@ class SharedPrivateLinkResourcesOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of LROPoller that returns SharedPrivateLinkResource. The
+        :return: An instance of AsyncLROPoller that returns SharedPrivateLinkResource. The
          SharedPrivateLinkResource is compatible with MutableMapping
         :rtype:
-         ~azure.core.polling.LROPoller[~azure.mgmt.databasewatcher.models.SharedPrivateLinkResource]
+         ~azure.core.polling.AsyncLROPoller[~microsoft.databasewatcher.models.SharedPrivateLinkResource]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
-    @distributed_trace
-    def begin_create(
+    @distributed_trace_async
+    async def begin_create(
         self,
         resource_group_name: str,
         watcher_name: str,
         shared_private_link_resource_name: str,
         resource: Union[_models.SharedPrivateLinkResource, JSON, IO[bytes]],
         **kwargs: Any
-    ) -> LROPoller[_models.SharedPrivateLinkResource]:
+    ) -> AsyncLROPoller[_models.SharedPrivateLinkResource]:
         """Create a SharedPrivateLinkResource.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -3422,12 +2744,12 @@ class SharedPrivateLinkResourcesOperations:
         :type shared_private_link_resource_name: str
         :param resource: Resource create parameters. Is one of the following types:
          SharedPrivateLinkResource, JSON, IO[bytes] Required.
-        :type resource: ~azure.mgmt.databasewatcher.models.SharedPrivateLinkResource or JSON or
+        :type resource: ~microsoft.databasewatcher.models.SharedPrivateLinkResource or JSON or
          IO[bytes]
-        :return: An instance of LROPoller that returns SharedPrivateLinkResource. The
+        :return: An instance of AsyncLROPoller that returns SharedPrivateLinkResource. The
          SharedPrivateLinkResource is compatible with MutableMapping
         :rtype:
-         ~azure.core.polling.LROPoller[~azure.mgmt.databasewatcher.models.SharedPrivateLinkResource]
+         ~azure.core.polling.AsyncLROPoller[~microsoft.databasewatcher.models.SharedPrivateLinkResource]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -3435,11 +2757,11 @@ class SharedPrivateLinkResourcesOperations:
 
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.SharedPrivateLinkResource] = kwargs.pop("cls", None)
-        polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
+        polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
         if cont_token is None:
-            raw_result = self._create_initial(
+            raw_result = await self._create_initial(
                 resource_group_name=resource_group_name,
                 watcher_name=watcher_name,
                 shared_private_link_resource_name=shared_private_link_resource_name,
@@ -3450,7 +2772,7 @@ class SharedPrivateLinkResourcesOperations:
                 params=_params,
                 **kwargs
             )
-            raw_result.http_response.read()  # type: ignore
+            await raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):
@@ -3465,27 +2787,27 @@ class SharedPrivateLinkResourcesOperations:
         }
 
         if polling is True:
-            polling_method: PollingMethod = cast(
-                PollingMethod, ARMPolling(lro_delay, path_format_arguments=path_format_arguments, **kwargs)
+            polling_method: AsyncPollingMethod = cast(
+                AsyncPollingMethod, AsyncARMPolling(lro_delay, path_format_arguments=path_format_arguments, **kwargs)
             )
         elif polling is False:
-            polling_method = cast(PollingMethod, NoPolling())
+            polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller[_models.SharedPrivateLinkResource].from_continuation_token(
+            return AsyncLROPoller[_models.SharedPrivateLinkResource].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller[_models.SharedPrivateLinkResource](
+        return AsyncLROPoller[_models.SharedPrivateLinkResource](
             self._client, raw_result, get_long_running_output, polling_method  # type: ignore
         )
 
-    def _delete_initial(
+    async def _delete_initial(
         self, resource_group_name: str, watcher_name: str, shared_private_link_resource_name: str, **kwargs: Any
-    ) -> Iterator[bytes]:
+    ) -> AsyncIterator[bytes]:
         error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
@@ -3497,7 +2819,7 @@ class SharedPrivateLinkResourcesOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
+        cls: ClsType[AsyncIterator[bytes]] = kwargs.pop("cls", None)
 
         _request = build_shared_private_link_resources_delete_request(
             resource_group_name=resource_group_name,
@@ -3514,7 +2836,7 @@ class SharedPrivateLinkResourcesOperations:
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = True
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -3522,7 +2844,7 @@ class SharedPrivateLinkResourcesOperations:
 
         if response.status_code not in [202, 204]:
             try:
-                response.read()  # Load the body in memory and close the socket
+                await response.read()  # Load the body in memory and close the socket
             except (StreamConsumedError, StreamClosedError):
                 pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
@@ -3541,10 +2863,10 @@ class SharedPrivateLinkResourcesOperations:
 
         return deserialized  # type: ignore
 
-    @distributed_trace
-    def begin_delete(
+    @distributed_trace_async
+    async def begin_delete(
         self, resource_group_name: str, watcher_name: str, shared_private_link_resource_name: str, **kwargs: Any
-    ) -> LROPoller[None]:
+    ) -> AsyncLROPoller[None]:
         """Delete a SharedPrivateLinkResource.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -3554,19 +2876,19 @@ class SharedPrivateLinkResourcesOperations:
         :type watcher_name: str
         :param shared_private_link_resource_name: The Shared Private Link resource name. Required.
         :type shared_private_link_resource_name: str
-        :return: An instance of LROPoller that returns None
-        :rtype: ~azure.core.polling.LROPoller[None]
+        :return: An instance of AsyncLROPoller that returns None
+        :rtype: ~azure.core.polling.AsyncLROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
         cls: ClsType[None] = kwargs.pop("cls", None)
-        polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
+        polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
         if cont_token is None:
-            raw_result = self._delete_initial(
+            raw_result = await self._delete_initial(
                 resource_group_name=resource_group_name,
                 watcher_name=watcher_name,
                 shared_private_link_resource_name=shared_private_link_resource_name,
@@ -3575,7 +2897,7 @@ class SharedPrivateLinkResourcesOperations:
                 params=_params,
                 **kwargs
             )
-            raw_result.http_response.read()  # type: ignore
+            await raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
@@ -3587,26 +2909,26 @@ class SharedPrivateLinkResourcesOperations:
         }
 
         if polling is True:
-            polling_method: PollingMethod = cast(
-                PollingMethod, ARMPolling(lro_delay, path_format_arguments=path_format_arguments, **kwargs)
+            polling_method: AsyncPollingMethod = cast(
+                AsyncPollingMethod, AsyncARMPolling(lro_delay, path_format_arguments=path_format_arguments, **kwargs)
             )
         elif polling is False:
-            polling_method = cast(PollingMethod, NoPolling())
+            polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller[None].from_continuation_token(
+            return AsyncLROPoller[None].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
+        return AsyncLROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     @distributed_trace
     def list_by_watcher(
         self, resource_group_name: str, watcher_name: str, **kwargs: Any
-    ) -> Iterable["_models.SharedPrivateLinkResource"]:
+    ) -> AsyncIterable["_models.SharedPrivateLinkResource"]:
         """List SharedPrivateLinkResource resources by Watcher.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -3616,7 +2938,7 @@ class SharedPrivateLinkResourcesOperations:
         :type watcher_name: str
         :return: An iterator like instance of SharedPrivateLinkResource
         :rtype:
-         ~azure.core.paging.ItemPaged[~azure.mgmt.databasewatcher.models.SharedPrivateLinkResource]
+         ~azure.core.async_paging.AsyncItemPaged[~microsoft.databasewatcher.models.SharedPrivateLinkResource]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
@@ -3672,18 +2994,18 @@ class SharedPrivateLinkResourcesOperations:
 
             return _request
 
-        def extract_data(pipeline_response):
+        async def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.SharedPrivateLinkResource], deserialized["value"])
+            list_of_elem = _deserialize(List[_models.SharedPrivateLinkResource], deserialized.get("value", []))
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
-            return deserialized.get("nextLink") or None, iter(list_of_elem)
+            return deserialized.get("nextLink") or None, AsyncList(list_of_elem)
 
-        def get_next(next_link=None):
+        async def get_next(next_link=None):
             _request = prepare_request(next_link)
 
             _stream = False
-            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
                 _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
@@ -3695,4 +3017,4 @@ class SharedPrivateLinkResourcesOperations:
 
             return pipeline_response
 
-        return ItemPaged(get_next, extract_data)
+        return AsyncItemPaged(get_next, extract_data)

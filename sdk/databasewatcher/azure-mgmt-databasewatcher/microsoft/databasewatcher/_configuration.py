@@ -53,7 +53,7 @@ class DatabaseWatcherMgmtClientConfiguration:  # pylint: disable=too-many-instan
         self.base_url = base_url
         self.api_version = api_version
         self.credential_scopes = kwargs.pop("credential_scopes", ["https://management.azure.com/.default"])
-        kwargs.setdefault("sdk_moniker", "mgmt-databasewatcher/{}".format(VERSION))
+        kwargs.setdefault("sdk_moniker", "microsoft-databasewatcher/{}".format(VERSION))
         self.polling_interval = kwargs.get("polling_interval", 30)
         self._configure(**kwargs)
 
