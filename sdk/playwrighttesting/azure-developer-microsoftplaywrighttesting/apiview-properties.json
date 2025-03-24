@@ -1,0 +1,18 @@
+{
+    "CrossLanguagePackageId": "Microsoft.PlaywrightTesting.AuthManager",
+    "CrossLanguageDefinitionId": {
+        "azure.developer.microsoftplaywrighttesting.models.AccessToken": "Microsoft.PlaywrightTesting.AuthManager.AccessToken",
+        "azure.developer.microsoftplaywrighttesting.models.Account": "Microsoft.PlaywrightTesting.Shared.Account",
+        "azure.developer.microsoftplaywrighttesting.models.AccessTokenState": "Microsoft.PlaywrightTesting.AuthManager.AccessTokenState",
+        "azure.developer.microsoftplaywrighttesting.models.AccountState": "Microsoft.PlaywrightTesting.Shared.AccountState",
+        "azure.developer.microsoftplaywrighttesting.models.SubscriptionState": "Microsoft.PlaywrightTesting.Shared.SubscriptionState",
+        "azure.developer.microsoftplaywrighttesting.models.EnablementStatus": "Microsoft.PlaywrightTesting.Shared.EnablementStatus",
+        "azure.developer.microsoftplaywrighttesting.models.OS": "Microsoft.PlaywrightTesting.AuthManager.OS",
+        "azure.developer.microsoftplaywrighttesting.AuthManagerClient.access_tokens.create_or_replace": "Microsoft.PlaywrightTesting.AuthManager.AccessTokens.createOrReplace",
+        "azure.developer.microsoftplaywrighttesting.AuthManagerClient.access_tokens.get": "Microsoft.PlaywrightTesting.AuthManager.AccessTokens.get",
+        "azure.developer.microsoftplaywrighttesting.AuthManagerClient.access_tokens.delete": "Microsoft.PlaywrightTesting.AuthManager.AccessTokens.delete",
+        "azure.developer.microsoftplaywrighttesting.AuthManagerClient.access_tokens.list": "Microsoft.PlaywrightTesting.AuthManager.AccessTokens.list",
+        "azure.developer.microsoftplaywrighttesting.AuthManagerClient.accounts.get": "Microsoft.PlaywrightTesting.AuthManager.Accounts.get",
+        "azure.developer.microsoftplaywrighttesting.AuthManagerClient.accounts.get_browsers": "Microsoft.PlaywrightTesting.AuthManager.Accounts.getBrowsers"
+    }
+}
