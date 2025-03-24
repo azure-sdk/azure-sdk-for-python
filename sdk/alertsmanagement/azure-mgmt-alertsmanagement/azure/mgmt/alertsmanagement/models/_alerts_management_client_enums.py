@@ -17,6 +17,15 @@ class ActionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     REMOVE_ALL_ACTION_GROUPS = "RemoveAllActionGroups"
 
 
+class AddedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The type of entity that added data to the issue."""
+
+    MANUAL = "Manual"
+    """The data was added manually by a user"""
+    AUTOMATIC = "Automatic"
+    """The data was added automatically"""
+
+
 class AlertModificationEvent(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Reason for the modification."""
 
@@ -108,10 +117,66 @@ class Identifier(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     MONITOR_SERVICE_LIST = "MonitorServiceList"
 
 
+class InvestigationExecutionRunState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The execution state of the investigation."""
+
+    NONE = "None"
+    """The investigation execution didn't start"""
+    IN_PROGRESS = "InProgress"
+    """The investigation execution is in progress"""
+    SUCCEEDED = "Succeeded"
+    """The investigation execution completed successfully"""
+    FAILED = "Failed"
+    """The investigation execution failed"""
+    CANCELED = "Canceled"
+    """The investigation execution was canceled"""
+
+
 class MetadataIdentifier(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Identification of the information to be retrieved by API call."""
 
     MONITOR_SERVICE_LIST = "MonitorServiceList"
+
+
+class MetricAlertsDisplayUnit(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The unit to display for a metric alert rule."""
+
+    NONE = "None"
+    PERCENTAGE = "Percentage"
+    BYTES = "Bytes"
+    KILOBYTES = "Kilobytes"
+    MEGABYTES = "Megabytes"
+    GIGABYTES = "Gigabytes"
+    TERABYTES = "Terabytes"
+    PETABYTES = "Petabytes"
+    BYTES_PER_DAY = "BytesPerDay"
+    BYTES_PER_HOUR = "BytesPerHour"
+    BYTES_PER_MINUTE = "BytesPerMinute"
+    BYTES_PER_SECOND = "BytesPerSecond"
+    KILOBYTES_PER_SECOND = "KilobytesPerSecond"
+    MEGABYTES_PER_SECOND = "MegabytesPerSecond"
+    GIGABYTES_PER_SECOND = "GigabytesPerSecond"
+    TERABYTES_PER_SECOND = "TerabytesPerSecond"
+    PETABYTES_PER_SECOND = "PetabytesPerSecond"
+    COUNT = "Count"
+    THOUSAND = "Thousand"
+    MILLION = "Million"
+    BILLION = "Billion"
+    TRILLION = "Trillion"
+    MICRO_SECONDS = "MicroSeconds"
+    MILLI_SECONDS = "MilliSeconds"
+    SECONDS = "Seconds"
+    MINUTES = "Minutes"
+    HOURS = "Hours"
+    DAYS = "Days"
+    COUNT_PER_DAY = "CountPerDay"
+    COUNT_PER_HOUR = "CountPerHour"
+    COUNT_PER_MINUTE = "CountPerMinute"
+    COUNT_PER_SECOND = "CountPerSecond"
+    THOUSAND_PER_SECOND = "ThousandPerSecond"
+    MILLION_PER_SECOND = "MillionPerSecond"
+    BILLION_PER_SECOND = "BillionPerSecond"
+    TRILLION_PER_SECOND = "TrillionPerSecond"
 
 
 class MonitorCondition(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -138,6 +203,7 @@ class MonitorService(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     SMART_DETECTOR = "SmartDetector"
     VM_INSIGHTS = "VM Insights"
     ZABBIX = "Zabbix"
+    RESOURCE_HEALTH = "Resource Health"
 
 
 class Operator(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -155,6 +221,26 @@ class RecurrenceType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     DAILY = "Daily"
     WEEKLY = "Weekly"
     MONTHLY = "Monthly"
+
+
+class Relevance(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The relevance status of the resource."""
+
+    RELEVANT = "Relevant"
+    """The resource is relevant to the issue"""
+    IRRELEVANT = "Irrelevant"
+    """The resource is irrelevant to the issue"""
+
+
+class ResourceProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The provisioning state of a resource type."""
+
+    SUCCEEDED = "Succeeded"
+    """Resource has been created."""
+    FAILED = "Failed"
+    """Resource creation failed."""
+    CANCELED = "Canceled"
+    """Resource creation was canceled."""
 
 
 class Severity(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -209,6 +295,20 @@ class State(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     CLOSED = "Closed"
 
 
+class Status(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The status of the evaluation of the enrichment."""
+
+    SUCCEEDED = "Succeeded"
+    FAILED = "Failed"
+    NEW = "New"
+    IN_PROGRESS = "InProgress"
+    MITIGATED = "Mitigated"
+    RESOLVED = "Resolved"
+    CLOSED = "Closed"
+    CANCELED = "Canceled"
+    ON_HOLD = "OnHold"
+
+
 class TimeRange(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """TimeRange."""
 
@@ -216,3 +316,10 @@ class TimeRange(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     ONE_D = "1d"
     SEVEN_D = "7d"
     THIRTY_D = "30d"
+
+
+class Type(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The enrichment type."""
+
+    PROMETHEUS_INSTANT_QUERY = "PrometheusInstantQuery"
+    PROMETHEUS_RANGE_QUERY = "PrometheusRangeQuery"

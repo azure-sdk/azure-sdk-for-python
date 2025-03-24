@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.alertsmanagement import AlertsManagementClient
 
 """
@@ -26,15 +27,17 @@ from azure.mgmt.alertsmanagement import AlertsManagementClient
 def main():
     client = AlertsManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="9e261de7-c804-4b9d-9ebf-6f50fe350a9a",
+        issue_name="ISSUE_NAME",
+        subscription_id="SUBSCRIPTION_ID",
     )
 
     response = client.alerts.get_by_id(
+        scope="subscriptions/9e261de7-c804-4b9d-9ebf-6f50fe350a9a",
         alert_id="66114d64-d9d9-478b-95c9-b789d6502100",
     )
     print(response)
 
 
-# x-ms-original-file: specification/alertsmanagement/resource-manager/Microsoft.AlertsManagement/preview/2019-05-05-preview/examples/Alerts_GetById.json
+# x-ms-original-file: specification/alertsmanagement/resource-manager/Microsoft.AlertsManagement/preview/2024-01-01-preview/examples/Alerts_GetById.json
 if __name__ == "__main__":
     main()
