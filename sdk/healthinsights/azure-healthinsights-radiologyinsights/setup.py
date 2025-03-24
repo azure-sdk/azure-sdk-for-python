@@ -12,7 +12,7 @@ import re
 from setuptools import setup, find_packages
 
 
-PACKAGE_NAME = "azure-healthinsights-radiologyinsights"
+PACKAGE_NAME = "azurehealthinsights"
 PACKAGE_PPRINT_NAME = "Azure Health Insights - Radiology Insights"
 
 # a-b-c => a/b/c
@@ -53,14 +53,11 @@ setup(
     packages=find_packages(
         exclude=[
             "tests",
-            # Exclude packages that will be covered by PEP420 or nspkg
-            "azure",
-            "azure.healthinsights",
         ]
     ),
     include_package_data=True,
     package_data={
-        "azure.healthinsights.radiologyinsights": ["py.typed"],
+        "azurehealthinsights": ["py.typed"],
     },
     install_requires=[
         "isodate>=0.6.1",
