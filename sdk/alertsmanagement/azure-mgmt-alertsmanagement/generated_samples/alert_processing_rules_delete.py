@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.alertsmanagement import AlertsManagementClient
 
 """
@@ -26,16 +27,16 @@ from azure.mgmt.alertsmanagement import AlertsManagementClient
 def main():
     client = AlertsManagementClient(
         credential=DefaultAzureCredential(),
+        issue_name="ISSUE_NAME",
         subscription_id="1e3ff1c0-771a-4119-a03b-be82a51e232d",
     )
 
-    response = client.alert_processing_rules.delete(
+    client.alert_processing_rules.delete(
         resource_group_name="alertscorrelationrg",
         alert_processing_rule_name="DailySuppression",
     )
-    print(response)
 
 
-# x-ms-original-file: specification/alertsmanagement/resource-manager/Microsoft.AlertsManagement/stable/2021-08-08/examples/AlertProcessingRules_Delete.json
+# x-ms-original-file: specification/alertsmanagement/resource-manager/Microsoft.AlertsManagement/preview/2021-08-08-preview/examples/AlertProcessingRules_Delete.json
 if __name__ == "__main__":
     main()
