@@ -9,9 +9,11 @@
 from io import IOBase
 import json
 import sys
-from typing import Any, Callable, Dict, IO, Iterable, Iterator, List, Optional, TypeVar, Union, cast, overload
+from typing import Any, AsyncIterable, AsyncIterator, Callable, Dict, IO, List, Optional, TypeVar, Union, cast, overload
 import urllib.parse
 
+from azure.core import AsyncPipelineClient
+from azure.core.async_paging import AsyncItemPaged, AsyncList
 from azure.core.exceptions import (
     ClientAuthenticationError,
     HttpResponseError,
@@ -22,1163 +24,67 @@ from azure.core.exceptions import (
     StreamConsumedError,
     map_error,
 )
-from azure.core.paging import ItemPaged
 from azure.core.pipeline import PipelineResponse
-from azure.core.polling import LROPoller, NoPolling, PollingMethod
-from azure.core.rest import HttpRequest, HttpResponse
+from azure.core.polling import AsyncLROPoller, AsyncNoPolling, AsyncPollingMethod
+from azure.core.rest import AsyncHttpResponse, HttpRequest
 from azure.core.tracing.decorator import distributed_trace
+from azure.core.tracing.decorator_async import distributed_trace_async
 from azure.core.utils import case_insensitive_dict
 from azure.mgmt.core.exceptions import ARMErrorFormat
-from azure.mgmt.core.polling.arm_polling import ARMPolling
+from azure.mgmt.core.polling.async_arm_polling import AsyncARMPolling
 
-from .. import models as _models
-from .._model_base import SdkJSONEncoder, _deserialize
-from .._serialization import Serializer
+from ... import models as _models
+from ..._model_base import SdkJSONEncoder, _deserialize, _failsafe_deserialize
+from ..._serialization import Deserializer, Serializer
+from ...operations._operations import (
+    build_cache_nodes_operations_createor_update_request,
+    build_cache_nodes_operations_delete_request,
+    build_cache_nodes_operations_get_request,
+    build_cache_nodes_operations_list_by_resource_group_request,
+    build_cache_nodes_operations_list_by_subscription_request,
+    build_cache_nodes_operations_update_request,
+    build_enterprise_customer_operations_create_or_update_request,
+    build_enterprise_customer_operations_delete_request,
+    build_enterprise_customer_operations_get_request,
+    build_enterprise_customer_operations_list_by_resource_group_request,
+    build_enterprise_customer_operations_list_by_subscription_request,
+    build_enterprise_customer_operations_update_request,
+    build_enterprise_mcc_cache_nodes_operations_create_or_update_request,
+    build_enterprise_mcc_cache_nodes_operations_delete_request,
+    build_enterprise_mcc_cache_nodes_operations_get_cache_node_install_details_request,
+    build_enterprise_mcc_cache_nodes_operations_get_request,
+    build_enterprise_mcc_cache_nodes_operations_list_by_enterprise_mcc_customer_resource_request,
+    build_enterprise_mcc_cache_nodes_operations_update_request,
+    build_enterprise_mcc_customers_create_or_update_request,
+    build_enterprise_mcc_customers_delete_request,
+    build_enterprise_mcc_customers_get_request,
+    build_enterprise_mcc_customers_list_by_resource_group_request,
+    build_enterprise_mcc_customers_list_by_subscription_request,
+    build_enterprise_mcc_customers_update_request,
+    build_isp_cache_nodes_operations_create_or_update_request,
+    build_isp_cache_nodes_operations_delete_request,
+    build_isp_cache_nodes_operations_get_bgp_cidrs_request,
+    build_isp_cache_nodes_operations_get_cache_node_install_details_request,
+    build_isp_cache_nodes_operations_get_request,
+    build_isp_cache_nodes_operations_list_by_isp_customer_resource_request,
+    build_isp_cache_nodes_operations_update_request,
+    build_isp_customers_create_or_update_request,
+    build_isp_customers_delete_request,
+    build_isp_customers_get_request,
+    build_isp_customers_list_by_resource_group_request,
+    build_isp_customers_list_by_subscription_request,
+    build_isp_customers_update_request,
+    build_operations_list_request,
+)
+from .._configuration import ConnectedCacheMgmtClientConfiguration
 
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
     from typing import MutableMapping  # type: ignore
 T = TypeVar("T")
-ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
+ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 JSON = MutableMapping[str, Any]  # pylint: disable=unsubscriptable-object
-
-_SERIALIZER = Serializer()
-_SERIALIZER.client_side_validation = False
-
-
-def build_operations_list_request(**kwargs: Any) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-05-01-preview"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/providers/Microsoft.ConnectedCache/operations"
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_enterprise_customer_operations_get_request(  # pylint: disable=name-too-long
-    resource_group_name: str, customer_resource_name: str, subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-05-01-preview"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedCache/enterpriseCustomers/{customerResourceName}"  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "customerResourceName": _SERIALIZER.url("customer_resource_name", customer_resource_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_enterprise_customer_operations_create_or_update_request(  # pylint: disable=name-too-long
-    resource_group_name: str, customer_resource_name: str, subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-05-01-preview"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedCache/enterpriseCustomers/{customerResourceName}"  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "customerResourceName": _SERIALIZER.url("customer_resource_name", customer_resource_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    if content_type is not None:
-        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="PUT", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_enterprise_customer_operations_update_request(  # pylint: disable=name-too-long
-    resource_group_name: str, customer_resource_name: str, subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-05-01-preview"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedCache/enterpriseCustomers/{customerResourceName}"  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "customerResourceName": _SERIALIZER.url("customer_resource_name", customer_resource_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    if content_type is not None:
-        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="PATCH", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_enterprise_customer_operations_delete_request(  # pylint: disable=name-too-long
-    resource_group_name: str, customer_resource_name: str, subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-05-01-preview"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedCache/enterpriseCustomers/{customerResourceName}"  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "customerResourceName": _SERIALIZER.url("customer_resource_name", customer_resource_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="DELETE", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_enterprise_customer_operations_list_by_resource_group_request(  # pylint: disable=name-too-long
-    resource_group_name: str, subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-05-01-preview"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedCache/enterpriseCustomers"  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_enterprise_customer_operations_list_by_subscription_request(  # pylint: disable=name-too-long
-    subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-05-01-preview"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/providers/Microsoft.ConnectedCache/enterpriseCustomers"
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_cache_nodes_operations_get_request(
-    resource_group_name: str, customer_resource_name: str, subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-05-01-preview"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedCache/cacheNodes/{customerResourceName}"  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "customerResourceName": _SERIALIZER.url("customer_resource_name", customer_resource_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_cache_nodes_operations_createor_update_request(  # pylint: disable=name-too-long
-    resource_group_name: str, customer_resource_name: str, subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-05-01-preview"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedCache/cacheNodes/{customerResourceName}"  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "customerResourceName": _SERIALIZER.url("customer_resource_name", customer_resource_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    if content_type is not None:
-        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="PUT", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_cache_nodes_operations_delete_request(  # pylint: disable=name-too-long
-    resource_group_name: str, customer_resource_name: str, subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-05-01-preview"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedCache/cacheNodes/{customerResourceName}"  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "customerResourceName": _SERIALIZER.url("customer_resource_name", customer_resource_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="DELETE", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_cache_nodes_operations_update_request(  # pylint: disable=name-too-long
-    resource_group_name: str, customer_resource_name: str, subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-05-01-preview"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedCache/cacheNodes/{customerResourceName}"  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "customerResourceName": _SERIALIZER.url("customer_resource_name", customer_resource_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    if content_type is not None:
-        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="PATCH", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_cache_nodes_operations_list_by_resource_group_request(  # pylint: disable=name-too-long
-    resource_group_name: str, subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-05-01-preview"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedCache/cacheNodes"
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_cache_nodes_operations_list_by_subscription_request(  # pylint: disable=name-too-long
-    subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-05-01-preview"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/providers/Microsoft.ConnectedCache/cacheNodes"
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_isp_customers_get_request(
-    resource_group_name: str, customer_resource_name: str, subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-05-01-preview"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedCache/ispCustomers/{customerResourceName}"  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "customerResourceName": _SERIALIZER.url("customer_resource_name", customer_resource_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_isp_customers_create_or_update_request(  # pylint: disable=name-too-long
-    resource_group_name: str, customer_resource_name: str, subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-05-01-preview"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedCache/ispCustomers/{customerResourceName}"  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "customerResourceName": _SERIALIZER.url("customer_resource_name", customer_resource_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    if content_type is not None:
-        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="PUT", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_isp_customers_update_request(
-    resource_group_name: str, customer_resource_name: str, subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-05-01-preview"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedCache/ispCustomers/{customerResourceName}"  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "customerResourceName": _SERIALIZER.url("customer_resource_name", customer_resource_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    if content_type is not None:
-        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="PATCH", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_isp_customers_delete_request(
-    resource_group_name: str, customer_resource_name: str, subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-05-01-preview"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedCache/ispCustomers/{customerResourceName}"  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "customerResourceName": _SERIALIZER.url("customer_resource_name", customer_resource_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="DELETE", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_isp_customers_list_by_resource_group_request(  # pylint: disable=name-too-long
-    resource_group_name: str, subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-05-01-preview"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedCache/ispCustomers"  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_isp_customers_list_by_subscription_request(  # pylint: disable=name-too-long
-    subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-05-01-preview"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/providers/Microsoft.ConnectedCache/ispCustomers"
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_isp_cache_nodes_operations_get_request(  # pylint: disable=name-too-long
-    resource_group_name: str,
-    customer_resource_name: str,
-    cache_node_resource_name: str,
-    subscription_id: str,
-    **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-05-01-preview"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedCache/ispCustomers/{customerResourceName}/ispCacheNodes/{cacheNodeResourceName}"  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "customerResourceName": _SERIALIZER.url("customer_resource_name", customer_resource_name, "str"),
-        "cacheNodeResourceName": _SERIALIZER.url("cache_node_resource_name", cache_node_resource_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_isp_cache_nodes_operations_create_or_update_request(  # pylint: disable=name-too-long
-    resource_group_name: str,
-    customer_resource_name: str,
-    cache_node_resource_name: str,
-    subscription_id: str,
-    **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-05-01-preview"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedCache/ispCustomers/{customerResourceName}/ispCacheNodes/{cacheNodeResourceName}"  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "customerResourceName": _SERIALIZER.url("customer_resource_name", customer_resource_name, "str"),
-        "cacheNodeResourceName": _SERIALIZER.url("cache_node_resource_name", cache_node_resource_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    if content_type is not None:
-        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="PUT", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_isp_cache_nodes_operations_update_request(  # pylint: disable=name-too-long
-    resource_group_name: str,
-    customer_resource_name: str,
-    cache_node_resource_name: str,
-    subscription_id: str,
-    **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-05-01-preview"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedCache/ispCustomers/{customerResourceName}/ispCacheNodes/{cacheNodeResourceName}"  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "customerResourceName": _SERIALIZER.url("customer_resource_name", customer_resource_name, "str"),
-        "cacheNodeResourceName": _SERIALIZER.url("cache_node_resource_name", cache_node_resource_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    if content_type is not None:
-        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="PATCH", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_isp_cache_nodes_operations_delete_request(  # pylint: disable=name-too-long
-    resource_group_name: str,
-    customer_resource_name: str,
-    cache_node_resource_name: str,
-    subscription_id: str,
-    **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-05-01-preview"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedCache/ispCustomers/{customerResourceName}/ispCacheNodes/{cacheNodeResourceName}"  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "customerResourceName": _SERIALIZER.url("customer_resource_name", customer_resource_name, "str"),
-        "cacheNodeResourceName": _SERIALIZER.url("cache_node_resource_name", cache_node_resource_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="DELETE", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_isp_cache_nodes_operations_list_by_isp_customer_resource_request(  # pylint: disable=name-too-long
-    resource_group_name: str, customer_resource_name: str, subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-05-01-preview"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedCache/ispCustomers/{customerResourceName}/ispCacheNodes"  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "customerResourceName": _SERIALIZER.url("customer_resource_name", customer_resource_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_isp_cache_nodes_operations_get_bgp_cidrs_request(  # pylint: disable=name-too-long
-    resource_group_name: str,
-    customer_resource_name: str,
-    cache_node_resource_name: str,
-    subscription_id: str,
-    **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-05-01-preview"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedCache/ispCustomers/{customerResourceName}/ispCacheNodes/{cacheNodeResourceName}/getBgpCidrs"  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "customerResourceName": _SERIALIZER.url("customer_resource_name", customer_resource_name, "str"),
-        "cacheNodeResourceName": _SERIALIZER.url("cache_node_resource_name", cache_node_resource_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_isp_cache_nodes_operations_get_cache_node_install_details_request(  # pylint: disable=name-too-long
-    resource_group_name: str,
-    customer_resource_name: str,
-    cache_node_resource_name: str,
-    subscription_id: str,
-    **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-05-01-preview"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedCache/ispCustomers/{customerResourceName}/ispCacheNodes/{cacheNodeResourceName}/getCacheNodeInstallDetails"  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "customerResourceName": _SERIALIZER.url("customer_resource_name", customer_resource_name, "str"),
-        "cacheNodeResourceName": _SERIALIZER.url("cache_node_resource_name", cache_node_resource_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_enterprise_mcc_customers_get_request(  # pylint: disable=name-too-long
-    resource_group_name: str, customer_resource_name: str, subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-05-01-preview"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedCache/enterpriseMccCustomers/{customerResourceName}"  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "customerResourceName": _SERIALIZER.url("customer_resource_name", customer_resource_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_enterprise_mcc_customers_create_or_update_request(  # pylint: disable=name-too-long
-    resource_group_name: str, customer_resource_name: str, subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-05-01-preview"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedCache/enterpriseMccCustomers/{customerResourceName}"  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "customerResourceName": _SERIALIZER.url("customer_resource_name", customer_resource_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    if content_type is not None:
-        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="PUT", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_enterprise_mcc_customers_update_request(  # pylint: disable=name-too-long
-    resource_group_name: str, customer_resource_name: str, subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-05-01-preview"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedCache/enterpriseMccCustomers/{customerResourceName}"  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "customerResourceName": _SERIALIZER.url("customer_resource_name", customer_resource_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    if content_type is not None:
-        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="PATCH", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_enterprise_mcc_customers_delete_request(  # pylint: disable=name-too-long
-    resource_group_name: str, customer_resource_name: str, subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-05-01-preview"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedCache/enterpriseMccCustomers/{customerResourceName}"  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "customerResourceName": _SERIALIZER.url("customer_resource_name", customer_resource_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="DELETE", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_enterprise_mcc_customers_list_by_resource_group_request(  # pylint: disable=name-too-long
-    resource_group_name: str, subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-05-01-preview"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedCache/enterpriseMccCustomers"  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_enterprise_mcc_customers_list_by_subscription_request(  # pylint: disable=name-too-long
-    subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-05-01-preview"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/providers/Microsoft.ConnectedCache/enterpriseMccCustomers"
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_enterprise_mcc_cache_nodes_operations_get_request(  # pylint: disable=name-too-long
-    resource_group_name: str,
-    customer_resource_name: str,
-    cache_node_resource_name: str,
-    subscription_id: str,
-    **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-05-01-preview"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedCache/enterpriseMccCustomers/{customerResourceName}/enterpriseMccCacheNodes/{cacheNodeResourceName}"  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "customerResourceName": _SERIALIZER.url("customer_resource_name", customer_resource_name, "str"),
-        "cacheNodeResourceName": _SERIALIZER.url("cache_node_resource_name", cache_node_resource_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_enterprise_mcc_cache_nodes_operations_create_or_update_request(  # pylint: disable=name-too-long
-    resource_group_name: str,
-    customer_resource_name: str,
-    cache_node_resource_name: str,
-    subscription_id: str,
-    **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-05-01-preview"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedCache/enterpriseMccCustomers/{customerResourceName}/enterpriseMccCacheNodes/{cacheNodeResourceName}"  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "customerResourceName": _SERIALIZER.url("customer_resource_name", customer_resource_name, "str"),
-        "cacheNodeResourceName": _SERIALIZER.url("cache_node_resource_name", cache_node_resource_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    if content_type is not None:
-        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="PUT", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_enterprise_mcc_cache_nodes_operations_update_request(  # pylint: disable=name-too-long
-    resource_group_name: str,
-    customer_resource_name: str,
-    cache_node_resource_name: str,
-    subscription_id: str,
-    **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-05-01-preview"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedCache/enterpriseMccCustomers/{customerResourceName}/enterpriseMccCacheNodes/{cacheNodeResourceName}"  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "customerResourceName": _SERIALIZER.url("customer_resource_name", customer_resource_name, "str"),
-        "cacheNodeResourceName": _SERIALIZER.url("cache_node_resource_name", cache_node_resource_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    if content_type is not None:
-        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="PATCH", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_enterprise_mcc_cache_nodes_operations_delete_request(  # pylint: disable=name-too-long
-    resource_group_name: str,
-    customer_resource_name: str,
-    cache_node_resource_name: str,
-    subscription_id: str,
-    **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-05-01-preview"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedCache/enterpriseMccCustomers/{customerResourceName}/enterpriseMccCacheNodes/{cacheNodeResourceName}"  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "customerResourceName": _SERIALIZER.url("customer_resource_name", customer_resource_name, "str"),
-        "cacheNodeResourceName": _SERIALIZER.url("cache_node_resource_name", cache_node_resource_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="DELETE", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_enterprise_mcc_cache_nodes_operations_list_by_enterprise_mcc_customer_resource_request(  # pylint: disable=name-too-long
-    resource_group_name: str, customer_resource_name: str, subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-05-01-preview"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedCache/enterpriseMccCustomers/{customerResourceName}/enterpriseMccCacheNodes"  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "customerResourceName": _SERIALIZER.url("customer_resource_name", customer_resource_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_enterprise_mcc_cache_nodes_operations_get_cache_node_install_details_request(  # pylint: disable=name-too-long
-    resource_group_name: str,
-    customer_resource_name: str,
-    cache_node_resource_name: str,
-    subscription_id: str,
-    **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-05-01-preview"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ConnectedCache/enterpriseMccCustomers/{customerResourceName}/enterpriseMccCacheNodes/{cacheNodeResourceName}/getCacheNodeInstallDetails"  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "customerResourceName": _SERIALIZER.url("customer_resource_name", customer_resource_name, "str"),
-        "cacheNodeResourceName": _SERIALIZER.url("cache_node_resource_name", cache_node_resource_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
 
 class Operations:
@@ -1187,23 +93,23 @@ class Operations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.connectedcache.ConnectedCacheMgmtClient`'s
+        :class:`~microsoft.connectedcache.aio.ConnectedCacheMgmtClient`'s
         :attr:`operations` attribute.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
-        self._client = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config = input_args.pop(0) if input_args else kwargs.pop("config")
-        self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
-        self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
+        self._client: AsyncPipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
+        self._config: ConnectedCacheMgmtClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
+        self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
     @distributed_trace
-    def list(self, **kwargs: Any) -> Iterable["_models.Operation"]:
+    def list(self, **kwargs: Any) -> AsyncIterable["_models.Operation"]:
         """List the operations for the provider.
 
         :return: An iterator like instance of Operation
-        :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.connectedcache.models.Operation]
+        :rtype: ~azure.core.async_paging.AsyncItemPaged[~microsoft.connectedcache.models.Operation]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
@@ -1256,30 +162,30 @@ class Operations:
 
             return _request
 
-        def extract_data(pipeline_response):
+        async def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.Operation], deserialized["value"])
+            list_of_elem = _deserialize(List[_models.Operation], deserialized.get("value", []))
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
-            return deserialized.get("nextLink") or None, iter(list_of_elem)
+            return deserialized.get("nextLink") or None, AsyncList(list_of_elem)
 
-        def get_next(next_link=None):
+        async def get_next(next_link=None):
             _request = prepare_request(next_link)
 
             _stream = False
-            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
                 _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
             if response.status_code not in [200]:
                 map_error(status_code=response.status_code, response=response, error_map=error_map)
-                error = _deserialize(_models.ErrorResponse, response.json())
+                error = _failsafe_deserialize(_models.ErrorResponse, response.json())
                 raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
             return pipeline_response
 
-        return ItemPaged(get_next, extract_data)
+        return AsyncItemPaged(get_next, extract_data)
 
 
 class EnterpriseCustomerOperationsOperations:
@@ -1288,19 +194,19 @@ class EnterpriseCustomerOperationsOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.connectedcache.ConnectedCacheMgmtClient`'s
+        :class:`~microsoft.connectedcache.aio.ConnectedCacheMgmtClient`'s
         :attr:`enterprise_customer_operations` attribute.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
-        self._client = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config = input_args.pop(0) if input_args else kwargs.pop("config")
-        self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
-        self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
+        self._client: AsyncPipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
+        self._config: ConnectedCacheMgmtClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
+        self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
-    @distributed_trace
-    def get(
+    @distributed_trace_async
+    async def get(
         self, resource_group_name: str, customer_resource_name: str, **kwargs: Any
     ) -> _models.EnterprisePreviewResource:
         """Retrieves the properties of a Enterprise customer.
@@ -1312,7 +218,7 @@ class EnterpriseCustomerOperationsOperations:
         :type customer_resource_name: str
         :return: EnterprisePreviewResource. The EnterprisePreviewResource is compatible with
          MutableMapping
-        :rtype: ~azure.mgmt.connectedcache.models.EnterprisePreviewResource
+        :rtype: ~microsoft.connectedcache.models.EnterprisePreviewResource
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -1342,7 +248,7 @@ class EnterpriseCustomerOperationsOperations:
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -1351,11 +257,11 @@ class EnterpriseCustomerOperationsOperations:
         if response.status_code not in [200]:
             if _stream:
                 try:
-                    response.read()  # Load the body in memory and close the socket
+                    await response.read()  # Load the body in memory and close the socket
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.ErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if _stream:
@@ -1368,13 +274,13 @@ class EnterpriseCustomerOperationsOperations:
 
         return deserialized  # type: ignore
 
-    def _create_or_update_initial(
+    async def _create_or_update_initial(
         self,
         resource_group_name: str,
         customer_resource_name: str,
         resource: Union[_models.EnterprisePreviewResource, JSON, IO[bytes]],
         **kwargs: Any
-    ) -> Iterator[bytes]:
+    ) -> AsyncIterator[bytes]:
         error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
@@ -1387,7 +293,7 @@ class EnterpriseCustomerOperationsOperations:
         _params = kwargs.pop("params", {}) or {}
 
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
+        cls: ClsType[AsyncIterator[bytes]] = kwargs.pop("cls", None)
 
         content_type = content_type or "application/json"
         _content = None
@@ -1412,7 +318,7 @@ class EnterpriseCustomerOperationsOperations:
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = True
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -1420,11 +326,11 @@ class EnterpriseCustomerOperationsOperations:
 
         if response.status_code not in [200, 201]:
             try:
-                response.read()  # Load the body in memory and close the socket
+                await response.read()  # Load the body in memory and close the socket
             except (StreamConsumedError, StreamClosedError):
                 pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.ErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         response_headers = {}
@@ -1442,7 +348,7 @@ class EnterpriseCustomerOperationsOperations:
         return deserialized  # type: ignore
 
     @overload
-    def begin_create_or_update(
+    async def begin_create_or_update(
         self,
         resource_group_name: str,
         customer_resource_name: str,
@@ -1450,7 +356,7 @@ class EnterpriseCustomerOperationsOperations:
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> LROPoller[_models.EnterprisePreviewResource]:
+    ) -> AsyncLROPoller[_models.EnterprisePreviewResource]:
         """Creates a cacheNodes with the specified create parameters.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -1459,19 +365,19 @@ class EnterpriseCustomerOperationsOperations:
         :param customer_resource_name: Name of the Customer resource. Required.
         :type customer_resource_name: str
         :param resource: Resource create parameters. Required.
-        :type resource: ~azure.mgmt.connectedcache.models.EnterprisePreviewResource
+        :type resource: ~microsoft.connectedcache.models.EnterprisePreviewResource
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of LROPoller that returns EnterprisePreviewResource. The
+        :return: An instance of AsyncLROPoller that returns EnterprisePreviewResource. The
          EnterprisePreviewResource is compatible with MutableMapping
         :rtype:
-         ~azure.core.polling.LROPoller[~azure.mgmt.connectedcache.models.EnterprisePreviewResource]
+         ~azure.core.polling.AsyncLROPoller[~microsoft.connectedcache.models.EnterprisePreviewResource]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    def begin_create_or_update(
+    async def begin_create_or_update(
         self,
         resource_group_name: str,
         customer_resource_name: str,
@@ -1479,7 +385,7 @@ class EnterpriseCustomerOperationsOperations:
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> LROPoller[_models.EnterprisePreviewResource]:
+    ) -> AsyncLROPoller[_models.EnterprisePreviewResource]:
         """Creates a cacheNodes with the specified create parameters.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -1492,15 +398,15 @@ class EnterpriseCustomerOperationsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of LROPoller that returns EnterprisePreviewResource. The
+        :return: An instance of AsyncLROPoller that returns EnterprisePreviewResource. The
          EnterprisePreviewResource is compatible with MutableMapping
         :rtype:
-         ~azure.core.polling.LROPoller[~azure.mgmt.connectedcache.models.EnterprisePreviewResource]
+         ~azure.core.polling.AsyncLROPoller[~microsoft.connectedcache.models.EnterprisePreviewResource]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    def begin_create_or_update(
+    async def begin_create_or_update(
         self,
         resource_group_name: str,
         customer_resource_name: str,
@@ -1508,7 +414,7 @@ class EnterpriseCustomerOperationsOperations:
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> LROPoller[_models.EnterprisePreviewResource]:
+    ) -> AsyncLROPoller[_models.EnterprisePreviewResource]:
         """Creates a cacheNodes with the specified create parameters.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -1521,21 +427,21 @@ class EnterpriseCustomerOperationsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of LROPoller that returns EnterprisePreviewResource. The
+        :return: An instance of AsyncLROPoller that returns EnterprisePreviewResource. The
          EnterprisePreviewResource is compatible with MutableMapping
         :rtype:
-         ~azure.core.polling.LROPoller[~azure.mgmt.connectedcache.models.EnterprisePreviewResource]
+         ~azure.core.polling.AsyncLROPoller[~microsoft.connectedcache.models.EnterprisePreviewResource]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
-    @distributed_trace
-    def begin_create_or_update(
+    @distributed_trace_async
+    async def begin_create_or_update(
         self,
         resource_group_name: str,
         customer_resource_name: str,
         resource: Union[_models.EnterprisePreviewResource, JSON, IO[bytes]],
         **kwargs: Any
-    ) -> LROPoller[_models.EnterprisePreviewResource]:
+    ) -> AsyncLROPoller[_models.EnterprisePreviewResource]:
         """Creates a cacheNodes with the specified create parameters.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -1545,12 +451,11 @@ class EnterpriseCustomerOperationsOperations:
         :type customer_resource_name: str
         :param resource: Resource create parameters. Is one of the following types:
          EnterprisePreviewResource, JSON, IO[bytes] Required.
-        :type resource: ~azure.mgmt.connectedcache.models.EnterprisePreviewResource or JSON or
-         IO[bytes]
-        :return: An instance of LROPoller that returns EnterprisePreviewResource. The
+        :type resource: ~microsoft.connectedcache.models.EnterprisePreviewResource or JSON or IO[bytes]
+        :return: An instance of AsyncLROPoller that returns EnterprisePreviewResource. The
          EnterprisePreviewResource is compatible with MutableMapping
         :rtype:
-         ~azure.core.polling.LROPoller[~azure.mgmt.connectedcache.models.EnterprisePreviewResource]
+         ~azure.core.polling.AsyncLROPoller[~microsoft.connectedcache.models.EnterprisePreviewResource]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -1558,11 +463,11 @@ class EnterpriseCustomerOperationsOperations:
 
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.EnterprisePreviewResource] = kwargs.pop("cls", None)
-        polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
+        polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
         if cont_token is None:
-            raw_result = self._create_or_update_initial(
+            raw_result = await self._create_or_update_initial(
                 resource_group_name=resource_group_name,
                 customer_resource_name=customer_resource_name,
                 resource=resource,
@@ -1572,7 +477,7 @@ class EnterpriseCustomerOperationsOperations:
                 params=_params,
                 **kwargs
             )
-            raw_result.http_response.read()  # type: ignore
+            await raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):
@@ -1587,26 +492,26 @@ class EnterpriseCustomerOperationsOperations:
         }
 
         if polling is True:
-            polling_method: PollingMethod = cast(
-                PollingMethod, ARMPolling(lro_delay, path_format_arguments=path_format_arguments, **kwargs)
+            polling_method: AsyncPollingMethod = cast(
+                AsyncPollingMethod, AsyncARMPolling(lro_delay, path_format_arguments=path_format_arguments, **kwargs)
             )
         elif polling is False:
-            polling_method = cast(PollingMethod, NoPolling())
+            polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller[_models.EnterprisePreviewResource].from_continuation_token(
+            return AsyncLROPoller[_models.EnterprisePreviewResource].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller[_models.EnterprisePreviewResource](
+        return AsyncLROPoller[_models.EnterprisePreviewResource](
             self._client, raw_result, get_long_running_output, polling_method  # type: ignore
         )
 
     @overload
-    def update(
+    async def update(
         self,
         resource_group_name: str,
         customer_resource_name: str,
@@ -1623,18 +528,18 @@ class EnterpriseCustomerOperationsOperations:
         :param customer_resource_name: Name of the Customer resource. Required.
         :type customer_resource_name: str
         :param properties: The resource properties to be updated. Required.
-        :type properties: ~azure.mgmt.connectedcache.models.ConnectedCachePatchResource
+        :type properties: ~microsoft.connectedcache.models.ConnectedCachePatchResource
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :return: EnterprisePreviewResource. The EnterprisePreviewResource is compatible with
          MutableMapping
-        :rtype: ~azure.mgmt.connectedcache.models.EnterprisePreviewResource
+        :rtype: ~microsoft.connectedcache.models.EnterprisePreviewResource
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    def update(
+    async def update(
         self,
         resource_group_name: str,
         customer_resource_name: str,
@@ -1657,12 +562,12 @@ class EnterpriseCustomerOperationsOperations:
         :paramtype content_type: str
         :return: EnterprisePreviewResource. The EnterprisePreviewResource is compatible with
          MutableMapping
-        :rtype: ~azure.mgmt.connectedcache.models.EnterprisePreviewResource
+        :rtype: ~microsoft.connectedcache.models.EnterprisePreviewResource
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    def update(
+    async def update(
         self,
         resource_group_name: str,
         customer_resource_name: str,
@@ -1685,12 +590,12 @@ class EnterpriseCustomerOperationsOperations:
         :paramtype content_type: str
         :return: EnterprisePreviewResource. The EnterprisePreviewResource is compatible with
          MutableMapping
-        :rtype: ~azure.mgmt.connectedcache.models.EnterprisePreviewResource
+        :rtype: ~microsoft.connectedcache.models.EnterprisePreviewResource
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
-    @distributed_trace
-    def update(
+    @distributed_trace_async
+    async def update(
         self,
         resource_group_name: str,
         customer_resource_name: str,
@@ -1706,11 +611,11 @@ class EnterpriseCustomerOperationsOperations:
         :type customer_resource_name: str
         :param properties: The resource properties to be updated. Is one of the following types:
          ConnectedCachePatchResource, JSON, IO[bytes] Required.
-        :type properties: ~azure.mgmt.connectedcache.models.ConnectedCachePatchResource or JSON or
+        :type properties: ~microsoft.connectedcache.models.ConnectedCachePatchResource or JSON or
          IO[bytes]
         :return: EnterprisePreviewResource. The EnterprisePreviewResource is compatible with
          MutableMapping
-        :rtype: ~azure.mgmt.connectedcache.models.EnterprisePreviewResource
+        :rtype: ~microsoft.connectedcache.models.EnterprisePreviewResource
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -1750,7 +655,7 @@ class EnterpriseCustomerOperationsOperations:
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -1759,11 +664,11 @@ class EnterpriseCustomerOperationsOperations:
         if response.status_code not in [200]:
             if _stream:
                 try:
-                    response.read()  # Load the body in memory and close the socket
+                    await response.read()  # Load the body in memory and close the socket
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.ErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if _stream:
@@ -1776,10 +681,8 @@ class EnterpriseCustomerOperationsOperations:
 
         return deserialized  # type: ignore
 
-    @distributed_trace
-    def delete(  # pylint: disable=inconsistent-return-statements
-        self, resource_group_name: str, customer_resource_name: str, **kwargs: Any
-    ) -> None:
+    @distributed_trace_async
+    async def delete(self, resource_group_name: str, customer_resource_name: str, **kwargs: Any) -> None:
         """Deletes an existing customer Enterprise resource.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -1818,7 +721,7 @@ class EnterpriseCustomerOperationsOperations:
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = False
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -1826,7 +729,7 @@ class EnterpriseCustomerOperationsOperations:
 
         if response.status_code not in [200, 204]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.ErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if cls:
@@ -1835,7 +738,7 @@ class EnterpriseCustomerOperationsOperations:
     @distributed_trace
     def list_by_resource_group(
         self, resource_group_name: str, **kwargs: Any
-    ) -> Iterable["_models.EnterprisePreviewResource"]:
+    ) -> AsyncIterable["_models.EnterprisePreviewResource"]:
         """Retrieves the properties of all ConnectedCache enterpriseCustomers.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -1843,7 +746,7 @@ class EnterpriseCustomerOperationsOperations:
         :type resource_group_name: str
         :return: An iterator like instance of EnterprisePreviewResource
         :rtype:
-         ~azure.core.paging.ItemPaged[~azure.mgmt.connectedcache.models.EnterprisePreviewResource]
+         ~azure.core.async_paging.AsyncItemPaged[~microsoft.connectedcache.models.EnterprisePreviewResource]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
@@ -1898,38 +801,38 @@ class EnterpriseCustomerOperationsOperations:
 
             return _request
 
-        def extract_data(pipeline_response):
+        async def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.EnterprisePreviewResource], deserialized["value"])
+            list_of_elem = _deserialize(List[_models.EnterprisePreviewResource], deserialized.get("value", []))
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
-            return deserialized.get("nextLink") or None, iter(list_of_elem)
+            return deserialized.get("nextLink") or None, AsyncList(list_of_elem)
 
-        def get_next(next_link=None):
+        async def get_next(next_link=None):
             _request = prepare_request(next_link)
 
             _stream = False
-            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
                 _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
             if response.status_code not in [200]:
                 map_error(status_code=response.status_code, response=response, error_map=error_map)
-                error = _deserialize(_models.ErrorResponse, response.json())
+                error = _failsafe_deserialize(_models.ErrorResponse, response.json())
                 raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
             return pipeline_response
 
-        return ItemPaged(get_next, extract_data)
+        return AsyncItemPaged(get_next, extract_data)
 
     @distributed_trace
-    def list_by_subscription(self, **kwargs: Any) -> Iterable["_models.EnterprisePreviewResource"]:
+    def list_by_subscription(self, **kwargs: Any) -> AsyncIterable["_models.EnterprisePreviewResource"]:
         """Retrieves the properties of all ConnectedCaches.
 
         :return: An iterator like instance of EnterprisePreviewResource
         :rtype:
-         ~azure.core.paging.ItemPaged[~azure.mgmt.connectedcache.models.EnterprisePreviewResource]
+         ~azure.core.async_paging.AsyncItemPaged[~microsoft.connectedcache.models.EnterprisePreviewResource]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
@@ -1983,30 +886,30 @@ class EnterpriseCustomerOperationsOperations:
 
             return _request
 
-        def extract_data(pipeline_response):
+        async def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.EnterprisePreviewResource], deserialized["value"])
+            list_of_elem = _deserialize(List[_models.EnterprisePreviewResource], deserialized.get("value", []))
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
-            return deserialized.get("nextLink") or None, iter(list_of_elem)
+            return deserialized.get("nextLink") or None, AsyncList(list_of_elem)
 
-        def get_next(next_link=None):
+        async def get_next(next_link=None):
             _request = prepare_request(next_link)
 
             _stream = False
-            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
                 _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
             if response.status_code not in [200]:
                 map_error(status_code=response.status_code, response=response, error_map=error_map)
-                error = _deserialize(_models.ErrorResponse, response.json())
+                error = _failsafe_deserialize(_models.ErrorResponse, response.json())
                 raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
             return pipeline_response
 
-        return ItemPaged(get_next, extract_data)
+        return AsyncItemPaged(get_next, extract_data)
 
 
 class CacheNodesOperationsOperations:
@@ -2015,19 +918,19 @@ class CacheNodesOperationsOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.connectedcache.ConnectedCacheMgmtClient`'s
+        :class:`~microsoft.connectedcache.aio.ConnectedCacheMgmtClient`'s
         :attr:`cache_nodes_operations` attribute.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
-        self._client = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config = input_args.pop(0) if input_args else kwargs.pop("config")
-        self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
-        self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
+        self._client: AsyncPipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
+        self._config: ConnectedCacheMgmtClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
+        self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
-    @distributed_trace
-    def get(
+    @distributed_trace_async
+    async def get(
         self, resource_group_name: str, customer_resource_name: str, **kwargs: Any
     ) -> _models.CacheNodePreviewResource:
         """Retrieves the properties of a cacheNodes.
@@ -2039,7 +942,7 @@ class CacheNodesOperationsOperations:
         :type customer_resource_name: str
         :return: CacheNodePreviewResource. The CacheNodePreviewResource is compatible with
          MutableMapping
-        :rtype: ~azure.mgmt.connectedcache.models.CacheNodePreviewResource
+        :rtype: ~microsoft.connectedcache.models.CacheNodePreviewResource
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -2069,7 +972,7 @@ class CacheNodesOperationsOperations:
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -2078,11 +981,11 @@ class CacheNodesOperationsOperations:
         if response.status_code not in [200]:
             if _stream:
                 try:
-                    response.read()  # Load the body in memory and close the socket
+                    await response.read()  # Load the body in memory and close the socket
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.ErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if _stream:
@@ -2095,13 +998,13 @@ class CacheNodesOperationsOperations:
 
         return deserialized  # type: ignore
 
-    def _createor_update_initial(
+    async def _createor_update_initial(
         self,
         resource_group_name: str,
         customer_resource_name: str,
         resource: Union[_models.CacheNodePreviewResource, JSON, IO[bytes]],
         **kwargs: Any
-    ) -> Iterator[bytes]:
+    ) -> AsyncIterator[bytes]:
         error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
@@ -2114,7 +1017,7 @@ class CacheNodesOperationsOperations:
         _params = kwargs.pop("params", {}) or {}
 
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
+        cls: ClsType[AsyncIterator[bytes]] = kwargs.pop("cls", None)
 
         content_type = content_type or "application/json"
         _content = None
@@ -2139,7 +1042,7 @@ class CacheNodesOperationsOperations:
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = True
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -2147,11 +1050,11 @@ class CacheNodesOperationsOperations:
 
         if response.status_code not in [200, 201]:
             try:
-                response.read()  # Load the body in memory and close the socket
+                await response.read()  # Load the body in memory and close the socket
             except (StreamConsumedError, StreamClosedError):
                 pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.ErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         response_headers = {}
@@ -2169,7 +1072,7 @@ class CacheNodesOperationsOperations:
         return deserialized  # type: ignore
 
     @overload
-    def begin_createor_update(
+    async def begin_createor_update(
         self,
         resource_group_name: str,
         customer_resource_name: str,
@@ -2177,7 +1080,7 @@ class CacheNodesOperationsOperations:
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> LROPoller[_models.CacheNodePreviewResource]:
+    ) -> AsyncLROPoller[_models.CacheNodePreviewResource]:
         """Creates a cacheNodes with the specified create parameters.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -2186,19 +1089,19 @@ class CacheNodesOperationsOperations:
         :param customer_resource_name: Name of the Customer resource. Required.
         :type customer_resource_name: str
         :param resource: Resource create parameters. Required.
-        :type resource: ~azure.mgmt.connectedcache.models.CacheNodePreviewResource
+        :type resource: ~microsoft.connectedcache.models.CacheNodePreviewResource
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of LROPoller that returns CacheNodePreviewResource. The
+        :return: An instance of AsyncLROPoller that returns CacheNodePreviewResource. The
          CacheNodePreviewResource is compatible with MutableMapping
         :rtype:
-         ~azure.core.polling.LROPoller[~azure.mgmt.connectedcache.models.CacheNodePreviewResource]
+         ~azure.core.polling.AsyncLROPoller[~microsoft.connectedcache.models.CacheNodePreviewResource]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    def begin_createor_update(
+    async def begin_createor_update(
         self,
         resource_group_name: str,
         customer_resource_name: str,
@@ -2206,7 +1109,7 @@ class CacheNodesOperationsOperations:
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> LROPoller[_models.CacheNodePreviewResource]:
+    ) -> AsyncLROPoller[_models.CacheNodePreviewResource]:
         """Creates a cacheNodes with the specified create parameters.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -2219,15 +1122,15 @@ class CacheNodesOperationsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of LROPoller that returns CacheNodePreviewResource. The
+        :return: An instance of AsyncLROPoller that returns CacheNodePreviewResource. The
          CacheNodePreviewResource is compatible with MutableMapping
         :rtype:
-         ~azure.core.polling.LROPoller[~azure.mgmt.connectedcache.models.CacheNodePreviewResource]
+         ~azure.core.polling.AsyncLROPoller[~microsoft.connectedcache.models.CacheNodePreviewResource]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    def begin_createor_update(
+    async def begin_createor_update(
         self,
         resource_group_name: str,
         customer_resource_name: str,
@@ -2235,7 +1138,7 @@ class CacheNodesOperationsOperations:
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> LROPoller[_models.CacheNodePreviewResource]:
+    ) -> AsyncLROPoller[_models.CacheNodePreviewResource]:
         """Creates a cacheNodes with the specified create parameters.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -2248,21 +1151,21 @@ class CacheNodesOperationsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of LROPoller that returns CacheNodePreviewResource. The
+        :return: An instance of AsyncLROPoller that returns CacheNodePreviewResource. The
          CacheNodePreviewResource is compatible with MutableMapping
         :rtype:
-         ~azure.core.polling.LROPoller[~azure.mgmt.connectedcache.models.CacheNodePreviewResource]
+         ~azure.core.polling.AsyncLROPoller[~microsoft.connectedcache.models.CacheNodePreviewResource]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
-    @distributed_trace
-    def begin_createor_update(
+    @distributed_trace_async
+    async def begin_createor_update(
         self,
         resource_group_name: str,
         customer_resource_name: str,
         resource: Union[_models.CacheNodePreviewResource, JSON, IO[bytes]],
         **kwargs: Any
-    ) -> LROPoller[_models.CacheNodePreviewResource]:
+    ) -> AsyncLROPoller[_models.CacheNodePreviewResource]:
         """Creates a cacheNodes with the specified create parameters.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -2272,11 +1175,11 @@ class CacheNodesOperationsOperations:
         :type customer_resource_name: str
         :param resource: Resource create parameters. Is one of the following types:
          CacheNodePreviewResource, JSON, IO[bytes] Required.
-        :type resource: ~azure.mgmt.connectedcache.models.CacheNodePreviewResource or JSON or IO[bytes]
-        :return: An instance of LROPoller that returns CacheNodePreviewResource. The
+        :type resource: ~microsoft.connectedcache.models.CacheNodePreviewResource or JSON or IO[bytes]
+        :return: An instance of AsyncLROPoller that returns CacheNodePreviewResource. The
          CacheNodePreviewResource is compatible with MutableMapping
         :rtype:
-         ~azure.core.polling.LROPoller[~azure.mgmt.connectedcache.models.CacheNodePreviewResource]
+         ~azure.core.polling.AsyncLROPoller[~microsoft.connectedcache.models.CacheNodePreviewResource]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -2284,11 +1187,11 @@ class CacheNodesOperationsOperations:
 
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.CacheNodePreviewResource] = kwargs.pop("cls", None)
-        polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
+        polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
         if cont_token is None:
-            raw_result = self._createor_update_initial(
+            raw_result = await self._createor_update_initial(
                 resource_group_name=resource_group_name,
                 customer_resource_name=customer_resource_name,
                 resource=resource,
@@ -2298,7 +1201,7 @@ class CacheNodesOperationsOperations:
                 params=_params,
                 **kwargs
             )
-            raw_result.http_response.read()  # type: ignore
+            await raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):
@@ -2313,28 +1216,26 @@ class CacheNodesOperationsOperations:
         }
 
         if polling is True:
-            polling_method: PollingMethod = cast(
-                PollingMethod, ARMPolling(lro_delay, path_format_arguments=path_format_arguments, **kwargs)
+            polling_method: AsyncPollingMethod = cast(
+                AsyncPollingMethod, AsyncARMPolling(lro_delay, path_format_arguments=path_format_arguments, **kwargs)
             )
         elif polling is False:
-            polling_method = cast(PollingMethod, NoPolling())
+            polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller[_models.CacheNodePreviewResource].from_continuation_token(
+            return AsyncLROPoller[_models.CacheNodePreviewResource].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller[_models.CacheNodePreviewResource](
+        return AsyncLROPoller[_models.CacheNodePreviewResource](
             self._client, raw_result, get_long_running_output, polling_method  # type: ignore
         )
 
-    @distributed_trace
-    def delete(  # pylint: disable=inconsistent-return-statements
-        self, resource_group_name: str, customer_resource_name: str, **kwargs: Any
-    ) -> None:
+    @distributed_trace_async
+    async def delete(self, resource_group_name: str, customer_resource_name: str, **kwargs: Any) -> None:
         """Deletes an existing cache Node.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -2373,7 +1274,7 @@ class CacheNodesOperationsOperations:
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = False
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -2381,14 +1282,14 @@ class CacheNodesOperationsOperations:
 
         if response.status_code not in [200, 204]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.ErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if cls:
             return cls(pipeline_response, None, {})  # type: ignore
 
     @overload
-    def update(
+    async def update(
         self,
         resource_group_name: str,
         customer_resource_name: str,
@@ -2405,18 +1306,18 @@ class CacheNodesOperationsOperations:
         :param customer_resource_name: Name of the Customer resource. Required.
         :type customer_resource_name: str
         :param properties: The resource properties to be updated. Required.
-        :type properties: ~azure.mgmt.connectedcache.models.ConnectedCachePatchResource
+        :type properties: ~microsoft.connectedcache.models.ConnectedCachePatchResource
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :return: CacheNodePreviewResource. The CacheNodePreviewResource is compatible with
          MutableMapping
-        :rtype: ~azure.mgmt.connectedcache.models.CacheNodePreviewResource
+        :rtype: ~microsoft.connectedcache.models.CacheNodePreviewResource
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    def update(
+    async def update(
         self,
         resource_group_name: str,
         customer_resource_name: str,
@@ -2439,12 +1340,12 @@ class CacheNodesOperationsOperations:
         :paramtype content_type: str
         :return: CacheNodePreviewResource. The CacheNodePreviewResource is compatible with
          MutableMapping
-        :rtype: ~azure.mgmt.connectedcache.models.CacheNodePreviewResource
+        :rtype: ~microsoft.connectedcache.models.CacheNodePreviewResource
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    def update(
+    async def update(
         self,
         resource_group_name: str,
         customer_resource_name: str,
@@ -2467,12 +1368,12 @@ class CacheNodesOperationsOperations:
         :paramtype content_type: str
         :return: CacheNodePreviewResource. The CacheNodePreviewResource is compatible with
          MutableMapping
-        :rtype: ~azure.mgmt.connectedcache.models.CacheNodePreviewResource
+        :rtype: ~microsoft.connectedcache.models.CacheNodePreviewResource
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
-    @distributed_trace
-    def update(
+    @distributed_trace_async
+    async def update(
         self,
         resource_group_name: str,
         customer_resource_name: str,
@@ -2488,11 +1389,11 @@ class CacheNodesOperationsOperations:
         :type customer_resource_name: str
         :param properties: The resource properties to be updated. Is one of the following types:
          ConnectedCachePatchResource, JSON, IO[bytes] Required.
-        :type properties: ~azure.mgmt.connectedcache.models.ConnectedCachePatchResource or JSON or
+        :type properties: ~microsoft.connectedcache.models.ConnectedCachePatchResource or JSON or
          IO[bytes]
         :return: CacheNodePreviewResource. The CacheNodePreviewResource is compatible with
          MutableMapping
-        :rtype: ~azure.mgmt.connectedcache.models.CacheNodePreviewResource
+        :rtype: ~microsoft.connectedcache.models.CacheNodePreviewResource
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -2532,7 +1433,7 @@ class CacheNodesOperationsOperations:
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -2541,11 +1442,11 @@ class CacheNodesOperationsOperations:
         if response.status_code not in [200]:
             if _stream:
                 try:
-                    response.read()  # Load the body in memory and close the socket
+                    await response.read()  # Load the body in memory and close the socket
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.ErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if _stream:
@@ -2561,7 +1462,7 @@ class CacheNodesOperationsOperations:
     @distributed_trace
     def list_by_resource_group(
         self, resource_group_name: str, **kwargs: Any
-    ) -> Iterable["_models.CacheNodePreviewResource"]:
+    ) -> AsyncIterable["_models.CacheNodePreviewResource"]:
         """Retrieves the properties of all ConnectedCache.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -2569,7 +1470,7 @@ class CacheNodesOperationsOperations:
         :type resource_group_name: str
         :return: An iterator like instance of CacheNodePreviewResource
         :rtype:
-         ~azure.core.paging.ItemPaged[~azure.mgmt.connectedcache.models.CacheNodePreviewResource]
+         ~azure.core.async_paging.AsyncItemPaged[~microsoft.connectedcache.models.CacheNodePreviewResource]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
@@ -2624,38 +1525,38 @@ class CacheNodesOperationsOperations:
 
             return _request
 
-        def extract_data(pipeline_response):
+        async def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.CacheNodePreviewResource], deserialized["value"])
+            list_of_elem = _deserialize(List[_models.CacheNodePreviewResource], deserialized.get("value", []))
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
-            return deserialized.get("nextLink") or None, iter(list_of_elem)
+            return deserialized.get("nextLink") or None, AsyncList(list_of_elem)
 
-        def get_next(next_link=None):
+        async def get_next(next_link=None):
             _request = prepare_request(next_link)
 
             _stream = False
-            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
                 _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
             if response.status_code not in [200]:
                 map_error(status_code=response.status_code, response=response, error_map=error_map)
-                error = _deserialize(_models.ErrorResponse, response.json())
+                error = _failsafe_deserialize(_models.ErrorResponse, response.json())
                 raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
             return pipeline_response
 
-        return ItemPaged(get_next, extract_data)
+        return AsyncItemPaged(get_next, extract_data)
 
     @distributed_trace
-    def list_by_subscription(self, **kwargs: Any) -> Iterable["_models.CacheNodePreviewResource"]:
+    def list_by_subscription(self, **kwargs: Any) -> AsyncIterable["_models.CacheNodePreviewResource"]:
         """Retrieves the properties of all ConnectedCaches.
 
         :return: An iterator like instance of CacheNodePreviewResource
         :rtype:
-         ~azure.core.paging.ItemPaged[~azure.mgmt.connectedcache.models.CacheNodePreviewResource]
+         ~azure.core.async_paging.AsyncItemPaged[~microsoft.connectedcache.models.CacheNodePreviewResource]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
@@ -2709,30 +1610,30 @@ class CacheNodesOperationsOperations:
 
             return _request
 
-        def extract_data(pipeline_response):
+        async def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.CacheNodePreviewResource], deserialized["value"])
+            list_of_elem = _deserialize(List[_models.CacheNodePreviewResource], deserialized.get("value", []))
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
-            return deserialized.get("nextLink") or None, iter(list_of_elem)
+            return deserialized.get("nextLink") or None, AsyncList(list_of_elem)
 
-        def get_next(next_link=None):
+        async def get_next(next_link=None):
             _request = prepare_request(next_link)
 
             _stream = False
-            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
                 _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
             if response.status_code not in [200]:
                 map_error(status_code=response.status_code, response=response, error_map=error_map)
-                error = _deserialize(_models.ErrorResponse, response.json())
+                error = _failsafe_deserialize(_models.ErrorResponse, response.json())
                 raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
             return pipeline_response
 
-        return ItemPaged(get_next, extract_data)
+        return AsyncItemPaged(get_next, extract_data)
 
 
 class IspCustomersOperations:
@@ -2741,19 +1642,21 @@ class IspCustomersOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.connectedcache.ConnectedCacheMgmtClient`'s
+        :class:`~microsoft.connectedcache.aio.ConnectedCacheMgmtClient`'s
         :attr:`isp_customers` attribute.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
-        self._client = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config = input_args.pop(0) if input_args else kwargs.pop("config")
-        self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
-        self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
+        self._client: AsyncPipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
+        self._config: ConnectedCacheMgmtClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
+        self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
-    @distributed_trace
-    def get(self, resource_group_name: str, customer_resource_name: str, **kwargs: Any) -> _models.IspCustomerResource:
+    @distributed_trace_async
+    async def get(
+        self, resource_group_name: str, customer_resource_name: str, **kwargs: Any
+    ) -> _models.IspCustomerResource:
         """Gets the ispCustomer resource information using this get call.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -2762,7 +1665,7 @@ class IspCustomersOperations:
         :param customer_resource_name: Name of the Customer resource. Required.
         :type customer_resource_name: str
         :return: IspCustomerResource. The IspCustomerResource is compatible with MutableMapping
-        :rtype: ~azure.mgmt.connectedcache.models.IspCustomerResource
+        :rtype: ~microsoft.connectedcache.models.IspCustomerResource
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -2792,7 +1695,7 @@ class IspCustomersOperations:
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -2801,11 +1704,11 @@ class IspCustomersOperations:
         if response.status_code not in [200]:
             if _stream:
                 try:
-                    response.read()  # Load the body in memory and close the socket
+                    await response.read()  # Load the body in memory and close the socket
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.ErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if _stream:
@@ -2818,13 +1721,13 @@ class IspCustomersOperations:
 
         return deserialized  # type: ignore
 
-    def _create_or_update_initial(
+    async def _create_or_update_initial(
         self,
         resource_group_name: str,
         customer_resource_name: str,
         resource: Union[_models.IspCustomerResource, JSON, IO[bytes]],
         **kwargs: Any
-    ) -> Iterator[bytes]:
+    ) -> AsyncIterator[bytes]:
         error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
@@ -2837,7 +1740,7 @@ class IspCustomersOperations:
         _params = kwargs.pop("params", {}) or {}
 
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
+        cls: ClsType[AsyncIterator[bytes]] = kwargs.pop("cls", None)
 
         content_type = content_type or "application/json"
         _content = None
@@ -2862,7 +1765,7 @@ class IspCustomersOperations:
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = True
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -2870,11 +1773,11 @@ class IspCustomersOperations:
 
         if response.status_code not in [200, 201]:
             try:
-                response.read()  # Load the body in memory and close the socket
+                await response.read()  # Load the body in memory and close the socket
             except (StreamConsumedError, StreamClosedError):
                 pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.ErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         response_headers = {}
@@ -2892,7 +1795,7 @@ class IspCustomersOperations:
         return deserialized  # type: ignore
 
     @overload
-    def begin_create_or_update(
+    async def begin_create_or_update(
         self,
         resource_group_name: str,
         customer_resource_name: str,
@@ -2900,7 +1803,7 @@ class IspCustomersOperations:
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> LROPoller[_models.IspCustomerResource]:
+    ) -> AsyncLROPoller[_models.IspCustomerResource]:
         """This api creates an ispCustomer with the specified create parameters.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -2909,18 +1812,19 @@ class IspCustomersOperations:
         :param customer_resource_name: Name of the Customer resource. Required.
         :type customer_resource_name: str
         :param resource: Resource create parameters. Required.
-        :type resource: ~azure.mgmt.connectedcache.models.IspCustomerResource
+        :type resource: ~microsoft.connectedcache.models.IspCustomerResource
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of LROPoller that returns IspCustomerResource. The IspCustomerResource is
-         compatible with MutableMapping
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.connectedcache.models.IspCustomerResource]
+        :return: An instance of AsyncLROPoller that returns IspCustomerResource. The
+         IspCustomerResource is compatible with MutableMapping
+        :rtype:
+         ~azure.core.polling.AsyncLROPoller[~microsoft.connectedcache.models.IspCustomerResource]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    def begin_create_or_update(
+    async def begin_create_or_update(
         self,
         resource_group_name: str,
         customer_resource_name: str,
@@ -2928,7 +1832,7 @@ class IspCustomersOperations:
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> LROPoller[_models.IspCustomerResource]:
+    ) -> AsyncLROPoller[_models.IspCustomerResource]:
         """This api creates an ispCustomer with the specified create parameters.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -2941,14 +1845,15 @@ class IspCustomersOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of LROPoller that returns IspCustomerResource. The IspCustomerResource is
-         compatible with MutableMapping
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.connectedcache.models.IspCustomerResource]
+        :return: An instance of AsyncLROPoller that returns IspCustomerResource. The
+         IspCustomerResource is compatible with MutableMapping
+        :rtype:
+         ~azure.core.polling.AsyncLROPoller[~microsoft.connectedcache.models.IspCustomerResource]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    def begin_create_or_update(
+    async def begin_create_or_update(
         self,
         resource_group_name: str,
         customer_resource_name: str,
@@ -2956,7 +1861,7 @@ class IspCustomersOperations:
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> LROPoller[_models.IspCustomerResource]:
+    ) -> AsyncLROPoller[_models.IspCustomerResource]:
         """This api creates an ispCustomer with the specified create parameters.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -2969,20 +1874,21 @@ class IspCustomersOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of LROPoller that returns IspCustomerResource. The IspCustomerResource is
-         compatible with MutableMapping
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.connectedcache.models.IspCustomerResource]
+        :return: An instance of AsyncLROPoller that returns IspCustomerResource. The
+         IspCustomerResource is compatible with MutableMapping
+        :rtype:
+         ~azure.core.polling.AsyncLROPoller[~microsoft.connectedcache.models.IspCustomerResource]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
-    @distributed_trace
-    def begin_create_or_update(
+    @distributed_trace_async
+    async def begin_create_or_update(
         self,
         resource_group_name: str,
         customer_resource_name: str,
         resource: Union[_models.IspCustomerResource, JSON, IO[bytes]],
         **kwargs: Any
-    ) -> LROPoller[_models.IspCustomerResource]:
+    ) -> AsyncLROPoller[_models.IspCustomerResource]:
         """This api creates an ispCustomer with the specified create parameters.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -2992,10 +1898,11 @@ class IspCustomersOperations:
         :type customer_resource_name: str
         :param resource: Resource create parameters. Is one of the following types:
          IspCustomerResource, JSON, IO[bytes] Required.
-        :type resource: ~azure.mgmt.connectedcache.models.IspCustomerResource or JSON or IO[bytes]
-        :return: An instance of LROPoller that returns IspCustomerResource. The IspCustomerResource is
-         compatible with MutableMapping
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.connectedcache.models.IspCustomerResource]
+        :type resource: ~microsoft.connectedcache.models.IspCustomerResource or JSON or IO[bytes]
+        :return: An instance of AsyncLROPoller that returns IspCustomerResource. The
+         IspCustomerResource is compatible with MutableMapping
+        :rtype:
+         ~azure.core.polling.AsyncLROPoller[~microsoft.connectedcache.models.IspCustomerResource]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -3003,11 +1910,11 @@ class IspCustomersOperations:
 
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.IspCustomerResource] = kwargs.pop("cls", None)
-        polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
+        polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
         if cont_token is None:
-            raw_result = self._create_or_update_initial(
+            raw_result = await self._create_or_update_initial(
                 resource_group_name=resource_group_name,
                 customer_resource_name=customer_resource_name,
                 resource=resource,
@@ -3017,7 +1924,7 @@ class IspCustomersOperations:
                 params=_params,
                 **kwargs
             )
-            raw_result.http_response.read()  # type: ignore
+            await raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):
@@ -3032,26 +1939,26 @@ class IspCustomersOperations:
         }
 
         if polling is True:
-            polling_method: PollingMethod = cast(
-                PollingMethod, ARMPolling(lro_delay, path_format_arguments=path_format_arguments, **kwargs)
+            polling_method: AsyncPollingMethod = cast(
+                AsyncPollingMethod, AsyncARMPolling(lro_delay, path_format_arguments=path_format_arguments, **kwargs)
             )
         elif polling is False:
-            polling_method = cast(PollingMethod, NoPolling())
+            polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller[_models.IspCustomerResource].from_continuation_token(
+            return AsyncLROPoller[_models.IspCustomerResource].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller[_models.IspCustomerResource](
+        return AsyncLROPoller[_models.IspCustomerResource](
             self._client, raw_result, get_long_running_output, polling_method  # type: ignore
         )
 
     @overload
-    def update(
+    async def update(
         self,
         resource_group_name: str,
         customer_resource_name: str,
@@ -3068,17 +1975,17 @@ class IspCustomersOperations:
         :param customer_resource_name: Name of the Customer resource. Required.
         :type customer_resource_name: str
         :param properties: The resource properties to be updated. Required.
-        :type properties: ~azure.mgmt.connectedcache.models.ConnectedCachePatchResource
+        :type properties: ~microsoft.connectedcache.models.ConnectedCachePatchResource
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :return: IspCustomerResource. The IspCustomerResource is compatible with MutableMapping
-        :rtype: ~azure.mgmt.connectedcache.models.IspCustomerResource
+        :rtype: ~microsoft.connectedcache.models.IspCustomerResource
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    def update(
+    async def update(
         self,
         resource_group_name: str,
         customer_resource_name: str,
@@ -3100,12 +2007,12 @@ class IspCustomersOperations:
          Default value is "application/json".
         :paramtype content_type: str
         :return: IspCustomerResource. The IspCustomerResource is compatible with MutableMapping
-        :rtype: ~azure.mgmt.connectedcache.models.IspCustomerResource
+        :rtype: ~microsoft.connectedcache.models.IspCustomerResource
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    def update(
+    async def update(
         self,
         resource_group_name: str,
         customer_resource_name: str,
@@ -3127,12 +2034,12 @@ class IspCustomersOperations:
          Default value is "application/json".
         :paramtype content_type: str
         :return: IspCustomerResource. The IspCustomerResource is compatible with MutableMapping
-        :rtype: ~azure.mgmt.connectedcache.models.IspCustomerResource
+        :rtype: ~microsoft.connectedcache.models.IspCustomerResource
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
-    @distributed_trace
-    def update(
+    @distributed_trace_async
+    async def update(
         self,
         resource_group_name: str,
         customer_resource_name: str,
@@ -3148,10 +2055,10 @@ class IspCustomersOperations:
         :type customer_resource_name: str
         :param properties: The resource properties to be updated. Is one of the following types:
          ConnectedCachePatchResource, JSON, IO[bytes] Required.
-        :type properties: ~azure.mgmt.connectedcache.models.ConnectedCachePatchResource or JSON or
+        :type properties: ~microsoft.connectedcache.models.ConnectedCachePatchResource or JSON or
          IO[bytes]
         :return: IspCustomerResource. The IspCustomerResource is compatible with MutableMapping
-        :rtype: ~azure.mgmt.connectedcache.models.IspCustomerResource
+        :rtype: ~microsoft.connectedcache.models.IspCustomerResource
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -3191,7 +2098,7 @@ class IspCustomersOperations:
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -3200,11 +2107,11 @@ class IspCustomersOperations:
         if response.status_code not in [200]:
             if _stream:
                 try:
-                    response.read()  # Load the body in memory and close the socket
+                    await response.read()  # Load the body in memory and close the socket
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.ErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if _stream:
@@ -3217,7 +2124,9 @@ class IspCustomersOperations:
 
         return deserialized  # type: ignore
 
-    def _delete_initial(self, resource_group_name: str, customer_resource_name: str, **kwargs: Any) -> Iterator[bytes]:
+    async def _delete_initial(
+        self, resource_group_name: str, customer_resource_name: str, **kwargs: Any
+    ) -> AsyncIterator[bytes]:
         error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
@@ -3229,7 +2138,7 @@ class IspCustomersOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
+        cls: ClsType[AsyncIterator[bytes]] = kwargs.pop("cls", None)
 
         _request = build_isp_customers_delete_request(
             resource_group_name=resource_group_name,
@@ -3245,7 +2154,7 @@ class IspCustomersOperations:
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = True
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -3253,11 +2162,11 @@ class IspCustomersOperations:
 
         if response.status_code not in [202, 204]:
             try:
-                response.read()  # Load the body in memory and close the socket
+                await response.read()  # Load the body in memory and close the socket
             except (StreamConsumedError, StreamClosedError):
                 pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.ErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         response_headers = {}
@@ -3272,8 +2181,10 @@ class IspCustomersOperations:
 
         return deserialized  # type: ignore
 
-    @distributed_trace
-    def begin_delete(self, resource_group_name: str, customer_resource_name: str, **kwargs: Any) -> LROPoller[None]:
+    @distributed_trace_async
+    async def begin_delete(
+        self, resource_group_name: str, customer_resource_name: str, **kwargs: Any
+    ) -> AsyncLROPoller[None]:
         """This api deletes an existing ispCustomer resource.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -3281,19 +2192,19 @@ class IspCustomersOperations:
         :type resource_group_name: str
         :param customer_resource_name: Name of the Customer resource. Required.
         :type customer_resource_name: str
-        :return: An instance of LROPoller that returns None
-        :rtype: ~azure.core.polling.LROPoller[None]
+        :return: An instance of AsyncLROPoller that returns None
+        :rtype: ~azure.core.polling.AsyncLROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
         cls: ClsType[None] = kwargs.pop("cls", None)
-        polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
+        polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
         if cont_token is None:
-            raw_result = self._delete_initial(
+            raw_result = await self._delete_initial(
                 resource_group_name=resource_group_name,
                 customer_resource_name=customer_resource_name,
                 cls=lambda x, y, z: x,
@@ -3301,7 +2212,7 @@ class IspCustomersOperations:
                 params=_params,
                 **kwargs
             )
-            raw_result.http_response.read()  # type: ignore
+            await raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
@@ -3313,26 +2224,26 @@ class IspCustomersOperations:
         }
 
         if polling is True:
-            polling_method: PollingMethod = cast(
-                PollingMethod, ARMPolling(lro_delay, path_format_arguments=path_format_arguments, **kwargs)
+            polling_method: AsyncPollingMethod = cast(
+                AsyncPollingMethod, AsyncARMPolling(lro_delay, path_format_arguments=path_format_arguments, **kwargs)
             )
         elif polling is False:
-            polling_method = cast(PollingMethod, NoPolling())
+            polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller[None].from_continuation_token(
+            return AsyncLROPoller[None].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
+        return AsyncLROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     @distributed_trace
     def list_by_resource_group(
         self, resource_group_name: str, **kwargs: Any
-    ) -> Iterable["_models.IspCustomerResource"]:
+    ) -> AsyncIterable["_models.IspCustomerResource"]:
         """This api gets the information about all ispCustomer resources under the given subscription and
         resource group.
 
@@ -3340,7 +2251,8 @@ class IspCustomersOperations:
          Required.
         :type resource_group_name: str
         :return: An iterator like instance of IspCustomerResource
-        :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.connectedcache.models.IspCustomerResource]
+        :rtype:
+         ~azure.core.async_paging.AsyncItemPaged[~microsoft.connectedcache.models.IspCustomerResource]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
@@ -3395,37 +2307,38 @@ class IspCustomersOperations:
 
             return _request
 
-        def extract_data(pipeline_response):
+        async def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.IspCustomerResource], deserialized["value"])
+            list_of_elem = _deserialize(List[_models.IspCustomerResource], deserialized.get("value", []))
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
-            return deserialized.get("nextLink") or None, iter(list_of_elem)
+            return deserialized.get("nextLink") or None, AsyncList(list_of_elem)
 
-        def get_next(next_link=None):
+        async def get_next(next_link=None):
             _request = prepare_request(next_link)
 
             _stream = False
-            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
                 _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
             if response.status_code not in [200]:
                 map_error(status_code=response.status_code, response=response, error_map=error_map)
-                error = _deserialize(_models.ErrorResponse, response.json())
+                error = _failsafe_deserialize(_models.ErrorResponse, response.json())
                 raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
             return pipeline_response
 
-        return ItemPaged(get_next, extract_data)
+        return AsyncItemPaged(get_next, extract_data)
 
     @distributed_trace
-    def list_by_subscription(self, **kwargs: Any) -> Iterable["_models.IspCustomerResource"]:
+    def list_by_subscription(self, **kwargs: Any) -> AsyncIterable["_models.IspCustomerResource"]:
         """This api gets information about all ispCustomer resources under the given subscription.
 
         :return: An iterator like instance of IspCustomerResource
-        :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.connectedcache.models.IspCustomerResource]
+        :rtype:
+         ~azure.core.async_paging.AsyncItemPaged[~microsoft.connectedcache.models.IspCustomerResource]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
@@ -3479,30 +2392,30 @@ class IspCustomersOperations:
 
             return _request
 
-        def extract_data(pipeline_response):
+        async def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.IspCustomerResource], deserialized["value"])
+            list_of_elem = _deserialize(List[_models.IspCustomerResource], deserialized.get("value", []))
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
-            return deserialized.get("nextLink") or None, iter(list_of_elem)
+            return deserialized.get("nextLink") or None, AsyncList(list_of_elem)
 
-        def get_next(next_link=None):
+        async def get_next(next_link=None):
             _request = prepare_request(next_link)
 
             _stream = False
-            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
                 _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
             if response.status_code not in [200]:
                 map_error(status_code=response.status_code, response=response, error_map=error_map)
-                error = _deserialize(_models.ErrorResponse, response.json())
+                error = _failsafe_deserialize(_models.ErrorResponse, response.json())
                 raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
             return pipeline_response
 
-        return ItemPaged(get_next, extract_data)
+        return AsyncItemPaged(get_next, extract_data)
 
 
 class IspCacheNodesOperationsOperations:
@@ -3511,19 +2424,19 @@ class IspCacheNodesOperationsOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.connectedcache.ConnectedCacheMgmtClient`'s
+        :class:`~microsoft.connectedcache.aio.ConnectedCacheMgmtClient`'s
         :attr:`isp_cache_nodes_operations` attribute.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
-        self._client = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config = input_args.pop(0) if input_args else kwargs.pop("config")
-        self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
-        self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
+        self._client: AsyncPipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
+        self._config: ConnectedCacheMgmtClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
+        self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
-    @distributed_trace
-    def get(
+    @distributed_trace_async
+    async def get(
         self, resource_group_name: str, customer_resource_name: str, cache_node_resource_name: str, **kwargs: Any
     ) -> _models.IspCacheNodeResource:
         """This api gets ispCacheNode resource information.
@@ -3536,7 +2449,7 @@ class IspCacheNodesOperationsOperations:
         :param cache_node_resource_name: Name of the ConnectedCache resource. Required.
         :type cache_node_resource_name: str
         :return: IspCacheNodeResource. The IspCacheNodeResource is compatible with MutableMapping
-        :rtype: ~azure.mgmt.connectedcache.models.IspCacheNodeResource
+        :rtype: ~microsoft.connectedcache.models.IspCacheNodeResource
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -3567,7 +2480,7 @@ class IspCacheNodesOperationsOperations:
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -3576,11 +2489,11 @@ class IspCacheNodesOperationsOperations:
         if response.status_code not in [200]:
             if _stream:
                 try:
-                    response.read()  # Load the body in memory and close the socket
+                    await response.read()  # Load the body in memory and close the socket
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.ErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if _stream:
@@ -3593,14 +2506,14 @@ class IspCacheNodesOperationsOperations:
 
         return deserialized  # type: ignore
 
-    def _create_or_update_initial(
+    async def _create_or_update_initial(
         self,
         resource_group_name: str,
         customer_resource_name: str,
         cache_node_resource_name: str,
         resource: Union[_models.IspCacheNodeResource, JSON, IO[bytes]],
         **kwargs: Any
-    ) -> Iterator[bytes]:
+    ) -> AsyncIterator[bytes]:
         error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
@@ -3613,7 +2526,7 @@ class IspCacheNodesOperationsOperations:
         _params = kwargs.pop("params", {}) or {}
 
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
+        cls: ClsType[AsyncIterator[bytes]] = kwargs.pop("cls", None)
 
         content_type = content_type or "application/json"
         _content = None
@@ -3639,7 +2552,7 @@ class IspCacheNodesOperationsOperations:
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = True
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -3647,11 +2560,11 @@ class IspCacheNodesOperationsOperations:
 
         if response.status_code not in [200, 201]:
             try:
-                response.read()  # Load the body in memory and close the socket
+                await response.read()  # Load the body in memory and close the socket
             except (StreamConsumedError, StreamClosedError):
                 pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.ErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         response_headers = {}
@@ -3669,7 +2582,7 @@ class IspCacheNodesOperationsOperations:
         return deserialized  # type: ignore
 
     @overload
-    def begin_create_or_update(
+    async def begin_create_or_update(
         self,
         resource_group_name: str,
         customer_resource_name: str,
@@ -3678,7 +2591,7 @@ class IspCacheNodesOperationsOperations:
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> LROPoller[_models.IspCacheNodeResource]:
+    ) -> AsyncLROPoller[_models.IspCacheNodeResource]:
         """This api creates an ispCacheNode with the specified create parameters.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -3689,18 +2602,19 @@ class IspCacheNodesOperationsOperations:
         :param cache_node_resource_name: Name of the ConnectedCache resource. Required.
         :type cache_node_resource_name: str
         :param resource: Resource create parameters. Required.
-        :type resource: ~azure.mgmt.connectedcache.models.IspCacheNodeResource
+        :type resource: ~microsoft.connectedcache.models.IspCacheNodeResource
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of LROPoller that returns IspCacheNodeResource. The IspCacheNodeResource
-         is compatible with MutableMapping
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.connectedcache.models.IspCacheNodeResource]
+        :return: An instance of AsyncLROPoller that returns IspCacheNodeResource. The
+         IspCacheNodeResource is compatible with MutableMapping
+        :rtype:
+         ~azure.core.polling.AsyncLROPoller[~microsoft.connectedcache.models.IspCacheNodeResource]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    def begin_create_or_update(
+    async def begin_create_or_update(
         self,
         resource_group_name: str,
         customer_resource_name: str,
@@ -3709,7 +2623,7 @@ class IspCacheNodesOperationsOperations:
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> LROPoller[_models.IspCacheNodeResource]:
+    ) -> AsyncLROPoller[_models.IspCacheNodeResource]:
         """This api creates an ispCacheNode with the specified create parameters.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -3724,14 +2638,15 @@ class IspCacheNodesOperationsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of LROPoller that returns IspCacheNodeResource. The IspCacheNodeResource
-         is compatible with MutableMapping
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.connectedcache.models.IspCacheNodeResource]
+        :return: An instance of AsyncLROPoller that returns IspCacheNodeResource. The
+         IspCacheNodeResource is compatible with MutableMapping
+        :rtype:
+         ~azure.core.polling.AsyncLROPoller[~microsoft.connectedcache.models.IspCacheNodeResource]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    def begin_create_or_update(
+    async def begin_create_or_update(
         self,
         resource_group_name: str,
         customer_resource_name: str,
@@ -3740,7 +2655,7 @@ class IspCacheNodesOperationsOperations:
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> LROPoller[_models.IspCacheNodeResource]:
+    ) -> AsyncLROPoller[_models.IspCacheNodeResource]:
         """This api creates an ispCacheNode with the specified create parameters.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -3755,21 +2670,22 @@ class IspCacheNodesOperationsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of LROPoller that returns IspCacheNodeResource. The IspCacheNodeResource
-         is compatible with MutableMapping
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.connectedcache.models.IspCacheNodeResource]
+        :return: An instance of AsyncLROPoller that returns IspCacheNodeResource. The
+         IspCacheNodeResource is compatible with MutableMapping
+        :rtype:
+         ~azure.core.polling.AsyncLROPoller[~microsoft.connectedcache.models.IspCacheNodeResource]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
-    @distributed_trace
-    def begin_create_or_update(
+    @distributed_trace_async
+    async def begin_create_or_update(
         self,
         resource_group_name: str,
         customer_resource_name: str,
         cache_node_resource_name: str,
         resource: Union[_models.IspCacheNodeResource, JSON, IO[bytes]],
         **kwargs: Any
-    ) -> LROPoller[_models.IspCacheNodeResource]:
+    ) -> AsyncLROPoller[_models.IspCacheNodeResource]:
         """This api creates an ispCacheNode with the specified create parameters.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -3781,10 +2697,11 @@ class IspCacheNodesOperationsOperations:
         :type cache_node_resource_name: str
         :param resource: Resource create parameters. Is one of the following types:
          IspCacheNodeResource, JSON, IO[bytes] Required.
-        :type resource: ~azure.mgmt.connectedcache.models.IspCacheNodeResource or JSON or IO[bytes]
-        :return: An instance of LROPoller that returns IspCacheNodeResource. The IspCacheNodeResource
-         is compatible with MutableMapping
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.connectedcache.models.IspCacheNodeResource]
+        :type resource: ~microsoft.connectedcache.models.IspCacheNodeResource or JSON or IO[bytes]
+        :return: An instance of AsyncLROPoller that returns IspCacheNodeResource. The
+         IspCacheNodeResource is compatible with MutableMapping
+        :rtype:
+         ~azure.core.polling.AsyncLROPoller[~microsoft.connectedcache.models.IspCacheNodeResource]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -3792,11 +2709,11 @@ class IspCacheNodesOperationsOperations:
 
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.IspCacheNodeResource] = kwargs.pop("cls", None)
-        polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
+        polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
         if cont_token is None:
-            raw_result = self._create_or_update_initial(
+            raw_result = await self._create_or_update_initial(
                 resource_group_name=resource_group_name,
                 customer_resource_name=customer_resource_name,
                 cache_node_resource_name=cache_node_resource_name,
@@ -3807,7 +2724,7 @@ class IspCacheNodesOperationsOperations:
                 params=_params,
                 **kwargs
             )
-            raw_result.http_response.read()  # type: ignore
+            await raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):
@@ -3822,26 +2739,26 @@ class IspCacheNodesOperationsOperations:
         }
 
         if polling is True:
-            polling_method: PollingMethod = cast(
-                PollingMethod, ARMPolling(lro_delay, path_format_arguments=path_format_arguments, **kwargs)
+            polling_method: AsyncPollingMethod = cast(
+                AsyncPollingMethod, AsyncARMPolling(lro_delay, path_format_arguments=path_format_arguments, **kwargs)
             )
         elif polling is False:
-            polling_method = cast(PollingMethod, NoPolling())
+            polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller[_models.IspCacheNodeResource].from_continuation_token(
+            return AsyncLROPoller[_models.IspCacheNodeResource].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller[_models.IspCacheNodeResource](
+        return AsyncLROPoller[_models.IspCacheNodeResource](
             self._client, raw_result, get_long_running_output, polling_method  # type: ignore
         )
 
     @overload
-    def update(
+    async def update(
         self,
         resource_group_name: str,
         customer_resource_name: str,
@@ -3861,17 +2778,17 @@ class IspCacheNodesOperationsOperations:
         :param cache_node_resource_name: Name of the ConnectedCache resource. Required.
         :type cache_node_resource_name: str
         :param properties: The resource properties to be updated. Required.
-        :type properties: ~azure.mgmt.connectedcache.models.ConnectedCachePatchResource
+        :type properties: ~microsoft.connectedcache.models.ConnectedCachePatchResource
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :return: IspCacheNodeResource. The IspCacheNodeResource is compatible with MutableMapping
-        :rtype: ~azure.mgmt.connectedcache.models.IspCacheNodeResource
+        :rtype: ~microsoft.connectedcache.models.IspCacheNodeResource
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    def update(
+    async def update(
         self,
         resource_group_name: str,
         customer_resource_name: str,
@@ -3896,12 +2813,12 @@ class IspCacheNodesOperationsOperations:
          Default value is "application/json".
         :paramtype content_type: str
         :return: IspCacheNodeResource. The IspCacheNodeResource is compatible with MutableMapping
-        :rtype: ~azure.mgmt.connectedcache.models.IspCacheNodeResource
+        :rtype: ~microsoft.connectedcache.models.IspCacheNodeResource
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    def update(
+    async def update(
         self,
         resource_group_name: str,
         customer_resource_name: str,
@@ -3926,12 +2843,12 @@ class IspCacheNodesOperationsOperations:
          Default value is "application/json".
         :paramtype content_type: str
         :return: IspCacheNodeResource. The IspCacheNodeResource is compatible with MutableMapping
-        :rtype: ~azure.mgmt.connectedcache.models.IspCacheNodeResource
+        :rtype: ~microsoft.connectedcache.models.IspCacheNodeResource
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
-    @distributed_trace
-    def update(
+    @distributed_trace_async
+    async def update(
         self,
         resource_group_name: str,
         customer_resource_name: str,
@@ -3950,10 +2867,10 @@ class IspCacheNodesOperationsOperations:
         :type cache_node_resource_name: str
         :param properties: The resource properties to be updated. Is one of the following types:
          ConnectedCachePatchResource, JSON, IO[bytes] Required.
-        :type properties: ~azure.mgmt.connectedcache.models.ConnectedCachePatchResource or JSON or
+        :type properties: ~microsoft.connectedcache.models.ConnectedCachePatchResource or JSON or
          IO[bytes]
         :return: IspCacheNodeResource. The IspCacheNodeResource is compatible with MutableMapping
-        :rtype: ~azure.mgmt.connectedcache.models.IspCacheNodeResource
+        :rtype: ~microsoft.connectedcache.models.IspCacheNodeResource
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -3994,7 +2911,7 @@ class IspCacheNodesOperationsOperations:
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -4003,11 +2920,11 @@ class IspCacheNodesOperationsOperations:
         if response.status_code not in [200]:
             if _stream:
                 try:
-                    response.read()  # Load the body in memory and close the socket
+                    await response.read()  # Load the body in memory and close the socket
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.ErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if _stream:
@@ -4020,9 +2937,9 @@ class IspCacheNodesOperationsOperations:
 
         return deserialized  # type: ignore
 
-    def _delete_initial(
+    async def _delete_initial(
         self, resource_group_name: str, customer_resource_name: str, cache_node_resource_name: str, **kwargs: Any
-    ) -> Iterator[bytes]:
+    ) -> AsyncIterator[bytes]:
         error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
@@ -4034,7 +2951,7 @@ class IspCacheNodesOperationsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
+        cls: ClsType[AsyncIterator[bytes]] = kwargs.pop("cls", None)
 
         _request = build_isp_cache_nodes_operations_delete_request(
             resource_group_name=resource_group_name,
@@ -4051,7 +2968,7 @@ class IspCacheNodesOperationsOperations:
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = True
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -4059,11 +2976,11 @@ class IspCacheNodesOperationsOperations:
 
         if response.status_code not in [202, 204]:
             try:
-                response.read()  # Load the body in memory and close the socket
+                await response.read()  # Load the body in memory and close the socket
             except (StreamConsumedError, StreamClosedError):
                 pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.ErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         response_headers = {}
@@ -4078,10 +2995,10 @@ class IspCacheNodesOperationsOperations:
 
         return deserialized  # type: ignore
 
-    @distributed_trace
-    def begin_delete(
+    @distributed_trace_async
+    async def begin_delete(
         self, resource_group_name: str, customer_resource_name: str, cache_node_resource_name: str, **kwargs: Any
-    ) -> LROPoller[None]:
+    ) -> AsyncLROPoller[None]:
         """This api deletes an existing ispCacheNode resource.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -4091,19 +3008,19 @@ class IspCacheNodesOperationsOperations:
         :type customer_resource_name: str
         :param cache_node_resource_name: Name of the ConnectedCache resource. Required.
         :type cache_node_resource_name: str
-        :return: An instance of LROPoller that returns None
-        :rtype: ~azure.core.polling.LROPoller[None]
+        :return: An instance of AsyncLROPoller that returns None
+        :rtype: ~azure.core.polling.AsyncLROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
         cls: ClsType[None] = kwargs.pop("cls", None)
-        polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
+        polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
         if cont_token is None:
-            raw_result = self._delete_initial(
+            raw_result = await self._delete_initial(
                 resource_group_name=resource_group_name,
                 customer_resource_name=customer_resource_name,
                 cache_node_resource_name=cache_node_resource_name,
@@ -4112,7 +3029,7 @@ class IspCacheNodesOperationsOperations:
                 params=_params,
                 **kwargs
             )
-            raw_result.http_response.read()  # type: ignore
+            await raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
@@ -4124,26 +3041,26 @@ class IspCacheNodesOperationsOperations:
         }
 
         if polling is True:
-            polling_method: PollingMethod = cast(
-                PollingMethod, ARMPolling(lro_delay, path_format_arguments=path_format_arguments, **kwargs)
+            polling_method: AsyncPollingMethod = cast(
+                AsyncPollingMethod, AsyncARMPolling(lro_delay, path_format_arguments=path_format_arguments, **kwargs)
             )
         elif polling is False:
-            polling_method = cast(PollingMethod, NoPolling())
+            polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller[None].from_continuation_token(
+            return AsyncLROPoller[None].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
+        return AsyncLROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     @distributed_trace
     def list_by_isp_customer_resource(
         self, resource_group_name: str, customer_resource_name: str, **kwargs: Any
-    ) -> Iterable["_models.IspCacheNodeResource"]:
+    ) -> AsyncIterable["_models.IspCacheNodeResource"]:
         """This api retrieves information about all ispCacheNode resources under the given subscription
         and resource group.
 
@@ -4153,7 +3070,8 @@ class IspCacheNodesOperationsOperations:
         :param customer_resource_name: Name of the Customer resource. Required.
         :type customer_resource_name: str
         :return: An iterator like instance of IspCacheNodeResource
-        :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.connectedcache.models.IspCacheNodeResource]
+        :rtype:
+         ~azure.core.async_paging.AsyncItemPaged[~microsoft.connectedcache.models.IspCacheNodeResource]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
@@ -4209,33 +3127,33 @@ class IspCacheNodesOperationsOperations:
 
             return _request
 
-        def extract_data(pipeline_response):
+        async def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.IspCacheNodeResource], deserialized["value"])
+            list_of_elem = _deserialize(List[_models.IspCacheNodeResource], deserialized.get("value", []))
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
-            return deserialized.get("nextLink") or None, iter(list_of_elem)
+            return deserialized.get("nextLink") or None, AsyncList(list_of_elem)
 
-        def get_next(next_link=None):
+        async def get_next(next_link=None):
             _request = prepare_request(next_link)
 
             _stream = False
-            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
                 _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
             if response.status_code not in [200]:
                 map_error(status_code=response.status_code, response=response, error_map=error_map)
-                error = _deserialize(_models.ErrorResponse, response.json())
+                error = _failsafe_deserialize(_models.ErrorResponse, response.json())
                 raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
             return pipeline_response
 
-        return ItemPaged(get_next, extract_data)
+        return AsyncItemPaged(get_next, extract_data)
 
-    @distributed_trace
-    def get_bgp_cidrs(
+    @distributed_trace_async
+    async def get_bgp_cidrs(
         self, resource_group_name: str, customer_resource_name: str, cache_node_resource_name: str, **kwargs: Any
     ) -> _models.MccCacheNodeBgpCidrDetails:
         """This api gets ispCacheNode resource information.
@@ -4249,7 +3167,7 @@ class IspCacheNodesOperationsOperations:
         :type cache_node_resource_name: str
         :return: MccCacheNodeBgpCidrDetails. The MccCacheNodeBgpCidrDetails is compatible with
          MutableMapping
-        :rtype: ~azure.mgmt.connectedcache.models.MccCacheNodeBgpCidrDetails
+        :rtype: ~microsoft.connectedcache.models.MccCacheNodeBgpCidrDetails
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -4280,7 +3198,7 @@ class IspCacheNodesOperationsOperations:
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -4289,11 +3207,11 @@ class IspCacheNodesOperationsOperations:
         if response.status_code not in [200]:
             if _stream:
                 try:
-                    response.read()  # Load the body in memory and close the socket
+                    await response.read()  # Load the body in memory and close the socket
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.ErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if _stream:
@@ -4306,8 +3224,8 @@ class IspCacheNodesOperationsOperations:
 
         return deserialized  # type: ignore
 
-    @distributed_trace
-    def get_cache_node_install_details(
+    @distributed_trace_async
+    async def get_cache_node_install_details(
         self, resource_group_name: str, customer_resource_name: str, cache_node_resource_name: str, **kwargs: Any
     ) -> _models.MccCacheNodeInstallDetails:
         """This api gets secrets of the ispCacheNode resource install details.
@@ -4321,7 +3239,7 @@ class IspCacheNodesOperationsOperations:
         :type cache_node_resource_name: str
         :return: MccCacheNodeInstallDetails. The MccCacheNodeInstallDetails is compatible with
          MutableMapping
-        :rtype: ~azure.mgmt.connectedcache.models.MccCacheNodeInstallDetails
+        :rtype: ~microsoft.connectedcache.models.MccCacheNodeInstallDetails
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -4352,7 +3270,7 @@ class IspCacheNodesOperationsOperations:
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -4361,11 +3279,11 @@ class IspCacheNodesOperationsOperations:
         if response.status_code not in [200]:
             if _stream:
                 try:
-                    response.read()  # Load the body in memory and close the socket
+                    await response.read()  # Load the body in memory and close the socket
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.ErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if _stream:
@@ -4385,19 +3303,19 @@ class EnterpriseMccCustomersOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.connectedcache.ConnectedCacheMgmtClient`'s
+        :class:`~microsoft.connectedcache.aio.ConnectedCacheMgmtClient`'s
         :attr:`enterprise_mcc_customers` attribute.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
-        self._client = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config = input_args.pop(0) if input_args else kwargs.pop("config")
-        self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
-        self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
+        self._client: AsyncPipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
+        self._config: ConnectedCacheMgmtClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
+        self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
-    @distributed_trace
-    def get(
+    @distributed_trace_async
+    async def get(
         self, resource_group_name: str, customer_resource_name: str, **kwargs: Any
     ) -> _models.EnterpriseMccCustomerResource:
         """Gets the enterprise mcc customer resource information using this get call.
@@ -4409,7 +3327,7 @@ class EnterpriseMccCustomersOperations:
         :type customer_resource_name: str
         :return: EnterpriseMccCustomerResource. The EnterpriseMccCustomerResource is compatible with
          MutableMapping
-        :rtype: ~azure.mgmt.connectedcache.models.EnterpriseMccCustomerResource
+        :rtype: ~microsoft.connectedcache.models.EnterpriseMccCustomerResource
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -4439,7 +3357,7 @@ class EnterpriseMccCustomersOperations:
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -4448,11 +3366,11 @@ class EnterpriseMccCustomersOperations:
         if response.status_code not in [200]:
             if _stream:
                 try:
-                    response.read()  # Load the body in memory and close the socket
+                    await response.read()  # Load the body in memory and close the socket
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.ErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if _stream:
@@ -4465,13 +3383,13 @@ class EnterpriseMccCustomersOperations:
 
         return deserialized  # type: ignore
 
-    def _create_or_update_initial(
+    async def _create_or_update_initial(
         self,
         resource_group_name: str,
         customer_resource_name: str,
         resource: Union[_models.EnterpriseMccCustomerResource, JSON, IO[bytes]],
         **kwargs: Any
-    ) -> Iterator[bytes]:
+    ) -> AsyncIterator[bytes]:
         error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
@@ -4484,7 +3402,7 @@ class EnterpriseMccCustomersOperations:
         _params = kwargs.pop("params", {}) or {}
 
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
+        cls: ClsType[AsyncIterator[bytes]] = kwargs.pop("cls", None)
 
         content_type = content_type or "application/json"
         _content = None
@@ -4509,7 +3427,7 @@ class EnterpriseMccCustomersOperations:
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = True
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -4517,11 +3435,11 @@ class EnterpriseMccCustomersOperations:
 
         if response.status_code not in [200, 201]:
             try:
-                response.read()  # Load the body in memory and close the socket
+                await response.read()  # Load the body in memory and close the socket
             except (StreamConsumedError, StreamClosedError):
                 pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.ErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         response_headers = {}
@@ -4539,7 +3457,7 @@ class EnterpriseMccCustomersOperations:
         return deserialized  # type: ignore
 
     @overload
-    def begin_create_or_update(
+    async def begin_create_or_update(
         self,
         resource_group_name: str,
         customer_resource_name: str,
@@ -4547,7 +3465,7 @@ class EnterpriseMccCustomersOperations:
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> LROPoller[_models.EnterpriseMccCustomerResource]:
+    ) -> AsyncLROPoller[_models.EnterpriseMccCustomerResource]:
         """This api creates an enterprise mcc customer with the specified create parameters.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -4556,19 +3474,19 @@ class EnterpriseMccCustomersOperations:
         :param customer_resource_name: Name of the Customer resource. Required.
         :type customer_resource_name: str
         :param resource: Resource create parameters. Required.
-        :type resource: ~azure.mgmt.connectedcache.models.EnterpriseMccCustomerResource
+        :type resource: ~microsoft.connectedcache.models.EnterpriseMccCustomerResource
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of LROPoller that returns EnterpriseMccCustomerResource. The
+        :return: An instance of AsyncLROPoller that returns EnterpriseMccCustomerResource. The
          EnterpriseMccCustomerResource is compatible with MutableMapping
         :rtype:
-         ~azure.core.polling.LROPoller[~azure.mgmt.connectedcache.models.EnterpriseMccCustomerResource]
+         ~azure.core.polling.AsyncLROPoller[~microsoft.connectedcache.models.EnterpriseMccCustomerResource]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    def begin_create_or_update(
+    async def begin_create_or_update(
         self,
         resource_group_name: str,
         customer_resource_name: str,
@@ -4576,7 +3494,7 @@ class EnterpriseMccCustomersOperations:
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> LROPoller[_models.EnterpriseMccCustomerResource]:
+    ) -> AsyncLROPoller[_models.EnterpriseMccCustomerResource]:
         """This api creates an enterprise mcc customer with the specified create parameters.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -4589,15 +3507,15 @@ class EnterpriseMccCustomersOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of LROPoller that returns EnterpriseMccCustomerResource. The
+        :return: An instance of AsyncLROPoller that returns EnterpriseMccCustomerResource. The
          EnterpriseMccCustomerResource is compatible with MutableMapping
         :rtype:
-         ~azure.core.polling.LROPoller[~azure.mgmt.connectedcache.models.EnterpriseMccCustomerResource]
+         ~azure.core.polling.AsyncLROPoller[~microsoft.connectedcache.models.EnterpriseMccCustomerResource]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    def begin_create_or_update(
+    async def begin_create_or_update(
         self,
         resource_group_name: str,
         customer_resource_name: str,
@@ -4605,7 +3523,7 @@ class EnterpriseMccCustomersOperations:
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> LROPoller[_models.EnterpriseMccCustomerResource]:
+    ) -> AsyncLROPoller[_models.EnterpriseMccCustomerResource]:
         """This api creates an enterprise mcc customer with the specified create parameters.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -4618,21 +3536,21 @@ class EnterpriseMccCustomersOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of LROPoller that returns EnterpriseMccCustomerResource. The
+        :return: An instance of AsyncLROPoller that returns EnterpriseMccCustomerResource. The
          EnterpriseMccCustomerResource is compatible with MutableMapping
         :rtype:
-         ~azure.core.polling.LROPoller[~azure.mgmt.connectedcache.models.EnterpriseMccCustomerResource]
+         ~azure.core.polling.AsyncLROPoller[~microsoft.connectedcache.models.EnterpriseMccCustomerResource]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
-    @distributed_trace
-    def begin_create_or_update(
+    @distributed_trace_async
+    async def begin_create_or_update(
         self,
         resource_group_name: str,
         customer_resource_name: str,
         resource: Union[_models.EnterpriseMccCustomerResource, JSON, IO[bytes]],
         **kwargs: Any
-    ) -> LROPoller[_models.EnterpriseMccCustomerResource]:
+    ) -> AsyncLROPoller[_models.EnterpriseMccCustomerResource]:
         """This api creates an enterprise mcc customer with the specified create parameters.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -4642,12 +3560,12 @@ class EnterpriseMccCustomersOperations:
         :type customer_resource_name: str
         :param resource: Resource create parameters. Is one of the following types:
          EnterpriseMccCustomerResource, JSON, IO[bytes] Required.
-        :type resource: ~azure.mgmt.connectedcache.models.EnterpriseMccCustomerResource or JSON or
+        :type resource: ~microsoft.connectedcache.models.EnterpriseMccCustomerResource or JSON or
          IO[bytes]
-        :return: An instance of LROPoller that returns EnterpriseMccCustomerResource. The
+        :return: An instance of AsyncLROPoller that returns EnterpriseMccCustomerResource. The
          EnterpriseMccCustomerResource is compatible with MutableMapping
         :rtype:
-         ~azure.core.polling.LROPoller[~azure.mgmt.connectedcache.models.EnterpriseMccCustomerResource]
+         ~azure.core.polling.AsyncLROPoller[~microsoft.connectedcache.models.EnterpriseMccCustomerResource]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -4655,11 +3573,11 @@ class EnterpriseMccCustomersOperations:
 
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.EnterpriseMccCustomerResource] = kwargs.pop("cls", None)
-        polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
+        polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
         if cont_token is None:
-            raw_result = self._create_or_update_initial(
+            raw_result = await self._create_or_update_initial(
                 resource_group_name=resource_group_name,
                 customer_resource_name=customer_resource_name,
                 resource=resource,
@@ -4669,7 +3587,7 @@ class EnterpriseMccCustomersOperations:
                 params=_params,
                 **kwargs
             )
-            raw_result.http_response.read()  # type: ignore
+            await raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):
@@ -4684,26 +3602,26 @@ class EnterpriseMccCustomersOperations:
         }
 
         if polling is True:
-            polling_method: PollingMethod = cast(
-                PollingMethod, ARMPolling(lro_delay, path_format_arguments=path_format_arguments, **kwargs)
+            polling_method: AsyncPollingMethod = cast(
+                AsyncPollingMethod, AsyncARMPolling(lro_delay, path_format_arguments=path_format_arguments, **kwargs)
             )
         elif polling is False:
-            polling_method = cast(PollingMethod, NoPolling())
+            polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller[_models.EnterpriseMccCustomerResource].from_continuation_token(
+            return AsyncLROPoller[_models.EnterpriseMccCustomerResource].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller[_models.EnterpriseMccCustomerResource](
+        return AsyncLROPoller[_models.EnterpriseMccCustomerResource](
             self._client, raw_result, get_long_running_output, polling_method  # type: ignore
         )
 
     @overload
-    def update(
+    async def update(
         self,
         resource_group_name: str,
         customer_resource_name: str,
@@ -4720,18 +3638,18 @@ class EnterpriseMccCustomersOperations:
         :param customer_resource_name: Name of the Customer resource. Required.
         :type customer_resource_name: str
         :param properties: The resource properties to be updated. Required.
-        :type properties: ~azure.mgmt.connectedcache.models.ConnectedCachePatchResource
+        :type properties: ~microsoft.connectedcache.models.ConnectedCachePatchResource
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :return: EnterpriseMccCustomerResource. The EnterpriseMccCustomerResource is compatible with
          MutableMapping
-        :rtype: ~azure.mgmt.connectedcache.models.EnterpriseMccCustomerResource
+        :rtype: ~microsoft.connectedcache.models.EnterpriseMccCustomerResource
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    def update(
+    async def update(
         self,
         resource_group_name: str,
         customer_resource_name: str,
@@ -4754,12 +3672,12 @@ class EnterpriseMccCustomersOperations:
         :paramtype content_type: str
         :return: EnterpriseMccCustomerResource. The EnterpriseMccCustomerResource is compatible with
          MutableMapping
-        :rtype: ~azure.mgmt.connectedcache.models.EnterpriseMccCustomerResource
+        :rtype: ~microsoft.connectedcache.models.EnterpriseMccCustomerResource
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    def update(
+    async def update(
         self,
         resource_group_name: str,
         customer_resource_name: str,
@@ -4782,12 +3700,12 @@ class EnterpriseMccCustomersOperations:
         :paramtype content_type: str
         :return: EnterpriseMccCustomerResource. The EnterpriseMccCustomerResource is compatible with
          MutableMapping
-        :rtype: ~azure.mgmt.connectedcache.models.EnterpriseMccCustomerResource
+        :rtype: ~microsoft.connectedcache.models.EnterpriseMccCustomerResource
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
-    @distributed_trace
-    def update(
+    @distributed_trace_async
+    async def update(
         self,
         resource_group_name: str,
         customer_resource_name: str,
@@ -4803,11 +3721,11 @@ class EnterpriseMccCustomersOperations:
         :type customer_resource_name: str
         :param properties: The resource properties to be updated. Is one of the following types:
          ConnectedCachePatchResource, JSON, IO[bytes] Required.
-        :type properties: ~azure.mgmt.connectedcache.models.ConnectedCachePatchResource or JSON or
+        :type properties: ~microsoft.connectedcache.models.ConnectedCachePatchResource or JSON or
          IO[bytes]
         :return: EnterpriseMccCustomerResource. The EnterpriseMccCustomerResource is compatible with
          MutableMapping
-        :rtype: ~azure.mgmt.connectedcache.models.EnterpriseMccCustomerResource
+        :rtype: ~microsoft.connectedcache.models.EnterpriseMccCustomerResource
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -4847,7 +3765,7 @@ class EnterpriseMccCustomersOperations:
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -4856,11 +3774,11 @@ class EnterpriseMccCustomersOperations:
         if response.status_code not in [200]:
             if _stream:
                 try:
-                    response.read()  # Load the body in memory and close the socket
+                    await response.read()  # Load the body in memory and close the socket
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.ErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if _stream:
@@ -4873,7 +3791,9 @@ class EnterpriseMccCustomersOperations:
 
         return deserialized  # type: ignore
 
-    def _delete_initial(self, resource_group_name: str, customer_resource_name: str, **kwargs: Any) -> Iterator[bytes]:
+    async def _delete_initial(
+        self, resource_group_name: str, customer_resource_name: str, **kwargs: Any
+    ) -> AsyncIterator[bytes]:
         error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
@@ -4885,7 +3805,7 @@ class EnterpriseMccCustomersOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
+        cls: ClsType[AsyncIterator[bytes]] = kwargs.pop("cls", None)
 
         _request = build_enterprise_mcc_customers_delete_request(
             resource_group_name=resource_group_name,
@@ -4901,7 +3821,7 @@ class EnterpriseMccCustomersOperations:
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = True
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -4909,11 +3829,11 @@ class EnterpriseMccCustomersOperations:
 
         if response.status_code not in [202, 204]:
             try:
-                response.read()  # Load the body in memory and close the socket
+                await response.read()  # Load the body in memory and close the socket
             except (StreamConsumedError, StreamClosedError):
                 pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.ErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         response_headers = {}
@@ -4928,8 +3848,10 @@ class EnterpriseMccCustomersOperations:
 
         return deserialized  # type: ignore
 
-    @distributed_trace
-    def begin_delete(self, resource_group_name: str, customer_resource_name: str, **kwargs: Any) -> LROPoller[None]:
+    @distributed_trace_async
+    async def begin_delete(
+        self, resource_group_name: str, customer_resource_name: str, **kwargs: Any
+    ) -> AsyncLROPoller[None]:
         """This api deletes an existing enterprise mcc customer resource.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -4937,19 +3859,19 @@ class EnterpriseMccCustomersOperations:
         :type resource_group_name: str
         :param customer_resource_name: Name of the Customer resource. Required.
         :type customer_resource_name: str
-        :return: An instance of LROPoller that returns None
-        :rtype: ~azure.core.polling.LROPoller[None]
+        :return: An instance of AsyncLROPoller that returns None
+        :rtype: ~azure.core.polling.AsyncLROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
         cls: ClsType[None] = kwargs.pop("cls", None)
-        polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
+        polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
         if cont_token is None:
-            raw_result = self._delete_initial(
+            raw_result = await self._delete_initial(
                 resource_group_name=resource_group_name,
                 customer_resource_name=customer_resource_name,
                 cls=lambda x, y, z: x,
@@ -4957,7 +3879,7 @@ class EnterpriseMccCustomersOperations:
                 params=_params,
                 **kwargs
             )
-            raw_result.http_response.read()  # type: ignore
+            await raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
@@ -4969,26 +3891,26 @@ class EnterpriseMccCustomersOperations:
         }
 
         if polling is True:
-            polling_method: PollingMethod = cast(
-                PollingMethod, ARMPolling(lro_delay, path_format_arguments=path_format_arguments, **kwargs)
+            polling_method: AsyncPollingMethod = cast(
+                AsyncPollingMethod, AsyncARMPolling(lro_delay, path_format_arguments=path_format_arguments, **kwargs)
             )
         elif polling is False:
-            polling_method = cast(PollingMethod, NoPolling())
+            polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller[None].from_continuation_token(
+            return AsyncLROPoller[None].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
+        return AsyncLROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     @distributed_trace
     def list_by_resource_group(
         self, resource_group_name: str, **kwargs: Any
-    ) -> Iterable["_models.EnterpriseMccCustomerResource"]:
+    ) -> AsyncIterable["_models.EnterpriseMccCustomerResource"]:
         """This api gets the information about all enterprise mcc customer resources under the given
         subscription and resource group.
 
@@ -4997,7 +3919,7 @@ class EnterpriseMccCustomersOperations:
         :type resource_group_name: str
         :return: An iterator like instance of EnterpriseMccCustomerResource
         :rtype:
-         ~azure.core.paging.ItemPaged[~azure.mgmt.connectedcache.models.EnterpriseMccCustomerResource]
+         ~azure.core.async_paging.AsyncItemPaged[~microsoft.connectedcache.models.EnterpriseMccCustomerResource]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
@@ -5052,39 +3974,39 @@ class EnterpriseMccCustomersOperations:
 
             return _request
 
-        def extract_data(pipeline_response):
+        async def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.EnterpriseMccCustomerResource], deserialized["value"])
+            list_of_elem = _deserialize(List[_models.EnterpriseMccCustomerResource], deserialized.get("value", []))
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
-            return deserialized.get("nextLink") or None, iter(list_of_elem)
+            return deserialized.get("nextLink") or None, AsyncList(list_of_elem)
 
-        def get_next(next_link=None):
+        async def get_next(next_link=None):
             _request = prepare_request(next_link)
 
             _stream = False
-            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
                 _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
             if response.status_code not in [200]:
                 map_error(status_code=response.status_code, response=response, error_map=error_map)
-                error = _deserialize(_models.ErrorResponse, response.json())
+                error = _failsafe_deserialize(_models.ErrorResponse, response.json())
                 raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
             return pipeline_response
 
-        return ItemPaged(get_next, extract_data)
+        return AsyncItemPaged(get_next, extract_data)
 
     @distributed_trace
-    def list_by_subscription(self, **kwargs: Any) -> Iterable["_models.EnterpriseMccCustomerResource"]:
+    def list_by_subscription(self, **kwargs: Any) -> AsyncIterable["_models.EnterpriseMccCustomerResource"]:
         """This api gets information about all enterpriseMccCustomer resources under the given
         subscription.
 
         :return: An iterator like instance of EnterpriseMccCustomerResource
         :rtype:
-         ~azure.core.paging.ItemPaged[~azure.mgmt.connectedcache.models.EnterpriseMccCustomerResource]
+         ~azure.core.async_paging.AsyncItemPaged[~microsoft.connectedcache.models.EnterpriseMccCustomerResource]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
@@ -5138,30 +4060,30 @@ class EnterpriseMccCustomersOperations:
 
             return _request
 
-        def extract_data(pipeline_response):
+        async def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.EnterpriseMccCustomerResource], deserialized["value"])
+            list_of_elem = _deserialize(List[_models.EnterpriseMccCustomerResource], deserialized.get("value", []))
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
-            return deserialized.get("nextLink") or None, iter(list_of_elem)
+            return deserialized.get("nextLink") or None, AsyncList(list_of_elem)
 
-        def get_next(next_link=None):
+        async def get_next(next_link=None):
             _request = prepare_request(next_link)
 
             _stream = False
-            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
                 _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
             if response.status_code not in [200]:
                 map_error(status_code=response.status_code, response=response, error_map=error_map)
-                error = _deserialize(_models.ErrorResponse, response.json())
+                error = _failsafe_deserialize(_models.ErrorResponse, response.json())
                 raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
             return pipeline_response
 
-        return ItemPaged(get_next, extract_data)
+        return AsyncItemPaged(get_next, extract_data)
 
 
 class EnterpriseMccCacheNodesOperationsOperations:  # pylint: disable=name-too-long
@@ -5170,19 +4092,19 @@ class EnterpriseMccCacheNodesOperationsOperations:  # pylint: disable=name-too-l
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.connectedcache.ConnectedCacheMgmtClient`'s
+        :class:`~microsoft.connectedcache.aio.ConnectedCacheMgmtClient`'s
         :attr:`enterprise_mcc_cache_nodes_operations` attribute.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
-        self._client = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config = input_args.pop(0) if input_args else kwargs.pop("config")
-        self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
-        self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
+        self._client: AsyncPipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
+        self._config: ConnectedCacheMgmtClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
+        self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
-    @distributed_trace
-    def get(
+    @distributed_trace_async
+    async def get(
         self, resource_group_name: str, customer_resource_name: str, cache_node_resource_name: str, **kwargs: Any
     ) -> _models.EnterpriseMccCacheNodeResource:
         """This api gets ispCacheNode resource information.
@@ -5196,7 +4118,7 @@ class EnterpriseMccCacheNodesOperationsOperations:  # pylint: disable=name-too-l
         :type cache_node_resource_name: str
         :return: EnterpriseMccCacheNodeResource. The EnterpriseMccCacheNodeResource is compatible with
          MutableMapping
-        :rtype: ~azure.mgmt.connectedcache.models.EnterpriseMccCacheNodeResource
+        :rtype: ~microsoft.connectedcache.models.EnterpriseMccCacheNodeResource
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -5227,7 +4149,7 @@ class EnterpriseMccCacheNodesOperationsOperations:  # pylint: disable=name-too-l
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -5236,11 +4158,11 @@ class EnterpriseMccCacheNodesOperationsOperations:  # pylint: disable=name-too-l
         if response.status_code not in [200]:
             if _stream:
                 try:
-                    response.read()  # Load the body in memory and close the socket
+                    await response.read()  # Load the body in memory and close the socket
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.ErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if _stream:
@@ -5253,14 +4175,14 @@ class EnterpriseMccCacheNodesOperationsOperations:  # pylint: disable=name-too-l
 
         return deserialized  # type: ignore
 
-    def _create_or_update_initial(
+    async def _create_or_update_initial(
         self,
         resource_group_name: str,
         customer_resource_name: str,
         cache_node_resource_name: str,
         resource: Union[_models.EnterpriseMccCacheNodeResource, JSON, IO[bytes]],
         **kwargs: Any
-    ) -> Iterator[bytes]:
+    ) -> AsyncIterator[bytes]:
         error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
@@ -5273,7 +4195,7 @@ class EnterpriseMccCacheNodesOperationsOperations:  # pylint: disable=name-too-l
         _params = kwargs.pop("params", {}) or {}
 
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
+        cls: ClsType[AsyncIterator[bytes]] = kwargs.pop("cls", None)
 
         content_type = content_type or "application/json"
         _content = None
@@ -5299,7 +4221,7 @@ class EnterpriseMccCacheNodesOperationsOperations:  # pylint: disable=name-too-l
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = True
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -5307,11 +4229,11 @@ class EnterpriseMccCacheNodesOperationsOperations:  # pylint: disable=name-too-l
 
         if response.status_code not in [200, 201]:
             try:
-                response.read()  # Load the body in memory and close the socket
+                await response.read()  # Load the body in memory and close the socket
             except (StreamConsumedError, StreamClosedError):
                 pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.ErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         response_headers = {}
@@ -5329,7 +4251,7 @@ class EnterpriseMccCacheNodesOperationsOperations:  # pylint: disable=name-too-l
         return deserialized  # type: ignore
 
     @overload
-    def begin_create_or_update(
+    async def begin_create_or_update(
         self,
         resource_group_name: str,
         customer_resource_name: str,
@@ -5338,7 +4260,7 @@ class EnterpriseMccCacheNodesOperationsOperations:  # pylint: disable=name-too-l
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> LROPoller[_models.EnterpriseMccCacheNodeResource]:
+    ) -> AsyncLROPoller[_models.EnterpriseMccCacheNodeResource]:
         """This api creates an ispCacheNode with the specified create parameters.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -5349,19 +4271,19 @@ class EnterpriseMccCacheNodesOperationsOperations:  # pylint: disable=name-too-l
         :param cache_node_resource_name: Name of the ConnectedCache resource. Required.
         :type cache_node_resource_name: str
         :param resource: Resource create parameters. Required.
-        :type resource: ~azure.mgmt.connectedcache.models.EnterpriseMccCacheNodeResource
+        :type resource: ~microsoft.connectedcache.models.EnterpriseMccCacheNodeResource
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of LROPoller that returns EnterpriseMccCacheNodeResource. The
+        :return: An instance of AsyncLROPoller that returns EnterpriseMccCacheNodeResource. The
          EnterpriseMccCacheNodeResource is compatible with MutableMapping
         :rtype:
-         ~azure.core.polling.LROPoller[~azure.mgmt.connectedcache.models.EnterpriseMccCacheNodeResource]
+         ~azure.core.polling.AsyncLROPoller[~microsoft.connectedcache.models.EnterpriseMccCacheNodeResource]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    def begin_create_or_update(
+    async def begin_create_or_update(
         self,
         resource_group_name: str,
         customer_resource_name: str,
@@ -5370,7 +4292,7 @@ class EnterpriseMccCacheNodesOperationsOperations:  # pylint: disable=name-too-l
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> LROPoller[_models.EnterpriseMccCacheNodeResource]:
+    ) -> AsyncLROPoller[_models.EnterpriseMccCacheNodeResource]:
         """This api creates an ispCacheNode with the specified create parameters.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -5385,15 +4307,15 @@ class EnterpriseMccCacheNodesOperationsOperations:  # pylint: disable=name-too-l
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of LROPoller that returns EnterpriseMccCacheNodeResource. The
+        :return: An instance of AsyncLROPoller that returns EnterpriseMccCacheNodeResource. The
          EnterpriseMccCacheNodeResource is compatible with MutableMapping
         :rtype:
-         ~azure.core.polling.LROPoller[~azure.mgmt.connectedcache.models.EnterpriseMccCacheNodeResource]
+         ~azure.core.polling.AsyncLROPoller[~microsoft.connectedcache.models.EnterpriseMccCacheNodeResource]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    def begin_create_or_update(
+    async def begin_create_or_update(
         self,
         resource_group_name: str,
         customer_resource_name: str,
@@ -5402,7 +4324,7 @@ class EnterpriseMccCacheNodesOperationsOperations:  # pylint: disable=name-too-l
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> LROPoller[_models.EnterpriseMccCacheNodeResource]:
+    ) -> AsyncLROPoller[_models.EnterpriseMccCacheNodeResource]:
         """This api creates an ispCacheNode with the specified create parameters.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -5417,22 +4339,22 @@ class EnterpriseMccCacheNodesOperationsOperations:  # pylint: disable=name-too-l
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of LROPoller that returns EnterpriseMccCacheNodeResource. The
+        :return: An instance of AsyncLROPoller that returns EnterpriseMccCacheNodeResource. The
          EnterpriseMccCacheNodeResource is compatible with MutableMapping
         :rtype:
-         ~azure.core.polling.LROPoller[~azure.mgmt.connectedcache.models.EnterpriseMccCacheNodeResource]
+         ~azure.core.polling.AsyncLROPoller[~microsoft.connectedcache.models.EnterpriseMccCacheNodeResource]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
-    @distributed_trace
-    def begin_create_or_update(
+    @distributed_trace_async
+    async def begin_create_or_update(
         self,
         resource_group_name: str,
         customer_resource_name: str,
         cache_node_resource_name: str,
         resource: Union[_models.EnterpriseMccCacheNodeResource, JSON, IO[bytes]],
         **kwargs: Any
-    ) -> LROPoller[_models.EnterpriseMccCacheNodeResource]:
+    ) -> AsyncLROPoller[_models.EnterpriseMccCacheNodeResource]:
         """This api creates an ispCacheNode with the specified create parameters.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -5444,12 +4366,12 @@ class EnterpriseMccCacheNodesOperationsOperations:  # pylint: disable=name-too-l
         :type cache_node_resource_name: str
         :param resource: Resource create parameters. Is one of the following types:
          EnterpriseMccCacheNodeResource, JSON, IO[bytes] Required.
-        :type resource: ~azure.mgmt.connectedcache.models.EnterpriseMccCacheNodeResource or JSON or
+        :type resource: ~microsoft.connectedcache.models.EnterpriseMccCacheNodeResource or JSON or
          IO[bytes]
-        :return: An instance of LROPoller that returns EnterpriseMccCacheNodeResource. The
+        :return: An instance of AsyncLROPoller that returns EnterpriseMccCacheNodeResource. The
          EnterpriseMccCacheNodeResource is compatible with MutableMapping
         :rtype:
-         ~azure.core.polling.LROPoller[~azure.mgmt.connectedcache.models.EnterpriseMccCacheNodeResource]
+         ~azure.core.polling.AsyncLROPoller[~microsoft.connectedcache.models.EnterpriseMccCacheNodeResource]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -5457,11 +4379,11 @@ class EnterpriseMccCacheNodesOperationsOperations:  # pylint: disable=name-too-l
 
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.EnterpriseMccCacheNodeResource] = kwargs.pop("cls", None)
-        polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
+        polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
         if cont_token is None:
-            raw_result = self._create_or_update_initial(
+            raw_result = await self._create_or_update_initial(
                 resource_group_name=resource_group_name,
                 customer_resource_name=customer_resource_name,
                 cache_node_resource_name=cache_node_resource_name,
@@ -5472,7 +4394,7 @@ class EnterpriseMccCacheNodesOperationsOperations:  # pylint: disable=name-too-l
                 params=_params,
                 **kwargs
             )
-            raw_result.http_response.read()  # type: ignore
+            await raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):
@@ -5487,26 +4409,26 @@ class EnterpriseMccCacheNodesOperationsOperations:  # pylint: disable=name-too-l
         }
 
         if polling is True:
-            polling_method: PollingMethod = cast(
-                PollingMethod, ARMPolling(lro_delay, path_format_arguments=path_format_arguments, **kwargs)
+            polling_method: AsyncPollingMethod = cast(
+                AsyncPollingMethod, AsyncARMPolling(lro_delay, path_format_arguments=path_format_arguments, **kwargs)
             )
         elif polling is False:
-            polling_method = cast(PollingMethod, NoPolling())
+            polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller[_models.EnterpriseMccCacheNodeResource].from_continuation_token(
+            return AsyncLROPoller[_models.EnterpriseMccCacheNodeResource].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller[_models.EnterpriseMccCacheNodeResource](
+        return AsyncLROPoller[_models.EnterpriseMccCacheNodeResource](
             self._client, raw_result, get_long_running_output, polling_method  # type: ignore
         )
 
     @overload
-    def update(
+    async def update(
         self,
         resource_group_name: str,
         customer_resource_name: str,
@@ -5526,18 +4448,18 @@ class EnterpriseMccCacheNodesOperationsOperations:  # pylint: disable=name-too-l
         :param cache_node_resource_name: Name of the ConnectedCache resource. Required.
         :type cache_node_resource_name: str
         :param properties: The resource properties to be updated. Required.
-        :type properties: ~azure.mgmt.connectedcache.models.ConnectedCachePatchResource
+        :type properties: ~microsoft.connectedcache.models.ConnectedCachePatchResource
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :return: EnterpriseMccCacheNodeResource. The EnterpriseMccCacheNodeResource is compatible with
          MutableMapping
-        :rtype: ~azure.mgmt.connectedcache.models.EnterpriseMccCacheNodeResource
+        :rtype: ~microsoft.connectedcache.models.EnterpriseMccCacheNodeResource
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    def update(
+    async def update(
         self,
         resource_group_name: str,
         customer_resource_name: str,
@@ -5563,12 +4485,12 @@ class EnterpriseMccCacheNodesOperationsOperations:  # pylint: disable=name-too-l
         :paramtype content_type: str
         :return: EnterpriseMccCacheNodeResource. The EnterpriseMccCacheNodeResource is compatible with
          MutableMapping
-        :rtype: ~azure.mgmt.connectedcache.models.EnterpriseMccCacheNodeResource
+        :rtype: ~microsoft.connectedcache.models.EnterpriseMccCacheNodeResource
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    def update(
+    async def update(
         self,
         resource_group_name: str,
         customer_resource_name: str,
@@ -5594,12 +4516,12 @@ class EnterpriseMccCacheNodesOperationsOperations:  # pylint: disable=name-too-l
         :paramtype content_type: str
         :return: EnterpriseMccCacheNodeResource. The EnterpriseMccCacheNodeResource is compatible with
          MutableMapping
-        :rtype: ~azure.mgmt.connectedcache.models.EnterpriseMccCacheNodeResource
+        :rtype: ~microsoft.connectedcache.models.EnterpriseMccCacheNodeResource
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
-    @distributed_trace
-    def update(
+    @distributed_trace_async
+    async def update(
         self,
         resource_group_name: str,
         customer_resource_name: str,
@@ -5618,11 +4540,11 @@ class EnterpriseMccCacheNodesOperationsOperations:  # pylint: disable=name-too-l
         :type cache_node_resource_name: str
         :param properties: The resource properties to be updated. Is one of the following types:
          ConnectedCachePatchResource, JSON, IO[bytes] Required.
-        :type properties: ~azure.mgmt.connectedcache.models.ConnectedCachePatchResource or JSON or
+        :type properties: ~microsoft.connectedcache.models.ConnectedCachePatchResource or JSON or
          IO[bytes]
         :return: EnterpriseMccCacheNodeResource. The EnterpriseMccCacheNodeResource is compatible with
          MutableMapping
-        :rtype: ~azure.mgmt.connectedcache.models.EnterpriseMccCacheNodeResource
+        :rtype: ~microsoft.connectedcache.models.EnterpriseMccCacheNodeResource
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -5663,7 +4585,7 @@ class EnterpriseMccCacheNodesOperationsOperations:  # pylint: disable=name-too-l
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -5672,11 +4594,11 @@ class EnterpriseMccCacheNodesOperationsOperations:  # pylint: disable=name-too-l
         if response.status_code not in [200]:
             if _stream:
                 try:
-                    response.read()  # Load the body in memory and close the socket
+                    await response.read()  # Load the body in memory and close the socket
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.ErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if _stream:
@@ -5689,9 +4611,9 @@ class EnterpriseMccCacheNodesOperationsOperations:  # pylint: disable=name-too-l
 
         return deserialized  # type: ignore
 
-    def _delete_initial(
+    async def _delete_initial(
         self, resource_group_name: str, customer_resource_name: str, cache_node_resource_name: str, **kwargs: Any
-    ) -> Iterator[bytes]:
+    ) -> AsyncIterator[bytes]:
         error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
@@ -5703,7 +4625,7 @@ class EnterpriseMccCacheNodesOperationsOperations:  # pylint: disable=name-too-l
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
+        cls: ClsType[AsyncIterator[bytes]] = kwargs.pop("cls", None)
 
         _request = build_enterprise_mcc_cache_nodes_operations_delete_request(
             resource_group_name=resource_group_name,
@@ -5720,7 +4642,7 @@ class EnterpriseMccCacheNodesOperationsOperations:  # pylint: disable=name-too-l
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = True
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -5728,11 +4650,11 @@ class EnterpriseMccCacheNodesOperationsOperations:  # pylint: disable=name-too-l
 
         if response.status_code not in [202, 204]:
             try:
-                response.read()  # Load the body in memory and close the socket
+                await response.read()  # Load the body in memory and close the socket
             except (StreamConsumedError, StreamClosedError):
                 pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.ErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         response_headers = {}
@@ -5747,10 +4669,10 @@ class EnterpriseMccCacheNodesOperationsOperations:  # pylint: disable=name-too-l
 
         return deserialized  # type: ignore
 
-    @distributed_trace
-    def begin_delete(
+    @distributed_trace_async
+    async def begin_delete(
         self, resource_group_name: str, customer_resource_name: str, cache_node_resource_name: str, **kwargs: Any
-    ) -> LROPoller[None]:
+    ) -> AsyncLROPoller[None]:
         """This api deletes an existing ispCacheNode resource.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -5760,19 +4682,19 @@ class EnterpriseMccCacheNodesOperationsOperations:  # pylint: disable=name-too-l
         :type customer_resource_name: str
         :param cache_node_resource_name: Name of the ConnectedCache resource. Required.
         :type cache_node_resource_name: str
-        :return: An instance of LROPoller that returns None
-        :rtype: ~azure.core.polling.LROPoller[None]
+        :return: An instance of AsyncLROPoller that returns None
+        :rtype: ~azure.core.polling.AsyncLROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
         cls: ClsType[None] = kwargs.pop("cls", None)
-        polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
+        polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
         if cont_token is None:
-            raw_result = self._delete_initial(
+            raw_result = await self._delete_initial(
                 resource_group_name=resource_group_name,
                 customer_resource_name=customer_resource_name,
                 cache_node_resource_name=cache_node_resource_name,
@@ -5781,7 +4703,7 @@ class EnterpriseMccCacheNodesOperationsOperations:  # pylint: disable=name-too-l
                 params=_params,
                 **kwargs
             )
-            raw_result.http_response.read()  # type: ignore
+            await raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
@@ -5793,26 +4715,26 @@ class EnterpriseMccCacheNodesOperationsOperations:  # pylint: disable=name-too-l
         }
 
         if polling is True:
-            polling_method: PollingMethod = cast(
-                PollingMethod, ARMPolling(lro_delay, path_format_arguments=path_format_arguments, **kwargs)
+            polling_method: AsyncPollingMethod = cast(
+                AsyncPollingMethod, AsyncARMPolling(lro_delay, path_format_arguments=path_format_arguments, **kwargs)
             )
         elif polling is False:
-            polling_method = cast(PollingMethod, NoPolling())
+            polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller[None].from_continuation_token(
+            return AsyncLROPoller[None].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
+        return AsyncLROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     @distributed_trace
     def list_by_enterprise_mcc_customer_resource(
         self, resource_group_name: str, customer_resource_name: str, **kwargs: Any
-    ) -> Iterable["_models.EnterpriseMccCacheNodeResource"]:
+    ) -> AsyncIterable["_models.EnterpriseMccCacheNodeResource"]:
         """This api retrieves information about all ispCacheNode resources under the given subscription
         and resource group.
 
@@ -5823,7 +4745,7 @@ class EnterpriseMccCacheNodesOperationsOperations:  # pylint: disable=name-too-l
         :type customer_resource_name: str
         :return: An iterator like instance of EnterpriseMccCacheNodeResource
         :rtype:
-         ~azure.core.paging.ItemPaged[~azure.mgmt.connectedcache.models.EnterpriseMccCacheNodeResource]
+         ~azure.core.async_paging.AsyncItemPaged[~microsoft.connectedcache.models.EnterpriseMccCacheNodeResource]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
@@ -5879,33 +4801,33 @@ class EnterpriseMccCacheNodesOperationsOperations:  # pylint: disable=name-too-l
 
             return _request
 
-        def extract_data(pipeline_response):
+        async def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.EnterpriseMccCacheNodeResource], deserialized["value"])
+            list_of_elem = _deserialize(List[_models.EnterpriseMccCacheNodeResource], deserialized.get("value", []))
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
-            return deserialized.get("nextLink") or None, iter(list_of_elem)
+            return deserialized.get("nextLink") or None, AsyncList(list_of_elem)
 
-        def get_next(next_link=None):
+        async def get_next(next_link=None):
             _request = prepare_request(next_link)
 
             _stream = False
-            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
                 _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
             if response.status_code not in [200]:
                 map_error(status_code=response.status_code, response=response, error_map=error_map)
-                error = _deserialize(_models.ErrorResponse, response.json())
+                error = _failsafe_deserialize(_models.ErrorResponse, response.json())
                 raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
             return pipeline_response
 
-        return ItemPaged(get_next, extract_data)
+        return AsyncItemPaged(get_next, extract_data)
 
-    @distributed_trace
-    def get_cache_node_install_details(
+    @distributed_trace_async
+    async def get_cache_node_install_details(
         self, resource_group_name: str, customer_resource_name: str, cache_node_resource_name: str, **kwargs: Any
     ) -> _models.MccCacheNodeInstallDetails:
         """This api gets secrets of the ispCacheNode resource install details.
@@ -5919,7 +4841,7 @@ class EnterpriseMccCacheNodesOperationsOperations:  # pylint: disable=name-too-l
         :type cache_node_resource_name: str
         :return: MccCacheNodeInstallDetails. The MccCacheNodeInstallDetails is compatible with
          MutableMapping
-        :rtype: ~azure.mgmt.connectedcache.models.MccCacheNodeInstallDetails
+        :rtype: ~microsoft.connectedcache.models.MccCacheNodeInstallDetails
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -5950,7 +4872,7 @@ class EnterpriseMccCacheNodesOperationsOperations:  # pylint: disable=name-too-l
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -5959,11 +4881,11 @@ class EnterpriseMccCacheNodesOperationsOperations:  # pylint: disable=name-too-l
         if response.status_code not in [200]:
             if _stream:
                 try:
-                    response.read()  # Load the body in memory and close the socket
+                    await response.read()  # Load the body in memory and close the socket
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.ErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if _stream:

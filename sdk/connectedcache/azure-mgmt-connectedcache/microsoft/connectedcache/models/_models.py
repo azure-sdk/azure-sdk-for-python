@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=line-too-long,useless-suppression,too-many-lines
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -20,8 +20,6 @@ if TYPE_CHECKING:
 
 class AdditionalCacheNodeProperties(_model_base.Model):
     """Model representing cache node for connected cache resource.
-
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar cache_node_properties_details_issues_list: issues list to return the issues as part of
      the additional cache node properties.
@@ -45,21 +43,21 @@ class AdditionalCacheNodeProperties(_model_base.Model):
     :vartype cache_node_state: int
     :ivar drive_configuration: Cache node resource drive configurations.
     :vartype drive_configuration:
-     list[~azure.mgmt.connectedcache.models.CacheNodeDriveConfiguration]
+     list[~microsoft.connectedcache.models.CacheNodeDriveConfiguration]
     :ivar bgp_configuration: Cache node resource Bgp configuration.
-    :vartype bgp_configuration: ~azure.mgmt.connectedcache.models.BgpConfiguration
+    :vartype bgp_configuration: ~microsoft.connectedcache.models.BgpConfiguration
     :ivar proxy_url_configuration: proxyUrl configuration of the cache node.
-    :vartype proxy_url_configuration: ~azure.mgmt.connectedcache.models.ProxyUrlConfiguration
+    :vartype proxy_url_configuration: ~microsoft.connectedcache.models.ProxyUrlConfiguration
     :ivar proxy_url: Cache node resource Mcc proxy Url.
     :vartype proxy_url: str
     :ivar is_proxy_required: Cache node resource requires a proxy. Known values are: "None" and
      "Required".
-    :vartype is_proxy_required: str or ~azure.mgmt.connectedcache.models.ProxyRequired
+    :vartype is_proxy_required: str or ~microsoft.connectedcache.models.ProxyRequired
     :ivar os_type: Operating system of the cache node. Known values are: "Windows", "Linux", and
      "Eflow".
-    :vartype os_type: str or ~azure.mgmt.connectedcache.models.OsType
+    :vartype os_type: str or ~microsoft.connectedcache.models.OsType
     :ivar update_cycle_type: Update Cycle Type. Known values are: "Preview", "Slow", and "Fast".
-    :vartype update_cycle_type: str or ~azure.mgmt.connectedcache.models.CycleType
+    :vartype update_cycle_type: str or ~microsoft.connectedcache.models.CycleType
     :ivar auto_update_version: Auto update or fast update version.
     :vartype auto_update_version: str
     :ivar update_info_details: Update related information details.
@@ -98,7 +96,7 @@ class AdditionalCacheNodeProperties(_model_base.Model):
     """
 
     cache_node_properties_details_issues_list: Optional[List[str]] = rest_field(
-        name="cacheNodePropertiesDetailsIssuesList"
+        name="cacheNodePropertiesDetailsIssuesList", visibility=["read", "create", "update", "delete", "query"]
     )
     """issues list to return the issues as part of the additional cache node properties."""
     aggregated_status_details: Optional[str] = rest_field(name="aggregatedStatusDetails", visibility=["read"])
@@ -118,26 +116,42 @@ class AdditionalCacheNodeProperties(_model_base.Model):
     """Cache node resource short state text."""
     cache_node_state: Optional[int] = rest_field(name="cacheNodeState", visibility=["read"])
     """Cache node resource state as integer."""
-    drive_configuration: Optional[List["_models.CacheNodeDriveConfiguration"]] = rest_field(name="driveConfiguration")
+    drive_configuration: Optional[List["_models.CacheNodeDriveConfiguration"]] = rest_field(
+        name="driveConfiguration", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Cache node resource drive configurations."""
-    bgp_configuration: Optional["_models.BgpConfiguration"] = rest_field(name="bgpConfiguration")
+    bgp_configuration: Optional["_models.BgpConfiguration"] = rest_field(
+        name="bgpConfiguration", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Cache node resource Bgp configuration."""
-    proxy_url_configuration: Optional["_models.ProxyUrlConfiguration"] = rest_field(name="proxyUrlConfiguration")
+    proxy_url_configuration: Optional["_models.ProxyUrlConfiguration"] = rest_field(
+        name="proxyUrlConfiguration", visibility=["read", "create", "update", "delete", "query"]
+    )
     """proxyUrl configuration of the cache node."""
-    proxy_url: Optional[str] = rest_field(name="proxyUrl")
+    proxy_url: Optional[str] = rest_field(name="proxyUrl", visibility=["read", "create", "update", "delete", "query"])
     """Cache node resource Mcc proxy Url."""
-    is_proxy_required: Optional[Union[str, "_models.ProxyRequired"]] = rest_field(name="isProxyRequired")
+    is_proxy_required: Optional[Union[str, "_models.ProxyRequired"]] = rest_field(
+        name="isProxyRequired", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Cache node resource requires a proxy. Known values are: \"None\" and \"Required\"."""
-    os_type: Optional[Union[str, "_models.OsType"]] = rest_field(name="osType")
+    os_type: Optional[Union[str, "_models.OsType"]] = rest_field(
+        name="osType", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Operating system of the cache node. Known values are: \"Windows\", \"Linux\", and \"Eflow\"."""
-    update_cycle_type: Optional[Union[str, "_models.CycleType"]] = rest_field(name="updateCycleType")
+    update_cycle_type: Optional[Union[str, "_models.CycleType"]] = rest_field(
+        name="updateCycleType", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Update Cycle Type. Known values are: \"Preview\", \"Slow\", and \"Fast\"."""
-    auto_update_version: Optional[str] = rest_field(name="autoUpdateVersion")
+    auto_update_version: Optional[str] = rest_field(
+        name="autoUpdateVersion", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Auto update or fast update version."""
-    update_info_details: Optional[str] = rest_field(name="updateInfoDetails")
+    update_info_details: Optional[str] = rest_field(
+        name="updateInfoDetails", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Update related information details."""
     update_requested_date_time: Optional[datetime.datetime] = rest_field(
-        name="updateRequestedDateTime", format="rfc3339"
+        name="updateRequestedDateTime", visibility=["read", "create", "update", "delete", "query"], format="rfc3339"
     )
     """customer requested date time for mcc install of update cycle."""
     auto_update_next_available_version: Optional[str] = rest_field(
@@ -164,15 +178,25 @@ class AdditionalCacheNodeProperties(_model_base.Model):
         name="autoUpdateLastTriggeredDateTime", visibility=["read"], format="rfc3339"
     )
     """Auto update last triggered date time of mcc install."""
-    optional_property1: Optional[str] = rest_field(name="optionalProperty1")
+    optional_property1: Optional[str] = rest_field(
+        name="optionalProperty1", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Optional property #1 of Mcc response object."""
-    optional_property2: Optional[str] = rest_field(name="optionalProperty2")
+    optional_property2: Optional[str] = rest_field(
+        name="optionalProperty2", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Optional property #2 of Mcc response object."""
-    optional_property3: Optional[str] = rest_field(name="optionalProperty3")
+    optional_property3: Optional[str] = rest_field(
+        name="optionalProperty3", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Optional property #3 of Mcc response object."""
-    optional_property4: Optional[str] = rest_field(name="optionalProperty4")
+    optional_property4: Optional[str] = rest_field(
+        name="optionalProperty4", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Optional property #4 of Mcc response object."""
-    optional_property5: Optional[str] = rest_field(name="optionalProperty5")
+    optional_property5: Optional[str] = rest_field(
+        name="optionalProperty5", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Optional property #5 of Mcc response object."""
 
     @overload
@@ -210,8 +234,6 @@ class AdditionalCacheNodeProperties(_model_base.Model):
 
 class AdditionalCustomerProperties(_model_base.Model):
     """Model representing customer for connected cache resource.
-
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar peering_db_last_update_time: Customer resource last PeeringDB update timestamp.
     :vartype peering_db_last_update_time: ~datetime.datetime
@@ -260,7 +282,7 @@ class AdditionalCustomerProperties(_model_base.Model):
     :vartype customer_transit_asn: str
     :ivar customer_transit_state: Customer resource transit state. Known values are: "NoTransit",
      "CombinedTransit", and "TransitOnly".
-    :vartype customer_transit_state: str or ~azure.mgmt.connectedcache.models.CustomerTransitState
+    :vartype customer_transit_state: str or ~microsoft.connectedcache.models.CustomerTransitState
     :ivar customer_asn: Customer resource Asn (autonomous system number).
     :vartype customer_asn: str
     :ivar customer_asn_estimated_egress_peek_gbps: Customer resource estimated Asn peering peak in
@@ -342,40 +364,64 @@ class AdditionalCustomerProperties(_model_base.Model):
     """Customer resource last PeeringDB update timestamp."""
     customer_org_name: Optional[str] = rest_field(name="customerOrgName", visibility=["read"])
     """Customer resource owner organization name."""
-    customer_email: Optional[str] = rest_field(name="customerEmail")
+    customer_email: Optional[str] = rest_field(
+        name="customerEmail", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Customer resource contact email."""
-    customer_transit_asn: Optional[str] = rest_field(name="customerTransitAsn")
+    customer_transit_asn: Optional[str] = rest_field(
+        name="customerTransitAsn", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Customer resource transit Asn (autonomous system number)."""
     customer_transit_state: Optional[Union[str, "_models.CustomerTransitState"]] = rest_field(
-        name="customerTransitState"
+        name="customerTransitState", visibility=["read", "create", "update", "delete", "query"]
     )
     """Customer resource transit state. Known values are: \"NoTransit\", \"CombinedTransit\", and
      \"TransitOnly\"."""
-    customer_asn: Optional[str] = rest_field(name="customerAsn")
+    customer_asn: Optional[str] = rest_field(
+        name="customerAsn", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Customer resource Asn (autonomous system number)."""
     customer_asn_estimated_egress_peek_gbps: Optional[float] = rest_field(
         name="customerAsnEstimatedEgressPeekGbps", visibility=["read"]
     )
     """Customer resource estimated Asn peering peak in Gbps."""
-    customer_entitlement_sku_id: Optional[str] = rest_field(name="customerEntitlementSkuId")
+    customer_entitlement_sku_id: Optional[str] = rest_field(
+        name="customerEntitlementSkuId", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Customer resource entitlement Sku Id."""
-    customer_entitlement_sku_guid: Optional[str] = rest_field(name="customerEntitlementSkuGuid")
+    customer_entitlement_sku_guid: Optional[str] = rest_field(
+        name="customerEntitlementSkuGuid", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Customer resource entitlement Sku Guid."""
-    customer_entitlement_sku_name: Optional[str] = rest_field(name="customerEntitlementSkuName")
+    customer_entitlement_sku_name: Optional[str] = rest_field(
+        name="customerEntitlementSkuName", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Customer resource entitlement Sku name."""
     customer_entitlement_expiration: Optional[datetime.datetime] = rest_field(
-        name="customerEntitlementExpiration", format="rfc3339"
+        name="customerEntitlementExpiration",
+        visibility=["read", "create", "update", "delete", "query"],
+        format="rfc3339",
     )
     """Customer resource entitlement expiration date string."""
-    optional_property1: Optional[str] = rest_field(name="optionalProperty1")
+    optional_property1: Optional[str] = rest_field(
+        name="optionalProperty1", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Optional property #1 of Mcc response object."""
-    optional_property2: Optional[str] = rest_field(name="optionalProperty2")
+    optional_property2: Optional[str] = rest_field(
+        name="optionalProperty2", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Optional property #2 of Mcc response object."""
-    optional_property3: Optional[str] = rest_field(name="optionalProperty3")
+    optional_property3: Optional[str] = rest_field(
+        name="optionalProperty3", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Optional property #3 of Mcc response object."""
-    optional_property4: Optional[str] = rest_field(name="optionalProperty4")
+    optional_property4: Optional[str] = rest_field(
+        name="optionalProperty4", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Optional property #4 of Mcc response object."""
-    optional_property5: Optional[str] = rest_field(name="optionalProperty5")
+    optional_property5: Optional[str] = rest_field(
+        name="optionalProperty5", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Optional property #5 of Mcc response object."""
 
     @overload
@@ -411,8 +457,6 @@ class AdditionalCustomerProperties(_model_base.Model):
 class BgpCidrsConfiguration(_model_base.Model):
     """Mcc cache node Bgp Cidr details.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
     :ivar bgp_cidrs: Mcc cache node Bgp Cidr details.
     :vartype bgp_cidrs: list[str]
     """
@@ -428,7 +472,9 @@ class BgpConfiguration(_model_base.Model):
     :vartype asn_to_ip_address_mapping: str
     """
 
-    asn_to_ip_address_mapping: Optional[str] = rest_field(name="asnToIpAddressMapping")
+    asn_to_ip_address_mapping: Optional[str] = rest_field(
+        name="asnToIpAddressMapping", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Asn to ip address mapping."""
 
     @overload
@@ -462,13 +508,19 @@ class CacheNodeDriveConfiguration(_model_base.Model):
     :vartype nginx_mapping: str
     """
 
-    physical_path: Optional[str] = rest_field(name="physicalPath")
+    physical_path: Optional[str] = rest_field(
+        name="physicalPath", visibility=["read", "create", "update", "delete", "query"]
+    )
     """physical path location of the folder used for caching content."""
-    size_in_gb: Optional[int] = rest_field(name="sizeInGb")
+    size_in_gb: Optional[int] = rest_field(name="sizeInGb", visibility=["read", "create", "update", "delete", "query"])
     """physical size of the drive used for caching content."""
-    cache_number: Optional[int] = rest_field(name="cacheNumber")
+    cache_number: Optional[int] = rest_field(
+        name="cacheNumber", visibility=["read", "create", "update", "delete", "query"]
+    )
     """corresponding nginx cache number. Valid cache numbers are 1 - 20."""
-    nginx_mapping: Optional[str] = rest_field(name="nginxMapping")
+    nginx_mapping: Optional[str] = rest_field(
+        name="nginxMapping", visibility=["read", "create", "update", "delete", "query"]
+    )
     """full binding for corresponding nginx cache drive."""
 
     @overload
@@ -494,8 +546,6 @@ class CacheNodeDriveConfiguration(_model_base.Model):
 
 class CacheNodeEntity(_model_base.Model):
     """Model representing Cache Node for ConnectedCache resource.
-
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar fully_qualified_resource_id: Cache node resource Azure fully qualified resource Id.
     :vartype fully_qualified_resource_id: str
@@ -554,7 +604,7 @@ class CacheNodeEntity(_model_base.Model):
     :vartype bgp_review_state_text: str
     :ivar bgp_review_state: Cache node resource Bgp review state string text. Known values are:
      "NotConfigured", "InReview", "Approved", and "AttentionRequired".
-    :vartype bgp_review_state: str or ~azure.mgmt.connectedcache.models.BgpReviewStateEnum
+    :vartype bgp_review_state: str or ~microsoft.connectedcache.models.BgpReviewStateEnum
     :ivar bgp_review_feedback: Cache node resource Bgp review feedback text.
     :vartype bgp_review_feedback: str
     :ivar bgp_number_of_times_updated: Cache node resource Bgp update count.
@@ -583,7 +633,7 @@ class CacheNodeEntity(_model_base.Model):
     :vartype review_feedback: str
     :ivar configuration_state: Cache node resource configuration state. Known values are:
      "Configured" and "NotConfigured_Ip".
-    :vartype configuration_state: str or ~azure.mgmt.connectedcache.models.ConfigurationState
+    :vartype configuration_state: str or ~microsoft.connectedcache.models.ConfigurationState
     :ivar configuration_state_text: Cache node resource configuration state text.
     :vartype configuration_state_text: str
     :ivar address_space: Cache node resource total addressable space defined by the Cidr Csv block.
@@ -603,7 +653,7 @@ class CacheNodeEntity(_model_base.Model):
     :vartype fully_qualified_domain_name: str
     :ivar auto_update_ring_type: Auto Update Ring Type which is slow or fast etc. Known values are:
      "Preview", "Slow", and "Fast".
-    :vartype auto_update_ring_type: str or ~azure.mgmt.connectedcache.models.AutoUpdateRingType
+    :vartype auto_update_ring_type: str or ~microsoft.connectedcache.models.AutoUpdateRingType
     :ivar auto_update_requested_week: Customer requested week of month for mcc install of auto
      update cycle.
     :vartype auto_update_requested_week: int
@@ -615,31 +665,49 @@ class CacheNodeEntity(_model_base.Model):
     :vartype auto_update_requested_time: str
     """
 
-    fully_qualified_resource_id: Optional[str] = rest_field(name="fullyQualifiedResourceId")
+    fully_qualified_resource_id: Optional[str] = rest_field(
+        name="fullyQualifiedResourceId", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Cache node resource Azure fully qualified resource Id."""
     customer_id: Optional[str] = rest_field(name="customerId", visibility=["read"])
     """Cache node resource customer resource GUID Id."""
-    customer_name: Optional[str] = rest_field(name="customerName")
+    customer_name: Optional[str] = rest_field(
+        name="customerName", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Cache node resource customer resource name."""
-    ip_address: Optional[str] = rest_field(name="ipAddress")
+    ip_address: Optional[str] = rest_field(name="ipAddress", visibility=["read", "create", "update", "delete", "query"])
     """Cache node resource Ip address."""
-    customer_index: Optional[str] = rest_field(name="customerIndex")
+    customer_index: Optional[str] = rest_field(
+        name="customerIndex", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Cache node resource customer index as string."""
-    cache_node_id: Optional[str] = rest_field(name="cacheNodeId")
+    cache_node_id: Optional[str] = rest_field(
+        name="cacheNodeId", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Cache node resource identifier of the cache node."""
-    cache_node_name: Optional[str] = rest_field(name="cacheNodeName")
+    cache_node_name: Optional[str] = rest_field(
+        name="cacheNodeName", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Cache node resource name."""
-    customer_asn: Optional[int] = rest_field(name="customerAsn")
+    customer_asn: Optional[int] = rest_field(
+        name="customerAsn", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Cache node resource customer resource Asn (autonomous system number)."""
-    is_enabled: Optional[bool] = rest_field(name="isEnabled")
+    is_enabled: Optional[bool] = rest_field(
+        name="isEnabled", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Cache node resource flag for indicating if cache node is enabled."""
-    max_allowable_egress_in_mbps: Optional[int] = rest_field(name="maxAllowableEgressInMbps")
+    max_allowable_egress_in_mbps: Optional[int] = rest_field(
+        name="maxAllowableEgressInMbps", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Cache node resource maximum allowed egress in Mbps."""
     max_allowable_probability: Optional[float] = rest_field(name="maxAllowableProbability", visibility=["read"])
     """Cache node resource maximum allowed probability of egress."""
     x_cid: Optional[str] = rest_field(name="xCid", visibility=["read"])
     """Cache node resource Azure XCid."""
-    is_enterprise_managed: Optional[bool] = rest_field(name="isEnterpriseManaged")
+    is_enterprise_managed: Optional[bool] = rest_field(
+        name="isEnterpriseManaged", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Cache node resource flag for determining if managed by enterprise as boolean."""
     create_async_operation_id: Optional[str] = rest_field(name="createAsyncOperationId", visibility=["read"])
     """Cache node resource create async operation Id."""
@@ -663,7 +731,9 @@ class CacheNodeEntity(_model_base.Model):
     """Cache node resource attempts to sync with Azure."""
     container_configurations: Optional[str] = rest_field(name="containerConfigurations", visibility=["read"])
     """Cache node resource container configuration details."""
-    cidr_csv: Optional[List[str]] = rest_field(name="cidrCsv")
+    cidr_csv: Optional[List[str]] = rest_field(
+        name="cidrCsv", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Cache node resource comma separated values of Cidrs."""
     cidr_csv_last_update_time: Optional[datetime.datetime] = rest_field(
         name="cidrCsvLastUpdateTime", visibility=["read"], format="rfc3339"
@@ -694,11 +764,15 @@ class CacheNodeEntity(_model_base.Model):
     """Cache node resource Bgp block count."""
     bgp_address_space: Optional[int] = rest_field(name="bgpAddressSpace", visibility=["read"])
     """Cache node resource total addressable space defined by Bgp and Cidr Csv blocks."""
-    should_migrate: Optional[bool] = rest_field(name="shouldMigrate")
+    should_migrate: Optional[bool] = rest_field(
+        name="shouldMigrate", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Cache node resource flag for determining if customer will be migrated."""
     bgp_file_bytes_truncated: Optional[int] = rest_field(name="bgpFileBytesTruncated", visibility=["read"])
     """Cache node resource bytes truncated from Bgp output file."""
-    cidr_selection_type: Optional[int] = rest_field(name="cidrSelectionType")
+    cidr_selection_type: Optional[int] = rest_field(
+        name="cidrSelectionType", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Cache node resource current Cidr range precedence selection type."""
     is_frozen: Optional[bool] = rest_field(name="isFrozen", visibility=["read"])
     """Cache node resource flag for indicating the cache node resource is frozen (not selectable, not
@@ -728,16 +802,26 @@ class CacheNodeEntity(_model_base.Model):
     """Cache node resource Mcc container configuration details re-sync trigger."""
     image_uri: Optional[str] = rest_field(name="imageUri", visibility=["read"])
     """Cache node resource Mcc Container Id Uri."""
-    fully_qualified_domain_name: Optional[str] = rest_field(name="fullyQualifiedDomainName")
+    fully_qualified_domain_name: Optional[str] = rest_field(
+        name="fullyQualifiedDomainName", visibility=["read", "create", "update", "delete", "query"]
+    )
     """FQDN(fully qualified domain name) value of the mcc cache node."""
-    auto_update_ring_type: Optional[Union[str, "_models.AutoUpdateRingType"]] = rest_field(name="autoUpdateRingType")
+    auto_update_ring_type: Optional[Union[str, "_models.AutoUpdateRingType"]] = rest_field(
+        name="autoUpdateRingType", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Auto Update Ring Type which is slow or fast etc. Known values are: \"Preview\", \"Slow\", and
      \"Fast\"."""
-    auto_update_requested_week: Optional[int] = rest_field(name="autoUpdateRequestedWeek")
+    auto_update_requested_week: Optional[int] = rest_field(
+        name="autoUpdateRequestedWeek", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Customer requested week of month for mcc install of auto update cycle."""
-    auto_update_requested_day: Optional[int] = rest_field(name="autoUpdateRequestedDay")
+    auto_update_requested_day: Optional[int] = rest_field(
+        name="autoUpdateRequestedDay", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Customer requested day of week for mcc install of auto update cycle."""
-    auto_update_requested_time: Optional[str] = rest_field(name="autoUpdateRequestedTime")
+    auto_update_requested_time: Optional[str] = rest_field(
+        name="autoUpdateRequestedTime", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Customer requested time of the day for mcc install of auto update cycle, should be hh:mm."""
 
     @overload
@@ -778,8 +862,6 @@ class CacheNodeEntity(_model_base.Model):
 class CacheNodeInstallProperties(_model_base.Model):
     """Mcc cache node resource install script properties.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
     :ivar customer_id: Mcc customer resource Id.
     :vartype customer_id: str
     :ivar cache_node_id: Mcc cache node resource Id.
@@ -792,9 +874,13 @@ class CacheNodeInstallProperties(_model_base.Model):
     :vartype registration_key: str
     """
 
-    customer_id: Optional[str] = rest_field(name="customerId")
+    customer_id: Optional[str] = rest_field(
+        name="customerId", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Mcc customer resource Id."""
-    cache_node_id: Optional[str] = rest_field(name="cacheNodeId")
+    cache_node_id: Optional[str] = rest_field(
+        name="cacheNodeId", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Mcc cache node resource Id."""
     primary_account_key: Optional[str] = rest_field(name="primaryAccountKey", visibility=["read"])
     """Mcc primary account key. Internal to Mcc."""
@@ -825,11 +911,9 @@ class CacheNodeInstallProperties(_model_base.Model):
 class CacheNodeOldResponse(_model_base.Model):
     """Model representing Cache Node for ConnectedCache resource.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
     :ivar provisioning_state: The provisioned state of the resource. Known values are: "Succeeded",
      "Failed", "Canceled", "Unknown", "Accepted", "Upgrading", and "Deleting".
-    :vartype provisioning_state: str or ~azure.mgmt.connectedcache.models.ProvisioningState
+    :vartype provisioning_state: str or ~microsoft.connectedcache.models.ProvisioningState
     :ivar status_code: statusCode used to get code details of Mcc response object.
     :vartype status_code: str
     :ivar status_text: statusText used to get status details in string format of Mcc response
@@ -840,7 +924,7 @@ class CacheNodeOldResponse(_model_base.Model):
     :ivar status: status of the HTTP error code.
     :vartype status: str
     :ivar error: The error details.
-    :vartype error: ~azure.mgmt.connectedcache.models.ErrorDetail
+    :vartype error: ~microsoft.connectedcache.models.ErrorDetail
     """
 
     provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = rest_field(
@@ -848,15 +932,21 @@ class CacheNodeOldResponse(_model_base.Model):
     )
     """The provisioned state of the resource. Known values are: \"Succeeded\", \"Failed\",
      \"Canceled\", \"Unknown\", \"Accepted\", \"Upgrading\", and \"Deleting\"."""
-    status_code: Optional[str] = rest_field(name="statusCode")
+    status_code: Optional[str] = rest_field(
+        name="statusCode", visibility=["read", "create", "update", "delete", "query"]
+    )
     """statusCode used to get code details of Mcc response object."""
-    status_text: Optional[str] = rest_field(name="statusText")
+    status_text: Optional[str] = rest_field(
+        name="statusText", visibility=["read", "create", "update", "delete", "query"]
+    )
     """statusText used to get status details in string format of Mcc response object."""
-    status_details: Optional[str] = rest_field(name="statusDetails")
+    status_details: Optional[str] = rest_field(
+        name="statusDetails", visibility=["read", "create", "update", "delete", "query"]
+    )
     """statusDetails used to get inner details of Mcc response object."""
     status: Optional[str] = rest_field(visibility=["read"])
     """status of the HTTP error code."""
-    error: Optional["_models.ErrorDetail"] = rest_field()
+    error: Optional["_models.ErrorDetail"] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """The error details."""
 
     @overload
@@ -883,10 +973,8 @@ class CacheNodeOldResponse(_model_base.Model):
 class Resource(_model_base.Model):
     """Common fields that are returned in the response for all Azure Resource Manager resources.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -895,12 +983,12 @@ class Resource(_model_base.Model):
     :vartype type: str
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
-    :vartype system_data: ~azure.mgmt.connectedcache.models.SystemData
+    :vartype system_data: ~microsoft.connectedcache.models.SystemData
     """
 
     id: Optional[str] = rest_field(visibility=["read"])
     """Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long"""
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}."""
     name: Optional[str] = rest_field(visibility=["read"])
     """The name of the resource."""
     type: Optional[str] = rest_field(visibility=["read"])
@@ -914,11 +1002,8 @@ class TrackedResource(Resource):
     """The resource model definition for an Azure Resource Manager tracked top level resource which
     has 'tags' and a 'location'.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
-
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -927,14 +1012,14 @@ class TrackedResource(Resource):
     :vartype type: str
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
-    :vartype system_data: ~azure.mgmt.connectedcache.models.SystemData
+    :vartype system_data: ~microsoft.connectedcache.models.SystemData
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
     :ivar location: The geo-location where the resource lives. Required.
     :vartype location: str
     """
 
-    tags: Optional[Dict[str, str]] = rest_field()
+    tags: Optional[Dict[str, str]] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """Resource tags."""
     location: str = rest_field(visibility=["read", "create"])
     """The geo-location where the resource lives. Required."""
@@ -962,11 +1047,8 @@ class CacheNodePreviewResource(TrackedResource):
     """Concrete tracked resource types can be created by aliasing this type using a specific property
     type.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
-
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -975,13 +1057,13 @@ class CacheNodePreviewResource(TrackedResource):
     :vartype type: str
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
-    :vartype system_data: ~azure.mgmt.connectedcache.models.SystemData
+    :vartype system_data: ~microsoft.connectedcache.models.SystemData
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
     :ivar location: The geo-location where the resource lives. Required.
     :vartype location: str
     :ivar properties: The resource-specific properties for this resource.
-    :vartype properties: ~azure.mgmt.connectedcache.models.CacheNodeOldResponse
+    :vartype properties: ~microsoft.connectedcache.models.CacheNodeOldResponse
     """
 
     properties: Optional["_models.CacheNodeOldResponse"] = rest_field(visibility=["read", "create", "update"])
@@ -1010,16 +1092,14 @@ class CacheNodePreviewResource(TrackedResource):
 class CacheNodeProperty(_model_base.Model):
     """Model representing an Mcc cache node connectedCache resource.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
     :ivar provisioning_state: The provisioned state of the resource. Known values are: "Succeeded",
      "Failed", "Canceled", "Unknown", "Accepted", "Upgrading", and "Deleting".
-    :vartype provisioning_state: str or ~azure.mgmt.connectedcache.models.ProvisioningState
+    :vartype provisioning_state: str or ~microsoft.connectedcache.models.ProvisioningState
     :ivar cache_node: Mcc cache node resource (cache node entity).
-    :vartype cache_node: ~azure.mgmt.connectedcache.models.CacheNodeEntity
+    :vartype cache_node: ~microsoft.connectedcache.models.CacheNodeEntity
     :ivar additional_cache_node_properties: Mcc cache node resource additional properties.
     :vartype additional_cache_node_properties:
-     ~azure.mgmt.connectedcache.models.AdditionalCacheNodeProperties
+     ~microsoft.connectedcache.models.AdditionalCacheNodeProperties
     :ivar status_code: Mcc response status code.
     :vartype status_code: str
     :ivar status_text: Mcc response status text as string for retrieving status details.
@@ -1029,7 +1109,7 @@ class CacheNodeProperty(_model_base.Model):
     :ivar status: HTTP error status code.
     :vartype status: str
     :ivar error: Mcc response error details.
-    :vartype error: ~azure.mgmt.connectedcache.models.ErrorDetail
+    :vartype error: ~microsoft.connectedcache.models.ErrorDetail
     """
 
     provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = rest_field(
@@ -1037,21 +1117,29 @@ class CacheNodeProperty(_model_base.Model):
     )
     """The provisioned state of the resource. Known values are: \"Succeeded\", \"Failed\",
      \"Canceled\", \"Unknown\", \"Accepted\", \"Upgrading\", and \"Deleting\"."""
-    cache_node: Optional["_models.CacheNodeEntity"] = rest_field(name="cacheNode")
+    cache_node: Optional["_models.CacheNodeEntity"] = rest_field(
+        name="cacheNode", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Mcc cache node resource (cache node entity)."""
     additional_cache_node_properties: Optional["_models.AdditionalCacheNodeProperties"] = rest_field(
-        name="additionalCacheNodeProperties"
+        name="additionalCacheNodeProperties", visibility=["read", "create", "update", "delete", "query"]
     )
     """Mcc cache node resource additional properties."""
-    status_code: Optional[str] = rest_field(name="statusCode")
+    status_code: Optional[str] = rest_field(
+        name="statusCode", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Mcc response status code."""
-    status_text: Optional[str] = rest_field(name="statusText")
+    status_text: Optional[str] = rest_field(
+        name="statusText", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Mcc response status text as string for retrieving status details."""
-    status_details: Optional[str] = rest_field(name="statusDetails")
+    status_details: Optional[str] = rest_field(
+        name="statusDetails", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Mcc response status details for retrieving response inner details."""
     status: Optional[str] = rest_field(visibility=["read"])
     """HTTP error status code."""
-    error: Optional["_models.ErrorDetail"] = rest_field()
+    error: Optional["_models.ErrorDetail"] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """Mcc response error details."""
 
     @overload
@@ -1108,8 +1196,6 @@ class ConnectedCachePatchResource(_model_base.Model):
 class CustomerEntity(_model_base.Model):
     """Model representing Customer resource for ConnectedCache resource.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
     :ivar fully_qualified_resource_id: Customer resource Azure fully qualified resource Id.
     :vartype fully_qualified_resource_id: str
     :ivar customer_id: Customer resource Guid Id.
@@ -1149,27 +1235,43 @@ class CustomerEntity(_model_base.Model):
     :vartype verify_signup_phrase: str
     """
 
-    fully_qualified_resource_id: Optional[str] = rest_field(name="fullyQualifiedResourceId")
+    fully_qualified_resource_id: Optional[str] = rest_field(
+        name="fullyQualifiedResourceId", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Customer resource Azure fully qualified resource Id."""
     customer_id: Optional[str] = rest_field(name="customerId", visibility=["read"])
     """Customer resource Guid Id."""
-    customer_name: Optional[str] = rest_field(name="customerName")
+    customer_name: Optional[str] = rest_field(
+        name="customerName", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Customer resource name."""
-    contact_email: Optional[str] = rest_field(name="contactEmail")
+    contact_email: Optional[str] = rest_field(
+        name="contactEmail", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Customer resource contact email."""
-    contact_phone: Optional[str] = rest_field(name="contactPhone")
+    contact_phone: Optional[str] = rest_field(
+        name="contactPhone", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Customer resource contact phone."""
-    contact_name: Optional[str] = rest_field(name="contactName")
+    contact_name: Optional[str] = rest_field(
+        name="contactName", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Customer resource contact full name."""
-    is_entitled: Optional[bool] = rest_field(name="isEntitled")
+    is_entitled: Optional[bool] = rest_field(
+        name="isEntitled", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Customer resource entitlement flag as boolean."""
-    release_version: Optional[int] = rest_field(name="releaseVersion")
+    release_version: Optional[int] = rest_field(
+        name="releaseVersion", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Customer resource Mcc release version."""
     create_async_operation_id: Optional[str] = rest_field(name="createAsyncOperationId", visibility=["read"])
     """Customer resource create async operation Id."""
     delete_async_operation_id: Optional[str] = rest_field(name="deleteAsyncOperationId", visibility=["read"])
     """Customer resource deletion async operation Id."""
-    client_tenant_id: Optional[str] = rest_field(name="clientTenantId")
+    client_tenant_id: Optional[str] = rest_field(
+        name="clientTenantId", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Customer resource client tenant Id of subscription."""
     synch_with_azure_attempts_count: Optional[int] = rest_field(name="synchWithAzureAttemptsCount", visibility=["read"])
     """Customer resource sync attempts."""
@@ -1177,13 +1279,21 @@ class CustomerEntity(_model_base.Model):
         name="lastSyncWithAzureTimestamp", visibility=["read"], format="rfc3339"
     )
     """Customer resource last Azure sync timestamp."""
-    is_enterprise_managed: Optional[bool] = rest_field(name="isEnterpriseManaged")
+    is_enterprise_managed: Optional[bool] = rest_field(
+        name="isEnterpriseManaged", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Customer resource flag for enterprise management as boolean."""
-    should_migrate: Optional[bool] = rest_field(name="shouldMigrate")
+    should_migrate: Optional[bool] = rest_field(
+        name="shouldMigrate", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Customer resource flag for migration."""
-    resend_signup_code: Optional[bool] = rest_field(name="resendSignupCode")
+    resend_signup_code: Optional[bool] = rest_field(
+        name="resendSignupCode", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Customer resource flag for resending signup code as boolean."""
-    verify_signup_code: Optional[bool] = rest_field(name="verifySignupCode")
+    verify_signup_code: Optional[bool] = rest_field(
+        name="verifySignupCode", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Customer resource flag for requiring verification of signup code as boolean."""
     verify_signup_phrase: Optional[str] = rest_field(name="verifySignupPhrase", visibility=["create", "update"])
     """Customer resource phrase for verifying signup."""
@@ -1221,16 +1331,14 @@ class CustomerEntity(_model_base.Model):
 class CustomerProperty(_model_base.Model):
     """Model representing customer for connectedCache resource.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
     :ivar provisioning_state: The provisioned state of the resource. Known values are: "Succeeded",
      "Failed", "Canceled", "Unknown", "Accepted", "Upgrading", and "Deleting".
-    :vartype provisioning_state: str or ~azure.mgmt.connectedcache.models.ProvisioningState
+    :vartype provisioning_state: str or ~microsoft.connectedcache.models.ProvisioningState
     :ivar customer: Mcc customer resource (customer entity).
-    :vartype customer: ~azure.mgmt.connectedcache.models.CustomerEntity
+    :vartype customer: ~microsoft.connectedcache.models.CustomerEntity
     :ivar additional_customer_properties: Mcc customer resource additional properties.
     :vartype additional_customer_properties:
-     ~azure.mgmt.connectedcache.models.AdditionalCustomerProperties
+     ~microsoft.connectedcache.models.AdditionalCustomerProperties
     :ivar status_code: Mcc response status code.
     :vartype status_code: str
     :ivar status_text: Mcc response status text as string for retrieving status details.
@@ -1240,7 +1348,7 @@ class CustomerProperty(_model_base.Model):
     :ivar status: HTTP error status code.
     :vartype status: str
     :ivar error: Mcc response error details.
-    :vartype error: ~azure.mgmt.connectedcache.models.ErrorDetail
+    :vartype error: ~microsoft.connectedcache.models.ErrorDetail
     """
 
     provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = rest_field(
@@ -1248,10 +1356,12 @@ class CustomerProperty(_model_base.Model):
     )
     """The provisioned state of the resource. Known values are: \"Succeeded\", \"Failed\",
      \"Canceled\", \"Unknown\", \"Accepted\", \"Upgrading\", and \"Deleting\"."""
-    customer: Optional["_models.CustomerEntity"] = rest_field()
+    customer: Optional["_models.CustomerEntity"] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
     """Mcc customer resource (customer entity)."""
     additional_customer_properties: Optional["_models.AdditionalCustomerProperties"] = rest_field(
-        name="additionalCustomerProperties"
+        name="additionalCustomerProperties", visibility=["read", "create", "update", "delete", "query"]
     )
     """Mcc customer resource additional properties."""
     status_code: Optional[str] = rest_field(name="statusCode", visibility=["read"])
@@ -1287,11 +1397,8 @@ class CustomerProperty(_model_base.Model):
 class EnterpriseMccCacheNodeResource(TrackedResource):
     """Represents the high level Nodes needed to provision cache node resources.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
-
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1300,13 +1407,13 @@ class EnterpriseMccCacheNodeResource(TrackedResource):
     :vartype type: str
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
-    :vartype system_data: ~azure.mgmt.connectedcache.models.SystemData
+    :vartype system_data: ~microsoft.connectedcache.models.SystemData
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
     :ivar location: The geo-location where the resource lives. Required.
     :vartype location: str
     :ivar properties: The resource-specific properties for this resource.
-    :vartype properties: ~azure.mgmt.connectedcache.models.CacheNodeProperty
+    :vartype properties: ~microsoft.connectedcache.models.CacheNodeProperty
     """
 
     properties: Optional["_models.CacheNodeProperty"] = rest_field(visibility=["read", "create", "update"])
@@ -1335,11 +1442,8 @@ class EnterpriseMccCacheNodeResource(TrackedResource):
 class EnterpriseMccCustomerResource(TrackedResource):
     """Represents the high level Nodes needed to provision customer resources.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
-
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1348,13 +1452,13 @@ class EnterpriseMccCustomerResource(TrackedResource):
     :vartype type: str
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
-    :vartype system_data: ~azure.mgmt.connectedcache.models.SystemData
+    :vartype system_data: ~microsoft.connectedcache.models.SystemData
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
     :ivar location: The geo-location where the resource lives. Required.
     :vartype location: str
     :ivar properties: The resource-specific properties for this resource.
-    :vartype properties: ~azure.mgmt.connectedcache.models.CustomerProperty
+    :vartype properties: ~microsoft.connectedcache.models.CustomerProperty
     """
 
     properties: Optional["_models.CustomerProperty"] = rest_field(visibility=["read", "create", "update"])
@@ -1384,11 +1488,8 @@ class EnterprisePreviewResource(TrackedResource):
     """ConnectedCache Resource. Represents the high level Nodes needed to provision CacheNode and
     customer resources used in private preview.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
-
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1397,13 +1498,13 @@ class EnterprisePreviewResource(TrackedResource):
     :vartype type: str
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
-    :vartype system_data: ~azure.mgmt.connectedcache.models.SystemData
+    :vartype system_data: ~microsoft.connectedcache.models.SystemData
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
     :ivar location: The geo-location where the resource lives. Required.
     :vartype location: str
     :ivar properties: The resource-specific properties for this resource.
-    :vartype properties: ~azure.mgmt.connectedcache.models.CacheNodeOldResponse
+    :vartype properties: ~microsoft.connectedcache.models.CacheNodeOldResponse
     """
 
     properties: Optional["_models.CacheNodeOldResponse"] = rest_field(visibility=["read", "create", "update"])
@@ -1432,8 +1533,6 @@ class EnterprisePreviewResource(TrackedResource):
 class ErrorAdditionalInfo(_model_base.Model):
     """The resource management error additional info.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
     :ivar type: The additional info type.
     :vartype type: str
     :ivar info: The additional info.
@@ -1449,8 +1548,6 @@ class ErrorAdditionalInfo(_model_base.Model):
 class ErrorDetail(_model_base.Model):
     """The error detail.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
     :ivar code: The error code.
     :vartype code: str
     :ivar message: The error message.
@@ -1458,9 +1555,9 @@ class ErrorDetail(_model_base.Model):
     :ivar target: The error target.
     :vartype target: str
     :ivar details: The error details.
-    :vartype details: list[~azure.mgmt.connectedcache.models.ErrorDetail]
+    :vartype details: list[~microsoft.connectedcache.models.ErrorDetail]
     :ivar additional_info: The error additional info.
-    :vartype additional_info: list[~azure.mgmt.connectedcache.models.ErrorAdditionalInfo]
+    :vartype additional_info: list[~microsoft.connectedcache.models.ErrorAdditionalInfo]
     """
 
     code: Optional[str] = rest_field(visibility=["read"])
@@ -1482,10 +1579,10 @@ class ErrorResponse(_model_base.Model):
     operations.
 
     :ivar error: The error object.
-    :vartype error: ~azure.mgmt.connectedcache.models.ErrorDetail
+    :vartype error: ~microsoft.connectedcache.models.ErrorDetail
     """
 
-    error: Optional["_models.ErrorDetail"] = rest_field()
+    error: Optional["_models.ErrorDetail"] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """The error object."""
 
     @overload
@@ -1509,11 +1606,8 @@ class ErrorResponse(_model_base.Model):
 class IspCacheNodeResource(TrackedResource):
     """Represents the high level Nodes needed to provision cache node resources.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
-
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1522,13 +1616,13 @@ class IspCacheNodeResource(TrackedResource):
     :vartype type: str
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
-    :vartype system_data: ~azure.mgmt.connectedcache.models.SystemData
+    :vartype system_data: ~microsoft.connectedcache.models.SystemData
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
     :ivar location: The geo-location where the resource lives. Required.
     :vartype location: str
     :ivar properties: The resource-specific properties for this resource.
-    :vartype properties: ~azure.mgmt.connectedcache.models.CacheNodeProperty
+    :vartype properties: ~microsoft.connectedcache.models.CacheNodeProperty
     """
 
     properties: Optional["_models.CacheNodeProperty"] = rest_field(visibility=["read", "create", "update"])
@@ -1557,11 +1651,8 @@ class IspCacheNodeResource(TrackedResource):
 class IspCustomerResource(TrackedResource):
     """Represents the high level Nodes needed to provision isp customer resources.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
-
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1570,13 +1661,13 @@ class IspCustomerResource(TrackedResource):
     :vartype type: str
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
-    :vartype system_data: ~azure.mgmt.connectedcache.models.SystemData
+    :vartype system_data: ~microsoft.connectedcache.models.SystemData
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
     :ivar location: The geo-location where the resource lives. Required.
     :vartype location: str
     :ivar properties: The resource-specific properties for this resource.
-    :vartype properties: ~azure.mgmt.connectedcache.models.CustomerProperty
+    :vartype properties: ~microsoft.connectedcache.models.CustomerProperty
     """
 
     properties: Optional["_models.CustomerProperty"] = rest_field(visibility=["read", "create", "update"])
@@ -1605,11 +1696,8 @@ class IspCustomerResource(TrackedResource):
 class MccCacheNodeBgpCidrDetails(TrackedResource):
     """Represents all Cidr details of the Bgp request for a specific cache node resource.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
-
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1618,16 +1706,18 @@ class MccCacheNodeBgpCidrDetails(TrackedResource):
     :vartype type: str
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
-    :vartype system_data: ~azure.mgmt.connectedcache.models.SystemData
+    :vartype system_data: ~microsoft.connectedcache.models.SystemData
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
     :ivar location: The geo-location where the resource lives. Required.
     :vartype location: str
     :ivar properties: Mcc cache node resource Bgp Cidr properties.
-    :vartype properties: ~azure.mgmt.connectedcache.models.BgpCidrsConfiguration
+    :vartype properties: ~microsoft.connectedcache.models.BgpCidrsConfiguration
     """
 
-    properties: Optional["_models.BgpCidrsConfiguration"] = rest_field()
+    properties: Optional["_models.BgpCidrsConfiguration"] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
     """Mcc cache node resource Bgp Cidr properties."""
 
     @overload
@@ -1653,11 +1743,8 @@ class MccCacheNodeBgpCidrDetails(TrackedResource):
 class MccCacheNodeInstallDetails(TrackedResource):
     """Mcc cache node resource all install details.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
-
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1666,16 +1753,18 @@ class MccCacheNodeInstallDetails(TrackedResource):
     :vartype type: str
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
-    :vartype system_data: ~azure.mgmt.connectedcache.models.SystemData
+    :vartype system_data: ~microsoft.connectedcache.models.SystemData
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
     :ivar location: The geo-location where the resource lives. Required.
     :vartype location: str
     :ivar properties: Mcc cache node resource install script details.
-    :vartype properties: ~azure.mgmt.connectedcache.models.CacheNodeInstallProperties
+    :vartype properties: ~microsoft.connectedcache.models.CacheNodeInstallProperties
     """
 
-    properties: Optional["_models.CacheNodeInstallProperties"] = rest_field()
+    properties: Optional["_models.CacheNodeInstallProperties"] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
     """Mcc cache node resource install script details."""
 
     @overload
@@ -1701,8 +1790,6 @@ class MccCacheNodeInstallDetails(TrackedResource):
 class Operation(_model_base.Model):
     """Details of a REST API operation, returned from the Resource Provider Operations API.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
     :ivar name: The name of the operation, as per Resource-Based Access Control (RBAC). Examples:
      "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action".
     :vartype name: str
@@ -1710,14 +1797,14 @@ class Operation(_model_base.Model):
      data-plane operations and "false" for Azure Resource Manager/control-plane operations.
     :vartype is_data_action: bool
     :ivar display: Localized display information for this particular operation.
-    :vartype display: ~azure.mgmt.connectedcache.models.OperationDisplay
+    :vartype display: ~microsoft.connectedcache.models.OperationDisplay
     :ivar origin: The intended executor of the operation; as in Resource Based Access Control
      (RBAC) and audit logs UX. Default value is "user,system". Known values are: "user", "system",
      and "user,system".
-    :vartype origin: str or ~azure.mgmt.connectedcache.models.Origin
+    :vartype origin: str or ~microsoft.connectedcache.models.Origin
     :ivar action_type: Extensible enum. Indicates the action type. "Internal" refers to actions
      that are for internal only APIs. "Internal"
-    :vartype action_type: str or ~azure.mgmt.connectedcache.models.ActionType
+    :vartype action_type: str or ~microsoft.connectedcache.models.ActionType
     """
 
     name: Optional[str] = rest_field(visibility=["read"])
@@ -1727,13 +1814,15 @@ class Operation(_model_base.Model):
     is_data_action: Optional[bool] = rest_field(name="isDataAction", visibility=["read"])
     """Whether the operation applies to data-plane. This is \"true\" for data-plane operations and
      \"false\" for Azure Resource Manager/control-plane operations."""
-    display: Optional["_models.OperationDisplay"] = rest_field(visibility=["read"])
+    display: Optional["_models.OperationDisplay"] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
     """Localized display information for this particular operation."""
     origin: Optional[Union[str, "_models.Origin"]] = rest_field(visibility=["read"])
     """The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit
      logs UX. Default value is \"user,system\". Known values are: \"user\", \"system\", and
      \"user,system\"."""
-    action_type: Optional[Union[str, "_models.ActionType"]] = rest_field(name="actionType")
+    action_type: Optional[Union[str, "_models.ActionType"]] = rest_field(name="actionType", visibility=["read"])
     """Extensible enum. Indicates the action type. \"Internal\" refers to actions that are for
      internal only APIs. \"Internal\""""
 
@@ -1741,7 +1830,7 @@ class Operation(_model_base.Model):
     def __init__(
         self,
         *,
-        action_type: Optional[Union[str, "_models.ActionType"]] = None,
+        display: Optional["_models.OperationDisplay"] = None,
     ) -> None: ...
 
     @overload
@@ -1757,8 +1846,6 @@ class Operation(_model_base.Model):
 
 class OperationDisplay(_model_base.Model):
     """Localized display information for and operation.
-
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar provider: The localized friendly form of the resource provider name, e.g. "Microsoft
      Monitoring Insights" or "Microsoft Compute".
@@ -1792,13 +1879,14 @@ class ProxyUrlConfiguration(_model_base.Model):
     """ProxyUrl configuration of cache node.
 
     :ivar proxy_url: Host Proxy Address configuration along with port number. This can be a proxy
-     or ip address. ex: xx.xx.xx.xxxx:80 or host name http://exampleproxy.com:80.
+     or ip address. ex: xx.xx.xx.xxxx:80 or host name `http://exampleproxy.com:80
+     <http://exampleproxy.com:80>`_.
     :vartype proxy_url: str
     """
 
-    proxy_url: Optional[str] = rest_field(name="proxyUrl")
+    proxy_url: Optional[str] = rest_field(name="proxyUrl", visibility=["read", "create", "update", "delete", "query"])
     """Host Proxy Address configuration along with port number. This can be a proxy or ip address. ex:
-     xx.xx.xx.xxxx:80 or host name http://exampleproxy.com:80."""
+     xx.xx.xx.xxxx:80 or host name `http://exampleproxy.com:80 <http://exampleproxy.com:80>`_."""
 
     @overload
     def __init__(
@@ -1825,31 +1913,41 @@ class SystemData(_model_base.Model):
     :vartype created_by: str
     :ivar created_by_type: The type of identity that created the resource. Known values are:
      "User", "Application", "ManagedIdentity", and "Key".
-    :vartype created_by_type: str or ~azure.mgmt.connectedcache.models.CreatedByType
+    :vartype created_by_type: str or ~microsoft.connectedcache.models.CreatedByType
     :ivar created_at: The timestamp of resource creation (UTC).
     :vartype created_at: ~datetime.datetime
     :ivar last_modified_by: The identity that last modified the resource.
     :vartype last_modified_by: str
     :ivar last_modified_by_type: The type of identity that last modified the resource. Known values
      are: "User", "Application", "ManagedIdentity", and "Key".
-    :vartype last_modified_by_type: str or ~azure.mgmt.connectedcache.models.CreatedByType
+    :vartype last_modified_by_type: str or ~microsoft.connectedcache.models.CreatedByType
     :ivar last_modified_at: The timestamp of resource last modification (UTC).
     :vartype last_modified_at: ~datetime.datetime
     """
 
-    created_by: Optional[str] = rest_field(name="createdBy")
+    created_by: Optional[str] = rest_field(name="createdBy", visibility=["read", "create", "update", "delete", "query"])
     """The identity that created the resource."""
-    created_by_type: Optional[Union[str, "_models.CreatedByType"]] = rest_field(name="createdByType")
+    created_by_type: Optional[Union[str, "_models.CreatedByType"]] = rest_field(
+        name="createdByType", visibility=["read", "create", "update", "delete", "query"]
+    )
     """The type of identity that created the resource. Known values are: \"User\", \"Application\",
      \"ManagedIdentity\", and \"Key\"."""
-    created_at: Optional[datetime.datetime] = rest_field(name="createdAt", format="rfc3339")
+    created_at: Optional[datetime.datetime] = rest_field(
+        name="createdAt", visibility=["read", "create", "update", "delete", "query"], format="rfc3339"
+    )
     """The timestamp of resource creation (UTC)."""
-    last_modified_by: Optional[str] = rest_field(name="lastModifiedBy")
+    last_modified_by: Optional[str] = rest_field(
+        name="lastModifiedBy", visibility=["read", "create", "update", "delete", "query"]
+    )
     """The identity that last modified the resource."""
-    last_modified_by_type: Optional[Union[str, "_models.CreatedByType"]] = rest_field(name="lastModifiedByType")
+    last_modified_by_type: Optional[Union[str, "_models.CreatedByType"]] = rest_field(
+        name="lastModifiedByType", visibility=["read", "create", "update", "delete", "query"]
+    )
     """The type of identity that last modified the resource. Known values are: \"User\",
      \"Application\", \"ManagedIdentity\", and \"Key\"."""
-    last_modified_at: Optional[datetime.datetime] = rest_field(name="lastModifiedAt", format="rfc3339")
+    last_modified_at: Optional[datetime.datetime] = rest_field(
+        name="lastModifiedAt", visibility=["read", "create", "update", "delete", "query"], format="rfc3339"
+    )
     """The timestamp of resource last modification (UTC)."""
 
     @overload
