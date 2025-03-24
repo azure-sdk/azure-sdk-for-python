@@ -8,12 +8,12 @@
 
 from azure.identity import DefaultAzureCredential
 
-from azure.mgmt.devopsinfrastructure import DevOpsInfrastructureMgmtClient
+from microsoft.devopsinfrastructure import DevOpsInfrastructureMgmtClient
 
 """
 # PREREQUISITES
     pip install azure-identity
-    pip install azure-mgmt-devopsinfrastructure
+    pip install microsoft-devopsinfrastructure
 # USAGE
     python delete_pool.py
 
@@ -36,6 +36,6 @@ def main():
     ).result()
 
 
-# x-ms-original-file: 2024-10-19/DeletePool.json
+# x-ms-original-file: 2025-01-21/DeletePool.json
 if __name__ == "__main__":
     main()

@@ -8,12 +8,12 @@
 
 from azure.identity import DefaultAzureCredential
 
-from azure.mgmt.devopsinfrastructure import DevOpsInfrastructureMgmtClient
+from microsoft.devopsinfrastructure import DevOpsInfrastructureMgmtClient
 
 """
 # PREREQUISITES
     pip install azure-identity
-    pip install azure-mgmt-devopsinfrastructure
+    pip install microsoft-devopsinfrastructure
 # USAGE
     python list_pools_by_subscription_and_resource_group.py
 
@@ -37,6 +37,6 @@ def main():
         print(item)
 
 
-# x-ms-original-file: 2024-10-19/ListPoolsBySubscriptionAndResourceGroup.json
+# x-ms-original-file: 2025-01-21/ListPoolsBySubscriptionAndResourceGroup.json
 if __name__ == "__main__":
     main()

@@ -15,7 +15,7 @@ from microsoft.devopsinfrastructure import DevOpsInfrastructureMgmtClient
     pip install azure-identity
     pip install microsoft-devopsinfrastructure
 # USAGE
-    python sku_list_by_location.py
+    python pools_check_name_availability.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -30,13 +30,12 @@ def main():
         subscription_id="SUBSCRIPTION_ID",
     )
 
-    response = client.sku.list_by_location(
-        location_name="eastus",
+    response = client.pools.check_name_availability(
+        body={"name": "mydevopspool", "type": "Microsoft.DevOpsInfrastructure/pools"},
     )
-    for item in response:
-        print(item)
+    print(response)
 
 
-# x-ms-original-file: 2025-01-21/Sku_ListByLocation.json
+# x-ms-original-file: 2025-01-21/Pools_CheckNameAvailability.json
 if __name__ == "__main__":
     main()

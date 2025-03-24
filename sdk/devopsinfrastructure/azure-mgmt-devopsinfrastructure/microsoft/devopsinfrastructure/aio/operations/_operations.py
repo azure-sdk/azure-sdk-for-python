@@ -9,9 +9,11 @@
 from io import IOBase
 import json
 import sys
-from typing import Any, Callable, Dict, IO, Iterable, Iterator, List, Optional, TypeVar, Union, cast, overload
+from typing import Any, AsyncIterable, AsyncIterator, Callable, Dict, IO, List, Optional, TypeVar, Union, cast, overload
 import urllib.parse
 
+from azure.core import AsyncPipelineClient
+from azure.core.async_paging import AsyncItemPaged, AsyncList
 from azure.core.exceptions import (
     ClientAuthenticationError,
     HttpResponseError,
@@ -22,323 +24,41 @@ from azure.core.exceptions import (
     StreamConsumedError,
     map_error,
 )
-from azure.core.paging import ItemPaged
 from azure.core.pipeline import PipelineResponse
-from azure.core.polling import LROPoller, NoPolling, PollingMethod
-from azure.core.rest import HttpRequest, HttpResponse
+from azure.core.polling import AsyncLROPoller, AsyncNoPolling, AsyncPollingMethod
+from azure.core.rest import AsyncHttpResponse, HttpRequest
 from azure.core.tracing.decorator import distributed_trace
+from azure.core.tracing.decorator_async import distributed_trace_async
 from azure.core.utils import case_insensitive_dict
 from azure.mgmt.core.exceptions import ARMErrorFormat
-from azure.mgmt.core.polling.arm_polling import ARMPolling
+from azure.mgmt.core.polling.async_arm_polling import AsyncARMPolling
 
-from .. import models as _models
-from .._model_base import SdkJSONEncoder, _deserialize
-from .._serialization import Serializer
+from ... import models as _models
+from ..._model_base import SdkJSONEncoder, _deserialize, _failsafe_deserialize
+from ..._serialization import Deserializer, Serializer
+from ...operations._operations import (
+    build_image_versions_list_by_image_request,
+    build_operations_list_request,
+    build_pools_check_name_availability_request,
+    build_pools_create_or_update_request,
+    build_pools_delete_request,
+    build_pools_get_request,
+    build_pools_list_by_resource_group_request,
+    build_pools_list_by_subscription_request,
+    build_pools_update_request,
+    build_resource_details_list_by_pool_request,
+    build_sku_list_by_location_request,
+    build_subscription_usages_usages_request,
+)
+from .._configuration import DevOpsInfrastructureMgmtClientConfiguration
 
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
     from typing import MutableMapping  # type: ignore
 T = TypeVar("T")
-ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
+ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 JSON = MutableMapping[str, Any]  # pylint: disable=unsubscriptable-object
-
-_SERIALIZER = Serializer()
-_SERIALIZER.client_side_validation = False
-
-
-def build_operations_list_request(**kwargs: Any) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-19"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/providers/Microsoft.DevOpsInfrastructure/operations"
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_pools_get_request(
-    resource_group_name: str, pool_name: str, subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-19"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevOpsInfrastructure/pools/{poolName}"  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "poolName": _SERIALIZER.url("pool_name", pool_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_pools_create_or_update_request(
-    resource_group_name: str, pool_name: str, subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-19"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevOpsInfrastructure/pools/{poolName}"  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "poolName": _SERIALIZER.url("pool_name", pool_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    if content_type is not None:
-        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="PUT", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_pools_update_request(
-    resource_group_name: str, pool_name: str, subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-19"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevOpsInfrastructure/pools/{poolName}"  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "poolName": _SERIALIZER.url("pool_name", pool_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    if content_type is not None:
-        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="PATCH", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_pools_delete_request(
-    resource_group_name: str, pool_name: str, subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-19"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevOpsInfrastructure/pools/{poolName}"  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "poolName": _SERIALIZER.url("pool_name", pool_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="DELETE", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_pools_list_by_resource_group_request(  # pylint: disable=name-too-long
-    resource_group_name: str, subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-19"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevOpsInfrastructure/pools"  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_pools_list_by_subscription_request(subscription_id: str, **kwargs: Any) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-19"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/providers/Microsoft.DevOpsInfrastructure/pools"
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_resource_details_list_by_pool_request(  # pylint: disable=name-too-long
-    resource_group_name: str, pool_name: str, subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-19"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevOpsInfrastructure/pools/{poolName}/resources"  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "poolName": _SERIALIZER.url("pool_name", pool_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_sku_list_by_location_request(location_name: str, subscription_id: str, **kwargs: Any) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-19"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/providers/Microsoft.DevOpsInfrastructure/locations/{locationName}/skus"
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "locationName": _SERIALIZER.url("location_name", location_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_subscription_usages_usages_request(location: str, subscription_id: str, **kwargs: Any) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-19"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/providers/Microsoft.DevOpsInfrastructure/locations/{location}/usages"
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "location": _SERIALIZER.url("location", location, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
-
-
-def build_image_versions_list_by_image_request(  # pylint: disable=name-too-long
-    resource_group_name: str, image_name: str, subscription_id: str, **kwargs: Any
-) -> HttpRequest:
-    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-19"))
-    accept = _headers.pop("Accept", "application/json")
-
-    # Construct URL
-    _url = "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevOpsInfrastructure/images/{imageName}/versions"  # pylint: disable=line-too-long
-    path_format_arguments = {
-        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
-        "resourceGroupName": _SERIALIZER.url("resource_group_name", resource_group_name, "str"),
-        "imageName": _SERIALIZER.url("image_name", image_name, "str"),
-    }
-
-    _url: str = _url.format(**path_format_arguments)  # type: ignore
-
-    # Construct parameters
-    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
-
-    # Construct headers
-    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
-
-    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
 class Operations:
@@ -347,29 +67,32 @@ class Operations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.devopsinfrastructure.DevOpsInfrastructureMgmtClient`'s
+        :class:`~microsoft.devopsinfrastructure.aio.DevOpsInfrastructureMgmtClient`'s
         :attr:`operations` attribute.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
-        self._client = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config = input_args.pop(0) if input_args else kwargs.pop("config")
-        self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
-        self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
+        self._client: AsyncPipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
+        self._config: DevOpsInfrastructureMgmtClientConfiguration = (
+            input_args.pop(0) if input_args else kwargs.pop("config")
+        )
+        self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
+        self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
     @distributed_trace
-    def list(self, **kwargs: Any) -> Iterable["_models._models.Operation"]:
+    def list(self, **kwargs: Any) -> AsyncIterable["_models.Operation"]:
         """List the operations for the provider.
 
         :return: An iterator like instance of Operation
-        :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.devopsinfrastructure.models._models.Operation]
+        :rtype:
+         ~azure.core.async_paging.AsyncItemPaged[~microsoft.devopsinfrastructure.models.Operation]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[List[_models._models.Operation]] = kwargs.pop("cls", None)
+        cls: ClsType[List[_models.Operation]] = kwargs.pop("cls", None)
 
         error_map: MutableMapping = {
             401: ClientAuthenticationError,
@@ -416,30 +139,30 @@ class Operations:
 
             return _request
 
-        def extract_data(pipeline_response):
+        async def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models._models.Operation], deserialized["value"])
+            list_of_elem = _deserialize(List[_models.Operation], deserialized.get("value", []))
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
-            return deserialized.get("nextLink") or None, iter(list_of_elem)
+            return deserialized.get("nextLink") or None, AsyncList(list_of_elem)
 
-        def get_next(next_link=None):
+        async def get_next(next_link=None):
             _request = prepare_request(next_link)
 
             _stream = False
-            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
                 _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
             if response.status_code not in [200]:
                 map_error(status_code=response.status_code, response=response, error_map=error_map)
-                error = _deserialize(_models.ErrorResponse, response.json())
+                error = _failsafe_deserialize(_models.ErrorResponse, response.json())
                 raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
             return pipeline_response
 
-        return ItemPaged(get_next, extract_data)
+        return AsyncItemPaged(get_next, extract_data)
 
 
 class PoolsOperations:
@@ -448,19 +171,21 @@ class PoolsOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.devopsinfrastructure.DevOpsInfrastructureMgmtClient`'s
+        :class:`~microsoft.devopsinfrastructure.aio.DevOpsInfrastructureMgmtClient`'s
         :attr:`pools` attribute.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
-        self._client = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config = input_args.pop(0) if input_args else kwargs.pop("config")
-        self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
-        self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
+        self._client: AsyncPipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
+        self._config: DevOpsInfrastructureMgmtClientConfiguration = (
+            input_args.pop(0) if input_args else kwargs.pop("config")
+        )
+        self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
+        self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
-    @distributed_trace
-    def get(self, resource_group_name: str, pool_name: str, **kwargs: Any) -> _models.Pool:
+    @distributed_trace_async
+    async def get(self, resource_group_name: str, pool_name: str, **kwargs: Any) -> _models.Pool:
         """Get a Pool.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -469,7 +194,7 @@ class PoolsOperations:
         :param pool_name: Name of the pool. It needs to be globally unique. Required.
         :type pool_name: str
         :return: Pool. The Pool is compatible with MutableMapping
-        :rtype: ~azure.mgmt.devopsinfrastructure.models.Pool
+        :rtype: ~microsoft.devopsinfrastructure.models.Pool
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -499,7 +224,7 @@ class PoolsOperations:
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -508,11 +233,11 @@ class PoolsOperations:
         if response.status_code not in [200]:
             if _stream:
                 try:
-                    response.read()  # Load the body in memory and close the socket
+                    await response.read()  # Load the body in memory and close the socket
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.ErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if _stream:
@@ -525,9 +250,9 @@ class PoolsOperations:
 
         return deserialized  # type: ignore
 
-    def _create_or_update_initial(
+    async def _create_or_update_initial(
         self, resource_group_name: str, pool_name: str, resource: Union[_models.Pool, JSON, IO[bytes]], **kwargs: Any
-    ) -> Iterator[bytes]:
+    ) -> AsyncIterator[bytes]:
         error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
@@ -540,7 +265,7 @@ class PoolsOperations:
         _params = kwargs.pop("params", {}) or {}
 
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
+        cls: ClsType[AsyncIterator[bytes]] = kwargs.pop("cls", None)
 
         content_type = content_type or "application/json"
         _content = None
@@ -565,7 +290,7 @@ class PoolsOperations:
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = True
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -573,11 +298,11 @@ class PoolsOperations:
 
         if response.status_code not in [200, 201]:
             try:
-                response.read()  # Load the body in memory and close the socket
+                await response.read()  # Load the body in memory and close the socket
             except (StreamConsumedError, StreamClosedError):
                 pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.ErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         response_headers = {}
@@ -592,7 +317,7 @@ class PoolsOperations:
         return deserialized  # type: ignore
 
     @overload
-    def begin_create_or_update(
+    async def begin_create_or_update(
         self,
         resource_group_name: str,
         pool_name: str,
@@ -600,7 +325,7 @@ class PoolsOperations:
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> LROPoller[_models.Pool]:
+    ) -> AsyncLROPoller[_models.Pool]:
         """Create a Pool.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -609,17 +334,18 @@ class PoolsOperations:
         :param pool_name: Name of the pool. It needs to be globally unique. Required.
         :type pool_name: str
         :param resource: Resource create parameters. Required.
-        :type resource: ~azure.mgmt.devopsinfrastructure.models.Pool
+        :type resource: ~microsoft.devopsinfrastructure.models.Pool
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of LROPoller that returns Pool. The Pool is compatible with MutableMapping
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.devopsinfrastructure.models.Pool]
+        :return: An instance of AsyncLROPoller that returns Pool. The Pool is compatible with
+         MutableMapping
+        :rtype: ~azure.core.polling.AsyncLROPoller[~microsoft.devopsinfrastructure.models.Pool]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    def begin_create_or_update(
+    async def begin_create_or_update(
         self,
         resource_group_name: str,
         pool_name: str,
@@ -627,7 +353,7 @@ class PoolsOperations:
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> LROPoller[_models.Pool]:
+    ) -> AsyncLROPoller[_models.Pool]:
         """Create a Pool.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -640,13 +366,14 @@ class PoolsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of LROPoller that returns Pool. The Pool is compatible with MutableMapping
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.devopsinfrastructure.models.Pool]
+        :return: An instance of AsyncLROPoller that returns Pool. The Pool is compatible with
+         MutableMapping
+        :rtype: ~azure.core.polling.AsyncLROPoller[~microsoft.devopsinfrastructure.models.Pool]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    def begin_create_or_update(
+    async def begin_create_or_update(
         self,
         resource_group_name: str,
         pool_name: str,
@@ -654,7 +381,7 @@ class PoolsOperations:
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> LROPoller[_models.Pool]:
+    ) -> AsyncLROPoller[_models.Pool]:
         """Create a Pool.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -667,15 +394,16 @@ class PoolsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of LROPoller that returns Pool. The Pool is compatible with MutableMapping
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.devopsinfrastructure.models.Pool]
+        :return: An instance of AsyncLROPoller that returns Pool. The Pool is compatible with
+         MutableMapping
+        :rtype: ~azure.core.polling.AsyncLROPoller[~microsoft.devopsinfrastructure.models.Pool]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
-    @distributed_trace
-    def begin_create_or_update(
+    @distributed_trace_async
+    async def begin_create_or_update(
         self, resource_group_name: str, pool_name: str, resource: Union[_models.Pool, JSON, IO[bytes]], **kwargs: Any
-    ) -> LROPoller[_models.Pool]:
+    ) -> AsyncLROPoller[_models.Pool]:
         """Create a Pool.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -685,9 +413,10 @@ class PoolsOperations:
         :type pool_name: str
         :param resource: Resource create parameters. Is one of the following types: Pool, JSON,
          IO[bytes] Required.
-        :type resource: ~azure.mgmt.devopsinfrastructure.models.Pool or JSON or IO[bytes]
-        :return: An instance of LROPoller that returns Pool. The Pool is compatible with MutableMapping
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.devopsinfrastructure.models.Pool]
+        :type resource: ~microsoft.devopsinfrastructure.models.Pool or JSON or IO[bytes]
+        :return: An instance of AsyncLROPoller that returns Pool. The Pool is compatible with
+         MutableMapping
+        :rtype: ~azure.core.polling.AsyncLROPoller[~microsoft.devopsinfrastructure.models.Pool]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -695,11 +424,11 @@ class PoolsOperations:
 
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.Pool] = kwargs.pop("cls", None)
-        polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
+        polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
         if cont_token is None:
-            raw_result = self._create_or_update_initial(
+            raw_result = await self._create_or_update_initial(
                 resource_group_name=resource_group_name,
                 pool_name=pool_name,
                 resource=resource,
@@ -709,7 +438,7 @@ class PoolsOperations:
                 params=_params,
                 **kwargs
             )
-            raw_result.http_response.read()  # type: ignore
+            await raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):
@@ -724,31 +453,31 @@ class PoolsOperations:
         }
 
         if polling is True:
-            polling_method: PollingMethod = cast(
-                PollingMethod, ARMPolling(lro_delay, path_format_arguments=path_format_arguments, **kwargs)
+            polling_method: AsyncPollingMethod = cast(
+                AsyncPollingMethod, AsyncARMPolling(lro_delay, path_format_arguments=path_format_arguments, **kwargs)
             )
         elif polling is False:
-            polling_method = cast(PollingMethod, NoPolling())
+            polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller[_models.Pool].from_continuation_token(
+            return AsyncLROPoller[_models.Pool].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller[_models.Pool](
+        return AsyncLROPoller[_models.Pool](
             self._client, raw_result, get_long_running_output, polling_method  # type: ignore
         )
 
-    def _update_initial(
+    async def _update_initial(
         self,
         resource_group_name: str,
         pool_name: str,
         properties: Union[_models.PoolUpdate, JSON, IO[bytes]],
         **kwargs: Any
-    ) -> Iterator[bytes]:
+    ) -> AsyncIterator[bytes]:
         error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
@@ -761,7 +490,7 @@ class PoolsOperations:
         _params = kwargs.pop("params", {}) or {}
 
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
+        cls: ClsType[AsyncIterator[bytes]] = kwargs.pop("cls", None)
 
         content_type = content_type or "application/json"
         _content = None
@@ -786,7 +515,7 @@ class PoolsOperations:
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = True
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -794,11 +523,11 @@ class PoolsOperations:
 
         if response.status_code not in [200, 202]:
             try:
-                response.read()  # Load the body in memory and close the socket
+                await response.read()  # Load the body in memory and close the socket
             except (StreamConsumedError, StreamClosedError):
                 pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.ErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         response_headers = {}
@@ -814,7 +543,7 @@ class PoolsOperations:
         return deserialized  # type: ignore
 
     @overload
-    def begin_update(
+    async def begin_update(
         self,
         resource_group_name: str,
         pool_name: str,
@@ -822,7 +551,7 @@ class PoolsOperations:
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> LROPoller[_models.Pool]:
+    ) -> AsyncLROPoller[_models.Pool]:
         """Update a Pool.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -831,17 +560,18 @@ class PoolsOperations:
         :param pool_name: Name of the pool. It needs to be globally unique. Required.
         :type pool_name: str
         :param properties: The resource properties to be updated. Required.
-        :type properties: ~azure.mgmt.devopsinfrastructure.models.PoolUpdate
+        :type properties: ~microsoft.devopsinfrastructure.models.PoolUpdate
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of LROPoller that returns Pool. The Pool is compatible with MutableMapping
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.devopsinfrastructure.models.Pool]
+        :return: An instance of AsyncLROPoller that returns Pool. The Pool is compatible with
+         MutableMapping
+        :rtype: ~azure.core.polling.AsyncLROPoller[~microsoft.devopsinfrastructure.models.Pool]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    def begin_update(
+    async def begin_update(
         self,
         resource_group_name: str,
         pool_name: str,
@@ -849,7 +579,7 @@ class PoolsOperations:
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> LROPoller[_models.Pool]:
+    ) -> AsyncLROPoller[_models.Pool]:
         """Update a Pool.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -862,13 +592,14 @@ class PoolsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of LROPoller that returns Pool. The Pool is compatible with MutableMapping
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.devopsinfrastructure.models.Pool]
+        :return: An instance of AsyncLROPoller that returns Pool. The Pool is compatible with
+         MutableMapping
+        :rtype: ~azure.core.polling.AsyncLROPoller[~microsoft.devopsinfrastructure.models.Pool]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    def begin_update(
+    async def begin_update(
         self,
         resource_group_name: str,
         pool_name: str,
@@ -876,7 +607,7 @@ class PoolsOperations:
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> LROPoller[_models.Pool]:
+    ) -> AsyncLROPoller[_models.Pool]:
         """Update a Pool.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -889,19 +620,20 @@ class PoolsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of LROPoller that returns Pool. The Pool is compatible with MutableMapping
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.devopsinfrastructure.models.Pool]
+        :return: An instance of AsyncLROPoller that returns Pool. The Pool is compatible with
+         MutableMapping
+        :rtype: ~azure.core.polling.AsyncLROPoller[~microsoft.devopsinfrastructure.models.Pool]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
-    @distributed_trace
-    def begin_update(
+    @distributed_trace_async
+    async def begin_update(
         self,
         resource_group_name: str,
         pool_name: str,
         properties: Union[_models.PoolUpdate, JSON, IO[bytes]],
         **kwargs: Any
-    ) -> LROPoller[_models.Pool]:
+    ) -> AsyncLROPoller[_models.Pool]:
         """Update a Pool.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -911,9 +643,10 @@ class PoolsOperations:
         :type pool_name: str
         :param properties: The resource properties to be updated. Is one of the following types:
          PoolUpdate, JSON, IO[bytes] Required.
-        :type properties: ~azure.mgmt.devopsinfrastructure.models.PoolUpdate or JSON or IO[bytes]
-        :return: An instance of LROPoller that returns Pool. The Pool is compatible with MutableMapping
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.devopsinfrastructure.models.Pool]
+        :type properties: ~microsoft.devopsinfrastructure.models.PoolUpdate or JSON or IO[bytes]
+        :return: An instance of AsyncLROPoller that returns Pool. The Pool is compatible with
+         MutableMapping
+        :rtype: ~azure.core.polling.AsyncLROPoller[~microsoft.devopsinfrastructure.models.Pool]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -921,11 +654,11 @@ class PoolsOperations:
 
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.Pool] = kwargs.pop("cls", None)
-        polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
+        polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
         if cont_token is None:
-            raw_result = self._update_initial(
+            raw_result = await self._update_initial(
                 resource_group_name=resource_group_name,
                 pool_name=pool_name,
                 properties=properties,
@@ -935,7 +668,7 @@ class PoolsOperations:
                 params=_params,
                 **kwargs
             )
-            raw_result.http_response.read()  # type: ignore
+            await raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):
@@ -950,25 +683,25 @@ class PoolsOperations:
         }
 
         if polling is True:
-            polling_method: PollingMethod = cast(
-                PollingMethod, ARMPolling(lro_delay, path_format_arguments=path_format_arguments, **kwargs)
+            polling_method: AsyncPollingMethod = cast(
+                AsyncPollingMethod, AsyncARMPolling(lro_delay, path_format_arguments=path_format_arguments, **kwargs)
             )
         elif polling is False:
-            polling_method = cast(PollingMethod, NoPolling())
+            polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller[_models.Pool].from_continuation_token(
+            return AsyncLROPoller[_models.Pool].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller[_models.Pool](
+        return AsyncLROPoller[_models.Pool](
             self._client, raw_result, get_long_running_output, polling_method  # type: ignore
         )
 
-    def _delete_initial(self, resource_group_name: str, pool_name: str, **kwargs: Any) -> Iterator[bytes]:
+    async def _delete_initial(self, resource_group_name: str, pool_name: str, **kwargs: Any) -> AsyncIterator[bytes]:
         error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
@@ -980,7 +713,7 @@ class PoolsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
+        cls: ClsType[AsyncIterator[bytes]] = kwargs.pop("cls", None)
 
         _request = build_pools_delete_request(
             resource_group_name=resource_group_name,
@@ -996,7 +729,7 @@ class PoolsOperations:
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = True
-        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -1004,11 +737,11 @@ class PoolsOperations:
 
         if response.status_code not in [202, 204]:
             try:
-                response.read()  # Load the body in memory and close the socket
+                await response.read()  # Load the body in memory and close the socket
             except (StreamConsumedError, StreamClosedError):
                 pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.ErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         response_headers = {}
@@ -1023,8 +756,8 @@ class PoolsOperations:
 
         return deserialized  # type: ignore
 
-    @distributed_trace
-    def begin_delete(self, resource_group_name: str, pool_name: str, **kwargs: Any) -> LROPoller[None]:
+    @distributed_trace_async
+    async def begin_delete(self, resource_group_name: str, pool_name: str, **kwargs: Any) -> AsyncLROPoller[None]:
         """Delete a Pool.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -1032,19 +765,19 @@ class PoolsOperations:
         :type resource_group_name: str
         :param pool_name: Name of the pool. It needs to be globally unique. Required.
         :type pool_name: str
-        :return: An instance of LROPoller that returns None
-        :rtype: ~azure.core.polling.LROPoller[None]
+        :return: An instance of AsyncLROPoller that returns None
+        :rtype: ~azure.core.polling.AsyncLROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
         cls: ClsType[None] = kwargs.pop("cls", None)
-        polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
+        polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
         if cont_token is None:
-            raw_result = self._delete_initial(
+            raw_result = await self._delete_initial(
                 resource_group_name=resource_group_name,
                 pool_name=pool_name,
                 cls=lambda x, y, z: x,
@@ -1052,7 +785,7 @@ class PoolsOperations:
                 params=_params,
                 **kwargs
             )
-            raw_result.http_response.read()  # type: ignore
+            await raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
@@ -1064,31 +797,31 @@ class PoolsOperations:
         }
 
         if polling is True:
-            polling_method: PollingMethod = cast(
-                PollingMethod, ARMPolling(lro_delay, path_format_arguments=path_format_arguments, **kwargs)
+            polling_method: AsyncPollingMethod = cast(
+                AsyncPollingMethod, AsyncARMPolling(lro_delay, path_format_arguments=path_format_arguments, **kwargs)
             )
         elif polling is False:
-            polling_method = cast(PollingMethod, NoPolling())
+            polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller[None].from_continuation_token(
+            return AsyncLROPoller[None].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
+        return AsyncLROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     @distributed_trace
-    def list_by_resource_group(self, resource_group_name: str, **kwargs: Any) -> Iterable["_models.Pool"]:
+    def list_by_resource_group(self, resource_group_name: str, **kwargs: Any) -> AsyncIterable["_models.Pool"]:
         """List Pool resources by resource group.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
         :return: An iterator like instance of Pool
-        :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.devopsinfrastructure.models.Pool]
+        :rtype: ~azure.core.async_paging.AsyncItemPaged[~microsoft.devopsinfrastructure.models.Pool]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
@@ -1143,37 +876,37 @@ class PoolsOperations:
 
             return _request
 
-        def extract_data(pipeline_response):
+        async def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.Pool], deserialized["value"])
+            list_of_elem = _deserialize(List[_models.Pool], deserialized.get("value", []))
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
-            return deserialized.get("nextLink") or None, iter(list_of_elem)
+            return deserialized.get("nextLink") or None, AsyncList(list_of_elem)
 
-        def get_next(next_link=None):
+        async def get_next(next_link=None):
             _request = prepare_request(next_link)
 
             _stream = False
-            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
                 _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
             if response.status_code not in [200]:
                 map_error(status_code=response.status_code, response=response, error_map=error_map)
-                error = _deserialize(_models.ErrorResponse, response.json())
+                error = _failsafe_deserialize(_models.ErrorResponse, response.json())
                 raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
             return pipeline_response
 
-        return ItemPaged(get_next, extract_data)
+        return AsyncItemPaged(get_next, extract_data)
 
     @distributed_trace
-    def list_by_subscription(self, **kwargs: Any) -> Iterable["_models.Pool"]:
+    def list_by_subscription(self, **kwargs: Any) -> AsyncIterable["_models.Pool"]:
         """List Pool resources by subscription ID.
 
         :return: An iterator like instance of Pool
-        :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.devopsinfrastructure.models.Pool]
+        :rtype: ~azure.core.async_paging.AsyncItemPaged[~microsoft.devopsinfrastructure.models.Pool]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
@@ -1227,30 +960,156 @@ class PoolsOperations:
 
             return _request
 
-        def extract_data(pipeline_response):
+        async def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.Pool], deserialized["value"])
+            list_of_elem = _deserialize(List[_models.Pool], deserialized.get("value", []))
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
-            return deserialized.get("nextLink") or None, iter(list_of_elem)
+            return deserialized.get("nextLink") or None, AsyncList(list_of_elem)
 
-        def get_next(next_link=None):
+        async def get_next(next_link=None):
             _request = prepare_request(next_link)
 
             _stream = False
-            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
                 _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
             if response.status_code not in [200]:
                 map_error(status_code=response.status_code, response=response, error_map=error_map)
-                error = _deserialize(_models.ErrorResponse, response.json())
+                error = _failsafe_deserialize(_models.ErrorResponse, response.json())
                 raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
             return pipeline_response
 
-        return ItemPaged(get_next, extract_data)
+        return AsyncItemPaged(get_next, extract_data)
+
+    @overload
+    async def check_name_availability(
+        self, body: _models.CheckNameAvailability, *, content_type: str = "application/json", **kwargs: Any
+    ) -> _models.CheckNameAvailabilityResult:
+        """Checks that the pool name is valid and is not already in use.
+
+        :param body: The CheckAvailability request. Required.
+        :type body: ~microsoft.devopsinfrastructure.models.CheckNameAvailability
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: CheckNameAvailabilityResult. The CheckNameAvailabilityResult is compatible with
+         MutableMapping
+        :rtype: ~microsoft.devopsinfrastructure.models.CheckNameAvailabilityResult
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    async def check_name_availability(
+        self, body: JSON, *, content_type: str = "application/json", **kwargs: Any
+    ) -> _models.CheckNameAvailabilityResult:
+        """Checks that the pool name is valid and is not already in use.
+
+        :param body: The CheckAvailability request. Required.
+        :type body: JSON
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: CheckNameAvailabilityResult. The CheckNameAvailabilityResult is compatible with
+         MutableMapping
+        :rtype: ~microsoft.devopsinfrastructure.models.CheckNameAvailabilityResult
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    async def check_name_availability(
+        self, body: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
+    ) -> _models.CheckNameAvailabilityResult:
+        """Checks that the pool name is valid and is not already in use.
+
+        :param body: The CheckAvailability request. Required.
+        :type body: IO[bytes]
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: CheckNameAvailabilityResult. The CheckNameAvailabilityResult is compatible with
+         MutableMapping
+        :rtype: ~microsoft.devopsinfrastructure.models.CheckNameAvailabilityResult
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace_async
+    async def check_name_availability(
+        self, body: Union[_models.CheckNameAvailability, JSON, IO[bytes]], **kwargs: Any
+    ) -> _models.CheckNameAvailabilityResult:
+        """Checks that the pool name is valid and is not already in use.
+
+        :param body: The CheckAvailability request. Is one of the following types:
+         CheckNameAvailability, JSON, IO[bytes] Required.
+        :type body: ~microsoft.devopsinfrastructure.models.CheckNameAvailability or JSON or IO[bytes]
+        :return: CheckNameAvailabilityResult. The CheckNameAvailabilityResult is compatible with
+         MutableMapping
+        :rtype: ~microsoft.devopsinfrastructure.models.CheckNameAvailabilityResult
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = kwargs.pop("params", {}) or {}
+
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.CheckNameAvailabilityResult] = kwargs.pop("cls", None)
+
+        content_type = content_type or "application/json"
+        _content = None
+        if isinstance(body, (IOBase, bytes)):
+            _content = body
+        else:
+            _content = json.dumps(body, cls=SdkJSONEncoder, exclude_readonly=True)  # type: ignore
+
+        _request = build_pools_check_name_availability_request(
+            subscription_id=self._config.subscription_id,
+            content_type=content_type,
+            api_version=self._config.api_version,
+            content=_content,
+            headers=_headers,
+            params=_params,
+        )
+        path_format_arguments = {
+            "endpoint": self._serialize.url("self._config.base_url", self._config.base_url, "str", skip_quote=True),
+        }
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+        _stream = kwargs.pop("stream", False)
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            if _stream:
+                try:
+                    await response.read()  # Load the body in memory and close the socket
+                except (StreamConsumedError, StreamClosedError):
+                    pass
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = _failsafe_deserialize(_models.ErrorResponse, response.json())
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        if _stream:
+            deserialized = response.iter_bytes()
+        else:
+            deserialized = _deserialize(_models.CheckNameAvailabilityResult, response.json())
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
 
 
 class ResourceDetailsOperations:
@@ -1259,21 +1118,23 @@ class ResourceDetailsOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.devopsinfrastructure.DevOpsInfrastructureMgmtClient`'s
+        :class:`~microsoft.devopsinfrastructure.aio.DevOpsInfrastructureMgmtClient`'s
         :attr:`resource_details` attribute.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
-        self._client = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config = input_args.pop(0) if input_args else kwargs.pop("config")
-        self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
-        self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
+        self._client: AsyncPipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
+        self._config: DevOpsInfrastructureMgmtClientConfiguration = (
+            input_args.pop(0) if input_args else kwargs.pop("config")
+        )
+        self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
+        self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
     @distributed_trace
     def list_by_pool(
         self, resource_group_name: str, pool_name: str, **kwargs: Any
-    ) -> Iterable["_models.ResourceDetailsObject"]:
+    ) -> AsyncIterable["_models.ResourceDetailsObject"]:
         """List ResourceDetailsObject resources by Pool.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -1283,7 +1144,7 @@ class ResourceDetailsOperations:
         :type pool_name: str
         :return: An iterator like instance of ResourceDetailsObject
         :rtype:
-         ~azure.core.paging.ItemPaged[~azure.mgmt.devopsinfrastructure.models.ResourceDetailsObject]
+         ~azure.core.async_paging.AsyncItemPaged[~microsoft.devopsinfrastructure.models.ResourceDetailsObject]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
@@ -1339,30 +1200,30 @@ class ResourceDetailsOperations:
 
             return _request
 
-        def extract_data(pipeline_response):
+        async def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.ResourceDetailsObject], deserialized["value"])
+            list_of_elem = _deserialize(List[_models.ResourceDetailsObject], deserialized.get("value", []))
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
-            return deserialized.get("nextLink") or None, iter(list_of_elem)
+            return deserialized.get("nextLink") or None, AsyncList(list_of_elem)
 
-        def get_next(next_link=None):
+        async def get_next(next_link=None):
             _request = prepare_request(next_link)
 
             _stream = False
-            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
                 _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
             if response.status_code not in [200]:
                 map_error(status_code=response.status_code, response=response, error_map=error_map)
-                error = _deserialize(_models.ErrorResponse, response.json())
+                error = _failsafe_deserialize(_models.ErrorResponse, response.json())
                 raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
             return pipeline_response
 
-        return ItemPaged(get_next, extract_data)
+        return AsyncItemPaged(get_next, extract_data)
 
 
 class SkuOperations:
@@ -1371,25 +1232,28 @@ class SkuOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.devopsinfrastructure.DevOpsInfrastructureMgmtClient`'s
+        :class:`~microsoft.devopsinfrastructure.aio.DevOpsInfrastructureMgmtClient`'s
         :attr:`sku` attribute.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
-        self._client = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config = input_args.pop(0) if input_args else kwargs.pop("config")
-        self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
-        self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
+        self._client: AsyncPipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
+        self._config: DevOpsInfrastructureMgmtClientConfiguration = (
+            input_args.pop(0) if input_args else kwargs.pop("config")
+        )
+        self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
+        self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
     @distributed_trace
-    def list_by_location(self, location_name: str, **kwargs: Any) -> Iterable["_models.ResourceSku"]:
+    def list_by_location(self, location_name: str, **kwargs: Any) -> AsyncIterable["_models.ResourceSku"]:
         """List ResourceSku resources by subscription ID.
 
         :param location_name: Name of the location. Required.
         :type location_name: str
         :return: An iterator like instance of ResourceSku
-        :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.devopsinfrastructure.models.ResourceSku]
+        :rtype:
+         ~azure.core.async_paging.AsyncItemPaged[~microsoft.devopsinfrastructure.models.ResourceSku]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
@@ -1444,30 +1308,30 @@ class SkuOperations:
 
             return _request
 
-        def extract_data(pipeline_response):
+        async def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.ResourceSku], deserialized["value"])
+            list_of_elem = _deserialize(List[_models.ResourceSku], deserialized.get("value", []))
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
-            return deserialized.get("nextLink") or None, iter(list_of_elem)
+            return deserialized.get("nextLink") or None, AsyncList(list_of_elem)
 
-        def get_next(next_link=None):
+        async def get_next(next_link=None):
             _request = prepare_request(next_link)
 
             _stream = False
-            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
                 _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
             if response.status_code not in [200]:
                 map_error(status_code=response.status_code, response=response, error_map=error_map)
-                error = _deserialize(_models.ErrorResponse, response.json())
+                error = _failsafe_deserialize(_models.ErrorResponse, response.json())
                 raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
             return pipeline_response
 
-        return ItemPaged(get_next, extract_data)
+        return AsyncItemPaged(get_next, extract_data)
 
 
 class SubscriptionUsagesOperations:
@@ -1476,25 +1340,27 @@ class SubscriptionUsagesOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.devopsinfrastructure.DevOpsInfrastructureMgmtClient`'s
+        :class:`~microsoft.devopsinfrastructure.aio.DevOpsInfrastructureMgmtClient`'s
         :attr:`subscription_usages` attribute.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
-        self._client = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config = input_args.pop(0) if input_args else kwargs.pop("config")
-        self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
-        self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
+        self._client: AsyncPipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
+        self._config: DevOpsInfrastructureMgmtClientConfiguration = (
+            input_args.pop(0) if input_args else kwargs.pop("config")
+        )
+        self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
+        self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
     @distributed_trace
-    def usages(self, location: str, **kwargs: Any) -> Iterable["_models.Quota"]:
+    def usages(self, location: str, **kwargs: Any) -> AsyncIterable["_models.Quota"]:
         """List Quota resources by subscription ID.
 
         :param location: The name of the Azure region. Required.
         :type location: str
         :return: An iterator like instance of Quota
-        :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.devopsinfrastructure.models.Quota]
+        :rtype: ~azure.core.async_paging.AsyncItemPaged[~microsoft.devopsinfrastructure.models.Quota]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
@@ -1549,30 +1415,30 @@ class SubscriptionUsagesOperations:
 
             return _request
 
-        def extract_data(pipeline_response):
+        async def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.Quota], deserialized["value"])
+            list_of_elem = _deserialize(List[_models.Quota], deserialized.get("value", []))
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
-            return deserialized.get("nextLink") or None, iter(list_of_elem)
+            return deserialized.get("nextLink") or None, AsyncList(list_of_elem)
 
-        def get_next(next_link=None):
+        async def get_next(next_link=None):
             _request = prepare_request(next_link)
 
             _stream = False
-            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
                 _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
             if response.status_code not in [200]:
                 map_error(status_code=response.status_code, response=response, error_map=error_map)
-                error = _deserialize(_models.ErrorResponse, response.json())
+                error = _failsafe_deserialize(_models.ErrorResponse, response.json())
                 raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
             return pipeline_response
 
-        return ItemPaged(get_next, extract_data)
+        return AsyncItemPaged(get_next, extract_data)
 
 
 class ImageVersionsOperations:
@@ -1581,21 +1447,23 @@ class ImageVersionsOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.devopsinfrastructure.DevOpsInfrastructureMgmtClient`'s
+        :class:`~microsoft.devopsinfrastructure.aio.DevOpsInfrastructureMgmtClient`'s
         :attr:`image_versions` attribute.
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
-        self._client = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config = input_args.pop(0) if input_args else kwargs.pop("config")
-        self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
-        self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
+        self._client: AsyncPipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
+        self._config: DevOpsInfrastructureMgmtClientConfiguration = (
+            input_args.pop(0) if input_args else kwargs.pop("config")
+        )
+        self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
+        self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
     @distributed_trace
     def list_by_image(
         self, resource_group_name: str, image_name: str, **kwargs: Any
-    ) -> Iterable["_models.ImageVersion"]:
+    ) -> AsyncIterable["_models.ImageVersion"]:
         """List ImageVersion resources by Image.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
@@ -1604,7 +1472,8 @@ class ImageVersionsOperations:
         :param image_name: Name of the image. Required.
         :type image_name: str
         :return: An iterator like instance of ImageVersion
-        :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.devopsinfrastructure.models.ImageVersion]
+        :rtype:
+         ~azure.core.async_paging.AsyncItemPaged[~microsoft.devopsinfrastructure.models.ImageVersion]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
@@ -1660,27 +1529,27 @@ class ImageVersionsOperations:
 
             return _request
 
-        def extract_data(pipeline_response):
+        async def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.ImageVersion], deserialized["value"])
+            list_of_elem = _deserialize(List[_models.ImageVersion], deserialized.get("value", []))
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
-            return deserialized.get("nextLink") or None, iter(list_of_elem)
+            return deserialized.get("nextLink") or None, AsyncList(list_of_elem)
 
-        def get_next(next_link=None):
+        async def get_next(next_link=None):
             _request = prepare_request(next_link)
 
             _stream = False
-            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
                 _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
             if response.status_code not in [200]:
                 map_error(status_code=response.status_code, response=response, error_map=error_map)
-                error = _deserialize(_models.ErrorResponse, response.json())
+                error = _failsafe_deserialize(_models.ErrorResponse, response.json())
                 raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
             return pipeline_response
 
-        return ItemPaged(get_next, extract_data)
+        return AsyncItemPaged(get_next, extract_data)

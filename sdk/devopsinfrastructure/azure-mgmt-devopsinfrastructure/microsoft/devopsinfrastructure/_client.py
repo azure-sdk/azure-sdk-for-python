@@ -34,25 +34,25 @@ class DevOpsInfrastructureMgmtClient:
     """DevOpsInfrastructureMgmtClient.
 
     :ivar operations: Operations operations
-    :vartype operations: azure.mgmt.devopsinfrastructure.operations.Operations
+    :vartype operations: microsoft.devopsinfrastructure.operations.Operations
     :ivar pools: PoolsOperations operations
-    :vartype pools: azure.mgmt.devopsinfrastructure.operations.PoolsOperations
+    :vartype pools: microsoft.devopsinfrastructure.operations.PoolsOperations
     :ivar resource_details: ResourceDetailsOperations operations
-    :vartype resource_details: azure.mgmt.devopsinfrastructure.operations.ResourceDetailsOperations
+    :vartype resource_details: microsoft.devopsinfrastructure.operations.ResourceDetailsOperations
     :ivar sku: SkuOperations operations
-    :vartype sku: azure.mgmt.devopsinfrastructure.operations.SkuOperations
+    :vartype sku: microsoft.devopsinfrastructure.operations.SkuOperations
     :ivar subscription_usages: SubscriptionUsagesOperations operations
     :vartype subscription_usages:
-     azure.mgmt.devopsinfrastructure.operations.SubscriptionUsagesOperations
+     microsoft.devopsinfrastructure.operations.SubscriptionUsagesOperations
     :ivar image_versions: ImageVersionsOperations operations
-    :vartype image_versions: azure.mgmt.devopsinfrastructure.operations.ImageVersionsOperations
+    :vartype image_versions: microsoft.devopsinfrastructure.operations.ImageVersionsOperations
     :param credential: Credential used to authenticate requests to the service. Required.
     :type credential: ~azure.core.credentials.TokenCredential
     :param subscription_id: The ID of the target subscription. The value must be an UUID. Required.
     :type subscription_id: str
     :param base_url: Service host. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: The API version to use for this operation. Default value is "2024-10-19".
+    :keyword api_version: The API version to use for this operation. Default value is "2025-01-21".
      Note that overriding this default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no

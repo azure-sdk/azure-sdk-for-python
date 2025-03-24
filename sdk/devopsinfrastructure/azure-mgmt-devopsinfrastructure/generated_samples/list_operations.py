@@ -8,12 +8,12 @@
 
 from azure.identity import DefaultAzureCredential
 
-from azure.mgmt.devopsinfrastructure import DevOpsInfrastructureMgmtClient
+from microsoft.devopsinfrastructure import DevOpsInfrastructureMgmtClient
 
 """
 # PREREQUISITES
     pip install azure-identity
-    pip install azure-mgmt-devopsinfrastructure
+    pip install microsoft-devopsinfrastructure
 # USAGE
     python list_operations.py
 
@@ -35,6 +35,6 @@ def main():
         print(item)
 
 
-# x-ms-original-file: 2024-10-19/ListOperations.json
+# x-ms-original-file: 2025-01-21/ListOperations.json
 if __name__ == "__main__":
     main()
