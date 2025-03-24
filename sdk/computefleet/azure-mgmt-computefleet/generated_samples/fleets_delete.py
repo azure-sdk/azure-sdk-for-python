@@ -8,12 +8,12 @@
 
 from azure.identity import DefaultAzureCredential
 
-from azure.mgmt.computefleet import ComputeFleetMgmtClient
+from microsoft.azurefleet import ComputeFleetMgmtClient
 
 """
 # PREREQUISITES
     pip install azure-identity
-    pip install azure-mgmt-computefleet
+    pip install microsoft-azurefleet
 # USAGE
     python fleets_delete.py
 
