@@ -20,21 +20,20 @@ from ._configuration import TrustedSigningMgmtClientConfiguration
 from .operations import CertificateProfilesOperations, CodeSigningAccountsOperations, Operations
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from azure.core.credentials_async import AsyncTokenCredential
 
 
-class TrustedSigningMgmtClient:  # pylint: disable=client-accepts-api-version-keyword
+class TrustedSigningMgmtClient:
     """Code Signing resource provider api.
 
     :ivar operations: Operations operations
-    :vartype operations: azure.mgmt.trustedsigning.aio.operations.Operations
+    :vartype operations: microsoft.codesigning.aio.operations.Operations
     :ivar code_signing_accounts: CodeSigningAccountsOperations operations
     :vartype code_signing_accounts:
-     azure.mgmt.trustedsigning.aio.operations.CodeSigningAccountsOperations
+     microsoft.codesigning.aio.operations.CodeSigningAccountsOperations
     :ivar certificate_profiles: CertificateProfilesOperations operations
     :vartype certificate_profiles:
-     azure.mgmt.trustedsigning.aio.operations.CertificateProfilesOperations
+     microsoft.codesigning.aio.operations.CertificateProfilesOperations
     :param credential: Credential used to authenticate requests to the service. Required.
     :type credential: ~azure.core.credentials_async.AsyncTokenCredential
     :param subscription_id: The ID of the target subscription. The value must be an UUID. Required.
@@ -42,7 +41,7 @@ class TrustedSigningMgmtClient:  # pylint: disable=client-accepts-api-version-ke
     :param base_url: Service host. Default value is "https://management.azure.com".
     :type base_url: str
     :keyword api_version: The API version to use for this operation. Default value is
-     "2024-02-05-preview". Note that overriding this default value may result in unsupported
+     "2024-09-30-preview". Note that overriding this default value may result in unsupported
      behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no

@@ -8,12 +8,12 @@
 
 from azure.identity import DefaultAzureCredential
 
-from azure.mgmt.trustedsigning import TrustedSigningMgmtClient
+from microsoft.codesigning import TrustedSigningMgmtClient
 
 """
 # PREREQUISITES
     pip install azure-identity
-    pip install azure-mgmt-trustedsigning
+    pip install microsoft-codesigning
 # USAGE
     python certificate_profiles_list_by_code_signing_account.py
 
@@ -38,6 +38,6 @@ def main():
         print(item)
 
 
-# x-ms-original-file: 2024-02-05-preview/CertificateProfiles_ListByCodeSigningAccount.json
+# x-ms-original-file: 2024-09-30-preview/CertificateProfiles_ListByCodeSigningAccount.json
 if __name__ == "__main__":
     main()

@@ -6,7 +6,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 import pytest
-from azure.mgmt.trustedsigning import TrustedSigningMgmtClient
+from microsoft.codesigning import TrustedSigningMgmtClient
 
 from devtools_testutils import AzureMgmtRecordedTestCase, RandomNameResourceGroupPreparer, recorded_by_proxy
 
@@ -41,10 +41,12 @@ class TestTrustedSigningMgmtCertificateProfilesOperations(AzureMgmtRecordedTestC
                 "id": "str",
                 "name": "str",
                 "properties": {
+                    "identityValidationId": "str",
                     "profileType": "str",
                     "certificates": [
                         {
                             "createdDate": "str",
+                            "enhancedKeyUsage": "str",
                             "expiryDate": "str",
                             "revocation": {
                                 "effectiveAt": "2020-02-20 00:00:00",
@@ -60,23 +62,13 @@ class TestTrustedSigningMgmtCertificateProfilesOperations(AzureMgmtRecordedTestC
                             "thumbprint": "str",
                         }
                     ],
-                    "city": "str",
-                    "commonName": "str",
-                    "country": "str",
-                    "enhancedKeyUsage": "str",
-                    "identityValidationId": "str",
                     "includeCity": bool,
                     "includeCountry": bool,
                     "includePostalCode": bool,
                     "includeState": bool,
                     "includeStreetAddress": bool,
-                    "organization": "str",
-                    "organizationUnit": "str",
-                    "postalCode": "str",
                     "provisioningState": "str",
-                    "state": "str",
                     "status": "str",
-                    "streetAddress": "str",
                 },
                 "systemData": {
                     "createdAt": "2020-02-20 00:00:00",

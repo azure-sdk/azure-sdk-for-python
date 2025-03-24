@@ -8,12 +8,12 @@
 
 from azure.identity import DefaultAzureCredential
 
-from azure.mgmt.trustedsigning import TrustedSigningMgmtClient
+from microsoft.codesigning import TrustedSigningMgmtClient
 
 """
 # PREREQUISITES
     pip install azure-identity
-    pip install azure-mgmt-trustedsigning
+    pip install microsoft-codesigning
 # USAGE
     python code_signing_accounts_check_name_availability.py
 
@@ -36,6 +36,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: 2024-02-05-preview/CodeSigningAccounts_CheckNameAvailability.json
+# x-ms-original-file: 2024-09-30-preview/CodeSigningAccounts_CheckNameAvailability.json
 if __name__ == "__main__":
     main()
