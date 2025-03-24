@@ -1,4 +1,3 @@
-# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,7 +6,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 import sys
-from typing import Any, Callable, Dict, Iterable, Optional, Type, TypeVar
+from typing import Any, Callable, Dict, Iterable, Optional, TypeVar
 import urllib.parse
 
 from azure.core.exceptions import (
@@ -31,7 +30,7 @@ from .._serialization import Serializer
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
 
@@ -45,7 +44,7 @@ def build_list_by_subscription_id_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-10-01-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-04-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -75,7 +74,7 @@ def build_list_by_tenant_id_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-10-01-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-04-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -100,7 +99,7 @@ def build_list_by_single_resource_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-10-01-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-04-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -151,9 +150,9 @@ class EventsOperations:
          https://docs.microsoft.com/en-us/rest/api/apimanagement/apis?redirectedfrom=MSDN. Default value
          is None.
         :type filter: str
-        :param query_start_time: Specifies from when to return events, based on the lastUpdateTime
-         property. For example, queryStartTime = 7/24/2020 OR queryStartTime=7%2F24%2F2020. Default
-         value is None.
+        :param query_start_time: Specifies from when to return events (default is 3 days), based on the
+         lastUpdateTime property. For example, queryStartTime = 7/24/2020 OR
+         queryStartTime=7%2F24%2F2020. Default value is None.
         :type query_start_time: str
         :return: An iterator like instance of either Event or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.resourcehealth.models.Event]
@@ -165,7 +164,7 @@ class EventsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.Events] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -238,9 +237,9 @@ class EventsOperations:
          https://docs.microsoft.com/en-us/rest/api/apimanagement/apis?redirectedfrom=MSDN. Default value
          is None.
         :type filter: str
-        :param query_start_time: Specifies from when to return events, based on the lastUpdateTime
-         property. For example, queryStartTime = 7/24/2020 OR queryStartTime=7%2F24%2F2020. Default
-         value is None.
+        :param query_start_time: Specifies from when to return events (default is 3 days), based on the
+         lastUpdateTime property. For example, queryStartTime = 7/24/2020 OR
+         queryStartTime=7%2F24%2F2020. Default value is None.
         :type query_start_time: str
         :return: An iterator like instance of either Event or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.resourcehealth.models.Event]
@@ -252,7 +251,7 @@ class EventsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.Events] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -318,6 +317,7 @@ class EventsOperations:
     def list_by_single_resource(
         self, resource_uri: str, filter: Optional[str] = None, **kwargs: Any
     ) -> Iterable["_models.Event"]:
+        # pylint: disable=line-too-long
         """Lists current service health events for given resource.
 
         :param resource_uri: The fully qualified ID of the resource, including the resource name and
@@ -341,7 +341,7 @@ class EventsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.Events] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,

@@ -37,6 +37,6 @@ def main():
         print(item)
 
 
-# x-ms-original-file: specification/resourcehealth/resource-manager/Microsoft.ResourceHealth/preview/2023-10-01-preview/examples/ImpactedResources_ListByTenantId_ListByEventId.json
+# x-ms-original-file: specification/resourcehealth/resource-manager/Microsoft.ResourceHealth/stable/2025-04-01/examples/ImpactedResources_ListByTenantId_ListByEventId.json
 if __name__ == "__main__":
     main()
