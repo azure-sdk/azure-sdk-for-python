@@ -12,8 +12,8 @@ import re
 from setuptools import setup, find_packages
 
 
-PACKAGE_NAME = "azure-developer-devcenter"
-PACKAGE_PPRINT_NAME = "Azure Developer Devcenter"
+PACKAGE_NAME = "devcenterservice"
+PACKAGE_PPRINT_NAME = "Devcenterservice"
 
 # a-b-c => a/b/c
 package_folder_path = PACKAGE_NAME.replace("-", "/")
@@ -53,14 +53,11 @@ setup(
     packages=find_packages(
         exclude=[
             "tests",
-            # Exclude packages that will be covered by PEP420 or nspkg
-            "azure",
-            "azure.developer",
         ]
     ),
     include_package_data=True,
     package_data={
-        "azure.developer.devcenter": ["py.typed"],
+        "devcenterservice": ["py.typed"],
     },
     install_requires=[
         "isodate>=0.6.1",
