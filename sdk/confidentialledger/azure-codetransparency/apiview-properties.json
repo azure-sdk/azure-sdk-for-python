@@ -1,0 +1,11 @@
+{
+    "CrossLanguagePackageId": "Microsoft.CodeTransparency",
+    "CrossLanguageDefinitionId": {
+        "microsoft.codetransparency.CodeTransparencyClient.get_transparency_config_cbor": "Microsoft.CodeTransparency.getTransparencyConfigCbor",
+        "microsoft.codetransparency.CodeTransparencyClient.get_public_keys": "Microsoft.CodeTransparency.getPublicKeys",
+        "microsoft.codetransparency.CodeTransparencyClient.create_entry": "Microsoft.CodeTransparency.createEntry",
+        "microsoft.codetransparency.CodeTransparencyClient.get_operation": "Microsoft.CodeTransparency.getOperation",
+        "microsoft.codetransparency.CodeTransparencyClient.get_entry": "Microsoft.CodeTransparency.getEntry",
+        "microsoft.codetransparency.CodeTransparencyClient.get_entry_statement": "Microsoft.CodeTransparency.getEntryStatement"
+    }
+}
