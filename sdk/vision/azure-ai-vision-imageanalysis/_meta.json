@@ -1,6 +1,6 @@
 {
-  "commit": "bef35d01d2572ba131d7f2d4cd8d6313ec649525",
+  "commit": "216cc05a932c0770a40b19ebafd0c76a5c17809b",
   "repository_url": "https://github.com/Azure/azure-rest-api-specs",
-  "typespec_src": "specification/cognitiveservices/Vision.ImageAnalysis",
-  "@azure-tools/typespec-python": "0.15.0"
+  "typespec_src": "specification/ai/ImageAnalysis",
+  "@azure-tools/typespec-python": "0.40.0"
 }
