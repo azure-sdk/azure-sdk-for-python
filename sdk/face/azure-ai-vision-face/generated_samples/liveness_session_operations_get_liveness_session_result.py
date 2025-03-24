@@ -6,18 +6,18 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from azure.ai.vision.face import FaceAdministrationClient
+from face import FaceSessionClient
 
 """
 # PREREQUISITES
-    pip install azure-ai-vision-face
+    pip install face
 # USAGE
     python liveness_session_operations_get_liveness_session_result.py
 """
 
 
 def main():
-    client = FaceAdministrationClient(
+    client = FaceClient(
         endpoint="ENDPOINT",
         credential="CREDENTIAL",
     )
@@ -28,6 +28,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: v1.2-preview.1/LivenessSessionOperations_GetLivenessSessionResult.json
+# x-ms-original-file: v1.2/LivenessSessionOperations_GetLivenessSessionResult.json
 if __name__ == "__main__":
     main()
