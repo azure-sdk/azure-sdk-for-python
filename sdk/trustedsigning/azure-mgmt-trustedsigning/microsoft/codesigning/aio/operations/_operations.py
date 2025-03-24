@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines,too-many-statements
+# pylint: disable=too-many-lines
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -9,23 +9,10 @@
 from io import IOBase
 import json
 import sys
-from typing import (
-    Any,
-    AsyncIterable,
-    AsyncIterator,
-    Callable,
-    Dict,
-    IO,
-    List,
-    Optional,
-    Type,
-    TypeVar,
-    Union,
-    cast,
-    overload,
-)
+from typing import Any, AsyncIterable, AsyncIterator, Callable, Dict, IO, List, Optional, TypeVar, Union, cast, overload
 import urllib.parse
 
+from azure.core import AsyncPipelineClient
 from azure.core.async_paging import AsyncItemPaged, AsyncList
 from azure.core.exceptions import (
     ClientAuthenticationError,
@@ -47,7 +34,8 @@ from azure.mgmt.core.exceptions import ARMErrorFormat
 from azure.mgmt.core.polling.async_arm_polling import AsyncARMPolling
 
 from ... import models as _models
-from ..._model_base import SdkJSONEncoder, _deserialize
+from ..._model_base import SdkJSONEncoder, _deserialize, _failsafe_deserialize
+from ..._serialization import Deserializer, Serializer
 from ...operations._operations import (
     build_certificate_profiles_create_request,
     build_certificate_profiles_delete_request,
@@ -63,11 +51,12 @@ from ...operations._operations import (
     build_code_signing_accounts_update_request,
     build_operations_list_request,
 )
+from .._configuration import TrustedSigningMgmtClientConfiguration
 
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 JSON = MutableMapping[str, Any]  # pylint: disable=unsubscriptable-object
@@ -79,23 +68,23 @@ class Operations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.trustedsigning.aio.TrustedSigningMgmtClient`'s
+        :class:`~microsoft.codesigning.aio.TrustedSigningMgmtClient`'s
         :attr:`operations` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
-        self._client = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config = input_args.pop(0) if input_args else kwargs.pop("config")
-        self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
-        self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
+        self._client: AsyncPipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
+        self._config: TrustedSigningMgmtClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
+        self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
     @distributed_trace
     def list(self, **kwargs: Any) -> AsyncIterable["_models.Operation"]:
         """List the operations for the provider.
 
         :return: An iterator like instance of Operation
-        :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.trustedsigning.models.Operation]
+        :rtype: ~azure.core.async_paging.AsyncItemPaged[~microsoft.codesigning.models.Operation]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
@@ -103,7 +92,7 @@ class Operations:
 
         cls: ClsType[List[_models.Operation]] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {  # pylint: disable=unsubscriptable-object
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -150,7 +139,7 @@ class Operations:
 
         async def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.Operation], deserialized["value"])
+            list_of_elem = _deserialize(List[_models.Operation], deserialized.get("value", []))
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
             return deserialized.get("nextLink") or None, AsyncList(list_of_elem)
@@ -166,7 +155,7 @@ class Operations:
 
             if response.status_code not in [200]:
                 map_error(status_code=response.status_code, response=response, error_map=error_map)
-                error = _deserialize(_models.ErrorResponse, response.json())
+                error = _failsafe_deserialize(_models.ErrorResponse, response.json())
                 raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
             return pipeline_response
@@ -180,16 +169,16 @@ class CodeSigningAccountsOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.trustedsigning.aio.TrustedSigningMgmtClient`'s
+        :class:`~microsoft.codesigning.aio.TrustedSigningMgmtClient`'s
         :attr:`code_signing_accounts` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
-        self._client = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config = input_args.pop(0) if input_args else kwargs.pop("config")
-        self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
-        self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
+        self._client: AsyncPipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
+        self._config: TrustedSigningMgmtClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
+        self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
     @distributed_trace_async
     async def get(self, resource_group_name: str, account_name: str, **kwargs: Any) -> _models.CodeSigningAccount:
@@ -201,10 +190,10 @@ class CodeSigningAccountsOperations:
         :param account_name: Trusted Signing account name. Required.
         :type account_name: str
         :return: CodeSigningAccount. The CodeSigningAccount is compatible with MutableMapping
-        :rtype: ~azure.mgmt.trustedsigning.models.CodeSigningAccount
+        :rtype: ~microsoft.codesigning.models.CodeSigningAccount
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {  # pylint: disable=unsubscriptable-object
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -244,7 +233,7 @@ class CodeSigningAccountsOperations:
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.ErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if _stream:
@@ -264,7 +253,7 @@ class CodeSigningAccountsOperations:
         resource: Union[_models.CodeSigningAccount, JSON, IO[bytes]],
         **kwargs: Any
     ) -> AsyncIterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {  # pylint: disable=unsubscriptable-object
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -313,7 +302,7 @@ class CodeSigningAccountsOperations:
             except (StreamConsumedError, StreamClosedError):
                 pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.ErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         response_headers = {}
@@ -345,14 +334,13 @@ class CodeSigningAccountsOperations:
         :param account_name: Trusted Signing account name. Required.
         :type account_name: str
         :param resource: Parameters to create the trusted signing account. Required.
-        :type resource: ~azure.mgmt.trustedsigning.models.CodeSigningAccount
+        :type resource: ~microsoft.codesigning.models.CodeSigningAccount
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :return: An instance of AsyncLROPoller that returns CodeSigningAccount. The CodeSigningAccount
          is compatible with MutableMapping
-        :rtype:
-         ~azure.core.polling.AsyncLROPoller[~azure.mgmt.trustedsigning.models.CodeSigningAccount]
+        :rtype: ~azure.core.polling.AsyncLROPoller[~microsoft.codesigning.models.CodeSigningAccount]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -380,8 +368,7 @@ class CodeSigningAccountsOperations:
         :paramtype content_type: str
         :return: An instance of AsyncLROPoller that returns CodeSigningAccount. The CodeSigningAccount
          is compatible with MutableMapping
-        :rtype:
-         ~azure.core.polling.AsyncLROPoller[~azure.mgmt.trustedsigning.models.CodeSigningAccount]
+        :rtype: ~azure.core.polling.AsyncLROPoller[~microsoft.codesigning.models.CodeSigningAccount]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -409,8 +396,7 @@ class CodeSigningAccountsOperations:
         :paramtype content_type: str
         :return: An instance of AsyncLROPoller that returns CodeSigningAccount. The CodeSigningAccount
          is compatible with MutableMapping
-        :rtype:
-         ~azure.core.polling.AsyncLROPoller[~azure.mgmt.trustedsigning.models.CodeSigningAccount]
+        :rtype: ~azure.core.polling.AsyncLROPoller[~microsoft.codesigning.models.CodeSigningAccount]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -431,11 +417,10 @@ class CodeSigningAccountsOperations:
         :type account_name: str
         :param resource: Parameters to create the trusted signing account. Is one of the following
          types: CodeSigningAccount, JSON, IO[bytes] Required.
-        :type resource: ~azure.mgmt.trustedsigning.models.CodeSigningAccount or JSON or IO[bytes]
+        :type resource: ~microsoft.codesigning.models.CodeSigningAccount or JSON or IO[bytes]
         :return: An instance of AsyncLROPoller that returns CodeSigningAccount. The CodeSigningAccount
          is compatible with MutableMapping
-        :rtype:
-         ~azure.core.polling.AsyncLROPoller[~azure.mgmt.trustedsigning.models.CodeSigningAccount]
+        :rtype: ~azure.core.polling.AsyncLROPoller[~microsoft.codesigning.models.CodeSigningAccount]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -497,7 +482,7 @@ class CodeSigningAccountsOperations:
         properties: Union[_models.CodeSigningAccountPatch, JSON, IO[bytes]],
         **kwargs: Any
     ) -> AsyncIterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {  # pylint: disable=unsubscriptable-object
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -546,7 +531,7 @@ class CodeSigningAccountsOperations:
             except (StreamConsumedError, StreamClosedError):
                 pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.ErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         response_headers = {}
@@ -579,14 +564,13 @@ class CodeSigningAccountsOperations:
         :param account_name: Trusted Signing account name. Required.
         :type account_name: str
         :param properties: Parameters supplied to update the trusted signing account. Required.
-        :type properties: ~azure.mgmt.trustedsigning.models.CodeSigningAccountPatch
+        :type properties: ~microsoft.codesigning.models.CodeSigningAccountPatch
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :return: An instance of AsyncLROPoller that returns CodeSigningAccount. The CodeSigningAccount
          is compatible with MutableMapping
-        :rtype:
-         ~azure.core.polling.AsyncLROPoller[~azure.mgmt.trustedsigning.models.CodeSigningAccount]
+        :rtype: ~azure.core.polling.AsyncLROPoller[~microsoft.codesigning.models.CodeSigningAccount]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -614,8 +598,7 @@ class CodeSigningAccountsOperations:
         :paramtype content_type: str
         :return: An instance of AsyncLROPoller that returns CodeSigningAccount. The CodeSigningAccount
          is compatible with MutableMapping
-        :rtype:
-         ~azure.core.polling.AsyncLROPoller[~azure.mgmt.trustedsigning.models.CodeSigningAccount]
+        :rtype: ~azure.core.polling.AsyncLROPoller[~microsoft.codesigning.models.CodeSigningAccount]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -643,8 +626,7 @@ class CodeSigningAccountsOperations:
         :paramtype content_type: str
         :return: An instance of AsyncLROPoller that returns CodeSigningAccount. The CodeSigningAccount
          is compatible with MutableMapping
-        :rtype:
-         ~azure.core.polling.AsyncLROPoller[~azure.mgmt.trustedsigning.models.CodeSigningAccount]
+        :rtype: ~azure.core.polling.AsyncLROPoller[~microsoft.codesigning.models.CodeSigningAccount]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -665,12 +647,10 @@ class CodeSigningAccountsOperations:
         :type account_name: str
         :param properties: Parameters supplied to update the trusted signing account. Is one of the
          following types: CodeSigningAccountPatch, JSON, IO[bytes] Required.
-        :type properties: ~azure.mgmt.trustedsigning.models.CodeSigningAccountPatch or JSON or
-         IO[bytes]
+        :type properties: ~microsoft.codesigning.models.CodeSigningAccountPatch or JSON or IO[bytes]
         :return: An instance of AsyncLROPoller that returns CodeSigningAccount. The CodeSigningAccount
          is compatible with MutableMapping
-        :rtype:
-         ~azure.core.polling.AsyncLROPoller[~azure.mgmt.trustedsigning.models.CodeSigningAccount]
+        :rtype: ~azure.core.polling.AsyncLROPoller[~microsoft.codesigning.models.CodeSigningAccount]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -726,7 +706,7 @@ class CodeSigningAccountsOperations:
         )
 
     async def _delete_initial(self, resource_group_name: str, account_name: str, **kwargs: Any) -> AsyncIterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {  # pylint: disable=unsubscriptable-object
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -765,7 +745,7 @@ class CodeSigningAccountsOperations:
             except (StreamConsumedError, StreamClosedError):
                 pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.ErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         response_headers = {}
@@ -848,7 +828,7 @@ class CodeSigningAccountsOperations:
         :type resource_group_name: str
         :return: An iterator like instance of CodeSigningAccount
         :rtype:
-         ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.trustedsigning.models.CodeSigningAccount]
+         ~azure.core.async_paging.AsyncItemPaged[~microsoft.codesigning.models.CodeSigningAccount]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
@@ -856,7 +836,7 @@ class CodeSigningAccountsOperations:
 
         cls: ClsType[List[_models.CodeSigningAccount]] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {  # pylint: disable=unsubscriptable-object
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -905,7 +885,7 @@ class CodeSigningAccountsOperations:
 
         async def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.CodeSigningAccount], deserialized["value"])
+            list_of_elem = _deserialize(List[_models.CodeSigningAccount], deserialized.get("value", []))
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
             return deserialized.get("nextLink") or None, AsyncList(list_of_elem)
@@ -921,7 +901,7 @@ class CodeSigningAccountsOperations:
 
             if response.status_code not in [200]:
                 map_error(status_code=response.status_code, response=response, error_map=error_map)
-                error = _deserialize(_models.ErrorResponse, response.json())
+                error = _failsafe_deserialize(_models.ErrorResponse, response.json())
                 raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
             return pipeline_response
@@ -934,7 +914,7 @@ class CodeSigningAccountsOperations:
 
         :return: An iterator like instance of CodeSigningAccount
         :rtype:
-         ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.trustedsigning.models.CodeSigningAccount]
+         ~azure.core.async_paging.AsyncItemPaged[~microsoft.codesigning.models.CodeSigningAccount]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
@@ -942,7 +922,7 @@ class CodeSigningAccountsOperations:
 
         cls: ClsType[List[_models.CodeSigningAccount]] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {  # pylint: disable=unsubscriptable-object
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -990,7 +970,7 @@ class CodeSigningAccountsOperations:
 
         async def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.CodeSigningAccount], deserialized["value"])
+            list_of_elem = _deserialize(List[_models.CodeSigningAccount], deserialized.get("value", []))
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
             return deserialized.get("nextLink") or None, AsyncList(list_of_elem)
@@ -1006,7 +986,7 @@ class CodeSigningAccountsOperations:
 
             if response.status_code not in [200]:
                 map_error(status_code=response.status_code, response=response, error_map=error_map)
-                error = _deserialize(_models.ErrorResponse, response.json())
+                error = _failsafe_deserialize(_models.ErrorResponse, response.json())
                 raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
             return pipeline_response
@@ -1020,13 +1000,13 @@ class CodeSigningAccountsOperations:
         """Checks that the trusted signing account name is valid and is not already in use.
 
         :param body: The CheckAvailability request. Required.
-        :type body: ~azure.mgmt.trustedsigning.models.CheckNameAvailability
+        :type body: ~microsoft.codesigning.models.CheckNameAvailability
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :return: CheckNameAvailabilityResult. The CheckNameAvailabilityResult is compatible with
          MutableMapping
-        :rtype: ~azure.mgmt.trustedsigning.models.CheckNameAvailabilityResult
+        :rtype: ~microsoft.codesigning.models.CheckNameAvailabilityResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -1043,7 +1023,7 @@ class CodeSigningAccountsOperations:
         :paramtype content_type: str
         :return: CheckNameAvailabilityResult. The CheckNameAvailabilityResult is compatible with
          MutableMapping
-        :rtype: ~azure.mgmt.trustedsigning.models.CheckNameAvailabilityResult
+        :rtype: ~microsoft.codesigning.models.CheckNameAvailabilityResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -1060,7 +1040,7 @@ class CodeSigningAccountsOperations:
         :paramtype content_type: str
         :return: CheckNameAvailabilityResult. The CheckNameAvailabilityResult is compatible with
          MutableMapping
-        :rtype: ~azure.mgmt.trustedsigning.models.CheckNameAvailabilityResult
+        :rtype: ~microsoft.codesigning.models.CheckNameAvailabilityResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -1072,13 +1052,13 @@ class CodeSigningAccountsOperations:
 
         :param body: The CheckAvailability request. Is one of the following types:
          CheckNameAvailability, JSON, IO[bytes] Required.
-        :type body: ~azure.mgmt.trustedsigning.models.CheckNameAvailability or JSON or IO[bytes]
+        :type body: ~microsoft.codesigning.models.CheckNameAvailability or JSON or IO[bytes]
         :return: CheckNameAvailabilityResult. The CheckNameAvailabilityResult is compatible with
          MutableMapping
-        :rtype: ~azure.mgmt.trustedsigning.models.CheckNameAvailabilityResult
+        :rtype: ~microsoft.codesigning.models.CheckNameAvailabilityResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {  # pylint: disable=unsubscriptable-object
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1126,7 +1106,7 @@ class CodeSigningAccountsOperations:
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.ErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if _stream:
@@ -1146,16 +1126,16 @@ class CertificateProfilesOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.trustedsigning.aio.TrustedSigningMgmtClient`'s
+        :class:`~microsoft.codesigning.aio.TrustedSigningMgmtClient`'s
         :attr:`certificate_profiles` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
-        self._client = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config = input_args.pop(0) if input_args else kwargs.pop("config")
-        self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
-        self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
+        self._client: AsyncPipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
+        self._config: TrustedSigningMgmtClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
+        self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
     @distributed_trace_async
     async def get(
@@ -1171,10 +1151,10 @@ class CertificateProfilesOperations:
         :param profile_name: Certificate profile name. Required.
         :type profile_name: str
         :return: CertificateProfile. The CertificateProfile is compatible with MutableMapping
-        :rtype: ~azure.mgmt.trustedsigning.models.CertificateProfile
+        :rtype: ~microsoft.codesigning.models.CertificateProfile
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {  # pylint: disable=unsubscriptable-object
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1215,7 +1195,7 @@ class CertificateProfilesOperations:
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.ErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if _stream:
@@ -1236,7 +1216,7 @@ class CertificateProfilesOperations:
         resource: Union[_models.CertificateProfile, JSON, IO[bytes]],
         **kwargs: Any
     ) -> AsyncIterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {  # pylint: disable=unsubscriptable-object
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1286,7 +1266,7 @@ class CertificateProfilesOperations:
             except (StreamConsumedError, StreamClosedError):
                 pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.ErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         response_headers = {}
@@ -1321,14 +1301,13 @@ class CertificateProfilesOperations:
         :param profile_name: Certificate profile name. Required.
         :type profile_name: str
         :param resource: Parameters to create the certificate profile. Required.
-        :type resource: ~azure.mgmt.trustedsigning.models.CertificateProfile
+        :type resource: ~microsoft.codesigning.models.CertificateProfile
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :return: An instance of AsyncLROPoller that returns CertificateProfile. The CertificateProfile
          is compatible with MutableMapping
-        :rtype:
-         ~azure.core.polling.AsyncLROPoller[~azure.mgmt.trustedsigning.models.CertificateProfile]
+        :rtype: ~azure.core.polling.AsyncLROPoller[~microsoft.codesigning.models.CertificateProfile]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -1359,8 +1338,7 @@ class CertificateProfilesOperations:
         :paramtype content_type: str
         :return: An instance of AsyncLROPoller that returns CertificateProfile. The CertificateProfile
          is compatible with MutableMapping
-        :rtype:
-         ~azure.core.polling.AsyncLROPoller[~azure.mgmt.trustedsigning.models.CertificateProfile]
+        :rtype: ~azure.core.polling.AsyncLROPoller[~microsoft.codesigning.models.CertificateProfile]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -1391,8 +1369,7 @@ class CertificateProfilesOperations:
         :paramtype content_type: str
         :return: An instance of AsyncLROPoller that returns CertificateProfile. The CertificateProfile
          is compatible with MutableMapping
-        :rtype:
-         ~azure.core.polling.AsyncLROPoller[~azure.mgmt.trustedsigning.models.CertificateProfile]
+        :rtype: ~azure.core.polling.AsyncLROPoller[~microsoft.codesigning.models.CertificateProfile]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -1416,11 +1393,10 @@ class CertificateProfilesOperations:
         :type profile_name: str
         :param resource: Parameters to create the certificate profile. Is one of the following types:
          CertificateProfile, JSON, IO[bytes] Required.
-        :type resource: ~azure.mgmt.trustedsigning.models.CertificateProfile or JSON or IO[bytes]
+        :type resource: ~microsoft.codesigning.models.CertificateProfile or JSON or IO[bytes]
         :return: An instance of AsyncLROPoller that returns CertificateProfile. The CertificateProfile
          is compatible with MutableMapping
-        :rtype:
-         ~azure.core.polling.AsyncLROPoller[~azure.mgmt.trustedsigning.models.CertificateProfile]
+        :rtype: ~azure.core.polling.AsyncLROPoller[~microsoft.codesigning.models.CertificateProfile]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -1479,7 +1455,7 @@ class CertificateProfilesOperations:
     async def _delete_initial(
         self, resource_group_name: str, account_name: str, profile_name: str, **kwargs: Any
     ) -> AsyncIterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {  # pylint: disable=unsubscriptable-object
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1519,7 +1495,7 @@ class CertificateProfilesOperations:
             except (StreamConsumedError, StreamClosedError):
                 pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.ErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         response_headers = {}
@@ -1609,7 +1585,7 @@ class CertificateProfilesOperations:
         :type account_name: str
         :return: An iterator like instance of CertificateProfile
         :rtype:
-         ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.trustedsigning.models.CertificateProfile]
+         ~azure.core.async_paging.AsyncItemPaged[~microsoft.codesigning.models.CertificateProfile]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
@@ -1617,7 +1593,7 @@ class CertificateProfilesOperations:
 
         cls: ClsType[List[_models.CertificateProfile]] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {  # pylint: disable=unsubscriptable-object
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1667,7 +1643,7 @@ class CertificateProfilesOperations:
 
         async def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.CertificateProfile], deserialized["value"])
+            list_of_elem = _deserialize(List[_models.CertificateProfile], deserialized.get("value", []))
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
             return deserialized.get("nextLink") or None, AsyncList(list_of_elem)
@@ -1683,7 +1659,7 @@ class CertificateProfilesOperations:
 
             if response.status_code not in [200]:
                 map_error(status_code=response.status_code, response=response, error_map=error_map)
-                error = _deserialize(_models.ErrorResponse, response.json())
+                error = _failsafe_deserialize(_models.ErrorResponse, response.json())
                 raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
             return pipeline_response
@@ -1691,7 +1667,7 @@ class CertificateProfilesOperations:
         return AsyncItemPaged(get_next, extract_data)
 
     @overload
-    async def revoke_certificate(  # pylint: disable=inconsistent-return-statements
+    async def revoke_certificate(
         self,
         resource_group_name: str,
         account_name: str,
@@ -1711,7 +1687,7 @@ class CertificateProfilesOperations:
         :param profile_name: Certificate profile name. Required.
         :type profile_name: str
         :param body: Parameters to revoke the certificate profile. Required.
-        :type body: ~azure.mgmt.trustedsigning.models.RevokeCertificate
+        :type body: ~microsoft.codesigning.models.RevokeCertificate
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
@@ -1721,7 +1697,7 @@ class CertificateProfilesOperations:
         """
 
     @overload
-    async def revoke_certificate(  # pylint: disable=inconsistent-return-statements
+    async def revoke_certificate(
         self,
         resource_group_name: str,
         account_name: str,
@@ -1751,7 +1727,7 @@ class CertificateProfilesOperations:
         """
 
     @overload
-    async def revoke_certificate(  # pylint: disable=inconsistent-return-statements
+    async def revoke_certificate(
         self,
         resource_group_name: str,
         account_name: str,
@@ -1781,7 +1757,7 @@ class CertificateProfilesOperations:
         """
 
     @distributed_trace_async
-    async def revoke_certificate(  # pylint: disable=inconsistent-return-statements
+    async def revoke_certificate(
         self,
         resource_group_name: str,
         account_name: str,
@@ -1800,12 +1776,12 @@ class CertificateProfilesOperations:
         :type profile_name: str
         :param body: Parameters to revoke the certificate profile. Is one of the following types:
          RevokeCertificate, JSON, IO[bytes] Required.
-        :type body: ~azure.mgmt.trustedsigning.models.RevokeCertificate or JSON or IO[bytes]
+        :type body: ~microsoft.codesigning.models.RevokeCertificate or JSON or IO[bytes]
         :return: None
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {  # pylint: disable=unsubscriptable-object
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1851,7 +1827,7 @@ class CertificateProfilesOperations:
 
         if response.status_code not in [204]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.ErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if cls:

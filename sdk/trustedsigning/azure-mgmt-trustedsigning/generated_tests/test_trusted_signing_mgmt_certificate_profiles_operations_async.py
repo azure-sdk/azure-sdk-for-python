@@ -6,7 +6,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 import pytest
-from azure.mgmt.trustedsigning.aio import TrustedSigningMgmtClient
+from microsoft.codesigning.aio import TrustedSigningMgmtClient
 
 from devtools_testutils import AzureMgmtRecordedTestCase, RandomNameResourceGroupPreparer
 from devtools_testutils.aio import recorded_by_proxy_async
@@ -43,10 +43,12 @@ class TestTrustedSigningMgmtCertificateProfilesOperationsAsync(AzureMgmtRecorded
                     "id": "str",
                     "name": "str",
                     "properties": {
+                        "identityValidationId": "str",
                         "profileType": "str",
                         "certificates": [
                             {
                                 "createdDate": "str",
+                                "enhancedKeyUsage": "str",
                                 "expiryDate": "str",
                                 "revocation": {
                                     "effectiveAt": "2020-02-20 00:00:00",
@@ -62,23 +64,13 @@ class TestTrustedSigningMgmtCertificateProfilesOperationsAsync(AzureMgmtRecorded
                                 "thumbprint": "str",
                             }
                         ],
-                        "city": "str",
-                        "commonName": "str",
-                        "country": "str",
-                        "enhancedKeyUsage": "str",
-                        "identityValidationId": "str",
                         "includeCity": bool,
                         "includeCountry": bool,
                         "includePostalCode": bool,
                         "includeState": bool,
                         "includeStreetAddress": bool,
-                        "organization": "str",
-                        "organizationUnit": "str",
-                        "postalCode": "str",
                         "provisioningState": "str",
-                        "state": "str",
                         "status": "str",
-                        "streetAddress": "str",
                     },
                     "systemData": {
                         "createdAt": "2020-02-20 00:00:00",
