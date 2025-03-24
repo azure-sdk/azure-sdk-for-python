@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8,12 +9,12 @@
 
 from azure.identity import DefaultAzureCredential
 
-from azure.mgmt.computeschedule import ComputeScheduleMgmtClient
+from microsoft.computeschedule import ComputeScheduleMgmtClient
 
 """
 # PREREQUISITES
     pip install azure-identity
-    pip install azure-mgmt-computeschedule
+    pip install microsoft-computeschedule
 # USAGE
     python scheduled_actions_virtual_machines_execute_hibernate.py
 
