@@ -1,0 +1,6 @@
+{
+  "commit": "216cc05a932c0770a40b19ebafd0c76a5c17809b",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/edge/Microsoft.Edge.Management",
+  "@azure-tools/typespec-python": "0.40.0"
+}
