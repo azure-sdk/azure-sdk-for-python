@@ -12,8 +12,8 @@ import re
 from setuptools import setup, find_packages
 
 
-PACKAGE_NAME = "azure-ai-vision-imageanalysis"
-PACKAGE_PPRINT_NAME = "Azure Ai Vision Imageanalysis"
+PACKAGE_NAME = "imageanalysis"
+PACKAGE_PPRINT_NAME = "Imageanalysis"
 
 # a-b-c => a/b/c
 package_folder_path = PACKAGE_NAME.replace("-", "/")
@@ -38,7 +38,7 @@ setup(
     url="https://github.com/Azure/azure-sdk-for-python/tree/main/sdk",
     keywords="azure, azure sdk",
     classifiers=[
-        "Development Status :: 5 - Production/Stable",
+        "Development Status :: 4 - Beta",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3 :: Only",
         "Programming Language :: Python :: 3",
@@ -53,15 +53,11 @@ setup(
     packages=find_packages(
         exclude=[
             "tests",
-            # Exclude packages that will be covered by PEP420 or nspkg
-            "azure",
-            "azure.ai",
-            "azure.ai.vision",
         ]
     ),
     include_package_data=True,
     package_data={
-        "azure.ai.vision.imageanalysis": ["py.typed"],
+        "imageanalysis": ["py.typed"],
     },
     install_requires=[
         "isodate>=0.6.1",
