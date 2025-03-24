@@ -11,10 +11,10 @@ from typing import Any, TYPE_CHECKING, Union
 from azure.core.credentials import AzureKeyCredential
 from azure.core.pipeline import policies
 
-from ._version import VERSION
+from .._version import VERSION
 
 if TYPE_CHECKING:
-    from azure.core.credentials import TokenCredential
+    from azure.core.credentials_async import AsyncTokenCredential
 
 
 class NotificationMessagesClientConfiguration:  # pylint: disable=too-many-instance-attributes
@@ -24,11 +24,12 @@ class NotificationMessagesClientConfiguration:  # pylint: disable=too-many-insta
     attributes.
 
     :param endpoint: The communication resource, for example
-     https://my-resource.communication.azure.com. Required.
+     `https://my-resource.communication.azure.com <https://my-resource.communication.azure.com>`_.
+     Required.
     :type endpoint: str
     :param credential: Credential used to authenticate requests to the service. Is either a token
-     credential type or a AzureKeyCredential type. Required.
-    :type credential: ~azure.core.credentials.TokenCredential or
+     credential type or a key credential type. Required.
+    :type credential: ~azure.core.credentials_async.AsyncTokenCredential or
      ~azure.core.credentials.AzureKeyCredential
     :keyword api_version: The API version to use for this operation. Default value is
      "2025-01-15-preview". Note that overriding this default value may result in unsupported
@@ -36,7 +37,9 @@ class NotificationMessagesClientConfiguration:  # pylint: disable=too-many-insta
     :paramtype api_version: str
     """
 
-    def __init__(self, endpoint: str, credential: Union["TokenCredential", AzureKeyCredential], **kwargs: Any) -> None:
+    def __init__(
+        self, endpoint: str, credential: Union["AsyncTokenCredential", AzureKeyCredential], **kwargs: Any
+    ) -> None:
         api_version: str = kwargs.pop("api_version", "2025-01-15-preview")
 
         if endpoint is None:
@@ -48,13 +51,13 @@ class NotificationMessagesClientConfiguration:  # pylint: disable=too-many-insta
         self.credential = credential
         self.api_version = api_version
         self.credential_scopes = kwargs.pop("credential_scopes", ["https://communication.azure.com/.default"])
-        kwargs.setdefault("sdk_moniker", "communication-messages/{}".format(VERSION))
+        kwargs.setdefault("sdk_moniker", "communication-messagesservice/{}".format(VERSION))
         self.polling_interval = kwargs.get("polling_interval", 30)
         self._configure(**kwargs)
 
     def _infer_policy(self, **kwargs):
         if hasattr(self.credential, "get_token"):
-            return policies.BearerTokenCredentialPolicy(self.credential, *self.credential_scopes, **kwargs)
+            return policies.AsyncBearerTokenCredentialPolicy(self.credential, *self.credential_scopes, **kwargs)
         if isinstance(self.credential, AzureKeyCredential):
             return policies.AzureKeyCredentialPolicy(self.credential, "Authorization", **kwargs)
         raise TypeError(f"Unsupported credential: {self.credential}")
@@ -66,8 +69,8 @@ class NotificationMessagesClientConfiguration:  # pylint: disable=too-many-insta
         self.logging_policy = kwargs.get("logging_policy") or policies.NetworkTraceLoggingPolicy(**kwargs)
         self.http_logging_policy = kwargs.get("http_logging_policy") or policies.HttpLoggingPolicy(**kwargs)
         self.custom_hook_policy = kwargs.get("custom_hook_policy") or policies.CustomHookPolicy(**kwargs)
-        self.redirect_policy = kwargs.get("redirect_policy") or policies.RedirectPolicy(**kwargs)
-        self.retry_policy = kwargs.get("retry_policy") or policies.RetryPolicy(**kwargs)
+        self.redirect_policy = kwargs.get("redirect_policy") or policies.AsyncRedirectPolicy(**kwargs)
+        self.retry_policy = kwargs.get("retry_policy") or policies.AsyncRetryPolicy(**kwargs)
         self.authentication_policy = kwargs.get("authentication_policy")
         if self.credential and not self.authentication_policy:
             self.authentication_policy = self._infer_policy(**kwargs)
@@ -80,11 +83,12 @@ class MessageTemplateClientConfiguration:  # pylint: disable=too-many-instance-a
     attributes.
 
     :param endpoint: The communication resource, for example
-     https://my-resource.communication.azure.com. Required.
+     `https://my-resource.communication.azure.com <https://my-resource.communication.azure.com>`_.
+     Required.
     :type endpoint: str
     :param credential: Credential used to authenticate requests to the service. Is either a token
-     credential type or a AzureKeyCredential type. Required.
-    :type credential: ~azure.core.credentials.TokenCredential or
+     credential type or a key credential type. Required.
+    :type credential: ~azure.core.credentials_async.AsyncTokenCredential or
      ~azure.core.credentials.AzureKeyCredential
     :keyword api_version: The API version to use for this operation. Default value is
      "2025-01-15-preview". Note that overriding this default value may result in unsupported
@@ -92,7 +96,9 @@ class MessageTemplateClientConfiguration:  # pylint: disable=too-many-instance-a
     :paramtype api_version: str
     """
 
-    def __init__(self, endpoint: str, credential: Union["TokenCredential", AzureKeyCredential], **kwargs: Any) -> None:
+    def __init__(
+        self, endpoint: str, credential: Union["AsyncTokenCredential", AzureKeyCredential], **kwargs: Any
+    ) -> None:
         api_version: str = kwargs.pop("api_version", "2025-01-15-preview")
 
         if endpoint is None:
@@ -104,13 +110,13 @@ class MessageTemplateClientConfiguration:  # pylint: disable=too-many-instance-a
         self.credential = credential
         self.api_version = api_version
         self.credential_scopes = kwargs.pop("credential_scopes", ["https://communication.azure.com/.default"])
-        kwargs.setdefault("sdk_moniker", "communication-messages/{}".format(VERSION))
+        kwargs.setdefault("sdk_moniker", "communication-messagesservice/{}".format(VERSION))
         self.polling_interval = kwargs.get("polling_interval", 30)
         self._configure(**kwargs)
 
     def _infer_policy(self, **kwargs):
         if hasattr(self.credential, "get_token"):
-            return policies.BearerTokenCredentialPolicy(self.credential, *self.credential_scopes, **kwargs)
+            return policies.AsyncBearerTokenCredentialPolicy(self.credential, *self.credential_scopes, **kwargs)
         if isinstance(self.credential, AzureKeyCredential):
             return policies.AzureKeyCredentialPolicy(self.credential, "Authorization", **kwargs)
         raise TypeError(f"Unsupported credential: {self.credential}")
@@ -122,8 +128,8 @@ class MessageTemplateClientConfiguration:  # pylint: disable=too-many-instance-a
         self.logging_policy = kwargs.get("logging_policy") or policies.NetworkTraceLoggingPolicy(**kwargs)
         self.http_logging_policy = kwargs.get("http_logging_policy") or policies.HttpLoggingPolicy(**kwargs)
         self.custom_hook_policy = kwargs.get("custom_hook_policy") or policies.CustomHookPolicy(**kwargs)
-        self.redirect_policy = kwargs.get("redirect_policy") or policies.RedirectPolicy(**kwargs)
-        self.retry_policy = kwargs.get("retry_policy") or policies.RetryPolicy(**kwargs)
+        self.redirect_policy = kwargs.get("redirect_policy") or policies.AsyncRedirectPolicy(**kwargs)
+        self.retry_policy = kwargs.get("retry_policy") or policies.AsyncRetryPolicy(**kwargs)
         self.authentication_policy = kwargs.get("authentication_policy")
         if self.credential and not self.authentication_policy:
             self.authentication_policy = self._infer_policy(**kwargs)
