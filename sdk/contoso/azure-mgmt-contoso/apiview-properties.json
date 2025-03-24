@@ -1,0 +1,26 @@
+{
+    "CrossLanguagePackageId": "Microsoft.Contoso",
+    "CrossLanguageDefinitionId": {
+        "microsoft.contoso.models.Resource": "Azure.ResourceManager.CommonTypes.Resource",
+        "microsoft.contoso.models.TrackedResource": "Azure.ResourceManager.CommonTypes.TrackedResource",
+        "microsoft.contoso.models.Employee": "Microsoft.Contoso.Employee",
+        "microsoft.contoso.models.EmployeeProperties": "Microsoft.Contoso.EmployeeProperties",
+        "microsoft.contoso.models.ErrorAdditionalInfo": "Azure.ResourceManager.CommonTypes.ErrorAdditionalInfo",
+        "microsoft.contoso.models.ErrorDetail": "Azure.ResourceManager.CommonTypes.ErrorDetail",
+        "microsoft.contoso.models.ErrorResponse": "Azure.ResourceManager.CommonTypes.ErrorResponse",
+        "microsoft.contoso.models.Operation": "Azure.ResourceManager.CommonTypes.Operation",
+        "microsoft.contoso.models.OperationDisplay": "Azure.ResourceManager.CommonTypes.OperationDisplay",
+        "microsoft.contoso.models.SystemData": "Azure.ResourceManager.CommonTypes.SystemData",
+        "microsoft.contoso.models.Origin": "Azure.ResourceManager.CommonTypes.Origin",
+        "microsoft.contoso.models.ActionType": "Azure.ResourceManager.CommonTypes.ActionType",
+        "microsoft.contoso.models.CreatedByType": "Azure.ResourceManager.CommonTypes.createdByType",
+        "microsoft.contoso.models.ProvisioningState": "Microsoft.Contoso.ProvisioningState",
+        "microsoft.contoso.ContosoClient.operations.list": "Azure.ResourceManager.Operations.list",
+        "microsoft.contoso.ContosoClient.employees.get": "Microsoft.Contoso.Employees.get",
+        "microsoft.contoso.ContosoClient.employees.begin_create_or_update": "Microsoft.Contoso.Employees.createOrUpdate",
+        "microsoft.contoso.ContosoClient.employees.update": "Microsoft.Contoso.Employees.update",
+        "microsoft.contoso.ContosoClient.employees.begin_delete": "Microsoft.Contoso.Employees.delete",
+        "microsoft.contoso.ContosoClient.employees.list_by_resource_group": "Microsoft.Contoso.Employees.listByResourceGroup",
+        "microsoft.contoso.ContosoClient.employees.list_by_subscription": "Microsoft.Contoso.Employees.listBySubscription"
+    }
+}
