@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.billingbenefits import BillingBenefitsRP
 
 """
@@ -26,6 +27,7 @@ from azure.mgmt.billingbenefits import BillingBenefitsRP
 def main():
     client = BillingBenefitsRP(
         credential=DefaultAzureCredential(),
+        subscription_id="SUBSCRIPTION_ID",
     )
 
     response = client.reservation_order_alias.begin_create(
@@ -52,6 +54,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/billingbenefits/resource-manager/Microsoft.BillingBenefits/stable/2022-11-01/examples/ReservationOrderAliasCreate.json
+# x-ms-original-file: specification/billingbenefits/resource-manager/Microsoft.BillingBenefits/preview/2024-11-01-preview/examples/ReservationOrderAliasCreate.json
 if __name__ == "__main__":
     main()
