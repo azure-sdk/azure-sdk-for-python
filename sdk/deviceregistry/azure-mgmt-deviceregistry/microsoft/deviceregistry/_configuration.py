@@ -9,12 +9,12 @@
 from typing import Any, TYPE_CHECKING
 
 from azure.core.pipeline import policies
-from azure.mgmt.core.policies import ARMHttpLoggingPolicy, AsyncARMChallengeAuthenticationPolicy
+from azure.mgmt.core.policies import ARMChallengeAuthenticationPolicy, ARMHttpLoggingPolicy
 
-from .._version import VERSION
+from ._version import VERSION
 
 if TYPE_CHECKING:
-    from azure.core.credentials_async import AsyncTokenCredential
+    from azure.core.credentials import TokenCredential
 
 
 class DeviceRegistryMgmtClientConfiguration:  # pylint: disable=too-many-instance-attributes
@@ -24,7 +24,7 @@ class DeviceRegistryMgmtClientConfiguration:  # pylint: disable=too-many-instanc
     attributes.
 
     :param credential: Credential used to authenticate requests to the service. Required.
-    :type credential: ~azure.core.credentials_async.AsyncTokenCredential
+    :type credential: ~azure.core.credentials.TokenCredential
     :param subscription_id: The ID of the target subscription. The value must be an UUID. Required.
     :type subscription_id: str
     :param base_url: Service host. Default value is "https://management.azure.com".
@@ -36,7 +36,7 @@ class DeviceRegistryMgmtClientConfiguration:  # pylint: disable=too-many-instanc
 
     def __init__(
         self,
-        credential: "AsyncTokenCredential",
+        credential: "TokenCredential",
         subscription_id: str,
         base_url: str = "https://management.azure.com",
         **kwargs: Any
@@ -53,7 +53,7 @@ class DeviceRegistryMgmtClientConfiguration:  # pylint: disable=too-many-instanc
         self.base_url = base_url
         self.api_version = api_version
         self.credential_scopes = kwargs.pop("credential_scopes", ["https://management.azure.com/.default"])
-        kwargs.setdefault("sdk_moniker", "mgmt-deviceregistry/{}".format(VERSION))
+        kwargs.setdefault("sdk_moniker", "microsoft-deviceregistry/{}".format(VERSION))
         self.polling_interval = kwargs.get("polling_interval", 30)
         self._configure(**kwargs)
 
@@ -64,10 +64,10 @@ class DeviceRegistryMgmtClientConfiguration:  # pylint: disable=too-many-instanc
         self.logging_policy = kwargs.get("logging_policy") or policies.NetworkTraceLoggingPolicy(**kwargs)
         self.http_logging_policy = kwargs.get("http_logging_policy") or ARMHttpLoggingPolicy(**kwargs)
         self.custom_hook_policy = kwargs.get("custom_hook_policy") or policies.CustomHookPolicy(**kwargs)
-        self.redirect_policy = kwargs.get("redirect_policy") or policies.AsyncRedirectPolicy(**kwargs)
-        self.retry_policy = kwargs.get("retry_policy") or policies.AsyncRetryPolicy(**kwargs)
+        self.redirect_policy = kwargs.get("redirect_policy") or policies.RedirectPolicy(**kwargs)
+        self.retry_policy = kwargs.get("retry_policy") or policies.RetryPolicy(**kwargs)
         self.authentication_policy = kwargs.get("authentication_policy")
         if self.credential and not self.authentication_policy:
-            self.authentication_policy = AsyncARMChallengeAuthenticationPolicy(
+            self.authentication_policy = ARMChallengeAuthenticationPolicy(
                 self.credential, *self.credential_scopes, **kwargs
             )

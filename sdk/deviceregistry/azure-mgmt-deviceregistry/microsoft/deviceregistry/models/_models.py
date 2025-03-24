@@ -21,8 +21,6 @@ if TYPE_CHECKING:
 class Resource(_model_base.Model):
     """Common fields that are returned in the response for all Azure Resource Manager resources.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
     :ivar id: Fully qualified resource ID for the resource. Ex -
      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
@@ -33,7 +31,7 @@ class Resource(_model_base.Model):
     :vartype type: str
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
-    :vartype system_data: ~azure.mgmt.deviceregistry.models.SystemData
+    :vartype system_data: ~microsoft.deviceregistry.models.SystemData
     """
 
     id: Optional[str] = rest_field(visibility=["read"])
@@ -52,9 +50,6 @@ class TrackedResource(Resource):
     """The resource model definition for an Azure Resource Manager tracked top level resource which
     has 'tags' and a 'location'.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
-
     :ivar id: Fully qualified resource ID for the resource. Ex -
      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
@@ -65,7 +60,7 @@ class TrackedResource(Resource):
     :vartype type: str
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
-    :vartype system_data: ~azure.mgmt.deviceregistry.models.SystemData
+    :vartype system_data: ~microsoft.deviceregistry.models.SystemData
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
     :ivar location: The geo-location where the resource lives. Required.
@@ -99,9 +94,6 @@ class TrackedResource(Resource):
 class Asset(TrackedResource):
     """Asset definition.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
-
     :ivar id: Fully qualified resource ID for the resource. Ex -
      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
@@ -112,15 +104,15 @@ class Asset(TrackedResource):
     :vartype type: str
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
-    :vartype system_data: ~azure.mgmt.deviceregistry.models.SystemData
+    :vartype system_data: ~microsoft.deviceregistry.models.SystemData
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
     :ivar location: The geo-location where the resource lives. Required.
     :vartype location: str
     :ivar properties: The resource-specific properties for this resource.
-    :vartype properties: ~azure.mgmt.deviceregistry.models.AssetProperties
+    :vartype properties: ~microsoft.deviceregistry.models.AssetProperties
     :ivar extended_location: The extended location. Required.
-    :vartype extended_location: ~azure.mgmt.deviceregistry.models.ExtendedLocation
+    :vartype extended_location: ~microsoft.deviceregistry.models.ExtendedLocation
     """
 
     properties: Optional["_models.AssetProperties"] = rest_field(
@@ -154,9 +146,6 @@ class Asset(TrackedResource):
 class AssetEndpointProfile(TrackedResource):
     """Asset Endpoint Profile definition.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
-
     :ivar id: Fully qualified resource ID for the resource. Ex -
      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
@@ -167,15 +156,15 @@ class AssetEndpointProfile(TrackedResource):
     :vartype type: str
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
-    :vartype system_data: ~azure.mgmt.deviceregistry.models.SystemData
+    :vartype system_data: ~microsoft.deviceregistry.models.SystemData
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
     :ivar location: The geo-location where the resource lives. Required.
     :vartype location: str
     :ivar properties: The resource-specific properties for this resource.
-    :vartype properties: ~azure.mgmt.deviceregistry.models.AssetEndpointProfileProperties
+    :vartype properties: ~microsoft.deviceregistry.models.AssetEndpointProfileProperties
     :ivar extended_location: The extended location. Required.
-    :vartype extended_location: ~azure.mgmt.deviceregistry.models.ExtendedLocation
+    :vartype extended_location: ~microsoft.deviceregistry.models.ExtendedLocation
     """
 
     properties: Optional["_models.AssetEndpointProfileProperties"] = rest_field(
@@ -209,9 +198,6 @@ class AssetEndpointProfile(TrackedResource):
 class AssetEndpointProfileProperties(_model_base.Model):
     """Defines the Asset Endpoint Profile properties.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
-
     :ivar uuid: Globally unique, immutable, non-reusable id.
     :vartype uuid: str
     :ivar target_address: The local valid URI specifying the network address/DNS name of a
@@ -223,7 +209,7 @@ class AssetEndpointProfileProperties(_model_base.Model):
      used with the endpoint profile. Required.
     :vartype endpoint_profile_type: str
     :ivar authentication: Defines the client authentication mechanism to the server.
-    :vartype authentication: ~azure.mgmt.deviceregistry.models.Authentication
+    :vartype authentication: ~microsoft.deviceregistry.models.Authentication
     :ivar additional_configuration: Stringified JSON that contains connectivity type specific
      further configuration (e.g. OPC UA, Modbus, ONVIF).
     :vartype additional_configuration: str
@@ -233,10 +219,10 @@ class AssetEndpointProfileProperties(_model_base.Model):
     :vartype discovered_asset_endpoint_profile_ref: str
     :ivar status: Read only object to reflect changes that have occurred on the Edge. Similar to
      Kubernetes status property for custom resources.
-    :vartype status: ~azure.mgmt.deviceregistry.models.AssetEndpointProfileStatus
+    :vartype status: ~microsoft.deviceregistry.models.AssetEndpointProfileStatus
     :ivar provisioning_state: Provisioning state of the resource. Known values are: "Succeeded",
      "Failed", "Canceled", "Accepted", and "Deleting".
-    :vartype provisioning_state: str or ~azure.mgmt.deviceregistry.models.ProvisioningState
+    :vartype provisioning_state: str or ~microsoft.deviceregistry.models.ProvisioningState
     """
 
     uuid: Optional[str] = rest_field(visibility=["read"])
@@ -298,10 +284,8 @@ class AssetEndpointProfileProperties(_model_base.Model):
 class AssetEndpointProfileStatus(_model_base.Model):
     """Defines the asset endpoint profile status properties.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
     :ivar errors: Array object to transfer and persist errors that originate from the Edge.
-    :vartype errors: list[~azure.mgmt.deviceregistry.models.AssetEndpointProfileStatusError]
+    :vartype errors: list[~microsoft.deviceregistry.models.AssetEndpointProfileStatusError]
     """
 
     errors: Optional[List["_models.AssetEndpointProfileStatusError"]] = rest_field(visibility=["read"])
@@ -310,8 +294,6 @@ class AssetEndpointProfileStatus(_model_base.Model):
 
 class AssetEndpointProfileStatusError(_model_base.Model):
     """Defines the asset endpoint profile status error properties.
-
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar code: Error code for classification of errors (ex: 400, 404, 500, etc.).
     :vartype code: int
@@ -333,7 +315,7 @@ class AssetEndpointProfileUpdate(_model_base.Model):
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
     :ivar properties: The resource-specific properties for this resource.
-    :vartype properties: ~azure.mgmt.deviceregistry.models.AssetEndpointProfileUpdateProperties
+    :vartype properties: ~microsoft.deviceregistry.models.AssetEndpointProfileUpdateProperties
     """
 
     tags: Optional[Dict[str, str]] = rest_field(visibility=["read", "create", "update", "delete", "query"])
@@ -373,7 +355,7 @@ class AssetEndpointProfileUpdateProperties(_model_base.Model):
      used with the endpoint profile.
     :vartype endpoint_profile_type: str
     :ivar authentication: Defines the client authentication mechanism to the server.
-    :vartype authentication: ~azure.mgmt.deviceregistry.models.Authentication
+    :vartype authentication: ~microsoft.deviceregistry.models.Authentication
     :ivar additional_configuration: Stringified JSON that contains connectivity type specific
      further configuration (e.g. OPC UA, Modbus, ONVIF).
     :vartype additional_configuration: str
@@ -423,9 +405,6 @@ class AssetEndpointProfileUpdateProperties(_model_base.Model):
 class AssetProperties(_model_base.Model):
     """Defines the asset properties.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
-
     :ivar uuid: Globally unique, immutable, non-reusable id.
     :vartype uuid: str
     :ivar enabled: Enabled/Disabled status of the asset.
@@ -472,19 +451,19 @@ class AssetProperties(_model_base.Model):
      default settings here.
     :vartype default_events_configuration: str
     :ivar default_topic: Object that describes the default topic information for the asset.
-    :vartype default_topic: ~azure.mgmt.deviceregistry.models.Topic
+    :vartype default_topic: ~microsoft.deviceregistry.models.Topic
     :ivar datasets: Array of datasets that are part of the asset. Each dataset describes the data
      points that make up the set.
-    :vartype datasets: list[~azure.mgmt.deviceregistry.models.Dataset]
+    :vartype datasets: list[~microsoft.deviceregistry.models.Dataset]
     :ivar events: Array of events that are part of the asset. Each event can have per-event
      configuration.
-    :vartype events: list[~azure.mgmt.deviceregistry.models.Event]
+    :vartype events: list[~microsoft.deviceregistry.models.Event]
     :ivar status: Read only object to reflect changes that have occurred on the Edge. Similar to
      Kubernetes status property for custom resources.
-    :vartype status: ~azure.mgmt.deviceregistry.models.AssetStatus
+    :vartype status: ~microsoft.deviceregistry.models.AssetStatus
     :ivar provisioning_state: Provisioning state of the resource. Known values are: "Succeeded",
      "Failed", "Canceled", "Accepted", and "Deleting".
-    :vartype provisioning_state: str or ~azure.mgmt.deviceregistry.models.ProvisioningState
+    :vartype provisioning_state: str or ~microsoft.deviceregistry.models.ProvisioningState
     """
 
     uuid: Optional[str] = rest_field(visibility=["read"])
@@ -606,19 +585,17 @@ class AssetProperties(_model_base.Model):
 class AssetStatus(_model_base.Model):
     """Defines the asset status properties.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
     :ivar errors: Array object to transfer and persist errors that originate from the Edge.
-    :vartype errors: list[~azure.mgmt.deviceregistry.models.AssetStatusError]
+    :vartype errors: list[~microsoft.deviceregistry.models.AssetStatusError]
     :ivar version: A read only incremental counter indicating the number of times the configuration
      has been modified from the perspective of the current actual (Edge) state of the Asset. Edge
      would be the only writer of this value and would sync back up to the cloud. In steady state,
      this should equal version.
     :vartype version: int
     :ivar datasets: Array of dataset statuses that describe the status of each dataset.
-    :vartype datasets: list[~azure.mgmt.deviceregistry.models.AssetStatusDataset]
+    :vartype datasets: list[~microsoft.deviceregistry.models.AssetStatusDataset]
     :ivar events: Array of event statuses that describe the status of each event.
-    :vartype events: list[~azure.mgmt.deviceregistry.models.AssetStatusEvent]
+    :vartype events: list[~microsoft.deviceregistry.models.AssetStatusEvent]
     """
 
     errors: Optional[List["_models.AssetStatusError"]] = rest_field(visibility=["read"])
@@ -637,14 +614,11 @@ class AssetStatus(_model_base.Model):
 class AssetStatusDataset(_model_base.Model):
     """Defines the asset status dataset properties.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
-
     :ivar name: The name of the dataset. Must be unique within the status.datasets array. This name
      is used to correlate between the spec and status dataset information. Required.
     :vartype name: str
     :ivar message_schema_reference: The message schema reference object.
-    :vartype message_schema_reference: ~azure.mgmt.deviceregistry.models.MessageSchemaReference
+    :vartype message_schema_reference: ~microsoft.deviceregistry.models.MessageSchemaReference
     """
 
     name: str = rest_field(visibility=["read"])
@@ -658,8 +632,6 @@ class AssetStatusDataset(_model_base.Model):
 
 class AssetStatusError(_model_base.Model):
     """Defines the asset status error properties.
-
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar code: Error code for classification of errors (ex: 400, 404, 500, etc.).
     :vartype code: int
@@ -678,14 +650,11 @@ class AssetStatusError(_model_base.Model):
 class AssetStatusEvent(_model_base.Model):
     """Defines the asset status event properties.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
-
     :ivar name: The name of the event. Must be unique within the status.events array. This name is
      used to correlate between the spec and status event information. Required.
     :vartype name: str
     :ivar message_schema_reference: The message schema reference object.
-    :vartype message_schema_reference: ~azure.mgmt.deviceregistry.models.MessageSchemaReference
+    :vartype message_schema_reference: ~microsoft.deviceregistry.models.MessageSchemaReference
     """
 
     name: str = rest_field(visibility=["read"])
@@ -703,7 +672,7 @@ class AssetUpdate(_model_base.Model):
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
     :ivar properties: The resource-specific properties for this resource.
-    :vartype properties: ~azure.mgmt.deviceregistry.models.AssetUpdateProperties
+    :vartype properties: ~microsoft.deviceregistry.models.AssetUpdateProperties
     """
 
     tags: Optional[Dict[str, str]] = rest_field(visibility=["read", "create", "update", "delete", "query"])
@@ -768,13 +737,13 @@ class AssetUpdateProperties(_model_base.Model):
      default settings here.
     :vartype default_events_configuration: str
     :ivar default_topic: Object that describes the default topic information for the asset.
-    :vartype default_topic: ~azure.mgmt.deviceregistry.models.Topic
+    :vartype default_topic: ~microsoft.deviceregistry.models.Topic
     :ivar datasets: Array of datasets that are part of the asset. Each dataset describes the data
      points that make up the set.
-    :vartype datasets: list[~azure.mgmt.deviceregistry.models.Dataset]
+    :vartype datasets: list[~microsoft.deviceregistry.models.Dataset]
     :ivar events: Array of events that are part of the asset. Each event can have per-event
      configuration.
-    :vartype events: list[~azure.mgmt.deviceregistry.models.Event]
+    :vartype events: list[~microsoft.deviceregistry.models.Event]
     """
 
     enabled: Optional[bool] = rest_field(visibility=["read", "create", "update", "delete", "query"])
@@ -872,17 +841,16 @@ class AssetUpdateProperties(_model_base.Model):
 class Authentication(_model_base.Model):
     """Definition of the client authentication mechanism to the server.
 
-
     :ivar method: Defines the method to authenticate the user of the client at the server.
      Required. Known values are: "Anonymous", "Certificate", and "UsernamePassword".
-    :vartype method: str or ~azure.mgmt.deviceregistry.models.AuthenticationMethod
+    :vartype method: str or ~microsoft.deviceregistry.models.AuthenticationMethod
     :ivar username_password_credentials: Defines the username and password references when
      UsernamePassword user authentication mode is selected.
     :vartype username_password_credentials:
-     ~azure.mgmt.deviceregistry.models.UsernamePasswordCredentials
+     ~microsoft.deviceregistry.models.UsernamePasswordCredentials
     :ivar x509_credentials: Defines the certificate reference when Certificate user authentication
      mode is selected.
-    :vartype x509_credentials: ~azure.mgmt.deviceregistry.models.X509Credentials
+    :vartype x509_credentials: ~microsoft.deviceregistry.models.X509Credentials
     """
 
     method: Union[str, "_models.AuthenticationMethod"] = rest_field(
@@ -924,8 +892,6 @@ class ProxyResource(Resource):
     """The resource model definition for a Azure Resource Manager proxy resource. It will not have
     tags and a location.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
     :ivar id: Fully qualified resource ID for the resource. Ex -
      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
@@ -936,7 +902,7 @@ class ProxyResource(Resource):
     :vartype type: str
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
-    :vartype system_data: ~azure.mgmt.deviceregistry.models.SystemData
+    :vartype system_data: ~microsoft.deviceregistry.models.SystemData
     """
 
 
@@ -944,8 +910,6 @@ class BillingContainer(ProxyResource):
     """billingContainer Model as Azure resource whose sole purpose is to keep track of billables
     resources under a subscription.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
     :ivar id: Fully qualified resource ID for the resource. Ex -
      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
@@ -956,9 +920,9 @@ class BillingContainer(ProxyResource):
     :vartype type: str
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
-    :vartype system_data: ~azure.mgmt.deviceregistry.models.SystemData
+    :vartype system_data: ~microsoft.deviceregistry.models.SystemData
     :ivar properties: The resource-specific properties for this resource.
-    :vartype properties: ~azure.mgmt.deviceregistry.models.BillingContainerProperties
+    :vartype properties: ~microsoft.deviceregistry.models.BillingContainerProperties
     :ivar etag: Resource ETag.
     :vartype etag: str
     """
@@ -991,11 +955,9 @@ class BillingContainer(ProxyResource):
 class BillingContainerProperties(_model_base.Model):
     """Defines the billingContainer properties.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
     :ivar provisioning_state: Provisioning state of the resource. Known values are: "Succeeded",
      "Failed", "Canceled", "Accepted", and "Deleting".
-    :vartype provisioning_state: str or ~azure.mgmt.deviceregistry.models.ProvisioningState
+    :vartype provisioning_state: str or ~microsoft.deviceregistry.models.ProvisioningState
     """
 
     provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = rest_field(
@@ -1007,7 +969,6 @@ class BillingContainerProperties(_model_base.Model):
 
 class DataPointBase(_model_base.Model):
     """Defines the data point properties.
-
 
     :ivar name: The name of the data point. Required.
     :vartype name: str
@@ -1054,7 +1015,6 @@ class DataPointBase(_model_base.Model):
 class DataPoint(DataPointBase):
     """Defines the data point properties.
 
-
     :ivar name: The name of the data point. Required.
     :vartype name: str
     :ivar data_source: The address of the source of the data in the asset (e.g. URL) so that a
@@ -1066,8 +1026,7 @@ class DataPoint(DataPointBase):
     :vartype data_point_configuration: str
     :ivar observability_mode: An indication of how the data point should be mapped to
      OpenTelemetry. Known values are: "None", "Counter", "Gauge", "Histogram", and "Log".
-    :vartype observability_mode: str or
-     ~azure.mgmt.deviceregistry.models.DataPointObservabilityMode
+    :vartype observability_mode: str or ~microsoft.deviceregistry.models.DataPointObservabilityMode
     """
 
     observability_mode: Optional[Union[str, "_models.DataPointObservabilityMode"]] = rest_field(
@@ -1100,17 +1059,16 @@ class DataPoint(DataPointBase):
 class Dataset(_model_base.Model):
     """Defines the dataset properties.
 
-
     :ivar name: Name of the dataset. Required.
     :vartype name: str
     :ivar dataset_configuration: Stringified JSON that contains connector-specific JSON string that
      describes configuration for the specific dataset.
     :vartype dataset_configuration: str
     :ivar topic: Object that describes the topic information for the specific dataset.
-    :vartype topic: ~azure.mgmt.deviceregistry.models.Topic
+    :vartype topic: ~microsoft.deviceregistry.models.Topic
     :ivar data_points: Array of data points that are part of the dataset. Each data point can have
      per-data point configuration.
-    :vartype data_points: list[~azure.mgmt.deviceregistry.models.DataPoint]
+    :vartype data_points: list[~microsoft.deviceregistry.models.DataPoint]
     """
 
     name: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
@@ -1152,8 +1110,6 @@ class Dataset(_model_base.Model):
 class ErrorAdditionalInfo(_model_base.Model):
     """The resource management error additional info.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
     :ivar type: The additional info type.
     :vartype type: str
     :ivar info: The additional info.
@@ -1169,8 +1125,6 @@ class ErrorAdditionalInfo(_model_base.Model):
 class ErrorDetail(_model_base.Model):
     """The error detail.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
     :ivar code: The error code.
     :vartype code: str
     :ivar message: The error message.
@@ -1178,9 +1132,9 @@ class ErrorDetail(_model_base.Model):
     :ivar target: The error target.
     :vartype target: str
     :ivar details: The error details.
-    :vartype details: list[~azure.mgmt.deviceregistry.models.ErrorDetail]
+    :vartype details: list[~microsoft.deviceregistry.models.ErrorDetail]
     :ivar additional_info: The error additional info.
-    :vartype additional_info: list[~azure.mgmt.deviceregistry.models.ErrorAdditionalInfo]
+    :vartype additional_info: list[~microsoft.deviceregistry.models.ErrorAdditionalInfo]
     """
 
     code: Optional[str] = rest_field(visibility=["read"])
@@ -1202,7 +1156,7 @@ class ErrorResponse(_model_base.Model):
     operations.
 
     :ivar error: The error object.
-    :vartype error: ~azure.mgmt.deviceregistry.models.ErrorDetail
+    :vartype error: ~microsoft.deviceregistry.models.ErrorDetail
     """
 
     error: Optional["_models.ErrorDetail"] = rest_field(visibility=["read", "create", "update", "delete", "query"])
@@ -1229,7 +1183,6 @@ class ErrorResponse(_model_base.Model):
 class EventBase(_model_base.Model):
     """Defines the event properties.
 
-
     :ivar name: The name of the event. Required.
     :vartype name: str
     :ivar event_notifier: The address of the notifier of the event in the asset (e.g. URL) so that
@@ -1240,7 +1193,7 @@ class EventBase(_model_base.Model):
      samplingInterval, and queueSize.
     :vartype event_configuration: str
     :ivar topic: Object that describes the topic information for the specific event.
-    :vartype topic: ~azure.mgmt.deviceregistry.models.Topic
+    :vartype topic: ~microsoft.deviceregistry.models.Topic
     """
 
     name: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
@@ -1280,7 +1233,6 @@ class EventBase(_model_base.Model):
 class Event(EventBase):
     """Defines the event properties.
 
-
     :ivar name: The name of the event. Required.
     :vartype name: str
     :ivar event_notifier: The address of the notifier of the event in the asset (e.g. URL) so that
@@ -1291,10 +1243,10 @@ class Event(EventBase):
      samplingInterval, and queueSize.
     :vartype event_configuration: str
     :ivar topic: Object that describes the topic information for the specific event.
-    :vartype topic: ~azure.mgmt.deviceregistry.models.Topic
+    :vartype topic: ~microsoft.deviceregistry.models.Topic
     :ivar observability_mode: An indication of how the event should be mapped to OpenTelemetry.
      Known values are: "None" and "Log".
-    :vartype observability_mode: str or ~azure.mgmt.deviceregistry.models.EventObservabilityMode
+    :vartype observability_mode: str or ~microsoft.deviceregistry.models.EventObservabilityMode
     """
 
     observability_mode: Optional[Union[str, "_models.EventObservabilityMode"]] = rest_field(
@@ -1327,7 +1279,6 @@ class Event(EventBase):
 
 class ExtendedLocation(_model_base.Model):
     """The extended location.
-
 
     :ivar type: The extended location type. Required.
     :vartype type: str
@@ -1362,9 +1313,6 @@ class ExtendedLocation(_model_base.Model):
 class MessageSchemaReference(_model_base.Model):
     """Defines the message schema reference properties.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
-
     :ivar schema_registry_namespace: The message schema registry namespace. Required.
     :vartype schema_registry_namespace: str
     :ivar schema_name: The message schema name. Required.
@@ -1384,8 +1332,6 @@ class MessageSchemaReference(_model_base.Model):
 class Operation(_model_base.Model):
     """Details of a REST API operation, returned from the Resource Provider Operations API.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
     :ivar name: The name of the operation, as per Resource-Based Access Control (RBAC). Examples:
      "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action".
     :vartype name: str
@@ -1393,14 +1339,14 @@ class Operation(_model_base.Model):
      data-plane operations and "false" for Azure Resource Manager/control-plane operations.
     :vartype is_data_action: bool
     :ivar display: Localized display information for this particular operation.
-    :vartype display: ~azure.mgmt.deviceregistry.models.OperationDisplay
+    :vartype display: ~microsoft.deviceregistry.models.OperationDisplay
     :ivar origin: The intended executor of the operation; as in Resource Based Access Control
      (RBAC) and audit logs UX. Default value is "user,system". Known values are: "user", "system",
      and "user,system".
-    :vartype origin: str or ~azure.mgmt.deviceregistry.models.Origin
+    :vartype origin: str or ~microsoft.deviceregistry.models.Origin
     :ivar action_type: Extensible enum. Indicates the action type. "Internal" refers to actions
      that are for internal only APIs. "Internal"
-    :vartype action_type: str or ~azure.mgmt.deviceregistry.models.ActionType
+    :vartype action_type: str or ~microsoft.deviceregistry.models.ActionType
     """
 
     name: Optional[str] = rest_field(visibility=["read"])
@@ -1443,8 +1389,6 @@ class Operation(_model_base.Model):
 class OperationDisplay(_model_base.Model):
     """Localized display information for and operation.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
     :ivar provider: The localized friendly form of the resource provider name, e.g. "Microsoft
      Monitoring Insights" or "Microsoft Compute".
     :vartype provider: str
@@ -1476,9 +1420,6 @@ class OperationDisplay(_model_base.Model):
 class OperationStatusResult(_model_base.Model):
     """The current status of an async operation.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
-
     :ivar id: Fully qualified ID for the async operation.
     :vartype id: str
     :ivar name: Name of the async operation.
@@ -1492,9 +1433,9 @@ class OperationStatusResult(_model_base.Model):
     :ivar end_time: The end time of the operation.
     :vartype end_time: ~datetime.datetime
     :ivar operations: The operations list.
-    :vartype operations: list[~azure.mgmt.deviceregistry.models.OperationStatusResult]
+    :vartype operations: list[~microsoft.deviceregistry.models.OperationStatusResult]
     :ivar error: If present, details of the operation error.
-    :vartype error: ~azure.mgmt.deviceregistry.models.ErrorDetail
+    :vartype error: ~microsoft.deviceregistry.models.ErrorDetail
     :ivar resource_id: Fully qualified ID of the resource against which the original async
      operation was started.
     :vartype resource_id: str
@@ -1559,14 +1500,14 @@ class SystemData(_model_base.Model):
     :vartype created_by: str
     :ivar created_by_type: The type of identity that created the resource. Known values are:
      "User", "Application", "ManagedIdentity", and "Key".
-    :vartype created_by_type: str or ~azure.mgmt.deviceregistry.models.CreatedByType
+    :vartype created_by_type: str or ~microsoft.deviceregistry.models.CreatedByType
     :ivar created_at: The timestamp of resource creation (UTC).
     :vartype created_at: ~datetime.datetime
     :ivar last_modified_by: The identity that last modified the resource.
     :vartype last_modified_by: str
     :ivar last_modified_by_type: The type of identity that last modified the resource. Known values
      are: "User", "Application", "ManagedIdentity", and "Key".
-    :vartype last_modified_by_type: str or ~azure.mgmt.deviceregistry.models.CreatedByType
+    :vartype last_modified_by_type: str or ~microsoft.deviceregistry.models.CreatedByType
     :ivar last_modified_at: The timestamp of resource last modification (UTC).
     :vartype last_modified_at: ~datetime.datetime
     """
@@ -1622,12 +1563,11 @@ class SystemData(_model_base.Model):
 class Topic(_model_base.Model):
     """Object that describes the topic information.
 
-
     :ivar path: The topic path for messages published to an MQTT broker. Required.
     :vartype path: str
     :ivar retain: When set to 'Keep', messages published to an MQTT broker will have the retain
      flag set. Default: 'Never'. Known values are: "Keep" and "Never".
-    :vartype retain: str or ~azure.mgmt.deviceregistry.models.TopicRetainType
+    :vartype retain: str or ~microsoft.deviceregistry.models.TopicRetainType
     """
 
     path: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
@@ -1659,7 +1599,6 @@ class Topic(_model_base.Model):
 
 class UsernamePasswordCredentials(_model_base.Model):
     """The credentials for authentication mode UsernamePassword.
-
 
     :ivar username_secret_name: The name of the secret containing the username. Required.
     :vartype username_secret_name: str
@@ -1697,7 +1636,6 @@ class UsernamePasswordCredentials(_model_base.Model):
 
 class X509Credentials(_model_base.Model):
     """The x509 certificate for authentication mode Certificate.
-
 
     :ivar certificate_secret_name: The name of the secret containing the certificate and private
      key (e.g. stored as .der/.pem or .der/.pfx). Required.

@@ -8,12 +8,12 @@
 
 from azure.identity import DefaultAzureCredential
 
-from azure.mgmt.deviceregistry import DeviceRegistryMgmtClient
+from microsoft.deviceregistry import DeviceRegistryMgmtClient
 
 """
 # PREREQUISITES
     pip install azure-identity
-    pip install azure-mgmt-deviceregistry
+    pip install microsoft-deviceregistry
 # USAGE
     python get_asset_endpoint_profile_with_sync_status.py
 
