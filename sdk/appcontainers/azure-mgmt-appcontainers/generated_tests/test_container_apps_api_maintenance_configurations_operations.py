@@ -14,16 +14,16 @@ AZURE_LOCATION = "eastus"
 
 
 @pytest.mark.skip("you may need to update the auto-generated test case before run it")
-class TestContainerAppsAPIConnectedEnvironmentsCertificatesOperations(AzureMgmtRecordedTestCase):
+class TestContainerAppsAPIMaintenanceConfigurationsOperations(AzureMgmtRecordedTestCase):
     def setup_method(self, method):
         self.client = self.create_mgmt_client(ContainerAppsAPIClient)
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_connected_environments_certificates_list(self, resource_group):
-        response = self.client.connected_environments_certificates.list(
+    def test_maintenance_configurations_list(self, resource_group):
+        response = self.client.maintenance_configurations.list(
             resource_group_name=resource_group.name,
-            connected_environment_name="str",
+            environment_name="str",
             api_version="2025-01-01",
         )
         result = [r for r in response]
@@ -32,11 +32,25 @@ class TestContainerAppsAPIConnectedEnvironmentsCertificatesOperations(AzureMgmtR
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_connected_environments_certificates_get(self, resource_group):
-        response = self.client.connected_environments_certificates.get(
+    def test_maintenance_configurations_create_or_update(self, resource_group):
+        response = self.client.maintenance_configurations.create_or_update(
             resource_group_name=resource_group.name,
-            connected_environment_name="str",
-            certificate_name="str",
+            environment_name="str",
+            config_name="str",
+            maintenance_configuration_envelope={
+                "id": "str",
+                "name": "str",
+                "scheduledEntries": [{"durationHours": 0, "startHourUtc": 0, "weekDay": "str"}],
+                "systemData": {
+                    "createdAt": "2020-02-20 00:00:00",
+                    "createdBy": "str",
+                    "createdByType": "str",
+                    "lastModifiedAt": "2020-02-20 00:00:00",
+                    "lastModifiedBy": "str",
+                    "lastModifiedByType": "str",
+                },
+                "type": "str",
+            },
             api_version="2025-01-01",
         )
 
@@ -45,11 +59,11 @@ class TestContainerAppsAPIConnectedEnvironmentsCertificatesOperations(AzureMgmtR
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_connected_environments_certificates_create_or_update(self, resource_group):
-        response = self.client.connected_environments_certificates.create_or_update(
+    def test_maintenance_configurations_delete(self, resource_group):
+        response = self.client.maintenance_configurations.delete(
             resource_group_name=resource_group.name,
-            connected_environment_name="str",
-            certificate_name="str",
+            environment_name="str",
+            config_name="str",
             api_version="2025-01-01",
         )
 
@@ -58,25 +72,11 @@ class TestContainerAppsAPIConnectedEnvironmentsCertificatesOperations(AzureMgmtR
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_connected_environments_certificates_delete(self, resource_group):
-        response = self.client.connected_environments_certificates.delete(
+    def test_maintenance_configurations_get(self, resource_group):
+        response = self.client.maintenance_configurations.get(
             resource_group_name=resource_group.name,
-            connected_environment_name="str",
-            certificate_name="str",
-            api_version="2025-01-01",
-        )
-
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
-    def test_connected_environments_certificates_update(self, resource_group):
-        response = self.client.connected_environments_certificates.update(
-            resource_group_name=resource_group.name,
-            connected_environment_name="str",
-            certificate_name="str",
-            certificate_envelope={"tags": {"str": "str"}},
+            environment_name="str",
+            config_name="str",
             api_version="2025-01-01",
         )
 

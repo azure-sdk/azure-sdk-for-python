@@ -15,7 +15,7 @@ from azure.mgmt.appcontainers import ContainerAppsAPIClient
     pip install azure-identity
     pip install azure-mgmt-appcontainers
 # USAGE
-    python dot_net_components_delete.py
+    python managed_environment_maintenance_configurations_delete.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -30,13 +30,13 @@ def main():
         subscription_id="8efdecc5-919e-44eb-b179-915dca89ebf9",
     )
 
-    client.dot_net_components.begin_delete(
-        resource_group_name="examplerg",
-        environment_name="myenvironment",
-        name="mydotnetcomponent",
-    ).result()
+    client.maintenance_configurations.delete(
+        resource_group_name="rg1",
+        environment_name="managedEnv",
+        config_name="default",
+    )
 
 
-# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/DotNetComponents_Delete.json
+# x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2025-01-01/examples/ManagedEnvironment_MaintenanceConfigurations_Delete.json
 if __name__ == "__main__":
     main()
