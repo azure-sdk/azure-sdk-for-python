@@ -12,7 +12,7 @@ import re
 from setuptools import setup, find_packages
 
 
-PACKAGE_NAME = "azure-ai-documentintelligence"
+PACKAGE_NAME = "documentintelligence"
 PACKAGE_PPRINT_NAME = "Azure AI Document Intelligence"
 
 # a-b-c => a/b/c
@@ -53,14 +53,11 @@ setup(
     packages=find_packages(
         exclude=[
             "tests",
-            # Exclude packages that will be covered by PEP420 or nspkg
-            "azure",
-            "azure.ai",
         ]
     ),
     include_package_data=True,
     package_data={
-        "azure.ai.documentintelligence": ["py.typed"],
+        "documentintelligence": ["py.typed"],
     },
     install_requires=[
         "isodate>=0.6.1",
