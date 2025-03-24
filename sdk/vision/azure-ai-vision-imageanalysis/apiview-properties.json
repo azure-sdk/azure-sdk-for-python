@@ -1,0 +1,25 @@
+{
+    "CrossLanguagePackageId": "ImageAnalysis",
+    "CrossLanguageDefinitionId": {
+        "imageanalysis.models.CaptionResult": "ImageAnalysis.CaptionResult",
+        "imageanalysis.models.CropRegion": "ImageAnalysis.CropRegion",
+        "imageanalysis.models.DenseCaption": "ImageAnalysis.DenseCaption",
+        "imageanalysis.models.DenseCaptionsResult": "ImageAnalysis.DenseCaptionsResult",
+        "imageanalysis.models.DetectedObject": "ImageAnalysis.DetectedObject",
+        "imageanalysis.models.DetectedPerson": "ImageAnalysis.DetectedPerson",
+        "imageanalysis.models.DetectedTag": "ImageAnalysis.DetectedTag",
+        "imageanalysis.models.DetectedTextBlock": "ImageAnalysis.DetectedTextBlock",
+        "imageanalysis.models.DetectedTextLine": "ImageAnalysis.DetectedTextLine",
+        "imageanalysis.models.DetectedTextWord": "ImageAnalysis.DetectedTextWord",
+        "imageanalysis.models.ImageAnalysisResult": "ImageAnalysis.ImageAnalysisResult",
+        "imageanalysis.models.ImageBoundingBox": "ImageAnalysis.ImageBoundingBox",
+        "imageanalysis.models.ImageMetadata": "ImageAnalysis.ImageMetadata",
+        "imageanalysis.models.ImagePoint": "ImageAnalysis.ImagePoint",
+        "imageanalysis.models.ObjectsResult": "ImageAnalysis.ObjectsResult",
+        "imageanalysis.models.PeopleResult": "ImageAnalysis.PeopleResult",
+        "imageanalysis.models.ReadResult": "ImageAnalysis.ReadResult",
+        "imageanalysis.models.SmartCropsResult": "ImageAnalysis.SmartCropsResult",
+        "imageanalysis.models.TagsResult": "ImageAnalysis.TagsResult",
+        "imageanalysis.models.VisualFeatures": "ImageAnalysis.VisualFeatures"
+    }
+}

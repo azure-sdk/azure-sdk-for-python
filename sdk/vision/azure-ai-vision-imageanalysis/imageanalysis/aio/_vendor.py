@@ -11,16 +11,15 @@ from typing import TYPE_CHECKING
 from ._configuration import ImageAnalysisClientConfiguration
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
-    from azure.core import PipelineClient
+    from azure.core import AsyncPipelineClient
 
-    from ._serialization import Deserializer, Serializer
+    from .._serialization import Deserializer, Serializer
 
 
 class ImageAnalysisClientMixinABC(ABC):
     """DO NOT use this class. It is for internal typing use only."""
 
-    _client: "PipelineClient"
+    _client: "AsyncPipelineClient"
     _config: ImageAnalysisClientConfiguration
     _serialize: "Serializer"
     _deserialize: "Deserializer"

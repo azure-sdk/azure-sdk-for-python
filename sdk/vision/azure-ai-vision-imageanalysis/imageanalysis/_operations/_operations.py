@@ -1,4 +1,3 @@
-# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -9,7 +8,7 @@
 from io import IOBase
 import json
 import sys
-from typing import Any, Callable, Dict, IO, List, Optional, Type, TypeVar, Union, overload
+from typing import Any, Callable, Dict, IO, List, Optional, TypeVar, Union, overload
 
 from azure.core.exceptions import (
     ClientAuthenticationError,
@@ -17,34 +16,117 @@ from azure.core.exceptions import (
     ResourceExistsError,
     ResourceNotFoundError,
     ResourceNotModifiedError,
+    StreamClosedError,
+    StreamConsumedError,
     map_error,
 )
 from azure.core.pipeline import PipelineResponse
-from azure.core.rest import AsyncHttpResponse, HttpRequest
-from azure.core.tracing.decorator_async import distributed_trace_async
+from azure.core.rest import HttpRequest, HttpResponse
+from azure.core.tracing.decorator import distributed_trace
 from azure.core.utils import case_insensitive_dict
 
-from ... import models as _models
-from ..._model_base import SdkJSONEncoder, _deserialize
-from ..._operations._operations import (
-    build_image_analysis_analyze_from_image_data_request,
-    build_image_analysis_analyze_from_url_request,
-)
+from .. import models as _models
+from .._model_base import SdkJSONEncoder, _deserialize
+from .._serialization import Serializer
 from .._vendor import ImageAnalysisClientMixinABC
 
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore
 JSON = MutableMapping[str, Any]  # pylint: disable=unsubscriptable-object
 T = TypeVar("T")
-ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
+ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
+
+_SERIALIZER = Serializer()
+_SERIALIZER.client_side_validation = False
+
+
+def build_image_analysis_analyze_from_image_data_request(  # pylint: disable=name-too-long
+    *,
+    visual_features: List[Union[str, _models.VisualFeatures]],
+    language: Optional[str] = None,
+    gender_neutral_caption: Optional[bool] = None,
+    smart_crops_aspect_ratios: Optional[List[float]] = None,
+    model_version: Optional[str] = None,
+    **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    content_type: str = kwargs.pop("content_type")
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-10-01"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/imageanalysis:analyze"
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+    _params["features"] = _SERIALIZER.query("visual_features", visual_features, "[str]", div=",")
+    if language is not None:
+        _params["language"] = _SERIALIZER.query("language", language, "str")
+    if gender_neutral_caption is not None:
+        _params["gender-neutral-caption"] = _SERIALIZER.query("gender_neutral_caption", gender_neutral_caption, "bool")
+    if smart_crops_aspect_ratios is not None:
+        _params["smartcrops-aspect-ratios"] = _SERIALIZER.query(
+            "smart_crops_aspect_ratios", smart_crops_aspect_ratios, "[float]", div=","
+        )
+    if model_version is not None:
+        _params["model-version"] = _SERIALIZER.query("model_version", model_version, "str")
+
+    # Construct headers
+    _headers["content-type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_image_analysis_analyze_from_url_request(  # pylint: disable=name-too-long
+    *,
+    visual_features: List[Union[str, _models.VisualFeatures]],
+    language: Optional[str] = None,
+    gender_neutral_caption: Optional[bool] = None,
+    smart_crops_aspect_ratios: Optional[List[float]] = None,
+    model_version: Optional[str] = None,
+    **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("content-type", None))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2023-10-01"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/imageanalysis:analyze"
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+    _params["features"] = _SERIALIZER.query("visual_features", visual_features, "[str]", div=",")
+    if language is not None:
+        _params["language"] = _SERIALIZER.query("language", language, "str")
+    if gender_neutral_caption is not None:
+        _params["gender-neutral-caption"] = _SERIALIZER.query("gender_neutral_caption", gender_neutral_caption, "bool")
+    if smart_crops_aspect_ratios is not None:
+        _params["smartcrops-aspect-ratios"] = _SERIALIZER.query(
+            "smart_crops_aspect_ratios", smart_crops_aspect_ratios, "[float]", div=","
+        )
+    if model_version is not None:
+        _params["model-version"] = _SERIALIZER.query("model_version", model_version, "str")
+
+    # Construct headers
+    if content_type is not None:
+        _headers["content-type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
 
 class ImageAnalysisClientOperationsMixin(ImageAnalysisClientMixinABC):
 
-    @distributed_trace_async
-    async def _analyze_from_image_data(
+    @distributed_trace
+    def _analyze_from_image_data(
         self,
         image_data: bytes,
         *,
@@ -63,10 +145,11 @@ class ImageAnalysisClientOperationsMixin(ImageAnalysisClientMixinABC):
          Seven visual features are supported: Caption, DenseCaptions, Read (OCR), Tags, Objects,
          SmartCrops, and People.
          At least one visual feature must be specified. Required.
-        :paramtype visual_features: list[str or ~azure.ai.vision.imageanalysis.models.VisualFeatures]
+        :paramtype visual_features: list[str or ~imageanalysis.models.VisualFeatures]
         :keyword language: The desired language for result generation (a two-letter language code).
          If this option is not specified, the default value 'en' is used (English).
-         See https://aka.ms/cv-languages for a list of supported languages. Default value is None.
+         See `https://aka.ms/cv-languages <https://aka.ms/cv-languages>`_ for a list of supported
+         languages. Default value is None.
         :paramtype language: str
         :keyword gender_neutral_caption: Boolean flag for enabling gender-neutral captioning for
          Caption and Dense Captions features.
@@ -90,123 +173,10 @@ class ImageAnalysisClientOperationsMixin(ImageAnalysisClientMixinABC):
          value to a specific model version. Default value is None.
         :paramtype model_version: str
         :return: ImageAnalysisResult. The ImageAnalysisResult is compatible with MutableMapping
-        :rtype: ~azure.ai.vision.imageanalysis.models.ImageAnalysisResult
+        :rtype: ~imageanalysis.models.ImageAnalysisResult
         :raises ~azure.core.exceptions.HttpResponseError:
-
-        Example:
-            .. code-block:: python
-
-                # response body for status code(s): 200
-                response == {
-                    "metadata": {
-                        "height": 0,
-                        "width": 0
-                    },
-                    "modelVersion": "str",
-                    "captionResult": {
-                        "confidence": 0.0,
-                        "text": "str"
-                    },
-                    "denseCaptionsResult": {
-                        "values": [
-                            {
-                                "boundingBox": {
-                                    "h": 0,
-                                    "w": 0,
-                                    "x": 0,
-                                    "y": 0
-                                },
-                                "confidence": 0.0,
-                                "text": "str"
-                            }
-                        ]
-                    },
-                    "objectsResult": {
-                        "values": [
-                            {
-                                "boundingBox": {
-                                    "h": 0,
-                                    "w": 0,
-                                    "x": 0,
-                                    "y": 0
-                                },
-                                "tags": [
-                                    {
-                                        "confidence": 0.0,
-                                        "name": "str"
-                                    }
-                                ]
-                            }
-                        ]
-                    },
-                    "peopleResult": {
-                        "values": [
-                            {
-                                "boundingBox": {
-                                    "h": 0,
-                                    "w": 0,
-                                    "x": 0,
-                                    "y": 0
-                                },
-                                "confidence": 0.0
-                            }
-                        ]
-                    },
-                    "readResult": {
-                        "blocks": [
-                            {
-                                "lines": [
-                                    {
-                                        "boundingPolygon": [
-                                            {
-                                                "x": 0,
-                                                "y": 0
-                                            }
-                                        ],
-                                        "text": "str",
-                                        "words": [
-                                            {
-                                                "boundingPolygon": [
-                                                    {
-                                                        "x":
-                                                          0,
-                                                        "y":
-                                                          0
-                                                    }
-                                                ],
-                                                "confidence": 0.0,
-                                                "text": "str"
-                                            }
-                                        ]
-                                    }
-                                ]
-                            }
-                        ]
-                    },
-                    "smartCropsResult": {
-                        "values": [
-                            {
-                                "aspectRatio": 0.0,
-                                "boundingBox": {
-                                    "h": 0,
-                                    "w": 0,
-                                    "x": 0,
-                                    "y": 0
-                                }
-                            }
-                        ]
-                    },
-                    "tagsResult": {
-                        "values": [
-                            {
-                                "confidence": 0.0,
-                                "name": "str"
-                            }
-                        ]
-                    }
-                }
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -240,7 +210,7 @@ class ImageAnalysisClientOperationsMixin(ImageAnalysisClientMixinABC):
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -248,7 +218,10 @@ class ImageAnalysisClientOperationsMixin(ImageAnalysisClientMixinABC):
 
         if response.status_code not in [200]:
             if _stream:
-                await response.read()  # Load the body in memory and close the socket
+                try:
+                    response.read()  # Load the body in memory and close the socket
+                except (StreamConsumedError, StreamClosedError):
+                    pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response)
 
@@ -263,7 +236,7 @@ class ImageAnalysisClientOperationsMixin(ImageAnalysisClientMixinABC):
         return deserialized  # type: ignore
 
     @overload
-    async def _analyze_from_url(  # pylint: disable=protected-access
+    def _analyze_from_url(
         self,
         image_url: _models._models.ImageUrl,
         *,
@@ -276,7 +249,7 @@ class ImageAnalysisClientOperationsMixin(ImageAnalysisClientMixinABC):
         **kwargs: Any
     ) -> _models.ImageAnalysisResult: ...
     @overload
-    async def _analyze_from_url(
+    def _analyze_from_url(
         self,
         image_url: JSON,
         *,
@@ -289,7 +262,7 @@ class ImageAnalysisClientOperationsMixin(ImageAnalysisClientMixinABC):
         **kwargs: Any
     ) -> _models.ImageAnalysisResult: ...
     @overload
-    async def _analyze_from_url(
+    def _analyze_from_url(
         self,
         image_url: IO[bytes],
         *,
@@ -302,8 +275,8 @@ class ImageAnalysisClientOperationsMixin(ImageAnalysisClientMixinABC):
         **kwargs: Any
     ) -> _models.ImageAnalysisResult: ...
 
-    @distributed_trace_async
-    async def _analyze_from_url(
+    @distributed_trace
+    def _analyze_from_url(
         self,
         image_url: Union[_models._models.ImageUrl, JSON, IO[bytes]],
         *,
@@ -318,15 +291,16 @@ class ImageAnalysisClientOperationsMixin(ImageAnalysisClientMixinABC):
 
         :param image_url: The image to be analyzed. Is one of the following types: ImageUrl, JSON,
          IO[bytes] Required.
-        :type image_url: ~azure.ai.vision.imageanalysis.models._models.ImageUrl or JSON or IO[bytes]
+        :type image_url: ~imageanalysis.models._models.ImageUrl or JSON or IO[bytes]
         :keyword visual_features: A list of visual features to analyze.
          Seven visual features are supported: Caption, DenseCaptions, Read (OCR), Tags, Objects,
          SmartCrops, and People.
          At least one visual feature must be specified. Required.
-        :paramtype visual_features: list[str or ~azure.ai.vision.imageanalysis.models.VisualFeatures]
+        :paramtype visual_features: list[str or ~imageanalysis.models.VisualFeatures]
         :keyword language: The desired language for result generation (a two-letter language code).
          If this option is not specified, the default value 'en' is used (English).
-         See https://aka.ms/cv-languages for a list of supported languages. Default value is None.
+         See `https://aka.ms/cv-languages <https://aka.ms/cv-languages>`_ for a list of supported
+         languages. Default value is None.
         :paramtype language: str
         :keyword gender_neutral_caption: Boolean flag for enabling gender-neutral captioning for
          Caption and Dense Captions features.
@@ -350,128 +324,10 @@ class ImageAnalysisClientOperationsMixin(ImageAnalysisClientMixinABC):
          value to a specific model version. Default value is None.
         :paramtype model_version: str
         :return: ImageAnalysisResult. The ImageAnalysisResult is compatible with MutableMapping
-        :rtype: ~azure.ai.vision.imageanalysis.models.ImageAnalysisResult
+        :rtype: ~imageanalysis.models.ImageAnalysisResult
         :raises ~azure.core.exceptions.HttpResponseError:
-
-        Example:
-            .. code-block:: python
-
-                # JSON input template you can fill out and use as your body input.
-                image_url = {
-                    "url": "str"
-                }
-
-                # response body for status code(s): 200
-                response == {
-                    "metadata": {
-                        "height": 0,
-                        "width": 0
-                    },
-                    "modelVersion": "str",
-                    "captionResult": {
-                        "confidence": 0.0,
-                        "text": "str"
-                    },
-                    "denseCaptionsResult": {
-                        "values": [
-                            {
-                                "boundingBox": {
-                                    "h": 0,
-                                    "w": 0,
-                                    "x": 0,
-                                    "y": 0
-                                },
-                                "confidence": 0.0,
-                                "text": "str"
-                            }
-                        ]
-                    },
-                    "objectsResult": {
-                        "values": [
-                            {
-                                "boundingBox": {
-                                    "h": 0,
-                                    "w": 0,
-                                    "x": 0,
-                                    "y": 0
-                                },
-                                "tags": [
-                                    {
-                                        "confidence": 0.0,
-                                        "name": "str"
-                                    }
-                                ]
-                            }
-                        ]
-                    },
-                    "peopleResult": {
-                        "values": [
-                            {
-                                "boundingBox": {
-                                    "h": 0,
-                                    "w": 0,
-                                    "x": 0,
-                                    "y": 0
-                                },
-                                "confidence": 0.0
-                            }
-                        ]
-                    },
-                    "readResult": {
-                        "blocks": [
-                            {
-                                "lines": [
-                                    {
-                                        "boundingPolygon": [
-                                            {
-                                                "x": 0,
-                                                "y": 0
-                                            }
-                                        ],
-                                        "text": "str",
-                                        "words": [
-                                            {
-                                                "boundingPolygon": [
-                                                    {
-                                                        "x":
-                                                          0,
-                                                        "y":
-                                                          0
-                                                    }
-                                                ],
-                                                "confidence": 0.0,
-                                                "text": "str"
-                                            }
-                                        ]
-                                    }
-                                ]
-                            }
-                        ]
-                    },
-                    "smartCropsResult": {
-                        "values": [
-                            {
-                                "aspectRatio": 0.0,
-                                "boundingBox": {
-                                    "h": 0,
-                                    "w": 0,
-                                    "x": 0,
-                                    "y": 0
-                                }
-                            }
-                        ]
-                    },
-                    "tagsResult": {
-                        "values": [
-                            {
-                                "confidence": 0.0,
-                                "name": "str"
-                            }
-                        ]
-                    }
-                }
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -510,7 +366,7 @@ class ImageAnalysisClientOperationsMixin(ImageAnalysisClientMixinABC):
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -518,7 +374,10 @@ class ImageAnalysisClientOperationsMixin(ImageAnalysisClientMixinABC):
 
         if response.status_code not in [200]:
             if _stream:
-                await response.read()  # Load the body in memory and close the socket
+                try:
+                    response.read()  # Load the body in memory and close the socket
+                except (StreamConsumedError, StreamClosedError):
+                    pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response)
 
