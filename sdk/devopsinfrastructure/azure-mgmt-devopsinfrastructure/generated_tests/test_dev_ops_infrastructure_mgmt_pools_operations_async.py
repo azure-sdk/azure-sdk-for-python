@@ -6,7 +6,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 import pytest
-from azure.mgmt.devopsinfrastructure.aio import DevOpsInfrastructureMgmtClient
+from microsoft.devopsinfrastructure.aio import DevOpsInfrastructureMgmtClient
 
 from devtools_testutils import AzureMgmtRecordedTestCase, RandomNameResourceGroupPreparer
 from devtools_testutils.aio import recorded_by_proxy_async
@@ -130,5 +130,15 @@ class TestDevOpsInfrastructureMgmtPoolsOperationsAsync(AzureMgmtRecordedTestCase
     async def test_pools_list_by_subscription(self, resource_group):
         response = self.client.pools.list_by_subscription()
         result = [r async for r in response]
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy_async
+    async def test_pools_check_name_availability(self, resource_group):
+        response = await self.client.pools.check_name_availability(
+            body={"name": "str", "type": "str"},
+        )
+
         # please add some check logic here by yourself
         # ...

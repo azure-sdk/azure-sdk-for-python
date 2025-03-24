@@ -8,12 +8,12 @@
 
 from azure.identity import DefaultAzureCredential
 
-from azure.mgmt.devopsinfrastructure import DevOpsInfrastructureMgmtClient
+from microsoft.devopsinfrastructure import DevOpsInfrastructureMgmtClient
 
 """
 # PREREQUISITES
     pip install azure-identity
-    pip install azure-mgmt-devopsinfrastructure
+    pip install microsoft-devopsinfrastructure
 # USAGE
     python image_versions_list_by_image.py
 
@@ -38,6 +38,6 @@ def main():
         print(item)
 
 
-# x-ms-original-file: 2024-10-19/ImageVersions_ListByImage.json
+# x-ms-original-file: 2025-01-21/ImageVersions_ListByImage.json
 if __name__ == "__main__":
     main()
