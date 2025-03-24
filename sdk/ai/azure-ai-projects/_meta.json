@@ -1,0 +1,6 @@
+{
+  "commit": "191cac779af82502b72543558ab4aa09e45ab199",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/ai/Azure.AI.Projects",
+  "@azure-tools/typespec-python": "0.40.0"
+}
