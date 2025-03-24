@@ -1,7 +1,5 @@
 include *.md
 include LICENSE
-include azure/healthinsights/radiologyinsights/py.typed
+include azurehealthinsights/py.typed
 recursive-include tests *.py
 recursive-include samples *.py *.md
-include azure/__init__.py
-include azure/healthinsights/__init__.py
