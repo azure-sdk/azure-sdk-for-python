@@ -12,7 +12,7 @@ import re
 from setuptools import setup, find_packages
 
 
-PACKAGE_NAME = "azure-appconfiguration"
+PACKAGE_NAME = "azureappconfiguration"
 PACKAGE_PPRINT_NAME = "App Configuration Data"
 
 # a-b-c => a/b/c
@@ -35,10 +35,10 @@ setup(
     license="MIT License",
     author="Microsoft Corporation",
     author_email="azpysdkhelp@microsoft.com",
-    url="https://github.com/Azure/azure-sdk-for-python/tree/main/sdk/appconfiguration/azure-appconfiguration",
+    url="https://github.com/Azure/azure-sdk-for-python/tree/main/sdk",
     keywords="azure, azure sdk",
     classifiers=[
-        "Development Status :: 5 - Production/Stable",
+        "Development Status :: 4 - Beta",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3 :: Only",
         "Programming Language :: Python :: 3",
@@ -53,13 +53,11 @@ setup(
     packages=find_packages(
         exclude=[
             "tests",
-            # Exclude packages that will be covered by PEP420 or nspkg
-            "azure",
         ]
     ),
     include_package_data=True,
     package_data={
-        "azure.appconfiguration": ["py.typed"],
+        "azureappconfiguration": ["py.typed"],
     },
     install_requires=[
         "isodate>=0.6.1",
