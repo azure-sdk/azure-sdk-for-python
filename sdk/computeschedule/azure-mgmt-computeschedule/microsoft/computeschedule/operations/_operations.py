@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=line-too-long,useless-suppression,too-many-lines
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -9,10 +9,10 @@
 from io import IOBase
 import json
 import sys
-from typing import Any, AsyncIterable, Callable, Dict, IO, List, Optional, TypeVar, Union, overload
+from typing import Any, Callable, Dict, IO, Iterable, List, Optional, TypeVar, Union, overload
 import urllib.parse
 
-from azure.core.async_paging import AsyncItemPaged, AsyncList
+from azure.core import PipelineClient
 from azure.core.exceptions import (
     ClientAuthenticationError,
     HttpResponseError,
@@ -23,35 +23,317 @@ from azure.core.exceptions import (
     StreamConsumedError,
     map_error,
 )
+from azure.core.paging import ItemPaged
 from azure.core.pipeline import PipelineResponse
-from azure.core.rest import AsyncHttpResponse, HttpRequest
+from azure.core.rest import HttpRequest, HttpResponse
 from azure.core.tracing.decorator import distributed_trace
-from azure.core.tracing.decorator_async import distributed_trace_async
 from azure.core.utils import case_insensitive_dict
 from azure.mgmt.core.exceptions import ARMErrorFormat
 
-from ... import models as _models
-from ..._model_base import SdkJSONEncoder, _deserialize, _failsafe_deserialize
-from ...operations._operations import (
-    build_operations_list_request,
-    build_scheduled_actions_virtual_machines_cancel_operations_request,
-    build_scheduled_actions_virtual_machines_execute_deallocate_request,
-    build_scheduled_actions_virtual_machines_execute_hibernate_request,
-    build_scheduled_actions_virtual_machines_execute_start_request,
-    build_scheduled_actions_virtual_machines_get_operation_errors_request,
-    build_scheduled_actions_virtual_machines_get_operation_status_request,
-    build_scheduled_actions_virtual_machines_submit_deallocate_request,
-    build_scheduled_actions_virtual_machines_submit_hibernate_request,
-    build_scheduled_actions_virtual_machines_submit_start_request,
-)
+from .. import models as _models
+from .._configuration import ComputeScheduleMgmtClientConfiguration
+from .._model_base import SdkJSONEncoder, _deserialize, _failsafe_deserialize
+from .._serialization import Deserializer, Serializer
 
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
     from typing import MutableMapping  # type: ignore
 T = TypeVar("T")
-ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
+ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
 JSON = MutableMapping[str, Any]  # pylint: disable=unsubscriptable-object
+
+_SERIALIZER = Serializer()
+_SERIALIZER.client_side_validation = False
+
+
+def build_operations_list_request(**kwargs: Any) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/providers/Microsoft.ComputeSchedule/operations"
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_scheduled_actions_virtual_machines_submit_deallocate_request(  # pylint: disable=name-too-long
+    locationparameter: str, subscription_id: str, **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/subscriptions/{subscriptionId}/providers/Microsoft.ComputeSchedule/locations/{locationparameter}/virtualMachinesSubmitDeallocate"
+    path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
+        "locationparameter": _SERIALIZER.url("locationparameter", locationparameter, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    if content_type is not None:
+        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_scheduled_actions_virtual_machines_submit_hibernate_request(  # pylint: disable=name-too-long
+    locationparameter: str, subscription_id: str, **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/subscriptions/{subscriptionId}/providers/Microsoft.ComputeSchedule/locations/{locationparameter}/virtualMachinesSubmitHibernate"
+    path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
+        "locationparameter": _SERIALIZER.url("locationparameter", locationparameter, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    if content_type is not None:
+        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_scheduled_actions_virtual_machines_submit_start_request(  # pylint: disable=name-too-long
+    locationparameter: str, subscription_id: str, **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/subscriptions/{subscriptionId}/providers/Microsoft.ComputeSchedule/locations/{locationparameter}/virtualMachinesSubmitStart"
+    path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
+        "locationparameter": _SERIALIZER.url("locationparameter", locationparameter, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    if content_type is not None:
+        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_scheduled_actions_virtual_machines_execute_deallocate_request(  # pylint: disable=name-too-long
+    locationparameter: str, subscription_id: str, **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/subscriptions/{subscriptionId}/providers/Microsoft.ComputeSchedule/locations/{locationparameter}/virtualMachinesExecuteDeallocate"
+    path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
+        "locationparameter": _SERIALIZER.url("locationparameter", locationparameter, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    if content_type is not None:
+        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_scheduled_actions_virtual_machines_execute_hibernate_request(  # pylint: disable=name-too-long
+    locationparameter: str, subscription_id: str, **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/subscriptions/{subscriptionId}/providers/Microsoft.ComputeSchedule/locations/{locationparameter}/virtualMachinesExecuteHibernate"
+    path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
+        "locationparameter": _SERIALIZER.url("locationparameter", locationparameter, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    if content_type is not None:
+        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_scheduled_actions_virtual_machines_execute_start_request(  # pylint: disable=name-too-long
+    locationparameter: str, subscription_id: str, **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/subscriptions/{subscriptionId}/providers/Microsoft.ComputeSchedule/locations/{locationparameter}/virtualMachinesExecuteStart"
+    path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
+        "locationparameter": _SERIALIZER.url("locationparameter", locationparameter, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    if content_type is not None:
+        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_scheduled_actions_virtual_machines_get_operation_status_request(  # pylint: disable=name-too-long
+    locationparameter: str, subscription_id: str, **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/subscriptions/{subscriptionId}/providers/Microsoft.ComputeSchedule/locations/{locationparameter}/virtualMachinesGetOperationStatus"
+    path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
+        "locationparameter": _SERIALIZER.url("locationparameter", locationparameter, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    if content_type is not None:
+        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_scheduled_actions_virtual_machines_cancel_operations_request(  # pylint: disable=name-too-long
+    locationparameter: str, subscription_id: str, **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/subscriptions/{subscriptionId}/providers/Microsoft.ComputeSchedule/locations/{locationparameter}/virtualMachinesCancelOperations"
+    path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
+        "locationparameter": _SERIALIZER.url("locationparameter", locationparameter, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    if content_type is not None:
+        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_scheduled_actions_virtual_machines_get_operation_errors_request(  # pylint: disable=name-too-long
+    locationparameter: str, subscription_id: str, **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/subscriptions/{subscriptionId}/providers/Microsoft.ComputeSchedule/locations/{locationparameter}/virtualMachinesGetOperationErrors"
+    path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
+        "locationparameter": _SERIALIZER.url("locationparameter", locationparameter, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    if content_type is not None:
+        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
 
 class Operations:
@@ -60,23 +342,23 @@ class Operations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.computeschedule.aio.ComputeScheduleMgmtClient`'s
+        :class:`~microsoft.computeschedule.ComputeScheduleMgmtClient`'s
         :attr:`operations` attribute.
     """
 
-    def __init__(self, *args, **kwargs) -> None:
+    def __init__(self, *args, **kwargs):
         input_args = list(args)
-        self._client = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config = input_args.pop(0) if input_args else kwargs.pop("config")
-        self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
-        self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
+        self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
+        self._config: ComputeScheduleMgmtClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
+        self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
     @distributed_trace
-    def list(self, **kwargs: Any) -> AsyncIterable["_models.Operation"]:
+    def list(self, **kwargs: Any) -> Iterable["_models.Operation"]:
         """List the operations for the provider.
 
         :return: An iterator like instance of Operation
-        :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.computeschedule.models.Operation]
+        :rtype: ~azure.core.paging.ItemPaged[~microsoft.computeschedule.models.Operation]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
@@ -129,18 +411,18 @@ class Operations:
 
             return _request
 
-        async def extract_data(pipeline_response):
+        def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.Operation], deserialized["value"])
+            list_of_elem = _deserialize(List[_models.Operation], deserialized.get("value", []))
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
-            return deserialized.get("nextLink") or None, AsyncList(list_of_elem)
+            return deserialized.get("nextLink") or None, iter(list_of_elem)
 
-        async def get_next(next_link=None):
+        def get_next(next_link=None):
             _request = prepare_request(next_link)
 
             _stream = False
-            pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
                 _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
@@ -152,7 +434,7 @@ class Operations:
 
             return pipeline_response
 
-        return AsyncItemPaged(get_next, extract_data)
+        return ItemPaged(get_next, extract_data)
 
 
 class ScheduledActionsOperations:
@@ -161,19 +443,19 @@ class ScheduledActionsOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.computeschedule.aio.ComputeScheduleMgmtClient`'s
+        :class:`~microsoft.computeschedule.ComputeScheduleMgmtClient`'s
         :attr:`scheduled_actions` attribute.
     """
 
-    def __init__(self, *args, **kwargs) -> None:
+    def __init__(self, *args, **kwargs):
         input_args = list(args)
-        self._client = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config = input_args.pop(0) if input_args else kwargs.pop("config")
-        self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
-        self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
+        self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
+        self._config: ComputeScheduleMgmtClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
+        self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
     @overload
-    async def virtual_machines_submit_deallocate(
+    def virtual_machines_submit_deallocate(
         self,
         locationparameter: str,
         request_body: _models.SubmitDeallocateRequest,
@@ -187,18 +469,18 @@ class ScheduledActionsOperations:
         :param locationparameter: The location name. Required.
         :type locationparameter: str
         :param request_body: The request body. Required.
-        :type request_body: ~azure.mgmt.computeschedule.models.SubmitDeallocateRequest
+        :type request_body: ~microsoft.computeschedule.models.SubmitDeallocateRequest
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :return: DeallocateResourceOperationResponse. The DeallocateResourceOperationResponse is
          compatible with MutableMapping
-        :rtype: ~azure.mgmt.computeschedule.models.DeallocateResourceOperationResponse
+        :rtype: ~microsoft.computeschedule.models.DeallocateResourceOperationResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    async def virtual_machines_submit_deallocate(
+    def virtual_machines_submit_deallocate(
         self, locationparameter: str, request_body: JSON, *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.DeallocateResourceOperationResponse:
         """VirtualMachinesSubmitDeallocate: Schedule deallocate operation for a batch of virtual machines
@@ -213,12 +495,12 @@ class ScheduledActionsOperations:
         :paramtype content_type: str
         :return: DeallocateResourceOperationResponse. The DeallocateResourceOperationResponse is
          compatible with MutableMapping
-        :rtype: ~azure.mgmt.computeschedule.models.DeallocateResourceOperationResponse
+        :rtype: ~microsoft.computeschedule.models.DeallocateResourceOperationResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    async def virtual_machines_submit_deallocate(
+    def virtual_machines_submit_deallocate(
         self, locationparameter: str, request_body: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.DeallocateResourceOperationResponse:
         """VirtualMachinesSubmitDeallocate: Schedule deallocate operation for a batch of virtual machines
@@ -233,12 +515,12 @@ class ScheduledActionsOperations:
         :paramtype content_type: str
         :return: DeallocateResourceOperationResponse. The DeallocateResourceOperationResponse is
          compatible with MutableMapping
-        :rtype: ~azure.mgmt.computeschedule.models.DeallocateResourceOperationResponse
+        :rtype: ~microsoft.computeschedule.models.DeallocateResourceOperationResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
-    @distributed_trace_async
-    async def virtual_machines_submit_deallocate(
+    @distributed_trace
+    def virtual_machines_submit_deallocate(
         self,
         locationparameter: str,
         request_body: Union[_models.SubmitDeallocateRequest, JSON, IO[bytes]],
@@ -251,11 +533,11 @@ class ScheduledActionsOperations:
         :type locationparameter: str
         :param request_body: The request body. Is one of the following types: SubmitDeallocateRequest,
          JSON, IO[bytes] Required.
-        :type request_body: ~azure.mgmt.computeschedule.models.SubmitDeallocateRequest or JSON or
+        :type request_body: ~microsoft.computeschedule.models.SubmitDeallocateRequest or JSON or
          IO[bytes]
         :return: DeallocateResourceOperationResponse. The DeallocateResourceOperationResponse is
          compatible with MutableMapping
-        :rtype: ~azure.mgmt.computeschedule.models.DeallocateResourceOperationResponse
+        :rtype: ~microsoft.computeschedule.models.DeallocateResourceOperationResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -294,7 +576,7 @@ class ScheduledActionsOperations:
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -303,7 +585,7 @@ class ScheduledActionsOperations:
         if response.status_code not in [200]:
             if _stream:
                 try:
-                    await response.read()  # Load the body in memory and close the socket
+                    response.read()  # Load the body in memory and close the socket
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
@@ -321,7 +603,7 @@ class ScheduledActionsOperations:
         return deserialized  # type: ignore
 
     @overload
-    async def virtual_machines_submit_hibernate(
+    def virtual_machines_submit_hibernate(
         self,
         locationparameter: str,
         request_body: _models.SubmitHibernateRequest,
@@ -335,18 +617,18 @@ class ScheduledActionsOperations:
         :param locationparameter: The location name. Required.
         :type locationparameter: str
         :param request_body: The request body. Required.
-        :type request_body: ~azure.mgmt.computeschedule.models.SubmitHibernateRequest
+        :type request_body: ~microsoft.computeschedule.models.SubmitHibernateRequest
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :return: HibernateResourceOperationResponse. The HibernateResourceOperationResponse is
          compatible with MutableMapping
-        :rtype: ~azure.mgmt.computeschedule.models.HibernateResourceOperationResponse
+        :rtype: ~microsoft.computeschedule.models.HibernateResourceOperationResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    async def virtual_machines_submit_hibernate(
+    def virtual_machines_submit_hibernate(
         self, locationparameter: str, request_body: JSON, *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.HibernateResourceOperationResponse:
         """VirtualMachinesSubmitHibernate: Schedule hibernate operation for a batch of virtual machines at
@@ -361,12 +643,12 @@ class ScheduledActionsOperations:
         :paramtype content_type: str
         :return: HibernateResourceOperationResponse. The HibernateResourceOperationResponse is
          compatible with MutableMapping
-        :rtype: ~azure.mgmt.computeschedule.models.HibernateResourceOperationResponse
+        :rtype: ~microsoft.computeschedule.models.HibernateResourceOperationResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    async def virtual_machines_submit_hibernate(
+    def virtual_machines_submit_hibernate(
         self, locationparameter: str, request_body: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.HibernateResourceOperationResponse:
         """VirtualMachinesSubmitHibernate: Schedule hibernate operation for a batch of virtual machines at
@@ -381,12 +663,12 @@ class ScheduledActionsOperations:
         :paramtype content_type: str
         :return: HibernateResourceOperationResponse. The HibernateResourceOperationResponse is
          compatible with MutableMapping
-        :rtype: ~azure.mgmt.computeschedule.models.HibernateResourceOperationResponse
+        :rtype: ~microsoft.computeschedule.models.HibernateResourceOperationResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
-    @distributed_trace_async
-    async def virtual_machines_submit_hibernate(
+    @distributed_trace
+    def virtual_machines_submit_hibernate(
         self,
         locationparameter: str,
         request_body: Union[_models.SubmitHibernateRequest, JSON, IO[bytes]],
@@ -399,11 +681,11 @@ class ScheduledActionsOperations:
         :type locationparameter: str
         :param request_body: The request body. Is one of the following types: SubmitHibernateRequest,
          JSON, IO[bytes] Required.
-        :type request_body: ~azure.mgmt.computeschedule.models.SubmitHibernateRequest or JSON or
+        :type request_body: ~microsoft.computeschedule.models.SubmitHibernateRequest or JSON or
          IO[bytes]
         :return: HibernateResourceOperationResponse. The HibernateResourceOperationResponse is
          compatible with MutableMapping
-        :rtype: ~azure.mgmt.computeschedule.models.HibernateResourceOperationResponse
+        :rtype: ~microsoft.computeschedule.models.HibernateResourceOperationResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -442,7 +724,7 @@ class ScheduledActionsOperations:
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -451,7 +733,7 @@ class ScheduledActionsOperations:
         if response.status_code not in [200]:
             if _stream:
                 try:
-                    await response.read()  # Load the body in memory and close the socket
+                    response.read()  # Load the body in memory and close the socket
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
@@ -469,7 +751,7 @@ class ScheduledActionsOperations:
         return deserialized  # type: ignore
 
     @overload
-    async def virtual_machines_submit_start(
+    def virtual_machines_submit_start(
         self,
         locationparameter: str,
         request_body: _models.SubmitStartRequest,
@@ -483,18 +765,18 @@ class ScheduledActionsOperations:
         :param locationparameter: The location name. Required.
         :type locationparameter: str
         :param request_body: The request body. Required.
-        :type request_body: ~azure.mgmt.computeschedule.models.SubmitStartRequest
+        :type request_body: ~microsoft.computeschedule.models.SubmitStartRequest
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :return: StartResourceOperationResponse. The StartResourceOperationResponse is compatible with
          MutableMapping
-        :rtype: ~azure.mgmt.computeschedule.models.StartResourceOperationResponse
+        :rtype: ~microsoft.computeschedule.models.StartResourceOperationResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    async def virtual_machines_submit_start(
+    def virtual_machines_submit_start(
         self, locationparameter: str, request_body: JSON, *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.StartResourceOperationResponse:
         """VirtualMachinesSubmitStart: Schedule start operation for a batch of virtual machines at
@@ -509,12 +791,12 @@ class ScheduledActionsOperations:
         :paramtype content_type: str
         :return: StartResourceOperationResponse. The StartResourceOperationResponse is compatible with
          MutableMapping
-        :rtype: ~azure.mgmt.computeschedule.models.StartResourceOperationResponse
+        :rtype: ~microsoft.computeschedule.models.StartResourceOperationResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    async def virtual_machines_submit_start(
+    def virtual_machines_submit_start(
         self, locationparameter: str, request_body: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.StartResourceOperationResponse:
         """VirtualMachinesSubmitStart: Schedule start operation for a batch of virtual machines at
@@ -529,12 +811,12 @@ class ScheduledActionsOperations:
         :paramtype content_type: str
         :return: StartResourceOperationResponse. The StartResourceOperationResponse is compatible with
          MutableMapping
-        :rtype: ~azure.mgmt.computeschedule.models.StartResourceOperationResponse
+        :rtype: ~microsoft.computeschedule.models.StartResourceOperationResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
-    @distributed_trace_async
-    async def virtual_machines_submit_start(
+    @distributed_trace
+    def virtual_machines_submit_start(
         self, locationparameter: str, request_body: Union[_models.SubmitStartRequest, JSON, IO[bytes]], **kwargs: Any
     ) -> _models.StartResourceOperationResponse:
         """VirtualMachinesSubmitStart: Schedule start operation for a batch of virtual machines at
@@ -544,10 +826,10 @@ class ScheduledActionsOperations:
         :type locationparameter: str
         :param request_body: The request body. Is one of the following types: SubmitStartRequest, JSON,
          IO[bytes] Required.
-        :type request_body: ~azure.mgmt.computeschedule.models.SubmitStartRequest or JSON or IO[bytes]
+        :type request_body: ~microsoft.computeschedule.models.SubmitStartRequest or JSON or IO[bytes]
         :return: StartResourceOperationResponse. The StartResourceOperationResponse is compatible with
          MutableMapping
-        :rtype: ~azure.mgmt.computeschedule.models.StartResourceOperationResponse
+        :rtype: ~microsoft.computeschedule.models.StartResourceOperationResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -586,7 +868,7 @@ class ScheduledActionsOperations:
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -595,7 +877,7 @@ class ScheduledActionsOperations:
         if response.status_code not in [200]:
             if _stream:
                 try:
-                    await response.read()  # Load the body in memory and close the socket
+                    response.read()  # Load the body in memory and close the socket
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
@@ -613,7 +895,7 @@ class ScheduledActionsOperations:
         return deserialized  # type: ignore
 
     @overload
-    async def virtual_machines_execute_deallocate(
+    def virtual_machines_execute_deallocate(
         self,
         locationparameter: str,
         request_body: _models.ExecuteDeallocateRequest,
@@ -627,18 +909,18 @@ class ScheduledActionsOperations:
         :param locationparameter: The location name. Required.
         :type locationparameter: str
         :param request_body: The request body. Required.
-        :type request_body: ~azure.mgmt.computeschedule.models.ExecuteDeallocateRequest
+        :type request_body: ~microsoft.computeschedule.models.ExecuteDeallocateRequest
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :return: DeallocateResourceOperationResponse. The DeallocateResourceOperationResponse is
          compatible with MutableMapping
-        :rtype: ~azure.mgmt.computeschedule.models.DeallocateResourceOperationResponse
+        :rtype: ~microsoft.computeschedule.models.DeallocateResourceOperationResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    async def virtual_machines_execute_deallocate(
+    def virtual_machines_execute_deallocate(
         self, locationparameter: str, request_body: JSON, *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.DeallocateResourceOperationResponse:
         """VirtualMachinesExecuteDeallocate: Execute deallocate operation for a batch of virtual machines,
@@ -653,12 +935,12 @@ class ScheduledActionsOperations:
         :paramtype content_type: str
         :return: DeallocateResourceOperationResponse. The DeallocateResourceOperationResponse is
          compatible with MutableMapping
-        :rtype: ~azure.mgmt.computeschedule.models.DeallocateResourceOperationResponse
+        :rtype: ~microsoft.computeschedule.models.DeallocateResourceOperationResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    async def virtual_machines_execute_deallocate(
+    def virtual_machines_execute_deallocate(
         self, locationparameter: str, request_body: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.DeallocateResourceOperationResponse:
         """VirtualMachinesExecuteDeallocate: Execute deallocate operation for a batch of virtual machines,
@@ -673,12 +955,12 @@ class ScheduledActionsOperations:
         :paramtype content_type: str
         :return: DeallocateResourceOperationResponse. The DeallocateResourceOperationResponse is
          compatible with MutableMapping
-        :rtype: ~azure.mgmt.computeschedule.models.DeallocateResourceOperationResponse
+        :rtype: ~microsoft.computeschedule.models.DeallocateResourceOperationResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
-    @distributed_trace_async
-    async def virtual_machines_execute_deallocate(
+    @distributed_trace
+    def virtual_machines_execute_deallocate(
         self,
         locationparameter: str,
         request_body: Union[_models.ExecuteDeallocateRequest, JSON, IO[bytes]],
@@ -691,11 +973,11 @@ class ScheduledActionsOperations:
         :type locationparameter: str
         :param request_body: The request body. Is one of the following types: ExecuteDeallocateRequest,
          JSON, IO[bytes] Required.
-        :type request_body: ~azure.mgmt.computeschedule.models.ExecuteDeallocateRequest or JSON or
+        :type request_body: ~microsoft.computeschedule.models.ExecuteDeallocateRequest or JSON or
          IO[bytes]
         :return: DeallocateResourceOperationResponse. The DeallocateResourceOperationResponse is
          compatible with MutableMapping
-        :rtype: ~azure.mgmt.computeschedule.models.DeallocateResourceOperationResponse
+        :rtype: ~microsoft.computeschedule.models.DeallocateResourceOperationResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -734,7 +1016,7 @@ class ScheduledActionsOperations:
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -743,7 +1025,7 @@ class ScheduledActionsOperations:
         if response.status_code not in [200]:
             if _stream:
                 try:
-                    await response.read()  # Load the body in memory and close the socket
+                    response.read()  # Load the body in memory and close the socket
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
@@ -761,7 +1043,7 @@ class ScheduledActionsOperations:
         return deserialized  # type: ignore
 
     @overload
-    async def virtual_machines_execute_hibernate(
+    def virtual_machines_execute_hibernate(
         self,
         locationparameter: str,
         request_body: _models.ExecuteHibernateRequest,
@@ -775,18 +1057,18 @@ class ScheduledActionsOperations:
         :param locationparameter: The location name. Required.
         :type locationparameter: str
         :param request_body: The request body. Required.
-        :type request_body: ~azure.mgmt.computeschedule.models.ExecuteHibernateRequest
+        :type request_body: ~microsoft.computeschedule.models.ExecuteHibernateRequest
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :return: HibernateResourceOperationResponse. The HibernateResourceOperationResponse is
          compatible with MutableMapping
-        :rtype: ~azure.mgmt.computeschedule.models.HibernateResourceOperationResponse
+        :rtype: ~microsoft.computeschedule.models.HibernateResourceOperationResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    async def virtual_machines_execute_hibernate(
+    def virtual_machines_execute_hibernate(
         self, locationparameter: str, request_body: JSON, *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.HibernateResourceOperationResponse:
         """VirtualMachinesExecuteHibernate: Execute hibernate operation for a batch of virtual machines,
@@ -801,12 +1083,12 @@ class ScheduledActionsOperations:
         :paramtype content_type: str
         :return: HibernateResourceOperationResponse. The HibernateResourceOperationResponse is
          compatible with MutableMapping
-        :rtype: ~azure.mgmt.computeschedule.models.HibernateResourceOperationResponse
+        :rtype: ~microsoft.computeschedule.models.HibernateResourceOperationResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    async def virtual_machines_execute_hibernate(
+    def virtual_machines_execute_hibernate(
         self, locationparameter: str, request_body: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.HibernateResourceOperationResponse:
         """VirtualMachinesExecuteHibernate: Execute hibernate operation for a batch of virtual machines,
@@ -821,12 +1103,12 @@ class ScheduledActionsOperations:
         :paramtype content_type: str
         :return: HibernateResourceOperationResponse. The HibernateResourceOperationResponse is
          compatible with MutableMapping
-        :rtype: ~azure.mgmt.computeschedule.models.HibernateResourceOperationResponse
+        :rtype: ~microsoft.computeschedule.models.HibernateResourceOperationResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
-    @distributed_trace_async
-    async def virtual_machines_execute_hibernate(
+    @distributed_trace
+    def virtual_machines_execute_hibernate(
         self,
         locationparameter: str,
         request_body: Union[_models.ExecuteHibernateRequest, JSON, IO[bytes]],
@@ -839,11 +1121,11 @@ class ScheduledActionsOperations:
         :type locationparameter: str
         :param request_body: The request body. Is one of the following types: ExecuteHibernateRequest,
          JSON, IO[bytes] Required.
-        :type request_body: ~azure.mgmt.computeschedule.models.ExecuteHibernateRequest or JSON or
+        :type request_body: ~microsoft.computeschedule.models.ExecuteHibernateRequest or JSON or
          IO[bytes]
         :return: HibernateResourceOperationResponse. The HibernateResourceOperationResponse is
          compatible with MutableMapping
-        :rtype: ~azure.mgmt.computeschedule.models.HibernateResourceOperationResponse
+        :rtype: ~microsoft.computeschedule.models.HibernateResourceOperationResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -882,7 +1164,7 @@ class ScheduledActionsOperations:
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -891,7 +1173,7 @@ class ScheduledActionsOperations:
         if response.status_code not in [200]:
             if _stream:
                 try:
-                    await response.read()  # Load the body in memory and close the socket
+                    response.read()  # Load the body in memory and close the socket
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
@@ -909,7 +1191,7 @@ class ScheduledActionsOperations:
         return deserialized  # type: ignore
 
     @overload
-    async def virtual_machines_execute_start(
+    def virtual_machines_execute_start(
         self,
         locationparameter: str,
         request_body: _models.ExecuteStartRequest,
@@ -923,18 +1205,18 @@ class ScheduledActionsOperations:
         :param locationparameter: The location name. Required.
         :type locationparameter: str
         :param request_body: The request body. Required.
-        :type request_body: ~azure.mgmt.computeschedule.models.ExecuteStartRequest
+        :type request_body: ~microsoft.computeschedule.models.ExecuteStartRequest
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :return: StartResourceOperationResponse. The StartResourceOperationResponse is compatible with
          MutableMapping
-        :rtype: ~azure.mgmt.computeschedule.models.StartResourceOperationResponse
+        :rtype: ~microsoft.computeschedule.models.StartResourceOperationResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    async def virtual_machines_execute_start(
+    def virtual_machines_execute_start(
         self, locationparameter: str, request_body: JSON, *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.StartResourceOperationResponse:
         """VirtualMachinesExecuteStart: Execute start operation for a batch of virtual machines, this
@@ -949,12 +1231,12 @@ class ScheduledActionsOperations:
         :paramtype content_type: str
         :return: StartResourceOperationResponse. The StartResourceOperationResponse is compatible with
          MutableMapping
-        :rtype: ~azure.mgmt.computeschedule.models.StartResourceOperationResponse
+        :rtype: ~microsoft.computeschedule.models.StartResourceOperationResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    async def virtual_machines_execute_start(
+    def virtual_machines_execute_start(
         self, locationparameter: str, request_body: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.StartResourceOperationResponse:
         """VirtualMachinesExecuteStart: Execute start operation for a batch of virtual machines, this
@@ -969,12 +1251,12 @@ class ScheduledActionsOperations:
         :paramtype content_type: str
         :return: StartResourceOperationResponse. The StartResourceOperationResponse is compatible with
          MutableMapping
-        :rtype: ~azure.mgmt.computeschedule.models.StartResourceOperationResponse
+        :rtype: ~microsoft.computeschedule.models.StartResourceOperationResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
-    @distributed_trace_async
-    async def virtual_machines_execute_start(
+    @distributed_trace
+    def virtual_machines_execute_start(
         self, locationparameter: str, request_body: Union[_models.ExecuteStartRequest, JSON, IO[bytes]], **kwargs: Any
     ) -> _models.StartResourceOperationResponse:
         """VirtualMachinesExecuteStart: Execute start operation for a batch of virtual machines, this
@@ -984,10 +1266,10 @@ class ScheduledActionsOperations:
         :type locationparameter: str
         :param request_body: The request body. Is one of the following types: ExecuteStartRequest,
          JSON, IO[bytes] Required.
-        :type request_body: ~azure.mgmt.computeschedule.models.ExecuteStartRequest or JSON or IO[bytes]
+        :type request_body: ~microsoft.computeschedule.models.ExecuteStartRequest or JSON or IO[bytes]
         :return: StartResourceOperationResponse. The StartResourceOperationResponse is compatible with
          MutableMapping
-        :rtype: ~azure.mgmt.computeschedule.models.StartResourceOperationResponse
+        :rtype: ~microsoft.computeschedule.models.StartResourceOperationResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -1026,7 +1308,7 @@ class ScheduledActionsOperations:
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -1035,7 +1317,7 @@ class ScheduledActionsOperations:
         if response.status_code not in [200]:
             if _stream:
                 try:
-                    await response.read()  # Load the body in memory and close the socket
+                    response.read()  # Load the body in memory and close the socket
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
@@ -1053,7 +1335,7 @@ class ScheduledActionsOperations:
         return deserialized  # type: ignore
 
     @overload
-    async def virtual_machines_get_operation_status(
+    def virtual_machines_get_operation_status(
         self,
         locationparameter: str,
         request_body: _models.GetOperationStatusRequest,
@@ -1067,18 +1349,18 @@ class ScheduledActionsOperations:
         :param locationparameter: The location name. Required.
         :type locationparameter: str
         :param request_body: The request body. Required.
-        :type request_body: ~azure.mgmt.computeschedule.models.GetOperationStatusRequest
+        :type request_body: ~microsoft.computeschedule.models.GetOperationStatusRequest
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :return: GetOperationStatusResponse. The GetOperationStatusResponse is compatible with
          MutableMapping
-        :rtype: ~azure.mgmt.computeschedule.models.GetOperationStatusResponse
+        :rtype: ~microsoft.computeschedule.models.GetOperationStatusResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    async def virtual_machines_get_operation_status(
+    def virtual_machines_get_operation_status(
         self, locationparameter: str, request_body: JSON, *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.GetOperationStatusResponse:
         """VirtualMachinesGetOperationStatus: Polling endpoint to read status of operations performed on
@@ -1093,12 +1375,12 @@ class ScheduledActionsOperations:
         :paramtype content_type: str
         :return: GetOperationStatusResponse. The GetOperationStatusResponse is compatible with
          MutableMapping
-        :rtype: ~azure.mgmt.computeschedule.models.GetOperationStatusResponse
+        :rtype: ~microsoft.computeschedule.models.GetOperationStatusResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    async def virtual_machines_get_operation_status(
+    def virtual_machines_get_operation_status(
         self, locationparameter: str, request_body: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.GetOperationStatusResponse:
         """VirtualMachinesGetOperationStatus: Polling endpoint to read status of operations performed on
@@ -1113,12 +1395,12 @@ class ScheduledActionsOperations:
         :paramtype content_type: str
         :return: GetOperationStatusResponse. The GetOperationStatusResponse is compatible with
          MutableMapping
-        :rtype: ~azure.mgmt.computeschedule.models.GetOperationStatusResponse
+        :rtype: ~microsoft.computeschedule.models.GetOperationStatusResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
-    @distributed_trace_async
-    async def virtual_machines_get_operation_status(
+    @distributed_trace
+    def virtual_machines_get_operation_status(
         self,
         locationparameter: str,
         request_body: Union[_models.GetOperationStatusRequest, JSON, IO[bytes]],
@@ -1131,11 +1413,11 @@ class ScheduledActionsOperations:
         :type locationparameter: str
         :param request_body: The request body. Is one of the following types:
          GetOperationStatusRequest, JSON, IO[bytes] Required.
-        :type request_body: ~azure.mgmt.computeschedule.models.GetOperationStatusRequest or JSON or
+        :type request_body: ~microsoft.computeschedule.models.GetOperationStatusRequest or JSON or
          IO[bytes]
         :return: GetOperationStatusResponse. The GetOperationStatusResponse is compatible with
          MutableMapping
-        :rtype: ~azure.mgmt.computeschedule.models.GetOperationStatusResponse
+        :rtype: ~microsoft.computeschedule.models.GetOperationStatusResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -1174,7 +1456,7 @@ class ScheduledActionsOperations:
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -1183,7 +1465,7 @@ class ScheduledActionsOperations:
         if response.status_code not in [200]:
             if _stream:
                 try:
-                    await response.read()  # Load the body in memory and close the socket
+                    response.read()  # Load the body in memory and close the socket
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
@@ -1201,7 +1483,7 @@ class ScheduledActionsOperations:
         return deserialized  # type: ignore
 
     @overload
-    async def virtual_machines_cancel_operations(
+    def virtual_machines_cancel_operations(
         self,
         locationparameter: str,
         request_body: _models.CancelOperationsRequest,
@@ -1215,18 +1497,18 @@ class ScheduledActionsOperations:
         :param locationparameter: The location name. Required.
         :type locationparameter: str
         :param request_body: The request body. Required.
-        :type request_body: ~azure.mgmt.computeschedule.models.CancelOperationsRequest
+        :type request_body: ~microsoft.computeschedule.models.CancelOperationsRequest
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :return: CancelOperationsResponse. The CancelOperationsResponse is compatible with
          MutableMapping
-        :rtype: ~azure.mgmt.computeschedule.models.CancelOperationsResponse
+        :rtype: ~microsoft.computeschedule.models.CancelOperationsResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    async def virtual_machines_cancel_operations(
+    def virtual_machines_cancel_operations(
         self, locationparameter: str, request_body: JSON, *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.CancelOperationsResponse:
         """VirtualMachinesCancelOperations: Cancel a previously submitted (start/deallocate/hibernate)
@@ -1241,12 +1523,12 @@ class ScheduledActionsOperations:
         :paramtype content_type: str
         :return: CancelOperationsResponse. The CancelOperationsResponse is compatible with
          MutableMapping
-        :rtype: ~azure.mgmt.computeschedule.models.CancelOperationsResponse
+        :rtype: ~microsoft.computeschedule.models.CancelOperationsResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    async def virtual_machines_cancel_operations(
+    def virtual_machines_cancel_operations(
         self, locationparameter: str, request_body: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.CancelOperationsResponse:
         """VirtualMachinesCancelOperations: Cancel a previously submitted (start/deallocate/hibernate)
@@ -1261,12 +1543,12 @@ class ScheduledActionsOperations:
         :paramtype content_type: str
         :return: CancelOperationsResponse. The CancelOperationsResponse is compatible with
          MutableMapping
-        :rtype: ~azure.mgmt.computeschedule.models.CancelOperationsResponse
+        :rtype: ~microsoft.computeschedule.models.CancelOperationsResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
-    @distributed_trace_async
-    async def virtual_machines_cancel_operations(
+    @distributed_trace
+    def virtual_machines_cancel_operations(
         self,
         locationparameter: str,
         request_body: Union[_models.CancelOperationsRequest, JSON, IO[bytes]],
@@ -1279,11 +1561,11 @@ class ScheduledActionsOperations:
         :type locationparameter: str
         :param request_body: The request body. Is one of the following types: CancelOperationsRequest,
          JSON, IO[bytes] Required.
-        :type request_body: ~azure.mgmt.computeschedule.models.CancelOperationsRequest or JSON or
+        :type request_body: ~microsoft.computeschedule.models.CancelOperationsRequest or JSON or
          IO[bytes]
         :return: CancelOperationsResponse. The CancelOperationsResponse is compatible with
          MutableMapping
-        :rtype: ~azure.mgmt.computeschedule.models.CancelOperationsResponse
+        :rtype: ~microsoft.computeschedule.models.CancelOperationsResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -1322,7 +1604,7 @@ class ScheduledActionsOperations:
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -1331,7 +1613,7 @@ class ScheduledActionsOperations:
         if response.status_code not in [200]:
             if _stream:
                 try:
-                    await response.read()  # Load the body in memory and close the socket
+                    response.read()  # Load the body in memory and close the socket
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
@@ -1349,7 +1631,7 @@ class ScheduledActionsOperations:
         return deserialized  # type: ignore
 
     @overload
-    async def virtual_machines_get_operation_errors(
+    def virtual_machines_get_operation_errors(
         self,
         locationparameter: str,
         request_body: _models.GetOperationErrorsRequest,
@@ -1363,18 +1645,18 @@ class ScheduledActionsOperations:
         :param locationparameter: The location name. Required.
         :type locationparameter: str
         :param request_body: The request body. Required.
-        :type request_body: ~azure.mgmt.computeschedule.models.GetOperationErrorsRequest
+        :type request_body: ~microsoft.computeschedule.models.GetOperationErrorsRequest
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :return: GetOperationErrorsResponse. The GetOperationErrorsResponse is compatible with
          MutableMapping
-        :rtype: ~azure.mgmt.computeschedule.models.GetOperationErrorsResponse
+        :rtype: ~microsoft.computeschedule.models.GetOperationErrorsResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    async def virtual_machines_get_operation_errors(
+    def virtual_machines_get_operation_errors(
         self, locationparameter: str, request_body: JSON, *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.GetOperationErrorsResponse:
         """VirtualMachinesGetOperationErrors: Get error details on operation errors (like transient errors
@@ -1389,12 +1671,12 @@ class ScheduledActionsOperations:
         :paramtype content_type: str
         :return: GetOperationErrorsResponse. The GetOperationErrorsResponse is compatible with
          MutableMapping
-        :rtype: ~azure.mgmt.computeschedule.models.GetOperationErrorsResponse
+        :rtype: ~microsoft.computeschedule.models.GetOperationErrorsResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    async def virtual_machines_get_operation_errors(
+    def virtual_machines_get_operation_errors(
         self, locationparameter: str, request_body: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.GetOperationErrorsResponse:
         """VirtualMachinesGetOperationErrors: Get error details on operation errors (like transient errors
@@ -1409,12 +1691,12 @@ class ScheduledActionsOperations:
         :paramtype content_type: str
         :return: GetOperationErrorsResponse. The GetOperationErrorsResponse is compatible with
          MutableMapping
-        :rtype: ~azure.mgmt.computeschedule.models.GetOperationErrorsResponse
+        :rtype: ~microsoft.computeschedule.models.GetOperationErrorsResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
-    @distributed_trace_async
-    async def virtual_machines_get_operation_errors(
+    @distributed_trace
+    def virtual_machines_get_operation_errors(
         self,
         locationparameter: str,
         request_body: Union[_models.GetOperationErrorsRequest, JSON, IO[bytes]],
@@ -1427,11 +1709,11 @@ class ScheduledActionsOperations:
         :type locationparameter: str
         :param request_body: The request body. Is one of the following types:
          GetOperationErrorsRequest, JSON, IO[bytes] Required.
-        :type request_body: ~azure.mgmt.computeschedule.models.GetOperationErrorsRequest or JSON or
+        :type request_body: ~microsoft.computeschedule.models.GetOperationErrorsRequest or JSON or
          IO[bytes]
         :return: GetOperationErrorsResponse. The GetOperationErrorsResponse is compatible with
          MutableMapping
-        :rtype: ~azure.mgmt.computeschedule.models.GetOperationErrorsResponse
+        :rtype: ~microsoft.computeschedule.models.GetOperationErrorsResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -1470,7 +1752,7 @@ class ScheduledActionsOperations:
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -1479,7 +1761,7 @@ class ScheduledActionsOperations:
         if response.status_code not in [200]:
             if _stream:
                 try:
-                    await response.read()  # Load the body in memory and close the socket
+                    response.read()  # Load the body in memory and close the socket
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)

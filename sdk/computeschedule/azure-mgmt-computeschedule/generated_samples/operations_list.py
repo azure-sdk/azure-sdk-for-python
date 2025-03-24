@@ -8,12 +8,12 @@
 
 from azure.identity import DefaultAzureCredential
 
-from azure.mgmt.computeschedule import ComputeScheduleMgmtClient
+from microsoft.computeschedule import ComputeScheduleMgmtClient
 
 """
 # PREREQUISITES
     pip install azure-identity
-    pip install azure-mgmt-computeschedule
+    pip install microsoft-computeschedule
 # USAGE
     python operations_list.py
 

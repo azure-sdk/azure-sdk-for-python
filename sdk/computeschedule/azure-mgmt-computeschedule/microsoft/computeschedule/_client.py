@@ -27,9 +27,9 @@ class ComputeScheduleMgmtClient:
     """Microsoft.ComputeSchedule Resource Provider management API.
 
     :ivar operations: Operations operations
-    :vartype operations: azure.mgmt.computeschedule.operations.Operations
+    :vartype operations: microsoft.computeschedule.operations.Operations
     :ivar scheduled_actions: ScheduledActionsOperations operations
-    :vartype scheduled_actions: azure.mgmt.computeschedule.operations.ScheduledActionsOperations
+    :vartype scheduled_actions: microsoft.computeschedule.operations.ScheduledActionsOperations
     :param credential: Credential used to authenticate requests to the service. Required.
     :type credential: ~azure.core.credentials.TokenCredential
     :param subscription_id: The ID of the target subscription. The value must be an UUID. Required.
