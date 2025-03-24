@@ -34,19 +34,19 @@ class DatabaseWatcherMgmtClient:
     """DatabaseWatcherMgmtClient.
 
     :ivar operations: Operations operations
-    :vartype operations: azure.mgmt.databasewatcher.operations.Operations
+    :vartype operations: microsoft.databasewatcher.operations.Operations
     :ivar watchers: WatchersOperations operations
-    :vartype watchers: azure.mgmt.databasewatcher.operations.WatchersOperations
+    :vartype watchers: microsoft.databasewatcher.operations.WatchersOperations
     :ivar alert_rule_resources: AlertRuleResourcesOperations operations
     :vartype alert_rule_resources:
-     azure.mgmt.databasewatcher.operations.AlertRuleResourcesOperations
+     microsoft.databasewatcher.operations.AlertRuleResourcesOperations
     :ivar health_validations: HealthValidationsOperations operations
-    :vartype health_validations: azure.mgmt.databasewatcher.operations.HealthValidationsOperations
+    :vartype health_validations: microsoft.databasewatcher.operations.HealthValidationsOperations
     :ivar targets: TargetsOperations operations
-    :vartype targets: azure.mgmt.databasewatcher.operations.TargetsOperations
+    :vartype targets: microsoft.databasewatcher.operations.TargetsOperations
     :ivar shared_private_link_resources: SharedPrivateLinkResourcesOperations operations
     :vartype shared_private_link_resources:
-     azure.mgmt.databasewatcher.operations.SharedPrivateLinkResourcesOperations
+     microsoft.databasewatcher.operations.SharedPrivateLinkResourcesOperations
     :param credential: Credential used to authenticate requests to the service. Required.
     :type credential: ~azure.core.credentials.TokenCredential
     :param subscription_id: The ID of the target subscription. The value must be an UUID. Required.
