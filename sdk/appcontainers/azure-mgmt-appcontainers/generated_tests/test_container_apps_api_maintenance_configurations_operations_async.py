@@ -6,57 +6,42 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 import pytest
-from azure.mgmt.appcontainers import ContainerAppsAPIClient
+from azure.mgmt.appcontainers.aio import ContainerAppsAPIClient
 
-from devtools_testutils import AzureMgmtRecordedTestCase, RandomNameResourceGroupPreparer, recorded_by_proxy
+from devtools_testutils import AzureMgmtRecordedTestCase, RandomNameResourceGroupPreparer
+from devtools_testutils.aio import recorded_by_proxy_async
 
 AZURE_LOCATION = "eastus"
 
 
 @pytest.mark.skip("you may need to update the auto-generated test case before run it")
-class TestContainerAppsAPIManagedEnvironmentsStoragesOperations(AzureMgmtRecordedTestCase):
+class TestContainerAppsAPIMaintenanceConfigurationsOperationsAsync(AzureMgmtRecordedTestCase):
     def setup_method(self, method):
-        self.client = self.create_mgmt_client(ContainerAppsAPIClient)
+        self.client = self.create_mgmt_client(ContainerAppsAPIClient, is_async=True)
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
-    def test_managed_environments_storages_list(self, resource_group):
-        response = self.client.managed_environments_storages.list(
+    @recorded_by_proxy_async
+    async def test_maintenance_configurations_list(self, resource_group):
+        response = self.client.maintenance_configurations.list(
             resource_group_name=resource_group.name,
             environment_name="str",
             api_version="2025-01-01",
         )
-
+        result = [r async for r in response]
         # please add some check logic here by yourself
         # ...
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
-    def test_managed_environments_storages_get(self, resource_group):
-        response = self.client.managed_environments_storages.get(
+    @recorded_by_proxy_async
+    async def test_maintenance_configurations_create_or_update(self, resource_group):
+        response = await self.client.maintenance_configurations.create_or_update(
             resource_group_name=resource_group.name,
             environment_name="str",
-            storage_name="str",
-            api_version="2025-01-01",
-        )
-
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
-    def test_managed_environments_storages_create_or_update(self, resource_group):
-        response = self.client.managed_environments_storages.create_or_update(
-            resource_group_name=resource_group.name,
-            environment_name="str",
-            storage_name="str",
-            storage_envelope={
+            config_name="str",
+            maintenance_configuration_envelope={
                 "id": "str",
                 "name": "str",
-                "properties": {
-                    "azureFile": {"accessMode": "str", "accountKey": "str", "accountName": "str", "shareName": "str"},
-                    "nfsAzureFile": {"accessMode": "str", "server": "str", "shareName": "str"},
-                },
+                "scheduledEntries": [{"durationHours": 0, "startHourUtc": 0, "weekDay": "str"}],
                 "systemData": {
                     "createdAt": "2020-02-20 00:00:00",
                     "createdBy": "str",
@@ -74,12 +59,25 @@ class TestContainerAppsAPIManagedEnvironmentsStoragesOperations(AzureMgmtRecorde
         # ...
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
-    def test_managed_environments_storages_delete(self, resource_group):
-        response = self.client.managed_environments_storages.delete(
+    @recorded_by_proxy_async
+    async def test_maintenance_configurations_delete(self, resource_group):
+        response = await self.client.maintenance_configurations.delete(
             resource_group_name=resource_group.name,
             environment_name="str",
-            storage_name="str",
+            config_name="str",
+            api_version="2025-01-01",
+        )
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy_async
+    async def test_maintenance_configurations_get(self, resource_group):
+        response = await self.client.maintenance_configurations.get(
+            resource_group_name=resource_group.name,
+            environment_name="str",
+            config_name="str",
             api_version="2025-01-01",
         )
 

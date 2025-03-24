@@ -15,7 +15,7 @@ from azure.mgmt.appcontainers import ContainerAppsAPIClient
     pip install azure-identity
     pip install azure-mgmt-appcontainers
 # USAGE
-    python dapr_subscriptions_list.py
+    python managed_environment_maintenance_configurations_list.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -30,14 +30,14 @@ def main():
         subscription_id="8efdecc5-919e-44eb-b179-915dca89ebf9",
     )
 
-    response = client.dapr_subscriptions.list(
-        resource_group_name="examplerg",
-        environment_name="myenvironment",
+    response = client.maintenance_configurations.list(
+        resource_group_name="rg1",
+        environment_name="managedEnv",
     )
     for item in response:
         print(item)
 
 
-# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/DaprSubscriptions_List.json
+# x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2025-01-01/examples/ManagedEnvironment_MaintenanceConfigurations_List.json
 if __name__ == "__main__":
     main()

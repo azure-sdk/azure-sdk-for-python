@@ -15,7 +15,7 @@ from azure.mgmt.appcontainers import ContainerAppsAPIClient
     pip install azure-identity
     pip install azure-mgmt-appcontainers
 # USAGE
-    python builders_update.py
+    python managed_environment_maintenance_configurations_create_or_update.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -27,17 +27,20 @@ from azure.mgmt.appcontainers import ContainerAppsAPIClient
 def main():
     client = ContainerAppsAPIClient(
         credential=DefaultAzureCredential(),
-        subscription_id="00000000-0000-0000-0000-000000000000",
+        subscription_id="8efdecc5-919e-44eb-b179-915dca89ebf9",
     )
 
-    response = client.builders.begin_update(
-        resource_group_name="rg",
-        builder_name="testBuilder",
-        builder_envelope={"tags": {"mytag1": "myvalue1"}},
-    ).result()
+    response = client.maintenance_configurations.create_or_update(
+        resource_group_name="rg1",
+        environment_name="managedEnv",
+        config_name="default",
+        maintenance_configuration_envelope={
+            "properties": {"scheduledEntries": [{"durationHours": 9, "startHourUtc": 12, "weekDay": "Sunday"}]}
+        },
+    )
     print(response)
 
 
-# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/Builders_Update.json
+# x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2025-01-01/examples/ManagedEnvironment_MaintenanceConfigurations_CreateOrUpdate.json
 if __name__ == "__main__":
     main()

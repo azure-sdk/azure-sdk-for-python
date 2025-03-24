@@ -15,7 +15,7 @@ from azure.mgmt.appcontainers import ContainerAppsAPIClient
     pip install azure-identity
     pip install azure-mgmt-appcontainers
 # USAGE
-    python dapr_subscriptions_get_route_rules_and_metadata.py
+    python managed_environment_maintenance_configurations_get.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -30,14 +30,14 @@ def main():
         subscription_id="8efdecc5-919e-44eb-b179-915dca89ebf9",
     )
 
-    response = client.dapr_subscriptions.get(
-        resource_group_name="examplerg",
-        environment_name="myenvironment",
-        name="mypubsubcomponent",
+    response = client.maintenance_configurations.get(
+        resource_group_name="rg1",
+        environment_name="managedEnv",
+        config_name="default",
     )
     print(response)
 
 
-# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/DaprSubscriptions_Get_RouteRulesAndMetadata.json
+# x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2025-01-01/examples/ManagedEnvironment_MaintenanceConfigurations_Get.json
 if __name__ == "__main__":
     main()
