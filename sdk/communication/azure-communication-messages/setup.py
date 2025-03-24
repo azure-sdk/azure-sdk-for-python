@@ -12,7 +12,7 @@ import re
 from setuptools import setup, find_packages
 
 
-PACKAGE_NAME = "azure-communication-messages"
+PACKAGE_NAME = "azure-communication-messagesservice"
 PACKAGE_PPRINT_NAME = "Communication Messages"
 
 # a-b-c => a/b/c
@@ -60,7 +60,7 @@ setup(
     ),
     include_package_data=True,
     package_data={
-        "azure.communication.messages": ["py.typed"],
+        "azure.communication.messagesservice": ["py.typed"],
     },
     install_requires=[
         "isodate>=0.6.1",

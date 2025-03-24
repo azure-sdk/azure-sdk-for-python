@@ -1,6 +1,6 @@
 include *.md
 include LICENSE
-include azure/communication/messages/py.typed
+include azure/communication/messagesservice/py.typed
 recursive-include tests *.py
 recursive-include samples *.py *.md
 include azure/__init__.py
