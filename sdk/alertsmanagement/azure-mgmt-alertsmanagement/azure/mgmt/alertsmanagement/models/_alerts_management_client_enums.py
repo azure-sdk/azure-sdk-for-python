@@ -31,6 +31,18 @@ class AlertModificationEvent(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     ACTIONS_FAILED = "ActionsFailed"
 
 
+class AlertSeverity(int, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Severity of the alert. Should be an integer between [0-4]. Value of 0 is severest. Relevant and
+    required only for rules of the kind LogAlert.
+    """
+
+    ZERO = 0
+    ONE = 1
+    TWO = 2
+    THREE = 3
+    FOUR = 4
+
+
 class AlertsSortByFields(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """AlertsSortByFields."""
 
@@ -63,6 +75,22 @@ class AlertState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     NEW = "New"
     ACKNOWLEDGED = "Acknowledged"
     CLOSED = "Closed"
+    NO_ALERT = "NoAlert"
+    FIRED = "Fired"
+    FIRING = "Firing"
+    RESOLVING = "Resolving"
+    RESOLVED = "Resolved"
+
+
+class ConditionOperator(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The criteria operator. Relevant and required only for rules of the kind LogAlert."""
+
+    EQUALS = "Equals"
+    GREATER_THAN = "GreaterThan"
+    GREATER_THAN_OR_EQUAL = "GreaterThanOrEqual"
+    LESS_THAN = "LessThan"
+    LESS_THAN_OR_EQUAL = "LessThanOrEqual"
+    GREATER_OR_LESS_THAN = "GreaterOrLessThan"
 
 
 class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -72,6 +100,13 @@ class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     APPLICATION = "Application"
     MANAGED_IDENTITY = "ManagedIdentity"
     KEY = "Key"
+
+
+class CriterionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Specifies the type of threshold criteria."""
+
+    STATIC_THRESHOLD_CRITERION = "StaticThresholdCriterion"
+    DYNAMIC_THRESHOLD_CRITERION = "DynamicThresholdCriterion"
 
 
 class DaysOfWeek(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -84,6 +119,13 @@ class DaysOfWeek(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     THURSDAY = "Thursday"
     FRIDAY = "Friday"
     SATURDAY = "Saturday"
+
+
+class DimensionOperator(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Operator for dimension values."""
+
+    INCLUDE = "Include"
+    EXCLUDE = "Exclude"
 
 
 class Field(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -108,10 +150,67 @@ class Identifier(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     MONITOR_SERVICE_LIST = "MonitorServiceList"
 
 
+class IdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Type of managed service identity."""
+
+    SYSTEM_ASSIGNED = "SystemAssigned"
+    USER_ASSIGNED = "UserAssigned"
+    NONE = "None"
+
+
+class Kind(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Indicates the type of scheduled query rule. The default is LogAlert."""
+
+    LOG_ALERT = "LogAlert"
+    EVENT_LOG_ALERT = "EventLogAlert"
+    LOG_TO_METRIC = "LogToMetric"
+
+
 class MetadataIdentifier(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Identification of the information to be retrieved by API call."""
 
     MONITOR_SERVICE_LIST = "MonitorServiceList"
+
+
+class MetricAlertsDisplayUnit(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The unit to display for a metric alert rule."""
+
+    NONE = "None"
+    PERCENTAGE = "Percentage"
+    BYTES = "Bytes"
+    KILOBYTES = "Kilobytes"
+    MEGABYTES = "Megabytes"
+    GIGABYTES = "Gigabytes"
+    TERABYTES = "Terabytes"
+    PETABYTES = "Petabytes"
+    BYTES_PER_DAY = "BytesPerDay"
+    BYTES_PER_HOUR = "BytesPerHour"
+    BYTES_PER_MINUTE = "BytesPerMinute"
+    BYTES_PER_SECOND = "BytesPerSecond"
+    KILOBYTES_PER_SECOND = "KilobytesPerSecond"
+    MEGABYTES_PER_SECOND = "MegabytesPerSecond"
+    GIGABYTES_PER_SECOND = "GigabytesPerSecond"
+    TERABYTES_PER_SECOND = "TerabytesPerSecond"
+    PETABYTES_PER_SECOND = "PetabytesPerSecond"
+    COUNT = "Count"
+    THOUSAND = "Thousand"
+    MILLION = "Million"
+    BILLION = "Billion"
+    TRILLION = "Trillion"
+    MICRO_SECONDS = "MicroSeconds"
+    MILLI_SECONDS = "MilliSeconds"
+    SECONDS = "Seconds"
+    MINUTES = "Minutes"
+    HOURS = "Hours"
+    DAYS = "Days"
+    COUNT_PER_DAY = "CountPerDay"
+    COUNT_PER_HOUR = "CountPerHour"
+    COUNT_PER_MINUTE = "CountPerMinute"
+    COUNT_PER_SECOND = "CountPerSecond"
+    THOUSAND_PER_SECOND = "ThousandPerSecond"
+    MILLION_PER_SECOND = "MillionPerSecond"
+    BILLION_PER_SECOND = "BillionPerSecond"
+    TRILLION_PER_SECOND = "TrillionPerSecond"
 
 
 class MonitorCondition(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -138,6 +237,7 @@ class MonitorService(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     SMART_DETECTOR = "SmartDetector"
     VM_INSIGHTS = "VM Insights"
     ZABBIX = "Zabbix"
+    RESOURCE_HEALTH = "Resource Health"
 
 
 class Operator(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -209,6 +309,23 @@ class State(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     CLOSED = "Closed"
 
 
+class Status(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The status of the evaluation of the enrichment."""
+
+    SUCCEEDED = "Succeeded"
+    FAILED = "Failed"
+
+
+class TimeAggregation(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Aggregation type. Relevant and required only for rules of the kind LogAlert."""
+
+    COUNT = "Count"
+    AVERAGE = "Average"
+    MINIMUM = "Minimum"
+    MAXIMUM = "Maximum"
+    TOTAL = "Total"
+
+
 class TimeRange(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """TimeRange."""
 
@@ -216,3 +333,10 @@ class TimeRange(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     ONE_D = "1d"
     SEVEN_D = "7d"
     THIRTY_D = "30d"
+
+
+class Type(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The enrichment type."""
+
+    PROMETHEUS_INSTANT_QUERY = "PrometheusInstantQuery"
+    PROMETHEUS_RANGE_QUERY = "PrometheusRangeQuery"
