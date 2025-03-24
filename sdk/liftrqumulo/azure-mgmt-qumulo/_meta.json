@@ -1,0 +1,6 @@
+{
+  "commit": "867d5344efa0e71c7fa4977eb814398f67aa8ee1",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/liftrqumulo/Qumulo.Storage.Management",
+  "@azure-tools/typespec-python": "0.40.0"
+}
