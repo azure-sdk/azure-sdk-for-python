@@ -500,7 +500,7 @@ class Operations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.deviceregistry.DeviceRegistryMgmtClient`'s
+        :class:`~microsoft.deviceregistry.DeviceRegistryMgmtClient`'s
         :attr:`operations` attribute.
     """
 
@@ -512,14 +512,11 @@ class Operations:
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
     @distributed_trace
-    @api_version_validation(
-        params_added_on={"2024-09-01-preview": ["base_url"]},
-    )
     def list(self, **kwargs: Any) -> Iterable["_models.Operation"]:
         """List the operations for the provider.
 
         :return: An iterator like instance of Operation
-        :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.deviceregistry.models.Operation]
+        :rtype: ~azure.core.paging.ItemPaged[~microsoft.deviceregistry.models.Operation]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
@@ -574,7 +571,7 @@ class Operations:
 
         def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.Operation], deserialized["value"])
+            list_of_elem = _deserialize(List[_models.Operation], deserialized.get("value", []))
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
             return deserialized.get("nextLink") or None, iter(list_of_elem)
@@ -604,7 +601,7 @@ class OperationStatusOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.deviceregistry.DeviceRegistryMgmtClient`'s
+        :class:`~microsoft.deviceregistry.DeviceRegistryMgmtClient`'s
         :attr:`operation_status` attribute.
     """
 
@@ -616,9 +613,6 @@ class OperationStatusOperations:
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
     @distributed_trace
-    @api_version_validation(
-        params_added_on={"2024-09-01-preview": ["base_url"]},
-    )
     def get(self, location: str, operation_id: str, **kwargs: Any) -> _models.OperationStatusResult:
         """Returns the current status of an async operation.
 
@@ -627,7 +621,7 @@ class OperationStatusOperations:
         :param operation_id: The ID of an ongoing async operation. Required.
         :type operation_id: str
         :return: OperationStatusResult. The OperationStatusResult is compatible with MutableMapping
-        :rtype: ~azure.mgmt.deviceregistry.models.OperationStatusResult
+        :rtype: ~microsoft.deviceregistry.models.OperationStatusResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -690,7 +684,7 @@ class AssetsOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.deviceregistry.DeviceRegistryMgmtClient`'s
+        :class:`~microsoft.deviceregistry.DeviceRegistryMgmtClient`'s
         :attr:`assets` attribute.
     """
 
@@ -702,9 +696,6 @@ class AssetsOperations:
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
     @distributed_trace
-    @api_version_validation(
-        params_added_on={"2024-09-01-preview": ["base_url"]},
-    )
     def get(self, resource_group_name: str, asset_name: str, **kwargs: Any) -> _models.Asset:
         """Get a Asset.
 
@@ -714,7 +705,7 @@ class AssetsOperations:
         :param asset_name: Asset name parameter. Required.
         :type asset_name: str
         :return: Asset. The Asset is compatible with MutableMapping
-        :rtype: ~azure.mgmt.deviceregistry.models.Asset
+        :rtype: ~microsoft.deviceregistry.models.Asset
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -770,9 +761,6 @@ class AssetsOperations:
 
         return deserialized  # type: ignore
 
-    @api_version_validation(
-        params_added_on={"2024-09-01-preview": ["base_url"]},
-    )
     def _create_or_replace_initial(
         self, resource_group_name: str, asset_name: str, resource: Union[_models.Asset, JSON, IO[bytes]], **kwargs: Any
     ) -> Iterator[bytes]:
@@ -860,13 +848,13 @@ class AssetsOperations:
         :param asset_name: Asset name parameter. Required.
         :type asset_name: str
         :param resource: Resource create parameters. Required.
-        :type resource: ~azure.mgmt.deviceregistry.models.Asset
+        :type resource: ~microsoft.deviceregistry.models.Asset
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :return: An instance of LROPoller that returns Asset. The Asset is compatible with
          MutableMapping
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.deviceregistry.models.Asset]
+        :rtype: ~azure.core.polling.LROPoller[~microsoft.deviceregistry.models.Asset]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -894,7 +882,7 @@ class AssetsOperations:
         :paramtype content_type: str
         :return: An instance of LROPoller that returns Asset. The Asset is compatible with
          MutableMapping
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.deviceregistry.models.Asset]
+        :rtype: ~azure.core.polling.LROPoller[~microsoft.deviceregistry.models.Asset]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -922,14 +910,11 @@ class AssetsOperations:
         :paramtype content_type: str
         :return: An instance of LROPoller that returns Asset. The Asset is compatible with
          MutableMapping
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.deviceregistry.models.Asset]
+        :rtype: ~azure.core.polling.LROPoller[~microsoft.deviceregistry.models.Asset]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @distributed_trace
-    @api_version_validation(
-        params_added_on={"2024-09-01-preview": ["base_url"]},
-    )
     def begin_create_or_replace(
         self, resource_group_name: str, asset_name: str, resource: Union[_models.Asset, JSON, IO[bytes]], **kwargs: Any
     ) -> LROPoller[_models.Asset]:
@@ -942,10 +927,10 @@ class AssetsOperations:
         :type asset_name: str
         :param resource: Resource create parameters. Is one of the following types: Asset, JSON,
          IO[bytes] Required.
-        :type resource: ~azure.mgmt.deviceregistry.models.Asset or JSON or IO[bytes]
+        :type resource: ~microsoft.deviceregistry.models.Asset or JSON or IO[bytes]
         :return: An instance of LROPoller that returns Asset. The Asset is compatible with
          MutableMapping
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.deviceregistry.models.Asset]
+        :rtype: ~azure.core.polling.LROPoller[~microsoft.deviceregistry.models.Asset]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -1000,9 +985,6 @@ class AssetsOperations:
             self._client, raw_result, get_long_running_output, polling_method  # type: ignore
         )
 
-    @api_version_validation(
-        params_added_on={"2024-09-01-preview": ["base_url"]},
-    )
     def _update_initial(
         self,
         resource_group_name: str,
@@ -1092,13 +1074,13 @@ class AssetsOperations:
         :param asset_name: Asset name parameter. Required.
         :type asset_name: str
         :param properties: The resource properties to be updated. Required.
-        :type properties: ~azure.mgmt.deviceregistry.models.AssetUpdate
+        :type properties: ~microsoft.deviceregistry.models.AssetUpdate
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :return: An instance of LROPoller that returns Asset. The Asset is compatible with
          MutableMapping
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.deviceregistry.models.Asset]
+        :rtype: ~azure.core.polling.LROPoller[~microsoft.deviceregistry.models.Asset]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -1126,7 +1108,7 @@ class AssetsOperations:
         :paramtype content_type: str
         :return: An instance of LROPoller that returns Asset. The Asset is compatible with
          MutableMapping
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.deviceregistry.models.Asset]
+        :rtype: ~azure.core.polling.LROPoller[~microsoft.deviceregistry.models.Asset]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -1154,14 +1136,11 @@ class AssetsOperations:
         :paramtype content_type: str
         :return: An instance of LROPoller that returns Asset. The Asset is compatible with
          MutableMapping
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.deviceregistry.models.Asset]
+        :rtype: ~azure.core.polling.LROPoller[~microsoft.deviceregistry.models.Asset]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @distributed_trace
-    @api_version_validation(
-        params_added_on={"2024-09-01-preview": ["base_url"]},
-    )
     def begin_update(
         self,
         resource_group_name: str,
@@ -1178,10 +1157,10 @@ class AssetsOperations:
         :type asset_name: str
         :param properties: The resource properties to be updated. Is one of the following types:
          AssetUpdate, JSON, IO[bytes] Required.
-        :type properties: ~azure.mgmt.deviceregistry.models.AssetUpdate or JSON or IO[bytes]
+        :type properties: ~microsoft.deviceregistry.models.AssetUpdate or JSON or IO[bytes]
         :return: An instance of LROPoller that returns Asset. The Asset is compatible with
          MutableMapping
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.deviceregistry.models.Asset]
+        :rtype: ~azure.core.polling.LROPoller[~microsoft.deviceregistry.models.Asset]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -1236,9 +1215,6 @@ class AssetsOperations:
             self._client, raw_result, get_long_running_output, polling_method  # type: ignore
         )
 
-    @api_version_validation(
-        params_added_on={"2024-09-01-preview": ["base_url"]},
-    )
     def _delete_initial(self, resource_group_name: str, asset_name: str, **kwargs: Any) -> Iterator[bytes]:
         error_map: MutableMapping = {
             401: ClientAuthenticationError,
@@ -1295,9 +1271,6 @@ class AssetsOperations:
         return deserialized  # type: ignore
 
     @distributed_trace
-    @api_version_validation(
-        params_added_on={"2024-09-01-preview": ["base_url"]},
-    )
     def begin_delete(self, resource_group_name: str, asset_name: str, **kwargs: Any) -> LROPoller[None]:
         """Delete a Asset.
 
@@ -1355,9 +1328,6 @@ class AssetsOperations:
         return LROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     @distributed_trace
-    @api_version_validation(
-        params_added_on={"2024-09-01-preview": ["base_url"]},
-    )
     def list_by_resource_group(self, resource_group_name: str, **kwargs: Any) -> Iterable["_models.Asset"]:
         """List Asset resources by resource group.
 
@@ -1365,7 +1335,7 @@ class AssetsOperations:
          Required.
         :type resource_group_name: str
         :return: An iterator like instance of Asset
-        :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.deviceregistry.models.Asset]
+        :rtype: ~azure.core.paging.ItemPaged[~microsoft.deviceregistry.models.Asset]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
@@ -1422,7 +1392,7 @@ class AssetsOperations:
 
         def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.Asset], deserialized["value"])
+            list_of_elem = _deserialize(List[_models.Asset], deserialized.get("value", []))
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
             return deserialized.get("nextLink") or None, iter(list_of_elem)
@@ -1446,14 +1416,11 @@ class AssetsOperations:
         return ItemPaged(get_next, extract_data)
 
     @distributed_trace
-    @api_version_validation(
-        params_added_on={"2024-09-01-preview": ["base_url"]},
-    )
     def list_by_subscription(self, **kwargs: Any) -> Iterable["_models.Asset"]:
         """List Asset resources by subscription ID.
 
         :return: An iterator like instance of Asset
-        :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.deviceregistry.models.Asset]
+        :rtype: ~azure.core.paging.ItemPaged[~microsoft.deviceregistry.models.Asset]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
@@ -1509,7 +1476,7 @@ class AssetsOperations:
 
         def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.Asset], deserialized["value"])
+            list_of_elem = _deserialize(List[_models.Asset], deserialized.get("value", []))
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
             return deserialized.get("nextLink") or None, iter(list_of_elem)
@@ -1539,7 +1506,7 @@ class AssetEndpointProfilesOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.deviceregistry.DeviceRegistryMgmtClient`'s
+        :class:`~microsoft.deviceregistry.DeviceRegistryMgmtClient`'s
         :attr:`asset_endpoint_profiles` attribute.
     """
 
@@ -1551,9 +1518,6 @@ class AssetEndpointProfilesOperations:
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
     @distributed_trace
-    @api_version_validation(
-        params_added_on={"2024-09-01-preview": ["base_url"]},
-    )
     def get(
         self, resource_group_name: str, asset_endpoint_profile_name: str, **kwargs: Any
     ) -> _models.AssetEndpointProfile:
@@ -1565,7 +1529,7 @@ class AssetEndpointProfilesOperations:
         :param asset_endpoint_profile_name: Asset Endpoint Profile name parameter. Required.
         :type asset_endpoint_profile_name: str
         :return: AssetEndpointProfile. The AssetEndpointProfile is compatible with MutableMapping
-        :rtype: ~azure.mgmt.deviceregistry.models.AssetEndpointProfile
+        :rtype: ~microsoft.deviceregistry.models.AssetEndpointProfile
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -1621,9 +1585,6 @@ class AssetEndpointProfilesOperations:
 
         return deserialized  # type: ignore
 
-    @api_version_validation(
-        params_added_on={"2024-09-01-preview": ["base_url"]},
-    )
     def _create_or_replace_initial(
         self,
         resource_group_name: str,
@@ -1715,13 +1676,13 @@ class AssetEndpointProfilesOperations:
         :param asset_endpoint_profile_name: Asset Endpoint Profile name parameter. Required.
         :type asset_endpoint_profile_name: str
         :param resource: Resource create parameters. Required.
-        :type resource: ~azure.mgmt.deviceregistry.models.AssetEndpointProfile
+        :type resource: ~microsoft.deviceregistry.models.AssetEndpointProfile
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :return: An instance of LROPoller that returns AssetEndpointProfile. The AssetEndpointProfile
          is compatible with MutableMapping
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.deviceregistry.models.AssetEndpointProfile]
+        :rtype: ~azure.core.polling.LROPoller[~microsoft.deviceregistry.models.AssetEndpointProfile]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -1749,7 +1710,7 @@ class AssetEndpointProfilesOperations:
         :paramtype content_type: str
         :return: An instance of LROPoller that returns AssetEndpointProfile. The AssetEndpointProfile
          is compatible with MutableMapping
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.deviceregistry.models.AssetEndpointProfile]
+        :rtype: ~azure.core.polling.LROPoller[~microsoft.deviceregistry.models.AssetEndpointProfile]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -1777,14 +1738,11 @@ class AssetEndpointProfilesOperations:
         :paramtype content_type: str
         :return: An instance of LROPoller that returns AssetEndpointProfile. The AssetEndpointProfile
          is compatible with MutableMapping
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.deviceregistry.models.AssetEndpointProfile]
+        :rtype: ~azure.core.polling.LROPoller[~microsoft.deviceregistry.models.AssetEndpointProfile]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @distributed_trace
-    @api_version_validation(
-        params_added_on={"2024-09-01-preview": ["base_url"]},
-    )
     def begin_create_or_replace(
         self,
         resource_group_name: str,
@@ -1801,10 +1759,10 @@ class AssetEndpointProfilesOperations:
         :type asset_endpoint_profile_name: str
         :param resource: Resource create parameters. Is one of the following types:
          AssetEndpointProfile, JSON, IO[bytes] Required.
-        :type resource: ~azure.mgmt.deviceregistry.models.AssetEndpointProfile or JSON or IO[bytes]
+        :type resource: ~microsoft.deviceregistry.models.AssetEndpointProfile or JSON or IO[bytes]
         :return: An instance of LROPoller that returns AssetEndpointProfile. The AssetEndpointProfile
          is compatible with MutableMapping
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.deviceregistry.models.AssetEndpointProfile]
+        :rtype: ~azure.core.polling.LROPoller[~microsoft.deviceregistry.models.AssetEndpointProfile]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -1859,9 +1817,6 @@ class AssetEndpointProfilesOperations:
             self._client, raw_result, get_long_running_output, polling_method  # type: ignore
         )
 
-    @api_version_validation(
-        params_added_on={"2024-09-01-preview": ["base_url"]},
-    )
     def _update_initial(
         self,
         resource_group_name: str,
@@ -1951,13 +1906,13 @@ class AssetEndpointProfilesOperations:
         :param asset_endpoint_profile_name: Asset Endpoint Profile name parameter. Required.
         :type asset_endpoint_profile_name: str
         :param properties: The resource properties to be updated. Required.
-        :type properties: ~azure.mgmt.deviceregistry.models.AssetEndpointProfileUpdate
+        :type properties: ~microsoft.deviceregistry.models.AssetEndpointProfileUpdate
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :return: An instance of LROPoller that returns AssetEndpointProfile. The AssetEndpointProfile
          is compatible with MutableMapping
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.deviceregistry.models.AssetEndpointProfile]
+        :rtype: ~azure.core.polling.LROPoller[~microsoft.deviceregistry.models.AssetEndpointProfile]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -1985,7 +1940,7 @@ class AssetEndpointProfilesOperations:
         :paramtype content_type: str
         :return: An instance of LROPoller that returns AssetEndpointProfile. The AssetEndpointProfile
          is compatible with MutableMapping
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.deviceregistry.models.AssetEndpointProfile]
+        :rtype: ~azure.core.polling.LROPoller[~microsoft.deviceregistry.models.AssetEndpointProfile]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -2013,14 +1968,11 @@ class AssetEndpointProfilesOperations:
         :paramtype content_type: str
         :return: An instance of LROPoller that returns AssetEndpointProfile. The AssetEndpointProfile
          is compatible with MutableMapping
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.deviceregistry.models.AssetEndpointProfile]
+        :rtype: ~azure.core.polling.LROPoller[~microsoft.deviceregistry.models.AssetEndpointProfile]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @distributed_trace
-    @api_version_validation(
-        params_added_on={"2024-09-01-preview": ["base_url"]},
-    )
     def begin_update(
         self,
         resource_group_name: str,
@@ -2037,11 +1989,11 @@ class AssetEndpointProfilesOperations:
         :type asset_endpoint_profile_name: str
         :param properties: The resource properties to be updated. Is one of the following types:
          AssetEndpointProfileUpdate, JSON, IO[bytes] Required.
-        :type properties: ~azure.mgmt.deviceregistry.models.AssetEndpointProfileUpdate or JSON or
+        :type properties: ~microsoft.deviceregistry.models.AssetEndpointProfileUpdate or JSON or
          IO[bytes]
         :return: An instance of LROPoller that returns AssetEndpointProfile. The AssetEndpointProfile
          is compatible with MutableMapping
-        :rtype: ~azure.core.polling.LROPoller[~azure.mgmt.deviceregistry.models.AssetEndpointProfile]
+        :rtype: ~azure.core.polling.LROPoller[~microsoft.deviceregistry.models.AssetEndpointProfile]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -2096,9 +2048,6 @@ class AssetEndpointProfilesOperations:
             self._client, raw_result, get_long_running_output, polling_method  # type: ignore
         )
 
-    @api_version_validation(
-        params_added_on={"2024-09-01-preview": ["base_url"]},
-    )
     def _delete_initial(
         self, resource_group_name: str, asset_endpoint_profile_name: str, **kwargs: Any
     ) -> Iterator[bytes]:
@@ -2157,9 +2106,6 @@ class AssetEndpointProfilesOperations:
         return deserialized  # type: ignore
 
     @distributed_trace
-    @api_version_validation(
-        params_added_on={"2024-09-01-preview": ["base_url"]},
-    )
     def begin_delete(
         self, resource_group_name: str, asset_endpoint_profile_name: str, **kwargs: Any
     ) -> LROPoller[None]:
@@ -2219,9 +2165,6 @@ class AssetEndpointProfilesOperations:
         return LROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     @distributed_trace
-    @api_version_validation(
-        params_added_on={"2024-09-01-preview": ["base_url"]},
-    )
     def list_by_resource_group(
         self, resource_group_name: str, **kwargs: Any
     ) -> Iterable["_models.AssetEndpointProfile"]:
@@ -2231,7 +2174,7 @@ class AssetEndpointProfilesOperations:
          Required.
         :type resource_group_name: str
         :return: An iterator like instance of AssetEndpointProfile
-        :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.deviceregistry.models.AssetEndpointProfile]
+        :rtype: ~azure.core.paging.ItemPaged[~microsoft.deviceregistry.models.AssetEndpointProfile]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
@@ -2288,7 +2231,7 @@ class AssetEndpointProfilesOperations:
 
         def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.AssetEndpointProfile], deserialized["value"])
+            list_of_elem = _deserialize(List[_models.AssetEndpointProfile], deserialized.get("value", []))
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
             return deserialized.get("nextLink") or None, iter(list_of_elem)
@@ -2312,14 +2255,11 @@ class AssetEndpointProfilesOperations:
         return ItemPaged(get_next, extract_data)
 
     @distributed_trace
-    @api_version_validation(
-        params_added_on={"2024-09-01-preview": ["base_url"]},
-    )
     def list_by_subscription(self, **kwargs: Any) -> Iterable["_models.AssetEndpointProfile"]:
         """List AssetEndpointProfile resources by subscription ID.
 
         :return: An iterator like instance of AssetEndpointProfile
-        :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.deviceregistry.models.AssetEndpointProfile]
+        :rtype: ~azure.core.paging.ItemPaged[~microsoft.deviceregistry.models.AssetEndpointProfile]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
@@ -2375,7 +2315,7 @@ class AssetEndpointProfilesOperations:
 
         def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.AssetEndpointProfile], deserialized["value"])
+            list_of_elem = _deserialize(List[_models.AssetEndpointProfile], deserialized.get("value", []))
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
             return deserialized.get("nextLink") or None, iter(list_of_elem)
@@ -2405,7 +2345,7 @@ class BillingContainersOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.deviceregistry.DeviceRegistryMgmtClient`'s
+        :class:`~microsoft.deviceregistry.DeviceRegistryMgmtClient`'s
         :attr:`billing_containers` attribute.
     """
 
@@ -2419,9 +2359,7 @@ class BillingContainersOperations:
     @distributed_trace
     @api_version_validation(
         method_added_on="2024-09-01-preview",
-        params_added_on={
-            "2024-09-01-preview": ["base_url", "api_version", "subscription_id", "billing_container_name", "accept"]
-        },
+        params_added_on={"2024-09-01-preview": ["api_version", "subscription_id", "billing_container_name", "accept"]},
     )
     def get(self, billing_container_name: str, **kwargs: Any) -> _models.BillingContainer:
         """Get a BillingContainer.
@@ -2429,7 +2367,7 @@ class BillingContainersOperations:
         :param billing_container_name: Name of the billing container. Required.
         :type billing_container_name: str
         :return: BillingContainer. The BillingContainer is compatible with MutableMapping
-        :rtype: ~azure.mgmt.deviceregistry.models.BillingContainer
+        :rtype: ~microsoft.deviceregistry.models.BillingContainer
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -2487,13 +2425,13 @@ class BillingContainersOperations:
     @distributed_trace
     @api_version_validation(
         method_added_on="2024-09-01-preview",
-        params_added_on={"2024-09-01-preview": ["base_url", "api_version", "subscription_id", "accept"]},
+        params_added_on={"2024-09-01-preview": ["api_version", "subscription_id", "accept"]},
     )
     def list_by_subscription(self, **kwargs: Any) -> Iterable["_models.BillingContainer"]:
         """List BillingContainer resources by subscription ID.
 
         :return: An iterator like instance of BillingContainer
-        :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.deviceregistry.models.BillingContainer]
+        :rtype: ~azure.core.paging.ItemPaged[~microsoft.deviceregistry.models.BillingContainer]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
@@ -2549,7 +2487,7 @@ class BillingContainersOperations:
 
         def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.BillingContainer], deserialized["value"])
+            list_of_elem = _deserialize(List[_models.BillingContainer], deserialized.get("value", []))
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
             return deserialized.get("nextLink") or None, iter(list_of_elem)

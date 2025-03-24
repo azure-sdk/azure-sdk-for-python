@@ -33,17 +33,17 @@ class DeviceRegistryMgmtClient:
     """Microsoft.DeviceRegistry Resource Provider management API.
 
     :ivar operations: Operations operations
-    :vartype operations: azure.mgmt.deviceregistry.aio.operations.Operations
+    :vartype operations: microsoft.deviceregistry.aio.operations.Operations
     :ivar operation_status: OperationStatusOperations operations
-    :vartype operation_status: azure.mgmt.deviceregistry.aio.operations.OperationStatusOperations
+    :vartype operation_status: microsoft.deviceregistry.aio.operations.OperationStatusOperations
     :ivar assets: AssetsOperations operations
-    :vartype assets: azure.mgmt.deviceregistry.aio.operations.AssetsOperations
+    :vartype assets: microsoft.deviceregistry.aio.operations.AssetsOperations
     :ivar asset_endpoint_profiles: AssetEndpointProfilesOperations operations
     :vartype asset_endpoint_profiles:
-     azure.mgmt.deviceregistry.aio.operations.AssetEndpointProfilesOperations
+     microsoft.deviceregistry.aio.operations.AssetEndpointProfilesOperations
     :ivar billing_containers: BillingContainersOperations operations
     :vartype billing_containers:
-     azure.mgmt.deviceregistry.aio.operations.BillingContainersOperations
+     microsoft.deviceregistry.aio.operations.BillingContainersOperations
     :param credential: Credential used to authenticate requests to the service. Required.
     :type credential: ~azure.core.credentials_async.AsyncTokenCredential
     :param subscription_id: The ID of the target subscription. The value must be an UUID. Required.
