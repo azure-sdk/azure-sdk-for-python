@@ -1,4 +1,3 @@
-# pylint: disable=too-many-lines
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -19,15 +18,13 @@ from azure.core.exceptions import (
     map_error,
 )
 from azure.core.pipeline import PipelineResponse
-from azure.core.pipeline.transport import AsyncHttpResponse
-from azure.core.rest import HttpRequest
+from azure.core.rest import AsyncHttpResponse, HttpRequest
 from azure.core.tracing.decorator import distributed_trace
 from azure.core.tracing.decorator_async import distributed_trace_async
 from azure.core.utils import case_insensitive_dict
 from azure.mgmt.core.exceptions import ARMErrorFormat
 
 from ... import models as _models
-from ..._vendor import _convert_request
 from ...operations._smart_groups_operations import (
     build_change_state_request,
     build_get_all_request,
@@ -35,10 +32,10 @@ from ...operations._smart_groups_operations import (
     build_get_history_request,
 )
 
-if sys.version_info >= (3, 8):
-    from typing import Literal  # pylint: disable=no-name-in-module, ungrouped-imports
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
 else:
-    from typing_extensions import Literal  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -95,7 +92,7 @@ class SmartGroupsOperations:
          value is select all. Known values are: "Application Insights", "ActivityLog Administrative",
          "ActivityLog Security", "ActivityLog Recommendation", "ActivityLog Policy", "ActivityLog
          Autoscale", "Log Analytics", "Nagios", "Platform", "SCOM", "ServiceHealth", "SmartDetector",
-         "VM Insights", and "Zabbix". Default value is None.
+         "VM Insights", "Zabbix", and "Resource Health". Default value is None.
         :type monitor_service: str or ~azure.mgmt.alertsmanagement.models.MonitorService
         :param monitor_condition: Filter by monitor condition which is either 'Fired' or 'Resolved'.
          Default value is to select all. Known values are: "Fired" and "Resolved". Default value is
@@ -122,7 +119,6 @@ class SmartGroupsOperations:
          value is 'desc' for time fields and 'asc' for others. Known values are: "asc" and "desc".
          Default value is None.
         :type sort_order: str or ~azure.mgmt.alertsmanagement.models.SortOrder
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either SmartGroup or the result of cls(response)
         :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.alertsmanagement.models.SmartGroup]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -130,12 +126,10 @@ class SmartGroupsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2019-05-05-preview"] = kwargs.pop(
-            "api_version", _params.pop("api-version", "2019-05-05-preview")
-        )
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-05-05-preview"))
         cls: ClsType[_models.SmartGroupsList] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -146,7 +140,7 @@ class SmartGroupsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_get_all_request(
+                _request = build_get_all_request(
                     subscription_id=self._config.subscription_id,
                     target_resource=target_resource,
                     target_resource_group=target_resource_group,
@@ -160,19 +154,16 @@ class SmartGroupsOperations:
                     sort_by=sort_by,
                     sort_order=sort_order,
                     api_version=api_version,
-                    template_url=self.get_all.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
             else:
-                request = HttpRequest("GET", next_link)
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request = HttpRequest("GET", next_link)
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("SmartGroupsList", pipeline_response)
@@ -182,10 +173,11 @@ class SmartGroupsOperations:
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
+            _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=False, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -198,8 +190,6 @@ class SmartGroupsOperations:
 
         return AsyncItemPaged(get_next, extract_data)
 
-    get_all.metadata = {"url": "/subscriptions/{subscriptionId}/providers/Microsoft.AlertsManagement/smartGroups"}
-
     @distributed_trace_async
     async def get_by_id(self, smart_group_id: str, **kwargs: Any) -> _models.SmartGroup:
         """Get information related to a specific Smart Group.
@@ -208,12 +198,11 @@ class SmartGroupsOperations:
 
         :param smart_group_id: Smart group unique id. Required.
         :type smart_group_id: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: SmartGroup or the result of cls(response)
         :rtype: ~azure.mgmt.alertsmanagement.models.SmartGroup
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -224,24 +213,21 @@ class SmartGroupsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2019-05-05-preview"] = kwargs.pop(
-            "api_version", _params.pop("api-version", "2019-05-05-preview")
-        )
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-05-05-preview"))
         cls: ClsType[_models.SmartGroup] = kwargs.pop("cls", None)
 
-        request = build_get_by_id_request(
+        _request = build_get_by_id_request(
             smart_group_id=smart_group_id,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get_by_id.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -254,16 +240,12 @@ class SmartGroupsOperations:
         response_headers = {}
         response_headers["x-ms-request-id"] = self._deserialize("str", response.headers.get("x-ms-request-id"))
 
-        deserialized = self._deserialize("SmartGroup", pipeline_response)
+        deserialized = self._deserialize("SmartGroup", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, response_headers)
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
-        return deserialized
-
-    get_by_id.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.AlertsManagement/smartGroups/{smartGroupId}"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace_async
     async def change_state(
@@ -276,12 +258,11 @@ class SmartGroupsOperations:
         :param new_state: New state of the alert. Known values are: "New", "Acknowledged", and
          "Closed". Required.
         :type new_state: str or ~azure.mgmt.alertsmanagement.models.AlertState
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: SmartGroup or the result of cls(response)
         :rtype: ~azure.mgmt.alertsmanagement.models.SmartGroup
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -292,25 +273,22 @@ class SmartGroupsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2019-05-05-preview"] = kwargs.pop(
-            "api_version", _params.pop("api-version", "2019-05-05-preview")
-        )
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-05-05-preview"))
         cls: ClsType[_models.SmartGroup] = kwargs.pop("cls", None)
 
-        request = build_change_state_request(
+        _request = build_change_state_request(
             smart_group_id=smart_group_id,
             subscription_id=self._config.subscription_id,
             new_state=new_state,
             api_version=api_version,
-            template_url=self.change_state.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -323,16 +301,12 @@ class SmartGroupsOperations:
         response_headers = {}
         response_headers["x-ms-request-id"] = self._deserialize("str", response.headers.get("x-ms-request-id"))
 
-        deserialized = self._deserialize("SmartGroup", pipeline_response)
+        deserialized = self._deserialize("SmartGroup", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, response_headers)
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
-        return deserialized
-
-    change_state.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.AlertsManagement/smartGroups/{smartGroupId}/changeState"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace_async
     async def get_history(self, smart_group_id: str, **kwargs: Any) -> _models.SmartGroupModification:
@@ -341,12 +315,11 @@ class SmartGroupsOperations:
 
         :param smart_group_id: Smart group unique id. Required.
         :type smart_group_id: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: SmartGroupModification or the result of cls(response)
         :rtype: ~azure.mgmt.alertsmanagement.models.SmartGroupModification
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -357,24 +330,21 @@ class SmartGroupsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: Literal["2019-05-05-preview"] = kwargs.pop(
-            "api_version", _params.pop("api-version", "2019-05-05-preview")
-        )
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2019-05-05-preview"))
         cls: ClsType[_models.SmartGroupModification] = kwargs.pop("cls", None)
 
-        request = build_get_history_request(
+        _request = build_get_history_request(
             smart_group_id=smart_group_id,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get_history.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
+        _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=False, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -384,13 +354,9 @@ class SmartGroupsOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponseAutoGenerated3, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("SmartGroupModification", pipeline_response)
+        deserialized = self._deserialize("SmartGroupModification", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get_history.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/Microsoft.AlertsManagement/smartGroups/{smartGroupId}/history"
-    }
+        return deserialized  # type: ignore
