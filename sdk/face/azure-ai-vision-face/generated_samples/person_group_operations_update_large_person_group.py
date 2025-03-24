@@ -6,18 +6,18 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from azure.ai.vision.face import FaceAdministrationClient
+from face import FaceAdministrationClient
 
 """
 # PREREQUISITES
-    pip install azure-ai-vision-face
+    pip install face
 # USAGE
     python person_group_operations_update_large_person_group.py
 """
 
 
 def main():
-    client = FaceAdministrationClient(
+    client = FaceClient(
         endpoint="ENDPOINT",
         credential="CREDENTIAL",
     )
@@ -28,6 +28,6 @@ def main():
     )
 
 
-# x-ms-original-file: v1.2-preview.1/PersonGroupOperations_UpdateLargePersonGroup.json
+# x-ms-original-file: v1.2/PersonGroupOperations_UpdateLargePersonGroup.json
 if __name__ == "__main__":
     main()

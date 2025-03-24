@@ -6,18 +6,18 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from azure.ai.vision.face import FaceAdministrationClient
+from face import FaceAdministrationClient
 
 """
 # PREREQUISITES
-    pip install azure-ai-vision-face
+    pip install face
 # USAGE
     python face_list_operations_get_large_face_list_face.py
 """
 
 
 def main():
-    client = FaceAdministrationClient(
+    client = FaceClient(
         endpoint="ENDPOINT",
         credential="CREDENTIAL",
     )
@@ -29,6 +29,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: v1.2-preview.1/FaceListOperations_GetLargeFaceListFace.json
+# x-ms-original-file: v1.2/FaceListOperations_GetLargeFaceListFace.json
 if __name__ == "__main__":
     main()

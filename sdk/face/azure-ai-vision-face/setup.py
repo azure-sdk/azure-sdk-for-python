@@ -12,8 +12,8 @@ import re
 from setuptools import setup, find_packages
 
 
-PACKAGE_NAME = "azure-ai-vision-face"
-PACKAGE_PPRINT_NAME = "Azure Ai Vision Face"
+PACKAGE_NAME = "face"
+PACKAGE_PPRINT_NAME = "Face"
 
 # a-b-c => a/b/c
 package_folder_path = PACKAGE_NAME.replace("-", "/")
@@ -53,15 +53,11 @@ setup(
     packages=find_packages(
         exclude=[
             "tests",
-            # Exclude packages that will be covered by PEP420 or nspkg
-            "azure",
-            "azure.ai",
-            "azure.ai.vision",
         ]
     ),
     include_package_data=True,
     package_data={
-        "azure.ai.vision.face": ["py.typed"],
+        "face": ["py.typed"],
     },
     install_requires=[
         "isodate>=0.6.1",
