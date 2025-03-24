@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8,12 +9,12 @@
 
 from azure.identity import DefaultAzureCredential
 
-from azure.mgmt.computefleet import ComputeFleetMgmtClient
+from microsoft.azurefleet import ComputeFleetMgmtClient
 
 """
 # PREREQUISITES
     pip install azure-identity
-    pip install azure-mgmt-computefleet
+    pip install microsoft-azurefleet
 # USAGE
     python fleets_create_or_update_minimum_set.py
 

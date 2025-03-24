@@ -12,6 +12,7 @@ import sys
 from typing import Any, AsyncIterable, AsyncIterator, Callable, Dict, IO, List, Optional, TypeVar, Union, cast, overload
 import urllib.parse
 
+from azure.core import AsyncPipelineClient
 from azure.core.async_paging import AsyncItemPaged, AsyncList
 from azure.core.exceptions import (
     ClientAuthenticationError,
@@ -33,7 +34,8 @@ from azure.mgmt.core.exceptions import ARMErrorFormat
 from azure.mgmt.core.polling.async_arm_polling import AsyncARMPolling
 
 from ... import models as _models
-from ..._model_base import SdkJSONEncoder, _deserialize
+from ..._model_base import SdkJSONEncoder, _deserialize, _failsafe_deserialize
+from ..._serialization import Deserializer, Serializer
 from ...operations._operations import (
     build_fleets_create_or_update_request,
     build_fleets_delete_request,
@@ -44,6 +46,7 @@ from ...operations._operations import (
     build_fleets_update_request,
     build_operations_list_request,
 )
+from .._configuration import ComputeFleetMgmtClientConfiguration
 
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
@@ -60,23 +63,23 @@ class Operations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.computefleet.aio.ComputeFleetMgmtClient`'s
+        :class:`~microsoft.azurefleet.aio.ComputeFleetMgmtClient`'s
         :attr:`operations` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
-        self._client = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config = input_args.pop(0) if input_args else kwargs.pop("config")
-        self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
-        self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
+        self._client: AsyncPipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
+        self._config: ComputeFleetMgmtClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
+        self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
     @distributed_trace
     def list(self, **kwargs: Any) -> AsyncIterable["_models.Operation"]:
         """List the operations for the provider.
 
         :return: An iterator like instance of Operation
-        :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.computefleet.models.Operation]
+        :rtype: ~azure.core.async_paging.AsyncItemPaged[~microsoft.azurefleet.models.Operation]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
@@ -131,7 +134,7 @@ class Operations:
 
         async def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.Operation], deserialized["value"])
+            list_of_elem = _deserialize(List[_models.Operation], deserialized.get("value", []))
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
             return deserialized.get("nextLink") or None, AsyncList(list_of_elem)
@@ -147,7 +150,7 @@ class Operations:
 
             if response.status_code not in [200]:
                 map_error(status_code=response.status_code, response=response, error_map=error_map)
-                error = _deserialize(_models.ErrorResponse, response.json())
+                error = _failsafe_deserialize(_models.ErrorResponse, response.json())
                 raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
             return pipeline_response
@@ -161,16 +164,16 @@ class FleetsOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.mgmt.computefleet.aio.ComputeFleetMgmtClient`'s
+        :class:`~microsoft.azurefleet.aio.ComputeFleetMgmtClient`'s
         :attr:`fleets` attribute.
     """
 
     def __init__(self, *args, **kwargs) -> None:
         input_args = list(args)
-        self._client = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config = input_args.pop(0) if input_args else kwargs.pop("config")
-        self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
-        self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
+        self._client: AsyncPipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
+        self._config: ComputeFleetMgmtClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
+        self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
     @distributed_trace_async
     async def get(self, resource_group_name: str, fleet_name: str, **kwargs: Any) -> _models.Fleet:
@@ -182,7 +185,7 @@ class FleetsOperations:
         :param fleet_name: The name of the Compute Fleet. Required.
         :type fleet_name: str
         :return: Fleet. The Fleet is compatible with MutableMapping
-        :rtype: ~azure.mgmt.computefleet.models.Fleet
+        :rtype: ~microsoft.azurefleet.models.Fleet
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -225,7 +228,7 @@ class FleetsOperations:
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.ErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         if _stream:
@@ -290,7 +293,7 @@ class FleetsOperations:
             except (StreamConsumedError, StreamClosedError):
                 pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.ErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         response_headers = {}
@@ -322,13 +325,13 @@ class FleetsOperations:
         :param fleet_name: The name of the Compute Fleet. Required.
         :type fleet_name: str
         :param resource: Resource create parameters. Required.
-        :type resource: ~azure.mgmt.computefleet.models.Fleet
+        :type resource: ~microsoft.azurefleet.models.Fleet
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :return: An instance of AsyncLROPoller that returns Fleet. The Fleet is compatible with
          MutableMapping
-        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.computefleet.models.Fleet]
+        :rtype: ~azure.core.polling.AsyncLROPoller[~microsoft.azurefleet.models.Fleet]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -356,7 +359,7 @@ class FleetsOperations:
         :paramtype content_type: str
         :return: An instance of AsyncLROPoller that returns Fleet. The Fleet is compatible with
          MutableMapping
-        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.computefleet.models.Fleet]
+        :rtype: ~azure.core.polling.AsyncLROPoller[~microsoft.azurefleet.models.Fleet]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -384,7 +387,7 @@ class FleetsOperations:
         :paramtype content_type: str
         :return: An instance of AsyncLROPoller that returns Fleet. The Fleet is compatible with
          MutableMapping
-        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.computefleet.models.Fleet]
+        :rtype: ~azure.core.polling.AsyncLROPoller[~microsoft.azurefleet.models.Fleet]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -401,10 +404,10 @@ class FleetsOperations:
         :type fleet_name: str
         :param resource: Resource create parameters. Is one of the following types: Fleet, JSON,
          IO[bytes] Required.
-        :type resource: ~azure.mgmt.computefleet.models.Fleet or JSON or IO[bytes]
+        :type resource: ~microsoft.azurefleet.models.Fleet or JSON or IO[bytes]
         :return: An instance of AsyncLROPoller that returns Fleet. The Fleet is compatible with
          MutableMapping
-        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.computefleet.models.Fleet]
+        :rtype: ~azure.core.polling.AsyncLROPoller[~microsoft.azurefleet.models.Fleet]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -515,7 +518,7 @@ class FleetsOperations:
             except (StreamConsumedError, StreamClosedError):
                 pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.ErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         response_headers = {}
@@ -548,13 +551,13 @@ class FleetsOperations:
         :param fleet_name: The name of the Compute Fleet. Required.
         :type fleet_name: str
         :param properties: The resource properties to be updated. Required.
-        :type properties: ~azure.mgmt.computefleet.models.FleetUpdate
+        :type properties: ~microsoft.azurefleet.models.FleetUpdate
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :return: An instance of AsyncLROPoller that returns Fleet. The Fleet is compatible with
          MutableMapping
-        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.computefleet.models.Fleet]
+        :rtype: ~azure.core.polling.AsyncLROPoller[~microsoft.azurefleet.models.Fleet]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -582,7 +585,7 @@ class FleetsOperations:
         :paramtype content_type: str
         :return: An instance of AsyncLROPoller that returns Fleet. The Fleet is compatible with
          MutableMapping
-        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.computefleet.models.Fleet]
+        :rtype: ~azure.core.polling.AsyncLROPoller[~microsoft.azurefleet.models.Fleet]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -610,7 +613,7 @@ class FleetsOperations:
         :paramtype content_type: str
         :return: An instance of AsyncLROPoller that returns Fleet. The Fleet is compatible with
          MutableMapping
-        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.computefleet.models.Fleet]
+        :rtype: ~azure.core.polling.AsyncLROPoller[~microsoft.azurefleet.models.Fleet]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
@@ -631,10 +634,10 @@ class FleetsOperations:
         :type fleet_name: str
         :param properties: The resource properties to be updated. Is one of the following types:
          FleetUpdate, JSON, IO[bytes] Required.
-        :type properties: ~azure.mgmt.computefleet.models.FleetUpdate or JSON or IO[bytes]
+        :type properties: ~microsoft.azurefleet.models.FleetUpdate or JSON or IO[bytes]
         :return: An instance of AsyncLROPoller that returns Fleet. The Fleet is compatible with
          MutableMapping
-        :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.computefleet.models.Fleet]
+        :rtype: ~azure.core.polling.AsyncLROPoller[~microsoft.azurefleet.models.Fleet]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -729,7 +732,7 @@ class FleetsOperations:
             except (StreamConsumedError, StreamClosedError):
                 pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _deserialize(_models.ErrorResponse, response.json())
+            error = _failsafe_deserialize(_models.ErrorResponse, response.json())
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         response_headers = {}
@@ -809,7 +812,7 @@ class FleetsOperations:
          Required.
         :type resource_group_name: str
         :return: An iterator like instance of Fleet
-        :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.computefleet.models.Fleet]
+        :rtype: ~azure.core.async_paging.AsyncItemPaged[~microsoft.azurefleet.models.Fleet]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
@@ -866,7 +869,7 @@ class FleetsOperations:
 
         async def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.Fleet], deserialized["value"])
+            list_of_elem = _deserialize(List[_models.Fleet], deserialized.get("value", []))
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
             return deserialized.get("nextLink") or None, AsyncList(list_of_elem)
@@ -882,7 +885,7 @@ class FleetsOperations:
 
             if response.status_code not in [200]:
                 map_error(status_code=response.status_code, response=response, error_map=error_map)
-                error = _deserialize(_models.ErrorResponse, response.json())
+                error = _failsafe_deserialize(_models.ErrorResponse, response.json())
                 raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
             return pipeline_response
@@ -894,7 +897,7 @@ class FleetsOperations:
         """List Fleet resources by subscription ID.
 
         :return: An iterator like instance of Fleet
-        :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.computefleet.models.Fleet]
+        :rtype: ~azure.core.async_paging.AsyncItemPaged[~microsoft.azurefleet.models.Fleet]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
@@ -950,7 +953,7 @@ class FleetsOperations:
 
         async def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.Fleet], deserialized["value"])
+            list_of_elem = _deserialize(List[_models.Fleet], deserialized.get("value", []))
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
             return deserialized.get("nextLink") or None, AsyncList(list_of_elem)
@@ -966,7 +969,7 @@ class FleetsOperations:
 
             if response.status_code not in [200]:
                 map_error(status_code=response.status_code, response=response, error_map=error_map)
-                error = _deserialize(_models.ErrorResponse, response.json())
+                error = _failsafe_deserialize(_models.ErrorResponse, response.json())
                 raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
             return pipeline_response
@@ -986,7 +989,7 @@ class FleetsOperations:
         :type name: str
         :return: An iterator like instance of VirtualMachineScaleSet
         :rtype:
-         ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.computefleet.models.VirtualMachineScaleSet]
+         ~azure.core.async_paging.AsyncItemPaged[~microsoft.azurefleet.models.VirtualMachineScaleSet]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
@@ -1044,7 +1047,7 @@ class FleetsOperations:
 
         async def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.VirtualMachineScaleSet], deserialized["value"])
+            list_of_elem = _deserialize(List[_models.VirtualMachineScaleSet], deserialized.get("value", []))
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
             return deserialized.get("nextLink") or None, AsyncList(list_of_elem)
@@ -1060,7 +1063,7 @@ class FleetsOperations:
 
             if response.status_code not in [200]:
                 map_error(status_code=response.status_code, response=response, error_map=error_map)
-                error = _deserialize(_models.ErrorResponse, response.json())
+                error = _failsafe_deserialize(_models.ErrorResponse, response.json())
                 raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
             return pipeline_response
