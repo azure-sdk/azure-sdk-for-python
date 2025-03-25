@@ -1,5 +1,21 @@
 # Release History
 
+## 1.1.0 (2025-03-25)
+
+### Features Added
+
+  - Model CloudCapacity has a new parameter storage_gb
+  - Model GuestAgentProperties has a new parameter private_link_scope_resource_id
+  - Model OsProfileForVmInstance has a new parameter admin_username
+  - Model OsProfileForVmInstance has a new parameter domain_name
+  - Model OsProfileForVmInstance has a new parameter domain_password
+  - Model OsProfileForVmInstance has a new parameter domain_username
+  - Model OsProfileForVmInstance has a new parameter product_key
+  - Model OsProfileForVmInstance has a new parameter run_once_commands
+  - Model OsProfileForVmInstance has a new parameter timezone
+  - Model OsProfileForVmInstance has a new parameter workgroup
+  - Model VirtualMachineInventoryItem has a new parameter generation
+
 ## 1.0.0 (2024-06-20)
 
 ### Features Added
