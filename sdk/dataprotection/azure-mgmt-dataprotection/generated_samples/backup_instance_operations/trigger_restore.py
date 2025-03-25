@@ -6,8 +6,6 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from typing import Any, IO, Union
-
 from azure.identity import DefaultAzureCredential
 
 from azure.mgmt.dataprotection import DataProtectionMgmtClient
@@ -37,6 +35,10 @@ def main():
         vault_name="PratikPrivatePreviewVault1",
         backup_instance_name="testInstance1",
         parameters={
+            "identityDetails": {
+                "useSystemAssignedIdentity": False,
+                "userAssignedIdentityArmUrl": "/subscriptions/f75d8d8b-6735-4697-82e1-1a7a3ff0d5d4/resourcegroups/rg-name/providers/Microsoft.ManagedIdentity/userAssignedIdentities/testUami",
+            },
             "objectType": "AzureBackupRecoveryPointBasedRestoreRequest",
             "recoveryPointId": "hardcodedRP",
             "restoreTargetInfo": {
@@ -76,6 +78,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/BackupInstanceOperations/TriggerRestore.json
+# x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2025-01-01/examples/BackupInstanceOperations/TriggerRestore.json
 if __name__ == "__main__":
     main()
