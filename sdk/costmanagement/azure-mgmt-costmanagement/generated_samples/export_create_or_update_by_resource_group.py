@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.costmanagement import CostManagementClient
 
 """
@@ -32,10 +33,17 @@ def main():
         scope="subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG",
         export_name="TestExport",
         parameters={
+            "identity": {"type": "SystemAssigned"},
+            "location": "centralus",
             "properties": {
+                "compressionMode": "gzip",
+                "dataOverwriteBehavior": "OverwritePreviousReport",
                 "definition": {
                     "dataSet": {
-                        "configuration": {"columns": ["Date", "MeterId", "ResourceId", "ResourceLocation", "Quantity"]},
+                        "configuration": {
+                            "columns": ["Date", "MeterId", "ResourceId", "ResourceLocation", "Quantity"],
+                            "dataVersion": "2023-05-01",
+                        },
                         "granularity": "Daily",
                     },
                     "timeframe": "MonthToDate",
@@ -46,20 +54,23 @@ def main():
                         "container": "exports",
                         "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG/providers/Microsoft.Storage/storageAccounts/ccmeastusdiag182",
                         "rootFolderPath": "ad-hoc",
+                        "type": "AzureBlob",
                     }
                 },
+                "exportDescription": "This is a test export.",
                 "format": "Csv",
+                "partitionData": True,
                 "schedule": {
                     "recurrence": "Weekly",
-                    "recurrencePeriod": {"from": "2020-06-01T00:00:00Z", "to": "2020-10-31T00:00:00Z"},
+                    "recurrencePeriod": {"from": "2020-06-01T00:00:00Z", "to": "2020-06-30T00:00:00Z"},
                     "status": "Active",
                 },
-            }
+            },
         },
     )
     print(response)
 
 
-# x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ExportCreateOrUpdateByResourceGroup.json
+# x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/preview/2024-10-01-preview/examples/ExportCreateOrUpdateByResourceGroup.json
 if __name__ == "__main__":
     main()

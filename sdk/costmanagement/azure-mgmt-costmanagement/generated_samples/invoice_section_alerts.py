@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.costmanagement import CostManagementClient
 
 """
@@ -34,6 +35,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/InvoiceSectionAlerts.json
+# x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/preview/2024-10-01-preview/examples/InvoiceSectionAlerts.json
 if __name__ == "__main__":
     main()
