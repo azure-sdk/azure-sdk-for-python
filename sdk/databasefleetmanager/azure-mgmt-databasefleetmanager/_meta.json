@@ -1,0 +1,6 @@
+{
+  "commit": "bb720b097f7c7afa6cdc8246f6fb654ef390993a",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/databasefleetmanager/DatabaseFleetManager.Management",
+  "@azure-tools/typespec-python": "0.40.0"
+}
