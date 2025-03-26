@@ -20,12 +20,12 @@ class TestDesktopVirtualizationMgmtApplicationsOperations(AzureMgmtRecordedTestC
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_applications_get(self, resource_group):
         response = self.client.applications.get(
             resource_group_name=resource_group.name,
             application_group_name="str",
             application_name="str",
-            api_version="2024-04-03",
+            api_version="2024-11-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -33,7 +33,7 @@ class TestDesktopVirtualizationMgmtApplicationsOperations(AzureMgmtRecordedTestC
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_create_or_update(self, resource_group):
+    def test_applications_create_or_update(self, resource_group):
         response = self.client.applications.create_or_update(
             resource_group_name=resource_group.name,
             application_group_name="str",
@@ -65,7 +65,7 @@ class TestDesktopVirtualizationMgmtApplicationsOperations(AzureMgmtRecordedTestC
                 },
                 "type": "str",
             },
-            api_version="2024-04-03",
+            api_version="2024-11-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -73,12 +73,12 @@ class TestDesktopVirtualizationMgmtApplicationsOperations(AzureMgmtRecordedTestC
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_delete(self, resource_group):
+    def test_applications_delete(self, resource_group):
         response = self.client.applications.delete(
             resource_group_name=resource_group.name,
             application_group_name="str",
             application_name="str",
-            api_version="2024-04-03",
+            api_version="2024-11-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -86,12 +86,12 @@ class TestDesktopVirtualizationMgmtApplicationsOperations(AzureMgmtRecordedTestC
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_update(self, resource_group):
+    def test_applications_update(self, resource_group):
         response = self.client.applications.update(
             resource_group_name=resource_group.name,
             application_group_name="str",
             application_name="str",
-            api_version="2024-04-03",
+            api_version="2024-11-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -99,11 +99,11 @@ class TestDesktopVirtualizationMgmtApplicationsOperations(AzureMgmtRecordedTestC
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list(self, resource_group):
+    def test_applications_list(self, resource_group):
         response = self.client.applications.list(
             resource_group_name=resource_group.name,
             application_group_name="str",
-            api_version="2024-04-03",
+            api_version="2024-11-01-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
