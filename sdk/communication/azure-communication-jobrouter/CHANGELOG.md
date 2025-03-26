@@ -1,5 +1,15 @@
 # Release History
 
+## 1.1.0b2 (2025-03-26)
+
+### Features Added
+
+  - Added model CancelJobResult
+  - Added model CloseJobResult
+  - Added model CompleteJobResult
+  - Added model DeclineJobOfferResult
+  - Added model ReclassifyJobResult
+
 ## 1.1.0b2 (Unreleased)
 
 ### Features Added
