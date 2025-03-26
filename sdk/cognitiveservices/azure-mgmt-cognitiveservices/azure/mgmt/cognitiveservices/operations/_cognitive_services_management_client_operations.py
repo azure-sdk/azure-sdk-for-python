@@ -1,4 +1,3 @@
-# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,7 +6,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 import sys
-from typing import Any, Callable, Dict, List, Optional, Type, TypeVar
+from typing import Any, Callable, Dict, List, Optional, TypeVar
 
 from azure.core.exceptions import (
     ClientAuthenticationError,
@@ -30,7 +29,7 @@ from .._vendor import CognitiveServicesManagementClientMixinABC
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
 
@@ -42,7 +41,7 @@ def build_check_sku_availability_request(location: str, subscription_id: str, **
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-04-01-preview"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -73,7 +72,7 @@ def build_check_domain_availability_request(subscription_id: str, **kwargs: Any)
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-04-01-preview"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -102,7 +101,7 @@ def build_calculate_model_capacity_request(subscription_id: str, **kwargs: Any) 
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-04-01-preview"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -149,7 +148,7 @@ class CognitiveServicesManagementClientOperationsMixin(  # pylint: disable=name-
         :rtype: ~azure.mgmt.cognitiveservices.models.SkuAvailabilityListResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -213,7 +212,7 @@ class CognitiveServicesManagementClientOperationsMixin(  # pylint: disable=name-
         :rtype: ~azure.mgmt.cognitiveservices.models.DomainAvailability
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -280,7 +279,7 @@ class CognitiveServicesManagementClientOperationsMixin(  # pylint: disable=name-
         :rtype: ~azure.mgmt.cognitiveservices.models.CalculateModelCapacityResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
