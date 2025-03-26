@@ -1,0 +1,6 @@
+{
+  "commit": "1e151b8b1c5a14e1847adb3d0620392307ad2962",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/communication/Communication.JobRouter",
+  "@azure-tools/typespec-python": "0.41.0"
+}
