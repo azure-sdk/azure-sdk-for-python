@@ -15,7 +15,7 @@ from azure.mgmt.elasticsan import ElasticSanMgmtClient
     pip install azure-identity
     pip install azure-mgmt-elasticsan
 # USAGE
-    python volumes_create_minimum_set_gen.py
+    python volume_groups_pre_backup_maximum_set_gen.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -27,19 +27,18 @@ from azure.mgmt.elasticsan import ElasticSanMgmtClient
 def main():
     client = ElasticSanMgmtClient(
         credential=DefaultAzureCredential(),
-        subscription_id="subscriptionid",
+        subscription_id="67B407F8-ED08-4144-B074-BA08FF4FB978",
     )
 
-    response = client.volumes.begin_create(
-        resource_group_name="resourcegroupname",
-        elastic_san_name="elasticsanname",
-        volume_group_name="volumegroupname",
-        volume_name="volumename",
-        parameters={"properties": {"sizeGiB": 9}},
+    response = client.volume_groups.begin_pre_backup(
+        resource_group_name="rgelasticsan",
+        elastic_san_name="elasticSanName",
+        volume_group_name="volumeGroupName",
+        parameters={"volumeNames": ["volume1"]},
     ).result()
     print(response)
 
 
-# x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2025-03-01/examples/Volumes_Create_MinimumSet_Gen.json
+# x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2025-03-01/examples/VolumeGroups_PreBackup_MaximumSet_Gen.json
 if __name__ == "__main__":
     main()
