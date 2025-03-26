@@ -1,2 +1,4 @@
 [packaging]
 auto_update = false
+title = "ContentSafetyClient"
+is_stable = true
