@@ -1,0 +1,6 @@
+{
+  "commit": "af8cb14cb21bbcf4fe8ea93f931b2f3b7c50b09b",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/azuredependencymap/DependencyMap.Management",
+  "@azure-tools/typespec-python": "0.40.0"
+}
