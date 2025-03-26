@@ -20,11 +20,11 @@ class TestElasticSanMgmtVolumeGroupsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_elastic_san(self, resource_group):
+    def test_volume_groups_list_by_elastic_san(self, resource_group):
         response = self.client.volume_groups.list_by_elastic_san(
             resource_group_name=resource_group.name,
             elastic_san_name="str",
-            api_version="2024-06-01-preview",
+            api_version="2025-03-01",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -32,7 +32,7 @@ class TestElasticSanMgmtVolumeGroupsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_create(self, resource_group):
+    def test_volume_groups_begin_create(self, resource_group):
         response = self.client.volume_groups.begin_create(
             resource_group_name=resource_group.name,
             elastic_san_name="str",
@@ -99,7 +99,7 @@ class TestElasticSanMgmtVolumeGroupsOperations(AzureMgmtRecordedTestCase):
                 },
                 "type": "str",
             },
-            api_version="2024-06-01-preview",
+            api_version="2025-03-01",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -107,7 +107,7 @@ class TestElasticSanMgmtVolumeGroupsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_update(self, resource_group):
+    def test_volume_groups_begin_update(self, resource_group):
         response = self.client.volume_groups.begin_update(
             resource_group_name=resource_group.name,
             elastic_san_name="str",
@@ -137,7 +137,7 @@ class TestElasticSanMgmtVolumeGroupsOperations(AzureMgmtRecordedTestCase):
                     "protocolType": "str",
                 },
             },
-            api_version="2024-06-01-preview",
+            api_version="2025-03-01",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -145,12 +145,12 @@ class TestElasticSanMgmtVolumeGroupsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_delete(self, resource_group):
+    def test_volume_groups_begin_delete(self, resource_group):
         response = self.client.volume_groups.begin_delete(
             resource_group_name=resource_group.name,
             elastic_san_name="str",
             volume_group_name="str",
-            api_version="2024-06-01-preview",
+            api_version="2025-03-01",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -158,13 +158,41 @@ class TestElasticSanMgmtVolumeGroupsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_volume_groups_get(self, resource_group):
         response = self.client.volume_groups.get(
             resource_group_name=resource_group.name,
             elastic_san_name="str",
             volume_group_name="str",
-            api_version="2024-06-01-preview",
+            api_version="2025-03-01",
         )
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy
+    def test_volume_groups_begin_pre_backup(self, resource_group):
+        response = self.client.volume_groups.begin_pre_backup(
+            resource_group_name=resource_group.name,
+            elastic_san_name="str",
+            volume_group_name="str",
+            parameters={"volumeNames": ["str"]},
+            api_version="2025-03-01",
+        ).result()  # call '.result()' to poll until service return final result
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy
+    def test_volume_groups_begin_pre_restore(self, resource_group):
+        response = self.client.volume_groups.begin_pre_restore(
+            resource_group_name=resource_group.name,
+            elastic_san_name="str",
+            volume_group_name="str",
+            parameters={"diskSnapshotIds": ["str"]},
+            api_version="2025-03-01",
+        ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
         # ...
