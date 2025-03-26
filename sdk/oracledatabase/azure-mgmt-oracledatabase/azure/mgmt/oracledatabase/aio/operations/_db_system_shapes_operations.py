@@ -1,4 +1,3 @@
-# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,7 +6,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 import sys
-from typing import Any, AsyncIterable, Callable, Dict, Optional, Type, TypeVar
+from typing import Any, AsyncIterable, Callable, Dict, Optional, TypeVar
 import urllib.parse
 
 from azure.core.async_paging import AsyncItemPaged, AsyncList
@@ -20,21 +19,19 @@ from azure.core.exceptions import (
     map_error,
 )
 from azure.core.pipeline import PipelineResponse
-from azure.core.pipeline.transport import AsyncHttpResponse
-from azure.core.rest import HttpRequest
+from azure.core.rest import AsyncHttpResponse, HttpRequest
 from azure.core.tracing.decorator import distributed_trace
 from azure.core.tracing.decorator_async import distributed_trace_async
 from azure.core.utils import case_insensitive_dict
 from azure.mgmt.core.exceptions import ARMErrorFormat
 
 from ... import models as _models
-from ..._vendor import _convert_request
 from ...operations._db_system_shapes_operations import build_get_request, build_list_by_location_request
 
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -59,11 +56,15 @@ class DbSystemShapesOperations:
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
     @distributed_trace
-    def list_by_location(self, location: str, **kwargs: Any) -> AsyncIterable["_models.DbSystemShape"]:
-        """List DbSystemShape resources by Location.
+    def list_by_location(
+        self, location: str, zone: Optional[str] = None, **kwargs: Any
+    ) -> AsyncIterable["_models.DbSystemShape"]:
+        """List DbSystemShape resources by SubscriptionLocationResource.
 
         :param location: The name of the Azure region. Required.
         :type location: str
+        :param zone: Filters the result for the given Azure Availability Zone. Default value is None.
+        :type zone: str
         :return: An iterator like instance of either DbSystemShape or the result of cls(response)
         :rtype:
          ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.oracledatabase.models.DbSystemShape]
@@ -75,7 +76,7 @@ class DbSystemShapesOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.DbSystemShapeListResult] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -89,11 +90,11 @@ class DbSystemShapesOperations:
                 _request = build_list_by_location_request(
                     location=location,
                     subscription_id=self._config.subscription_id,
+                    zone=zone,
                     api_version=api_version,
                     headers=_headers,
                     params=_params,
                 )
-                _request = _convert_request(_request)
                 _request.url = self._client.format_url(_request.url)
 
             else:
@@ -109,7 +110,6 @@ class DbSystemShapesOperations:
                 _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                _request = _convert_request(_request)
                 _request.url = self._client.format_url(_request.url)
                 _request.method = "GET"
             return _request
@@ -151,7 +151,7 @@ class DbSystemShapesOperations:
         :rtype: ~azure.mgmt.oracledatabase.models.DbSystemShape
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -173,7 +173,6 @@ class DbSystemShapesOperations:
             headers=_headers,
             params=_params,
         )
-        _request = _convert_request(_request)
         _request.url = self._client.format_url(_request.url)
 
         _stream = False
@@ -188,7 +187,7 @@ class DbSystemShapesOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("DbSystemShape", pipeline_response)
+        deserialized = self._deserialize("DbSystemShape", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore

@@ -30,7 +30,7 @@ def main():
         subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.autonomous_database_backups.list_by_autonomous_database(
+    response = client.autonomous_database_backups.list_by_parent(
         resource_group_name="rg000",
         autonomousdatabasename="databasedb1",
     )
@@ -38,6 +38,6 @@ def main():
         print(item)
 
 
-# x-ms-original-file: specification/oracle/resource-manager/Oracle.Database/stable/2023-09-01/examples/autonomousDatabaseBackup_listByParent.json
+# x-ms-original-file: specification/oracle/resource-manager/Oracle.Database/stable/2025-03-01/examples/autonomousDatabaseBackup_listByParent.json
 if __name__ == "__main__":
     main()
