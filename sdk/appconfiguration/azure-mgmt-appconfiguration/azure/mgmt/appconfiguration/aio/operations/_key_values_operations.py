@@ -1,4 +1,3 @@
-# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8,7 +7,7 @@
 # --------------------------------------------------------------------------
 from io import IOBase
 import sys
-from typing import Any, AsyncIterator, Callable, Dict, IO, Optional, Type, TypeVar, Union, cast, overload
+from typing import Any, AsyncIterator, Callable, Dict, IO, Optional, TypeVar, Union, cast, overload
 
 from azure.core.exceptions import (
     ClientAuthenticationError,
@@ -34,7 +33,7 @@ from ...operations._key_values_operations import build_create_or_update_request,
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -78,7 +77,7 @@ class KeyValuesOperations:
         :rtype: ~azure.mgmt.appconfiguration.models.KeyValue
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -128,7 +127,7 @@ class KeyValuesOperations:
         resource_group_name: str,
         config_store_name: str,
         key_value_name: str,
-        key_value_parameters: Optional[_models.KeyValue] = None,
+        key_value_parameters: _models.KeyValue,
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -145,7 +144,7 @@ class KeyValuesOperations:
         :param key_value_name: Identifier of key and label combination. Key and label are joined by $
          character. Label is optional. Required.
         :type key_value_name: str
-        :param key_value_parameters: The parameters for creating a key-value. Default value is None.
+        :param key_value_parameters: The parameters for creating a key-value. Required.
         :type key_value_parameters: ~azure.mgmt.appconfiguration.models.KeyValue
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
@@ -161,7 +160,7 @@ class KeyValuesOperations:
         resource_group_name: str,
         config_store_name: str,
         key_value_name: str,
-        key_value_parameters: Optional[IO[bytes]] = None,
+        key_value_parameters: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -178,7 +177,7 @@ class KeyValuesOperations:
         :param key_value_name: Identifier of key and label combination. Key and label are joined by $
          character. Label is optional. Required.
         :type key_value_name: str
-        :param key_value_parameters: The parameters for creating a key-value. Default value is None.
+        :param key_value_parameters: The parameters for creating a key-value. Required.
         :type key_value_parameters: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
@@ -194,7 +193,7 @@ class KeyValuesOperations:
         resource_group_name: str,
         config_store_name: str,
         key_value_name: str,
-        key_value_parameters: Optional[Union[_models.KeyValue, IO[bytes]]] = None,
+        key_value_parameters: Union[_models.KeyValue, IO[bytes]],
         **kwargs: Any
     ) -> _models.KeyValue:
         """Creates a key-value. NOTE: This operation is intended for use in ARM Template deployments. For
@@ -210,13 +209,13 @@ class KeyValuesOperations:
          character. Label is optional. Required.
         :type key_value_name: str
         :param key_value_parameters: The parameters for creating a key-value. Is either a KeyValue type
-         or a IO[bytes] type. Default value is None.
+         or a IO[bytes] type. Required.
         :type key_value_parameters: ~azure.mgmt.appconfiguration.models.KeyValue or IO[bytes]
         :return: KeyValue or the result of cls(response)
         :rtype: ~azure.mgmt.appconfiguration.models.KeyValue
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -237,10 +236,7 @@ class KeyValuesOperations:
         if isinstance(key_value_parameters, (IOBase, bytes)):
             _content = key_value_parameters
         else:
-            if key_value_parameters is not None:
-                _json = self._serialize.body(key_value_parameters, "KeyValue")
-            else:
-                _json = None
+            _json = self._serialize.body(key_value_parameters, "KeyValue")
 
         _request = build_create_or_update_request(
             resource_group_name=resource_group_name,
@@ -278,7 +274,7 @@ class KeyValuesOperations:
     async def _delete_initial(
         self, resource_group_name: str, config_store_name: str, key_value_name: str, **kwargs: Any
     ) -> AsyncIterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
