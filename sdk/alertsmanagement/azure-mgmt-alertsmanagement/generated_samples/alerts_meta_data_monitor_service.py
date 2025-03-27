@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.alertsmanagement import AlertsManagementClient
 
 """
@@ -26,6 +27,7 @@ from azure.mgmt.alertsmanagement import AlertsManagementClient
 def main():
     client = AlertsManagementClient(
         credential=DefaultAzureCredential(),
+        issue_name="ISSUE_NAME",
         subscription_id="SUBSCRIPTION_ID",
     )
 
@@ -35,6 +37,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/alertsmanagement/resource-manager/Microsoft.AlertsManagement/preview/2019-05-05-preview/examples/AlertsMetaData_MonitorService.json
+# x-ms-original-file: specification/alertsmanagement/resource-manager/Microsoft.AlertsManagement/preview/2024-01-01-preview/examples/AlertsMetaData_MonitorService.json
 if __name__ == "__main__":
     main()
