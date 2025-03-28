@@ -6,8 +6,6 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from typing import Any, IO, Union
-
 from azure.identity import DefaultAzureCredential
 
 from azure.mgmt.search import SearchManagementClient
@@ -38,7 +36,7 @@ def main():
         service={
             "properties": {
                 "networkRuleSet": {
-                    "bypass": "AzurePortal",
+                    "bypass": "AzureServices",
                     "ipRules": [{"value": "123.4.5.6"}, {"value": "123.4.6.0/18"}],
                 },
                 "partitionCount": 1,
@@ -50,6 +48,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/search/resource-manager/Microsoft.Search/preview/2024-06-01-preview/examples/SearchUpdateServiceToAllowAccessFromPublicCustomIPsAndBypass.json
+# x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2025-05-01/examples/SearchUpdateServiceToAllowAccessFromPublicCustomIPsAndBypass.json
 if __name__ == "__main__":
     main()
