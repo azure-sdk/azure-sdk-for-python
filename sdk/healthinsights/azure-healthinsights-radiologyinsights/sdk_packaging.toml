@@ -1,2 +1,4 @@
 [packaging]
 auto_update = false
+title = "RadiologyInsightsClient"
+is_stable = true
