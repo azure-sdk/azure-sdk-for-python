@@ -5,3 +5,4 @@ verifytypes = true
 pyright = true
 
 
+breaking = false
