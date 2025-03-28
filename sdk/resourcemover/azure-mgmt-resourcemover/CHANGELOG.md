@@ -1,5 +1,18 @@
 # Release History
 
+## 1.2.0 (2025-03-28)
+
+### Features Added
+
+  - Method `MoveCollectionsOperations.begin_bulk_remove` has a new overload `def begin_bulk_remove(self: None, resource_group_name: str, move_collection_name: str, body: Optional[IO[bytes]], content_type: str)`
+  - Method `MoveCollectionsOperations.begin_commit` has a new overload `def begin_commit(self: None, resource_group_name: str, move_collection_name: str, body: Optional[IO[bytes]], content_type: str)`
+  - Method `MoveCollectionsOperations.begin_discard` has a new overload `def begin_discard(self: None, resource_group_name: str, move_collection_name: str, body: Optional[IO[bytes]], content_type: str)`
+  - Method `MoveCollectionsOperations.begin_initiate_move` has a new overload `def begin_initiate_move(self: None, resource_group_name: str, move_collection_name: str, body: Optional[IO[bytes]], content_type: str)`
+  - Method `MoveCollectionsOperations.begin_prepare` has a new overload `def begin_prepare(self: None, resource_group_name: str, move_collection_name: str, body: Optional[IO[bytes]], content_type: str)`
+  - Method `MoveCollectionsOperations.create` has a new overload `def create(self: None, resource_group_name: str, move_collection_name: str, body: Optional[IO[bytes]], content_type: str)`
+  - Method `MoveCollectionsOperations.update` has a new overload `def update(self: None, resource_group_name: str, move_collection_name: str, body: Optional[IO[bytes]], content_type: str)`
+  - Method `MoveResourcesOperations.begin_create` has a new overload `def begin_create(self: None, resource_group_name: str, move_collection_name: str, move_resource_name: str, body: Optional[IO[bytes]], content_type: str)`
+
 ## 1.1.0 (2023-10-23)
 
 ### Features Added
