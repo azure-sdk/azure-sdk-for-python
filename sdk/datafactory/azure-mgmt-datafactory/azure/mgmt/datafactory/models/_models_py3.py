@@ -5587,9 +5587,9 @@ class AvroWriteSettings(FormatWriteSettings):
     :ivar max_rows_per_file: Limit the written file's row count to be smaller than or equal to the
      specified count. Type: integer (or Expression with resultType integer).
     :vartype max_rows_per_file: JSON
-    :ivar file_name_prefix: Specifies the file name pattern
-     :code:`<fileNamePrefix>`_:code:`<fileIndex>`.:code:`<fileExtension>` when copy from non-file
-     based store without partitionOptions. Type: string (or Expression with resultType string).
+    :ivar file_name_prefix: Specifies the file name pattern :code:`<fileNamePrefix>`_\\
+     :code:`<fileIndex>`.\\ :code:`<fileExtension>` when copy from non-file based store without
+     partitionOptions. Type: string (or Expression with resultType string).
     :vartype file_name_prefix: JSON
     """
 
@@ -5627,9 +5627,9 @@ class AvroWriteSettings(FormatWriteSettings):
         :keyword max_rows_per_file: Limit the written file's row count to be smaller than or equal to
          the specified count. Type: integer (or Expression with resultType integer).
         :paramtype max_rows_per_file: JSON
-        :keyword file_name_prefix: Specifies the file name pattern
-         :code:`<fileNamePrefix>`_:code:`<fileIndex>`.:code:`<fileExtension>` when copy from non-file
-         based store without partitionOptions. Type: string (or Expression with resultType string).
+        :keyword file_name_prefix: Specifies the file name pattern :code:`<fileNamePrefix>`_\\
+         :code:`<fileIndex>`.\\ :code:`<fileExtension>` when copy from non-file based store without
+         partitionOptions. Type: string (or Expression with resultType string).
         :paramtype file_name_prefix: JSON
         """
         super().__init__(additional_properties=additional_properties, **kwargs)
@@ -8575,8 +8575,8 @@ class AzureDataExplorerLinkedService(LinkedService):
     :ivar annotations: List of tags that can be used for describing the linked service.
     :vartype annotations: list[JSON]
     :ivar endpoint: The endpoint of Azure Data Explorer (the engine's endpoint). URL will be in the
-     format https://:code:`<clusterName>`.:code:`<regionName>`.kusto.windows.net. Type: string (or
-     Expression with resultType string). Required.
+     format https://\\ :code:`<clusterName>`.\\ :code:`<regionName>`.kusto.windows.net. Type: string
+     (or Expression with resultType string). Required.
     :vartype endpoint: JSON
     :ivar service_principal_id: The ID of the service principal used to authenticate against Azure
      Data Explorer. Type: string (or Expression with resultType string).
@@ -8648,8 +8648,8 @@ class AzureDataExplorerLinkedService(LinkedService):
         :keyword annotations: List of tags that can be used for describing the linked service.
         :paramtype annotations: list[JSON]
         :keyword endpoint: The endpoint of Azure Data Explorer (the engine's endpoint). URL will be in
-         the format https://:code:`<clusterName>`.:code:`<regionName>`.kusto.windows.net. Type: string
-         (or Expression with resultType string). Required.
+         the format https://\\ :code:`<clusterName>`.\\ :code:`<regionName>`.kusto.windows.net. Type:
+         string (or Expression with resultType string). Required.
         :paramtype endpoint: JSON
         :keyword service_principal_id: The ID of the service principal used to authenticate against
          Azure Data Explorer. Type: string (or Expression with resultType string).
@@ -10566,7 +10566,7 @@ class AzureFunctionLinkedService(LinkedService):
     :ivar annotations: List of tags that can be used for describing the linked service.
     :vartype annotations: list[JSON]
     :ivar function_app_url: The endpoint of the Azure Function App. URL will be in the format
-     https://:code:`<accountName>`.azurewebsites.net. Type: string (or Expression with resultType
+     https://\\ :code:`<accountName>`.azurewebsites.net. Type: string (or Expression with resultType
      string). Required.
     :vartype function_app_url: JSON
     :ivar function_key: Function or Host key for Azure Function App.
@@ -10637,7 +10637,7 @@ class AzureFunctionLinkedService(LinkedService):
         :keyword annotations: List of tags that can be used for describing the linked service.
         :paramtype annotations: list[JSON]
         :keyword function_app_url: The endpoint of the Azure Function App. URL will be in the format
-         https://:code:`<accountName>`.azurewebsites.net. Type: string (or Expression with resultType
+         https://\\ :code:`<accountName>`.azurewebsites.net. Type: string (or Expression with resultType
          string). Required.
         :paramtype function_app_url: JSON
         :keyword function_key: Function or Host key for Azure Function App.
@@ -16485,8 +16485,8 @@ class AzureSynapseArtifactsLinkedService(LinkedService):
     :vartype parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
     :ivar annotations: List of tags that can be used for describing the linked service.
     :vartype annotations: list[JSON]
-    :ivar endpoint: https://:code:`<workspacename>`.dev.azuresynapse.net, Azure Synapse Analytics
-     workspace URL. Type: string (or Expression with resultType string). Required.
+    :ivar endpoint: https://\\ :code:`<workspacename>`.dev.azuresynapse.net, Azure Synapse
+     Analytics workspace URL. Type: string (or Expression with resultType string). Required.
     :vartype endpoint: JSON
     :ivar authentication: Required to specify MSI, if using system assigned managed identity as
      authentication method. Type: string (or Expression with resultType string).
@@ -16543,7 +16543,7 @@ class AzureSynapseArtifactsLinkedService(LinkedService):
         :paramtype parameters: dict[str, ~azure.mgmt.datafactory.models.ParameterSpecification]
         :keyword annotations: List of tags that can be used for describing the linked service.
         :paramtype annotations: list[JSON]
-        :keyword endpoint: https://:code:`<workspacename>`.dev.azuresynapse.net, Azure Synapse
+        :keyword endpoint: https://\\ :code:`<workspacename>`.dev.azuresynapse.net, Azure Synapse
          Analytics workspace URL. Type: string (or Expression with resultType string). Required.
         :paramtype endpoint: JSON
         :keyword authentication: Required to specify MSI, if using system assigned managed identity as
@@ -25271,9 +25271,9 @@ class DelimitedTextWriteSettings(FormatWriteSettings):
     :ivar max_rows_per_file: Limit the written file's row count to be smaller than or equal to the
      specified count. Type: integer (or Expression with resultType integer).
     :vartype max_rows_per_file: JSON
-    :ivar file_name_prefix: Specifies the file name pattern
-     :code:`<fileNamePrefix>`_:code:`<fileIndex>`.:code:`<fileExtension>` when copy from non-file
-     based store without partitionOptions. Type: string (or Expression with resultType string).
+    :ivar file_name_prefix: Specifies the file name pattern :code:`<fileNamePrefix>`_\\
+     :code:`<fileIndex>`.\\ :code:`<fileExtension>` when copy from non-file based store without
+     partitionOptions. Type: string (or Expression with resultType string).
     :vartype file_name_prefix: JSON
     """
 
@@ -25314,9 +25314,9 @@ class DelimitedTextWriteSettings(FormatWriteSettings):
         :keyword max_rows_per_file: Limit the written file's row count to be smaller than or equal to
          the specified count. Type: integer (or Expression with resultType integer).
         :paramtype max_rows_per_file: JSON
-        :keyword file_name_prefix: Specifies the file name pattern
-         :code:`<fileNamePrefix>`_:code:`<fileIndex>`.:code:`<fileExtension>` when copy from non-file
-         based store without partitionOptions. Type: string (or Expression with resultType string).
+        :keyword file_name_prefix: Specifies the file name pattern :code:`<fileNamePrefix>`_\\
+         :code:`<fileIndex>`.\\ :code:`<fileExtension>` when copy from non-file based store without
+         partitionOptions. Type: string (or Expression with resultType string).
         :paramtype file_name_prefix: JSON
         """
         super().__init__(additional_properties=additional_properties, **kwargs)
@@ -50084,9 +50084,9 @@ class OrcWriteSettings(FormatWriteSettings):
     :ivar max_rows_per_file: Limit the written file's row count to be smaller than or equal to the
      specified count. Type: integer (or Expression with resultType integer).
     :vartype max_rows_per_file: JSON
-    :ivar file_name_prefix: Specifies the file name pattern
-     :code:`<fileNamePrefix>`_:code:`<fileIndex>`.:code:`<fileExtension>` when copy from non-file
-     based store without partitionOptions. Type: string (or Expression with resultType string).
+    :ivar file_name_prefix: Specifies the file name pattern :code:`<fileNamePrefix>`_\\
+     :code:`<fileIndex>`.\\ :code:`<fileExtension>` when copy from non-file based store without
+     partitionOptions. Type: string (or Expression with resultType string).
     :vartype file_name_prefix: JSON
     """
 
@@ -50116,9 +50116,9 @@ class OrcWriteSettings(FormatWriteSettings):
         :keyword max_rows_per_file: Limit the written file's row count to be smaller than or equal to
          the specified count. Type: integer (or Expression with resultType integer).
         :paramtype max_rows_per_file: JSON
-        :keyword file_name_prefix: Specifies the file name pattern
-         :code:`<fileNamePrefix>`_:code:`<fileIndex>`.:code:`<fileExtension>` when copy from non-file
-         based store without partitionOptions. Type: string (or Expression with resultType string).
+        :keyword file_name_prefix: Specifies the file name pattern :code:`<fileNamePrefix>`_\\
+         :code:`<fileIndex>`.\\ :code:`<fileExtension>` when copy from non-file based store without
+         partitionOptions. Type: string (or Expression with resultType string).
         :paramtype file_name_prefix: JSON
         """
         super().__init__(additional_properties=additional_properties, **kwargs)
@@ -50638,9 +50638,9 @@ class ParquetWriteSettings(FormatWriteSettings):
     :ivar max_rows_per_file: Limit the written file's row count to be smaller than or equal to the
      specified count. Type: integer (or Expression with resultType integer).
     :vartype max_rows_per_file: JSON
-    :ivar file_name_prefix: Specifies the file name pattern
-     :code:`<fileNamePrefix>`_:code:`<fileIndex>`.:code:`<fileExtension>` when copy from non-file
-     based store without partitionOptions. Type: string (or Expression with resultType string).
+    :ivar file_name_prefix: Specifies the file name pattern :code:`<fileNamePrefix>`_\\
+     :code:`<fileIndex>`.\\ :code:`<fileExtension>` when copy from non-file based store without
+     partitionOptions. Type: string (or Expression with resultType string).
     :vartype file_name_prefix: JSON
     """
 
@@ -50670,9 +50670,9 @@ class ParquetWriteSettings(FormatWriteSettings):
         :keyword max_rows_per_file: Limit the written file's row count to be smaller than or equal to
          the specified count. Type: integer (or Expression with resultType integer).
         :paramtype max_rows_per_file: JSON
-        :keyword file_name_prefix: Specifies the file name pattern
-         :code:`<fileNamePrefix>`_:code:`<fileIndex>`.:code:`<fileExtension>` when copy from non-file
-         based store without partitionOptions. Type: string (or Expression with resultType string).
+        :keyword file_name_prefix: Specifies the file name pattern :code:`<fileNamePrefix>`_\\
+         :code:`<fileIndex>`.\\ :code:`<fileExtension>` when copy from non-file based store without
+         partitionOptions. Type: string (or Expression with resultType string).
         :paramtype file_name_prefix: JSON
         """
         super().__init__(additional_properties=additional_properties, **kwargs)
