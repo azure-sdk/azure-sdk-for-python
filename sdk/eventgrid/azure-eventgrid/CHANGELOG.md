@@ -1,5 +1,11 @@
 # Release History
 
+## 5.0.0 (2025-03-28)
+
+### Breaking Changes
+
+  - Client name is changed from `EventGridPublisherClient` to `EventGridPublisherClient`
+
 ## 4.21.1 (Unreleased)
 
 ### Features Added
