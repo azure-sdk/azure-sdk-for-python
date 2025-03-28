@@ -6,8 +6,6 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from typing import Any, IO, Union
-
 from azure.identity import DefaultAzureCredential
 
 from azure.mgmt.cdn import CdnManagementClient
@@ -40,13 +38,21 @@ def main():
             "properties": {
                 "azureDnsZone": {"id": ""},
                 "hostName": "www.someDomain.net",
-                "tlsSettings": {"certificateType": "ManagedCertificate", "minimumTlsVersion": "TLS12"},
+                "tlsSettings": {
+                    "certificateType": "ManagedCertificate",
+                    "cipherSuiteSetType": "Customized",
+                    "customizedCipherSuiteSet": {
+                        "cipherSuiteSetForTls12": ["ECDHE_RSA_AES128_GCM_SHA256"],
+                        "cipherSuiteSetForTls13": ["TLS_AES_128_GCM_SHA256", "TLS_AES_256_GCM_SHA384"],
+                    },
+                    "minimumTlsVersion": "TLS12",
+                },
             }
         },
     ).result()
     print(response)
 
 
-# x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2024-02-01/examples/AFDCustomDomains_Create.json
+# x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2025-04-15/examples/AFDCustomDomains_Create.json
 if __name__ == "__main__":
     main()
