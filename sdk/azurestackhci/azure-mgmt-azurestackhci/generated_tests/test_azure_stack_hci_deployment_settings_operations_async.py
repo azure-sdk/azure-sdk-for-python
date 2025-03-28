@@ -21,11 +21,11 @@ class TestAzureStackHCIDeploymentSettingsOperationsAsync(AzureMgmtRecordedTestCa
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_by_clusters(self, resource_group):
+    async def test_deployment_settings_list_by_clusters(self, resource_group):
         response = self.client.deployment_settings.list_by_clusters(
             resource_group_name=resource_group.name,
             cluster_name="str",
-            api_version="2024-04-01",
+            api_version="2025-02-01-preview",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -33,12 +33,12 @@ class TestAzureStackHCIDeploymentSettingsOperationsAsync(AzureMgmtRecordedTestCa
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get(self, resource_group):
+    async def test_deployment_settings_get(self, resource_group):
         response = await self.client.deployment_settings.get(
             resource_group_name=resource_group.name,
             cluster_name="str",
             deployment_settings_name="default",
-            api_version="2024-04-01",
+            api_version="2025-02-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -46,7 +46,7 @@ class TestAzureStackHCIDeploymentSettingsOperationsAsync(AzureMgmtRecordedTestCa
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_create_or_update(self, resource_group):
+    async def test_deployment_settings_begin_create_or_update(self, resource_group):
         response = await (
             await self.client.deployment_settings.begin_create_or_update(
                 resource_group_name=resource_group.name,
@@ -58,9 +58,17 @@ class TestAzureStackHCIDeploymentSettingsOperationsAsync(AzureMgmtRecordedTestCa
                             {
                                 "deploymentData": {
                                     "adouPath": "str",
+                                    "assemblyInfo": {
+                                        "packageVersion": "str",
+                                        "payload": [
+                                            {"fileName": "str", "hash": "str", "identifier": "str", "url": "str"}
+                                        ],
+                                    },
                                     "cluster": {
                                         "azureServiceEndpoint": "str",
                                         "cloudAccountName": "str",
+                                        "clusterPattern": "str",
+                                        "hardwareClass": "Medium",
                                         "name": "str",
                                         "witnessPath": "str",
                                         "witnessType": "str",
@@ -113,6 +121,7 @@ class TestAzureStackHCIDeploymentSettingsOperationsAsync(AzureMgmtRecordedTestCa
                                             "useDhcp": bool,
                                         }
                                     ],
+                                    "localAvailabilityZones": [{"localAvailabilityZoneName": "str", "nodes": ["str"]}],
                                     "namingPrefix": "str",
                                     "observability": {
                                         "episodicDataUpload": True,
@@ -161,7 +170,7 @@ class TestAzureStackHCIDeploymentSettingsOperationsAsync(AzureMgmtRecordedTestCa
                         ],
                         "version": "str",
                     },
-                    "deploymentMode": "Deploy",
+                    "deploymentMode": "str",
                     "id": "str",
                     "name": "str",
                     "operationType": "ClusterProvisioning",
@@ -209,7 +218,7 @@ class TestAzureStackHCIDeploymentSettingsOperationsAsync(AzureMgmtRecordedTestCa
                     "type": "str",
                 },
                 deployment_settings_name="default",
-                api_version="2024-04-01",
+                api_version="2025-02-01-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -218,13 +227,13 @@ class TestAzureStackHCIDeploymentSettingsOperationsAsync(AzureMgmtRecordedTestCa
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_delete(self, resource_group):
+    async def test_deployment_settings_begin_delete(self, resource_group):
         response = await (
             await self.client.deployment_settings.begin_delete(
                 resource_group_name=resource_group.name,
                 cluster_name="str",
                 deployment_settings_name="default",
-                api_version="2024-04-01",
+                api_version="2025-02-01-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
