@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.iotfirmwaredefense import IoTFirmwareDefenseMgmtClient
 
 """
@@ -14,7 +15,7 @@ from azure.mgmt.iotfirmwaredefense import IoTFirmwareDefenseMgmtClient
     pip install azure-identity
     pip install azure-mgmt-iotfirmwaredefense
 # USAGE
-    python firmwares_generate_download_url_maximum_set_gen.py
+    python usage_metrics_list_by_workspace_maximum_set_gen.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,17 +27,17 @@ from azure.mgmt.iotfirmwaredefense import IoTFirmwareDefenseMgmtClient
 def main():
     client = IoTFirmwareDefenseMgmtClient(
         credential=DefaultAzureCredential(),
-        subscription_id="685C0C6F-9867-4B1C-A534-AA3A05B54BCE",
+        subscription_id="5C707B5F-6130-4F71-819E-953A28942E88",
     )
 
-    response = client.firmwares.generate_download_url(
-        resource_group_name="rgworkspaces-firmwares",
-        workspace_name="A7",
-        firmware_id="umrkdttp",
+    response = client.usage_metrics.list_by_workspace(
+        resource_group_name="rgiotfirmwaredefense",
+        workspace_name="exampleWorkspaceName",
     )
-    print(response)
+    for item in response:
+        print(item)
 
 
-# x-ms-original-file: specification/fist/resource-manager/Microsoft.IoTFirmwareDefense/stable/2024-01-10/examples/Firmwares_GenerateDownloadUrl_MaximumSet_Gen.json
+# x-ms-original-file: specification/fist/resource-manager/Microsoft.IoTFirmwareDefense/preview/2025-04-01-preview/examples/UsageMetrics_ListByWorkspace_MaximumSet_Gen.json
 if __name__ == "__main__":
     main()

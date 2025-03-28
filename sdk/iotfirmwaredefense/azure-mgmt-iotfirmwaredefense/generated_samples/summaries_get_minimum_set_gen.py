@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.iotfirmwaredefense import IoTFirmwareDefenseMgmtClient
 
 """
@@ -33,11 +34,11 @@ def main():
         resource_group_name="FirmwareAnalysisRG",
         workspace_name="default",
         firmware_id="109a9886-50bf-85a8-9d75-000000000000",
-        summary_name="Firmware",
+        summary_type="Firmware",
     )
     print(response)
 
 
-# x-ms-original-file: specification/fist/resource-manager/Microsoft.IoTFirmwareDefense/stable/2024-01-10/examples/Summaries_Get_MinimumSet_Gen.json
+# x-ms-original-file: specification/fist/resource-manager/Microsoft.IoTFirmwareDefense/preview/2025-04-01-preview/examples/Summaries_Get_MinimumSet_Gen.json
 if __name__ == "__main__":
     main()
