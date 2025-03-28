@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.datamigration import DataMigrationManagementClient
 
 """
@@ -29,15 +30,14 @@ def main():
         subscription_id="fc04246f-04c5-437e-ac5e-206a19e7193f",
     )
 
-    response = client.files.delete(
+    client.files.delete(
         group_name="DmsSdkRg",
         service_name="DmsSdkService",
         project_name="DmsSdkProject",
         file_name="x114d023d8",
     )
-    print(response)
 
 
-# x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2022-03-30-preview/examples/Files_Delete.json
+# x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2025-03-15-preview/examples/Files_Delete.json
 if __name__ == "__main__":
     main()
