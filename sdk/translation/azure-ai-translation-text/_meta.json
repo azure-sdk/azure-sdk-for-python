@@ -1,0 +1,6 @@
+{
+  "commit": "dd711da921e83029c16f4579fff8e0e86a2fa9cf",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/translation/Azure.AI.TextTranslation",
+  "@azure-tools/typespec-python": "0.41.0"
+}
