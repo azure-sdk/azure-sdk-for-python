@@ -1,11 +1,11 @@
 {
-  "commit": "30d040e41a4cea0d31a6c7e56726ea2df17fdcc5",
+  "commit": "a050fa0419263b6c6efa11793bbe41ae1e7694b0",
   "repository_url": "https://github.com/Azure/azure-rest-api-specs",
   "autorest": "3.10.2",
   "use": [
-    "@autorest/python@6.19.0",
+    "@autorest/python@6.27.4",
     "@autorest/modelerfour@4.27.0"
   ],
-  "autorest_command": "autorest specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/StackHCI/readme.md --generate-sample=True --generate-test=True --include-x-ms-examples-original-file=True --python --python-sdks-folder=/home/vsts/work/1/azure-sdk-for-python/sdk --use=@autorest/python@6.19.0 --use=@autorest/modelerfour@4.27.0 --version=3.10.2 --version-tolerant=False",
+  "autorest_command": "autorest specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/StackHCI/readme.md --generate-sample=True --generate-test=True --include-x-ms-examples-original-file=True --python --python-sdks-folder=/mnt/vss/_work/1/s/azure-sdk-for-python/sdk --use=@autorest/python@6.27.4 --use=@autorest/modelerfour@4.27.0 --version=3.10.2 --version-tolerant=False",
   "readme": "specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/StackHCI/readme.md"
 }

@@ -21,13 +21,13 @@ class TestAzureStackHCIUpdatesOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_post(self, resource_group):
+    async def test_updates_begin_post(self, resource_group):
         response = await (
             await self.client.updates.begin_post(
                 resource_group_name=resource_group.name,
                 cluster_name="str",
                 update_name="str",
-                api_version="2024-04-01",
+                api_version="2025-02-01-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -36,11 +36,11 @@ class TestAzureStackHCIUpdatesOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list(self, resource_group):
+    async def test_updates_list(self, resource_group):
         response = self.client.updates.list(
             resource_group_name=resource_group.name,
             cluster_name="str",
-            api_version="2024-04-01",
+            api_version="2025-02-01-preview",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -48,13 +48,13 @@ class TestAzureStackHCIUpdatesOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_delete(self, resource_group):
+    async def test_updates_begin_delete(self, resource_group):
         response = await (
             await self.client.updates.begin_delete(
                 resource_group_name=resource_group.name,
                 cluster_name="str",
                 update_name="str",
-                api_version="2024-04-01",
+                api_version="2025-02-01-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -63,7 +63,7 @@ class TestAzureStackHCIUpdatesOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_put(self, resource_group):
+    async def test_updates_put(self, resource_group):
         response = await self.client.updates.put(
             resource_group_name=resource_group.name,
             cluster_name="str",
@@ -121,7 +121,7 @@ class TestAzureStackHCIUpdatesOperationsAsync(AzureMgmtRecordedTestCase):
                 "type": "str",
                 "version": "str",
             },
-            api_version="2024-04-01",
+            api_version="2025-02-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -129,12 +129,12 @@ class TestAzureStackHCIUpdatesOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get(self, resource_group):
+    async def test_updates_get(self, resource_group):
         response = await self.client.updates.get(
             resource_group_name=resource_group.name,
             cluster_name="str",
             update_name="str",
-            api_version="2024-04-01",
+            api_version="2025-02-01-preview",
         )
 
         # please add some check logic here by yourself

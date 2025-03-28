@@ -1,5 +1,78 @@
 # Release History
 
+## 8.0.0b5 (2025-03-28)
+
+### Features Added
+
+  - Client `AzureStackHCIClient` added operation group `edge_device_jobs`
+  - Client `AzureStackHCIClient` added operation group `validated_solution_recipes`
+  - Model `Cluster` added property `secrets_locations`
+  - Model `Cluster` added property `cluster_pattern`
+  - Model `Cluster` added property `local_availability_zones`
+  - Model `ClusterReportedProperties` added property `hardware_class`
+  - Model `DeploymentCluster` added property `cluster_pattern`
+  - Model `DeploymentCluster` added property `hardware_class`
+  - Model `DeploymentData` added property `local_availability_zones`
+  - Model `DeploymentData` added property `assembly_info`
+  - Model `HciNicDetail` added property `rdma_capability`
+  - Model `HciReportedProperties` added property `storage_profile`
+  - Model `HciReportedProperties` added property `hardware_profile`
+  - Added model `AssemblyInfo`
+  - Added model `AssemblyInfoPayload`
+  - Added enum `ClusterPattern`
+  - Added model `CollectLogJobProperties`
+  - Added enum `DeviceLogCollectionStatus`
+  - Added model `EdgeDeviceJob`
+  - Added model `EdgeDeviceJobListResult`
+  - Added model `EdgeDeviceJobProperties`
+  - Added enum `EdgeDeviceJobType`
+  - Added enum `EdgeDeviceKind`
+  - Added enum `EdgeSolutionType`
+  - Added enum `HardwareClass`
+  - Added model `HciCollectLogJobProperties`
+  - Added model `HciEdgeDeviceJob`
+  - Added model `HciEdgeDeviceJobProperties`
+  - Added enum `HciEdgeDeviceJobType`
+  - Added model `HciHardwareProfile`
+  - Added model `HciRemoteSupportJobProperties`
+  - Added model `HciStorageProfile`
+  - Added model `JobReportedProperties`
+  - Added enum `JobStatus`
+  - Added model `LocalAvailabilityZones`
+  - Added model `LogCollectionJobSession`
+  - Added model `LogCollectionReportedProperties`
+  - Added enum `RdmaCapability`
+  - Added enum `RemoteSupportAccessLevel`
+  - Added model `RemoteSupportJobNodeSettings`
+  - Added model `RemoteSupportJobProperties`
+  - Added model `RemoteSupportJobReportedProperties`
+  - Added model `RemoteSupportSession`
+  - Added model `SecretsLocationDetails`
+  - Added model `SecretsLocationsChangeRequest`
+  - Added enum `SecretsType`
+  - Added model `ValidatedSolutionRecipe`
+  - Added model `ValidatedSolutionRecipeCapabilities`
+  - Added model `ValidatedSolutionRecipeCapability`
+  - Added model `ValidatedSolutionRecipeComponent`
+  - Added model `ValidatedSolutionRecipeComponentMetadata`
+  - Added model `ValidatedSolutionRecipeComponentPayload`
+  - Added model `ValidatedSolutionRecipeContent`
+  - Added model `ValidatedSolutionRecipeInfo`
+  - Added model `ValidatedSolutionRecipeListResult`
+  - Added model `ValidatedSolutionRecipeProperties`
+  - Model `ClustersOperations` added method `begin_update_secrets_locations`
+  - Added model `EdgeDeviceJobsOperations`
+  - Added model `ValidatedSolutionRecipesOperations`
+  - Method `ClustersOperations.begin_update_secrets_locations` has a new overload `def begin_update_secrets_locations(self: None, resource_group_name: str, cluster_name: str, body: SecretsLocationsChangeRequest, content_type: str)`
+  - Method `ClustersOperations.begin_update_secrets_locations` has a new overload `def begin_update_secrets_locations(self: None, resource_group_name: str, cluster_name: str, body: IO[bytes], content_type: str)`
+  - Method `EdgeDeviceJobsOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_uri: str, edge_device_name: str, jobs_name: str, resource: EdgeDeviceJob, content_type: str)`
+  - Method `EdgeDeviceJobsOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_uri: str, edge_device_name: str, jobs_name: str, resource: IO[bytes], content_type: str)`
+
+### Breaking Changes
+
+  - Method `Operations.list` changed from `asynchronous` to `synchronous`
+  - Method `DeploymentSetting.__init__` parameter `deployment_mode` changed default value from `str` to `none`
+
 ## 8.0.0b4 (2024-08-26)
 
 ### Features Added

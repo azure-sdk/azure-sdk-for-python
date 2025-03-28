@@ -20,11 +20,11 @@ class TestAzureStackHCIDeploymentSettingsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_clusters(self, resource_group):
+    def test_deployment_settings_list_by_clusters(self, resource_group):
         response = self.client.deployment_settings.list_by_clusters(
             resource_group_name=resource_group.name,
             cluster_name="str",
-            api_version="2024-04-01",
+            api_version="2025-02-01-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -32,12 +32,12 @@ class TestAzureStackHCIDeploymentSettingsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_deployment_settings_get(self, resource_group):
         response = self.client.deployment_settings.get(
             resource_group_name=resource_group.name,
             cluster_name="str",
             deployment_settings_name="default",
-            api_version="2024-04-01",
+            api_version="2025-02-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -45,7 +45,7 @@ class TestAzureStackHCIDeploymentSettingsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_create_or_update(self, resource_group):
+    def test_deployment_settings_begin_create_or_update(self, resource_group):
         response = self.client.deployment_settings.begin_create_or_update(
             resource_group_name=resource_group.name,
             cluster_name="str",
@@ -56,9 +56,15 @@ class TestAzureStackHCIDeploymentSettingsOperations(AzureMgmtRecordedTestCase):
                         {
                             "deploymentData": {
                                 "adouPath": "str",
+                                "assemblyInfo": {
+                                    "packageVersion": "str",
+                                    "payload": [{"fileName": "str", "hash": "str", "identifier": "str", "url": "str"}],
+                                },
                                 "cluster": {
                                     "azureServiceEndpoint": "str",
                                     "cloudAccountName": "str",
+                                    "clusterPattern": "str",
+                                    "hardwareClass": "Medium",
                                     "name": "str",
                                     "witnessPath": "str",
                                     "witnessType": "str",
@@ -111,6 +117,7 @@ class TestAzureStackHCIDeploymentSettingsOperations(AzureMgmtRecordedTestCase):
                                         "useDhcp": bool,
                                     }
                                 ],
+                                "localAvailabilityZones": [{"localAvailabilityZoneName": "str", "nodes": ["str"]}],
                                 "namingPrefix": "str",
                                 "observability": {
                                     "episodicDataUpload": True,
@@ -159,7 +166,7 @@ class TestAzureStackHCIDeploymentSettingsOperations(AzureMgmtRecordedTestCase):
                     ],
                     "version": "str",
                 },
-                "deploymentMode": "Deploy",
+                "deploymentMode": "str",
                 "id": "str",
                 "name": "str",
                 "operationType": "ClusterProvisioning",
@@ -207,7 +214,7 @@ class TestAzureStackHCIDeploymentSettingsOperations(AzureMgmtRecordedTestCase):
                 "type": "str",
             },
             deployment_settings_name="default",
-            api_version="2024-04-01",
+            api_version="2025-02-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -215,12 +222,12 @@ class TestAzureStackHCIDeploymentSettingsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_delete(self, resource_group):
+    def test_deployment_settings_begin_delete(self, resource_group):
         response = self.client.deployment_settings.begin_delete(
             resource_group_name=resource_group.name,
             cluster_name="str",
             deployment_settings_name="default",
-            api_version="2024-04-01",
+            api_version="2025-02-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself

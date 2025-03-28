@@ -20,9 +20,9 @@ class TestAzureStackHCIClustersOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_subscription(self, resource_group):
+    def test_clusters_list_by_subscription(self, resource_group):
         response = self.client.clusters.list_by_subscription(
-            api_version="2024-04-01",
+            api_version="2025-02-01-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -30,10 +30,10 @@ class TestAzureStackHCIClustersOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_resource_group(self, resource_group):
+    def test_clusters_list_by_resource_group(self, resource_group):
         response = self.client.clusters.list_by_resource_group(
             resource_group_name=resource_group.name,
-            api_version="2024-04-01",
+            api_version="2025-02-01-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -41,11 +41,11 @@ class TestAzureStackHCIClustersOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_clusters_get(self, resource_group):
         response = self.client.clusters.get(
             resource_group_name=resource_group.name,
             cluster_name="str",
-            api_version="2024-04-01",
+            api_version="2025-02-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -53,7 +53,7 @@ class TestAzureStackHCIClustersOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_create(self, resource_group):
+    def test_clusters_create(self, resource_group):
         response = self.client.clusters.create(
             resource_group_name=resource_group.name,
             cluster_name="str",
@@ -66,6 +66,7 @@ class TestAzureStackHCIClustersOperations(AzureMgmtRecordedTestCase):
                 "billingModel": "str",
                 "cloudId": "str",
                 "cloudManagementEndpoint": "str",
+                "clusterPattern": "str",
                 "connectivityStatus": "str",
                 "desiredProperties": {"diagnosticLevel": "str", "windowsServerSubscription": "str"},
                 "id": "str",
@@ -76,6 +77,7 @@ class TestAzureStackHCIClustersOperations(AzureMgmtRecordedTestCase):
                 },
                 "lastBillingTimestamp": "2020-02-20 00:00:00",
                 "lastSyncTimestamp": "2020-02-20 00:00:00",
+                "localAvailabilityZones": [{"localAvailabilityZoneName": "str", "nodes": ["str"]}],
                 "logCollectionProperties": {
                     "fromDate": "2020-02-20 00:00:00",
                     "lastLogGenerated": "2020-02-20 00:00:00",
@@ -129,6 +131,7 @@ class TestAzureStackHCIClustersOperations(AzureMgmtRecordedTestCase):
                     "clusterType": "str",
                     "clusterVersion": "str",
                     "diagnosticLevel": "str",
+                    "hardwareClass": "Medium",
                     "imdsAttestation": "str",
                     "lastUpdated": "2020-02-20 00:00:00",
                     "manufacturer": "str",
@@ -155,6 +158,7 @@ class TestAzureStackHCIClustersOperations(AzureMgmtRecordedTestCase):
                     "supportedCapabilities": ["str"],
                 },
                 "resourceProviderObjectId": "str",
+                "secretsLocations": [{"secretsLocation": "str", "secretsType": "str"}],
                 "serviceEndpoint": "str",
                 "softwareAssuranceProperties": {
                     "lastUpdated": "2020-02-20 00:00:00",
@@ -176,7 +180,7 @@ class TestAzureStackHCIClustersOperations(AzureMgmtRecordedTestCase):
                 "type": "str",
                 "userAssignedIdentities": {"str": {"clientId": "str", "principalId": "str"}},
             },
-            api_version="2024-04-01",
+            api_version="2025-02-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -184,7 +188,7 @@ class TestAzureStackHCIClustersOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_update(self, resource_group):
+    def test_clusters_update(self, resource_group):
         response = self.client.clusters.update(
             resource_group_name=resource_group.name,
             cluster_name="str",
@@ -199,7 +203,7 @@ class TestAzureStackHCIClustersOperations(AzureMgmtRecordedTestCase):
                 "type": "str",
                 "userAssignedIdentities": {"str": {"clientId": "str", "principalId": "str"}},
             },
-            api_version="2024-04-01",
+            api_version="2025-02-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -207,11 +211,11 @@ class TestAzureStackHCIClustersOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_delete(self, resource_group):
+    def test_clusters_begin_delete(self, resource_group):
         response = self.client.clusters.begin_delete(
             resource_group_name=resource_group.name,
             cluster_name="str",
-            api_version="2024-04-01",
+            api_version="2025-02-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -219,12 +223,25 @@ class TestAzureStackHCIClustersOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_upload_certificate(self, resource_group):
+    def test_clusters_begin_update_secrets_locations(self, resource_group):
+        response = self.client.clusters.begin_update_secrets_locations(
+            resource_group_name=resource_group.name,
+            cluster_name="str",
+            body={"properties": [{"secretsLocation": "str", "secretsType": "str"}]},
+            api_version="2025-02-01-preview",
+        ).result()  # call '.result()' to poll until service return final result
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy
+    def test_clusters_begin_upload_certificate(self, resource_group):
         response = self.client.clusters.begin_upload_certificate(
             resource_group_name=resource_group.name,
             cluster_name="str",
             upload_certificate_request={"properties": {"certificates": ["str"]}},
-            api_version="2024-04-01",
+            api_version="2025-02-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -232,11 +249,11 @@ class TestAzureStackHCIClustersOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_create_identity(self, resource_group):
+    def test_clusters_begin_create_identity(self, resource_group):
         response = self.client.clusters.begin_create_identity(
             resource_group_name=resource_group.name,
             cluster_name="str",
-            api_version="2024-04-01",
+            api_version="2025-02-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -244,12 +261,12 @@ class TestAzureStackHCIClustersOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_extend_software_assurance_benefit(self, resource_group):
+    def test_clusters_begin_extend_software_assurance_benefit(self, resource_group):
         response = self.client.clusters.begin_extend_software_assurance_benefit(
             resource_group_name=resource_group.name,
             cluster_name="str",
             software_assurance_change_request={"properties": {"softwareAssuranceIntent": "str"}},
-            api_version="2024-04-01",
+            api_version="2025-02-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -257,12 +274,12 @@ class TestAzureStackHCIClustersOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_trigger_log_collection(self, resource_group):
+    def test_clusters_begin_trigger_log_collection(self, resource_group):
         response = self.client.clusters.begin_trigger_log_collection(
             resource_group_name=resource_group.name,
             cluster_name="str",
             log_collection_request={"properties": {"fromDate": "2020-02-20 00:00:00", "toDate": "2020-02-20 00:00:00"}},
-            api_version="2024-04-01",
+            api_version="2025-02-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -270,7 +287,7 @@ class TestAzureStackHCIClustersOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_configure_remote_support(self, resource_group):
+    def test_clusters_begin_configure_remote_support(self, resource_group):
         response = self.client.clusters.begin_configure_remote_support(
             resource_group_name=resource_group.name,
             cluster_name="str",
@@ -281,7 +298,7 @@ class TestAzureStackHCIClustersOperations(AzureMgmtRecordedTestCase):
                     "remoteSupportType": "str",
                 }
             },
-            api_version="2024-04-01",
+            api_version="2025-02-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
