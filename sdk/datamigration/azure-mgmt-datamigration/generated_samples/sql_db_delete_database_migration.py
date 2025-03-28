@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.datamigration import DataMigrationManagementClient
 
 """
@@ -29,14 +30,13 @@ def main():
         subscription_id="00000000-1111-2222-3333-444444444444",
     )
 
-    response = client.database_migrations_sql_db.begin_delete(
+    client.database_migrations_sql_db.begin_delete(
         resource_group_name="testrg",
         sql_db_instance_name="sqldbinstance",
         target_db_name="db1",
     ).result()
-    print(response)
 
 
-# x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2022-03-30-preview/examples/SqlDbDeleteDatabaseMigration.json
+# x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2025-03-15-preview/examples/SqlDbDeleteDatabaseMigration.json
 if __name__ == "__main__":
     main()
