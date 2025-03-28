@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.dynatrace import DynatraceObservabilityMgmtClient
 
 """
@@ -34,6 +35,6 @@ def main():
         print(item)
 
 
-# x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/stable/2023-04-27/examples/Monitors_ListBySubscriptionId_MaximumSet_Gen.json
+# x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/stable/2024-04-24/examples/Monitors_ListBySubscriptionId_MaximumSet_Gen.json
 if __name__ == "__main__":
     main()
