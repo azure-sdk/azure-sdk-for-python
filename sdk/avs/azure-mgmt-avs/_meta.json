@@ -1,0 +1,6 @@
+{
+  "commit": "2634f7381fd6ced3e2c65c98bb23f0eda84d1bef",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/vmware/Microsoft.AVS.Management",
+  "@azure-tools/typespec-python": "0.41.0"
+}
