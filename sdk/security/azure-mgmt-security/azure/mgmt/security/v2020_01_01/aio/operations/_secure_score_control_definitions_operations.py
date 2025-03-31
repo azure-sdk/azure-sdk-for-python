@@ -1,4 +1,3 @@
-# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,7 +6,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 import sys
-from typing import Any, AsyncIterable, Callable, Dict, Optional, Type, TypeVar
+from typing import Any, AsyncIterable, Callable, Dict, Optional, TypeVar
 import urllib.parse
 
 from azure.core.async_paging import AsyncItemPaged, AsyncList
@@ -20,14 +19,12 @@ from azure.core.exceptions import (
     map_error,
 )
 from azure.core.pipeline import PipelineResponse
-from azure.core.pipeline.transport import AsyncHttpResponse
-from azure.core.rest import HttpRequest
+from azure.core.rest import AsyncHttpResponse, HttpRequest
 from azure.core.tracing.decorator import distributed_trace
 from azure.core.utils import case_insensitive_dict
 from azure.mgmt.core.exceptions import ARMErrorFormat
 
 from ... import models as _models
-from ..._vendor import _convert_request
 from ...operations._secure_score_control_definitions_operations import (
     build_list_by_subscription_request,
     build_list_request,
@@ -36,7 +33,7 @@ from ...operations._secure_score_control_definitions_operations import (
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -63,6 +60,7 @@ class SecureScoreControlDefinitionsOperations:
 
     @distributed_trace
     def list(self, **kwargs: Any) -> AsyncIterable["_models.SecureScoreControlDefinitionItem"]:
+        # pylint: disable=line-too-long
         """List the available security controls, their assessments, and the max score.
 
         :return: An iterator like instance of either SecureScoreControlDefinitionItem or the result of
@@ -77,7 +75,7 @@ class SecureScoreControlDefinitionsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2020-01-01"))
         cls: ClsType[_models.SecureScoreControlDefinitionList] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -93,7 +91,6 @@ class SecureScoreControlDefinitionsOperations:
                     headers=_headers,
                     params=_params,
                 )
-                _request = _convert_request(_request)
                 _request.url = self._client.format_url(_request.url)
 
             else:
@@ -109,7 +106,6 @@ class SecureScoreControlDefinitionsOperations:
                 _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                _request = _convert_request(_request)
                 _request.url = self._client.format_url(_request.url)
                 _request.method = "GET"
             return _request
@@ -140,6 +136,7 @@ class SecureScoreControlDefinitionsOperations:
 
     @distributed_trace
     def list_by_subscription(self, **kwargs: Any) -> AsyncIterable["_models.SecureScoreControlDefinitionItem"]:
+        # pylint: disable=line-too-long
         """For a specified subscription, list the available security controls, their assessments, and the
         max score.
 
@@ -155,7 +152,7 @@ class SecureScoreControlDefinitionsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2020-01-01"))
         cls: ClsType[_models.SecureScoreControlDefinitionList] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -172,7 +169,6 @@ class SecureScoreControlDefinitionsOperations:
                     headers=_headers,
                     params=_params,
                 )
-                _request = _convert_request(_request)
                 _request.url = self._client.format_url(_request.url)
 
             else:
@@ -188,7 +184,6 @@ class SecureScoreControlDefinitionsOperations:
                 _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                _request = _convert_request(_request)
                 _request.url = self._client.format_url(_request.url)
                 _request.method = "GET"
             return _request
