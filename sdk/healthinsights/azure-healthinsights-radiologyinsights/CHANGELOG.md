@@ -1,5 +1,12 @@
 # Release History
 
+## 1.1.0 (2025-03-31)
+
+### Features Added
+
+  - Model RadiologyInsightsInferenceOptions has a new parameter guidance_options
+  - Model RadiologyInsightsInferenceOptions has a new parameter quality_measure_options
+
 ## 1.0.1 (Unreleased)
 
 ### Features Added
