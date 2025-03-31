@@ -1,5 +1,5 @@
-# coding=utf-8
 # pylint: disable=too-many-lines
+# coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -13,7 +13,6 @@ from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 from .. import _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
@@ -50,19 +49,325 @@ class APIServerAccessProfile(_serialization.Model):
 
     :ivar enable_private_cluster: Whether to create the Fleet hub as a private cluster or not.
     :vartype enable_private_cluster: bool
+    :ivar enable_vnet_integration: Whether to enable apiserver vnet integration for the Fleet hub
+     or not.
+    :vartype enable_vnet_integration: bool
+    :ivar subnet_id: The subnet to be used when apiserver vnet integration is enabled. It is
+     required when creating a new Fleet with BYO vnet.
+    :vartype subnet_id: str
     """
 
     _attribute_map = {
         "enable_private_cluster": {"key": "enablePrivateCluster", "type": "bool"},
+        "enable_vnet_integration": {"key": "enableVnetIntegration", "type": "bool"},
+        "subnet_id": {"key": "subnetId", "type": "str"},
     }
 
-    def __init__(self, *, enable_private_cluster: Optional[bool] = None, **kwargs: Any) -> None:
+    def __init__(
+        self,
+        *,
+        enable_private_cluster: Optional[bool] = None,
+        enable_vnet_integration: Optional[bool] = None,
+        subnet_id: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword enable_private_cluster: Whether to create the Fleet hub as a private cluster or not.
         :paramtype enable_private_cluster: bool
+        :keyword enable_vnet_integration: Whether to enable apiserver vnet integration for the Fleet
+         hub or not.
+        :paramtype enable_vnet_integration: bool
+        :keyword subnet_id: The subnet to be used when apiserver vnet integration is enabled. It is
+         required when creating a new Fleet with BYO vnet.
+        :paramtype subnet_id: str
         """
         super().__init__(**kwargs)
         self.enable_private_cluster = enable_private_cluster
+        self.enable_vnet_integration = enable_vnet_integration
+        self.subnet_id = subnet_id
+
+
+class AutoUpgradeNodeImageSelection(_serialization.Model):
+    """The node image upgrade to be applied to the target clusters in auto upgrade.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar type: The node image upgrade type. Required. Known values are: "Latest" and "Consistent".
+    :vartype type: str or
+     ~azure.mgmt.containerservicefleet.models.AutoUpgradeNodeImageSelectionType
+    """
+
+    _validation = {
+        "type": {"required": True},
+    }
+
+    _attribute_map = {
+        "type": {"key": "type", "type": "str"},
+    }
+
+    def __init__(self, *, type: Union[str, "_models.AutoUpgradeNodeImageSelectionType"], **kwargs: Any) -> None:
+        """
+        :keyword type: The node image upgrade type. Required. Known values are: "Latest" and
+         "Consistent".
+        :paramtype type: str or
+         ~azure.mgmt.containerservicefleet.models.AutoUpgradeNodeImageSelectionType
+        """
+        super().__init__(**kwargs)
+        self.type = type
+
+
+class Resource(_serialization.Model):
+    """Common fields that are returned in the response for all Azure Resource Manager resources.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.containerservicefleet.models.SystemData
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.id = None
+        self.name = None
+        self.type = None
+        self.system_data = None
+
+
+class ProxyResource(Resource):
+    """The resource model definition for a Azure Resource Manager proxy resource. It will not have
+    tags and a location.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.containerservicefleet.models.SystemData
+    """
+
+
+class AutoUpgradeProfile(ProxyResource):
+    """The AutoUpgradeProfile resource.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.containerservicefleet.models.SystemData
+    :ivar e_tag: If eTag is provided in the response body, it may also be provided as a header per
+     the normal etag convention.  Entity tags are used for comparing two or more entities from the
+     same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match
+     (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.
+    :vartype e_tag: str
+    :ivar provisioning_state: The provisioning state of the AutoUpgradeProfile resource. Known
+     values are: "Succeeded", "Failed", and "Canceled".
+    :vartype provisioning_state: str or
+     ~azure.mgmt.containerservicefleet.models.AutoUpgradeProfileProvisioningState
+    :ivar update_strategy_id: The resource id of the UpdateStrategy resource to reference. If not
+     specified, the auto upgrade will run on all clusters which are members of the fleet.
+    :vartype update_strategy_id: str
+    :ivar channel: Configures how auto-upgrade will be run. Known values are: "Stable", "Rapid",
+     and "NodeImage".
+    :vartype channel: str or ~azure.mgmt.containerservicefleet.models.UpgradeChannel
+    :ivar node_image_selection: The node image upgrade to be applied to the target clusters in auto
+     upgrade.
+    :vartype node_image_selection:
+     ~azure.mgmt.containerservicefleet.models.AutoUpgradeNodeImageSelection
+    :ivar disabled: If set to False: the auto upgrade has effect - target managed clusters will be
+     upgraded on schedule.
+     If set to True: the auto upgrade has no effect - no upgrade will be run on the target managed
+     clusters.
+     This is a boolean and not an enum because enabled/disabled are all available states of the
+     auto upgrade profile.
+     By default, this is set to False.
+    :vartype disabled: bool
+    :ivar auto_upgrade_profile_status: The status of the auto upgrade profile.
+    :vartype auto_upgrade_profile_status:
+     ~azure.mgmt.containerservicefleet.models.AutoUpgradeProfileStatus
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "e_tag": {"readonly": True},
+        "provisioning_state": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "e_tag": {"key": "eTag", "type": "str"},
+        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
+        "update_strategy_id": {"key": "properties.updateStrategyId", "type": "str"},
+        "channel": {"key": "properties.channel", "type": "str"},
+        "node_image_selection": {"key": "properties.nodeImageSelection", "type": "AutoUpgradeNodeImageSelection"},
+        "disabled": {"key": "properties.disabled", "type": "bool"},
+        "auto_upgrade_profile_status": {
+            "key": "properties.autoUpgradeProfileStatus",
+            "type": "AutoUpgradeProfileStatus",
+        },
+    }
+
+    def __init__(
+        self,
+        *,
+        update_strategy_id: Optional[str] = None,
+        channel: Optional[Union[str, "_models.UpgradeChannel"]] = None,
+        node_image_selection: Optional["_models.AutoUpgradeNodeImageSelection"] = None,
+        disabled: Optional[bool] = None,
+        auto_upgrade_profile_status: Optional["_models.AutoUpgradeProfileStatus"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword update_strategy_id: The resource id of the UpdateStrategy resource to reference. If
+         not specified, the auto upgrade will run on all clusters which are members of the fleet.
+        :paramtype update_strategy_id: str
+        :keyword channel: Configures how auto-upgrade will be run. Known values are: "Stable", "Rapid",
+         and "NodeImage".
+        :paramtype channel: str or ~azure.mgmt.containerservicefleet.models.UpgradeChannel
+        :keyword node_image_selection: The node image upgrade to be applied to the target clusters in
+         auto upgrade.
+        :paramtype node_image_selection:
+         ~azure.mgmt.containerservicefleet.models.AutoUpgradeNodeImageSelection
+        :keyword disabled: If set to False: the auto upgrade has effect - target managed clusters will
+         be upgraded on schedule.
+         If set to True: the auto upgrade has no effect - no upgrade will be run on the target managed
+         clusters.
+         This is a boolean and not an enum because enabled/disabled are all available states of the
+         auto upgrade profile.
+         By default, this is set to False.
+        :paramtype disabled: bool
+        :keyword auto_upgrade_profile_status: The status of the auto upgrade profile.
+        :paramtype auto_upgrade_profile_status:
+         ~azure.mgmt.containerservicefleet.models.AutoUpgradeProfileStatus
+        """
+        super().__init__(**kwargs)
+        self.e_tag = None
+        self.provisioning_state = None
+        self.update_strategy_id = update_strategy_id
+        self.channel = channel
+        self.node_image_selection = node_image_selection
+        self.disabled = disabled
+        self.auto_upgrade_profile_status = auto_upgrade_profile_status
+
+
+class AutoUpgradeProfileListResult(_serialization.Model):
+    """The response of a AutoUpgradeProfile list operation.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar value: The AutoUpgradeProfile items on this page. Required.
+    :vartype value: list[~azure.mgmt.containerservicefleet.models.AutoUpgradeProfile]
+    :ivar next_link: The link to the next page of items.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "value": {"required": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[AutoUpgradeProfile]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self, *, value: List["_models.AutoUpgradeProfile"], next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: The AutoUpgradeProfile items on this page. Required.
+        :paramtype value: list[~azure.mgmt.containerservicefleet.models.AutoUpgradeProfile]
+        :keyword next_link: The link to the next page of items.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = next_link
+
+
+class AutoUpgradeProfileStatus(_serialization.Model):
+    """AutoUpgradeProfileStatus is the status of an auto upgrade profile.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar last_triggered_at: The UTC time of the last attempt to automatically create and start an
+     UpdateRun as triggered by the release of new versions.
+    :vartype last_triggered_at: ~datetime.datetime
+    :ivar last_trigger_status: The status of the last AutoUpgrade trigger. Known values are:
+     "Succeeded" and "Failed".
+    :vartype last_trigger_status: str or
+     ~azure.mgmt.containerservicefleet.models.AutoUpgradeLastTriggerStatus
+    :ivar last_trigger_error: The error details of the last trigger.
+    :vartype last_trigger_error: ~azure.mgmt.containerservicefleet.models.ErrorDetail
+    :ivar last_trigger_upgrade_versions: The target Kubernetes version or node image versions of
+     the last trigger.
+    :vartype last_trigger_upgrade_versions: list[str]
+    """
+
+    _validation = {
+        "last_triggered_at": {"readonly": True},
+        "last_trigger_status": {"readonly": True},
+        "last_trigger_error": {"readonly": True},
+        "last_trigger_upgrade_versions": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "last_triggered_at": {"key": "lastTriggeredAt", "type": "iso-8601"},
+        "last_trigger_status": {"key": "lastTriggerStatus", "type": "str"},
+        "last_trigger_error": {"key": "lastTriggerError", "type": "ErrorDetail"},
+        "last_trigger_upgrade_versions": {"key": "lastTriggerUpgradeVersions", "type": "[str]"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.last_triggered_at = None
+        self.last_trigger_status = None
+        self.last_trigger_error = None
+        self.last_trigger_upgrade_versions = None
 
 
 class ErrorAdditionalInfo(_serialization.Model):
@@ -157,47 +462,6 @@ class ErrorResponse(_serialization.Model):
         self.error = error
 
 
-class Resource(_serialization.Model):
-    """Common fields that are returned in the response for all Azure Resource Manager resources.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
-    :vartype id: str
-    :ivar name: The name of the resource.
-    :vartype name: str
-    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-     "Microsoft.Storage/storageAccounts".
-    :vartype type: str
-    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
-     information.
-    :vartype system_data: ~azure.mgmt.containerservicefleet.models.SystemData
-    """
-
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-        "system_data": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "system_data": {"key": "systemData", "type": "SystemData"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
-        self.system_data = None
-
-
 class TrackedResource(Resource):
     """The resource model definition for an Azure Resource Manager tracked top level resource which
     has 'tags' and a 'location'.
@@ -287,6 +551,8 @@ class Fleet(TrackedResource):
      ~azure.mgmt.containerservicefleet.models.FleetProvisioningState
     :ivar hub_profile: The FleetHubProfile configures the Fleet's hub.
     :vartype hub_profile: ~azure.mgmt.containerservicefleet.models.FleetHubProfile
+    :ivar status: Status information for the fleet.
+    :vartype status: ~azure.mgmt.containerservicefleet.models.FleetStatus
     """
 
     _validation = {
@@ -297,6 +563,7 @@ class Fleet(TrackedResource):
         "location": {"required": True},
         "e_tag": {"readonly": True},
         "provisioning_state": {"readonly": True},
+        "status": {"readonly": True},
     }
 
     _attribute_map = {
@@ -310,6 +577,7 @@ class Fleet(TrackedResource):
         "identity": {"key": "identity", "type": "ManagedServiceIdentity"},
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
         "hub_profile": {"key": "properties.hubProfile", "type": "FleetHubProfile"},
+        "status": {"key": "properties.status", "type": "FleetStatus"},
     }
 
     def __init__(
@@ -336,6 +604,7 @@ class Fleet(TrackedResource):
         self.identity = identity
         self.provisioning_state = None
         self.hub_profile = hub_profile
+        self.status = None
 
 
 class FleetCredentialResult(_serialization.Model):
@@ -487,26 +756,6 @@ class FleetListResult(_serialization.Model):
         self.next_link = next_link
 
 
-class ProxyResource(Resource):
-    """The resource model definition for a Azure Resource Manager proxy resource. It will not have
-    tags and a location.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
-    :vartype id: str
-    :ivar name: The name of the resource.
-    :vartype name: str
-    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-     "Microsoft.Storage/storageAccounts".
-    :vartype type: str
-    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
-     information.
-    :vartype system_data: ~azure.mgmt.containerservicefleet.models.SystemData
-    """
-
-
 class FleetMember(ProxyResource):
     """A member of the Fleet. It contains a reference to an existing Kubernetes cluster on Azure.
 
@@ -538,6 +787,10 @@ class FleetMember(ProxyResource):
      "Failed", "Canceled", "Joining", "Leaving", and "Updating".
     :vartype provisioning_state: str or
      ~azure.mgmt.containerservicefleet.models.FleetMemberProvisioningState
+    :ivar labels: The labels for the fleet member.
+    :vartype labels: dict[str, str]
+    :ivar status: Status information of the last operation for fleet member.
+    :vartype status: ~azure.mgmt.containerservicefleet.models.FleetMemberStatus
     """
 
     _validation = {
@@ -548,6 +801,7 @@ class FleetMember(ProxyResource):
         "e_tag": {"readonly": True},
         "group": {"max_length": 50, "min_length": 1, "pattern": r"^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"},
         "provisioning_state": {"readonly": True},
+        "status": {"readonly": True},
     }
 
     _attribute_map = {
@@ -559,10 +813,17 @@ class FleetMember(ProxyResource):
         "cluster_resource_id": {"key": "properties.clusterResourceId", "type": "str"},
         "group": {"key": "properties.group", "type": "str"},
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
+        "labels": {"key": "properties.labels", "type": "{str}"},
+        "status": {"key": "properties.status", "type": "FleetMemberStatus"},
     }
 
     def __init__(
-        self, *, cluster_resource_id: Optional[str] = None, group: Optional[str] = None, **kwargs: Any
+        self,
+        *,
+        cluster_resource_id: Optional[str] = None,
+        group: Optional[str] = None,
+        labels: Optional[Dict[str, str]] = None,
+        **kwargs: Any
     ) -> None:
         """
         :keyword cluster_resource_id: The ARM resource id of the cluster that joins the Fleet. Must be
@@ -571,12 +832,16 @@ class FleetMember(ProxyResource):
         :paramtype cluster_resource_id: str
         :keyword group: The group this member belongs to for multi-cluster update management.
         :paramtype group: str
+        :keyword labels: The labels for the fleet member.
+        :paramtype labels: dict[str, str]
         """
         super().__init__(**kwargs)
         self.e_tag = None
         self.cluster_resource_id = cluster_resource_id
         self.group = group
         self.provisioning_state = None
+        self.labels = labels
+        self.status = None
 
 
 class FleetMemberListResult(_serialization.Model):
@@ -611,11 +876,41 @@ class FleetMemberListResult(_serialization.Model):
         self.next_link = next_link
 
 
+class FleetMemberStatus(_serialization.Model):
+    """Status information for the fleet member.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar last_operation_id: The last operation ID for the fleet member.
+    :vartype last_operation_id: str
+    :ivar last_operation_error: The last operation error of the fleet member.
+    :vartype last_operation_error: ~azure.mgmt.containerservicefleet.models.ErrorDetail
+    """
+
+    _validation = {
+        "last_operation_id": {"readonly": True},
+        "last_operation_error": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "last_operation_id": {"key": "lastOperationId", "type": "str"},
+        "last_operation_error": {"key": "lastOperationError", "type": "ErrorDetail"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.last_operation_id = None
+        self.last_operation_error = None
+
+
 class FleetMemberUpdate(_serialization.Model):
     """The type used for update operations of the FleetMember.
 
     :ivar group: The group this member belongs to for multi-cluster update management.
     :vartype group: str
+    :ivar labels: The labels for the fleet member.
+    :vartype labels: dict[str, str]
     """
 
     _validation = {
@@ -624,15 +919,19 @@ class FleetMemberUpdate(_serialization.Model):
 
     _attribute_map = {
         "group": {"key": "properties.group", "type": "str"},
+        "labels": {"key": "properties.labels", "type": "{str}"},
     }
 
-    def __init__(self, *, group: Optional[str] = None, **kwargs: Any) -> None:
+    def __init__(self, *, group: Optional[str] = None, labels: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
         """
         :keyword group: The group this member belongs to for multi-cluster update management.
         :paramtype group: str
+        :keyword labels: The labels for the fleet member.
+        :paramtype labels: dict[str, str]
         """
         super().__init__(**kwargs)
         self.group = group
+        self.labels = labels
 
 
 class FleetPatch(_serialization.Model):
@@ -665,6 +964,34 @@ class FleetPatch(_serialization.Model):
         super().__init__(**kwargs)
         self.tags = tags
         self.identity = identity
+
+
+class FleetStatus(_serialization.Model):
+    """Status information for the fleet.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar last_operation_id: The last operation ID for the fleet.
+    :vartype last_operation_id: str
+    :ivar last_operation_error: The last operation error for the fleet.
+    :vartype last_operation_error: ~azure.mgmt.containerservicefleet.models.ErrorDetail
+    """
+
+    _validation = {
+        "last_operation_id": {"readonly": True},
+        "last_operation_error": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "last_operation_id": {"key": "lastOperationId", "type": "str"},
+        "last_operation_error": {"key": "lastOperationError", "type": "ErrorDetail"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.last_operation_id = None
+        self.last_operation_error = None
 
 
 class FleetUpdateStrategy(ProxyResource):
@@ -758,6 +1085,306 @@ class FleetUpdateStrategyListResult(_serialization.Model):
         super().__init__(**kwargs)
         self.value = value
         self.next_link = next_link
+
+
+class Gate(TrackedResource):
+    """A Gate controls the progression during a staged rollout, e.g. in an Update Run.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.containerservicefleet.models.SystemData
+    :ivar tags: Resource tags.
+    :vartype tags: dict[str, str]
+    :ivar location: The geo-location where the resource lives. Required.
+    :vartype location: str
+    :ivar e_tag: If eTag is provided in the response body, it may also be provided as a header per
+     the normal etag convention.  Entity tags are used for comparing two or more entities from the
+     same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match
+     (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.
+    :vartype e_tag: str
+    :ivar provisioning_state: The provisioning state of the Gate resource. Known values are:
+     "Succeeded", "Failed", and "Canceled".
+    :vartype provisioning_state: str or
+     ~azure.mgmt.containerservicefleet.models.GateProvisioningState
+    :ivar display_name: The human-readable display name of the Gate.
+    :vartype display_name: str
+    :ivar gate_type: The type of the Gate determines how it is completed. "Approval"
+    :vartype gate_type: str or ~azure.mgmt.containerservicefleet.models.GateType
+    :ivar target: The target that the Gate is controlling, e.g. an Update Run.
+    :vartype target: ~azure.mgmt.containerservicefleet.models.GateTarget
+    :ivar state: The state of the Gate. Known values are: "Pending", "Skipped", and "Completed".
+    :vartype state: str or ~azure.mgmt.containerservicefleet.models.GateState
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "location": {"required": True},
+        "e_tag": {"readonly": True},
+        "provisioning_state": {"readonly": True},
+        "display_name": {"max_length": 100, "min_length": 1},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "tags": {"key": "tags", "type": "{str}"},
+        "location": {"key": "location", "type": "str"},
+        "e_tag": {"key": "eTag", "type": "str"},
+        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
+        "display_name": {"key": "properties.displayName", "type": "str"},
+        "gate_type": {"key": "properties.gateType", "type": "str"},
+        "target": {"key": "properties.target", "type": "GateTarget"},
+        "state": {"key": "properties.state", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        location: str,
+        tags: Optional[Dict[str, str]] = None,
+        display_name: Optional[str] = None,
+        gate_type: Optional[Union[str, "_models.GateType"]] = None,
+        target: Optional["_models.GateTarget"] = None,
+        state: Optional[Union[str, "_models.GateState"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword tags: Resource tags.
+        :paramtype tags: dict[str, str]
+        :keyword location: The geo-location where the resource lives. Required.
+        :paramtype location: str
+        :keyword display_name: The human-readable display name of the Gate.
+        :paramtype display_name: str
+        :keyword gate_type: The type of the Gate determines how it is completed. "Approval"
+        :paramtype gate_type: str or ~azure.mgmt.containerservicefleet.models.GateType
+        :keyword target: The target that the Gate is controlling, e.g. an Update Run.
+        :paramtype target: ~azure.mgmt.containerservicefleet.models.GateTarget
+        :keyword state: The state of the Gate. Known values are: "Pending", "Skipped", and "Completed".
+        :paramtype state: str or ~azure.mgmt.containerservicefleet.models.GateState
+        """
+        super().__init__(tags=tags, location=location, **kwargs)
+        self.e_tag = None
+        self.provisioning_state = None
+        self.display_name = display_name
+        self.gate_type = gate_type
+        self.target = target
+        self.state = state
+
+
+class GateConfiguration(_serialization.Model):
+    """GateConfiguration is used to define where Gates should be placed within the Update Run.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar display_name: The human-readable display name of the Gate.
+    :vartype display_name: str
+    :ivar type: The type of the Gate determines how it is completed. Required. "Approval"
+    :vartype type: str or ~azure.mgmt.containerservicefleet.models.GateType
+    """
+
+    _validation = {
+        "display_name": {"max_length": 100, "min_length": 1},
+        "type": {"required": True},
+    }
+
+    _attribute_map = {
+        "display_name": {"key": "displayName", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+    }
+
+    def __init__(
+        self, *, type: Union[str, "_models.GateType"], display_name: Optional[str] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword display_name: The human-readable display name of the Gate.
+        :paramtype display_name: str
+        :keyword type: The type of the Gate determines how it is completed. Required. "Approval"
+        :paramtype type: str or ~azure.mgmt.containerservicefleet.models.GateType
+        """
+        super().__init__(**kwargs)
+        self.display_name = display_name
+        self.type = type
+
+
+class GateListResult(_serialization.Model):
+    """The response of a Gate list operation.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar value: The Gate items on this page. Required.
+    :vartype value: list[~azure.mgmt.containerservicefleet.models.Gate]
+    :ivar next_link: The link to the next page of items.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "value": {"required": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[Gate]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(self, *, value: List["_models.Gate"], next_link: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword value: The Gate items on this page. Required.
+        :paramtype value: list[~azure.mgmt.containerservicefleet.models.Gate]
+        :keyword next_link: The link to the next page of items.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = next_link
+
+
+class GateTarget(_serialization.Model):
+    """The target that the Gate is controlling, e.g. an Update Run. Exactly one of the properties
+    objects will be set.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar id: The resource id that the Gate is controlling the rollout of. Required.
+    :vartype id: str
+    :ivar update_run_properties: The properties of the Update Run that the Gate is targeting.
+    :vartype update_run_properties:
+     ~azure.mgmt.containerservicefleet.models.UpdateRunGateTargetProperties
+    """
+
+    _validation = {
+        "id": {"required": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "update_run_properties": {"key": "updateRunProperties", "type": "UpdateRunGateTargetProperties"},
+    }
+
+    def __init__(
+        self,
+        *,
+        id: str,  # pylint: disable=redefined-builtin
+        update_run_properties: Optional["_models.UpdateRunGateTargetProperties"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword id: The resource id that the Gate is controlling the rollout of. Required.
+        :paramtype id: str
+        :keyword update_run_properties: The properties of the Update Run that the Gate is targeting.
+        :paramtype update_run_properties:
+         ~azure.mgmt.containerservicefleet.models.UpdateRunGateTargetProperties
+        """
+        super().__init__(**kwargs)
+        self.id = id
+        self.update_run_properties = update_run_properties
+
+
+class GateUpdate(TrackedResource):
+    """A Gate controls the progression during a staged rollout, e.g. in an Update Run.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.containerservicefleet.models.SystemData
+    :ivar tags: Resource tags.
+    :vartype tags: dict[str, str]
+    :ivar location: The geo-location where the resource lives. Required.
+    :vartype location: str
+    :ivar state: The state of the Gate. Known values are: "Pending", "Skipped", and "Completed".
+    :vartype state: str or ~azure.mgmt.containerservicefleet.models.GateState
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "location": {"required": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "tags": {"key": "tags", "type": "{str}"},
+        "location": {"key": "location", "type": "str"},
+        "state": {"key": "properties.state", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        location: str,
+        tags: Optional[Dict[str, str]] = None,
+        state: Optional[Union[str, "_models.GateState"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword tags: Resource tags.
+        :paramtype tags: dict[str, str]
+        :keyword location: The geo-location where the resource lives. Required.
+        :paramtype location: str
+        :keyword state: The state of the Gate. Known values are: "Pending", "Skipped", and "Completed".
+        :paramtype state: str or ~azure.mgmt.containerservicefleet.models.GateState
+        """
+        super().__init__(tags=tags, location=location, **kwargs)
+        self.state = state
+
+
+class GenerateResponse(_serialization.Model):
+    """GenerateResponse is the response of a generate request.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar id: The ARM resource id of the generated UpdateRun. e.g.:
+     '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/updateRuns/{updateRunName}'.  # pylint: disable=line-too-long
+     Required.
+    :vartype id: str
+    """
+
+    _validation = {
+        "id": {"required": True, "readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.id = None
 
 
 class ManagedClusterUpdate(_serialization.Model):
@@ -952,8 +1579,17 @@ class NodeImageSelection(_serialization.Model):
 
     All required parameters must be populated in order to send to server.
 
-    :ivar type: The node image upgrade type. Required. Known values are: "Latest" and "Consistent".
+    :ivar type: The node image upgrade type. Required. Known values are: "Latest", "Consistent",
+     and "Custom".
     :vartype type: str or ~azure.mgmt.containerservicefleet.models.NodeImageSelectionType
+    :ivar custom_node_image_versions: Custom node image versions to upgrade the nodes to. This
+     field is required if node image selection type is Custom. Otherwise, it must be empty. For each
+     node image family (e.g., 'AKSUbuntu-1804gen2containerd'), this field can contain at most one
+     version (e.g., only one of 'AKSUbuntu-1804gen2containerd-2023.01.12' or
+     'AKSUbuntu-1804gen2containerd-2023.02.12', not both). If the nodes belong to a family without a
+     matching image version in this field, they are not upgraded.
+    :vartype custom_node_image_versions:
+     list[~azure.mgmt.containerservicefleet.models.NodeImageVersion]
     """
 
     _validation = {
@@ -962,16 +1598,32 @@ class NodeImageSelection(_serialization.Model):
 
     _attribute_map = {
         "type": {"key": "type", "type": "str"},
+        "custom_node_image_versions": {"key": "customNodeImageVersions", "type": "[NodeImageVersion]"},
     }
 
-    def __init__(self, *, type: Union[str, "_models.NodeImageSelectionType"], **kwargs: Any) -> None:
+    def __init__(
+        self,
+        *,
+        type: Union[str, "_models.NodeImageSelectionType"],
+        custom_node_image_versions: Optional[List["_models.NodeImageVersion"]] = None,
+        **kwargs: Any
+    ) -> None:
         """
-        :keyword type: The node image upgrade type. Required. Known values are: "Latest" and
-         "Consistent".
+        :keyword type: The node image upgrade type. Required. Known values are: "Latest", "Consistent",
+         and "Custom".
         :paramtype type: str or ~azure.mgmt.containerservicefleet.models.NodeImageSelectionType
+        :keyword custom_node_image_versions: Custom node image versions to upgrade the nodes to. This
+         field is required if node image selection type is Custom. Otherwise, it must be empty. For each
+         node image family (e.g., 'AKSUbuntu-1804gen2containerd'), this field can contain at most one
+         version (e.g., only one of 'AKSUbuntu-1804gen2containerd-2023.01.12' or
+         'AKSUbuntu-1804gen2containerd-2023.02.12', not both). If the nodes belong to a family without a
+         matching image version in this field, they are not upgraded.
+        :paramtype custom_node_image_versions:
+         list[~azure.mgmt.containerservicefleet.models.NodeImageVersion]
         """
         super().__init__(**kwargs)
         self.type = type
+        self.custom_node_image_versions = custom_node_image_versions
 
 
 class NodeImageSelectionStatus(_serialization.Model):
@@ -1280,6 +1932,10 @@ class UpdateGroup(_serialization.Model):
     :ivar name: Name of the group.
      It must match a group name of an existing fleet member. Required.
     :vartype name: str
+    :ivar before_gates: A list of Gates that will be created before this Group is executed.
+    :vartype before_gates: list[~azure.mgmt.containerservicefleet.models.GateConfiguration]
+    :ivar after_gates: A list of Gates that will be created after this Group is executed.
+    :vartype after_gates: list[~azure.mgmt.containerservicefleet.models.GateConfiguration]
     """
 
     _validation = {
@@ -1288,16 +1944,31 @@ class UpdateGroup(_serialization.Model):
 
     _attribute_map = {
         "name": {"key": "name", "type": "str"},
+        "before_gates": {"key": "beforeGates", "type": "[GateConfiguration]"},
+        "after_gates": {"key": "afterGates", "type": "[GateConfiguration]"},
     }
 
-    def __init__(self, *, name: str, **kwargs: Any) -> None:
+    def __init__(
+        self,
+        *,
+        name: str,
+        before_gates: Optional[List["_models.GateConfiguration"]] = None,
+        after_gates: Optional[List["_models.GateConfiguration"]] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Name of the group.
          It must match a group name of an existing fleet member. Required.
         :paramtype name: str
+        :keyword before_gates: A list of Gates that will be created before this Group is executed.
+        :paramtype before_gates: list[~azure.mgmt.containerservicefleet.models.GateConfiguration]
+        :keyword after_gates: A list of Gates that will be created after this Group is executed.
+        :paramtype after_gates: list[~azure.mgmt.containerservicefleet.models.GateConfiguration]
         """
         super().__init__(**kwargs)
         self.name = name
+        self.before_gates = before_gates
+        self.after_gates = after_gates
 
 
 class UpdateGroupStatus(_serialization.Model):
@@ -1311,18 +1982,26 @@ class UpdateGroupStatus(_serialization.Model):
     :vartype name: str
     :ivar members: The list of member this UpdateGroup updates.
     :vartype members: list[~azure.mgmt.containerservicefleet.models.MemberUpdateStatus]
+    :ivar before_gates: The list of Gates that will run before this UpdateGroup.
+    :vartype before_gates: list[~azure.mgmt.containerservicefleet.models.UpdateRunGateStatus]
+    :ivar after_gates: The list of Gates that will run after this UpdateGroup.
+    :vartype after_gates: list[~azure.mgmt.containerservicefleet.models.UpdateRunGateStatus]
     """
 
     _validation = {
         "status": {"readonly": True},
         "name": {"readonly": True},
         "members": {"readonly": True},
+        "before_gates": {"readonly": True},
+        "after_gates": {"readonly": True},
     }
 
     _attribute_map = {
         "status": {"key": "status", "type": "UpdateStatus"},
         "name": {"key": "name", "type": "str"},
         "members": {"key": "members", "type": "[MemberUpdateStatus]"},
+        "before_gates": {"key": "beforeGates", "type": "[UpdateRunGateStatus]"},
+        "after_gates": {"key": "afterGates", "type": "[UpdateRunGateStatus]"},
     }
 
     def __init__(self, **kwargs: Any) -> None:
@@ -1331,6 +2010,8 @@ class UpdateGroupStatus(_serialization.Model):
         self.status = None
         self.name = None
         self.members = None
+        self.before_gates = None
+        self.after_gates = None
 
 
 class UpdateRun(ProxyResource):
@@ -1386,6 +2067,9 @@ class UpdateRun(ProxyResource):
     :vartype managed_cluster_update: ~azure.mgmt.containerservicefleet.models.ManagedClusterUpdate
     :ivar status: The status of the UpdateRun.
     :vartype status: ~azure.mgmt.containerservicefleet.models.UpdateRunStatus
+    :ivar auto_upgrade_profile_id: AutoUpgradeProfileId is the id of an auto upgrade profile
+     resource.
+    :vartype auto_upgrade_profile_id: str
     """
 
     _validation = {
@@ -1396,6 +2080,7 @@ class UpdateRun(ProxyResource):
         "e_tag": {"readonly": True},
         "provisioning_state": {"readonly": True},
         "status": {"readonly": True},
+        "auto_upgrade_profile_id": {"readonly": True},
     }
 
     _attribute_map = {
@@ -1409,6 +2094,7 @@ class UpdateRun(ProxyResource):
         "strategy": {"key": "properties.strategy", "type": "UpdateRunStrategy"},
         "managed_cluster_update": {"key": "properties.managedClusterUpdate", "type": "ManagedClusterUpdate"},
         "status": {"key": "properties.status", "type": "UpdateRunStatus"},
+        "auto_upgrade_profile_id": {"key": "properties.autoUpgradeProfileId", "type": "str"},
     }
 
     def __init__(
@@ -1455,6 +2141,91 @@ class UpdateRun(ProxyResource):
         self.strategy = strategy
         self.managed_cluster_update = managed_cluster_update
         self.status = None
+        self.auto_upgrade_profile_id = None
+
+
+class UpdateRunGateStatus(_serialization.Model):
+    """The status of the Gate, as represented in the Update Run.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar display_name: The human-readable display name of the Gate.
+    :vartype display_name: str
+    :ivar gate_id: The resource id of the Gate.
+    :vartype gate_id: str
+    :ivar status: The status of the Gate.
+    :vartype status: ~azure.mgmt.containerservicefleet.models.UpdateStatus
+    """
+
+    _validation = {
+        "display_name": {"readonly": True, "max_length": 100, "min_length": 1},
+        "gate_id": {"readonly": True},
+        "status": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "display_name": {"key": "displayName", "type": "str"},
+        "gate_id": {"key": "gateId", "type": "str"},
+        "status": {"key": "status", "type": "UpdateStatus"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.display_name = None
+        self.gate_id = None
+        self.status = None
+
+
+class UpdateRunGateTargetProperties(_serialization.Model):
+    """The properties of the Update Run that the Gate is targeting.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar name: The name of the Update Run. Required.
+    :vartype name: str
+    :ivar stage: The Update Stage of the Update Run.
+    :vartype stage: str
+    :ivar group: The Update Group of the Update Run.
+    :vartype group: str
+    :ivar timing: Whether the Gate is placed before or after the update itself. Required. Known
+     values are: "Before" and "After".
+    :vartype timing: str or ~azure.mgmt.containerservicefleet.models.Timing
+    """
+
+    _validation = {
+        "name": {
+            "required": True,
+            "readonly": True,
+            "max_length": 50,
+            "min_length": 1,
+            "pattern": r"^[a-z0-9]([-a-z0-9]*[a-z0-9])?$",
+        },
+        "stage": {"readonly": True, "max_length": 50, "min_length": 1, "pattern": r"^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"},
+        "group": {"readonly": True, "max_length": 50, "min_length": 1, "pattern": r"^[a-z0-9]([-a-z0-9]*[a-z0-9])?$"},
+        "timing": {"required": True},
+    }
+
+    _attribute_map = {
+        "name": {"key": "name", "type": "str"},
+        "stage": {"key": "stage", "type": "str"},
+        "group": {"key": "group", "type": "str"},
+        "timing": {"key": "timing", "type": "str"},
+    }
+
+    def __init__(self, *, timing: Union[str, "_models.Timing"], **kwargs: Any) -> None:
+        """
+        :keyword timing: Whether the Gate is placed before or after the update itself. Required. Known
+         values are: "Before" and "After".
+        :paramtype timing: str or ~azure.mgmt.containerservicefleet.models.Timing
+        """
+        super().__init__(**kwargs)
+        self.name = None
+        self.stage = None
+        self.group = None
+        self.timing = timing
 
 
 class UpdateRunListResult(_serialization.Model):
@@ -1571,6 +2342,10 @@ class UpdateStage(_serialization.Model):
     :ivar after_stage_wait_in_seconds: The time in seconds to wait at the end of this stage before
      starting the next one. Defaults to 0 seconds if unspecified.
     :vartype after_stage_wait_in_seconds: int
+    :ivar before_gates: A list of Gates that will be created before this Stage is executed.
+    :vartype before_gates: list[~azure.mgmt.containerservicefleet.models.GateConfiguration]
+    :ivar after_gates: A list of Gates that will be created after this Stage is executed.
+    :vartype after_gates: list[~azure.mgmt.containerservicefleet.models.GateConfiguration]
     """
 
     _validation = {
@@ -1581,6 +2356,8 @@ class UpdateStage(_serialization.Model):
         "name": {"key": "name", "type": "str"},
         "groups": {"key": "groups", "type": "[UpdateGroup]"},
         "after_stage_wait_in_seconds": {"key": "afterStageWaitInSeconds", "type": "int"},
+        "before_gates": {"key": "beforeGates", "type": "[GateConfiguration]"},
+        "after_gates": {"key": "afterGates", "type": "[GateConfiguration]"},
     }
 
     def __init__(
@@ -1589,6 +2366,8 @@ class UpdateStage(_serialization.Model):
         name: str,
         groups: Optional[List["_models.UpdateGroup"]] = None,
         after_stage_wait_in_seconds: Optional[int] = None,
+        before_gates: Optional[List["_models.GateConfiguration"]] = None,
+        after_gates: Optional[List["_models.GateConfiguration"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -1600,11 +2379,17 @@ class UpdateStage(_serialization.Model):
         :keyword after_stage_wait_in_seconds: The time in seconds to wait at the end of this stage
          before starting the next one. Defaults to 0 seconds if unspecified.
         :paramtype after_stage_wait_in_seconds: int
+        :keyword before_gates: A list of Gates that will be created before this Stage is executed.
+        :paramtype before_gates: list[~azure.mgmt.containerservicefleet.models.GateConfiguration]
+        :keyword after_gates: A list of Gates that will be created after this Stage is executed.
+        :paramtype after_gates: list[~azure.mgmt.containerservicefleet.models.GateConfiguration]
         """
         super().__init__(**kwargs)
         self.name = name
         self.groups = groups
         self.after_stage_wait_in_seconds = after_stage_wait_in_seconds
+        self.before_gates = before_gates
+        self.after_gates = after_gates
 
 
 class UpdateStageStatus(_serialization.Model):
@@ -1618,6 +2403,10 @@ class UpdateStageStatus(_serialization.Model):
     :vartype name: str
     :ivar groups: The list of groups to be updated as part of this UpdateStage.
     :vartype groups: list[~azure.mgmt.containerservicefleet.models.UpdateGroupStatus]
+    :ivar before_gates: The list of Gates that will run before this UpdateStage.
+    :vartype before_gates: list[~azure.mgmt.containerservicefleet.models.UpdateRunGateStatus]
+    :ivar after_gates: The list of Gates that will run after this UpdateStage.
+    :vartype after_gates: list[~azure.mgmt.containerservicefleet.models.UpdateRunGateStatus]
     :ivar after_stage_wait_status: The status of the wait period configured on the UpdateStage.
     :vartype after_stage_wait_status: ~azure.mgmt.containerservicefleet.models.WaitStatus
     """
@@ -1626,6 +2415,8 @@ class UpdateStageStatus(_serialization.Model):
         "status": {"readonly": True},
         "name": {"readonly": True},
         "groups": {"readonly": True},
+        "before_gates": {"readonly": True},
+        "after_gates": {"readonly": True},
         "after_stage_wait_status": {"readonly": True},
     }
 
@@ -1633,6 +2424,8 @@ class UpdateStageStatus(_serialization.Model):
         "status": {"key": "status", "type": "UpdateStatus"},
         "name": {"key": "name", "type": "str"},
         "groups": {"key": "groups", "type": "[UpdateGroupStatus]"},
+        "before_gates": {"key": "beforeGates", "type": "[UpdateRunGateStatus]"},
+        "after_gates": {"key": "afterGates", "type": "[UpdateRunGateStatus]"},
         "after_stage_wait_status": {"key": "afterStageWaitStatus", "type": "WaitStatus"},
     }
 
@@ -1642,6 +2435,8 @@ class UpdateStageStatus(_serialization.Model):
         self.status = None
         self.name = None
         self.groups = None
+        self.before_gates = None
+        self.after_gates = None
         self.after_stage_wait_status = None
 
 
@@ -1655,7 +2450,7 @@ class UpdateStatus(_serialization.Model):
     :ivar completed_time: The time the operation or group was completed.
     :vartype completed_time: ~datetime.datetime
     :ivar state: The State of the operation or group. Known values are: "NotStarted", "Running",
-     "Stopping", "Stopped", "Skipped", "Failed", and "Completed".
+     "Stopping", "Stopped", "Skipped", "Failed", "Pending", and "Completed".
     :vartype state: str or ~azure.mgmt.containerservicefleet.models.UpdateState
     :ivar error: The error details when a failure is encountered.
     :vartype error: ~azure.mgmt.containerservicefleet.models.ErrorDetail

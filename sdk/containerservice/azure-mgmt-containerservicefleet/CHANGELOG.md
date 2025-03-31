@@ -1,5 +1,60 @@
 # Release History
 
+## 3.1.0b1 (2025-03-31)
+
+### Features Added
+
+  - Client `ContainerServiceFleetMgmtClient` added operation group `auto_upgrade_profiles`
+  - Client `ContainerServiceFleetMgmtClient` added operation group `auto_upgrade_profile_operations`
+  - Client `ContainerServiceFleetMgmtClient` added operation group `gates`
+  - Model `APIServerAccessProfile` added property `enable_vnet_integration`
+  - Model `APIServerAccessProfile` added property `subnet_id`
+  - Model `Fleet` added property `status`
+  - Model `FleetMember` added property `labels`
+  - Model `FleetMember` added property `status`
+  - Model `FleetMemberUpdate` added property `labels`
+  - Model `NodeImageSelection` added property `custom_node_image_versions`
+  - Enum `NodeImageSelectionType` added member `CUSTOM`
+  - Model `UpdateGroup` added property `before_gates`
+  - Model `UpdateGroup` added property `after_gates`
+  - Model `UpdateGroupStatus` added property `before_gates`
+  - Model `UpdateGroupStatus` added property `after_gates`
+  - Model `UpdateRun` added property `auto_upgrade_profile_id`
+  - Model `UpdateStage` added property `before_gates`
+  - Model `UpdateStage` added property `after_gates`
+  - Model `UpdateStageStatus` added property `before_gates`
+  - Model `UpdateStageStatus` added property `after_gates`
+  - Enum `UpdateState` added member `PENDING`
+  - Added enum `AutoUpgradeLastTriggerStatus`
+  - Added model `AutoUpgradeNodeImageSelection`
+  - Added enum `AutoUpgradeNodeImageSelectionType`
+  - Added model `AutoUpgradeProfile`
+  - Added model `AutoUpgradeProfileListResult`
+  - Added enum `AutoUpgradeProfileProvisioningState`
+  - Added model `AutoUpgradeProfileStatus`
+  - Added model `FleetMemberStatus`
+  - Added model `FleetStatus`
+  - Added model `Gate`
+  - Added model `GateConfiguration`
+  - Added model `GateListResult`
+  - Added enum `GateProvisioningState`
+  - Added enum `GateState`
+  - Added model `GateTarget`
+  - Added enum `GateType`
+  - Added model `GateUpdate`
+  - Added model `GenerateResponse`
+  - Added enum `Timing`
+  - Added model `UpdateRunGateStatus`
+  - Added model `UpdateRunGateTargetProperties`
+  - Added enum `UpgradeChannel`
+  - Added model `AutoUpgradeProfileOperationsOperations`
+  - Added model `AutoUpgradeProfilesOperations`
+  - Added model `GatesOperations`
+  - Method `AutoUpgradeProfilesOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, fleet_name: str, auto_upgrade_profile_name: str, resource: AutoUpgradeProfile, if_match: Optional[str], if_none_match: Optional[str], content_type: str)`
+  - Method `AutoUpgradeProfilesOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, fleet_name: str, auto_upgrade_profile_name: str, resource: IO[bytes], if_match: Optional[str], if_none_match: Optional[str], content_type: str)`
+  - Method `GatesOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, fleet_name: str, gate_name: str, properties: GateUpdate, if_match: Optional[str], if_none_match: Optional[str], content_type: str)`
+  - Method `GatesOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, fleet_name: str, gate_name: str, properties: IO[bytes], if_match: Optional[str], if_none_match: Optional[str], content_type: str)`
+
 ## 3.0.0 (2024-10-31)
 
 ### Breaking Changes
