@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.databricks import AzureDatabricksManagementClient
 
 """
@@ -26,7 +27,7 @@ from azure.mgmt.databricks import AzureDatabricksManagementClient
 def main():
     client = AzureDatabricksManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="subid",
+        subscription_id="11111111-1111-1111-1111-111111111111",
     )
 
     client.access_connectors.begin_delete(
@@ -35,6 +36,6 @@ def main():
     ).result()
 
 
-# x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/stable/2023-05-01/examples/AccessConnectorDelete.json
+# x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/preview/2025-03-01-preview/examples/AccessConnectorDelete.json
 if __name__ == "__main__":
     main()

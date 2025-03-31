@@ -10,6 +10,34 @@ from enum import Enum
 from azure.core import CaseInsensitiveEnumMeta
 
 
+class AutomaticClusterUpdateValue(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """AutomaticClusterUpdateValue."""
+
+    ENABLED = "Enabled"
+    DISABLED = "Disabled"
+
+
+class ComplianceSecurityProfileValue(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """ComplianceSecurityProfileValue."""
+
+    ENABLED = "Enabled"
+    DISABLED = "Disabled"
+
+
+class ComplianceStandard(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Compliance standard that can be associated with a workspace."""
+
+    NONE = "NONE"
+    HIPAA = "HIPAA"
+    PCI_DSS = "PCI_DSS"
+    CYBER_ESSENTIAL_PLUS = "CYBER_ESSENTIAL_PLUS"
+    FEDRAMP_HIGH = "FEDRAMP_HIGH"
+    CANADA_PROTECTED_B = "CANADA_PROTECTED_B"
+    IRAP_PROTECTED = "IRAP_PROTECTED"
+    ISMAP = "ISMAP"
+    HITRUST = "HITRUST"
+
+
 class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The type of identity that created the resource."""
 
@@ -27,10 +55,40 @@ class CustomParameterType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     STRING = "String"
 
 
+class DefaultStorageFirewall(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Gets or Sets Default Storage Firewall configuration information."""
+
+    DISABLED = "Disabled"
+    ENABLED = "Enabled"
+
+
 class EncryptionKeySource(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The encryption keySource (provider). Possible values (case-insensitive):  Microsoft.Keyvault."""
 
     MICROSOFT_KEYVAULT = "Microsoft.Keyvault"
+
+
+class EnhancedSecurityMonitoringValue(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """EnhancedSecurityMonitoringValue."""
+
+    ENABLED = "Enabled"
+    DISABLED = "Disabled"
+
+
+class IdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The identity type of the Access Connector Resource."""
+
+    SYSTEM_ASSIGNED = "SystemAssigned"
+    USER_ASSIGNED = "UserAssigned"
+
+
+class InitialType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Defines the initial type of the default catalog. Possible values (case-insensitive):
+    HiveMetastore, UnityCatalog.
+    """
+
+    HIVE_METASTORE = "HiveMetastore"
+    UNITY_CATALOG = "UnityCatalog"
 
 
 class KeySource(str, Enum, metaclass=CaseInsensitiveEnumMeta):

@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.databricks import AzureDatabricksManagementClient
 
 """
@@ -36,6 +37,6 @@ def main():
     ).result()
 
 
-# x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/stable/2023-02-01/examples/PrivateEndpointConnectionsDelete.json
+# x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/preview/2025-03-01-preview/examples/PrivateEndpointConnectionsDelete.json
 if __name__ == "__main__":
     main()

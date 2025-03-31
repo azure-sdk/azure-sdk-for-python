@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.databricks import AzureDatabricksManagementClient
 
 """
@@ -26,17 +27,17 @@ from azure.mgmt.databricks import AzureDatabricksManagementClient
 def main():
     client = AzureDatabricksManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="subid",
+        subscription_id="0140911e-1040-48da-8bc9-b99fb3dd88a6/",
     )
 
     response = client.vnet_peering.get(
-        resource_group_name="rg",
-        workspace_name="myWorkspace",
-        peering_name="vNetPeering",
+        resource_group_name="subramantest",
+        workspace_name="adbworkspace",
+        peering_name="vNetPeeringTest",
     )
     print(response)
 
 
-# x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/stable/2023-02-01/examples/WorkspaceVirtualNetPeeringGet.json
+# x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/preview/2025-03-01-preview/examples/WorkspaceVirtualNetPeeringGet.json
 if __name__ == "__main__":
     main()

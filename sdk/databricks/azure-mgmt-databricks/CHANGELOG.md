@@ -1,5 +1,40 @@
 # Release History
 
+## 3.0.0b1 (2025-03-31)
+
+### Features Added
+
+  - Model `AccessConnectorProperties` added property `refered_by`
+  - Model `Workspace` added property `enhanced_security_compliance`
+  - Model `Workspace` added property `default_catalog`
+  - Model `Workspace` added property `is_uc_enabled`
+  - Model `Workspace` added property `access_connector`
+  - Model `Workspace` added property `default_storage_firewall`
+  - Added model `AutomaticClusterUpdateDefinition`
+  - Added enum `AutomaticClusterUpdateValue`
+  - Added model `ComplianceSecurityProfileDefinition`
+  - Added enum `ComplianceSecurityProfileValue`
+  - Added enum `ComplianceStandard`
+  - Added model `DefaultCatalogProperties`
+  - Added enum `DefaultStorageFirewall`
+  - Added model `EnhancedSecurityComplianceDefinition`
+  - Added model `EnhancedSecurityMonitoringDefinition`
+  - Added enum `EnhancedSecurityMonitoringValue`
+  - Added enum `IdentityType`
+  - Added enum `InitialType`
+  - Added model `WorkspaceNoPublicIPBooleanParameter`
+  - Added model `WorkspacePropertiesAccessConnector`
+  - Method `AccessConnectorsOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, connector_name: str, parameters: IO[bytes], content_type: str)`
+  - Method `AccessConnectorsOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, connector_name: str, parameters: IO[bytes], content_type: str)`
+  - Method `PrivateEndpointConnectionsOperations.begin_create` has a new overload `def begin_create(self: None, resource_group_name: str, workspace_name: str, private_endpoint_connection_name: str, private_endpoint_connection: IO[bytes], content_type: str)`
+  - Method `VNetPeeringOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, workspace_name: str, peering_name: str, virtual_network_peering_parameters: IO[bytes], content_type: str)`
+  - Method `WorkspacesOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, workspace_name: str, parameters: IO[bytes], content_type: str)`
+  - Method `WorkspacesOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, workspace_name: str, parameters: IO[bytes], content_type: str)`
+
+### Breaking Changes
+
+  - Method `WorkspacesOperations.begin_delete` inserted a `positional_or_keyword` parameter `force_deletion`
+
 ## 2.0.0 (2023-06-29)
 
 ### Features Added

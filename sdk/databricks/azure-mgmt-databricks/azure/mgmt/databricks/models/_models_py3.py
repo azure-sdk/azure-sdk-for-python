@@ -1,5 +1,5 @@
-# coding=utf-8
 # pylint: disable=too-many-lines
+# coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -16,10 +16,9 @@ from .. import _serialization
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 JSON = MutableMapping[str, Any]  # pylint: disable=unsubscriptable-object
 
@@ -30,7 +29,7 @@ class Resource(_serialization.Model):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource Id for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -64,10 +63,10 @@ class TrackedResource(Resource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource Id for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -108,14 +107,14 @@ class TrackedResource(Resource):
 
 
 class AccessConnector(TrackedResource):
-    """Information about azure databricks accessConnector.
+    """Information about Azure Databricks Access Connector.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource Id for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -130,7 +129,7 @@ class AccessConnector(TrackedResource):
     :vartype identity: ~azure.mgmt.databricks.models.ManagedServiceIdentity
     :ivar system_data: The system metadata relating to this resource.
     :vartype system_data: ~azure.mgmt.databricks.models.SystemData
-    :ivar properties: Azure Databricks accessConnector properties.
+    :ivar properties: Azure Databricks Access Connector properties.
     :vartype properties: ~azure.mgmt.databricks.models.AccessConnectorProperties
     """
 
@@ -169,7 +168,7 @@ class AccessConnector(TrackedResource):
         :paramtype location: str
         :keyword identity: Managed service identity (system assigned and/or user assigned identities).
         :paramtype identity: ~azure.mgmt.databricks.models.ManagedServiceIdentity
-        :keyword properties: Azure Databricks accessConnector properties.
+        :keyword properties: Azure Databricks Access Connector properties.
         :paramtype properties: ~azure.mgmt.databricks.models.AccessConnectorProperties
         """
         super().__init__(tags=tags, location=location, **kwargs)
@@ -179,9 +178,9 @@ class AccessConnector(TrackedResource):
 
 
 class AccessConnectorListResult(_serialization.Model):
-    """List of azure databricks accessConnector.
+    """List of Azure Databricks Access Connector.
 
-    :ivar value: The array of azure databricks accessConnector.
+    :ivar value: The array of Azure Databricks Access Connector.
     :vartype value: list[~azure.mgmt.databricks.models.AccessConnector]
     :ivar next_link: The URL to use for getting the next set of results.
     :vartype next_link: str
@@ -196,7 +195,7 @@ class AccessConnectorListResult(_serialization.Model):
         self, *, value: Optional[List["_models.AccessConnector"]] = None, next_link: Optional[str] = None, **kwargs: Any
     ) -> None:
         """
-        :keyword value: The array of azure databricks accessConnector.
+        :keyword value: The array of Azure Databricks Access Connector.
         :paramtype value: list[~azure.mgmt.databricks.models.AccessConnector]
         :keyword next_link: The URL to use for getting the next set of results.
         :paramtype next_link: str
@@ -211,28 +210,33 @@ class AccessConnectorProperties(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar provisioning_state: Provisioning status of the accessConnector. Known values are:
+    :ivar provisioning_state: Provisioning status of the Access Connector. Known values are:
      "Accepted", "Running", "Ready", "Creating", "Created", "Deleting", "Deleted", "Canceled",
      "Failed", "Succeeded", and "Updating".
     :vartype provisioning_state: str or ~azure.mgmt.databricks.models.ProvisioningState
+    :ivar refered_by: List of workspaces referring this Access Connector.
+    :vartype refered_by: list[str]
     """
 
     _validation = {
         "provisioning_state": {"readonly": True},
+        "refered_by": {"readonly": True},
     }
 
     _attribute_map = {
         "provisioning_state": {"key": "provisioningState", "type": "str"},
+        "refered_by": {"key": "referedBy", "type": "[str]"},
     }
 
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.provisioning_state = None
+        self.refered_by = None
 
 
 class AccessConnectorUpdate(_serialization.Model):
-    """An update to an azure databricks accessConnector.
+    """An update to an Azure Databricks Access Connector.
 
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
@@ -286,6 +290,60 @@ class AddressSpace(_serialization.Model):
         self.address_prefixes = address_prefixes
 
 
+class AutomaticClusterUpdateDefinition(_serialization.Model):
+    """Status of automated cluster updates feature.
+
+    :ivar value: Known values are: "Enabled" and "Disabled".
+    :vartype value: str or ~azure.mgmt.databricks.models.AutomaticClusterUpdateValue
+    """
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "str"},
+    }
+
+    def __init__(
+        self, *, value: Optional[Union[str, "_models.AutomaticClusterUpdateValue"]] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: Known values are: "Enabled" and "Disabled".
+        :paramtype value: str or ~azure.mgmt.databricks.models.AutomaticClusterUpdateValue
+        """
+        super().__init__(**kwargs)
+        self.value = value
+
+
+class ComplianceSecurityProfileDefinition(_serialization.Model):
+    """Status of Compliance Security Profile feature.
+
+    :ivar compliance_standards: Compliance standards associated with the workspace.
+    :vartype compliance_standards: list[str or ~azure.mgmt.databricks.models.ComplianceStandard]
+    :ivar value: Known values are: "Enabled" and "Disabled".
+    :vartype value: str or ~azure.mgmt.databricks.models.ComplianceSecurityProfileValue
+    """
+
+    _attribute_map = {
+        "compliance_standards": {"key": "complianceStandards", "type": "[str]"},
+        "value": {"key": "value", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        compliance_standards: Optional[List[Union[str, "_models.ComplianceStandard"]]] = None,
+        value: Optional[Union[str, "_models.ComplianceSecurityProfileValue"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword compliance_standards: Compliance standards associated with the workspace.
+        :paramtype compliance_standards: list[str or ~azure.mgmt.databricks.models.ComplianceStandard]
+        :keyword value: Known values are: "Enabled" and "Disabled".
+        :paramtype value: str or ~azure.mgmt.databricks.models.ComplianceSecurityProfileValue
+        """
+        super().__init__(**kwargs)
+        self.compliance_standards = compliance_standards
+        self.value = value
+
+
 class CreatedBy(_serialization.Model):
     """Provides details of the entity that created/updated the workspace.
 
@@ -318,6 +376,44 @@ class CreatedBy(_serialization.Model):
         self.oid = None
         self.puid = None
         self.application_id = None
+
+
+class DefaultCatalogProperties(_serialization.Model):
+    """These properties lets user specify default catalog properties during workspace creation.
+
+    :ivar initial_type: Defines the initial type of the default catalog. Possible values
+     (case-insensitive):  HiveMetastore, UnityCatalog. Known values are: "HiveMetastore" and
+     "UnityCatalog".
+    :vartype initial_type: str or ~azure.mgmt.databricks.models.InitialType
+    :ivar initial_name: Specifies the initial Name of default catalog. If not specified, the name
+     of the workspace will be used.
+    :vartype initial_name: str
+    """
+
+    _attribute_map = {
+        "initial_type": {"key": "initialType", "type": "str"},
+        "initial_name": {"key": "initialName", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        initial_type: Union[str, "_models.InitialType"] = "HiveMetastore",
+        initial_name: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword initial_type: Defines the initial type of the default catalog. Possible values
+         (case-insensitive):  HiveMetastore, UnityCatalog. Known values are: "HiveMetastore" and
+         "UnityCatalog".
+        :paramtype initial_type: str or ~azure.mgmt.databricks.models.InitialType
+        :keyword initial_name: Specifies the initial Name of default catalog. If not specified, the
+         name of the workspace will be used.
+        :paramtype initial_name: str
+        """
+        super().__init__(**kwargs)
+        self.initial_type = initial_type
+        self.initial_name = initial_name
 
 
 class Encryption(_serialization.Model):
@@ -403,7 +499,7 @@ class EncryptionEntitiesDefinition(_serialization.Model):
 class EncryptionV2(_serialization.Model):
     """The object that contains details of encryption used on the workspace.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar key_source: The encryption keySource (provider). Possible values (case-insensitive):
      Microsoft.Keyvault. Required. "Microsoft.Keyvault"
@@ -443,7 +539,7 @@ class EncryptionV2(_serialization.Model):
 class EncryptionV2KeyVaultProperties(_serialization.Model):
     """Key Vault input properties for encryption.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar key_vault_uri: The Uri of KeyVault. Required.
     :vartype key_vault_uri: str
@@ -562,10 +658,83 @@ class EndpointDetail(_serialization.Model):
         self.is_accessible = is_accessible
 
 
+class EnhancedSecurityComplianceDefinition(_serialization.Model):
+    """Status of settings related to the Enhanced Security and Compliance Add-On.
+
+    :ivar automatic_cluster_update: Status of automated cluster updates feature.
+    :vartype automatic_cluster_update:
+     ~azure.mgmt.databricks.models.AutomaticClusterUpdateDefinition
+    :ivar compliance_security_profile: Status of Compliance Security Profile feature.
+    :vartype compliance_security_profile:
+     ~azure.mgmt.databricks.models.ComplianceSecurityProfileDefinition
+    :ivar enhanced_security_monitoring: Status of Enhanced Security Monitoring feature.
+    :vartype enhanced_security_monitoring:
+     ~azure.mgmt.databricks.models.EnhancedSecurityMonitoringDefinition
+    """
+
+    _attribute_map = {
+        "automatic_cluster_update": {"key": "automaticClusterUpdate", "type": "AutomaticClusterUpdateDefinition"},
+        "compliance_security_profile": {
+            "key": "complianceSecurityProfile",
+            "type": "ComplianceSecurityProfileDefinition",
+        },
+        "enhanced_security_monitoring": {
+            "key": "enhancedSecurityMonitoring",
+            "type": "EnhancedSecurityMonitoringDefinition",
+        },
+    }
+
+    def __init__(
+        self,
+        *,
+        automatic_cluster_update: Optional["_models.AutomaticClusterUpdateDefinition"] = None,
+        compliance_security_profile: Optional["_models.ComplianceSecurityProfileDefinition"] = None,
+        enhanced_security_monitoring: Optional["_models.EnhancedSecurityMonitoringDefinition"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword automatic_cluster_update: Status of automated cluster updates feature.
+        :paramtype automatic_cluster_update:
+         ~azure.mgmt.databricks.models.AutomaticClusterUpdateDefinition
+        :keyword compliance_security_profile: Status of Compliance Security Profile feature.
+        :paramtype compliance_security_profile:
+         ~azure.mgmt.databricks.models.ComplianceSecurityProfileDefinition
+        :keyword enhanced_security_monitoring: Status of Enhanced Security Monitoring feature.
+        :paramtype enhanced_security_monitoring:
+         ~azure.mgmt.databricks.models.EnhancedSecurityMonitoringDefinition
+        """
+        super().__init__(**kwargs)
+        self.automatic_cluster_update = automatic_cluster_update
+        self.compliance_security_profile = compliance_security_profile
+        self.enhanced_security_monitoring = enhanced_security_monitoring
+
+
+class EnhancedSecurityMonitoringDefinition(_serialization.Model):
+    """Status of Enhanced Security Monitoring feature.
+
+    :ivar value: Known values are: "Enabled" and "Disabled".
+    :vartype value: str or ~azure.mgmt.databricks.models.EnhancedSecurityMonitoringValue
+    """
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "str"},
+    }
+
+    def __init__(
+        self, *, value: Optional[Union[str, "_models.EnhancedSecurityMonitoringValue"]] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: Known values are: "Enabled" and "Disabled".
+        :paramtype value: str or ~azure.mgmt.databricks.models.EnhancedSecurityMonitoringValue
+        """
+        super().__init__(**kwargs)
+        self.value = value
+
+
 class ErrorDetail(_serialization.Model):
     """Error details.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar code: The error's code. Required.
     :vartype code: str
@@ -604,7 +773,7 @@ class ErrorDetail(_serialization.Model):
 class ErrorInfo(_serialization.Model):
     """The code and message for an error.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar code: A machine readable error code. Required.
     :vartype code: str
@@ -657,7 +826,7 @@ class ErrorInfo(_serialization.Model):
 class ErrorResponse(_serialization.Model):
     """Contains details when the response code indicates an error.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar error: The error details. Required.
     :vartype error: ~azure.mgmt.databricks.models.ErrorInfo
@@ -685,10 +854,10 @@ class GroupIdInformation(Resource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource Id for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -764,7 +933,7 @@ class GroupIdInformationProperties(_serialization.Model):
 class ManagedDiskEncryption(_serialization.Model):
     """The object that contains details of encryption used on the workspace.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar key_source: The encryption keySource (provider). Possible values (case-insensitive):
      Microsoft.Keyvault. Required. "Microsoft.Keyvault"
@@ -816,7 +985,7 @@ class ManagedDiskEncryption(_serialization.Model):
 class ManagedDiskEncryptionKeyVaultProperties(_serialization.Model):
     """Key Vault input properties for encryption.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar key_vault_uri: The URI of KeyVault. Required.
     :vartype key_vault_uri: str
@@ -892,7 +1061,7 @@ class ManagedServiceIdentity(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar principal_id: The service principal ID of the system assigned identity. This property
      will only be provided for a system assigned identity.
@@ -906,7 +1075,7 @@ class ManagedServiceIdentity(_serialization.Model):
     :vartype type: str or ~azure.mgmt.databricks.models.ManagedServiceIdentityType
     :ivar user_assigned_identities: The set of user assigned identities associated with the
      resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form:
-     '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.
+     '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.  # pylint: disable=line-too-long
      The dictionary values can be empty objects ({}) in requests.
     :vartype user_assigned_identities: dict[str,
      ~azure.mgmt.databricks.models.UserAssignedIdentity]
@@ -939,7 +1108,7 @@ class ManagedServiceIdentity(_serialization.Model):
         :paramtype type: str or ~azure.mgmt.databricks.models.ManagedServiceIdentityType
         :keyword user_assigned_identities: The set of user assigned identities associated with the
          resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form:
-         '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.
+         '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.  # pylint: disable=line-too-long
          The dictionary values can be empty objects ({}) in requests.
         :paramtype user_assigned_identities: dict[str,
          ~azure.mgmt.databricks.models.UserAssignedIdentity]
@@ -1118,7 +1287,7 @@ class PrivateEndpointConnection(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The resource identifier.
     :vartype id: str
@@ -1161,7 +1330,7 @@ class PrivateEndpointConnectionProperties(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar private_endpoint: Private endpoint.
     :vartype private_endpoint: ~azure.mgmt.databricks.models.PrivateEndpoint
@@ -1282,7 +1451,7 @@ class PrivateLinkResourcesList(_serialization.Model):
 class PrivateLinkServiceConnectionState(_serialization.Model):
     """The current state of a private endpoint connection.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar status: The status of a private endpoint connection. Required. Known values are:
      "Pending", "Approved", "Rejected", and "Disconnected".
@@ -1329,7 +1498,7 @@ class PrivateLinkServiceConnectionState(_serialization.Model):
 class Sku(_serialization.Model):
     """SKU for the resource.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The SKU name. Required.
     :vartype name: str
@@ -1450,12 +1619,12 @@ class UserAssignedIdentity(_serialization.Model):
         self.client_id = None
 
 
-class VirtualNetworkPeering(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class VirtualNetworkPeering(_serialization.Model):
     """Peerings in a VirtualNetwork resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: Name of the virtual network peering resource.
     :vartype name: str
@@ -1563,7 +1732,7 @@ class VirtualNetworkPeering(_serialization.Model):  # pylint: disable=too-many-i
         :paramtype use_remote_gateways: bool
         :keyword databricks_virtual_network: The remote virtual network should be in the same region.
          See here to learn more
-         (https://docs.microsoft.com/en-us/azure/databricks/administration-guide/cloud-configurations/azure/vnet-peering).
+         (https://docs.microsoft.com/en-us/azure/databricks/administration-guide/cloud-configurations/azure/vnet-peering).  # pylint: disable=line-too-long
         :paramtype databricks_virtual_network:
          ~azure.mgmt.databricks.models.VirtualNetworkPeeringPropertiesFormatDatabricksVirtualNetwork
         :keyword databricks_address_space: The reference to the databricks virtual network address
@@ -1571,7 +1740,7 @@ class VirtualNetworkPeering(_serialization.Model):  # pylint: disable=too-many-i
         :paramtype databricks_address_space: ~azure.mgmt.databricks.models.AddressSpace
         :keyword remote_virtual_network: The remote virtual network should be in the same region. See
          here to learn more
-         (https://docs.microsoft.com/en-us/azure/databricks/administration-guide/cloud-configurations/azure/vnet-peering).
+         (https://docs.microsoft.com/en-us/azure/databricks/administration-guide/cloud-configurations/azure/vnet-peering).  # pylint: disable=line-too-long
          Required.
         :paramtype remote_virtual_network:
          ~azure.mgmt.databricks.models.VirtualNetworkPeeringPropertiesFormatRemoteVirtualNetwork
@@ -1628,7 +1797,9 @@ class VirtualNetworkPeeringList(_serialization.Model):
         self.next_link = next_link
 
 
-class VirtualNetworkPeeringPropertiesFormatDatabricksVirtualNetwork(_serialization.Model):
+class VirtualNetworkPeeringPropertiesFormatDatabricksVirtualNetwork(
+    _serialization.Model
+):  # pylint: disable=name-too-long
     """The remote virtual network should be in the same region. See here to learn more
     (https://docs.microsoft.com/en-us/azure/databricks/administration-guide/cloud-configurations/azure/vnet-peering).
 
@@ -1649,7 +1820,7 @@ class VirtualNetworkPeeringPropertiesFormatDatabricksVirtualNetwork(_serializati
         self.id = id
 
 
-class VirtualNetworkPeeringPropertiesFormatRemoteVirtualNetwork(_serialization.Model):
+class VirtualNetworkPeeringPropertiesFormatRemoteVirtualNetwork(_serialization.Model):  # pylint: disable=name-too-long
     """The remote virtual network should be in the same region. See here to learn more
     (https://docs.microsoft.com/en-us/azure/databricks/administration-guide/cloud-configurations/azure/vnet-peering).
 
@@ -1670,15 +1841,15 @@ class VirtualNetworkPeeringPropertiesFormatRemoteVirtualNetwork(_serialization.M
         self.id = id
 
 
-class Workspace(TrackedResource):  # pylint: disable=too-many-instance-attributes
+class Workspace(TrackedResource):
     """Information about workspace.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource Id for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1728,6 +1899,10 @@ class Workspace(TrackedResource):  # pylint: disable=too-many-instance-attribute
     :vartype disk_encryption_set_id: str
     :ivar encryption: Encryption properties for databricks workspace.
     :vartype encryption: ~azure.mgmt.databricks.models.WorkspacePropertiesEncryption
+    :ivar enhanced_security_compliance: Contains settings related to the Enhanced Security and
+     Compliance Add-On.
+    :vartype enhanced_security_compliance:
+     ~azure.mgmt.databricks.models.EnhancedSecurityComplianceDefinition
     :ivar private_endpoint_connections: Private endpoint connections created on the workspace.
     :vartype private_endpoint_connections:
      list[~azure.mgmt.databricks.models.PrivateEndpointConnection]
@@ -1739,6 +1914,16 @@ class Workspace(TrackedResource):  # pylint: disable=too-many-instance-attribute
      'NoAzureDatabricksRules'. 'NoAzureServiceRules' value is for internal use only. Known values
      are: "AllRules", "NoAzureDatabricksRules", and "NoAzureServiceRules".
     :vartype required_nsg_rules: str or ~azure.mgmt.databricks.models.RequiredNsgRules
+    :ivar default_catalog: Properties for Default Catalog configuration during workspace creation.
+    :vartype default_catalog: ~azure.mgmt.databricks.models.DefaultCatalogProperties
+    :ivar is_uc_enabled: Indicates whether unity catalog enabled for the workspace or not.
+    :vartype is_uc_enabled: bool
+    :ivar access_connector: Access Connector Resource that is going to be associated with
+     Databricks Workspace.
+    :vartype access_connector: ~azure.mgmt.databricks.models.WorkspacePropertiesAccessConnector
+    :ivar default_storage_firewall: Gets or Sets Default Storage Firewall configuration
+     information. Known values are: "Disabled" and "Enabled".
+    :vartype default_storage_firewall: str or ~azure.mgmt.databricks.models.DefaultStorageFirewall
     """
 
     _validation = {
@@ -1754,6 +1939,7 @@ class Workspace(TrackedResource):  # pylint: disable=too-many-instance-attribute
         "workspace_url": {"readonly": True},
         "disk_encryption_set_id": {"readonly": True},
         "private_endpoint_connections": {"readonly": True},
+        "is_uc_enabled": {"readonly": True},
     }
 
     _attribute_map = {
@@ -1781,12 +1967,20 @@ class Workspace(TrackedResource):  # pylint: disable=too-many-instance-attribute
         "managed_disk_identity": {"key": "properties.managedDiskIdentity", "type": "ManagedIdentityConfiguration"},
         "disk_encryption_set_id": {"key": "properties.diskEncryptionSetId", "type": "str"},
         "encryption": {"key": "properties.encryption", "type": "WorkspacePropertiesEncryption"},
+        "enhanced_security_compliance": {
+            "key": "properties.enhancedSecurityCompliance",
+            "type": "EnhancedSecurityComplianceDefinition",
+        },
         "private_endpoint_connections": {
             "key": "properties.privateEndpointConnections",
             "type": "[PrivateEndpointConnection]",
         },
         "public_network_access": {"key": "properties.publicNetworkAccess", "type": "str"},
         "required_nsg_rules": {"key": "properties.requiredNsgRules", "type": "str"},
+        "default_catalog": {"key": "properties.defaultCatalog", "type": "DefaultCatalogProperties"},
+        "is_uc_enabled": {"key": "properties.isUcEnabled", "type": "bool"},
+        "access_connector": {"key": "properties.accessConnector", "type": "WorkspacePropertiesAccessConnector"},
+        "default_storage_firewall": {"key": "properties.defaultStorageFirewall", "type": "str"},
     }
 
     def __init__(  # pylint: disable=too-many-locals
@@ -1804,8 +1998,12 @@ class Workspace(TrackedResource):  # pylint: disable=too-many-instance-attribute
         storage_account_identity: Optional["_models.ManagedIdentityConfiguration"] = None,
         managed_disk_identity: Optional["_models.ManagedIdentityConfiguration"] = None,
         encryption: Optional["_models.WorkspacePropertiesEncryption"] = None,
+        enhanced_security_compliance: Optional["_models.EnhancedSecurityComplianceDefinition"] = None,
         public_network_access: Optional[Union[str, "_models.PublicNetworkAccess"]] = None,
         required_nsg_rules: Optional[Union[str, "_models.RequiredNsgRules"]] = None,
+        default_catalog: Optional["_models.DefaultCatalogProperties"] = None,
+        access_connector: Optional["_models.WorkspacePropertiesAccessConnector"] = None,
+        default_storage_firewall: Optional[Union[str, "_models.DefaultStorageFirewall"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -1836,6 +2034,10 @@ class Workspace(TrackedResource):  # pylint: disable=too-many-instance-attribute
         :paramtype managed_disk_identity: ~azure.mgmt.databricks.models.ManagedIdentityConfiguration
         :keyword encryption: Encryption properties for databricks workspace.
         :paramtype encryption: ~azure.mgmt.databricks.models.WorkspacePropertiesEncryption
+        :keyword enhanced_security_compliance: Contains settings related to the Enhanced Security and
+         Compliance Add-On.
+        :paramtype enhanced_security_compliance:
+         ~azure.mgmt.databricks.models.EnhancedSecurityComplianceDefinition
         :keyword public_network_access: The network access type for accessing workspace. Set value to
          disabled to access workspace only via private link. Known values are: "Enabled" and "Disabled".
         :paramtype public_network_access: str or ~azure.mgmt.databricks.models.PublicNetworkAccess
@@ -1844,6 +2046,16 @@ class Workspace(TrackedResource):  # pylint: disable=too-many-instance-attribute
          'NoAzureDatabricksRules'. 'NoAzureServiceRules' value is for internal use only. Known values
          are: "AllRules", "NoAzureDatabricksRules", and "NoAzureServiceRules".
         :paramtype required_nsg_rules: str or ~azure.mgmt.databricks.models.RequiredNsgRules
+        :keyword default_catalog: Properties for Default Catalog configuration during workspace
+         creation.
+        :paramtype default_catalog: ~azure.mgmt.databricks.models.DefaultCatalogProperties
+        :keyword access_connector: Access Connector Resource that is going to be associated with
+         Databricks Workspace.
+        :paramtype access_connector: ~azure.mgmt.databricks.models.WorkspacePropertiesAccessConnector
+        :keyword default_storage_firewall: Gets or Sets Default Storage Firewall configuration
+         information. Known values are: "Disabled" and "Enabled".
+        :paramtype default_storage_firewall: str or
+         ~azure.mgmt.databricks.models.DefaultStorageFirewall
         """
         super().__init__(tags=tags, location=location, **kwargs)
         self.sku = sku
@@ -1862,9 +2074,14 @@ class Workspace(TrackedResource):  # pylint: disable=too-many-instance-attribute
         self.managed_disk_identity = managed_disk_identity
         self.disk_encryption_set_id = None
         self.encryption = encryption
+        self.enhanced_security_compliance = enhanced_security_compliance
         self.private_endpoint_connections = None
         self.public_network_access = public_network_access
         self.required_nsg_rules = required_nsg_rules
+        self.default_catalog = default_catalog
+        self.is_uc_enabled = None
+        self.access_connector = access_connector
+        self.default_storage_firewall = default_storage_firewall
 
 
 class WorkspaceCustomBooleanParameter(_serialization.Model):
@@ -1872,7 +2089,7 @@ class WorkspaceCustomBooleanParameter(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar type: The type of variable that this is. Known values are: "Bool", "Object", and
      "String".
@@ -1906,7 +2123,7 @@ class WorkspaceCustomObjectParameter(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar type: The type of variable that this is. Known values are: "Bool", "Object", and
      "String".
@@ -1935,7 +2152,7 @@ class WorkspaceCustomObjectParameter(_serialization.Model):
         self.value = value
 
 
-class WorkspaceCustomParameters(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class WorkspaceCustomParameters(_serialization.Model):
     """Custom Parameters used for Cluster Creation.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1953,8 +2170,9 @@ class WorkspaceCustomParameters(_serialization.Model):  # pylint: disable=too-ma
     :ivar custom_private_subnet_name: The name of the Private Subnet within the Virtual Network.
     :vartype custom_private_subnet_name:
      ~azure.mgmt.databricks.models.WorkspaceCustomStringParameter
-    :ivar enable_no_public_ip: Should the Public IP be Disabled?.
-    :vartype enable_no_public_ip: ~azure.mgmt.databricks.models.WorkspaceCustomBooleanParameter
+    :ivar enable_no_public_ip: Boolean indicating whether the public IP should be disabled. Default
+     value is true.
+    :vartype enable_no_public_ip: ~azure.mgmt.databricks.models.WorkspaceNoPublicIPBooleanParameter
     :ivar load_balancer_backend_pool_name: Name of the outbound Load Balancer Backend Pool for
      Secure Cluster Connectivity (No Public IP).
     :vartype load_balancer_backend_pool_name:
@@ -2000,7 +2218,7 @@ class WorkspaceCustomParameters(_serialization.Model):  # pylint: disable=too-ma
         "custom_virtual_network_id": {"key": "customVirtualNetworkId", "type": "WorkspaceCustomStringParameter"},
         "custom_public_subnet_name": {"key": "customPublicSubnetName", "type": "WorkspaceCustomStringParameter"},
         "custom_private_subnet_name": {"key": "customPrivateSubnetName", "type": "WorkspaceCustomStringParameter"},
-        "enable_no_public_ip": {"key": "enableNoPublicIp", "type": "WorkspaceCustomBooleanParameter"},
+        "enable_no_public_ip": {"key": "enableNoPublicIp", "type": "WorkspaceNoPublicIPBooleanParameter"},
         "load_balancer_backend_pool_name": {
             "key": "loadBalancerBackendPoolName",
             "type": "WorkspaceCustomStringParameter",
@@ -2027,7 +2245,7 @@ class WorkspaceCustomParameters(_serialization.Model):  # pylint: disable=too-ma
         custom_virtual_network_id: Optional["_models.WorkspaceCustomStringParameter"] = None,
         custom_public_subnet_name: Optional["_models.WorkspaceCustomStringParameter"] = None,
         custom_private_subnet_name: Optional["_models.WorkspaceCustomStringParameter"] = None,
-        enable_no_public_ip: Optional["_models.WorkspaceCustomBooleanParameter"] = None,
+        enable_no_public_ip: Optional["_models.WorkspaceNoPublicIPBooleanParameter"] = None,
         load_balancer_backend_pool_name: Optional["_models.WorkspaceCustomStringParameter"] = None,
         load_balancer_id: Optional["_models.WorkspaceCustomStringParameter"] = None,
         nat_gateway_name: Optional["_models.WorkspaceCustomStringParameter"] = None,
@@ -2054,8 +2272,10 @@ class WorkspaceCustomParameters(_serialization.Model):  # pylint: disable=too-ma
         :keyword custom_private_subnet_name: The name of the Private Subnet within the Virtual Network.
         :paramtype custom_private_subnet_name:
          ~azure.mgmt.databricks.models.WorkspaceCustomStringParameter
-        :keyword enable_no_public_ip: Should the Public IP be Disabled?.
-        :paramtype enable_no_public_ip: ~azure.mgmt.databricks.models.WorkspaceCustomBooleanParameter
+        :keyword enable_no_public_ip: Boolean indicating whether the public IP should be disabled.
+         Default value is true.
+        :paramtype enable_no_public_ip:
+         ~azure.mgmt.databricks.models.WorkspaceNoPublicIPBooleanParameter
         :keyword load_balancer_backend_pool_name: Name of the outbound Load Balancer Backend Pool for
          Secure Cluster Connectivity (No Public IP).
         :paramtype load_balancer_backend_pool_name:
@@ -2113,7 +2333,7 @@ class WorkspaceCustomStringParameter(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar type: The type of variable that this is. Known values are: "Bool", "Object", and
      "String".
@@ -2201,10 +2421,96 @@ class WorkspaceListResult(_serialization.Model):
         self.next_link = next_link
 
 
+class WorkspaceNoPublicIPBooleanParameter(_serialization.Model):
+    """The value which should be used for this field.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar type: The type of variable that this is. Known values are: "Bool", "Object", and
+     "String".
+    :vartype type: str or ~azure.mgmt.databricks.models.CustomParameterType
+    :ivar value: The value which should be used for this field. Required.
+    :vartype value: bool
+    """
+
+    _validation = {
+        "type": {"readonly": True},
+        "value": {"required": True},
+    }
+
+    _attribute_map = {
+        "type": {"key": "type", "type": "str"},
+        "value": {"key": "value", "type": "bool"},
+    }
+
+    def __init__(self, *, value: bool, **kwargs: Any) -> None:
+        """
+        :keyword value: The value which should be used for this field. Required.
+        :paramtype value: bool
+        """
+        super().__init__(**kwargs)
+        self.type = None
+        self.value = value
+
+
+class WorkspacePropertiesAccessConnector(_serialization.Model):
+    """Access Connector Resource that is going to be associated with Databricks Workspace.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar id: The resource ID of Azure Databricks Access Connector Resource. Required.
+    :vartype id: str
+    :ivar identity_type: The identity type of the Access Connector Resource. Required. Known values
+     are: "SystemAssigned" and "UserAssigned".
+    :vartype identity_type: str or ~azure.mgmt.databricks.models.IdentityType
+    :ivar user_assigned_identity_id: The resource ID of the User Assigned Identity associated with
+     the Access Connector Resource. This is required for type 'UserAssigned' and not valid for type
+     'SystemAssigned'.
+    :vartype user_assigned_identity_id: str
+    """
+
+    _validation = {
+        "id": {"required": True},
+        "identity_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "identity_type": {"key": "identityType", "type": "str"},
+        "user_assigned_identity_id": {"key": "userAssignedIdentityId", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        id: str,  # pylint: disable=redefined-builtin
+        identity_type: Union[str, "_models.IdentityType"],
+        user_assigned_identity_id: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword id: The resource ID of Azure Databricks Access Connector Resource. Required.
+        :paramtype id: str
+        :keyword identity_type: The identity type of the Access Connector Resource. Required. Known
+         values are: "SystemAssigned" and "UserAssigned".
+        :paramtype identity_type: str or ~azure.mgmt.databricks.models.IdentityType
+        :keyword user_assigned_identity_id: The resource ID of the User Assigned Identity associated
+         with the Access Connector Resource. This is required for type 'UserAssigned' and not valid for
+         type 'SystemAssigned'.
+        :paramtype user_assigned_identity_id: str
+        """
+        super().__init__(**kwargs)
+        self.id = id
+        self.identity_type = identity_type
+        self.user_assigned_identity_id = user_assigned_identity_id
+
+
 class WorkspacePropertiesEncryption(_serialization.Model):
     """Encryption properties for databricks workspace.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar entities: Encryption entities definition for the workspace. Required.
     :vartype entities: ~azure.mgmt.databricks.models.EncryptionEntitiesDefinition
@@ -2230,7 +2536,7 @@ class WorkspacePropertiesEncryption(_serialization.Model):
 class WorkspaceProviderAuthorization(_serialization.Model):
     """The workspace provider authorization.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar principal_id: The provider's principal identifier. This is the identity that the provider
      will use to call ARM to manage the workspace resources. Required.

@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.databricks import AzureDatabricksManagementClient
 
 """
@@ -26,7 +27,7 @@ from azure.mgmt.databricks import AzureDatabricksManagementClient
 def main():
     client = AzureDatabricksManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="subid",
+        subscription_id="11111111-1111-1111-1111-111111111111",
     )
 
     response = client.workspaces.begin_create_or_update(
@@ -35,12 +36,19 @@ def main():
         parameters={
             "location": "westus",
             "properties": {
-                "managedResourceGroupId": "/subscriptions/subid/resourceGroups/myManagedRG",
+                "accessConnector": {
+                    "id": "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/adbrg/providers/Microsoft.Databricks/accessConnectors/myAccessConnector",
+                    "identityType": "UserAssigned",
+                    "userAssignedIdentityId": "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myIdentity",
+                },
+                "defaultCatalog": {"initialName": "", "initialType": "HiveMetastore"},
+                "defaultStorageFirewall": "Enabled",
+                "managedResourceGroupId": "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/myManagedRG",
                 "parameters": {
                     "customPrivateSubnetName": {"value": "myPrivateSubnet"},
                     "customPublicSubnetName": {"value": "myPublicSubnet"},
                     "customVirtualNetworkId": {
-                        "value": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/myNetwork"
+                        "value": "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/myNetwork"
                     },
                 },
             },
@@ -49,6 +57,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/stable/2023-02-01/examples/WorkspaceCreateWithParameters.json
+# x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/preview/2025-03-01-preview/examples/WorkspaceCreateWithParameters.json
 if __name__ == "__main__":
     main()
