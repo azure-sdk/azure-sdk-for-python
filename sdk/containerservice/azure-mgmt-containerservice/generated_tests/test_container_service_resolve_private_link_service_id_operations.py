@@ -32,7 +32,7 @@ class TestContainerServiceResolvePrivateLinkServiceIdOperations(AzureMgmtRecorde
                 "requiredMembers": ["str"],
                 "type": "str",
             },
-            api_version="2025-01-01",
+            api_version="2025-02-02-preview",
         )
 
         # please add some check logic here by yourself

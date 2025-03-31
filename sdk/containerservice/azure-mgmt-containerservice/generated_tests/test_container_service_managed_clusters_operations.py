@@ -23,7 +23,7 @@ class TestContainerServiceManagedClustersOperations(AzureMgmtRecordedTestCase):
     def test_managed_clusters_list_kubernetes_versions(self, resource_group):
         response = self.client.managed_clusters.list_kubernetes_versions(
             location="str",
-            api_version="2025-01-01",
+            api_version="2025-02-02-preview",
         )
 
         # please add some check logic here by yourself
@@ -33,7 +33,7 @@ class TestContainerServiceManagedClustersOperations(AzureMgmtRecordedTestCase):
     @recorded_by_proxy
     def test_managed_clusters_list(self, resource_group):
         response = self.client.managed_clusters.list(
-            api_version="2025-01-01",
+            api_version="2025-02-02-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -44,7 +44,7 @@ class TestContainerServiceManagedClustersOperations(AzureMgmtRecordedTestCase):
     def test_managed_clusters_list_by_resource_group(self, resource_group):
         response = self.client.managed_clusters.list_by_resource_group(
             resource_group_name=resource_group.name,
-            api_version="2025-01-01",
+            api_version="2025-02-02-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -56,7 +56,7 @@ class TestContainerServiceManagedClustersOperations(AzureMgmtRecordedTestCase):
         response = self.client.managed_clusters.get_upgrade_profile(
             resource_group_name=resource_group.name,
             resource_name="str",
-            api_version="2025-01-01",
+            api_version="2025-02-02-preview",
         )
 
         # please add some check logic here by yourself
@@ -69,7 +69,7 @@ class TestContainerServiceManagedClustersOperations(AzureMgmtRecordedTestCase):
             resource_group_name=resource_group.name,
             resource_name="str",
             role_name="str",
-            api_version="2025-01-01",
+            api_version="2025-02-02-preview",
         )
 
         # please add some check logic here by yourself
@@ -81,7 +81,7 @@ class TestContainerServiceManagedClustersOperations(AzureMgmtRecordedTestCase):
         response = self.client.managed_clusters.list_cluster_admin_credentials(
             resource_group_name=resource_group.name,
             resource_name="str",
-            api_version="2025-01-01",
+            api_version="2025-02-02-preview",
         )
 
         # please add some check logic here by yourself
@@ -93,7 +93,7 @@ class TestContainerServiceManagedClustersOperations(AzureMgmtRecordedTestCase):
         response = self.client.managed_clusters.list_cluster_user_credentials(
             resource_group_name=resource_group.name,
             resource_name="str",
-            api_version="2025-01-01",
+            api_version="2025-02-02-preview",
         )
 
         # please add some check logic here by yourself
@@ -105,7 +105,7 @@ class TestContainerServiceManagedClustersOperations(AzureMgmtRecordedTestCase):
         response = self.client.managed_clusters.list_cluster_monitoring_user_credentials(
             resource_group_name=resource_group.name,
             resource_name="str",
-            api_version="2025-01-01",
+            api_version="2025-02-02-preview",
         )
 
         # please add some check logic here by yourself
@@ -117,7 +117,7 @@ class TestContainerServiceManagedClustersOperations(AzureMgmtRecordedTestCase):
         response = self.client.managed_clusters.get(
             resource_group_name=resource_group.name,
             resource_name="str",
-            api_version="2025-01-01",
+            api_version="2025-02-02-preview",
         )
 
         # please add some check logic here by yourself
@@ -150,6 +150,7 @@ class TestContainerServiceManagedClustersOperations(AzureMgmtRecordedTestCase):
                 "agentPoolProfiles": [
                     {
                         "name": "str",
+                        "artifactStreamingProfile": {"enabled": bool},
                         "availabilityZones": ["str"],
                         "capacityReservationGroupID": "str",
                         "count": 0,
@@ -157,12 +158,14 @@ class TestContainerServiceManagedClustersOperations(AzureMgmtRecordedTestCase):
                         "currentOrchestratorVersion": "str",
                         "eTag": "str",
                         "enableAutoScaling": bool,
+                        "enableCustomCATrust": bool,
                         "enableEncryptionAtHost": bool,
                         "enableFIPS": bool,
                         "enableNodePublicIP": bool,
                         "enableUltraSSD": bool,
+                        "gatewayProfile": {"publicIPPrefixSize": 31},
                         "gpuInstanceProfile": "str",
-                        "gpuProfile": {"driver": "str"},
+                        "gpuProfile": {"driverType": "str", "installGPUDriver": bool},
                         "hostGroupID": "str",
                         "kubeletConfig": {
                             "allowedUnsafeSysctls": ["str"],
@@ -175,6 +178,7 @@ class TestContainerServiceManagedClustersOperations(AzureMgmtRecordedTestCase):
                             "imageGcHighThreshold": 0,
                             "imageGcLowThreshold": 0,
                             "podMaxPids": 0,
+                            "seccompDefault": "str",
                             "topologyManagerPolicy": "str",
                         },
                         "kubeletDiskType": "str",
@@ -224,6 +228,7 @@ class TestContainerServiceManagedClustersOperations(AzureMgmtRecordedTestCase):
                             "nodePublicIPTags": [{"ipTagType": "str", "tag": "str"}],
                         },
                         "nodeImageVersion": "str",
+                        "nodeInitializationTaints": ["str"],
                         "nodeLabels": {"str": "str"},
                         "nodePublicIPPrefixID": "str",
                         "nodeTaints": ["str"],
@@ -232,6 +237,7 @@ class TestContainerServiceManagedClustersOperations(AzureMgmtRecordedTestCase):
                         "osDiskType": "str",
                         "osSKU": "str",
                         "osType": "Linux",
+                        "podIPAllocationMode": "str",
                         "podSubnetID": "str",
                         "powerState": {"code": "str"},
                         "provisioningState": "str",
@@ -239,14 +245,35 @@ class TestContainerServiceManagedClustersOperations(AzureMgmtRecordedTestCase):
                         "scaleDownMode": "str",
                         "scaleSetEvictionPolicy": "Delete",
                         "scaleSetPriority": "Regular",
-                        "securityProfile": {"enableSecureBoot": bool, "enableVTPM": bool},
+                        "securityProfile": {"enableSecureBoot": bool, "enableVTPM": bool, "sshAccess": "str"},
                         "spotMaxPrice": -1,
+                        "status": {
+                            "provisioningError": {"code": "str", "details": [...], "message": "str", "target": "str"}
+                        },
                         "tags": {"str": "str"},
                         "type": "str",
                         "upgradeSettings": {
                             "drainTimeoutInMinutes": 0,
+                            "maxBlockedNodes": "str",
                             "maxSurge": "str",
+                            "maxUnavailable": "str",
                             "nodeSoakDurationInMinutes": 0,
+                            "undrainableNodeBehavior": "str",
+                        },
+                        "virtualMachineNodesStatus": [{"count": 0, "size": "str"}],
+                        "virtualMachinesProfile": {
+                            "scale": {
+                                "autoscale": [
+                                    {
+                                        "maxCount": 0,
+                                        "minCount": 0,
+                                        "osDiskSizeGB": 0,
+                                        "osDiskType": "str",
+                                        "sizes": ["str"],
+                                    }
+                                ],
+                                "manual": [{"count": 0, "osDiskSizeGB": 0, "osDiskType": "str", "sizes": ["str"]}],
+                            }
                         },
                         "vmSize": "str",
                         "vnetSubnetID": "str",
@@ -254,12 +281,15 @@ class TestContainerServiceManagedClustersOperations(AzureMgmtRecordedTestCase):
                         "workloadRuntime": "str",
                     }
                 ],
+                "aiToolchainOperatorProfile": {"enabled": bool},
                 "apiServerAccessProfile": {
                     "authorizedIPRanges": ["str"],
                     "disableRunCommand": bool,
                     "enablePrivateCluster": bool,
                     "enablePrivateClusterPublicFQDN": bool,
+                    "enableVnetIntegration": bool,
                     "privateDNSZone": "str",
+                    "subnetId": "str",
                 },
                 "autoScalerProfile": {
                     "balance-similar-node-groups": "str",
@@ -285,24 +315,44 @@ class TestContainerServiceManagedClustersOperations(AzureMgmtRecordedTestCase):
                 },
                 "autoUpgradeProfile": {"nodeOSUpgradeChannel": "str", "upgradeChannel": "str"},
                 "azureMonitorProfile": {
+                    "appMonitoring": {
+                        "autoInstrumentation": {"enabled": bool},
+                        "openTelemetryLogs": {"enabled": bool, "port": 0},
+                        "openTelemetryMetrics": {"enabled": bool, "port": 0},
+                    },
+                    "containerInsights": {
+                        "disableCustomMetrics": bool,
+                        "disablePrometheusMetricsScraping": bool,
+                        "enabled": bool,
+                        "logAnalyticsWorkspaceResourceId": "str",
+                        "syslogPort": 0,
+                    },
                     "metrics": {
                         "enabled": bool,
                         "kubeStateMetrics": {"metricAnnotationsAllowList": "str", "metricLabelsAllowlist": "str"},
-                    }
+                    },
                 },
                 "azurePortalFQDN": "str",
                 "bootstrapProfile": {"artifactSource": "Direct", "containerRegistryId": "str"},
+                "creationData": {"sourceResourceId": "str"},
                 "currentKubernetesVersion": "str",
                 "disableLocalAccounts": bool,
                 "diskEncryptionSetID": "str",
                 "dnsPrefix": "str",
                 "eTag": "str",
+                "enableNamespaceResources": bool,
                 "enablePodSecurityPolicy": bool,
                 "enableRBAC": bool,
                 "extendedLocation": {"name": "str", "type": "str"},
                 "fqdn": "str",
                 "fqdnSubdomain": "str",
-                "httpProxyConfig": {"httpProxy": "str", "httpsProxy": "str", "noProxy": ["str"], "trustedCa": "str"},
+                "httpProxyConfig": {
+                    "effectiveNoProxy": ["str"],
+                    "httpProxy": "str",
+                    "httpsProxy": "str",
+                    "noProxy": ["str"],
+                    "trustedCa": "str",
+                },
                 "id": "str",
                 "identity": {
                     "delegatedResources": {
@@ -319,8 +369,10 @@ class TestContainerServiceManagedClustersOperations(AzureMgmtRecordedTestCase):
                         "dnsZoneResourceIds": ["str"],
                         "enabled": bool,
                         "identity": {"clientId": "str", "objectId": "str", "resourceId": "str"},
+                        "nginx": {"defaultIngressControllerType": "str"},
                     }
                 },
+                "kind": "str",
                 "kubernetesVersion": "str",
                 "linuxProfile": {"adminUsername": "str", "ssh": {"publicKeys": [{"keyData": "str"}]}},
                 "maxAgentPools": 0,
@@ -330,13 +382,24 @@ class TestContainerServiceManagedClustersOperations(AzureMgmtRecordedTestCase):
                     "advancedNetworking": {
                         "enabled": bool,
                         "observability": {"enabled": bool},
-                        "security": {"enabled": bool},
+                        "security": {"advancedNetworkPolicies": "str", "enabled": bool},
                     },
                     "dnsServiceIP": "10.0.0.10",
                     "ipFamilies": ["str"],
+                    "kubeProxyConfig": {
+                        "enabled": bool,
+                        "ipvsConfig": {
+                            "scheduler": "str",
+                            "tcpFinTimeoutSeconds": 0,
+                            "tcpTimeoutSeconds": 0,
+                            "udpTimeoutSeconds": 0,
+                        },
+                        "mode": "str",
+                    },
                     "loadBalancerProfile": {
                         "allocatedOutboundPorts": 0,
                         "backendPoolType": "NodeIPConfiguration",
+                        "clusterServiceLoadBalancerHealthProbeMode": "ServiceNodePort",
                         "effectiveOutboundIPs": [{"id": "str"}],
                         "enableMultipleStandardLoadBalancers": bool,
                         "idleTimeoutInMinutes": 30,
@@ -358,9 +421,12 @@ class TestContainerServiceManagedClustersOperations(AzureMgmtRecordedTestCase):
                     "outboundType": "loadBalancer",
                     "podCidr": "10.244.0.0/16",
                     "podCidrs": ["str"],
+                    "podLinkLocalAccess": "str",
                     "serviceCidr": "10.0.0.0/16",
                     "serviceCidrs": ["str"],
+                    "staticEgressGatewayProfile": {"enabled": bool},
                 },
+                "nodeProvisioningProfile": {"mode": "str"},
                 "nodeResourceGroup": "str",
                 "nodeResourceGroupProfile": {"restrictionLevel": "str"},
                 "oidcIssuerProfile": {"enabled": bool, "issuerURL": "str"},
@@ -398,6 +464,12 @@ class TestContainerServiceManagedClustersOperations(AzureMgmtRecordedTestCase):
                 "provisioningState": "str",
                 "publicNetworkAccess": "str",
                 "resourceUID": "str",
+                "safeguardsProfile": {
+                    "level": "str",
+                    "excludedNamespaces": ["str"],
+                    "systemExcludedNamespaces": ["str"],
+                    "version": "str",
+                },
                 "securityProfile": {
                     "azureKeyVaultKms": {
                         "enabled": bool,
@@ -406,8 +478,23 @@ class TestContainerServiceManagedClustersOperations(AzureMgmtRecordedTestCase):
                         "keyVaultResourceId": "str",
                     },
                     "customCATrustCertificates": [bytes("bytes", encoding="utf-8")],
-                    "defender": {"logAnalyticsWorkspaceResourceId": "str", "securityMonitoring": {"enabled": bool}},
+                    "defender": {
+                        "logAnalyticsWorkspaceResourceId": "str",
+                        "securityGating": {
+                            "allowSecretAccess": bool,
+                            "enabled": bool,
+                            "identities": [
+                                {
+                                    "azureContainerRegistry": "str",
+                                    "identity": {"clientId": "str", "objectId": "str", "resourceId": "str"},
+                                }
+                            ],
+                        },
+                        "securityMonitoring": {"enabled": bool},
+                    },
                     "imageCleaner": {"enabled": bool, "intervalHours": 0},
+                    "imageIntegrity": {"enabled": bool},
+                    "nodeRestriction": {"enabled": bool},
                     "workloadIdentity": {"enabled": bool},
                 },
                 "serviceMeshProfile": {
@@ -423,7 +510,9 @@ class TestContainerServiceManagedClustersOperations(AzureMgmtRecordedTestCase):
                             }
                         },
                         "components": {
-                            "egressGateways": [{"enabled": bool}],
+                            "egressGateways": [
+                                {"enabled": bool, "name": "str", "gatewayConfigurationName": "str", "namespace": "str"}
+                            ],
                             "ingressGateways": [{"enabled": bool, "mode": "str"}],
                         },
                         "revisions": ["str"],
@@ -431,9 +520,10 @@ class TestContainerServiceManagedClustersOperations(AzureMgmtRecordedTestCase):
                 },
                 "servicePrincipalProfile": {"clientId": "str", "secret": "str"},
                 "sku": {"name": "str", "tier": "str"},
+                "status": {"provisioningError": {"code": "str", "details": [...], "message": "str", "target": "str"}},
                 "storageProfile": {
                     "blobCSIDriver": {"enabled": bool},
-                    "diskCSIDriver": {"enabled": bool},
+                    "diskCSIDriver": {"enabled": bool, "version": "str"},
                     "fileCSIDriver": {"enabled": bool},
                     "snapshotController": {"enabled": bool},
                 },
@@ -456,9 +546,12 @@ class TestContainerServiceManagedClustersOperations(AzureMgmtRecordedTestCase):
                     "gmsaProfile": {"dnsServer": "str", "enabled": bool, "rootDomainName": "str"},
                     "licenseType": "str",
                 },
-                "workloadAutoScalerProfile": {"keda": {"enabled": bool}, "verticalPodAutoscaler": {"enabled": False}},
+                "workloadAutoScalerProfile": {
+                    "keda": {"enabled": bool},
+                    "verticalPodAutoscaler": {"enabled": False, "addonAutoscaling": "Disabled"},
+                },
             },
-            api_version="2025-01-01",
+            api_version="2025-02-02-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -471,7 +564,7 @@ class TestContainerServiceManagedClustersOperations(AzureMgmtRecordedTestCase):
             resource_group_name=resource_group.name,
             resource_name="str",
             parameters={"tags": {"str": "str"}},
-            api_version="2025-01-01",
+            api_version="2025-02-02-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -483,7 +576,7 @@ class TestContainerServiceManagedClustersOperations(AzureMgmtRecordedTestCase):
         response = self.client.managed_clusters.begin_delete(
             resource_group_name=resource_group.name,
             resource_name="str",
-            api_version="2025-01-01",
+            api_version="2025-02-02-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -496,7 +589,7 @@ class TestContainerServiceManagedClustersOperations(AzureMgmtRecordedTestCase):
             resource_group_name=resource_group.name,
             resource_name="str",
             parameters={"clientId": "str", "secret": "str"},
-            api_version="2025-01-01",
+            api_version="2025-02-02-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -517,19 +610,7 @@ class TestContainerServiceManagedClustersOperations(AzureMgmtRecordedTestCase):
                 "serverAppSecret": "str",
                 "tenantID": "str",
             },
-            api_version="2025-01-01",
-        ).result()  # call '.result()' to poll until service return final result
-
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
-    def test_managed_clusters_begin_rotate_cluster_certificates(self, resource_group):
-        response = self.client.managed_clusters.begin_rotate_cluster_certificates(
-            resource_group_name=resource_group.name,
-            resource_name="str",
-            api_version="2025-01-01",
+            api_version="2025-02-02-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -541,7 +622,19 @@ class TestContainerServiceManagedClustersOperations(AzureMgmtRecordedTestCase):
         response = self.client.managed_clusters.begin_abort_latest_operation(
             resource_group_name=resource_group.name,
             resource_name="str",
-            api_version="2025-01-01",
+            api_version="2025-02-02-preview",
+        ).result()  # call '.result()' to poll until service return final result
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy
+    def test_managed_clusters_begin_rotate_cluster_certificates(self, resource_group):
+        response = self.client.managed_clusters.begin_rotate_cluster_certificates(
+            resource_group_name=resource_group.name,
+            resource_name="str",
+            api_version="2025-02-02-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -553,7 +646,7 @@ class TestContainerServiceManagedClustersOperations(AzureMgmtRecordedTestCase):
         response = self.client.managed_clusters.begin_rotate_service_account_signing_keys(
             resource_group_name=resource_group.name,
             resource_name="str",
-            api_version="2025-01-01",
+            api_version="2025-02-02-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -565,7 +658,7 @@ class TestContainerServiceManagedClustersOperations(AzureMgmtRecordedTestCase):
         response = self.client.managed_clusters.begin_stop(
             resource_group_name=resource_group.name,
             resource_name="str",
-            api_version="2025-01-01",
+            api_version="2025-02-02-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -577,7 +670,7 @@ class TestContainerServiceManagedClustersOperations(AzureMgmtRecordedTestCase):
         response = self.client.managed_clusters.begin_start(
             resource_group_name=resource_group.name,
             resource_name="str",
-            api_version="2025-01-01",
+            api_version="2025-02-02-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -590,7 +683,7 @@ class TestContainerServiceManagedClustersOperations(AzureMgmtRecordedTestCase):
             resource_group_name=resource_group.name,
             resource_name="str",
             request_payload={"command": "str", "clusterToken": "str", "context": "str"},
-            api_version="2025-01-01",
+            api_version="2025-02-02-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -603,7 +696,7 @@ class TestContainerServiceManagedClustersOperations(AzureMgmtRecordedTestCase):
             resource_group_name=resource_group.name,
             resource_name="str",
             command_id="str",
-            api_version="2025-01-01",
+            api_version="2025-02-02-preview",
         )
 
         # please add some check logic here by yourself
@@ -615,7 +708,53 @@ class TestContainerServiceManagedClustersOperations(AzureMgmtRecordedTestCase):
         response = self.client.managed_clusters.list_outbound_network_dependencies_endpoints(
             resource_group_name=resource_group.name,
             resource_name="str",
-            api_version="2025-01-01",
+            api_version="2025-02-02-preview",
+        )
+        result = [r for r in response]
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy
+    def test_managed_clusters_get_guardrails_versions(self, resource_group):
+        response = self.client.managed_clusters.get_guardrails_versions(
+            location="str",
+            version="str",
+            api_version="2025-02-02-preview",
+        )
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy
+    def test_managed_clusters_list_guardrails_versions(self, resource_group):
+        response = self.client.managed_clusters.list_guardrails_versions(
+            location="str",
+            api_version="2025-02-02-preview",
+        )
+        result = [r for r in response]
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy
+    def test_managed_clusters_get_safeguards_versions(self, resource_group):
+        response = self.client.managed_clusters.get_safeguards_versions(
+            location="str",
+            version="str",
+            api_version="2025-02-02-preview",
+        )
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy
+    def test_managed_clusters_list_safeguards_versions(self, resource_group):
+        response = self.client.managed_clusters.list_safeguards_versions(
+            location="str",
+            api_version="2025-02-02-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -626,7 +765,7 @@ class TestContainerServiceManagedClustersOperations(AzureMgmtRecordedTestCase):
     def test_managed_clusters_list_mesh_revision_profiles(self, resource_group):
         response = self.client.managed_clusters.list_mesh_revision_profiles(
             location="str",
-            api_version="2025-01-01",
+            api_version="2025-02-02-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -638,7 +777,7 @@ class TestContainerServiceManagedClustersOperations(AzureMgmtRecordedTestCase):
         response = self.client.managed_clusters.get_mesh_revision_profile(
             location="str",
             mode="str",
-            api_version="2025-01-01",
+            api_version="2025-02-02-preview",
         )
 
         # please add some check logic here by yourself
@@ -650,7 +789,7 @@ class TestContainerServiceManagedClustersOperations(AzureMgmtRecordedTestCase):
         response = self.client.managed_clusters.list_mesh_upgrade_profiles(
             resource_group_name=resource_group.name,
             resource_name="str",
-            api_version="2025-01-01",
+            api_version="2025-02-02-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -663,8 +802,21 @@ class TestContainerServiceManagedClustersOperations(AzureMgmtRecordedTestCase):
             resource_group_name=resource_group.name,
             resource_name="str",
             mode="str",
-            api_version="2025-01-01",
+            api_version="2025-02-02-preview",
         )
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy
+    def test_managed_clusters_begin_rebalance_load_balancers(self, resource_group):
+        response = self.client.managed_clusters.begin_rebalance_load_balancers(
+            resource_group_name=resource_group.name,
+            resource_name="str",
+            parameters={"loadBalancerNames": ["str"]},
+            api_version="2025-02-02-preview",
+        ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
         # ...
