@@ -67,6 +67,14 @@ class AzureFunctionActivityMethod(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     TRACE = "TRACE"
 
 
+class AzurePostgreSqlWriteMethodEnum(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The write behavior for the operation. Default is Bulk Insert."""
+
+    BULK_INSERT = "BulkInsert"
+    COPY_COMMAND = "CopyCommand"
+    UPSERT = "Upsert"
+
+
 class AzureSearchIndexWriteBehaviorType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Specify the write behavior when upserting documents into Azure Search Index."""
 
@@ -377,6 +385,12 @@ class GoogleBigQueryV2AuthenticationType(str, Enum, metaclass=CaseInsensitiveEnu
     USER_AUTHENTICATION = "UserAuthentication"
 
 
+class GreenplumAuthenticationType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The authentication type to use. Type: string. Only used for V2."""
+
+    BASIC = "Basic"
+
+
 class HBaseAuthenticationType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The authentication mechanism to use to connect to the HBase server."""
 
@@ -441,6 +455,13 @@ class ImpalaAuthenticationType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     ANONYMOUS = "Anonymous"
     SASL_USERNAME = "SASLUsername"
     USERNAME_AND_PASSWORD = "UsernameAndPassword"
+
+
+class ImpalaThriftTransportProtocol(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The transport protocol to use in the Thrift layer (for V2 only). Default value is Binary."""
+
+    BINARY = "Binary"
+    HTTP = "HTTP"
 
 
 class IntegrationRuntimeAuthKeyName(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -618,6 +639,12 @@ class ODataAuthenticationType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     WINDOWS = "Windows"
     AAD_SERVICE_PRINCIPAL = "AadServicePrincipal"
     MANAGED_SERVICE_IDENTITY = "ManagedServiceIdentity"
+
+
+class OracleAuthenticationType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Authentication type for connecting to the Oracle database. Only used for Version 2.0."""
+
+    BASIC = "Basic"
 
 
 class OraclePartitionOption(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -1081,6 +1108,13 @@ class Type(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Linked service reference type."""
 
     LINKED_SERVICE_REFERENCE = "LinkedServiceReference"
+
+
+class ValueType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Type of value copied from source."""
+
+    ACTUAL = "actual"
+    DISPLAY = "display"
 
 
 class VariableType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
