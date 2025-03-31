@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.databricks import AzureDatabricksManagementClient
 
 """
@@ -26,7 +27,7 @@ from azure.mgmt.databricks import AzureDatabricksManagementClient
 def main():
     client = AzureDatabricksManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="subid",
+        subscription_id="11111111-1111-1111-1111-111111111111",
     )
 
     response = client.access_connectors.list_by_resource_group(
@@ -36,6 +37,6 @@ def main():
         print(item)
 
 
-# x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/stable/2023-05-01/examples/AccessConnectorsListByResourceGroup.json
+# x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/preview/2025-03-01-preview/examples/AccessConnectorsListByResourceGroup.json
 if __name__ == "__main__":
     main()

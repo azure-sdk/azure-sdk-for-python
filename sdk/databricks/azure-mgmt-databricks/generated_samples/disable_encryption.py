@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.databricks import AzureDatabricksManagementClient
 
 """
@@ -26,7 +27,7 @@ from azure.mgmt.databricks import AzureDatabricksManagementClient
 def main():
     client = AzureDatabricksManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="subid",
+        subscription_id="11111111-1111-1111-1111-111111111111",
     )
 
     response = client.workspaces.begin_create_or_update(
@@ -35,7 +36,7 @@ def main():
         parameters={
             "location": "westus",
             "properties": {
-                "managedResourceGroupId": "/subscriptions/subid/resourceGroups/myManagedRG",
+                "managedResourceGroupId": "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/myManagedRG",
                 "parameters": {"encryption": {"value": {"keySource": "Default"}}},
             },
         },
@@ -43,6 +44,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/stable/2023-02-01/examples/DisableEncryption.json
+# x-ms-original-file: specification/databricks/resource-manager/Microsoft.Databricks/preview/2025-03-01-preview/examples/DisableEncryption.json
 if __name__ == "__main__":
     main()
