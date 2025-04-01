@@ -1,5 +1,15 @@
 # Release History
 
+## 8.1.0 (2025-04-01)
+
+### Features Added
+
+  - Added operation group ConnectionGatewayInstallationsOperations
+  - Added operation group ConnectionGatewaysOperations
+  - Added operation group ConnectionsOperations
+  - Added operation group CustomApisOperations
+  - Added operation group ManagedApisOperations
+
 ## 8.0.0 (2025-01-23)
 
 ### Breaking Changes
