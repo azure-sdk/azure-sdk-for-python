@@ -1,5 +1,18 @@
 # Release History
 
+## 3.1.0 (2025-04-01)
+
+### Features Added
+
+  - Added operation group AutoUpgradeProfileOperationsOperations
+  - Added operation group AutoUpgradeProfilesOperations
+  - Model APIServerAccessProfile has a new parameter enable_vnet_integration
+  - Model APIServerAccessProfile has a new parameter subnet_id
+  - Model Fleet has a new parameter status
+  - Model FleetMember has a new parameter status
+  - Model NodeImageSelection has a new parameter custom_node_image_versions
+  - Model UpdateRun has a new parameter auto_upgrade_profile_id
+
 ## 3.0.0 (2024-10-31)
 
 ### Breaking Changes
