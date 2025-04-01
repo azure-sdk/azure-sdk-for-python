@@ -1,4 +1,3 @@
-# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,7 +6,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 import sys
-from typing import Any, Callable, Dict, Optional, Type, TypeVar
+from typing import Any, Callable, Dict, Optional, TypeVar
 
 from azure.core.exceptions import (
     ClientAuthenticationError,
@@ -34,7 +33,7 @@ from ...operations._event_operations import (
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -74,15 +73,15 @@ class EventOperations:
          https://docs.microsoft.com/en-us/rest/api/apimanagement/apis?redirectedfrom=MSDN. Default value
          is None.
         :type filter: str
-        :param query_start_time: Specifies from when to return events, based on the lastUpdateTime
-         property. For example, queryStartTime = 7/24/2020 OR queryStartTime=7%2F24%2F2020. Default
-         value is None.
+        :param query_start_time: Specifies from when to return events (default is 3 days), based on the
+         lastUpdateTime property. For example, queryStartTime = 7/24/2020 OR
+         queryStartTime=7%2F24%2F2020. Default value is None.
         :type query_start_time: str
         :return: Event or the result of cls(response)
         :rtype: ~azure.mgmt.resourcehealth.models.Event
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -139,7 +138,7 @@ class EventOperations:
         :rtype: ~azure.mgmt.resourcehealth.models.Event
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -197,15 +196,15 @@ class EventOperations:
          https://docs.microsoft.com/en-us/rest/api/apimanagement/apis?redirectedfrom=MSDN. Default value
          is None.
         :type filter: str
-        :param query_start_time: Specifies from when to return events, based on the lastUpdateTime
-         property. For example, queryStartTime = 7/24/2020 OR queryStartTime=7%2F24%2F2020. Default
-         value is None.
+        :param query_start_time: Specifies from when to return events (default is 3 days), based on the
+         lastUpdateTime property. For example, queryStartTime = 7/24/2020 OR
+         queryStartTime=7%2F24%2F2020. Default value is None.
         :type query_start_time: str
         :return: Event or the result of cls(response)
         :rtype: ~azure.mgmt.resourcehealth.models.Event
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -261,7 +260,7 @@ class EventOperations:
         :rtype: ~azure.mgmt.resourcehealth.models.Event
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,

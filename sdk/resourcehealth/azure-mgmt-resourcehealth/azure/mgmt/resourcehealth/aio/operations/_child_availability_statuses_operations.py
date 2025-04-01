@@ -1,4 +1,3 @@
-# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,7 +6,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 import sys
-from typing import Any, AsyncIterable, Callable, Dict, Optional, Type, TypeVar
+from typing import Any, AsyncIterable, Callable, Dict, Optional, TypeVar
 import urllib.parse
 
 from azure.core.async_paging import AsyncItemPaged, AsyncList
@@ -32,7 +31,7 @@ from ...operations._child_availability_statuses_operations import build_get_by_r
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -60,6 +59,7 @@ class ChildAvailabilityStatusesOperations:
     async def get_by_resource(
         self, resource_uri: str, filter: Optional[str] = None, expand: Optional[str] = None, **kwargs: Any
     ) -> _models.AvailabilityStatus:
+        # pylint: disable=line-too-long
         """Gets current availability status for a single resource.
 
         :param resource_uri: The fully qualified ID of the resource, including the resource name and
@@ -78,7 +78,7 @@ class ChildAvailabilityStatusesOperations:
         :rtype: ~azure.mgmt.resourcehealth.models.AvailabilityStatus
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -125,6 +125,7 @@ class ChildAvailabilityStatusesOperations:
     def list(
         self, resource_uri: str, filter: Optional[str] = None, expand: Optional[str] = None, **kwargs: Any
     ) -> AsyncIterable["_models.AvailabilityStatus"]:
+        # pylint: disable=line-too-long
         """Lists the historical availability statuses for a single child resource. Use the nextLink
         property in the response to get the next page of availability status.
 
@@ -151,7 +152,7 @@ class ChildAvailabilityStatusesOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.AvailabilityStatusListResult] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,

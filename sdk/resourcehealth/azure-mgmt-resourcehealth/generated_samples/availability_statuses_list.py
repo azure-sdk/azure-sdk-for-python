@@ -37,6 +37,6 @@ def main():
         print(item)
 
 
-# x-ms-original-file: specification/resourcehealth/resource-manager/Microsoft.ResourceHealth/preview/2023-10-01-preview/examples/AvailabilityStatuses_List.json
+# x-ms-original-file: specification/resourcehealth/resource-manager/Microsoft.ResourceHealth/stable/2025-04-01/examples/AvailabilityStatuses_List.json
 if __name__ == "__main__":
     main()
