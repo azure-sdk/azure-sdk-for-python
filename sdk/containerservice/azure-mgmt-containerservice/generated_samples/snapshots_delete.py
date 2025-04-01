@@ -36,6 +36,6 @@ def main():
     )
 
 
-# x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2025-01-01/examples/SnapshotsDelete.json
+# x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2025-02-02-preview/examples/SnapshotsDelete.json
 if __name__ == "__main__":
     main()
