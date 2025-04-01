@@ -1,4 +1,3 @@
-# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8,7 +7,7 @@
 # --------------------------------------------------------------------------
 from io import IOBase
 import sys
-from typing import Any, AsyncIterable, AsyncIterator, Callable, Dict, IO, Optional, Type, TypeVar, Union, cast, overload
+from typing import Any, AsyncIterable, AsyncIterator, Callable, Dict, IO, Optional, TypeVar, Union, cast, overload
 import urllib.parse
 
 from azure.core.async_paging import AsyncItemPaged, AsyncList
@@ -45,7 +44,7 @@ from ...operations._connected_environments_operations import (
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -87,7 +86,7 @@ class ConnectedEnvironmentsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.ConnectedEnvironmentCollection] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -169,7 +168,7 @@ class ConnectedEnvironmentsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.ConnectedEnvironmentCollection] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -246,7 +245,7 @@ class ConnectedEnvironmentsOperations:
         :rtype: ~azure.mgmt.appcontainers.models.ConnectedEnvironment
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -296,7 +295,7 @@ class ConnectedEnvironmentsOperations:
         environment_envelope: Union[_models.ConnectedEnvironment, IO[bytes]],
         **kwargs: Any
     ) -> AsyncIterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -491,7 +490,7 @@ class ConnectedEnvironmentsOperations:
     async def _delete_initial(
         self, resource_group_name: str, connected_environment_name: str, **kwargs: Any
     ) -> AsyncIterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -602,9 +601,15 @@ class ConnectedEnvironmentsOperations:
             )
         return AsyncLROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
-    @distributed_trace_async
+    @overload
     async def update(
-        self, resource_group_name: str, connected_environment_name: str, **kwargs: Any
+        self,
+        resource_group_name: str,
+        connected_environment_name: str,
+        environment_envelope: Optional[_models.ConnectedEnvironmentPatchResource] = None,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
     ) -> _models.ConnectedEnvironment:
         """Update connected Environment's properties.
 
@@ -615,11 +620,73 @@ class ConnectedEnvironmentsOperations:
         :type resource_group_name: str
         :param connected_environment_name: Name of the connectedEnvironment. Required.
         :type connected_environment_name: str
+        :param environment_envelope: Configuration details of the connectedEnvironment. Default value
+         is None.
+        :type environment_envelope: ~azure.mgmt.appcontainers.models.ConnectedEnvironmentPatchResource
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
         :return: ConnectedEnvironment or the result of cls(response)
         :rtype: ~azure.mgmt.appcontainers.models.ConnectedEnvironment
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+
+    @overload
+    async def update(
+        self,
+        resource_group_name: str,
+        connected_environment_name: str,
+        environment_envelope: Optional[IO[bytes]] = None,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> _models.ConnectedEnvironment:
+        """Update connected Environment's properties.
+
+        Patches a Managed Environment. Only patching of tags is supported currently.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param connected_environment_name: Name of the connectedEnvironment. Required.
+        :type connected_environment_name: str
+        :param environment_envelope: Configuration details of the connectedEnvironment. Default value
+         is None.
+        :type environment_envelope: IO[bytes]
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: ConnectedEnvironment or the result of cls(response)
+        :rtype: ~azure.mgmt.appcontainers.models.ConnectedEnvironment
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace_async
+    async def update(
+        self,
+        resource_group_name: str,
+        connected_environment_name: str,
+        environment_envelope: Optional[Union[_models.ConnectedEnvironmentPatchResource, IO[bytes]]] = None,
+        **kwargs: Any
+    ) -> _models.ConnectedEnvironment:
+        """Update connected Environment's properties.
+
+        Patches a Managed Environment. Only patching of tags is supported currently.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param connected_environment_name: Name of the connectedEnvironment. Required.
+        :type connected_environment_name: str
+        :param environment_envelope: Configuration details of the connectedEnvironment. Is either a
+         ConnectedEnvironmentPatchResource type or a IO[bytes] type. Default value is None.
+        :type environment_envelope: ~azure.mgmt.appcontainers.models.ConnectedEnvironmentPatchResource
+         or IO[bytes]
+        :return: ConnectedEnvironment or the result of cls(response)
+        :rtype: ~azure.mgmt.appcontainers.models.ConnectedEnvironment
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -627,17 +694,32 @@ class ConnectedEnvironmentsOperations:
         }
         error_map.update(kwargs.pop("error_map", {}) or {})
 
-        _headers = kwargs.pop("headers", {}) or {}
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.ConnectedEnvironment] = kwargs.pop("cls", None)
+
+        content_type = content_type or "application/json"
+        _json = None
+        _content = None
+        if isinstance(environment_envelope, (IOBase, bytes)):
+            _content = environment_envelope
+        else:
+            if environment_envelope is not None:
+                _json = self._serialize.body(environment_envelope, "ConnectedEnvironmentPatchResource")
+            else:
+                _json = None
 
         _request = build_update_request(
             resource_group_name=resource_group_name,
             connected_environment_name=connected_environment_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
+            content_type=content_type,
+            json=_json,
+            content=_content,
             headers=_headers,
             params=_params,
         )
@@ -748,7 +830,7 @@ class ConnectedEnvironmentsOperations:
         :rtype: ~azure.mgmt.appcontainers.models.CheckNameAvailabilityResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
