@@ -83,7 +83,7 @@ class LoadTestAdministrationClient(LoadTestAdministrationClientOperationsMixin):
 
         request_copy = deepcopy(request)
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
         }
 
         request_copy.url = self._client.format_url(request_copy.url, **path_format_arguments)
@@ -161,7 +161,7 @@ class LoadTestRunClient(LoadTestRunClientOperationsMixin):
 
         request_copy = deepcopy(request)
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
         }
 
         request_copy.url = self._client.format_url(request_copy.url, **path_format_arguments)

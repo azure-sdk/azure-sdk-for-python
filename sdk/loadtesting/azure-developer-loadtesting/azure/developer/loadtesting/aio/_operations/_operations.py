@@ -196,7 +196,7 @@ class LoadTestAdministrationClientOperationsMixin(  # pylint: disable=name-too-l
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -342,7 +342,7 @@ class LoadTestAdministrationClientOperationsMixin(  # pylint: disable=name-too-l
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -493,7 +493,7 @@ class LoadTestAdministrationClientOperationsMixin(  # pylint: disable=name-too-l
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -556,7 +556,7 @@ class LoadTestAdministrationClientOperationsMixin(  # pylint: disable=name-too-l
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -620,7 +620,7 @@ class LoadTestAdministrationClientOperationsMixin(  # pylint: disable=name-too-l
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -683,7 +683,7 @@ class LoadTestAdministrationClientOperationsMixin(  # pylint: disable=name-too-l
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -749,7 +749,7 @@ class LoadTestAdministrationClientOperationsMixin(  # pylint: disable=name-too-l
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -816,7 +816,9 @@ class LoadTestAdministrationClientOperationsMixin(  # pylint: disable=name-too-l
                     params=_params,
                 )
                 path_format_arguments = {
-                    "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
+                    "endpoint": self._serialize.url(
+                        "self._config.endpoint", self._config.endpoint, "str", skip_quote=True
+                    ),
                 }
                 _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -834,7 +836,9 @@ class LoadTestAdministrationClientOperationsMixin(  # pylint: disable=name-too-l
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
                 path_format_arguments = {
-                    "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
+                    "endpoint": self._serialize.url(
+                        "self._config.endpoint", self._config.endpoint, "str", skip_quote=True
+                    ),
                 }
                 _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -842,7 +846,7 @@ class LoadTestAdministrationClientOperationsMixin(  # pylint: disable=name-too-l
 
         async def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.TestFileInfo], deserialized["value"])
+            list_of_elem = _deserialize(List[_models.TestFileInfo], deserialized.get("value", []))
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
             return deserialized.get("nextLink") or None, AsyncList(list_of_elem)
@@ -925,7 +929,9 @@ class LoadTestAdministrationClientOperationsMixin(  # pylint: disable=name-too-l
                     params=_params,
                 )
                 path_format_arguments = {
-                    "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
+                    "endpoint": self._serialize.url(
+                        "self._config.endpoint", self._config.endpoint, "str", skip_quote=True
+                    ),
                 }
                 _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -943,7 +949,9 @@ class LoadTestAdministrationClientOperationsMixin(  # pylint: disable=name-too-l
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
                 path_format_arguments = {
-                    "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
+                    "endpoint": self._serialize.url(
+                        "self._config.endpoint", self._config.endpoint, "str", skip_quote=True
+                    ),
                 }
                 _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -951,7 +959,7 @@ class LoadTestAdministrationClientOperationsMixin(  # pylint: disable=name-too-l
 
         async def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.Test], deserialized["value"])
+            list_of_elem = _deserialize(List[_models.Test], deserialized.get("value", []))
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
             return deserialized.get("nextLink") or None, AsyncList(list_of_elem)
@@ -1033,7 +1041,7 @@ class LoadTestAdministrationClientOperationsMixin(  # pylint: disable=name-too-l
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -1099,7 +1107,7 @@ class LoadTestAdministrationClientOperationsMixin(  # pylint: disable=name-too-l
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -1150,7 +1158,7 @@ class LoadTestAdministrationClientOperationsMixin(  # pylint: disable=name-too-l
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -1293,7 +1301,7 @@ class LoadTestAdministrationClientOperationsMixin(  # pylint: disable=name-too-l
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -1360,7 +1368,7 @@ class LoadTestAdministrationClientOperationsMixin(  # pylint: disable=name-too-l
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -1415,7 +1423,7 @@ class LoadTestAdministrationClientOperationsMixin(  # pylint: disable=name-too-l
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -1518,7 +1526,9 @@ class LoadTestAdministrationClientOperationsMixin(  # pylint: disable=name-too-l
                     params=_params,
                 )
                 path_format_arguments = {
-                    "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
+                    "endpoint": self._serialize.url(
+                        "self._config.endpoint", self._config.endpoint, "str", skip_quote=True
+                    ),
                 }
                 _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -1536,7 +1546,9 @@ class LoadTestAdministrationClientOperationsMixin(  # pylint: disable=name-too-l
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
                 path_format_arguments = {
-                    "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
+                    "endpoint": self._serialize.url(
+                        "self._config.endpoint", self._config.endpoint, "str", skip_quote=True
+                    ),
                 }
                 _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -1544,7 +1556,7 @@ class LoadTestAdministrationClientOperationsMixin(  # pylint: disable=name-too-l
 
         async def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.TestProfile], deserialized["value"])
+            list_of_elem = _deserialize(List[_models.TestProfile], deserialized.get("value", []))
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
             return deserialized.get("nextLink") or None, AsyncList(list_of_elem)
@@ -1660,7 +1672,7 @@ class LoadTestRunClientOperationsMixin(LoadTestRunClientMixinABC):
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -1806,7 +1818,7 @@ class LoadTestRunClientOperationsMixin(LoadTestRunClientMixinABC):
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -1957,7 +1969,7 @@ class LoadTestRunClientOperationsMixin(LoadTestRunClientMixinABC):
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -2020,7 +2032,7 @@ class LoadTestRunClientOperationsMixin(LoadTestRunClientMixinABC):
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -2073,7 +2085,7 @@ class LoadTestRunClientOperationsMixin(LoadTestRunClientMixinABC):
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -2139,7 +2151,7 @@ class LoadTestRunClientOperationsMixin(LoadTestRunClientMixinABC):
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -2202,7 +2214,7 @@ class LoadTestRunClientOperationsMixin(LoadTestRunClientMixinABC):
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -2268,7 +2280,7 @@ class LoadTestRunClientOperationsMixin(LoadTestRunClientMixinABC):
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -2361,7 +2373,9 @@ class LoadTestRunClientOperationsMixin(LoadTestRunClientMixinABC):
                     params=_params,
                 )
                 path_format_arguments = {
-                    "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
+                    "endpoint": self._serialize.url(
+                        "self._config.endpoint", self._config.endpoint, "str", skip_quote=True
+                    ),
                 }
                 _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -2379,7 +2393,9 @@ class LoadTestRunClientOperationsMixin(LoadTestRunClientMixinABC):
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
                 path_format_arguments = {
-                    "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
+                    "endpoint": self._serialize.url(
+                        "self._config.endpoint", self._config.endpoint, "str", skip_quote=True
+                    ),
                 }
                 _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -2387,7 +2403,7 @@ class LoadTestRunClientOperationsMixin(LoadTestRunClientMixinABC):
 
         async def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[str], deserialized["value"])
+            list_of_elem = _deserialize(List[str], deserialized.get("value", []))
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
             return deserialized.get("nextLink") or None, AsyncList(list_of_elem)
@@ -2448,7 +2464,7 @@ class LoadTestRunClientOperationsMixin(LoadTestRunClientMixinABC):
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -2512,7 +2528,7 @@ class LoadTestRunClientOperationsMixin(LoadTestRunClientMixinABC):
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -2754,7 +2770,9 @@ class LoadTestRunClientOperationsMixin(LoadTestRunClientMixinABC):
                     params=_params,
                 )
                 path_format_arguments = {
-                    "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
+                    "endpoint": self._serialize.url(
+                        "self._config.endpoint", self._config.endpoint, "str", skip_quote=True
+                    ),
                 }
                 _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -2772,7 +2790,9 @@ class LoadTestRunClientOperationsMixin(LoadTestRunClientMixinABC):
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
                 path_format_arguments = {
-                    "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
+                    "endpoint": self._serialize.url(
+                        "self._config.endpoint", self._config.endpoint, "str", skip_quote=True
+                    ),
                 }
                 _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -2780,7 +2800,7 @@ class LoadTestRunClientOperationsMixin(LoadTestRunClientMixinABC):
 
         async def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.TimeSeriesElement], deserialized["value"])
+            list_of_elem = _deserialize(List[_models.TimeSeriesElement], deserialized.get("value", []))
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
             return deserialized.get("nextLink") or None, AsyncList(list_of_elem)
@@ -2869,7 +2889,9 @@ class LoadTestRunClientOperationsMixin(LoadTestRunClientMixinABC):
                     params=_params,
                 )
                 path_format_arguments = {
-                    "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
+                    "endpoint": self._serialize.url(
+                        "self._config.endpoint", self._config.endpoint, "str", skip_quote=True
+                    ),
                 }
                 _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -2887,7 +2909,9 @@ class LoadTestRunClientOperationsMixin(LoadTestRunClientMixinABC):
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
                 path_format_arguments = {
-                    "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
+                    "endpoint": self._serialize.url(
+                        "self._config.endpoint", self._config.endpoint, "str", skip_quote=True
+                    ),
                 }
                 _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -2895,7 +2919,7 @@ class LoadTestRunClientOperationsMixin(LoadTestRunClientMixinABC):
 
         async def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.TestRun], deserialized["value"])
+            list_of_elem = _deserialize(List[_models.TestRun], deserialized.get("value", []))
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
             return deserialized.get("nextLink") or None, AsyncList(list_of_elem)
@@ -2950,7 +2974,7 @@ class LoadTestRunClientOperationsMixin(LoadTestRunClientMixinABC):
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -3055,7 +3079,7 @@ class LoadTestRunClientOperationsMixin(LoadTestRunClientMixinABC):
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -3122,7 +3146,7 @@ class LoadTestRunClientOperationsMixin(LoadTestRunClientMixinABC):
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -3177,7 +3201,7 @@ class LoadTestRunClientOperationsMixin(LoadTestRunClientMixinABC):
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -3310,7 +3334,9 @@ class LoadTestRunClientOperationsMixin(LoadTestRunClientMixinABC):
                     params=_params,
                 )
                 path_format_arguments = {
-                    "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
+                    "endpoint": self._serialize.url(
+                        "self._config.endpoint", self._config.endpoint, "str", skip_quote=True
+                    ),
                 }
                 _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -3328,7 +3354,9 @@ class LoadTestRunClientOperationsMixin(LoadTestRunClientMixinABC):
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
                 path_format_arguments = {
-                    "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
+                    "endpoint": self._serialize.url(
+                        "self._config.endpoint", self._config.endpoint, "str", skip_quote=True
+                    ),
                 }
                 _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
@@ -3336,7 +3364,7 @@ class LoadTestRunClientOperationsMixin(LoadTestRunClientMixinABC):
 
         async def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.TestProfileRun], deserialized["value"])
+            list_of_elem = _deserialize(List[_models.TestProfileRun], deserialized.get("value", []))
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
             return deserialized.get("nextLink") or None, AsyncList(list_of_elem)
@@ -3395,7 +3423,7 @@ class LoadTestRunClientOperationsMixin(LoadTestRunClientMixinABC):
             params=_params,
         )
         path_format_arguments = {
-            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str", skip_quote=True),
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
