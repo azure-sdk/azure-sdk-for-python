@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.machinelearningservices import MachineLearningServicesMgmtClient
 
 """
@@ -33,11 +34,10 @@ def main():
         resource_group_name="resourceGroup-1",
         workspace_name="workspace-1",
         connection_name="connection-1",
-        parameters={"properties": {"authType": "None", "category": "ContainerRegistry", "target": "www.facebook.com"}},
     )
     print(response)
 
 
-# x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2023-04-01/examples/WorkspaceConnection/create.json
+# x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/preview/2025-04-01-preview/examples/WorkspaceConnection/create.json
 if __name__ == "__main__":
     main()
