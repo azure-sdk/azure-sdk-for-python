@@ -44,6 +44,13 @@ def main():
             "properties": {
                 "configuration": {
                     "dapr": {
+                        "appHealth": {
+                            "enabled": True,
+                            "path": "/health",
+                            "probeIntervalSeconds": 3,
+                            "probeTimeoutMilliseconds": 1000,
+                            "threshold": 3,
+                        },
                         "appPort": 3000,
                         "appProtocol": "http",
                         "enableApiLogging": True,
@@ -51,6 +58,7 @@ def main():
                         "httpMaxRequestSize": 10,
                         "httpReadBufferSize": 30,
                         "logLevel": "debug",
+                        "maxConcurrency": 10,
                     },
                     "identitySettings": [
                         {
@@ -105,6 +113,7 @@ def main():
                         "traffic": [{"label": "production", "revisionName": "testcontainerApp0-ab1234", "weight": 100}],
                     },
                     "maxInactiveRevisions": 10,
+                    "revisionTransitionThreshold": 100,
                     "runtime": {
                         "dotnet": {"autoConfigureDataProtection": True},
                         "java": {
@@ -149,7 +158,7 @@ def main():
                             "command": ["/bin/sh"],
                             "image": "repo/testcontainerApp0:v4",
                             "name": "testinitcontainerApp0",
-                            "resources": {"cpu": 0.2, "memory": "100Mi"},
+                            "resources": {"cpu": 0.2, "gpu": 1, "memory": "100Mi"},
                         }
                     ],
                     "scale": {
@@ -205,6 +214,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/ContainerApps_CreateOrUpdate.json
+# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2025-02-02-preview/examples/ContainerApps_CreateOrUpdate.json
 if __name__ == "__main__":
     main()
