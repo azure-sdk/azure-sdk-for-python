@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.datamigration import DataMigrationManagementClient
 
 """
@@ -29,14 +30,14 @@ def main():
         subscription_id="00000000-1111-2222-3333-444444444444",
     )
 
-    response = client.sql_migration_services.begin_create_or_update(
+    response = client.migration_services.begin_create_or_update(
         resource_group_name="testrg",
-        sql_migration_service_name="testagent",
+        migration_service_name="testagent",
         parameters={"location": "northeurope"},
     ).result()
     print(response)
 
 
-# x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2022-03-30-preview/examples/CreateOrUpdateMigrationServiceMIN.json
+# x-ms-original-file: specification/datamigration/resource-manager/Microsoft.DataMigration/preview/2025-03-15-preview/examples/CreateOrUpdateMigrationServiceMIN.json
 if __name__ == "__main__":
     main()
