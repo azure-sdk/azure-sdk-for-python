@@ -15,7 +15,7 @@ from azure.mgmt.network import NetworkManagementClient
     pip install azure-identity
     pip install azure-mgmt-network
 # USAGE
-    python network_watcher_connection_monitor_start.py
+    python network_virtual_appliance_specific_reimage.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -30,13 +30,13 @@ def main():
         subscription_id="subid",
     )
 
-    client.connection_monitors.begin_start(
+    response = client.network_virtual_appliances.begin_reimage(
         resource_group_name="rg1",
-        network_watcher_name="nw1",
-        connection_monitor_name="cm1",
+        network_virtual_appliance_name="nva",
     ).result()
+    print(response)
 
 
-# x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-05-01/examples/NetworkWatcherConnectionMonitorStart.json
+# x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-07-01/examples/NetworkVirtualApplianceSpecificReimage.json
 if __name__ == "__main__":
     main()

@@ -25,7 +25,7 @@ class TestNetworkManagementPublicIPAddressesOperationsAsync(AzureMgmtRecordedTes
         response = self.client.public_ip_addresses.list_cloud_service_public_ip_addresses(
             resource_group_name=resource_group.name,
             cloud_service_name="str",
-            api_version="2024-05-01",
+            api_version="2024-07-01",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -40,7 +40,7 @@ class TestNetworkManagementPublicIPAddressesOperationsAsync(AzureMgmtRecordedTes
             role_instance_name="str",
             network_interface_name="str",
             ip_configuration_name="str",
-            api_version="2024-05-01",
+            api_version="2024-07-01",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -56,7 +56,7 @@ class TestNetworkManagementPublicIPAddressesOperationsAsync(AzureMgmtRecordedTes
             network_interface_name="str",
             ip_configuration_name="str",
             public_ip_address_name="str",
-            api_version="2024-05-01",
+            api_version="2024-07-01",
         )
 
         # please add some check logic here by yourself
@@ -69,7 +69,7 @@ class TestNetworkManagementPublicIPAddressesOperationsAsync(AzureMgmtRecordedTes
             await self.client.public_ip_addresses.begin_delete(
                 resource_group_name=resource_group.name,
                 public_ip_address_name="str",
-                api_version="2024-05-01",
+                api_version="2024-07-01",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -82,7 +82,7 @@ class TestNetworkManagementPublicIPAddressesOperationsAsync(AzureMgmtRecordedTes
         response = await self.client.public_ip_addresses.get(
             resource_group_name=resource_group.name,
             public_ip_address_name="str",
-            api_version="2024-05-01",
+            api_version="2024-07-01",
         )
 
         # please add some check logic here by yourself
@@ -1580,9 +1580,12 @@ class TestNetworkManagementPublicIPAddressesOperationsAsync(AzureMgmtRecordedTes
                         "name": "str",
                         "provisioningState": "str",
                         "publicIpAddresses": [{"id": "str"}],
+                        "publicIpAddressesV6": [{"id": "str"}],
                         "publicIpPrefixes": [{"id": "str"}],
+                        "publicIpPrefixesV6": [{"id": "str"}],
                         "resourceGuid": "str",
                         "sku": {"name": "str"},
+                        "sourceVirtualNetwork": {"id": "str"},
                         "subnets": [{"id": "str"}],
                         "tags": {"str": "str"},
                         "type": "str",
@@ -1599,7 +1602,7 @@ class TestNetworkManagementPublicIPAddressesOperationsAsync(AzureMgmtRecordedTes
                     "type": "str",
                     "zones": ["str"],
                 },
-                api_version="2024-05-01",
+                api_version="2024-07-01",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -1613,7 +1616,7 @@ class TestNetworkManagementPublicIPAddressesOperationsAsync(AzureMgmtRecordedTes
             resource_group_name=resource_group.name,
             public_ip_address_name="str",
             parameters={"tags": {"str": "str"}},
-            api_version="2024-05-01",
+            api_version="2024-07-01",
         )
 
         # please add some check logic here by yourself
@@ -1623,7 +1626,7 @@ class TestNetworkManagementPublicIPAddressesOperationsAsync(AzureMgmtRecordedTes
     @recorded_by_proxy_async
     async def test_public_ip_addresses_list_all(self, resource_group):
         response = self.client.public_ip_addresses.list_all(
-            api_version="2024-05-01",
+            api_version="2024-07-01",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -1634,7 +1637,7 @@ class TestNetworkManagementPublicIPAddressesOperationsAsync(AzureMgmtRecordedTes
     async def test_public_ip_addresses_list(self, resource_group):
         response = self.client.public_ip_addresses.list(
             resource_group_name=resource_group.name,
-            api_version="2024-05-01",
+            api_version="2024-07-01",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -1647,7 +1650,7 @@ class TestNetworkManagementPublicIPAddressesOperationsAsync(AzureMgmtRecordedTes
             await self.client.public_ip_addresses.begin_ddos_protection_status(
                 resource_group_name=resource_group.name,
                 public_ip_address_name="str",
-                api_version="2024-05-01",
+                api_version="2024-07-01",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -1660,7 +1663,7 @@ class TestNetworkManagementPublicIPAddressesOperationsAsync(AzureMgmtRecordedTes
         response = self.client.public_ip_addresses.list_virtual_machine_scale_set_public_ip_addresses(
             resource_group_name=resource_group.name,
             virtual_machine_scale_set_name="str",
-            api_version="2018-10-01",
+            api_version="2024-07-01",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -1675,7 +1678,7 @@ class TestNetworkManagementPublicIPAddressesOperationsAsync(AzureMgmtRecordedTes
             virtualmachine_index="str",
             network_interface_name="str",
             ip_configuration_name="str",
-            api_version="2018-10-01",
+            api_version="2024-07-01",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -1691,7 +1694,7 @@ class TestNetworkManagementPublicIPAddressesOperationsAsync(AzureMgmtRecordedTes
             network_interface_name="str",
             ip_configuration_name="str",
             public_ip_address_name="str",
-            api_version="2018-10-01",
+            api_version="2024-07-01",
         )
 
         # please add some check logic here by yourself
