@@ -1,5 +1,5 @@
-# coding=utf-8
 # pylint: disable=too-many-lines
+# coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -16,10 +16,9 @@ from .. import _serialization
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 JSON = MutableMapping[str, Any]  # pylint: disable=unsubscriptable-object
 
@@ -119,7 +118,7 @@ class TrackedResource(Resource):
         self.location = location
 
 
-class AmlFilesystem(TrackedResource):  # pylint: disable=too-many-instance-attributes
+class AmlFilesystem(TrackedResource):
     """An AML file system instance. Follows Azure Resource Manager standards:
     https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/resource-api-reference.md.
 
@@ -1265,6 +1264,674 @@ class AscOperationErrorResponse(_serialization.Model):
         self.message = message
 
 
+class AutoExportJob(TrackedResource):
+    """An auto export job instance. Follows Azure Resource Manager standards:
+    https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/resource-api-reference.md.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.storagecache.models.SystemData
+    :ivar tags: Resource tags.
+    :vartype tags: dict[str, str]
+    :ivar location: The geo-location where the resource lives. Required.
+    :vartype location: str
+    :ivar provisioning_state: ARM provisioning state. Known values are: "Succeeded", "Failed",
+     "Creating", "Deleting", "Updating", and "Canceled".
+    :vartype provisioning_state: str or
+     ~azure.mgmt.storagecache.models.AutoExportJobProvisioningStateType
+    :ivar admin_status: The administrative status of the auto export job. Possible values:
+     'Enable', 'Disable'. Passing in a value of 'Disable' will disable the current active auto
+     export job. By default it is set to 'Enable'. Known values are: "Enable" and "Disable".
+    :vartype admin_status: str or ~azure.mgmt.storagecache.models.AutoExportJobAdminStatus
+    :ivar auto_export_prefixes: An array of blob paths/prefixes that get auto exported to the
+     cluster namespace. It has '/' as the default value. Number of maximum allowed paths for now is
+     1.
+    :vartype auto_export_prefixes: list[str]
+    :ivar state: The operational state of auto export. InProgress indicates the export is running.
+     Disabling indicates the user has requested to disable the export but the disabling is still in
+     progress. Disabled indicates auto export has been disabled.  DisableFailed indicates the
+     disabling has failed.  Failed means the export was unable to continue, due to a fatal error.
+     Known values are: "InProgress", "Disabling", "Disabled", "DisableFailed", and "Failed".
+    :vartype state: str or ~azure.mgmt.storagecache.models.AutoExportStatusType
+    :ivar status_code: Server-defined status code for auto export job.
+    :vartype status_code: str
+    :ivar status_message: Server-defined status message for auto export job.
+    :vartype status_message: str
+    :ivar total_files_exported: Total files exported since the start of the export. This is
+     accumulative, some files may be counted repeatedly.
+    :vartype total_files_exported: int
+    :ivar total_mi_b_exported: Total data (in MiB) exported since the start of the export. This is
+     accumulative, some files may be counted repeatedly.
+    :vartype total_mi_b_exported: int
+    :ivar total_files_failed: Total files failed to be export since the last successfully completed
+     iteration. This is accumulative, some files may be counted repeatedly.
+    :vartype total_files_failed: int
+    :ivar export_iteration_count: Number of iterations completed since the start of the export.
+    :vartype export_iteration_count: int
+    :ivar last_successful_iteration_completion_time_utc: Time (in UTC) of the last successfully
+     completed export iteration. Look at logging container for details.
+    :vartype last_successful_iteration_completion_time_utc: ~datetime.datetime
+    :ivar current_iteration_files_discovered: Files discovered for export in current iteration. It
+     may increase while more export items are found.
+    :vartype current_iteration_files_discovered: int
+    :ivar current_iteration_mi_b_discovered: Data (in MiB) discovered for export in current
+     iteration. It may increase while more export items are found.
+    :vartype current_iteration_mi_b_discovered: int
+    :ivar current_iteration_files_exported: Files that have been exported in current iteration.
+    :vartype current_iteration_files_exported: int
+    :ivar current_iteration_mi_b_exported: Data (in MiB) that have been exported in current
+     iteration.
+    :vartype current_iteration_mi_b_exported: int
+    :ivar current_iteration_files_failed: Files failed to export in current iteration.
+    :vartype current_iteration_files_failed: int
+    :ivar last_started_time_utc: The time (in UTC) the latest auto export job started.
+    :vartype last_started_time_utc: ~datetime.datetime
+    :ivar last_completion_time_utc: The time (in UTC) of the last completed auto export job.
+    :vartype last_completion_time_utc: ~datetime.datetime
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "location": {"required": True},
+        "provisioning_state": {"readonly": True},
+        "status_code": {"readonly": True},
+        "status_message": {"readonly": True},
+        "total_files_exported": {"readonly": True},
+        "total_mi_b_exported": {"readonly": True},
+        "total_files_failed": {"readonly": True},
+        "export_iteration_count": {"readonly": True},
+        "last_successful_iteration_completion_time_utc": {"readonly": True},
+        "current_iteration_files_discovered": {"readonly": True},
+        "current_iteration_mi_b_discovered": {"readonly": True},
+        "current_iteration_files_exported": {"readonly": True},
+        "current_iteration_mi_b_exported": {"readonly": True},
+        "current_iteration_files_failed": {"readonly": True},
+        "last_started_time_utc": {"readonly": True},
+        "last_completion_time_utc": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "tags": {"key": "tags", "type": "{str}"},
+        "location": {"key": "location", "type": "str"},
+        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
+        "admin_status": {"key": "properties.adminStatus", "type": "str"},
+        "auto_export_prefixes": {"key": "properties.autoExportPrefixes", "type": "[str]"},
+        "state": {"key": "properties.status.state", "type": "str"},
+        "status_code": {"key": "properties.status.statusCode", "type": "str"},
+        "status_message": {"key": "properties.status.statusMessage", "type": "str"},
+        "total_files_exported": {"key": "properties.status.totalFilesExported", "type": "int"},
+        "total_mi_b_exported": {"key": "properties.status.totalMiBExported", "type": "int"},
+        "total_files_failed": {"key": "properties.status.totalFilesFailed", "type": "int"},
+        "export_iteration_count": {"key": "properties.status.exportIterationCount", "type": "int"},
+        "last_successful_iteration_completion_time_utc": {
+            "key": "properties.status.lastSuccessfulIterationCompletionTimeUTC",
+            "type": "iso-8601",
+        },
+        "current_iteration_files_discovered": {
+            "key": "properties.status.currentIterationFilesDiscovered",
+            "type": "int",
+        },
+        "current_iteration_mi_b_discovered": {"key": "properties.status.currentIterationMiBDiscovered", "type": "int"},
+        "current_iteration_files_exported": {"key": "properties.status.currentIterationFilesExported", "type": "int"},
+        "current_iteration_mi_b_exported": {"key": "properties.status.currentIterationMiBExported", "type": "int"},
+        "current_iteration_files_failed": {"key": "properties.status.currentIterationFilesFailed", "type": "int"},
+        "last_started_time_utc": {"key": "properties.status.lastStartedTimeUTC", "type": "iso-8601"},
+        "last_completion_time_utc": {"key": "properties.status.lastCompletionTimeUTC", "type": "iso-8601"},
+    }
+
+    def __init__(  # pylint: disable=too-many-locals
+        self,
+        *,
+        location: str,
+        tags: Optional[Dict[str, str]] = None,
+        admin_status: Optional[Union[str, "_models.AutoExportJobAdminStatus"]] = None,
+        auto_export_prefixes: Optional[List[str]] = None,
+        state: Optional[Union[str, "_models.AutoExportStatusType"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword tags: Resource tags.
+        :paramtype tags: dict[str, str]
+        :keyword location: The geo-location where the resource lives. Required.
+        :paramtype location: str
+        :keyword admin_status: The administrative status of the auto export job. Possible values:
+         'Enable', 'Disable'. Passing in a value of 'Disable' will disable the current active auto
+         export job. By default it is set to 'Enable'. Known values are: "Enable" and "Disable".
+        :paramtype admin_status: str or ~azure.mgmt.storagecache.models.AutoExportJobAdminStatus
+        :keyword auto_export_prefixes: An array of blob paths/prefixes that get auto exported to the
+         cluster namespace. It has '/' as the default value. Number of maximum allowed paths for now is
+         1.
+        :paramtype auto_export_prefixes: list[str]
+        :keyword state: The operational state of auto export. InProgress indicates the export is
+         running.  Disabling indicates the user has requested to disable the export but the disabling is
+         still in progress. Disabled indicates auto export has been disabled.  DisableFailed indicates
+         the disabling has failed.  Failed means the export was unable to continue, due to a fatal
+         error. Known values are: "InProgress", "Disabling", "Disabled", "DisableFailed", and "Failed".
+        :paramtype state: str or ~azure.mgmt.storagecache.models.AutoExportStatusType
+        """
+        super().__init__(tags=tags, location=location, **kwargs)
+        self.provisioning_state = None
+        self.admin_status = admin_status
+        self.auto_export_prefixes = auto_export_prefixes
+        self.state = state
+        self.status_code = None
+        self.status_message = None
+        self.total_files_exported = None
+        self.total_mi_b_exported = None
+        self.total_files_failed = None
+        self.export_iteration_count = None
+        self.last_successful_iteration_completion_time_utc = None
+        self.current_iteration_files_discovered = None
+        self.current_iteration_mi_b_discovered = None
+        self.current_iteration_files_exported = None
+        self.current_iteration_mi_b_exported = None
+        self.current_iteration_files_failed = None
+        self.last_started_time_utc = None
+        self.last_completion_time_utc = None
+
+
+class AutoExportJobsListResult(_serialization.Model):
+    """Result of the request to list auto export jobs. It contains a list of auto export jobs and a
+    URL link to get the next set of results.
+
+    :ivar next_link: URL to get the next set of auto export job list results, if there are any.
+    :vartype next_link: str
+    :ivar value: List of auto export jobs.
+    :vartype value: list[~azure.mgmt.storagecache.models.AutoExportJob]
+    """
+
+    _attribute_map = {
+        "next_link": {"key": "nextLink", "type": "str"},
+        "value": {"key": "value", "type": "[AutoExportJob]"},
+    }
+
+    def __init__(
+        self, *, next_link: Optional[str] = None, value: Optional[List["_models.AutoExportJob"]] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword next_link: URL to get the next set of auto export job list results, if there are any.
+        :paramtype next_link: str
+        :keyword value: List of auto export jobs.
+        :paramtype value: list[~azure.mgmt.storagecache.models.AutoExportJob]
+        """
+        super().__init__(**kwargs)
+        self.next_link = next_link
+        self.value = value
+
+
+class AutoExportJobUpdate(_serialization.Model):
+    """An auto export job update instance.
+
+    :ivar tags: Resource tags.
+    :vartype tags: dict[str, str]
+    :ivar admin_status: The administrative status of the auto export job. Possible values:
+     'Enable', 'Disable'. Passing in a value of 'Disable' will disable the current active auto
+     export job. By default it is set to 'Enable'. Known values are: "Enable" and "Disable".
+    :vartype admin_status: str or ~azure.mgmt.storagecache.models.AutoExportJobAdminStatus
+    """
+
+    _attribute_map = {
+        "tags": {"key": "tags", "type": "{str}"},
+        "admin_status": {"key": "properties.adminStatus", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        tags: Optional[Dict[str, str]] = None,
+        admin_status: Optional[Union[str, "_models.AutoExportJobAdminStatus"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword tags: Resource tags.
+        :paramtype tags: dict[str, str]
+        :keyword admin_status: The administrative status of the auto export job. Possible values:
+         'Enable', 'Disable'. Passing in a value of 'Disable' will disable the current active auto
+         export job. By default it is set to 'Enable'. Known values are: "Enable" and "Disable".
+        :paramtype admin_status: str or ~azure.mgmt.storagecache.models.AutoExportJobAdminStatus
+        """
+        super().__init__(**kwargs)
+        self.tags = tags
+        self.admin_status = admin_status
+
+
+class AutoImportJob(TrackedResource):
+    """An auto import job instance. Follows Azure Resource Manager standards:
+    https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/resource-api-reference.md.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.storagecache.models.SystemData
+    :ivar tags: Resource tags.
+    :vartype tags: dict[str, str]
+    :ivar location: The geo-location where the resource lives. Required.
+    :vartype location: str
+    :ivar provisioning_state: ARM provisioning state. Known values are: "Succeeded", "Failed",
+     "Creating", "Deleting", "Updating", and "Canceled".
+    :vartype provisioning_state: str or
+     ~azure.mgmt.storagecache.models.AutoImportJobPropertiesProvisioningState
+    :ivar admin_status: The administrative status of the auto import job. Possible values:
+     'Enable', 'Disable'. Passing in a value of 'Disable' will disable the current active auto
+     import job. By default it is set to 'Enable'. Known values are: "Enable" and "Disable".
+    :vartype admin_status: str or
+     ~azure.mgmt.storagecache.models.AutoImportJobPropertiesAdminStatus
+    :ivar auto_import_prefixes: An array of blob paths/prefixes that get auto imported to the
+     cluster namespace. It has '/' as the default value. Number of maximum allowed paths is 100.
+    :vartype auto_import_prefixes: list[str]
+    :ivar conflict_resolution_mode: How the auto import job will handle conflicts. For example, if
+     the auto import job is trying to bring in a directory, but a file is at that path, how it
+     handles it. Fail indicates that the auto import job should stop immediately and not do anything
+     with the conflict. Skip indicates that it should pass over the conflict. OverwriteIfDirty
+     causes the auto import job to delete and re-import the file or directory if it is a conflicting
+     type, is dirty, or is currently released. OverwriteAlways extends OverwriteIfDirty to include
+     releasing files that had been restored but were not dirty. Please reference
+     https://learn.microsoft.com/en-us/azure/azure-managed-lustre/ for a thorough explanation of
+     these resolution modes. Known values are: "Fail", "Skip", "OverwriteIfDirty", and
+     "OverwriteAlways".
+    :vartype conflict_resolution_mode: str or
+     ~azure.mgmt.storagecache.models.ConflictResolutionMode
+    :ivar enable_deletions: Whether or not to enable deletions during auto import. This only
+     affects overwrite-dirty.
+    :vartype enable_deletions: bool
+    :ivar maximum_errors: Total non-conflict-oriented errors (e.g., OS errors) Import will tolerate
+     before exiting with failure. -1 means infinite. 0 means exit immediately on any error.
+    :vartype maximum_errors: int
+    :ivar state: The state of the auto import operation. Known values are: "InProgress", "Failed",
+     "Disabling", and "Disabled".
+    :vartype state: str or ~azure.mgmt.storagecache.models.AutoImportJobState
+    :ivar scan_start_time: Date and time of when the currently running full scan began.
+    :vartype scan_start_time: ~datetime.datetime
+    :ivar scan_end_time: Date and time of when the full scan ended.
+    :vartype scan_end_time: ~datetime.datetime
+    :ivar total_blobs_walked: Total number of blobs walked during full scan.
+    :vartype total_blobs_walked: int
+    :ivar rate_of_blob_walk: Rate of blobs walked during full scan.
+    :vartype rate_of_blob_walk: int
+    :ivar total_blobs_imported_properties_status_total_blobs_imported: Total number of blobs
+     imported during full scan.
+    :vartype total_blobs_imported_properties_status_total_blobs_imported: int
+    :ivar rate_of_blob_import_properties_status_rate_of_blob_import: Rate of blob import during
+     full scan.
+    :vartype rate_of_blob_import_properties_status_rate_of_blob_import: int
+    :ivar imported_files_properties_status_imported_files: Number of files imported during full
+     scan.
+    :vartype imported_files_properties_status_imported_files: int
+    :ivar imported_directories_properties_status_imported_directories: Number of directories
+     imported during full scan.
+    :vartype imported_directories_properties_status_imported_directories: int
+    :ivar imported_symlinks_properties_status_imported_symlinks: Number of symlinks imported during
+     full scan.
+    :vartype imported_symlinks_properties_status_imported_symlinks: int
+    :ivar preexisting_files_properties_status_preexisting_files: Number of preexisting files during
+     full scan.
+    :vartype preexisting_files_properties_status_preexisting_files: int
+    :ivar preexisting_directories_properties_status_preexisting_directories: Number of preexisting
+     directories during full scan.
+    :vartype preexisting_directories_properties_status_preexisting_directories: int
+    :ivar preexisting_symlinks_properties_status_preexisting_symlinks: Number of preexisting
+     symlinks during full scan.
+    :vartype preexisting_symlinks_properties_status_preexisting_symlinks: int
+    :ivar total_errors_properties_status_total_errors: Total errors encountered during full scan.
+    :vartype total_errors_properties_status_total_errors: int
+    :ivar total_conflicts_properties_status_total_conflicts: Total conflicts encountered during
+     full scan.
+    :vartype total_conflicts_properties_status_total_conflicts: int
+    :ivar imported_files_properties_status_blob_sync_events_imported_files: Number of files
+     imported during auto import.
+    :vartype imported_files_properties_status_blob_sync_events_imported_files: int
+    :ivar imported_directories_properties_status_blob_sync_events_imported_directories: Number of
+     directories imported during auto import.
+    :vartype imported_directories_properties_status_blob_sync_events_imported_directories: int
+    :ivar imported_symlinks_properties_status_blob_sync_events_imported_symlinks: Number of
+     symlinks imported during auto import.
+    :vartype imported_symlinks_properties_status_blob_sync_events_imported_symlinks: int
+    :ivar preexisting_files_properties_status_blob_sync_events_preexisting_files: Number of
+     preexisting files during auto import.
+    :vartype preexisting_files_properties_status_blob_sync_events_preexisting_files: int
+    :ivar preexisting_directories_properties_status_blob_sync_events_preexisting_directories:
+     Number of preexisting directories during auto import.
+    :vartype preexisting_directories_properties_status_blob_sync_events_preexisting_directories:
+     int
+    :ivar preexisting_symlinks_properties_status_blob_sync_events_preexisting_symlinks: Number of
+     preexisting symlinks during auto import.
+    :vartype preexisting_symlinks_properties_status_blob_sync_events_preexisting_symlinks: int
+    :ivar total_blobs_imported_properties_status_blob_sync_events_total_blobs_imported: Total
+     number of blobs imported during auto import.
+    :vartype total_blobs_imported_properties_status_blob_sync_events_total_blobs_imported: int
+    :ivar rate_of_blob_import_properties_status_blob_sync_events_rate_of_blob_import: Rate of blob
+     import during auto import.
+    :vartype rate_of_blob_import_properties_status_blob_sync_events_rate_of_blob_import: int
+    :ivar total_errors_properties_status_blob_sync_events_total_errors: Total errors encountered
+     during auto import.
+    :vartype total_errors_properties_status_blob_sync_events_total_errors: int
+    :ivar total_conflicts_properties_status_blob_sync_events_total_conflicts: Total conflicts
+     encountered during auto import.
+    :vartype total_conflicts_properties_status_blob_sync_events_total_conflicts: int
+    :ivar deletions: Number of deletions during auto import.
+    :vartype deletions: int
+    :ivar last_change_feed_event_consumed_time: Date and time of the last Change Feed event
+     consumed.
+    :vartype last_change_feed_event_consumed_time: ~datetime.datetime
+    :ivar last_time_fully_synchronized: Date and time when last fully synchronized.
+    :vartype last_time_fully_synchronized: ~datetime.datetime
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "location": {"required": True},
+        "provisioning_state": {"readonly": True},
+        "state": {"readonly": True},
+        "scan_start_time": {"readonly": True},
+        "scan_end_time": {"readonly": True},
+        "total_blobs_walked": {"readonly": True},
+        "rate_of_blob_walk": {"readonly": True},
+        "total_blobs_imported_properties_status_total_blobs_imported": {"readonly": True},
+        "rate_of_blob_import_properties_status_rate_of_blob_import": {"readonly": True},
+        "imported_files_properties_status_imported_files": {"readonly": True},
+        "imported_directories_properties_status_imported_directories": {"readonly": True},
+        "imported_symlinks_properties_status_imported_symlinks": {"readonly": True},
+        "preexisting_files_properties_status_preexisting_files": {"readonly": True},
+        "preexisting_directories_properties_status_preexisting_directories": {"readonly": True},
+        "preexisting_symlinks_properties_status_preexisting_symlinks": {"readonly": True},
+        "total_errors_properties_status_total_errors": {"readonly": True},
+        "total_conflicts_properties_status_total_conflicts": {"readonly": True},
+        "imported_files_properties_status_blob_sync_events_imported_files": {"readonly": True},
+        "imported_directories_properties_status_blob_sync_events_imported_directories": {"readonly": True},
+        "imported_symlinks_properties_status_blob_sync_events_imported_symlinks": {"readonly": True},
+        "preexisting_files_properties_status_blob_sync_events_preexisting_files": {"readonly": True},
+        "preexisting_directories_properties_status_blob_sync_events_preexisting_directories": {"readonly": True},
+        "preexisting_symlinks_properties_status_blob_sync_events_preexisting_symlinks": {"readonly": True},
+        "total_blobs_imported_properties_status_blob_sync_events_total_blobs_imported": {"readonly": True},
+        "rate_of_blob_import_properties_status_blob_sync_events_rate_of_blob_import": {"readonly": True},
+        "total_errors_properties_status_blob_sync_events_total_errors": {"readonly": True},
+        "total_conflicts_properties_status_blob_sync_events_total_conflicts": {"readonly": True},
+        "deletions": {"readonly": True},
+        "last_change_feed_event_consumed_time": {"readonly": True},
+        "last_time_fully_synchronized": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "tags": {"key": "tags", "type": "{str}"},
+        "location": {"key": "location", "type": "str"},
+        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
+        "admin_status": {"key": "properties.adminStatus", "type": "str"},
+        "auto_import_prefixes": {"key": "properties.autoImportPrefixes", "type": "[str]"},
+        "conflict_resolution_mode": {"key": "properties.conflictResolutionMode", "type": "str"},
+        "enable_deletions": {"key": "properties.enableDeletions", "type": "bool"},
+        "maximum_errors": {"key": "properties.maximumErrors", "type": "int"},
+        "state": {"key": "properties.status.state", "type": "str"},
+        "scan_start_time": {"key": "properties.status.scanStartTime", "type": "iso-8601"},
+        "scan_end_time": {"key": "properties.status.scanEndTime", "type": "iso-8601"},
+        "total_blobs_walked": {"key": "properties.status.totalBlobsWalked", "type": "int"},
+        "rate_of_blob_walk": {"key": "properties.status.rateOfBlobWalk", "type": "int"},
+        "total_blobs_imported_properties_status_total_blobs_imported": {
+            "key": "properties.status.totalBlobsImported",
+            "type": "int",
+        },
+        "rate_of_blob_import_properties_status_rate_of_blob_import": {
+            "key": "properties.status.rateOfBlobImport",
+            "type": "int",
+        },
+        "imported_files_properties_status_imported_files": {"key": "properties.status.importedFiles", "type": "int"},
+        "imported_directories_properties_status_imported_directories": {
+            "key": "properties.status.importedDirectories",
+            "type": "int",
+        },
+        "imported_symlinks_properties_status_imported_symlinks": {
+            "key": "properties.status.importedSymlinks",
+            "type": "int",
+        },
+        "preexisting_files_properties_status_preexisting_files": {
+            "key": "properties.status.preexistingFiles",
+            "type": "int",
+        },
+        "preexisting_directories_properties_status_preexisting_directories": {
+            "key": "properties.status.preexistingDirectories",
+            "type": "int",
+        },
+        "preexisting_symlinks_properties_status_preexisting_symlinks": {
+            "key": "properties.status.preexistingSymlinks",
+            "type": "int",
+        },
+        "total_errors_properties_status_total_errors": {"key": "properties.status.totalErrors", "type": "int"},
+        "total_conflicts_properties_status_total_conflicts": {"key": "properties.status.totalConflicts", "type": "int"},
+        "imported_files_properties_status_blob_sync_events_imported_files": {
+            "key": "properties.status.blobSyncEvents.importedFiles",
+            "type": "int",
+        },
+        "imported_directories_properties_status_blob_sync_events_imported_directories": {
+            "key": "properties.status.blobSyncEvents.importedDirectories",
+            "type": "int",
+        },
+        "imported_symlinks_properties_status_blob_sync_events_imported_symlinks": {
+            "key": "properties.status.blobSyncEvents.importedSymlinks",
+            "type": "int",
+        },
+        "preexisting_files_properties_status_blob_sync_events_preexisting_files": {
+            "key": "properties.status.blobSyncEvents.preexistingFiles",
+            "type": "int",
+        },
+        "preexisting_directories_properties_status_blob_sync_events_preexisting_directories": {
+            "key": "properties.status.blobSyncEvents.preexistingDirectories",
+            "type": "int",
+        },
+        "preexisting_symlinks_properties_status_blob_sync_events_preexisting_symlinks": {
+            "key": "properties.status.blobSyncEvents.preexistingSymlinks",
+            "type": "int",
+        },
+        "total_blobs_imported_properties_status_blob_sync_events_total_blobs_imported": {
+            "key": "properties.status.blobSyncEvents.totalBlobsImported",
+            "type": "int",
+        },
+        "rate_of_blob_import_properties_status_blob_sync_events_rate_of_blob_import": {
+            "key": "properties.status.blobSyncEvents.rateOfBlobImport",
+            "type": "int",
+        },
+        "total_errors_properties_status_blob_sync_events_total_errors": {
+            "key": "properties.status.blobSyncEvents.totalErrors",
+            "type": "int",
+        },
+        "total_conflicts_properties_status_blob_sync_events_total_conflicts": {
+            "key": "properties.status.blobSyncEvents.totalConflicts",
+            "type": "int",
+        },
+        "deletions": {"key": "properties.status.blobSyncEvents.deletions", "type": "int"},
+        "last_change_feed_event_consumed_time": {
+            "key": "properties.status.blobSyncEvents.lastChangeFeedEventConsumedTime",
+            "type": "iso-8601",
+        },
+        "last_time_fully_synchronized": {
+            "key": "properties.status.blobSyncEvents.lastTimeFullySynchronized",
+            "type": "iso-8601",
+        },
+    }
+
+    def __init__(  # pylint: disable=too-many-locals
+        self,
+        *,
+        location: str,
+        tags: Optional[Dict[str, str]] = None,
+        admin_status: Union[str, "_models.AutoImportJobPropertiesAdminStatus"] = "Enable",
+        auto_import_prefixes: Optional[List[str]] = None,
+        conflict_resolution_mode: Optional[Union[str, "_models.ConflictResolutionMode"]] = None,
+        enable_deletions: bool = False,
+        maximum_errors: Optional[int] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword tags: Resource tags.
+        :paramtype tags: dict[str, str]
+        :keyword location: The geo-location where the resource lives. Required.
+        :paramtype location: str
+        :keyword admin_status: The administrative status of the auto import job. Possible values:
+         'Enable', 'Disable'. Passing in a value of 'Disable' will disable the current active auto
+         import job. By default it is set to 'Enable'. Known values are: "Enable" and "Disable".
+        :paramtype admin_status: str or
+         ~azure.mgmt.storagecache.models.AutoImportJobPropertiesAdminStatus
+        :keyword auto_import_prefixes: An array of blob paths/prefixes that get auto imported to the
+         cluster namespace. It has '/' as the default value. Number of maximum allowed paths is 100.
+        :paramtype auto_import_prefixes: list[str]
+        :keyword conflict_resolution_mode: How the auto import job will handle conflicts. For example,
+         if the auto import job is trying to bring in a directory, but a file is at that path, how it
+         handles it. Fail indicates that the auto import job should stop immediately and not do anything
+         with the conflict. Skip indicates that it should pass over the conflict. OverwriteIfDirty
+         causes the auto import job to delete and re-import the file or directory if it is a conflicting
+         type, is dirty, or is currently released. OverwriteAlways extends OverwriteIfDirty to include
+         releasing files that had been restored but were not dirty. Please reference
+         https://learn.microsoft.com/en-us/azure/azure-managed-lustre/ for a thorough explanation of
+         these resolution modes. Known values are: "Fail", "Skip", "OverwriteIfDirty", and
+         "OverwriteAlways".
+        :paramtype conflict_resolution_mode: str or
+         ~azure.mgmt.storagecache.models.ConflictResolutionMode
+        :keyword enable_deletions: Whether or not to enable deletions during auto import. This only
+         affects overwrite-dirty.
+        :paramtype enable_deletions: bool
+        :keyword maximum_errors: Total non-conflict-oriented errors (e.g., OS errors) Import will
+         tolerate before exiting with failure. -1 means infinite. 0 means exit immediately on any error.
+        :paramtype maximum_errors: int
+        """
+        super().__init__(tags=tags, location=location, **kwargs)
+        self.provisioning_state = None
+        self.admin_status = admin_status
+        self.auto_import_prefixes = auto_import_prefixes
+        self.conflict_resolution_mode = conflict_resolution_mode
+        self.enable_deletions = enable_deletions
+        self.maximum_errors = maximum_errors
+        self.state = None
+        self.scan_start_time = None
+        self.scan_end_time = None
+        self.total_blobs_walked = None
+        self.rate_of_blob_walk = None
+        self.total_blobs_imported_properties_status_total_blobs_imported = None
+        self.rate_of_blob_import_properties_status_rate_of_blob_import = None
+        self.imported_files_properties_status_imported_files = None
+        self.imported_directories_properties_status_imported_directories = None
+        self.imported_symlinks_properties_status_imported_symlinks = None
+        self.preexisting_files_properties_status_preexisting_files = None
+        self.preexisting_directories_properties_status_preexisting_directories = None
+        self.preexisting_symlinks_properties_status_preexisting_symlinks = None
+        self.total_errors_properties_status_total_errors = None
+        self.total_conflicts_properties_status_total_conflicts = None
+        self.imported_files_properties_status_blob_sync_events_imported_files = None
+        self.imported_directories_properties_status_blob_sync_events_imported_directories = None
+        self.imported_symlinks_properties_status_blob_sync_events_imported_symlinks = None
+        self.preexisting_files_properties_status_blob_sync_events_preexisting_files = None
+        self.preexisting_directories_properties_status_blob_sync_events_preexisting_directories = None
+        self.preexisting_symlinks_properties_status_blob_sync_events_preexisting_symlinks = None
+        self.total_blobs_imported_properties_status_blob_sync_events_total_blobs_imported = None
+        self.rate_of_blob_import_properties_status_blob_sync_events_rate_of_blob_import = None
+        self.total_errors_properties_status_blob_sync_events_total_errors = None
+        self.total_conflicts_properties_status_blob_sync_events_total_conflicts = None
+        self.deletions = None
+        self.last_change_feed_event_consumed_time = None
+        self.last_time_fully_synchronized = None
+
+
+class AutoImportJobsListResult(_serialization.Model):
+    """Result of the request to list auto import jobs. It contains a list of auto import jobs and a
+    URL link to get the next set of results.
+
+    :ivar next_link: URL to get the next set of auto import job list results, if there are any.
+    :vartype next_link: str
+    :ivar value: List of auto import jobs.
+    :vartype value: list[~azure.mgmt.storagecache.models.AutoImportJob]
+    """
+
+    _attribute_map = {
+        "next_link": {"key": "nextLink", "type": "str"},
+        "value": {"key": "value", "type": "[AutoImportJob]"},
+    }
+
+    def __init__(
+        self, *, next_link: Optional[str] = None, value: Optional[List["_models.AutoImportJob"]] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword next_link: URL to get the next set of auto import job list results, if there are any.
+        :paramtype next_link: str
+        :keyword value: List of auto import jobs.
+        :paramtype value: list[~azure.mgmt.storagecache.models.AutoImportJob]
+        """
+        super().__init__(**kwargs)
+        self.next_link = next_link
+        self.value = value
+
+
+class AutoImportJobUpdate(_serialization.Model):
+    """An auto import job update instance.
+
+    :ivar tags: Resource tags.
+    :vartype tags: dict[str, str]
+    :ivar admin_status: The administrative status of the auto import job. Possible values:
+     'Enable', 'Disable'. Passing in a value of 'Disable' will disable the current active auto
+     import job. By default it is set to 'Enable'. Known values are: "Enable" and "Disable".
+    :vartype admin_status: str or
+     ~azure.mgmt.storagecache.models.AutoImportJobUpdatePropertiesAdminStatus
+    """
+
+    _attribute_map = {
+        "tags": {"key": "tags", "type": "{str}"},
+        "admin_status": {"key": "properties.adminStatus", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        tags: Optional[Dict[str, str]] = None,
+        admin_status: Optional[Union[str, "_models.AutoImportJobUpdatePropertiesAdminStatus"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword tags: Resource tags.
+        :paramtype tags: dict[str, str]
+        :keyword admin_status: The administrative status of the auto import job. Possible values:
+         'Enable', 'Disable'. Passing in a value of 'Disable' will disable the current active auto
+         import job. By default it is set to 'Enable'. Known values are: "Enable" and "Disable".
+        :paramtype admin_status: str or
+         ~azure.mgmt.storagecache.models.AutoImportJobUpdatePropertiesAdminStatus
+        """
+        super().__init__(**kwargs)
+        self.tags = tags
+        self.admin_status = admin_status
+
+
 class BlobNfsTarget(_serialization.Model):
     """Properties pertaining to the BlobNfsTarget.
 
@@ -1316,7 +1983,7 @@ class BlobNfsTarget(_serialization.Model):
         self.write_back_timer = write_back_timer
 
 
-class Cache(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class Cache(_serialization.Model):
     """A cache instance. Follows Azure Resource Manager standards:
     https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/resource-api-reference.md.
 
@@ -2005,7 +2672,7 @@ class CacheUpgradeStatus(_serialization.Model):
         self.pending_firmware_version = None
 
 
-class CacheUsernameDownloadSettings(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class CacheUsernameDownloadSettings(_serialization.Model):
     """Settings for Extended Groups username and group download.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -2346,7 +3013,7 @@ class ErrorResponse(_serialization.Model):
         self.error = error
 
 
-class ImportJob(TrackedResource):  # pylint: disable=too-many-instance-attributes
+class ImportJob(TrackedResource):
     """An import job instance. Follows Azure Resource Manager standards:
     https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/resource-api-reference.md.
 
@@ -2373,6 +3040,10 @@ class ImportJob(TrackedResource):  # pylint: disable=too-many-instance-attribute
      "Creating", "Deleting", "Updating", and "Canceled".
     :vartype provisioning_state: str or
      ~azure.mgmt.storagecache.models.ImportJobProvisioningStateType
+    :ivar admin_status: The administrative status of the import job. Possible values: 'Active',
+     'Cancel'. Passing in a value of 'Cancel' will cancel the current active import job. By default
+     it is set to 'Active'. Known values are: "Active" and "Cancel".
+    :vartype admin_status: str or ~azure.mgmt.storagecache.models.ImportJobAdminStatus
     :ivar import_prefixes: An array of blob paths/prefixes that get imported into the cluster
      namespace. It has '/' as the default value.
     :vartype import_prefixes: list[str]
@@ -2391,13 +3062,13 @@ class ImportJob(TrackedResource):  # pylint: disable=too-many-instance-attribute
     :ivar maximum_errors: Total non-conflict oriented errors the import job will tolerate before
      exiting with failure. -1 means infinite. 0 means exit immediately and is the default.
     :vartype maximum_errors: int
-    :ivar state: The state of the import job. InProgress indicates the import is still running.
-     Canceled indicates it has been canceled by the user. Completed indicates import finished,
-     successfully importing all discovered blobs into the Lustre namespace. CompletedPartial
-     indicates the import finished but some blobs either were found to be conflicting and could not
-     be imported or other errors were encountered. Failed means the import was unable to complete
-     due to a fatal error. Known values are: "InProgress", "Cancelling", "Canceled", "Completed",
-     "CompletedPartial", and "Failed".
+    :ivar state: The operational state of the import job. InProgress indicates the import is still
+     running. Canceled indicates it has been canceled by the user. Completed indicates import
+     finished, successfully importing all discovered blobs into the Lustre namespace.
+     CompletedPartial indicates the import finished but some blobs either were found to be
+     conflicting and could not be imported or other errors were encountered. Failed means the import
+     was unable to complete due to a fatal error. Known values are: "InProgress", "Cancelling",
+     "Canceled", "Completed", "CompletedPartial", and "Failed".
     :vartype state: str or ~azure.mgmt.storagecache.models.ImportStatusType
     :ivar status_message: The status message of the import job.
     :vartype status_message: str
@@ -2407,12 +3078,27 @@ class ImportJob(TrackedResource):  # pylint: disable=too-many-instance-attribute
     :vartype blobs_walked_per_second: int
     :ivar total_blobs_imported: The total blobs that have been imported since import began.
     :vartype total_blobs_imported: int
+    :ivar imported_files: New or modified files that have been imported into the filesystem.
+    :vartype imported_files: int
+    :ivar imported_directories: New or modified directories that have been imported into the
+     filesystem.
+    :vartype imported_directories: int
+    :ivar imported_symlinks: Newly added symbolic links into the filesystem.
+    :vartype imported_symlinks: int
+    :ivar preexisting_files: Files that already exist in the filesystem and have not been modified.
+    :vartype preexisting_files: int
+    :ivar preexisting_directories: Directories that already exist in the filesystem and have not
+     been modified.
+    :vartype preexisting_directories: int
+    :ivar preexisting_symlinks: Symbolic links that already exist in the filesystem and have not
+     been modified.
+    :vartype preexisting_symlinks: int
     :ivar blobs_imported_per_second: A recent and frequently updated rate of total files,
      directories, and symlinks imported per second.
     :vartype blobs_imported_per_second: int
-    :ivar last_completion_time: The time of the last completed archive operation.
+    :ivar last_completion_time: The time (in UTC) of the last completed import job.
     :vartype last_completion_time: ~datetime.datetime
-    :ivar last_started_time: The time the latest archive operation started.
+    :ivar last_started_time: The time (in UTC) the latest import job started.
     :vartype last_started_time: ~datetime.datetime
     :ivar total_errors: Number of errors in the import job.
     :vartype total_errors: int
@@ -2432,6 +3118,12 @@ class ImportJob(TrackedResource):  # pylint: disable=too-many-instance-attribute
         "total_blobs_walked": {"readonly": True},
         "blobs_walked_per_second": {"readonly": True},
         "total_blobs_imported": {"readonly": True},
+        "imported_files": {"readonly": True},
+        "imported_directories": {"readonly": True},
+        "imported_symlinks": {"readonly": True},
+        "preexisting_files": {"readonly": True},
+        "preexisting_directories": {"readonly": True},
+        "preexisting_symlinks": {"readonly": True},
         "blobs_imported_per_second": {"readonly": True},
         "last_completion_time": {"readonly": True},
         "last_started_time": {"readonly": True},
@@ -2447,6 +3139,7 @@ class ImportJob(TrackedResource):  # pylint: disable=too-many-instance-attribute
         "tags": {"key": "tags", "type": "{str}"},
         "location": {"key": "location", "type": "str"},
         "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
+        "admin_status": {"key": "properties.adminStatus", "type": "str"},
         "import_prefixes": {"key": "properties.importPrefixes", "type": "[str]"},
         "conflict_resolution_mode": {"key": "properties.conflictResolutionMode", "type": "str"},
         "maximum_errors": {"key": "properties.maximumErrors", "type": "int"},
@@ -2455,6 +3148,12 @@ class ImportJob(TrackedResource):  # pylint: disable=too-many-instance-attribute
         "total_blobs_walked": {"key": "properties.status.totalBlobsWalked", "type": "int"},
         "blobs_walked_per_second": {"key": "properties.status.blobsWalkedPerSecond", "type": "int"},
         "total_blobs_imported": {"key": "properties.status.totalBlobsImported", "type": "int"},
+        "imported_files": {"key": "properties.status.importedFiles", "type": "int"},
+        "imported_directories": {"key": "properties.status.importedDirectories", "type": "int"},
+        "imported_symlinks": {"key": "properties.status.importedSymlinks", "type": "int"},
+        "preexisting_files": {"key": "properties.status.preexistingFiles", "type": "int"},
+        "preexisting_directories": {"key": "properties.status.preexistingDirectories", "type": "int"},
+        "preexisting_symlinks": {"key": "properties.status.preexistingSymlinks", "type": "int"},
         "blobs_imported_per_second": {"key": "properties.status.blobsImportedPerSecond", "type": "int"},
         "last_completion_time": {"key": "properties.status.lastCompletionTime", "type": "iso-8601"},
         "last_started_time": {"key": "properties.status.lastStartedTime", "type": "iso-8601"},
@@ -2462,13 +3161,14 @@ class ImportJob(TrackedResource):  # pylint: disable=too-many-instance-attribute
         "total_conflicts": {"key": "properties.status.totalConflicts", "type": "int"},
     }
 
-    def __init__(
+    def __init__(  # pylint: disable=too-many-locals
         self,
         *,
         location: str,
         tags: Optional[Dict[str, str]] = None,
+        admin_status: Optional[Union[str, "_models.ImportJobAdminStatus"]] = None,
         import_prefixes: Optional[List[str]] = None,
-        conflict_resolution_mode: Union[str, "_models.ConflictResolutionMode"] = "Fail",
+        conflict_resolution_mode: Optional[Union[str, "_models.ConflictResolutionMode"]] = None,
         maximum_errors: int = 0,
         **kwargs: Any
     ) -> None:
@@ -2477,6 +3177,10 @@ class ImportJob(TrackedResource):  # pylint: disable=too-many-instance-attribute
         :paramtype tags: dict[str, str]
         :keyword location: The geo-location where the resource lives. Required.
         :paramtype location: str
+        :keyword admin_status: The administrative status of the import job. Possible values: 'Active',
+         'Cancel'. Passing in a value of 'Cancel' will cancel the current active import job. By default
+         it is set to 'Active'. Known values are: "Active" and "Cancel".
+        :paramtype admin_status: str or ~azure.mgmt.storagecache.models.ImportJobAdminStatus
         :keyword import_prefixes: An array of blob paths/prefixes that get imported into the cluster
          namespace. It has '/' as the default value.
         :paramtype import_prefixes: list[str]
@@ -2498,6 +3202,7 @@ class ImportJob(TrackedResource):  # pylint: disable=too-many-instance-attribute
         """
         super().__init__(tags=tags, location=location, **kwargs)
         self.provisioning_state = None
+        self.admin_status = admin_status
         self.import_prefixes = import_prefixes
         self.conflict_resolution_mode = conflict_resolution_mode
         self.maximum_errors = maximum_errors
@@ -2506,6 +3211,12 @@ class ImportJob(TrackedResource):  # pylint: disable=too-many-instance-attribute
         self.total_blobs_walked = None
         self.blobs_walked_per_second = None
         self.total_blobs_imported = None
+        self.imported_files = None
+        self.imported_directories = None
+        self.imported_symlinks = None
+        self.preexisting_files = None
+        self.preexisting_directories = None
+        self.preexisting_symlinks = None
         self.blobs_imported_per_second = None
         self.last_completion_time = None
         self.last_started_time = None
@@ -2547,19 +3258,35 @@ class ImportJobUpdate(_serialization.Model):
 
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
+    :ivar admin_status: The administrative status of the import job. Possible values: 'Active',
+     'Cancel'. Passing in a value of 'Cancel' will cancel the current active import job. Known
+     values are: "Active" and "Cancel".
+    :vartype admin_status: str or ~azure.mgmt.storagecache.models.ImportJobAdminStatus
     """
 
     _attribute_map = {
         "tags": {"key": "tags", "type": "{str}"},
+        "admin_status": {"key": "properties.adminStatus", "type": "str"},
     }
 
-    def __init__(self, *, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
+    def __init__(
+        self,
+        *,
+        tags: Optional[Dict[str, str]] = None,
+        admin_status: Optional[Union[str, "_models.ImportJobAdminStatus"]] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
+        :keyword admin_status: The administrative status of the import job. Possible values: 'Active',
+         'Cancel'. Passing in a value of 'Cancel' will cancel the current active import job. Known
+         values are: "Active" and "Cancel".
+        :paramtype admin_status: str or ~azure.mgmt.storagecache.models.ImportJobAdminStatus
         """
         super().__init__(**kwargs)
         self.tags = tags
+        self.admin_status = admin_status
 
 
 class KeyVaultKeyReference(_serialization.Model):
@@ -3488,7 +4215,7 @@ class StorageTargetResource(_serialization.Model):
         self.system_data = None
 
 
-class StorageTarget(StorageTargetResource):  # pylint: disable=too-many-instance-attributes
+class StorageTarget(StorageTargetResource):
     """Type of the Storage Target.
 
     Variables are only populated by the server, and will be ignored when sending a request.
