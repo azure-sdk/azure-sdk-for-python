@@ -1,5 +1,5 @@
-# coding=utf-8
 # pylint: disable=too-many-lines
+# coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -13,7 +13,6 @@ from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 from .. import _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
@@ -1725,7 +1724,7 @@ class ResourceCertificateDetails(_serialization.Model):
         self.valid_to = valid_to
 
 
-class ResourceCertificateAndAadDetails(ResourceCertificateDetails):  # pylint: disable=too-many-instance-attributes
+class ResourceCertificateAndAadDetails(ResourceCertificateDetails):
     """Certificate details representing the Vault credentials for AAD.
 
     All required parameters must be populated in order to send to server.
@@ -1866,7 +1865,7 @@ class ResourceCertificateAndAadDetails(ResourceCertificateDetails):  # pylint: d
         self.aad_audience = aad_audience
 
 
-class ResourceCertificateAndAcsDetails(ResourceCertificateDetails):  # pylint: disable=too-many-instance-attributes
+class ResourceCertificateAndAcsDetails(ResourceCertificateDetails):
     """Certificate details representing the Vault credentials for ACS.
 
     All required parameters must be populated in order to send to server.
@@ -2595,7 +2594,7 @@ class VaultList(_serialization.Model):
         self.next_link = None
 
 
-class VaultProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class VaultProperties(_serialization.Model):
     """Properties of the vault.
 
     Variables are only populated by the server, and will be ignored when sending a request.
