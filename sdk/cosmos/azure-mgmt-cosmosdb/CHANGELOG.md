@@ -1,5 +1,19 @@
 # Release History
 
+## 10.0.0b6 (2025-04-02)
+
+### Features Added
+
+  - Model `DataTransferJobGetResults` added property `source_and_destination_containers`
+  - Model `DataTransferJobProperties` added property `source_and_destination_containers`
+  - Added model `AzureBlobStorageContainerEntity`
+  - Added model `ContainerEntity`
+  - Added model `CosmosCassandraContainerEntity`
+  - Added model `CosmosMongoContainerEntity`
+  - Added model `CosmosMongoVCoreContainerEntity`
+  - Added model `CosmosSqlContainerEntity`
+  - Added model `DataTransferContainerDetails`
+
 ## 10.0.0b5 (2024-12-23)
 
 ### Features Added
