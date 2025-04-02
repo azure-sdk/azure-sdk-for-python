@@ -1,5 +1,21 @@
 # Release History
 
+## 2.0.0 (2025-04-02)
+
+### Features Added
+
+  - Model `KubernetesClusterBackupDatasourceParameters` added property `included_volume_types`
+  - Added enum `AKSVolumeTypes`
+  - Added model `AdlsBlobBackupDatasourceParameters`
+  - Added model `ValidateForModifyBackupRequest`
+  - Model `BackupInstancesOperations` added method `begin_validate_for_modify_backup`
+  - Method `BackupInstancesOperations.begin_validate_for_modify_backup` has a new overload `def begin_validate_for_modify_backup(self: None, resource_group_name: str, vault_name: str, backup_instance_name: str, parameters: ValidateForModifyBackupRequest, content_type: str)`
+  - Method `BackupInstancesOperations.begin_validate_for_modify_backup` has a new overload `def begin_validate_for_modify_backup(self: None, resource_group_name: str, vault_name: str, backup_instance_name: str, parameters: IO[bytes], content_type: str)`
+
+### Breaking Changes
+
+  - Deleted or renamed enum value `RestoreSourceDataStoreType.VAULT_STORE`
+
 ## 1.4.0 (2024-07-22)
 
 ### Features Added
