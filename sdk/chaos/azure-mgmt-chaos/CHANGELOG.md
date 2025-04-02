@@ -1,5 +1,82 @@
 # Release History
 
+## 2.0.0 (2025-04-02)
+
+### Features Added
+
+  - Added operation Operations.list
+  - Added operation group ExperimentExecutionsOperations
+  - Model Capability has a new parameter properties
+  - Model CapabilityType has a new parameter properties
+  - Model ExperimentExecution has a new parameter properties
+  - Model ExperimentExecution has a new parameter system_data
+  - Model ExperimentExecutionDetails has a new parameter properties
+  - Model Resource has a new parameter system_data
+  - Model TrackedResource has a new parameter system_data
+
+### Breaking Changes
+
+  - Model Capability no longer has parameter description
+  - Model Capability no longer has parameter parameters_schema
+  - Model Capability no longer has parameter publisher
+  - Model Capability no longer has parameter target_type
+  - Model Capability no longer has parameter urn
+  - Model CapabilityType no longer has parameter azure_rbac_actions
+  - Model CapabilityType no longer has parameter azure_rbac_data_actions
+  - Model CapabilityType no longer has parameter description
+  - Model CapabilityType no longer has parameter display_name
+  - Model CapabilityType no longer has parameter kind
+  - Model CapabilityType no longer has parameter location
+  - Model CapabilityType no longer has parameter parameters_schema
+  - Model CapabilityType no longer has parameter publisher
+  - Model CapabilityType no longer has parameter runtime_properties
+  - Model CapabilityType no longer has parameter target_type
+  - Model CapabilityType no longer has parameter urn
+  - Model ChaosTargetListSelector no longer has parameter additional_properties
+  - Model ChaosTargetQuerySelector no longer has parameter additional_properties
+  - Model ChaosTargetSelector no longer has parameter additional_properties
+  - Model Experiment has a new required parameter properties
+  - Model Experiment no longer has parameter provisioning_state
+  - Model Experiment no longer has parameter selectors
+  - Model Experiment no longer has parameter steps
+  - Model ExperimentExecution no longer has parameter started_at
+  - Model ExperimentExecution no longer has parameter status
+  - Model ExperimentExecution no longer has parameter stopped_at
+  - Model ExperimentExecutionDetails no longer has parameter failure_reason
+  - Model ExperimentExecutionDetails no longer has parameter last_action_at
+  - Model ExperimentExecutionDetails no longer has parameter run_information
+  - Model ExperimentExecutionDetails no longer has parameter started_at
+  - Model ExperimentExecutionDetails no longer has parameter status
+  - Model ExperimentExecutionDetails no longer has parameter stopped_at
+  - Model TargetType has a new required parameter properties
+  - Model TargetType no longer has parameter description
+  - Model TargetType no longer has parameter display_name
+  - Model TargetType no longer has parameter location
+  - Model TargetType no longer has parameter properties_schema
+  - Model TargetType no longer has parameter resource_types
+  - Operation CapabilitiesOperations.create_or_update has a new required parameter resource
+  - Operation CapabilitiesOperations.create_or_update no longer has parameter capability
+  - Operation CapabilityTypesOperations.get has a new required parameter location
+  - Operation CapabilityTypesOperations.get no longer has parameter location_name
+  - Operation CapabilityTypesOperations.list has a new required parameter location
+  - Operation CapabilityTypesOperations.list no longer has parameter location_name
+  - Operation ExperimentsOperations.begin_create_or_update has a new required parameter resource
+  - Operation ExperimentsOperations.begin_create_or_update no longer has parameter experiment
+  - Operation ExperimentsOperations.begin_update has a new required parameter properties
+  - Operation ExperimentsOperations.begin_update no longer has parameter experiment
+  - Operation OperationStatusesOperations.get has a new required parameter operation_id
+  - Operation OperationStatusesOperations.get no longer has parameter async_operation_id
+  - Operation TargetTypesOperations.get has a new required parameter location
+  - Operation TargetTypesOperations.get no longer has parameter location_name
+  - Operation TargetTypesOperations.list has a new required parameter location
+  - Operation TargetTypesOperations.list no longer has parameter location_name
+  - Operation TargetsOperations.create_or_update has a new required parameter resource
+  - Operation TargetsOperations.create_or_update no longer has parameter target
+  - Removed operation ExperimentsOperations.execution_details
+  - Removed operation ExperimentsOperations.get_execution
+  - Removed operation ExperimentsOperations.list_all_executions
+  - Removed operation Operations.list_all
+
 ## 1.1.0 (2024-03-04)
 
 ### Features Added
