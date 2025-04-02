@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.resourcemover import ResourceMoverServiceAPI
 
 """
@@ -31,12 +32,12 @@ def main():
 
     response = client.move_collections.list_required_for(
         resource_group_name="rg1",
-        move_collection_name="movecollection1",
+        move_collection_name="movecollection_1",
         source_id="/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/nic1",
     )
     print(response)
 
 
-# x-ms-original-file: specification/resourcemover/resource-manager/Microsoft.Migrate/stable/2023-08-01/examples/RequiredFor_Get.json
+# x-ms-original-file: specification/resourcemover/resource-manager/Microsoft.Migrate/stable/2024-08-01/examples/RequiredFor_Get.json
 if __name__ == "__main__":
     main()
