@@ -1,0 +1,6 @@
+{
+  "commit": "eaaef41ddeb7e5e2f4025c7ce714c4a36f06dcd5",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/applicationinsights/ApplicationInsights.LiveMetrics",
+  "@azure-tools/typespec-python": "0.41.0"
+}
