@@ -1,5 +1,5 @@
-# coding=utf-8
 # pylint: disable=too-many-lines
+# coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -8,66 +8,162 @@
 # --------------------------------------------------------------------------
 
 import datetime
-import sys
-from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
+from typing import Any, Dict, List, Literal, Optional, TYPE_CHECKING, Union
 
 from .. import _serialization
 
-if sys.version_info >= (3, 8):
-    from typing import Literal  # pylint: disable=no-name-in-module, ungrouped-imports
-else:
-    from typing_extensions import Literal  # type: ignore  # pylint: disable=ungrouped-imports
-
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
+
+
+class AuthCredentials(_serialization.Model):
+    """AuthCredentials abstract base class for Auth Purpose.
+
+    You probably want to use the sub-classes and not this class directly. Known sub-classes are:
+    ApiKeyAuthCredentials, OAuthClientCredentials
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar kind: Enum for different types of AuthCredentials supported. Required. Known values are:
+     "OAuthClientCredentials" and "ApiKeyAuthCredentials".
+    :vartype kind: str or ~azure.mgmt.agrifood.models.AuthCredentialsKind
+    """
+
+    _validation = {
+        "kind": {"required": True},
+    }
+
+    _attribute_map = {
+        "kind": {"key": "kind", "type": "str"},
+    }
+
+    _subtype_map = {
+        "kind": {"ApiKeyAuthCredentials": "ApiKeyAuthCredentials", "OAuthClientCredentials": "OAuthClientCredentials"}
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.kind: Optional[str] = None
+
+
+class ApiKeyAuthCredentials(AuthCredentials):
+    """ApiKeyAuthCredentials class for ApiKey based Auth.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar kind: Enum for different types of AuthCredentials supported. Required. Known values are:
+     "OAuthClientCredentials" and "ApiKeyAuthCredentials".
+    :vartype kind: str or ~azure.mgmt.agrifood.models.AuthCredentialsKind
+    :ivar api_key: Properties of the key vault. Required.
+    :vartype api_key: ~azure.mgmt.agrifood.models.KeyVaultProperties
+    """
+
+    _validation = {
+        "kind": {"required": True},
+        "api_key": {"required": True},
+    }
+
+    _attribute_map = {
+        "kind": {"key": "kind", "type": "str"},
+        "api_key": {"key": "apiKey", "type": "KeyVaultProperties"},
+    }
+
+    def __init__(self, *, api_key: "_models.KeyVaultProperties", **kwargs: Any) -> None:
+        """
+        :keyword api_key: Properties of the key vault. Required.
+        :paramtype api_key: ~azure.mgmt.agrifood.models.KeyVaultProperties
+        """
+        super().__init__(**kwargs)
+        self.kind: str = "ApiKeyAuthCredentials"
+        self.api_key = api_key
 
 
 class ApiProperties(_serialization.Model):
     """Api properties.
 
-    :ivar api_freshness_window_in_minutes: Interval in minutes for which the weather data for the
-     api needs to be refreshed.
-    :vartype api_freshness_window_in_minutes: int
+    :ivar api_freshness_time_in_minutes: Interval in minutes for which the weather data for the api
+     needs to be refreshed.
+    :vartype api_freshness_time_in_minutes: int
     """
 
     _validation = {
-        "api_freshness_window_in_minutes": {"maximum": 10080, "minimum": 0},
+        "api_freshness_time_in_minutes": {"maximum": 10080, "minimum": 0},
     }
 
     _attribute_map = {
-        "api_freshness_window_in_minutes": {"key": "apiFreshnessWindowInMinutes", "type": "int"},
+        "api_freshness_time_in_minutes": {"key": "apiFreshnessTimeInMinutes", "type": "int"},
     }
 
-    def __init__(self, *, api_freshness_window_in_minutes: Optional[int] = None, **kwargs):
+    def __init__(self, *, api_freshness_time_in_minutes: Optional[int] = None, **kwargs: Any) -> None:
         """
-        :keyword api_freshness_window_in_minutes: Interval in minutes for which the weather data for
-         the api needs to be refreshed.
-        :paramtype api_freshness_window_in_minutes: int
+        :keyword api_freshness_time_in_minutes: Interval in minutes for which the weather data for the
+         api needs to be refreshed.
+        :paramtype api_freshness_time_in_minutes: int
         """
         super().__init__(**kwargs)
-        self.api_freshness_window_in_minutes = api_freshness_window_in_minutes
+        self.api_freshness_time_in_minutes = api_freshness_time_in_minutes
 
 
 class ArmAsyncOperation(_serialization.Model):
     """Arm async operation class.
     Ref: https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/async-operations.
 
-        :ivar status: Status of the async operation.
-        :vartype status: str
+    :ivar status: Status of the async operation.
+    :vartype status: str
+    :ivar error: Arm async operation error class.
+     Ref:
+     https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/async-api-reference.md#azure-asyncoperation-resource-format.  # pylint: disable=line-too-long
+    :vartype error: ~azure.mgmt.agrifood.models.ArmAsyncOperationError
     """
 
     _attribute_map = {
         "status": {"key": "status", "type": "str"},
+        "error": {"key": "error", "type": "ArmAsyncOperationError"},
     }
 
-    def __init__(self, *, status: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, status: Optional[str] = None, error: Optional["_models.ArmAsyncOperationError"] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword status: Status of the async operation.
         :paramtype status: str
+        :keyword error: Arm async operation error class.
+         Ref:
+         https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/async-api-reference.md#azure-asyncoperation-resource-format.  # pylint: disable=line-too-long
+        :paramtype error: ~azure.mgmt.agrifood.models.ArmAsyncOperationError
         """
         super().__init__(**kwargs)
         self.status = status
+        self.error = error
+
+
+class ArmAsyncOperationError(_serialization.Model):
+    """Arm async operation error class.
+    Ref:
+    https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/async-api-reference.md#azure-asyncoperation-resource-format.
+
+    :ivar code: Status of the async operation.
+    :vartype code: str
+    :ivar message: Status of the async operation.
+    :vartype message: str
+    """
+
+    _attribute_map = {
+        "code": {"key": "code", "type": "str"},
+        "message": {"key": "message", "type": "str"},
+    }
+
+    def __init__(self, *, code: Optional[str] = None, message: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword code: Status of the async operation.
+        :paramtype code: str
+        :keyword message: Status of the async operation.
+        :paramtype message: str
+        """
+        super().__init__(**kwargs)
+        self.code = code
+        self.message = message
 
 
 class CheckNameAvailabilityRequest(_serialization.Model):
@@ -84,7 +180,7 @@ class CheckNameAvailabilityRequest(_serialization.Model):
         "type": {"key": "type", "type": "str"},
     }
 
-    def __init__(self, *, name: Optional[str] = None, type: Optional[str] = None, **kwargs):
+    def __init__(self, *, name: Optional[str] = None, type: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword name: The name of the resource for which availability needs to be checked.
         :paramtype name: str
@@ -120,8 +216,8 @@ class CheckNameAvailabilityResponse(_serialization.Model):
         name_available: Optional[bool] = None,
         reason: Optional[Union[str, "_models.CheckNameAvailabilityReason"]] = None,
         message: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name_available: Indicates if the resource name is available.
         :paramtype name_available: bool
@@ -137,15 +233,827 @@ class CheckNameAvailabilityResponse(_serialization.Model):
         self.message = message
 
 
-class DetailedInformation(_serialization.Model):
-    """Model to capture detailed information for farmBeatsExtensions.
+class Resource(_serialization.Model):
+    """Common fields that are returned in the response for all Azure Resource Manager resources.
 
-    :ivar api_name: ApiName available for the farmBeatsExtension.
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.agrifood.models.SystemData
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.id = None
+        self.name = None
+        self.type = None
+        self.system_data = None
+
+
+class ProxyResource(Resource):
+    """The resource model definition for a Azure Resource Manager proxy resource. It will not have
+    tags and a location.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.agrifood.models.SystemData
+    """
+
+
+class DataConnector(ProxyResource):
+    """DataConnector Model.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.agrifood.models.SystemData
+    :ivar properties: DataConnector Properties. Required.
+    :vartype properties: ~azure.mgmt.agrifood.models.DataConnectorProperties
+    :ivar e_tag: The ETag value to implement optimistic concurrency.
+    :vartype e_tag: str
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "properties": {"required": True},
+        "e_tag": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "properties": {"key": "properties", "type": "DataConnectorProperties"},
+        "e_tag": {"key": "eTag", "type": "str"},
+    }
+
+    def __init__(self, *, properties: "_models.DataConnectorProperties", **kwargs: Any) -> None:
+        """
+        :keyword properties: DataConnector Properties. Required.
+        :paramtype properties: ~azure.mgmt.agrifood.models.DataConnectorProperties
+        """
+        super().__init__(**kwargs)
+        self.properties = properties
+        self.e_tag = None
+
+
+class DataConnectorListResponse(_serialization.Model):
+    """Paged response contains list of requested objects and a URL link to get the next set of
+    results.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar value: List of requested objects. Required.
+    :vartype value: list[~azure.mgmt.agrifood.models.DataConnector]
+    :ivar next_link: Continuation link (absolute URI) to the next page of results in the list.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "value": {"required": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[DataConnector]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(self, *, value: List["_models.DataConnector"], next_link: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword value: List of requested objects. Required.
+        :paramtype value: list[~azure.mgmt.agrifood.models.DataConnector]
+        :keyword next_link: Continuation link (absolute URI) to the next page of results in the list.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = next_link
+
+
+class DataConnectorProperties(_serialization.Model):
+    """DataConnector Properties.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar credentials: AuthCredentials abstract base class for Auth Purpose. Required.
+    :vartype credentials: ~azure.mgmt.agrifood.models.AuthCredentials
+    """
+
+    _validation = {
+        "credentials": {"required": True},
+    }
+
+    _attribute_map = {
+        "credentials": {"key": "credentials", "type": "AuthCredentials"},
+    }
+
+    def __init__(self, *, credentials: "_models.AuthCredentials", **kwargs: Any) -> None:
+        """
+        :keyword credentials: AuthCredentials abstract base class for Auth Purpose. Required.
+        :paramtype credentials: ~azure.mgmt.agrifood.models.AuthCredentials
+        """
+        super().__init__(**kwargs)
+        self.credentials = credentials
+
+
+class TrackedResource(Resource):
+    """The resource model definition for an Azure Resource Manager tracked top level resource which
+    has 'tags' and a 'location'.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.agrifood.models.SystemData
+    :ivar tags: Resource tags.
+    :vartype tags: dict[str, str]
+    :ivar location: The geo-location where the resource lives. Required.
+    :vartype location: str
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "location": {"required": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "tags": {"key": "tags", "type": "{str}"},
+        "location": {"key": "location", "type": "str"},
+    }
+
+    def __init__(self, *, location: str, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
+        """
+        :keyword tags: Resource tags.
+        :paramtype tags: dict[str, str]
+        :keyword location: The geo-location where the resource lives. Required.
+        :paramtype location: str
+        """
+        super().__init__(**kwargs)
+        self.tags = tags
+        self.location = location
+
+
+class DataManagerForAgriculture(TrackedResource):
+    """Data Manager For Agriculture ARM Resource.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.agrifood.models.SystemData
+    :ivar tags: Resource tags.
+    :vartype tags: dict[str, str]
+    :ivar location: The geo-location where the resource lives. Required.
+    :vartype location: str
+    :ivar identity: Identity for the resource.
+    :vartype identity: ~azure.mgmt.agrifood.models.Identity
+    :ivar instance_uri: Uri of the Data Manager For Agriculture instance.
+    :vartype instance_uri: str
+    :ivar provisioning_state: Data Manager For Agriculture instance provisioning state. Known
+     values are: "Creating", "Updating", "Deleting", "Succeeded", "Failed", and "Running".
+    :vartype provisioning_state: str or ~azure.mgmt.agrifood.models.ProvisioningState
+    :ivar sensor_integration: Sensor integration request model.
+    :vartype sensor_integration: ~azure.mgmt.agrifood.models.SensorIntegration
+    :ivar public_network_access: Property to allow or block public traffic for an Azure Data
+     Manager For Agriculture resource. Known values are: "Enabled" and "Disabled".
+    :vartype public_network_access: str or ~azure.mgmt.agrifood.models.PublicNetworkAccess
+    :ivar private_endpoint_connections: Private endpoints.
+    :vartype private_endpoint_connections:
+     list[~azure.mgmt.agrifood.models.PrivateEndpointConnection]
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "location": {"required": True},
+        "instance_uri": {"readonly": True},
+        "provisioning_state": {"readonly": True},
+        "private_endpoint_connections": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "tags": {"key": "tags", "type": "{str}"},
+        "location": {"key": "location", "type": "str"},
+        "identity": {"key": "identity", "type": "Identity"},
+        "instance_uri": {"key": "properties.instanceUri", "type": "str"},
+        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
+        "sensor_integration": {"key": "properties.sensorIntegration", "type": "SensorIntegration"},
+        "public_network_access": {"key": "properties.publicNetworkAccess", "type": "str"},
+        "private_endpoint_connections": {
+            "key": "properties.privateEndpointConnections",
+            "type": "[PrivateEndpointConnection]",
+        },
+    }
+
+    def __init__(
+        self,
+        *,
+        location: str,
+        tags: Optional[Dict[str, str]] = None,
+        identity: Optional["_models.Identity"] = None,
+        sensor_integration: Optional["_models.SensorIntegration"] = None,
+        public_network_access: Optional[Union[str, "_models.PublicNetworkAccess"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword tags: Resource tags.
+        :paramtype tags: dict[str, str]
+        :keyword location: The geo-location where the resource lives. Required.
+        :paramtype location: str
+        :keyword identity: Identity for the resource.
+        :paramtype identity: ~azure.mgmt.agrifood.models.Identity
+        :keyword sensor_integration: Sensor integration request model.
+        :paramtype sensor_integration: ~azure.mgmt.agrifood.models.SensorIntegration
+        :keyword public_network_access: Property to allow or block public traffic for an Azure Data
+         Manager For Agriculture resource. Known values are: "Enabled" and "Disabled".
+        :paramtype public_network_access: str or ~azure.mgmt.agrifood.models.PublicNetworkAccess
+        """
+        super().__init__(tags=tags, location=location, **kwargs)
+        self.identity = identity
+        self.instance_uri = None
+        self.provisioning_state = None
+        self.sensor_integration = sensor_integration
+        self.public_network_access = public_network_access
+        self.private_endpoint_connections = None
+
+
+class DataManagerForAgricultureExtension(ProxyResource):
+    """DataManagerForAgriculture extension resource.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.agrifood.models.SystemData
+    :ivar properties: DataManagerForAgricultureExtension properties.
+    :vartype properties: ~azure.mgmt.agrifood.models.DataManagerForAgricultureExtensionProperties
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "properties": {"key": "properties", "type": "DataManagerForAgricultureExtensionProperties"},
+    }
+
+    def __init__(
+        self, *, properties: Optional["_models.DataManagerForAgricultureExtensionProperties"] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword properties: DataManagerForAgricultureExtension properties.
+        :paramtype properties: ~azure.mgmt.agrifood.models.DataManagerForAgricultureExtensionProperties
+        """
+        super().__init__(**kwargs)
+        self.properties = properties
+
+
+class DataManagerForAgricultureExtensionListResponse(_serialization.Model):  # pylint: disable=name-too-long
+    """Paged response contains list of requested objects and a URL link to get the next set of
+    results.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar value: List of requested objects. Required.
+    :vartype value: list[~azure.mgmt.agrifood.models.DataManagerForAgricultureExtension]
+    :ivar skip_token: Token used in retrieving the next page. If null, there are no additional
+     pages.
+    :vartype skip_token: str
+    :ivar next_link: Continuation link (absolute URI) to the next page of results in the list.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "value": {"required": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[DataManagerForAgricultureExtension]"},
+        "skip_token": {"key": "$skipToken", "type": "str"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        value: List["_models.DataManagerForAgricultureExtension"],
+        skip_token: Optional[str] = None,
+        next_link: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: List of requested objects. Required.
+        :paramtype value: list[~azure.mgmt.agrifood.models.DataManagerForAgricultureExtension]
+        :keyword skip_token: Token used in retrieving the next page. If null, there are no additional
+         pages.
+        :paramtype skip_token: str
+        :keyword next_link: Continuation link (absolute URI) to the next page of results in the list.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.skip_token = skip_token
+        self.next_link = next_link
+
+
+class DataManagerForAgricultureExtensionProperties(_serialization.Model):  # pylint: disable=name-too-long
+    """DataManagerForAgricultureExtension properties.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar target_resource_type: Target ResourceType of the Data Manager For Agriculture Extension.
+    :vartype target_resource_type: str
+    :ivar farm_beats_extension_id: Data Manager For Agriculture Extension ID.
+    :vartype farm_beats_extension_id: str
+    :ivar farm_beats_extension_name: Data Manager For Agriculture Extension name.
+    :vartype farm_beats_extension_name: str
+    :ivar farm_beats_extension_version: Data Manager For Agriculture Extension version.
+    :vartype farm_beats_extension_version: str
+    :ivar publisher_id: Publisher ID.
+    :vartype publisher_id: str
+    :ivar description: Textual description.
+    :vartype description: str
+    :ivar extension_category: Category of the extension. e.g. weather/sensor/satellite.
+    :vartype extension_category: str
+    :ivar extension_auth_link: Data Manager For Agriculture Extension auth link.
+    :vartype extension_auth_link: str
+    :ivar extension_api_docs_link: Data Manager For Agriculture Extension api docs link.
+    :vartype extension_api_docs_link: str
+    :ivar detailed_information: Detailed information which shows summary of requested data.
+     Used in descriptive get extension metadata call.
+     Information for weather category per api included are apisSupported,
+     customParameters, PlatformParameters and Units supported.
+    :vartype detailed_information: list[~azure.mgmt.agrifood.models.DetailedInformation]
+    """
+
+    _validation = {
+        "target_resource_type": {"readonly": True},
+        "farm_beats_extension_id": {
+            "readonly": True,
+            "max_length": 100,
+            "min_length": 2,
+            "pattern": r"^[a-zA-Z]{3,50}[.][a-zA-Z]{3,100}$",
+        },
+        "farm_beats_extension_name": {"readonly": True, "max_length": 100, "min_length": 2},
+        "farm_beats_extension_version": {
+            "readonly": True,
+            "max_length": 100,
+            "min_length": 2,
+            "pattern": r"^([1-9]|10).\d$",
+        },
+        "publisher_id": {"readonly": True, "max_length": 100, "min_length": 2},
+        "description": {"readonly": True, "max_length": 500, "min_length": 2},
+        "extension_category": {"readonly": True, "max_length": 100, "min_length": 2},
+        "extension_auth_link": {"readonly": True},
+        "extension_api_docs_link": {"readonly": True},
+        "detailed_information": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "target_resource_type": {"key": "targetResourceType", "type": "str"},
+        "farm_beats_extension_id": {"key": "farmBeatsExtensionId", "type": "str"},
+        "farm_beats_extension_name": {"key": "farmBeatsExtensionName", "type": "str"},
+        "farm_beats_extension_version": {"key": "farmBeatsExtensionVersion", "type": "str"},
+        "publisher_id": {"key": "publisherId", "type": "str"},
+        "description": {"key": "description", "type": "str"},
+        "extension_category": {"key": "extensionCategory", "type": "str"},
+        "extension_auth_link": {"key": "extensionAuthLink", "type": "str"},
+        "extension_api_docs_link": {"key": "extensionApiDocsLink", "type": "str"},
+        "detailed_information": {"key": "detailedInformation", "type": "[DetailedInformation]"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.target_resource_type = None
+        self.farm_beats_extension_id = None
+        self.farm_beats_extension_name = None
+        self.farm_beats_extension_version = None
+        self.publisher_id = None
+        self.description = None
+        self.extension_category = None
+        self.extension_auth_link = None
+        self.extension_api_docs_link = None
+        self.detailed_information = None
+
+
+class DataManagerForAgricultureListResponse(_serialization.Model):
+    """Paged response contains list of requested objects and a URL link to get the next set of
+    results.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar value: List of requested objects. Required.
+    :vartype value: list[~azure.mgmt.agrifood.models.DataManagerForAgriculture]
+    :ivar skip_token: Token used in retrieving the next page. If null, there are no additional
+     pages.
+    :vartype skip_token: str
+    :ivar next_link: Continuation link (absolute URI) to the next page of results in the list.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "value": {"required": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[DataManagerForAgriculture]"},
+        "skip_token": {"key": "$skipToken", "type": "str"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        value: List["_models.DataManagerForAgriculture"],
+        skip_token: Optional[str] = None,
+        next_link: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: List of requested objects. Required.
+        :paramtype value: list[~azure.mgmt.agrifood.models.DataManagerForAgriculture]
+        :keyword skip_token: Token used in retrieving the next page. If null, there are no additional
+         pages.
+        :paramtype skip_token: str
+        :keyword next_link: Continuation link (absolute URI) to the next page of results in the list.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.skip_token = skip_token
+        self.next_link = next_link
+
+
+class DataManagerForAgricultureSolution(ProxyResource):
+    """DataManagerForAgriculture solution resource.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.agrifood.models.SystemData
+    :ivar properties: DataManagerForAgricultureSolution properties.
+    :vartype properties: ~azure.mgmt.agrifood.models.DataManagerForAgricultureSolutionProperties
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "properties": {"key": "properties", "type": "DataManagerForAgricultureSolutionProperties"},
+    }
+
+    def __init__(
+        self, *, properties: Optional["_models.DataManagerForAgricultureSolutionProperties"] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword properties: DataManagerForAgricultureSolution properties.
+        :paramtype properties: ~azure.mgmt.agrifood.models.DataManagerForAgricultureSolutionProperties
+        """
+        super().__init__(**kwargs)
+        self.properties = properties
+
+
+class DataManagerForAgricultureSolutionListResponse(_serialization.Model):  # pylint: disable=name-too-long
+    """Paged response contains list of requested objects and a URL link to get the next set of
+    results.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar value: List of requested objects. Required.
+    :vartype value: list[~azure.mgmt.agrifood.models.DataManagerForAgricultureSolution]
+    :ivar skip_token: Token used in retrieving the next page. If null, there are no additional
+     pages.
+    :vartype skip_token: str
+    :ivar next_link: Continuation link (absolute URI) to the next page of results in the list.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "value": {"required": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[DataManagerForAgricultureSolution]"},
+        "skip_token": {"key": "$skipToken", "type": "str"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        value: List["_models.DataManagerForAgricultureSolution"],
+        skip_token: Optional[str] = None,
+        next_link: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: List of requested objects. Required.
+        :paramtype value: list[~azure.mgmt.agrifood.models.DataManagerForAgricultureSolution]
+        :keyword skip_token: Token used in retrieving the next page. If null, there are no additional
+         pages.
+        :paramtype skip_token: str
+        :keyword next_link: Continuation link (absolute URI) to the next page of results in the list.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.skip_token = skip_token
+        self.next_link = next_link
+
+
+class DataManagerForAgricultureSolutionProperties(_serialization.Model):  # pylint: disable=name-too-long
+    """DataManagerForAgricultureSolution properties.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar partner_id: Solution Partner Id.
+    :vartype partner_id: str
+    :ivar partner_tenant_id: Solution Partner Tenant Id.
+    :vartype partner_tenant_id: str
+    :ivar data_access_scopes: Gets scope of the Data manager For Agriculture data access that's
+     required for processing solution request to partner.
+     Example: For gdd they might need weatherScope and satelliteScope.
+    :vartype data_access_scopes: list[str]
+    :ivar marketplace_offer_details:
+    :vartype marketplace_offer_details: ~azure.mgmt.agrifood.models.MarketplaceOfferDetails
+    :ivar open_api_specs_dictionary: Gets api-version Swagger Document Dictionary to capture all
+     api-versions of swagger exposed by partner to Data Manager For Agriculture.
+    :vartype open_api_specs_dictionary: dict[str, any]
+    :ivar access_fb_application_id: Application id of the multi tenant application to be used by
+     partner to access Data Manager For Agriculture data.
+    :vartype access_fb_application_id: str
+    :ivar saa_s_application_id: Application id of the SaaS multi tenant application.
+    :vartype saa_s_application_id: str
+    :ivar action_ids: List of ActionIds needed to make the SaaS multi tenant application access
+     relevant fb data.
+    :vartype action_ids: list[str]
+    :ivar role_id: Role Id of the SaaS multi tenant application to access relevant fb data.
+    :vartype role_id: str
+    :ivar role_name: Role Name of the SaaS multi tenant application to access relevant fb data.
+    :vartype role_name: str
+    :ivar access_fb_application_name: Application name of the multi tenant application to be used
+     by partner to access Data Manager For Agriculture Data.
+    :vartype access_fb_application_name: str
+    """
+
+    _validation = {
+        "partner_id": {"readonly": True},
+        "partner_tenant_id": {"readonly": True},
+        "data_access_scopes": {"readonly": True},
+        "open_api_specs_dictionary": {"readonly": True},
+        "access_fb_application_id": {"readonly": True},
+        "saa_s_application_id": {"readonly": True},
+        "action_ids": {"readonly": True},
+        "role_id": {"readonly": True},
+        "role_name": {"readonly": True},
+        "access_fb_application_name": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "partner_id": {"key": "partnerId", "type": "str"},
+        "partner_tenant_id": {"key": "partnerTenantId", "type": "str"},
+        "data_access_scopes": {"key": "dataAccessScopes", "type": "[str]"},
+        "marketplace_offer_details": {"key": "marketplaceOfferDetails", "type": "MarketplaceOfferDetails"},
+        "open_api_specs_dictionary": {"key": "openApiSpecsDictionary", "type": "{object}"},
+        "access_fb_application_id": {"key": "accessFBApplicationId", "type": "str"},
+        "saa_s_application_id": {"key": "saaSApplicationId", "type": "str"},
+        "action_ids": {"key": "actionIds", "type": "[str]"},
+        "role_id": {"key": "roleId", "type": "str"},
+        "role_name": {"key": "roleName", "type": "str"},
+        "access_fb_application_name": {"key": "accessFBApplicationName", "type": "str"},
+    }
+
+    def __init__(
+        self, *, marketplace_offer_details: Optional["_models.MarketplaceOfferDetails"] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword marketplace_offer_details:
+        :paramtype marketplace_offer_details: ~azure.mgmt.agrifood.models.MarketplaceOfferDetails
+        """
+        super().__init__(**kwargs)
+        self.partner_id = None
+        self.partner_tenant_id = None
+        self.data_access_scopes = None
+        self.marketplace_offer_details = marketplace_offer_details
+        self.open_api_specs_dictionary = None
+        self.access_fb_application_id = None
+        self.saa_s_application_id = None
+        self.action_ids = None
+        self.role_id = None
+        self.role_name = None
+        self.access_fb_application_name = None
+
+
+class DataManagerForAgricultureUpdateProperties(_serialization.Model):  # pylint: disable=name-too-long
+    """Data Manager For Agriculture ARM Resource properties.
+
+    :ivar sensor_integration: Sensor integration request model.
+    :vartype sensor_integration: ~azure.mgmt.agrifood.models.SensorIntegration
+    :ivar public_network_access: Property to allow or block public traffic for an Azure Data
+     Manager For Agriculture resource. Known values are: "Enabled" and "Disabled".
+    :vartype public_network_access: str or ~azure.mgmt.agrifood.models.PublicNetworkAccess
+    """
+
+    _attribute_map = {
+        "sensor_integration": {"key": "sensorIntegration", "type": "SensorIntegration"},
+        "public_network_access": {"key": "publicNetworkAccess", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        sensor_integration: Optional["_models.SensorIntegration"] = None,
+        public_network_access: Optional[Union[str, "_models.PublicNetworkAccess"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword sensor_integration: Sensor integration request model.
+        :paramtype sensor_integration: ~azure.mgmt.agrifood.models.SensorIntegration
+        :keyword public_network_access: Property to allow or block public traffic for an Azure Data
+         Manager For Agriculture resource. Known values are: "Enabled" and "Disabled".
+        :paramtype public_network_access: str or ~azure.mgmt.agrifood.models.PublicNetworkAccess
+        """
+        super().__init__(**kwargs)
+        self.sensor_integration = sensor_integration
+        self.public_network_access = public_network_access
+
+
+class DataManagerForAgricultureUpdateRequestModel(_serialization.Model):  # pylint: disable=name-too-long
+    """DataManagerForAgriculture update request.
+
+    :ivar location: Geo-location where the resource lives.
+    :vartype location: str
+    :ivar identity: Identity for the resource.
+    :vartype identity: ~azure.mgmt.agrifood.models.Identity
+    :ivar properties: Data Manager For Agriculture ARM Resource properties.
+    :vartype properties: ~azure.mgmt.agrifood.models.DataManagerForAgricultureUpdateProperties
+    :ivar tags: Resource tags.
+    :vartype tags: dict[str, str]
+    """
+
+    _attribute_map = {
+        "location": {"key": "location", "type": "str"},
+        "identity": {"key": "identity", "type": "Identity"},
+        "properties": {"key": "properties", "type": "DataManagerForAgricultureUpdateProperties"},
+        "tags": {"key": "tags", "type": "{str}"},
+    }
+
+    def __init__(
+        self,
+        *,
+        location: Optional[str] = None,
+        identity: Optional["_models.Identity"] = None,
+        properties: Optional["_models.DataManagerForAgricultureUpdateProperties"] = None,
+        tags: Optional[Dict[str, str]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword location: Geo-location where the resource lives.
+        :paramtype location: str
+        :keyword identity: Identity for the resource.
+        :paramtype identity: ~azure.mgmt.agrifood.models.Identity
+        :keyword properties: Data Manager For Agriculture ARM Resource properties.
+        :paramtype properties: ~azure.mgmt.agrifood.models.DataManagerForAgricultureUpdateProperties
+        :keyword tags: Resource tags.
+        :paramtype tags: dict[str, str]
+        """
+        super().__init__(**kwargs)
+        self.location = location
+        self.identity = identity
+        self.properties = properties
+        self.tags = tags
+
+
+class DetailedInformation(_serialization.Model):
+    """Model to capture detailed information for Data Manager For AgricultureExtensions.
+
+    :ivar api_name: ApiName available for the Data Manager For Agriculture Extension.
     :vartype api_name: str
+    :ivar api_docs_link: Extension provider's API documentation link.
+    :vartype api_docs_link: str
+    :ivar api_type: Type of Api in Extension.
+    :vartype api_type: str
     :ivar custom_parameters: List of customParameters.
     :vartype custom_parameters: list[str]
     :ivar platform_parameters: List of platformParameters.
     :vartype platform_parameters: list[str]
+    :ivar api_default_input_parameters: List of defaultParameters.
+    :vartype api_default_input_parameters: list[str]
     :ivar units_supported: Unit systems info for the data provider.
     :vartype units_supported: ~azure.mgmt.agrifood.models.UnitSystemsInfo
     :ivar api_input_parameters: List of apiInputParameters.
@@ -154,8 +1062,11 @@ class DetailedInformation(_serialization.Model):
 
     _attribute_map = {
         "api_name": {"key": "apiName", "type": "str"},
+        "api_docs_link": {"key": "apiDocsLink", "type": "str"},
+        "api_type": {"key": "apiType", "type": "str"},
         "custom_parameters": {"key": "customParameters", "type": "[str]"},
         "platform_parameters": {"key": "platformParameters", "type": "[str]"},
+        "api_default_input_parameters": {"key": "apiDefaultInputParameters", "type": "[str]"},
         "units_supported": {"key": "unitsSupported", "type": "UnitSystemsInfo"},
         "api_input_parameters": {"key": "apiInputParameters", "type": "[str]"},
     }
@@ -164,19 +1075,28 @@ class DetailedInformation(_serialization.Model):
         self,
         *,
         api_name: Optional[str] = None,
+        api_docs_link: Optional[str] = None,
+        api_type: Optional[str] = None,
         custom_parameters: Optional[List[str]] = None,
         platform_parameters: Optional[List[str]] = None,
+        api_default_input_parameters: Optional[List[str]] = None,
         units_supported: Optional["_models.UnitSystemsInfo"] = None,
         api_input_parameters: Optional[List[str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
-        :keyword api_name: ApiName available for the farmBeatsExtension.
+        :keyword api_name: ApiName available for the Data Manager For Agriculture Extension.
         :paramtype api_name: str
+        :keyword api_docs_link: Extension provider's API documentation link.
+        :paramtype api_docs_link: str
+        :keyword api_type: Type of Api in Extension.
+        :paramtype api_type: str
         :keyword custom_parameters: List of customParameters.
         :paramtype custom_parameters: list[str]
         :keyword platform_parameters: List of platformParameters.
         :paramtype platform_parameters: list[str]
+        :keyword api_default_input_parameters: List of defaultParameters.
+        :paramtype api_default_input_parameters: list[str]
         :keyword units_supported: Unit systems info for the data provider.
         :paramtype units_supported: ~azure.mgmt.agrifood.models.UnitSystemsInfo
         :keyword api_input_parameters: List of apiInputParameters.
@@ -184,8 +1104,11 @@ class DetailedInformation(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.api_name = api_name
+        self.api_docs_link = api_docs_link
+        self.api_type = api_type
         self.custom_parameters = custom_parameters
         self.platform_parameters = platform_parameters
+        self.api_default_input_parameters = api_default_input_parameters
         self.units_supported = units_supported
         self.api_input_parameters = api_input_parameters
 
@@ -211,7 +1134,7 @@ class ErrorAdditionalInfo(_serialization.Model):
         "info": {"key": "info", "type": "object"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.type = None
@@ -251,7 +1174,7 @@ class ErrorDetail(_serialization.Model):
         "additional_info": {"key": "additionalInfo", "type": "[ErrorAdditionalInfo]"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.code = None
@@ -262,7 +1185,8 @@ class ErrorDetail(_serialization.Model):
 
 
 class ErrorResponse(_serialization.Model):
-    """Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.).
+    """Common error response for all Azure Resource Manager APIs to return error details for failed
+    operations. (This also follows the OData error response format.).
 
     :ivar error: The error object.
     :vartype error: ~azure.mgmt.agrifood.models.ErrorDetail
@@ -272,7 +1196,7 @@ class ErrorResponse(_serialization.Model):
         "error": {"key": "error", "type": "ErrorDetail"},
     }
 
-    def __init__(self, *, error: Optional["_models.ErrorDetail"] = None, **kwargs):
+    def __init__(self, *, error: Optional["_models.ErrorDetail"] = None, **kwargs: Any) -> None:
         """
         :keyword error: The error object.
         :paramtype error: ~azure.mgmt.agrifood.models.ErrorDetail
@@ -281,91 +1205,13 @@ class ErrorResponse(_serialization.Model):
         self.error = error
 
 
-class Resource(_serialization.Model):
-    """Common fields that are returned in the response for all Azure Resource Manager resources.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
-    :vartype id: str
-    :ivar name: The name of the resource.
-    :vartype name: str
-    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-     "Microsoft.Storage/storageAccounts".
-    :vartype type: str
-    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
-     information.
-    :vartype system_data: ~azure.mgmt.agrifood.models.SystemData
-    """
-
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-        "system_data": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "system_data": {"key": "systemData", "type": "SystemData"},
-    }
-
-    def __init__(self, **kwargs):
-        """ """
-        super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
-        self.system_data = None
-
-
-class ProxyResource(Resource):
-    """The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
-    :vartype id: str
-    :ivar name: The name of the resource.
-    :vartype name: str
-    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-     "Microsoft.Storage/storageAccounts".
-    :vartype type: str
-    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
-     information.
-    :vartype system_data: ~azure.mgmt.agrifood.models.SystemData
-    """
-
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-        "system_data": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "system_data": {"key": "systemData", "type": "SystemData"},
-    }
-
-    def __init__(self, **kwargs):
-        """ """
-        super().__init__(**kwargs)
-
-
-class Extension(ProxyResource):  # pylint: disable=too-many-instance-attributes
+class Extension(ProxyResource):
     """Extension resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -387,7 +1233,7 @@ class Extension(ProxyResource):  # pylint: disable=too-many-instance-attributes
     :vartype extension_auth_link: str
     :ivar extension_api_docs_link: Extension api docs link.
     :vartype extension_api_docs_link: str
-    :ivar additional_api_properties: Additional api properties.
+    :ivar additional_api_properties: Additional Api Properties.
     :vartype additional_api_properties: dict[str, ~azure.mgmt.agrifood.models.ApiProperties]
     """
 
@@ -419,7 +1265,7 @@ class Extension(ProxyResource):  # pylint: disable=too-many-instance-attributes
         "additional_api_properties": {"key": "properties.additionalApiProperties", "type": "{ApiProperties}"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.e_tag = None
@@ -454,8 +1300,8 @@ class ExtensionInstallationRequest(_serialization.Model):
         *,
         extension_version: Optional[str] = None,
         additional_api_properties: Optional[Dict[str, "_models.ApiProperties"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword extension_version: Extension Version.
         :paramtype extension_version: str
@@ -468,396 +1314,15 @@ class ExtensionInstallationRequest(_serialization.Model):
 
 
 class ExtensionListResponse(_serialization.Model):
-    """Paged response contains list of requested objects and a URL link to get the next set of results.
+    """Paged response contains list of requested objects and a URL link to get the next set of
+    results.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar value: List of requested objects.
+    All required parameters must be populated in order to send to server.
+
+    :ivar value: List of requested objects. Required.
     :vartype value: list[~azure.mgmt.agrifood.models.Extension]
-    :ivar next_link: Continuation link (absolute URI) to the next page of results in the list.
-    :vartype next_link: str
-    """
-
-    _validation = {
-        "next_link": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "value": {"key": "value", "type": "[Extension]"},
-        "next_link": {"key": "nextLink", "type": "str"},
-    }
-
-    def __init__(self, *, value: Optional[List["_models.Extension"]] = None, **kwargs):
-        """
-        :keyword value: List of requested objects.
-        :paramtype value: list[~azure.mgmt.agrifood.models.Extension]
-        """
-        super().__init__(**kwargs)
-        self.value = value
-        self.next_link = None
-
-
-class TrackedResource(Resource):
-    """The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location'.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
-    :vartype id: str
-    :ivar name: The name of the resource.
-    :vartype name: str
-    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-     "Microsoft.Storage/storageAccounts".
-    :vartype type: str
-    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
-     information.
-    :vartype system_data: ~azure.mgmt.agrifood.models.SystemData
-    :ivar tags: Resource tags.
-    :vartype tags: dict[str, str]
-    :ivar location: The geo-location where the resource lives. Required.
-    :vartype location: str
-    """
-
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-        "system_data": {"readonly": True},
-        "location": {"required": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "system_data": {"key": "systemData", "type": "SystemData"},
-        "tags": {"key": "tags", "type": "{str}"},
-        "location": {"key": "location", "type": "str"},
-    }
-
-    def __init__(self, *, location: str, tags: Optional[Dict[str, str]] = None, **kwargs):
-        """
-        :keyword tags: Resource tags.
-        :paramtype tags: dict[str, str]
-        :keyword location: The geo-location where the resource lives. Required.
-        :paramtype location: str
-        """
-        super().__init__(**kwargs)
-        self.tags = tags
-        self.location = location
-
-
-class FarmBeats(TrackedResource):  # pylint: disable=too-many-instance-attributes
-    """FarmBeats ARM Resource.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
-    :vartype id: str
-    :ivar name: The name of the resource.
-    :vartype name: str
-    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-     "Microsoft.Storage/storageAccounts".
-    :vartype type: str
-    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
-     information.
-    :vartype system_data: ~azure.mgmt.agrifood.models.SystemData
-    :ivar tags: Resource tags.
-    :vartype tags: dict[str, str]
-    :ivar location: The geo-location where the resource lives. Required.
-    :vartype location: str
-    :ivar identity: Identity for the resource.
-    :vartype identity: ~azure.mgmt.agrifood.models.Identity
-    :ivar instance_uri: Uri of the FarmBeats instance.
-    :vartype instance_uri: str
-    :ivar provisioning_state: FarmBeats instance provisioning state. Known values are: "Creating",
-     "Updating", "Deleting", "Succeeded", and "Failed".
-    :vartype provisioning_state: str or ~azure.mgmt.agrifood.models.ProvisioningState
-    :ivar sensor_integration: Sensor integration request model.
-    :vartype sensor_integration: ~azure.mgmt.agrifood.models.SensorIntegration
-    :ivar public_network_access: Property to allow or block public traffic for an Azure FarmBeats
-     resource. Known values are: "Enabled" and "Hybrid".
-    :vartype public_network_access: str or ~azure.mgmt.agrifood.models.PublicNetworkAccess
-    :ivar private_endpoint_connections: The private endpoint connection resource.
-    :vartype private_endpoint_connections: ~azure.mgmt.agrifood.models.PrivateEndpointConnection
-    """
-
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-        "system_data": {"readonly": True},
-        "location": {"required": True},
-        "instance_uri": {"readonly": True},
-        "provisioning_state": {"readonly": True},
-        "private_endpoint_connections": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "system_data": {"key": "systemData", "type": "SystemData"},
-        "tags": {"key": "tags", "type": "{str}"},
-        "location": {"key": "location", "type": "str"},
-        "identity": {"key": "identity", "type": "Identity"},
-        "instance_uri": {"key": "properties.instanceUri", "type": "str"},
-        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
-        "sensor_integration": {"key": "properties.sensorIntegration", "type": "SensorIntegration"},
-        "public_network_access": {"key": "properties.publicNetworkAccess", "type": "str"},
-        "private_endpoint_connections": {
-            "key": "properties.privateEndpointConnections",
-            "type": "PrivateEndpointConnection",
-        },
-    }
-
-    def __init__(
-        self,
-        *,
-        location: str,
-        tags: Optional[Dict[str, str]] = None,
-        identity: Optional["_models.Identity"] = None,
-        sensor_integration: Optional["_models.SensorIntegration"] = None,
-        public_network_access: Optional[Union[str, "_models.PublicNetworkAccess"]] = None,
-        **kwargs
-    ):
-        """
-        :keyword tags: Resource tags.
-        :paramtype tags: dict[str, str]
-        :keyword location: The geo-location where the resource lives. Required.
-        :paramtype location: str
-        :keyword identity: Identity for the resource.
-        :paramtype identity: ~azure.mgmt.agrifood.models.Identity
-        :keyword sensor_integration: Sensor integration request model.
-        :paramtype sensor_integration: ~azure.mgmt.agrifood.models.SensorIntegration
-        :keyword public_network_access: Property to allow or block public traffic for an Azure
-         FarmBeats resource. Known values are: "Enabled" and "Hybrid".
-        :paramtype public_network_access: str or ~azure.mgmt.agrifood.models.PublicNetworkAccess
-        """
-        super().__init__(tags=tags, location=location, **kwargs)
-        self.identity = identity
-        self.instance_uri = None
-        self.provisioning_state = None
-        self.sensor_integration = sensor_integration
-        self.public_network_access = public_network_access
-        self.private_endpoint_connections = None
-
-
-class FarmBeatsExtension(ProxyResource):  # pylint: disable=too-many-instance-attributes
-    """FarmBeats extension resource.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
-    :vartype id: str
-    :ivar name: The name of the resource.
-    :vartype name: str
-    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-     "Microsoft.Storage/storageAccounts".
-    :vartype type: str
-    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
-     information.
-    :vartype system_data: ~azure.mgmt.agrifood.models.SystemData
-    :ivar target_resource_type: Target ResourceType of the farmBeatsExtension.
-    :vartype target_resource_type: str
-    :ivar farm_beats_extension_id: FarmBeatsExtension ID.
-    :vartype farm_beats_extension_id: str
-    :ivar farm_beats_extension_name: FarmBeatsExtension name.
-    :vartype farm_beats_extension_name: str
-    :ivar farm_beats_extension_version: FarmBeatsExtension version.
-    :vartype farm_beats_extension_version: str
-    :ivar publisher_id: Publisher ID.
-    :vartype publisher_id: str
-    :ivar description: Textual description.
-    :vartype description: str
-    :ivar extension_category: Category of the extension. e.g. weather/sensor/satellite.
-    :vartype extension_category: str
-    :ivar extension_auth_link: FarmBeatsExtension auth link.
-    :vartype extension_auth_link: str
-    :ivar extension_api_docs_link: FarmBeatsExtension api docs link.
-    :vartype extension_api_docs_link: str
-    :ivar detailed_information: Detailed information which shows summary of requested data.
-     Used in descriptive get extension metadata call.
-     Information for weather category per api included are apisSupported,
-     customParameters, PlatformParameters and Units supported.
-    :vartype detailed_information: list[~azure.mgmt.agrifood.models.DetailedInformation]
-    """
-
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-        "system_data": {"readonly": True},
-        "target_resource_type": {"readonly": True},
-        "farm_beats_extension_id": {
-            "readonly": True,
-            "max_length": 100,
-            "min_length": 2,
-            "pattern": r"^[a-zA-Z]{3,50}[.][a-zA-Z]{3,100}$",
-        },
-        "farm_beats_extension_name": {"readonly": True, "max_length": 100, "min_length": 2},
-        "farm_beats_extension_version": {
-            "readonly": True,
-            "max_length": 100,
-            "min_length": 2,
-            "pattern": r"^([1-9]|10).\d$",
-        },
-        "publisher_id": {"readonly": True, "max_length": 100, "min_length": 2},
-        "description": {"readonly": True, "max_length": 500, "min_length": 2},
-        "extension_category": {"readonly": True, "max_length": 100, "min_length": 2},
-        "extension_auth_link": {"readonly": True},
-        "extension_api_docs_link": {"readonly": True},
-        "detailed_information": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "system_data": {"key": "systemData", "type": "SystemData"},
-        "target_resource_type": {"key": "properties.targetResourceType", "type": "str"},
-        "farm_beats_extension_id": {"key": "properties.farmBeatsExtensionId", "type": "str"},
-        "farm_beats_extension_name": {"key": "properties.farmBeatsExtensionName", "type": "str"},
-        "farm_beats_extension_version": {"key": "properties.farmBeatsExtensionVersion", "type": "str"},
-        "publisher_id": {"key": "properties.publisherId", "type": "str"},
-        "description": {"key": "properties.description", "type": "str"},
-        "extension_category": {"key": "properties.extensionCategory", "type": "str"},
-        "extension_auth_link": {"key": "properties.extensionAuthLink", "type": "str"},
-        "extension_api_docs_link": {"key": "properties.extensionApiDocsLink", "type": "str"},
-        "detailed_information": {"key": "properties.detailedInformation", "type": "[DetailedInformation]"},
-    }
-
-    def __init__(self, **kwargs):
-        """ """
-        super().__init__(**kwargs)
-        self.target_resource_type = None
-        self.farm_beats_extension_id = None
-        self.farm_beats_extension_name = None
-        self.farm_beats_extension_version = None
-        self.publisher_id = None
-        self.description = None
-        self.extension_category = None
-        self.extension_auth_link = None
-        self.extension_api_docs_link = None
-        self.detailed_information = None
-
-
-class FarmBeatsExtensionListResponse(_serialization.Model):
-    """Paged response contains list of requested objects and a URL link to get the next set of results.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar value: List of requested objects.
-    :vartype value: list[~azure.mgmt.agrifood.models.FarmBeatsExtension]
-    :ivar next_link: Continuation link (absolute URI) to the next page of results in the list.
-    :vartype next_link: str
-    """
-
-    _validation = {
-        "next_link": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "value": {"key": "value", "type": "[FarmBeatsExtension]"},
-        "next_link": {"key": "nextLink", "type": "str"},
-    }
-
-    def __init__(self, *, value: Optional[List["_models.FarmBeatsExtension"]] = None, **kwargs):
-        """
-        :keyword value: List of requested objects.
-        :paramtype value: list[~azure.mgmt.agrifood.models.FarmBeatsExtension]
-        """
-        super().__init__(**kwargs)
-        self.value = value
-        self.next_link = None
-
-
-class FarmBeatsListResponse(_serialization.Model):
-    """Paged response contains list of requested objects and a URL link to get the next set of results.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar value: List of requested objects.
-    :vartype value: list[~azure.mgmt.agrifood.models.FarmBeats]
-    :ivar next_link: Continuation link (absolute URI) to the next page of results in the list.
-    :vartype next_link: str
-    """
-
-    _validation = {
-        "next_link": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "value": {"key": "value", "type": "[FarmBeats]"},
-        "next_link": {"key": "nextLink", "type": "str"},
-    }
-
-    def __init__(self, *, value: Optional[List["_models.FarmBeats"]] = None, **kwargs):
-        """
-        :keyword value: List of requested objects.
-        :paramtype value: list[~azure.mgmt.agrifood.models.FarmBeats]
-        """
-        super().__init__(**kwargs)
-        self.value = value
-        self.next_link = None
-
-
-class FarmBeatsSolution(ProxyResource):
-    """FarmBeats solution resource.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
-    :vartype id: str
-    :ivar name: The name of the resource.
-    :vartype name: str
-    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-     "Microsoft.Storage/storageAccounts".
-    :vartype type: str
-    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
-     information.
-    :vartype system_data: ~azure.mgmt.agrifood.models.SystemData
-    :ivar properties: FarmBeatsSolution properties.
-    :vartype properties: ~azure.mgmt.agrifood.models.FarmBeatsSolutionProperties
-    """
-
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-        "system_data": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "system_data": {"key": "systemData", "type": "SystemData"},
-        "properties": {"key": "properties", "type": "FarmBeatsSolutionProperties"},
-    }
-
-    def __init__(self, *, properties: Optional["_models.FarmBeatsSolutionProperties"] = None, **kwargs):
-        """
-        :keyword properties: FarmBeatsSolution properties.
-        :paramtype properties: ~azure.mgmt.agrifood.models.FarmBeatsSolutionProperties
-        """
-        super().__init__(**kwargs)
-        self.properties = properties
-
-
-class FarmBeatsSolutionListResponse(_serialization.Model):
-    """Paged response contains list of requested objects and a URL link to get the next set of results.
-
-    :ivar value: List of requested objects.
-    :vartype value: list[~azure.mgmt.agrifood.models.FarmBeatsSolution]
     :ivar skip_token: Token used in retrieving the next page. If null, there are no additional
      pages.
     :vartype skip_token: str
@@ -865,200 +1330,29 @@ class FarmBeatsSolutionListResponse(_serialization.Model):
     :vartype next_link: str
     """
 
+    _validation = {
+        "value": {"required": True},
+        "next_link": {"readonly": True},
+    }
+
     _attribute_map = {
-        "value": {"key": "value", "type": "[FarmBeatsSolution]"},
+        "value": {"key": "value", "type": "[Extension]"},
         "skip_token": {"key": "$skipToken", "type": "str"},
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(
-        self,
-        *,
-        value: Optional[List["_models.FarmBeatsSolution"]] = None,
-        skip_token: Optional[str] = None,
-        next_link: Optional[str] = None,
-        **kwargs
-    ):
+    def __init__(self, *, value: List["_models.Extension"], skip_token: Optional[str] = None, **kwargs: Any) -> None:
         """
-        :keyword value: List of requested objects.
-        :paramtype value: list[~azure.mgmt.agrifood.models.FarmBeatsSolution]
+        :keyword value: List of requested objects. Required.
+        :paramtype value: list[~azure.mgmt.agrifood.models.Extension]
         :keyword skip_token: Token used in retrieving the next page. If null, there are no additional
          pages.
         :paramtype skip_token: str
-        :keyword next_link: Continuation link (absolute URI) to the next page of results in the list.
-        :paramtype next_link: str
         """
         super().__init__(**kwargs)
         self.value = value
         self.skip_token = skip_token
-        self.next_link = next_link
-
-
-class FarmBeatsSolutionProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
-    """FarmBeatsSolution properties.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar partner_id: Solution Partner Id.
-    :vartype partner_id: str
-    :ivar partner_tenant_id: Solution Partner Tenant Id.
-    :vartype partner_tenant_id: str
-    :ivar data_access_scopes: Gets scope of the FarmBeats data access that's required for
-     processing solution request to partner.
-     Example: For gdd they might need weatherScope and satelliteScope.
-    :vartype data_access_scopes: list[str]
-    :ivar marketplace_offer_details:
-    :vartype marketplace_offer_details: ~azure.mgmt.agrifood.models.MarketplaceOfferDetails
-    :ivar input_parameters_validation_scopes: Gets scope of the FarmBeats related parameters that
-     need to be validated in apiInputParameters.
-     Example: For if 'FarmHierarchy' is the input scope for 'WeatherScope' data access
-     For working with WeatherScope we need FarmHierarchy info implies 'farmerId', 'resourceId',
-     'resourceType' in request body.
-    :vartype input_parameters_validation_scopes:
-     list[~azure.mgmt.agrifood.models.ResourceParameter]
-    :ivar open_api_specs_dictionary: Gets apiVersion: Swagger Document Dictionary to capture all
-     api versions of swagger exposed by partner to farmbeats.
-    :vartype open_api_specs_dictionary: dict[str, JSON]
-    :ivar evaluated_outputs_dictionary: Gets example name: insight sample response Dictionary to
-     capture all variations of computed results ingested by partner.
-    :vartype evaluated_outputs_dictionary: dict[str,
-     ~azure.mgmt.agrifood.models.SolutionEvaluatedOutput]
-    :ivar access_fb_application_id: Application id of the multi tenant application to be used by
-     partner to access FarmBeats data.
-    :vartype access_fb_application_id: str
-    :ivar role_id: Role Id of the SaaS multi tenant application to access relevant fb data.
-    :vartype role_id: str
-    :ivar role_name: Role Name of the SaaS multi tenant application to access relevant fb data.
-    :vartype role_name: str
-    :ivar access_fb_application_name: Application name of the multi tenant application to be used
-     by partner to access FarmBeatsData.
-    :vartype access_fb_application_name: str
-    """
-
-    _validation = {
-        "partner_id": {"readonly": True},
-        "partner_tenant_id": {"readonly": True},
-        "data_access_scopes": {"readonly": True},
-        "input_parameters_validation_scopes": {"readonly": True},
-        "open_api_specs_dictionary": {"readonly": True},
-        "evaluated_outputs_dictionary": {"readonly": True},
-        "access_fb_application_id": {"readonly": True},
-        "role_id": {"readonly": True},
-        "role_name": {"readonly": True},
-        "access_fb_application_name": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "partner_id": {"key": "partnerId", "type": "str"},
-        "partner_tenant_id": {"key": "partnerTenantId", "type": "str"},
-        "data_access_scopes": {"key": "dataAccessScopes", "type": "[str]"},
-        "marketplace_offer_details": {"key": "marketplaceOfferDetails", "type": "MarketplaceOfferDetails"},
-        "input_parameters_validation_scopes": {"key": "inputParametersValidationScopes", "type": "[ResourceParameter]"},
-        "open_api_specs_dictionary": {"key": "openApiSpecsDictionary", "type": "{object}"},
-        "evaluated_outputs_dictionary": {"key": "evaluatedOutputsDictionary", "type": "{SolutionEvaluatedOutput}"},
-        "access_fb_application_id": {"key": "accessFBApplicationId", "type": "str"},
-        "role_id": {"key": "roleId", "type": "str"},
-        "role_name": {"key": "roleName", "type": "str"},
-        "access_fb_application_name": {"key": "accessFBApplicationName", "type": "str"},
-    }
-
-    def __init__(self, *, marketplace_offer_details: Optional["_models.MarketplaceOfferDetails"] = None, **kwargs):
-        """
-        :keyword marketplace_offer_details:
-        :paramtype marketplace_offer_details: ~azure.mgmt.agrifood.models.MarketplaceOfferDetails
-        """
-        super().__init__(**kwargs)
-        self.partner_id = None
-        self.partner_tenant_id = None
-        self.data_access_scopes = None
-        self.marketplace_offer_details = marketplace_offer_details
-        self.input_parameters_validation_scopes = None
-        self.open_api_specs_dictionary = None
-        self.evaluated_outputs_dictionary = None
-        self.access_fb_application_id = None
-        self.role_id = None
-        self.role_name = None
-        self.access_fb_application_name = None
-
-
-class FarmBeatsUpdateProperties(_serialization.Model):
-    """FarmBeats ARM Resource properties.
-
-    :ivar sensor_integration: Sensor integration request model.
-    :vartype sensor_integration: ~azure.mgmt.agrifood.models.SensorIntegration
-    :ivar public_network_access: Property to allow or block public traffic for an Azure FarmBeats
-     resource. Known values are: "Enabled" and "Hybrid".
-    :vartype public_network_access: str or ~azure.mgmt.agrifood.models.PublicNetworkAccess
-    """
-
-    _attribute_map = {
-        "sensor_integration": {"key": "sensorIntegration", "type": "SensorIntegration"},
-        "public_network_access": {"key": "publicNetworkAccess", "type": "str"},
-    }
-
-    def __init__(
-        self,
-        *,
-        sensor_integration: Optional["_models.SensorIntegration"] = None,
-        public_network_access: Optional[Union[str, "_models.PublicNetworkAccess"]] = None,
-        **kwargs
-    ):
-        """
-        :keyword sensor_integration: Sensor integration request model.
-        :paramtype sensor_integration: ~azure.mgmt.agrifood.models.SensorIntegration
-        :keyword public_network_access: Property to allow or block public traffic for an Azure
-         FarmBeats resource. Known values are: "Enabled" and "Hybrid".
-        :paramtype public_network_access: str or ~azure.mgmt.agrifood.models.PublicNetworkAccess
-        """
-        super().__init__(**kwargs)
-        self.sensor_integration = sensor_integration
-        self.public_network_access = public_network_access
-
-
-class FarmBeatsUpdateRequestModel(_serialization.Model):
-    """FarmBeats update request.
-
-    :ivar location: Geo-location where the resource lives.
-    :vartype location: str
-    :ivar identity: Identity for the resource.
-    :vartype identity: ~azure.mgmt.agrifood.models.Identity
-    :ivar properties: FarmBeats ARM Resource properties.
-    :vartype properties: ~azure.mgmt.agrifood.models.FarmBeatsUpdateProperties
-    :ivar tags: Resource tags.
-    :vartype tags: dict[str, str]
-    """
-
-    _attribute_map = {
-        "location": {"key": "location", "type": "str"},
-        "identity": {"key": "identity", "type": "Identity"},
-        "properties": {"key": "properties", "type": "FarmBeatsUpdateProperties"},
-        "tags": {"key": "tags", "type": "{str}"},
-    }
-
-    def __init__(
-        self,
-        *,
-        location: Optional[str] = None,
-        identity: Optional["_models.Identity"] = None,
-        properties: Optional["_models.FarmBeatsUpdateProperties"] = None,
-        tags: Optional[Dict[str, str]] = None,
-        **kwargs
-    ):
-        """
-        :keyword location: Geo-location where the resource lives.
-        :paramtype location: str
-        :keyword identity: Identity for the resource.
-        :paramtype identity: ~azure.mgmt.agrifood.models.Identity
-        :keyword properties: FarmBeats ARM Resource properties.
-        :paramtype properties: ~azure.mgmt.agrifood.models.FarmBeatsUpdateProperties
-        :keyword tags: Resource tags.
-        :paramtype tags: dict[str, str]
-        """
-        super().__init__(**kwargs)
-        self.location = location
-        self.identity = identity
-        self.properties = properties
-        self.tags = tags
+        self.next_link = None
 
 
 class Identity(_serialization.Model):
@@ -1085,7 +1379,7 @@ class Identity(_serialization.Model):
         "type": {"key": "type", "type": "str"},
     }
 
-    def __init__(self, *, type: Optional[Literal["SystemAssigned"]] = None, **kwargs):
+    def __init__(self, *, type: Optional[Literal["SystemAssigned"]] = None, **kwargs: Any) -> None:
         """
         :keyword type: The identity type. Default value is "SystemAssigned".
         :paramtype type: str
@@ -1096,250 +1390,44 @@ class Identity(_serialization.Model):
         self.type = type
 
 
-class Insight(_serialization.Model):  # pylint: disable=too-many-instance-attributes
-    """Insight.
+class KeyVaultProperties(_serialization.Model):
+    """Properties of the key vault.
 
-    :ivar farmer_id:
-    :vartype farmer_id: str
-    :ivar model_id:
-    :vartype model_id: str
-    :ivar resource_type:
-    :vartype resource_type: str
-    :ivar resource_id:
-    :vartype resource_id: str
-    :ivar model_version:
-    :vartype model_version: str
-    :ivar insight_start_date_time:
-    :vartype insight_start_date_time: ~datetime.datetime
-    :ivar insight_end_date_time:
-    :vartype insight_end_date_time: ~datetime.datetime
-    :ivar measures: Dictionary of :code:`<Measure>`.
-    :vartype measures: dict[str, ~azure.mgmt.agrifood.models.Measure]
-    :ivar id:
-    :vartype id: str
-    :ivar status:
-    :vartype status: str
-    :ivar created_date_time:
-    :vartype created_date_time: ~datetime.datetime
-    :ivar modified_date_time:
-    :vartype modified_date_time: ~datetime.datetime
-    :ivar e_tag:
-    :vartype e_tag: str
-    :ivar name:
-    :vartype name: str
-    :ivar description:
-    :vartype description: str
-    :ivar properties: Dictionary of :code:`<any>`.
-    :vartype properties: dict[str, any]
+    All required parameters must be populated in order to send to server.
+
+    :ivar key_vault_uri: Uri of the key vault. Required.
+    :vartype key_vault_uri: str
+    :ivar key_name: Name of Key Vault key. Required.
+    :vartype key_name: str
+    :ivar key_version: Version of Key Vault key. Required.
+    :vartype key_version: str
     """
 
-    _attribute_map = {
-        "farmer_id": {"key": "farmerId", "type": "str"},
-        "model_id": {"key": "modelId", "type": "str"},
-        "resource_type": {"key": "resourceType", "type": "str"},
-        "resource_id": {"key": "resourceId", "type": "str"},
-        "model_version": {"key": "modelVersion", "type": "str"},
-        "insight_start_date_time": {"key": "insightStartDateTime", "type": "iso-8601"},
-        "insight_end_date_time": {"key": "insightEndDateTime", "type": "iso-8601"},
-        "measures": {"key": "measures", "type": "{Measure}"},
-        "id": {"key": "id", "type": "str"},
-        "status": {"key": "status", "type": "str"},
-        "created_date_time": {"key": "createdDateTime", "type": "iso-8601"},
-        "modified_date_time": {"key": "modifiedDateTime", "type": "iso-8601"},
-        "e_tag": {"key": "eTag", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "description": {"key": "description", "type": "str"},
-        "properties": {"key": "properties", "type": "{object}"},
+    _validation = {
+        "key_vault_uri": {"required": True, "min_length": 1},
+        "key_name": {"required": True, "min_length": 1},
+        "key_version": {"required": True, "min_length": 1},
     }
 
-    def __init__(
-        self,
-        *,
-        farmer_id: Optional[str] = None,
-        model_id: Optional[str] = None,
-        resource_type: Optional[str] = None,
-        resource_id: Optional[str] = None,
-        model_version: Optional[str] = None,
-        insight_start_date_time: Optional[datetime.datetime] = None,
-        insight_end_date_time: Optional[datetime.datetime] = None,
-        measures: Optional[Dict[str, "_models.Measure"]] = None,
-        id: Optional[str] = None,  # pylint: disable=redefined-builtin
-        status: Optional[str] = None,
-        created_date_time: Optional[datetime.datetime] = None,
-        modified_date_time: Optional[datetime.datetime] = None,
-        e_tag: Optional[str] = None,
-        name: Optional[str] = None,
-        description: Optional[str] = None,
-        properties: Optional[Dict[str, Any]] = None,
-        **kwargs
-    ):
-        """
-        :keyword farmer_id:
-        :paramtype farmer_id: str
-        :keyword model_id:
-        :paramtype model_id: str
-        :keyword resource_type:
-        :paramtype resource_type: str
-        :keyword resource_id:
-        :paramtype resource_id: str
-        :keyword model_version:
-        :paramtype model_version: str
-        :keyword insight_start_date_time:
-        :paramtype insight_start_date_time: ~datetime.datetime
-        :keyword insight_end_date_time:
-        :paramtype insight_end_date_time: ~datetime.datetime
-        :keyword measures: Dictionary of :code:`<Measure>`.
-        :paramtype measures: dict[str, ~azure.mgmt.agrifood.models.Measure]
-        :keyword id:
-        :paramtype id: str
-        :keyword status:
-        :paramtype status: str
-        :keyword created_date_time:
-        :paramtype created_date_time: ~datetime.datetime
-        :keyword modified_date_time:
-        :paramtype modified_date_time: ~datetime.datetime
-        :keyword e_tag:
-        :paramtype e_tag: str
-        :keyword name:
-        :paramtype name: str
-        :keyword description:
-        :paramtype description: str
-        :keyword properties: Dictionary of :code:`<any>`.
-        :paramtype properties: dict[str, any]
-        """
-        super().__init__(**kwargs)
-        self.farmer_id = farmer_id
-        self.model_id = model_id
-        self.resource_type = resource_type
-        self.resource_id = resource_id
-        self.model_version = model_version
-        self.insight_start_date_time = insight_start_date_time
-        self.insight_end_date_time = insight_end_date_time
-        self.measures = measures
-        self.id = id
-        self.status = status
-        self.created_date_time = created_date_time
-        self.modified_date_time = modified_date_time
-        self.e_tag = e_tag
-        self.name = name
-        self.description = description
-        self.properties = properties
-
-
-class InsightAttachment(_serialization.Model):  # pylint: disable=too-many-instance-attributes
-    """InsightAttachment.
-
-    :ivar insight_id:
-    :vartype insight_id: str
-    :ivar model_id:
-    :vartype model_id: str
-    :ivar resource_type:
-    :vartype resource_type: str
-    :ivar resource_id:
-    :vartype resource_id: str
-    :ivar file_link:
-    :vartype file_link: str
-    :ivar original_file_name:
-    :vartype original_file_name: str
-    :ivar farmer_id:
-    :vartype farmer_id: str
-    :ivar id:
-    :vartype id: str
-    :ivar status:
-    :vartype status: str
-    :ivar created_date_time:
-    :vartype created_date_time: ~datetime.datetime
-    :ivar modified_date_time:
-    :vartype modified_date_time: ~datetime.datetime
-    :ivar name:
-    :vartype name: str
-    :ivar description:
-    :vartype description: str
-    :ivar e_tag:
-    :vartype e_tag: str
-    """
-
     _attribute_map = {
-        "insight_id": {"key": "insightId", "type": "str"},
-        "model_id": {"key": "modelId", "type": "str"},
-        "resource_type": {"key": "resourceType", "type": "str"},
-        "resource_id": {"key": "resourceId", "type": "str"},
-        "file_link": {"key": "fileLink", "type": "str"},
-        "original_file_name": {"key": "originalFileName", "type": "str"},
-        "farmer_id": {"key": "farmerId", "type": "str"},
-        "id": {"key": "id", "type": "str"},
-        "status": {"key": "status", "type": "str"},
-        "created_date_time": {"key": "createdDateTime", "type": "iso-8601"},
-        "modified_date_time": {"key": "modifiedDateTime", "type": "iso-8601"},
-        "name": {"key": "name", "type": "str"},
-        "description": {"key": "description", "type": "str"},
-        "e_tag": {"key": "eTag", "type": "str"},
+        "key_vault_uri": {"key": "keyVaultUri", "type": "str"},
+        "key_name": {"key": "keyName", "type": "str"},
+        "key_version": {"key": "keyVersion", "type": "str"},
     }
 
-    def __init__(
-        self,
-        *,
-        insight_id: Optional[str] = None,
-        model_id: Optional[str] = None,
-        resource_type: Optional[str] = None,
-        resource_id: Optional[str] = None,
-        file_link: Optional[str] = None,
-        original_file_name: Optional[str] = None,
-        farmer_id: Optional[str] = None,
-        id: Optional[str] = None,  # pylint: disable=redefined-builtin
-        status: Optional[str] = None,
-        created_date_time: Optional[datetime.datetime] = None,
-        modified_date_time: Optional[datetime.datetime] = None,
-        name: Optional[str] = None,
-        description: Optional[str] = None,
-        e_tag: Optional[str] = None,
-        **kwargs
-    ):
+    def __init__(self, *, key_vault_uri: str, key_name: str, key_version: str, **kwargs: Any) -> None:
         """
-        :keyword insight_id:
-        :paramtype insight_id: str
-        :keyword model_id:
-        :paramtype model_id: str
-        :keyword resource_type:
-        :paramtype resource_type: str
-        :keyword resource_id:
-        :paramtype resource_id: str
-        :keyword file_link:
-        :paramtype file_link: str
-        :keyword original_file_name:
-        :paramtype original_file_name: str
-        :keyword farmer_id:
-        :paramtype farmer_id: str
-        :keyword id:
-        :paramtype id: str
-        :keyword status:
-        :paramtype status: str
-        :keyword created_date_time:
-        :paramtype created_date_time: ~datetime.datetime
-        :keyword modified_date_time:
-        :paramtype modified_date_time: ~datetime.datetime
-        :keyword name:
-        :paramtype name: str
-        :keyword description:
-        :paramtype description: str
-        :keyword e_tag:
-        :paramtype e_tag: str
+        :keyword key_vault_uri: Uri of the key vault. Required.
+        :paramtype key_vault_uri: str
+        :keyword key_name: Name of Key Vault key. Required.
+        :paramtype key_name: str
+        :keyword key_version: Version of Key Vault key. Required.
+        :paramtype key_version: str
         """
         super().__init__(**kwargs)
-        self.insight_id = insight_id
-        self.model_id = model_id
-        self.resource_type = resource_type
-        self.resource_id = resource_id
-        self.file_link = file_link
-        self.original_file_name = original_file_name
-        self.farmer_id = farmer_id
-        self.id = id
-        self.status = status
-        self.created_date_time = created_date_time
-        self.modified_date_time = modified_date_time
-        self.name = name
-        self.description = description
-        self.e_tag = e_tag
+        self.key_vault_uri = key_vault_uri
+        self.key_name = key_name
+        self.key_version = key_version
 
 
 class MarketplaceOfferDetails(_serialization.Model):
@@ -1356,7 +1444,9 @@ class MarketplaceOfferDetails(_serialization.Model):
         "publisher_id": {"key": "publisherId", "type": "str"},
     }
 
-    def __init__(self, *, saas_offer_id: Optional[str] = None, publisher_id: Optional[str] = None, **kwargs):
+    def __init__(
+        self, *, saas_offer_id: Optional[str] = None, publisher_id: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword saas_offer_id:
         :paramtype saas_offer_id: str
@@ -1368,30 +1458,43 @@ class MarketplaceOfferDetails(_serialization.Model):
         self.publisher_id = publisher_id
 
 
-class Measure(_serialization.Model):
-    """Measure.
+class OAuthClientCredentials(AuthCredentials):
+    """OAuthClientCredentials for clientId clientSecret auth.
 
-    :ivar unit:
-    :vartype unit: str
-    :ivar value:
-    :vartype value: float
+    All required parameters must be populated in order to send to server.
+
+    :ivar kind: Enum for different types of AuthCredentials supported. Required. Known values are:
+     "OAuthClientCredentials" and "ApiKeyAuthCredentials".
+    :vartype kind: str or ~azure.mgmt.agrifood.models.AuthCredentialsKind
+    :ivar client_id: ClientId associated with the provider. Required.
+    :vartype client_id: str
+    :ivar client_secret: Properties of the key vault. Required.
+    :vartype client_secret: ~azure.mgmt.agrifood.models.KeyVaultProperties
     """
 
-    _attribute_map = {
-        "unit": {"key": "unit", "type": "str"},
-        "value": {"key": "value", "type": "float"},
+    _validation = {
+        "kind": {"required": True},
+        "client_id": {"required": True, "min_length": 1},
+        "client_secret": {"required": True},
     }
 
-    def __init__(self, *, unit: Optional[str] = None, value: Optional[float] = None, **kwargs):
+    _attribute_map = {
+        "kind": {"key": "kind", "type": "str"},
+        "client_id": {"key": "clientId", "type": "str"},
+        "client_secret": {"key": "clientSecret", "type": "KeyVaultProperties"},
+    }
+
+    def __init__(self, *, client_id: str, client_secret: "_models.KeyVaultProperties", **kwargs: Any) -> None:
         """
-        :keyword unit:
-        :paramtype unit: str
-        :keyword value:
-        :paramtype value: float
+        :keyword client_id: ClientId associated with the provider. Required.
+        :paramtype client_id: str
+        :keyword client_secret: Properties of the key vault. Required.
+        :paramtype client_secret: ~azure.mgmt.agrifood.models.KeyVaultProperties
         """
         super().__init__(**kwargs)
-        self.unit = unit
-        self.value = value
+        self.kind: str = "OAuthClientCredentials"
+        self.client_id = client_id
+        self.client_secret = client_secret
 
 
 class Operation(_serialization.Model):
@@ -1431,7 +1534,7 @@ class Operation(_serialization.Model):
         "action_type": {"key": "actionType", "type": "str"},
     }
 
-    def __init__(self, *, display: Optional["_models.OperationDisplay"] = None, **kwargs):
+    def __init__(self, *, display: Optional["_models.OperationDisplay"] = None, **kwargs: Any) -> None:
         """
         :keyword display: Localized display information for this particular operation.
         :paramtype display: ~azure.mgmt.agrifood.models.OperationDisplay
@@ -1477,7 +1580,7 @@ class OperationDisplay(_serialization.Model):
         "description": {"key": "description", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.provider = None
@@ -1487,7 +1590,8 @@ class OperationDisplay(_serialization.Model):
 
 
 class OperationListResult(_serialization.Model):
-    """A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results.
+    """A list of REST API operations supported by an Azure Resource Provider. It contains an URL link
+    to get the next set of results.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -1507,7 +1611,7 @@ class OperationListResult(_serialization.Model):
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.value = None
@@ -1531,7 +1635,7 @@ class PrivateEndpoint(_serialization.Model):
         "id": {"key": "id", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
         self.id = None
@@ -1543,7 +1647,7 @@ class PrivateEndpointConnection(Resource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1595,8 +1699,8 @@ class PrivateEndpointConnection(Resource):
         *,
         private_endpoint: Optional["_models.PrivateEndpoint"] = None,
         private_link_service_connection_state: Optional["_models.PrivateLinkServiceConnectionState"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword private_endpoint: The private endpoint resource.
         :paramtype private_endpoint: ~azure.mgmt.agrifood.models.PrivateEndpoint
@@ -1623,7 +1727,7 @@ class PrivateEndpointConnectionListResult(_serialization.Model):
         "value": {"key": "value", "type": "[PrivateEndpointConnection]"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.PrivateEndpointConnection"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.PrivateEndpointConnection"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: Array of private endpoint connections.
         :paramtype value: list[~azure.mgmt.agrifood.models.PrivateEndpointConnection]
@@ -1638,7 +1742,7 @@ class PrivateLinkResource(Resource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1675,7 +1779,7 @@ class PrivateLinkResource(Resource):
         "required_zone_names": {"key": "properties.requiredZoneNames", "type": "[str]"},
     }
 
-    def __init__(self, *, required_zone_names: Optional[List[str]] = None, **kwargs):
+    def __init__(self, *, required_zone_names: Optional[List[str]] = None, **kwargs: Any) -> None:
         """
         :keyword required_zone_names: The private link resource private link DNS zone name.
         :paramtype required_zone_names: list[str]
@@ -1697,7 +1801,7 @@ class PrivateLinkResourceListResult(_serialization.Model):
         "value": {"key": "value", "type": "[PrivateLinkResource]"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.PrivateLinkResource"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.PrivateLinkResource"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: Array of private link resources.
         :paramtype value: list[~azure.mgmt.agrifood.models.PrivateLinkResource]
@@ -1707,7 +1811,8 @@ class PrivateLinkResourceListResult(_serialization.Model):
 
 
 class PrivateLinkServiceConnectionState(_serialization.Model):
-    """A collection of information about the state of the connection between service consumer and provider.
+    """A collection of information about the state of the connection between service consumer and
+    provider.
 
     :ivar status: Indicates whether the connection has been Approved/Rejected/Removed by the owner
      of the service. Known values are: "Pending", "Approved", and "Rejected".
@@ -1731,8 +1836,8 @@ class PrivateLinkServiceConnectionState(_serialization.Model):
         status: Optional[Union[str, "_models.PrivateEndpointServiceConnectionStatus"]] = None,
         description: Optional[str] = None,
         actions_required: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword status: Indicates whether the connection has been Approved/Rejected/Removed by the
          owner of the service. Known values are: "Pending", "Approved", and "Rejected".
@@ -1749,41 +1854,15 @@ class PrivateLinkServiceConnectionState(_serialization.Model):
         self.actions_required = actions_required
 
 
-class ResourceParameter(_serialization.Model):
-    """ResourceParameter.
-
-    :ivar resource_id_name:
-    :vartype resource_id_name: str
-    :ivar resource_type:
-    :vartype resource_type: str
-    """
-
-    _attribute_map = {
-        "resource_id_name": {"key": "resourceIdName", "type": "str"},
-        "resource_type": {"key": "resourceType", "type": "str"},
-    }
-
-    def __init__(self, *, resource_id_name: Optional[str] = None, resource_type: Optional[str] = None, **kwargs):
-        """
-        :keyword resource_id_name:
-        :paramtype resource_id_name: str
-        :keyword resource_type:
-        :paramtype resource_type: str
-        """
-        super().__init__(**kwargs)
-        self.resource_id_name = resource_id_name
-        self.resource_type = resource_type
-
-
 class SensorIntegration(_serialization.Model):
     """Sensor integration request model.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar enabled: Sensor integration enable state. Allowed values are True, None.
+    :ivar enabled: Sensor integration enable state.
     :vartype enabled: str
     :ivar provisioning_state: Sensor integration instance provisioning state. Known values are:
-     "Creating", "Updating", "Deleting", "Succeeded", and "Failed".
+     "Creating", "Updating", "Deleting", "Succeeded", "Failed", and "Running".
     :vartype provisioning_state: str or ~azure.mgmt.agrifood.models.ProvisioningState
     :ivar provisioning_info: Common error response for all Azure Resource Manager APIs to return
      error details for failed operations. (This also follows the OData error response format.).
@@ -1801,10 +1880,14 @@ class SensorIntegration(_serialization.Model):
     }
 
     def __init__(
-        self, *, enabled: Optional[str] = None, provisioning_info: Optional["_models.ErrorResponse"] = None, **kwargs
-    ):
+        self,
+        *,
+        enabled: Optional[str] = None,
+        provisioning_info: Optional["_models.ErrorResponse"] = None,
+        **kwargs: Any
+    ) -> None:
         """
-        :keyword enabled: Sensor integration enable state. Allowed values are True, None.
+        :keyword enabled: Sensor integration enable state.
         :paramtype enabled: str
         :keyword provisioning_info: Common error response for all Azure Resource Manager APIs to return
          error details for failed operations. (This also follows the OData error response format.).
@@ -1822,7 +1905,7 @@ class Solution(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1855,7 +1938,7 @@ class Solution(ProxyResource):
         "e_tag": {"key": "eTag", "type": "str"},
     }
 
-    def __init__(self, *, properties: Optional["_models.SolutionProperties"] = None, **kwargs):
+    def __init__(self, *, properties: Optional["_models.SolutionProperties"] = None, **kwargs: Any) -> None:
         """
         :keyword properties: Solution resource properties.
         :paramtype properties: ~azure.mgmt.agrifood.models.SolutionProperties
@@ -1865,62 +1948,13 @@ class Solution(ProxyResource):
         self.e_tag = None
 
 
-class SolutionEvaluatedOutput(_serialization.Model):
-    """SolutionEvaluatedOutput.
-
-    :ivar insight_response:
-    :vartype insight_response: ~azure.mgmt.agrifood.models.Insight
-    :ivar insight_attachment_response:
-    :vartype insight_attachment_response: ~azure.mgmt.agrifood.models.InsightAttachment
-    """
-
-    _attribute_map = {
-        "insight_response": {"key": "insightResponse", "type": "Insight"},
-        "insight_attachment_response": {"key": "insightAttachmentResponse", "type": "InsightAttachment"},
-    }
-
-    def __init__(
-        self,
-        *,
-        insight_response: Optional["_models.Insight"] = None,
-        insight_attachment_response: Optional["_models.InsightAttachment"] = None,
-        **kwargs
-    ):
-        """
-        :keyword insight_response:
-        :paramtype insight_response: ~azure.mgmt.agrifood.models.Insight
-        :keyword insight_attachment_response:
-        :paramtype insight_attachment_response: ~azure.mgmt.agrifood.models.InsightAttachment
-        """
-        super().__init__(**kwargs)
-        self.insight_response = insight_response
-        self.insight_attachment_response = insight_attachment_response
-
-
-class SolutionInstallationRequest(_serialization.Model):
-    """Solution Installation Request Body.
-
-    :ivar properties: Solution resource properties.
-    :vartype properties: ~azure.mgmt.agrifood.models.SolutionProperties
-    """
-
-    _attribute_map = {
-        "properties": {"key": "properties", "type": "SolutionProperties"},
-    }
-
-    def __init__(self, *, properties: Optional["_models.SolutionProperties"] = None, **kwargs):
-        """
-        :keyword properties: Solution resource properties.
-        :paramtype properties: ~azure.mgmt.agrifood.models.SolutionProperties
-        """
-        super().__init__(**kwargs)
-        self.properties = properties
-
-
 class SolutionListResponse(_serialization.Model):
-    """Paged response contains list of requested objects and a URL link to get the next set of results.
+    """Paged response contains list of requested objects and a URL link to get the next set of
+    results.
 
-    :ivar value: List of requested objects.
+    All required parameters must be populated in order to send to server.
+
+    :ivar value: List of requested objects. Required.
     :vartype value: list[~azure.mgmt.agrifood.models.Solution]
     :ivar skip_token: Token used in retrieving the next page. If null, there are no additional
      pages.
@@ -1928,6 +1962,10 @@ class SolutionListResponse(_serialization.Model):
     :ivar next_link: Continuation link (absolute URI) to the next page of results in the list.
     :vartype next_link: str
     """
+
+    _validation = {
+        "value": {"required": True},
+    }
 
     _attribute_map = {
         "value": {"key": "value", "type": "[Solution]"},
@@ -1938,13 +1976,13 @@ class SolutionListResponse(_serialization.Model):
     def __init__(
         self,
         *,
-        value: Optional[List["_models.Solution"]] = None,
+        value: List["_models.Solution"],
         skip_token: Optional[str] = None,
         next_link: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
-        :keyword value: List of requested objects.
+        :keyword value: List of requested objects. Required.
         :paramtype value: list[~azure.mgmt.agrifood.models.Solution]
         :keyword skip_token: Token used in retrieving the next page. If null, there are no additional
          pages.
@@ -1963,13 +2001,11 @@ class SolutionProperties(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar additional_properties: Unmatched properties from the message are deserialized to this
      collection.
     :vartype additional_properties: dict[str, any]
-    :ivar solution_id: Solution Id.
-    :vartype solution_id: str
     :ivar partner_id: Partner Id of the Solution.
     :vartype partner_id: str
     :ivar saas_subscription_id: SaaS subscriptionId of the installed SaaS application. Required.
@@ -1977,10 +2013,12 @@ class SolutionProperties(_serialization.Model):
     :ivar saas_subscription_name: SaaS subscription name of the installed SaaS application.
      Required.
     :vartype saas_subscription_name: str
-    :ivar marketplace_publisher_id: SaaS application Publisher Id. Required.
+    :ivar marketplace_publisher_id: SaaS application Marketplace Publisher Id. Required.
     :vartype marketplace_publisher_id: str
     :ivar plan_id: SaaS application Plan Id. Required.
     :vartype plan_id: str
+    :ivar role_assignment_id: Role Assignment Id.
+    :vartype role_assignment_id: str
     :ivar offer_id: SaaS application Offer Id. Required.
     :vartype offer_id: str
     :ivar term_id: SaaS application Term Id. Required.
@@ -1988,7 +2026,6 @@ class SolutionProperties(_serialization.Model):
     """
 
     _validation = {
-        "solution_id": {"readonly": True},
         "partner_id": {"readonly": True},
         "saas_subscription_id": {"required": True, "min_length": 1},
         "saas_subscription_name": {"required": True, "min_length": 1},
@@ -2000,12 +2037,12 @@ class SolutionProperties(_serialization.Model):
 
     _attribute_map = {
         "additional_properties": {"key": "", "type": "{object}"},
-        "solution_id": {"key": "solutionId", "type": "str"},
         "partner_id": {"key": "partnerId", "type": "str"},
         "saas_subscription_id": {"key": "saasSubscriptionId", "type": "str"},
         "saas_subscription_name": {"key": "saasSubscriptionName", "type": "str"},
         "marketplace_publisher_id": {"key": "marketplacePublisherId", "type": "str"},
         "plan_id": {"key": "planId", "type": "str"},
+        "role_assignment_id": {"key": "roleAssignmentId", "type": "str"},
         "offer_id": {"key": "offerId", "type": "str"},
         "term_id": {"key": "termId", "type": "str"},
     }
@@ -2020,8 +2057,9 @@ class SolutionProperties(_serialization.Model):
         offer_id: str,
         term_id: str,
         additional_properties: Optional[Dict[str, Any]] = None,
-        **kwargs
-    ):
+        role_assignment_id: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword additional_properties: Unmatched properties from the message are deserialized to this
          collection.
@@ -2031,10 +2069,12 @@ class SolutionProperties(_serialization.Model):
         :keyword saas_subscription_name: SaaS subscription name of the installed SaaS application.
          Required.
         :paramtype saas_subscription_name: str
-        :keyword marketplace_publisher_id: SaaS application Publisher Id. Required.
+        :keyword marketplace_publisher_id: SaaS application Marketplace Publisher Id. Required.
         :paramtype marketplace_publisher_id: str
         :keyword plan_id: SaaS application Plan Id. Required.
         :paramtype plan_id: str
+        :keyword role_assignment_id: Role Assignment Id.
+        :paramtype role_assignment_id: str
         :keyword offer_id: SaaS application Offer Id. Required.
         :paramtype offer_id: str
         :keyword term_id: SaaS application Term Id. Required.
@@ -2042,12 +2082,12 @@ class SolutionProperties(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.additional_properties = additional_properties
-        self.solution_id = None
         self.partner_id = None
         self.saas_subscription_id = saas_subscription_id
         self.saas_subscription_name = saas_subscription_name
         self.marketplace_publisher_id = marketplace_publisher_id
         self.plan_id = plan_id
+        self.role_assignment_id = role_assignment_id
         self.offer_id = offer_id
         self.term_id = term_id
 
@@ -2089,8 +2129,8 @@ class SystemData(_serialization.Model):
         last_modified_by: Optional[str] = None,
         last_modified_by_type: Optional[Union[str, "_models.CreatedByType"]] = None,
         last_modified_at: Optional[datetime.datetime] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword created_by: The identity that created the resource.
         :paramtype created_by: str
@@ -2119,7 +2159,7 @@ class SystemData(_serialization.Model):
 class UnitSystemsInfo(_serialization.Model):
     """Unit systems info for the data provider.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar key: UnitSystem key sent as part of ProviderInput. Required.
     :vartype key: str
@@ -2128,7 +2168,7 @@ class UnitSystemsInfo(_serialization.Model):
     """
 
     _validation = {
-        "key": {"required": True, "max_length": 100, "min_length": 2},
+        "key": {"required": True, "max_length": 100, "min_length": 1},
         "values": {"required": True},
     }
 
@@ -2137,7 +2177,7 @@ class UnitSystemsInfo(_serialization.Model):
         "values": {"key": "values", "type": "[str]"},
     }
 
-    def __init__(self, *, key: str, values: List[str], **kwargs):
+    def __init__(self, *, key: str, values: List[str], **kwargs: Any) -> None:
         """
         :keyword key: UnitSystem key sent as part of ProviderInput. Required.
         :paramtype key: str
