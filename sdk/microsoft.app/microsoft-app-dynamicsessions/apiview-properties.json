@@ -1,0 +1,30 @@
+{
+    "CrossLanguagePackageId": "Microsoft.App.DynamicSessions",
+    "CrossLanguageDefinitionId": {
+        "microsoft.app.dynamicsessions.models.JupyterKernel": "Microsoft.App.DynamicSessions.JupyterKernel",
+        "microsoft.app.dynamicsessions.models.Package": "Microsoft.App.DynamicSessions.Package",
+        "microsoft.app.dynamicsessions.models.Runtime": "Microsoft.App.DynamicSessions.Runtime",
+        "microsoft.app.dynamicsessions.models.Session": "Microsoft.App.DynamicSessions.Session",
+        "microsoft.app.dynamicsessions.models.SessionCodeExecutionRequest": "Microsoft.App.DynamicSessions.SessionCodeExecutionRequest",
+        "microsoft.app.dynamicsessions.models.SessionCodeExecutionResource": "Microsoft.App.DynamicSessions.SessionCodeExecutionResource",
+        "microsoft.app.dynamicsessions.models.SessionCodeExecutionResult": "Microsoft.App.DynamicSessions.SessionCodeExecutionResult",
+        "microsoft.app.dynamicsessions.models.SessionPoolMetadataResponse": "Microsoft.App.DynamicSessions.SessionPoolMetadataResponse",
+        "microsoft.app.dynamicsessions.models.SessionResourceFile": "Microsoft.App.DynamicSessions.SessionResourceFile",
+        "microsoft.app.dynamicsessions.models.SessionsListResponse": "Microsoft.App.DynamicSessions.SessionsListResponse",
+        "microsoft.app.dynamicsessions.models.UploadRequest": "Microsoft.App.DynamicSessions.upload.Request.anonymous",
+        "microsoft.app.dynamicsessions.models.CodeInputType": "Microsoft.App.DynamicSessions.CodeInputType",
+        "microsoft.app.dynamicsessions.models.ExecutionType": "Microsoft.App.DynamicSessions.ExecutionType",
+        "microsoft.app.dynamicsessions.models.OperationState": "Azure.Core.Foundations.OperationState",
+        "microsoft.app.dynamicsessions.DynamicSessionsClient.code_execution.begin_execute": "Microsoft.App.DynamicSessions.CodeExecution.execute",
+        "microsoft.app.dynamicsessions.DynamicSessionsClient.code_execution.get": "Microsoft.App.DynamicSessions.CodeExecution.get",
+        "microsoft.app.dynamicsessions.DynamicSessionsClient.session_resource_files.list": "Microsoft.App.DynamicSessions.SessionResourceFiles.list",
+        "microsoft.app.dynamicsessions.DynamicSessionsClient.session_resource_files.get": "Microsoft.App.DynamicSessions.SessionResourceFiles.get",
+        "microsoft.app.dynamicsessions.DynamicSessionsClient.session_resource_files.delete": "Microsoft.App.DynamicSessions.SessionResourceFiles.delete",
+        "microsoft.app.dynamicsessions.DynamicSessionsClient.session_resource_files.upload": "Microsoft.App.DynamicSessions.SessionResourceFiles.upload",
+        "microsoft.app.dynamicsessions.DynamicSessionsClient.session_resource_files.get_content": "Microsoft.App.DynamicSessions.SessionResourceFiles.getContent",
+        "microsoft.app.dynamicsessions.DynamicSessionsClient.session_management.get": "Microsoft.App.DynamicSessions.SessionManagement.get",
+        "microsoft.app.dynamicsessions.DynamicSessionsClient.session_management.delete": "Microsoft.App.DynamicSessions.SessionManagement.delete",
+        "microsoft.app.dynamicsessions.DynamicSessionsClient.list_sessions.get": "Microsoft.App.DynamicSessions.ListSessions.get",
+        "microsoft.app.dynamicsessions.DynamicSessionsClient.session_pool_metadata.get": "Microsoft.App.DynamicSessions.SessionPoolMetadata.get"
+    }
+}
