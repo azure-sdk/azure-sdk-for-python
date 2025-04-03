@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.agrifood import AgriFoodMgmtClient
 
 """
@@ -14,7 +15,7 @@ from azure.mgmt.agrifood import AgriFoodMgmtClient
     pip install azure-identity
     pip install azure-mgmt-agrifood
 # USAGE
-    python farm_beats_models_list_by_subscription.py
+    python operation_results_get.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -26,15 +27,16 @@ from azure.mgmt.agrifood import AgriFoodMgmtClient
 def main():
     client = AgriFoodMgmtClient(
         credential=DefaultAzureCredential(),
-        solution_id="SOLUTION_ID",
         subscription_id="11111111-2222-3333-4444-555555555555",
     )
 
-    response = client.farm_beats_models.list_by_subscription()
-    for item in response:
-        print(item)
+    response = client.operation_results.get(
+        locations="westus",
+        operation_results_id="resource-provisioning-id-farmBeatsResourceName",
+    )
+    print(response)
 
 
-# x-ms-original-file: specification/agrifood/resource-manager/Microsoft.AgFoodPlatform/preview/2021-09-01-preview/examples/FarmBeatsModels_ListBySubscription.json
+# x-ms-original-file: specification/agrifood/resource-manager/Microsoft.AgFoodPlatform/preview/2024-12-01-preview/examples/OperationResults_Get.json
 if __name__ == "__main__":
     main()
