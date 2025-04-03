@@ -21,11 +21,11 @@ class TestContainerServiceFleetMgmtUpdateRunsOperationsAsync(AzureMgmtRecordedTe
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_by_fleet(self, resource_group):
+    async def test_update_runs_list_by_fleet(self, resource_group):
         response = self.client.update_runs.list_by_fleet(
             resource_group_name=resource_group.name,
             fleet_name="str",
-            api_version="2024-04-01",
+            api_version="2025-04-01-preview",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -33,12 +33,12 @@ class TestContainerServiceFleetMgmtUpdateRunsOperationsAsync(AzureMgmtRecordedTe
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get(self, resource_group):
+    async def test_update_runs_get(self, resource_group):
         response = await self.client.update_runs.get(
             resource_group_name=resource_group.name,
             fleet_name="str",
             update_run_name="str",
-            api_version="2024-04-01",
+            api_version="2025-04-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -46,18 +46,19 @@ class TestContainerServiceFleetMgmtUpdateRunsOperationsAsync(AzureMgmtRecordedTe
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_create_or_update(self, resource_group):
+    async def test_update_runs_begin_create_or_update(self, resource_group):
         response = await (
             await self.client.update_runs.begin_create_or_update(
                 resource_group_name=resource_group.name,
                 fleet_name="str",
                 update_run_name="str",
                 resource={
+                    "autoUpgradeProfileId": "str",
                     "eTag": "str",
                     "id": "str",
                     "managedClusterUpdate": {
                         "upgrade": {"type": "str", "kubernetesVersion": "str"},
-                        "nodeImageSelection": {"type": "str"},
+                        "nodeImageSelection": {"type": "str", "customNodeImageVersions": [{"version": "str"}]},
                     },
                     "name": "str",
                     "provisioningState": "str",
@@ -65,6 +66,24 @@ class TestContainerServiceFleetMgmtUpdateRunsOperationsAsync(AzureMgmtRecordedTe
                         "nodeImageSelection": {"selectedNodeImageVersions": [{"version": "str"}]},
                         "stages": [
                             {
+                                "afterGates": [
+                                    {
+                                        "displayName": "str",
+                                        "gateId": "str",
+                                        "status": {
+                                            "completedTime": "2020-02-20 00:00:00",
+                                            "error": {
+                                                "additionalInfo": [{"info": {}, "type": "str"}],
+                                                "code": "str",
+                                                "details": [...],
+                                                "message": "str",
+                                                "target": "str",
+                                            },
+                                            "startTime": "2020-02-20 00:00:00",
+                                            "state": "str",
+                                        },
+                                    }
+                                ],
                                 "afterStageWaitStatus": {
                                     "status": {
                                         "completedTime": "2020-02-20 00:00:00",
@@ -80,8 +99,62 @@ class TestContainerServiceFleetMgmtUpdateRunsOperationsAsync(AzureMgmtRecordedTe
                                     },
                                     "waitDurationInSeconds": 0,
                                 },
+                                "beforeGates": [
+                                    {
+                                        "displayName": "str",
+                                        "gateId": "str",
+                                        "status": {
+                                            "completedTime": "2020-02-20 00:00:00",
+                                            "error": {
+                                                "additionalInfo": [{"info": {}, "type": "str"}],
+                                                "code": "str",
+                                                "details": [...],
+                                                "message": "str",
+                                                "target": "str",
+                                            },
+                                            "startTime": "2020-02-20 00:00:00",
+                                            "state": "str",
+                                        },
+                                    }
+                                ],
                                 "groups": [
                                     {
+                                        "afterGates": [
+                                            {
+                                                "displayName": "str",
+                                                "gateId": "str",
+                                                "status": {
+                                                    "completedTime": "2020-02-20 00:00:00",
+                                                    "error": {
+                                                        "additionalInfo": [{"info": {}, "type": "str"}],
+                                                        "code": "str",
+                                                        "details": [...],
+                                                        "message": "str",
+                                                        "target": "str",
+                                                    },
+                                                    "startTime": "2020-02-20 00:00:00",
+                                                    "state": "str",
+                                                },
+                                            }
+                                        ],
+                                        "beforeGates": [
+                                            {
+                                                "displayName": "str",
+                                                "gateId": "str",
+                                                "status": {
+                                                    "completedTime": "2020-02-20 00:00:00",
+                                                    "error": {
+                                                        "additionalInfo": [{"info": {}, "type": "str"}],
+                                                        "code": "str",
+                                                        "details": [...],
+                                                        "message": "str",
+                                                        "target": "str",
+                                                    },
+                                                    "startTime": "2020-02-20 00:00:00",
+                                                    "state": "str",
+                                                },
+                                            }
+                                        ],
                                         "members": [
                                             {
                                                 "clusterResourceId": "str",
@@ -146,7 +219,21 @@ class TestContainerServiceFleetMgmtUpdateRunsOperationsAsync(AzureMgmtRecordedTe
                         },
                     },
                     "strategy": {
-                        "stages": [{"name": "str", "afterStageWaitInSeconds": 0, "groups": [{"name": "str"}]}]
+                        "stages": [
+                            {
+                                "name": "str",
+                                "afterGates": [{"type": "str", "displayName": "str"}],
+                                "afterStageWaitInSeconds": 0,
+                                "beforeGates": [{"type": "str", "displayName": "str"}],
+                                "groups": [
+                                    {
+                                        "name": "str",
+                                        "afterGates": [{"type": "str", "displayName": "str"}],
+                                        "beforeGates": [{"type": "str", "displayName": "str"}],
+                                    }
+                                ],
+                            }
+                        ]
                     },
                     "systemData": {
                         "createdAt": "2020-02-20 00:00:00",
@@ -159,7 +246,7 @@ class TestContainerServiceFleetMgmtUpdateRunsOperationsAsync(AzureMgmtRecordedTe
                     "type": "str",
                     "updateStrategyId": "str",
                 },
-                api_version="2024-04-01",
+                api_version="2025-04-01-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -168,13 +255,13 @@ class TestContainerServiceFleetMgmtUpdateRunsOperationsAsync(AzureMgmtRecordedTe
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_delete(self, resource_group):
+    async def test_update_runs_begin_delete(self, resource_group):
         response = await (
             await self.client.update_runs.begin_delete(
                 resource_group_name=resource_group.name,
                 fleet_name="str",
                 update_run_name="str",
-                api_version="2024-04-01",
+                api_version="2025-04-01-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -183,14 +270,14 @@ class TestContainerServiceFleetMgmtUpdateRunsOperationsAsync(AzureMgmtRecordedTe
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_skip(self, resource_group):
+    async def test_update_runs_begin_skip(self, resource_group):
         response = await (
             await self.client.update_runs.begin_skip(
                 resource_group_name=resource_group.name,
                 fleet_name="str",
                 update_run_name="str",
                 body={"targets": [{"name": "str", "type": "str"}]},
-                api_version="2024-04-01",
+                api_version="2025-04-01-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -199,13 +286,13 @@ class TestContainerServiceFleetMgmtUpdateRunsOperationsAsync(AzureMgmtRecordedTe
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_start(self, resource_group):
+    async def test_update_runs_begin_start(self, resource_group):
         response = await (
             await self.client.update_runs.begin_start(
                 resource_group_name=resource_group.name,
                 fleet_name="str",
                 update_run_name="str",
-                api_version="2024-04-01",
+                api_version="2025-04-01-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -214,13 +301,13 @@ class TestContainerServiceFleetMgmtUpdateRunsOperationsAsync(AzureMgmtRecordedTe
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_stop(self, resource_group):
+    async def test_update_runs_begin_stop(self, resource_group):
         response = await (
             await self.client.update_runs.begin_stop(
                 resource_group_name=resource_group.name,
                 fleet_name="str",
                 update_run_name="str",
-                api_version="2024-04-01",
+                api_version="2025-04-01-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
