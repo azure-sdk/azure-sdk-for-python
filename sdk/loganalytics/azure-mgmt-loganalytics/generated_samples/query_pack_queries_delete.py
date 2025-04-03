@@ -37,6 +37,6 @@ def main():
     )
 
 
-# x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2019-09-01/examples/QueryPackQueriesDelete.json
+# x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2025-02-01/examples/QueryPackQueriesDelete.json
 if __name__ == "__main__":
     main()
