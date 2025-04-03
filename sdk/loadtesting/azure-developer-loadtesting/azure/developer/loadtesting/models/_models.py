@@ -893,6 +893,7 @@ class PassFailMetric(_model_base.Model):
      are: "response_time_ms", "latency", "error", "requests", and "requests_per_sec".
     :vartype client_metric: str or ~azure.developer.loadtesting.models.PFMetrics
     :ivar aggregate: The aggregation function to be applied on the client metric. Allowed functions
+
      * ‘percentage’ - for error metric , ‘avg’, percentiles like ‘p50’, ‘p90’, & so on, ‘min’,
      ‘max’ - for response_time_ms and latency metric, ‘avg’ - for requests_per_sec,
      ‘count’ - for requests. Known values are: "count", "percentage", "avg", "p50", "p75", "p90",
@@ -924,6 +925,7 @@ class PassFailMetric(_model_base.Model):
         visibility=["read", "create", "update", "delete", "query"]
     )
     """The aggregation function to be applied on the client metric. Allowed functions
+     
      * ‘percentage’ - for error metric , ‘avg’, percentiles like ‘p50’, ‘p90’, & so on, ‘min’,
      ‘max’ - for response_time_ms and latency metric, ‘avg’ - for requests_per_sec,
      ‘count’ - for requests. Known values are: \"count\", \"percentage\", \"avg\", \"p50\", \"p75\",
@@ -1048,8 +1050,11 @@ class RegionalConfiguration(_model_base.Model):
     """Region distribution configuration for the load test.
 
     :ivar engine_instances:   The number of engine instances to execute load test in specified
-     region. Supported values are in range of 1-400. Required.
+     region. Supported values are in range of 1-400.
     :vartype engine_instances: int
+    :ivar load_percentage:   The percentage of load to be distributed in specified region.
+     Supported values are in range of 1-99.
+    :vartype load_percentage: int
     :ivar region: Azure region name.
      The region name should of format accepted by ARM, and should be a region supported by Azure
      Load Testing. For example, East US should be passed as "eastus".
@@ -1058,11 +1063,16 @@ class RegionalConfiguration(_model_base.Model):
     :vartype region: str
     """
 
-    engine_instances: int = rest_field(
+    engine_instances: Optional[int] = rest_field(
         name="engineInstances", visibility=["read", "create", "update", "delete", "query"]
     )
     """  The number of engine instances to execute load test in specified region. Supported values are
-     in range of 1-400. Required."""
+     in range of 1-400."""
+    load_percentage: Optional[int] = rest_field(
+        name="loadPercentage", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """  The percentage of load to be distributed in specified region. Supported values are in range
+     of 1-99."""
     region: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """Azure region name.
      The region name should of format accepted by ARM, and should be a region supported by Azure
@@ -1074,8 +1084,9 @@ class RegionalConfiguration(_model_base.Model):
     def __init__(
         self,
         *,
-        engine_instances: int,
         region: str,
+        engine_instances: Optional[int] = None,
+        load_percentage: Optional[int] = None,
     ) -> None: ...
 
     @overload
@@ -1895,8 +1906,13 @@ class TestRun(_model_base.Model):
      access.
     :vartype public_ip_disabled: bool
     :ivar created_by_type: The type of the entity that created the test run. (E.x. User,
-     ScheduleTrigger, etc). Known values are: "User" and "ScheduledTrigger".
+     ScheduleTrigger, etc). Known values are: "User", "ScheduledTrigger", "AzurePipelines", and
+     "GitHubWorkflows".
     :vartype created_by_type: str or ~azure.developer.loadtesting.models.CreatedByType
+    :ivar created_by_uri: The URI pointing to the entity that created the test run.
+    :vartype created_by_uri: str
+    :ivar insights: The insights from the test run.
+    :vartype insights: ~azure.developer.loadtesting.models.TestRunInsights
     :ivar created_date_time: The creation datetime(RFC 3339 literal format).
     :vartype created_date_time: ~datetime.datetime
     :ivar created_by: The user that created.
@@ -2011,7 +2027,11 @@ class TestRun(_model_base.Model):
         name="createdByType", visibility=["read", "create", "update", "delete", "query"]
     )
     """The type of the entity that created the test run. (E.x. User, ScheduleTrigger, etc). Known
-     values are: \"User\" and \"ScheduledTrigger\"."""
+     values are: \"User\", \"ScheduledTrigger\", \"AzurePipelines\", and \"GitHubWorkflows\"."""
+    created_by_uri: Optional[str] = rest_field(name="createdByUri", visibility=["read"])
+    """The URI pointing to the entity that created the test run."""
+    insights: Optional["_models.TestRunInsights"] = rest_field(visibility=["read"])
+    """The insights from the test run."""
     created_date_time: Optional[datetime.datetime] = rest_field(
         name="createdDateTime", visibility=["read"], format="rfc3339"
     )
@@ -2299,6 +2319,74 @@ class TestRunInputArtifacts(_model_base.Model):
         user_prop_file_info: Optional["_models.TestRunFileInfo"] = None,
         input_artifacts_zip_file_info: Optional["_models.TestRunFileInfo"] = None,
         url_test_config_file_info: Optional["_models.TestRunFileInfo"] = None,
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+
+
+class TestRunInsightColumn(_model_base.Model):
+    """Represents a column of the test run insight.
+
+    :ivar name: Name of the column. Required.
+    :vartype name: str
+    :ivar data_type: The data type of the column. Required.
+    :vartype data_type: str
+    """
+
+    name: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
+    """Name of the column. Required."""
+    data_type: str = rest_field(name="dataType", visibility=["read", "create", "update", "delete", "query"])
+    """The data type of the column. Required."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        name: str,
+        data_type: str,
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+
+
+class TestRunInsights(_model_base.Model):
+    """Represents insights derived from the test run.
+
+    :ivar columns: The columns of the insights. Required.
+    :vartype columns: dict[str, ~azure.developer.loadtesting.models.TestRunInsightColumn]
+    :ivar rows: The rows of the insights.
+    :vartype rows: list[dict[str, str]]
+    """
+
+    columns: Dict[str, "_models.TestRunInsightColumn"] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
+    """The columns of the insights. Required."""
+    rows: Optional[List[Dict[str, str]]] = rest_field(visibility=["read", "create", "update", "delete", "query"])
+    """The rows of the insights."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        columns: Dict[str, "_models.TestRunInsightColumn"],
+        rows: Optional[List[Dict[str, str]]] = None,
     ) -> None: ...
 
     @overload
