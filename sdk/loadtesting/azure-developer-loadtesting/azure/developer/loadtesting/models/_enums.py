@@ -55,6 +55,10 @@ class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Entity was created by a user."""
     SCHEDULED_TRIGGER = "ScheduledTrigger"
     """Entity was created by a scheduled trigger."""
+    AZURE_PIPELINES = "AzurePipelines"
+    """Entity was created by Azure DevOps pipelines."""
+    GIT_HUB_WORKFLOWS = "GitHubWorkflows"
+    """Entity was created by GitHub Workflows."""
 
 
 class FileType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
