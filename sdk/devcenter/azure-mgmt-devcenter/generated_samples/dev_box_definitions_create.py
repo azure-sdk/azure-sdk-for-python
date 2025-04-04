@@ -6,8 +6,6 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from typing import Any, IO, Union
-
 from azure.identity import DefaultAzureCredential
 
 from azure.mgmt.devcenter import DevCenterMgmtClient
@@ -41,7 +39,7 @@ def main():
             "properties": {
                 "hibernateSupport": "Enabled",
                 "imageReference": {
-                    "id": "/subscriptions/0ac520ee-14c0-480f-b6c9-0a90c58ffff/resourceGroups/Example/providers/Microsoft.DevCenter/devcenters/Contoso/galleries/contosogallery/images/exampleImage/version/1.0.0"
+                    "id": "/subscriptions/0ac520ee-14c0-480f-b6c9-0a90c58ffff/resourceGroups/Example/providers/Microsoft.DevCenter/devcenters/Contoso/galleries/contosogallery/images/exampleImage/versions/1.0.0"
                 },
                 "sku": {"name": "Preview"},
             },
@@ -50,6 +48,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/DevBoxDefinitions_Create.json
+# x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2025-04-01-preview/examples/DevBoxDefinitions_Create.json
 if __name__ == "__main__":
     main()
