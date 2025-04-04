@@ -37,6 +37,6 @@ def main():
     ).result()
 
 
-# x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/AttachedNetworks_Delete.json
+# x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2025-04-01-preview/examples/AttachedNetworks_Delete.json
 if __name__ == "__main__":
     main()

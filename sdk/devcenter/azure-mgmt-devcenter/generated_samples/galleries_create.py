@@ -6,8 +6,6 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from typing import Any, IO, Union
-
 from azure.identity import DefaultAzureCredential
 
 from azure.mgmt.devcenter import DevCenterMgmtClient
@@ -45,6 +43,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/Galleries_Create.json
+# x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2025-04-01-preview/examples/Galleries_Create.json
 if __name__ == "__main__":
     main()
