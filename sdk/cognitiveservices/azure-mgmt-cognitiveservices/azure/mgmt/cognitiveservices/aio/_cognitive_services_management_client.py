@@ -19,6 +19,8 @@ from .. import models as _models
 from .._serialization import Deserializer, Serializer
 from ._configuration import CognitiveServicesManagementClientConfiguration
 from .operations import (
+    AccountCapabilityHostsOperations,
+    AccountConnectionOperations,
     AccountsOperations,
     CognitiveServicesManagementClientOperationsMixin,
     CommitmentPlansOperations,
@@ -34,6 +36,9 @@ from .operations import (
     Operations,
     PrivateEndpointConnectionsOperations,
     PrivateLinkResourcesOperations,
+    ProjectCapabilityHostsOperations,
+    ProjectConnectionOperations,
+    ProjectsOperations,
     RaiBlocklistItemsOperations,
     RaiBlocklistsOperations,
     RaiContentFiltersOperations,
@@ -43,13 +48,12 @@ from .operations import (
 )
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from azure.core.credentials_async import AsyncTokenCredential
 
 
 class CognitiveServicesManagementClient(
     CognitiveServicesManagementClientOperationsMixin
-):  # pylint: disable=client-accepts-api-version-keyword,too-many-instance-attributes
+):  # pylint: disable=too-many-instance-attributes
     """Cognitive Services Management Client.
 
     :ivar accounts: AccountsOperations operations
@@ -105,14 +109,28 @@ class CognitiveServicesManagementClient(
     :ivar defender_for_ai_settings: DefenderForAISettingsOperations operations
     :vartype defender_for_ai_settings:
      azure.mgmt.cognitiveservices.aio.operations.DefenderForAISettingsOperations
+    :ivar projects: ProjectsOperations operations
+    :vartype projects: azure.mgmt.cognitiveservices.aio.operations.ProjectsOperations
+    :ivar account_connection: AccountConnectionOperations operations
+    :vartype account_connection:
+     azure.mgmt.cognitiveservices.aio.operations.AccountConnectionOperations
+    :ivar project_connection: ProjectConnectionOperations operations
+    :vartype project_connection:
+     azure.mgmt.cognitiveservices.aio.operations.ProjectConnectionOperations
+    :ivar account_capability_hosts: AccountCapabilityHostsOperations operations
+    :vartype account_capability_hosts:
+     azure.mgmt.cognitiveservices.aio.operations.AccountCapabilityHostsOperations
+    :ivar project_capability_hosts: ProjectCapabilityHostsOperations operations
+    :vartype project_capability_hosts:
+     azure.mgmt.cognitiveservices.aio.operations.ProjectCapabilityHostsOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials_async.AsyncTokenCredential
     :param subscription_id: The ID of the target subscription. Required.
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2024-10-01". Note that overriding this
-     default value may result in unsupported behavior.
+    :keyword api_version: Api Version. Default value is "2025-04-01-preview". Note that overriding
+     this default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
      Retry-After header is present.
@@ -194,6 +212,19 @@ class CognitiveServicesManagementClient(
             self._client, self._config, self._serialize, self._deserialize
         )
         self.defender_for_ai_settings = DefenderForAISettingsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.projects = ProjectsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.account_connection = AccountConnectionOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.project_connection = ProjectConnectionOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.account_capability_hosts = AccountCapabilityHostsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.project_capability_hosts = ProjectCapabilityHostsOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
 
