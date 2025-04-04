@@ -9,7 +9,7 @@
 # pylint: disable=useless-super-delegation
 
 import datetime
-from typing import Any, List, Mapping, Optional, TYPE_CHECKING, Union, overload
+from typing import Any, Dict, List, Mapping, Optional, TYPE_CHECKING, Union, overload
 
 from .. import _model_base
 from .._model_base import rest_field
@@ -21,17 +21,17 @@ if TYPE_CHECKING:
 class CancelOperationsRequest(_model_base.Model):
     """This is the request to cancel running operations in scheduled actions using the operation ids.
 
-    All required parameters must be populated in order to send to server.
-
     :ivar operation_ids: The list of operation ids to cancel operations on. Required.
     :vartype operation_ids: list[str]
     :ivar correlationid: CorrelationId item. Required.
     :vartype correlationid: str
     """
 
-    operation_ids: List[str] = rest_field(name="operationIds")
+    operation_ids: List[str] = rest_field(
+        name="operationIds", visibility=["read", "create", "update", "delete", "query"]
+    )
     """The list of operation ids to cancel operations on. Required."""
-    correlationid: str = rest_field()
+    correlationid: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """CorrelationId item. Required."""
 
     @overload
@@ -56,12 +56,11 @@ class CancelOperationsRequest(_model_base.Model):
 class CancelOperationsResponse(_model_base.Model):
     """This is the response from a cancel operations request.
 
-
     :ivar results: An array of resource operations that were successfully cancelled. Required.
     :vartype results: list[~azure.mgmt.computeschedule.models.ResourceOperation]
     """
 
-    results: List["_models.ResourceOperation"] = rest_field()
+    results: List["_models.ResourceOperation"] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """An array of resource operations that were successfully cancelled. Required."""
 
     @overload
@@ -82,9 +81,53 @@ class CancelOperationsResponse(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
+class CreateResourceOperationResponse(_model_base.Model):
+    """The response from a create request.
+
+    :ivar description: The description of the operation response. Required.
+    :vartype description: str
+    :ivar type: The type of resources used in the create request eg virtual machines. Required.
+    :vartype type: str
+    :ivar location: The location of the start request eg westus. Required.
+    :vartype location: str
+    :ivar results: The results from the start request if no errors exist.
+    :vartype results: list[~azure.mgmt.computeschedule.models.ResourceOperation]
+    """
+
+    description: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
+    """The description of the operation response. Required."""
+    type: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
+    """The type of resources used in the create request eg virtual machines. Required."""
+    location: str = rest_field(visibility=["read", "create"])
+    """The location of the start request eg westus. Required."""
+    results: Optional[List["_models.ResourceOperation"]] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
+    """The results from the start request if no errors exist."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        description: str,
+        type: str,
+        location: str,
+        results: Optional[List["_models.ResourceOperation"]] = None,
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+
+
 class DeallocateResourceOperationResponse(_model_base.Model):
     """The response from a deallocate request.
-
 
     :ivar description: The description of the operation response. Required.
     :vartype description: str
@@ -96,14 +139,61 @@ class DeallocateResourceOperationResponse(_model_base.Model):
     :vartype results: list[~azure.mgmt.computeschedule.models.ResourceOperation]
     """
 
-    description: str = rest_field()
+    description: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """The description of the operation response. Required."""
-    type: str = rest_field()
+    type: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """The type of resources used in the deallocate request eg virtual machines. Required."""
     location: str = rest_field(visibility=["read", "create"])
     """The location of the deallocate request eg westus. Required."""
-    results: Optional[List["_models.ResourceOperation"]] = rest_field()
+    results: Optional[List["_models.ResourceOperation"]] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
     """The results from the deallocate request if no errors exist."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        description: str,
+        type: str,
+        location: str,
+        results: Optional[List["_models.ResourceOperation"]] = None,
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+
+
+class DeleteResourceOperationResponse(_model_base.Model):
+    """The response from a delete request.
+
+    :ivar description: The description of the operation response. Required.
+    :vartype description: str
+    :ivar type: The type of resources used in the delete request eg virtual machines. Required.
+    :vartype type: str
+    :ivar location: The location of the start request eg westus. Required.
+    :vartype location: str
+    :ivar results: The results from the start request if no errors exist.
+    :vartype results: list[~azure.mgmt.computeschedule.models.ResourceOperation]
+    """
+
+    description: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
+    """The description of the operation response. Required."""
+    type: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
+    """The type of resources used in the delete request eg virtual machines. Required."""
+    location: str = rest_field(visibility=["read", "create"])
+    """The location of the start request eg westus. Required."""
+    results: Optional[List["_models.ResourceOperation"]] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
+    """The results from the start request if no errors exist."""
 
     @overload
     def __init__(
@@ -129,8 +219,6 @@ class DeallocateResourceOperationResponse(_model_base.Model):
 class ErrorAdditionalInfo(_model_base.Model):
     """The resource management error additional info.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
     :ivar type: The additional info type.
     :vartype type: str
     :ivar info: The additional info.
@@ -145,8 +233,6 @@ class ErrorAdditionalInfo(_model_base.Model):
 
 class ErrorDetail(_model_base.Model):
     """The error detail.
-
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar code: The error code.
     :vartype code: str
@@ -182,7 +268,7 @@ class ErrorResponse(_model_base.Model):
     :vartype error: ~azure.mgmt.computeschedule.models.ErrorDetail
     """
 
-    error: Optional["_models.ErrorDetail"] = rest_field()
+    error: Optional["_models.ErrorDetail"] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """The error object."""
 
     @overload
@@ -203,10 +289,51 @@ class ErrorResponse(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
+class ExecuteCreateRequest(_model_base.Model):
+    """The ExecuteCreateRequest request for create operations.
+
+    :ivar resource_config_parameters: resource creation payload. Required.
+    :vartype resource_config_parameters:
+     ~azure.mgmt.computeschedule.models.ResourceProvisionPayload
+    :ivar execution_parameters: The execution parameters for the request.
+    :vartype execution_parameters: ~azure.mgmt.computeschedule.models.ExecutionParameters
+    :ivar correlationid: CorrelationId item.
+    :vartype correlationid: str
+    """
+
+    resource_config_parameters: "_models.ResourceProvisionPayload" = rest_field(
+        name="resourceConfigParameters", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """resource creation payload. Required."""
+    execution_parameters: Optional["_models.ExecutionParameters"] = rest_field(
+        name="executionParameters", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """The execution parameters for the request."""
+    correlationid: Optional[str] = rest_field(visibility=["read", "create", "update", "delete", "query"])
+    """CorrelationId item."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        resource_config_parameters: "_models.ResourceProvisionPayload",
+        execution_parameters: Optional["_models.ExecutionParameters"] = None,
+        correlationid: Optional[str] = None,
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+
+
 class ExecuteDeallocateRequest(_model_base.Model):
     """The ExecuteDeallocateRequest request for executeDeallocate operations.
-
-    All required parameters must be populated in order to send to server.
 
     :ivar execution_parameters: The execution parameters for the request. Required.
     :vartype execution_parameters: ~azure.mgmt.computeschedule.models.ExecutionParameters
@@ -216,11 +343,13 @@ class ExecuteDeallocateRequest(_model_base.Model):
     :vartype correlationid: str
     """
 
-    execution_parameters: "_models.ExecutionParameters" = rest_field(name="executionParameters")
+    execution_parameters: "_models.ExecutionParameters" = rest_field(
+        name="executionParameters", visibility=["read", "create", "update", "delete", "query"]
+    )
     """The execution parameters for the request. Required."""
-    resources: "_models.Resources" = rest_field()
+    resources: "_models.Resources" = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """The resources for the request. Required."""
-    correlationid: str = rest_field()
+    correlationid: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """CorrelationId item. Required."""
 
     @overload
@@ -243,10 +372,48 @@ class ExecuteDeallocateRequest(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
+class ExecuteDeleteRequest(_model_base.Model):
+    """The ExecuteDeleteRequest request for delete operations.
+
+    :ivar execution_parameters: The execution parameters for the request. Required.
+    :vartype execution_parameters: ~azure.mgmt.computeschedule.models.ExecutionParameters
+    :ivar resources: The resources for the request. Required.
+    :vartype resources: ~azure.mgmt.computeschedule.models.Resources
+    :ivar correlationid: CorrelationId item.
+    :vartype correlationid: str
+    """
+
+    execution_parameters: "_models.ExecutionParameters" = rest_field(
+        name="executionParameters", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """The execution parameters for the request. Required."""
+    resources: "_models.Resources" = rest_field(visibility=["read", "create", "update", "delete", "query"])
+    """The resources for the request. Required."""
+    correlationid: Optional[str] = rest_field(visibility=["read", "create", "update", "delete", "query"])
+    """CorrelationId item."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        execution_parameters: "_models.ExecutionParameters",
+        resources: "_models.Resources",
+        correlationid: Optional[str] = None,
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+
+
 class ExecuteHibernateRequest(_model_base.Model):
     """The ExecuteHibernateRequest request for executeHibernate operations.
-
-    All required parameters must be populated in order to send to server.
 
     :ivar execution_parameters: The execution parameters for the request. Required.
     :vartype execution_parameters: ~azure.mgmt.computeschedule.models.ExecutionParameters
@@ -256,11 +423,13 @@ class ExecuteHibernateRequest(_model_base.Model):
     :vartype correlationid: str
     """
 
-    execution_parameters: "_models.ExecutionParameters" = rest_field(name="executionParameters")
+    execution_parameters: "_models.ExecutionParameters" = rest_field(
+        name="executionParameters", visibility=["read", "create", "update", "delete", "query"]
+    )
     """The execution parameters for the request. Required."""
-    resources: "_models.Resources" = rest_field()
+    resources: "_models.Resources" = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """The resources for the request. Required."""
-    correlationid: str = rest_field()
+    correlationid: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """CorrelationId item. Required."""
 
     @overload
@@ -286,8 +455,6 @@ class ExecuteHibernateRequest(_model_base.Model):
 class ExecuteStartRequest(_model_base.Model):
     """The ExecuteStartRequest request for executeStart operations.
 
-    All required parameters must be populated in order to send to server.
-
     :ivar execution_parameters: The execution parameters for the request. Required.
     :vartype execution_parameters: ~azure.mgmt.computeschedule.models.ExecutionParameters
     :ivar resources: The resources for the request. Required.
@@ -296,11 +463,13 @@ class ExecuteStartRequest(_model_base.Model):
     :vartype correlationid: str
     """
 
-    execution_parameters: "_models.ExecutionParameters" = rest_field(name="executionParameters")
+    execution_parameters: "_models.ExecutionParameters" = rest_field(
+        name="executionParameters", visibility=["read", "create", "update", "delete", "query"]
+    )
     """The execution parameters for the request. Required."""
-    resources: "_models.Resources" = rest_field()
+    resources: "_models.Resources" = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """The resources for the request. Required."""
-    correlationid: str = rest_field()
+    correlationid: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """CorrelationId item. Required."""
 
     @overload
@@ -335,11 +504,13 @@ class ExecutionParameters(_model_base.Model):
     """
 
     optimization_preference: Optional[Union[str, "_models.OptimizationPreference"]] = rest_field(
-        name="optimizationPreference"
+        name="optimizationPreference", visibility=["read", "create", "update", "delete", "query"]
     )
     """Details that could optimize the user's request. Known values are: \"Cost\", \"Availability\",
      and \"CostAvailabilityBalanced\"."""
-    retry_policy: Optional["_models.RetryPolicy"] = rest_field(name="retryPolicy")
+    retry_policy: Optional["_models.RetryPolicy"] = rest_field(
+        name="retryPolicy", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Retry policy the user can pass."""
 
     @overload
@@ -364,13 +535,13 @@ class ExecutionParameters(_model_base.Model):
 class GetOperationErrorsRequest(_model_base.Model):
     """This is the request to get errors per vm operations.
 
-    All required parameters must be populated in order to send to server.
-
     :ivar operation_ids: The list of operation ids to query errors of. Required.
     :vartype operation_ids: list[str]
     """
 
-    operation_ids: List[str] = rest_field(name="operationIds")
+    operation_ids: List[str] = rest_field(
+        name="operationIds", visibility=["read", "create", "update", "delete", "query"]
+    )
     """The list of operation ids to query errors of. Required."""
 
     @overload
@@ -394,12 +565,13 @@ class GetOperationErrorsRequest(_model_base.Model):
 class GetOperationErrorsResponse(_model_base.Model):
     """This is the response from a get operations errors request.
 
-
     :ivar results: An array of operationids and their corresponding errors if any. Required.
     :vartype results: list[~azure.mgmt.computeschedule.models.OperationErrorsResult]
     """
 
-    results: List["_models.OperationErrorsResult"] = rest_field()
+    results: List["_models.OperationErrorsResult"] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
     """An array of operationids and their corresponding errors if any. Required."""
 
     @overload
@@ -423,17 +595,17 @@ class GetOperationErrorsResponse(_model_base.Model):
 class GetOperationStatusRequest(_model_base.Model):
     """This is the request to get operation status using operationids.
 
-    All required parameters must be populated in order to send to server.
-
     :ivar operation_ids: The list of operation ids to get the status of. Required.
     :vartype operation_ids: list[str]
     :ivar correlationid: CorrelationId item. Required.
     :vartype correlationid: str
     """
 
-    operation_ids: List[str] = rest_field(name="operationIds")
+    operation_ids: List[str] = rest_field(
+        name="operationIds", visibility=["read", "create", "update", "delete", "query"]
+    )
     """The list of operation ids to get the status of. Required."""
-    correlationid: str = rest_field()
+    correlationid: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """CorrelationId item. Required."""
 
     @overload
@@ -458,12 +630,11 @@ class GetOperationStatusRequest(_model_base.Model):
 class GetOperationStatusResponse(_model_base.Model):
     """This is the response from a get operations status request.
 
-
     :ivar results: An array of resource operations based on their operation ids. Required.
     :vartype results: list[~azure.mgmt.computeschedule.models.ResourceOperation]
     """
 
-    results: List["_models.ResourceOperation"] = rest_field()
+    results: List["_models.ResourceOperation"] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """An array of resource operations based on their operation ids. Required."""
 
     @overload
@@ -487,7 +658,6 @@ class GetOperationStatusResponse(_model_base.Model):
 class HibernateResourceOperationResponse(_model_base.Model):
     """The response from a Hibernate request.
 
-
     :ivar description: The description of the operation response. Required.
     :vartype description: str
     :ivar type: The type of resources used in the Hibernate request eg virtual machines. Required.
@@ -498,13 +668,15 @@ class HibernateResourceOperationResponse(_model_base.Model):
     :vartype results: list[~azure.mgmt.computeschedule.models.ResourceOperation]
     """
 
-    description: str = rest_field()
+    description: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """The description of the operation response. Required."""
-    type: str = rest_field()
+    type: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """The type of resources used in the Hibernate request eg virtual machines. Required."""
     location: str = rest_field(visibility=["read", "create"])
     """The location of the Hibernate request eg westus. Required."""
-    results: Optional[List["_models.ResourceOperation"]] = rest_field()
+    results: Optional[List["_models.ResourceOperation"]] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
     """The results from the Hibernate request if no errors exist."""
 
     @overload
@@ -531,8 +703,6 @@ class HibernateResourceOperationResponse(_model_base.Model):
 class Operation(_model_base.Model):
     """Details of a REST API operation, returned from the Resource Provider Operations API.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
     :ivar name: The name of the operation, as per Resource-Based Access Control (RBAC). Examples:
      "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action".
     :vartype name: str
@@ -557,7 +727,9 @@ class Operation(_model_base.Model):
     is_data_action: Optional[bool] = rest_field(name="isDataAction", visibility=["read"])
     """Whether the operation applies to data-plane. This is \"true\" for data-plane operations and
      \"false\" for Azure Resource Manager/control-plane operations."""
-    display: Optional["_models.OperationDisplay"] = rest_field()
+    display: Optional["_models.OperationDisplay"] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
     """Localized display information for this particular operation."""
     origin: Optional[Union[str, "_models.Origin"]] = rest_field(visibility=["read"])
     """The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit
@@ -587,8 +759,6 @@ class Operation(_model_base.Model):
 
 class OperationDisplay(_model_base.Model):
     """Localized display information for and operation.
-
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar provider: The localized friendly form of the resource provider name, e.g. "Microsoft
      Monitoring Insights" or "Microsoft Compute".
@@ -621,7 +791,6 @@ class OperationDisplay(_model_base.Model):
 class OperationErrorDetails(_model_base.Model):
     """This defines a list of operation errors associated with a unique operationId.
 
-
     :ivar error_code: The error code of the operation. Required.
     :vartype error_code: str
     :ivar error_details: The error details of the operation. Required.
@@ -636,17 +805,25 @@ class OperationErrorDetails(_model_base.Model):
     :vartype crp_operation_id: str
     """
 
-    error_code: str = rest_field(name="errorCode")
+    error_code: str = rest_field(name="errorCode", visibility=["read", "create", "update", "delete", "query"])
     """The error code of the operation. Required."""
-    error_details: str = rest_field(name="errorDetails")
+    error_details: str = rest_field(name="errorDetails", visibility=["read", "create", "update", "delete", "query"])
     """The error details of the operation. Required."""
-    timestamp: Optional[datetime.datetime] = rest_field(format="rfc3339")
+    timestamp: Optional[datetime.datetime] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"], format="rfc3339"
+    )
     """The timestamp of the error occurence."""
-    time_stamp: Optional[datetime.datetime] = rest_field(name="timeStamp", format="rfc3339")
+    time_stamp: Optional[datetime.datetime] = rest_field(
+        name="timeStamp", visibility=["read", "create", "update", "delete", "query"], format="rfc3339"
+    )
     """The timestamp of the error occurence."""
-    azure_operation_name: Optional[str] = rest_field(name="azureOperationName")
+    azure_operation_name: Optional[str] = rest_field(
+        name="azureOperationName", visibility=["read", "create", "update", "delete", "query"]
+    )
     """The compute operationid of the Start/Deallocate/Hibernate request."""
-    crp_operation_id: Optional[str] = rest_field(name="crpOperationId")
+    crp_operation_id: Optional[str] = rest_field(
+        name="crpOperationId", visibility=["read", "create", "update", "delete", "query"]
+    )
     """The compute operationid of the Start/Deallocate/Hibernate request."""
 
     @overload
@@ -692,19 +869,33 @@ class OperationErrorsResult(_model_base.Model):
     :vartype request_error_details: str
     """
 
-    operation_id: Optional[str] = rest_field(name="operationId")
+    operation_id: Optional[str] = rest_field(
+        name="operationId", visibility=["read", "create", "update", "delete", "query"]
+    )
     """The operationId identifying a vm operation."""
-    creation_time: Optional[datetime.datetime] = rest_field(name="creationTime", format="rfc3339")
+    creation_time: Optional[datetime.datetime] = rest_field(
+        name="creationTime", visibility=["read", "create", "update", "delete", "query"], format="rfc3339"
+    )
     """The creation time of the error result."""
-    activation_time: Optional[datetime.datetime] = rest_field(name="activationTime", format="rfc3339")
+    activation_time: Optional[datetime.datetime] = rest_field(
+        name="activationTime", visibility=["read", "create", "update", "delete", "query"], format="rfc3339"
+    )
     """The activation time of a vm operation."""
-    completed_at: Optional[datetime.datetime] = rest_field(name="completedAt", format="rfc3339")
+    completed_at: Optional[datetime.datetime] = rest_field(
+        name="completedAt", visibility=["read", "create", "update", "delete", "query"], format="rfc3339"
+    )
     """The completion time of the operation if the operation was completed."""
-    operation_errors: Optional[List["_models.OperationErrorDetails"]] = rest_field(name="operationErrors")
+    operation_errors: Optional[List["_models.OperationErrorDetails"]] = rest_field(
+        name="operationErrors", visibility=["read", "create", "update", "delete", "query"]
+    )
     """A list of errors associated with the operationid."""
-    request_error_code: Optional[str] = rest_field(name="requestErrorCode")
+    request_error_code: Optional[str] = rest_field(
+        name="requestErrorCode", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Request level error code."""
-    request_error_details: Optional[str] = rest_field(name="requestErrorDetails")
+    request_error_details: Optional[str] = rest_field(
+        name="requestErrorDetails", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Request level error details."""
 
     @overload
@@ -744,13 +935,19 @@ class ResourceOperation(_model_base.Model):
     :vartype operation: ~azure.mgmt.computeschedule.models.ResourceOperationDetails
     """
 
-    resource_id: Optional[str] = rest_field(name="resourceId")
+    resource_id: Optional[str] = rest_field(
+        name="resourceId", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Unique identifier for the resource involved in the operation, eg ArmId."""
-    error_code: Optional[str] = rest_field(name="errorCode")
+    error_code: Optional[str] = rest_field(name="errorCode", visibility=["read", "create", "update", "delete", "query"])
     """Resource level error code if it exists."""
-    error_details: Optional[str] = rest_field(name="errorDetails")
+    error_details: Optional[str] = rest_field(
+        name="errorDetails", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Resource level error details if they exist."""
-    operation: Optional["_models.ResourceOperationDetails"] = rest_field()
+    operation: Optional["_models.ResourceOperationDetails"] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
     """Details of the operation performed on a resource."""
 
     @overload
@@ -776,7 +973,6 @@ class ResourceOperation(_model_base.Model):
 
 class ResourceOperationDetails(_model_base.Model):
     """The details of a response from an operation on a resource.
-
 
     :ivar operation_id: Operation identifier for the unique operation. Required.
     :vartype operation_id: str
@@ -808,33 +1004,51 @@ class ResourceOperationDetails(_model_base.Model):
     :vartype retry_policy: ~azure.mgmt.computeschedule.models.RetryPolicy
     """
 
-    operation_id: str = rest_field(name="operationId")
+    operation_id: str = rest_field(name="operationId", visibility=["read", "create", "update", "delete", "query"])
     """Operation identifier for the unique operation. Required."""
-    resource_id: Optional[str] = rest_field(name="resourceId")
+    resource_id: Optional[str] = rest_field(
+        name="resourceId", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Unique identifier for the resource involved in the operation, eg ArmId."""
-    op_type: Optional[Union[str, "_models.ResourceOperationType"]] = rest_field(name="opType")
+    op_type: Optional[Union[str, "_models.ResourceOperationType"]] = rest_field(
+        name="opType", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Type of operation performed on the resources. Known values are: \"Unknown\", \"Start\",
      \"Deallocate\", and \"Hibernate\"."""
-    subscription_id: Optional[str] = rest_field(name="subscriptionId")
+    subscription_id: Optional[str] = rest_field(
+        name="subscriptionId", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Subscription id attached to the request."""
-    deadline: Optional[datetime.datetime] = rest_field(format="rfc3339")
+    deadline: Optional[datetime.datetime] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"], format="rfc3339"
+    )
     """Deadline for the operation."""
-    deadline_type: Optional[Union[str, "_models.DeadlineType"]] = rest_field(name="deadlineType")
+    deadline_type: Optional[Union[str, "_models.DeadlineType"]] = rest_field(
+        name="deadlineType", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Type of deadline of the operation. Known values are: \"Unknown\", \"InitiateAt\", and
      \"CompleteBy\"."""
-    state: Optional[Union[str, "_models.OperationState"]] = rest_field()
+    state: Optional[Union[str, "_models.OperationState"]] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
     """Current state of the operation. Known values are: \"Unknown\", \"PendingScheduling\",
      \"Scheduled\", \"PendingExecution\", \"Executing\", \"Succeeded\", \"Failed\", \"Cancelled\",
      and \"Blocked\"."""
-    timezone: Optional[str] = rest_field()
+    timezone: Optional[str] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """Timezone for the operation."""
-    time_zone: Optional[str] = rest_field(name="timeZone")
+    time_zone: Optional[str] = rest_field(name="timeZone", visibility=["read", "create", "update", "delete", "query"])
     """Timezone for the operation."""
-    resource_operation_error: Optional["_models.ResourceOperationError"] = rest_field(name="resourceOperationError")
+    resource_operation_error: Optional["_models.ResourceOperationError"] = rest_field(
+        name="resourceOperationError", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Operation level errors if they exist."""
-    completed_at: Optional[datetime.datetime] = rest_field(name="completedAt", format="rfc3339")
+    completed_at: Optional[datetime.datetime] = rest_field(
+        name="completedAt", visibility=["read", "create", "update", "delete", "query"], format="rfc3339"
+    )
     """Time the operation was complete if errors are null."""
-    retry_policy: Optional["_models.RetryPolicy"] = rest_field(name="retryPolicy")
+    retry_policy: Optional["_models.RetryPolicy"] = rest_field(
+        name="retryPolicy", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Retry policy the user can pass."""
 
     @overload
@@ -869,16 +1083,15 @@ class ResourceOperationDetails(_model_base.Model):
 class ResourceOperationError(_model_base.Model):
     """These describe errors that occur at the resource level.
 
-
     :ivar error_code: Code for the error eg 404, 500. Required.
     :vartype error_code: str
     :ivar error_details: Detailed message about the error. Required.
     :vartype error_details: str
     """
 
-    error_code: str = rest_field(name="errorCode")
+    error_code: str = rest_field(name="errorCode", visibility=["read", "create", "update", "delete", "query"])
     """Code for the error eg 404, 500. Required."""
-    error_details: str = rest_field(name="errorDetails")
+    error_details: str = rest_field(name="errorDetails", visibility=["read", "create", "update", "delete", "query"])
     """Detailed message about the error. Required."""
 
     @overload
@@ -900,16 +1113,75 @@ class ResourceOperationError(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
+class ResourceProvisionPayload(_model_base.Model):
+    """Resource creation data model.
+
+    :ivar base_profile: baseProfile, Resource properties that common across all resources.
+    :vartype base_profile: str
+    :ivar resource_overrides: resourceOverrides, properties per resource that needs to be
+     overwritted from baseProfile.
+    :vartype resource_overrides: list[str]
+    :ivar vm_extensions: vmExtensions, array of Virtual machine extensions to be added to all the
+     VMs created in this request.
+    :vartype vm_extensions: list[~azure.mgmt.computeschedule.models.VirtualMachineExtensionData]
+    :ivar resource_count: Number of resources to be created. Required.
+    :vartype resource_count: int
+    :ivar resource_prefix: if resourceOverrides doesn't contain "name", service will create name
+     based of prefix and ResourceCount e.g. resourceprefix-0,resourceprefix-1..
+    :vartype resource_prefix: str
+    """
+
+    base_profile: Optional[str] = rest_field(
+        name="baseProfile", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """baseProfile, Resource properties that common across all resources."""
+    resource_overrides: Optional[List[str]] = rest_field(
+        name="resourceOverrides", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """resourceOverrides, properties per resource that needs to be overwritted from baseProfile."""
+    vm_extensions: Optional[List["_models.VirtualMachineExtensionData"]] = rest_field(
+        name="vmExtensions", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """vmExtensions, array of Virtual machine extensions to be added to all the VMs created in this
+     request."""
+    resource_count: int = rest_field(name="resourceCount", visibility=["read", "create", "update", "delete", "query"])
+    """Number of resources to be created. Required."""
+    resource_prefix: Optional[str] = rest_field(
+        name="resourcePrefix", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """if resourceOverrides doesn't contain \"name\", service will create name based of prefix and
+     ResourceCount e.g. resourceprefix-0,resourceprefix-1.."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        resource_count: int,
+        base_profile: Optional[str] = None,
+        resource_overrides: Optional[List[str]] = None,
+        vm_extensions: Optional[List["_models.VirtualMachineExtensionData"]] = None,
+        resource_prefix: Optional[str] = None,
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+
+
 class Resources(_model_base.Model):
     """The resources needed for the user request.
-
-    All required parameters must be populated in order to send to server.
 
     :ivar ids: The resource ids used for the request. Required.
     :vartype ids: list[str]
     """
 
-    ids: List[str] = rest_field()
+    ids: List[str] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """The resource ids used for the request. Required."""
 
     @overload
@@ -939,9 +1211,13 @@ class RetryPolicy(_model_base.Model):
     :vartype retry_window_in_minutes: int
     """
 
-    retry_count: Optional[int] = rest_field(name="retryCount")
+    retry_count: Optional[int] = rest_field(
+        name="retryCount", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Retry count for user request."""
-    retry_window_in_minutes: Optional[int] = rest_field(name="retryWindowInMinutes")
+    retry_window_in_minutes: Optional[int] = rest_field(
+        name="retryWindowInMinutes", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Retry window in minutes for user request."""
 
     @overload
@@ -966,8 +1242,6 @@ class RetryPolicy(_model_base.Model):
 class Schedule(_model_base.Model):
     """The schedule details for the user request.
 
-    All required parameters must be populated in order to send to server.
-
     :ivar deadline: The deadline for the operation.
     :vartype deadline: ~datetime.datetime
     :ivar dead_line: The deadline for the operation.
@@ -981,15 +1255,21 @@ class Schedule(_model_base.Model):
     :vartype deadline_type: str or ~azure.mgmt.computeschedule.models.DeadlineType
     """
 
-    deadline: Optional[datetime.datetime] = rest_field(format="rfc3339")
+    deadline: Optional[datetime.datetime] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"], format="rfc3339"
+    )
     """The deadline for the operation."""
-    dead_line: Optional[datetime.datetime] = rest_field(name="deadLine", format="rfc3339")
+    dead_line: Optional[datetime.datetime] = rest_field(
+        name="deadLine", visibility=["read", "create", "update", "delete", "query"], format="rfc3339"
+    )
     """The deadline for the operation."""
-    timezone: Optional[str] = rest_field()
+    timezone: Optional[str] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """The timezone for the operation."""
-    time_zone: Optional[str] = rest_field(name="timeZone")
+    time_zone: Optional[str] = rest_field(name="timeZone", visibility=["read", "create", "update", "delete", "query"])
     """The timezone for the operation."""
-    deadline_type: Union[str, "_models.DeadlineType"] = rest_field(name="deadlineType")
+    deadline_type: Union[str, "_models.DeadlineType"] = rest_field(
+        name="deadlineType", visibility=["read", "create", "update", "delete", "query"]
+    )
     """The deadlinetype of the operation, this can either be InitiateAt or CompleteBy. Required. Known
      values are: \"Unknown\", \"InitiateAt\", and \"CompleteBy\"."""
 
@@ -1018,7 +1298,6 @@ class Schedule(_model_base.Model):
 class StartResourceOperationResponse(_model_base.Model):
     """The response from a start request.
 
-
     :ivar description: The description of the operation response. Required.
     :vartype description: str
     :ivar type: The type of resources used in the start request eg virtual machines. Required.
@@ -1029,13 +1308,15 @@ class StartResourceOperationResponse(_model_base.Model):
     :vartype results: list[~azure.mgmt.computeschedule.models.ResourceOperation]
     """
 
-    description: str = rest_field()
+    description: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """The description of the operation response. Required."""
-    type: str = rest_field()
+    type: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """The type of resources used in the start request eg virtual machines. Required."""
     location: str = rest_field(visibility=["read", "create"])
     """The location of the start request eg westus. Required."""
-    results: Optional[List["_models.ResourceOperation"]] = rest_field()
+    results: Optional[List["_models.ResourceOperation"]] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
     """The results from the start request if no errors exist."""
 
     @overload
@@ -1062,8 +1343,6 @@ class StartResourceOperationResponse(_model_base.Model):
 class SubmitDeallocateRequest(_model_base.Model):
     """The deallocate request for resources.
 
-    All required parameters must be populated in order to send to server.
-
     :ivar schedule: The schedule for the request. Required.
     :vartype schedule: ~azure.mgmt.computeschedule.models.Schedule
     :ivar execution_parameters: The execution parameters for the request. Required.
@@ -1074,13 +1353,15 @@ class SubmitDeallocateRequest(_model_base.Model):
     :vartype correlationid: str
     """
 
-    schedule: "_models.Schedule" = rest_field()
+    schedule: "_models.Schedule" = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """The schedule for the request. Required."""
-    execution_parameters: "_models.ExecutionParameters" = rest_field(name="executionParameters")
+    execution_parameters: "_models.ExecutionParameters" = rest_field(
+        name="executionParameters", visibility=["read", "create", "update", "delete", "query"]
+    )
     """The execution parameters for the request. Required."""
-    resources: "_models.Resources" = rest_field()
+    resources: "_models.Resources" = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """The resources for the request. Required."""
-    correlationid: str = rest_field()
+    correlationid: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """CorrelationId item. Required."""
 
     @overload
@@ -1107,8 +1388,6 @@ class SubmitDeallocateRequest(_model_base.Model):
 class SubmitHibernateRequest(_model_base.Model):
     """This is the request for hibernate.
 
-    All required parameters must be populated in order to send to server.
-
     :ivar schedule: The schedule for the request. Required.
     :vartype schedule: ~azure.mgmt.computeschedule.models.Schedule
     :ivar execution_parameters: The execution parameters for the request. Required.
@@ -1119,13 +1398,15 @@ class SubmitHibernateRequest(_model_base.Model):
     :vartype correlationid: str
     """
 
-    schedule: "_models.Schedule" = rest_field()
+    schedule: "_models.Schedule" = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """The schedule for the request. Required."""
-    execution_parameters: "_models.ExecutionParameters" = rest_field(name="executionParameters")
+    execution_parameters: "_models.ExecutionParameters" = rest_field(
+        name="executionParameters", visibility=["read", "create", "update", "delete", "query"]
+    )
     """The execution parameters for the request. Required."""
-    resources: "_models.Resources" = rest_field()
+    resources: "_models.Resources" = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """The resources for the request. Required."""
-    correlationid: str = rest_field()
+    correlationid: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """CorrelationId item. Required."""
 
     @overload
@@ -1152,8 +1433,6 @@ class SubmitHibernateRequest(_model_base.Model):
 class SubmitStartRequest(_model_base.Model):
     """This is the request for start.
 
-    All required parameters must be populated in order to send to server.
-
     :ivar schedule: The schedule for the request. Required.
     :vartype schedule: ~azure.mgmt.computeschedule.models.Schedule
     :ivar execution_parameters: The execution parameters for the request. Required.
@@ -1164,13 +1443,15 @@ class SubmitStartRequest(_model_base.Model):
     :vartype correlationid: str
     """
 
-    schedule: "_models.Schedule" = rest_field()
+    schedule: "_models.Schedule" = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """The schedule for the request. Required."""
-    execution_parameters: "_models.ExecutionParameters" = rest_field(name="executionParameters")
+    execution_parameters: "_models.ExecutionParameters" = rest_field(
+        name="executionParameters", visibility=["read", "create", "update", "delete", "query"]
+    )
     """The execution parameters for the request. Required."""
-    resources: "_models.Resources" = rest_field()
+    resources: "_models.Resources" = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """The resources for the request. Required."""
-    correlationid: str = rest_field()
+    correlationid: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """CorrelationId item. Required."""
 
     @overload
@@ -1181,6 +1462,51 @@ class SubmitStartRequest(_model_base.Model):
         execution_parameters: "_models.ExecutionParameters",
         resources: "_models.Resources",
         correlationid: str,
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+
+
+class VirtualMachineExtensionData(_model_base.Model):
+    """struct for VMExtension data.
+
+    :ivar name: name of VM extension. Required.
+    :vartype name: str
+    :ivar location: location of VM extension.
+    :vartype location: str
+    :ivar properties: properties for VM extension e.g. publisher, version etc, value can dynamic
+     int32,string, bool etc. Required.
+    :vartype properties: dict[str, any]
+    :ivar tags: Resource tags for creates/updates.
+    :vartype tags: dict[str, str]
+    """
+
+    name: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
+    """name of VM extension. Required."""
+    location: Optional[str] = rest_field(visibility=["read", "create", "update", "delete", "query"])
+    """location of VM extension."""
+    properties: Dict[str, Any] = rest_field(visibility=["read", "create", "update", "delete", "query"])
+    """properties for VM extension e.g. publisher, version etc, value can dynamic int32,string, bool
+     etc. Required."""
+    tags: Optional[Dict[str, str]] = rest_field(visibility=["read", "create", "update", "delete", "query"])
+    """Resource tags for creates/updates."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        name: str,
+        properties: Dict[str, Any],
+        location: Optional[str] = None,
+        tags: Optional[Dict[str, str]] = None,
     ) -> None: ...
 
     @overload
