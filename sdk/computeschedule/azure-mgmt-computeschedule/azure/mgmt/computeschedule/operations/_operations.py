@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=line-too-long,useless-suppression,too-many-lines
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -12,6 +12,7 @@ import sys
 from typing import Any, Callable, Dict, IO, Iterable, List, Optional, TypeVar, Union, overload
 import urllib.parse
 
+from azure.core import PipelineClient
 from azure.core.exceptions import (
     ClientAuthenticationError,
     HttpResponseError,
@@ -30,8 +31,10 @@ from azure.core.utils import case_insensitive_dict
 from azure.mgmt.core.exceptions import ARMErrorFormat
 
 from .. import models as _models
+from .._configuration import ComputeScheduleMgmtClientConfiguration
 from .._model_base import SdkJSONEncoder, _deserialize, _failsafe_deserialize
-from .._serialization import Serializer
+from .._serialization import Deserializer, Serializer
+from .._validation import api_version_validation
 
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
@@ -49,7 +52,7 @@ def build_operations_list_request(**kwargs: Any) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-05-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -71,11 +74,11 @@ def build_scheduled_actions_virtual_machines_submit_deallocate_request(  # pylin
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-05-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
-    _url = "/subscriptions/{subscriptionId}/providers/Microsoft.ComputeSchedule/locations/{locationparameter}/virtualMachinesSubmitDeallocate"  # pylint: disable=line-too-long
+    _url = "/subscriptions/{subscriptionId}/providers/Microsoft.ComputeSchedule/locations/{locationparameter}/virtualMachinesSubmitDeallocate"
     path_format_arguments = {
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
         "locationparameter": _SERIALIZER.url("locationparameter", locationparameter, "str"),
@@ -101,11 +104,11 @@ def build_scheduled_actions_virtual_machines_submit_hibernate_request(  # pylint
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-05-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
-    _url = "/subscriptions/{subscriptionId}/providers/Microsoft.ComputeSchedule/locations/{locationparameter}/virtualMachinesSubmitHibernate"  # pylint: disable=line-too-long
+    _url = "/subscriptions/{subscriptionId}/providers/Microsoft.ComputeSchedule/locations/{locationparameter}/virtualMachinesSubmitHibernate"
     path_format_arguments = {
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
         "locationparameter": _SERIALIZER.url("locationparameter", locationparameter, "str"),
@@ -131,11 +134,11 @@ def build_scheduled_actions_virtual_machines_submit_start_request(  # pylint: di
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-05-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
-    _url = "/subscriptions/{subscriptionId}/providers/Microsoft.ComputeSchedule/locations/{locationparameter}/virtualMachinesSubmitStart"  # pylint: disable=line-too-long
+    _url = "/subscriptions/{subscriptionId}/providers/Microsoft.ComputeSchedule/locations/{locationparameter}/virtualMachinesSubmitStart"
     path_format_arguments = {
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
         "locationparameter": _SERIALIZER.url("locationparameter", locationparameter, "str"),
@@ -161,11 +164,11 @@ def build_scheduled_actions_virtual_machines_execute_deallocate_request(  # pyli
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-05-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
-    _url = "/subscriptions/{subscriptionId}/providers/Microsoft.ComputeSchedule/locations/{locationparameter}/virtualMachinesExecuteDeallocate"  # pylint: disable=line-too-long
+    _url = "/subscriptions/{subscriptionId}/providers/Microsoft.ComputeSchedule/locations/{locationparameter}/virtualMachinesExecuteDeallocate"
     path_format_arguments = {
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
         "locationparameter": _SERIALIZER.url("locationparameter", locationparameter, "str"),
@@ -191,11 +194,11 @@ def build_scheduled_actions_virtual_machines_execute_hibernate_request(  # pylin
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-05-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
-    _url = "/subscriptions/{subscriptionId}/providers/Microsoft.ComputeSchedule/locations/{locationparameter}/virtualMachinesExecuteHibernate"  # pylint: disable=line-too-long
+    _url = "/subscriptions/{subscriptionId}/providers/Microsoft.ComputeSchedule/locations/{locationparameter}/virtualMachinesExecuteHibernate"
     path_format_arguments = {
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
         "locationparameter": _SERIALIZER.url("locationparameter", locationparameter, "str"),
@@ -221,11 +224,71 @@ def build_scheduled_actions_virtual_machines_execute_start_request(  # pylint: d
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-05-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
-    _url = "/subscriptions/{subscriptionId}/providers/Microsoft.ComputeSchedule/locations/{locationparameter}/virtualMachinesExecuteStart"  # pylint: disable=line-too-long
+    _url = "/subscriptions/{subscriptionId}/providers/Microsoft.ComputeSchedule/locations/{locationparameter}/virtualMachinesExecuteStart"
+    path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
+        "locationparameter": _SERIALIZER.url("locationparameter", locationparameter, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    if content_type is not None:
+        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_scheduled_actions_virtual_machines_execute_create_request(  # pylint: disable=name-too-long
+    locationparameter: str, subscription_id: str, **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-05-01"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/subscriptions/{subscriptionId}/providers/Microsoft.ComputeSchedule/locations/{locationparameter}/virtualMachinesExecuteCreate"
+    path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
+        "locationparameter": _SERIALIZER.url("locationparameter", locationparameter, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    if content_type is not None:
+        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_scheduled_actions_virtual_machines_execute_delete_request(  # pylint: disable=name-too-long
+    locationparameter: str, subscription_id: str, **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-05-01"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/subscriptions/{subscriptionId}/providers/Microsoft.ComputeSchedule/locations/{locationparameter}/virtualMachinesExecuteDelete"
     path_format_arguments = {
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
         "locationparameter": _SERIALIZER.url("locationparameter", locationparameter, "str"),
@@ -251,11 +314,11 @@ def build_scheduled_actions_virtual_machines_get_operation_status_request(  # py
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-05-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
-    _url = "/subscriptions/{subscriptionId}/providers/Microsoft.ComputeSchedule/locations/{locationparameter}/virtualMachinesGetOperationStatus"  # pylint: disable=line-too-long
+    _url = "/subscriptions/{subscriptionId}/providers/Microsoft.ComputeSchedule/locations/{locationparameter}/virtualMachinesGetOperationStatus"
     path_format_arguments = {
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
         "locationparameter": _SERIALIZER.url("locationparameter", locationparameter, "str"),
@@ -281,11 +344,11 @@ def build_scheduled_actions_virtual_machines_cancel_operations_request(  # pylin
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-05-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
-    _url = "/subscriptions/{subscriptionId}/providers/Microsoft.ComputeSchedule/locations/{locationparameter}/virtualMachinesCancelOperations"  # pylint: disable=line-too-long
+    _url = "/subscriptions/{subscriptionId}/providers/Microsoft.ComputeSchedule/locations/{locationparameter}/virtualMachinesCancelOperations"
     path_format_arguments = {
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
         "locationparameter": _SERIALIZER.url("locationparameter", locationparameter, "str"),
@@ -311,11 +374,11 @@ def build_scheduled_actions_virtual_machines_get_operation_errors_request(  # py
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-05-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
-    _url = "/subscriptions/{subscriptionId}/providers/Microsoft.ComputeSchedule/locations/{locationparameter}/virtualMachinesGetOperationErrors"  # pylint: disable=line-too-long
+    _url = "/subscriptions/{subscriptionId}/providers/Microsoft.ComputeSchedule/locations/{locationparameter}/virtualMachinesGetOperationErrors"
     path_format_arguments = {
         "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str"),
         "locationparameter": _SERIALIZER.url("locationparameter", locationparameter, "str"),
@@ -346,10 +409,10 @@ class Operations:
 
     def __init__(self, *args, **kwargs):
         input_args = list(args)
-        self._client = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config = input_args.pop(0) if input_args else kwargs.pop("config")
-        self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
-        self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
+        self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
+        self._config: ComputeScheduleMgmtClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
+        self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
     @distributed_trace
     def list(self, **kwargs: Any) -> Iterable["_models.Operation"]:
@@ -411,7 +474,7 @@ class Operations:
 
         def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.Operation], deserialized["value"])
+            list_of_elem = _deserialize(List[_models.Operation], deserialized.get("value", []))
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
             return deserialized.get("nextLink") or None, iter(list_of_elem)
@@ -447,10 +510,10 @@ class ScheduledActionsOperations:
 
     def __init__(self, *args, **kwargs):
         input_args = list(args)
-        self._client = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config = input_args.pop(0) if input_args else kwargs.pop("config")
-        self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
-        self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
+        self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
+        self._config: ComputeScheduleMgmtClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
+        self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
     @overload
     def virtual_machines_submit_deallocate(
@@ -1326,6 +1389,308 @@ class ScheduledActionsOperations:
             deserialized = response.iter_bytes()
         else:
             deserialized = _deserialize(_models.StartResourceOperationResponse, response.json())
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
+
+    @overload
+    def virtual_machines_execute_create(
+        self,
+        locationparameter: str,
+        request_body: _models.ExecuteCreateRequest,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> _models.CreateResourceOperationResponse:
+        """VirtualMachinesExecuteCreate: Execute create operation for a batch of virtual machines, this
+        operation is triggered as soon as Computeschedule receives it.
+
+        :param locationparameter: The location name. Required.
+        :type locationparameter: str
+        :param request_body: The request body. Required.
+        :type request_body: ~azure.mgmt.computeschedule.models.ExecuteCreateRequest
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: CreateResourceOperationResponse. The CreateResourceOperationResponse is compatible
+         with MutableMapping
+        :rtype: ~azure.mgmt.computeschedule.models.CreateResourceOperationResponse
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    def virtual_machines_execute_create(
+        self, locationparameter: str, request_body: JSON, *, content_type: str = "application/json", **kwargs: Any
+    ) -> _models.CreateResourceOperationResponse:
+        """VirtualMachinesExecuteCreate: Execute create operation for a batch of virtual machines, this
+        operation is triggered as soon as Computeschedule receives it.
+
+        :param locationparameter: The location name. Required.
+        :type locationparameter: str
+        :param request_body: The request body. Required.
+        :type request_body: JSON
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: CreateResourceOperationResponse. The CreateResourceOperationResponse is compatible
+         with MutableMapping
+        :rtype: ~azure.mgmt.computeschedule.models.CreateResourceOperationResponse
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    def virtual_machines_execute_create(
+        self, locationparameter: str, request_body: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
+    ) -> _models.CreateResourceOperationResponse:
+        """VirtualMachinesExecuteCreate: Execute create operation for a batch of virtual machines, this
+        operation is triggered as soon as Computeschedule receives it.
+
+        :param locationparameter: The location name. Required.
+        :type locationparameter: str
+        :param request_body: The request body. Required.
+        :type request_body: IO[bytes]
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: CreateResourceOperationResponse. The CreateResourceOperationResponse is compatible
+         with MutableMapping
+        :rtype: ~azure.mgmt.computeschedule.models.CreateResourceOperationResponse
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace
+    @api_version_validation(
+        method_added_on="2025-05-01",
+        params_added_on={
+            "2025-05-01": ["api_version", "subscription_id", "locationparameter", "content_type", "accept"]
+        },
+    )
+    def virtual_machines_execute_create(
+        self, locationparameter: str, request_body: Union[_models.ExecuteCreateRequest, JSON, IO[bytes]], **kwargs: Any
+    ) -> _models.CreateResourceOperationResponse:
+        """VirtualMachinesExecuteCreate: Execute create operation for a batch of virtual machines, this
+        operation is triggered as soon as Computeschedule receives it.
+
+        :param locationparameter: The location name. Required.
+        :type locationparameter: str
+        :param request_body: The request body. Is one of the following types: ExecuteCreateRequest,
+         JSON, IO[bytes] Required.
+        :type request_body: ~azure.mgmt.computeschedule.models.ExecuteCreateRequest or JSON or
+         IO[bytes]
+        :return: CreateResourceOperationResponse. The CreateResourceOperationResponse is compatible
+         with MutableMapping
+        :rtype: ~azure.mgmt.computeschedule.models.CreateResourceOperationResponse
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = kwargs.pop("params", {}) or {}
+
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.CreateResourceOperationResponse] = kwargs.pop("cls", None)
+
+        content_type = content_type or "application/json"
+        _content = None
+        if isinstance(request_body, (IOBase, bytes)):
+            _content = request_body
+        else:
+            _content = json.dumps(request_body, cls=SdkJSONEncoder, exclude_readonly=True)  # type: ignore
+
+        _request = build_scheduled_actions_virtual_machines_execute_create_request(
+            locationparameter=locationparameter,
+            subscription_id=self._config.subscription_id,
+            content_type=content_type,
+            api_version=self._config.api_version,
+            content=_content,
+            headers=_headers,
+            params=_params,
+        )
+        path_format_arguments = {
+            "endpoint": self._serialize.url("self._config.base_url", self._config.base_url, "str", skip_quote=True),
+        }
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+        _stream = kwargs.pop("stream", False)
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            if _stream:
+                try:
+                    response.read()  # Load the body in memory and close the socket
+                except (StreamConsumedError, StreamClosedError):
+                    pass
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = _failsafe_deserialize(_models.ErrorResponse, response.json())
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        if _stream:
+            deserialized = response.iter_bytes()
+        else:
+            deserialized = _deserialize(_models.CreateResourceOperationResponse, response.json())
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
+
+    @overload
+    def virtual_machines_execute_delete(
+        self,
+        locationparameter: str,
+        request_body: _models.ExecuteDeleteRequest,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> _models.DeleteResourceOperationResponse:
+        """VirtualMachinesExecuteCreate: Execute delete operation for a batch of virtual machines, this
+        operation is triggered as soon as Computeschedule receives it.
+
+        :param locationparameter: The location name. Required.
+        :type locationparameter: str
+        :param request_body: The request body. Required.
+        :type request_body: ~azure.mgmt.computeschedule.models.ExecuteDeleteRequest
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: DeleteResourceOperationResponse. The DeleteResourceOperationResponse is compatible
+         with MutableMapping
+        :rtype: ~azure.mgmt.computeschedule.models.DeleteResourceOperationResponse
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    def virtual_machines_execute_delete(
+        self, locationparameter: str, request_body: JSON, *, content_type: str = "application/json", **kwargs: Any
+    ) -> _models.DeleteResourceOperationResponse:
+        """VirtualMachinesExecuteCreate: Execute delete operation for a batch of virtual machines, this
+        operation is triggered as soon as Computeschedule receives it.
+
+        :param locationparameter: The location name. Required.
+        :type locationparameter: str
+        :param request_body: The request body. Required.
+        :type request_body: JSON
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: DeleteResourceOperationResponse. The DeleteResourceOperationResponse is compatible
+         with MutableMapping
+        :rtype: ~azure.mgmt.computeschedule.models.DeleteResourceOperationResponse
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    def virtual_machines_execute_delete(
+        self, locationparameter: str, request_body: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
+    ) -> _models.DeleteResourceOperationResponse:
+        """VirtualMachinesExecuteCreate: Execute delete operation for a batch of virtual machines, this
+        operation is triggered as soon as Computeschedule receives it.
+
+        :param locationparameter: The location name. Required.
+        :type locationparameter: str
+        :param request_body: The request body. Required.
+        :type request_body: IO[bytes]
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: DeleteResourceOperationResponse. The DeleteResourceOperationResponse is compatible
+         with MutableMapping
+        :rtype: ~azure.mgmt.computeschedule.models.DeleteResourceOperationResponse
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace
+    @api_version_validation(
+        method_added_on="2025-05-01",
+        params_added_on={
+            "2025-05-01": ["api_version", "subscription_id", "locationparameter", "content_type", "accept"]
+        },
+    )
+    def virtual_machines_execute_delete(
+        self, locationparameter: str, request_body: Union[_models.ExecuteDeleteRequest, JSON, IO[bytes]], **kwargs: Any
+    ) -> _models.DeleteResourceOperationResponse:
+        """VirtualMachinesExecuteCreate: Execute delete operation for a batch of virtual machines, this
+        operation is triggered as soon as Computeschedule receives it.
+
+        :param locationparameter: The location name. Required.
+        :type locationparameter: str
+        :param request_body: The request body. Is one of the following types: ExecuteDeleteRequest,
+         JSON, IO[bytes] Required.
+        :type request_body: ~azure.mgmt.computeschedule.models.ExecuteDeleteRequest or JSON or
+         IO[bytes]
+        :return: DeleteResourceOperationResponse. The DeleteResourceOperationResponse is compatible
+         with MutableMapping
+        :rtype: ~azure.mgmt.computeschedule.models.DeleteResourceOperationResponse
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = kwargs.pop("params", {}) or {}
+
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.DeleteResourceOperationResponse] = kwargs.pop("cls", None)
+
+        content_type = content_type or "application/json"
+        _content = None
+        if isinstance(request_body, (IOBase, bytes)):
+            _content = request_body
+        else:
+            _content = json.dumps(request_body, cls=SdkJSONEncoder, exclude_readonly=True)  # type: ignore
+
+        _request = build_scheduled_actions_virtual_machines_execute_delete_request(
+            locationparameter=locationparameter,
+            subscription_id=self._config.subscription_id,
+            content_type=content_type,
+            api_version=self._config.api_version,
+            content=_content,
+            headers=_headers,
+            params=_params,
+        )
+        path_format_arguments = {
+            "endpoint": self._serialize.url("self._config.base_url", self._config.base_url, "str", skip_quote=True),
+        }
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+        _stream = kwargs.pop("stream", False)
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            if _stream:
+                try:
+                    response.read()  # Load the body in memory and close the socket
+                except (StreamConsumedError, StreamClosedError):
+                    pass
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = _failsafe_deserialize(_models.ErrorResponse, response.json())
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        if _stream:
+            deserialized = response.iter_bytes()
+        else:
+            deserialized = _deserialize(_models.DeleteResourceOperationResponse, response.json())
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore

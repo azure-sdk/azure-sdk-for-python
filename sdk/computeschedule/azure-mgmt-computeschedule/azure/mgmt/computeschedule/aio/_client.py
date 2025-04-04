@@ -37,7 +37,7 @@ class ComputeScheduleMgmtClient:
     :type subscription_id: str
     :param base_url: Service host. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: The API version to use for this operation. Default value is "2024-10-01".
+    :keyword api_version: The API version to use for this operation. Default value is "2025-05-01".
      Note that overriding this default value may result in unsupported behavior.
     :paramtype api_version: str
     """
