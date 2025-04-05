@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines,too-many-statements
+# pylint: disable=too-many-lines
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8,7 +8,7 @@
 # --------------------------------------------------------------------------
 from io import IOBase
 import sys
-from typing import Any, AsyncIterable, AsyncIterator, Callable, Dict, IO, Optional, Type, TypeVar, Union, cast, overload
+from typing import Any, AsyncIterable, AsyncIterator, Callable, Dict, IO, Optional, TypeVar, Union, cast, overload
 import urllib.parse
 
 from azure.core.async_paging import AsyncItemPaged, AsyncList
@@ -67,7 +67,7 @@ from ...operations._billing_role_assignments_operations import (
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -92,7 +92,7 @@ class BillingRoleAssignmentsOperations:  # pylint: disable=too-many-public-metho
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
     @distributed_trace_async
-    async def delete_by_billing_profile(  # pylint: disable=inconsistent-return-statements
+    async def delete_by_billing_profile(
         self, billing_account_name: str, billing_profile_name: str, billing_role_assignment_name: str, **kwargs: Any
     ) -> None:
         """Deletes a role assignment on a billing profile. The operation is supported for billing accounts
@@ -112,7 +112,7 @@ class BillingRoleAssignmentsOperations:  # pylint: disable=too-many-public-metho
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -173,7 +173,7 @@ class BillingRoleAssignmentsOperations:  # pylint: disable=too-many-public-metho
         :rtype: ~azure.mgmt.billing.models.BillingRoleAssignment
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -258,7 +258,7 @@ class BillingRoleAssignmentsOperations:  # pylint: disable=too-many-public-metho
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.BillingRoleAssignmentListResult] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -330,7 +330,7 @@ class BillingRoleAssignmentsOperations:  # pylint: disable=too-many-public-metho
         parameters: Union[_models.BillingRoleAssignmentProperties, IO[bytes]],
         **kwargs: Any
     ) -> AsyncIterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -532,7 +532,7 @@ class BillingRoleAssignmentsOperations:  # pylint: disable=too-many-public-metho
         )
 
     @distributed_trace_async
-    async def delete_by_customer(  # pylint: disable=inconsistent-return-statements
+    async def delete_by_customer(
         self,
         billing_account_name: str,
         billing_profile_name: str,
@@ -559,7 +559,7 @@ class BillingRoleAssignmentsOperations:  # pylint: disable=too-many-public-metho
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -627,7 +627,7 @@ class BillingRoleAssignmentsOperations:  # pylint: disable=too-many-public-metho
         :rtype: ~azure.mgmt.billing.models.BillingRoleAssignment
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -715,7 +715,7 @@ class BillingRoleAssignmentsOperations:  # pylint: disable=too-many-public-metho
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.BillingRoleAssignmentListResult] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -789,7 +789,7 @@ class BillingRoleAssignmentsOperations:  # pylint: disable=too-many-public-metho
         parameters: Union[_models.BillingRoleAssignmentProperties, IO[bytes]],
         **kwargs: Any
     ) -> AsyncIterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1010,7 +1010,7 @@ class BillingRoleAssignmentsOperations:  # pylint: disable=too-many-public-metho
         filter: Optional[str] = None,
         **kwargs: Any
     ) -> AsyncIterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1150,7 +1150,7 @@ class BillingRoleAssignmentsOperations:  # pylint: disable=too-many-public-metho
         )
 
     @distributed_trace_async
-    async def delete_by_invoice_section(  # pylint: disable=inconsistent-return-statements
+    async def delete_by_invoice_section(
         self,
         billing_account_name: str,
         billing_profile_name: str,
@@ -1177,7 +1177,7 @@ class BillingRoleAssignmentsOperations:  # pylint: disable=too-many-public-metho
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1245,7 +1245,7 @@ class BillingRoleAssignmentsOperations:  # pylint: disable=too-many-public-metho
         :rtype: ~azure.mgmt.billing.models.BillingRoleAssignment
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1333,7 +1333,7 @@ class BillingRoleAssignmentsOperations:  # pylint: disable=too-many-public-metho
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.BillingRoleAssignmentListResult] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1407,7 +1407,7 @@ class BillingRoleAssignmentsOperations:  # pylint: disable=too-many-public-metho
         parameters: Union[_models.BillingRoleAssignmentProperties, IO[bytes]],
         **kwargs: Any
     ) -> AsyncIterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1628,7 +1628,7 @@ class BillingRoleAssignmentsOperations:  # pylint: disable=too-many-public-metho
         filter: Optional[str] = None,
         **kwargs: Any
     ) -> AsyncIterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1775,7 +1775,7 @@ class BillingRoleAssignmentsOperations:  # pylint: disable=too-many-public-metho
         filter: Optional[str] = None,
         **kwargs: Any
     ) -> AsyncIterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1910,7 +1910,7 @@ class BillingRoleAssignmentsOperations:  # pylint: disable=too-many-public-metho
         )
 
     @distributed_trace_async
-    async def delete_by_billing_account(  # pylint: disable=inconsistent-return-statements
+    async def delete_by_billing_account(
         self, billing_account_name: str, billing_role_assignment_name: str, **kwargs: Any
     ) -> None:
         """Deletes a role assignment on a billing account. The operation is supported for billing accounts
@@ -1929,7 +1929,7 @@ class BillingRoleAssignmentsOperations:  # pylint: disable=too-many-public-metho
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1987,7 +1987,7 @@ class BillingRoleAssignmentsOperations:  # pylint: disable=too-many-public-metho
         :rtype: ~azure.mgmt.billing.models.BillingRoleAssignment
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -2036,7 +2036,7 @@ class BillingRoleAssignmentsOperations:  # pylint: disable=too-many-public-metho
         parameters: Union[_models.BillingRoleAssignment, IO[bytes]],
         **kwargs: Any
     ) -> AsyncIterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -2277,7 +2277,7 @@ class BillingRoleAssignmentsOperations:  # pylint: disable=too-many-public-metho
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.BillingRoleAssignmentListResult] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -2347,7 +2347,7 @@ class BillingRoleAssignmentsOperations:  # pylint: disable=too-many-public-metho
         parameters: Union[_models.BillingRoleAssignmentProperties, IO[bytes]],
         **kwargs: Any
     ) -> AsyncIterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -2533,7 +2533,7 @@ class BillingRoleAssignmentsOperations:  # pylint: disable=too-many-public-metho
         )
 
     @distributed_trace_async
-    async def delete_by_department(  # pylint: disable=inconsistent-return-statements
+    async def delete_by_department(
         self, billing_account_name: str, department_name: str, billing_role_assignment_name: str, **kwargs: Any
     ) -> None:
         """Deletes a role assignment on a department. The operation is supported only for billing accounts
@@ -2553,7 +2553,7 @@ class BillingRoleAssignmentsOperations:  # pylint: disable=too-many-public-metho
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -2613,7 +2613,7 @@ class BillingRoleAssignmentsOperations:  # pylint: disable=too-many-public-metho
         :rtype: ~azure.mgmt.billing.models.BillingRoleAssignment
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -2664,7 +2664,7 @@ class BillingRoleAssignmentsOperations:  # pylint: disable=too-many-public-metho
         parameters: Union[_models.BillingRoleAssignment, IO[bytes]],
         **kwargs: Any
     ) -> AsyncIterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -2903,7 +2903,7 @@ class BillingRoleAssignmentsOperations:  # pylint: disable=too-many-public-metho
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.BillingRoleAssignmentListResult] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -2966,7 +2966,7 @@ class BillingRoleAssignmentsOperations:  # pylint: disable=too-many-public-metho
         return AsyncItemPaged(get_next, extract_data)
 
     @distributed_trace_async
-    async def delete_by_enrollment_account(  # pylint: disable=inconsistent-return-statements
+    async def delete_by_enrollment_account(
         self, billing_account_name: str, enrollment_account_name: str, billing_role_assignment_name: str, **kwargs: Any
     ) -> None:
         """Deletes a role assignment on a enrollment Account. The operation is supported only for billing
@@ -2986,7 +2986,7 @@ class BillingRoleAssignmentsOperations:  # pylint: disable=too-many-public-metho
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -3046,7 +3046,7 @@ class BillingRoleAssignmentsOperations:  # pylint: disable=too-many-public-metho
         :rtype: ~azure.mgmt.billing.models.BillingRoleAssignment
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -3097,7 +3097,7 @@ class BillingRoleAssignmentsOperations:  # pylint: disable=too-many-public-metho
         parameters: Union[_models.BillingRoleAssignment, IO[bytes]],
         **kwargs: Any
     ) -> AsyncIterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -3336,7 +3336,7 @@ class BillingRoleAssignmentsOperations:  # pylint: disable=too-many-public-metho
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.BillingRoleAssignmentListResult] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -3405,7 +3405,7 @@ class BillingRoleAssignmentsOperations:  # pylint: disable=too-many-public-metho
         filter: Optional[str] = None,
         **kwargs: Any
     ) -> AsyncIterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
