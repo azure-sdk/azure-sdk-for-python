@@ -1,5 +1,5 @@
-# coding=utf-8
 # pylint: disable=too-many-lines
+# coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -13,7 +13,6 @@ from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 from .. import _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
@@ -37,7 +36,7 @@ class AcceptTransferRequest(_serialization.Model):
         self.product_details = product_details
 
 
-class AddressDetails(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class AddressDetails(_serialization.Model):
     """Address details.
 
     All required parameters must be populated in order to send to server.
@@ -1282,7 +1281,7 @@ class BillingAccountPolicyPropertiesEnterpriseAgreementPolicies(
     """
 
 
-class BillingAccountProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class BillingAccountProperties(_serialization.Model):
     """A billing account.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1438,7 +1437,7 @@ class BillingAccountProperties(_serialization.Model):  # pylint: disable=too-man
         self.tax_ids = tax_ids
 
 
-class EnrollmentDetails(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class EnrollmentDetails(_serialization.Model):
     """The properties of an enrollment.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1554,9 +1553,7 @@ class EnrollmentDetails(_serialization.Model):  # pylint: disable=too-many-insta
         self.invoice_recipient = None
 
 
-class BillingAccountPropertiesEnrollmentDetails(
-    EnrollmentDetails
-):  # pylint: disable=too-many-instance-attributes,name-too-long
+class BillingAccountPropertiesEnrollmentDetails(EnrollmentDetails):  # pylint: disable=name-too-long
     """The properties of an enrollment.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1651,7 +1648,7 @@ class BillingAccountPropertiesRegistrationNumber(RegistrationNumber):  # pylint:
     """
 
 
-class BillingAccountPropertiesSoldTo(AddressDetails):  # pylint: disable=too-many-instance-attributes
+class BillingAccountPropertiesSoldTo(AddressDetails):
     """The address of the individual or organization that is responsible for the billing account.
 
     All required parameters must be populated in order to send to server.
@@ -2120,7 +2117,7 @@ class BillingProfilePolicyPropertiesEnterpriseAgreementPolicies(
     """
 
 
-class BillingProfileProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class BillingProfileProperties(_serialization.Model):
     """A billing profile.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -2314,7 +2311,7 @@ class BillingProfileProperties(_serialization.Model):  # pylint: disable=too-man
         self.other_payment_terms = None
 
 
-class BillingProfilePropertiesBillTo(AddressDetails):  # pylint: disable=too-many-instance-attributes
+class BillingProfilePropertiesBillTo(AddressDetails):
     """Billing address.
 
     All required parameters must be populated in order to send to server.
@@ -2479,7 +2476,7 @@ class BillingProfilePropertiesIndirectRelationshipInfo(IndirectRelationshipInfo)
     """
 
 
-class BillingProfilePropertiesShipTo(AddressDetails):  # pylint: disable=too-many-instance-attributes
+class BillingProfilePropertiesShipTo(AddressDetails):
     """The default address where the products are shipped, or the services are being used. If a ship
     to is not specified for a product or a subscription, then this address will be used.
 
@@ -2518,7 +2515,7 @@ class BillingProfilePropertiesShipTo(AddressDetails):  # pylint: disable=too-man
     """
 
 
-class BillingProfilePropertiesSoldTo(AddressDetails):  # pylint: disable=too-many-instance-attributes
+class BillingProfilePropertiesSoldTo(AddressDetails):
     """The address of the individual or organization that is responsible for the billing account.
 
     All required parameters must be populated in order to send to server.
@@ -2615,7 +2612,7 @@ class BillingProperty(ProxyResourceWithTags):
         self.properties = properties
 
 
-class BillingPropertyProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class BillingPropertyProperties(_serialization.Model):
     """A billing property.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -2971,9 +2968,7 @@ class BillingPropertyPropertiesEnrollmentDetails(SubscriptionEnrollmentDetails):
     """
 
 
-class BillingPropertyPropertiesSubscriptionServiceUsageAddress(
-    AddressDetails
-):  # pylint: disable=too-many-instance-attributes,name-too-long
+class BillingPropertyPropertiesSubscriptionServiceUsageAddress(AddressDetails):  # pylint: disable=name-too-long
     """The address of the individual or organization where service subscription is being used.
     Available for agreement type Microsoft Online Services Program. This property can be updated
     via patch.
@@ -3103,7 +3098,7 @@ class BillingRequestListResult(_serialization.Model):
         self.value = None
 
 
-class BillingRequestProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class BillingRequestProperties(_serialization.Model):
     """A request submitted by a user to manage billing. Users with an owner role on the scope can
     approve or decline these requests.
 
@@ -3482,7 +3477,7 @@ class BillingRoleAssignmentListResult(_serialization.Model):
         self.value = None
 
 
-class BillingRoleAssignmentProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class BillingRoleAssignmentProperties(_serialization.Model):
     """The properties of the billing role assignment.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -3819,7 +3814,7 @@ class BillingRoleDefinitionProperties(_serialization.Model):
         self.role_name = role_name
 
 
-class BillingSubscription(ProxyResourceWithTags):  # pylint: disable=too-many-instance-attributes
+class BillingSubscription(ProxyResourceWithTags):
     """The billing properties of a subscription.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -3890,7 +3885,8 @@ class BillingSubscription(ProxyResourceWithTags):  # pylint: disable=too-many-in
     :ivar next_billing_cycle_details: Next billing cycle details of the subscription.
     :vartype next_billing_cycle_details: ~azure.mgmt.billing.models.NextBillingCycleDetails
     :ivar offer_id: The offer ID for the subscription. This field is only available for the
-     Microsoft Online Services Program billing accounts.
+     Microsoft Online Services Program billing accounts or billing accounts with agreement type
+     Enterprise Agreement.
     :vartype offer_id: str
     :ivar product_category: The category of the product for which the subscription is purchased.
      Possible values include: AzureSupport, Hardware, ReservationOrder, SaaS, SavingsPlanOrder,
@@ -4173,7 +4169,7 @@ class BillingSubscription(ProxyResourceWithTags):  # pylint: disable=too-many-in
         self.subscription_enrollment_account_status = None
 
 
-class BillingSubscriptionAlias(ProxyResourceWithTags):  # pylint: disable=too-many-instance-attributes
+class BillingSubscriptionAlias(ProxyResourceWithTags):
     """A billing subscription alias.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -4244,7 +4240,8 @@ class BillingSubscriptionAlias(ProxyResourceWithTags):  # pylint: disable=too-ma
     :ivar next_billing_cycle_details: Next billing cycle details of the subscription.
     :vartype next_billing_cycle_details: ~azure.mgmt.billing.models.NextBillingCycleDetails
     :ivar offer_id: The offer ID for the subscription. This field is only available for the
-     Microsoft Online Services Program billing accounts.
+     Microsoft Online Services Program billing accounts or billing accounts with agreement type
+     Enterprise Agreement.
     :vartype offer_id: str
     :ivar product_category: The category of the product for which the subscription is purchased.
      Possible values include: AzureSupport, Hardware, ReservationOrder, SaaS, SavingsPlanOrder,
@@ -4560,7 +4557,7 @@ class BillingSubscriptionAliasListResult(_serialization.Model):
         self.value = None
 
 
-class BillingSubscriptionProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class BillingSubscriptionProperties(_serialization.Model):
     """The billing properties of a subscription.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -4616,7 +4613,8 @@ class BillingSubscriptionProperties(_serialization.Model):  # pylint: disable=to
     :ivar next_billing_cycle_details: Next billing cycle details of the subscription.
     :vartype next_billing_cycle_details: ~azure.mgmt.billing.models.NextBillingCycleDetails
     :ivar offer_id: The offer ID for the subscription. This field is only available for the
-     Microsoft Online Services Program billing accounts.
+     Microsoft Online Services Program billing accounts or billing accounts with agreement type
+     Enterprise Agreement.
     :vartype offer_id: str
     :ivar product_category: The category of the product for which the subscription is purchased.
      Possible values include: AzureSupport, Hardware, ReservationOrder, SaaS, SavingsPlanOrder,
@@ -4882,7 +4880,7 @@ class BillingSubscriptionProperties(_serialization.Model):  # pylint: disable=to
         self.subscription_enrollment_account_status = None
 
 
-class BillingSubscriptionAliasProperties(BillingSubscriptionProperties):  # pylint: disable=too-many-instance-attributes
+class BillingSubscriptionAliasProperties(BillingSubscriptionProperties):
     """A billing subscription alias.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -4938,7 +4936,8 @@ class BillingSubscriptionAliasProperties(BillingSubscriptionProperties):  # pyli
     :ivar next_billing_cycle_details: Next billing cycle details of the subscription.
     :vartype next_billing_cycle_details: ~azure.mgmt.billing.models.NextBillingCycleDetails
     :ivar offer_id: The offer ID for the subscription. This field is only available for the
-     Microsoft Online Services Program billing accounts.
+     Microsoft Online Services Program billing accounts or billing accounts with agreement type
+     Enterprise Agreement.
     :vartype offer_id: str
     :ivar product_category: The category of the product for which the subscription is purchased.
      Possible values include: AzureSupport, Hardware, ReservationOrder, SaaS, SavingsPlanOrder,
@@ -5246,7 +5245,7 @@ class BillingSubscriptionMergeRequest(_serialization.Model):
         self.quantity = quantity
 
 
-class BillingSubscriptionPatch(ProxyResourceWithTags):  # pylint: disable=too-many-instance-attributes
+class BillingSubscriptionPatch(ProxyResourceWithTags):
     """The billing properties of a subscription.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -5317,7 +5316,8 @@ class BillingSubscriptionPatch(ProxyResourceWithTags):  # pylint: disable=too-ma
     :ivar next_billing_cycle_details: Next billing cycle details of the subscription.
     :vartype next_billing_cycle_details: ~azure.mgmt.billing.models.NextBillingCycleDetails
     :ivar offer_id: The offer ID for the subscription. This field is only available for the
-     Microsoft Online Services Program billing accounts.
+     Microsoft Online Services Program billing accounts or billing accounts with agreement type
+     Enterprise Agreement.
     :vartype offer_id: str
     :ivar product_category: The category of the product for which the subscription is purchased.
      Possible values include: AzureSupport, Hardware, ReservationOrder, SaaS, SavingsPlanOrder,
@@ -7078,7 +7078,7 @@ class InvoiceListResult(_serialization.Model):
         self.value = None
 
 
-class InvoiceProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class InvoiceProperties(_serialization.Model):
     """An invoice.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -8274,7 +8274,7 @@ class PartnerInitiateTransferRequest(_serialization.Model):
         self.reseller_id = reseller_id
 
 
-class PartnerTransferDetails(ProxyResourceWithTags):  # pylint: disable=too-many-instance-attributes
+class PartnerTransferDetails(ProxyResourceWithTags):
     """Details of the transfer.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -8634,7 +8634,7 @@ class PaymentDetail(_serialization.Model):
         self.extended_status_info = None
 
 
-class PaymentMethod(ProxyResourceWithTags):  # pylint: disable=too-many-instance-attributes
+class PaymentMethod(ProxyResourceWithTags):
     """A payment method.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -8741,7 +8741,7 @@ class PaymentMethod(ProxyResourceWithTags):  # pylint: disable=too-many-instance
         self.status = status
 
 
-class PaymentMethodLink(ProxyResourceWithTags):  # pylint: disable=too-many-instance-attributes
+class PaymentMethodLink(ProxyResourceWithTags):
     """A payment method link.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -9386,7 +9386,7 @@ class ProductPatch(ProxyResourceWithTags):
         self.properties = properties
 
 
-class ProductProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class ProductProperties(_serialization.Model):
     """A product.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -9679,7 +9679,7 @@ class PurchaseRequest(_serialization.Model):
         self.applied_scope_properties = applied_scope_properties
 
 
-class RecipientTransferDetails(ProxyResourceWithTags):  # pylint: disable=too-many-instance-attributes
+class RecipientTransferDetails(ProxyResourceWithTags):
     """Details of the transfer.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -10030,7 +10030,7 @@ class RenewPropertiesResponse(_serialization.Model):
         self.billing_currency_total = billing_currency_total
 
 
-class Reservation(ProxyResource):  # pylint: disable=too-many-instance-attributes
+class Reservation(ProxyResource):
     """The definition of the reservation.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -10516,7 +10516,7 @@ class ReservationMergeProperties(_serialization.Model):
         self.merge_sources = merge_sources
 
 
-class ReservationOrder(ProxyResource):  # pylint: disable=too-many-instance-attributes
+class ReservationOrder(ProxyResource):
     """Details of a reservation order being returned.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -10864,7 +10864,7 @@ class ReservationPaymentDetail(_serialization.Model):
         self.extended_status_info = extended_status_info
 
 
-class ReservationPurchaseRequest(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class ReservationPurchaseRequest(_serialization.Model):
     """The request for reservation purchase.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -11261,7 +11261,7 @@ class ReservationUtilizationAggregates(_serialization.Model):
         self.value_unit = None
 
 
-class SavingsPlanModel(ProxyResourceWithTags):  # pylint: disable=too-many-instance-attributes
+class SavingsPlanModel(ProxyResourceWithTags):
     """Savings plan.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -11560,7 +11560,7 @@ class SavingsPlanModelListResult(SavingsPlanModelList):
         self.summary = summary
 
 
-class SavingsPlanOrderModel(ProxyResourceWithTags):  # pylint: disable=too-many-instance-attributes
+class SavingsPlanOrderModel(ProxyResourceWithTags):
     """Savings plan order.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -12443,7 +12443,7 @@ class TransactionListResult(_serialization.Model):
         self.value = None
 
 
-class TransactionProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class TransactionProperties(_serialization.Model):
     """A transaction.
 
     :ivar azure_credit_applied: The amount of any Azure credits automatically applied to this
@@ -12933,7 +12933,7 @@ class TransactionSummary(_serialization.Model):
         self.total = None
 
 
-class TransferDetails(ProxyResourceWithTags):  # pylint: disable=too-many-instance-attributes
+class TransferDetails(ProxyResourceWithTags):
     """Details of the transfer.
 
     Variables are only populated by the server, and will be ignored when sending a request.
