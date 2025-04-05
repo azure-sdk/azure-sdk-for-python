@@ -18,42 +18,6 @@ if TYPE_CHECKING:
     from .. import models as _models
 
 
-class AffinityInfo(_model_base.Model):
-    """A locality hint that can be used by the Batch service to select a Compute Node
-    on which to start a Task.
-
-    :ivar affinity_id: An opaque string representing the location of a Compute Node or a Task that
-     has run previously. You can pass the affinityId of a Node to indicate that this Task needs to
-     run on that Compute Node. Note that this is just a soft affinity. If the target Compute Node is
-     busy or unavailable at the time the Task is scheduled, then the Task will be scheduled
-     elsewhere. Required.
-    :vartype affinity_id: str
-    """
-
-    affinity_id: str = rest_field(name="affinityId", visibility=["read", "create", "update", "delete", "query"])
-    """An opaque string representing the location of a Compute Node or a Task that has run previously.
-     You can pass the affinityId of a Node to indicate that this Task needs to run on that Compute
-     Node. Note that this is just a soft affinity. If the target Compute Node is busy or unavailable
-     at the time the Task is scheduled, then the Task will be scheduled elsewhere. Required."""
-
-    @overload
-    def __init__(
-        self,
-        *,
-        affinity_id: str,
-    ) -> None: ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]) -> None:
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
-
-    def __init__(self, *args: Any, **kwargs: Any) -> None:
-        super().__init__(*args, **kwargs)
-
-
 class AuthenticationTokenSettings(_model_base.Model):
     """The settings for an authentication token that the Task can use to perform Batch
     service operations.
@@ -62,10 +26,10 @@ class AuthenticationTokenSettings(_model_base.Model):
      grants access to a limited set of Batch service operations. Currently the only supported value
      for the access property is 'job', which grants access to all operations related to the Job
      which contains the Task.
-    :vartype access: list[str or ~azure.batch.models.AccessScope]
+    :vartype access: list[str or ~azure.batch.models.BatchAccessScope]
     """
 
-    access: Optional[List[Union[str, "_models.AccessScope"]]] = rest_field(
+    access: Optional[List[Union[str, "_models.BatchAccessScope"]]] = rest_field(
         visibility=["read", "create", "update", "delete", "query"]
     )
     """The Batch resources to which the token grants access. The authentication token grants access to
@@ -77,7 +41,7 @@ class AuthenticationTokenSettings(_model_base.Model):
     def __init__(
         self,
         *,
-        access: Optional[List[Union[str, "_models.AccessScope"]]] = None,
+        access: Optional[List[Union[str, "_models.BatchAccessScope"]]] = None,
     ) -> None: ...
 
     @overload
@@ -377,11 +341,11 @@ class AzureFileShareConfiguration(_model_base.Model):
 
     :ivar account_name: The Azure Storage account name. Required.
     :vartype account_name: str
+    :ivar account_key: The Azure Storage account key. Required.
+    :vartype account_key: str
     :ivar azure_file_url: The Azure Files URL. This is of the form
      'https://{account}.file.core.windows.net/'. Required.
     :vartype azure_file_url: str
-    :ivar account_key: The Azure Storage account key. Required.
-    :vartype account_key: str
     :ivar relative_mount_path: The relative path on the compute node where the file system will be
      mounted. All file systems are mounted relative to the Batch mounts directory, accessible via
      the AZ_BATCH_NODE_MOUNTS_DIR environment variable. Required.
@@ -393,10 +357,10 @@ class AzureFileShareConfiguration(_model_base.Model):
 
     account_name: str = rest_field(name="accountName", visibility=["read", "create", "update", "delete", "query"])
     """The Azure Storage account name. Required."""
-    azure_file_url: str = rest_field(name="azureFileUrl", visibility=["read", "create", "update", "delete", "query"])
-    """The Azure Files URL. This is of the form 'https://{account}.file.core.windows.net/'. Required."""
     account_key: str = rest_field(name="accountKey", visibility=["read", "create", "update", "delete", "query"])
     """The Azure Storage account key. Required."""
+    azure_file_url: str = rest_field(name="azureFileUrl", visibility=["read", "create", "update", "delete", "query"])
+    """The Azure Files URL. This is of the form 'https://{account}.file.core.windows.net/'. Required."""
     relative_mount_path: str = rest_field(
         name="relativeMountPath", visibility=["read", "create", "update", "delete", "query"]
     )
@@ -414,10 +378,46 @@ class AzureFileShareConfiguration(_model_base.Model):
         self,
         *,
         account_name: str,
-        azure_file_url: str,
         account_key: str,
+        azure_file_url: str,
         relative_mount_path: str,
         mount_options: Optional[str] = None,
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+
+
+class BatchAffinityInfo(_model_base.Model):
+    """A locality hint that can be used by the Batch service to select a Compute Node
+    on which to start a Task.
+
+    :ivar affinity_id: An opaque string representing the location of a Compute Node or a Task that
+     has run previously. You can pass the affinityId of a Node to indicate that this Task needs to
+     run on that Compute Node. Note that this is just a soft affinity. If the target Compute Node is
+     busy or unavailable at the time the Task is scheduled, then the Task will be scheduled
+     elsewhere. Required.
+    :vartype affinity_id: str
+    """
+
+    affinity_id: str = rest_field(name="affinityId", visibility=["read", "create", "update", "delete", "query"])
+    """An opaque string representing the location of a Compute Node or a Task that has run previously.
+     You can pass the affinityId of a Node to indicate that this Task needs to run on that Compute
+     Node. Note that this is just a soft affinity. If the target Compute Node is busy or unavailable
+     at the time the Task is scheduled, then the Task will be scheduled elsewhere. Required."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        affinity_id: str,
     ) -> None: ...
 
     @overload
@@ -613,7 +613,7 @@ class BatchCertificate(_model_base.Model):
      Certificate. This property is set only if the Certificate is in the DeleteFailed state.
     :vartype delete_certificate_error: ~azure.batch.models.DeleteBatchCertificateError
     :ivar data: The base64-encoded contents of the Certificate. The maximum size is 10KB. Required.
-    :vartype data: str
+    :vartype data: bytes
     :ivar certificate_format: The format of the Certificate data. Known values are: "pfx" and
      "cer".
     :vartype certificate_format: str or ~azure.batch.models.BatchCertificateFormat
@@ -654,7 +654,7 @@ class BatchCertificate(_model_base.Model):
     )
     """The error that occurred on the last attempt to delete this Certificate. This property is set
      only if the Certificate is in the DeleteFailed state."""
-    data: str = rest_field(visibility=["create"])
+    data: bytes = rest_field(visibility=["create"], format="base64")
     """The base64-encoded contents of the Certificate. The maximum size is 10KB. Required."""
     certificate_format: Optional[Union[str, "_models.BatchCertificateFormat"]] = rest_field(
         name="certificateFormat", visibility=["create"]
@@ -670,7 +670,7 @@ class BatchCertificate(_model_base.Model):
         *,
         thumbprint: str,
         thumbprint_algorithm: str,
-        data: str,
+        data: bytes,
         certificate_format: Optional[Union[str, "_models.BatchCertificateFormat"]] = None,
         password: Optional[str] = None,
     ) -> None: ...
@@ -761,6 +761,88 @@ class BatchCertificateReference(_model_base.Model):
         store_location: Optional[Union[str, "_models.BatchCertificateStoreLocation"]] = None,
         store_name: Optional[str] = None,
         visibility: Optional[List[Union[str, "_models.BatchCertificateVisibility"]]] = None,
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+
+
+class BatchContainerConfiguration(_model_base.Model):
+    """The configuration for container-enabled Pools.
+
+    :ivar type: The container technology to be used. Required. Known values are: "dockerCompatible"
+     and "criCompatible".
+    :vartype type: str or ~azure.batch.models.ContainerType
+    :ivar container_image_names: The collection of container Image names. This is the full Image
+     reference, as would be specified to "docker pull". An Image will be sourced from the default
+     Docker registry unless the Image is fully qualified with an alternative registry.
+    :vartype container_image_names: list[str]
+    :ivar container_registries: Additional private registries from which containers can be pulled.
+     If any Images must be downloaded from a private registry which requires credentials, then those
+     credentials must be provided here.
+    :vartype container_registries: list[~azure.batch.models.ContainerRegistryReference]
+    """
+
+    type: Union[str, "_models.ContainerType"] = rest_field(visibility=["read", "create", "update", "delete", "query"])
+    """The container technology to be used. Required. Known values are: \"dockerCompatible\" and
+     \"criCompatible\"."""
+    container_image_names: Optional[List[str]] = rest_field(
+        name="containerImageNames", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """The collection of container Image names. This is the full Image reference, as would be
+     specified to \"docker pull\". An Image will be sourced from the default Docker registry unless
+     the Image is fully qualified with an alternative registry."""
+    container_registries: Optional[List["_models.ContainerRegistryReference"]] = rest_field(
+        name="containerRegistries", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """Additional private registries from which containers can be pulled. If any Images must be
+     downloaded from a private registry which requires credentials, then those credentials must be
+     provided here."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        type: Union[str, "_models.ContainerType"],
+        container_image_names: Optional[List[str]] = None,
+        container_registries: Optional[List["_models.ContainerRegistryReference"]] = None,
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+
+
+class BatchCreateTaskCollectionResult(_model_base.Model):
+    """The result of creating a collection of Tasks to a Job.
+
+    :ivar values_property: The results of the create Task collection operation.
+    :vartype values_property: list[~azure.batch.models.BatchTaskCreateResult]
+    """
+
+    values_property: Optional[List["_models.BatchTaskCreateResult"]] = rest_field(
+        name="value", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """The results of the create Task collection operation."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        values_property: Optional[List["_models.BatchTaskCreateResult"]] = None,
     ) -> None: ...
 
     @overload
@@ -886,6 +968,115 @@ class BatchErrorMessage(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
+class BatchImageReference(_model_base.Model):
+    """A reference to an Azure Virtual Machines Marketplace Image or a Azure Compute Gallery Image.
+    To get the list of all Azure Marketplace Image references verified by Azure Batch, see the
+    ' List Supported Images ' operation.
+
+    :ivar publisher: The publisher of the Azure Virtual Machines Marketplace Image. For example,
+     Canonical or MicrosoftWindowsServer.
+    :vartype publisher: str
+    :ivar offer: The offer type of the Azure Virtual Machines Marketplace Image. For example,
+     UbuntuServer or WindowsServer.
+    :vartype offer: str
+    :ivar sku: The SKU of the Azure Virtual Machines Marketplace Image. For example, 18.04-LTS or
+     2019-Datacenter.
+    :vartype sku: str
+    :ivar version: The version of the Azure Virtual Machines Marketplace Image. A value of 'latest'
+     can be specified to select the latest version of an Image. If omitted, the default is 'latest'.
+    :vartype version: str
+    :ivar virtual_machine_image_id: The ARM resource identifier of the Azure Compute Gallery Image.
+     Compute Nodes in the Pool will be created using this Image Id. This is of the form
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/images/{imageDefinitionName}/versions/{VersionId}
+     or
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/images/{imageDefinitionName}
+     for always defaulting to the latest image version. This property is mutually exclusive with
+     other ImageReference properties. The Azure Compute Gallery Image must have replicas in the same
+     region and must be in the same subscription as the Azure Batch account. If the image version is
+     not specified in the imageId, the latest version will be used. For information about the
+     firewall settings for the Batch Compute Node agent to communicate with the Batch service see
+     `https://learn.microsoft.com/azure/batch/nodes-and-pools#virtual-network-vnet-and-firewall-configuration
+     <https://learn.microsoft.com/azure/batch/nodes-and-pools#virtual-network-vnet-and-firewall-configuration>`_.
+    :vartype virtual_machine_image_id: str
+    :ivar exact_version: The specific version of the platform image or marketplace image used to
+     create the node. This read-only field differs from 'version' only if the value specified for
+     'version' when the pool was created was 'latest'.
+    :vartype exact_version: str
+    :ivar shared_gallery_image_id: The shared gallery image unique identifier. This property is
+     mutually exclusive with other properties and can be fetched from shared gallery image GET call.
+    :vartype shared_gallery_image_id: str
+    :ivar community_gallery_image_id: The community gallery image unique identifier. This property
+     is mutually exclusive with other properties and can be fetched from community gallery image GET
+     call.
+    :vartype community_gallery_image_id: str
+    """
+
+    publisher: Optional[str] = rest_field(visibility=["read", "create", "update", "delete", "query"])
+    """The publisher of the Azure Virtual Machines Marketplace Image. For example, Canonical or
+     MicrosoftWindowsServer."""
+    offer: Optional[str] = rest_field(visibility=["read", "create", "update", "delete", "query"])
+    """The offer type of the Azure Virtual Machines Marketplace Image. For example, UbuntuServer or
+     WindowsServer."""
+    sku: Optional[str] = rest_field(visibility=["read", "create", "update", "delete", "query"])
+    """The SKU of the Azure Virtual Machines Marketplace Image. For example, 18.04-LTS or
+     2019-Datacenter."""
+    version: Optional[str] = rest_field(visibility=["read", "create", "update", "delete", "query"])
+    """The version of the Azure Virtual Machines Marketplace Image. A value of 'latest' can be
+     specified to select the latest version of an Image. If omitted, the default is 'latest'."""
+    virtual_machine_image_id: Optional[str] = rest_field(
+        name="virtualMachineImageId", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """The ARM resource identifier of the Azure Compute Gallery Image. Compute Nodes in the Pool will
+     be created using this Image Id. This is of the form
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/images/{imageDefinitionName}/versions/{VersionId}
+     or
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/images/{imageDefinitionName}
+     for always defaulting to the latest image version. This property is mutually exclusive with
+     other ImageReference properties. The Azure Compute Gallery Image must have replicas in the same
+     region and must be in the same subscription as the Azure Batch account. If the image version is
+     not specified in the imageId, the latest version will be used. For information about the
+     firewall settings for the Batch Compute Node agent to communicate with the Batch service see
+     `https://learn.microsoft.com/azure/batch/nodes-and-pools#virtual-network-vnet-and-firewall-configuration
+     <https://learn.microsoft.com/azure/batch/nodes-and-pools#virtual-network-vnet-and-firewall-configuration>`_."""
+    exact_version: Optional[str] = rest_field(name="exactVersion", visibility=["read"])
+    """The specific version of the platform image or marketplace image used to create the node. This
+     read-only field differs from 'version' only if the value specified for 'version' when the pool
+     was created was 'latest'."""
+    shared_gallery_image_id: Optional[str] = rest_field(
+        name="sharedGalleryImageId", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """The shared gallery image unique identifier. This property is mutually exclusive with other
+     properties and can be fetched from shared gallery image GET call."""
+    community_gallery_image_id: Optional[str] = rest_field(
+        name="communityGalleryImageId", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """The community gallery image unique identifier. This property is mutually exclusive with other
+     properties and can be fetched from community gallery image GET call."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        publisher: Optional[str] = None,
+        offer: Optional[str] = None,
+        sku: Optional[str] = None,
+        version: Optional[str] = None,
+        virtual_machine_image_id: Optional[str] = None,
+        shared_gallery_image_id: Optional[str] = None,
+        community_gallery_image_id: Optional[str] = None,
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+
+
 class BatchJob(_model_base.Model):
     """An Azure Batch Job.
 
@@ -954,28 +1145,28 @@ class BatchJob(_model_base.Model):
     :vartype common_environment_settings: list[~azure.batch.models.EnvironmentSetting]
     :ivar pool_info: The Pool settings associated with the Job. Required.
     :vartype pool_info: ~azure.batch.models.BatchPoolInfo
-    :ivar on_all_tasks_complete: The action the Batch service should take when all Tasks in the Job
-     are in the completed state. The default is noaction. Known values are: "noaction" and
+    :ivar all_tasks_complete_mode: The action the Batch service should take when all Tasks in the
+     Job are in the completed state. The default is noaction. Known values are: "noaction" and
      "terminatejob".
-    :vartype on_all_tasks_complete: str or ~azure.batch.models.OnAllBatchTasksComplete
-    :ivar on_task_failure: The action the Batch service should take when any Task in the Job fails.
-     A Task is considered to have failed if has a failureInfo. A failureInfo is set if the Task
-     completes with a non-zero exit code after exhausting its retry count, or if there was an error
-     starting the Task, for example due to a resource file download error. The default is noaction.
-     Known values are: "noaction" and "performexitoptionsjobaction".
-    :vartype on_task_failure: str or ~azure.batch.models.OnBatchTaskFailure
+    :vartype all_tasks_complete_mode: str or ~azure.batch.models.BatchAllTasksCompleteMode
+    :ivar task_failure_mode: The action the Batch service should take when any Task in the Job
+     fails. A Task is considered to have failed if has a failureInfo. A failureInfo is set if the
+     Task completes with a non-zero exit code after exhausting its retry count, or if there was an
+     error starting the Task, for example due to a resource file download error. The default is
+     noaction. Known values are: "noaction" and "performexitoptionsjobaction".
+    :vartype task_failure_mode: str or ~azure.batch.models.BatchTaskFailureMode
     :ivar network_configuration: The network configuration for the Job.
     :vartype network_configuration: ~azure.batch.models.BatchJobNetworkConfiguration
     :ivar metadata: A list of name-value pairs associated with the Job as metadata. The Batch
      service does not assign any meaning to metadata; it is solely for the use of user code.
-    :vartype metadata: list[~azure.batch.models.MetadataItem]
+    :vartype metadata: list[~azure.batch.models.BatchMetadataItem]
     :ivar execution_info: The execution information for the Job.
     :vartype execution_info: ~azure.batch.models.BatchJobExecutionInfo
-    :ivar stats: Resource usage statistics for the entire lifetime of the Job. This property is
-     populated only if the BatchJob was retrieved with an expand clause including the 'stats'
-     attribute; otherwise it is null. The statistics may not be immediately available. The Batch
-     service performs periodic roll-up of statistics. The typical delay is about 30 minutes.
-    :vartype stats: ~azure.batch.models.BatchJobStatistics
+    :ivar job_statistics: Resource usage statistics for the entire lifetime of the Job. This
+     property is populated only if the BatchJob was retrieved with an expand clause including the
+     'stats' attribute; otherwise it is null. The statistics may not be immediately available. The
+     Batch service performs periodic roll-up of statistics. The typical delay is about 30 minutes.
+    :vartype job_statistics: ~azure.batch.models.BatchJobStatistics
     """
 
     id: Optional[str] = rest_field(visibility=["read"])
@@ -1059,12 +1250,12 @@ class BatchJob(_model_base.Model):
         name="poolInfo", visibility=["read", "create", "update", "delete", "query"]
     )
     """The Pool settings associated with the Job. Required."""
-    on_all_tasks_complete: Optional[Union[str, "_models.OnAllBatchTasksComplete"]] = rest_field(
+    all_tasks_complete_mode: Optional[Union[str, "_models.BatchAllTasksCompleteMode"]] = rest_field(
         name="onAllTasksComplete", visibility=["read", "create", "update", "delete", "query"]
     )
     """The action the Batch service should take when all Tasks in the Job are in the completed state.
      The default is noaction. Known values are: \"noaction\" and \"terminatejob\"."""
-    on_task_failure: Optional[Union[str, "_models.OnBatchTaskFailure"]] = rest_field(
+    task_failure_mode: Optional[Union[str, "_models.BatchTaskFailureMode"]] = rest_field(
         name="onTaskFailure", visibility=["read"]
     )
     """The action the Batch service should take when any Task in the Job fails. A Task is considered
@@ -1076,14 +1267,14 @@ class BatchJob(_model_base.Model):
         name="networkConfiguration", visibility=["read"]
     )
     """The network configuration for the Job."""
-    metadata: Optional[List["_models.MetadataItem"]] = rest_field(
+    metadata: Optional[List["_models.BatchMetadataItem"]] = rest_field(
         visibility=["read", "create", "update", "delete", "query"]
     )
     """A list of name-value pairs associated with the Job as metadata. The Batch service does not
      assign any meaning to metadata; it is solely for the use of user code."""
     execution_info: Optional["_models.BatchJobExecutionInfo"] = rest_field(name="executionInfo", visibility=["read"])
     """The execution information for the Job."""
-    stats: Optional["_models.BatchJobStatistics"] = rest_field(visibility=["read"])
+    job_statistics: Optional["_models.BatchJobStatistics"] = rest_field(name="stats", visibility=["read"])
     """Resource usage statistics for the entire lifetime of the Job. This property is populated only
      if the BatchJob was retrieved with an expand clause including the 'stats' attribute; otherwise
      it is null. The statistics may not be immediately available. The Batch service performs
@@ -1098,8 +1289,8 @@ class BatchJob(_model_base.Model):
         allow_task_preemption: Optional[bool] = None,
         max_parallel_tasks: Optional[int] = None,
         constraints: Optional["_models.BatchJobConstraints"] = None,
-        on_all_tasks_complete: Optional[Union[str, "_models.OnAllBatchTasksComplete"]] = None,
-        metadata: Optional[List["_models.MetadataItem"]] = None,
+        all_tasks_complete_mode: Optional[Union[str, "_models.BatchAllTasksCompleteMode"]] = None,
+        metadata: Optional[List["_models.BatchMetadataItem"]] = None,
     ) -> None: ...
 
     @overload
@@ -1169,7 +1360,7 @@ class BatchJobConstraints(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class BatchJobCreateContent(_model_base.Model):
+class BatchJobCreateOptions(_model_base.Model):
     """Parameters for creating an Azure Batch Job.
 
     :ivar id: A string that uniquely identifies the Job within the Account. The ID can contain any
@@ -1228,25 +1419,25 @@ class BatchJobCreateContent(_model_base.Model):
     :vartype common_environment_settings: list[~azure.batch.models.EnvironmentSetting]
     :ivar pool_info: The Pool on which the Batch service runs the Job's Tasks. Required.
     :vartype pool_info: ~azure.batch.models.BatchPoolInfo
-    :ivar on_all_tasks_complete: The action the Batch service should take when all Tasks in the Job
-     are in the completed state. Note that if a Job contains no Tasks, then all Tasks are considered
-     complete. This option is therefore most commonly used with a Job Manager task; if you want to
-     use automatic Job termination without a Job Manager, you should initially set
+    :ivar all_tasks_complete_mode: The action the Batch service should take when all Tasks in the
+     Job are in the completed state. Note that if a Job contains no Tasks, then all Tasks are
+     considered complete. This option is therefore most commonly used with a Job Manager task; if
+     you want to use automatic Job termination without a Job Manager, you should initially set
      onAllTasksComplete to noaction and update the Job properties to set onAllTasksComplete to
      terminatejob once you have finished adding Tasks. The default is noaction. Known values are:
      "noaction" and "terminatejob".
-    :vartype on_all_tasks_complete: str or ~azure.batch.models.OnAllBatchTasksComplete
-    :ivar on_task_failure: The action the Batch service should take when any Task in the Job fails.
-     A Task is considered to have failed if has a failureInfo. A failureInfo is set if the Task
-     completes with a non-zero exit code after exhausting its retry count, or if there was an error
-     starting the Task, for example due to a resource file download error. The default is noaction.
-     Known values are: "noaction" and "performexitoptionsjobaction".
-    :vartype on_task_failure: str or ~azure.batch.models.OnBatchTaskFailure
+    :vartype all_tasks_complete_mode: str or ~azure.batch.models.BatchAllTasksCompleteMode
+    :ivar task_failure_mode: The action the Batch service should take when any Task in the Job
+     fails. A Task is considered to have failed if has a failureInfo. A failureInfo is set if the
+     Task completes with a non-zero exit code after exhausting its retry count, or if there was an
+     error starting the Task, for example due to a resource file download error. The default is
+     noaction. Known values are: "noaction" and "performexitoptionsjobaction".
+    :vartype task_failure_mode: str or ~azure.batch.models.BatchTaskFailureMode
     :ivar network_configuration: The network configuration for the Job.
     :vartype network_configuration: ~azure.batch.models.BatchJobNetworkConfiguration
     :ivar metadata: A list of name-value pairs associated with the Job as metadata. The Batch
      service does not assign any meaning to metadata; it is solely for the use of user code.
-    :vartype metadata: list[~azure.batch.models.MetadataItem]
+    :vartype metadata: list[~azure.batch.models.BatchMetadataItem]
     """
 
     id: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
@@ -1321,7 +1512,7 @@ class BatchJobCreateContent(_model_base.Model):
         name="poolInfo", visibility=["read", "create", "update", "delete", "query"]
     )
     """The Pool on which the Batch service runs the Job's Tasks. Required."""
-    on_all_tasks_complete: Optional[Union[str, "_models.OnAllBatchTasksComplete"]] = rest_field(
+    all_tasks_complete_mode: Optional[Union[str, "_models.BatchAllTasksCompleteMode"]] = rest_field(
         name="onAllTasksComplete", visibility=["read", "create", "update", "delete", "query"]
     )
     """The action the Batch service should take when all Tasks in the Job are in the completed state.
@@ -1330,7 +1521,7 @@ class BatchJobCreateContent(_model_base.Model):
      termination without a Job Manager, you should initially set onAllTasksComplete to noaction and
      update the Job properties to set onAllTasksComplete to terminatejob once you have finished
      adding Tasks. The default is noaction. Known values are: \"noaction\" and \"terminatejob\"."""
-    on_task_failure: Optional[Union[str, "_models.OnBatchTaskFailure"]] = rest_field(
+    task_failure_mode: Optional[Union[str, "_models.BatchTaskFailureMode"]] = rest_field(
         name="onTaskFailure", visibility=["read", "create", "update", "delete", "query"]
     )
     """The action the Batch service should take when any Task in the Job fails. A Task is considered
@@ -1342,7 +1533,7 @@ class BatchJobCreateContent(_model_base.Model):
         name="networkConfiguration", visibility=["read", "create", "update", "delete", "query"]
     )
     """The network configuration for the Job."""
-    metadata: Optional[List["_models.MetadataItem"]] = rest_field(
+    metadata: Optional[List["_models.BatchMetadataItem"]] = rest_field(
         visibility=["read", "create", "update", "delete", "query"]
     )
     """A list of name-value pairs associated with the Job as metadata. The Batch service does not
@@ -1364,10 +1555,10 @@ class BatchJobCreateContent(_model_base.Model):
         job_preparation_task: Optional["_models.BatchJobPreparationTask"] = None,
         job_release_task: Optional["_models.BatchJobReleaseTask"] = None,
         common_environment_settings: Optional[List["_models.EnvironmentSetting"]] = None,
-        on_all_tasks_complete: Optional[Union[str, "_models.OnAllBatchTasksComplete"]] = None,
-        on_task_failure: Optional[Union[str, "_models.OnBatchTaskFailure"]] = None,
+        all_tasks_complete_mode: Optional[Union[str, "_models.BatchAllTasksCompleteMode"]] = None,
+        task_failure_mode: Optional[Union[str, "_models.BatchTaskFailureMode"]] = None,
         network_configuration: Optional["_models.BatchJobNetworkConfiguration"] = None,
-        metadata: Optional[List["_models.MetadataItem"]] = None,
+        metadata: Optional[List["_models.BatchMetadataItem"]] = None,
     ) -> None: ...
 
     @overload
@@ -1381,7 +1572,7 @@ class BatchJobCreateContent(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class BatchJobDisableContent(_model_base.Model):
+class BatchJobDisableOptions(_model_base.Model):
     """Parameters for disabling an Azure Batch Job.
 
     :ivar disable_tasks: What to do with active Tasks associated with the Job. Required. Known
@@ -1786,11 +1977,11 @@ class BatchJobNetworkConfiguration(_model_base.Model):
      <https://learn.microsoft.com/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration>`_.
      Required.
     :vartype subnet_id: str
-    :ivar skip_withdraw_from_v_net: Whether to withdraw Compute Nodes from the virtual network to
+    :ivar skip_withdraw_from_vnet: Whether to withdraw Compute Nodes from the virtual network to
      DNC when the job is terminated or deleted.  If true, nodes will remain joined to the virtual
      network to DNC. If false, nodes will automatically withdraw when the job ends. Defaults to
      false. Required.
-    :vartype skip_withdraw_from_v_net: bool
+    :vartype skip_withdraw_from_vnet: bool
     """
 
     subnet_id: str = rest_field(name="subnetId", visibility=["read", "create", "update", "delete", "query"])
@@ -1813,7 +2004,7 @@ class BatchJobNetworkConfiguration(_model_base.Model):
      `https://learn.microsoft.com/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration
      <https://learn.microsoft.com/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration>`_.
      Required."""
-    skip_withdraw_from_v_net: bool = rest_field(
+    skip_withdraw_from_vnet: bool = rest_field(
         name="skipWithdrawFromVNet", visibility=["read", "create", "update", "delete", "query"]
     )
     """Whether to withdraw Compute Nodes from the virtual network to DNC when the job is terminated or
@@ -1825,7 +2016,7 @@ class BatchJobNetworkConfiguration(_model_base.Model):
         self,
         *,
         subnet_id: str,
-        skip_withdraw_from_v_net: bool,
+        skip_withdraw_from_vnet: bool,
     ) -> None: ...
 
     @overload
@@ -2537,11 +2728,11 @@ class BatchJobSchedule(_model_base.Model):
     :vartype execution_info: ~azure.batch.models.BatchJobScheduleExecutionInfo
     :ivar metadata: A list of name-value pairs associated with the schedule as metadata. The Batch
      service does not assign any meaning to metadata; it is solely for the use of user code.
-    :vartype metadata: list[~azure.batch.models.MetadataItem]
-    :ivar stats: The lifetime resource usage statistics for the Job Schedule. The statistics may
-     not be immediately available. The Batch service performs periodic roll-up of statistics. The
-     typical delay is about 30 minutes.
-    :vartype stats: ~azure.batch.models.BatchJobScheduleStatistics
+    :vartype metadata: list[~azure.batch.models.BatchMetadataItem]
+    :ivar job_schedule_statistics: The lifetime resource usage statistics for the Job Schedule. The
+     statistics may not be immediately available. The Batch service performs periodic roll-up of
+     statistics. The typical delay is about 30 minutes.
+    :vartype job_schedule_statistics: ~azure.batch.models.BatchJobScheduleStatistics
     """
 
     id: Optional[str] = rest_field(visibility=["read"])
@@ -2592,12 +2783,14 @@ class BatchJobSchedule(_model_base.Model):
         name="executionInfo", visibility=["read"]
     )
     """Information about Jobs that have been and will be run under this schedule."""
-    metadata: Optional[List["_models.MetadataItem"]] = rest_field(
+    metadata: Optional[List["_models.BatchMetadataItem"]] = rest_field(
         visibility=["read", "create", "update", "delete", "query"]
     )
     """A list of name-value pairs associated with the schedule as metadata. The Batch service does not
      assign any meaning to metadata; it is solely for the use of user code."""
-    stats: Optional["_models.BatchJobScheduleStatistics"] = rest_field(visibility=["read"])
+    job_schedule_statistics: Optional["_models.BatchJobScheduleStatistics"] = rest_field(
+        name="stats", visibility=["read"]
+    )
     """The lifetime resource usage statistics for the Job Schedule. The statistics may not be
      immediately available. The Batch service performs periodic roll-up of statistics. The typical
      delay is about 30 minutes."""
@@ -2608,7 +2801,7 @@ class BatchJobSchedule(_model_base.Model):
         *,
         job_specification: "_models.BatchJobSpecification",
         schedule: Optional["_models.BatchJobScheduleConfiguration"] = None,
-        metadata: Optional[List["_models.MetadataItem"]] = None,
+        metadata: Optional[List["_models.BatchMetadataItem"]] = None,
     ) -> None: ...
 
     @overload
@@ -2726,7 +2919,7 @@ class BatchJobScheduleConfiguration(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class BatchJobScheduleCreateContent(_model_base.Model):
+class BatchJobScheduleCreateOptions(_model_base.Model):
     """Parameters for creating an Azure Batch Job Schedule.
 
     :ivar id: A string that uniquely identifies the schedule within the Account. The ID can contain
@@ -2744,7 +2937,7 @@ class BatchJobScheduleCreateContent(_model_base.Model):
     :vartype job_specification: ~azure.batch.models.BatchJobSpecification
     :ivar metadata: A list of name-value pairs associated with the schedule as metadata. The Batch
      service does not assign any meaning to metadata; it is solely for the use of user code.
-    :vartype metadata: list[~azure.batch.models.MetadataItem]
+    :vartype metadata: list[~azure.batch.models.BatchMetadataItem]
     """
 
     id: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
@@ -2766,7 +2959,7 @@ class BatchJobScheduleCreateContent(_model_base.Model):
         name="jobSpecification", visibility=["read", "create", "update", "delete", "query"]
     )
     """The details of the Jobs to be created on this schedule. Required."""
-    metadata: Optional[List["_models.MetadataItem"]] = rest_field(
+    metadata: Optional[List["_models.BatchMetadataItem"]] = rest_field(
         visibility=["read", "create", "update", "delete", "query"]
     )
     """A list of name-value pairs associated with the schedule as metadata. The Batch service does not
@@ -2780,7 +2973,7 @@ class BatchJobScheduleCreateContent(_model_base.Model):
         schedule: "_models.BatchJobScheduleConfiguration",
         job_specification: "_models.BatchJobSpecification",
         display_name: Optional[str] = None,
-        metadata: Optional[List["_models.MetadataItem"]] = None,
+        metadata: Optional[List["_models.BatchMetadataItem"]] = None,
     ) -> None: ...
 
     @overload
@@ -2871,29 +3064,29 @@ class BatchJobScheduleStatistics(_model_base.Model):
      had not finished by then). If a Task was retried, this includes the wall clock time of all the
      Task retries. Required.
     :vartype wall_clock_time: ~datetime.timedelta
-    :ivar read_i_ops: The total number of disk read operations made by all Tasks in all Jobs
+    :ivar read_iops: The total number of disk read operations made by all Tasks in all Jobs created
+     under the schedule. Required.
+    :vartype read_iops: int
+    :ivar write_iops: The total number of disk write operations made by all Tasks in all Jobs
      created under the schedule. Required.
-    :vartype read_i_ops: int
-    :ivar write_i_ops: The total number of disk write operations made by all Tasks in all Jobs
-     created under the schedule. Required.
-    :vartype write_i_ops: int
+    :vartype write_iops: int
     :ivar read_io_gi_b: The total gibibytes read from disk by all Tasks in all Jobs created under
      the schedule. Required.
     :vartype read_io_gi_b: float
     :ivar write_io_gi_b: The total gibibytes written to disk by all Tasks in all Jobs created under
      the schedule. Required.
     :vartype write_io_gi_b: float
-    :ivar num_succeeded_tasks: The total number of Tasks successfully completed during the given
+    :ivar succeeded_tasks_count: The total number of Tasks successfully completed during the given
      time range in Jobs created under the schedule. A Task completes successfully if it returns exit
      code 0. Required.
-    :vartype num_succeeded_tasks: int
-    :ivar num_failed_tasks: The total number of Tasks that failed during the given time range in
+    :vartype succeeded_tasks_count: int
+    :ivar failed_tasks_count: The total number of Tasks that failed during the given time range in
      Jobs created under the schedule. A Task fails if it exhausts its maximum retry count without
      returning exit code 0. Required.
-    :vartype num_failed_tasks: int
-    :ivar num_task_retries: The total number of retries during the given time range on all Tasks in
-     all Jobs created under the schedule. Required.
-    :vartype num_task_retries: int
+    :vartype failed_tasks_count: int
+    :ivar task_retries_count: The total number of retries during the given time range on all Tasks
+     in all Jobs created under the schedule. Required.
+    :vartype task_retries_count: int
     :ivar wait_time: The total wait time of all Tasks in all Jobs created under the schedule. The
      wait time for a Task is defined as the elapsed time between the creation of the Task and the
      start of Task execution. (If the Task is retried due to failures, the wait time is the time to
@@ -2931,12 +3124,12 @@ class BatchJobScheduleStatistics(_model_base.Model):
      finished (or to the last time the statistics were updated, if the Task had not finished by
      then). If a Task was retried, this includes the wall clock time of all the Task retries.
      Required."""
-    read_i_ops: int = rest_field(
+    read_iops: int = rest_field(
         name="readIOps", visibility=["read", "create", "update", "delete", "query"], format="str"
     )
     """The total number of disk read operations made by all Tasks in all Jobs created under the
      schedule. Required."""
-    write_i_ops: int = rest_field(
+    write_iops: int = rest_field(
         name="writeIOps", visibility=["read", "create", "update", "delete", "query"], format="str"
     )
     """The total number of disk write operations made by all Tasks in all Jobs created under the
@@ -2947,18 +3140,18 @@ class BatchJobScheduleStatistics(_model_base.Model):
     write_io_gi_b: float = rest_field(name="writeIOGiB", visibility=["read", "create", "update", "delete", "query"])
     """The total gibibytes written to disk by all Tasks in all Jobs created under the schedule.
      Required."""
-    num_succeeded_tasks: int = rest_field(
+    succeeded_tasks_count: int = rest_field(
         name="numSucceededTasks", visibility=["read", "create", "update", "delete", "query"], format="str"
     )
     """The total number of Tasks successfully completed during the given time range in Jobs created
      under the schedule. A Task completes successfully if it returns exit code 0. Required."""
-    num_failed_tasks: int = rest_field(
+    failed_tasks_count: int = rest_field(
         name="numFailedTasks", visibility=["read", "create", "update", "delete", "query"], format="str"
     )
     """The total number of Tasks that failed during the given time range in Jobs created under the
      schedule. A Task fails if it exhausts its maximum retry count without returning exit code 0.
      Required."""
-    num_task_retries: int = rest_field(
+    task_retries_count: int = rest_field(
         name="numTaskRetries", visibility=["read", "create", "update", "delete", "query"], format="str"
     )
     """The total number of retries during the given time range on all Tasks in all Jobs created under
@@ -2982,13 +3175,13 @@ class BatchJobScheduleStatistics(_model_base.Model):
         user_cpu_time: datetime.timedelta,
         kernel_cpu_time: datetime.timedelta,
         wall_clock_time: datetime.timedelta,
-        read_i_ops: int,
-        write_i_ops: int,
+        read_iops: int,
+        write_iops: int,
         read_io_gi_b: float,
         write_io_gi_b: float,
-        num_succeeded_tasks: int,
-        num_failed_tasks: int,
-        num_task_retries: int,
+        succeeded_tasks_count: int,
+        failed_tasks_count: int,
+        task_retries_count: int,
         wait_time: datetime.timedelta,
     ) -> None: ...
 
@@ -3003,7 +3196,7 @@ class BatchJobScheduleStatistics(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class BatchJobScheduleUpdateContent(_model_base.Model):
+class BatchJobScheduleUpdateOptions(_model_base.Model):
     """Parameters for updating an Azure Batch Job Schedule.
 
     :ivar schedule: The schedule according to which Jobs will be created. All times are fixed
@@ -3016,7 +3209,7 @@ class BatchJobScheduleUpdateContent(_model_base.Model):
     :vartype job_specification: ~azure.batch.models.BatchJobSpecification
     :ivar metadata: A list of name-value pairs associated with the Job Schedule as metadata. If you
      do not specify this element, existing metadata is left unchanged.
-    :vartype metadata: list[~azure.batch.models.MetadataItem]
+    :vartype metadata: list[~azure.batch.models.BatchMetadataItem]
     """
 
     schedule: Optional["_models.BatchJobScheduleConfiguration"] = rest_field(
@@ -3031,7 +3224,7 @@ class BatchJobScheduleUpdateContent(_model_base.Model):
     """The details of the Jobs to be created on this schedule. Updates affect only Jobs that are
      started after the update has taken place. Any currently active Job continues with the older
      specification."""
-    metadata: Optional[List["_models.MetadataItem"]] = rest_field(
+    metadata: Optional[List["_models.BatchMetadataItem"]] = rest_field(
         visibility=["read", "create", "update", "delete", "query"]
     )
     """A list of name-value pairs associated with the Job Schedule as metadata. If you do not specify
@@ -3043,7 +3236,7 @@ class BatchJobScheduleUpdateContent(_model_base.Model):
         *,
         schedule: Optional["_models.BatchJobScheduleConfiguration"] = None,
         job_specification: Optional["_models.BatchJobSpecification"] = None,
-        metadata: Optional[List["_models.MetadataItem"]] = None,
+        metadata: Optional[List["_models.BatchMetadataItem"]] = None,
     ) -> None: ...
 
     @overload
@@ -3062,7 +3255,7 @@ class BatchJobSchedulingError(_model_base.Model):
 
     :ivar category: The category of the Job scheduling error. Required. Known values are:
      "usererror" and "servererror".
-    :vartype category: str or ~azure.batch.models.ErrorCategory
+    :vartype category: str or ~azure.batch.models.BatchErrorSourceCategory
     :ivar code: An identifier for the Job scheduling error. Codes are invariant and are intended to
      be consumed programmatically.
     :vartype code: str
@@ -3073,7 +3266,7 @@ class BatchJobSchedulingError(_model_base.Model):
     :vartype details: list[~azure.batch.models.NameValuePair]
     """
 
-    category: Union[str, "_models.ErrorCategory"] = rest_field(
+    category: Union[str, "_models.BatchErrorSourceCategory"] = rest_field(
         visibility=["read", "create", "update", "delete", "query"]
     )
     """The category of the Job scheduling error. Required. Known values are: \"usererror\" and
@@ -3093,7 +3286,7 @@ class BatchJobSchedulingError(_model_base.Model):
     def __init__(
         self,
         *,
-        category: Union[str, "_models.ErrorCategory"],
+        category: Union[str, "_models.BatchErrorSourceCategory"],
         code: Optional[str] = None,
         message: Optional[str] = None,
         details: Optional[List["_models.NameValuePair"]] = None,
@@ -3136,21 +3329,21 @@ class BatchJobSpecification(_model_base.Model):
     :ivar uses_task_dependencies: Whether Tasks in the Job can define dependencies on each other.
      The default is false.
     :vartype uses_task_dependencies: bool
-    :ivar on_all_tasks_complete: The action the Batch service should take when all Tasks in a Job
+    :ivar all_tasks_complete_mode: The action the Batch service should take when all Tasks in a Job
      created under this schedule are in the completed state. Note that if a Job contains no Tasks,
      then all Tasks are considered complete. This option is therefore most commonly used with a Job
      Manager task; if you want to use automatic Job termination without a Job Manager, you should
      initially set onAllTasksComplete to noaction and update the Job properties to set
      onAllTasksComplete to terminatejob once you have finished adding Tasks. The default is
      noaction. Known values are: "noaction" and "terminatejob".
-    :vartype on_all_tasks_complete: str or ~azure.batch.models.OnAllBatchTasksComplete
-    :ivar on_task_failure: The action the Batch service should take when any Task fails in a Job
+    :vartype all_tasks_complete_mode: str or ~azure.batch.models.BatchAllTasksCompleteMode
+    :ivar task_failure_mode: The action the Batch service should take when any Task fails in a Job
      created under this schedule. A Task is considered to have failed if it have failed if has a
      failureInfo. A failureInfo is set if the Task completes with a non-zero exit code after
      exhausting its retry count, or if there was an error starting the Task, for example due to a
      resource file download error. The default is noaction. Known values are: "noaction" and
      "performexitoptionsjobaction".
-    :vartype on_task_failure: str or ~azure.batch.models.OnBatchTaskFailure
+    :vartype task_failure_mode: str or ~azure.batch.models.BatchTaskFailureMode
     :ivar network_configuration: The network configuration for the Job.
     :vartype network_configuration: ~azure.batch.models.BatchJobNetworkConfiguration
     :ivar constraints: The execution constraints for Jobs created under this schedule.
@@ -3183,7 +3376,7 @@ class BatchJobSpecification(_model_base.Model):
     :ivar metadata: A list of name-value pairs associated with each Job created under this schedule
      as metadata. The Batch service does not assign any meaning to metadata; it is solely for the
      use of user code.
-    :vartype metadata: list[~azure.batch.models.MetadataItem]
+    :vartype metadata: list[~azure.batch.models.BatchMetadataItem]
     """
 
     priority: Optional[int] = rest_field(visibility=["read", "create", "update", "delete", "query"])
@@ -3214,7 +3407,7 @@ class BatchJobSpecification(_model_base.Model):
         name="usesTaskDependencies", visibility=["read", "create", "update", "delete", "query"]
     )
     """Whether Tasks in the Job can define dependencies on each other. The default is false."""
-    on_all_tasks_complete: Optional[Union[str, "_models.OnAllBatchTasksComplete"]] = rest_field(
+    all_tasks_complete_mode: Optional[Union[str, "_models.BatchAllTasksCompleteMode"]] = rest_field(
         name="onAllTasksComplete", visibility=["read", "create", "update", "delete", "query"]
     )
     """The action the Batch service should take when all Tasks in a Job created under this schedule
@@ -3224,7 +3417,7 @@ class BatchJobSpecification(_model_base.Model):
      onAllTasksComplete to noaction and update the Job properties to set onAllTasksComplete to
      terminatejob once you have finished adding Tasks. The default is noaction. Known values are:
      \"noaction\" and \"terminatejob\"."""
-    on_task_failure: Optional[Union[str, "_models.OnBatchTaskFailure"]] = rest_field(
+    task_failure_mode: Optional[Union[str, "_models.BatchTaskFailureMode"]] = rest_field(
         name="onTaskFailure", visibility=["read", "create", "update", "delete", "query"]
     )
     """The action the Batch service should take when any Task fails in a Job created under this
@@ -3276,7 +3469,7 @@ class BatchJobSpecification(_model_base.Model):
     )
     """The Pool on which the Batch service runs the Tasks of Jobs created under this schedule.
      Required."""
-    metadata: Optional[List["_models.MetadataItem"]] = rest_field(
+    metadata: Optional[List["_models.BatchMetadataItem"]] = rest_field(
         visibility=["read", "create", "update", "delete", "query"]
     )
     """A list of name-value pairs associated with each Job created under this schedule as metadata.
@@ -3293,15 +3486,15 @@ class BatchJobSpecification(_model_base.Model):
         max_parallel_tasks: Optional[int] = None,
         display_name: Optional[str] = None,
         uses_task_dependencies: Optional[bool] = None,
-        on_all_tasks_complete: Optional[Union[str, "_models.OnAllBatchTasksComplete"]] = None,
-        on_task_failure: Optional[Union[str, "_models.OnBatchTaskFailure"]] = None,
+        all_tasks_complete_mode: Optional[Union[str, "_models.BatchAllTasksCompleteMode"]] = None,
+        task_failure_mode: Optional[Union[str, "_models.BatchTaskFailureMode"]] = None,
         network_configuration: Optional["_models.BatchJobNetworkConfiguration"] = None,
         constraints: Optional["_models.BatchJobConstraints"] = None,
         job_manager_task: Optional["_models.BatchJobManagerTask"] = None,
         job_preparation_task: Optional["_models.BatchJobPreparationTask"] = None,
         job_release_task: Optional["_models.BatchJobReleaseTask"] = None,
         common_environment_settings: Optional[List["_models.EnvironmentSetting"]] = None,
-        metadata: Optional[List["_models.MetadataItem"]] = None,
+        metadata: Optional[List["_models.BatchMetadataItem"]] = None,
     ) -> None: ...
 
     @overload
@@ -3336,28 +3529,28 @@ class BatchJobStatistics(_model_base.Model):
      (or to the last time the statistics were updated, if the Task had not finished by then). If a
      Task was retried, this includes the wall clock time of all the Task retries. Required.
     :vartype wall_clock_time: ~datetime.timedelta
-    :ivar read_i_ops: The total number of disk read operations made by all Tasks in the Job.
+    :ivar read_iops: The total number of disk read operations made by all Tasks in the Job.
      Required.
-    :vartype read_i_ops: int
-    :ivar write_i_ops: The total number of disk write operations made by all Tasks in the Job.
+    :vartype read_iops: int
+    :ivar write_iops: The total number of disk write operations made by all Tasks in the Job.
      Required.
-    :vartype write_i_ops: int
+    :vartype write_iops: int
     :ivar read_io_gi_b: The total amount of data in GiB read from disk by all Tasks in the Job.
      Required.
     :vartype read_io_gi_b: float
     :ivar write_io_gi_b: The total amount of data in GiB written to disk by all Tasks in the Job.
      Required.
     :vartype write_io_gi_b: float
-    :ivar num_succeeded_tasks: The total number of Tasks successfully completed in the Job during
+    :ivar succeeded_tasks_count: The total number of Tasks successfully completed in the Job during
      the given time range. A Task completes successfully if it returns exit code 0. Required.
-    :vartype num_succeeded_tasks: int
-    :ivar num_failed_tasks: The total number of Tasks in the Job that failed during the given time
-     range. A Task fails if it exhausts its maximum retry count without returning exit code 0.
+    :vartype succeeded_tasks_count: int
+    :ivar failed_tasks_count: The total number of Tasks in the Job that failed during the given
+     time range. A Task fails if it exhausts its maximum retry count without returning exit code 0.
      Required.
-    :vartype num_failed_tasks: int
-    :ivar num_task_retries: The total number of retries on all the Tasks in the Job during the
+    :vartype failed_tasks_count: int
+    :ivar task_retries_count: The total number of retries on all the Tasks in the Job during the
      given time range. Required.
-    :vartype num_task_retries: int
+    :vartype task_retries_count: int
     :ivar wait_time: The total wait time of all Tasks in the Job. The wait time for a Task is
      defined as the elapsed time between the creation of the Task and the start of Task execution.
      (If the Task is retried due to failures, the wait time is the time to the most recent Task
@@ -3394,11 +3587,11 @@ class BatchJobStatistics(_model_base.Model):
      from when the Task started running on a Compute Node to when it finished (or to the last time
      the statistics were updated, if the Task had not finished by then). If a Task was retried, this
      includes the wall clock time of all the Task retries. Required."""
-    read_i_ops: int = rest_field(
+    read_iops: int = rest_field(
         name="readIOps", visibility=["read", "create", "update", "delete", "query"], format="str"
     )
     """The total number of disk read operations made by all Tasks in the Job. Required."""
-    write_i_ops: int = rest_field(
+    write_iops: int = rest_field(
         name="writeIOps", visibility=["read", "create", "update", "delete", "query"], format="str"
     )
     """The total number of disk write operations made by all Tasks in the Job. Required."""
@@ -3406,17 +3599,17 @@ class BatchJobStatistics(_model_base.Model):
     """The total amount of data in GiB read from disk by all Tasks in the Job. Required."""
     write_io_gi_b: float = rest_field(name="writeIOGiB", visibility=["read", "create", "update", "delete", "query"])
     """The total amount of data in GiB written to disk by all Tasks in the Job. Required."""
-    num_succeeded_tasks: int = rest_field(
+    succeeded_tasks_count: int = rest_field(
         name="numSucceededTasks", visibility=["read", "create", "update", "delete", "query"], format="str"
     )
     """The total number of Tasks successfully completed in the Job during the given time range. A Task
      completes successfully if it returns exit code 0. Required."""
-    num_failed_tasks: int = rest_field(
+    failed_tasks_count: int = rest_field(
         name="numFailedTasks", visibility=["read", "create", "update", "delete", "query"], format="str"
     )
     """The total number of Tasks in the Job that failed during the given time range. A Task fails if
      it exhausts its maximum retry count without returning exit code 0. Required."""
-    num_task_retries: int = rest_field(
+    task_retries_count: int = rest_field(
         name="numTaskRetries", visibility=["read", "create", "update", "delete", "query"], format="str"
     )
     """The total number of retries on all the Tasks in the Job during the given time range. Required."""
@@ -3439,13 +3632,13 @@ class BatchJobStatistics(_model_base.Model):
         user_cpu_time: datetime.timedelta,
         kernel_cpu_time: datetime.timedelta,
         wall_clock_time: datetime.timedelta,
-        read_i_ops: int,
-        write_i_ops: int,
+        read_iops: int,
+        write_iops: int,
         read_io_gi_b: float,
         write_io_gi_b: float,
-        num_succeeded_tasks: int,
-        num_failed_tasks: int,
-        num_task_retries: int,
+        succeeded_tasks_count: int,
+        failed_tasks_count: int,
+        task_retries_count: int,
         wait_time: datetime.timedelta,
     ) -> None: ...
 
@@ -3460,7 +3653,7 @@ class BatchJobStatistics(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class BatchJobTerminateContent(_model_base.Model):
+class BatchJobTerminateOptions(_model_base.Model):
     """Parameters for terminating an Azure Batch Job.
 
     :ivar termination_reason: The text you want to appear as the Job's TerminationReason. The
@@ -3491,7 +3684,7 @@ class BatchJobTerminateContent(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class BatchJobUpdateContent(_model_base.Model):
+class BatchJobUpdateOptions(_model_base.Model):
     """Parameters for updating an Azure Batch Job.
 
     :ivar priority: The priority of the Job. Priority values can range from -1000 to 1000, with
@@ -3519,16 +3712,16 @@ class BatchJobUpdateContent(_model_base.Model):
      only if the autoPoolSpecification has a poolLifetimeOption of Job (other job properties can be
      updated as normal). If omitted, the Job continues to run on its current Pool.
     :vartype pool_info: ~azure.batch.models.BatchPoolInfo
-    :ivar on_all_tasks_complete: The action the Batch service should take when all Tasks in the Job
-     are in the completed state. If omitted, the completion behavior is left unchanged. You may not
-     change the value from terminatejob to noaction - that is, once you have engaged automatic Job
-     termination, you cannot turn it off again. If you try to do this, the request fails with an
+    :ivar all_tasks_complete_mode: The action the Batch service should take when all Tasks in the
+     Job are in the completed state. If omitted, the completion behavior is left unchanged. You may
+     not change the value from terminatejob to noaction - that is, once you have engaged automatic
+     Job termination, you cannot turn it off again. If you try to do this, the request fails with an
      'invalid property value' error response; if you are calling the REST API directly, the HTTP
      status code is 400 (Bad Request). Known values are: "noaction" and "terminatejob".
-    :vartype on_all_tasks_complete: str or ~azure.batch.models.OnAllBatchTasksComplete
+    :vartype all_tasks_complete_mode: str or ~azure.batch.models.BatchAllTasksCompleteMode
     :ivar metadata: A list of name-value pairs associated with the Job as metadata. If omitted, the
      existing Job metadata is left unchanged.
-    :vartype metadata: list[~azure.batch.models.MetadataItem]
+    :vartype metadata: list[~azure.batch.models.BatchMetadataItem]
     :ivar network_configuration: The network configuration for the Job.
     :vartype network_configuration: ~azure.batch.models.BatchJobNetworkConfiguration
     """
@@ -3565,7 +3758,7 @@ class BatchJobUpdateContent(_model_base.Model):
      keepAlive property of the autoPoolSpecification can be updated, and then only if the
      autoPoolSpecification has a poolLifetimeOption of Job (other job properties can be updated as
      normal). If omitted, the Job continues to run on its current Pool."""
-    on_all_tasks_complete: Optional[Union[str, "_models.OnAllBatchTasksComplete"]] = rest_field(
+    all_tasks_complete_mode: Optional[Union[str, "_models.BatchAllTasksCompleteMode"]] = rest_field(
         name="onAllTasksComplete", visibility=["read", "create", "update", "delete", "query"]
     )
     """The action the Batch service should take when all Tasks in the Job are in the completed state.
@@ -3574,7 +3767,7 @@ class BatchJobUpdateContent(_model_base.Model):
      turn it off again. If you try to do this, the request fails with an 'invalid property value'
      error response; if you are calling the REST API directly, the HTTP status code is 400 (Bad
      Request). Known values are: \"noaction\" and \"terminatejob\"."""
-    metadata: Optional[List["_models.MetadataItem"]] = rest_field(
+    metadata: Optional[List["_models.BatchMetadataItem"]] = rest_field(
         visibility=["read", "create", "update", "delete", "query"]
     )
     """A list of name-value pairs associated with the Job as metadata. If omitted, the existing Job
@@ -3593,9 +3786,43 @@ class BatchJobUpdateContent(_model_base.Model):
         max_parallel_tasks: Optional[int] = None,
         constraints: Optional["_models.BatchJobConstraints"] = None,
         pool_info: Optional["_models.BatchPoolInfo"] = None,
-        on_all_tasks_complete: Optional[Union[str, "_models.OnAllBatchTasksComplete"]] = None,
-        metadata: Optional[List["_models.MetadataItem"]] = None,
+        all_tasks_complete_mode: Optional[Union[str, "_models.BatchAllTasksCompleteMode"]] = None,
+        metadata: Optional[List["_models.BatchMetadataItem"]] = None,
         network_configuration: Optional["_models.BatchJobNetworkConfiguration"] = None,
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+
+
+class BatchMetadataItem(_model_base.Model):
+    """The Batch service does not assign any meaning to this metadata; it is solely
+    for the use of user code.
+
+    :ivar name: The name of the metadata item. Required.
+    :vartype name: str
+    :ivar value: The value of the metadata item. Required.
+    :vartype value: str
+    """
+
+    name: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
+    """The name of the metadata item. Required."""
+    value: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
+    """The value of the metadata item. Required."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        name: str,
+        value: str,
     ) -> None: ...
 
     @overload
@@ -4021,7 +4248,7 @@ class BatchNodeCounts(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class BatchNodeDeallocateContent(_model_base.Model):
+class BatchNodeDeallocateOptions(_model_base.Model):
     """Options for deallocating a Compute Node.
 
     :ivar node_deallocate_option: When to deallocate the Compute Node and what to do with currently
@@ -4055,7 +4282,7 @@ class BatchNodeDeallocateContent(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class BatchNodeDisableSchedulingContent(_model_base.Model):
+class BatchNodeDisableSchedulingOptions(_model_base.Model):
     """Parameters for disabling scheduling on an Azure Batch Compute Node.
 
     :ivar node_disable_scheduling_option: What to do with currently running Tasks when disabling
@@ -4339,16 +4566,16 @@ class BatchNodePlacementConfiguration(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class BatchNodeRebootContent(_model_base.Model):
+class BatchNodeRebootKinds(_model_base.Model):
     """Parameters for rebooting an Azure Batch Compute Node.
 
-    :ivar node_reboot_option: When to reboot the Compute Node and what to do with currently running
+    :ivar node_reboot_kind: When to reboot the Compute Node and what to do with currently running
      Tasks. The default value is requeue. Known values are: "requeue", "terminate",
      "taskcompletion", and "retaineddata".
-    :vartype node_reboot_option: str or ~azure.batch.models.BatchNodeRebootOption
+    :vartype node_reboot_kind: str or ~azure.batch.models.BatchNodeRebootKind
     """
 
-    node_reboot_option: Optional[Union[str, "_models.BatchNodeRebootOption"]] = rest_field(
+    node_reboot_kind: Optional[Union[str, "_models.BatchNodeRebootKind"]] = rest_field(
         name="nodeRebootOption", visibility=["read", "create", "update", "delete", "query"]
     )
     """When to reboot the Compute Node and what to do with currently running Tasks. The default value
@@ -4359,7 +4586,7 @@ class BatchNodeRebootContent(_model_base.Model):
     def __init__(
         self,
         *,
-        node_reboot_option: Optional[Union[str, "_models.BatchNodeRebootOption"]] = None,
+        node_reboot_kind: Optional[Union[str, "_models.BatchNodeRebootKind"]] = None,
     ) -> None: ...
 
     @overload
@@ -4373,7 +4600,7 @@ class BatchNodeRebootContent(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class BatchNodeReimageContent(_model_base.Model):
+class BatchNodeReimageOptions(_model_base.Model):
     """Parameters for reimaging an Azure Batch Compute Node.
 
     :ivar node_reimage_option: When to reimage the Compute Node and what to do with currently
@@ -4445,12 +4672,12 @@ class BatchNodeRemoteLoginSettings(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class BatchNodeRemoveContent(_model_base.Model):
+class BatchNodeRemoveOptions(_model_base.Model):
     """Parameters for removing nodes from an Azure Batch Pool.
 
-    :ivar node_list: A list containing the IDs of the Compute Nodes to be removed from the
-     specified Pool. A maximum of 100 nodes may be removed per request. Required.
-    :vartype node_list: list[str]
+    :ivar node_ids: A list containing the IDs of the Compute Nodes to be removed from the specified
+     Pool. A maximum of 100 nodes may be removed per request. Required.
+    :vartype node_ids: list[str]
     :ivar resize_timeout: The timeout for removal of Compute Nodes to the Pool. The default value
      is 15 minutes. The minimum value is 5 minutes. If you specify a value less than 5 minutes, the
      Batch service returns an error; if you are calling the REST API directly, the HTTP status code
@@ -4462,7 +4689,7 @@ class BatchNodeRemoveContent(_model_base.Model):
     :vartype node_deallocation_option: str or ~azure.batch.models.BatchNodeDeallocationOption
     """
 
-    node_list: List[str] = rest_field(name="nodeList", visibility=["read", "create", "update", "delete", "query"])
+    node_ids: List[str] = rest_field(name="nodeList", visibility=["read", "create", "update", "delete", "query"])
     """A list containing the IDs of the Compute Nodes to be removed from the specified Pool. A maximum
      of 100 nodes may be removed per request. Required."""
     resize_timeout: Optional[datetime.timedelta] = rest_field(
@@ -4483,7 +4710,7 @@ class BatchNodeRemoveContent(_model_base.Model):
     def __init__(
         self,
         *,
-        node_list: List[str],
+        node_ids: List[str],
         resize_timeout: Optional[datetime.timedelta] = None,
         node_deallocation_option: Optional[Union[str, "_models.BatchNodeDeallocationOption"]] = None,
     ) -> None: ...
@@ -4499,7 +4726,7 @@ class BatchNodeRemoveContent(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class BatchNodeUserCreateContent(_model_base.Model):
+class BatchNodeUserCreateOptions(_model_base.Model):
     """Parameters for creating a user account for RDP or SSH access on an Azure Batch Compute Node.
 
     :ivar name: The user name of the Account. Required.
@@ -4565,7 +4792,7 @@ class BatchNodeUserCreateContent(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class BatchNodeUserUpdateContent(_model_base.Model):
+class BatchNodeUserUpdateOptions(_model_base.Model):
     """Parameters for updating a user account for RDP or SSH access on an Azure Batch Compute Node.
 
     :ivar password: The password of the Account. The password is required for Windows Compute
@@ -4784,13 +5011,13 @@ class BatchPool(_model_base.Model):
     :ivar user_accounts: The list of user Accounts to be created on each Compute Node in the Pool.
     :vartype user_accounts: list[~azure.batch.models.UserAccount]
     :ivar metadata: A list of name-value pairs associated with the Pool as metadata.
-    :vartype metadata: list[~azure.batch.models.MetadataItem]
-    :ivar stats: Utilization and resource usage statistics for the entire lifetime of the Pool.
-     This property is populated only if the BatchPool was retrieved with an expand clause including
-     the 'stats' attribute; otherwise it is null. The statistics may not be immediately available.
-     The Batch service performs periodic roll-up of statistics. The typical delay is about 30
-     minutes.
-    :vartype stats: ~azure.batch.models.BatchPoolStatistics
+    :vartype metadata: list[~azure.batch.models.BatchMetadataItem]
+    :ivar pool_statistics: Utilization and resource usage statistics for the entire lifetime of the
+     Pool. This property is populated only if the BatchPool was retrieved with an expand clause
+     including the 'stats' attribute; otherwise it is null. The statistics may not be immediately
+     available. The Batch service performs periodic roll-up of statistics. The typical delay is
+     about 30 minutes.
+    :vartype pool_statistics: ~azure.batch.models.BatchPoolStatistics
     :ivar mount_configuration: A list of file systems to mount on each node in the pool. This
      supports Azure Files, NFS, CIFS/SMB, and Blobfuse.
     :vartype mount_configuration: list[~azure.batch.models.MountConfiguration]
@@ -4941,9 +5168,9 @@ class BatchPool(_model_base.Model):
      spread."""
     user_accounts: Optional[List["_models.UserAccount"]] = rest_field(name="userAccounts", visibility=["read"])
     """The list of user Accounts to be created on each Compute Node in the Pool."""
-    metadata: Optional[List["_models.MetadataItem"]] = rest_field(visibility=["read"])
+    metadata: Optional[List["_models.BatchMetadataItem"]] = rest_field(visibility=["read"])
     """A list of name-value pairs associated with the Pool as metadata."""
-    stats: Optional["_models.BatchPoolStatistics"] = rest_field(visibility=["read"])
+    pool_statistics: Optional["_models.BatchPoolStatistics"] = rest_field(name="stats", visibility=["read"])
     """Utilization and resource usage statistics for the entire lifetime of the Pool. This property is
      populated only if the BatchPool was retrieved with an expand clause including the 'stats'
      attribute; otherwise it is null. The statistics may not be immediately available. The Batch
@@ -4992,7 +5219,7 @@ class BatchPool(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class BatchPoolCreateContent(_model_base.Model):
+class BatchPoolCreateOptions(_model_base.Model):
     """Parameters for creating an Azure Batch Pool.
 
     :ivar id: A string that uniquely identifies the Pool within the Account. The ID can contain any
@@ -5094,7 +5321,7 @@ class BatchPoolCreateContent(_model_base.Model):
     :vartype user_accounts: list[~azure.batch.models.UserAccount]
     :ivar metadata: A list of name-value pairs associated with the Pool as metadata. The Batch
      service does not assign any meaning to metadata; it is solely for the use of user code.
-    :vartype metadata: list[~azure.batch.models.MetadataItem]
+    :vartype metadata: list[~azure.batch.models.BatchMetadataItem]
     :ivar mount_configuration: Mount storage using specified file system for the entire lifetime of
      the pool. Mount the storage using Azure fileshare, NFS, CIFS or Blobfuse based file system.
     :vartype mount_configuration: list[~azure.batch.models.MountConfiguration]
@@ -5234,7 +5461,7 @@ class BatchPoolCreateContent(_model_base.Model):
         name="userAccounts", visibility=["read", "create", "update", "delete", "query"]
     )
     """The list of user Accounts to be created on each Compute Node in the Pool."""
-    metadata: Optional[List["_models.MetadataItem"]] = rest_field(
+    metadata: Optional[List["_models.BatchMetadataItem"]] = rest_field(
         visibility=["read", "create", "update", "delete", "query"]
     )
     """A list of name-value pairs associated with the Pool as metadata. The Batch service does not
@@ -5277,7 +5504,7 @@ class BatchPoolCreateContent(_model_base.Model):
         task_slots_per_node: Optional[int] = None,
         task_scheduling_policy: Optional["_models.BatchTaskSchedulingPolicy"] = None,
         user_accounts: Optional[List["_models.UserAccount"]] = None,
-        metadata: Optional[List["_models.MetadataItem"]] = None,
+        metadata: Optional[List["_models.BatchMetadataItem"]] = None,
         mount_configuration: Optional[List["_models.MountConfiguration"]] = None,
         target_node_communication_mode: Optional[Union[str, "_models.BatchNodeCommunicationMode"]] = None,
         upgrade_policy: Optional["_models.UpgradePolicy"] = None,
@@ -5294,7 +5521,7 @@ class BatchPoolCreateContent(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class BatchPoolEnableAutoScaleContent(_model_base.Model):
+class BatchPoolEnableAutoScaleOptions(_model_base.Model):
     """Parameters for enabling automatic scaling on an Azure Batch Pool.
 
     :ivar auto_scale_formula: The formula for the desired number of Compute Nodes in the Pool. The
@@ -5393,7 +5620,7 @@ class BatchPoolEndpointConfiguration(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class BatchPoolEvaluateAutoScaleContent(_model_base.Model):
+class BatchPoolEvaluateAutoScaleOptions(_model_base.Model):
     """Parameters for evaluating an automatic scaling formula on an Azure Batch Pool.
 
     :ivar auto_scale_formula: The formula for the desired number of Compute Nodes in the Pool. The
@@ -5445,7 +5672,7 @@ class BatchPoolIdentity(_model_base.Model):
     :ivar user_assigned_identities: The list of user identities associated with the Batch account.
      The user identity dictionary key references will be ARM resource ids in the form:
      '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
-    :vartype user_assigned_identities: list[~azure.batch.models.UserAssignedIdentity]
+    :vartype user_assigned_identities: list[~azure.batch.models.BatchUserAssignedIdentity]
     """
 
     type: Union[str, "_models.BatchPoolIdentityType"] = rest_field(
@@ -5455,7 +5682,7 @@ class BatchPoolIdentity(_model_base.Model):
      Batch pool. The user identity dictionary key references will be ARM resource ids in the form:
      '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
      Required. Known values are: \"UserAssigned\" and \"None\"."""
-    user_assigned_identities: Optional[List["_models.UserAssignedIdentity"]] = rest_field(
+    user_assigned_identities: Optional[List["_models.BatchUserAssignedIdentity"]] = rest_field(
         name="userAssignedIdentities", visibility=["read", "create", "update", "delete", "query"]
     )
     """The list of user identities associated with the Batch account. The user identity dictionary key
@@ -5467,7 +5694,7 @@ class BatchPoolIdentity(_model_base.Model):
         self,
         *,
         type: Union[str, "_models.BatchPoolIdentityType"],
-        user_assigned_identities: Optional[List["_models.UserAssignedIdentity"]] = None,
+        user_assigned_identities: Optional[List["_models.BatchUserAssignedIdentity"]] = None,
     ) -> None: ...
 
     @overload
@@ -5580,7 +5807,7 @@ class BatchPoolNodeCounts(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class BatchPoolReplaceContent(_model_base.Model):
+class BatchPoolReplaceOptions(_model_base.Model):
     """Parameters for replacing properties on an Azure Batch Pool.
 
     :ivar start_task: A Task to run on each Compute Node as it joins the Pool. The Task runs when
@@ -5617,7 +5844,7 @@ class BatchPoolReplaceContent(_model_base.Model):
     :ivar metadata: A list of name-value pairs associated with the Pool as metadata. This list
      replaces any existing metadata configured on the Pool. If omitted, or if you specify an empty
      collection, any existing metadata is removed from the Pool. Required.
-    :vartype metadata: list[~azure.batch.models.MetadataItem]
+    :vartype metadata: list[~azure.batch.models.BatchMetadataItem]
     :ivar target_node_communication_mode: The desired node communication mode for the pool. This
      setting replaces any existing targetNodeCommunication setting on the Pool. If omitted, the
      existing setting is default. Known values are: "default", "classic", and "simplified".
@@ -5657,7 +5884,7 @@ class BatchPoolReplaceContent(_model_base.Model):
      10 Application Package references on any given Pool. If omitted, or if you specify an empty
      collection, any existing Application Packages references are removed from the Pool. A maximum
      of 10 references may be specified on a given Pool. Required."""
-    metadata: List["_models.MetadataItem"] = rest_field(visibility=["read", "create", "update", "delete", "query"])
+    metadata: List["_models.BatchMetadataItem"] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """A list of name-value pairs associated with the Pool as metadata. This list replaces any
      existing metadata configured on the Pool. If omitted, or if you specify an empty collection,
      any existing metadata is removed from the Pool. Required."""
@@ -5674,7 +5901,7 @@ class BatchPoolReplaceContent(_model_base.Model):
         *,
         certificate_references: List["_models.BatchCertificateReference"],
         application_package_references: List["_models.BatchApplicationPackageReference"],
-        metadata: List["_models.MetadataItem"],
+        metadata: List["_models.BatchMetadataItem"],
         start_task: Optional["_models.BatchStartTask"] = None,
         target_node_communication_mode: Optional[Union[str, "_models.BatchNodeCommunicationMode"]] = None,
     ) -> None: ...
@@ -5690,7 +5917,7 @@ class BatchPoolReplaceContent(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class BatchPoolResizeContent(_model_base.Model):
+class BatchPoolResizeOptions(_model_base.Model):
     """Parameters for changing the size of an Azure Batch Pool.
 
     :ivar target_dedicated_nodes: The desired number of dedicated Compute Nodes in the Pool.
@@ -5775,12 +6002,12 @@ class BatchPoolResourceStatistics(_model_base.Model):
     :ivar peak_disk_gi_b: The peak used disk space in GiB across all Compute Nodes in the Pool.
      Required.
     :vartype peak_disk_gi_b: float
-    :ivar disk_read_i_ops: The total number of disk read operations across all Compute Nodes in the
+    :ivar disk_read_iops: The total number of disk read operations across all Compute Nodes in the
      Pool. Required.
-    :vartype disk_read_i_ops: int
-    :ivar disk_write_i_ops: The total number of disk write operations across all Compute Nodes in
+    :vartype disk_read_iops: int
+    :ivar disk_write_iops: The total number of disk write operations across all Compute Nodes in
      the Pool. Required.
-    :vartype disk_write_i_ops: int
+    :vartype disk_write_iops: int
     :ivar disk_read_gi_b: The total amount of data in GiB of disk reads across all Compute Nodes in
      the Pool. Required.
     :vartype disk_read_gi_b: float
@@ -5818,11 +6045,11 @@ class BatchPoolResourceStatistics(_model_base.Model):
     """The average used disk space in GiB across all Compute Nodes in the Pool. Required."""
     peak_disk_gi_b: float = rest_field(name="peakDiskGiB", visibility=["read", "create", "update", "delete", "query"])
     """The peak used disk space in GiB across all Compute Nodes in the Pool. Required."""
-    disk_read_i_ops: int = rest_field(
+    disk_read_iops: int = rest_field(
         name="diskReadIOps", visibility=["read", "create", "update", "delete", "query"], format="str"
     )
     """The total number of disk read operations across all Compute Nodes in the Pool. Required."""
-    disk_write_i_ops: int = rest_field(
+    disk_write_iops: int = rest_field(
         name="diskWriteIOps", visibility=["read", "create", "update", "delete", "query"], format="str"
     )
     """The total number of disk write operations across all Compute Nodes in the Pool. Required."""
@@ -5852,8 +6079,8 @@ class BatchPoolResourceStatistics(_model_base.Model):
         peak_memory_gi_b: float,
         avg_disk_gi_b: float,
         peak_disk_gi_b: float,
-        disk_read_i_ops: int,
-        disk_write_i_ops: int,
+        disk_read_iops: int,
+        disk_write_iops: int,
         disk_read_gi_b: float,
         disk_write_gi_b: float,
         network_read_gi_b: float,
@@ -5963,7 +6190,7 @@ class BatchPoolSpecification(_model_base.Model):
     :vartype user_accounts: list[~azure.batch.models.UserAccount]
     :ivar metadata: A list of name-value pairs associated with the Pool as metadata. The Batch
      service does not assign any meaning to metadata; it is solely for the use of user code.
-    :vartype metadata: list[~azure.batch.models.MetadataItem]
+    :vartype metadata: list[~azure.batch.models.BatchMetadataItem]
     :ivar mount_configuration: A list of file systems to mount on each node in the pool. This
      supports Azure Files, NFS, CIFS/SMB, and Blobfuse.
     :vartype mount_configuration: list[~azure.batch.models.MountConfiguration]
@@ -6092,7 +6319,7 @@ class BatchPoolSpecification(_model_base.Model):
         name="userAccounts", visibility=["read", "create", "update", "delete", "query"]
     )
     """The list of user Accounts to be created on each Compute Node in the Pool."""
-    metadata: Optional[List["_models.MetadataItem"]] = rest_field(
+    metadata: Optional[List["_models.BatchMetadataItem"]] = rest_field(
         visibility=["read", "create", "update", "delete", "query"]
     )
     """A list of name-value pairs associated with the Pool as metadata. The Batch service does not
@@ -6134,7 +6361,7 @@ class BatchPoolSpecification(_model_base.Model):
         certificate_references: Optional[List["_models.BatchCertificateReference"]] = None,
         application_package_references: Optional[List["_models.BatchApplicationPackageReference"]] = None,
         user_accounts: Optional[List["_models.UserAccount"]] = None,
-        metadata: Optional[List["_models.MetadataItem"]] = None,
+        metadata: Optional[List["_models.BatchMetadataItem"]] = None,
         mount_configuration: Optional[List["_models.MountConfiguration"]] = None,
         target_node_communication_mode: Optional[Union[str, "_models.BatchNodeCommunicationMode"]] = None,
         upgrade_policy: Optional["_models.UpgradePolicy"] = None,
@@ -6161,10 +6388,11 @@ class BatchPoolStatistics(_model_base.Model):
     :ivar last_update_time: The time at which the statistics were last updated. All statistics are
      limited to the range between startTime and lastUpdateTime. Required.
     :vartype last_update_time: ~datetime.datetime
-    :ivar usage_stats: Statistics related to Pool usage, such as the amount of core-time used.
-    :vartype usage_stats: ~azure.batch.models.BatchPoolUsageStatistics
-    :ivar resource_stats: Statistics related to resource consumption by Compute Nodes in the Pool.
-    :vartype resource_stats: ~azure.batch.models.BatchPoolResourceStatistics
+    :ivar usage_statistics: Statistics related to Pool usage, such as the amount of core-time used.
+    :vartype usage_statistics: ~azure.batch.models.BatchPoolUsageStatistics
+    :ivar resource_statistics: Statistics related to resource consumption by Compute Nodes in the
+     Pool.
+    :vartype resource_statistics: ~azure.batch.models.BatchPoolResourceStatistics
     """
 
     url: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
@@ -6178,11 +6406,11 @@ class BatchPoolStatistics(_model_base.Model):
     )
     """The time at which the statistics were last updated. All statistics are limited to the range
      between startTime and lastUpdateTime. Required."""
-    usage_stats: Optional["_models.BatchPoolUsageStatistics"] = rest_field(
+    usage_statistics: Optional["_models.BatchPoolUsageStatistics"] = rest_field(
         name="usageStats", visibility=["read", "create", "update", "delete", "query"]
     )
     """Statistics related to Pool usage, such as the amount of core-time used."""
-    resource_stats: Optional["_models.BatchPoolResourceStatistics"] = rest_field(
+    resource_statistics: Optional["_models.BatchPoolResourceStatistics"] = rest_field(
         name="resourceStats", visibility=["read", "create", "update", "delete", "query"]
     )
     """Statistics related to resource consumption by Compute Nodes in the Pool."""
@@ -6194,8 +6422,8 @@ class BatchPoolStatistics(_model_base.Model):
         url: str,
         start_time: datetime.datetime,
         last_update_time: datetime.datetime,
-        usage_stats: Optional["_models.BatchPoolUsageStatistics"] = None,
-        resource_stats: Optional["_models.BatchPoolResourceStatistics"] = None,
+        usage_statistics: Optional["_models.BatchPoolUsageStatistics"] = None,
+        resource_statistics: Optional["_models.BatchPoolResourceStatistics"] = None,
     ) -> None: ...
 
     @overload
@@ -6209,7 +6437,7 @@ class BatchPoolStatistics(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class BatchPoolUpdateContent(_model_base.Model):
+class BatchPoolUpdateOptions(_model_base.Model):
     """Parameters for updating an Azure Batch Pool.
 
     :ivar display_name: The display name for the Pool. The display name need not be unique and can
@@ -6259,7 +6487,7 @@ class BatchPoolUpdateContent(_model_base.Model):
      element is present, it replaces any existing metadata configured on the Pool. If you specify an
      empty collection, any metadata is removed from the Pool. If omitted, any existing metadata is
      left unchanged.
-    :vartype metadata: list[~azure.batch.models.MetadataItem]
+    :vartype metadata: list[~azure.batch.models.BatchMetadataItem]
     :ivar virtual_machine_configuration: The virtual machine configuration for the Pool. This
      property must be specified.<br /><br />This field can be updated only when the pool is empty.
     :vartype virtual_machine_configuration: ~azure.batch.models.VirtualMachineConfiguration
@@ -6348,7 +6576,7 @@ class BatchPoolUpdateContent(_model_base.Model):
      replaces any existing Package references. If you specify an empty collection, then all Package
      references are removed from the Pool. If omitted, any existing Package references are left
      unchanged."""
-    metadata: Optional[List["_models.MetadataItem"]] = rest_field(
+    metadata: Optional[List["_models.BatchMetadataItem"]] = rest_field(
         visibility=["read", "create", "update", "delete", "query"]
     )
     """A list of name-value pairs associated with the Pool as metadata. If this element is present, it
@@ -6416,7 +6644,7 @@ class BatchPoolUpdateContent(_model_base.Model):
         start_task: Optional["_models.BatchStartTask"] = None,
         certificate_references: Optional[List["_models.BatchCertificateReference"]] = None,
         application_package_references: Optional[List["_models.BatchApplicationPackageReference"]] = None,
-        metadata: Optional[List["_models.MetadataItem"]] = None,
+        metadata: Optional[List["_models.BatchMetadataItem"]] = None,
         virtual_machine_configuration: Optional["_models.VirtualMachineConfiguration"] = None,
         target_node_communication_mode: Optional[Union[str, "_models.BatchNodeCommunicationMode"]] = None,
         task_slots_per_node: Optional[int] = None,
@@ -6966,7 +7194,7 @@ class BatchSupportedImage(_model_base.Model):
     :vartype node_agent_sku_id: str
     :ivar image_reference: The reference to the Azure Virtual Machine's Marketplace Image.
      Required.
-    :vartype image_reference: ~azure.batch.models.ImageReference
+    :vartype image_reference: ~azure.batch.models.BatchImageReference
     :ivar os_type: The type of operating system (e.g. Windows or Linux) of the Image. Required.
      Known values are: "linux" and "windows".
     :vartype os_type: str or ~azure.batch.models.OSType
@@ -6987,7 +7215,7 @@ class BatchSupportedImage(_model_base.Model):
         name="nodeAgentSKUId", visibility=["read", "create", "update", "delete", "query"]
     )
     """The ID of the Compute Node agent SKU which the Image supports. Required."""
-    image_reference: "_models.ImageReference" = rest_field(
+    image_reference: "_models.BatchImageReference" = rest_field(
         name="imageReference", visibility=["read", "create", "update", "delete", "query"]
     )
     """The reference to the Azure Virtual Machine's Marketplace Image. Required."""
@@ -7015,7 +7243,7 @@ class BatchSupportedImage(_model_base.Model):
         self,
         *,
         node_agent_sku_id: str,
-        image_reference: "_models.ImageReference",
+        image_reference: "_models.BatchImageReference",
         os_type: Union[str, "_models.OSType"],
         verification_type: Union[str, "_models.ImageVerificationType"],
         capabilities: Optional[List[str]] = None,
@@ -7113,7 +7341,7 @@ class BatchTask(_model_base.Model):
     :vartype environment_settings: list[~azure.batch.models.EnvironmentSetting]
     :ivar affinity_info: A locality hint that can be used by the Batch service to select a Compute
      Node on which to start the new Task.
-    :vartype affinity_info: ~azure.batch.models.AffinityInfo
+    :vartype affinity_info: ~azure.batch.models.BatchAffinityInfo
     :ivar constraints: The execution constraints that apply to this Task.
     :vartype constraints: ~azure.batch.models.BatchTaskConstraints
     :ivar required_slots: The number of scheduling slots that the Task requires to run. The default
@@ -7130,8 +7358,8 @@ class BatchTask(_model_base.Model):
     :ivar multi_instance_settings: An object that indicates that the Task is a multi-instance Task,
      and contains information about how to run the multi-instance Task.
     :vartype multi_instance_settings: ~azure.batch.models.MultiInstanceSettings
-    :ivar stats: Resource usage statistics for the Task.
-    :vartype stats: ~azure.batch.models.BatchTaskStatistics
+    :ivar task_statistics: Resource usage statistics for the Task.
+    :vartype task_statistics: ~azure.batch.models.BatchTaskStatistics
     :ivar depends_on: The Tasks that this Task depends on. This Task will not be scheduled until
      all Tasks that it depends on have completed successfully. If any of those Tasks fail and
      exhaust their retry counts, this Task will never be scheduled.
@@ -7230,7 +7458,7 @@ class BatchTask(_model_base.Model):
         name="environmentSettings", visibility=["read"]
     )
     """A list of environment variable settings for the Task."""
-    affinity_info: Optional["_models.AffinityInfo"] = rest_field(name="affinityInfo", visibility=["read"])
+    affinity_info: Optional["_models.BatchAffinityInfo"] = rest_field(name="affinityInfo", visibility=["read"])
     """A locality hint that can be used by the Batch service to select a Compute Node on which to
      start the new Task."""
     constraints: Optional["_models.BatchTaskConstraints"] = rest_field(
@@ -7253,7 +7481,7 @@ class BatchTask(_model_base.Model):
     )
     """An object that indicates that the Task is a multi-instance Task, and contains information about
      how to run the multi-instance Task."""
-    stats: Optional["_models.BatchTaskStatistics"] = rest_field(visibility=["read"])
+    task_statistics: Optional["_models.BatchTaskStatistics"] = rest_field(name="stats", visibility=["read"])
     """Resource usage statistics for the Task."""
     depends_on: Optional["_models.BatchTaskDependencies"] = rest_field(name="dependsOn", visibility=["read"])
     """The Tasks that this Task depends on. This Task will not be scheduled until all Tasks that it
@@ -7284,101 +7512,6 @@ class BatchTask(_model_base.Model):
         self,
         *,
         constraints: Optional["_models.BatchTaskConstraints"] = None,
-    ) -> None: ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]) -> None:
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
-
-    def __init__(self, *args: Any, **kwargs: Any) -> None:
-        super().__init__(*args, **kwargs)
-
-
-class BatchTaskAddCollectionResult(_model_base.Model):
-    """The result of adding a collection of Tasks to a Job.
-
-    :ivar value: The results of the add Task collection operation.
-    :vartype value: list[~azure.batch.models.BatchTaskAddResult]
-    """
-
-    value: Optional[List["_models.BatchTaskAddResult"]] = rest_field(
-        visibility=["read", "create", "update", "delete", "query"]
-    )
-    """The results of the add Task collection operation."""
-
-    @overload
-    def __init__(
-        self,
-        *,
-        value: Optional[List["_models.BatchTaskAddResult"]] = None,
-    ) -> None: ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]) -> None:
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
-
-    def __init__(self, *args: Any, **kwargs: Any) -> None:
-        super().__init__(*args, **kwargs)
-
-
-class BatchTaskAddResult(_model_base.Model):
-    """Result for a single Task added as part of an add Task collection operation.
-
-    :ivar status: The status of the add Task request. Required. Known values are: "success",
-     "clienterror", and "servererror".
-    :vartype status: str or ~azure.batch.models.BatchTaskAddStatus
-    :ivar task_id: The ID of the Task for which this is the result. Required.
-    :vartype task_id: str
-    :ivar e_tag: The ETag of the Task, if the Task was successfully added. You can use this to
-     detect whether the Task has changed between requests. In particular, you can be pass the ETag
-     with an Update Task request to specify that your changes should take effect only if nobody else
-     has modified the Job in the meantime.
-    :vartype e_tag: str
-    :ivar last_modified: The last modified time of the Task.
-    :vartype last_modified: ~datetime.datetime
-    :ivar location: The URL of the Task, if the Task was successfully added.
-    :vartype location: str
-    :ivar error: The error encountered while attempting to add the Task.
-    :vartype error: ~azure.batch.models.BatchError
-    """
-
-    status: Union[str, "_models.BatchTaskAddStatus"] = rest_field(
-        visibility=["read", "create", "update", "delete", "query"]
-    )
-    """The status of the add Task request. Required. Known values are: \"success\", \"clienterror\",
-     and \"servererror\"."""
-    task_id: str = rest_field(name="taskId", visibility=["read", "create", "update", "delete", "query"])
-    """The ID of the Task for which this is the result. Required."""
-    e_tag: Optional[str] = rest_field(name="eTag", visibility=["read", "create", "update", "delete", "query"])
-    """The ETag of the Task, if the Task was successfully added. You can use this to detect whether
-     the Task has changed between requests. In particular, you can be pass the ETag with an Update
-     Task request to specify that your changes should take effect only if nobody else has modified
-     the Job in the meantime."""
-    last_modified: Optional[datetime.datetime] = rest_field(
-        name="lastModified", visibility=["read", "create", "update", "delete", "query"], format="rfc3339"
-    )
-    """The last modified time of the Task."""
-    location: Optional[str] = rest_field(visibility=["read", "create", "update", "delete", "query"])
-    """The URL of the Task, if the Task was successfully added."""
-    error: Optional["_models.BatchError"] = rest_field(visibility=["read", "create", "update", "delete", "query"])
-    """The error encountered while attempting to add the Task."""
-
-    @overload
-    def __init__(
-        self,
-        *,
-        status: Union[str, "_models.BatchTaskAddStatus"],
-        task_id: str,
-        e_tag: Optional[str] = None,
-        last_modified: Optional[datetime.datetime] = None,
-        location: Optional[str] = None,
-        error: Optional["_models.BatchError"] = None,
     ) -> None: ...
 
     @overload
@@ -7669,7 +7802,7 @@ class BatchTaskCountsResult(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class BatchTaskCreateContent(_model_base.Model):
+class BatchTaskCreateOptions(_model_base.Model):
     """Parameters for creating an Azure Batch Task.
 
     :ivar id: A string that uniquely identifies the Task within the Job. The ID can contain any
@@ -7720,7 +7853,7 @@ class BatchTaskCreateContent(_model_base.Model):
     :vartype environment_settings: list[~azure.batch.models.EnvironmentSetting]
     :ivar affinity_info: A locality hint that can be used by the Batch service to select a Compute
      Node on which to start the new Task.
-    :vartype affinity_info: ~azure.batch.models.AffinityInfo
+    :vartype affinity_info: ~azure.batch.models.BatchAffinityInfo
     :ivar constraints: The execution constraints that apply to this Task. If you do not specify
      constraints, the maxTaskRetryCount is the maxTaskRetryCount specified for the Job, the
      maxWallClockTime is infinite, and the retentionTime is 7 days.
@@ -7817,7 +7950,7 @@ class BatchTaskCreateContent(_model_base.Model):
         name="environmentSettings", visibility=["read", "create", "update", "delete", "query"]
     )
     """A list of environment variable settings for the Task."""
-    affinity_info: Optional["_models.AffinityInfo"] = rest_field(
+    affinity_info: Optional["_models.BatchAffinityInfo"] = rest_field(
         name="affinityInfo", visibility=["read", "create", "update", "delete", "query"]
     )
     """A locality hint that can be used by the Batch service to select a Compute Node on which to
@@ -7884,7 +8017,7 @@ class BatchTaskCreateContent(_model_base.Model):
         resource_files: Optional[List["_models.ResourceFile"]] = None,
         output_files: Optional[List["_models.OutputFile"]] = None,
         environment_settings: Optional[List["_models.EnvironmentSetting"]] = None,
-        affinity_info: Optional["_models.AffinityInfo"] = None,
+        affinity_info: Optional["_models.BatchAffinityInfo"] = None,
         constraints: Optional["_models.BatchTaskConstraints"] = None,
         required_slots: Optional[int] = None,
         user_identity: Optional["_models.UserIdentity"] = None,
@@ -7892,6 +8025,71 @@ class BatchTaskCreateContent(_model_base.Model):
         depends_on: Optional["_models.BatchTaskDependencies"] = None,
         application_package_references: Optional[List["_models.BatchApplicationPackageReference"]] = None,
         authentication_token_settings: Optional["_models.AuthenticationTokenSettings"] = None,
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+
+
+class BatchTaskCreateResult(_model_base.Model):
+    """Result for a single Task created as part of an add Task collection operation.
+
+    :ivar status: The status of the add Task request. Required. Known values are: "success",
+     "clienterror", and "servererror".
+    :vartype status: str or ~azure.batch.models.BatchTaskAddStatus
+    :ivar task_id: The ID of the Task for which this is the result. Required.
+    :vartype task_id: str
+    :ivar e_tag: The ETag of the Task, if the Task was successfully added. You can use this to
+     detect whether the Task has changed between requests. In particular, you can be pass the ETag
+     with an Update Task request to specify that your changes should take effect only if nobody else
+     has modified the Job in the meantime.
+    :vartype e_tag: str
+    :ivar last_modified: The last modified time of the Task.
+    :vartype last_modified: ~datetime.datetime
+    :ivar location: The URL of the Task, if the Task was successfully added.
+    :vartype location: str
+    :ivar error: The error encountered while attempting to add the Task.
+    :vartype error: ~azure.batch.models.BatchError
+    """
+
+    status: Union[str, "_models.BatchTaskAddStatus"] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
+    """The status of the add Task request. Required. Known values are: \"success\", \"clienterror\",
+     and \"servererror\"."""
+    task_id: str = rest_field(name="taskId", visibility=["read", "create", "update", "delete", "query"])
+    """The ID of the Task for which this is the result. Required."""
+    e_tag: Optional[str] = rest_field(name="eTag", visibility=["read", "create", "update", "delete", "query"])
+    """The ETag of the Task, if the Task was successfully added. You can use this to detect whether
+     the Task has changed between requests. In particular, you can be pass the ETag with an Update
+     Task request to specify that your changes should take effect only if nobody else has modified
+     the Job in the meantime."""
+    last_modified: Optional[datetime.datetime] = rest_field(
+        name="lastModified", visibility=["read", "create", "update", "delete", "query"], format="rfc3339"
+    )
+    """The last modified time of the Task."""
+    location: Optional[str] = rest_field(visibility=["read", "create", "update", "delete", "query"])
+    """The URL of the Task, if the Task was successfully added."""
+    error: Optional["_models.BatchError"] = rest_field(visibility=["read", "create", "update", "delete", "query"])
+    """The error encountered while attempting to add the Task."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        status: Union[str, "_models.BatchTaskAddStatus"],
+        task_id: str,
+        e_tag: Optional[str] = None,
+        last_modified: Optional[datetime.datetime] = None,
+        location: Optional[str] = None,
+        error: Optional["_models.BatchError"] = None,
     ) -> None: ...
 
     @overload
@@ -8099,7 +8297,7 @@ class BatchTaskFailureInfo(_model_base.Model):
 
     :ivar category: The category of the Task error. Required. Known values are: "usererror" and
      "servererror".
-    :vartype category: str or ~azure.batch.models.ErrorCategory
+    :vartype category: str or ~azure.batch.models.BatchErrorSourceCategory
     :ivar code: An identifier for the Task error. Codes are invariant and are intended to be
      consumed programmatically.
     :vartype code: str
@@ -8110,7 +8308,7 @@ class BatchTaskFailureInfo(_model_base.Model):
     :vartype details: list[~azure.batch.models.NameValuePair]
     """
 
-    category: Union[str, "_models.ErrorCategory"] = rest_field(
+    category: Union[str, "_models.BatchErrorSourceCategory"] = rest_field(
         visibility=["read", "create", "update", "delete", "query"]
     )
     """The category of the Task error. Required. Known values are: \"usererror\" and \"servererror\"."""
@@ -8128,7 +8326,7 @@ class BatchTaskFailureInfo(_model_base.Model):
     def __init__(
         self,
         *,
-        category: Union[str, "_models.ErrorCategory"],
+        category: Union[str, "_models.BatchErrorSourceCategory"],
         code: Optional[str] = None,
         message: Optional[str] = None,
         details: Optional[List["_models.NameValuePair"]] = None,
@@ -8148,15 +8346,15 @@ class BatchTaskFailureInfo(_model_base.Model):
 class BatchTaskGroup(_model_base.Model):
     """A collection of Azure Batch Tasks to add.
 
-    :ivar value: The collection of Tasks to add. The maximum count of Tasks is 100. The total
-     serialized size of this collection must be less than 1MB. If it is greater than 1MB (for
+    :ivar values_property: The collection of Tasks to add. The maximum count of Tasks is 100. The
+     total serialized size of this collection must be less than 1MB. If it is greater than 1MB (for
      example if each Task has 100's of resource files or environment variables), the request will
      fail with code 'RequestBodyTooLarge' and should be retried again with fewer Tasks. Required.
-    :vartype value: list[~azure.batch.models.BatchTaskCreateContent]
+    :vartype values_property: list[~azure.batch.models.BatchTaskCreateOptions]
     """
 
-    value: List["_models.BatchTaskCreateContent"] = rest_field(
-        visibility=["read", "create", "update", "delete", "query"]
+    values_property: List["_models.BatchTaskCreateOptions"] = rest_field(
+        name="value", visibility=["read", "create", "update", "delete", "query"]
     )
     """The collection of Tasks to add. The maximum count of Tasks is 100. The total serialized size of
      this collection must be less than 1MB. If it is greater than 1MB (for example if each Task has
@@ -8167,7 +8365,7 @@ class BatchTaskGroup(_model_base.Model):
     def __init__(
         self,
         *,
-        value: List["_models.BatchTaskCreateContent"],
+        values_property: List["_models.BatchTaskCreateOptions"],
     ) -> None: ...
 
     @overload
@@ -8375,10 +8573,10 @@ class BatchTaskStatistics(_model_base.Model):
      the last time the statistics were updated, if the Task had not finished by then). If the Task
      was retried, this includes the wall clock time of all the Task retries. Required.
     :vartype wall_clock_time: ~datetime.timedelta
-    :ivar read_i_ops: The total number of disk read operations made by the Task. Required.
-    :vartype read_i_ops: int
-    :ivar write_i_ops: The total number of disk write operations made by the Task. Required.
-    :vartype write_i_ops: int
+    :ivar read_iops: The total number of disk read operations made by the Task. Required.
+    :vartype read_iops: int
+    :ivar write_iops: The total number of disk write operations made by the Task. Required.
+    :vartype write_iops: int
     :ivar read_io_gi_b: The total gibibytes read from disk by the Task. Required.
     :vartype read_io_gi_b: float
     :ivar write_io_gi_b: The total gibibytes written to disk by the Task. Required.
@@ -8418,11 +8616,11 @@ class BatchTaskStatistics(_model_base.Model):
      Task started running on a Compute Node to when it finished (or to the last time the statistics
      were updated, if the Task had not finished by then). If the Task was retried, this includes the
      wall clock time of all the Task retries. Required."""
-    read_i_ops: int = rest_field(
+    read_iops: int = rest_field(
         name="readIOps", visibility=["read", "create", "update", "delete", "query"], format="str"
     )
     """The total number of disk read operations made by the Task. Required."""
-    write_i_ops: int = rest_field(
+    write_iops: int = rest_field(
         name="writeIOps", visibility=["read", "create", "update", "delete", "query"], format="str"
     )
     """The total number of disk write operations made by the Task. Required."""
@@ -8447,11 +8645,47 @@ class BatchTaskStatistics(_model_base.Model):
         user_cpu_time: datetime.timedelta,
         kernel_cpu_time: datetime.timedelta,
         wall_clock_time: datetime.timedelta,
-        read_i_ops: int,
-        write_i_ops: int,
+        read_iops: int,
+        write_iops: int,
         read_io_gi_b: float,
         write_io_gi_b: float,
         wait_time: datetime.timedelta,
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+
+
+class BatchUserAssignedIdentity(_model_base.Model):
+    """The user assigned Identity.
+
+    :ivar resource_id: The ARM resource id of the user assigned identity. Required.
+    :vartype resource_id: str
+    :ivar client_id: The client id of the user assigned identity.
+    :vartype client_id: str
+    :ivar principal_id: The principal id of the user assigned identity.
+    :vartype principal_id: str
+    """
+
+    resource_id: str = rest_field(name="resourceId", visibility=["read", "create", "update", "delete", "query"])
+    """The ARM resource id of the user assigned identity. Required."""
+    client_id: Optional[str] = rest_field(name="clientId", visibility=["read"])
+    """The client id of the user assigned identity."""
+    principal_id: Optional[str] = rest_field(name="principalId", visibility=["read"])
+    """The principal id of the user assigned identity."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        resource_id: str,
     ) -> None: ...
 
     @overload
@@ -8510,58 +8744,6 @@ class CifsMountConfiguration(_model_base.Model):
         relative_mount_path: str,
         password: str,
         mount_options: Optional[str] = None,
-    ) -> None: ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]) -> None:
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
-
-    def __init__(self, *args: Any, **kwargs: Any) -> None:
-        super().__init__(*args, **kwargs)
-
-
-class ContainerConfiguration(_model_base.Model):
-    """The configuration for container-enabled Pools.
-
-    :ivar type: The container technology to be used. Required. Known values are: "dockerCompatible"
-     and "criCompatible".
-    :vartype type: str or ~azure.batch.models.ContainerType
-    :ivar container_image_names: The collection of container Image names. This is the full Image
-     reference, as would be specified to "docker pull". An Image will be sourced from the default
-     Docker registry unless the Image is fully qualified with an alternative registry.
-    :vartype container_image_names: list[str]
-    :ivar container_registries: Additional private registries from which containers can be pulled.
-     If any Images must be downloaded from a private registry which requires credentials, then those
-     credentials must be provided here.
-    :vartype container_registries: list[~azure.batch.models.ContainerRegistryReference]
-    """
-
-    type: Union[str, "_models.ContainerType"] = rest_field(visibility=["read", "create", "update", "delete", "query"])
-    """The container technology to be used. Required. Known values are: \"dockerCompatible\" and
-     \"criCompatible\"."""
-    container_image_names: Optional[List[str]] = rest_field(
-        name="containerImageNames", visibility=["read", "create", "update", "delete", "query"]
-    )
-    """The collection of container Image names. This is the full Image reference, as would be
-     specified to \"docker pull\". An Image will be sourced from the default Docker registry unless
-     the Image is fully qualified with an alternative registry."""
-    container_registries: Optional[List["_models.ContainerRegistryReference"]] = rest_field(
-        name="containerRegistries", visibility=["read", "create", "update", "delete", "query"]
-    )
-    """Additional private registries from which containers can be pulled. If any Images must be
-     downloaded from a private registry which requires credentials, then those credentials must be
-     provided here."""
-
-    @overload
-    def __init__(
-        self,
-        *,
-        type: Union[str, "_models.ContainerType"],
-        container_image_names: Optional[List[str]] = None,
-        container_registries: Optional[List["_models.ContainerRegistryReference"]] = None,
     ) -> None: ...
 
     @overload
@@ -9063,7 +9245,7 @@ class ExitOptions(_model_base.Model):
      Task request fails with an invalid property value error; if you are calling the REST API
      directly, the HTTP status code is 400 (Bad Request). Known values are: "none", "disable", and
      "terminate".
-    :vartype job_action: str or ~azure.batch.models.BatchJobAction
+    :vartype job_action: str or ~azure.batch.models.BatchJobActionKind
     :ivar dependency_action: An action that the Batch service performs on Tasks that depend on this
      Task. Possible values are 'satisfy' (allowing dependent tasks to progress) and 'block'
      (dependent tasks continue to wait). Batch does not yet support cancellation of dependent tasks.
@@ -9071,7 +9253,7 @@ class ExitOptions(_model_base.Model):
     :vartype dependency_action: str or ~azure.batch.models.DependencyAction
     """
 
-    job_action: Optional[Union[str, "_models.BatchJobAction"]] = rest_field(
+    job_action: Optional[Union[str, "_models.BatchJobActionKind"]] = rest_field(
         name="jobAction", visibility=["read", "create", "update", "delete", "query"]
     )
     """An action to take on the Job containing the Task, if the Task completes with the given exit
@@ -9092,7 +9274,7 @@ class ExitOptions(_model_base.Model):
     def __init__(
         self,
         *,
-        job_action: Optional[Union[str, "_models.BatchJobAction"]] = None,
+        job_action: Optional[Union[str, "_models.BatchJobActionKind"]] = None,
         dependency_action: Optional[Union[str, "_models.DependencyAction"]] = None,
     ) -> None: ...
 
@@ -9153,231 +9335,6 @@ class FileProperties(_model_base.Model):
         creation_time: Optional[datetime.datetime] = None,
         content_type: Optional[str] = None,
         file_mode: Optional[str] = None,
-    ) -> None: ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]) -> None:
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
-
-    def __init__(self, *args: Any, **kwargs: Any) -> None:
-        super().__init__(*args, **kwargs)
-
-
-class GetCertificateResponse(_model_base.Model):
-    """GetCertificateResponse.
-
-    :ivar thumbprint: The X.509 thumbprint of the Certificate. This is a sequence of up to 40 hex
-     digits (it may include spaces but these are removed). Required.
-    :vartype thumbprint: str
-    :ivar thumbprint_algorithm: The algorithm used to derive the thumbprint. This must be sha1.
-     Required.
-    :vartype thumbprint_algorithm: str
-    :ivar url: The URL of the Certificate.
-    :vartype url: str
-    :ivar state: The state of the Certificate. Known values are: "active", "deleting", and
-     "deletefailed".
-    :vartype state: str or ~azure.batch.models.BatchCertificateState
-    :ivar state_transition_time: The time at which the Certificate entered its current state.
-    :vartype state_transition_time: ~datetime.datetime
-    :ivar previous_state: The previous state of the Certificate. This property is not set if the
-     Certificate is in its initial active state. Known values are: "active", "deleting", and
-     "deletefailed".
-    :vartype previous_state: str or ~azure.batch.models.BatchCertificateState
-    :ivar previous_state_transition_time: The time at which the Certificate entered its previous
-     state. This property is not set if the Certificate is in its initial Active state.
-    :vartype previous_state_transition_time: ~datetime.datetime
-    :ivar public_data: The public part of the Certificate as a base-64 encoded .cer file.
-    :vartype public_data: str
-    :ivar delete_certificate_error: The error that occurred on the last attempt to delete this
-     Certificate. This property is set only if the Certificate is in the DeleteFailed state.
-    :vartype delete_certificate_error: ~azure.batch.models.DeleteBatchCertificateError
-    """
-
-    thumbprint: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
-    """The X.509 thumbprint of the Certificate. This is a sequence of up to 40 hex digits (it may
-     include spaces but these are removed). Required."""
-    thumbprint_algorithm: str = rest_field(
-        name="thumbprintAlgorithm", visibility=["read", "create", "update", "delete", "query"]
-    )
-    """The algorithm used to derive the thumbprint. This must be sha1. Required."""
-    url: Optional[str] = rest_field(visibility=["read"])
-    """The URL of the Certificate."""
-    state: Optional[Union[str, "_models.BatchCertificateState"]] = rest_field(visibility=["read"])
-    """The state of the Certificate. Known values are: \"active\", \"deleting\", and \"deletefailed\"."""
-    state_transition_time: Optional[datetime.datetime] = rest_field(
-        name="stateTransitionTime", visibility=["read"], format="rfc3339"
-    )
-    """The time at which the Certificate entered its current state."""
-    previous_state: Optional[Union[str, "_models.BatchCertificateState"]] = rest_field(
-        name="previousState", visibility=["read"]
-    )
-    """The previous state of the Certificate. This property is not set if the Certificate is in its
-     initial active state. Known values are: \"active\", \"deleting\", and \"deletefailed\"."""
-    previous_state_transition_time: Optional[datetime.datetime] = rest_field(
-        name="previousStateTransitionTime", visibility=["read"], format="rfc3339"
-    )
-    """The time at which the Certificate entered its previous state. This property is not set if the
-     Certificate is in its initial Active state."""
-    public_data: Optional[str] = rest_field(name="publicData", visibility=["read"])
-    """The public part of the Certificate as a base-64 encoded .cer file."""
-    delete_certificate_error: Optional["_models.DeleteBatchCertificateError"] = rest_field(
-        name="deleteCertificateError", visibility=["read"]
-    )
-    """The error that occurred on the last attempt to delete this Certificate. This property is set
-     only if the Certificate is in the DeleteFailed state."""
-
-    @overload
-    def __init__(
-        self,
-        *,
-        thumbprint: str,
-        thumbprint_algorithm: str,
-    ) -> None: ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]) -> None:
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
-
-    def __init__(self, *args: Any, **kwargs: Any) -> None:
-        super().__init__(*args, **kwargs)
-
-
-class HttpHeader(_model_base.Model):
-    """An HTTP header name-value pair.
-
-    :ivar name: The case-insensitive name of the header to be used while uploading output files.
-     Required.
-    :vartype name: str
-    :ivar value: The value of the header to be used while uploading output files.
-    :vartype value: str
-    """
-
-    name: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
-    """The case-insensitive name of the header to be used while uploading output files. Required."""
-    value: Optional[str] = rest_field(visibility=["read", "create", "update", "delete", "query"])
-    """The value of the header to be used while uploading output files."""
-
-    @overload
-    def __init__(
-        self,
-        *,
-        name: str,
-        value: Optional[str] = None,
-    ) -> None: ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]) -> None:
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
-
-    def __init__(self, *args: Any, **kwargs: Any) -> None:
-        super().__init__(*args, **kwargs)
-
-
-class ImageReference(_model_base.Model):
-    """A reference to an Azure Virtual Machines Marketplace Image or a Azure Compute Gallery Image.
-    To get the list of all Azure Marketplace Image references verified by Azure Batch, see the
-    ' List Supported Images ' operation.
-
-    :ivar publisher: The publisher of the Azure Virtual Machines Marketplace Image. For example,
-     Canonical or MicrosoftWindowsServer.
-    :vartype publisher: str
-    :ivar offer: The offer type of the Azure Virtual Machines Marketplace Image. For example,
-     UbuntuServer or WindowsServer.
-    :vartype offer: str
-    :ivar sku: The SKU of the Azure Virtual Machines Marketplace Image. For example, 18.04-LTS or
-     2019-Datacenter.
-    :vartype sku: str
-    :ivar version: The version of the Azure Virtual Machines Marketplace Image. A value of 'latest'
-     can be specified to select the latest version of an Image. If omitted, the default is 'latest'.
-    :vartype version: str
-    :ivar virtual_machine_image_id: The ARM resource identifier of the Azure Compute Gallery Image.
-     Compute Nodes in the Pool will be created using this Image Id. This is of the form
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/images/{imageDefinitionName}/versions/{VersionId}
-     or
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/images/{imageDefinitionName}
-     for always defaulting to the latest image version. This property is mutually exclusive with
-     other ImageReference properties. The Azure Compute Gallery Image must have replicas in the same
-     region and must be in the same subscription as the Azure Batch account. If the image version is
-     not specified in the imageId, the latest version will be used. For information about the
-     firewall settings for the Batch Compute Node agent to communicate with the Batch service see
-     `https://learn.microsoft.com/azure/batch/nodes-and-pools#virtual-network-vnet-and-firewall-configuration
-     <https://learn.microsoft.com/azure/batch/nodes-and-pools#virtual-network-vnet-and-firewall-configuration>`_.
-    :vartype virtual_machine_image_id: str
-    :ivar exact_version: The specific version of the platform image or marketplace image used to
-     create the node. This read-only field differs from 'version' only if the value specified for
-     'version' when the pool was created was 'latest'.
-    :vartype exact_version: str
-    :ivar shared_gallery_image_id: The shared gallery image unique identifier. This property is
-     mutually exclusive with other properties and can be fetched from shared gallery image GET call.
-    :vartype shared_gallery_image_id: str
-    :ivar community_gallery_image_id: The community gallery image unique identifier. This property
-     is mutually exclusive with other properties and can be fetched from community gallery image GET
-     call.
-    :vartype community_gallery_image_id: str
-    """
-
-    publisher: Optional[str] = rest_field(visibility=["read", "create", "update", "delete", "query"])
-    """The publisher of the Azure Virtual Machines Marketplace Image. For example, Canonical or
-     MicrosoftWindowsServer."""
-    offer: Optional[str] = rest_field(visibility=["read", "create", "update", "delete", "query"])
-    """The offer type of the Azure Virtual Machines Marketplace Image. For example, UbuntuServer or
-     WindowsServer."""
-    sku: Optional[str] = rest_field(visibility=["read", "create", "update", "delete", "query"])
-    """The SKU of the Azure Virtual Machines Marketplace Image. For example, 18.04-LTS or
-     2019-Datacenter."""
-    version: Optional[str] = rest_field(visibility=["read", "create", "update", "delete", "query"])
-    """The version of the Azure Virtual Machines Marketplace Image. A value of 'latest' can be
-     specified to select the latest version of an Image. If omitted, the default is 'latest'."""
-    virtual_machine_image_id: Optional[str] = rest_field(
-        name="virtualMachineImageId", visibility=["read", "create", "update", "delete", "query"]
-    )
-    """The ARM resource identifier of the Azure Compute Gallery Image. Compute Nodes in the Pool will
-     be created using this Image Id. This is of the form
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/images/{imageDefinitionName}/versions/{VersionId}
-     or
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/images/{imageDefinitionName}
-     for always defaulting to the latest image version. This property is mutually exclusive with
-     other ImageReference properties. The Azure Compute Gallery Image must have replicas in the same
-     region and must be in the same subscription as the Azure Batch account. If the image version is
-     not specified in the imageId, the latest version will be used. For information about the
-     firewall settings for the Batch Compute Node agent to communicate with the Batch service see
-     `https://learn.microsoft.com/azure/batch/nodes-and-pools#virtual-network-vnet-and-firewall-configuration
-     <https://learn.microsoft.com/azure/batch/nodes-and-pools#virtual-network-vnet-and-firewall-configuration>`_."""
-    exact_version: Optional[str] = rest_field(name="exactVersion", visibility=["read"])
-    """The specific version of the platform image or marketplace image used to create the node. This
-     read-only field differs from 'version' only if the value specified for 'version' when the pool
-     was created was 'latest'."""
-    shared_gallery_image_id: Optional[str] = rest_field(
-        name="sharedGalleryImageId", visibility=["read", "create", "update", "delete", "query"]
-    )
-    """The shared gallery image unique identifier. This property is mutually exclusive with other
-     properties and can be fetched from shared gallery image GET call."""
-    community_gallery_image_id: Optional[str] = rest_field(
-        name="communityGalleryImageId", visibility=["read", "create", "update", "delete", "query"]
-    )
-    """The community gallery image unique identifier. This property is mutually exclusive with other
-     properties and can be fetched from community gallery image GET call."""
-
-    @overload
-    def __init__(
-        self,
-        *,
-        publisher: Optional[str] = None,
-        offer: Optional[str] = None,
-        sku: Optional[str] = None,
-        version: Optional[str] = None,
-        virtual_machine_image_id: Optional[str] = None,
-        shared_gallery_image_id: Optional[str] = None,
-        community_gallery_image_id: Optional[str] = None,
     ) -> None: ...
 
     @overload
@@ -9664,7 +9621,7 @@ class ManagedDisk(_model_base.Model):
      "standard_lrs", "premium_lrs", and "standardssd_lrs".
     :vartype storage_account_type: str or ~azure.batch.models.StorageAccountType
     :ivar security_profile: Specifies the security profile settings for the managed disk.
-    :vartype security_profile: ~azure.batch.models.VMDiskSecurityProfile
+    :vartype security_profile: ~azure.batch.models.VmDiskSecurityProfile
     """
 
     storage_account_type: Optional[Union[str, "_models.StorageAccountType"]] = rest_field(
@@ -9672,7 +9629,7 @@ class ManagedDisk(_model_base.Model):
     )
     """The storage account type for managed disk. Known values are: \"standard_lrs\", \"premium_lrs\",
      and \"standardssd_lrs\"."""
-    security_profile: Optional["_models.VMDiskSecurityProfile"] = rest_field(
+    security_profile: Optional["_models.VmDiskSecurityProfile"] = rest_field(
         name="securityProfile", visibility=["read", "create", "update", "delete", "query"]
     )
     """Specifies the security profile settings for the managed disk."""
@@ -9682,41 +9639,7 @@ class ManagedDisk(_model_base.Model):
         self,
         *,
         storage_account_type: Optional[Union[str, "_models.StorageAccountType"]] = None,
-        security_profile: Optional["_models.VMDiskSecurityProfile"] = None,
-    ) -> None: ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]) -> None:
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
-
-    def __init__(self, *args: Any, **kwargs: Any) -> None:
-        super().__init__(*args, **kwargs)
-
-
-class MetadataItem(_model_base.Model):
-    """The Batch service does not assign any meaning to this metadata; it is solely
-    for the use of user code.
-
-    :ivar name: The name of the metadata item. Required.
-    :vartype name: str
-    :ivar value: The value of the metadata item. Required.
-    :vartype value: str
-    """
-
-    name: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
-    """The name of the metadata item. Required."""
-    value: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
-    """The value of the metadata item. Required."""
-
-    @overload
-    def __init__(
-        self,
-        *,
-        name: str,
-        value: str,
+        security_profile: Optional["_models.VmDiskSecurityProfile"] = None,
     ) -> None: ...
 
     @overload
@@ -9915,9 +9838,9 @@ class NetworkConfiguration(_model_base.Model):
      `https://learn.microsoft.com/azure/batch/nodes-and-pools#virtual-network-vnet-and-firewall-configuration
      <https://learn.microsoft.com/azure/batch/nodes-and-pools#virtual-network-vnet-and-firewall-configuration>`_.
     :vartype subnet_id: str
-    :ivar dynamic_v_net_assignment_scope: The scope of dynamic vnet assignment. Known values are:
+    :ivar dynamic_vnet_assignment_scope: The scope of dynamic vnet assignment. Known values are:
      "none" and "job".
-    :vartype dynamic_v_net_assignment_scope: str or ~azure.batch.models.DynamicVNetAssignmentScope
+    :vartype dynamic_vnet_assignment_scope: str or ~azure.batch.models.DynamicVNetAssignmentScope
     :ivar endpoint_configuration: The configuration for endpoints on Compute Nodes in the Batch
      Pool.
     :vartype endpoint_configuration: ~azure.batch.models.BatchPoolEndpointConfiguration
@@ -9951,7 +9874,7 @@ class NetworkConfiguration(_model_base.Model):
      29877. Also enable outbound connections to Azure Storage on port 443. For more details see:
      `https://learn.microsoft.com/azure/batch/nodes-and-pools#virtual-network-vnet-and-firewall-configuration
      <https://learn.microsoft.com/azure/batch/nodes-and-pools#virtual-network-vnet-and-firewall-configuration>`_."""
-    dynamic_v_net_assignment_scope: Optional[Union[str, "_models.DynamicVNetAssignmentScope"]] = rest_field(
+    dynamic_vnet_assignment_scope: Optional[Union[str, "_models.DynamicVNetAssignmentScope"]] = rest_field(
         name="dynamicVNetAssignmentScope", visibility=["read", "create", "update", "delete", "query"]
     )
     """The scope of dynamic vnet assignment. Known values are: \"none\" and \"job\"."""
@@ -9977,7 +9900,7 @@ class NetworkConfiguration(_model_base.Model):
         self,
         *,
         subnet_id: Optional[str] = None,
-        dynamic_v_net_assignment_scope: Optional[Union[str, "_models.DynamicVNetAssignmentScope"]] = None,
+        dynamic_vnet_assignment_scope: Optional[Union[str, "_models.DynamicVNetAssignmentScope"]] = None,
         endpoint_configuration: Optional["_models.BatchPoolEndpointConfiguration"] = None,
         public_ip_address_configuration: Optional["_models.PublicIpAddressConfiguration"] = None,
         enable_accelerated_networking: Optional[bool] = None,
@@ -10275,7 +10198,7 @@ class OutputFileBlobContainerDestination(_model_base.Model):
      on allowed headers when uploading blobs:
      `https://learn.microsoft.com/rest/api/storageservices/put-blob#request-headers-all-blob-types
      <https://learn.microsoft.com/rest/api/storageservices/put-blob#request-headers-all-blob-types>`_.
-    :vartype upload_headers: list[~azure.batch.models.HttpHeader]
+    :vartype upload_headers: list[~azure.batch.models.OutputFileUploadHeader]
     """
 
     path: Optional[str] = rest_field(visibility=["read", "create", "update", "delete", "query"])
@@ -10294,7 +10217,7 @@ class OutputFileBlobContainerDestination(_model_base.Model):
     )
     """The reference to the user assigned identity to use to access Azure Blob Storage specified by
      containerUrl. The identity must have write access to the Azure Blob Storage container."""
-    upload_headers: Optional[List["_models.HttpHeader"]] = rest_field(
+    upload_headers: Optional[List["_models.OutputFileUploadHeader"]] = rest_field(
         name="uploadHeaders", visibility=["read", "create", "update", "delete", "query"]
     )
     """A list of name-value pairs for headers to be used in uploading output files. These headers will
@@ -10310,7 +10233,7 @@ class OutputFileBlobContainerDestination(_model_base.Model):
         container_url: str,
         path: Optional[str] = None,
         identity_reference: Optional["_models.BatchNodeIdentityReference"] = None,
-        upload_headers: Optional[List["_models.HttpHeader"]] = None,
+        upload_headers: Optional[List["_models.OutputFileUploadHeader"]] = None,
     ) -> None: ...
 
     @overload
@@ -10376,6 +10299,40 @@ class OutputFileUploadConfig(_model_base.Model):
         self,
         *,
         upload_condition: Union[str, "_models.OutputFileUploadCondition"],
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+
+
+class OutputFileUploadHeader(_model_base.Model):
+    """An HTTP header name-value pair.
+
+    :ivar name: The case-insensitive name of the header to be used while uploading output files.
+     Required.
+    :vartype name: str
+    :ivar value: The value of the header to be used while uploading output files.
+    :vartype value: str
+    """
+
+    name: str = rest_field(visibility=["read", "create", "update", "delete", "query"])
+    """The case-insensitive name of the header to be used while uploading output files. Required."""
+    value: Optional[str] = rest_field(visibility=["read", "create", "update", "delete", "query"])
+    """The value of the header to be used while uploading output files."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        name: str,
+        value: Optional[str] = None,
     ) -> None: ...
 
     @overload
@@ -10939,7 +10896,7 @@ class UpgradePolicy(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class UploadBatchServiceLogsContent(_model_base.Model):
+class UploadBatchServiceLogsOptions(_model_base.Model):
     """The Azure Batch service log files upload parameters for a Compute Node.
 
     :ivar container_url: The URL of the container within Azure Blob Storage to which to upload the
@@ -11121,42 +11078,6 @@ class UserAccount(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class UserAssignedIdentity(_model_base.Model):
-    """The user assigned Identity.
-
-    :ivar resource_id: The ARM resource id of the user assigned identity. Required.
-    :vartype resource_id: str
-    :ivar client_id: The client id of the user assigned identity.
-    :vartype client_id: str
-    :ivar principal_id: The principal id of the user assigned identity.
-    :vartype principal_id: str
-    """
-
-    resource_id: str = rest_field(name="resourceId", visibility=["read", "create", "update", "delete", "query"])
-    """The ARM resource id of the user assigned identity. Required."""
-    client_id: Optional[str] = rest_field(name="clientId", visibility=["read"])
-    """The client id of the user assigned identity."""
-    principal_id: Optional[str] = rest_field(name="principalId", visibility=["read"])
-    """The principal id of the user assigned identity."""
-
-    @overload
-    def __init__(
-        self,
-        *,
-        resource_id: str,
-    ) -> None: ...
-
-    @overload
-    def __init__(self, mapping: Mapping[str, Any]) -> None:
-        """
-        :param mapping: raw JSON to initialize the model.
-        :type mapping: Mapping[str, Any]
-        """
-
-    def __init__(self, *args: Any, **kwargs: Any) -> None:
-        super().__init__(*args, **kwargs)
-
-
 class UserIdentity(_model_base.Model):
     """The definition of the user identity under which the Task is run. Specify either the userName or
     autoUser property, but not both.
@@ -11203,7 +11124,7 @@ class VirtualMachineConfiguration(_model_base.Model):
 
     :ivar image_reference: A reference to the Azure Virtual Machines Marketplace Image or the
      custom Virtual Machine Image to use. Required.
-    :vartype image_reference: ~azure.batch.models.ImageReference
+    :vartype image_reference: ~azure.batch.models.BatchImageReference
     :ivar node_agent_sku_id: The SKU of the Batch Compute Node agent to be provisioned on Compute
      Nodes in the Pool. The Batch Compute Node agent is a program that runs on each Compute Node in
      the Pool, and provides the command-and-control interface between the Compute Node and the Batch
@@ -11242,7 +11163,7 @@ class VirtualMachineConfiguration(_model_base.Model):
      performed on each Compute Node in the Pool to allow Tasks to run in containers. All regular
      Tasks and Job manager Tasks run on this Pool must specify the containerSettings property, and
      all other Tasks may specify it.
-    :vartype container_configuration: ~azure.batch.models.ContainerConfiguration
+    :vartype container_configuration: ~azure.batch.models.BatchContainerConfiguration
     :ivar disk_encryption_configuration: The disk encryption configuration for the pool. If
      specified, encryption is performed on each node in the pool during node provisioning.
     :vartype disk_encryption_configuration: ~azure.batch.models.DiskEncryptionConfiguration
@@ -11264,7 +11185,7 @@ class VirtualMachineConfiguration(_model_base.Model):
     :vartype service_artifact_reference: ~azure.batch.models.ServiceArtifactReference
     """
 
-    image_reference: "_models.ImageReference" = rest_field(
+    image_reference: "_models.BatchImageReference" = rest_field(
         name="imageReference", visibility=["read", "create", "update", "delete", "query"]
     )
     """A reference to the Azure Virtual Machines Marketplace Image or the custom Virtual Machine Image
@@ -11309,7 +11230,7 @@ class VirtualMachineConfiguration(_model_base.Model):
       Windows_Server - The on-premises license is for Windows
      Server.
       Windows_Client - The on-premises license is for Windows Client."""
-    container_configuration: Optional["_models.ContainerConfiguration"] = rest_field(
+    container_configuration: Optional["_models.BatchContainerConfiguration"] = rest_field(
         name="containerConfiguration", visibility=["read", "create", "update", "delete", "query"]
     )
     """The container configuration for the Pool. If specified, setup is performed on each Compute Node
@@ -11350,12 +11271,12 @@ class VirtualMachineConfiguration(_model_base.Model):
     def __init__(
         self,
         *,
-        image_reference: "_models.ImageReference",
+        image_reference: "_models.BatchImageReference",
         node_agent_sku_id: str,
         windows_configuration: Optional["_models.WindowsConfiguration"] = None,
         data_disks: Optional[List["_models.DataDisk"]] = None,
         license_type: Optional[str] = None,
-        container_configuration: Optional["_models.ContainerConfiguration"] = None,
+        container_configuration: Optional["_models.BatchContainerConfiguration"] = None,
         disk_encryption_configuration: Optional["_models.DiskEncryptionConfiguration"] = None,
         node_placement_configuration: Optional["_models.BatchNodePlacementConfiguration"] = None,
         extensions: Optional[List["_models.VMExtension"]] = None,
@@ -11379,14 +11300,14 @@ class VirtualMachineInfo(_model_base.Model):
     """Info about the current state of the virtual machine.
 
     :ivar image_reference: The reference to the Azure Virtual Machine's Marketplace Image.
-    :vartype image_reference: ~azure.batch.models.ImageReference
+    :vartype image_reference: ~azure.batch.models.BatchImageReference
     :ivar scale_set_vm_resource_id: The resource ID of the Compute Node's current Virtual Machine
      Scale Set VM. Only defined if the Batch Account was created with its poolAllocationMode
      property set to 'UserSubscription'.
     :vartype scale_set_vm_resource_id: str
     """
 
-    image_reference: Optional["_models.ImageReference"] = rest_field(
+    image_reference: Optional["_models.BatchImageReference"] = rest_field(
         name="imageReference", visibility=["read", "create", "update", "delete", "query"]
     )
     """The reference to the Azure Virtual Machine's Marketplace Image."""
@@ -11400,7 +11321,7 @@ class VirtualMachineInfo(_model_base.Model):
     def __init__(
         self,
         *,
-        image_reference: Optional["_models.ImageReference"] = None,
+        image_reference: Optional["_models.BatchImageReference"] = None,
         scale_set_vm_resource_id: Optional[str] = None,
     ) -> None: ...
 
@@ -11415,7 +11336,7 @@ class VirtualMachineInfo(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class VMDiskSecurityProfile(_model_base.Model):
+class VmDiskSecurityProfile(_model_base.Model):
     """Specifies the security profile settings for the managed disk. **Note**: It can only be set for
     Confidential VMs and required when using Confidential VMs.
 
