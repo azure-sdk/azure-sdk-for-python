@@ -14,25 +14,16 @@ AZURE_LOCATION = "eastus"
 
 
 @pytest.mark.skip("you may need to update the auto-generated test case before run it")
-class TestAppConfigurationManagementOperations(AzureMgmtRecordedTestCase):
+class TestAppConfigurationManagementExperimentationOperations(AzureMgmtRecordedTestCase):
     def setup_method(self, method):
         self.client = self.create_mgmt_client(AppConfigurationManagementClient)
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_operations_check_name_availability(self, resource_group):
-        response = self.client.operations.check_name_availability(
-            check_name_availability_parameters={"name": "str", "type": "str"},
-            api_version="2025-02-01-preview",
-        )
-
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
-    def test_operations_list(self, resource_group):
-        response = self.client.operations.list(
+    def test_experimentation_list(self, resource_group):
+        response = self.client.experimentation.list(
+            resource_group_name=resource_group.name,
+            config_store_name="str",
             api_version="2025-02-01-preview",
         )
         result = [r for r in response]
@@ -41,12 +32,39 @@ class TestAppConfigurationManagementOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_operations_regional_check_name_availability(self, resource_group):
-        response = self.client.operations.regional_check_name_availability(
-            location="str",
-            check_name_availability_parameters={"name": "str", "type": "str"},
+    def test_experimentation_get(self, resource_group):
+        response = self.client.experimentation.get(
+            resource_group_name=resource_group.name,
+            config_store_name="str",
+            experimentation_name="str",
             api_version="2025-02-01-preview",
         )
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy
+    def test_experimentation_begin_create(self, resource_group):
+        response = self.client.experimentation.begin_create(
+            resource_group_name=resource_group.name,
+            config_store_name="str",
+            experimentation_name="str",
+            api_version="2025-02-01-preview",
+        ).result()  # call '.result()' to poll until service return final result
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy
+    def test_experimentation_begin_delete(self, resource_group):
+        response = self.client.experimentation.begin_delete(
+            resource_group_name=resource_group.name,
+            config_store_name="str",
+            experimentation_name="str",
+            api_version="2025-02-01-preview",
+        ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
         # ...
