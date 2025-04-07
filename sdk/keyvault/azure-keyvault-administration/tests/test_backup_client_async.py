@@ -19,9 +19,10 @@ only_default = get_decorator(is_async=True, api_versions=[DEFAULT_VERSION])
 
 class TestBackupClientTests(KeyVaultTestCase):
     def create_key_client(self, vault_uri, **kwargs):
-         from azure.keyvault.keys.aio import KeyClient
-         credential = self.get_credential(KeyClient, is_async=True)
-         return self.create_client_from_credential(KeyClient, credential=credential, vault_url=vault_uri, **kwargs )
+        from azure.keyvault.keys.aio import KeyClient
+
+        credential = self.get_credential(KeyClient, is_async=True)
+        return self.create_client_from_credential(KeyClient, credential=credential, vault_url=vault_uri, **kwargs)
 
     @pytest.mark.asyncio
     @pytest.mark.parametrize("api_version", only_default)
@@ -120,7 +121,7 @@ class TestBackupClientTests(KeyVaultTestCase):
         # backup the vault
         container_uri = kwargs.pop("container_uri")
         backup_poller = await client.begin_backup(container_uri, use_managed_identity=True)
-        
+
         # create a new poller from a continuation token
         token = backup_poller.continuation_token()
         rehydrated = await client.begin_backup(container_uri, use_managed_identity=True, continuation_token=token)
@@ -129,7 +130,7 @@ class TestBackupClientTests(KeyVaultTestCase):
         if self.is_live:
             assert backup_poller.status() == "InProgress"
         assert not backup_poller.done() or backup_poller.polling_method().finished()
-        #assert rehydrated.status() == "InProgress"
+        # assert rehydrated.status() == "InProgress"
         assert not rehydrated.done() or rehydrated.polling_method().finished()
 
         backup_operation = await backup_poller.result()
@@ -156,7 +157,7 @@ class TestBackupClientTests(KeyVaultTestCase):
         if self.is_live:
             assert restore_poller.status() == "InProgress"
         assert not restore_poller.done() or restore_poller.polling_method().finished()
-        #assert rehydrated.status() == "InProgress"
+        # assert rehydrated.status() == "InProgress"
         assert not rehydrated.done() or rehydrated.polling_method().finished()
 
         await rehydrated.wait()
