@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.recoveryservicessiterecovery import SiteRecoveryManagementClient
 
 """
@@ -44,6 +45,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationStorageClassificationMappings_Create.json
+# x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2025-03-01/examples/ReplicationStorageClassificationMappings_Create.json
 if __name__ == "__main__":
     main()
