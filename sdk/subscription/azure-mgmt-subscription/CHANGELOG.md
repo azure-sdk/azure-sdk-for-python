@@ -1,5 +1,26 @@
 # Release History
 
+## 3.2.0 (2025-04-08)
+
+### Features Added
+
+  - Client `SubscriptionClient` added operation group `subscription_operation`
+  - Model `Subscription` added property `tenant_id`
+  - Model `Subscription` added property `tags`
+  - Model `TenantIdDescription` added property `tenant_category`
+  - Model `TenantIdDescription` added property `country`
+  - Model `TenantIdDescription` added property `country_code`
+  - Model `TenantIdDescription` added property `display_name`
+  - Model `TenantIdDescription` added property `domains`
+  - Model `TenantIdDescription` added property `default_domain`
+  - Model `TenantIdDescription` added property `tenant_type`
+  - Added model `SubscriptionCreationResult`
+  - Added model `SubscriptionOperationOperations`
+  - Method `AliasOperations.begin_create` has a new overload `def begin_create(self: None, alias_name: str, body: IO[bytes], content_type: str)`
+  - Method `SubscriptionOperations.begin_accept_ownership` has a new overload `def begin_accept_ownership(self: None, subscription_id: str, body: IO[bytes], content_type: str)`
+  - Method `SubscriptionOperations.rename` has a new overload `def rename(self: None, subscription_id: str, body: IO[bytes], content_type: str)`
+  - Method `SubscriptionPolicyOperations.add_update_policy_for_tenant` has a new overload `def add_update_policy_for_tenant(self: None, body: IO[bytes], content_type: str)`
+
 ## 3.2.0b1 (2022-12-27)
 
 ### Features Added
