@@ -6,8 +6,6 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from typing import Any, IO, Union
-
 from azure.identity import DefaultAzureCredential
 
 from azure.mgmt.recoveryservices import RecoveryServicesClient
@@ -61,6 +59,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2024-04-01/examples/PUTVault_WithCMK.json
+# x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2025-03-01/examples/PUTVault_WithCMK.json
 if __name__ == "__main__":
     main()
