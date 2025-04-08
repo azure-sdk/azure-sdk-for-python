@@ -23,6 +23,12 @@ class AadAuthFailureMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     of 401 (Unauthorized) and present a Bearer Challenge."""
 
 
+class ActionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs."""
+
+    INTERNAL = "Internal"
+
+
 class AdminKeyKind(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """AdminKeyKind."""
 
@@ -33,12 +39,12 @@ class AdminKeyKind(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
 
 class ComputeType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Configure this property to support the search service using either the default compute or Azure
+    """Configure this property to support the search service using either the Default Compute or Azure
     Confidential Compute.
     """
 
     DEFAULT = "default"
-    """Create the service with the default compute."""
+    """Create the service with the Default Compute."""
     CONFIDENTIAL = "confidential"
     """Create the service with Azure Confidential Compute."""
 
@@ -50,29 +56,6 @@ class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     APPLICATION = "Application"
     MANAGED_IDENTITY = "ManagedIdentity"
     KEY = "Key"
-
-
-class FeatureName(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The name of the feature offered in this region."""
-
-    GROK = "Grok"
-    """Supports Grok feature."""
-    IMAGE_VECTORIZATION = "ImageVectorization"
-    """Supports Image Vectorization feature."""
-    DOCUMENT_INTELLIGENCE = "DocumentIntelligence"
-    """Supports Document Intelligence feature."""
-    QUERY_REWRITE = "QueryRewrite"
-    """Supports Query Rewrite feature."""
-    S3 = "S3"
-    """Supports S3 feature."""
-    STORAGE_OPTIMIZED = "StorageOptimized"
-    """Supports Storage Optimized feature."""
-    SEMANTIC_SEARCH = "SemanticSearch"
-    """Supports Semantic Search feature."""
-    MEGA_STORE = "MegaStore"
-    """Supports Mega Store feature."""
-    AVAILABILITY_ZONES = "AvailabilityZones"
-    """Supports Availability Zones feature."""
 
 
 class HostingMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -103,6 +86,16 @@ class IdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     SYSTEM_ASSIGNED_USER_ASSIGNED = "SystemAssigned, UserAssigned"
     """Indicates that system-assigned identity for the search service will be enabled along with the
     assignment of one or more user assigned identities."""
+
+
+class Origin(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit
+    logs UX. Default value is "user,system".
+    """
+
+    USER = "user"
+    SYSTEM = "system"
+    USER_SYSTEM = "user,system"
 
 
 class PrivateLinkServiceConnectionProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -151,11 +144,11 @@ class ProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     search service. This is because the free service uses capacity that is already set up.
     """
 
-    SUCCEEDED = "Succeeded"
+    SUCCEEDED = "succeeded"
     """The last provisioning operation has completed successfully."""
-    PROVISIONING = "Provisioning"
+    PROVISIONING = "provisioning"
     """The search service is being provisioned or scaled up or down."""
-    FAILED = "Failed"
+    FAILED = "failed"
     """The last provisioning operation has failed."""
 
 
@@ -178,9 +171,6 @@ class SearchBypass(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     NONE = "None"
     """Indicates that no origin can bypass the rules defined in the 'ipRules' section. This is the
     default."""
-    AZURE_PORTAL = "AzurePortal"
-    """Indicates that requests originating from the Azure portal can bypass the rules defined in the
-    'ipRules' section."""
     AZURE_SERVICES = "AzureServices"
     """Indicates that requests originating from Azure trusted services can bypass the rules defined in
     the 'ipRules' section."""
@@ -348,3 +338,12 @@ class UnavailableNameReason(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The search service name doesn't match naming requirements."""
     ALREADY_EXISTS = "AlreadyExists"
     """The search service name is already assigned to a different search service."""
+
+
+class UpgradeAvailable(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Indicates if the search service has an upgrade available."""
+
+    NOT_AVAILABLE = "notAvailable"
+    """An upgrade is currently not available for the service."""
+    AVAILABLE = "available"
+    """There is an upgrade available for the service."""

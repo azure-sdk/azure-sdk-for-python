@@ -1,5 +1,64 @@
 # Release History
 
+## 9.2.0 (2025-04-08)
+
+### Features Added
+
+  - Client `SearchManagementClient` added operation group `network_security_perimeter_configurations`
+  - Model `Identity` added property `user_assigned_identities`
+  - Enum `IdentityType` added member `SYSTEM_ASSIGNED_USER_ASSIGNED`
+  - Enum `IdentityType` added member `USER_ASSIGNED`
+  - Model `NetworkRuleSet` added property `bypass`
+  - Model `Operation` added property `is_data_action`
+  - Model `Operation` added property `origin`
+  - Model `Operation` added property `action_type`
+  - Model `PrivateEndpointConnection` added property `system_data`
+  - Model `PrivateLinkResource` added property `system_data`
+  - Model `Resource` added property `system_data`
+  - Model `SearchService` added property `endpoint`
+  - Model `SearchService` added property `compute_type`
+  - Model `SearchService` added property `disabled_data_exfiltration_options`
+  - Model `SearchService` added property `e_tag`
+  - Model `SearchService` added property `upgrade_available`
+  - Model `SearchService` added property `service_upgraded_at`
+  - Model `SearchService` added property `system_data`
+  - Enum `SearchServiceStatus` added member `STOPPED`
+  - Model `SearchServiceUpdate` added property `endpoint`
+  - Model `SearchServiceUpdate` added property `compute_type`
+  - Model `SearchServiceUpdate` added property `disabled_data_exfiltration_options`
+  - Model `SearchServiceUpdate` added property `e_tag`
+  - Model `SearchServiceUpdate` added property `upgrade_available`
+  - Model `SearchServiceUpdate` added property `service_upgraded_at`
+  - Model `SearchServiceUpdate` added property `system_data`
+  - Model `SharedPrivateLinkResource` added property `system_data`
+  - Model `TrackedResource` added property `system_data`
+  - Added enum `ActionType`
+  - Added enum `ComputeType`
+  - Added enum `CreatedByType`
+  - Added model `NSPConfigAccessRule`
+  - Added model `NSPConfigAccessRuleProperties`
+  - Added model `NSPConfigAssociation`
+  - Added model `NSPConfigNetworkSecurityPerimeterRule`
+  - Added model `NSPConfigPerimeter`
+  - Added model `NSPConfigProfile`
+  - Added model `NSPProvisioningIssue`
+  - Added model `NSPProvisioningIssueProperties`
+  - Added model `NetworkSecurityPerimeterConfiguration`
+  - Added model `NetworkSecurityPerimeterConfigurationListResult`
+  - Added enum `Origin`
+  - Added model `ProxyResource`
+  - Added enum `SearchBypass`
+  - Added enum `SearchDisabledDataExfiltrationOption`
+  - Added model `SystemData`
+  - Added enum `UpgradeAvailable`
+  - Added model `UserAssignedManagedIdentity`
+  - Model `ServicesOperations` added method `begin_upgrade`
+  - Added model `NetworkSecurityPerimeterConfigurationsOperations`
+  - Method `PrivateEndpointConnectionsOperations.update` has a new overload `def update(self: None, resource_group_name: str, search_service_name: str, private_endpoint_connection_name: str, private_endpoint_connection: IO[bytes], search_management_request_options: Optional[SearchManagementRequestOptions], content_type: str)`
+  - Method `ServicesOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, search_service_name: str, service: IO[bytes], search_management_request_options: Optional[SearchManagementRequestOptions], content_type: str)`
+  - Method `ServicesOperations.update` has a new overload `def update(self: None, resource_group_name: str, search_service_name: str, service: IO[bytes], search_management_request_options: Optional[SearchManagementRequestOptions], content_type: str)`
+  - Method `SharedPrivateLinkResourcesOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, search_service_name: str, shared_private_link_resource_name: str, shared_private_link_resource: IO[bytes], search_management_request_options: Optional[SearchManagementRequestOptions], content_type: str)`
+
 ## 9.2.0b3 (2025-04-02)
 
 ### Features Added

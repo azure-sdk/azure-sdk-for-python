@@ -55,7 +55,7 @@ def build_create_or_update_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-02-01-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-05-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -96,7 +96,7 @@ def build_update_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-02-01-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-05-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -137,7 +137,7 @@ def build_get_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-02-01-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-05-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -177,7 +177,7 @@ def build_delete_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-02-01-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-05-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -212,7 +212,7 @@ def build_list_by_resource_group_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-02-01-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-05-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -244,7 +244,7 @@ def build_list_by_subscription_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-02-01-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-05-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -272,7 +272,7 @@ def build_check_name_availability_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-02-01-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-05-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -305,7 +305,7 @@ def build_upgrade_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-02-01-preview"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2025-05-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -445,9 +445,9 @@ class ServicesOperations:
         :param search_service_name: The name of the Azure AI Search service to create or update. Search
          service names must only contain lowercase letters, digits or dashes, cannot use dash as the
          first two or last one characters, cannot contain consecutive dashes, and must be between 2 and
-         60 characters in length. Search service names must be globally unique since they are part of
-         the service URI (https://\\ :code:`<name>`.search.windows.net). You cannot change the service
-         name after the service is created. Required.
+         60 characters in length. Search service names must be unique since they are part of the service
+         URI (https://\\ :code:`<name>`.search.windows.net). You cannot change the service name after
+         the service is created. Required.
         :type search_service_name: str
         :param service: The definition of the search service to create or update. Required.
         :type service: ~azure.mgmt.search.models.SearchService
@@ -486,9 +486,9 @@ class ServicesOperations:
         :param search_service_name: The name of the Azure AI Search service to create or update. Search
          service names must only contain lowercase letters, digits or dashes, cannot use dash as the
          first two or last one characters, cannot contain consecutive dashes, and must be between 2 and
-         60 characters in length. Search service names must be globally unique since they are part of
-         the service URI (https://\\ :code:`<name>`.search.windows.net). You cannot change the service
-         name after the service is created. Required.
+         60 characters in length. Search service names must be unique since they are part of the service
+         URI (https://\\ :code:`<name>`.search.windows.net). You cannot change the service name after
+         the service is created. Required.
         :type search_service_name: str
         :param service: The definition of the search service to create or update. Required.
         :type service: IO[bytes]
@@ -525,9 +525,9 @@ class ServicesOperations:
         :param search_service_name: The name of the Azure AI Search service to create or update. Search
          service names must only contain lowercase letters, digits or dashes, cannot use dash as the
          first two or last one characters, cannot contain consecutive dashes, and must be between 2 and
-         60 characters in length. Search service names must be globally unique since they are part of
-         the service URI (https://\\ :code:`<name>`.search.windows.net). You cannot change the service
-         name after the service is created. Required.
+         60 characters in length. Search service names must be unique since they are part of the service
+         URI (https://\\ :code:`<name>`.search.windows.net). You cannot change the service name after
+         the service is created. Required.
         :type search_service_name: str
         :param service: The definition of the search service to create or update. Is either a
          SearchService type or a IO[bytes] type. Required.
