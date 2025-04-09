@@ -1,5 +1,5 @@
-# coding=utf-8
 # pylint: disable=too-many-lines
+# coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -13,7 +13,6 @@ from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 from .. import _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
@@ -62,7 +61,7 @@ class Resource(_serialization.Model):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -104,7 +103,7 @@ class ProxyResource(Resource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -116,24 +115,6 @@ class ProxyResource(Resource):
     :vartype system_data: ~azure.mgmt.newrelicobservability.models.SystemData
     """
 
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-        "system_data": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "system_data": {"key": "systemData", "type": "SystemData"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-
 
 class AccountResource(ProxyResource):
     """The details of a account resource.
@@ -141,7 +122,7 @@ class AccountResource(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -208,7 +189,7 @@ class AccountResource(ProxyResource):
 class AccountsListResponse(_serialization.Model):
     """Response of get all accounts Operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: The AccountResource items on this page. Required.
     :vartype value: list[~azure.mgmt.newrelicobservability.models.AccountResource]
@@ -281,7 +262,7 @@ class AppServiceInfo(_serialization.Model):
 class AppServicesGetParameter(_serialization.Model):
     """App services Get Parameter specification.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar request: The details of the app services get request. Required.
     :vartype request: ~azure.mgmt.newrelicobservability.models.AppServicesGetRequest
@@ -307,7 +288,7 @@ class AppServicesGetParameter(_serialization.Model):
 class AppServicesGetRequest(_serialization.Model):
     """Request of a app services get Operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar azure_resource_ids: Azure resource IDs.
     :vartype azure_resource_ids: list[str]
@@ -339,7 +320,7 @@ class AppServicesGetRequest(_serialization.Model):
 class AppServicesListResponse(_serialization.Model):
     """Response of a list app services Operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: The AppServiceInfo items on this page. Required.
     :vartype value: list[~azure.mgmt.newrelicobservability.models.AppServiceInfo]
@@ -644,7 +625,7 @@ class FilteringTag(_serialization.Model):
 class HostsGetParameter(_serialization.Model):
     """Host Get Parameter specification.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar request: The details of the Hosts get request. Required.
     :vartype request: ~azure.mgmt.newrelicobservability.models.HostsGetRequest
@@ -670,7 +651,7 @@ class HostsGetParameter(_serialization.Model):
 class HostsGetRequest(_serialization.Model):
     """Request of a Hosts get Operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar vm_ids: VM resource IDs.
     :vartype vm_ids: list[str]
@@ -816,7 +797,7 @@ class ManagedServiceIdentity(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar principal_id: The service principal ID of the system assigned identity. This property
      will only be provided for a system assigned identity.
@@ -830,7 +811,7 @@ class ManagedServiceIdentity(_serialization.Model):
     :vartype type: str or ~azure.mgmt.newrelicobservability.models.ManagedServiceIdentityType
     :ivar user_assigned_identities: The set of user assigned identities associated with the
      resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form:
-     '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.
+     '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.  # pylint: disable=line-too-long
      The dictionary values can be empty objects ({}) in requests.
     :vartype user_assigned_identities: dict[str,
      ~azure.mgmt.newrelicobservability.models.UserAssignedIdentity]
@@ -863,7 +844,7 @@ class ManagedServiceIdentity(_serialization.Model):
         :paramtype type: str or ~azure.mgmt.newrelicobservability.models.ManagedServiceIdentityType
         :keyword user_assigned_identities: The set of user assigned identities associated with the
          resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form:
-         '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.
+         '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.  # pylint: disable=line-too-long
          The dictionary values can be empty objects ({}) in requests.
         :paramtype user_assigned_identities: dict[str,
          ~azure.mgmt.newrelicobservability.models.UserAssignedIdentity]
@@ -890,6 +871,10 @@ class MarketplaceSaaSInfo(_serialization.Model):
     :ivar billed_azure_subscription_id: The Azure Subscription ID to which the Marketplace
      Subscription belongs and gets billed into.
     :vartype billed_azure_subscription_id: str
+    :ivar publisher_id: Publisher Id of the Marketplace offer.
+    :vartype publisher_id: str
+    :ivar offer_id: Offer Id of the Marketplace offer,.
+    :vartype offer_id: str
     """
 
     _attribute_map = {
@@ -898,6 +883,8 @@ class MarketplaceSaaSInfo(_serialization.Model):
         "marketplace_resource_id": {"key": "marketplaceResourceId", "type": "str"},
         "marketplace_status": {"key": "marketplaceStatus", "type": "str"},
         "billed_azure_subscription_id": {"key": "billedAzureSubscriptionId", "type": "str"},
+        "publisher_id": {"key": "publisherId", "type": "str"},
+        "offer_id": {"key": "offerId", "type": "str"},
     }
 
     def __init__(
@@ -908,6 +895,8 @@ class MarketplaceSaaSInfo(_serialization.Model):
         marketplace_resource_id: Optional[str] = None,
         marketplace_status: Optional[str] = None,
         billed_azure_subscription_id: Optional[str] = None,
+        publisher_id: Optional[str] = None,
+        offer_id: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -923,6 +912,10 @@ class MarketplaceSaaSInfo(_serialization.Model):
         :keyword billed_azure_subscription_id: The Azure Subscription ID to which the Marketplace
          Subscription belongs and gets billed into.
         :paramtype billed_azure_subscription_id: str
+        :keyword publisher_id: Publisher Id of the Marketplace offer.
+        :paramtype publisher_id: str
+        :keyword offer_id: Offer Id of the Marketplace offer,.
+        :paramtype offer_id: str
         """
         super().__init__(**kwargs)
         self.marketplace_subscription_id = marketplace_subscription_id
@@ -930,6 +923,8 @@ class MarketplaceSaaSInfo(_serialization.Model):
         self.marketplace_resource_id = marketplace_resource_id
         self.marketplace_status = marketplace_status
         self.billed_azure_subscription_id = billed_azure_subscription_id
+        self.publisher_id = publisher_id
+        self.offer_id = offer_id
 
 
 class MetricRules(_serialization.Model):
@@ -980,7 +975,7 @@ class MetricRules(_serialization.Model):
 class MetricsRequest(_serialization.Model):
     """Request of get metrics Operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar user_email: User Email. Required.
     :vartype user_email: str
@@ -1006,7 +1001,7 @@ class MetricsRequest(_serialization.Model):
 class MetricsRequestParameter(_serialization.Model):
     """Get Metrics Status Parameter specification.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar request: The details of the get metrics status request. Required.
     :vartype request: ~azure.mgmt.newrelicobservability.models.MetricsRequest
@@ -1032,7 +1027,7 @@ class MetricsRequestParameter(_serialization.Model):
 class MetricsStatusRequest(_serialization.Model):
     """Request of get metrics status Operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar azure_resource_ids: Azure resource IDs.
     :vartype azure_resource_ids: list[str]
@@ -1064,7 +1059,7 @@ class MetricsStatusRequest(_serialization.Model):
 class MetricsStatusRequestParameter(_serialization.Model):
     """Get Metrics Status Parameter specification.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar request: The details of the get metrics status request. Required.
     :vartype request: ~azure.mgmt.newrelicobservability.models.MetricsStatusRequest
@@ -1172,7 +1167,7 @@ class MonitoredResource(_serialization.Model):
 class MonitoredResourceListResponse(_serialization.Model):
     """List of all the resources being monitored by NewRelic monitor resource.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: The MonitoredResource items on this page. Required.
     :vartype value: list[~azure.mgmt.newrelicobservability.models.MonitoredResource]
@@ -1424,10 +1419,10 @@ class TrackedResource(Resource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1472,15 +1467,15 @@ class TrackedResource(Resource):
         self.location = location
 
 
-class NewRelicMonitorResource(TrackedResource):  # pylint: disable=too-many-instance-attributes
+class NewRelicMonitorResource(TrackedResource):
     """A Monitor Resource by NewRelic.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1637,7 +1632,7 @@ class NewRelicMonitorResource(TrackedResource):  # pylint: disable=too-many-inst
 class NewRelicMonitorResourceListResult(_serialization.Model):
     """The response of a NewRelicMonitorResource list operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: The NewRelicMonitorResource items on this page. Required.
     :vartype value: list[~azure.mgmt.newrelicobservability.models.NewRelicMonitorResource]
@@ -1945,7 +1940,7 @@ class OrganizationResource(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -2005,7 +2000,7 @@ class OrganizationResource(ProxyResource):
 class OrganizationsListResponse(_serialization.Model):
     """Response of get all organizations Operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: The OrganizationResource items on this page. Required.
     :vartype value: list[~azure.mgmt.newrelicobservability.models.OrganizationResource]
@@ -2070,9 +2065,8 @@ class PlanData(_serialization.Model):
     :ivar usage_type: Different usage type like PAYG/COMMITTED. this could be enum. Known values
      are: "PAYG" and "COMMITTED".
     :vartype usage_type: str or ~azure.mgmt.newrelicobservability.models.UsageType
-    :ivar billing_cycle: Different billing cycles like MONTHLY/WEEKLY. this could be enum. Known
-     values are: "YEARLY", "MONTHLY", and "WEEKLY".
-    :vartype billing_cycle: str or ~azure.mgmt.newrelicobservability.models.BillingCycle
+    :ivar billing_cycle: Different billing cycles like Monthly/Weekly.
+    :vartype billing_cycle: str
     :ivar plan_details: plan id as published by NewRelic.
     :vartype plan_details: str
     :ivar effective_date: date when plan was applied.
@@ -2090,7 +2084,7 @@ class PlanData(_serialization.Model):
         self,
         *,
         usage_type: Optional[Union[str, "_models.UsageType"]] = None,
-        billing_cycle: Optional[Union[str, "_models.BillingCycle"]] = None,
+        billing_cycle: Optional[str] = None,
         plan_details: Optional[str] = None,
         effective_date: Optional[datetime.datetime] = None,
         **kwargs: Any
@@ -2099,9 +2093,8 @@ class PlanData(_serialization.Model):
         :keyword usage_type: Different usage type like PAYG/COMMITTED. this could be enum. Known values
          are: "PAYG" and "COMMITTED".
         :paramtype usage_type: str or ~azure.mgmt.newrelicobservability.models.UsageType
-        :keyword billing_cycle: Different billing cycles like MONTHLY/WEEKLY. this could be enum. Known
-         values are: "YEARLY", "MONTHLY", and "WEEKLY".
-        :paramtype billing_cycle: str or ~azure.mgmt.newrelicobservability.models.BillingCycle
+        :keyword billing_cycle: Different billing cycles like Monthly/Weekly.
+        :paramtype billing_cycle: str
         :keyword plan_details: plan id as published by NewRelic.
         :paramtype plan_details: str
         :keyword effective_date: date when plan was applied.
@@ -2117,7 +2110,7 @@ class PlanData(_serialization.Model):
 class PlanDataListResponse(_serialization.Model):
     """Response of get all plan data Operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: The PlanDataResource items on this page. Required.
     :vartype value: list[~azure.mgmt.newrelicobservability.models.PlanDataResource]
@@ -2154,7 +2147,7 @@ class PlanDataResource(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -2216,6 +2209,83 @@ class PlanDataResource(ProxyResource):
         self.account_creation_source = account_creation_source
 
 
+class ResubscribeProperties(_serialization.Model):
+    """Resubscribe Properties.
+
+    :ivar plan_id: Newly selected plan Id to create the new Marketplace subscription for
+     Resubscribe.
+    :vartype plan_id: str
+    :ivar term_id: Newly selected term Id to create the new Marketplace subscription for
+     Resubscribe.
+    :vartype term_id: str
+    :ivar subscription_id: Newly selected Azure Subscription Id in which the new Marketplace
+     subscription will be created for Resubscribe.
+    :vartype subscription_id: str
+    :ivar resource_group: Newly selected Azure resource group in which the new Marketplace
+     subscription will be created for Resubscribe.
+    :vartype resource_group: str
+    :ivar organization_id: Organization Id of the NewRelic Organization that needs to be
+     resubscribed.
+    :vartype organization_id: str
+    :ivar publisher_id: Publisher Id of the NewRelic offer that needs to be resubscribed.
+    :vartype publisher_id: str
+    :ivar offer_id: Offer Id of the NewRelic offer that needs to be resubscribed.
+    :vartype offer_id: str
+    """
+
+    _attribute_map = {
+        "plan_id": {"key": "planId", "type": "str"},
+        "term_id": {"key": "termId", "type": "str"},
+        "subscription_id": {"key": "subscriptionId", "type": "str"},
+        "resource_group": {"key": "resourceGroup", "type": "str"},
+        "organization_id": {"key": "organizationId", "type": "str"},
+        "publisher_id": {"key": "publisherId", "type": "str"},
+        "offer_id": {"key": "offerId", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        plan_id: Optional[str] = None,
+        term_id: Optional[str] = None,
+        subscription_id: Optional[str] = None,
+        resource_group: Optional[str] = None,
+        organization_id: Optional[str] = None,
+        publisher_id: Optional[str] = None,
+        offer_id: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword plan_id: Newly selected plan Id to create the new Marketplace subscription for
+         Resubscribe.
+        :paramtype plan_id: str
+        :keyword term_id: Newly selected term Id to create the new Marketplace subscription for
+         Resubscribe.
+        :paramtype term_id: str
+        :keyword subscription_id: Newly selected Azure Subscription Id in which the new Marketplace
+         subscription will be created for Resubscribe.
+        :paramtype subscription_id: str
+        :keyword resource_group: Newly selected Azure resource group in which the new Marketplace
+         subscription will be created for Resubscribe.
+        :paramtype resource_group: str
+        :keyword organization_id: Organization Id of the NewRelic Organization that needs to be
+         resubscribed.
+        :paramtype organization_id: str
+        :keyword publisher_id: Publisher Id of the NewRelic offer that needs to be resubscribed.
+        :paramtype publisher_id: str
+        :keyword offer_id: Offer Id of the NewRelic offer that needs to be resubscribed.
+        :paramtype offer_id: str
+        """
+        super().__init__(**kwargs)
+        self.plan_id = plan_id
+        self.term_id = term_id
+        self.subscription_id = subscription_id
+        self.resource_group = resource_group
+        self.organization_id = organization_id
+        self.publisher_id = publisher_id
+        self.offer_id = offer_id
+
+
 class SubscriptionList(_serialization.Model):
     """The request to update subscriptions needed to be monitored by the NewRelic monitor resource.
 
@@ -2267,7 +2337,7 @@ class SubscriptionList(_serialization.Model):
 class SwitchBillingParameter(_serialization.Model):
     """Switch Billing Parameter specification.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar request: The details of the switch billing request. Required.
     :vartype request: ~azure.mgmt.newrelicobservability.models.SwitchBillingRequest
@@ -2293,7 +2363,7 @@ class SwitchBillingParameter(_serialization.Model):
 class SwitchBillingRequest(_serialization.Model):
     """Request of a switch billing Operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar azure_resource_id: Azure resource Id.
     :vartype azure_resource_id: str
@@ -2412,7 +2482,7 @@ class TagRule(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -2472,7 +2542,7 @@ class TagRule(ProxyResource):
 class TagRuleListResult(_serialization.Model):
     """The response of a TagRule list operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: The TagRule items on this page. Required.
     :vartype value: list[~azure.mgmt.newrelicobservability.models.TagRule]
@@ -2644,7 +2714,7 @@ class VMExtensionPayload(_serialization.Model):
 class VMHostsListResponse(_serialization.Model):
     """Response of a list VM Host Operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: The VMInfo items on this page. Required.
     :vartype value: list[~azure.mgmt.newrelicobservability.models.VMInfo]

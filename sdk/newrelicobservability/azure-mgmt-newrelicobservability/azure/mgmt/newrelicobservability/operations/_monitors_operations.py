@@ -7,7 +7,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-from typing import Any, Callable, Dict, IO, Iterable, Optional, TypeVar, Union, cast, overload
+import sys
+from typing import Any, Callable, Dict, IO, Iterable, Iterator, Optional, TypeVar, Union, cast, overload
 import urllib.parse
 
 from azure.core.exceptions import (
@@ -16,13 +17,14 @@ from azure.core.exceptions import (
     ResourceExistsError,
     ResourceNotFoundError,
     ResourceNotModifiedError,
+    StreamClosedError,
+    StreamConsumedError,
     map_error,
 )
 from azure.core.paging import ItemPaged
 from azure.core.pipeline import PipelineResponse
-from azure.core.pipeline.transport import HttpResponse
 from azure.core.polling import LROPoller, NoPolling, PollingMethod
-from azure.core.rest import HttpRequest
+from azure.core.rest import HttpRequest, HttpResponse
 from azure.core.tracing.decorator import distributed_trace
 from azure.core.utils import case_insensitive_dict
 from azure.mgmt.core.exceptions import ARMErrorFormat
@@ -30,8 +32,11 @@ from azure.mgmt.core.polling.arm_polling import ARMPolling
 
 from .. import models as _models
 from .._serialization import Serializer
-from .._vendor import _convert_request
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
 
@@ -43,7 +48,7 @@ def build_list_by_subscription_request(subscription_id: str, **kwargs: Any) -> H
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -67,7 +72,7 @@ def build_list_by_resource_group_request(resource_group_name: str, subscription_
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -97,7 +102,7 @@ def build_get_request(resource_group_name: str, monitor_name: str, subscription_
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -130,7 +135,7 @@ def build_create_or_update_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -166,7 +171,7 @@ def build_update_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -202,7 +207,7 @@ def build_delete_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -236,7 +241,7 @@ def build_get_metric_rules_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -272,7 +277,7 @@ def build_get_metric_status_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -308,7 +313,7 @@ def build_list_app_services_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -344,7 +349,7 @@ def build_switch_billing_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -380,7 +385,7 @@ def build_list_hosts_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
     content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
     accept = _headers.pop("Accept", "application/json")
 
@@ -410,13 +415,46 @@ def build_list_hosts_request(
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
 
 
+def build_refresh_ingestion_key_request(
+    resource_group_name: str, monitor_name: str, subscription_id: str, **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = kwargs.pop(
+        "template_url",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/NewRelic.Observability/monitors/{monitorName}/refreshIngestionKey",
+    )  # pylint: disable=line-too-long
+    path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "resourceGroupName": _SERIALIZER.url(
+            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
+        ),
+        "monitorName": _SERIALIZER.url("monitor_name", monitor_name, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
+
+
 def build_list_monitored_resources_request(
     resource_group_name: str, monitor_name: str, subscription_id: str, **kwargs: Any
 ) -> HttpRequest:
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -449,7 +487,7 @@ def build_list_linked_resources_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -482,7 +520,7 @@ def build_vm_host_payload_request(
     _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-01-01"))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
     accept = _headers.pop("Accept", "application/json")
 
     # Construct URL
@@ -504,6 +542,42 @@ def build_vm_host_payload_request(
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
 
     # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_resubscribe_request(
+    resource_group_name: str, monitor_name: str, subscription_id: str, **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-10-01"))
+    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = kwargs.pop(
+        "template_url",
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/NewRelic.Observability/monitors/{monitorName}/resubscribe",
+    )  # pylint: disable=line-too-long
+    path_format_arguments = {
+        "subscriptionId": _SERIALIZER.url("subscription_id", subscription_id, "str", min_length=1),
+        "resourceGroupName": _SERIALIZER.url(
+            "resource_group_name", resource_group_name, "str", max_length=90, min_length=1
+        ),
+        "monitorName": _SERIALIZER.url("monitor_name", monitor_name, "str", pattern=r"^.*$"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    if content_type is not None:
+        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
     _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
@@ -532,7 +606,6 @@ class MonitorsOperations:
     def list_by_subscription(self, **kwargs: Any) -> Iterable["_models.NewRelicMonitorResource"]:
         """List NewRelicMonitorResource resources by subscription ID.
 
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either NewRelicMonitorResource or the result of
          cls(response)
         :rtype:
@@ -545,7 +618,7 @@ class MonitorsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.NewRelicMonitorResourceListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -556,15 +629,13 @@ class MonitorsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_by_subscription_request(
+                _request = build_list_by_subscription_request(
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_by_subscription.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -576,13 +647,12 @@ class MonitorsOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("NewRelicMonitorResourceListResult", pipeline_response)
@@ -592,11 +662,11 @@ class MonitorsOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -608,8 +678,6 @@ class MonitorsOperations:
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list_by_subscription.metadata = {"url": "/subscriptions/{subscriptionId}/providers/NewRelic.Observability/monitors"}
 
     @distributed_trace
     def list_by_resource_group(
@@ -620,7 +688,6 @@ class MonitorsOperations:
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either NewRelicMonitorResource or the result of
          cls(response)
         :rtype:
@@ -633,7 +700,7 @@ class MonitorsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.NewRelicMonitorResourceListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -644,16 +711,14 @@ class MonitorsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_by_resource_group_request(
+                _request = build_list_by_resource_group_request(
                     resource_group_name=resource_group_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_by_resource_group.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -665,13 +730,12 @@ class MonitorsOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("NewRelicMonitorResourceListResult", pipeline_response)
@@ -681,11 +745,11 @@ class MonitorsOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -698,10 +762,6 @@ class MonitorsOperations:
 
         return ItemPaged(get_next, extract_data)
 
-    list_by_resource_group.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/NewRelic.Observability/monitors"
-    }
-
     @distributed_trace
     def get(self, resource_group_name: str, monitor_name: str, **kwargs: Any) -> _models.NewRelicMonitorResource:
         """Get a NewRelicMonitorResource.
@@ -711,12 +771,11 @@ class MonitorsOperations:
         :type resource_group_name: str
         :param monitor_name: Name of the Monitors resource. Required.
         :type monitor_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: NewRelicMonitorResource or the result of cls(response)
         :rtype: ~azure.mgmt.newrelicobservability.models.NewRelicMonitorResource
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -730,21 +789,19 @@ class MonitorsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.NewRelicMonitorResource] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             resource_group_name=resource_group_name,
             monitor_name=monitor_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -754,25 +811,21 @@ class MonitorsOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("NewRelicMonitorResource", pipeline_response)
+        deserialized = self._deserialize("NewRelicMonitorResource", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/NewRelic.Observability/monitors/{monitorName}"
-    }
+        return deserialized  # type: ignore
 
     def _create_or_update_initial(
         self,
         resource_group_name: str,
         monitor_name: str,
-        resource: Union[_models.NewRelicMonitorResource, IO],
+        resource: Union[_models.NewRelicMonitorResource, IO[bytes]],
         **kwargs: Any
-    ) -> _models.NewRelicMonitorResource:
-        error_map = {
+    ) -> Iterator[bytes]:
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -785,7 +838,7 @@ class MonitorsOperations:
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.NewRelicMonitorResource] = kwargs.pop("cls", None)
+        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
 
         content_type = content_type or "application/json"
         _json = None
@@ -795,7 +848,7 @@ class MonitorsOperations:
         else:
             _json = self._serialize.body(resource, "NewRelicMonitorResource")
 
-        request = build_create_or_update_request(
+        _request = build_create_or_update_request(
             resource_group_name=resource_group_name,
             monitor_name=monitor_name,
             subscription_id=self._config.subscription_id,
@@ -803,42 +856,38 @@ class MonitorsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._create_or_update_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
-        _stream = False
+        _decompress = kwargs.pop("decompress", True)
+        _stream = True
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
 
         if response.status_code not in [200, 201]:
+            try:
+                response.read()  # Load the body in memory and close the socket
+            except (StreamConsumedError, StreamClosedError):
+                pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         response_headers = {}
-        if response.status_code == 200:
-            deserialized = self._deserialize("NewRelicMonitorResource", pipeline_response)
-
         if response.status_code == 201:
             response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
 
-            deserialized = self._deserialize("NewRelicMonitorResource", pipeline_response)
+        deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
 
         if cls:
             return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
         return deserialized  # type: ignore
-
-    _create_or_update_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/NewRelic.Observability/monitors/{monitorName}"
-    }
 
     @overload
     def begin_create_or_update(
@@ -862,14 +911,6 @@ class MonitorsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either NewRelicMonitorResource or the result of
          cls(response)
         :rtype:
@@ -882,7 +923,7 @@ class MonitorsOperations:
         self,
         resource_group_name: str,
         monitor_name: str,
-        resource: IO,
+        resource: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -895,18 +936,10 @@ class MonitorsOperations:
         :param monitor_name: Name of the Monitors resource. Required.
         :type monitor_name: str
         :param resource: Resource create parameters. Required.
-        :type resource: IO
+        :type resource: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either NewRelicMonitorResource or the result of
          cls(response)
         :rtype:
@@ -919,7 +952,7 @@ class MonitorsOperations:
         self,
         resource_group_name: str,
         monitor_name: str,
-        resource: Union[_models.NewRelicMonitorResource, IO],
+        resource: Union[_models.NewRelicMonitorResource, IO[bytes]],
         **kwargs: Any
     ) -> LROPoller[_models.NewRelicMonitorResource]:
         """Create a NewRelicMonitorResource.
@@ -929,20 +962,9 @@ class MonitorsOperations:
         :type resource_group_name: str
         :param monitor_name: Name of the Monitors resource. Required.
         :type monitor_name: str
-        :param resource: Resource create parameters. Is either a NewRelicMonitorResource type or a IO
-         type. Required.
-        :type resource: ~azure.mgmt.newrelicobservability.models.NewRelicMonitorResource or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+        :param resource: Resource create parameters. Is either a NewRelicMonitorResource type or a
+         IO[bytes] type. Required.
+        :type resource: ~azure.mgmt.newrelicobservability.models.NewRelicMonitorResource or IO[bytes]
         :return: An instance of LROPoller that returns either NewRelicMonitorResource or the result of
          cls(response)
         :rtype:
@@ -970,12 +992,13 @@ class MonitorsOperations:
                 params=_params,
                 **kwargs
             )
+            raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):
-            deserialized = self._deserialize("NewRelicMonitorResource", pipeline_response)
+            deserialized = self._deserialize("NewRelicMonitorResource", pipeline_response.http_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -987,101 +1010,24 @@ class MonitorsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[_models.NewRelicMonitorResource].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
+        return LROPoller[_models.NewRelicMonitorResource](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
-    begin_create_or_update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/NewRelic.Observability/monitors/{monitorName}"
-    }
-
-    @overload
-    def update(
+    def _update_initial(
         self,
         resource_group_name: str,
         monitor_name: str,
-        properties: _models.NewRelicMonitorResourceUpdate,
-        *,
-        content_type: str = "application/json",
+        properties: Union[_models.NewRelicMonitorResourceUpdate, IO[bytes]],
         **kwargs: Any
-    ) -> _models.NewRelicMonitorResource:
-        """Update a NewRelicMonitorResource.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param monitor_name: Name of the Monitors resource. Required.
-        :type monitor_name: str
-        :param properties: The resource properties to be updated. Required.
-        :type properties: ~azure.mgmt.newrelicobservability.models.NewRelicMonitorResourceUpdate
-        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: NewRelicMonitorResource or the result of cls(response)
-        :rtype: ~azure.mgmt.newrelicobservability.models.NewRelicMonitorResource
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @overload
-    def update(
-        self,
-        resource_group_name: str,
-        monitor_name: str,
-        properties: IO,
-        *,
-        content_type: str = "application/json",
-        **kwargs: Any
-    ) -> _models.NewRelicMonitorResource:
-        """Update a NewRelicMonitorResource.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param monitor_name: Name of the Monitors resource. Required.
-        :type monitor_name: str
-        :param properties: The resource properties to be updated. Required.
-        :type properties: IO
-        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: NewRelicMonitorResource or the result of cls(response)
-        :rtype: ~azure.mgmt.newrelicobservability.models.NewRelicMonitorResource
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @distributed_trace
-    def update(
-        self,
-        resource_group_name: str,
-        monitor_name: str,
-        properties: Union[_models.NewRelicMonitorResourceUpdate, IO],
-        **kwargs: Any
-    ) -> _models.NewRelicMonitorResource:
-        """Update a NewRelicMonitorResource.
-
-        :param resource_group_name: The name of the resource group. The name is case insensitive.
-         Required.
-        :type resource_group_name: str
-        :param monitor_name: Name of the Monitors resource. Required.
-        :type monitor_name: str
-        :param properties: The resource properties to be updated. Is either a
-         NewRelicMonitorResourceUpdate type or a IO type. Required.
-        :type properties: ~azure.mgmt.newrelicobservability.models.NewRelicMonitorResourceUpdate or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :return: NewRelicMonitorResource or the result of cls(response)
-        :rtype: ~azure.mgmt.newrelicobservability.models.NewRelicMonitorResource
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        error_map = {
+    ) -> Iterator[bytes]:
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1094,7 +1040,7 @@ class MonitorsOperations:
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.NewRelicMonitorResource] = kwargs.pop("cls", None)
+        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
 
         content_type = content_type or "application/json"
         _json = None
@@ -1104,7 +1050,7 @@ class MonitorsOperations:
         else:
             _json = self._serialize.body(properties, "NewRelicMonitorResourceUpdate")
 
-        request = build_update_request(
+        _request = build_update_request(
             resource_group_name=resource_group_name,
             monitor_name=monitor_name,
             subscription_id=self._config.subscription_id,
@@ -1112,40 +1058,173 @@ class MonitorsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.update.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
-        _stream = False
+        _decompress = kwargs.pop("decompress", True)
+        _stream = True
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
 
-        if response.status_code not in [200]:
+        if response.status_code not in [200, 202]:
+            try:
+                response.read()  # Load the body in memory and close the socket
+            except (StreamConsumedError, StreamClosedError):
+                pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("NewRelicMonitorResource", pipeline_response)
+        response_headers = {}
+        if response.status_code == 202:
+            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
+
+        deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
-        return deserialized
+        return deserialized  # type: ignore
 
-    update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/NewRelic.Observability/monitors/{monitorName}"
-    }
+    @overload
+    def begin_update(
+        self,
+        resource_group_name: str,
+        monitor_name: str,
+        properties: _models.NewRelicMonitorResourceUpdate,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> LROPoller[_models.NewRelicMonitorResource]:
+        """Update a NewRelicMonitorResource.
 
-    def _delete_initial(  # pylint: disable=inconsistent-return-statements
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param monitor_name: Name of the Monitors resource. Required.
+        :type monitor_name: str
+        :param properties: The resource properties to be updated. Required.
+        :type properties: ~azure.mgmt.newrelicobservability.models.NewRelicMonitorResourceUpdate
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: An instance of LROPoller that returns either NewRelicMonitorResource or the result of
+         cls(response)
+        :rtype:
+         ~azure.core.polling.LROPoller[~azure.mgmt.newrelicobservability.models.NewRelicMonitorResource]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    def begin_update(
+        self,
+        resource_group_name: str,
+        monitor_name: str,
+        properties: IO[bytes],
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> LROPoller[_models.NewRelicMonitorResource]:
+        """Update a NewRelicMonitorResource.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param monitor_name: Name of the Monitors resource. Required.
+        :type monitor_name: str
+        :param properties: The resource properties to be updated. Required.
+        :type properties: IO[bytes]
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: An instance of LROPoller that returns either NewRelicMonitorResource or the result of
+         cls(response)
+        :rtype:
+         ~azure.core.polling.LROPoller[~azure.mgmt.newrelicobservability.models.NewRelicMonitorResource]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace
+    def begin_update(
+        self,
+        resource_group_name: str,
+        monitor_name: str,
+        properties: Union[_models.NewRelicMonitorResourceUpdate, IO[bytes]],
+        **kwargs: Any
+    ) -> LROPoller[_models.NewRelicMonitorResource]:
+        """Update a NewRelicMonitorResource.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param monitor_name: Name of the Monitors resource. Required.
+        :type monitor_name: str
+        :param properties: The resource properties to be updated. Is either a
+         NewRelicMonitorResourceUpdate type or a IO[bytes] type. Required.
+        :type properties: ~azure.mgmt.newrelicobservability.models.NewRelicMonitorResourceUpdate or
+         IO[bytes]
+        :return: An instance of LROPoller that returns either NewRelicMonitorResource or the result of
+         cls(response)
+        :rtype:
+         ~azure.core.polling.LROPoller[~azure.mgmt.newrelicobservability.models.NewRelicMonitorResource]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.NewRelicMonitorResource] = kwargs.pop("cls", None)
+        polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
+        lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
+        cont_token: Optional[str] = kwargs.pop("continuation_token", None)
+        if cont_token is None:
+            raw_result = self._update_initial(
+                resource_group_name=resource_group_name,
+                monitor_name=monitor_name,
+                properties=properties,
+                api_version=api_version,
+                content_type=content_type,
+                cls=lambda x, y, z: x,
+                headers=_headers,
+                params=_params,
+                **kwargs
+            )
+            raw_result.http_response.read()  # type: ignore
+        kwargs.pop("error_map", None)
+
+        def get_long_running_output(pipeline_response):
+            deserialized = self._deserialize("NewRelicMonitorResource", pipeline_response.http_response)
+            if cls:
+                return cls(pipeline_response, deserialized, {})  # type: ignore
+            return deserialized
+
+        if polling is True:
+            polling_method: PollingMethod = cast(PollingMethod, ARMPolling(lro_delay, **kwargs))
+        elif polling is False:
+            polling_method = cast(PollingMethod, NoPolling())
+        else:
+            polling_method = polling
+        if cont_token:
+            return LROPoller[_models.NewRelicMonitorResource].from_continuation_token(
+                polling_method=polling_method,
+                continuation_token=cont_token,
+                client=self._client,
+                deserialization_callback=get_long_running_output,
+            )
+        return LROPoller[_models.NewRelicMonitorResource](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
+
+    def _delete_initial(
         self, resource_group_name: str, user_email: str, monitor_name: str, **kwargs: Any
-    ) -> None:
-        error_map = {
+    ) -> Iterator[bytes]:
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1157,29 +1236,32 @@ class MonitorsOperations:
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[None] = kwargs.pop("cls", None)
+        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
 
-        request = build_delete_request(
+        _request = build_delete_request(
             resource_group_name=resource_group_name,
             monitor_name=monitor_name,
             subscription_id=self._config.subscription_id,
             user_email=user_email,
             api_version=api_version,
-            template_url=self._delete_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
-        _stream = False
+        _decompress = kwargs.pop("decompress", True)
+        _stream = True
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
 
         if response.status_code not in [200, 202, 204]:
+            try:
+                response.read()  # Load the body in memory and close the socket
+            except (StreamConsumedError, StreamClosedError):
+                pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
@@ -1188,12 +1270,12 @@ class MonitorsOperations:
         if response.status_code == 202:
             response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
 
-        if cls:
-            return cls(pipeline_response, None, response_headers)
+        deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
 
-    _delete_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/NewRelic.Observability/monitors/{monitorName}"
-    }
+        if cls:
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
+
+        return deserialized  # type: ignore
 
     @distributed_trace
     def begin_delete(
@@ -1208,14 +1290,6 @@ class MonitorsOperations:
         :type user_email: str
         :param monitor_name: Name of the Monitors resource. Required.
         :type monitor_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be ARMPolling. Pass in False for this
-         operation to not poll, or pass in your own initialized polling object for a personal polling
-         strategy.
-        :paramtype polling: bool or ~azure.core.polling.PollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of LROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.LROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1229,7 +1303,7 @@ class MonitorsOperations:
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
         if cont_token is None:
-            raw_result = self._delete_initial(  # type: ignore
+            raw_result = self._delete_initial(
                 resource_group_name=resource_group_name,
                 user_email=user_email,
                 monitor_name=monitor_name,
@@ -1239,11 +1313,12 @@ class MonitorsOperations:
                 params=_params,
                 **kwargs
             )
+            raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
             if cls:
-                return cls(pipeline_response, None, {})
+                return cls(pipeline_response, None, {})  # type: ignore
 
         if polling is True:
             polling_method: PollingMethod = cast(
@@ -1254,17 +1329,13 @@ class MonitorsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return LROPoller.from_continuation_token(
+            return LROPoller[None].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return LROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/NewRelic.Observability/monitors/{monitorName}"
-    }
+        return LROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     @overload
     def get_metric_rules(
@@ -1288,7 +1359,6 @@ class MonitorsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: MetricRules or the result of cls(response)
         :rtype: ~azure.mgmt.newrelicobservability.models.MetricRules
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1299,7 +1369,7 @@ class MonitorsOperations:
         self,
         resource_group_name: str,
         monitor_name: str,
-        request: IO,
+        request: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -1312,11 +1382,10 @@ class MonitorsOperations:
         :param monitor_name: Name of the Monitors resource. Required.
         :type monitor_name: str
         :param request: The details of the get metrics status request. Required.
-        :type request: IO
+        :type request: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: MetricRules or the result of cls(response)
         :rtype: ~azure.mgmt.newrelicobservability.models.MetricRules
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1324,7 +1393,11 @@ class MonitorsOperations:
 
     @distributed_trace
     def get_metric_rules(
-        self, resource_group_name: str, monitor_name: str, request: Union[_models.MetricsRequest, IO], **kwargs: Any
+        self,
+        resource_group_name: str,
+        monitor_name: str,
+        request: Union[_models.MetricsRequest, IO[bytes]],
+        **kwargs: Any
     ) -> _models.MetricRules:
         """Get metric rules.
 
@@ -1334,17 +1407,13 @@ class MonitorsOperations:
         :param monitor_name: Name of the Monitors resource. Required.
         :type monitor_name: str
         :param request: The details of the get metrics status request. Is either a MetricsRequest type
-         or a IO type. Required.
-        :type request: ~azure.mgmt.newrelicobservability.models.MetricsRequest or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         or a IO[bytes] type. Required.
+        :type request: ~azure.mgmt.newrelicobservability.models.MetricsRequest or IO[bytes]
         :return: MetricRules or the result of cls(response)
         :rtype: ~azure.mgmt.newrelicobservability.models.MetricRules
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1367,7 +1436,7 @@ class MonitorsOperations:
         else:
             _json = self._serialize.body(request, "MetricsRequest")
 
-        request = build_get_metric_rules_request(
+        _request = build_get_metric_rules_request(
             resource_group_name=resource_group_name,
             monitor_name=monitor_name,
             subscription_id=self._config.subscription_id,
@@ -1375,16 +1444,14 @@ class MonitorsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.get_metric_rules.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1394,16 +1461,12 @@ class MonitorsOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("MetricRules", pipeline_response)
+        deserialized = self._deserialize("MetricRules", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get_metric_rules.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/NewRelic.Observability/monitors/{monitorName}/getMetricRules"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def get_metric_status(
@@ -1427,7 +1490,6 @@ class MonitorsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: MetricsStatusResponse or the result of cls(response)
         :rtype: ~azure.mgmt.newrelicobservability.models.MetricsStatusResponse
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1438,7 +1500,7 @@ class MonitorsOperations:
         self,
         resource_group_name: str,
         monitor_name: str,
-        request: IO,
+        request: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -1451,11 +1513,10 @@ class MonitorsOperations:
         :param monitor_name: Name of the Monitors resource. Required.
         :type monitor_name: str
         :param request: The details of the get metrics status request. Required.
-        :type request: IO
+        :type request: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: MetricsStatusResponse or the result of cls(response)
         :rtype: ~azure.mgmt.newrelicobservability.models.MetricsStatusResponse
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1466,7 +1527,7 @@ class MonitorsOperations:
         self,
         resource_group_name: str,
         monitor_name: str,
-        request: Union[_models.MetricsStatusRequest, IO],
+        request: Union[_models.MetricsStatusRequest, IO[bytes]],
         **kwargs: Any
     ) -> _models.MetricsStatusResponse:
         """Get metric status.
@@ -1477,17 +1538,13 @@ class MonitorsOperations:
         :param monitor_name: Name of the Monitors resource. Required.
         :type monitor_name: str
         :param request: The details of the get metrics status request. Is either a MetricsStatusRequest
-         type or a IO type. Required.
-        :type request: ~azure.mgmt.newrelicobservability.models.MetricsStatusRequest or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         type or a IO[bytes] type. Required.
+        :type request: ~azure.mgmt.newrelicobservability.models.MetricsStatusRequest or IO[bytes]
         :return: MetricsStatusResponse or the result of cls(response)
         :rtype: ~azure.mgmt.newrelicobservability.models.MetricsStatusResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1510,7 +1567,7 @@ class MonitorsOperations:
         else:
             _json = self._serialize.body(request, "MetricsStatusRequest")
 
-        request = build_get_metric_status_request(
+        _request = build_get_metric_status_request(
             resource_group_name=resource_group_name,
             monitor_name=monitor_name,
             subscription_id=self._config.subscription_id,
@@ -1518,16 +1575,14 @@ class MonitorsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.get_metric_status.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1537,16 +1592,12 @@ class MonitorsOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("MetricsStatusResponse", pipeline_response)
+        deserialized = self._deserialize("MetricsStatusResponse", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get_metric_status.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/NewRelic.Observability/monitors/{monitorName}/getMetricStatus"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def list_app_services(
@@ -1570,7 +1621,6 @@ class MonitorsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either AppServiceInfo or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.newrelicobservability.models.AppServiceInfo]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1581,7 +1631,7 @@ class MonitorsOperations:
         self,
         resource_group_name: str,
         monitor_name: str,
-        request: IO,
+        request: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -1594,11 +1644,10 @@ class MonitorsOperations:
         :param monitor_name: Name of the Monitors resource. Required.
         :type monitor_name: str
         :param request: The details of the app services get request. Required.
-        :type request: IO
+        :type request: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either AppServiceInfo or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.newrelicobservability.models.AppServiceInfo]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1609,7 +1658,7 @@ class MonitorsOperations:
         self,
         resource_group_name: str,
         monitor_name: str,
-        request: Union[_models.AppServicesGetRequest, IO],
+        request: Union[_models.AppServicesGetRequest, IO[bytes]],
         **kwargs: Any
     ) -> Iterable["_models.AppServiceInfo"]:
         """List the app service resources currently being monitored by the NewRelic resource.
@@ -1620,12 +1669,8 @@ class MonitorsOperations:
         :param monitor_name: Name of the Monitors resource. Required.
         :type monitor_name: str
         :param request: The details of the app services get request. Is either a AppServicesGetRequest
-         type or a IO type. Required.
-        :type request: ~azure.mgmt.newrelicobservability.models.AppServicesGetRequest or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         type or a IO[bytes] type. Required.
+        :type request: ~azure.mgmt.newrelicobservability.models.AppServicesGetRequest or IO[bytes]
         :return: An iterator like instance of either AppServiceInfo or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.newrelicobservability.models.AppServiceInfo]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1637,7 +1682,7 @@ class MonitorsOperations:
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.AppServicesListResponse] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1655,7 +1700,7 @@ class MonitorsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_app_services_request(
+                _request = build_list_app_services_request(
                     resource_group_name=resource_group_name,
                     monitor_name=monitor_name,
                     subscription_id=self._config.subscription_id,
@@ -1663,12 +1708,10 @@ class MonitorsOperations:
                     content_type=content_type,
                     json=_json,
                     content=_content,
-                    template_url=self.list_app_services.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -1680,13 +1723,12 @@ class MonitorsOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("AppServicesListResponse", pipeline_response)
@@ -1696,11 +1738,11 @@ class MonitorsOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -1712,10 +1754,6 @@ class MonitorsOperations:
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list_app_services.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/NewRelic.Observability/monitors/{monitorName}/listAppServices"
-    }
 
     @overload
     def switch_billing(
@@ -1739,7 +1777,6 @@ class MonitorsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: NewRelicMonitorResource or None or the result of cls(response)
         :rtype: ~azure.mgmt.newrelicobservability.models.NewRelicMonitorResource or None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1750,7 +1787,7 @@ class MonitorsOperations:
         self,
         resource_group_name: str,
         monitor_name: str,
-        request: IO,
+        request: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -1763,11 +1800,10 @@ class MonitorsOperations:
         :param monitor_name: Name of the Monitors resource. Required.
         :type monitor_name: str
         :param request: The details of the switch billing request. Required.
-        :type request: IO
+        :type request: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: NewRelicMonitorResource or None or the result of cls(response)
         :rtype: ~azure.mgmt.newrelicobservability.models.NewRelicMonitorResource or None
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1778,7 +1814,7 @@ class MonitorsOperations:
         self,
         resource_group_name: str,
         monitor_name: str,
-        request: Union[_models.SwitchBillingRequest, IO],
+        request: Union[_models.SwitchBillingRequest, IO[bytes]],
         **kwargs: Any
     ) -> Optional[_models.NewRelicMonitorResource]:
         """Switches the billing for NewRelic monitor resource.
@@ -1789,17 +1825,13 @@ class MonitorsOperations:
         :param monitor_name: Name of the Monitors resource. Required.
         :type monitor_name: str
         :param request: The details of the switch billing request. Is either a SwitchBillingRequest
-         type or a IO type. Required.
-        :type request: ~azure.mgmt.newrelicobservability.models.SwitchBillingRequest or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         type or a IO[bytes] type. Required.
+        :type request: ~azure.mgmt.newrelicobservability.models.SwitchBillingRequest or IO[bytes]
         :return: NewRelicMonitorResource or None or the result of cls(response)
         :rtype: ~azure.mgmt.newrelicobservability.models.NewRelicMonitorResource or None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1822,7 +1854,7 @@ class MonitorsOperations:
         else:
             _json = self._serialize.body(request, "SwitchBillingRequest")
 
-        request = build_switch_billing_request(
+        _request = build_switch_billing_request(
             resource_group_name=resource_group_name,
             monitor_name=monitor_name,
             subscription_id=self._config.subscription_id,
@@ -1830,16 +1862,14 @@ class MonitorsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.switch_billing.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1852,19 +1882,15 @@ class MonitorsOperations:
         deserialized = None
         response_headers = {}
         if response.status_code == 200:
-            deserialized = self._deserialize("NewRelicMonitorResource", pipeline_response)
+            deserialized = self._deserialize("NewRelicMonitorResource", pipeline_response.http_response)
 
         if response.status_code == 202:
             response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
 
         if cls:
-            return cls(pipeline_response, deserialized, response_headers)
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
 
-        return deserialized
-
-    switch_billing.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/NewRelic.Observability/monitors/{monitorName}/switchBilling"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def list_hosts(
@@ -1888,7 +1914,6 @@ class MonitorsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either VMInfo or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.newrelicobservability.models.VMInfo]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1899,7 +1924,7 @@ class MonitorsOperations:
         self,
         resource_group_name: str,
         monitor_name: str,
-        request: IO,
+        request: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -1912,11 +1937,10 @@ class MonitorsOperations:
         :param monitor_name: Name of the Monitors resource. Required.
         :type monitor_name: str
         :param request: The details of the Hosts get request. Required.
-        :type request: IO
+        :type request: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either VMInfo or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.newrelicobservability.models.VMInfo]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1924,7 +1948,11 @@ class MonitorsOperations:
 
     @distributed_trace
     def list_hosts(
-        self, resource_group_name: str, monitor_name: str, request: Union[_models.HostsGetRequest, IO], **kwargs: Any
+        self,
+        resource_group_name: str,
+        monitor_name: str,
+        request: Union[_models.HostsGetRequest, IO[bytes]],
+        **kwargs: Any
     ) -> Iterable["_models.VMInfo"]:
         """List the compute vm resources currently being monitored by the NewRelic resource.
 
@@ -1933,13 +1961,9 @@ class MonitorsOperations:
         :type resource_group_name: str
         :param monitor_name: Name of the Monitors resource. Required.
         :type monitor_name: str
-        :param request: The details of the Hosts get request. Is either a HostsGetRequest type or a IO
-         type. Required.
-        :type request: ~azure.mgmt.newrelicobservability.models.HostsGetRequest or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+        :param request: The details of the Hosts get request. Is either a HostsGetRequest type or a
+         IO[bytes] type. Required.
+        :type request: ~azure.mgmt.newrelicobservability.models.HostsGetRequest or IO[bytes]
         :return: An iterator like instance of either VMInfo or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.newrelicobservability.models.VMInfo]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1951,7 +1975,7 @@ class MonitorsOperations:
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.VMHostsListResponse] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1969,7 +1993,7 @@ class MonitorsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_hosts_request(
+                _request = build_list_hosts_request(
                     resource_group_name=resource_group_name,
                     monitor_name=monitor_name,
                     subscription_id=self._config.subscription_id,
@@ -1977,12 +2001,10 @@ class MonitorsOperations:
                     content_type=content_type,
                     json=_json,
                     content=_content,
-                    template_url=self.list_hosts.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -1994,13 +2016,12 @@ class MonitorsOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("VMHostsListResponse", pipeline_response)
@@ -2010,11 +2031,11 @@ class MonitorsOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -2027,9 +2048,60 @@ class MonitorsOperations:
 
         return ItemPaged(get_next, extract_data)
 
-    list_hosts.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/NewRelic.Observability/monitors/{monitorName}/listHosts"
-    }
+    @distributed_trace
+    def refresh_ingestion_key(  # pylint: disable=inconsistent-return-statements
+        self, resource_group_name: str, monitor_name: str, **kwargs: Any
+    ) -> None:
+        """Refreshes the ingestion key for all monitors linked to the same account associated to this
+        monitor.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param monitor_name: Name of the Monitors resource. Required.
+        :type monitor_name: str
+        :return: None or the result of cls(response)
+        :rtype: None
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        cls: ClsType[None] = kwargs.pop("cls", None)
+
+        _request = build_refresh_ingestion_key_request(
+            resource_group_name=resource_group_name,
+            monitor_name=monitor_name,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            headers=_headers,
+            params=_params,
+        )
+        _request.url = self._client.format_url(_request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [204]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        if cls:
+            return cls(pipeline_response, None, {})  # type: ignore
 
     @distributed_trace
     def list_monitored_resources(
@@ -2042,7 +2114,6 @@ class MonitorsOperations:
         :type resource_group_name: str
         :param monitor_name: Name of the Monitors resource. Required.
         :type monitor_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either MonitoredResource or the result of cls(response)
         :rtype:
          ~azure.core.paging.ItemPaged[~azure.mgmt.newrelicobservability.models.MonitoredResource]
@@ -2054,7 +2125,7 @@ class MonitorsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.MonitoredResourceListResponse] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -2065,17 +2136,15 @@ class MonitorsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_monitored_resources_request(
+                _request = build_list_monitored_resources_request(
                     resource_group_name=resource_group_name,
                     monitor_name=monitor_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_monitored_resources.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -2087,13 +2156,12 @@ class MonitorsOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("MonitoredResourceListResponse", pipeline_response)
@@ -2103,11 +2171,11 @@ class MonitorsOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -2119,10 +2187,6 @@ class MonitorsOperations:
             return pipeline_response
 
         return ItemPaged(get_next, extract_data)
-
-    list_monitored_resources.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/NewRelic.Observability/monitors/{monitorName}/monitoredResources"
-    }
 
     @distributed_trace
     def list_linked_resources(
@@ -2139,7 +2203,6 @@ class MonitorsOperations:
         :type resource_group_name: str
         :param monitor_name: Name of the Monitors resource. Required.
         :type monitor_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either LinkedResource or the result of cls(response)
         :rtype: ~azure.core.paging.ItemPaged[~azure.mgmt.newrelicobservability.models.LinkedResource]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -2150,7 +2213,7 @@ class MonitorsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.LinkedResourceListResponse] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -2161,17 +2224,15 @@ class MonitorsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_linked_resources_request(
+                _request = build_list_linked_resources_request(
                     resource_group_name=resource_group_name,
                     monitor_name=monitor_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_linked_resources.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -2183,13 +2244,12 @@ class MonitorsOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         def extract_data(pipeline_response):
             deserialized = self._deserialize("LinkedResourceListResponse", pipeline_response)
@@ -2199,11 +2259,11 @@ class MonitorsOperations:
             return deserialized.next_link or None, iter(list_of_elem)
 
         def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -2216,10 +2276,6 @@ class MonitorsOperations:
 
         return ItemPaged(get_next, extract_data)
 
-    list_linked_resources.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/NewRelic.Observability/monitors/{monitorName}/listLinkedResources"
-    }
-
     @distributed_trace
     def vm_host_payload(self, resource_group_name: str, monitor_name: str, **kwargs: Any) -> _models.VMExtensionPayload:
         """Returns the payload that needs to be passed in the request body for installing NewRelic agent
@@ -2230,12 +2286,11 @@ class MonitorsOperations:
         :type resource_group_name: str
         :param monitor_name: Name of the Monitors resource. Required.
         :type monitor_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: VMExtensionPayload or the result of cls(response)
         :rtype: ~azure.mgmt.newrelicobservability.models.VMExtensionPayload
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -2249,21 +2304,19 @@ class MonitorsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.VMExtensionPayload] = kwargs.pop("cls", None)
 
-        request = build_vm_host_payload_request(
+        _request = build_vm_host_payload_request(
             resource_group_name=resource_group_name,
             monitor_name=monitor_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.vm_host_payload.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -2273,13 +2326,220 @@ class MonitorsOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("VMExtensionPayload", pipeline_response)
+        deserialized = self._deserialize("VMExtensionPayload", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
+        return deserialized  # type: ignore
 
-    vm_host_payload.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/NewRelic.Observability/monitors/{monitorName}/vmHostPayloads"
-    }
+    def _resubscribe_initial(
+        self,
+        resource_group_name: str,
+        monitor_name: str,
+        body: Optional[Union[_models.ResubscribeProperties, IO[bytes]]] = None,
+        **kwargs: Any
+    ) -> Iterator[bytes]:
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
+
+        content_type = content_type or "application/json"
+        _json = None
+        _content = None
+        if isinstance(body, (IOBase, bytes)):
+            _content = body
+        else:
+            if body is not None:
+                _json = self._serialize.body(body, "ResubscribeProperties")
+            else:
+                _json = None
+
+        _request = build_resubscribe_request(
+            resource_group_name=resource_group_name,
+            monitor_name=monitor_name,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            content_type=content_type,
+            json=_json,
+            content=_content,
+            headers=_headers,
+            params=_params,
+        )
+        _request.url = self._client.format_url(_request.url)
+
+        _decompress = kwargs.pop("decompress", True)
+        _stream = True
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200, 202]:
+            try:
+                response.read()  # Load the body in memory and close the socket
+            except (StreamConsumedError, StreamClosedError):
+                pass
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        response_headers = {}
+        if response.status_code == 202:
+            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
+
+        deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
+
+        if cls:
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
+
+        return deserialized  # type: ignore
+
+    @overload
+    def begin_resubscribe(
+        self,
+        resource_group_name: str,
+        monitor_name: str,
+        body: Optional[_models.ResubscribeProperties] = None,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> LROPoller[_models.NewRelicMonitorResource]:
+        """Resubscribe the NewRelic Organization.
+
+        Resubscribe the NewRelic Organization.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param monitor_name: Monitor resource name. Required.
+        :type monitor_name: str
+        :param body: Resubscribe Properties. Default value is None.
+        :type body: ~azure.mgmt.newrelicobservability.models.ResubscribeProperties
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: An instance of LROPoller that returns either NewRelicMonitorResource or the result of
+         cls(response)
+        :rtype:
+         ~azure.core.polling.LROPoller[~azure.mgmt.newrelicobservability.models.NewRelicMonitorResource]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    def begin_resubscribe(
+        self,
+        resource_group_name: str,
+        monitor_name: str,
+        body: Optional[IO[bytes]] = None,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> LROPoller[_models.NewRelicMonitorResource]:
+        """Resubscribe the NewRelic Organization.
+
+        Resubscribe the NewRelic Organization.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param monitor_name: Monitor resource name. Required.
+        :type monitor_name: str
+        :param body: Resubscribe Properties. Default value is None.
+        :type body: IO[bytes]
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: An instance of LROPoller that returns either NewRelicMonitorResource or the result of
+         cls(response)
+        :rtype:
+         ~azure.core.polling.LROPoller[~azure.mgmt.newrelicobservability.models.NewRelicMonitorResource]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace
+    def begin_resubscribe(
+        self,
+        resource_group_name: str,
+        monitor_name: str,
+        body: Optional[Union[_models.ResubscribeProperties, IO[bytes]]] = None,
+        **kwargs: Any
+    ) -> LROPoller[_models.NewRelicMonitorResource]:
+        """Resubscribe the NewRelic Organization.
+
+        Resubscribe the NewRelic Organization.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param monitor_name: Monitor resource name. Required.
+        :type monitor_name: str
+        :param body: Resubscribe Properties. Is either a ResubscribeProperties type or a IO[bytes]
+         type. Default value is None.
+        :type body: ~azure.mgmt.newrelicobservability.models.ResubscribeProperties or IO[bytes]
+        :return: An instance of LROPoller that returns either NewRelicMonitorResource or the result of
+         cls(response)
+        :rtype:
+         ~azure.core.polling.LROPoller[~azure.mgmt.newrelicobservability.models.NewRelicMonitorResource]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.NewRelicMonitorResource] = kwargs.pop("cls", None)
+        polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
+        lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
+        cont_token: Optional[str] = kwargs.pop("continuation_token", None)
+        if cont_token is None:
+            raw_result = self._resubscribe_initial(
+                resource_group_name=resource_group_name,
+                monitor_name=monitor_name,
+                body=body,
+                api_version=api_version,
+                content_type=content_type,
+                cls=lambda x, y, z: x,
+                headers=_headers,
+                params=_params,
+                **kwargs
+            )
+            raw_result.http_response.read()  # type: ignore
+        kwargs.pop("error_map", None)
+
+        def get_long_running_output(pipeline_response):
+            deserialized = self._deserialize("NewRelicMonitorResource", pipeline_response.http_response)
+            if cls:
+                return cls(pipeline_response, deserialized, {})  # type: ignore
+            return deserialized
+
+        if polling is True:
+            polling_method: PollingMethod = cast(
+                PollingMethod, ARMPolling(lro_delay, lro_options={"final-state-via": "azure-async-operation"}, **kwargs)
+            )
+        elif polling is False:
+            polling_method = cast(PollingMethod, NoPolling())
+        else:
+            polling_method = polling
+        if cont_token:
+            return LROPoller[_models.NewRelicMonitorResource].from_continuation_token(
+                polling_method=polling_method,
+                continuation_token=cont_token,
+                client=self._client,
+                deserialization_callback=get_long_running_output,
+            )
+        return LROPoller[_models.NewRelicMonitorResource](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
