@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.machinelearningservices import MachineLearningServicesMgmtClient
 
 """
@@ -32,7 +33,7 @@ def main():
     response = client.workspaces.begin_create_or_update(
         resource_group_name="workspace-1234",
         workspace_name="testworkspace",
-        parameters={
+        body={
             "identity": {
                 "type": "SystemAssigned,UserAssigned",
                 "userAssignedIdentities": {
@@ -76,6 +77,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2023-04-01/examples/Workspace/create.json
+# x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/preview/2025-01-01-preview/examples/Workspace/create.json
 if __name__ == "__main__":
     main()
