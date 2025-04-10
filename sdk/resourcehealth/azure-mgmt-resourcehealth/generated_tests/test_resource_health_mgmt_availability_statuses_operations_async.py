@@ -21,7 +21,7 @@ class TestResourceHealthMgmtAvailabilityStatusesOperationsAsync(AzureMgmtRecorde
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_by_subscription_id(self, resource_group):
+    async def test_availability_statuses_list_by_subscription_id(self, resource_group):
         response = self.client.availability_statuses.list_by_subscription_id(
             api_version="2023-10-01-preview",
         )
@@ -31,7 +31,7 @@ class TestResourceHealthMgmtAvailabilityStatusesOperationsAsync(AzureMgmtRecorde
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_by_resource_group(self, resource_group):
+    async def test_availability_statuses_list_by_resource_group(self, resource_group):
         response = self.client.availability_statuses.list_by_resource_group(
             resource_group_name=resource_group.name,
             api_version="2023-10-01-preview",
@@ -42,7 +42,7 @@ class TestResourceHealthMgmtAvailabilityStatusesOperationsAsync(AzureMgmtRecorde
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get_by_resource(self, resource_group):
+    async def test_availability_statuses_get_by_resource(self, resource_group):
         response = await self.client.availability_statuses.get_by_resource(
             resource_uri="str",
             api_version="2023-10-01-preview",
@@ -53,7 +53,7 @@ class TestResourceHealthMgmtAvailabilityStatusesOperationsAsync(AzureMgmtRecorde
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list(self, resource_group):
+    async def test_availability_statuses_list(self, resource_group):
         response = self.client.availability_statuses.list(
             resource_uri="str",
             api_version="2023-10-01-preview",

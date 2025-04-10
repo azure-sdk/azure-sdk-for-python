@@ -20,7 +20,7 @@ class TestResourceHealthMgmtChildResourcesOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list(self, resource_group):
+    def test_child_resources_list(self, resource_group):
         response = self.client.child_resources.list(
             resource_uri="str",
             api_version="2023-10-01-preview",

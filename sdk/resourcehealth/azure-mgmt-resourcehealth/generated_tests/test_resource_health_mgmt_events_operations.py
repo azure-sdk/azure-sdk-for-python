@@ -20,7 +20,7 @@ class TestResourceHealthMgmtEventsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_subscription_id(self, resource_group):
+    def test_events_list_by_subscription_id(self, resource_group):
         response = self.client.events.list_by_subscription_id(
             api_version="2023-10-01-preview",
         )
@@ -30,7 +30,7 @@ class TestResourceHealthMgmtEventsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_tenant_id(self, resource_group):
+    def test_events_list_by_tenant_id(self, resource_group):
         response = self.client.events.list_by_tenant_id(
             api_version="2023-10-01-preview",
         )
@@ -40,7 +40,7 @@ class TestResourceHealthMgmtEventsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_single_resource(self, resource_group):
+    def test_events_list_by_single_resource(self, resource_group):
         response = self.client.events.list_by_single_resource(
             resource_uri="str",
             api_version="2023-10-01-preview",
