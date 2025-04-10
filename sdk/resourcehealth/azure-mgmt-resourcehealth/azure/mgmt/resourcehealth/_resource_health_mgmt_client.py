@@ -32,11 +32,10 @@ from .operations import (
 )
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from azure.core.credentials import TokenCredential
 
 
-class ResourceHealthMgmtClient:  # pylint: disable=client-accepts-api-version-keyword,too-many-instance-attributes
+class ResourceHealthMgmtClient:  # pylint: disable=too-many-instance-attributes
     """The Resource Health Client.
 
     :ivar availability_statuses: AvailabilityStatusesOperations operations
@@ -69,8 +68,8 @@ class ResourceHealthMgmtClient:  # pylint: disable=client-accepts-api-version-ke
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2023-10-01-preview". Note that overriding
-     this default value may result in unsupported behavior.
+    :keyword api_version: Api Version. Default value is "2025-04-01". Note that overriding this
+     default value may result in unsupported behavior.
     :paramtype api_version: str
     """
 

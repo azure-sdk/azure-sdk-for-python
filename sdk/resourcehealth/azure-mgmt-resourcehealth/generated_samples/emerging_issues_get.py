@@ -36,6 +36,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/resourcehealth/resource-manager/Microsoft.ResourceHealth/preview/2023-10-01-preview/examples/EmergingIssues_Get.json
+# x-ms-original-file: specification/resourcehealth/resource-manager/Microsoft.ResourceHealth/stable/2025-04-01/examples/EmergingIssues_Get.json
 if __name__ == "__main__":
     main()
