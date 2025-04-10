@@ -28,18 +28,16 @@ class ChatCompletionsClientConfiguration:  # pylint: disable=too-many-instance-a
     :param credential: Credential used to authenticate requests to the service. Is either a key
      credential type or a token credential type. Required.
     :type credential: ~azure.core.credentials.AzureKeyCredential or
-     ~azure.core.credentials.AzureKeyCredential or
      ~azure.core.credentials_async.AsyncTokenCredential
-    :keyword api_version: The API version to use for this operation. Default value is
-     "2024-05-01-preview". Note that overriding this default value may result in unsupported
-     behavior.
+    :keyword api_version: The API version to use for this operation. Default value is "2025-04-01".
+     Note that overriding this default value may result in unsupported behavior.
     :paramtype api_version: str
     """
 
     def __init__(
         self, endpoint: str, credential: Union[AzureKeyCredential, "AsyncTokenCredential"], **kwargs: Any
     ) -> None:
-        api_version: str = kwargs.pop("api_version", "2024-05-01-preview")
+        api_version: str = kwargs.pop("api_version", "2025-04-01")
 
         if endpoint is None:
             raise ValueError("Parameter 'endpoint' must not be None.")
@@ -49,7 +47,7 @@ class ChatCompletionsClientConfiguration:  # pylint: disable=too-many-instance-a
         self.endpoint = endpoint
         self.credential = credential
         self.api_version = api_version
-        self.credential_scopes = kwargs.pop("credential_scopes", ["https://ml.azure.com/.default"])
+        self.credential_scopes = kwargs.pop("credential_scopes", ["https://cognitiveservices.azure.com/.default"])
         kwargs.setdefault("sdk_moniker", "ai-inference/{}".format(VERSION))
         self.polling_interval = kwargs.get("polling_interval", 30)
         self._configure(**kwargs)
@@ -57,8 +55,6 @@ class ChatCompletionsClientConfiguration:  # pylint: disable=too-many-instance-a
     def _infer_policy(self, **kwargs):
         if isinstance(self.credential, AzureKeyCredential):
             return policies.AzureKeyCredentialPolicy(self.credential, "Authorization", prefix="Bearer", **kwargs)
-        if isinstance(self.credential, AzureKeyCredential):
-            return policies.AzureKeyCredentialPolicy(self.credential, "api-key", **kwargs)
         if hasattr(self.credential, "get_token"):
             return policies.AsyncBearerTokenCredentialPolicy(self.credential, *self.credential_scopes, **kwargs)
         raise TypeError(f"Unsupported credential: {self.credential}")
@@ -88,18 +84,16 @@ class EmbeddingsClientConfiguration:  # pylint: disable=too-many-instance-attrib
     :param credential: Credential used to authenticate requests to the service. Is either a key
      credential type or a token credential type. Required.
     :type credential: ~azure.core.credentials.AzureKeyCredential or
-     ~azure.core.credentials.AzureKeyCredential or
      ~azure.core.credentials_async.AsyncTokenCredential
-    :keyword api_version: The API version to use for this operation. Default value is
-     "2024-05-01-preview". Note that overriding this default value may result in unsupported
-     behavior.
+    :keyword api_version: The API version to use for this operation. Default value is "2025-04-01".
+     Note that overriding this default value may result in unsupported behavior.
     :paramtype api_version: str
     """
 
     def __init__(
         self, endpoint: str, credential: Union[AzureKeyCredential, "AsyncTokenCredential"], **kwargs: Any
     ) -> None:
-        api_version: str = kwargs.pop("api_version", "2024-05-01-preview")
+        api_version: str = kwargs.pop("api_version", "2025-04-01")
 
         if endpoint is None:
             raise ValueError("Parameter 'endpoint' must not be None.")
@@ -109,7 +103,7 @@ class EmbeddingsClientConfiguration:  # pylint: disable=too-many-instance-attrib
         self.endpoint = endpoint
         self.credential = credential
         self.api_version = api_version
-        self.credential_scopes = kwargs.pop("credential_scopes", ["https://ml.azure.com/.default"])
+        self.credential_scopes = kwargs.pop("credential_scopes", ["https://cognitiveservices.azure.com/.default"])
         kwargs.setdefault("sdk_moniker", "ai-inference/{}".format(VERSION))
         self.polling_interval = kwargs.get("polling_interval", 30)
         self._configure(**kwargs)
@@ -117,8 +111,6 @@ class EmbeddingsClientConfiguration:  # pylint: disable=too-many-instance-attrib
     def _infer_policy(self, **kwargs):
         if isinstance(self.credential, AzureKeyCredential):
             return policies.AzureKeyCredentialPolicy(self.credential, "Authorization", prefix="Bearer", **kwargs)
-        if isinstance(self.credential, AzureKeyCredential):
-            return policies.AzureKeyCredentialPolicy(self.credential, "api-key", **kwargs)
         if hasattr(self.credential, "get_token"):
             return policies.AsyncBearerTokenCredentialPolicy(self.credential, *self.credential_scopes, **kwargs)
         raise TypeError(f"Unsupported credential: {self.credential}")
@@ -148,18 +140,16 @@ class ImageEmbeddingsClientConfiguration:  # pylint: disable=too-many-instance-a
     :param credential: Credential used to authenticate requests to the service. Is either a key
      credential type or a token credential type. Required.
     :type credential: ~azure.core.credentials.AzureKeyCredential or
-     ~azure.core.credentials.AzureKeyCredential or
      ~azure.core.credentials_async.AsyncTokenCredential
-    :keyword api_version: The API version to use for this operation. Default value is
-     "2024-05-01-preview". Note that overriding this default value may result in unsupported
-     behavior.
+    :keyword api_version: The API version to use for this operation. Default value is "2025-04-01".
+     Note that overriding this default value may result in unsupported behavior.
     :paramtype api_version: str
     """
 
     def __init__(
         self, endpoint: str, credential: Union[AzureKeyCredential, "AsyncTokenCredential"], **kwargs: Any
     ) -> None:
-        api_version: str = kwargs.pop("api_version", "2024-05-01-preview")
+        api_version: str = kwargs.pop("api_version", "2025-04-01")
 
         if endpoint is None:
             raise ValueError("Parameter 'endpoint' must not be None.")
@@ -169,7 +159,7 @@ class ImageEmbeddingsClientConfiguration:  # pylint: disable=too-many-instance-a
         self.endpoint = endpoint
         self.credential = credential
         self.api_version = api_version
-        self.credential_scopes = kwargs.pop("credential_scopes", ["https://ml.azure.com/.default"])
+        self.credential_scopes = kwargs.pop("credential_scopes", ["https://cognitiveservices.azure.com/.default"])
         kwargs.setdefault("sdk_moniker", "ai-inference/{}".format(VERSION))
         self.polling_interval = kwargs.get("polling_interval", 30)
         self._configure(**kwargs)
@@ -177,8 +167,6 @@ class ImageEmbeddingsClientConfiguration:  # pylint: disable=too-many-instance-a
     def _infer_policy(self, **kwargs):
         if isinstance(self.credential, AzureKeyCredential):
             return policies.AzureKeyCredentialPolicy(self.credential, "Authorization", prefix="Bearer", **kwargs)
-        if isinstance(self.credential, AzureKeyCredential):
-            return policies.AzureKeyCredentialPolicy(self.credential, "api-key", **kwargs)
         if hasattr(self.credential, "get_token"):
             return policies.AsyncBearerTokenCredentialPolicy(self.credential, *self.credential_scopes, **kwargs)
         raise TypeError(f"Unsupported credential: {self.credential}")
