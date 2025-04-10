@@ -98,6 +98,15 @@ from .operations import (
     NetworkManagersOperations,
     NetworkProfilesOperations,
     NetworkSecurityGroupsOperations,
+    NetworkSecurityPerimeterAccessRulesOperations,
+    NetworkSecurityPerimeterAssociableResourceTypesOperations,
+    NetworkSecurityPerimeterAssociationsOperations,
+    NetworkSecurityPerimeterLinkReferencesOperations,
+    NetworkSecurityPerimeterLinksOperations,
+    NetworkSecurityPerimeterLoggingConfigurationsOperations,
+    NetworkSecurityPerimeterOperationStatusesOperations,
+    NetworkSecurityPerimeterProfilesOperations,
+    NetworkSecurityPerimetersOperations,
     NetworkVirtualApplianceConnectionsOperations,
     NetworkVirtualAppliancesOperations,
     NetworkWatchersOperations,
@@ -173,9 +182,7 @@ if TYPE_CHECKING:
     from azure.core.credentials import TokenCredential
 
 
-class NetworkManagementClient(
-    NetworkManagementClientOperationsMixin
-):  # pylint: disable=client-accepts-api-version-keyword,too-many-instance-attributes
+class NetworkManagementClient(NetworkManagementClientOperationsMixin):  # pylint: disable=too-many-instance-attributes
     """Network Client.
 
     :ivar application_gateways: ApplicationGatewaysOperations operations
@@ -399,6 +406,40 @@ class NetworkManagementClient(
     :vartype security_rules: azure.mgmt.network.operations.SecurityRulesOperations
     :ivar default_security_rules: DefaultSecurityRulesOperations operations
     :vartype default_security_rules: azure.mgmt.network.operations.DefaultSecurityRulesOperations
+    :ivar network_security_perimeters: NetworkSecurityPerimetersOperations operations
+    :vartype network_security_perimeters:
+     azure.mgmt.network.operations.NetworkSecurityPerimetersOperations
+    :ivar network_security_perimeter_profiles: NetworkSecurityPerimeterProfilesOperations
+     operations
+    :vartype network_security_perimeter_profiles:
+     azure.mgmt.network.operations.NetworkSecurityPerimeterProfilesOperations
+    :ivar network_security_perimeter_access_rules: NetworkSecurityPerimeterAccessRulesOperations
+     operations
+    :vartype network_security_perimeter_access_rules:
+     azure.mgmt.network.operations.NetworkSecurityPerimeterAccessRulesOperations
+    :ivar network_security_perimeter_associations: NetworkSecurityPerimeterAssociationsOperations
+     operations
+    :vartype network_security_perimeter_associations:
+     azure.mgmt.network.operations.NetworkSecurityPerimeterAssociationsOperations
+    :ivar network_security_perimeter_associable_resource_types:
+     NetworkSecurityPerimeterAssociableResourceTypesOperations operations
+    :vartype network_security_perimeter_associable_resource_types:
+     azure.mgmt.network.operations.NetworkSecurityPerimeterAssociableResourceTypesOperations
+    :ivar network_security_perimeter_links: NetworkSecurityPerimeterLinksOperations operations
+    :vartype network_security_perimeter_links:
+     azure.mgmt.network.operations.NetworkSecurityPerimeterLinksOperations
+    :ivar network_security_perimeter_link_references:
+     NetworkSecurityPerimeterLinkReferencesOperations operations
+    :vartype network_security_perimeter_link_references:
+     azure.mgmt.network.operations.NetworkSecurityPerimeterLinkReferencesOperations
+    :ivar network_security_perimeter_logging_configurations:
+     NetworkSecurityPerimeterLoggingConfigurationsOperations operations
+    :vartype network_security_perimeter_logging_configurations:
+     azure.mgmt.network.operations.NetworkSecurityPerimeterLoggingConfigurationsOperations
+    :ivar network_security_perimeter_operation_statuses:
+     NetworkSecurityPerimeterOperationStatusesOperations operations
+    :vartype network_security_perimeter_operation_statuses:
+     azure.mgmt.network.operations.NetworkSecurityPerimeterOperationStatusesOperations
     :ivar reachability_analysis_intents: ReachabilityAnalysisIntentsOperations operations
     :vartype reachability_analysis_intents:
      azure.mgmt.network.operations.ReachabilityAnalysisIntentsOperations
@@ -567,6 +608,9 @@ class NetworkManagementClient(
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
+    :keyword api_version: Api Version. Default value is "2024-07-01". Note that overriding this
+     default value may result in unsupported behavior.
+    :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
      Retry-After header is present.
     """
@@ -813,6 +857,37 @@ class NetworkManagementClient(
         )
         self.security_rules = SecurityRulesOperations(self._client, self._config, self._serialize, self._deserialize)
         self.default_security_rules = DefaultSecurityRulesOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.network_security_perimeters = NetworkSecurityPerimetersOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.network_security_perimeter_profiles = NetworkSecurityPerimeterProfilesOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.network_security_perimeter_access_rules = NetworkSecurityPerimeterAccessRulesOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.network_security_perimeter_associations = NetworkSecurityPerimeterAssociationsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.network_security_perimeter_associable_resource_types = (
+            NetworkSecurityPerimeterAssociableResourceTypesOperations(
+                self._client, self._config, self._serialize, self._deserialize
+            )
+        )
+        self.network_security_perimeter_links = NetworkSecurityPerimeterLinksOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.network_security_perimeter_link_references = NetworkSecurityPerimeterLinkReferencesOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.network_security_perimeter_logging_configurations = (
+            NetworkSecurityPerimeterLoggingConfigurationsOperations(
+                self._client, self._config, self._serialize, self._deserialize
+            )
+        )
+        self.network_security_perimeter_operation_statuses = NetworkSecurityPerimeterOperationStatusesOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
         self.reachability_analysis_intents = ReachabilityAnalysisIntentsOperations(
