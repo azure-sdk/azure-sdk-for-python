@@ -1,5 +1,5 @@
-# coding=utf-8
 # pylint: disable=too-many-lines
+# coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -16,12 +16,168 @@ from .. import _serialization
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 JSON = MutableMapping[str, Any]  # pylint: disable=unsubscriptable-object
+
+
+class Resource(_serialization.Model):
+    """Common fields that are returned in the response for all Azure Resource Manager resources.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.advisor.models.SystemData
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.id = None
+        self.name = None
+        self.type = None
+        self.system_data = None
+
+
+class ProxyResource(Resource):
+    """The resource model definition for a Azure Resource Manager proxy resource. It will not have
+    tags and a location.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.advisor.models.SystemData
+    """
+
+
+class AdvisorScoreEntity(ProxyResource):
+    """The details of Advisor score for a single category.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.advisor.models.SystemData
+    :ivar properties: The Advisor score data.
+    :vartype properties: ~azure.mgmt.advisor.models.AdvisorScoreEntityProperties
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "properties": {"key": "properties", "type": "AdvisorScoreEntityProperties"},
+    }
+
+    def __init__(self, *, properties: Optional["_models.AdvisorScoreEntityProperties"] = None, **kwargs: Any) -> None:
+        """
+        :keyword properties: The Advisor score data.
+        :paramtype properties: ~azure.mgmt.advisor.models.AdvisorScoreEntityProperties
+        """
+        super().__init__(**kwargs)
+        self.properties = properties
+
+
+class AdvisorScoreEntityProperties(_serialization.Model):
+    """The Advisor score data.
+
+    :ivar last_refreshed_score: The details of latest available score.
+    :vartype last_refreshed_score: ~azure.mgmt.advisor.models.ScoreEntity
+    :ivar time_series: The historic Advisor score data.
+    :vartype time_series: list[~azure.mgmt.advisor.models.TimeSeriesEntityItem]
+    """
+
+    _attribute_map = {
+        "last_refreshed_score": {"key": "lastRefreshedScore", "type": "ScoreEntity"},
+        "time_series": {"key": "timeSeries", "type": "[TimeSeriesEntityItem]"},
+    }
+
+    def __init__(
+        self,
+        *,
+        last_refreshed_score: Optional["_models.ScoreEntity"] = None,
+        time_series: Optional[List["_models.TimeSeriesEntityItem"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword last_refreshed_score: The details of latest available score.
+        :paramtype last_refreshed_score: ~azure.mgmt.advisor.models.ScoreEntity
+        :keyword time_series: The historic Advisor score data.
+        :paramtype time_series: list[~azure.mgmt.advisor.models.TimeSeriesEntityItem]
+        """
+        super().__init__(**kwargs)
+        self.last_refreshed_score = last_refreshed_score
+        self.time_series = time_series
+
+
+class AdvisorScoreResponse(_serialization.Model):
+    """AdvisorScoreResponse.
+
+    :ivar value: The list of operations.
+    :vartype value: list[~azure.mgmt.advisor.models.AdvisorScoreEntity]
+    """
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[AdvisorScoreEntity]"},
+    }
+
+    def __init__(self, *, value: Optional[List["_models.AdvisorScoreEntity"]] = None, **kwargs: Any) -> None:
+        """
+        :keyword value: The list of operations.
+        :paramtype value: list[~azure.mgmt.advisor.models.AdvisorScoreEntity]
+        """
+        super().__init__(**kwargs)
+        self.value = value
 
 
 class ArmErrorResponse(_serialization.Model):
@@ -35,7 +191,7 @@ class ArmErrorResponse(_serialization.Model):
         "error": {"key": "error", "type": "ARMErrorResponseBody"},
     }
 
-    def __init__(self, *, error: Optional["_models.ARMErrorResponseBody"] = None, **kwargs):
+    def __init__(self, *, error: Optional["_models.ARMErrorResponseBody"] = None, **kwargs: Any) -> None:
         """
         :keyword error: ARM error response body.
         :paramtype error: ~azure.mgmt.advisor.models.ARMErrorResponseBody
@@ -59,7 +215,7 @@ class ARMErrorResponseBody(_serialization.Model):
         "code": {"key": "code", "type": "str"},
     }
 
-    def __init__(self, *, message: Optional[str] = None, code: Optional[str] = None, **kwargs):
+    def __init__(self, *, message: Optional[str] = None, code: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword message: Gets or sets the string that describes the error in detail and provides
          debugging information.
@@ -72,37 +228,220 @@ class ARMErrorResponseBody(_serialization.Model):
         self.code = code
 
 
-class Resource(_serialization.Model):
-    """An Azure resource.
+class AssessmentListResult(_serialization.Model):
+    """The Advisor assessment list result data structure.
+
+    :ivar value: List of Assessments.
+    :vartype value: list[~azure.mgmt.advisor.models.AssessmentResult]
+    :ivar next_link: The URL to get the next set of Advisor assessments, if there are any.
+    :vartype next_link: str
+    """
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[AssessmentResult]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        value: Optional[List["_models.AssessmentResult"]] = None,
+        next_link: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: List of Assessments.
+        :paramtype value: list[~azure.mgmt.advisor.models.AssessmentResult]
+        :keyword next_link: The URL to get the next set of Advisor assessments, if there are any.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = next_link
+
+
+class AssessmentResult(_serialization.Model):
+    """The Advisor assessment result data structure.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: The resource ID.
+    :ivar id: Assessment Id.
     :vartype id: str
-    :ivar name: The name of the resource.
+    :ivar name: Assessment Name.
     :vartype name: str
-    :ivar type: The type of the resource.
+    :ivar type: Resource Type.
     :vartype type: str
+    :ivar system_data: Metadata pertaining to creation and last modification of the resource.
+    :vartype system_data: ~azure.mgmt.advisor.models.SystemData
+    :ivar workload_id: Workload Id.
+    :vartype workload_id: str
+    :ivar workload_name: Workload Name.
+    :vartype workload_name: str
+    :ivar assessment_id: Assessment Id.
+    :vartype assessment_id: str
+    :ivar description: Assessment Type Description.
+    :vartype description: str
+    :ivar type_id: Assessment Type Id.
+    :vartype type_id: str
+    :ivar type_properties_type: Assessment Type.
+    :vartype type_properties_type: str
+    :ivar score: Assessment Score.
+    :vartype score: int
+    :ivar state: Assessment State.
+    :vartype state: str
+    :ivar type_version: Assessment Type Version.
+    :vartype type_version: str
+    :ivar locale: Assessment Type Locale.
+    :vartype locale: str
     """
 
     _validation = {
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "workload_name": {"readonly": True},
+        "assessment_id": {"readonly": True},
+        "description": {"readonly": True},
+        "type_properties_type": {"readonly": True},
+        "score": {"readonly": True},
+        "state": {"readonly": True},
+        "type_version": {"readonly": True},
     }
 
     _attribute_map = {
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "workload_id": {"key": "properties.workloadId", "type": "str"},
+        "workload_name": {"key": "properties.workloadName", "type": "str"},
+        "assessment_id": {"key": "properties.assessmentId", "type": "str"},
+        "description": {"key": "properties.description", "type": "str"},
+        "type_id": {"key": "properties.typeId", "type": "str"},
+        "type_properties_type": {"key": "properties.type", "type": "str"},
+        "score": {"key": "properties.score", "type": "int"},
+        "state": {"key": "properties.state", "type": "str"},
+        "type_version": {"key": "properties.typeVersion", "type": "str"},
+        "locale": {"key": "properties.locale", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
-        """ """
+    def __init__(
+        self,
+        *,
+        workload_id: Optional[str] = None,
+        type_id: Optional[str] = None,
+        locale: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword workload_id: Workload Id.
+        :paramtype workload_id: str
+        :keyword type_id: Assessment Type Id.
+        :paramtype type_id: str
+        :keyword locale: Assessment Type Locale.
+        :paramtype locale: str
+        """
         super().__init__(**kwargs)
         self.id = None
         self.name = None
         self.type = None
+        self.system_data = None
+        self.workload_id = workload_id
+        self.workload_name = None
+        self.assessment_id = None
+        self.description = None
+        self.type_id = type_id
+        self.type_properties_type = None
+        self.score = None
+        self.state = None
+        self.type_version = None
+        self.locale = locale
+
+
+class AssessmentTypeListResult(_serialization.Model):
+    """The Advisor assessment type list result data structure.
+
+    :ivar value: List of Assessments Types.
+    :vartype value: list[~azure.mgmt.advisor.models.AssessmentTypeResult]
+    :ivar next_link: The URL to get the next set of Advisor assessments types, if there are any.
+    :vartype next_link: str
+    """
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[AssessmentTypeResult]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        value: Optional[List["_models.AssessmentTypeResult"]] = None,
+        next_link: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: List of Assessments Types.
+        :paramtype value: list[~azure.mgmt.advisor.models.AssessmentTypeResult]
+        :keyword next_link: The URL to get the next set of Advisor assessments types, if there are any.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = next_link
+
+
+class AssessmentTypeResult(_serialization.Model):
+    """The Advisor assessment type result data structure.
+
+    :ivar id: Assessment Type Id.
+    :vartype id: str
+    :ivar title: Assessment Type Title.
+    :vartype title: str
+    :ivar description: Assessment Type Description.
+    :vartype description: str
+    :ivar locale: Assessment Type Locale.
+    :vartype locale: str
+    :ivar version: Assessment Type Version.
+    :vartype version: str
+    """
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "title": {"key": "title", "type": "str"},
+        "description": {"key": "description", "type": "str"},
+        "locale": {"key": "locale", "type": "str"},
+        "version": {"key": "version", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        id: Optional[str] = None,  # pylint: disable=redefined-builtin
+        title: Optional[str] = None,
+        description: Optional[str] = None,
+        locale: Optional[str] = None,
+        version: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword id: Assessment Type Id.
+        :paramtype id: str
+        :keyword title: Assessment Type Title.
+        :paramtype title: str
+        :keyword description: Assessment Type Description.
+        :paramtype description: str
+        :keyword locale: Assessment Type Locale.
+        :paramtype locale: str
+        :keyword version: Assessment Type Version.
+        :paramtype version: str
+        """
+        super().__init__(**kwargs)
+        self.id = id
+        self.title = title
+        self.description = description
+        self.locale = locale
+        self.version = version
 
 
 class ConfigData(Resource):
@@ -110,12 +449,17 @@ class ConfigData(Resource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: The resource ID.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: The type of the resource.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.advisor.models.SystemData
     :ivar exclude: Exclude the resource from Advisor evaluations. Valid values: False (default) or
      True.
     :vartype exclude: bool
@@ -123,6 +467,10 @@ class ConfigData(Resource):
      evaluation. Valid only for subscriptions. Valid values: 5 (default), 10, 15 or 20. Known values
      are: "5", "10", "15", and "20".
     :vartype low_cpu_threshold: str or ~azure.mgmt.advisor.models.CpuThreshold
+    :ivar duration: Minimum duration for Advisor low CPU utilization evaluation. Valid only for
+     subscriptions. Valid values: 7 (default), 14, 21, 30, 60 or 90. Known values are: "7", "14",
+     "21", "30", "60", and "90".
+    :vartype duration: str or ~azure.mgmt.advisor.models.Duration
     :ivar digests: Advisor digest configuration. Valid only for subscriptions.
     :vartype digests: list[~azure.mgmt.advisor.models.DigestConfig]
     """
@@ -131,14 +479,17 @@ class ConfigData(Resource):
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
+        "system_data": {"readonly": True},
     }
 
     _attribute_map = {
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
         "exclude": {"key": "properties.exclude", "type": "bool"},
         "low_cpu_threshold": {"key": "properties.lowCpuThreshold", "type": "str"},
+        "duration": {"key": "properties.duration", "type": "str"},
         "digests": {"key": "properties.digests", "type": "[DigestConfig]"},
     }
 
@@ -147,9 +498,10 @@ class ConfigData(Resource):
         *,
         exclude: Optional[bool] = None,
         low_cpu_threshold: Optional[Union[str, "_models.CpuThreshold"]] = None,
+        duration: Optional[Union[str, "_models.Duration"]] = None,
         digests: Optional[List["_models.DigestConfig"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword exclude: Exclude the resource from Advisor evaluations. Valid values: False (default)
          or True.
@@ -158,12 +510,17 @@ class ConfigData(Resource):
          evaluation. Valid only for subscriptions. Valid values: 5 (default), 10, 15 or 20. Known values
          are: "5", "10", "15", and "20".
         :paramtype low_cpu_threshold: str or ~azure.mgmt.advisor.models.CpuThreshold
+        :keyword duration: Minimum duration for Advisor low CPU utilization evaluation. Valid only for
+         subscriptions. Valid values: 7 (default), 14, 21, 30, 60 or 90. Known values are: "7", "14",
+         "21", "30", "60", and "90".
+        :paramtype duration: str or ~azure.mgmt.advisor.models.Duration
         :keyword digests: Advisor digest configuration. Valid only for subscriptions.
         :paramtype digests: list[~azure.mgmt.advisor.models.DigestConfig]
         """
         super().__init__(**kwargs)
         self.exclude = exclude
         self.low_cpu_threshold = low_cpu_threshold
+        self.duration = duration
         self.digests = digests
 
 
@@ -182,8 +539,8 @@ class ConfigurationListResult(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.ConfigData"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self, *, value: Optional[List["_models.ConfigData"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: The list of configurations.
         :paramtype value: list[~azure.mgmt.advisor.models.ConfigData]
@@ -235,8 +592,8 @@ class DigestConfig(_serialization.Model):
         categories: Optional[List[Union[str, "_models.Category"]]] = None,
         language: Optional[str] = None,
         state: Optional[Union[str, "_models.DigestConfigState"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Name of digest configuration. Value is case-insensitive and must be unique
          within a subscription.
@@ -263,6 +620,98 @@ class DigestConfig(_serialization.Model):
         self.categories = categories
         self.language = language
         self.state = state
+
+
+class ErrorAdditionalInfo(_serialization.Model):
+    """The resource management error additional info.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar type: The additional info type.
+    :vartype type: str
+    :ivar info: The additional info.
+    :vartype info: JSON
+    """
+
+    _validation = {
+        "type": {"readonly": True},
+        "info": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "type": {"key": "type", "type": "str"},
+        "info": {"key": "info", "type": "object"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.type = None
+        self.info = None
+
+
+class ErrorDetail(_serialization.Model):
+    """The error detail.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar code: The error code.
+    :vartype code: str
+    :ivar message: The error message.
+    :vartype message: str
+    :ivar target: The error target.
+    :vartype target: str
+    :ivar details: The error details.
+    :vartype details: list[~azure.mgmt.advisor.models.ErrorDetail]
+    :ivar additional_info: The error additional info.
+    :vartype additional_info: list[~azure.mgmt.advisor.models.ErrorAdditionalInfo]
+    """
+
+    _validation = {
+        "code": {"readonly": True},
+        "message": {"readonly": True},
+        "target": {"readonly": True},
+        "details": {"readonly": True},
+        "additional_info": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "code": {"key": "code", "type": "str"},
+        "message": {"key": "message", "type": "str"},
+        "target": {"key": "target", "type": "str"},
+        "details": {"key": "details", "type": "[ErrorDetail]"},
+        "additional_info": {"key": "additionalInfo", "type": "[ErrorAdditionalInfo]"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.code = None
+        self.message = None
+        self.target = None
+        self.details = None
+        self.additional_info = None
+
+
+class ErrorResponse(_serialization.Model):
+    """Common error response for all Azure Resource Manager APIs to return error details for failed
+    operations. (This also follows the OData error response format.).
+
+    :ivar error: The error object.
+    :vartype error: ~azure.mgmt.advisor.models.ErrorDetail
+    """
+
+    _attribute_map = {
+        "error": {"key": "error", "type": "ErrorDetail"},
+    }
+
+    def __init__(self, *, error: Optional["_models.ErrorDetail"] = None, **kwargs: Any) -> None:
+        """
+        :keyword error: The error object.
+        :paramtype error: ~azure.mgmt.advisor.models.ErrorDetail
+        """
+        super().__init__(**kwargs)
+        self.error = error
 
 
 class MetadataEntity(_serialization.Model):
@@ -304,8 +753,8 @@ class MetadataEntity(_serialization.Model):
         depends_on: Optional[List[str]] = None,
         applicable_scenarios: Optional[List[Union[str, "_models.Scenario"]]] = None,
         supported_values: Optional[List["_models.MetadataSupportedValueDetail"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword id: The resource Id of the metadata entity.
         :paramtype id: str
@@ -347,8 +796,8 @@ class MetadataEntityListResult(_serialization.Model):
     }
 
     def __init__(
-        self, *, value: Optional[List["_models.MetadataEntity"]] = None, next_link: Optional[str] = None, **kwargs
-    ):
+        self, *, value: Optional[List["_models.MetadataEntity"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword value: The list of metadata entities.
         :paramtype value: list[~azure.mgmt.advisor.models.MetadataEntity]
@@ -379,8 +828,8 @@ class MetadataSupportedValueDetail(_serialization.Model):
         *,
         id: Optional[str] = None,  # pylint: disable=redefined-builtin
         display_name: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword id: The id.
         :paramtype id: str
@@ -419,8 +868,8 @@ class OperationDisplayInfo(_serialization.Model):
         operation: Optional[str] = None,
         provider: Optional[str] = None,
         resource: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword description: The description of the operation.
         :paramtype description: str
@@ -453,8 +902,8 @@ class OperationEntity(_serialization.Model):
     }
 
     def __init__(
-        self, *, name: Optional[str] = None, display: Optional["_models.OperationDisplayInfo"] = None, **kwargs
-    ):
+        self, *, name: Optional[str] = None, display: Optional["_models.OperationDisplayInfo"] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword name: Operation name: {provider}/{resource}/{operation}.
         :paramtype name: str
@@ -481,8 +930,8 @@ class OperationEntityListResult(_serialization.Model):
     }
 
     def __init__(
-        self, *, next_link: Optional[str] = None, value: Optional[List["_models.OperationEntity"]] = None, **kwargs
-    ):
+        self, *, next_link: Optional[str] = None, value: Optional[List["_models.OperationEntity"]] = None, **kwargs: Any
+    ) -> None:
         """
         :keyword next_link: The link used to get the next page of operations.
         :paramtype next_link: str
@@ -492,6 +941,305 @@ class OperationEntityListResult(_serialization.Model):
         super().__init__(**kwargs)
         self.next_link = next_link
         self.value = value
+
+
+class PredictionRequest(_serialization.Model):
+    """Parameters for predict recommendation.
+
+    :ivar prediction_type: Type of the prediction. "PredictiveRightsizing"
+    :vartype prediction_type: str or ~azure.mgmt.advisor.models.PredictionType
+    :ivar extended_properties: Extended properties are arguments specific for each prediction type.
+    :vartype extended_properties: JSON
+    """
+
+    _attribute_map = {
+        "prediction_type": {"key": "properties.predictionType", "type": "str"},
+        "extended_properties": {"key": "properties.extendedProperties", "type": "object"},
+    }
+
+    def __init__(
+        self,
+        *,
+        prediction_type: Optional[Union[str, "_models.PredictionType"]] = None,
+        extended_properties: Optional[JSON] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword prediction_type: Type of the prediction. "PredictiveRightsizing"
+        :paramtype prediction_type: str or ~azure.mgmt.advisor.models.PredictionType
+        :keyword extended_properties: Extended properties are arguments specific for each prediction
+         type.
+        :paramtype extended_properties: JSON
+        """
+        super().__init__(**kwargs)
+        self.prediction_type = prediction_type
+        self.extended_properties = extended_properties
+
+
+class PredictionResponse(_serialization.Model):
+    """Response used by predictions.
+
+    :ivar extended_properties: Extended properties.
+    :vartype extended_properties: JSON
+    :ivar prediction_type: Type of the prediction. "PredictiveRightsizing"
+    :vartype prediction_type: str or ~azure.mgmt.advisor.models.PredictionType
+    :ivar category: The category of the recommendation. Known values are: "HighAvailability",
+     "Security", "Performance", "Cost", and "OperationalExcellence".
+    :vartype category: str or ~azure.mgmt.advisor.models.Category
+    :ivar impact: The business impact of the recommendation. Known values are: "High", "Medium",
+     and "Low".
+    :vartype impact: str or ~azure.mgmt.advisor.models.Impact
+    :ivar impacted_field: The resource type identified by Advisor.
+    :vartype impacted_field: str
+    :ivar last_updated: The most recent time that Advisor checked the validity of the
+     recommendation.
+    :vartype last_updated: ~datetime.datetime
+    :ivar short_description: A summary of the recommendation.
+    :vartype short_description: ~azure.mgmt.advisor.models.ShortDescription
+    """
+
+    _attribute_map = {
+        "extended_properties": {"key": "properties.extendedProperties", "type": "object"},
+        "prediction_type": {"key": "properties.predictionType", "type": "str"},
+        "category": {"key": "properties.category", "type": "str"},
+        "impact": {"key": "properties.impact", "type": "str"},
+        "impacted_field": {"key": "properties.impactedField", "type": "str"},
+        "last_updated": {"key": "properties.lastUpdated", "type": "iso-8601"},
+        "short_description": {"key": "properties.shortDescription", "type": "ShortDescription"},
+    }
+
+    def __init__(
+        self,
+        *,
+        extended_properties: Optional[JSON] = None,
+        prediction_type: Optional[Union[str, "_models.PredictionType"]] = None,
+        category: Optional[Union[str, "_models.Category"]] = None,
+        impact: Optional[Union[str, "_models.Impact"]] = None,
+        impacted_field: Optional[str] = None,
+        last_updated: Optional[datetime.datetime] = None,
+        short_description: Optional["_models.ShortDescription"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword extended_properties: Extended properties.
+        :paramtype extended_properties: JSON
+        :keyword prediction_type: Type of the prediction. "PredictiveRightsizing"
+        :paramtype prediction_type: str or ~azure.mgmt.advisor.models.PredictionType
+        :keyword category: The category of the recommendation. Known values are: "HighAvailability",
+         "Security", "Performance", "Cost", and "OperationalExcellence".
+        :paramtype category: str or ~azure.mgmt.advisor.models.Category
+        :keyword impact: The business impact of the recommendation. Known values are: "High", "Medium",
+         and "Low".
+        :paramtype impact: str or ~azure.mgmt.advisor.models.Impact
+        :keyword impacted_field: The resource type identified by Advisor.
+        :paramtype impacted_field: str
+        :keyword last_updated: The most recent time that Advisor checked the validity of the
+         recommendation.
+        :paramtype last_updated: ~datetime.datetime
+        :keyword short_description: A summary of the recommendation.
+        :paramtype short_description: ~azure.mgmt.advisor.models.ShortDescription
+        """
+        super().__init__(**kwargs)
+        self.extended_properties = extended_properties
+        self.prediction_type = prediction_type
+        self.category = category
+        self.impact = impact
+        self.impacted_field = impacted_field
+        self.last_updated = last_updated
+        self.short_description = short_description
+
+
+class RecommendationPropertiesResourceWorkload(_serialization.Model):
+    """The Workload that this Resource belongs to.
+
+    :ivar id: The Id of the Workload.
+    :vartype id: str
+    :ivar name: The Name of the Workload.
+    :vartype name: str
+    """
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        id: Optional[str] = None,  # pylint: disable=redefined-builtin
+        name: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword id: The Id of the Workload.
+        :paramtype id: str
+        :keyword name: The Name of the Workload.
+        :paramtype name: str
+        """
+        super().__init__(**kwargs)
+        self.id = id
+        self.name = name
+
+
+class RecommendationPropertiesReview(_serialization.Model):
+    """The Review that this Recommendation belongs to.
+
+    :ivar id: The ARM Resource Id of the Review.
+    :vartype id: str
+    :ivar name: The Name of the Review.
+    :vartype name: str
+    """
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        id: Optional[str] = None,  # pylint: disable=redefined-builtin
+        name: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword id: The ARM Resource Id of the Review.
+        :paramtype id: str
+        :keyword name: The Name of the Review.
+        :paramtype name: str
+        """
+        super().__init__(**kwargs)
+        self.id = id
+        self.name = name
+
+
+class RecommendationRejectBody(_serialization.Model):
+    """Recommendation reject body.
+
+    :ivar reason_for_rejection: Reason for rejecting recommendation. Known values are: "NotARisk"
+     and "RiskAccepted".
+    :vartype reason_for_rejection: str or ~azure.mgmt.advisor.models.ReasonForRejectionName
+    """
+
+    _attribute_map = {
+        "reason_for_rejection": {"key": "reasonForRejection", "type": "str"},
+    }
+
+    def __init__(
+        self, *, reason_for_rejection: Optional[Union[str, "_models.ReasonForRejectionName"]] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword reason_for_rejection: Reason for rejecting recommendation. Known values are:
+         "NotARisk" and "RiskAccepted".
+        :paramtype reason_for_rejection: str or ~azure.mgmt.advisor.models.ReasonForRejectionName
+        """
+        super().__init__(**kwargs)
+        self.reason_for_rejection = reason_for_rejection
+
+
+class ResiliencyReview(_serialization.Model):
+    """The Advisor resiliency review data structure.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/providers/Microsoft.Advisor/ResiliencyReviews/{reviewId}".
+    :vartype id: str
+    :ivar name: Resource name E.g. "{guid}".
+    :vartype name: str
+    :ivar type: Resource type E.g. "Microsoft.Advisor/resiliencyReviews".
+    :vartype type: str
+    :ivar system_data: Metadata pertaining to creation and last modification of the resource.
+    :vartype system_data: ~azure.mgmt.advisor.models.SystemData
+    :ivar review_name: Review name.
+    :vartype review_name: str
+    :ivar workload_name: Workload Name.
+    :vartype workload_name: str
+    :ivar review_status: Review status. Known values are: "New", "InProgress", "Triaged", and
+     "Completed".
+    :vartype review_status: str or ~azure.mgmt.advisor.models.ReviewStatus
+    :ivar recommendations_count: Review recommendations count.
+    :vartype recommendations_count: int
+    :ivar published_at: Review last updated timestamp.
+    :vartype published_at: str
+    :ivar updated_at: Review last updated timestamp.
+    :vartype updated_at: str
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "review_name": {"readonly": True},
+        "workload_name": {"readonly": True},
+        "review_status": {"readonly": True},
+        "recommendations_count": {"readonly": True},
+        "published_at": {"readonly": True},
+        "updated_at": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "review_name": {"key": "properties.reviewName", "type": "str"},
+        "workload_name": {"key": "properties.workloadName", "type": "str"},
+        "review_status": {"key": "properties.reviewStatus", "type": "str"},
+        "recommendations_count": {"key": "properties.recommendationsCount", "type": "int"},
+        "published_at": {"key": "properties.publishedAt", "type": "str"},
+        "updated_at": {"key": "properties.updatedAt", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.id = None
+        self.name = None
+        self.type = None
+        self.system_data = None
+        self.review_name = None
+        self.workload_name = None
+        self.review_status = None
+        self.recommendations_count = None
+        self.published_at = None
+        self.updated_at = None
+
+
+class ResiliencyReviewCollection(_serialization.Model):
+    """Collection of Resiliency Reviews.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar value: List of resiliency reviews. Required.
+    :vartype value: list[~azure.mgmt.advisor.models.ResiliencyReview]
+    :ivar next_link: The URL to get the next set of Advisor resiliency reviews, if there are any.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "value": {"required": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[ResiliencyReview]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self, *, value: List["_models.ResiliencyReview"], next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: List of resiliency reviews. Required.
+        :paramtype value: list[~azure.mgmt.advisor.models.ResiliencyReview]
+        :keyword next_link: The URL to get the next set of Advisor resiliency reviews, if there are
+         any.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = next_link
 
 
 class ResourceMetadata(_serialization.Model):
@@ -525,8 +1273,8 @@ class ResourceMetadata(_serialization.Model):
         action: Optional[Dict[str, JSON]] = None,
         singular: Optional[str] = None,
         plural: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword resource_id: Azure resource Id of the assessed resource.
         :paramtype resource_id: str
@@ -547,17 +1295,22 @@ class ResourceMetadata(_serialization.Model):
         self.plural = plural
 
 
-class ResourceRecommendationBase(Resource):  # pylint: disable=too-many-instance-attributes
+class ResourceRecommendationBase(Resource):
     """Advisor Recommendation.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: The resource ID.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: The type of the resource.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.advisor.models.SystemData
     :ivar category: The category of the recommendation. Known values are: "HighAvailability",
      "Security", "Performance", "Cost", and "OperationalExcellence".
     :vartype category: str or ~azure.mgmt.advisor.models.Category
@@ -575,6 +1328,9 @@ class ResourceRecommendationBase(Resource):  # pylint: disable=too-many-instance
     :vartype metadata: dict[str, JSON]
     :ivar recommendation_type_id: The recommendation-type GUID.
     :vartype recommendation_type_id: str
+    :ivar risk: The potential risk of not implementing the recommendation. Known values are:
+     "Error", "Warning", and "None".
+    :vartype risk: str or ~azure.mgmt.advisor.models.Risk
     :ivar short_description: A summary of the recommendation.
     :vartype short_description: ~azure.mgmt.advisor.models.ShortDescription
     :ivar suppression_ids: The list of snoozed and dismissed rules for the recommendation.
@@ -598,18 +1354,32 @@ class ResourceRecommendationBase(Resource):  # pylint: disable=too-many-instance
     :ivar exposed_metadata_properties: The recommendation metadata properties exposed to customer
      to provide additional information.
     :vartype exposed_metadata_properties: dict[str, JSON]
+    :ivar tracked: If the Recommendation has Tracking enabled.
+    :vartype tracked: bool
+    :ivar tracked_properties: The properties of a tracked recommendation.
+    :vartype tracked_properties: ~azure.mgmt.advisor.models.TrackedRecommendationProperties
+    :ivar review: The Review that this Recommendation belongs to.
+    :vartype review: ~azure.mgmt.advisor.models.RecommendationPropertiesReview
+    :ivar resource_workload: The Workload that this Resource belongs to.
+    :vartype resource_workload: ~azure.mgmt.advisor.models.RecommendationPropertiesResourceWorkload
+    :ivar source_system: The Source System that this Recommendation originated from.
+    :vartype source_system: str
+    :ivar notes: Additional notes for the Recommendation.
+    :vartype notes: str
     """
 
     _validation = {
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
+        "system_data": {"readonly": True},
     }
 
     _attribute_map = {
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
         "category": {"key": "properties.category", "type": "str"},
         "impact": {"key": "properties.impact", "type": "str"},
         "impacted_field": {"key": "properties.impactedField", "type": "str"},
@@ -617,6 +1387,7 @@ class ResourceRecommendationBase(Resource):  # pylint: disable=too-many-instance
         "last_updated": {"key": "properties.lastUpdated", "type": "iso-8601"},
         "metadata": {"key": "properties.metadata", "type": "{object}"},
         "recommendation_type_id": {"key": "properties.recommendationTypeId", "type": "str"},
+        "risk": {"key": "properties.risk", "type": "str"},
         "short_description": {"key": "properties.shortDescription", "type": "ShortDescription"},
         "suppression_ids": {"key": "properties.suppressionIds", "type": "[str]"},
         "extended_properties": {"key": "properties.extendedProperties", "type": "{str}"},
@@ -628,9 +1399,15 @@ class ResourceRecommendationBase(Resource):  # pylint: disable=too-many-instance
         "actions": {"key": "properties.actions", "type": "[{object}]"},
         "remediation": {"key": "properties.remediation", "type": "{object}"},
         "exposed_metadata_properties": {"key": "properties.exposedMetadataProperties", "type": "{object}"},
+        "tracked": {"key": "properties.tracked", "type": "bool"},
+        "tracked_properties": {"key": "properties.trackedProperties", "type": "TrackedRecommendationProperties"},
+        "review": {"key": "properties.review", "type": "RecommendationPropertiesReview"},
+        "resource_workload": {"key": "properties.resourceWorkload", "type": "RecommendationPropertiesResourceWorkload"},
+        "source_system": {"key": "properties.sourceSystem", "type": "str"},
+        "notes": {"key": "properties.notes", "type": "str"},
     }
 
-    def __init__(
+    def __init__(  # pylint: disable=too-many-locals
         self,
         *,
         category: Optional[Union[str, "_models.Category"]] = None,
@@ -640,6 +1417,7 @@ class ResourceRecommendationBase(Resource):  # pylint: disable=too-many-instance
         last_updated: Optional[datetime.datetime] = None,
         metadata: Optional[Dict[str, JSON]] = None,
         recommendation_type_id: Optional[str] = None,
+        risk: Optional[Union[str, "_models.Risk"]] = None,
         short_description: Optional["_models.ShortDescription"] = None,
         suppression_ids: Optional[List[str]] = None,
         extended_properties: Optional[Dict[str, str]] = None,
@@ -651,8 +1429,14 @@ class ResourceRecommendationBase(Resource):  # pylint: disable=too-many-instance
         actions: Optional[List[Dict[str, JSON]]] = None,
         remediation: Optional[Dict[str, JSON]] = None,
         exposed_metadata_properties: Optional[Dict[str, JSON]] = None,
-        **kwargs
-    ):
+        tracked: Optional[bool] = None,
+        tracked_properties: Optional["_models.TrackedRecommendationProperties"] = None,
+        review: Optional["_models.RecommendationPropertiesReview"] = None,
+        resource_workload: Optional["_models.RecommendationPropertiesResourceWorkload"] = None,
+        source_system: Optional[str] = None,
+        notes: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword category: The category of the recommendation. Known values are: "HighAvailability",
          "Security", "Performance", "Cost", and "OperationalExcellence".
@@ -671,6 +1455,9 @@ class ResourceRecommendationBase(Resource):  # pylint: disable=too-many-instance
         :paramtype metadata: dict[str, JSON]
         :keyword recommendation_type_id: The recommendation-type GUID.
         :paramtype recommendation_type_id: str
+        :keyword risk: The potential risk of not implementing the recommendation. Known values are:
+         "Error", "Warning", and "None".
+        :paramtype risk: str or ~azure.mgmt.advisor.models.Risk
         :keyword short_description: A summary of the recommendation.
         :paramtype short_description: ~azure.mgmt.advisor.models.ShortDescription
         :keyword suppression_ids: The list of snoozed and dismissed rules for the recommendation.
@@ -694,6 +1481,19 @@ class ResourceRecommendationBase(Resource):  # pylint: disable=too-many-instance
         :keyword exposed_metadata_properties: The recommendation metadata properties exposed to
          customer to provide additional information.
         :paramtype exposed_metadata_properties: dict[str, JSON]
+        :keyword tracked: If the Recommendation has Tracking enabled.
+        :paramtype tracked: bool
+        :keyword tracked_properties: The properties of a tracked recommendation.
+        :paramtype tracked_properties: ~azure.mgmt.advisor.models.TrackedRecommendationProperties
+        :keyword review: The Review that this Recommendation belongs to.
+        :paramtype review: ~azure.mgmt.advisor.models.RecommendationPropertiesReview
+        :keyword resource_workload: The Workload that this Resource belongs to.
+        :paramtype resource_workload:
+         ~azure.mgmt.advisor.models.RecommendationPropertiesResourceWorkload
+        :keyword source_system: The Source System that this Recommendation originated from.
+        :paramtype source_system: str
+        :keyword notes: Additional notes for the Recommendation.
+        :paramtype notes: str
         """
         super().__init__(**kwargs)
         self.category = category
@@ -703,6 +1503,7 @@ class ResourceRecommendationBase(Resource):  # pylint: disable=too-many-instance
         self.last_updated = last_updated
         self.metadata = metadata
         self.recommendation_type_id = recommendation_type_id
+        self.risk = risk
         self.short_description = short_description
         self.suppression_ids = suppression_ids
         self.extended_properties = extended_properties
@@ -714,6 +1515,12 @@ class ResourceRecommendationBase(Resource):  # pylint: disable=too-many-instance
         self.actions = actions
         self.remediation = remediation
         self.exposed_metadata_properties = exposed_metadata_properties
+        self.tracked = tracked
+        self.tracked_properties = tracked_properties
+        self.review = review
+        self.resource_workload = resource_workload
+        self.source_system = source_system
+        self.notes = notes
 
 
 class ResourceRecommendationBaseListResult(_serialization.Model):
@@ -735,8 +1542,8 @@ class ResourceRecommendationBaseListResult(_serialization.Model):
         *,
         next_link: Optional[str] = None,
         value: Optional[List["_models.ResourceRecommendationBase"]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword next_link: The link used to get the next page of recommendations.
         :paramtype next_link: str
@@ -746,6 +1553,71 @@ class ResourceRecommendationBaseListResult(_serialization.Model):
         super().__init__(**kwargs)
         self.next_link = next_link
         self.value = value
+
+
+class ScoreEntity(_serialization.Model):
+    """The details of Advisor Score.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar date: The date score was calculated.
+    :vartype date: str
+    :ivar score: The percentage score.
+    :vartype score: float
+    :ivar consumption_units: The consumption units for the score.
+    :vartype consumption_units: float
+    :ivar impacted_resource_count: The number of impacted resources.
+    :vartype impacted_resource_count: float
+    :ivar potential_score_increase: The potential percentage increase in overall score at
+     subscription level once all recommendations in this scope are implemented.
+    :vartype potential_score_increase: float
+    :ivar category_count: The count of impacted categories.
+    :vartype category_count: float
+    """
+
+    _validation = {
+        "category_count": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "date": {"key": "date", "type": "str"},
+        "score": {"key": "score", "type": "float"},
+        "consumption_units": {"key": "consumptionUnits", "type": "float"},
+        "impacted_resource_count": {"key": "impactedResourceCount", "type": "float"},
+        "potential_score_increase": {"key": "potentialScoreIncrease", "type": "float"},
+        "category_count": {"key": "categoryCount", "type": "float"},
+    }
+
+    def __init__(
+        self,
+        *,
+        date: Optional[str] = None,
+        score: Optional[float] = None,
+        consumption_units: Optional[float] = None,
+        impacted_resource_count: Optional[float] = None,
+        potential_score_increase: Optional[float] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword date: The date score was calculated.
+        :paramtype date: str
+        :keyword score: The percentage score.
+        :paramtype score: float
+        :keyword consumption_units: The consumption units for the score.
+        :paramtype consumption_units: float
+        :keyword impacted_resource_count: The number of impacted resources.
+        :paramtype impacted_resource_count: float
+        :keyword potential_score_increase: The potential percentage increase in overall score at
+         subscription level once all recommendations in this scope are implemented.
+        :paramtype potential_score_increase: float
+        """
+        super().__init__(**kwargs)
+        self.date = date
+        self.score = score
+        self.consumption_units = consumption_units
+        self.impacted_resource_count = impacted_resource_count
+        self.potential_score_increase = potential_score_increase
+        self.category_count = None
 
 
 class ShortDescription(_serialization.Model):
@@ -763,7 +1635,7 @@ class ShortDescription(_serialization.Model):
         "solution": {"key": "solution", "type": "str"},
     }
 
-    def __init__(self, *, problem: Optional[str] = None, solution: Optional[str] = None, **kwargs):
+    def __init__(self, *, problem: Optional[str] = None, solution: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword problem: The issue or opportunity identified by the recommendation and proposed
          solution.
@@ -778,16 +1650,22 @@ class ShortDescription(_serialization.Model):
 
 
 class SuppressionContract(Resource):
-    """The details of the snoozed or dismissed rule; for example, the duration, name, and GUID associated with the rule.
+    """The details of the snoozed or dismissed rule; for example, the duration, name, and GUID
+    associated with the rule.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: The resource ID.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: The type of the resource.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.advisor.models.SystemData
     :ivar suppression_id: The GUID of the suppression.
     :vartype suppression_id: str
     :ivar ttl: The duration for which the suppression is valid.
@@ -800,6 +1678,7 @@ class SuppressionContract(Resource):
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
+        "system_data": {"readonly": True},
         "expiration_time_stamp": {"readonly": True},
     }
 
@@ -807,12 +1686,13 @@ class SuppressionContract(Resource):
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
         "suppression_id": {"key": "properties.suppressionId", "type": "str"},
         "ttl": {"key": "properties.ttl", "type": "str"},
         "expiration_time_stamp": {"key": "properties.expirationTimeStamp", "type": "iso-8601"},
     }
 
-    def __init__(self, *, suppression_id: Optional[str] = None, ttl: Optional[str] = None, **kwargs):
+    def __init__(self, *, suppression_id: Optional[str] = None, ttl: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword suppression_id: The GUID of the suppression.
         :paramtype suppression_id: str
@@ -840,8 +1720,12 @@ class SuppressionContractListResult(_serialization.Model):
     }
 
     def __init__(
-        self, *, next_link: Optional[str] = None, value: Optional[List["_models.SuppressionContract"]] = None, **kwargs
-    ):
+        self,
+        *,
+        next_link: Optional[str] = None,
+        value: Optional[List["_models.SuppressionContract"]] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword next_link: The link used to get the next page of suppressions.
         :paramtype next_link: str
@@ -851,3 +1735,508 @@ class SuppressionContractListResult(_serialization.Model):
         super().__init__(**kwargs)
         self.next_link = next_link
         self.value = value
+
+
+class SystemData(_serialization.Model):
+    """Metadata pertaining to creation and last modification of the resource.
+
+    :ivar created_by: The identity that created the resource.
+    :vartype created_by: str
+    :ivar created_by_type: The type of identity that created the resource. Known values are:
+     "User", "Application", "ManagedIdentity", and "Key".
+    :vartype created_by_type: str or ~azure.mgmt.advisor.models.CreatedByType
+    :ivar created_at: The timestamp of resource creation (UTC).
+    :vartype created_at: ~datetime.datetime
+    :ivar last_modified_by: The identity that last modified the resource.
+    :vartype last_modified_by: str
+    :ivar last_modified_by_type: The type of identity that last modified the resource. Known values
+     are: "User", "Application", "ManagedIdentity", and "Key".
+    :vartype last_modified_by_type: str or ~azure.mgmt.advisor.models.CreatedByType
+    :ivar last_modified_at: The timestamp of resource last modification (UTC).
+    :vartype last_modified_at: ~datetime.datetime
+    """
+
+    _attribute_map = {
+        "created_by": {"key": "createdBy", "type": "str"},
+        "created_by_type": {"key": "createdByType", "type": "str"},
+        "created_at": {"key": "createdAt", "type": "iso-8601"},
+        "last_modified_by": {"key": "lastModifiedBy", "type": "str"},
+        "last_modified_by_type": {"key": "lastModifiedByType", "type": "str"},
+        "last_modified_at": {"key": "lastModifiedAt", "type": "iso-8601"},
+    }
+
+    def __init__(
+        self,
+        *,
+        created_by: Optional[str] = None,
+        created_by_type: Optional[Union[str, "_models.CreatedByType"]] = None,
+        created_at: Optional[datetime.datetime] = None,
+        last_modified_by: Optional[str] = None,
+        last_modified_by_type: Optional[Union[str, "_models.CreatedByType"]] = None,
+        last_modified_at: Optional[datetime.datetime] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword created_by: The identity that created the resource.
+        :paramtype created_by: str
+        :keyword created_by_type: The type of identity that created the resource. Known values are:
+         "User", "Application", "ManagedIdentity", and "Key".
+        :paramtype created_by_type: str or ~azure.mgmt.advisor.models.CreatedByType
+        :keyword created_at: The timestamp of resource creation (UTC).
+        :paramtype created_at: ~datetime.datetime
+        :keyword last_modified_by: The identity that last modified the resource.
+        :paramtype last_modified_by: str
+        :keyword last_modified_by_type: The type of identity that last modified the resource. Known
+         values are: "User", "Application", "ManagedIdentity", and "Key".
+        :paramtype last_modified_by_type: str or ~azure.mgmt.advisor.models.CreatedByType
+        :keyword last_modified_at: The timestamp of resource last modification (UTC).
+        :paramtype last_modified_at: ~datetime.datetime
+        """
+        super().__init__(**kwargs)
+        self.created_by = created_by
+        self.created_by_type = created_by_type
+        self.created_at = created_at
+        self.last_modified_by = last_modified_by
+        self.last_modified_by_type = last_modified_by_type
+        self.last_modified_at = last_modified_at
+
+
+class TimeSeriesEntityItem(_serialization.Model):
+    """The data from different aggregation levels.
+
+    :ivar aggregation_level: The aggregation level of the score. Known values are: "week", "day",
+     and "month".
+    :vartype aggregation_level: str or ~azure.mgmt.advisor.models.Aggregated
+    :ivar score_history: The past score data.
+    :vartype score_history: list[~azure.mgmt.advisor.models.ScoreEntity]
+    """
+
+    _attribute_map = {
+        "aggregation_level": {"key": "aggregationLevel", "type": "str"},
+        "score_history": {"key": "scoreHistory", "type": "[ScoreEntity]"},
+    }
+
+    def __init__(
+        self,
+        *,
+        aggregation_level: Optional[Union[str, "_models.Aggregated"]] = None,
+        score_history: Optional[List["_models.ScoreEntity"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword aggregation_level: The aggregation level of the score. Known values are: "week",
+         "day", and "month".
+        :paramtype aggregation_level: str or ~azure.mgmt.advisor.models.Aggregated
+        :keyword score_history: The past score data.
+        :paramtype score_history: list[~azure.mgmt.advisor.models.ScoreEntity]
+        """
+        super().__init__(**kwargs)
+        self.aggregation_level = aggregation_level
+        self.score_history = score_history
+
+
+class TrackedRecommendationProperties(_serialization.Model):
+    """The tracked properties of a Recommendation.
+
+    :ivar state: The state of the Recommendation. Known values are: "Approved", "Rejected",
+     "Pending", "InProgress", "Postponed", "Dismissed", and "Completed".
+    :vartype state: str or ~azure.mgmt.advisor.models.State
+    :ivar postponed_time: The time the Recommendation was postponed until.
+    :vartype postponed_time: ~datetime.datetime
+    :ivar reason: The reason the state of the Recommendation was changed. Known values are:
+     "ExcessiveInvestment", "TooComplex", "AlternativeSolution", "Incompatible", "Unclear", and
+     "RiskAccepted".
+    :vartype reason: str or ~azure.mgmt.advisor.models.Reason
+    :ivar priority: The Priority of the Recommendation. Known values are: "Critical", "High",
+     "Medium", "Low", and "Informational".
+    :vartype priority: str or ~azure.mgmt.advisor.models.Priority
+    """
+
+    _attribute_map = {
+        "state": {"key": "state", "type": "str"},
+        "postponed_time": {"key": "postponedTime", "type": "iso-8601"},
+        "reason": {"key": "reason", "type": "str"},
+        "priority": {"key": "priority", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        state: Optional[Union[str, "_models.State"]] = None,
+        postponed_time: Optional[datetime.datetime] = None,
+        reason: Optional[Union[str, "_models.Reason"]] = None,
+        priority: Optional[Union[str, "_models.Priority"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword state: The state of the Recommendation. Known values are: "Approved", "Rejected",
+         "Pending", "InProgress", "Postponed", "Dismissed", and "Completed".
+        :paramtype state: str or ~azure.mgmt.advisor.models.State
+        :keyword postponed_time: The time the Recommendation was postponed until.
+        :paramtype postponed_time: ~datetime.datetime
+        :keyword reason: The reason the state of the Recommendation was changed. Known values are:
+         "ExcessiveInvestment", "TooComplex", "AlternativeSolution", "Incompatible", "Unclear", and
+         "RiskAccepted".
+        :paramtype reason: str or ~azure.mgmt.advisor.models.Reason
+        :keyword priority: The Priority of the Recommendation. Known values are: "Critical", "High",
+         "Medium", "Low", and "Informational".
+        :paramtype priority: str or ~azure.mgmt.advisor.models.Priority
+        """
+        super().__init__(**kwargs)
+        self.state = state
+        self.postponed_time = postponed_time
+        self.reason = reason
+        self.priority = priority
+
+
+class TrackedRecommendationPropertiesPayload(_serialization.Model):
+    """TrackedRecommendationPropertiesPayload.
+
+    :ivar properties:
+    :vartype properties:
+     ~azure.mgmt.advisor.models.TrackedRecommendationPropertiesPayloadProperties
+    """
+
+    _attribute_map = {
+        "properties": {"key": "properties", "type": "TrackedRecommendationPropertiesPayloadProperties"},
+    }
+
+    def __init__(
+        self, *, properties: Optional["_models.TrackedRecommendationPropertiesPayloadProperties"] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword properties:
+        :paramtype properties:
+         ~azure.mgmt.advisor.models.TrackedRecommendationPropertiesPayloadProperties
+        """
+        super().__init__(**kwargs)
+        self.properties = properties
+
+
+class TrackedRecommendationPropertiesPayloadProperties(_serialization.Model):  # pylint: disable=name-too-long
+    """TrackedRecommendationPropertiesPayloadProperties.
+
+    :ivar tracked_properties: The tracked properties of a Recommendation.
+    :vartype tracked_properties: ~azure.mgmt.advisor.models.TrackedRecommendationProperties
+    """
+
+    _attribute_map = {
+        "tracked_properties": {"key": "trackedProperties", "type": "TrackedRecommendationProperties"},
+    }
+
+    def __init__(
+        self, *, tracked_properties: Optional["_models.TrackedRecommendationProperties"] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword tracked_properties: The tracked properties of a Recommendation.
+        :paramtype tracked_properties: ~azure.mgmt.advisor.models.TrackedRecommendationProperties
+        """
+        super().__init__(**kwargs)
+        self.tracked_properties = tracked_properties
+
+
+class TriageRecommendation(_serialization.Model):
+    """Triage recommendation data structure.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/providers/Microsoft.Advisor/ResiliencyReviews/{reviewId}/providers/Microsoft.Advisor/triageRecommendation/{recommendationId}".  # pylint: disable=line-too-long
+    :vartype id: str
+    :ivar name: Resource name E.g. "{guid}".
+    :vartype name: str
+    :ivar type: Resource type E.g. "Microsoft.Advisor/triageRecommendation".
+    :vartype type: str
+    :ivar system_data: Metadata pertaining to creation and last modification of the resource.
+    :vartype system_data: ~azure.mgmt.advisor.models.SystemData
+    :ivar review_id: Review id.
+    :vartype review_id: str
+    :ivar title: Recommendation label.
+    :vartype title: str
+    :ivar priority: Recommendation priority. Known values are: "High", "Medium", and "Low".
+    :vartype priority: str or ~azure.mgmt.advisor.models.PriorityName
+    :ivar applies_to_subscriptions: List of subscription ids.
+    :vartype applies_to_subscriptions: list[str]
+    :ivar recommendation_status: Recommendation status. Known values are: "Approved", "Rejected",
+     and "Pending".
+    :vartype recommendation_status: str or ~azure.mgmt.advisor.models.RecommendationStatusName
+    :ivar updated_at: Recommendation potential benefit.
+    :vartype updated_at: str
+    :ivar reject_reason: Recommendation rejection reason.
+    :vartype reject_reason: str
+    :ivar potential_benefits: Recommendation potential benefit.
+    :vartype potential_benefits: str
+    :ivar description: Recommendation description.
+    :vartype description: str
+    :ivar notes: Recommendation notes.
+    :vartype notes: str
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "review_id": {"readonly": True},
+        "title": {"readonly": True},
+        "priority": {"readonly": True},
+        "applies_to_subscriptions": {"readonly": True},
+        "recommendation_status": {"readonly": True},
+        "updated_at": {"readonly": True},
+        "reject_reason": {"readonly": True},
+        "potential_benefits": {"readonly": True},
+        "description": {"readonly": True},
+        "notes": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "review_id": {"key": "properties.reviewId", "type": "str"},
+        "title": {"key": "properties.title", "type": "str"},
+        "priority": {"key": "properties.priority", "type": "str"},
+        "applies_to_subscriptions": {"key": "properties.appliesToSubscriptions", "type": "[str]"},
+        "recommendation_status": {"key": "properties.recommendationStatus", "type": "str"},
+        "updated_at": {"key": "properties.updatedAt", "type": "str"},
+        "reject_reason": {"key": "properties.rejectReason", "type": "str"},
+        "potential_benefits": {"key": "properties.potentialBenefits", "type": "str"},
+        "description": {"key": "properties.description", "type": "str"},
+        "notes": {"key": "properties.notes", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.id = None
+        self.name = None
+        self.type = None
+        self.system_data = None
+        self.review_id = None
+        self.title = None
+        self.priority = None
+        self.applies_to_subscriptions = None
+        self.recommendation_status = None
+        self.updated_at = None
+        self.reject_reason = None
+        self.potential_benefits = None
+        self.description = None
+        self.notes = None
+
+
+class TriageRecommendationCollection(_serialization.Model):
+    """Collection of Advisor triage recommendations.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar value: List of triage recommendations. Required.
+    :vartype value: list[~azure.mgmt.advisor.models.TriageRecommendation]
+    :ivar next_link: The URL to get the next set of triage recommendations, if there are any.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "value": {"required": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[TriageRecommendation]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self, *, value: List["_models.TriageRecommendation"], next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: List of triage recommendations. Required.
+        :paramtype value: list[~azure.mgmt.advisor.models.TriageRecommendation]
+        :keyword next_link: The URL to get the next set of triage recommendations, if there are any.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = next_link
+
+
+class TriageResource(ProxyResource):
+    """Triage resource data structure.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.advisor.models.SystemData
+    :ivar review_id: Unique identifier for the review resource this triageResource belongs to.
+    :vartype review_id: str
+    :ivar recommendation_id: Unique identifier for the recommendation resource this triageResource
+     belongs to.
+    :vartype recommendation_id: str
+    :ivar subscription_id: Unique identifier for the subscription resource this triageResource
+     belongs to.
+    :vartype subscription_id: str
+    :ivar resource_group: Name of the resource group this triageResource belongs to.
+    :vartype resource_group: str
+    :ivar resource_type: Type of resource this triageResource corresponds to e.g. "Cosmos DB".
+    :vartype resource_type: str
+    :ivar resource_id: Full Azure resource id path of the resource this triageResource corresponds
+     to.
+    :vartype resource_id: str
+    :ivar resource_name: Name of the resource this triageResource corresponds to.
+    :vartype resource_name: str
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "review_id": {"readonly": True},
+        "recommendation_id": {"readonly": True},
+        "subscription_id": {"readonly": True},
+        "resource_group": {"readonly": True},
+        "resource_type": {"readonly": True},
+        "resource_id": {"readonly": True},
+        "resource_name": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "review_id": {"key": "properties.reviewId", "type": "str"},
+        "recommendation_id": {"key": "properties.recommendationId", "type": "str"},
+        "subscription_id": {"key": "properties.subscriptionId", "type": "str"},
+        "resource_group": {"key": "properties.resourceGroup", "type": "str"},
+        "resource_type": {"key": "properties.resourceType", "type": "str"},
+        "resource_id": {"key": "properties.resourceId", "type": "str"},
+        "resource_name": {"key": "properties.resourceName", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.review_id = None
+        self.recommendation_id = None
+        self.subscription_id = None
+        self.resource_group = None
+        self.resource_type = None
+        self.resource_id = None
+        self.resource_name = None
+
+
+class TriageResourceCollection(_serialization.Model):
+    """Collection of Advisor triage resources.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar value: List of triage resources. Required.
+    :vartype value: list[~azure.mgmt.advisor.models.TriageResource]
+    :ivar next_link: The URL to get the next set of triage resources, if there are any.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "value": {"required": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[TriageResource]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self, *, value: List["_models.TriageResource"], next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: List of triage resources. Required.
+        :paramtype value: list[~azure.mgmt.advisor.models.TriageResource]
+        :keyword next_link: The URL to get the next set of triage resources, if there are any.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = next_link
+
+
+class WorkloadListResult(_serialization.Model):
+    """The Workload list result data structure.
+
+    :ivar value: List of Workload.
+    :vartype value: list[~azure.mgmt.advisor.models.WorkloadResult]
+    :ivar next_link: The URL to get the next set of Workloads, if there are any.
+    :vartype next_link: str
+    """
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[WorkloadResult]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self, *, value: Optional[List["_models.WorkloadResult"]] = None, next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: List of Workload.
+        :paramtype value: list[~azure.mgmt.advisor.models.WorkloadResult]
+        :keyword next_link: The URL to get the next set of Workloads, if there are any.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = next_link
+
+
+class WorkloadResult(_serialization.Model):
+    """The Workload result data structure.
+
+    :ivar id: Workload Id.
+    :vartype id: str
+    :ivar name: Workload Name.
+    :vartype name: str
+    :ivar subscription_id: Subscription Id.
+    :vartype subscription_id: str
+    :ivar subscription_name: Subscription Name.
+    :vartype subscription_name: str
+    """
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "subscription_id": {"key": "subscriptionId", "type": "str"},
+        "subscription_name": {"key": "subscriptionName", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        id: Optional[str] = None,  # pylint: disable=redefined-builtin
+        name: Optional[str] = None,
+        subscription_id: Optional[str] = None,
+        subscription_name: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword id: Workload Id.
+        :paramtype id: str
+        :keyword name: Workload Name.
+        :paramtype name: str
+        :keyword subscription_id: Subscription Id.
+        :paramtype subscription_id: str
+        :keyword subscription_name: Subscription Name.
+        :paramtype subscription_name: str
+        """
+        super().__init__(**kwargs)
+        self.id = id
+        self.name = name
+        self.subscription_id = subscription_id
+        self.subscription_name = subscription_name
