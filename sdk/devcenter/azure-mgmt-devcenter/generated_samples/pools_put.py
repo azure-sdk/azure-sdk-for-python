@@ -6,8 +6,6 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from typing import Any, IO, Union
-
 from azure.identity import DefaultAzureCredential
 
 from azure.mgmt.devcenter import DevCenterMgmtClient
@@ -39,6 +37,13 @@ def main():
         body={
             "location": "centralus",
             "properties": {
+                "activeHoursConfiguration": {
+                    "autoStartEnableStatus": "Enabled",
+                    "defaultEndTimeHour": 17,
+                    "defaultStartTimeHour": 9,
+                    "defaultTimeZone": "America/Los_Angeles",
+                    "keepAwakeEnableStatus": "Enabled",
+                },
                 "devBoxDefinitionName": "WebDevBox",
                 "displayName": "Developer Pool",
                 "licenseType": "Windows_Client",
@@ -46,6 +51,7 @@ def main():
                 "networkConnectionName": "Network1-westus2",
                 "singleSignOnStatus": "Disabled",
                 "stopOnDisconnect": {"gracePeriodMinutes": 60, "status": "Enabled"},
+                "stopOnNoConnect": {"gracePeriodMinutes": 120, "status": "Enabled"},
                 "virtualNetworkType": "Unmanaged",
             },
         },
@@ -53,6 +59,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/Pools_Put.json
+# x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2025-04-01-preview/examples/Pools_Put.json
 if __name__ == "__main__":
     main()

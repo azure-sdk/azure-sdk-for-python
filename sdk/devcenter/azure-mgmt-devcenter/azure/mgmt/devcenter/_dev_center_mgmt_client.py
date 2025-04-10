@@ -8,6 +8,7 @@
 
 from copy import deepcopy
 from typing import Any, TYPE_CHECKING
+from typing_extensions import Self
 
 from azure.core.pipeline import policies
 from azure.core.rest import HttpRequest, HttpResponse
@@ -22,8 +23,13 @@ from .operations import (
     CatalogsOperations,
     CheckNameAvailabilityOperations,
     CheckScopedNameAvailabilityOperations,
+    CustomizationTasksOperations,
     DevBoxDefinitionsOperations,
+    DevCenterCatalogImageDefinitionBuildOperations,
+    DevCenterCatalogImageDefinitionBuildsOperations,
+    DevCenterCatalogImageDefinitionsOperations,
     DevCentersOperations,
+    EncryptionSetsOperations,
     EnvironmentDefinitionsOperations,
     EnvironmentTypesOperations,
     GalleriesOperations,
@@ -35,8 +41,12 @@ from .operations import (
     PoolsOperations,
     ProjectAllowedEnvironmentTypesOperations,
     ProjectCatalogEnvironmentDefinitionsOperations,
+    ProjectCatalogImageDefinitionBuildOperations,
+    ProjectCatalogImageDefinitionBuildsOperations,
+    ProjectCatalogImageDefinitionsOperations,
     ProjectCatalogsOperations,
     ProjectEnvironmentTypesOperations,
+    ProjectPoliciesOperations,
     ProjectsOperations,
     SchedulesOperations,
     SkusOperations,
@@ -44,15 +54,18 @@ from .operations import (
 )
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from azure.core.credentials import TokenCredential
 
 
-class DevCenterMgmtClient:  # pylint: disable=client-accepts-api-version-keyword,too-many-instance-attributes
+class DevCenterMgmtClient:  # pylint: disable=too-many-instance-attributes
     """DevCenter Management API.
 
     :ivar dev_centers: DevCentersOperations operations
     :vartype dev_centers: azure.mgmt.devcenter.operations.DevCentersOperations
+    :ivar encryption_sets: EncryptionSetsOperations operations
+    :vartype encryption_sets: azure.mgmt.devcenter.operations.EncryptionSetsOperations
+    :ivar project_policies: ProjectPoliciesOperations operations
+    :vartype project_policies: azure.mgmt.devcenter.operations.ProjectPoliciesOperations
     :ivar projects: ProjectsOperations operations
     :vartype projects: azure.mgmt.devcenter.operations.ProjectsOperations
     :ivar attached_networks: AttachedNetworksOperations operations
@@ -72,6 +85,8 @@ class DevCenterMgmtClient:  # pylint: disable=client-accepts-api-version-keyword
     :vartype images: azure.mgmt.devcenter.operations.ImagesOperations
     :ivar image_versions: ImageVersionsOperations operations
     :vartype image_versions: azure.mgmt.devcenter.operations.ImageVersionsOperations
+    :ivar skus: SkusOperations operations
+    :vartype skus: azure.mgmt.devcenter.operations.SkusOperations
     :ivar catalogs: CatalogsOperations operations
     :vartype catalogs: azure.mgmt.devcenter.operations.CatalogsOperations
     :ivar environment_types: EnvironmentTypesOperations operations
@@ -96,8 +111,31 @@ class DevCenterMgmtClient:  # pylint: disable=client-accepts-api-version-keyword
     :ivar check_scoped_name_availability: CheckScopedNameAvailabilityOperations operations
     :vartype check_scoped_name_availability:
      azure.mgmt.devcenter.operations.CheckScopedNameAvailabilityOperations
-    :ivar skus: SkusOperations operations
-    :vartype skus: azure.mgmt.devcenter.operations.SkusOperations
+    :ivar customization_tasks: CustomizationTasksOperations operations
+    :vartype customization_tasks: azure.mgmt.devcenter.operations.CustomizationTasksOperations
+    :ivar dev_center_catalog_image_definitions: DevCenterCatalogImageDefinitionsOperations
+     operations
+    :vartype dev_center_catalog_image_definitions:
+     azure.mgmt.devcenter.operations.DevCenterCatalogImageDefinitionsOperations
+    :ivar dev_center_catalog_image_definition_builds:
+     DevCenterCatalogImageDefinitionBuildsOperations operations
+    :vartype dev_center_catalog_image_definition_builds:
+     azure.mgmt.devcenter.operations.DevCenterCatalogImageDefinitionBuildsOperations
+    :ivar dev_center_catalog_image_definition_build: DevCenterCatalogImageDefinitionBuildOperations
+     operations
+    :vartype dev_center_catalog_image_definition_build:
+     azure.mgmt.devcenter.operations.DevCenterCatalogImageDefinitionBuildOperations
+    :ivar project_catalog_image_definitions: ProjectCatalogImageDefinitionsOperations operations
+    :vartype project_catalog_image_definitions:
+     azure.mgmt.devcenter.operations.ProjectCatalogImageDefinitionsOperations
+    :ivar project_catalog_image_definition_builds: ProjectCatalogImageDefinitionBuildsOperations
+     operations
+    :vartype project_catalog_image_definition_builds:
+     azure.mgmt.devcenter.operations.ProjectCatalogImageDefinitionBuildsOperations
+    :ivar project_catalog_image_definition_build: ProjectCatalogImageDefinitionBuildOperations
+     operations
+    :vartype project_catalog_image_definition_build:
+     azure.mgmt.devcenter.operations.ProjectCatalogImageDefinitionBuildOperations
     :ivar pools: PoolsOperations operations
     :vartype pools: azure.mgmt.devcenter.operations.PoolsOperations
     :ivar schedules: SchedulesOperations operations
@@ -110,8 +148,8 @@ class DevCenterMgmtClient:  # pylint: disable=client-accepts-api-version-keyword
     :type subscription_id: str
     :param base_url: Service URL. Default value is "https://management.azure.com".
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2024-02-01". Note that overriding this
-     default value may result in unsupported behavior.
+    :keyword api_version: Api Version. Default value is "2025-04-01-preview". Note that overriding
+     this default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
      Retry-After header is present.
@@ -152,6 +190,10 @@ class DevCenterMgmtClient:  # pylint: disable=client-accepts-api-version-keyword
         self._deserialize = Deserializer(client_models)
         self._serialize.client_side_validation = False
         self.dev_centers = DevCentersOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.encryption_sets = EncryptionSetsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.project_policies = ProjectPoliciesOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
         self.projects = ProjectsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.attached_networks = AttachedNetworksOperations(
             self._client, self._config, self._serialize, self._deserialize
@@ -168,6 +210,7 @@ class DevCenterMgmtClient:  # pylint: disable=client-accepts-api-version-keyword
         self.galleries = GalleriesOperations(self._client, self._config, self._serialize, self._deserialize)
         self.images = ImagesOperations(self._client, self._config, self._serialize, self._deserialize)
         self.image_versions = ImageVersionsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.skus = SkusOperations(self._client, self._config, self._serialize, self._deserialize)
         self.catalogs = CatalogsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.environment_types = EnvironmentTypesOperations(
             self._client, self._config, self._serialize, self._deserialize
@@ -192,7 +235,27 @@ class DevCenterMgmtClient:  # pylint: disable=client-accepts-api-version-keyword
         self.check_scoped_name_availability = CheckScopedNameAvailabilityOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
-        self.skus = SkusOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.customization_tasks = CustomizationTasksOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.dev_center_catalog_image_definitions = DevCenterCatalogImageDefinitionsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.dev_center_catalog_image_definition_builds = DevCenterCatalogImageDefinitionBuildsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.dev_center_catalog_image_definition_build = DevCenterCatalogImageDefinitionBuildOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.project_catalog_image_definitions = ProjectCatalogImageDefinitionsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.project_catalog_image_definition_builds = ProjectCatalogImageDefinitionBuildsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.project_catalog_image_definition_build = ProjectCatalogImageDefinitionBuildOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
         self.pools = PoolsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.schedules = SchedulesOperations(self._client, self._config, self._serialize, self._deserialize)
         self.network_connections = NetworkConnectionsOperations(
@@ -224,7 +287,7 @@ class DevCenterMgmtClient:  # pylint: disable=client-accepts-api-version-keyword
     def close(self) -> None:
         self._client.close()
 
-    def __enter__(self) -> "DevCenterMgmtClient":
+    def __enter__(self) -> Self:
         self._client.__enter__()
         return self
 

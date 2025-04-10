@@ -1,5 +1,152 @@
 # Release History
 
+## 1.2.0b1 (2025-04-10)
+
+### Features Added
+
+  - Client `DevCenterMgmtClient` added operation group `encryption_sets`
+  - Client `DevCenterMgmtClient` added operation group `project_policies`
+  - Client `DevCenterMgmtClient` added operation group `customization_tasks`
+  - Client `DevCenterMgmtClient` added operation group `dev_center_catalog_image_definitions`
+  - Client `DevCenterMgmtClient` added operation group `dev_center_catalog_image_definition_builds`
+  - Client `DevCenterMgmtClient` added operation group `dev_center_catalog_image_definition_build`
+  - Client `DevCenterMgmtClient` added operation group `project_catalog_image_definitions`
+  - Client `DevCenterMgmtClient` added operation group `project_catalog_image_definition_builds`
+  - Client `DevCenterMgmtClient` added operation group `project_catalog_image_definition_build`
+  - Enum `CatalogItemType` added member `IMAGE_DEFINITION`
+  - Model `DevCenter` added property `network_settings`
+  - Model `DevCenter` added property `dev_box_provisioning_settings`
+  - Model `DevCenterProperties` added property `network_settings`
+  - Model `DevCenterProperties` added property `dev_box_provisioning_settings`
+  - Model `DevCenterUpdate` added property `network_settings`
+  - Model `DevCenterUpdate` added property `dev_box_provisioning_settings`
+  - Model `DevCenterUpdateProperties` added property `network_settings`
+  - Model `DevCenterUpdateProperties` added property `dev_box_provisioning_settings`
+  - Enum `DomainJoinType` added member `NONE`
+  - Enum `HealthCheckStatus` added member `INFORMATIONAL`
+  - Model `Pool` added property `dev_box_definition_type`
+  - Model `Pool` added property `dev_box_definition`
+  - Model `Pool` added property `stop_on_no_connect`
+  - Model `Pool` added property `active_hours_configuration`
+  - Model `Pool` added property `dev_box_tunnel_enable_status`
+  - Model `PoolProperties` added property `dev_box_definition_type`
+  - Model `PoolProperties` added property `dev_box_definition`
+  - Model `PoolProperties` added property `stop_on_no_connect`
+  - Model `PoolProperties` added property `active_hours_configuration`
+  - Model `PoolProperties` added property `dev_box_tunnel_enable_status`
+  - Model `PoolUpdate` added property `dev_box_definition_type`
+  - Model `PoolUpdate` added property `dev_box_definition`
+  - Model `PoolUpdate` added property `stop_on_no_connect`
+  - Model `PoolUpdate` added property `active_hours_configuration`
+  - Model `PoolUpdate` added property `dev_box_tunnel_enable_status`
+  - Model `PoolUpdateProperties` added property `dev_box_definition_type`
+  - Model `PoolUpdateProperties` added property `dev_box_definition`
+  - Model `PoolUpdateProperties` added property `stop_on_no_connect`
+  - Model `PoolUpdateProperties` added property `active_hours_configuration`
+  - Model `PoolUpdateProperties` added property `dev_box_tunnel_enable_status`
+  - Model `Project` added property `customization_settings`
+  - Model `Project` added property `dev_box_auto_delete_settings`
+  - Model `Project` added property `azure_ai_services_settings`
+  - Model `Project` added property `serverless_gpu_sessions_settings`
+  - Model `Project` added property `workspace_storage_settings`
+  - Model `ProjectProperties` added property `customization_settings`
+  - Model `ProjectProperties` added property `dev_box_auto_delete_settings`
+  - Model `ProjectProperties` added property `azure_ai_services_settings`
+  - Model `ProjectProperties` added property `serverless_gpu_sessions_settings`
+  - Model `ProjectProperties` added property `workspace_storage_settings`
+  - Model `ProjectUpdate` added property `customization_settings`
+  - Model `ProjectUpdate` added property `dev_box_auto_delete_settings`
+  - Model `ProjectUpdate` added property `azure_ai_services_settings`
+  - Model `ProjectUpdate` added property `serverless_gpu_sessions_settings`
+  - Model `ProjectUpdate` added property `workspace_storage_settings`
+  - Model `ProjectUpdateProperties` added property `customization_settings`
+  - Model `ProjectUpdateProperties` added property `dev_box_auto_delete_settings`
+  - Model `ProjectUpdateProperties` added property `azure_ai_services_settings`
+  - Model `ProjectUpdateProperties` added property `serverless_gpu_sessions_settings`
+  - Model `ProjectUpdateProperties` added property `workspace_storage_settings`
+  - Added model `ActiveHoursConfiguration`
+  - Added enum `AutoImageBuildStatus`
+  - Added enum `AutoStartEnableStatus`
+  - Added enum `AzureAiServicesEnableStatus`
+  - Added model `AzureAiServicesSettings`
+  - Added model `CustomizationTask`
+  - Added model `CustomizationTaskInput`
+  - Added enum `CustomizationTaskInputType`
+  - Added model `CustomizationTaskInstance`
+  - Added model `CustomizationTaskListResult`
+  - Added model `DefinitionParametersItem`
+  - Added enum `DevBoxAutoDeleteEnableStatus`
+  - Added model `DevBoxAutoDeleteSettings`
+  - Added model `DevBoxProvisioningSettings`
+  - Added enum `DevBoxTunnelEnableStatus`
+  - Added model `DevCenterEncryptionSet`
+  - Added model `DevCenterEncryptionSetProperties`
+  - Added model `DevCenterEncryptionSetUpdateProperties`
+  - Added model `DevCenterNetworkSettings`
+  - Added enum `DevCenterResourceType`
+  - Added enum `DevboxDisksEncryptionEnableStatus`
+  - Added model `EncryptionSetListResult`
+  - Added model `EncryptionSetUpdate`
+  - Added model `ImageCreationErrorDetails`
+  - Added model `ImageDefinition`
+  - Added model `ImageDefinitionBuild`
+  - Added model `ImageDefinitionBuildDetails`
+  - Added model `ImageDefinitionBuildListResult`
+  - Added enum `ImageDefinitionBuildStatus`
+  - Added model `ImageDefinitionBuildTask`
+  - Added model `ImageDefinitionBuildTaskGroup`
+  - Added model `ImageDefinitionBuildTaskParametersItem`
+  - Added model `ImageDefinitionListResult`
+  - Added model `ImageDefinitionReference`
+  - Added model `InheritedSettingsForProject`
+  - Added enum `InstallAzureMonitorAgentEnableStatus`
+  - Added enum `KeepAwakeEnableStatus`
+  - Added model `LatestImageBuild`
+  - Added enum `MicrosoftHostedNetworkEnableStatus`
+  - Added enum `PolicyAction`
+  - Added model `PoolDevBoxDefinition`
+  - Added enum `PoolDevBoxDefinitionType`
+  - Added enum `ProjectCustomizationIdentityType`
+  - Added model `ProjectCustomizationManagedIdentity`
+  - Added model `ProjectCustomizationSettings`
+  - Added model `ProjectNetworkSettings`
+  - Added model `ProjectPolicy`
+  - Added model `ProjectPolicyListResult`
+  - Added model `ProjectPolicyProperties`
+  - Added model `ProjectPolicyUpdate`
+  - Added model `ProjectPolicyUpdateProperties`
+  - Added model `ResourcePolicy`
+  - Added enum `ServerlessGpuSessionsEnableStatus`
+  - Added model `ServerlessGpuSessionsSettings`
+  - Added model `StopOnNoConnectConfiguration`
+  - Added enum `StopOnNoConnectEnableStatus`
+  - Added enum `UserCustomizationsEnableStatus`
+  - Added enum `WorkspaceStorageEnableStatus`
+  - Added model `WorkspaceStorageSettings`
+  - Model `ImageVersionsOperations` added method `get_by_project`
+  - Model `ImageVersionsOperations` added method `list_by_project`
+  - Model `ImagesOperations` added method `get_by_project`
+  - Model `ImagesOperations` added method `list_by_project`
+  - Model `ProjectsOperations` added method `get_inherited_settings`
+  - Model `SkusOperations` added method `list_by_project`
+  - Added model `CustomizationTasksOperations`
+  - Added model `DevCenterCatalogImageDefinitionBuildOperations`
+  - Added model `DevCenterCatalogImageDefinitionBuildsOperations`
+  - Added model `DevCenterCatalogImageDefinitionsOperations`
+  - Added model `EncryptionSetsOperations`
+  - Added model `ProjectCatalogImageDefinitionBuildOperations`
+  - Added model `ProjectCatalogImageDefinitionBuildsOperations`
+  - Added model `ProjectCatalogImageDefinitionsOperations`
+  - Added model `ProjectPoliciesOperations`
+  - Method `EncryptionSetsOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, dev_center_name: str, encryption_set_name: str, body: DevCenterEncryptionSet, content_type: str)`
+  - Method `EncryptionSetsOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, dev_center_name: str, encryption_set_name: str, body: IO[bytes], content_type: str)`
+  - Method `EncryptionSetsOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, dev_center_name: str, encryption_set_name: str, body: EncryptionSetUpdate, content_type: str)`
+  - Method `EncryptionSetsOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, dev_center_name: str, encryption_set_name: str, body: IO[bytes], content_type: str)`
+  - Method `ProjectPoliciesOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, dev_center_name: str, project_policy_name: str, body: ProjectPolicy, content_type: str)`
+  - Method `ProjectPoliciesOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, dev_center_name: str, project_policy_name: str, body: IO[bytes], content_type: str)`
+  - Method `ProjectPoliciesOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, dev_center_name: str, project_policy_name: str, body: ProjectPolicyUpdate, content_type: str)`
+  - Method `ProjectPoliciesOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, dev_center_name: str, project_policy_name: str, body: IO[bytes], content_type: str)`
+
 ## 1.1.0 (2024-04-22)
 
 ### Features Added
