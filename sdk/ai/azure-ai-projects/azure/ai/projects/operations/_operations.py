@@ -9,7 +9,7 @@
 from io import IOBase
 import json
 import sys
-from typing import Any, Callable, Dict, IO, Iterable, List, Optional, TYPE_CHECKING, TypeVar, Union, overload
+from typing import Any, Callable, Dict, IO, Iterable, Iterator, List, Optional, TYPE_CHECKING, TypeVar, Union, overload
 import urllib.parse
 
 from azure.core import PipelineClient
@@ -33,7 +33,7 @@ from .. import _model_base, models as _models
 from .._configuration import AIProjectClientConfiguration
 from .._model_base import SdkJSONEncoder, _deserialize
 from .._serialization import Deserializer, Serializer
-from .._vendor import FileType, prepare_multipart_form_data
+from .._vendor import prepare_multipart_form_data
 
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
@@ -277,6 +277,40 @@ def build_agents_delete_thread_request(thread_id: str, **kwargs: Any) -> HttpReq
     _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
     return HttpRequest(method="DELETE", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_agents_list_threads_request(
+    *,
+    limit: Optional[int] = None,
+    order: Optional[Union[str, _models.ListSortOrder]] = None,
+    after: Optional[str] = None,
+    before: Optional[str] = None,
+    **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-07-01-preview"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/threads"
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+    if limit is not None:
+        _params["limit"] = _SERIALIZER.query("limit", limit, "int")
+    if order is not None:
+        _params["order"] = _SERIALIZER.query("order", order, "str")
+    if after is not None:
+        _params["after"] = _SERIALIZER.query("after", after, "str")
+    if before is not None:
+        _params["before"] = _SERIALIZER.query("before", before, "str")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
 def build_agents_create_message_request(thread_id: str, **kwargs: Any) -> HttpRequest:
@@ -778,7 +812,7 @@ def build_agents_get_file_content_request(file_id: str, **kwargs: Any) -> HttpRe
     _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
     api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2024-07-01-preview"))
-    accept = _headers.pop("Accept", "application/json")
+    accept = _headers.pop("Accept", "application/octet-stream")
 
     # Construct URL
     _url = "/files/{fileId}/content"
@@ -2701,6 +2735,97 @@ class AgentsOperations:  # pylint: disable=too-many-public-methods
 
         return deserialized  # type: ignore
 
+    @distributed_trace
+    def list_threads(
+        self,
+        *,
+        limit: Optional[int] = None,
+        order: Optional[Union[str, _models.ListSortOrder]] = None,
+        after: Optional[str] = None,
+        before: Optional[str] = None,
+        **kwargs: Any
+    ) -> _models.OpenAIPageableListOfAgentThread:
+        """Gets a list of threads that were previously created.
+
+        :keyword limit: A limit on the number of objects to be returned. Limit can range between 1 and
+         100, and the default is 20. Default value is None.
+        :paramtype limit: int
+        :keyword order: Sort order by the created_at timestamp of the objects. asc for ascending order
+         and desc for descending order. Known values are: "asc" and "desc". Default value is None.
+        :paramtype order: str or ~azure.ai.projects.models.ListSortOrder
+        :keyword after: A cursor for use in pagination. after is an object ID that defines your place
+         in the list. For instance, if you make a list request and receive 100 objects, ending with
+         obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the
+         list. Default value is None.
+        :paramtype after: str
+        :keyword before: A cursor for use in pagination. before is an object ID that defines your place
+         in the list. For instance, if you make a list request and receive 100 objects, ending with
+         obj_foo, your subsequent call can include before=obj_foo in order to fetch the previous page of
+         the list. Default value is None.
+        :paramtype before: str
+        :return: OpenAIPageableListOfAgentThread. The OpenAIPageableListOfAgentThread is compatible
+         with MutableMapping
+        :rtype: ~azure.ai.projects.models.OpenAIPageableListOfAgentThread
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = kwargs.pop("params", {}) or {}
+
+        cls: ClsType[_models.OpenAIPageableListOfAgentThread] = kwargs.pop("cls", None)
+
+        _request = build_agents_list_threads_request(
+            limit=limit,
+            order=order,
+            after=after,
+            before=before,
+            api_version=self._config.api_version,
+            headers=_headers,
+            params=_params,
+        )
+        path_format_arguments = {
+            "endpoint": self._serialize.url("self._config.endpoint", self._config.endpoint, "str"),
+            "subscriptionId": self._serialize.url("self._config.subscription_id", self._config.subscription_id, "str"),
+            "resourceGroupName": self._serialize.url(
+                "self._config.resource_group_name", self._config.resource_group_name, "str"
+            ),
+            "projectName": self._serialize.url("self._config.project_name", self._config.project_name, "str"),
+        }
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+        _stream = kwargs.pop("stream", False)
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            if _stream:
+                try:
+                    response.read()  # Load the body in memory and close the socket
+                except (StreamConsumedError, StreamClosedError):
+                    pass
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            raise HttpResponseError(response=response)
+
+        if _stream:
+            deserialized = response.iter_bytes()
+        else:
+            deserialized = _deserialize(_models.OpenAIPageableListOfAgentThread, response.json())
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
+
     @overload
     def create_message(
         self,
@@ -2719,12 +2844,11 @@ class AgentsOperations:  # pylint: disable=too-many-public-methods
         :type thread_id: str
         :keyword role: The role of the entity that is creating the message. Allowed values include:
 
-
-         * ``user``\\ : Indicates the message is sent by an actual user and should be used in most
-           cases to represent user-generated messages.
-         * ``assistant``\\ : Indicates the message is generated by the agent. Use this value to insert
-           messages from the agent into the
-           conversation. Known values are: "user" and "assistant". Required.
+         * `user`: Indicates the message is sent by an actual user and should be used in most
+         cases to represent user-generated messages.
+         * `assistant`: Indicates the message is generated by the agent. Use this value to insert
+         messages from the agent into the
+         conversation. Known values are: "user" and "assistant". Required.
         :paramtype role: str or ~azure.ai.projects.models.MessageRole
         :keyword content: The textual content of the initial message. Currently, robust input including
          images and annotated text may only be provided via
@@ -2802,12 +2926,11 @@ class AgentsOperations:  # pylint: disable=too-many-public-methods
         :type body: JSON or IO[bytes]
         :keyword role: The role of the entity that is creating the message. Allowed values include:
 
-
-         * ``user``\\ : Indicates the message is sent by an actual user and should be used in most
-           cases to represent user-generated messages.
-         * ``assistant``\\ : Indicates the message is generated by the agent. Use this value to insert
-           messages from the agent into the
-           conversation. Known values are: "user" and "assistant". Required.
+         * `user`: Indicates the message is sent by an actual user and should be used in most
+         cases to represent user-generated messages.
+         * `assistant`: Indicates the message is generated by the agent. Use this value to insert
+         messages from the agent into the
+         conversation. Known values are: "user" and "assistant". Required.
         :paramtype role: str or ~azure.ai.projects.models.MessageRole
         :keyword content: The textual content of the initial message. Currently, robust input including
          images and annotated text may only be provided via
@@ -3284,8 +3407,8 @@ class AgentsOperations:  # pylint: disable=too-many-public-methods
         :keyword tools: The overridden list of enabled tools that the agent should use to run the
          thread. Default value is None.
         :paramtype tools: list[~azure.ai.projects.models.ToolDefinition]
-        :keyword stream_parameter: If ``true``\\ , returns a stream of events that happen during the
-         Run as server-sent events,
+        :keyword stream_parameter: If ``true``, returns a stream of events that happen during the Run
+         as server-sent events,
          terminating when the Run enters a terminal state with a ``data: [DONE]`` message. Default
          value is None.
         :paramtype stream_parameter: bool
@@ -3454,8 +3577,8 @@ class AgentsOperations:  # pylint: disable=too-many-public-methods
         :keyword tools: The overridden list of enabled tools that the agent should use to run the
          thread. Default value is None.
         :paramtype tools: list[~azure.ai.projects.models.ToolDefinition]
-        :keyword stream_parameter: If ``true``\\ , returns a stream of events that happen during the
-         Run as server-sent events,
+        :keyword stream_parameter: If ``true``, returns a stream of events that happen during the Run
+         as server-sent events,
          terminating when the Run enters a terminal state with a ``data: [DONE]`` message. Default
          value is None.
         :paramtype stream_parameter: bool
@@ -4217,8 +4340,8 @@ class AgentsOperations:  # pylint: disable=too-many-public-methods
         :keyword tool_resources: Override the tools the agent can use for this run. This is useful for
          modifying the behavior on a per-run basis. Default value is None.
         :paramtype tool_resources: ~azure.ai.projects.models.UpdateToolResourcesOptions
-        :keyword stream_parameter: If ``true``\\ , returns a stream of events that happen during the
-         Run as server-sent events,
+        :keyword stream_parameter: If ``true``, returns a stream of events that happen during the Run
+         as server-sent events,
          terminating when the Run enters a terminal state with a ``data: [DONE]`` message. Default
          value is None.
         :paramtype stream_parameter: bool
@@ -4351,8 +4474,8 @@ class AgentsOperations:  # pylint: disable=too-many-public-methods
         :keyword tool_resources: Override the tools the agent can use for this run. This is useful for
          modifying the behavior on a per-run basis. Default value is None.
         :paramtype tool_resources: ~azure.ai.projects.models.UpdateToolResourcesOptions
-        :keyword stream_parameter: If ``true``\\ , returns a stream of events that happen during the
-         Run as server-sent events,
+        :keyword stream_parameter: If ``true``, returns a stream of events that happen during the Run
+         as server-sent events,
          terminating when the Run enters a terminal state with a ``data: [DONE]`` message. Default
          value is None.
         :paramtype stream_parameter: bool
@@ -4755,20 +4878,11 @@ class AgentsOperations:  # pylint: disable=too-many-public-methods
         return deserialized  # type: ignore
 
     @overload
-    def upload_file(
-        self, *, file: FileType, purpose: Union[str, _models.FilePurpose], filename: Optional[str] = None, **kwargs: Any
-    ) -> _models.OpenAIFile:
+    def upload_file(self, body: _models.UploadFileRequest, **kwargs: Any) -> _models.OpenAIFile:
         """Uploads a file for use by other operations.
 
-        :keyword file: The file data, in bytes. Required.
-        :paramtype file: ~azure.ai.projects._vendor.FileType
-        :keyword purpose: The intended purpose of the uploaded file. Use ``assistants`` for Agents and
-         Message files, ``vision`` for Agents image file inputs, ``batch`` for Batch API, and
-         ``fine-tune`` for Fine-tuning. Known values are: "fine-tune", "fine-tune-results",
-         "assistants", "assistants_output", "batch", "batch_output", and "vision". Required.
-        :paramtype purpose: str or ~azure.ai.projects.models.FilePurpose
-        :keyword filename: The name of the file. Default value is None.
-        :paramtype filename: str
+        :param body: Multipart body. Required.
+        :type body: ~azure.ai.projects.models.UploadFileRequest
         :return: OpenAIFile. The OpenAIFile is compatible with MutableMapping
         :rtype: ~azure.ai.projects.models.OpenAIFile
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -4778,7 +4892,7 @@ class AgentsOperations:  # pylint: disable=too-many-public-methods
     def upload_file(self, body: JSON, **kwargs: Any) -> _models.OpenAIFile:
         """Uploads a file for use by other operations.
 
-        :param body: Required.
+        :param body: Multipart body. Required.
         :type body: JSON
         :return: OpenAIFile. The OpenAIFile is compatible with MutableMapping
         :rtype: ~azure.ai.projects.models.OpenAIFile
@@ -4786,28 +4900,11 @@ class AgentsOperations:  # pylint: disable=too-many-public-methods
         """
 
     @distributed_trace
-    def upload_file(
-        self,
-        body: JSON = _Unset,
-        *,
-        file: FileType = _Unset,
-        purpose: Union[str, _models.FilePurpose] = _Unset,
-        filename: Optional[str] = None,
-        **kwargs: Any
-    ) -> _models.OpenAIFile:
+    def upload_file(self, body: Union[_models.UploadFileRequest, JSON], **kwargs: Any) -> _models.OpenAIFile:
         """Uploads a file for use by other operations.
 
-        :param body: Is one of the following types: JSON Required.
-        :type body: JSON
-        :keyword file: The file data, in bytes. Required.
-        :paramtype file: ~azure.ai.projects._vendor.FileType
-        :keyword purpose: The intended purpose of the uploaded file. Use ``assistants`` for Agents and
-         Message files, ``vision`` for Agents image file inputs, ``batch`` for Batch API, and
-         ``fine-tune`` for Fine-tuning. Known values are: "fine-tune", "fine-tune-results",
-         "assistants", "assistants_output", "batch", "batch_output", and "vision". Required.
-        :paramtype purpose: str or ~azure.ai.projects.models.FilePurpose
-        :keyword filename: The name of the file. Default value is None.
-        :paramtype filename: str
+        :param body: Multipart body. Is either a UploadFileRequest type or a JSON type. Required.
+        :type body: ~azure.ai.projects.models.UploadFileRequest or JSON
         :return: OpenAIFile. The OpenAIFile is compatible with MutableMapping
         :rtype: ~azure.ai.projects.models.OpenAIFile
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -4825,13 +4922,6 @@ class AgentsOperations:  # pylint: disable=too-many-public-methods
 
         cls: ClsType[_models.OpenAIFile] = kwargs.pop("cls", None)
 
-        if body is _Unset:
-            if file is _Unset:
-                raise TypeError("missing required argument: file")
-            if purpose is _Unset:
-                raise TypeError("missing required argument: purpose")
-            body = {"file": file, "filename": filename, "purpose": purpose}
-            body = {k: v for k, v in body.items() if v is not None}
         _body = body.as_dict() if isinstance(body, _model_base.Model) else body
         _file_fields: List[str] = ["file"]
         _data_fields: List[str] = ["purpose", "filename"]
@@ -5011,13 +5101,13 @@ class AgentsOperations:  # pylint: disable=too-many-public-methods
         return deserialized  # type: ignore
 
     @distributed_trace
-    def _get_file_content(self, file_id: str, **kwargs: Any) -> bytes:
+    def _get_file_content(self, file_id: str, **kwargs: Any) -> Iterator[bytes]:
         """Retrieves the raw content of a specific file.
 
         :param file_id: The ID of the file to retrieve. Required.
         :type file_id: str
-        :return: bytes
-        :rtype: bytes
+        :return: Iterator[bytes]
+        :rtype: Iterator[bytes]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -5031,7 +5121,7 @@ class AgentsOperations:  # pylint: disable=too-many-public-methods
         _headers = kwargs.pop("headers", {}) or {}
         _params = kwargs.pop("params", {}) or {}
 
-        cls: ClsType[bytes] = kwargs.pop("cls", None)
+        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
 
         _request = build_agents_get_file_content_request(
             file_id=file_id,
@@ -5049,7 +5139,7 @@ class AgentsOperations:  # pylint: disable=too-many-public-methods
         }
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
-        _stream = kwargs.pop("stream", False)
+        _stream = kwargs.pop("stream", True)
         pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
@@ -5065,10 +5155,7 @@ class AgentsOperations:  # pylint: disable=too-many-public-methods
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             raise HttpResponseError(response=response)
 
-        if _stream:
-            deserialized = response.iter_bytes()
-        else:
-            deserialized = _deserialize(bytes, response.json(), format="base64")
+        deserialized = response.iter_bytes()
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -7171,7 +7258,7 @@ class EvaluationsOperations:
 
         def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.Evaluation], deserialized["value"])
+            list_of_elem = _deserialize(List[_models.Evaluation], deserialized.get("value", []))
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
             return deserialized.get("nextLink") or None, iter(list_of_elem)
@@ -7631,7 +7718,7 @@ class EvaluationsOperations:
 
         def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.EvaluationSchedule], deserialized["value"])
+            list_of_elem = _deserialize(List[_models.EvaluationSchedule], deserialized.get("value", []))
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
             return deserialized.get("nextLink") or None, iter(list_of_elem)
