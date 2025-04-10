@@ -20,7 +20,7 @@ class TestHardwareSecurityModulesMgmtCloudHsmClusterPrivateEndpointConnectionsOp
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_create(self, resource_group):
+    def test_cloud_hsm_cluster_private_endpoint_connections_create(self, resource_group):
         response = self.client.cloud_hsm_cluster_private_endpoint_connections.create(
             resource_group_name=resource_group.name,
             cloud_hsm_cluster_name="str",
@@ -49,7 +49,7 @@ class TestHardwareSecurityModulesMgmtCloudHsmClusterPrivateEndpointConnectionsOp
                 },
                 "type": "str",
             },
-            api_version="2024-06-30-preview",
+            api_version="2025-03-31",
         )
 
         # please add some check logic here by yourself
@@ -57,12 +57,12 @@ class TestHardwareSecurityModulesMgmtCloudHsmClusterPrivateEndpointConnectionsOp
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_delete(self, resource_group):
+    def test_cloud_hsm_cluster_private_endpoint_connections_begin_delete(self, resource_group):
         response = self.client.cloud_hsm_cluster_private_endpoint_connections.begin_delete(
             resource_group_name=resource_group.name,
             cloud_hsm_cluster_name="str",
             pe_connection_name="str",
-            api_version="2024-06-30-preview",
+            api_version="2025-03-31",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -70,12 +70,12 @@ class TestHardwareSecurityModulesMgmtCloudHsmClusterPrivateEndpointConnectionsOp
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_cloud_hsm_cluster_private_endpoint_connections_get(self, resource_group):
         response = self.client.cloud_hsm_cluster_private_endpoint_connections.get(
             resource_group_name=resource_group.name,
             cloud_hsm_cluster_name="str",
             pe_connection_name="str",
-            api_version="2024-06-30-preview",
+            api_version="2025-03-31",
         )
 
         # please add some check logic here by yourself

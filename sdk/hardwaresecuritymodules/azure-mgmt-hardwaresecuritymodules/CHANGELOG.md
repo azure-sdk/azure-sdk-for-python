@@ -1,5 +1,11 @@
 # Release History
 
+## 1.0.0 (2025-04-10)
+
+### Features Added
+
+  - Enum `ProvisioningState` added member `UPDATING`
+
 ## 1.0.0b2 (2025-02-06)
 
 ### Features Added

@@ -35,6 +35,6 @@ def main():
         print(item)
 
 
-# x-ms-original-file: specification/hardwaresecuritymodules/resource-manager/Microsoft.HardwareSecurityModules/preview/2024-06-30-preview/examples/DedicatedHsm_ListBySubscription.json
+# x-ms-original-file: specification/hardwaresecuritymodules/resource-manager/Microsoft.HardwareSecurityModules/stable/2025-03-31/examples/DedicatedHsm_ListBySubscription.json
 if __name__ == "__main__":
     main()

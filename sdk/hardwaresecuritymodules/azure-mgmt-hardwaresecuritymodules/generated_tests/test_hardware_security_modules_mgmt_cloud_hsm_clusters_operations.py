@@ -20,12 +20,12 @@ class TestHardwareSecurityModulesMgmtCloudHsmClustersOperations(AzureMgmtRecorde
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_create_or_update(self, resource_group):
+    def test_cloud_hsm_clusters_begin_create_or_update(self, resource_group):
         response = self.client.cloud_hsm_clusters.begin_create_or_update(
             resource_group_name=resource_group.name,
             cloud_hsm_cluster_name="str",
             location="str",
-            api_version="2024-06-30-preview",
+            api_version="2025-03-31",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -33,11 +33,11 @@ class TestHardwareSecurityModulesMgmtCloudHsmClustersOperations(AzureMgmtRecorde
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_update(self, resource_group):
+    def test_cloud_hsm_clusters_begin_update(self, resource_group):
         response = self.client.cloud_hsm_clusters.begin_update(
             resource_group_name=resource_group.name,
             cloud_hsm_cluster_name="str",
-            api_version="2024-06-30-preview",
+            api_version="2025-03-31",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -45,11 +45,11 @@ class TestHardwareSecurityModulesMgmtCloudHsmClustersOperations(AzureMgmtRecorde
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_cloud_hsm_clusters_get(self, resource_group):
         response = self.client.cloud_hsm_clusters.get(
             resource_group_name=resource_group.name,
             cloud_hsm_cluster_name="str",
-            api_version="2024-06-30-preview",
+            api_version="2025-03-31",
         )
 
         # please add some check logic here by yourself
@@ -57,11 +57,11 @@ class TestHardwareSecurityModulesMgmtCloudHsmClustersOperations(AzureMgmtRecorde
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_delete(self, resource_group):
+    def test_cloud_hsm_clusters_begin_delete(self, resource_group):
         response = self.client.cloud_hsm_clusters.begin_delete(
             resource_group_name=resource_group.name,
             cloud_hsm_cluster_name="str",
-            api_version="2024-06-30-preview",
+            api_version="2025-03-31",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -69,10 +69,10 @@ class TestHardwareSecurityModulesMgmtCloudHsmClustersOperations(AzureMgmtRecorde
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_resource_group(self, resource_group):
+    def test_cloud_hsm_clusters_list_by_resource_group(self, resource_group):
         response = self.client.cloud_hsm_clusters.list_by_resource_group(
             resource_group_name=resource_group.name,
-            api_version="2024-06-30-preview",
+            api_version="2025-03-31",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -80,9 +80,9 @@ class TestHardwareSecurityModulesMgmtCloudHsmClustersOperations(AzureMgmtRecorde
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_subscription(self, resource_group):
+    def test_cloud_hsm_clusters_list_by_subscription(self, resource_group):
         response = self.client.cloud_hsm_clusters.list_by_subscription(
-            api_version="2024-06-30-preview",
+            api_version="2025-03-31",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -90,11 +90,11 @@ class TestHardwareSecurityModulesMgmtCloudHsmClustersOperations(AzureMgmtRecorde
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_validate_backup_properties(self, resource_group):
+    def test_cloud_hsm_clusters_begin_validate_backup_properties(self, resource_group):
         response = self.client.cloud_hsm_clusters.begin_validate_backup_properties(
             resource_group_name=resource_group.name,
             cloud_hsm_cluster_name="str",
-            api_version="2024-06-30-preview",
+            api_version="2025-03-31",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -102,11 +102,11 @@ class TestHardwareSecurityModulesMgmtCloudHsmClustersOperations(AzureMgmtRecorde
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_backup(self, resource_group):
+    def test_cloud_hsm_clusters_begin_backup(self, resource_group):
         response = self.client.cloud_hsm_clusters.begin_backup(
             resource_group_name=resource_group.name,
             cloud_hsm_cluster_name="str",
-            api_version="2024-06-30-preview",
+            api_version="2025-03-31",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -114,11 +114,11 @@ class TestHardwareSecurityModulesMgmtCloudHsmClustersOperations(AzureMgmtRecorde
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_validate_restore_properties(self, resource_group):
+    def test_cloud_hsm_clusters_begin_validate_restore_properties(self, resource_group):
         response = self.client.cloud_hsm_clusters.begin_validate_restore_properties(
             resource_group_name=resource_group.name,
             cloud_hsm_cluster_name="str",
-            api_version="2024-06-30-preview",
+            api_version="2025-03-31",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -126,12 +126,12 @@ class TestHardwareSecurityModulesMgmtCloudHsmClustersOperations(AzureMgmtRecorde
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_restore(self, resource_group):
+    def test_cloud_hsm_clusters_begin_restore(self, resource_group):
         response = self.client.cloud_hsm_clusters.begin_restore(
             resource_group_name=resource_group.name,
             cloud_hsm_cluster_name="str",
             restore_request_properties={"azureStorageBlobContainerUri": "str", "backupId": "str", "token": "str"},
-            api_version="2024-06-30-preview",
+            api_version="2025-03-31",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself

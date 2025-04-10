@@ -140,6 +140,7 @@ class ProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     PROVISIONING = "Provisioning"
     SUCCEEDED = "Succeeded"
+    UPDATING = "Updating"
     FAILED = "Failed"
     DELETING = "Deleting"
     CANCELED = "Canceled"
