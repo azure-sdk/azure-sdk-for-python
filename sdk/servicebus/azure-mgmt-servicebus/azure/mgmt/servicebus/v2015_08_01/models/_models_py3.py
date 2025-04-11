@@ -1,5 +1,5 @@
-# coding=utf-8
 # pylint: disable=too-many-lines
+# coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -12,7 +12,6 @@ from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 from ... import _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
@@ -346,7 +345,7 @@ class TrackedResource(Resource):
         self.tags = tags
 
 
-class NamespaceResource(TrackedResource):  # pylint: disable=too-many-instance-attributes
+class NamespaceResource(TrackedResource):
     """Description of a namespace resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -566,7 +565,7 @@ class OperationListResult(_serialization.Model):
         self.next_link = None
 
 
-class QueueCreateOrUpdateParameters(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class QueueCreateOrUpdateParameters(_serialization.Model):
     """Parameters supplied to the Create Or Update Queue operation.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -820,7 +819,7 @@ class QueueListResult(_serialization.Model):
         self.next_link = next_link
 
 
-class QueueResource(Resource):  # pylint: disable=too-many-instance-attributes
+class QueueResource(Resource):
     """Description of queue Resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1298,7 +1297,7 @@ class Sku(_serialization.Model):
         self.capacity = capacity
 
 
-class SubscriptionCreateOrUpdateParameters(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class SubscriptionCreateOrUpdateParameters(_serialization.Model):
     """Parameters supplied to the Create Or Update Subscription operation.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1497,7 +1496,7 @@ class SubscriptionListResult(_serialization.Model):
         self.next_link = next_link
 
 
-class SubscriptionResource(Resource):  # pylint: disable=too-many-instance-attributes
+class SubscriptionResource(Resource):
     """Description of subscription resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1663,7 +1662,7 @@ class SubscriptionResource(Resource):  # pylint: disable=too-many-instance-attri
         self.updated_at = None
 
 
-class TopicCreateOrUpdateParameters(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class TopicCreateOrUpdateParameters(_serialization.Model):
     """Parameters supplied to the Create Or Update Topic operation.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1894,7 +1893,7 @@ class TopicListResult(_serialization.Model):
         self.next_link = next_link
 
 
-class TopicResource(Resource):  # pylint: disable=too-many-instance-attributes
+class TopicResource(Resource):
     """Description of topic resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.

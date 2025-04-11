@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines,too-many-statements
+# pylint: disable=too-many-lines
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8,7 +8,7 @@
 # --------------------------------------------------------------------------
 from io import IOBase
 import sys
-from typing import Any, Callable, Dict, IO, Iterable, Optional, Type, TypeVar, Union, overload
+from typing import Any, Callable, Dict, IO, Iterable, Optional, TypeVar, Union, overload
 import urllib.parse
 
 from azure.core.exceptions import (
@@ -32,7 +32,7 @@ from ..._serialization import Serializer
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
 
@@ -497,7 +497,7 @@ class DisasterRecoveryConfigsOperations:
         :rtype: ~azure.mgmt.servicebus.v2021_06_01_preview.models.CheckNameAvailabilityResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -577,7 +577,7 @@ class DisasterRecoveryConfigsOperations:
         )
         cls: ClsType[_models.ArmDisasterRecoveryListResult] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -725,7 +725,7 @@ class DisasterRecoveryConfigsOperations:
         :rtype: ~azure.mgmt.servicebus.v2021_06_01_preview.models.ArmDisasterRecovery or None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -801,7 +801,7 @@ class DisasterRecoveryConfigsOperations:
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -859,7 +859,7 @@ class DisasterRecoveryConfigsOperations:
         :rtype: ~azure.mgmt.servicebus.v2021_06_01_preview.models.ArmDisasterRecovery
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -922,7 +922,7 @@ class DisasterRecoveryConfigsOperations:
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -965,7 +965,7 @@ class DisasterRecoveryConfigsOperations:
             return cls(pipeline_response, None, {})  # type: ignore
 
     @overload
-    def fail_over(  # pylint: disable=inconsistent-return-statements
+    def fail_over(
         self,
         resource_group_name: str,
         namespace_name: str,
@@ -995,7 +995,7 @@ class DisasterRecoveryConfigsOperations:
         """
 
     @overload
-    def fail_over(  # pylint: disable=inconsistent-return-statements
+    def fail_over(
         self,
         resource_group_name: str,
         namespace_name: str,
@@ -1049,7 +1049,7 @@ class DisasterRecoveryConfigsOperations:
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1134,7 +1134,7 @@ class DisasterRecoveryConfigsOperations:
         )
         cls: ClsType[_models.SBAuthorizationRuleListResult] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1219,7 +1219,7 @@ class DisasterRecoveryConfigsOperations:
         :rtype: ~azure.mgmt.servicebus.v2021_06_01_preview.models.SBAuthorizationRule
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1287,7 +1287,7 @@ class DisasterRecoveryConfigsOperations:
         :rtype: ~azure.mgmt.servicebus.v2021_06_01_preview.models.AccessKeys
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,

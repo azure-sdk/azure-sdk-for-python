@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines,too-many-statements
+# pylint: disable=too-many-lines
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8,7 +8,7 @@
 # --------------------------------------------------------------------------
 from io import IOBase
 import sys
-from typing import Any, Callable, Dict, IO, Iterable, Iterator, Optional, Type, TypeVar, Union, cast, overload
+from typing import Any, Callable, Dict, IO, Iterable, Iterator, Optional, TypeVar, Union, cast, overload
 import urllib.parse
 
 from azure.core.exceptions import (
@@ -36,7 +36,7 @@ from ..._serialization import Serializer
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
 
@@ -666,7 +666,7 @@ class NamespacesOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2017-04-01"))
         cls: ClsType[_models.SBAuthorizationRuleListResult] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -820,7 +820,7 @@ class NamespacesOperations:
         :rtype: ~azure.mgmt.servicebus.v2017_04_01.models.SBAuthorizationRule
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -895,7 +895,7 @@ class NamespacesOperations:
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -954,7 +954,7 @@ class NamespacesOperations:
         :rtype: ~azure.mgmt.servicebus.v2017_04_01.models.SBAuthorizationRule
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1017,7 +1017,7 @@ class NamespacesOperations:
         :rtype: ~azure.mgmt.servicebus.v2017_04_01.models.AccessKeys
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1153,7 +1153,7 @@ class NamespacesOperations:
         :rtype: ~azure.mgmt.servicebus.v2017_04_01.models.AccessKeys
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1254,7 +1254,7 @@ class NamespacesOperations:
         :rtype: ~azure.mgmt.servicebus.v2017_04_01.models.CheckNameAvailabilityResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1308,7 +1308,7 @@ class NamespacesOperations:
         return deserialized  # type: ignore
 
     @overload
-    def migrate(  # pylint: disable=inconsistent-return-statements
+    def migrate(
         self,
         resource_group_name: str,
         namespace_name: str,
@@ -1334,7 +1334,7 @@ class NamespacesOperations:
         """
 
     @overload
-    def migrate(  # pylint: disable=inconsistent-return-statements
+    def migrate(
         self,
         resource_group_name: str,
         namespace_name: str,
@@ -1380,7 +1380,7 @@ class NamespacesOperations:
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1448,7 +1448,7 @@ class NamespacesOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2017-04-01"))
         cls: ClsType[_models.SBNamespaceListResult] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1528,7 +1528,7 @@ class NamespacesOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2017-04-01"))
         cls: ClsType[_models.SBNamespaceListResult] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1597,7 +1597,7 @@ class NamespacesOperations:
         parameters: Union[_models.SBNamespace, IO[bytes]],
         **kwargs: Any
     ) -> Iterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1793,7 +1793,7 @@ class NamespacesOperations:
         )
 
     def _delete_initial(self, resource_group_name: str, namespace_name: str, **kwargs: Any) -> Iterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1912,7 +1912,7 @@ class NamespacesOperations:
         :rtype: ~azure.mgmt.servicebus.v2017_04_01.models.SBNamespace
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -2032,7 +2032,7 @@ class NamespacesOperations:
         :rtype: ~azure.mgmt.servicebus.v2017_04_01.models.SBNamespace or None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -2161,7 +2161,7 @@ class NamespacesOperations:
         :rtype: ~azure.mgmt.servicebus.v2017_04_01.models.NetworkRuleSet
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -2230,7 +2230,7 @@ class NamespacesOperations:
         :rtype: ~azure.mgmt.servicebus.v2017_04_01.models.NetworkRuleSet
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -2293,7 +2293,7 @@ class NamespacesOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2017-04-01"))
         cls: ClsType[_models.NetworkRuleSetListResult] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
