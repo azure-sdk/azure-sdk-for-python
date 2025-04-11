@@ -1,5 +1,941 @@
 # Release History
 
+## 2.0.0 (2025-04-11)
+
+### Features Added
+
+  - Model `AKS` added property `disable_local_auth`
+  - Model `AmlCompute` added property `disable_local_auth`
+  - Model `AmlComputeProperties` added property `os_type`
+  - Model `AmlComputeProperties` added property `virtual_machine_image`
+  - Model `AmlComputeProperties` added property `isolated_network`
+  - Model `AmlComputeProperties` added property `enable_node_public_ip`
+  - Model `AmlComputeProperties` added property `property_bag`
+  - Model `ClusterUpdateParameters` added property `properties`
+  - Model `Compute` added property `disable_local_auth`
+  - Model `ComputeInstance` added property `disable_local_auth`
+  - Model `ComputeInstanceLastOperation` added property `operation_trigger`
+  - Model `ComputeInstanceProperties` added property `custom_services`
+  - Model `ComputeInstanceProperties` added property `os_image_metadata`
+  - Model `ComputeInstanceProperties` added property `compute_instance_authorization_type`
+  - Model `ComputeInstanceProperties` added property `personal_compute_instance_settings`
+  - Model `ComputeInstanceProperties` added property `setup_scripts`
+  - Model `ComputeInstanceProperties` added property `schedules`
+  - Model `ComputeInstanceProperties` added property `enable_node_public_ip`
+  - Model `ComputeInstanceProperties` added property `containers`
+  - Model `ComputeInstanceProperties` added property `data_disks`
+  - Model `ComputeInstanceProperties` added property `data_mounts`
+  - Model `ComputeInstanceProperties` added property `versions`
+  - Model `ComputeResource` added property `system_data`
+  - Enum `ComputeType` added member `KUBERNETES`
+  - Enum `ComputeType` added member `SYNAPSE_SPARK`
+  - Model `DataFactory` added property `disable_local_auth`
+  - Model `DataLakeAnalytics` added property `disable_local_auth`
+  - Model `Databricks` added property `disable_local_auth`
+  - Model `DatabricksProperties` added property `workspace_url`
+  - Model `EncryptionProperty` added property `identity`
+  - Model `ErrorDetail` added property `target`
+  - Model `ErrorDetail` added property `details`
+  - Model `ErrorDetail` added property `additional_info`
+  - Model `ErrorResponse` added property `error`
+  - Model `HDInsight` added property `disable_local_auth`
+  - Model `Operation` added property `is_data_action`
+  - Model `Operation` added property `origin`
+  - Model `Operation` added property `action_type`
+  - Model `OperationListResult` added property `next_link`
+  - Model `PrivateEndpointConnection` added property `identity`
+  - Model `PrivateEndpointConnection` added property `location`
+  - Model `PrivateEndpointConnection` added property `tags`
+  - Model `PrivateEndpointConnection` added property `sku`
+  - Model `PrivateEndpointConnection` added property `system_data`
+  - Model `PrivateLinkResource` added property `system_data`
+  - Model `QuotaUpdateParameters` added property `location`
+  - Model `Resource` added property `system_data`
+  - Model `ResourceQuota` added property `aml_workspace_location`
+  - Model `Sku` added property `size`
+  - Model `Sku` added property `family`
+  - Model `Sku` added property `capacity`
+  - Model `SslConfiguration` added property `leaf_domain_label`
+  - Model `SslConfiguration` added property `overwrite_existing_domain`
+  - Model `Usage` added property `aml_workspace_location`
+  - Model `VirtualMachine` added property `disable_local_auth`
+  - Model `VirtualMachineSizeListResult` added property `value`
+  - Model `Workspace` added property `kind`
+  - Model `Workspace` added property `public_network_access`
+  - Model `Workspace` added property `serverless_compute_settings`
+  - Model `Workspace` added property `service_managed_resources_settings`
+  - Model `Workspace` added property `primary_user_assigned_identity`
+  - Model `Workspace` added property `tenant_id`
+  - Model `Workspace` added property `storage_hns_enabled`
+  - Model `Workspace` added property `ml_flow_tracking_uri`
+  - Model `Workspace` added property `v1_legacy_mode`
+  - Model `Workspace` added property `managed_network`
+  - Model `Workspace` added property `feature_store_settings`
+  - Model `Workspace` added property `associated_workspaces`
+  - Model `Workspace` added property `enable_data_isolation`
+  - Model `Workspace` added property `hub_resource_id`
+  - Model `Workspace` added property `workspace_hub_config`
+  - Model `Workspace` added property `system_data`
+  - Model `WorkspaceUpdateParameters` added property `identity`
+  - Model `WorkspaceUpdateParameters` added property `image_build_compute`
+  - Model `WorkspaceUpdateParameters` added property `service_managed_resources_settings`
+  - Model `WorkspaceUpdateParameters` added property `primary_user_assigned_identity`
+  - Model `WorkspaceUpdateParameters` added property `serverless_compute_settings`
+  - Model `WorkspaceUpdateParameters` added property `public_network_access`
+  - Model `WorkspaceUpdateParameters` added property `application_insights`
+  - Model `WorkspaceUpdateParameters` added property `container_registry`
+  - Model `WorkspaceUpdateParameters` added property `feature_store_settings`
+  - Model `WorkspaceUpdateParameters` added property `managed_network`
+  - Model `WorkspaceUpdateParameters` added property `enable_data_isolation`
+  - Model `WorkspaceUpdateParameters` added property `v1_legacy_mode`
+  - Model `WorkspaceUpdateParameters` added property `encryption`
+  - Added model `AADAuthTypeWorkspaceConnectionProperties`
+  - Added model `AKSSchema`
+  - Added model `AKSSchemaProperties`
+  - Added model `AccessKeyAuthTypeWorkspaceConnectionProperties`
+  - Added model `AccountKeyAuthTypeWorkspaceConnectionProperties`
+  - Added model `AccountKeyDatastoreCredentials`
+  - Added model `AccountKeyDatastoreSecrets`
+  - Added model `AcrDetails`
+  - Added enum `ActionType`
+  - Added model `AksComputeSecretsProperties`
+  - Added model `AllFeatures`
+  - Added model `AllNodes`
+  - Added model `AmlComputeSchema`
+  - Added model `AmlToken`
+  - Added model `AmlTokenComputeIdentity`
+  - Added model `AnonymousAccessCredential`
+  - Added model `ApiKeyAuthWorkspaceConnectionProperties`
+  - Added model `ArmResourceId`
+  - Added model `AssetBase`
+  - Added model `AssetContainer`
+  - Added model `AssetJobInput`
+  - Added model `AssetJobOutput`
+  - Added enum `AssetProvisioningState`
+  - Added model `AssetReferenceBase`
+  - Added model `AssignedUser`
+  - Added model `AutoForecastHorizon`
+  - Added model `AutoMLJob`
+  - Added model `AutoMLVertical`
+  - Added model `AutoNCrossValidations`
+  - Added model `AutoPauseProperties`
+  - Added enum `AutoRebuildSetting`
+  - Added model `AutoScaleProperties`
+  - Added model `AutoSeasonality`
+  - Added model `AutoTargetLags`
+  - Added model `AutoTargetRollingWindowSize`
+  - Added enum `Autosave`
+  - Added model `AzureBlobDatastore`
+  - Added model `AzureDataLakeGen1Datastore`
+  - Added model `AzureDataLakeGen2Datastore`
+  - Added model `AzureDatastore`
+  - Added model `AzureDevOpsWebhook`
+  - Added model `AzureFileDatastore`
+  - Added model `BanditPolicy`
+  - Added model `BatchDeployment`
+  - Added model `BatchDeploymentConfiguration`
+  - Added enum `BatchDeploymentConfigurationType`
+  - Added model `BatchDeploymentProperties`
+  - Added model `BatchDeploymentTrackedResourceArmPaginatedResult`
+  - Added model `BatchEndpoint`
+  - Added model `BatchEndpointDefaults`
+  - Added model `BatchEndpointProperties`
+  - Added model `BatchEndpointTrackedResourceArmPaginatedResult`
+  - Added enum `BatchLoggingLevel`
+  - Added enum `BatchOutputAction`
+  - Added model `BatchPipelineComponentDeploymentConfiguration`
+  - Added model `BatchRetrySettings`
+  - Added model `BayesianSamplingAlgorithm`
+  - Added model `BindOptions`
+  - Added model `BlobReferenceForConsumptionDto`
+  - Added enum `BlockedTransformers`
+  - Added model `BuildContext`
+  - Added enum `Caching`
+  - Added enum `CategoricalDataDriftMetric`
+  - Added model `CategoricalDataDriftMetricThreshold`
+  - Added enum `CategoricalDataQualityMetric`
+  - Added model `CategoricalDataQualityMetricThreshold`
+  - Added enum `CategoricalPredictionDriftMetric`
+  - Added model `CategoricalPredictionDriftMetricThreshold`
+  - Added model `CertificateDatastoreCredentials`
+  - Added model `CertificateDatastoreSecrets`
+  - Added model `Classification`
+  - Added enum `ClassificationModels`
+  - Added enum `ClassificationMultilabelPrimaryMetrics`
+  - Added enum `ClassificationPrimaryMetrics`
+  - Added model `ClassificationTrainingSettings`
+  - Added enum `ClusterPurpose`
+  - Added model `CodeConfiguration`
+  - Added model `CodeContainer`
+  - Added model `CodeContainerProperties`
+  - Added model `CodeContainerResourceArmPaginatedResult`
+  - Added model `CodeVersion`
+  - Added model `CodeVersionProperties`
+  - Added model `CodeVersionResourceArmPaginatedResult`
+  - Added model `Collection`
+  - Added model `ColumnTransformer`
+  - Added model `CommandJob`
+  - Added model `CommandJobLimits`
+  - Added model `ComponentContainer`
+  - Added model `ComponentContainerProperties`
+  - Added model `ComponentContainerResourceArmPaginatedResult`
+  - Added model `ComponentVersion`
+  - Added model `ComponentVersionProperties`
+  - Added model `ComponentVersionResourceArmPaginatedResult`
+  - Added enum `ComputeInstanceAuthorizationType`
+  - Added model `ComputeInstanceContainer`
+  - Added model `ComputeInstanceDataDisk`
+  - Added model `ComputeInstanceDataMount`
+  - Added model `ComputeInstanceEnvironmentInfo`
+  - Added model `ComputeInstanceSchema`
+  - Added model `ComputeInstanceVersion`
+  - Added enum `ComputePowerAction`
+  - Added enum `ComputeRecurrenceFrequency`
+  - Added model `ComputeRecurrenceSchedule`
+  - Added model `ComputeResourceSchema`
+  - Added model `ComputeRuntimeDto`
+  - Added model `ComputeSchedules`
+  - Added model `ComputeStartStopSchedule`
+  - Added enum `ComputeTriggerType`
+  - Added enum `ComputeWeekDay`
+  - Added enum `ConnectionAuthType`
+  - Added enum `ConnectionCategory`
+  - Added enum `ConnectionGroup`
+  - Added model `ContainerResourceRequirements`
+  - Added model `ContainerResourceSettings`
+  - Added enum `ContainerType`
+  - Added model `ContentSafety`
+  - Added enum `ContentSafetyStatus`
+  - Added model `CosmosDbSettings`
+  - Added model `CreateMonitorAction`
+  - Added enum `CreatedByType`
+  - Added enum `CredentialsType`
+  - Added model `Cron`
+  - Added model `CronTrigger`
+  - Added model `CustomForecastHorizon`
+  - Added model `CustomKeys`
+  - Added model `CustomKeysWorkspaceConnectionProperties`
+  - Added model `CustomMetricThreshold`
+  - Added model `CustomModelJobInput`
+  - Added model `CustomModelJobOutput`
+  - Added model `CustomMonitoringSignal`
+  - Added model `CustomNCrossValidations`
+  - Added model `CustomSeasonality`
+  - Added model `CustomService`
+  - Added model `CustomTargetLags`
+  - Added model `CustomTargetRollingWindowSize`
+  - Added enum `DataAvailabilityStatus`
+  - Added enum `DataCollectionMode`
+  - Added model `DataCollector`
+  - Added model `DataContainer`
+  - Added model `DataContainerProperties`
+  - Added model `DataContainerResourceArmPaginatedResult`
+  - Added model `DataDriftMetricThresholdBase`
+  - Added model `DataDriftMonitoringSignal`
+  - Added model `DataLakeAnalyticsSchema`
+  - Added model `DataLakeAnalyticsSchemaProperties`
+  - Added model `DataPathAssetReference`
+  - Added model `DataQualityMetricThresholdBase`
+  - Added model `DataQualityMonitoringSignal`
+  - Added model `DataReferenceCredential`
+  - Added enum `DataReferenceCredentialType`
+  - Added enum `DataType`
+  - Added model `DataVersionBase`
+  - Added model `DataVersionBaseProperties`
+  - Added model `DataVersionBaseResourceArmPaginatedResult`
+  - Added model `DatabricksComputeSecretsProperties`
+  - Added model `DatabricksSchema`
+  - Added model `Datastore`
+  - Added model `DatastoreCredentials`
+  - Added model `DatastoreProperties`
+  - Added model `DatastoreResourceArmPaginatedResult`
+  - Added model `DatastoreSecrets`
+  - Added enum `DatastoreType`
+  - Added model `DefaultScaleSettings`
+  - Added model `DeploymentLogs`
+  - Added model `DeploymentLogsRequest`
+  - Added enum `DeploymentProvisioningState`
+  - Added model `DeploymentResourceConfiguration`
+  - Added model `DestinationAsset`
+  - Added model `DiagnoseRequestProperties`
+  - Added model `DiagnoseResponseResult`
+  - Added model `DiagnoseResponseResultValue`
+  - Added model `DiagnoseResult`
+  - Added enum `DiagnoseResultLevel`
+  - Added model `DiagnoseWorkspaceParameters`
+  - Added model `DistributionConfiguration`
+  - Added enum `DistributionType`
+  - Added model `Docker`
+  - Added model `DockerCredential`
+  - Added model `EarlyTerminationPolicy`
+  - Added enum `EarlyTerminationPolicyType`
+  - Added enum `EgressPublicNetworkAccessType`
+  - Added enum `EmailNotificationEnableType`
+  - Added model `EncryptionKeyVaultProperties`
+  - Added model `EncryptionKeyVaultUpdateProperties`
+  - Added model `EncryptionUpdateProperties`
+  - Added model `Endpoint`
+  - Added model `EndpointAuthKeys`
+  - Added enum `EndpointAuthMode`
+  - Added model `EndpointAuthToken`
+  - Added enum `EndpointComputeType`
+  - Added model `EndpointDeploymentPropertiesBase`
+  - Added model `EndpointPropertiesBase`
+  - Added enum `EndpointProvisioningState`
+  - Added model `EndpointScheduleAction`
+  - Added enum `EndpointServiceConnectionStatus`
+  - Added model `EnvironmentContainer`
+  - Added model `EnvironmentContainerProperties`
+  - Added model `EnvironmentContainerResourceArmPaginatedResult`
+  - Added enum `EnvironmentType`
+  - Added model `EnvironmentVariable`
+  - Added enum `EnvironmentVariableType`
+  - Added model `EnvironmentVersion`
+  - Added model `EnvironmentVersionProperties`
+  - Added model `EnvironmentVersionResourceArmPaginatedResult`
+  - Added model `ErrorAdditionalInfo`
+  - Added model `ExternalFQDNResponse`
+  - Added model `FQDNEndpoint`
+  - Added model `FQDNEndpointDetail`
+  - Added model `FQDNEndpoints`
+  - Added model `FQDNEndpointsProperties`
+  - Added model `Feature`
+  - Added model `FeatureAttributionDriftMonitoringSignal`
+  - Added enum `FeatureAttributionMetric`
+  - Added model `FeatureAttributionMetricThreshold`
+  - Added enum `FeatureDataType`
+  - Added enum `FeatureImportanceMode`
+  - Added model `FeatureImportanceSettings`
+  - Added enum `FeatureLags`
+  - Added model `FeatureProperties`
+  - Added model `FeatureResourceArmPaginatedResult`
+  - Added model `FeatureStoreSettings`
+  - Added model `FeatureSubset`
+  - Added model `FeatureWindow`
+  - Added model `FeaturesetContainer`
+  - Added model `FeaturesetContainerProperties`
+  - Added model `FeaturesetContainerResourceArmPaginatedResult`
+  - Added model `FeaturesetSpecification`
+  - Added model `FeaturesetVersion`
+  - Added model `FeaturesetVersionBackfillRequest`
+  - Added model `FeaturesetVersionBackfillResponse`
+  - Added model `FeaturesetVersionProperties`
+  - Added model `FeaturesetVersionResourceArmPaginatedResult`
+  - Added model `FeaturestoreEntityContainer`
+  - Added model `FeaturestoreEntityContainerProperties`
+  - Added model `FeaturestoreEntityContainerResourceArmPaginatedResult`
+  - Added model `FeaturestoreEntityVersion`
+  - Added model `FeaturestoreEntityVersionProperties`
+  - Added model `FeaturestoreEntityVersionResourceArmPaginatedResult`
+  - Added enum `FeaturizationMode`
+  - Added model `FeaturizationSettings`
+  - Added enum `FirewallSku`
+  - Added model `FixedInputData`
+  - Added model `FlavorData`
+  - Added model `ForecastHorizon`
+  - Added enum `ForecastHorizonMode`
+  - Added model `Forecasting`
+  - Added enum `ForecastingModels`
+  - Added enum `ForecastingPrimaryMetrics`
+  - Added model `ForecastingSettings`
+  - Added model `ForecastingTrainingSettings`
+  - Added model `FqdnOutboundRule`
+  - Added model `GetBlobReferenceForConsumptionDto`
+  - Added model `GetBlobReferenceSASRequestDto`
+  - Added model `GetBlobReferenceSASResponseDto`
+  - Added enum `Goal`
+  - Added model `GridSamplingAlgorithm`
+  - Added model `HDInsightSchema`
+  - Added model `IdAssetReference`
+  - Added model `IdentityConfiguration`
+  - Added enum `IdentityConfigurationType`
+  - Added model `IdentityForCmk`
+  - Added model `IdleShutdownSetting`
+  - Added model `Image`
+  - Added model `ImageClassification`
+  - Added model `ImageClassificationBase`
+  - Added model `ImageClassificationMultilabel`
+  - Added model `ImageInstanceSegmentation`
+  - Added model `ImageLimitSettings`
+  - Added model `ImageMetadata`
+  - Added model `ImageModelDistributionSettings`
+  - Added model `ImageModelDistributionSettingsClassification`
+  - Added model `ImageModelDistributionSettingsObjectDetection`
+  - Added model `ImageModelSettings`
+  - Added model `ImageModelSettingsClassification`
+  - Added model `ImageModelSettingsObjectDetection`
+  - Added model `ImageObjectDetection`
+  - Added model `ImageObjectDetectionBase`
+  - Added model `ImageSweepSettings`
+  - Added enum `ImageType`
+  - Added model `ImageVertical`
+  - Added model `IndexColumn`
+  - Added model `InferenceContainerProperties`
+  - Added enum `InputDeliveryMode`
+  - Added enum `InstanceSegmentationPrimaryMetrics`
+  - Added model `InstanceTypeSchema`
+  - Added model `InstanceTypeSchemaResources`
+  - Added enum `IsolationMode`
+  - Added model `JobBase`
+  - Added model `JobBaseProperties`
+  - Added model `JobBaseResourceArmPaginatedResult`
+  - Added model `JobInput`
+  - Added enum `JobInputType`
+  - Added model `JobLimits`
+  - Added enum `JobLimitsType`
+  - Added model `JobOutput`
+  - Added enum `JobOutputType`
+  - Added model `JobResourceConfiguration`
+  - Added model `JobScheduleAction`
+  - Added model `JobService`
+  - Added enum `JobStatus`
+  - Added enum `JobTier`
+  - Added enum `JobType`
+  - Added enum `KeyType`
+  - Added model `Kubernetes`
+  - Added model `KubernetesOnlineDeployment`
+  - Added model `KubernetesProperties`
+  - Added model `KubernetesSchema`
+  - Added model `LakeHouseArtifact`
+  - Added enum `LearningRateScheduler`
+  - Added model `ListNotebookKeysResult`
+  - Added model `ListStorageAccountKeysResult`
+  - Added enum `ListViewType`
+  - Added model `LiteralJobInput`
+  - Added enum `LoadBalancerType`
+  - Added enum `LogVerbosity`
+  - Added model `MLFlowModelJobInput`
+  - Added model `MLFlowModelJobOutput`
+  - Added model `MLTableData`
+  - Added model `MLTableJobInput`
+  - Added model `MLTableJobOutput`
+  - Added model `ManagedComputeIdentity`
+  - Added model `ManagedIdentity`
+  - Added model `ManagedIdentityAuthTypeWorkspaceConnectionProperties`
+  - Added model `ManagedIdentityCredential`
+  - Added model `ManagedNetworkProvisionOptions`
+  - Added model `ManagedNetworkProvisionStatus`
+  - Added model `ManagedNetworkSettings`
+  - Added enum `ManagedNetworkStatus`
+  - Added model `ManagedOnlineDeployment`
+  - Added model `ManagedServiceIdentity`
+  - Added enum `ManagedServiceIdentityType`
+  - Added model `MarketplacePlan`
+  - Added model `MarketplaceSubscription`
+  - Added model `MarketplaceSubscriptionProperties`
+  - Added enum `MarketplaceSubscriptionProvisioningState`
+  - Added model `MarketplaceSubscriptionResourceArmPaginatedResult`
+  - Added enum `MarketplaceSubscriptionStatus`
+  - Added model `MaterializationComputeResource`
+  - Added model `MaterializationSettings`
+  - Added enum `MaterializationStoreType`
+  - Added model `MedianStoppingPolicy`
+  - Added model `ModelContainer`
+  - Added model `ModelContainerProperties`
+  - Added model `ModelContainerResourceArmPaginatedResult`
+  - Added model `ModelSettings`
+  - Added enum `ModelSize`
+  - Added enum `ModelTaskType`
+  - Added model `ModelVersion`
+  - Added model `ModelVersionProperties`
+  - Added model `ModelVersionResourceArmPaginatedResult`
+  - Added model `MonitorComputeConfigurationBase`
+  - Added model `MonitorComputeIdentityBase`
+  - Added enum `MonitorComputeIdentityType`
+  - Added enum `MonitorComputeType`
+  - Added model `MonitorDefinition`
+  - Added model `MonitorEmailNotificationSettings`
+  - Added model `MonitorNotificationSettings`
+  - Added model `MonitorServerlessSparkCompute`
+  - Added enum `MonitoringFeatureDataType`
+  - Added model `MonitoringFeatureFilterBase`
+  - Added enum `MonitoringFeatureFilterType`
+  - Added model `MonitoringInputDataBase`
+  - Added enum `MonitoringInputDataType`
+  - Added enum `MonitoringNotificationType`
+  - Added model `MonitoringSignalBase`
+  - Added enum `MonitoringSignalType`
+  - Added model `MonitoringTarget`
+  - Added model `MonitoringThreshold`
+  - Added enum `MountAction`
+  - Added enum `MountState`
+  - Added model `Mpi`
+  - Added model `NCrossValidations`
+  - Added enum `NCrossValidationsMode`
+  - Added enum `Network`
+  - Added model `NlpVertical`
+  - Added model `NlpVerticalFeaturizationSettings`
+  - Added model `NlpVerticalLimitSettings`
+  - Added model `Nodes`
+  - Added enum `NodesValueType`
+  - Added model `NoneAuthTypeWorkspaceConnectionProperties`
+  - Added model `NoneDatastoreCredentials`
+  - Added model `NotebookAccessTokenResult`
+  - Added model `NotificationSetting`
+  - Added enum `NumericalDataDriftMetric`
+  - Added model `NumericalDataDriftMetricThreshold`
+  - Added enum `NumericalDataQualityMetric`
+  - Added model `NumericalDataQualityMetricThreshold`
+  - Added enum `NumericalPredictionDriftMetric`
+  - Added model `NumericalPredictionDriftMetricThreshold`
+  - Added model `OAuth2AuthTypeWorkspaceConnectionProperties`
+  - Added enum `ObjectDetectionPrimaryMetrics`
+  - Added model `Objective`
+  - Added model `OneLakeArtifact`
+  - Added enum `OneLakeArtifactType`
+  - Added model `OneLakeDatastore`
+  - Added model `OnlineDeployment`
+  - Added model `OnlineDeploymentProperties`
+  - Added model `OnlineDeploymentTrackedResourceArmPaginatedResult`
+  - Added model `OnlineEndpoint`
+  - Added model `OnlineEndpointProperties`
+  - Added model `OnlineEndpointTrackedResourceArmPaginatedResult`
+  - Added model `OnlineRequestSettings`
+  - Added model `OnlineScaleSettings`
+  - Added enum `OperatingSystemType`
+  - Added enum `OperationTrigger`
+  - Added enum `OrderString`
+  - Added enum `Origin`
+  - Added enum `OsType`
+  - Added model `OutboundRule`
+  - Added model `OutboundRuleBasicResource`
+  - Added model `OutboundRuleListResult`
+  - Added enum `OutputDeliveryMode`
+  - Added model `OutputPathAssetReference`
+  - Added model `PATAuthTypeWorkspaceConnectionProperties`
+  - Added model `PartialBatchDeployment`
+  - Added model `PartialBatchDeploymentPartialMinimalTrackedResourceWithProperties`
+  - Added model `PartialManagedServiceIdentity`
+  - Added model `PartialMinimalTrackedResource`
+  - Added model `PartialMinimalTrackedResourceWithIdentity`
+  - Added model `PartialMinimalTrackedResourceWithSku`
+  - Added model `PartialMinimalTrackedResourceWithSkuAndIdentity`
+  - Added model `PartialRegistryPartialTrackedResource`
+  - Added model `PartialSku`
+  - Added model `PendingUploadCredentialDto`
+  - Added enum `PendingUploadCredentialType`
+  - Added model `PendingUploadRequestDto`
+  - Added model `PendingUploadResponseDto`
+  - Added enum `PendingUploadType`
+  - Added model `PersonalComputeInstanceSettings`
+  - Added model `PipelineJob`
+  - Added model `PredictionDriftMetricThresholdBase`
+  - Added model `PredictionDriftMonitoringSignal`
+  - Added model `PrivateEndpointConnectionListResult`
+  - Added model `PrivateEndpointDestination`
+  - Added model `PrivateEndpointOutboundRule`
+  - Added model `PrivateEndpointResource`
+  - Added model `ProbeSettings`
+  - Added enum `Protocol`
+  - Added enum `ProvisioningStatus`
+  - Added model `ProxyResource`
+  - Added enum `PublicNetworkAccess`
+  - Added enum `PublicNetworkAccessType`
+  - Added model `PyTorch`
+  - Added model `QueueSettings`
+  - Added model `RandomSamplingAlgorithm`
+  - Added enum `RandomSamplingAlgorithmRule`
+  - Added model `Recurrence`
+  - Added enum `RecurrenceFrequency`
+  - Added model `RecurrenceSchedule`
+  - Added model `RecurrenceTrigger`
+  - Added enum `ReferenceType`
+  - Added model `RegenerateEndpointKeysRequest`
+  - Added model `Registry`
+  - Added model `RegistryPartialManagedServiceIdentity`
+  - Added model `RegistryPrivateEndpointConnection`
+  - Added model `RegistryPrivateLinkServiceConnectionState`
+  - Added model `RegistryRegionArmDetails`
+  - Added model `RegistryTrackedResourceArmPaginatedResult`
+  - Added model `Regression`
+  - Added enum `RegressionModels`
+  - Added enum `RegressionPrimaryMetrics`
+  - Added model `RegressionTrainingSettings`
+  - Added model `RequestLogging`
+  - Added model `ResourceBase`
+  - Added model `ResourceConfiguration`
+  - Added model `RollingInputData`
+  - Added enum `RollingRateType`
+  - Added model `Route`
+  - Added enum `RuleAction`
+  - Added enum `RuleCategory`
+  - Added enum `RuleStatus`
+  - Added enum `RuleType`
+  - Added model `SASAuthTypeWorkspaceConnectionProperties`
+  - Added model `SASCredential`
+  - Added model `SASCredentialDto`
+  - Added model `SamplingAlgorithm`
+  - Added enum `SamplingAlgorithmType`
+  - Added model `SasDatastoreCredentials`
+  - Added model `SasDatastoreSecrets`
+  - Added model `ScaleSettingsInformation`
+  - Added enum `ScaleType`
+  - Added model `Schedule`
+  - Added model `ScheduleActionBase`
+  - Added enum `ScheduleActionType`
+  - Added model `ScheduleBase`
+  - Added enum `ScheduleListViewType`
+  - Added model `ScheduleProperties`
+  - Added enum `ScheduleProvisioningState`
+  - Added enum `ScheduleProvisioningStatus`
+  - Added model `ScheduleResourceArmPaginatedResult`
+  - Added enum `ScheduleStatus`
+  - Added model `ScriptReference`
+  - Added model `ScriptsToExecute`
+  - Added model `Seasonality`
+  - Added enum `SeasonalityMode`
+  - Added enum `SecretsType`
+  - Added model `ServerlessComputeSettings`
+  - Added model `ServerlessEndpoint`
+  - Added model `ServerlessEndpointProperties`
+  - Added enum `ServerlessEndpointState`
+  - Added model `ServerlessEndpointTrackedResourceArmPaginatedResult`
+  - Added model `ServerlessInferenceEndpoint`
+  - Added enum `ServerlessInferenceEndpointAuthMode`
+  - Added enum `ServiceDataAccessAuthIdentity`
+  - Added model `ServiceManagedResourcesSettings`
+  - Added model `ServicePrincipalAuthTypeWorkspaceConnectionProperties`
+  - Added model `ServicePrincipalDatastoreCredentials`
+  - Added model `ServicePrincipalDatastoreSecrets`
+  - Added model `ServiceTagDestination`
+  - Added model `ServiceTagOutboundRule`
+  - Added model `SetupScripts`
+  - Added enum `ShortSeriesHandlingConfiguration`
+  - Added model `SkuCapacity`
+  - Added model `SkuResource`
+  - Added model `SkuResourceArmPaginatedResult`
+  - Added enum `SkuScaleType`
+  - Added model `SkuSetting`
+  - Added enum `SkuTier`
+  - Added enum `SourceType`
+  - Added model `SparkJob`
+  - Added model `SparkJobEntry`
+  - Added enum `SparkJobEntryType`
+  - Added model `SparkJobPythonEntry`
+  - Added model `SparkJobScalaEntry`
+  - Added model `SparkResourceConfiguration`
+  - Added enum `SslConfigStatus`
+  - Added model `StackEnsembleSettings`
+  - Added enum `StackMetaLearnerType`
+  - Added model `StaticInputData`
+  - Added enum `StochasticOptimizer`
+  - Added model `StorageAccountDetails`
+  - Added enum `StorageAccountType`
+  - Added model `SweepJob`
+  - Added model `SweepJobLimits`
+  - Added model `SynapseSpark`
+  - Added model `SynapseSparkProperties`
+  - Added model `SystemCreatedAcrAccount`
+  - Added model `SystemCreatedStorageAccount`
+  - Added model `SystemData`
+  - Added model `TableVertical`
+  - Added model `TableVerticalFeaturizationSettings`
+  - Added model `TableVerticalLimitSettings`
+  - Added enum `TargetAggregationFunction`
+  - Added model `TargetLags`
+  - Added enum `TargetLagsMode`
+  - Added model `TargetRollingWindowSize`
+  - Added enum `TargetRollingWindowSizeMode`
+  - Added model `TargetUtilizationScaleSettings`
+  - Added enum `TaskType`
+  - Added model `TensorFlow`
+  - Added model `TextClassification`
+  - Added model `TextClassificationMultilabel`
+  - Added model `TextNer`
+  - Added model `TmpfsOptions`
+  - Added model `TopNFeaturesByAttribution`
+  - Added model `TrackedResource`
+  - Added model `TrainingSettings`
+  - Added model `TrialComponent`
+  - Added model `TriggerBase`
+  - Added enum `TriggerType`
+  - Added model `TritonModelJobInput`
+  - Added model `TritonModelJobOutput`
+  - Added model `TruncationSelectionPolicy`
+  - Added model `UriFileDataVersion`
+  - Added model `UriFileJobInput`
+  - Added model `UriFileJobOutput`
+  - Added model `UriFolderDataVersion`
+  - Added model `UriFolderJobInput`
+  - Added model `UriFolderJobOutput`
+  - Added enum `UseStl`
+  - Added model `UserAssignedIdentity`
+  - Added model `UserIdentity`
+  - Added model `UsernamePasswordAuthTypeWorkspaceConnectionProperties`
+  - Added enum `ValidationMetricType`
+  - Added enum `ValueFormat`
+  - Added model `VirtualMachineImage`
+  - Added model `VirtualMachineSchema`
+  - Added model `VirtualMachineSchemaProperties`
+  - Added model `VirtualMachineSecretsSchema`
+  - Added model `VolumeDefinition`
+  - Added enum `VolumeDefinitionType`
+  - Added model `VolumeOptions`
+  - Added model `Webhook`
+  - Added enum `WebhookType`
+  - Added enum `WeekDay`
+  - Added model `WorkspaceConnectionAccessKey`
+  - Added model `WorkspaceConnectionAccountKey`
+  - Added model `WorkspaceConnectionApiKey`
+  - Added model `WorkspaceConnectionManagedIdentity`
+  - Added model `WorkspaceConnectionOAuth2`
+  - Added model `WorkspaceConnectionPersonalAccessToken`
+  - Added model `WorkspaceConnectionPropertiesV2`
+  - Added model `WorkspaceConnectionPropertiesV2BasicResource`
+  - Added model `WorkspaceConnectionPropertiesV2BasicResourceArmPaginatedResult`
+  - Added model `WorkspaceConnectionServicePrincipal`
+  - Added model `WorkspaceConnectionSharedAccessSignature`
+  - Added model `WorkspaceConnectionUpdateParameter`
+  - Added model `WorkspaceConnectionUsernamePassword`
+  - Added model `WorkspaceHubConfig`
+  - Model `Operations` added parameter `kwargs` in method `__init__`
+  - Model `PrivateEndpointConnectionsOperations` added parameter `kwargs` in method `__init__`
+  - Model `PrivateEndpointConnectionsOperations` added method `create_or_update`
+  - Model `PrivateEndpointConnectionsOperations` added method `delete`
+  - Model `PrivateEndpointConnectionsOperations` added method `list`
+  - Model `PrivateLinkResourcesOperations` added parameter `kwargs` in method `__init__`
+  - Model `PrivateLinkResourcesOperations` added method `list`
+  - Model `QuotasOperations` added parameter `kwargs` in method `__init__`
+  - Model `UsagesOperations` added parameter `kwargs` in method `__init__`
+  - Model `VirtualMachineSizesOperations` added parameter `kwargs` in method `__init__`
+  - Model `WorkspaceConnectionsOperations` added parameter `kwargs` in method `__init__`
+  - Model `WorkspaceConnectionsOperations` added method `list_secrets`
+  - Model `WorkspaceFeaturesOperations` added parameter `kwargs` in method `__init__`
+  - Model `WorkspacesOperations` added parameter `kwargs` in method `__init__`
+  - Model `WorkspacesOperations` added method `begin_diagnose`
+  - Model `WorkspacesOperations` added method `begin_prepare_notebook`
+  - Model `WorkspacesOperations` added method `begin_resync_keys`
+  - Model `WorkspacesOperations` added method `begin_update`
+  - Model `WorkspacesOperations` added method `list_notebook_access_token`
+  - Model `WorkspacesOperations` added method `list_notebook_keys`
+  - Model `WorkspacesOperations` added method `list_outbound_network_dependencies_endpoints`
+  - Model `WorkspacesOperations` added method `list_storage_account_keys`
+  - Added model `BatchDeploymentsOperations`
+  - Added model `BatchEndpointsOperations`
+  - Added model `CodeContainersOperations`
+  - Added model `CodeVersionsOperations`
+  - Added model `ComponentContainersOperations`
+  - Added model `ComponentVersionsOperations`
+  - Added model `ComputeOperations`
+  - Added model `DataContainersOperations`
+  - Added model `DataVersionsOperations`
+  - Added model `DatastoresOperations`
+  - Added model `EnvironmentContainersOperations`
+  - Added model `EnvironmentVersionsOperations`
+  - Added model `FeaturesOperations`
+  - Added model `FeaturesetContainersOperations`
+  - Added model `FeaturesetVersionsOperations`
+  - Added model `FeaturestoreEntityContainersOperations`
+  - Added model `FeaturestoreEntityVersionsOperations`
+  - Added model `JobsOperations`
+  - Added model `ManagedNetworkProvisionsOperations`
+  - Added model `ManagedNetworkSettingsRuleOperations`
+  - Added model `MarketplaceSubscriptionsOperations`
+  - Added model `ModelContainersOperations`
+  - Added model `ModelVersionsOperations`
+  - Added model `OnlineDeploymentsOperations`
+  - Added model `OnlineEndpointsOperations`
+  - Added model `RegistriesOperations`
+  - Added model `RegistryCodeContainersOperations`
+  - Added model `RegistryCodeVersionsOperations`
+  - Added model `RegistryComponentContainersOperations`
+  - Added model `RegistryComponentVersionsOperations`
+  - Added model `RegistryDataContainersOperations`
+  - Added model `RegistryDataReferencesOperations`
+  - Added model `RegistryDataVersionsOperations`
+  - Added model `RegistryEnvironmentContainersOperations`
+  - Added model `RegistryEnvironmentVersionsOperations`
+  - Added model `RegistryModelContainersOperations`
+  - Added model `RegistryModelVersionsOperations`
+  - Added model `SchedulesOperations`
+  - Added model `ServerlessEndpointsOperations`
+  - Method `PrivateEndpointConnectionsOperations.create_or_update` has a new overload `def create_or_update(self: None, resource_group_name: str, workspace_name: str, private_endpoint_connection_name: str, properties: PrivateEndpointConnection, content_type: str)`
+  - Method `PrivateEndpointConnectionsOperations.create_or_update` has a new overload `def create_or_update(self: None, resource_group_name: str, workspace_name: str, private_endpoint_connection_name: str, properties: IO[bytes], content_type: str)`
+  - Method `QuotasOperations.update` has a new overload `def update(self: None, location: str, parameters: QuotaUpdateParameters, content_type: str)`
+  - Method `QuotasOperations.update` has a new overload `def update(self: None, location: str, parameters: IO[bytes], content_type: str)`
+  - Method `WorkspaceConnectionsOperations.create` has a new overload `def create(self: None, resource_group_name: str, workspace_name: str, connection_name: str, parameters: WorkspaceConnectionPropertiesV2BasicResource, content_type: str)`
+  - Method `WorkspaceConnectionsOperations.create` has a new overload `def create(self: None, resource_group_name: str, workspace_name: str, connection_name: str, parameters: IO[bytes], content_type: str)`
+  - Method `WorkspaceConnectionsOperations.update` has a new overload `def update(self: None, resource_group_name: str, workspace_name: str, connection_name: str, body: Optional[WorkspaceConnectionUpdateParameter], content_type: str)`
+  - Method `WorkspaceConnectionsOperations.update` has a new overload `def update(self: None, resource_group_name: str, workspace_name: str, connection_name: str, body: Optional[IO[bytes]], content_type: str)`
+  - Method `WorkspacesOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, workspace_name: str, parameters: Workspace, content_type: str)`
+  - Method `WorkspacesOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, workspace_name: str, parameters: IO[bytes], content_type: str)`
+  - Method `WorkspacesOperations.begin_diagnose` has a new overload `def begin_diagnose(self: None, resource_group_name: str, workspace_name: str, parameters: Optional[DiagnoseWorkspaceParameters], content_type: str)`
+  - Method `WorkspacesOperations.begin_diagnose` has a new overload `def begin_diagnose(self: None, resource_group_name: str, workspace_name: str, parameters: Optional[IO[bytes]], content_type: str)`
+  - Method `WorkspacesOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, workspace_name: str, parameters: WorkspaceUpdateParameters, content_type: str)`
+  - Method `WorkspacesOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, workspace_name: str, parameters: IO[bytes], content_type: str)`
+  - Method `BatchDeploymentsOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, workspace_name: str, endpoint_name: str, deployment_name: str, body: BatchDeployment, content_type: str)`
+  - Method `BatchDeploymentsOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, workspace_name: str, endpoint_name: str, deployment_name: str, body: IO[bytes], content_type: str)`
+  - Method `BatchDeploymentsOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, workspace_name: str, endpoint_name: str, deployment_name: str, body: PartialBatchDeploymentPartialMinimalTrackedResourceWithProperties, content_type: str)`
+  - Method `BatchDeploymentsOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, workspace_name: str, endpoint_name: str, deployment_name: str, body: IO[bytes], content_type: str)`
+  - Method `BatchEndpointsOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, workspace_name: str, endpoint_name: str, body: BatchEndpoint, content_type: str)`
+  - Method `BatchEndpointsOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, workspace_name: str, endpoint_name: str, body: IO[bytes], content_type: str)`
+  - Method `BatchEndpointsOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, workspace_name: str, endpoint_name: str, body: PartialMinimalTrackedResourceWithIdentity, content_type: str)`
+  - Method `BatchEndpointsOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, workspace_name: str, endpoint_name: str, body: IO[bytes], content_type: str)`
+  - Method `CodeContainersOperations.create_or_update` has a new overload `def create_or_update(self: None, resource_group_name: str, workspace_name: str, name: str, body: CodeContainer, content_type: str)`
+  - Method `CodeContainersOperations.create_or_update` has a new overload `def create_or_update(self: None, resource_group_name: str, workspace_name: str, name: str, body: IO[bytes], content_type: str)`
+  - Method `CodeVersionsOperations.begin_publish` has a new overload `def begin_publish(self: None, resource_group_name: str, workspace_name: str, name: str, version: str, body: DestinationAsset, content_type: str)`
+  - Method `CodeVersionsOperations.begin_publish` has a new overload `def begin_publish(self: None, resource_group_name: str, workspace_name: str, name: str, version: str, body: IO[bytes], content_type: str)`
+  - Method `CodeVersionsOperations.create_or_get_start_pending_upload` has a new overload `def create_or_get_start_pending_upload(self: None, resource_group_name: str, workspace_name: str, name: str, version: str, body: PendingUploadRequestDto, content_type: str)`
+  - Method `CodeVersionsOperations.create_or_get_start_pending_upload` has a new overload `def create_or_get_start_pending_upload(self: None, resource_group_name: str, workspace_name: str, name: str, version: str, body: IO[bytes], content_type: str)`
+  - Method `CodeVersionsOperations.create_or_update` has a new overload `def create_or_update(self: None, resource_group_name: str, workspace_name: str, name: str, version: str, body: CodeVersion, content_type: str)`
+  - Method `CodeVersionsOperations.create_or_update` has a new overload `def create_or_update(self: None, resource_group_name: str, workspace_name: str, name: str, version: str, body: IO[bytes], content_type: str)`
+  - Method `ComponentContainersOperations.create_or_update` has a new overload `def create_or_update(self: None, resource_group_name: str, workspace_name: str, name: str, body: ComponentContainer, content_type: str)`
+  - Method `ComponentContainersOperations.create_or_update` has a new overload `def create_or_update(self: None, resource_group_name: str, workspace_name: str, name: str, body: IO[bytes], content_type: str)`
+  - Method `ComponentVersionsOperations.begin_publish` has a new overload `def begin_publish(self: None, resource_group_name: str, workspace_name: str, name: str, version: str, body: DestinationAsset, content_type: str)`
+  - Method `ComponentVersionsOperations.begin_publish` has a new overload `def begin_publish(self: None, resource_group_name: str, workspace_name: str, name: str, version: str, body: IO[bytes], content_type: str)`
+  - Method `ComponentVersionsOperations.create_or_update` has a new overload `def create_or_update(self: None, resource_group_name: str, workspace_name: str, name: str, version: str, body: ComponentVersion, content_type: str)`
+  - Method `ComponentVersionsOperations.create_or_update` has a new overload `def create_or_update(self: None, resource_group_name: str, workspace_name: str, name: str, version: str, body: IO[bytes], content_type: str)`
+  - Method `ComputeOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, workspace_name: str, compute_name: str, parameters: ComputeResource, content_type: str)`
+  - Method `ComputeOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, workspace_name: str, compute_name: str, parameters: IO[bytes], content_type: str)`
+  - Method `ComputeOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, workspace_name: str, compute_name: str, parameters: ClusterUpdateParameters, content_type: str)`
+  - Method `ComputeOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, workspace_name: str, compute_name: str, parameters: IO[bytes], content_type: str)`
+  - Method `DataContainersOperations.create_or_update` has a new overload `def create_or_update(self: None, resource_group_name: str, workspace_name: str, name: str, body: DataContainer, content_type: str)`
+  - Method `DataContainersOperations.create_or_update` has a new overload `def create_or_update(self: None, resource_group_name: str, workspace_name: str, name: str, body: IO[bytes], content_type: str)`
+  - Method `DataVersionsOperations.begin_publish` has a new overload `def begin_publish(self: None, resource_group_name: str, workspace_name: str, name: str, version: str, body: DestinationAsset, content_type: str)`
+  - Method `DataVersionsOperations.begin_publish` has a new overload `def begin_publish(self: None, resource_group_name: str, workspace_name: str, name: str, version: str, body: IO[bytes], content_type: str)`
+  - Method `DataVersionsOperations.create_or_update` has a new overload `def create_or_update(self: None, resource_group_name: str, workspace_name: str, name: str, version: str, body: DataVersionBase, content_type: str)`
+  - Method `DataVersionsOperations.create_or_update` has a new overload `def create_or_update(self: None, resource_group_name: str, workspace_name: str, name: str, version: str, body: IO[bytes], content_type: str)`
+  - Method `DatastoresOperations.create_or_update` has a new overload `def create_or_update(self: None, resource_group_name: str, workspace_name: str, name: str, body: Datastore, skip_validation: bool, content_type: str)`
+  - Method `DatastoresOperations.create_or_update` has a new overload `def create_or_update(self: None, resource_group_name: str, workspace_name: str, name: str, body: IO[bytes], skip_validation: bool, content_type: str)`
+  - Method `EnvironmentContainersOperations.create_or_update` has a new overload `def create_or_update(self: None, resource_group_name: str, workspace_name: str, name: str, body: EnvironmentContainer, content_type: str)`
+  - Method `EnvironmentContainersOperations.create_or_update` has a new overload `def create_or_update(self: None, resource_group_name: str, workspace_name: str, name: str, body: IO[bytes], content_type: str)`
+  - Method `EnvironmentVersionsOperations.begin_publish` has a new overload `def begin_publish(self: None, resource_group_name: str, workspace_name: str, name: str, version: str, body: DestinationAsset, content_type: str)`
+  - Method `EnvironmentVersionsOperations.begin_publish` has a new overload `def begin_publish(self: None, resource_group_name: str, workspace_name: str, name: str, version: str, body: IO[bytes], content_type: str)`
+  - Method `EnvironmentVersionsOperations.create_or_update` has a new overload `def create_or_update(self: None, resource_group_name: str, workspace_name: str, name: str, version: str, body: EnvironmentVersion, content_type: str)`
+  - Method `EnvironmentVersionsOperations.create_or_update` has a new overload `def create_or_update(self: None, resource_group_name: str, workspace_name: str, name: str, version: str, body: IO[bytes], content_type: str)`
+  - Method `FeaturesetContainersOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, workspace_name: str, name: str, body: FeaturesetContainer, content_type: str)`
+  - Method `FeaturesetContainersOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, workspace_name: str, name: str, body: IO[bytes], content_type: str)`
+  - Method `FeaturesetVersionsOperations.begin_backfill` has a new overload `def begin_backfill(self: None, resource_group_name: str, workspace_name: str, name: str, version: str, body: FeaturesetVersionBackfillRequest, content_type: str)`
+  - Method `FeaturesetVersionsOperations.begin_backfill` has a new overload `def begin_backfill(self: None, resource_group_name: str, workspace_name: str, name: str, version: str, body: IO[bytes], content_type: str)`
+  - Method `FeaturesetVersionsOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, workspace_name: str, name: str, version: str, body: FeaturesetVersion, content_type: str)`
+  - Method `FeaturesetVersionsOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, workspace_name: str, name: str, version: str, body: IO[bytes], content_type: str)`
+  - Method `FeaturestoreEntityContainersOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, workspace_name: str, name: str, body: FeaturestoreEntityContainer, content_type: str)`
+  - Method `FeaturestoreEntityContainersOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, workspace_name: str, name: str, body: IO[bytes], content_type: str)`
+  - Method `FeaturestoreEntityVersionsOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, workspace_name: str, name: str, version: str, body: FeaturestoreEntityVersion, content_type: str)`
+  - Method `FeaturestoreEntityVersionsOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, workspace_name: str, name: str, version: str, body: IO[bytes], content_type: str)`
+  - Method `JobsOperations.create_or_update` has a new overload `def create_or_update(self: None, resource_group_name: str, workspace_name: str, id: str, body: JobBase, content_type: str)`
+  - Method `JobsOperations.create_or_update` has a new overload `def create_or_update(self: None, resource_group_name: str, workspace_name: str, id: str, body: IO[bytes], content_type: str)`
+  - Method `ManagedNetworkProvisionsOperations.begin_provision_managed_network` has a new overload `def begin_provision_managed_network(self: None, resource_group_name: str, workspace_name: str, body: Optional[ManagedNetworkProvisionOptions], content_type: str)`
+  - Method `ManagedNetworkProvisionsOperations.begin_provision_managed_network` has a new overload `def begin_provision_managed_network(self: None, resource_group_name: str, workspace_name: str, body: Optional[IO[bytes]], content_type: str)`
+  - Method `ManagedNetworkSettingsRuleOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, workspace_name: str, rule_name: str, body: OutboundRuleBasicResource, content_type: str)`
+  - Method `ManagedNetworkSettingsRuleOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, workspace_name: str, rule_name: str, body: IO[bytes], content_type: str)`
+  - Method `MarketplaceSubscriptionsOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, workspace_name: str, name: str, body: MarketplaceSubscription, content_type: str)`
+  - Method `MarketplaceSubscriptionsOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, workspace_name: str, name: str, body: IO[bytes], content_type: str)`
+  - Method `ModelContainersOperations.create_or_update` has a new overload `def create_or_update(self: None, resource_group_name: str, workspace_name: str, name: str, body: ModelContainer, content_type: str)`
+  - Method `ModelContainersOperations.create_or_update` has a new overload `def create_or_update(self: None, resource_group_name: str, workspace_name: str, name: str, body: IO[bytes], content_type: str)`
+  - Method `ModelVersionsOperations.begin_publish` has a new overload `def begin_publish(self: None, resource_group_name: str, workspace_name: str, name: str, version: str, body: DestinationAsset, content_type: str)`
+  - Method `ModelVersionsOperations.begin_publish` has a new overload `def begin_publish(self: None, resource_group_name: str, workspace_name: str, name: str, version: str, body: IO[bytes], content_type: str)`
+  - Method `ModelVersionsOperations.create_or_update` has a new overload `def create_or_update(self: None, resource_group_name: str, workspace_name: str, name: str, version: str, body: ModelVersion, content_type: str)`
+  - Method `ModelVersionsOperations.create_or_update` has a new overload `def create_or_update(self: None, resource_group_name: str, workspace_name: str, name: str, version: str, body: IO[bytes], content_type: str)`
+  - Method `OnlineDeploymentsOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, workspace_name: str, endpoint_name: str, deployment_name: str, body: OnlineDeployment, content_type: str)`
+  - Method `OnlineDeploymentsOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, workspace_name: str, endpoint_name: str, deployment_name: str, body: IO[bytes], content_type: str)`
+  - Method `OnlineDeploymentsOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, workspace_name: str, endpoint_name: str, deployment_name: str, body: PartialMinimalTrackedResourceWithSku, content_type: str)`
+  - Method `OnlineDeploymentsOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, workspace_name: str, endpoint_name: str, deployment_name: str, body: IO[bytes], content_type: str)`
+  - Method `OnlineDeploymentsOperations.get_logs` has a new overload `def get_logs(self: None, resource_group_name: str, workspace_name: str, endpoint_name: str, deployment_name: str, body: DeploymentLogsRequest, content_type: str)`
+  - Method `OnlineDeploymentsOperations.get_logs` has a new overload `def get_logs(self: None, resource_group_name: str, workspace_name: str, endpoint_name: str, deployment_name: str, body: IO[bytes], content_type: str)`
+  - Method `OnlineEndpointsOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, workspace_name: str, endpoint_name: str, body: OnlineEndpoint, content_type: str)`
+  - Method `OnlineEndpointsOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, workspace_name: str, endpoint_name: str, body: IO[bytes], content_type: str)`
+  - Method `OnlineEndpointsOperations.begin_regenerate_keys` has a new overload `def begin_regenerate_keys(self: None, resource_group_name: str, workspace_name: str, endpoint_name: str, body: RegenerateEndpointKeysRequest, content_type: str)`
+  - Method `OnlineEndpointsOperations.begin_regenerate_keys` has a new overload `def begin_regenerate_keys(self: None, resource_group_name: str, workspace_name: str, endpoint_name: str, body: IO[bytes], content_type: str)`
+  - Method `OnlineEndpointsOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, workspace_name: str, endpoint_name: str, body: PartialMinimalTrackedResourceWithIdentity, content_type: str)`
+  - Method `OnlineEndpointsOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, workspace_name: str, endpoint_name: str, body: IO[bytes], content_type: str)`
+  - Method `RegistriesOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, registry_name: str, body: Registry, content_type: str)`
+  - Method `RegistriesOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, registry_name: str, body: IO[bytes], content_type: str)`
+  - Method `RegistriesOperations.begin_remove_regions` has a new overload `def begin_remove_regions(self: None, resource_group_name: str, registry_name: str, body: Registry, content_type: str)`
+  - Method `RegistriesOperations.begin_remove_regions` has a new overload `def begin_remove_regions(self: None, resource_group_name: str, registry_name: str, body: IO[bytes], content_type: str)`
+  - Method `RegistriesOperations.update` has a new overload `def update(self: None, resource_group_name: str, registry_name: str, body: PartialRegistryPartialTrackedResource, content_type: str)`
+  - Method `RegistriesOperations.update` has a new overload `def update(self: None, resource_group_name: str, registry_name: str, body: IO[bytes], content_type: str)`
+  - Method `RegistryCodeContainersOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, registry_name: str, code_name: str, body: CodeContainer, content_type: str)`
+  - Method `RegistryCodeContainersOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, registry_name: str, code_name: str, body: IO[bytes], content_type: str)`
+  - Method `RegistryCodeVersionsOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, registry_name: str, code_name: str, version: str, body: CodeVersion, content_type: str)`
+  - Method `RegistryCodeVersionsOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, registry_name: str, code_name: str, version: str, body: IO[bytes], content_type: str)`
+  - Method `RegistryCodeVersionsOperations.create_or_get_start_pending_upload` has a new overload `def create_or_get_start_pending_upload(self: None, resource_group_name: str, registry_name: str, code_name: str, version: str, body: PendingUploadRequestDto, content_type: str)`
+  - Method `RegistryCodeVersionsOperations.create_or_get_start_pending_upload` has a new overload `def create_or_get_start_pending_upload(self: None, resource_group_name: str, registry_name: str, code_name: str, version: str, body: IO[bytes], content_type: str)`
+  - Method `RegistryComponentContainersOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, registry_name: str, component_name: str, body: ComponentContainer, content_type: str)`
+  - Method `RegistryComponentContainersOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, registry_name: str, component_name: str, body: IO[bytes], content_type: str)`
+  - Method `RegistryComponentVersionsOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, registry_name: str, component_name: str, version: str, body: ComponentVersion, content_type: str)`
+  - Method `RegistryComponentVersionsOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, registry_name: str, component_name: str, version: str, body: IO[bytes], content_type: str)`
+  - Method `RegistryDataContainersOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, registry_name: str, name: str, body: DataContainer, content_type: str)`
+  - Method `RegistryDataContainersOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, registry_name: str, name: str, body: IO[bytes], content_type: str)`
+  - Method `RegistryDataReferencesOperations.get_blob_reference_sas` has a new overload `def get_blob_reference_sas(self: None, resource_group_name: str, registry_name: str, name: str, version: str, body: GetBlobReferenceSASRequestDto, content_type: str)`
+  - Method `RegistryDataReferencesOperations.get_blob_reference_sas` has a new overload `def get_blob_reference_sas(self: None, resource_group_name: str, registry_name: str, name: str, version: str, body: IO[bytes], content_type: str)`
+  - Method `RegistryDataVersionsOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, registry_name: str, name: str, version: str, body: DataVersionBase, content_type: str)`
+  - Method `RegistryDataVersionsOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, registry_name: str, name: str, version: str, body: IO[bytes], content_type: str)`
+  - Method `RegistryDataVersionsOperations.create_or_get_start_pending_upload` has a new overload `def create_or_get_start_pending_upload(self: None, resource_group_name: str, registry_name: str, name: str, version: str, body: PendingUploadRequestDto, content_type: str)`
+  - Method `RegistryDataVersionsOperations.create_or_get_start_pending_upload` has a new overload `def create_or_get_start_pending_upload(self: None, resource_group_name: str, registry_name: str, name: str, version: str, body: IO[bytes], content_type: str)`
+  - Method `RegistryEnvironmentContainersOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, registry_name: str, environment_name: str, body: EnvironmentContainer, content_type: str)`
+  - Method `RegistryEnvironmentContainersOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, registry_name: str, environment_name: str, body: IO[bytes], content_type: str)`
+  - Method `RegistryEnvironmentVersionsOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, registry_name: str, environment_name: str, version: str, body: EnvironmentVersion, content_type: str)`
+  - Method `RegistryEnvironmentVersionsOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, registry_name: str, environment_name: str, version: str, body: IO[bytes], content_type: str)`
+  - Method `RegistryModelContainersOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, registry_name: str, model_name: str, body: ModelContainer, content_type: str)`
+  - Method `RegistryModelContainersOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, registry_name: str, model_name: str, body: IO[bytes], content_type: str)`
+  - Method `RegistryModelVersionsOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, registry_name: str, model_name: str, version: str, body: ModelVersion, content_type: str)`
+  - Method `RegistryModelVersionsOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, registry_name: str, model_name: str, version: str, body: IO[bytes], content_type: str)`
+  - Method `RegistryModelVersionsOperations.create_or_get_start_pending_upload` has a new overload `def create_or_get_start_pending_upload(self: None, resource_group_name: str, registry_name: str, model_name: str, version: str, body: PendingUploadRequestDto, content_type: str)`
+  - Method `RegistryModelVersionsOperations.create_or_get_start_pending_upload` has a new overload `def create_or_get_start_pending_upload(self: None, resource_group_name: str, registry_name: str, model_name: str, version: str, body: IO[bytes], content_type: str)`
+  - Method `SchedulesOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, workspace_name: str, name: str, body: Schedule, content_type: str)`
+  - Method `SchedulesOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, workspace_name: str, name: str, body: IO[bytes], content_type: str)`
+  - Method `ServerlessEndpointsOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, workspace_name: str, name: str, body: ServerlessEndpoint, content_type: str)`
+  - Method `ServerlessEndpointsOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, workspace_name: str, name: str, body: IO[bytes], content_type: str)`
+  - Method `ServerlessEndpointsOperations.begin_regenerate_keys` has a new overload `def begin_regenerate_keys(self: None, resource_group_name: str, workspace_name: str, name: str, body: RegenerateEndpointKeysRequest, content_type: str)`
+  - Method `ServerlessEndpointsOperations.begin_regenerate_keys` has a new overload `def begin_regenerate_keys(self: None, resource_group_name: str, workspace_name: str, name: str, body: IO[bytes], content_type: str)`
+  - Method `ServerlessEndpointsOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, workspace_name: str, name: str, body: PartialMinimalTrackedResourceWithSkuAndIdentity, content_type: str)`
+  - Method `ServerlessEndpointsOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, workspace_name: str, name: str, body: IO[bytes], content_type: str)`
+
+### Breaking Changes
+
+  - Deleted or renamed model `AzureMachineLearningWorkspaces`
+  - Model `AmlComputeNodesInformation` deleted or renamed its instance variable `compute_type`
+  - Model `ClusterUpdateParameters` deleted or renamed its instance variable `scale_settings`
+  - Model `ErrorResponse` deleted or renamed its instance variable `code`
+  - Model `ErrorResponse` deleted or renamed its instance variable `message`
+  - Model `ErrorResponse` deleted or renamed its instance variable `details`
+  - Model `Resource` deleted or renamed its instance variable `identity`
+  - Model `Resource` deleted or renamed its instance variable `location`
+  - Model `Resource` deleted or renamed its instance variable `tags`
+  - Model `Resource` deleted or renamed its instance variable `sku`
+  - Method `Sku.__init__` removed default value `None` from its parameter `name`
+  - Model `VirtualMachineSizeListResult` deleted or renamed its instance variable `aml_compute`
+  - Model `Workspace` deleted or renamed its instance variable `creation_time`
+  - Deleted or renamed model `AKSProperties`
+  - Deleted or renamed model `ComponentsSgqdofSchemasIdentityPropertiesUserassignedidentitiesAdditionalproperties`
+  - Deleted or renamed model `ComputeNodesInformation`
+  - Deleted or renamed model `DataLakeAnalyticsProperties`
+  - Deleted or renamed model `Identity`
+  - Deleted or renamed model `KeyVaultProperties`
+  - Deleted or renamed model `MachineLearningServiceError`
+  - Deleted or renamed model `NotebookListCredentialsResult`
+  - Deleted or renamed model `PaginatedWorkspaceConnectionsList`
+  - Deleted or renamed model `ReasonCode`
+  - Deleted or renamed model `ResourceIdentityType`
+  - Deleted or renamed model `ResourceSkuLocationInfo`
+  - Deleted or renamed model `ResourceSkuZoneDetails`
+  - Deleted or renamed model `Restriction`
+  - Deleted or renamed model `SKUCapability`
+  - Deleted or renamed model `ServicePrincipalCredentials`
+  - Deleted or renamed model `SkuSettings`
+  - Deleted or renamed model `SslConfigurationStatus`
+  - Deleted or renamed model `VirtualMachineProperties`
+  - Deleted or renamed model `WorkspaceConnection`
+  - Deleted or renamed model `WorkspaceConnectionDto`
+  - Deleted or renamed model `WorkspaceSku`
+  - Deleted or renamed method `PrivateEndpointConnectionsOperations.begin_delete`
+  - Deleted or renamed method `PrivateEndpointConnectionsOperations.put`
+  - Deleted or renamed method `PrivateLinkResourcesOperations.list_by_workspace`
+  - Method `VirtualMachineSizesOperations.list` deleted or renamed its parameter `compute_type` of kind `positional_or_keyword`
+  - Method `VirtualMachineSizesOperations.list` deleted or renamed its parameter `recommended` of kind `positional_or_keyword`
+  - Method `WorkspaceConnectionsOperations.list` inserted a `positional_or_keyword` parameter `include_all`
+  - Method `WorkspacesOperations.begin_delete` inserted a `positional_or_keyword` parameter `force_to_purge`
+  - Method `WorkspacesOperations.list_by_resource_group` deleted or renamed its parameter `skiptoken` of kind `positional_or_keyword`
+  - Method `WorkspacesOperations.list_by_subscription` deleted or renamed its parameter `skiptoken` of kind `positional_or_keyword`
+  - Deleted or renamed method `WorkspacesOperations.resync_keys`
+  - Deleted or renamed method `WorkspacesOperations.update`
+  - Deleted or renamed model `AzureMachineLearningWorkspacesOperationsMixin`
+  - Deleted or renamed model `MachineLearningComputeOperations`
+  - Deleted or renamed model `NotebooksOperations`
+  - Method `WorkspacesOperations.list_by_subscription` re-ordered its parameters from `['self', 'skiptoken', 'kwargs']` to `['self', 'skip', 'kwargs']`
+  - Method `WorkspacesOperations.list_by_resource_group` re-ordered its parameters from `['self', 'resource_group_name', 'skiptoken', 'kwargs']` to `['self', 'resource_group_name', 'skip', 'kwargs']`
+
 ## 2.0.0b2 (2023-05-12)
 
 ### Features Added
