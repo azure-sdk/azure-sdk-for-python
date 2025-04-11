@@ -1,41 +1,13 @@
-# ------------------------------------
-# Copyright (c) Microsoft Corporation.
-# Licensed under the MIT License.
-# ------------------------------------
+# coding=utf-8
+# --------------------------------------------------------------------------
+# Copyright (c) Microsoft Corporation. All rights reserved.
+# Licensed under the MIT License. See License.txt in the project root for license information.
+# --------------------------------------------------------------------------
 """Customize generated code here.
 
 Follow our quickstart for examples: https://aka.ms/azsdk/python/dpcodegen/python/customize
 """
 from typing import List
-
-from enum import Enum
-
-from azure.core import CaseInsensitiveEnumMeta
-from ._enums import SchemaContentTypeValues
-
-
-class SchemaFormat(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Represents the format of the schema to be stored by the Schema Registry service."""
-
-    AVRO = "Avro"
-    """Represents the Apache Avro schema format."""
-    JSON = "Json"
-    """Represents the JSON schema format."""
-    CUSTOM = "Custom"
-    """Represents a custom schema format."""
-
-
-# Normalizing the schema content type strings for whitespace and case insensitive comparison.
-class NormalizedSchemaContentTypes(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Describes closed list of normalized schema content type values."""
-
-    AVRO = SchemaContentTypeValues.AVRO.value.replace(" ", "").lower()
-    """Avro encoding."""
-    JSON = SchemaContentTypeValues.JSON.value.replace(" ", "").lower()
-    """JSON encoding"""
-    CUSTOM = SchemaContentTypeValues.CUSTOM.value.replace(" ", "").lower()
-    """Plain text custom encoding."""
-
 
 __all__: List[str] = []  # Add all objects you want publicly available to users at this package level
 
