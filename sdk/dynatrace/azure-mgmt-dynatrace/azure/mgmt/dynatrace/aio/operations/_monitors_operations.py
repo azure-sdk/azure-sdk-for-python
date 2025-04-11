@@ -7,7 +7,8 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from io import IOBase
-from typing import Any, AsyncIterable, Callable, Dict, IO, Optional, TypeVar, Union, cast, overload
+import sys
+from typing import Any, AsyncIterable, AsyncIterator, Callable, Dict, IO, Optional, TypeVar, Union, cast, overload
 import urllib.parse
 
 from azure.core.async_paging import AsyncItemPaged, AsyncList
@@ -17,12 +18,13 @@ from azure.core.exceptions import (
     ResourceExistsError,
     ResourceNotFoundError,
     ResourceNotModifiedError,
+    StreamClosedError,
+    StreamConsumedError,
     map_error,
 )
 from azure.core.pipeline import PipelineResponse
-from azure.core.pipeline.transport import AsyncHttpResponse
 from azure.core.polling import AsyncLROPoller, AsyncNoPolling, AsyncPollingMethod
-from azure.core.rest import HttpRequest
+from azure.core.rest import AsyncHttpResponse, HttpRequest
 from azure.core.tracing.decorator import distributed_trace
 from azure.core.tracing.decorator_async import distributed_trace_async
 from azure.core.utils import case_insensitive_dict
@@ -30,10 +32,10 @@ from azure.mgmt.core.exceptions import ARMErrorFormat
 from azure.mgmt.core.polling.async_arm_polling import AsyncARMPolling
 
 from ... import models as _models
-from ..._vendor import _convert_request
 from ...operations._monitors_operations import (
     build_create_or_update_request,
     build_delete_request,
+    build_get_all_connected_resources_count_request,
     build_get_marketplace_saa_s_resource_details_request,
     build_get_metric_status_request,
     build_get_request,
@@ -45,9 +47,15 @@ from ...operations._monitors_operations import (
     build_list_hosts_request,
     build_list_linkable_environments_request,
     build_list_monitored_resources_request,
+    build_update_agent_status_request,
     build_update_request,
+    build_upgrade_plan_request,
 )
 
+if sys.version_info >= (3, 9):
+    from collections.abc import MutableMapping
+else:
+    from typing import MutableMapping  # type: ignore
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -71,9 +79,15 @@ class MonitorsOperations:
         self._serialize = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
-    @distributed_trace
+    @overload
     def list_monitored_resources(
-        self, resource_group_name: str, monitor_name: str, **kwargs: Any
+        self,
+        resource_group_name: str,
+        monitor_name: str,
+        request: Optional[_models.LogStatusRequest] = None,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
     ) -> AsyncIterable["_models.MonitoredResource"]:
         """List the resources currently being monitored by the Dynatrace monitor resource.
 
@@ -84,39 +98,109 @@ class MonitorsOperations:
         :type resource_group_name: str
         :param monitor_name: Monitor resource name. Required.
         :type monitor_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+        :param request: The details of the log status request. Default value is None.
+        :type request: ~azure.mgmt.dynatrace.models.LogStatusRequest
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
         :return: An iterator like instance of either MonitoredResource or the result of cls(response)
         :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.dynatrace.models.MonitoredResource]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        _headers = kwargs.pop("headers", {}) or {}
+
+    @overload
+    def list_monitored_resources(
+        self,
+        resource_group_name: str,
+        monitor_name: str,
+        request: Optional[IO[bytes]] = None,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> AsyncIterable["_models.MonitoredResource"]:
+        """List the resources currently being monitored by the Dynatrace monitor resource.
+
+        List the resources currently being monitored by the Dynatrace monitor resource.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param monitor_name: Monitor resource name. Required.
+        :type monitor_name: str
+        :param request: The details of the log status request. Default value is None.
+        :type request: IO[bytes]
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: An iterator like instance of either MonitoredResource or the result of cls(response)
+        :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.dynatrace.models.MonitoredResource]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace
+    def list_monitored_resources(
+        self,
+        resource_group_name: str,
+        monitor_name: str,
+        request: Optional[Union[_models.LogStatusRequest, IO[bytes]]] = None,
+        **kwargs: Any
+    ) -> AsyncIterable["_models.MonitoredResource"]:
+        """List the resources currently being monitored by the Dynatrace monitor resource.
+
+        List the resources currently being monitored by the Dynatrace monitor resource.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param monitor_name: Monitor resource name. Required.
+        :type monitor_name: str
+        :param request: The details of the log status request. Is either a LogStatusRequest type or a
+         IO[bytes] type. Default value is None.
+        :type request: ~azure.mgmt.dynatrace.models.LogStatusRequest or IO[bytes]
+        :return: An iterator like instance of either MonitoredResource or the result of cls(response)
+        :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.dynatrace.models.MonitoredResource]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.MonitoredResourceListResponse] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
             304: ResourceNotModifiedError,
         }
         error_map.update(kwargs.pop("error_map", {}) or {})
+        content_type = content_type or "application/json"
+        _json = None
+        _content = None
+        if isinstance(request, (IOBase, bytes)):
+            _content = request
+        else:
+            if request is not None:
+                _json = self._serialize.body(request, "LogStatusRequest")
+            else:
+                _json = None
 
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_monitored_resources_request(
+                _request = build_list_monitored_resources_request(
                     resource_group_name=resource_group_name,
                     monitor_name=monitor_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_monitored_resources.metadata["url"],
+                    content_type=content_type,
+                    json=_json,
+                    content=_content,
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -128,13 +212,12 @@ class MonitorsOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("MonitoredResourceListResponse", pipeline_response)
@@ -144,11 +227,11 @@ class MonitorsOperations:
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -160,10 +243,6 @@ class MonitorsOperations:
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    list_monitored_resources.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Dynatrace.Observability/monitors/{monitorName}/listMonitoredResources"
-    }
 
     @distributed_trace_async
     async def get_vm_host_payload(
@@ -180,12 +259,11 @@ class MonitorsOperations:
         :type resource_group_name: str
         :param monitor_name: Monitor resource name. Required.
         :type monitor_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: VMExtensionPayload or the result of cls(response)
         :rtype: ~azure.mgmt.dynatrace.models.VMExtensionPayload
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -199,21 +277,19 @@ class MonitorsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.VMExtensionPayload] = kwargs.pop("cls", None)
 
-        request = build_get_vm_host_payload_request(
+        _request = build_get_vm_host_payload_request(
             resource_group_name=resource_group_name,
             monitor_name=monitor_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get_vm_host_payload.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -223,16 +299,151 @@ class MonitorsOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("VMExtensionPayload", pipeline_response)
+        deserialized = self._deserialize("VMExtensionPayload", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
+        return deserialized  # type: ignore
 
-    get_vm_host_payload.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Dynatrace.Observability/monitors/{monitorName}/getVMHostPayload"
-    }
+    @overload
+    async def update_agent_status(
+        self,
+        resource_group_name: str,
+        monitor_name: str,
+        request: _models.AgentStatusRequest,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> None:
+        """Create/Update the list of all resources that have Dynatrace agent installed through the Azure
+        Dynatrace resource.
+
+        Create/Update the list of all resources that have Dynatrace agent installed through the Azure
+        Dynatrace resource.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param monitor_name: Monitor resource name. Required.
+        :type monitor_name: str
+        :param request: List of resources and action. Required.
+        :type request: ~azure.mgmt.dynatrace.models.AgentStatusRequest
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: None or the result of cls(response)
+        :rtype: None
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    async def update_agent_status(
+        self,
+        resource_group_name: str,
+        monitor_name: str,
+        request: IO[bytes],
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> None:
+        """Create/Update the list of all resources that have Dynatrace agent installed through the Azure
+        Dynatrace resource.
+
+        Create/Update the list of all resources that have Dynatrace agent installed through the Azure
+        Dynatrace resource.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param monitor_name: Monitor resource name. Required.
+        :type monitor_name: str
+        :param request: List of resources and action. Required.
+        :type request: IO[bytes]
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: None or the result of cls(response)
+        :rtype: None
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace_async
+    async def update_agent_status(
+        self,
+        resource_group_name: str,
+        monitor_name: str,
+        request: Union[_models.AgentStatusRequest, IO[bytes]],
+        **kwargs: Any
+    ) -> None:
+        """Create/Update the list of all resources that have Dynatrace agent installed through the Azure
+        Dynatrace resource.
+
+        Create/Update the list of all resources that have Dynatrace agent installed through the Azure
+        Dynatrace resource.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param monitor_name: Monitor resource name. Required.
+        :type monitor_name: str
+        :param request: List of resources and action. Is either a AgentStatusRequest type or a
+         IO[bytes] type. Required.
+        :type request: ~azure.mgmt.dynatrace.models.AgentStatusRequest or IO[bytes]
+        :return: None or the result of cls(response)
+        :rtype: None
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[None] = kwargs.pop("cls", None)
+
+        content_type = content_type or "application/json"
+        _json = None
+        _content = None
+        if isinstance(request, (IOBase, bytes)):
+            _content = request
+        else:
+            _json = self._serialize.body(request, "AgentStatusRequest")
+
+        _request = build_update_agent_status_request(
+            resource_group_name=resource_group_name,
+            monitor_name=monitor_name,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            content_type=content_type,
+            json=_json,
+            content=_content,
+            headers=_headers,
+            params=_params,
+        )
+        _request.url = self._client.format_url(_request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [204]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        if cls:
+            return cls(pipeline_response, None, {})  # type: ignore
 
     @distributed_trace_async
     async def get(self, resource_group_name: str, monitor_name: str, **kwargs: Any) -> _models.MonitorResource:
@@ -245,12 +456,11 @@ class MonitorsOperations:
         :type resource_group_name: str
         :param monitor_name: Monitor resource name. Required.
         :type monitor_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: MonitorResource or the result of cls(response)
         :rtype: ~azure.mgmt.dynatrace.models.MonitorResource
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -264,21 +474,19 @@ class MonitorsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.MonitorResource] = kwargs.pop("cls", None)
 
-        request = build_get_request(
+        _request = build_get_request(
             resource_group_name=resource_group_name,
             monitor_name=monitor_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -288,21 +496,21 @@ class MonitorsOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("MonitorResource", pipeline_response)
+        deserialized = self._deserialize("MonitorResource", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Dynatrace.Observability/monitors/{monitorName}"
-    }
+        return deserialized  # type: ignore
 
     async def _create_or_update_initial(
-        self, resource_group_name: str, monitor_name: str, resource: Union[_models.MonitorResource, IO], **kwargs: Any
-    ) -> _models.MonitorResource:
-        error_map = {
+        self,
+        resource_group_name: str,
+        monitor_name: str,
+        resource: Union[_models.MonitorResource, IO[bytes]],
+        **kwargs: Any
+    ) -> AsyncIterator[bytes]:
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -315,7 +523,7 @@ class MonitorsOperations:
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.MonitorResource] = kwargs.pop("cls", None)
+        cls: ClsType[AsyncIterator[bytes]] = kwargs.pop("cls", None)
 
         content_type = content_type or "application/json"
         _json = None
@@ -325,7 +533,7 @@ class MonitorsOperations:
         else:
             _json = self._serialize.body(resource, "MonitorResource")
 
-        request = build_create_or_update_request(
+        _request = build_create_or_update_request(
             resource_group_name=resource_group_name,
             monitor_name=monitor_name,
             subscription_id=self._config.subscription_id,
@@ -333,39 +541,34 @@ class MonitorsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self._create_or_update_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
-        _stream = False
+        _decompress = kwargs.pop("decompress", True)
+        _stream = True
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
 
         if response.status_code not in [200, 201]:
+            try:
+                await response.read()  # Load the body in memory and close the socket
+            except (StreamConsumedError, StreamClosedError):
+                pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        if response.status_code == 200:
-            deserialized = self._deserialize("MonitorResource", pipeline_response)
-
-        if response.status_code == 201:
-            deserialized = self._deserialize("MonitorResource", pipeline_response)
+        deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
 
         return deserialized  # type: ignore
-
-    _create_or_update_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Dynatrace.Observability/monitors/{monitorName}"
-    }
 
     @overload
     async def begin_create_or_update(
@@ -391,14 +594,6 @@ class MonitorsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either MonitorResource or the result of
          cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.dynatrace.models.MonitorResource]
@@ -410,7 +605,7 @@ class MonitorsOperations:
         self,
         resource_group_name: str,
         monitor_name: str,
-        resource: IO,
+        resource: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -425,18 +620,10 @@ class MonitorsOperations:
         :param monitor_name: Monitor resource name. Required.
         :type monitor_name: str
         :param resource: Resource create parameters. Required.
-        :type resource: IO
+        :type resource: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either MonitorResource or the result of
          cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.dynatrace.models.MonitorResource]
@@ -445,7 +632,11 @@ class MonitorsOperations:
 
     @distributed_trace_async
     async def begin_create_or_update(
-        self, resource_group_name: str, monitor_name: str, resource: Union[_models.MonitorResource, IO], **kwargs: Any
+        self,
+        resource_group_name: str,
+        monitor_name: str,
+        resource: Union[_models.MonitorResource, IO[bytes]],
+        **kwargs: Any
     ) -> AsyncLROPoller[_models.MonitorResource]:
         """Create a MonitorResource.
 
@@ -456,20 +647,9 @@ class MonitorsOperations:
         :type resource_group_name: str
         :param monitor_name: Monitor resource name. Required.
         :type monitor_name: str
-        :param resource: Resource create parameters. Is either a MonitorResource type or a IO type.
-         Required.
-        :type resource: ~azure.mgmt.dynatrace.models.MonitorResource or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
+        :param resource: Resource create parameters. Is either a MonitorResource type or a IO[bytes]
+         type. Required.
+        :type resource: ~azure.mgmt.dynatrace.models.MonitorResource or IO[bytes]
         :return: An instance of AsyncLROPoller that returns either MonitorResource or the result of
          cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[~azure.mgmt.dynatrace.models.MonitorResource]
@@ -496,12 +676,13 @@ class MonitorsOperations:
                 params=_params,
                 **kwargs
             )
+            await raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):
-            deserialized = self._deserialize("MonitorResource", pipeline_response)
+            deserialized = self._deserialize("MonitorResource", pipeline_response.http_response)
             if cls:
-                return cls(pipeline_response, deserialized, {})
+                return cls(pipeline_response, deserialized, {})  # type: ignore
             return deserialized
 
         if polling is True:
@@ -514,17 +695,15 @@ class MonitorsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[_models.MonitorResource].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_create_or_update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Dynatrace.Observability/monitors/{monitorName}"
-    }
+        return AsyncLROPoller[_models.MonitorResource](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
 
     @overload
     async def update(
@@ -550,7 +729,6 @@ class MonitorsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: MonitorResource or the result of cls(response)
         :rtype: ~azure.mgmt.dynatrace.models.MonitorResource
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -561,7 +739,7 @@ class MonitorsOperations:
         self,
         resource_group_name: str,
         monitor_name: str,
-        resource: IO,
+        resource: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -576,11 +754,10 @@ class MonitorsOperations:
         :param monitor_name: Monitor resource name. Required.
         :type monitor_name: str
         :param resource: The resource properties to be updated. Required.
-        :type resource: IO
+        :type resource: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: MonitorResource or the result of cls(response)
         :rtype: ~azure.mgmt.dynatrace.models.MonitorResource
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -591,7 +768,7 @@ class MonitorsOperations:
         self,
         resource_group_name: str,
         monitor_name: str,
-        resource: Union[_models.MonitorResourceUpdate, IO],
+        resource: Union[_models.MonitorResourceUpdate, IO[bytes]],
         **kwargs: Any
     ) -> _models.MonitorResource:
         """Update a MonitorResource.
@@ -604,17 +781,13 @@ class MonitorsOperations:
         :param monitor_name: Monitor resource name. Required.
         :type monitor_name: str
         :param resource: The resource properties to be updated. Is either a MonitorResourceUpdate type
-         or a IO type. Required.
-        :type resource: ~azure.mgmt.dynatrace.models.MonitorResourceUpdate or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         or a IO[bytes] type. Required.
+        :type resource: ~azure.mgmt.dynatrace.models.MonitorResourceUpdate or IO[bytes]
         :return: MonitorResource or the result of cls(response)
         :rtype: ~azure.mgmt.dynatrace.models.MonitorResource
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -637,7 +810,7 @@ class MonitorsOperations:
         else:
             _json = self._serialize.body(resource, "MonitorResourceUpdate")
 
-        request = build_update_request(
+        _request = build_update_request(
             resource_group_name=resource_group_name,
             monitor_name=monitor_name,
             subscription_id=self._config.subscription_id,
@@ -645,16 +818,14 @@ class MonitorsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.update.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -664,21 +835,15 @@ class MonitorsOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("MonitorResource", pipeline_response)
+        deserialized = self._deserialize("MonitorResource", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
+        return deserialized  # type: ignore
 
-    update.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Dynatrace.Observability/monitors/{monitorName}"
-    }
-
-    async def _delete_initial(  # pylint: disable=inconsistent-return-statements
-        self, resource_group_name: str, monitor_name: str, **kwargs: Any
-    ) -> None:
-        error_map = {
+    async def _delete_initial(self, resource_group_name: str, monitor_name: str, **kwargs: Any) -> AsyncIterator[bytes]:
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -690,38 +855,45 @@ class MonitorsOperations:
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[None] = kwargs.pop("cls", None)
+        cls: ClsType[AsyncIterator[bytes]] = kwargs.pop("cls", None)
 
-        request = build_delete_request(
+        _request = build_delete_request(
             resource_group_name=resource_group_name,
             monitor_name=monitor_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self._delete_initial.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
-        _stream = False
+        _decompress = kwargs.pop("decompress", True)
+        _stream = True
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
 
-        if response.status_code not in [200, 202, 204]:
+        if response.status_code not in [202, 204]:
+            try:
+                await response.read()  # Load the body in memory and close the socket
+            except (StreamConsumedError, StreamClosedError):
+                pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        if cls:
-            return cls(pipeline_response, None, {})
+        response_headers = {}
+        if response.status_code == 202:
+            response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
 
-    _delete_initial.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Dynatrace.Observability/monitors/{monitorName}"
-    }
+        deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
+
+        if cls:
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
+
+        return deserialized  # type: ignore
 
     @distributed_trace_async
     async def begin_delete(self, resource_group_name: str, monitor_name: str, **kwargs: Any) -> AsyncLROPoller[None]:
@@ -734,14 +906,6 @@ class MonitorsOperations:
         :type resource_group_name: str
         :param monitor_name: Monitor resource name. Required.
         :type monitor_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
-        :keyword str continuation_token: A continuation token to restart a poller from a saved state.
-        :keyword polling: By default, your polling method will be AsyncARMPolling. Pass in False for
-         this operation to not poll, or pass in your own initialized polling object for a personal
-         polling strategy.
-        :paramtype polling: bool or ~azure.core.polling.AsyncPollingMethod
-        :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
-         Retry-After header is present.
         :return: An instance of AsyncLROPoller that returns either None or the result of cls(response)
         :rtype: ~azure.core.polling.AsyncLROPoller[None]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -755,7 +919,7 @@ class MonitorsOperations:
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
         if cont_token is None:
-            raw_result = await self._delete_initial(  # type: ignore
+            raw_result = await self._delete_initial(
                 resource_group_name=resource_group_name,
                 monitor_name=monitor_name,
                 api_version=api_version,
@@ -764,11 +928,12 @@ class MonitorsOperations:
                 params=_params,
                 **kwargs
             )
+            await raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
             if cls:
-                return cls(pipeline_response, None, {})
+                return cls(pipeline_response, None, {})  # type: ignore
 
         if polling is True:
             polling_method: AsyncPollingMethod = cast(
@@ -780,17 +945,13 @@ class MonitorsOperations:
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller.from_continuation_token(
+            return AsyncLROPoller[None].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller(self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
-
-    begin_delete.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Dynatrace.Observability/monitors/{monitorName}"
-    }
+        return AsyncLROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     @distributed_trace
     def list_by_subscription_id(self, **kwargs: Any) -> AsyncIterable["_models.MonitorResource"]:
@@ -798,7 +959,6 @@ class MonitorsOperations:
 
         List all MonitorResource by subscriptionId.
 
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either MonitorResource or the result of cls(response)
         :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.dynatrace.models.MonitorResource]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -809,7 +969,7 @@ class MonitorsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.MonitorResourceListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -820,15 +980,13 @@ class MonitorsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_by_subscription_id_request(
+                _request = build_list_by_subscription_id_request(
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_by_subscription_id.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -840,13 +998,12 @@ class MonitorsOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("MonitorResourceListResult", pipeline_response)
@@ -856,11 +1013,11 @@ class MonitorsOperations:
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -872,10 +1029,6 @@ class MonitorsOperations:
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    list_by_subscription_id.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/Dynatrace.Observability/monitors"
-    }
 
     @distributed_trace
     def list_by_resource_group(
@@ -888,7 +1041,6 @@ class MonitorsOperations:
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either MonitorResource or the result of cls(response)
         :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.dynatrace.models.MonitorResource]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -899,7 +1051,7 @@ class MonitorsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.MonitorResourceListResult] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -910,16 +1062,14 @@ class MonitorsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_by_resource_group_request(
+                _request = build_list_by_resource_group_request(
                     resource_group_name=resource_group_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_by_resource_group.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -931,13 +1081,12 @@ class MonitorsOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("MonitorResourceListResult", pipeline_response)
@@ -947,11 +1096,11 @@ class MonitorsOperations:
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -964,9 +1113,107 @@ class MonitorsOperations:
 
         return AsyncItemPaged(get_next, extract_data)
 
-    list_by_resource_group.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Dynatrace.Observability/monitors"
-    }
+    @overload
+    async def get_all_connected_resources_count(
+        self,
+        request: _models.MarketplaceSubscriptionIdRequest,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> _models.ConnectedResourcesCountResponse:
+        """Get the total number of connected resources for the given marketplace subscription Id.
+
+        :param request: Marketplace Subscription Id. Required.
+        :type request: ~azure.mgmt.dynatrace.models.MarketplaceSubscriptionIdRequest
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: ConnectedResourcesCountResponse or the result of cls(response)
+        :rtype: ~azure.mgmt.dynatrace.models.ConnectedResourcesCountResponse
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    async def get_all_connected_resources_count(
+        self, request: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
+    ) -> _models.ConnectedResourcesCountResponse:
+        """Get the total number of connected resources for the given marketplace subscription Id.
+
+        :param request: Marketplace Subscription Id. Required.
+        :type request: IO[bytes]
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: ConnectedResourcesCountResponse or the result of cls(response)
+        :rtype: ~azure.mgmt.dynatrace.models.ConnectedResourcesCountResponse
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace_async
+    async def get_all_connected_resources_count(
+        self, request: Union[_models.MarketplaceSubscriptionIdRequest, IO[bytes]], **kwargs: Any
+    ) -> _models.ConnectedResourcesCountResponse:
+        """Get the total number of connected resources for the given marketplace subscription Id.
+
+        :param request: Marketplace Subscription Id. Is either a MarketplaceSubscriptionIdRequest type
+         or a IO[bytes] type. Required.
+        :type request: ~azure.mgmt.dynatrace.models.MarketplaceSubscriptionIdRequest or IO[bytes]
+        :return: ConnectedResourcesCountResponse or the result of cls(response)
+        :rtype: ~azure.mgmt.dynatrace.models.ConnectedResourcesCountResponse
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.ConnectedResourcesCountResponse] = kwargs.pop("cls", None)
+
+        content_type = content_type or "application/json"
+        _json = None
+        _content = None
+        if isinstance(request, (IOBase, bytes)):
+            _content = request
+        else:
+            _json = self._serialize.body(request, "MarketplaceSubscriptionIdRequest")
+
+        _request = build_get_all_connected_resources_count_request(
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            content_type=content_type,
+            json=_json,
+            content=_content,
+            headers=_headers,
+            params=_params,
+        )
+        _request.url = self._client.format_url(_request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        deserialized = self._deserialize("ConnectedResourcesCountResponse", pipeline_response.http_response)
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
 
     @overload
     async def get_marketplace_saa_s_resource_details(
@@ -976,14 +1223,13 @@ class MonitorsOperations:
         content_type: str = "application/json",
         **kwargs: Any
     ) -> _models.MarketplaceSaaSResourceDetailsResponse:
-        """Get Marketplace SaaS resource details of a tenant under a specific subscription.
+        """Get Marketplace SaaS resource details.
 
         :param request: Tenant Id. Required.
         :type request: ~azure.mgmt.dynatrace.models.MarketplaceSaaSResourceDetailsRequest
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: MarketplaceSaaSResourceDetailsResponse or the result of cls(response)
         :rtype: ~azure.mgmt.dynatrace.models.MarketplaceSaaSResourceDetailsResponse
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -991,16 +1237,15 @@ class MonitorsOperations:
 
     @overload
     async def get_marketplace_saa_s_resource_details(
-        self, request: IO, *, content_type: str = "application/json", **kwargs: Any
+        self, request: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.MarketplaceSaaSResourceDetailsResponse:
-        """Get Marketplace SaaS resource details of a tenant under a specific subscription.
+        """Get Marketplace SaaS resource details.
 
         :param request: Tenant Id. Required.
-        :type request: IO
+        :type request: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: MarketplaceSaaSResourceDetailsResponse or the result of cls(response)
         :rtype: ~azure.mgmt.dynatrace.models.MarketplaceSaaSResourceDetailsResponse
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1008,26 +1253,22 @@ class MonitorsOperations:
 
     @distributed_trace_async
     async def get_marketplace_saa_s_resource_details(
-        self, request: Union[_models.MarketplaceSaaSResourceDetailsRequest, IO], **kwargs: Any
+        self, request: Union[_models.MarketplaceSaaSResourceDetailsRequest, IO[bytes]], **kwargs: Any
     ) -> _models.MarketplaceSaaSResourceDetailsResponse:
-        """Get Marketplace SaaS resource details of a tenant under a specific subscription.
+        """Get Marketplace SaaS resource details.
 
-        :param request: Tenant Id. Is either a MarketplaceSaaSResourceDetailsRequest type or a IO type.
-         Required.
-        :type request: ~azure.mgmt.dynatrace.models.MarketplaceSaaSResourceDetailsRequest or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+        :param request: Tenant Id. Is either a MarketplaceSaaSResourceDetailsRequest type or a
+         IO[bytes] type. Required.
+        :type request: ~azure.mgmt.dynatrace.models.MarketplaceSaaSResourceDetailsRequest or IO[bytes]
         :return: MarketplaceSaaSResourceDetailsResponse or the result of cls(response)
         :rtype: ~azure.mgmt.dynatrace.models.MarketplaceSaaSResourceDetailsResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
             409: ResourceExistsError,
             304: ResourceNotModifiedError,
-            404: lambda response: ResourceNotFoundError(response=response, error_format=ARMErrorFormat),
         }
         error_map.update(kwargs.pop("error_map", {}) or {})
 
@@ -1046,22 +1287,20 @@ class MonitorsOperations:
         else:
             _json = self._serialize.body(request, "MarketplaceSaaSResourceDetailsRequest")
 
-        request = build_get_marketplace_saa_s_resource_details_request(
+        _request = build_get_marketplace_saa_s_resource_details_request(
             subscription_id=self._config.subscription_id,
             api_version=api_version,
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.get_marketplace_saa_s_resource_details.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1071,16 +1310,12 @@ class MonitorsOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("MarketplaceSaaSResourceDetailsResponse", pipeline_response)
+        deserialized = self._deserialize("MarketplaceSaaSResourceDetailsResponse", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get_marketplace_saa_s_resource_details.metadata = {
-        "url": "/subscriptions/{subscriptionId}/providers/Dynatrace.Observability/getMarketplaceSaaSResourceDetails"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
     def list_hosts(self, resource_group_name: str, monitor_name: str, **kwargs: Any) -> AsyncIterable["_models.VMInfo"]:
@@ -1093,7 +1328,6 @@ class MonitorsOperations:
         :type resource_group_name: str
         :param monitor_name: Monitor resource name. Required.
         :type monitor_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either VMInfo or the result of cls(response)
         :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.dynatrace.models.VMInfo]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1104,7 +1338,7 @@ class MonitorsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.VMHostsListResponse] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1115,17 +1349,15 @@ class MonitorsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_hosts_request(
+                _request = build_list_hosts_request(
                     resource_group_name=resource_group_name,
                     monitor_name=monitor_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_hosts.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -1137,13 +1369,12 @@ class MonitorsOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("VMHostsListResponse", pipeline_response)
@@ -1153,11 +1384,11 @@ class MonitorsOperations:
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -1170,27 +1401,83 @@ class MonitorsOperations:
 
         return AsyncItemPaged(get_next, extract_data)
 
-    list_hosts.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Dynatrace.Observability/monitors/{monitorName}/listHosts"
-    }
-
-    @distributed_trace_async
+    @overload
     async def get_metric_status(
-        self, resource_group_name: str, monitor_name: str, **kwargs: Any
+        self,
+        resource_group_name: str,
+        monitor_name: str,
+        request: Optional[_models.MetricStatusRequest] = None,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
     ) -> _models.MetricsStatusResponse:
         """Get metric status.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
         :type resource_group_name: str
-        :param monitor_name: Name of the Monitor resource. Required.
+        :param monitor_name: Name of the Monitors resource. Required.
         :type monitor_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+        :param request: The details of the metric status request. Default value is None.
+        :type request: ~azure.mgmt.dynatrace.models.MetricStatusRequest
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
         :return: MetricsStatusResponse or the result of cls(response)
         :rtype: ~azure.mgmt.dynatrace.models.MetricsStatusResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+
+    @overload
+    async def get_metric_status(
+        self,
+        resource_group_name: str,
+        monitor_name: str,
+        request: Optional[IO[bytes]] = None,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> _models.MetricsStatusResponse:
+        """Get metric status.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param monitor_name: Name of the Monitors resource. Required.
+        :type monitor_name: str
+        :param request: The details of the metric status request. Default value is None.
+        :type request: IO[bytes]
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: MetricsStatusResponse or the result of cls(response)
+        :rtype: ~azure.mgmt.dynatrace.models.MetricsStatusResponse
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace_async
+    async def get_metric_status(
+        self,
+        resource_group_name: str,
+        monitor_name: str,
+        request: Optional[Union[_models.MetricStatusRequest, IO[bytes]]] = None,
+        **kwargs: Any
+    ) -> _models.MetricsStatusResponse:
+        """Get metric status.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param monitor_name: Name of the Monitors resource. Required.
+        :type monitor_name: str
+        :param request: The details of the metric status request. Is either a MetricStatusRequest type
+         or a IO[bytes] type. Default value is None.
+        :type request: ~azure.mgmt.dynatrace.models.MetricStatusRequest or IO[bytes]
+        :return: MetricsStatusResponse or the result of cls(response)
+        :rtype: ~azure.mgmt.dynatrace.models.MetricsStatusResponse
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1198,27 +1485,40 @@ class MonitorsOperations:
         }
         error_map.update(kwargs.pop("error_map", {}) or {})
 
-        _headers = kwargs.pop("headers", {}) or {}
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.MetricsStatusResponse] = kwargs.pop("cls", None)
 
-        request = build_get_metric_status_request(
+        content_type = content_type or "application/json"
+        _json = None
+        _content = None
+        if isinstance(request, (IOBase, bytes)):
+            _content = request
+        else:
+            if request is not None:
+                _json = self._serialize.body(request, "MetricStatusRequest")
+            else:
+                _json = None
+
+        _request = build_get_metric_status_request(
             resource_group_name=resource_group_name,
             monitor_name=monitor_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            template_url=self.get_metric_status.metadata["url"],
+            content_type=content_type,
+            json=_json,
+            content=_content,
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1228,16 +1528,12 @@ class MonitorsOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("MetricsStatusResponse", pipeline_response)
+        deserialized = self._deserialize("MetricsStatusResponse", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get_metric_status.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Dynatrace.Observability/monitors/{monitorName}/getMetricStatus"
-    }
+        return deserialized  # type: ignore
 
     @distributed_trace
     def list_app_services(
@@ -1252,7 +1548,6 @@ class MonitorsOperations:
         :type resource_group_name: str
         :param monitor_name: Monitor resource name. Required.
         :type monitor_name: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either AppServiceInfo or the result of cls(response)
         :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.dynatrace.models.AppServiceInfo]
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1263,7 +1558,7 @@ class MonitorsOperations:
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
         cls: ClsType[_models.AppServiceListResponse] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1274,17 +1569,15 @@ class MonitorsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_app_services_request(
+                _request = build_list_app_services_request(
                     resource_group_name=resource_group_name,
                     monitor_name=monitor_name,
                     subscription_id=self._config.subscription_id,
                     api_version=api_version,
-                    template_url=self.list_app_services.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -1296,13 +1589,12 @@ class MonitorsOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("AppServiceListResponse", pipeline_response)
@@ -1312,11 +1604,11 @@ class MonitorsOperations:
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -1329,9 +1621,201 @@ class MonitorsOperations:
 
         return AsyncItemPaged(get_next, extract_data)
 
-    list_app_services.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Dynatrace.Observability/monitors/{monitorName}/listAppServices"
-    }
+    async def _upgrade_plan_initial(
+        self,
+        resource_group_name: str,
+        monitor_name: str,
+        request: Union[_models.UpgradePlanRequest, IO[bytes]],
+        **kwargs: Any
+    ) -> AsyncIterator[bytes]:
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[AsyncIterator[bytes]] = kwargs.pop("cls", None)
+
+        content_type = content_type or "application/json"
+        _json = None
+        _content = None
+        if isinstance(request, (IOBase, bytes)):
+            _content = request
+        else:
+            _json = self._serialize.body(request, "UpgradePlanRequest")
+
+        _request = build_upgrade_plan_request(
+            resource_group_name=resource_group_name,
+            monitor_name=monitor_name,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            content_type=content_type,
+            json=_json,
+            content=_content,
+            headers=_headers,
+            params=_params,
+        )
+        _request.url = self._client.format_url(_request.url)
+
+        _decompress = kwargs.pop("decompress", True)
+        _stream = True
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [202]:
+            try:
+                await response.read()  # Load the body in memory and close the socket
+            except (StreamConsumedError, StreamClosedError):
+                pass
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        response_headers = {}
+        response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
+        response_headers["Location"] = self._deserialize("str", response.headers.get("Location"))
+
+        deserialized = response.stream_download(self._client._pipeline, decompress=_decompress)
+
+        if cls:
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
+
+        return deserialized  # type: ignore
+
+    @overload
+    async def begin_upgrade_plan(
+        self,
+        resource_group_name: str,
+        monitor_name: str,
+        request: _models.UpgradePlanRequest,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> AsyncLROPoller[None]:
+        """Upgrades the billing Plan for Dynatrace monitor resource.
+
+        Upgrades the billing Plan for Dynatrace monitor resource.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param monitor_name: Monitor resource name. Required.
+        :type monitor_name: str
+        :param request: The details of the upgrade plan request. Required.
+        :type request: ~azure.mgmt.dynatrace.models.UpgradePlanRequest
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: An instance of AsyncLROPoller that returns either None or the result of cls(response)
+        :rtype: ~azure.core.polling.AsyncLROPoller[None]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    async def begin_upgrade_plan(
+        self,
+        resource_group_name: str,
+        monitor_name: str,
+        request: IO[bytes],
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> AsyncLROPoller[None]:
+        """Upgrades the billing Plan for Dynatrace monitor resource.
+
+        Upgrades the billing Plan for Dynatrace monitor resource.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param monitor_name: Monitor resource name. Required.
+        :type monitor_name: str
+        :param request: The details of the upgrade plan request. Required.
+        :type request: IO[bytes]
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: An instance of AsyncLROPoller that returns either None or the result of cls(response)
+        :rtype: ~azure.core.polling.AsyncLROPoller[None]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace_async
+    async def begin_upgrade_plan(
+        self,
+        resource_group_name: str,
+        monitor_name: str,
+        request: Union[_models.UpgradePlanRequest, IO[bytes]],
+        **kwargs: Any
+    ) -> AsyncLROPoller[None]:
+        """Upgrades the billing Plan for Dynatrace monitor resource.
+
+        Upgrades the billing Plan for Dynatrace monitor resource.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param monitor_name: Monitor resource name. Required.
+        :type monitor_name: str
+        :param request: The details of the upgrade plan request. Is either a UpgradePlanRequest type or
+         a IO[bytes] type. Required.
+        :type request: ~azure.mgmt.dynatrace.models.UpgradePlanRequest or IO[bytes]
+        :return: An instance of AsyncLROPoller that returns either None or the result of cls(response)
+        :rtype: ~azure.core.polling.AsyncLROPoller[None]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[None] = kwargs.pop("cls", None)
+        polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
+        lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
+        cont_token: Optional[str] = kwargs.pop("continuation_token", None)
+        if cont_token is None:
+            raw_result = await self._upgrade_plan_initial(
+                resource_group_name=resource_group_name,
+                monitor_name=monitor_name,
+                request=request,
+                api_version=api_version,
+                content_type=content_type,
+                cls=lambda x, y, z: x,
+                headers=_headers,
+                params=_params,
+                **kwargs
+            )
+            await raw_result.http_response.read()  # type: ignore
+        kwargs.pop("error_map", None)
+
+        def get_long_running_output(pipeline_response):  # pylint: disable=inconsistent-return-statements
+            if cls:
+                return cls(pipeline_response, None, {})  # type: ignore
+
+        if polling is True:
+            polling_method: AsyncPollingMethod = cast(AsyncPollingMethod, AsyncARMPolling(lro_delay, **kwargs))
+        elif polling is False:
+            polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
+        else:
+            polling_method = polling
+        if cont_token:
+            return AsyncLROPoller[None].from_continuation_token(
+                polling_method=polling_method,
+                continuation_token=cont_token,
+                client=self._client,
+                deserialization_callback=get_long_running_output,
+            )
+        return AsyncLROPoller[None](self._client, raw_result, get_long_running_output, polling_method)  # type: ignore
 
     @overload
     async def get_sso_details(
@@ -1357,7 +1841,6 @@ class MonitorsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: SSODetailsResponse or the result of cls(response)
         :rtype: ~azure.mgmt.dynatrace.models.SSODetailsResponse
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1368,7 +1851,7 @@ class MonitorsOperations:
         self,
         resource_group_name: str,
         monitor_name: str,
-        request: Optional[IO] = None,
+        request: Optional[IO[bytes]] = None,
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -1383,11 +1866,10 @@ class MonitorsOperations:
         :param monitor_name: Monitor resource name. Required.
         :type monitor_name: str
         :param request: The details of the get sso details request. Default value is None.
-        :type request: IO
+        :type request: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: SSODetailsResponse or the result of cls(response)
         :rtype: ~azure.mgmt.dynatrace.models.SSODetailsResponse
         :raises ~azure.core.exceptions.HttpResponseError:
@@ -1398,7 +1880,7 @@ class MonitorsOperations:
         self,
         resource_group_name: str,
         monitor_name: str,
-        request: Optional[Union[_models.SSODetailsRequest, IO]] = None,
+        request: Optional[Union[_models.SSODetailsRequest, IO[bytes]]] = None,
         **kwargs: Any
     ) -> _models.SSODetailsResponse:
         """Gets the SSO configuration details from the partner.
@@ -1411,21 +1893,17 @@ class MonitorsOperations:
         :param monitor_name: Monitor resource name. Required.
         :type monitor_name: str
         :param request: The details of the get sso details request. Is either a SSODetailsRequest type
-         or a IO type. Default value is None.
-        :type request: ~azure.mgmt.dynatrace.models.SSODetailsRequest or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         or a IO[bytes] type. Default value is None.
+        :type request: ~azure.mgmt.dynatrace.models.SSODetailsRequest or IO[bytes]
         :return: SSODetailsResponse or the result of cls(response)
         :rtype: ~azure.mgmt.dynatrace.models.SSODetailsResponse
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map = {
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
             304: ResourceNotModifiedError,
-            401: lambda response: ClientAuthenticationError(response=response, error_format=ARMErrorFormat),
         }
         error_map.update(kwargs.pop("error_map", {}) or {})
 
@@ -1447,7 +1925,7 @@ class MonitorsOperations:
             else:
                 _json = None
 
-        request = build_get_sso_details_request(
+        _request = build_get_sso_details_request(
             resource_group_name=resource_group_name,
             monitor_name=monitor_name,
             subscription_id=self._config.subscription_id,
@@ -1455,16 +1933,14 @@ class MonitorsOperations:
             content_type=content_type,
             json=_json,
             content=_content,
-            template_url=self.get_sso_details.metadata["url"],
             headers=_headers,
             params=_params,
         )
-        request = _convert_request(request)
-        request.url = self._client.format_url(request.url)
+        _request.url = self._client.format_url(_request.url)
 
         _stream = False
         pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            request, stream=_stream, **kwargs
+            _request, stream=_stream, **kwargs
         )
 
         response = pipeline_response.http_response
@@ -1474,16 +1950,12 @@ class MonitorsOperations:
             error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
             raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
-        deserialized = self._deserialize("SSODetailsResponse", pipeline_response)
+        deserialized = self._deserialize("SSODetailsResponse", pipeline_response.http_response)
 
         if cls:
-            return cls(pipeline_response, deserialized, {})
+            return cls(pipeline_response, deserialized, {})  # type: ignore
 
-        return deserialized
-
-    get_sso_details.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Dynatrace.Observability/monitors/{monitorName}/getSSODetails"
-    }
+        return deserialized  # type: ignore
 
     @overload
     def list_linkable_environments(
@@ -1509,7 +1981,6 @@ class MonitorsOperations:
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either LinkableEnvironmentResponse or the result of
          cls(response)
         :rtype:
@@ -1522,7 +1993,7 @@ class MonitorsOperations:
         self,
         resource_group_name: str,
         monitor_name: str,
-        request: IO,
+        request: IO[bytes],
         *,
         content_type: str = "application/json",
         **kwargs: Any
@@ -1537,11 +2008,10 @@ class MonitorsOperations:
         :param monitor_name: Monitor resource name. Required.
         :type monitor_name: str
         :param request: The details of the linkable environment request. Required.
-        :type request: IO
+        :type request: IO[bytes]
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
         :return: An iterator like instance of either LinkableEnvironmentResponse or the result of
          cls(response)
         :rtype:
@@ -1554,7 +2024,7 @@ class MonitorsOperations:
         self,
         resource_group_name: str,
         monitor_name: str,
-        request: Union[_models.LinkableEnvironmentRequest, IO],
+        request: Union[_models.LinkableEnvironmentRequest, IO[bytes]],
         **kwargs: Any
     ) -> AsyncIterable["_models.LinkableEnvironmentResponse"]:
         """Gets all the Dynatrace environments that a user can link a azure resource to.
@@ -1567,12 +2037,8 @@ class MonitorsOperations:
         :param monitor_name: Monitor resource name. Required.
         :type monitor_name: str
         :param request: The details of the linkable environment request. Is either a
-         LinkableEnvironmentRequest type or a IO type. Required.
-        :type request: ~azure.mgmt.dynatrace.models.LinkableEnvironmentRequest or IO
-        :keyword content_type: Body Parameter content-type. Known values are: 'application/json'.
-         Default value is None.
-        :paramtype content_type: str
-        :keyword callable cls: A custom type or function that will be passed the direct response
+         LinkableEnvironmentRequest type or a IO[bytes] type. Required.
+        :type request: ~azure.mgmt.dynatrace.models.LinkableEnvironmentRequest or IO[bytes]
         :return: An iterator like instance of either LinkableEnvironmentResponse or the result of
          cls(response)
         :rtype:
@@ -1586,7 +2052,7 @@ class MonitorsOperations:
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.LinkableEnvironmentListResponse] = kwargs.pop("cls", None)
 
-        error_map = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -1604,7 +2070,7 @@ class MonitorsOperations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                request = build_list_linkable_environments_request(
+                _request = build_list_linkable_environments_request(
                     resource_group_name=resource_group_name,
                     monitor_name=monitor_name,
                     subscription_id=self._config.subscription_id,
@@ -1612,12 +2078,10 @@ class MonitorsOperations:
                     content_type=content_type,
                     json=_json,
                     content=_content,
-                    template_url=self.list_linkable_environments.metadata["url"],
                     headers=_headers,
                     params=_params,
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
+                _request.url = self._client.format_url(_request.url)
 
             else:
                 # make call to next link with the client's api-version
@@ -1629,13 +2093,12 @@ class MonitorsOperations:
                     }
                 )
                 _next_request_params["api-version"] = self._config.api_version
-                request = HttpRequest(
+                _request = HttpRequest(
                     "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
                 )
-                request = _convert_request(request)
-                request.url = self._client.format_url(request.url)
-                request.method = "GET"
-            return request
+                _request.url = self._client.format_url(_request.url)
+                _request.method = "GET"
+            return _request
 
         async def extract_data(pipeline_response):
             deserialized = self._deserialize("LinkableEnvironmentListResponse", pipeline_response)
@@ -1645,11 +2108,11 @@ class MonitorsOperations:
             return deserialized.next_link or None, AsyncList(list_of_elem)
 
         async def get_next(next_link=None):
-            request = prepare_request(next_link)
+            _request = prepare_request(next_link)
 
             _stream = False
             pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                request, stream=_stream, **kwargs
+                _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
 
@@ -1661,7 +2124,3 @@ class MonitorsOperations:
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
-
-    list_linkable_environments.metadata = {
-        "url": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Dynatrace.Observability/monitors/{monitorName}/listLinkableEnvironments"
-    }

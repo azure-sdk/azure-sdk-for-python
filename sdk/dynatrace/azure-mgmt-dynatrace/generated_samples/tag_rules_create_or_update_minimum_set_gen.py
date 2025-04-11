@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.dynatrace import DynatraceObservabilityMgmtClient
 
 """
@@ -38,6 +39,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/stable/2023-04-27/examples/TagRules_CreateOrUpdate_MinimumSet_Gen.json
+# x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/stable/2024-04-24/examples/TagRules_CreateOrUpdate_MinimumSet_Gen.json
 if __name__ == "__main__":
     main()

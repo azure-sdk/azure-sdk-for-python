@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.dynatrace import DynatraceObservabilityMgmtClient
 
 """
@@ -32,11 +33,21 @@ def main():
     response = client.monitors.update(
         resource_group_name="myResourceGroup",
         monitor_name="myMonitor",
-        resource={"tags": {"Environment": "Dev"}},
+        resource={
+            "properties": {
+                "planData": {
+                    "billingCycle": "Monthly",
+                    "effectiveDate": "2019-08-30T15:14:33+02:00",
+                    "planDetails": "dynatraceapitestplan",
+                    "usageType": "Committed",
+                }
+            },
+            "tags": {"Environment": "Dev"},
+        },
     )
     print(response)
 
 
-# x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/stable/2023-04-27/examples/Monitors_Update_MaximumSet_Gen.json
+# x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/stable/2024-04-24/examples/Monitors_Update_MaximumSet_Gen.json
 if __name__ == "__main__":
     main()
