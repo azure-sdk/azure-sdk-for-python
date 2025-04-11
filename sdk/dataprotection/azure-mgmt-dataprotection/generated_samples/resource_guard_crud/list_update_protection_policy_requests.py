@@ -38,6 +38,6 @@ def main():
         print(item)
 
 
-# x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2024-04-01/examples/ResourceGuardCRUD/ListUpdateProtectionPolicyRequests.json
+# x-ms-original-file: specification/dataprotection/resource-manager/Microsoft.DataProtection/stable/2025-02-01/examples/ResourceGuardCRUD/ListUpdateProtectionPolicyRequests.json
 if __name__ == "__main__":
     main()
