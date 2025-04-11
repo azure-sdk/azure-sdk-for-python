@@ -1,6 +1,6 @@
 {
-  "commit": "4e3820497caa29ed0efada28a38cb4292cea9d55",
+  "commit": "af51fab0cc00ba3eaee7e4710e8fec5894d4bb0c",
   "repository_url": "https://github.com/Azure/azure-rest-api-specs",
   "typespec_src": "specification/liftrneon/Neon.Postgres.Management",
-  "@azure-tools/typespec-python": "0.36.1"
+  "@azure-tools/typespec-python": "0.42.2"
 }
