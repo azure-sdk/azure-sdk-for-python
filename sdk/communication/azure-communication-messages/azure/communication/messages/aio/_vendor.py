@@ -8,7 +8,12 @@
 from abc import ABC
 from typing import TYPE_CHECKING
 
-from ._configuration import MessageTemplateClientConfiguration, NotificationMessagesClientConfiguration
+from ._configuration import (
+    ConversationAdministrationClientConfiguration,
+    ConversationThreadClientConfiguration,
+    MessageTemplateClientConfiguration,
+    NotificationMessagesClientConfiguration,
+)
 
 if TYPE_CHECKING:
     from azure.core import AsyncPipelineClient
@@ -30,5 +35,23 @@ class MessageTemplateClientMixinABC(ABC):
 
     _client: "AsyncPipelineClient"
     _config: MessageTemplateClientConfiguration
+    _serialize: "Serializer"
+    _deserialize: "Deserializer"
+
+
+class ConversationAdministrationClientMixinABC(ABC):
+    """DO NOT use this class. It is for internal typing use only."""
+
+    _client: "AsyncPipelineClient"
+    _config: ConversationAdministrationClientConfiguration
+    _serialize: "Serializer"
+    _deserialize: "Deserializer"
+
+
+class ConversationThreadClientMixinABC(ABC):
+    """DO NOT use this class. It is for internal typing use only."""
+
+    _client: "AsyncPipelineClient"
+    _config: ConversationThreadClientConfiguration
     _serialize: "Serializer"
     _deserialize: "Deserializer"

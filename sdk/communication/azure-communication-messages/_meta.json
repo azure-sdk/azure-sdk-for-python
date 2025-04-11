@@ -1,0 +1,6 @@
+{
+  "commit": "12d094b44e8a62d55456c0afc374f0a72c93aebf",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/communication/Communication.Messages",
+  "@azure-tools/typespec-python": "0.42.2"
+}
