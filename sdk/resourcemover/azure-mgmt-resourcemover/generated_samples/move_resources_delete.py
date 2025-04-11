@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.resourcemover import ResourceMoverServiceAPI
 
 """
@@ -31,12 +32,12 @@ def main():
 
     response = client.move_resources.begin_delete(
         resource_group_name="rg1",
-        move_collection_name="movecollection1",
+        move_collection_name="movecollection_1",
         move_resource_name="moveresourcename1",
     ).result()
     print(response)
 
 
-# x-ms-original-file: specification/resourcemover/resource-manager/Microsoft.Migrate/stable/2023-08-01/examples/MoveResources_Delete.json
+# x-ms-original-file: specification/resourcemover/resource-manager/Microsoft.Migrate/stable/2024-08-01/examples/MoveResources_Delete.json
 if __name__ == "__main__":
     main()
