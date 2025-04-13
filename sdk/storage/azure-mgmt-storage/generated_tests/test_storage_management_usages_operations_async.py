@@ -22,10 +22,10 @@ class TestStorageManagementUsagesOperationsAsync(AzureMgmtRecordedTestCase):
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
     async def test_usages_list_by_location(self, resource_group):
-        response = self.client.usages.list_by_location(
+        response = await self.client.usages.list_by_location(
             location="str",
             api_version="2024-01-01",
         )
-        result = [r async for r in response]
+
         # please add some check logic here by yourself
         # ...

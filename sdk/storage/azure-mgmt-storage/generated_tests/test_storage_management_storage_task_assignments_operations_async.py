@@ -21,6 +21,31 @@ class TestStorageManagementStorageTaskAssignmentsOperationsAsync(AzureMgmtRecord
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
+    async def test_storage_task_assignments_list(self, resource_group):
+        response = self.client.storage_task_assignments.list(
+            resource_group_name=resource_group.name,
+            account_name="str",
+            api_version="2024-01-01",
+        )
+        result = [r async for r in response]
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy_async
+    async def test_storage_task_assignments_get(self, resource_group):
+        response = await self.client.storage_task_assignments.get(
+            resource_group_name=resource_group.name,
+            account_name="str",
+            storage_task_assignment_name="str",
+            api_version="2024-01-01",
+        )
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy_async
     async def test_storage_task_assignments_begin_create(self, resource_group):
         response = await (
             await self.client.storage_task_assignments.begin_create(
@@ -36,7 +61,7 @@ class TestStorageManagementStorageTaskAssignmentsOperationsAsync(AzureMgmtRecord
                                 "parameters": {
                                     "endBy": "2020-02-20 00:00:00",
                                     "interval": 0,
-                                    "intervalUnit": "Days",
+                                    "intervalUnit": "str",
                                     "startFrom": "2020-02-20 00:00:00",
                                     "startOn": "2020-02-20 00:00:00",
                                 },
@@ -66,6 +91,14 @@ class TestStorageManagementStorageTaskAssignmentsOperationsAsync(AzureMgmtRecord
                     },
                     "id": "str",
                     "name": "str",
+                    "systemData": {
+                        "createdAt": "2020-02-20 00:00:00",
+                        "createdBy": "str",
+                        "createdByType": "str",
+                        "lastModifiedAt": "2020-02-20 00:00:00",
+                        "lastModifiedBy": "str",
+                        "lastModifiedByType": "str",
+                    },
                     "type": "str",
                 },
                 api_version="2024-01-01",
@@ -93,7 +126,7 @@ class TestStorageManagementStorageTaskAssignmentsOperationsAsync(AzureMgmtRecord
                                 "parameters": {
                                     "endBy": "2020-02-20 00:00:00",
                                     "interval": 0,
-                                    "intervalUnit": "Days",
+                                    "intervalUnit": "str",
                                     "startFrom": "2020-02-20 00:00:00",
                                     "startOn": "2020-02-20 00:00:00",
                                 },
@@ -130,19 +163,6 @@ class TestStorageManagementStorageTaskAssignmentsOperationsAsync(AzureMgmtRecord
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_storage_task_assignments_get(self, resource_group):
-        response = await self.client.storage_task_assignments.get(
-            resource_group_name=resource_group.name,
-            account_name="str",
-            storage_task_assignment_name="str",
-            api_version="2024-01-01",
-        )
-
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy_async
     async def test_storage_task_assignments_begin_delete(self, resource_group):
         response = await (
             await self.client.storage_task_assignments.begin_delete(
@@ -153,17 +173,5 @@ class TestStorageManagementStorageTaskAssignmentsOperationsAsync(AzureMgmtRecord
             )
         ).result()  # call '.result()' to poll until service return final result
 
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy_async
-    async def test_storage_task_assignments_list(self, resource_group):
-        response = self.client.storage_task_assignments.list(
-            resource_group_name=resource_group.name,
-            account_name="str",
-            api_version="2024-01-01",
-        )
-        result = [r async for r in response]
         # please add some check logic here by yourself
         # ...

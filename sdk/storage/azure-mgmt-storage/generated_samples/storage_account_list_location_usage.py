@@ -33,8 +33,7 @@ def main():
     response = client.usages.list_by_location(
         location="eastus2(stage)",
     )
-    for item in response:
-        print(item)
+    print(response)
 
 
 # x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/StorageAccountListLocationUsage.json

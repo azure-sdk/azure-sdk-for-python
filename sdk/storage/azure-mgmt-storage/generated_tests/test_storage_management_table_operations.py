@@ -20,27 +20,13 @@ class TestStorageManagementTableOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_table_create(self, resource_group):
-        response = self.client.table.create(
+    def test_table_list(self, resource_group):
+        response = self.client.table.list(
             resource_group_name=resource_group.name,
             account_name="str",
-            table_name="str",
             api_version="2024-01-01",
         )
-
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
-    def test_table_update(self, resource_group):
-        response = self.client.table.update(
-            resource_group_name=resource_group.name,
-            account_name="str",
-            table_name="str",
-            api_version="2024-01-01",
-        )
-
+        result = [r for r in response]
         # please add some check logic here by yourself
         # ...
 
@@ -59,11 +45,35 @@ class TestStorageManagementTableOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_table_delete(self, resource_group):
-        response = self.client.table.delete(
+    def test_table_create(self, resource_group):
+        response = self.client.table.create(
             resource_group_name=resource_group.name,
             account_name="str",
             table_name="str",
+            parameters={
+                "id": "str",
+                "name": "str",
+                "signedIdentifiers": [
+                    {
+                        "id": "str",
+                        "accessPolicy": {
+                            "permission": "str",
+                            "expiryTime": "2020-02-20 00:00:00",
+                            "startTime": "2020-02-20 00:00:00",
+                        },
+                    }
+                ],
+                "systemData": {
+                    "createdAt": "2020-02-20 00:00:00",
+                    "createdBy": "str",
+                    "createdByType": "str",
+                    "lastModifiedAt": "2020-02-20 00:00:00",
+                    "lastModifiedBy": "str",
+                    "lastModifiedByType": "str",
+                },
+                "tableName": "str",
+                "type": "str",
+            },
             api_version="2024-01-01",
         )
 
@@ -72,12 +82,50 @@ class TestStorageManagementTableOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_table_list(self, resource_group):
-        response = self.client.table.list(
+    def test_table_update(self, resource_group):
+        response = self.client.table.update(
             resource_group_name=resource_group.name,
             account_name="str",
+            table_name="str",
+            parameters={
+                "id": "str",
+                "name": "str",
+                "signedIdentifiers": [
+                    {
+                        "id": "str",
+                        "accessPolicy": {
+                            "permission": "str",
+                            "expiryTime": "2020-02-20 00:00:00",
+                            "startTime": "2020-02-20 00:00:00",
+                        },
+                    }
+                ],
+                "systemData": {
+                    "createdAt": "2020-02-20 00:00:00",
+                    "createdBy": "str",
+                    "createdByType": "str",
+                    "lastModifiedAt": "2020-02-20 00:00:00",
+                    "lastModifiedBy": "str",
+                    "lastModifiedByType": "str",
+                },
+                "tableName": "str",
+                "type": "str",
+            },
             api_version="2024-01-01",
         )
-        result = [r for r in response]
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy
+    def test_table_delete(self, resource_group):
+        response = self.client.table.delete(
+            resource_group_name=resource_group.name,
+            account_name="str",
+            table_name="str",
+            api_version="2024-01-01",
+        )
+
         # please add some check logic here by yourself
         # ...

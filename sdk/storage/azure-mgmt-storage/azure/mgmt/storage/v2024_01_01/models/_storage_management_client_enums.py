@@ -52,6 +52,12 @@ class AccountType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     COMPUTER = "Computer"
 
 
+class ActionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs."""
+
+    INTERNAL = "Internal"
+
+
 class AllowedCopyScope(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Restrict copy to and from Storage Accounts within an AAD tenant or with Private Links to the
     same VNet.
@@ -163,8 +169,8 @@ class EncryptionScopeSource(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     Microsoft.KeyVault.
     """
 
-    MICROSOFT_STORAGE = "Microsoft.Storage"
-    MICROSOFT_KEY_VAULT = "Microsoft.KeyVault"
+    STORAGE = "Microsoft.Storage"
+    KEY_VAULT = "Microsoft.KeyVault"
 
 
 class EncryptionScopeState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -189,6 +195,12 @@ class ExtendedLocationTypes(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The type of extendedLocation."""
 
     EDGE_ZONE = "EdgeZone"
+
+
+class FailoverType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """FailoverType."""
+
+    PLANNED = "Planned"
 
 
 class Format(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -242,6 +254,15 @@ class ImmutabilityPolicyUpdateType(str, Enum, metaclass=CaseInsensitiveEnumMeta)
     PUT = "put"
     LOCK = "lock"
     EXTEND = "extend"
+
+
+class IntervalUnit(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Run interval unit of task execution. This is a required field when
+    ExecutionTrigger.properties.type is 'OnSchedule'; this property should not be present when
+    ExecutionTrigger.properties.type is 'RunOnce'.
+    """
+
+    DAYS = "Days"
 
 
 class InventoryRuleType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -300,7 +321,7 @@ class LargeFileSharesState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     ENABLED = "Enabled"
 
 
-class LeaseContainerRequestEnum(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+class LeaseContainerRequestAction(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Specifies the lease action. Can be one of the available actions."""
 
     ACQUIRE = "Acquire"
@@ -360,6 +381,12 @@ class ListEncryptionScopesInclude(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     ALL = "All"
     ENABLED = "Enabled"
     DISABLED = "Disabled"
+
+
+class ListKeyExpand(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """ListKeyExpand."""
+
+    KERB = "kerb"
 
 
 class ListLocalUserIncludeParam(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -440,6 +467,16 @@ class ObjectType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     BLOB = "Blob"
     CONTAINER = "Container"
+
+
+class Origin(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit
+    logs UX. Default value is "user,system".
+    """
+
+    USER = "user"
+    SYSTEM = "system"
+    USER_SYSTEM = "user,system"
 
 
 class Permissions(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -673,8 +710,12 @@ class SkuName(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
 
 class SkuTier(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """The SKU tier. This is based on the SKU name."""
+    """This field is required to be implemented by the Resource Provider if the service has more than
+    one tier, but is not required on a PUT.
+    """
 
+    FREE = "Free"
+    BASIC = "Basic"
     STANDARD = "Standard"
     PREMIUM = "Premium"
 

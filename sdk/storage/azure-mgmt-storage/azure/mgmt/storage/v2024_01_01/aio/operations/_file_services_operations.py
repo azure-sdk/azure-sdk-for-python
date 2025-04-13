@@ -7,7 +7,7 @@
 # --------------------------------------------------------------------------
 from io import IOBase
 import sys
-from typing import Any, AsyncIterable, Callable, Dict, IO, Literal, Optional, TypeVar, Union, overload
+from typing import Any, AsyncIterable, Callable, Dict, IO, Optional, TypeVar, Union, overload
 import urllib.parse
 
 from azure.core.async_paging import AsyncItemPaged, AsyncList
@@ -67,8 +67,8 @@ class FileServicesOperations:
     async def list(self, resource_group_name: str, account_name: str, **kwargs: Any) -> _models.FileServiceItems:
         """List all file services in storage accounts.
 
-        :param resource_group_name: The name of the resource group within the user's subscription. The
-         name is case insensitive. Required.
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
         :type resource_group_name: str
         :param account_name: The name of the storage account within the specified resource group.
          Storage account names must be between 3 and 24 characters in length and use numbers and
@@ -111,9 +111,71 @@ class FileServicesOperations:
 
         if response.status_code not in [200]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         deserialized = self._deserialize("FileServiceItems", pipeline_response.http_response)
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
+
+    @distributed_trace_async
+    async def get_service_properties(
+        self, resource_group_name: str, account_name: str, **kwargs: Any
+    ) -> _models.FileServiceProperties:
+        """Gets the properties of file services in storage accounts, including CORS (Cross-Origin Resource
+        Sharing) rules.
+
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
+        :type resource_group_name: str
+        :param account_name: The name of the storage account within the specified resource group.
+         Storage account names must be between 3 and 24 characters in length and use numbers and
+         lower-case letters only. Required.
+        :type account_name: str
+        :return: FileServiceProperties or the result of cls(response)
+        :rtype: ~azure.mgmt.storage.v2024_01_01.models.FileServiceProperties
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2024-01-01"))
+        cls: ClsType[_models.FileServiceProperties] = kwargs.pop("cls", None)
+
+        _request = build_get_service_properties_request(
+            resource_group_name=resource_group_name,
+            account_name=account_name,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            headers=_headers,
+            params=_params,
+        )
+        _request.url = self._client.format_url(_request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        deserialized = self._deserialize("FileServiceProperties", pipeline_response.http_response)
 
         if cls:
             return cls(pipeline_response, deserialized, {})  # type: ignore
@@ -133,8 +195,8 @@ class FileServicesOperations:
         """Sets the properties of file services in storage accounts, including CORS (Cross-Origin Resource
         Sharing) rules.
 
-        :param resource_group_name: The name of the resource group within the user's subscription. The
-         name is case insensitive. Required.
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
         :type resource_group_name: str
         :param account_name: The name of the storage account within the specified resource group.
          Storage account names must be between 3 and 24 characters in length and use numbers and
@@ -164,8 +226,8 @@ class FileServicesOperations:
         """Sets the properties of file services in storage accounts, including CORS (Cross-Origin Resource
         Sharing) rules.
 
-        :param resource_group_name: The name of the resource group within the user's subscription. The
-         name is case insensitive. Required.
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
         :type resource_group_name: str
         :param account_name: The name of the storage account within the specified resource group.
          Storage account names must be between 3 and 24 characters in length and use numbers and
@@ -193,8 +255,8 @@ class FileServicesOperations:
         """Sets the properties of file services in storage accounts, including CORS (Cross-Origin Resource
         Sharing) rules.
 
-        :param resource_group_name: The name of the resource group within the user's subscription. The
-         name is case insensitive. Required.
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
         :type resource_group_name: str
         :param account_name: The name of the storage account within the specified resource group.
          Storage account names must be between 3 and 24 characters in length and use numbers and
@@ -220,7 +282,6 @@ class FileServicesOperations:
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2024-01-01"))
-        file_services_name: Literal["default"] = kwargs.pop("file_services_name", "default")
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.FileServiceProperties] = kwargs.pop("cls", None)
 
@@ -237,7 +298,6 @@ class FileServicesOperations:
             account_name=account_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            file_services_name=file_services_name,
             content_type=content_type,
             json=_json,
             content=_content,
@@ -255,69 +315,8 @@ class FileServicesOperations:
 
         if response.status_code not in [200]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
-
-        deserialized = self._deserialize("FileServiceProperties", pipeline_response.http_response)
-
-        if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
-
-        return deserialized  # type: ignore
-
-    @distributed_trace_async
-    async def get_service_properties(
-        self, resource_group_name: str, account_name: str, **kwargs: Any
-    ) -> _models.FileServiceProperties:
-        """Gets the properties of file services in storage accounts, including CORS (Cross-Origin Resource
-        Sharing) rules.
-
-        :param resource_group_name: The name of the resource group within the user's subscription. The
-         name is case insensitive. Required.
-        :type resource_group_name: str
-        :param account_name: The name of the storage account within the specified resource group.
-         Storage account names must be between 3 and 24 characters in length and use numbers and
-         lower-case letters only. Required.
-        :type account_name: str
-        :return: FileServiceProperties or the result of cls(response)
-        :rtype: ~azure.mgmt.storage.v2024_01_01.models.FileServiceProperties
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        error_map: MutableMapping = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
-
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2024-01-01"))
-        file_services_name: Literal["default"] = kwargs.pop("file_services_name", "default")
-        cls: ClsType[_models.FileServiceProperties] = kwargs.pop("cls", None)
-
-        _request = build_get_service_properties_request(
-            resource_group_name=resource_group_name,
-            account_name=account_name,
-            subscription_id=self._config.subscription_id,
-            api_version=api_version,
-            file_services_name=file_services_name,
-            headers=_headers,
-            params=_params,
-        )
-        _request.url = self._client.format_url(_request.url)
-
-        _stream = False
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            _request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [200]:
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         deserialized = self._deserialize("FileServiceProperties", pipeline_response.http_response)
 
@@ -332,8 +331,8 @@ class FileServicesOperations:
     ) -> AsyncIterable["_models.FileServiceUsage"]:
         """Gets the usages of file service in storage account.
 
-        :param resource_group_name: The name of the resource group within the user's subscription. The
-         name is case insensitive. Required.
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
         :type resource_group_name: str
         :param account_name: The name of the storage account within the specified resource group.
          Storage account names must be between 3 and 24 characters in length and use numbers and
@@ -351,7 +350,6 @@ class FileServicesOperations:
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2024-01-01"))
-        file_services_name: Literal["default"] = kwargs.pop("file_services_name", "default")
         cls: ClsType[_models.FileServiceUsages] = kwargs.pop("cls", None)
 
         error_map: MutableMapping = {
@@ -371,7 +369,6 @@ class FileServicesOperations:
                     subscription_id=self._config.subscription_id,
                     maxpagesize=maxpagesize,
                     api_version=api_version,
-                    file_services_name=file_services_name,
                     headers=_headers,
                     params=_params,
                 )
@@ -412,7 +409,8 @@ class FileServicesOperations:
 
             if response.status_code not in [200]:
                 map_error(status_code=response.status_code, response=response, error_map=error_map)
-                raise HttpResponseError(response=response, error_format=ARMErrorFormat)
+                error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+                raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
             return pipeline_response
 
@@ -425,8 +423,8 @@ class FileServicesOperations:
         """Gets the usage of file service in storage account including account limits, file share limits
         and constants used in recommendations and bursting formula.
 
-        :param resource_group_name: The name of the resource group within the user's subscription. The
-         name is case insensitive. Required.
+        :param resource_group_name: The name of the resource group. The name is case insensitive.
+         Required.
         :type resource_group_name: str
         :param account_name: The name of the storage account within the specified resource group.
          Storage account names must be between 3 and 24 characters in length and use numbers and
@@ -448,8 +446,6 @@ class FileServicesOperations:
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._api_version or "2024-01-01"))
-        file_services_name: Literal["default"] = kwargs.pop("file_services_name", "default")
-        file_service_usages_name: Literal["default"] = kwargs.pop("file_service_usages_name", "default")
         cls: ClsType[_models.FileServiceUsage] = kwargs.pop("cls", None)
 
         _request = build_get_service_usage_request(
@@ -457,8 +453,6 @@ class FileServicesOperations:
             account_name=account_name,
             subscription_id=self._config.subscription_id,
             api_version=api_version,
-            file_services_name=file_services_name,
-            file_service_usages_name=file_service_usages_name,
             headers=_headers,
             params=_params,
         )
@@ -473,7 +467,8 @@ class FileServicesOperations:
 
         if response.status_code not in [200]:
             map_error(status_code=response.status_code, response=response, error_map=error_map)
-            raise HttpResponseError(response=response, error_format=ARMErrorFormat)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
 
         deserialized = self._deserialize("FileServiceUsage", pipeline_response.http_response)
 

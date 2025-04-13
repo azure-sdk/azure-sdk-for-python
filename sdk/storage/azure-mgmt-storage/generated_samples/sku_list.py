@@ -31,8 +31,7 @@ def main():
     )
 
     response = client.skus.list()
-    for item in response:
-        print(item)
+    print(response)
 
 
 # x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2024-01-01/examples/SKUList.json

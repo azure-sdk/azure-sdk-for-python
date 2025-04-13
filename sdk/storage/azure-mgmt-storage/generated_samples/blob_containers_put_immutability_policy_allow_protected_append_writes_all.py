@@ -34,6 +34,7 @@ def main():
         resource_group_name="res1782",
         account_name="sto7069",
         container_name="container6397",
+        parameters={"properties": {"allowProtectedAppendWritesAll": True, "immutabilityPeriodSinceCreationInDays": 3}},
     )
     print(response)
 
