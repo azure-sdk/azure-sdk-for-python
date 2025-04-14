@@ -166,7 +166,7 @@ class AutoUpgradeProfileOperationsOperations:
     def begin_generate_update_run(
         self, resource_group_name: str, fleet_name: str, auto_upgrade_profile_name: str, **kwargs: Any
     ) -> LROPoller[_models.GenerateResponse]:
-        """A long-running resource action.
+        """Generates an update run for a given auto upgrade profile.
 
         :param resource_group_name: The name of the resource group. The name is case insensitive.
          Required.
