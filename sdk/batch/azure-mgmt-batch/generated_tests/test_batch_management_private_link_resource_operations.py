@@ -20,7 +20,7 @@ class TestBatchManagementPrivateLinkResourceOperations(AzureMgmtRecordedTestCase
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_batch_account(self, resource_group):
+    def test_private_link_resource_list_by_batch_account(self, resource_group):
         response = self.client.private_link_resource.list_by_batch_account(
             resource_group_name=resource_group.name,
             account_name="str",
@@ -32,7 +32,7 @@ class TestBatchManagementPrivateLinkResourceOperations(AzureMgmtRecordedTestCase
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_private_link_resource_get(self, resource_group):
         response = self.client.private_link_resource.get(
             resource_group_name=resource_group.name,
             account_name="str",
