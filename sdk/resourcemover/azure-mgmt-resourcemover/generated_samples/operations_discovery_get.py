@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.resourcemover import ResourceMoverServiceAPI
 
 """
@@ -33,6 +34,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/resourcemover/resource-manager/Microsoft.Migrate/stable/2023-08-01/examples/OperationsDiscovery_Get.json
+# x-ms-original-file: specification/resourcemover/resource-manager/Microsoft.Migrate/stable/2024-08-01/examples/OperationsDiscovery_Get.json
 if __name__ == "__main__":
     main()

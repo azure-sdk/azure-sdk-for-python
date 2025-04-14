@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.resourcemover import ResourceMoverServiceAPI
 
 """
@@ -31,12 +32,12 @@ def main():
 
     response = client.unresolved_dependencies.get(
         resource_group_name="rg1",
-        move_collection_name="movecollection1",
+        move_collection_name="movecollection_1",
     )
     for item in response:
         print(item)
 
 
-# x-ms-original-file: specification/resourcemover/resource-manager/Microsoft.Migrate/stable/2023-08-01/examples/UnresolvedDependencies_Get.json
+# x-ms-original-file: specification/resourcemover/resource-manager/Microsoft.Migrate/stable/2024-08-01/examples/UnresolvedDependencies_Get.json
 if __name__ == "__main__":
     main()
