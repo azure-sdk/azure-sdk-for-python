@@ -21,8 +21,6 @@ if TYPE_CHECKING:
 class BackupKeyResult(_model_base.Model):
     """The backup key result, containing the backup blob.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
     :ivar value: The backup blob containing the backed up key.
     :vartype value: bytes
     """
@@ -34,19 +32,17 @@ class BackupKeyResult(_model_base.Model):
 class DeletedKeyBundle(_model_base.Model):
     """A DeletedKeyBundle consisting of a WebKey plus its Attributes and deletion info.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
     :ivar key: The Json web key.
-    :vartype key: ~azure.keyvault.keys._generated.models.JsonWebKey
+    :vartype key: ~azure.keyvault.keys.models.JsonWebKey
     :ivar attributes: The key management attributes.
-    :vartype attributes: ~azure.keyvault.keys._generated.models.KeyAttributes
+    :vartype attributes: ~azure.keyvault.keys.models.KeyAttributes
     :ivar tags: Application specific metadata in the form of key-value pairs.
     :vartype tags: dict[str, str]
     :ivar managed: True if the key's lifetime is managed by key vault. If this is a key backing a
      certificate, then managed will be true.
     :vartype managed: bool
     :ivar release_policy: The policy rules under which the key can be exported.
-    :vartype release_policy: ~azure.keyvault.keys._generated.models.KeyReleasePolicy
+    :vartype release_policy: ~azure.keyvault.keys.models.KeyReleasePolicy
     :ivar recovery_id: The url of the recovery object, used to identify and recover the deleted
      key.
     :vartype recovery_id: str
@@ -56,18 +52,24 @@ class DeletedKeyBundle(_model_base.Model):
     :vartype deleted_date: ~datetime.datetime
     """
 
-    key: Optional["_models.JsonWebKey"] = rest_field()
+    key: Optional["_models.JsonWebKey"] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """The Json web key."""
-    attributes: Optional["_models.KeyAttributes"] = rest_field()
+    attributes: Optional["_models.KeyAttributes"] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
     """The key management attributes."""
-    tags: Optional[Dict[str, str]] = rest_field()
+    tags: Optional[Dict[str, str]] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """Application specific metadata in the form of key-value pairs."""
     managed: Optional[bool] = rest_field(visibility=["read"])
     """True if the key's lifetime is managed by key vault. If this is a key backing a certificate,
      then managed will be true."""
-    release_policy: Optional["_models.KeyReleasePolicy"] = rest_field()
+    release_policy: Optional["_models.KeyReleasePolicy"] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
     """The policy rules under which the key can be exported."""
-    recovery_id: Optional[str] = rest_field(name="recoveryId")
+    recovery_id: Optional[str] = rest_field(
+        name="recoveryId", visibility=["read", "create", "update", "delete", "query"]
+    )
     """The url of the recovery object, used to identify and recover the deleted key."""
     scheduled_purge_date: Optional[datetime.datetime] = rest_field(
         name="scheduledPurgeDate", visibility=["read"], format="unix-timestamp"
@@ -103,12 +105,10 @@ class DeletedKeyBundle(_model_base.Model):
 class DeletedKeyItem(_model_base.Model):
     """The deleted key item containing the deleted key metadata and information about deletion.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
     :ivar kid: Key identifier.
     :vartype kid: str
     :ivar attributes: The key management attributes.
-    :vartype attributes: ~azure.keyvault.keys._generated.models.KeyAttributes
+    :vartype attributes: ~azure.keyvault.keys.models.KeyAttributes
     :ivar tags: Application specific metadata in the form of key-value pairs.
     :vartype tags: dict[str, str]
     :ivar managed: True if the key's lifetime is managed by key vault. If this is a key backing a
@@ -123,16 +123,20 @@ class DeletedKeyItem(_model_base.Model):
     :vartype deleted_date: ~datetime.datetime
     """
 
-    kid: Optional[str] = rest_field()
+    kid: Optional[str] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """Key identifier."""
-    attributes: Optional["_models.KeyAttributes"] = rest_field()
+    attributes: Optional["_models.KeyAttributes"] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
     """The key management attributes."""
-    tags: Optional[Dict[str, str]] = rest_field()
+    tags: Optional[Dict[str, str]] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """Application specific metadata in the form of key-value pairs."""
     managed: Optional[bool] = rest_field(visibility=["read"])
     """True if the key's lifetime is managed by key vault. If this is a key backing a certificate,
      then managed will be true."""
-    recovery_id: Optional[str] = rest_field(name="recoveryId")
+    recovery_id: Optional[str] = rest_field(
+        name="recoveryId", visibility=["read", "create", "update", "delete", "query"]
+    )
     """The url of the recovery object, used to identify and recover the deleted key."""
     scheduled_purge_date: Optional[datetime.datetime] = rest_field(
         name="scheduledPurgeDate", visibility=["read"], format="unix-timestamp"
@@ -167,13 +171,11 @@ class DeletedKeyItem(_model_base.Model):
 class GetRandomBytesRequest(_model_base.Model):
     """The get random bytes request object.
 
-    All required parameters must be populated in order to send to server.
-
     :ivar count: The requested number of random bytes. Required.
     :vartype count: int
     """
 
-    count: int = rest_field()
+    count: int = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """The requested number of random bytes. Required."""
 
     @overload
@@ -195,14 +197,16 @@ class GetRandomBytesRequest(_model_base.Model):
 
 
 class JsonWebKey(_model_base.Model):
-    """As of http://tools.ietf.org/html/draft-ietf-jose-json-web-key-18.
+    """As of `http://tools.ietf.org/html/draft-ietf-jose-json-web-key-18
+    <http://tools.ietf.org/html/draft-ietf-jose-json-web-key-18>`_.
 
     :ivar kid: Key identifier.
     :vartype kid: str
     :ivar kty: JsonWebKey Key Type (kty), as defined in
-     https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40. Known values are: "EC",
+     `https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40
+     <https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40>`_. Known values are: "EC",
      "EC-HSM", "RSA", "RSA-HSM", "oct", and "oct-HSM".
-    :vartype kty: str or ~azure.keyvault.keys._generated.models.JsonWebKeyType
+    :vartype kty: str or ~azure.keyvault.keys.models.JsonWebKeyType
     :ivar key_ops: Json web key operations. For more information on possible key operations, see
      JsonWebKeyOperation.
     :vartype key_ops: list[str]
@@ -228,48 +232,55 @@ class JsonWebKey(_model_base.Model):
     :vartype t: bytes
     :ivar crv: Elliptic curve name. For valid values, see JsonWebKeyCurveName. Known values are:
      "P-256", "P-384", "P-521", and "P-256K".
-    :vartype crv: str or ~azure.keyvault.keys._generated.models.JsonWebKeyCurveName
+    :vartype crv: str or ~azure.keyvault.keys.models.JsonWebKeyCurveName
     :ivar x: X component of an EC public key.
     :vartype x: bytes
     :ivar y: Y component of an EC public key.
     :vartype y: bytes
     """
 
-    kid: Optional[str] = rest_field()
+    kid: Optional[str] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """Key identifier."""
-    kty: Optional[Union[str, "_models.JsonWebKeyType"]] = rest_field()
+    kty: Optional[Union[str, "_models.JsonWebKeyType"]] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
     """JsonWebKey Key Type (kty), as defined in
-     https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40. Known values are: \"EC\",
-     \"EC-HSM\", \"RSA\", \"RSA-HSM\", \"oct\", and \"oct-HSM\"."""
-    key_ops: Optional[List[str]] = rest_field()
+     `https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40
+     <https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40>`_. Known values are:
+     \"EC\", \"EC-HSM\", \"RSA\", \"RSA-HSM\", \"oct\", and \"oct-HSM\"."""
+    key_ops: Optional[List[str]] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """Json web key operations. For more information on possible key operations, see
      JsonWebKeyOperation."""
-    n: Optional[bytes] = rest_field(format="base64url")
+    n: Optional[bytes] = rest_field(visibility=["read", "create", "update", "delete", "query"], format="base64url")
     """RSA modulus."""
-    e: Optional[bytes] = rest_field(format="base64url")
+    e: Optional[bytes] = rest_field(visibility=["read", "create", "update", "delete", "query"], format="base64url")
     """RSA public exponent."""
-    d: Optional[bytes] = rest_field(format="base64url")
+    d: Optional[bytes] = rest_field(visibility=["read", "create", "update", "delete", "query"], format="base64url")
     """RSA private exponent, or the D component of an EC private key."""
-    dp: Optional[bytes] = rest_field(format="base64url")
+    dp: Optional[bytes] = rest_field(visibility=["read", "create", "update", "delete", "query"], format="base64url")
     """RSA private key parameter."""
-    dq: Optional[bytes] = rest_field(format="base64url")
+    dq: Optional[bytes] = rest_field(visibility=["read", "create", "update", "delete", "query"], format="base64url")
     """RSA private key parameter."""
-    qi: Optional[bytes] = rest_field(format="base64url")
+    qi: Optional[bytes] = rest_field(visibility=["read", "create", "update", "delete", "query"], format="base64url")
     """RSA private key parameter."""
-    p: Optional[bytes] = rest_field(format="base64url")
+    p: Optional[bytes] = rest_field(visibility=["read", "create", "update", "delete", "query"], format="base64url")
     """RSA secret prime."""
-    q: Optional[bytes] = rest_field(format="base64url")
+    q: Optional[bytes] = rest_field(visibility=["read", "create", "update", "delete", "query"], format="base64url")
     """RSA secret prime, with p < q."""
-    k: Optional[bytes] = rest_field(format="base64url")
+    k: Optional[bytes] = rest_field(visibility=["read", "create", "update", "delete", "query"], format="base64url")
     """Symmetric key."""
-    t: Optional[bytes] = rest_field(name="key_hsm", format="base64url")
+    t: Optional[bytes] = rest_field(
+        name="key_hsm", visibility=["read", "create", "update", "delete", "query"], format="base64url"
+    )
     """Protected Key, used with 'Bring Your Own Key'."""
-    crv: Optional[Union[str, "_models.JsonWebKeyCurveName"]] = rest_field()
+    crv: Optional[Union[str, "_models.JsonWebKeyCurveName"]] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
     """Elliptic curve name. For valid values, see JsonWebKeyCurveName. Known values are: \"P-256\",
      \"P-384\", \"P-521\", and \"P-256K\"."""
-    x: Optional[bytes] = rest_field(format="base64url")
+    x: Optional[bytes] = rest_field(visibility=["read", "create", "update", "delete", "query"], format="base64url")
     """X component of an EC public key."""
-    y: Optional[bytes] = rest_field(format="base64url")
+    y: Optional[bytes] = rest_field(visibility=["read", "create", "update", "delete", "query"], format="base64url")
     """Y component of an EC public key."""
 
     @overload
@@ -321,15 +332,21 @@ class KeyAttestation(_model_base.Model):
     :vartype version: str
     """
 
-    certificate_pem_file: Optional[bytes] = rest_field(name="certificatePemFile", format="base64url")
+    certificate_pem_file: Optional[bytes] = rest_field(
+        name="certificatePemFile", visibility=["read", "create", "update", "delete", "query"], format="base64url"
+    )
     """A base64url-encoded string containing certificates in PEM format, used for attestation
      validation."""
-    private_key_attestation: Optional[bytes] = rest_field(name="privateKeyAttestation", format="base64url")
+    private_key_attestation: Optional[bytes] = rest_field(
+        name="privateKeyAttestation", visibility=["read", "create", "update", "delete", "query"], format="base64url"
+    )
     """The attestation blob bytes encoded as base64url string corresponding to a private key."""
-    public_key_attestation: Optional[bytes] = rest_field(name="publicKeyAttestation", format="base64url")
+    public_key_attestation: Optional[bytes] = rest_field(
+        name="publicKeyAttestation", visibility=["read", "create", "update", "delete", "query"], format="base64url"
+    )
     """The attestation blob bytes encoded as base64url string corresponding to a public key in case of
      asymmetric key."""
-    version: Optional[str] = rest_field()
+    version: Optional[str] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """The version of the attestation."""
 
     @overload
@@ -356,8 +373,6 @@ class KeyAttestation(_model_base.Model):
 class KeyAttributes(_model_base.Model):
     """The attributes of a key managed by the key vault service.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
     :ivar enabled: Determines whether the object is enabled.
     :vartype enabled: bool
     :ivar not_before: Not before date in UTC.
@@ -377,21 +392,25 @@ class KeyAttributes(_model_base.Model):
      values are: "Purgeable", "Recoverable+Purgeable", "Recoverable",
      "Recoverable+ProtectedSubscription", "CustomizedRecoverable+Purgeable",
      "CustomizedRecoverable", and "CustomizedRecoverable+ProtectedSubscription".
-    :vartype recovery_level: str or ~azure.keyvault.keys._generated.models.DeletionRecoveryLevel
+    :vartype recovery_level: str or ~azure.keyvault.keys.models.DeletionRecoveryLevel
     :ivar exportable: Indicates if the private key can be exported. Release policy must be provided
      when creating the first version of an exportable key.
     :vartype exportable: bool
     :ivar hsm_platform: The underlying HSM Platform.
     :vartype hsm_platform: str
     :ivar attestation: The key or key version attestation information.
-    :vartype attestation: ~azure.keyvault.keys._generated.models.KeyAttestation
+    :vartype attestation: ~azure.keyvault.keys.models.KeyAttestation
     """
 
-    enabled: Optional[bool] = rest_field()
+    enabled: Optional[bool] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """Determines whether the object is enabled."""
-    not_before: Optional[datetime.datetime] = rest_field(name="nbf", format="unix-timestamp")
+    not_before: Optional[datetime.datetime] = rest_field(
+        name="nbf", visibility=["read", "create", "update", "delete", "query"], format="unix-timestamp"
+    )
     """Not before date in UTC."""
-    expires: Optional[datetime.datetime] = rest_field(name="exp", format="unix-timestamp")
+    expires: Optional[datetime.datetime] = rest_field(
+        name="exp", visibility=["read", "create", "update", "delete", "query"], format="unix-timestamp"
+    )
     """Expiry date in UTC."""
     created: Optional[datetime.datetime] = rest_field(visibility=["read"], format="unix-timestamp")
     """Creation time in UTC."""
@@ -409,12 +428,14 @@ class KeyAttributes(_model_base.Model):
      \"Purgeable\", \"Recoverable+Purgeable\", \"Recoverable\",
      \"Recoverable+ProtectedSubscription\", \"CustomizedRecoverable+Purgeable\",
      \"CustomizedRecoverable\", and \"CustomizedRecoverable+ProtectedSubscription\"."""
-    exportable: Optional[bool] = rest_field()
+    exportable: Optional[bool] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """Indicates if the private key can be exported. Release policy must be provided when creating the
      first version of an exportable key."""
     hsm_platform: Optional[str] = rest_field(name="hsmPlatform", visibility=["read"])
     """The underlying HSM Platform."""
-    attestation: Optional["_models.KeyAttestation"] = rest_field()
+    attestation: Optional["_models.KeyAttestation"] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
     """The key or key version attestation information."""
 
     @overload
@@ -442,31 +463,33 @@ class KeyAttributes(_model_base.Model):
 class KeyBundle(_model_base.Model):
     """A KeyBundle consisting of a WebKey plus its attributes.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
     :ivar key: The Json web key.
-    :vartype key: ~azure.keyvault.keys._generated.models.JsonWebKey
+    :vartype key: ~azure.keyvault.keys.models.JsonWebKey
     :ivar attributes: The key management attributes.
-    :vartype attributes: ~azure.keyvault.keys._generated.models.KeyAttributes
+    :vartype attributes: ~azure.keyvault.keys.models.KeyAttributes
     :ivar tags: Application specific metadata in the form of key-value pairs.
     :vartype tags: dict[str, str]
     :ivar managed: True if the key's lifetime is managed by key vault. If this is a key backing a
      certificate, then managed will be true.
     :vartype managed: bool
     :ivar release_policy: The policy rules under which the key can be exported.
-    :vartype release_policy: ~azure.keyvault.keys._generated.models.KeyReleasePolicy
+    :vartype release_policy: ~azure.keyvault.keys.models.KeyReleasePolicy
     """
 
-    key: Optional["_models.JsonWebKey"] = rest_field()
+    key: Optional["_models.JsonWebKey"] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """The Json web key."""
-    attributes: Optional["_models.KeyAttributes"] = rest_field()
+    attributes: Optional["_models.KeyAttributes"] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
     """The key management attributes."""
-    tags: Optional[Dict[str, str]] = rest_field()
+    tags: Optional[Dict[str, str]] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """Application specific metadata in the form of key-value pairs."""
     managed: Optional[bool] = rest_field(visibility=["read"])
     """True if the key's lifetime is managed by key vault. If this is a key backing a certificate,
      then managed will be true."""
-    release_policy: Optional["_models.KeyReleasePolicy"] = rest_field()
+    release_policy: Optional["_models.KeyReleasePolicy"] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
     """The policy rules under which the key can be exported."""
 
     @overload
@@ -493,47 +516,53 @@ class KeyBundle(_model_base.Model):
 class KeyCreateParameters(_model_base.Model):
     """The key create parameters.
 
-    All required parameters must be populated in order to send to server.
-
     :ivar kty: The type of key to create. For valid values, see JsonWebKeyType. Required. Known
      values are: "EC", "EC-HSM", "RSA", "RSA-HSM", "oct", and "oct-HSM".
-    :vartype kty: str or ~azure.keyvault.keys._generated.models.JsonWebKeyType
+    :vartype kty: str or ~azure.keyvault.keys.models.JsonWebKeyType
     :ivar key_size: The key size in bits. For example: 2048, 3072, or 4096 for RSA.
     :vartype key_size: int
     :ivar public_exponent: The public exponent for a RSA key.
     :vartype public_exponent: int
     :ivar key_ops: Json web key operations. For more information on possible key operations, see
      JsonWebKeyOperation.
-    :vartype key_ops: list[str or ~azure.keyvault.keys._generated.models.JsonWebKeyOperation]
+    :vartype key_ops: list[str or ~azure.keyvault.keys.models.JsonWebKeyOperation]
     :ivar key_attributes: The attributes of a key managed by the key vault service.
-    :vartype key_attributes: ~azure.keyvault.keys._generated.models.KeyAttributes
+    :vartype key_attributes: ~azure.keyvault.keys.models.KeyAttributes
     :ivar tags: Application specific metadata in the form of key-value pairs.
     :vartype tags: dict[str, str]
     :ivar curve: Elliptic curve name. For valid values, see JsonWebKeyCurveName. Known values are:
      "P-256", "P-384", "P-521", and "P-256K".
-    :vartype curve: str or ~azure.keyvault.keys._generated.models.JsonWebKeyCurveName
+    :vartype curve: str or ~azure.keyvault.keys.models.JsonWebKeyCurveName
     :ivar release_policy: The policy rules under which the key can be exported.
-    :vartype release_policy: ~azure.keyvault.keys._generated.models.KeyReleasePolicy
+    :vartype release_policy: ~azure.keyvault.keys.models.KeyReleasePolicy
     """
 
-    kty: Union[str, "_models.JsonWebKeyType"] = rest_field()
+    kty: Union[str, "_models.JsonWebKeyType"] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """The type of key to create. For valid values, see JsonWebKeyType. Required. Known values are:
      \"EC\", \"EC-HSM\", \"RSA\", \"RSA-HSM\", \"oct\", and \"oct-HSM\"."""
-    key_size: Optional[int] = rest_field()
+    key_size: Optional[int] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """The key size in bits. For example: 2048, 3072, or 4096 for RSA."""
-    public_exponent: Optional[int] = rest_field()
+    public_exponent: Optional[int] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """The public exponent for a RSA key."""
-    key_ops: Optional[List[Union[str, "_models.JsonWebKeyOperation"]]] = rest_field()
+    key_ops: Optional[List[Union[str, "_models.JsonWebKeyOperation"]]] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
     """Json web key operations. For more information on possible key operations, see
      JsonWebKeyOperation."""
-    key_attributes: Optional["_models.KeyAttributes"] = rest_field(name="attributes")
+    key_attributes: Optional["_models.KeyAttributes"] = rest_field(
+        name="attributes", visibility=["read", "create", "update", "delete", "query"]
+    )
     """The attributes of a key managed by the key vault service."""
-    tags: Optional[Dict[str, str]] = rest_field()
+    tags: Optional[Dict[str, str]] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """Application specific metadata in the form of key-value pairs."""
-    curve: Optional[Union[str, "_models.JsonWebKeyCurveName"]] = rest_field(name="crv")
+    curve: Optional[Union[str, "_models.JsonWebKeyCurveName"]] = rest_field(
+        name="crv", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Elliptic curve name. For valid values, see JsonWebKeyCurveName. Known values are: \"P-256\",
      \"P-384\", \"P-521\", and \"P-256K\"."""
-    release_policy: Optional["_models.KeyReleasePolicy"] = rest_field()
+    release_policy: Optional["_models.KeyReleasePolicy"] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
     """The policy rules under which the key can be exported."""
 
     @overload
@@ -564,29 +593,31 @@ class KeyCreateParameters(_model_base.Model):
 class KeyImportParameters(_model_base.Model):
     """The key import parameters.
 
-    All required parameters must be populated in order to send to server.
-
     :ivar hsm: Whether to import as a hardware key (HSM) or software key.
     :vartype hsm: bool
     :ivar key: The Json web key. Required.
-    :vartype key: ~azure.keyvault.keys._generated.models.JsonWebKey
+    :vartype key: ~azure.keyvault.keys.models.JsonWebKey
     :ivar key_attributes: The key management attributes.
-    :vartype key_attributes: ~azure.keyvault.keys._generated.models.KeyAttributes
+    :vartype key_attributes: ~azure.keyvault.keys.models.KeyAttributes
     :ivar tags: Application specific metadata in the form of key-value pairs.
     :vartype tags: dict[str, str]
     :ivar release_policy: The policy rules under which the key can be exported.
-    :vartype release_policy: ~azure.keyvault.keys._generated.models.KeyReleasePolicy
+    :vartype release_policy: ~azure.keyvault.keys.models.KeyReleasePolicy
     """
 
-    hsm: Optional[bool] = rest_field(name="Hsm")
+    hsm: Optional[bool] = rest_field(name="Hsm", visibility=["read", "create", "update", "delete", "query"])
     """Whether to import as a hardware key (HSM) or software key."""
-    key: "_models.JsonWebKey" = rest_field()
+    key: "_models.JsonWebKey" = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """The Json web key. Required."""
-    key_attributes: Optional["_models.KeyAttributes"] = rest_field(name="attributes")
+    key_attributes: Optional["_models.KeyAttributes"] = rest_field(
+        name="attributes", visibility=["read", "create", "update", "delete", "query"]
+    )
     """The key management attributes."""
-    tags: Optional[Dict[str, str]] = rest_field()
+    tags: Optional[Dict[str, str]] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """Application specific metadata in the form of key-value pairs."""
-    release_policy: Optional["_models.KeyReleasePolicy"] = rest_field()
+    release_policy: Optional["_models.KeyReleasePolicy"] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
     """The policy rules under which the key can be exported."""
 
     @overload
@@ -614,12 +645,10 @@ class KeyImportParameters(_model_base.Model):
 class KeyItem(_model_base.Model):
     """The key item containing key metadata.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
     :ivar kid: Key identifier.
     :vartype kid: str
     :ivar attributes: The key management attributes.
-    :vartype attributes: ~azure.keyvault.keys._generated.models.KeyAttributes
+    :vartype attributes: ~azure.keyvault.keys.models.KeyAttributes
     :ivar tags: Application specific metadata in the form of key-value pairs.
     :vartype tags: dict[str, str]
     :ivar managed: True if the key's lifetime is managed by key vault. If this is a key backing a
@@ -627,11 +656,13 @@ class KeyItem(_model_base.Model):
     :vartype managed: bool
     """
 
-    kid: Optional[str] = rest_field()
+    kid: Optional[str] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """Key identifier."""
-    attributes: Optional["_models.KeyAttributes"] = rest_field()
+    attributes: Optional["_models.KeyAttributes"] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
     """The key management attributes."""
-    tags: Optional[Dict[str, str]] = rest_field()
+    tags: Optional[Dict[str, str]] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """Application specific metadata in the form of key-value pairs."""
     managed: Optional[bool] = rest_field(visibility=["read"])
     """True if the key's lifetime is managed by key vault. If this is a key backing a certificate,
@@ -659,8 +690,6 @@ class KeyItem(_model_base.Model):
 
 class KeyOperationResult(_model_base.Model):
     """The key operation result.
-
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar kid: Key identifier.
     :vartype kid: str
@@ -693,13 +722,11 @@ class KeyOperationResult(_model_base.Model):
 class KeyOperationsParameters(_model_base.Model):
     """The key operations parameters.
 
-    All required parameters must be populated in order to send to server.
-
     :ivar algorithm: algorithm identifier. Required. Known values are: "RSA-OAEP", "RSA-OAEP-256",
      "RSA1_5", "A128GCM", "A192GCM", "A256GCM", "A128KW", "A192KW", "A256KW", "A128CBC", "A192CBC",
      "A256CBC", "A128CBCPAD", "A192CBCPAD", "A256CBCPAD", "CKM_AES_KEY_WRAP", and
      "CKM_AES_KEY_WRAP_PAD".
-    :vartype algorithm: str or ~azure.keyvault.keys._generated.models.JsonWebKeyEncryptionAlgorithm
+    :vartype algorithm: str or ~azure.keyvault.keys.models.JsonWebKeyEncryptionAlgorithm
     :ivar value: The value to operate on. Required.
     :vartype value: bytes
     :ivar iv: Cryptographically random, non-repeating initialization vector for symmetric
@@ -712,19 +739,21 @@ class KeyOperationsParameters(_model_base.Model):
     :vartype tag: bytes
     """
 
-    algorithm: Union[str, "_models.JsonWebKeyEncryptionAlgorithm"] = rest_field(name="alg")
+    algorithm: Union[str, "_models.JsonWebKeyEncryptionAlgorithm"] = rest_field(
+        name="alg", visibility=["read", "create", "update", "delete", "query"]
+    )
     """algorithm identifier. Required. Known values are: \"RSA-OAEP\", \"RSA-OAEP-256\", \"RSA1_5\",
      \"A128GCM\", \"A192GCM\", \"A256GCM\", \"A128KW\", \"A192KW\", \"A256KW\", \"A128CBC\",
      \"A192CBC\", \"A256CBC\", \"A128CBCPAD\", \"A192CBCPAD\", \"A256CBCPAD\", \"CKM_AES_KEY_WRAP\",
      and \"CKM_AES_KEY_WRAP_PAD\"."""
-    value: bytes = rest_field(format="base64url")
+    value: bytes = rest_field(visibility=["read", "create", "update", "delete", "query"], format="base64url")
     """The value to operate on. Required."""
-    iv: Optional[bytes] = rest_field(format="base64url")
+    iv: Optional[bytes] = rest_field(visibility=["read", "create", "update", "delete", "query"], format="base64url")
     """Cryptographically random, non-repeating initialization vector for symmetric algorithms."""
-    aad: Optional[bytes] = rest_field(format="base64url")
+    aad: Optional[bytes] = rest_field(visibility=["read", "create", "update", "delete", "query"], format="base64url")
     """Additional data to authenticate but not encrypt/decrypt when using authenticated crypto
      algorithms."""
-    tag: Optional[bytes] = rest_field(format="base64url")
+    tag: Optional[bytes] = rest_field(visibility=["read", "create", "update", "delete", "query"], format="base64url")
     """The tag to authenticate when performing decryption with an authenticated algorithm."""
 
     @overload
@@ -752,8 +781,6 @@ class KeyOperationsParameters(_model_base.Model):
 class KeyReleaseParameters(_model_base.Model):
     """The release key parameters.
 
-    All required parameters must be populated in order to send to server.
-
     :ivar target_attestation_token: The attestation assertion for the target of the key release.
      Required.
     :vartype target_attestation_token: str
@@ -761,14 +788,18 @@ class KeyReleaseParameters(_model_base.Model):
     :vartype nonce: str
     :ivar enc: The encryption algorithm to use to protected the exported key material. Known values
      are: "CKM_RSA_AES_KEY_WRAP", "RSA_AES_KEY_WRAP_256", and "RSA_AES_KEY_WRAP_384".
-    :vartype enc: str or ~azure.keyvault.keys._generated.models.KeyEncryptionAlgorithm
+    :vartype enc: str or ~azure.keyvault.keys.models.KeyEncryptionAlgorithm
     """
 
-    target_attestation_token: str = rest_field(name="target")
+    target_attestation_token: str = rest_field(
+        name="target", visibility=["read", "create", "update", "delete", "query"]
+    )
     """The attestation assertion for the target of the key release. Required."""
-    nonce: Optional[str] = rest_field()
+    nonce: Optional[str] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """A client provided nonce for freshness."""
-    enc: Optional[Union[str, "_models.KeyEncryptionAlgorithm"]] = rest_field()
+    enc: Optional[Union[str, "_models.KeyEncryptionAlgorithm"]] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
     """The encryption algorithm to use to protected the exported key material. Known values are:
      \"CKM_RSA_AES_KEY_WRAP\", \"RSA_AES_KEY_WRAP_256\", and \"RSA_AES_KEY_WRAP_384\"."""
 
@@ -805,12 +836,16 @@ class KeyReleasePolicy(_model_base.Model):
     :vartype encoded_policy: bytes
     """
 
-    content_type: Optional[str] = rest_field(name="contentType")
+    content_type: Optional[str] = rest_field(
+        name="contentType", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Content type and version of key release policy."""
-    immutable: Optional[bool] = rest_field()
+    immutable: Optional[bool] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """Defines the mutability state of the policy. Once marked immutable, this flag cannot be reset
      and the policy cannot be changed under any circumstances."""
-    encoded_policy: Optional[bytes] = rest_field(name="data", format="base64url")
+    encoded_policy: Optional[bytes] = rest_field(
+        name="data", visibility=["read", "create", "update", "delete", "query"], format="base64url"
+    )
     """Blob encoding the policy rules under which the key can be released. Blob must be base64 URL
      encoded."""
 
@@ -837,8 +872,6 @@ class KeyReleasePolicy(_model_base.Model):
 class KeyReleaseResult(_model_base.Model):
     """The release result, containing the released key.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
     :ivar value: A signed object containing the released key.
     :vartype value: str
     """
@@ -850,13 +883,13 @@ class KeyReleaseResult(_model_base.Model):
 class KeyRestoreParameters(_model_base.Model):
     """The key restore parameters.
 
-    All required parameters must be populated in order to send to server.
-
     :ivar key_bundle_backup: The backup blob associated with a key bundle. Required.
     :vartype key_bundle_backup: bytes
     """
 
-    key_bundle_backup: bytes = rest_field(name="value", format="base64url")
+    key_bundle_backup: bytes = rest_field(
+        name="value", visibility=["read", "create", "update", "delete", "query"], format="base64url"
+    )
     """The backup blob associated with a key bundle. Required."""
 
     @overload
@@ -880,25 +913,27 @@ class KeyRestoreParameters(_model_base.Model):
 class KeyRotationPolicy(_model_base.Model):
     """Management policy for a key.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
     :ivar id: The key policy id.
     :vartype id: str
     :ivar lifetime_actions: Actions that will be performed by Key Vault over the lifetime of a key.
      For preview, lifetimeActions can only have two items at maximum: one for rotate, one for
      notify. Notification time would be default to 30 days before expiry and it is not configurable.
-    :vartype lifetime_actions: list[~azure.keyvault.keys._generated.models.LifetimeActions]
+    :vartype lifetime_actions: list[~azure.keyvault.keys.models.LifetimeActions]
     :ivar attributes: The key rotation policy attributes.
-    :vartype attributes: ~azure.keyvault.keys._generated.models.KeyRotationPolicyAttributes
+    :vartype attributes: ~azure.keyvault.keys.models.KeyRotationPolicyAttributes
     """
 
     id: Optional[str] = rest_field(visibility=["read"])
     """The key policy id."""
-    lifetime_actions: Optional[List["_models.LifetimeActions"]] = rest_field(name="lifetimeActions")
+    lifetime_actions: Optional[List["_models.LifetimeActions"]] = rest_field(
+        name="lifetimeActions", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Actions that will be performed by Key Vault over the lifetime of a key. For preview,
      lifetimeActions can only have two items at maximum: one for rotate, one for notify.
      Notification time would be default to 30 days before expiry and it is not configurable."""
-    attributes: Optional["_models.KeyRotationPolicyAttributes"] = rest_field()
+    attributes: Optional["_models.KeyRotationPolicyAttributes"] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
     """The key rotation policy attributes."""
 
     @overload
@@ -923,8 +958,6 @@ class KeyRotationPolicy(_model_base.Model):
 class KeyRotationPolicyAttributes(_model_base.Model):
     """The key rotation policy attributes.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
     :ivar expiry_time: The expiryTime will be applied on the new key version. It should be at least
      28 days. It will be in ISO 8601 Format. Examples: 90 days: P90D, 3 months: P3M, 48 hours:
      PT48H, 1 year and 10 days: P1Y10D.
@@ -935,7 +968,9 @@ class KeyRotationPolicyAttributes(_model_base.Model):
     :vartype updated: ~datetime.datetime
     """
 
-    expiry_time: Optional[str] = rest_field(name="expiryTime")
+    expiry_time: Optional[str] = rest_field(
+        name="expiryTime", visibility=["read", "create", "update", "delete", "query"]
+    )
     """The expiryTime will be applied on the new key version. It should be at least 28 days. It will
      be in ISO 8601 Format. Examples: 90 days: P90D, 3 months: P3M, 48 hours: PT48H, 1 year and 10
      days: P1Y10D."""
@@ -965,23 +1000,23 @@ class KeyRotationPolicyAttributes(_model_base.Model):
 class KeySignParameters(_model_base.Model):
     """The key operations parameters.
 
-    All required parameters must be populated in order to send to server.
-
     :ivar algorithm: The signing/verification algorithm identifier. For more information on
      possible algorithm types, see JsonWebKeySignatureAlgorithm. Required. Known values are:
      "PS256", "PS384", "PS512", "RS256", "RS384", "RS512", "HS256", "HS384", "HS512", "RSNULL",
      "ES256", "ES384", "ES512", and "ES256K".
-    :vartype algorithm: str or ~azure.keyvault.keys._generated.models.JsonWebKeySignatureAlgorithm
+    :vartype algorithm: str or ~azure.keyvault.keys.models.JsonWebKeySignatureAlgorithm
     :ivar value: The value to operate on. Required.
     :vartype value: bytes
     """
 
-    algorithm: Union[str, "_models.JsonWebKeySignatureAlgorithm"] = rest_field(name="alg")
+    algorithm: Union[str, "_models.JsonWebKeySignatureAlgorithm"] = rest_field(
+        name="alg", visibility=["read", "create", "update", "delete", "query"]
+    )
     """The signing/verification algorithm identifier. For more information on possible algorithm
      types, see JsonWebKeySignatureAlgorithm. Required. Known values are: \"PS256\", \"PS384\",
      \"PS512\", \"RS256\", \"RS384\", \"RS512\", \"HS256\", \"HS384\", \"HS512\", \"RSNULL\",
      \"ES256\", \"ES384\", \"ES512\", and \"ES256K\"."""
-    value: bytes = rest_field(format="base64url")
+    value: bytes = rest_field(visibility=["read", "create", "update", "delete", "query"], format="base64url")
     """The value to operate on. Required."""
 
     @overload
@@ -1008,23 +1043,29 @@ class KeyUpdateParameters(_model_base.Model):
 
     :ivar key_ops: Json web key operations. For more information on possible key operations, see
      JsonWebKeyOperation.
-    :vartype key_ops: list[str or ~azure.keyvault.keys._generated.models.JsonWebKeyOperation]
+    :vartype key_ops: list[str or ~azure.keyvault.keys.models.JsonWebKeyOperation]
     :ivar key_attributes: The attributes of a key managed by the key vault service.
-    :vartype key_attributes: ~azure.keyvault.keys._generated.models.KeyAttributes
+    :vartype key_attributes: ~azure.keyvault.keys.models.KeyAttributes
     :ivar tags: Application specific metadata in the form of key-value pairs.
     :vartype tags: dict[str, str]
     :ivar release_policy: The policy rules under which the key can be exported.
-    :vartype release_policy: ~azure.keyvault.keys._generated.models.KeyReleasePolicy
+    :vartype release_policy: ~azure.keyvault.keys.models.KeyReleasePolicy
     """
 
-    key_ops: Optional[List[Union[str, "_models.JsonWebKeyOperation"]]] = rest_field()
+    key_ops: Optional[List[Union[str, "_models.JsonWebKeyOperation"]]] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
     """Json web key operations. For more information on possible key operations, see
      JsonWebKeyOperation."""
-    key_attributes: Optional["_models.KeyAttributes"] = rest_field(name="attributes")
+    key_attributes: Optional["_models.KeyAttributes"] = rest_field(
+        name="attributes", visibility=["read", "create", "update", "delete", "query"]
+    )
     """The attributes of a key managed by the key vault service."""
-    tags: Optional[Dict[str, str]] = rest_field()
+    tags: Optional[Dict[str, str]] = rest_field(visibility=["read", "create", "update", "delete", "query"])
     """Application specific metadata in the form of key-value pairs."""
-    release_policy: Optional["_models.KeyReleasePolicy"] = rest_field()
+    release_policy: Optional["_models.KeyReleasePolicy"] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
     """The policy rules under which the key can be exported."""
 
     @overload
@@ -1051,10 +1092,8 @@ class KeyUpdateParameters(_model_base.Model):
 class KeyVaultError(_model_base.Model):
     """The key vault error exception.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
     :ivar error: The key vault server error.
-    :vartype error: ~azure.keyvault.keys._generated.models.KeyVaultErrorError
+    :vartype error: ~azure.keyvault.keys.models.KeyVaultErrorError
     """
 
     error: Optional["_models.KeyVaultErrorError"] = rest_field(visibility=["read"])
@@ -1064,14 +1103,12 @@ class KeyVaultError(_model_base.Model):
 class KeyVaultErrorError(_model_base.Model):
     """KeyVaultErrorError.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
     :ivar code: The error code.
     :vartype code: str
     :ivar message: The error message.
     :vartype message: str
     :ivar inner_error: The key vault server error.
-    :vartype inner_error: ~azure.keyvault.keys._generated.models.KeyVaultErrorError
+    :vartype inner_error: ~azure.keyvault.keys.models.KeyVaultErrorError
     """
 
     code: Optional[str] = rest_field(visibility=["read"])
@@ -1085,27 +1122,29 @@ class KeyVaultErrorError(_model_base.Model):
 class KeyVerifyParameters(_model_base.Model):
     """The key verify parameters.
 
-    All required parameters must be populated in order to send to server.
-
     :ivar algorithm: The signing/verification algorithm. For more information on possible algorithm
      types, see JsonWebKeySignatureAlgorithm. Required. Known values are: "PS256", "PS384", "PS512",
      "RS256", "RS384", "RS512", "HS256", "HS384", "HS512", "RSNULL", "ES256", "ES384", "ES512", and
      "ES256K".
-    :vartype algorithm: str or ~azure.keyvault.keys._generated.models.JsonWebKeySignatureAlgorithm
+    :vartype algorithm: str or ~azure.keyvault.keys.models.JsonWebKeySignatureAlgorithm
     :ivar digest: The digest used for signing. Required.
     :vartype digest: bytes
     :ivar signature: The signature to be verified. Required.
     :vartype signature: bytes
     """
 
-    algorithm: Union[str, "_models.JsonWebKeySignatureAlgorithm"] = rest_field(name="alg")
+    algorithm: Union[str, "_models.JsonWebKeySignatureAlgorithm"] = rest_field(
+        name="alg", visibility=["read", "create", "update", "delete", "query"]
+    )
     """The signing/verification algorithm. For more information on possible algorithm types, see
      JsonWebKeySignatureAlgorithm. Required. Known values are: \"PS256\", \"PS384\", \"PS512\",
      \"RS256\", \"RS384\", \"RS512\", \"HS256\", \"HS384\", \"HS512\", \"RSNULL\", \"ES256\",
      \"ES384\", \"ES512\", and \"ES256K\"."""
-    digest: bytes = rest_field(format="base64url")
+    digest: bytes = rest_field(visibility=["read", "create", "update", "delete", "query"], format="base64url")
     """The digest used for signing. Required."""
-    signature: bytes = rest_field(name="value", format="base64url")
+    signature: bytes = rest_field(
+        name="value", visibility=["read", "create", "update", "delete", "query"], format="base64url"
+    )
     """The signature to be verified. Required."""
 
     @overload
@@ -1131,8 +1170,6 @@ class KeyVerifyParameters(_model_base.Model):
 class KeyVerifyResult(_model_base.Model):
     """The key verify result.
 
-    Readonly variables are only populated by the server, and will be ignored when sending a request.
-
     :ivar value: True if the signature is verified, otherwise false.
     :vartype value: bool
     """
@@ -1145,14 +1182,18 @@ class LifetimeActions(_model_base.Model):
     """Action and its trigger that will be performed by Key Vault over the lifetime of a key.
 
     :ivar trigger: The condition that will execute the action.
-    :vartype trigger: ~azure.keyvault.keys._generated.models.LifetimeActionsTrigger
+    :vartype trigger: ~azure.keyvault.keys.models.LifetimeActionsTrigger
     :ivar action: The action that will be executed.
-    :vartype action: ~azure.keyvault.keys._generated.models.LifetimeActionsType
+    :vartype action: ~azure.keyvault.keys.models.LifetimeActionsType
     """
 
-    trigger: Optional["_models.LifetimeActionsTrigger"] = rest_field()
+    trigger: Optional["_models.LifetimeActionsTrigger"] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
     """The condition that will execute the action."""
-    action: Optional["_models.LifetimeActionsType"] = rest_field()
+    action: Optional["_models.LifetimeActionsType"] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
     """The action that will be executed."""
 
     @overload
@@ -1185,10 +1226,14 @@ class LifetimeActionsTrigger(_model_base.Model):
     :vartype time_before_expiry: str
     """
 
-    time_after_create: Optional[str] = rest_field(name="timeAfterCreate")
+    time_after_create: Optional[str] = rest_field(
+        name="timeAfterCreate", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Time after creation to attempt to rotate. It only applies to rotate. It will be in ISO 8601
      duration format. Example: 90 days : \"P90D\"."""
-    time_before_expiry: Optional[str] = rest_field(name="timeBeforeExpiry")
+    time_before_expiry: Optional[str] = rest_field(
+        name="timeBeforeExpiry", visibility=["read", "create", "update", "delete", "query"]
+    )
     """Time before expiry to attempt to rotate or notify. It will be in ISO 8601 duration format.
      Example: 90 days : \"P90D\"."""
 
@@ -1216,10 +1261,12 @@ class LifetimeActionsType(_model_base.Model):
 
     :ivar type: The type of the action. The value should be compared case-insensitively. Known
      values are: "Rotate" and "Notify".
-    :vartype type: str or ~azure.keyvault.keys._generated.models.KeyRotationPolicyAction
+    :vartype type: str or ~azure.keyvault.keys.models.KeyRotationPolicyAction
     """
 
-    type: Optional[Union[str, "_models.KeyRotationPolicyAction"]] = rest_field()
+    type: Optional[Union[str, "_models.KeyRotationPolicyAction"]] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
     """The type of the action. The value should be compared case-insensitively. Known values are:
      \"Rotate\" and \"Notify\"."""
 
@@ -1244,12 +1291,11 @@ class LifetimeActionsType(_model_base.Model):
 class RandomBytes(_model_base.Model):
     """The get random bytes response object containing the bytes.
 
-
     :ivar value: The bytes encoded as a base64url string. Required.
     :vartype value: bytes
     """
 
-    value: bytes = rest_field(format="base64url")
+    value: bytes = rest_field(visibility=["read", "create", "update", "delete", "query"], format="base64url")
     """The bytes encoded as a base64url string. Required."""
 
     @overload
