@@ -20,9 +20,9 @@ class TestElasticSanMgmtElasticSansOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_subscription(self, resource_group):
+    def test_elastic_sans_list_by_subscription(self, resource_group):
         response = self.client.elastic_sans.list_by_subscription(
-            api_version="2024-06-01-preview",
+            api_version="2025-03-01",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -30,10 +30,10 @@ class TestElasticSanMgmtElasticSansOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_resource_group(self, resource_group):
+    def test_elastic_sans_list_by_resource_group(self, resource_group):
         response = self.client.elastic_sans.list_by_resource_group(
             resource_group_name=resource_group.name,
-            api_version="2024-06-01-preview",
+            api_version="2025-03-01",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -41,7 +41,7 @@ class TestElasticSanMgmtElasticSansOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_create(self, resource_group):
+    def test_elastic_sans_begin_create(self, resource_group):
         response = self.client.elastic_sans.begin_create(
             resource_group_name=resource_group.name,
             elastic_san_name="str",
@@ -51,14 +51,6 @@ class TestElasticSanMgmtElasticSansOperations(AzureMgmtRecordedTestCase):
                     "baseSizeTiB": 0,
                     "extendedCapacitySizeTiB": 0,
                     "sku": {"name": "str", "tier": "str"},
-                    "autoScaleProperties": {
-                        "scaleUpProperties": {
-                            "autoScalePolicyEnforcement": "str",
-                            "capacityUnitScaleUpLimitTiB": 0,
-                            "increaseCapacityUnitByTiB": 0,
-                            "unusedSizeTiB": 0,
-                        }
-                    },
                     "availabilityZones": ["str"],
                     "privateEndpointConnections": [
                         {
@@ -106,7 +98,7 @@ class TestElasticSanMgmtElasticSansOperations(AzureMgmtRecordedTestCase):
                 "tags": {"str": "str"},
                 "type": "str",
             },
-            api_version="2024-06-01-preview",
+            api_version="2025-03-01",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -114,27 +106,15 @@ class TestElasticSanMgmtElasticSansOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_update(self, resource_group):
+    def test_elastic_sans_begin_update(self, resource_group):
         response = self.client.elastic_sans.begin_update(
             resource_group_name=resource_group.name,
             elastic_san_name="str",
             parameters={
-                "properties": {
-                    "autoScaleProperties": {
-                        "scaleUpProperties": {
-                            "autoScalePolicyEnforcement": "str",
-                            "capacityUnitScaleUpLimitTiB": 0,
-                            "increaseCapacityUnitByTiB": 0,
-                            "unusedSizeTiB": 0,
-                        }
-                    },
-                    "baseSizeTiB": 0,
-                    "extendedCapacitySizeTiB": 0,
-                    "publicNetworkAccess": "str",
-                },
+                "properties": {"baseSizeTiB": 0, "extendedCapacitySizeTiB": 0, "publicNetworkAccess": "str"},
                 "tags": {"str": "str"},
             },
-            api_version="2024-06-01-preview",
+            api_version="2025-03-01",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -142,11 +122,11 @@ class TestElasticSanMgmtElasticSansOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_delete(self, resource_group):
+    def test_elastic_sans_begin_delete(self, resource_group):
         response = self.client.elastic_sans.begin_delete(
             resource_group_name=resource_group.name,
             elastic_san_name="str",
-            api_version="2024-06-01-preview",
+            api_version="2025-03-01",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -154,11 +134,11 @@ class TestElasticSanMgmtElasticSansOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_elastic_sans_get(self, resource_group):
         response = self.client.elastic_sans.get(
             resource_group_name=resource_group.name,
             elastic_san_name="str",
-            api_version="2024-06-01-preview",
+            api_version="2025-03-01",
         )
 
         # please add some check logic here by yourself

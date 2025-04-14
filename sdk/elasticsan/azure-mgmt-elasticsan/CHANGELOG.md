@@ -1,5 +1,19 @@
 # Release History
 
+## 1.2.0 (2025-03-26)
+
+### Features Added
+
+  - Added model `DiskSnapshotList`
+  - Added model `PreValidationResponse`
+  - Added model `VolumeNameList`
+  - Model `VolumeGroupsOperations` added method `begin_pre_backup`
+  - Model `VolumeGroupsOperations` added method `begin_pre_restore`
+  - Method `VolumeGroupsOperations.begin_pre_backup` has a new overload `def begin_pre_backup(self: None, resource_group_name: str, elastic_san_name: str, volume_group_name: str, parameters: VolumeNameList, content_type: str)`
+  - Method `VolumeGroupsOperations.begin_pre_backup` has a new overload `def begin_pre_backup(self: None, resource_group_name: str, elastic_san_name: str, volume_group_name: str, parameters: IO[bytes], content_type: str)`
+  - Method `VolumeGroupsOperations.begin_pre_restore` has a new overload `def begin_pre_restore(self: None, resource_group_name: str, elastic_san_name: str, volume_group_name: str, parameters: DiskSnapshotList, content_type: str)`
+  - Method `VolumeGroupsOperations.begin_pre_restore` has a new overload `def begin_pre_restore(self: None, resource_group_name: str, elastic_san_name: str, volume_group_name: str, parameters: IO[bytes], content_type: str)`
+
 ## 1.2.0b1 (2024-10-20)
 
 ### Features Added
