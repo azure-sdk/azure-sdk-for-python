@@ -48,6 +48,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-07-31-preview/examples/license/License_ValidateLicense.json
+# x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2025-02-19-preview/examples/license/License_ValidateLicense.json
 if __name__ == "__main__":
     main()
