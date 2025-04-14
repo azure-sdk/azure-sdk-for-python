@@ -6,8 +6,6 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-from typing import Any, IO, Union
-
 from azure.identity import DefaultAzureCredential
 
 from azure.mgmt.storagecache import StorageCacheManagementClient
@@ -85,6 +83,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2024-03-01/examples/Caches_CreateOrUpdate_ldap_only.json
+# x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2024-07-01/examples/Caches_CreateOrUpdate_ldap_only.json
 if __name__ == "__main__":
     main()
