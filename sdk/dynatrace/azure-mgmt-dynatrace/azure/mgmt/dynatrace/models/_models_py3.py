@@ -1,5 +1,5 @@
-# coding=utf-8
 # pylint: disable=too-many-lines
+# coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -13,7 +13,6 @@ from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 from .. import _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
@@ -24,23 +23,118 @@ class AccountInfo(_serialization.Model):
     :vartype account_id: str
     :ivar region_id: Region in which the account is created.
     :vartype region_id: str
+    :ivar company_name: Name of the customer account / company.
+    :vartype company_name: str
     """
 
     _attribute_map = {
         "account_id": {"key": "accountId", "type": "str"},
         "region_id": {"key": "regionId", "type": "str"},
+        "company_name": {"key": "companyName", "type": "str"},
     }
 
-    def __init__(self, *, account_id: Optional[str] = None, region_id: Optional[str] = None, **kwargs: Any) -> None:
+    def __init__(
+        self,
+        *,
+        account_id: Optional[str] = None,
+        region_id: Optional[str] = None,
+        company_name: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword account_id: Account Id of the account this environment is linked to.
         :paramtype account_id: str
         :keyword region_id: Region in which the account is created.
         :paramtype region_id: str
+        :keyword company_name: Name of the customer account / company.
+        :paramtype company_name: str
         """
         super().__init__(**kwargs)
         self.account_id = account_id
         self.region_id = region_id
+        self.company_name = company_name
+
+
+class AgentStatus(_serialization.Model):
+    """Details of resource that has Dynatrace agent installed through the Azure Dynatrace resource.
+
+    :ivar id: The ARM id of the resource.
+    :vartype id: str
+    :ivar resource_type: The type of Azure resource.
+    :vartype resource_type: str
+    :ivar dynatrace_resource_id: Resource Id of the associated Dynatrace monitor resource.
+    :vartype dynatrace_resource_id: str
+    :ivar dynatrace_environment_id: Environment Id of the associated Dynatrace monitor resource.
+    :vartype dynatrace_environment_id: str
+    """
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "resource_type": {"key": "resourceType", "type": "str"},
+        "dynatrace_resource_id": {"key": "dynatraceResourceId", "type": "str"},
+        "dynatrace_environment_id": {"key": "dynatraceEnvironmentId", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        id: Optional[str] = None,  # pylint: disable=redefined-builtin
+        resource_type: Optional[str] = None,
+        dynatrace_resource_id: Optional[str] = None,
+        dynatrace_environment_id: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword id: The ARM id of the resource.
+        :paramtype id: str
+        :keyword resource_type: The type of Azure resource.
+        :paramtype resource_type: str
+        :keyword dynatrace_resource_id: Resource Id of the associated Dynatrace monitor resource.
+        :paramtype dynatrace_resource_id: str
+        :keyword dynatrace_environment_id: Environment Id of the associated Dynatrace monitor resource.
+        :paramtype dynatrace_environment_id: str
+        """
+        super().__init__(**kwargs)
+        self.id = id
+        self.resource_type = resource_type
+        self.dynatrace_resource_id = dynatrace_resource_id
+        self.dynatrace_environment_id = dynatrace_environment_id
+
+
+class AgentStatusRequest(_serialization.Model):
+    """Request for updating resources given in list according to action.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar agent_status_list: The list of resources. Required.
+    :vartype agent_status_list: list[~azure.mgmt.dynatrace.models.AgentStatus]
+    :ivar action: Install/Uninstall action. Required. Known values are: "Install" and "Uninstall".
+    :vartype action: str or ~azure.mgmt.dynatrace.models.Action
+    """
+
+    _validation = {
+        "agent_status_list": {"required": True},
+        "action": {"required": True},
+    }
+
+    _attribute_map = {
+        "agent_status_list": {"key": "agentStatusList", "type": "[AgentStatus]"},
+        "action": {"key": "action", "type": "str"},
+    }
+
+    def __init__(
+        self, *, agent_status_list: List["_models.AgentStatus"], action: Union[str, "_models.Action"], **kwargs: Any
+    ) -> None:
+        """
+        :keyword agent_status_list: The list of resources. Required.
+        :paramtype agent_status_list: list[~azure.mgmt.dynatrace.models.AgentStatus]
+        :keyword action: Install/Uninstall action. Required. Known values are: "Install" and
+         "Uninstall".
+        :paramtype action: str or ~azure.mgmt.dynatrace.models.Action
+        """
+        super().__init__(**kwargs)
+        self.agent_status_list = agent_status_list
+        self.action = action
 
 
 class AppServiceInfo(_serialization.Model):
@@ -51,7 +145,7 @@ class AppServiceInfo(_serialization.Model):
     :ivar version: Version of the Dynatrace agent installed on the App Service.
     :vartype version: str
     :ivar monitoring_type: The monitoring mode of OneAgent. Known values are:
-     "CLOUD_INFRASTRUCTURE" and "FULL_STACK".
+     "CLOUD_INFRASTRUCTURE", "FULL_STACK", and "DISCOVERY".
     :vartype monitoring_type: str or ~azure.mgmt.dynatrace.models.MonitoringType
     :ivar auto_update_setting: Update settings of OneAgent. Known values are: "ENABLED" and
      "DISABLED".
@@ -105,7 +199,7 @@ class AppServiceInfo(_serialization.Model):
         :keyword version: Version of the Dynatrace agent installed on the App Service.
         :paramtype version: str
         :keyword monitoring_type: The monitoring mode of OneAgent. Known values are:
-         "CLOUD_INFRASTRUCTURE" and "FULL_STACK".
+         "CLOUD_INFRASTRUCTURE", "FULL_STACK", and "DISCOVERY".
         :paramtype monitoring_type: str or ~azure.mgmt.dynatrace.models.MonitoringType
         :keyword auto_update_setting: Update settings of OneAgent. Known values are: "ENABLED" and
          "DISABLED".
@@ -158,6 +252,88 @@ class AppServiceListResponse(_serialization.Model):
         """
         :keyword value: The items on this page.
         :paramtype value: list[~azure.mgmt.dynatrace.models.AppServiceInfo]
+        :keyword next_link: The link to the next page of items.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = next_link
+
+
+class ConnectedResourcesCountResponse(_serialization.Model):
+    """Response for getting Connected resources for a MP SaaS Resource.
+
+    :ivar connected_resources_count: Count of the connected resources.
+    :vartype connected_resources_count: int
+    """
+
+    _attribute_map = {
+        "connected_resources_count": {"key": "connectedResourcesCount", "type": "int"},
+    }
+
+    def __init__(self, *, connected_resources_count: Optional[int] = None, **kwargs: Any) -> None:
+        """
+        :keyword connected_resources_count: Count of the connected resources.
+        :paramtype connected_resources_count: int
+        """
+        super().__init__(**kwargs)
+        self.connected_resources_count = connected_resources_count
+
+
+class CreateResourceSupportedProperties(_serialization.Model):
+    """Properties related to the support for creating Dynatrace resources.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar name: The ARM id of the subscription.
+    :vartype name: str
+    :ivar creation_supported: Indicates if selected subscription supports Dynatrace resource
+     creation, if not it is already being monitored for the selected organization via multi
+     subscription feature.
+    :vartype creation_supported: bool
+    """
+
+    _validation = {
+        "name": {"readonly": True},
+        "creation_supported": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "name": {"key": "name", "type": "str"},
+        "creation_supported": {"key": "creationSupported", "type": "bool"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.name = None
+        self.creation_supported = None
+
+
+class CreateResourceSupportedResponse(_serialization.Model):
+    """Dynatrace resource can be created or not.
+
+    :ivar value: Represents the properties of the resource.
+    :vartype value: list[~azure.mgmt.dynatrace.models.CreateResourceSupportedProperties]
+    :ivar next_link: The link to the next page of items.
+    :vartype next_link: str
+    """
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[CreateResourceSupportedProperties]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        value: Optional[List["_models.CreateResourceSupportedProperties"]] = None,
+        next_link: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: Represents the properties of the resource.
+        :paramtype value: list[~azure.mgmt.dynatrace.models.CreateResourceSupportedProperties]
         :keyword next_link: The link to the next page of items.
         :paramtype next_link: str
         """
@@ -279,26 +455,31 @@ class Resource(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
     :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
      "Microsoft.Storage/storageAccounts".
     :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.dynatrace.models.SystemData
     """
 
     _validation = {
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
+        "system_data": {"readonly": True},
     }
 
     _attribute_map = {
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
     }
 
     def __init__(self, **kwargs: Any) -> None:
@@ -307,6 +488,7 @@ class Resource(_serialization.Model):
         self.id = None
         self.name = None
         self.type = None
+        self.system_data = None
 
 
 class ProxyResource(Resource):
@@ -315,31 +497,18 @@ class ProxyResource(Resource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
     :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
      "Microsoft.Storage/storageAccounts".
     :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.dynatrace.models.SystemData
     """
-
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
 
 
 class DynatraceSingleSignOnResource(ProxyResource):
@@ -347,15 +516,16 @@ class DynatraceSingleSignOnResource(ProxyResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
     :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
      "Microsoft.Storage/storageAccounts".
     :vartype type: str
-    :ivar system_data: System metadata for this resource.
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
     :vartype system_data: ~azure.mgmt.dynatrace.models.SystemData
     :ivar single_sign_on_state: State of Single Sign On. Known values are: "Initial", "Enable",
      "Disable", and "Existing".
@@ -413,7 +583,6 @@ class DynatraceSingleSignOnResource(ProxyResource):
         :paramtype aad_domains: list[str]
         """
         super().__init__(**kwargs)
-        self.system_data = None
         self.single_sign_on_state = single_sign_on_state
         self.enterprise_app_id = enterprise_app_id
         self.single_sign_on_url = single_sign_on_url
@@ -424,7 +593,7 @@ class DynatraceSingleSignOnResource(ProxyResource):
 class DynatraceSingleSignOnResourceListResult(_serialization.Model):
     """The response of a DynatraceSingleSignOnResource list operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: The items on this page. Required.
     :vartype value: list[~azure.mgmt.dynatrace.models.DynatraceSingleSignOnResource]
@@ -640,7 +809,7 @@ class IdentityProperties(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar tenant_id: The Active Directory tenant id of the principal.
     :vartype tenant_id: str
@@ -723,7 +892,7 @@ class LinkableEnvironmentListResponse(_serialization.Model):
 class LinkableEnvironmentRequest(_serialization.Model):
     """Request for getting all the linkable environments for a user.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar tenant_id: Tenant Id of the user in which they want to link the environment. Required.
     :vartype tenant_id: str
@@ -860,10 +1029,95 @@ class LogRules(_serialization.Model):
         self.filtering_tags = filtering_tags
 
 
+class LogStatusRequest(_serialization.Model):
+    """Request for getting log status for given monitored resource Ids.
+
+    :ivar monitored_resource_ids: List of azure resource Id of monitored resources for which we get
+     the log status.
+    :vartype monitored_resource_ids: list[str]
+    """
+
+    _attribute_map = {
+        "monitored_resource_ids": {"key": "monitoredResourceIds", "type": "[str]"},
+    }
+
+    def __init__(self, *, monitored_resource_ids: Optional[List[str]] = None, **kwargs: Any) -> None:
+        """
+        :keyword monitored_resource_ids: List of azure resource Id of monitored resources for which we
+         get the log status.
+        :paramtype monitored_resource_ids: list[str]
+        """
+        super().__init__(**kwargs)
+        self.monitored_resource_ids = monitored_resource_ids
+
+
+class ManagedServiceIdentity(_serialization.Model):
+    """Managed service identity (system assigned and/or user assigned identities).
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar principal_id: The service principal ID of the system assigned identity. This property
+     will only be provided for a system assigned identity.
+    :vartype principal_id: str
+    :ivar tenant_id: The tenant ID of the system assigned identity. This property will only be
+     provided for a system assigned identity.
+    :vartype tenant_id: str
+    :ivar type: Type of managed service identity (where both SystemAssigned and UserAssigned types
+     are allowed). Required. Known values are: "None", "SystemAssigned", "UserAssigned", and
+     "SystemAssigned,UserAssigned".
+    :vartype type: str or ~azure.mgmt.dynatrace.models.ManagedServiceIdentityType
+    :ivar user_assigned_identities: The set of user assigned identities associated with the
+     resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form:
+     '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.  # pylint: disable=line-too-long
+     The dictionary values can be empty objects ({}) in requests.
+    :vartype user_assigned_identities: dict[str, ~azure.mgmt.dynatrace.models.UserAssignedIdentity]
+    """
+
+    _validation = {
+        "principal_id": {"readonly": True},
+        "tenant_id": {"readonly": True},
+        "type": {"required": True},
+    }
+
+    _attribute_map = {
+        "principal_id": {"key": "principalId", "type": "str"},
+        "tenant_id": {"key": "tenantId", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "user_assigned_identities": {"key": "userAssignedIdentities", "type": "{UserAssignedIdentity}"},
+    }
+
+    def __init__(
+        self,
+        *,
+        type: Union[str, "_models.ManagedServiceIdentityType"],
+        user_assigned_identities: Optional[Dict[str, "_models.UserAssignedIdentity"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword type: Type of managed service identity (where both SystemAssigned and UserAssigned
+         types are allowed). Required. Known values are: "None", "SystemAssigned", "UserAssigned", and
+         "SystemAssigned,UserAssigned".
+        :paramtype type: str or ~azure.mgmt.dynatrace.models.ManagedServiceIdentityType
+        :keyword user_assigned_identities: The set of user assigned identities associated with the
+         resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form:
+         '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.  # pylint: disable=line-too-long
+         The dictionary values can be empty objects ({}) in requests.
+        :paramtype user_assigned_identities: dict[str,
+         ~azure.mgmt.dynatrace.models.UserAssignedIdentity]
+        """
+        super().__init__(**kwargs)
+        self.principal_id = None
+        self.tenant_id = None
+        self.type = type
+        self.user_assigned_identities = user_assigned_identities
+
+
 class MarketplaceSaaSResourceDetailsRequest(_serialization.Model):
     """Request for getting Marketplace SaaS resource details for a tenant Id.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar tenant_id: Tenant Id. Required.
     :vartype tenant_id: str
@@ -894,15 +1148,18 @@ class MarketplaceSaaSResourceDetailsResponse(_serialization.Model):
     :ivar plan_id: Id of the plan.
     :vartype plan_id: str
     :ivar marketplace_subscription_status: Marketplace subscription status. Known values are:
-     "Active" and "Suspended".
+     "Active", "Suspended", and "Unsubscribed".
     :vartype marketplace_subscription_status: str or
      ~azure.mgmt.dynatrace.models.MarketplaceSubscriptionStatus
+    :ivar marketplace_saa_s_resource_name: Name of the Marketplace SaaS Resource.
+    :vartype marketplace_saa_s_resource_name: str
     """
 
     _attribute_map = {
         "marketplace_saa_s_resource_id": {"key": "marketplaceSaaSResourceId", "type": "str"},
         "plan_id": {"key": "planId", "type": "str"},
         "marketplace_subscription_status": {"key": "marketplaceSubscriptionStatus", "type": "str"},
+        "marketplace_saa_s_resource_name": {"key": "marketplaceSaaSResourceName", "type": "str"},
     }
 
     def __init__(
@@ -911,6 +1168,7 @@ class MarketplaceSaaSResourceDetailsResponse(_serialization.Model):
         marketplace_saa_s_resource_id: Optional[str] = None,
         plan_id: Optional[str] = None,
         marketplace_subscription_status: Optional[Union[str, "_models.MarketplaceSubscriptionStatus"]] = None,
+        marketplace_saa_s_resource_name: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -919,14 +1177,43 @@ class MarketplaceSaaSResourceDetailsResponse(_serialization.Model):
         :keyword plan_id: Id of the plan.
         :paramtype plan_id: str
         :keyword marketplace_subscription_status: Marketplace subscription status. Known values are:
-         "Active" and "Suspended".
+         "Active", "Suspended", and "Unsubscribed".
         :paramtype marketplace_subscription_status: str or
          ~azure.mgmt.dynatrace.models.MarketplaceSubscriptionStatus
+        :keyword marketplace_saa_s_resource_name: Name of the Marketplace SaaS Resource.
+        :paramtype marketplace_saa_s_resource_name: str
         """
         super().__init__(**kwargs)
         self.marketplace_saa_s_resource_id = marketplace_saa_s_resource_id
         self.plan_id = plan_id
         self.marketplace_subscription_status = marketplace_subscription_status
+        self.marketplace_saa_s_resource_name = marketplace_saa_s_resource_name
+
+
+class MarketplaceSubscriptionIdRequest(_serialization.Model):
+    """Request for getting connected resources count for a Marketplace Subscription Id.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar marketplace_subscription_id: Marketplace Subscription Id. Required.
+    :vartype marketplace_subscription_id: str
+    """
+
+    _validation = {
+        "marketplace_subscription_id": {"required": True},
+    }
+
+    _attribute_map = {
+        "marketplace_subscription_id": {"key": "marketplaceSubscriptionId", "type": "str"},
+    }
+
+    def __init__(self, *, marketplace_subscription_id: str, **kwargs: Any) -> None:
+        """
+        :keyword marketplace_subscription_id: Marketplace Subscription Id. Required.
+        :paramtype marketplace_subscription_id: str
+        """
+        super().__init__(**kwargs)
+        self.marketplace_subscription_id = marketplace_subscription_id
 
 
 class MetricRules(_serialization.Model):
@@ -987,6 +1274,28 @@ class MetricsStatusResponse(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.azure_resource_ids = azure_resource_ids
+
+
+class MetricStatusRequest(_serialization.Model):
+    """Request for getting metric status for given monitored resource Ids.
+
+    :ivar monitored_resource_ids: List of azure resource Id of monitored resources for which we get
+     the metric status.
+    :vartype monitored_resource_ids: list[str]
+    """
+
+    _attribute_map = {
+        "monitored_resource_ids": {"key": "monitoredResourceIds", "type": "[str]"},
+    }
+
+    def __init__(self, *, monitored_resource_ids: Optional[List[str]] = None, **kwargs: Any) -> None:
+        """
+        :keyword monitored_resource_ids: List of azure resource Id of monitored resources for which we
+         get the metric status.
+        :paramtype monitored_resource_ids: list[str]
+        """
+        super().__init__(**kwargs)
+        self.monitored_resource_ids = monitored_resource_ids
 
 
 class MonitoredResource(_serialization.Model):
@@ -1082,22 +1391,197 @@ class MonitoredResourceListResponse(_serialization.Model):
         self.next_link = next_link
 
 
+class MonitoredSubscription(_serialization.Model):
+    """The list of subscriptions and it's monitoring status by current Dynatrace monitor.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar subscription_id: The subscriptionId to be monitored. Required.
+    :vartype subscription_id: str
+    :ivar status: The state of monitoring. Known values are: "InProgress", "Active", "Failed", and
+     "Deleting".
+    :vartype status: str or ~azure.mgmt.dynatrace.models.Status
+    :ivar error: The reason of not monitoring the subscription.
+    :vartype error: str
+    :ivar tag_rules: Properties for the Tag rules resource of a Monitor account.
+    :vartype tag_rules: ~azure.mgmt.dynatrace.models.MonitoringTagRulesProperties
+    """
+
+    _validation = {
+        "subscription_id": {"required": True},
+    }
+
+    _attribute_map = {
+        "subscription_id": {"key": "subscriptionId", "type": "str"},
+        "status": {"key": "status", "type": "str"},
+        "error": {"key": "error", "type": "str"},
+        "tag_rules": {"key": "tagRules", "type": "MonitoringTagRulesProperties"},
+    }
+
+    def __init__(
+        self,
+        *,
+        subscription_id: str,
+        status: Optional[Union[str, "_models.Status"]] = None,
+        error: Optional[str] = None,
+        tag_rules: Optional["_models.MonitoringTagRulesProperties"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword subscription_id: The subscriptionId to be monitored. Required.
+        :paramtype subscription_id: str
+        :keyword status: The state of monitoring. Known values are: "InProgress", "Active", "Failed",
+         and "Deleting".
+        :paramtype status: str or ~azure.mgmt.dynatrace.models.Status
+        :keyword error: The reason of not monitoring the subscription.
+        :paramtype error: str
+        :keyword tag_rules: Properties for the Tag rules resource of a Monitor account.
+        :paramtype tag_rules: ~azure.mgmt.dynatrace.models.MonitoringTagRulesProperties
+        """
+        super().__init__(**kwargs)
+        self.subscription_id = subscription_id
+        self.status = status
+        self.error = error
+        self.tag_rules = tag_rules
+
+
+class MonitoredSubscriptionProperties(_serialization.Model):
+    """The request to update subscriptions needed to be monitored by the Dynatrace monitor resource.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar name: Name of the monitored subscription resource.
+    :vartype name: str
+    :ivar id: The id of the monitored subscription resource.
+    :vartype id: str
+    :ivar type: The type of the monitored subscription resource.
+    :vartype type: str
+    :ivar properties: The request to update subscriptions needed to be monitored by the Dynatrace
+     monitor resource.
+    :vartype properties: ~azure.mgmt.dynatrace.models.SubscriptionList
+    """
+
+    _validation = {
+        "name": {"readonly": True},
+        "id": {"readonly": True},
+        "type": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "name": {"key": "name", "type": "str"},
+        "id": {"key": "id", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "properties": {"key": "properties", "type": "SubscriptionList"},
+    }
+
+    def __init__(self, *, properties: Optional["_models.SubscriptionList"] = None, **kwargs: Any) -> None:
+        """
+        :keyword properties: The request to update subscriptions needed to be monitored by the
+         Dynatrace monitor resource.
+        :paramtype properties: ~azure.mgmt.dynatrace.models.SubscriptionList
+        """
+        super().__init__(**kwargs)
+        self.name = None
+        self.id = None
+        self.type = None
+        self.properties = properties
+
+
+class MonitoredSubscriptionPropertiesList(_serialization.Model):
+    """MonitoredSubscriptionPropertiesList.
+
+    :ivar value:
+    :vartype value: list[~azure.mgmt.dynatrace.models.MonitoredSubscriptionProperties]
+    :ivar next_link: The link to the next page of items.
+    :vartype next_link: str
+    """
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[MonitoredSubscriptionProperties]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        value: Optional[List["_models.MonitoredSubscriptionProperties"]] = None,
+        next_link: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword value:
+        :paramtype value: list[~azure.mgmt.dynatrace.models.MonitoredSubscriptionProperties]
+        :keyword next_link: The link to the next page of items.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = next_link
+
+
+class MonitoringTagRulesProperties(_serialization.Model):
+    """Properties for the Tag rules resource of a Monitor account.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar log_rules: Set of rules for sending logs for the Monitor resource.
+    :vartype log_rules: ~azure.mgmt.dynatrace.models.LogRules
+    :ivar metric_rules: Set of rules for sending metrics for the Monitor resource.
+    :vartype metric_rules: ~azure.mgmt.dynatrace.models.MetricRules
+    :ivar provisioning_state: Provisioning state of the resource. Known values are: "Accepted",
+     "Creating", "Updating", "Deleting", "Succeeded", "Failed", "Canceled", "Deleted", and
+     "NotSpecified".
+    :vartype provisioning_state: str or ~azure.mgmt.dynatrace.models.ProvisioningState
+    """
+
+    _validation = {
+        "provisioning_state": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "log_rules": {"key": "logRules", "type": "LogRules"},
+        "metric_rules": {"key": "metricRules", "type": "MetricRules"},
+        "provisioning_state": {"key": "provisioningState", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        log_rules: Optional["_models.LogRules"] = None,
+        metric_rules: Optional["_models.MetricRules"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword log_rules: Set of rules for sending logs for the Monitor resource.
+        :paramtype log_rules: ~azure.mgmt.dynatrace.models.LogRules
+        :keyword metric_rules: Set of rules for sending metrics for the Monitor resource.
+        :paramtype metric_rules: ~azure.mgmt.dynatrace.models.MetricRules
+        """
+        super().__init__(**kwargs)
+        self.log_rules = log_rules
+        self.metric_rules = metric_rules
+        self.provisioning_state = None
+
+
 class TrackedResource(Resource):
     """The resource model definition for an Azure Resource Manager tracked top level resource which
     has 'tags' and a 'location'.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
     :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
      "Microsoft.Storage/storageAccounts".
     :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.dynatrace.models.SystemData
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
     :ivar location: The geo-location where the resource lives. Required.
@@ -1108,6 +1592,7 @@ class TrackedResource(Resource):
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
+        "system_data": {"readonly": True},
         "location": {"required": True},
     }
 
@@ -1115,6 +1600,7 @@ class TrackedResource(Resource):
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
         "tags": {"key": "tags", "type": "{str}"},
         "location": {"key": "location", "type": "str"},
     }
@@ -1131,35 +1617,40 @@ class TrackedResource(Resource):
         self.location = location
 
 
-class MonitorResource(TrackedResource):  # pylint: disable=too-many-instance-attributes
+class MonitorResource(TrackedResource):
     """Dynatrace Monitor Resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
     :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
      "Microsoft.Storage/storageAccounts".
     :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.dynatrace.models.SystemData
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
     :ivar location: The geo-location where the resource lives. Required.
     :vartype location: str
-    :ivar system_data: System metadata for this resource.
-    :vartype system_data: ~azure.mgmt.dynatrace.models.SystemData
     :ivar identity: The managed service identities assigned to this resource.
     :vartype identity: ~azure.mgmt.dynatrace.models.IdentityProperties
     :ivar monitoring_status: Status of the monitor. Known values are: "Enabled" and "Disabled".
     :vartype monitoring_status: str or ~azure.mgmt.dynatrace.models.MonitoringStatus
     :ivar marketplace_subscription_status: Marketplace subscription status. Known values are:
-     "Active" and "Suspended".
+     "Active", "Suspended", and "Unsubscribed".
     :vartype marketplace_subscription_status: str or
      ~azure.mgmt.dynatrace.models.MarketplaceSubscriptionStatus
+    :ivar marketplace_saas_auto_renew: Marketplace resource autorenew flag. Known values are: "On"
+     and "Off".
+    :vartype marketplace_saas_auto_renew: str or
+     ~azure.mgmt.dynatrace.models.MarketplaceSaasAutoRenew
     :ivar dynatrace_environment_properties: Properties of the Dynatrace environment.
     :vartype dynatrace_environment_properties:
      ~azure.mgmt.dynatrace.models.DynatraceEnvironmentProperties
@@ -1182,8 +1673,8 @@ class MonitorResource(TrackedResource):  # pylint: disable=too-many-instance-att
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
-        "location": {"required": True},
         "system_data": {"readonly": True},
+        "location": {"required": True},
         "liftr_resource_category": {"readonly": True},
         "liftr_resource_preference": {"readonly": True},
         "provisioning_state": {"readonly": True},
@@ -1193,12 +1684,13 @@ class MonitorResource(TrackedResource):  # pylint: disable=too-many-instance-att
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
         "tags": {"key": "tags", "type": "{str}"},
         "location": {"key": "location", "type": "str"},
-        "system_data": {"key": "systemData", "type": "SystemData"},
         "identity": {"key": "identity", "type": "IdentityProperties"},
         "monitoring_status": {"key": "properties.monitoringStatus", "type": "str"},
         "marketplace_subscription_status": {"key": "properties.marketplaceSubscriptionStatus", "type": "str"},
+        "marketplace_saas_auto_renew": {"key": "properties.marketplaceSaasAutoRenew", "type": "str"},
         "dynatrace_environment_properties": {
             "key": "properties.dynatraceEnvironmentProperties",
             "type": "DynatraceEnvironmentProperties",
@@ -1218,6 +1710,7 @@ class MonitorResource(TrackedResource):  # pylint: disable=too-many-instance-att
         identity: Optional["_models.IdentityProperties"] = None,
         monitoring_status: Optional[Union[str, "_models.MonitoringStatus"]] = None,
         marketplace_subscription_status: Optional[Union[str, "_models.MarketplaceSubscriptionStatus"]] = None,
+        marketplace_saas_auto_renew: Optional[Union[str, "_models.MarketplaceSaasAutoRenew"]] = None,
         dynatrace_environment_properties: Optional["_models.DynatraceEnvironmentProperties"] = None,
         user_info: Optional["_models.UserInfo"] = None,
         plan_data: Optional["_models.PlanData"] = None,
@@ -1233,9 +1726,13 @@ class MonitorResource(TrackedResource):  # pylint: disable=too-many-instance-att
         :keyword monitoring_status: Status of the monitor. Known values are: "Enabled" and "Disabled".
         :paramtype monitoring_status: str or ~azure.mgmt.dynatrace.models.MonitoringStatus
         :keyword marketplace_subscription_status: Marketplace subscription status. Known values are:
-         "Active" and "Suspended".
+         "Active", "Suspended", and "Unsubscribed".
         :paramtype marketplace_subscription_status: str or
          ~azure.mgmt.dynatrace.models.MarketplaceSubscriptionStatus
+        :keyword marketplace_saas_auto_renew: Marketplace resource autorenew flag. Known values are:
+         "On" and "Off".
+        :paramtype marketplace_saas_auto_renew: str or
+         ~azure.mgmt.dynatrace.models.MarketplaceSaasAutoRenew
         :keyword dynatrace_environment_properties: Properties of the Dynatrace environment.
         :paramtype dynatrace_environment_properties:
          ~azure.mgmt.dynatrace.models.DynatraceEnvironmentProperties
@@ -1245,10 +1742,10 @@ class MonitorResource(TrackedResource):  # pylint: disable=too-many-instance-att
         :paramtype plan_data: ~azure.mgmt.dynatrace.models.PlanData
         """
         super().__init__(tags=tags, location=location, **kwargs)
-        self.system_data = None
         self.identity = identity
         self.monitoring_status = monitoring_status
         self.marketplace_subscription_status = marketplace_subscription_status
+        self.marketplace_saas_auto_renew = marketplace_saas_auto_renew
         self.dynatrace_environment_properties = dynatrace_environment_properties
         self.user_info = user_info
         self.plan_data = plan_data
@@ -1260,7 +1757,7 @@ class MonitorResource(TrackedResource):  # pylint: disable=too-many-instance-att
 class MonitorResourceListResult(_serialization.Model):
     """The response of a MonitorResource list operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: The items on this page. Required.
     :vartype value: list[~azure.mgmt.dynatrace.models.MonitorResource]
@@ -1296,19 +1793,60 @@ class MonitorResourceUpdate(_serialization.Model):
 
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
+    :ivar properties: The set of properties that can be updated in a PATCH request to a monitor
+     resource.
+    :vartype properties: ~azure.mgmt.dynatrace.models.MonitorUpdateProperties
+    :ivar identity: The managed service identities assigned to this resource.
+    :vartype identity: ~azure.mgmt.dynatrace.models.ManagedServiceIdentity
     """
 
     _attribute_map = {
         "tags": {"key": "tags", "type": "{str}"},
+        "properties": {"key": "properties", "type": "MonitorUpdateProperties"},
+        "identity": {"key": "identity", "type": "ManagedServiceIdentity"},
     }
 
-    def __init__(self, *, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
+    def __init__(
+        self,
+        *,
+        tags: Optional[Dict[str, str]] = None,
+        properties: Optional["_models.MonitorUpdateProperties"] = None,
+        identity: Optional["_models.ManagedServiceIdentity"] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
+        :keyword properties: The set of properties that can be updated in a PATCH request to a monitor
+         resource.
+        :paramtype properties: ~azure.mgmt.dynatrace.models.MonitorUpdateProperties
+        :keyword identity: The managed service identities assigned to this resource.
+        :paramtype identity: ~azure.mgmt.dynatrace.models.ManagedServiceIdentity
         """
         super().__init__(**kwargs)
         self.tags = tags
+        self.properties = properties
+        self.identity = identity
+
+
+class MonitorUpdateProperties(_serialization.Model):
+    """The set of properties that can be updated in a PATCH request to a monitor resource.
+
+    :ivar plan_data: The new Billing plan information.
+    :vartype plan_data: ~azure.mgmt.dynatrace.models.PlanData
+    """
+
+    _attribute_map = {
+        "plan_data": {"key": "planData", "type": "PlanData"},
+    }
+
+    def __init__(self, *, plan_data: Optional["_models.PlanData"] = None, **kwargs: Any) -> None:
+        """
+        :keyword plan_data: The new Billing plan information.
+        :paramtype plan_data: ~azure.mgmt.dynatrace.models.PlanData
+        """
+        super().__init__(**kwargs)
+        self.plan_data = plan_data
 
 
 class Operation(_serialization.Model):
@@ -1481,7 +2019,7 @@ class PlanData(_serialization.Model):
 class SSODetailsRequest(_serialization.Model):
     """Request for getting sso details for a user.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar user_principal: user principal id of the user. Required.
     :vartype user_principal: str
@@ -1559,6 +2097,53 @@ class SSODetailsResponse(_serialization.Model):
         self.admin_users = admin_users
 
 
+class SubscriptionList(_serialization.Model):
+    """The request to update subscriptions needed to be monitored by the Dynatrace monitor resource.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar operation: The operation for the patch on the resource. Known values are: "AddBegin",
+     "AddComplete", "DeleteBegin", "DeleteComplete", and "Active".
+    :vartype operation: str or ~azure.mgmt.dynatrace.models.SubscriptionListOperation
+    :ivar monitored_subscription_list: List of subscriptions and the state of the monitoring.
+    :vartype monitored_subscription_list: list[~azure.mgmt.dynatrace.models.MonitoredSubscription]
+    :ivar provisioning_state: Provisioning State of the resource. Known values are: "Accepted",
+     "Creating", "Updating", "Deleting", "Succeeded", "Failed", "Canceled", "Deleted", and
+     "NotSpecified".
+    :vartype provisioning_state: str or ~azure.mgmt.dynatrace.models.ProvisioningState
+    """
+
+    _validation = {
+        "provisioning_state": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "operation": {"key": "operation", "type": "str"},
+        "monitored_subscription_list": {"key": "monitoredSubscriptionList", "type": "[MonitoredSubscription]"},
+        "provisioning_state": {"key": "provisioningState", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        operation: Optional[Union[str, "_models.SubscriptionListOperation"]] = None,
+        monitored_subscription_list: Optional[List["_models.MonitoredSubscription"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword operation: The operation for the patch on the resource. Known values are: "AddBegin",
+         "AddComplete", "DeleteBegin", "DeleteComplete", and "Active".
+        :paramtype operation: str or ~azure.mgmt.dynatrace.models.SubscriptionListOperation
+        :keyword monitored_subscription_list: List of subscriptions and the state of the monitoring.
+        :paramtype monitored_subscription_list:
+         list[~azure.mgmt.dynatrace.models.MonitoredSubscription]
+        """
+        super().__init__(**kwargs)
+        self.operation = operation
+        self.monitored_subscription_list = monitored_subscription_list
+        self.provisioning_state = None
+
+
 class SystemData(_serialization.Model):
     """Metadata pertaining to creation and last modification of the resource.
 
@@ -1628,15 +2213,16 @@ class TagRule(ProxyResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
     :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
      "Microsoft.Storage/storageAccounts".
     :vartype type: str
-    :ivar system_data: System metadata for this resource.
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
     :vartype system_data: ~azure.mgmt.dynatrace.models.SystemData
     :ivar log_rules: Set of rules for sending logs for the Monitor resource.
     :vartype log_rules: ~azure.mgmt.dynatrace.models.LogRules
@@ -1680,7 +2266,6 @@ class TagRule(ProxyResource):
         :paramtype metric_rules: ~azure.mgmt.dynatrace.models.MetricRules
         """
         super().__init__(**kwargs)
-        self.system_data = None
         self.log_rules = log_rules
         self.metric_rules = metric_rules
         self.provisioning_state = None
@@ -1689,7 +2274,7 @@ class TagRule(ProxyResource):
 class TagRuleListResult(_serialization.Model):
     """The response of a TagRule list operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: The items on this page. Required.
     :vartype value: list[~azure.mgmt.dynatrace.models.TagRule]
@@ -1718,37 +2303,52 @@ class TagRuleListResult(_serialization.Model):
         self.next_link = next_link
 
 
+class UpgradePlanRequest(_serialization.Model):
+    """The billing plan properties for the upgrade plan call.
+
+    :ivar plan_data: The new Billing plan information.
+    :vartype plan_data: ~azure.mgmt.dynatrace.models.PlanData
+    """
+
+    _attribute_map = {
+        "plan_data": {"key": "planData", "type": "PlanData"},
+    }
+
+    def __init__(self, *, plan_data: Optional["_models.PlanData"] = None, **kwargs: Any) -> None:
+        """
+        :keyword plan_data: The new Billing plan information.
+        :paramtype plan_data: ~azure.mgmt.dynatrace.models.PlanData
+        """
+        super().__init__(**kwargs)
+        self.plan_data = plan_data
+
+
 class UserAssignedIdentity(_serialization.Model):
-    """A managed identity assigned by the user.
+    """User assigned identity properties.
 
-    All required parameters must be populated in order to send to Azure.
+    Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar client_id: The active directory client identifier for this principal. Required.
-    :vartype client_id: str
-    :ivar principal_id: The active directory identifier for this principal. Required.
+    :ivar principal_id: The principal ID of the assigned identity.
     :vartype principal_id: str
+    :ivar client_id: The client ID of the assigned identity.
+    :vartype client_id: str
     """
 
     _validation = {
-        "client_id": {"required": True},
-        "principal_id": {"required": True},
+        "principal_id": {"readonly": True},
+        "client_id": {"readonly": True},
     }
 
     _attribute_map = {
-        "client_id": {"key": "clientId", "type": "str"},
         "principal_id": {"key": "principalId", "type": "str"},
+        "client_id": {"key": "clientId", "type": "str"},
     }
 
-    def __init__(self, *, client_id: str, principal_id: str, **kwargs: Any) -> None:
-        """
-        :keyword client_id: The active directory client identifier for this principal. Required.
-        :paramtype client_id: str
-        :keyword principal_id: The active directory identifier for this principal. Required.
-        :paramtype principal_id: str
-        """
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
         super().__init__(**kwargs)
-        self.client_id = client_id
-        self.principal_id = principal_id
+        self.principal_id = None
+        self.client_id = None
 
 
 class UserInfo(_serialization.Model):
@@ -1874,7 +2474,7 @@ class VMInfo(_serialization.Model):
     :ivar version: Version of the Dynatrace agent installed on the VM.
     :vartype version: str
     :ivar monitoring_type: The monitoring mode of OneAgent. Known values are:
-     "CLOUD_INFRASTRUCTURE" and "FULL_STACK".
+     "CLOUD_INFRASTRUCTURE", "FULL_STACK", and "DISCOVERY".
     :vartype monitoring_type: str or ~azure.mgmt.dynatrace.models.MonitoringType
     :ivar auto_update_setting: Update settings of OneAgent. Known values are: "ENABLED" and
      "DISABLED".
@@ -1928,7 +2528,7 @@ class VMInfo(_serialization.Model):
         :keyword version: Version of the Dynatrace agent installed on the VM.
         :paramtype version: str
         :keyword monitoring_type: The monitoring mode of OneAgent. Known values are:
-         "CLOUD_INFRASTRUCTURE" and "FULL_STACK".
+         "CLOUD_INFRASTRUCTURE", "FULL_STACK", and "DISCOVERY".
         :paramtype monitoring_type: str or ~azure.mgmt.dynatrace.models.MonitoringType
         :keyword auto_update_setting: Update settings of OneAgent. Known values are: "ENABLED" and
          "DISABLED".

@@ -10,6 +10,13 @@ from enum import Enum
 from azure.core import CaseInsensitiveEnumMeta
 
 
+class Action(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Install/Uninstall action."""
+
+    INSTALL = "Install"
+    UNINSTALL = "Uninstall"
+
+
 class ActionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs."""
 
@@ -67,6 +74,24 @@ class ManagedIdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     SYSTEM_AND_USER_ASSIGNED = "SystemAndUserAssigned"
 
 
+class ManagedServiceIdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Type of managed service identity (where both SystemAssigned and UserAssigned types are
+    allowed).
+    """
+
+    NONE = "None"
+    SYSTEM_ASSIGNED = "SystemAssigned"
+    USER_ASSIGNED = "UserAssigned"
+    SYSTEM_ASSIGNED_USER_ASSIGNED = "SystemAssigned,UserAssigned"
+
+
+class MarketplaceSaasAutoRenew(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Marketplace resource autorenew flag."""
+
+    ON = "On"
+    OFF = "Off"
+
+
 class MarketplaceSubscriptionStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Flag specifying the Marketplace Subscription Status of the resource. If payment is not made in
     time, the resource will go in Suspended state.
@@ -74,6 +99,7 @@ class MarketplaceSubscriptionStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta
 
     ACTIVE = "Active"
     SUSPENDED = "Suspended"
+    UNSUBSCRIBED = "Unsubscribed"
 
 
 class MonitoringStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -88,6 +114,7 @@ class MonitoringType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     CLOUD_INFRASTRUCTURE = "CLOUD_INFRASTRUCTURE"
     FULL_STACK = "FULL_STACK"
+    DISCOVERY = "DISCOVERY"
 
 
 class Origin(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -163,6 +190,25 @@ class SSOStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     ENABLED = "Enabled"
     DISABLED = "Disabled"
+
+
+class Status(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The state of monitoring."""
+
+    IN_PROGRESS = "InProgress"
+    ACTIVE = "Active"
+    FAILED = "Failed"
+    DELETING = "Deleting"
+
+
+class SubscriptionListOperation(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The operation for the patch on the resource."""
+
+    ADD_BEGIN = "AddBegin"
+    ADD_COMPLETE = "AddComplete"
+    DELETE_BEGIN = "DeleteBegin"
+    DELETE_COMPLETE = "DeleteComplete"
+    ACTIVE = "Active"
 
 
 class TagAction(str, Enum, metaclass=CaseInsensitiveEnumMeta):
