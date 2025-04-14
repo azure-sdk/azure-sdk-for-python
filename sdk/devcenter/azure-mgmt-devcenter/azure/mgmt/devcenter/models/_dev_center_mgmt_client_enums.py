@@ -16,6 +16,29 @@ class ActionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     INTERNAL = "Internal"
 
 
+class AutoImageBuildStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Indicates whether auto image build is enabled/disabled."""
+
+    DISABLED = "Disabled"
+    ENABLED = "Enabled"
+
+
+class AutoStartEnableStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Enables or disables whether Dev Boxes should be automatically started at commencement of active
+    hours.
+    """
+
+    ENABLED = "Enabled"
+    DISABLED = "Disabled"
+
+
+class AzureAiServicesEnableStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Indicates whether Azure AI services are enabled for a project."""
+
+    DISABLED = "Disabled"
+    ENABLED = "Enabled"
+
+
 class CatalogConnectionState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The connection state of the catalog."""
 
@@ -36,6 +59,7 @@ class CatalogItemType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Indicates catalog item types."""
 
     ENVIRONMENT_DEFINITION = "EnvironmentDefinition"
+    IMAGE_DEFINITION = "ImageDefinition"
 
 
 class CatalogResourceValidationStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -79,11 +103,51 @@ class CreatedByType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     KEY = "Key"
 
 
+class CustomizationTaskInputType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Type of the input."""
+
+    STRING = "string"
+    NUMBER = "number"
+    BOOLEAN = "boolean"
+
+
+class DevBoxAutoDeleteEnableStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Indicates whether auto delete is enabled."""
+
+    DISABLED = "Disabled"
+    ENABLED = "Enabled"
+
+
+class DevboxDisksEncryptionEnableStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Devbox disk encryption enable or disable status. Indicates if Devbox disks encryption is
+    enabled or not.
+    """
+
+    ENABLED = "Enabled"
+    DISABLED = "Disabled"
+
+
+class DevBoxTunnelEnableStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Indicates whether Dev Box Tunnel is enabled."""
+
+    DISABLED = "Disabled"
+    ENABLED = "Enabled"
+
+
+class DevCenterResourceType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Indicates dev center resource types."""
+
+    IMAGES = "Images"
+    ATTACHED_NETWORKS = "AttachedNetworks"
+    SKUS = "Skus"
+
+
 class DomainJoinType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Active Directory join type."""
 
     HYBRID_AZURE_AD_JOIN = "HybridAzureADJoin"
     AZURE_AD_JOIN = "AzureADJoin"
+    NONE = "None"
 
 
 class EnvironmentTypeEnableStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -102,6 +166,7 @@ class HealthCheckStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     PASSED = "Passed"
     WARNING = "Warning"
     FAILED = "Failed"
+    INFORMATIONAL = "Informational"
 
 
 class HealthStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -129,6 +194,23 @@ class IdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     DELEGATED_RESOURCE_IDENTITY = "delegatedResourceIdentity"
 
 
+class ImageDefinitionBuildStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The state of an Image Definition Build."""
+
+    SUCCEEDED = "Succeeded"
+    """The image build has succeeded."""
+    RUNNING = "Running"
+    """The image build is running."""
+    VALIDATION_FAILED = "ValidationFailed"
+    """The built image has failed validation."""
+    FAILED = "Failed"
+    """The image build has failed."""
+    CANCELLED = "Cancelled"
+    """The image build has been cancelled."""
+    TIMED_OUT = "TimedOut"
+    """The image build has timed out."""
+
+
 class ImageValidationStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Image validation status."""
 
@@ -137,6 +219,22 @@ class ImageValidationStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     SUCCEEDED = "Succeeded"
     FAILED = "Failed"
     TIMED_OUT = "TimedOut"
+
+
+class InstallAzureMonitorAgentEnableStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Setting to be used when determining whether to install the Azure Monitor Agent service on Dev
+    Boxes that belong to this dev center.
+    """
+
+    ENABLED = "Enabled"
+    DISABLED = "Disabled"
+
+
+class KeepAwakeEnableStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Enables or disables whether Dev Boxes should be kept awake during active hours."""
+
+    ENABLED = "Enabled"
+    DISABLED = "Disabled"
 
 
 class LicenseType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -165,6 +263,15 @@ class ManagedServiceIdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     SYSTEM_ASSIGNED_USER_ASSIGNED = "SystemAssigned, UserAssigned"
 
 
+class MicrosoftHostedNetworkEnableStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Indicates whether pools in this Dev Center can use Microsoft Hosted Networks. Defaults to
+    Enabled if not set.
+    """
+
+    ENABLED = "Enabled"
+    DISABLED = "Disabled"
+
+
 class Origin(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit
     logs UX. Default value is "user,system".
@@ -190,6 +297,29 @@ class ParameterType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The parameter accepts an object value."""
     STRING = "string"
     """The parameter accepts a string value."""
+
+
+class PolicyAction(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Indicates what action to perform for the policy."""
+
+    ALLOW = "Allow"
+    DENY = "Deny"
+
+
+class PoolDevBoxDefinitionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Indicates if the pool is created from an existing Dev Box Definition or if one is provided
+    directly.
+    """
+
+    REFERENCE = "Reference"
+    VALUE = "Value"
+
+
+class ProjectCustomizationIdentityType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Values can be systemAssignedIdentity or userAssignedIdentity."""
+
+    SYSTEM_ASSIGNED_IDENTITY = "systemAssignedIdentity"
+    USER_ASSIGNED_IDENTITY = "userAssignedIdentity"
 
 
 class ProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -234,6 +364,13 @@ class ScheduleEnableStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     DISABLED = "Disabled"
 
 
+class ServerlessGpuSessionsEnableStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Indicates whether serverless GPU session access is enabled."""
+
+    DISABLED = "Disabled"
+    ENABLED = "Enabled"
+
+
 class SingleSignOnStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """SingleSignOn (SSO) enable or disable status. Indicates whether Dev Boxes in the Pool will have
     SSO enabled or disabled.
@@ -263,10 +400,24 @@ class StopOnDisconnectEnableStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta)
     DISABLED = "Disabled"
 
 
+class StopOnNoConnectEnableStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Stop on no connect enable or disable status."""
+
+    ENABLED = "Enabled"
+    DISABLED = "Disabled"
+
+
 class UsageUnit(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """The unit details."""
 
     COUNT = "Count"
+
+
+class UserCustomizationsEnableStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Indicates whether user customizations are enabled."""
+
+    DISABLED = "Disabled"
+    ENABLED = "Enabled"
 
 
 class VirtualNetworkType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -276,3 +427,10 @@ class VirtualNetworkType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     MANAGED = "Managed"
     UNMANAGED = "Unmanaged"
+
+
+class WorkspaceStorageEnableStatus(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Indicates whether workspace storage is enabled."""
+
+    DISABLED = "Disabled"
+    ENABLED = "Enabled"
