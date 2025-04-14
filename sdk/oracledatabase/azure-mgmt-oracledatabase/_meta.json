@@ -1,11 +1,6 @@
 {
-  "commit": "a83c34348fbd25ad79a05e36816b91da0122b583",
+  "commit": "242acb7e81d1f9bd566eddf04cf16779a5b02cea",
   "repository_url": "https://github.com/Azure/azure-rest-api-specs",
-  "autorest": "3.10.2",
-  "use": [
-    "@autorest/python@6.13.19",
-    "@autorest/modelerfour@4.27.0"
-  ],
-  "autorest_command": "autorest specification/oracle/resource-manager/readme.md --generate-sample=True --include-x-ms-examples-original-file=True --python --python-sdks-folder=/home/vsts/work/1/azure-sdk-for-python/sdk --use=@autorest/python@6.13.19 --use=@autorest/modelerfour@4.27.0 --version=3.10.2 --version-tolerant=False",
-  "readme": "specification/oracle/resource-manager/readme.md"
+  "typespec_src": "specification/oracle/Oracle.Database.Management",
+  "@azure-tools/typespec-python": "0.42.2"
 }
