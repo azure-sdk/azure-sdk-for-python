@@ -15,7 +15,7 @@ from azure.mgmt.loganalytics import LogAnalyticsManagementClient
     pip install azure-identity
     pip install azure-mgmt-loganalytics
 # USAGE
-    python storage_insights_delete.py
+    python nsp_for_workspaces_reconcile.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -27,16 +27,16 @@ from azure.mgmt.loganalytics import LogAnalyticsManagementClient
 def main():
     client = LogAnalyticsManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="00000000-0000-0000-0000-00000000000",
+        subscription_id="00000000-1111-2222-3333-444444444444",
     )
 
-    client.storage_insight_configs.delete(
-        resource_group_name="OIAutoRest5123",
-        workspace_name="aztest5048",
-        storage_insight_name="AzTestSI1110",
-    )
+    client.workspaces.begin_reconcile_nsp(
+        resource_group_name="exampleRG",
+        workspace_name="someWorkspace",
+        network_security_perimeter_configuration_name="somePerimeterConfiguration",
+    ).result()
 
 
-# x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2025-02-01/examples/StorageInsightsDelete.json
+# x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2025-02-01/examples/NSPForWorkspaces_Reconcile.json
 if __name__ == "__main__":
     main()
