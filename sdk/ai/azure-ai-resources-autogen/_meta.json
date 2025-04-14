@@ -1,0 +1,6 @@
+{
+  "commit": "97849587351381820da57e022831a3591b3cb0b2",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/machinelearningservices/AzureAI.Assets",
+  "@azure-tools/typespec-python": "0.42.2"
+}
