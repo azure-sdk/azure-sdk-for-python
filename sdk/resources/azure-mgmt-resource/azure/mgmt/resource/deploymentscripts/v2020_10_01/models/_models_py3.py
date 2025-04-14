@@ -1271,7 +1271,9 @@ class ManagedServiceIdentity(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    :ivar type: Type of the managed identity. "UserAssigned"
+    All required parameters must be populated in order to send to server.
+
+    :ivar type: Type of the managed identity. Required. "UserAssigned"
     :vartype type: str or
      ~azure.mgmt.resource.deploymentscripts.v2020_10_01.models.ManagedServiceIdentityType
     :ivar tenant_id: ID of the Azure Active Directory.
@@ -1283,6 +1285,7 @@ class ManagedServiceIdentity(_serialization.Model):
     """
 
     _validation = {
+        "type": {"required": True},
         "tenant_id": {"readonly": True},
     }
 
@@ -1295,12 +1298,12 @@ class ManagedServiceIdentity(_serialization.Model):
     def __init__(
         self,
         *,
-        type: Optional[Union[str, "_models.ManagedServiceIdentityType"]] = None,
+        type: Union[str, "_models.ManagedServiceIdentityType"],
         user_assigned_identities: Optional[Dict[str, "_models.UserAssignedIdentity"]] = None,
         **kwargs: Any
     ) -> None:
         """
-        :keyword type: Type of the managed identity. "UserAssigned"
+        :keyword type: Type of the managed identity. Required. "UserAssigned"
         :paramtype type: str or
          ~azure.mgmt.resource.deploymentscripts.v2020_10_01.models.ManagedServiceIdentityType
         :keyword user_assigned_identities: The list of user-assigned managed identities associated with
