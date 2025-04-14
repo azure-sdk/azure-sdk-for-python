@@ -30,13 +30,13 @@ def main():
         subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.cloud_hsm_clusters.begin_backup(
+    response = client.cloud_hsm_clusters.begin_validate_backup_properties(
         resource_group_name="rgcloudhsm",
         cloud_hsm_cluster_name="chsm1",
     ).result()
     print(response)
 
 
-# x-ms-original-file: specification/hardwaresecuritymodules/resource-manager/Microsoft.HardwareSecurityModules/preview/2024-06-30-preview/examples/CloudHsmCluster_CreateOrValidate_Backup_MaximumSet_Gen.json
+# x-ms-original-file: specification/hardwaresecuritymodules/resource-manager/Microsoft.HardwareSecurityModules/stable/2025-03-31/examples/CloudHsmCluster_CreateOrValidate_Backup_MaximumSet_Gen.json
 if __name__ == "__main__":
     main()

@@ -20,12 +20,12 @@ class TestHardwareSecurityModulesMgmtCloudHsmClusterBackupStatusOperations(Azure
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_cloud_hsm_cluster_backup_status_get(self, resource_group):
         response = self.client.cloud_hsm_cluster_backup_status.get(
             resource_group_name=resource_group.name,
             cloud_hsm_cluster_name="str",
             job_id="str",
-            api_version="2024-06-30-preview",
+            api_version="2025-03-31",
         )
 
         # please add some check logic here by yourself
