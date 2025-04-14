@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.machinelearningservices import MachineLearningServicesMgmtClient
 
 """
@@ -69,6 +70,13 @@ def main():
                     "requestTimeout": "PT5M",
                 },
                 "scaleSettings": {"scaleType": "Default"},
+                "startupProbe": {
+                    "failureThreshold": 3,
+                    "initialDelay": "PT30S",
+                    "period": "PT10S",
+                    "successThreshold": 1,
+                    "timeout": "PT2S",
+                },
             },
             "sku": {"capacity": 1, "family": "string", "name": "string", "size": "string", "tier": "Free"},
             "tags": {},
@@ -77,6 +85,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2023-04-01/examples/OnlineDeployment/ManagedOnlineDeployment/createOrUpdate.json
+# x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2025-04-01/examples/OnlineDeployment/ManagedOnlineDeployment/createOrUpdate.json
 if __name__ == "__main__":
     main()
