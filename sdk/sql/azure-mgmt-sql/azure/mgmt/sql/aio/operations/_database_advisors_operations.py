@@ -92,7 +92,7 @@ class DatabaseAdvisorsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2020-11-01-preview"))
         cls: ClsType[List[_models.Advisor]] = kwargs.pop("cls", None)
 
         _request = build_list_by_database_request(
@@ -155,7 +155,7 @@ class DatabaseAdvisorsOperations:
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2020-11-01-preview"))
         cls: ClsType[_models.Advisor] = kwargs.pop("cls", None)
 
         _request = build_get_request(
@@ -293,7 +293,7 @@ class DatabaseAdvisorsOperations:
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", "2020-11-01-preview"))
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.Advisor] = kwargs.pop("cls", None)
 
