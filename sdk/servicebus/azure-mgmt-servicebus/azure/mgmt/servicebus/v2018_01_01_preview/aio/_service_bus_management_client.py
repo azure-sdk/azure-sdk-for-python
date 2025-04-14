@@ -35,11 +35,10 @@ from .operations import (
 )
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from azure.core.credentials_async import AsyncTokenCredential
 
 
-class ServiceBusManagementClient:  # pylint: disable=client-accepts-api-version-keyword,too-many-instance-attributes
+class ServiceBusManagementClient:  # pylint: disable=too-many-instance-attributes
     """Azure Service Bus client for managing Namespace, IPFilter Rules, VirtualNetworkRules and Zone
     Redundant.
 

@@ -21,11 +21,10 @@ from ._configuration import ServiceBusManagementClientConfiguration
 from .operations import NamespacesOperations, Operations, QueuesOperations, SubscriptionsOperations, TopicsOperations
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from azure.core.credentials_async import AsyncTokenCredential
 
 
-class ServiceBusManagementClient:  # pylint: disable=client-accepts-api-version-keyword
+class ServiceBusManagementClient:
     """Azure Service Bus client.
 
     :ivar operations: Operations operations

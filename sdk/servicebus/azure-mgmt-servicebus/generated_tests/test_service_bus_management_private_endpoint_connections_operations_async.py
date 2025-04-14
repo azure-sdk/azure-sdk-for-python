@@ -21,7 +21,7 @@ class TestServiceBusManagementPrivateEndpointConnectionsOperationsAsync(AzureMgm
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list(self, resource_group):
+    async def test_private_endpoint_connections_list(self, resource_group):
         response = self.client.private_endpoint_connections.list(
             resource_group_name=resource_group.name,
             namespace_name="str",
@@ -33,7 +33,7 @@ class TestServiceBusManagementPrivateEndpointConnectionsOperationsAsync(AzureMgm
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_create_or_update(self, resource_group):
+    async def test_private_endpoint_connections_create_or_update(self, resource_group):
         response = await self.client.private_endpoint_connections.create_or_update(
             resource_group_name=resource_group.name,
             namespace_name="str",
@@ -63,7 +63,7 @@ class TestServiceBusManagementPrivateEndpointConnectionsOperationsAsync(AzureMgm
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_delete(self, resource_group):
+    async def test_private_endpoint_connections_begin_delete(self, resource_group):
         response = await (
             await self.client.private_endpoint_connections.begin_delete(
                 resource_group_name=resource_group.name,
@@ -78,7 +78,7 @@ class TestServiceBusManagementPrivateEndpointConnectionsOperationsAsync(AzureMgm
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get(self, resource_group):
+    async def test_private_endpoint_connections_get(self, resource_group):
         response = await self.client.private_endpoint_connections.get(
             resource_group_name=resource_group.name,
             namespace_name="str",

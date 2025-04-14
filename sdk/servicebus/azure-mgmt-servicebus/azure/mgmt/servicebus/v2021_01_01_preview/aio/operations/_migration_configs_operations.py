@@ -1,4 +1,3 @@
-# pylint: disable=too-many-lines,too-many-statements
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -8,7 +7,7 @@
 # --------------------------------------------------------------------------
 from io import IOBase
 import sys
-from typing import Any, AsyncIterable, AsyncIterator, Callable, Dict, IO, Optional, Type, TypeVar, Union, cast, overload
+from typing import Any, AsyncIterable, AsyncIterator, Callable, Dict, IO, Optional, TypeVar, Union, cast, overload
 import urllib.parse
 
 from azure.core.async_paging import AsyncItemPaged, AsyncList
@@ -44,7 +43,7 @@ from ...operations._migration_configs_operations import (
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
@@ -73,6 +72,7 @@ class MigrationConfigsOperations:
     def list(
         self, resource_group_name: str, namespace_name: str, **kwargs: Any
     ) -> AsyncIterable["_models.MigrationConfigProperties"]:
+        # pylint: disable=line-too-long
         """Gets all migrationConfigurations.
 
         :param resource_group_name: Name of the Resource group within the Azure subscription. Required.
@@ -93,7 +93,7 @@ class MigrationConfigsOperations:
         )
         cls: ClsType[_models.MigrationConfigListResult] = kwargs.pop("cls", None)
 
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -164,7 +164,7 @@ class MigrationConfigsOperations:
         parameters: Union[_models.MigrationConfigProperties, IO[bytes]],
         **kwargs: Any
     ) -> AsyncIterator[bytes]:
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -373,7 +373,7 @@ class MigrationConfigsOperations:
         )
 
     @distributed_trace_async
-    async def delete(  # pylint: disable=inconsistent-return-statements
+    async def delete(
         self,
         resource_group_name: str,
         namespace_name: str,
@@ -393,7 +393,7 @@ class MigrationConfigsOperations:
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -456,7 +456,7 @@ class MigrationConfigsOperations:
         :rtype: ~azure.mgmt.servicebus.v2021_01_01_preview.models.MigrationConfigProperties
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -503,7 +503,7 @@ class MigrationConfigsOperations:
         return deserialized  # type: ignore
 
     @distributed_trace_async
-    async def complete_migration(  # pylint: disable=inconsistent-return-statements
+    async def complete_migration(
         self,
         resource_group_name: str,
         namespace_name: str,
@@ -525,7 +525,7 @@ class MigrationConfigsOperations:
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,
@@ -568,7 +568,7 @@ class MigrationConfigsOperations:
             return cls(pipeline_response, None, {})  # type: ignore
 
     @distributed_trace_async
-    async def revert(  # pylint: disable=inconsistent-return-statements
+    async def revert(
         self,
         resource_group_name: str,
         namespace_name: str,
@@ -588,7 +588,7 @@ class MigrationConfigsOperations:
         :rtype: None
         :raises ~azure.core.exceptions.HttpResponseError:
         """
-        error_map: MutableMapping[int, Type[HttpResponseError]] = {
+        error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
             409: ResourceExistsError,

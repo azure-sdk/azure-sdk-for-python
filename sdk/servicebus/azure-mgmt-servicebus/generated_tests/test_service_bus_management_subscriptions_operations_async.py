@@ -21,7 +21,7 @@ class TestServiceBusManagementSubscriptionsOperationsAsync(AzureMgmtRecordedTest
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_by_topic(self, resource_group):
+    async def test_subscriptions_list_by_topic(self, resource_group):
         response = self.client.subscriptions.list_by_topic(
             resource_group_name=resource_group.name,
             namespace_name="str",
@@ -34,7 +34,7 @@ class TestServiceBusManagementSubscriptionsOperationsAsync(AzureMgmtRecordedTest
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_create_or_update(self, resource_group):
+    async def test_subscriptions_create_or_update(self, resource_group):
         response = await self.client.subscriptions.create_or_update(
             resource_group_name=resource_group.name,
             namespace_name="str",
@@ -87,7 +87,7 @@ class TestServiceBusManagementSubscriptionsOperationsAsync(AzureMgmtRecordedTest
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_delete(self, resource_group):
+    async def test_subscriptions_delete(self, resource_group):
         response = await self.client.subscriptions.delete(
             resource_group_name=resource_group.name,
             namespace_name="str",
@@ -101,7 +101,7 @@ class TestServiceBusManagementSubscriptionsOperationsAsync(AzureMgmtRecordedTest
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get(self, resource_group):
+    async def test_subscriptions_get(self, resource_group):
         response = await self.client.subscriptions.get(
             resource_group_name=resource_group.name,
             namespace_name="str",
