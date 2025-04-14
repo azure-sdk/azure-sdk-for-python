@@ -20,7 +20,7 @@ class TestBatchManagementCertificateOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_batch_account(self, resource_group):
+    def test_certificate_list_by_batch_account(self, resource_group):
         response = self.client.certificate.list_by_batch_account(
             resource_group_name=resource_group.name,
             account_name="str",
@@ -32,7 +32,7 @@ class TestBatchManagementCertificateOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_create(self, resource_group):
+    def test_certificate_create(self, resource_group):
         response = self.client.certificate.create(
             resource_group_name=resource_group.name,
             account_name="str",
@@ -57,7 +57,7 @@ class TestBatchManagementCertificateOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_update(self, resource_group):
+    def test_certificate_update(self, resource_group):
         response = self.client.certificate.update(
             resource_group_name=resource_group.name,
             account_name="str",
@@ -82,7 +82,7 @@ class TestBatchManagementCertificateOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_delete(self, resource_group):
+    def test_certificate_begin_delete(self, resource_group):
         response = self.client.certificate.begin_delete(
             resource_group_name=resource_group.name,
             account_name="str",
@@ -95,7 +95,7 @@ class TestBatchManagementCertificateOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_certificate_get(self, resource_group):
         response = self.client.certificate.get(
             resource_group_name=resource_group.name,
             account_name="str",
@@ -108,7 +108,7 @@ class TestBatchManagementCertificateOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_cancel_deletion(self, resource_group):
+    def test_certificate_cancel_deletion(self, resource_group):
         response = self.client.certificate.cancel_deletion(
             resource_group_name=resource_group.name,
             account_name="str",
