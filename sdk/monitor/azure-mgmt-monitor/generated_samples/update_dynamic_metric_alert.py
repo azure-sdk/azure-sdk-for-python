@@ -15,7 +15,7 @@ from azure.mgmt.monitor import MonitorManagementClient
     pip install azure-identity
     pip install azure-mgmt-monitor
 # USAGE
-    python list_action_groups.py
+    python update_dynamic_metric_alert.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -27,16 +27,27 @@ from azure.mgmt.monitor import MonitorManagementClient
 def main():
     client = MonitorManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="187f412d-1758-44d9-b052-169e2564721d",
+        subscription_id="14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7",
     )
 
-    response = client.action_groups.list_by_resource_group(
-        resource_group_name="Default-NotificationRules",
+    response = client.metric_alerts.update(
+        resource_group_name="gigtest",
+        rule_name="dynamiccpu",
+        parameters={
+            "properties": {
+                "actions": [
+                    {
+                        "actionGroupId": "/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourcegroups/gigtest/providers/microsoft.insights/actiongroups/newgroup"
+                    }
+                ],
+                "enabled": False,
+            },
+            "tags": {"key1": "value1", "key2": "value2"},
+        },
     )
-    for item in response:
-        print(item)
+    print(response)
 
 
-# x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2024-10-01-preview/examples/listActionGroups.json
+# x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2024-03-01-preview/examples/updateDynamicMetricAlert.json
 if __name__ == "__main__":
     main()

@@ -30,13 +30,10 @@ def main():
         subscription_id="14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7",
     )
 
-    response = client.metric_alerts.list_by_resource_group(
-        resource_group_name="gigtest",
-    )
-    for item in response:
-        print(item)
+    response = client.metric_alerts.list_by_subscription()
+    print(response)
 
 
-# x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2018-03-01/examples/listMetricAlert.json
+# x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2024-03-01-preview/examples/listMetricAlert.json
 if __name__ == "__main__":
     main()
