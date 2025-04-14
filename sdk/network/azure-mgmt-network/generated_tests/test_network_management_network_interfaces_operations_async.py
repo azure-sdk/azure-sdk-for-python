@@ -26,7 +26,7 @@ class TestNetworkManagementNetworkInterfacesOperationsAsync(AzureMgmtRecordedTes
             resource_group_name=resource_group.name,
             cloud_service_name="str",
             role_instance_name="str",
-            api_version="2024-05-01",
+            api_version="2024-07-01",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -38,7 +38,7 @@ class TestNetworkManagementNetworkInterfacesOperationsAsync(AzureMgmtRecordedTes
         response = self.client.network_interfaces.list_cloud_service_network_interfaces(
             resource_group_name=resource_group.name,
             cloud_service_name="str",
-            api_version="2024-05-01",
+            api_version="2024-07-01",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -52,7 +52,7 @@ class TestNetworkManagementNetworkInterfacesOperationsAsync(AzureMgmtRecordedTes
             cloud_service_name="str",
             role_instance_name="str",
             network_interface_name="str",
-            api_version="2024-05-01",
+            api_version="2024-07-01",
         )
 
         # please add some check logic here by yourself
@@ -65,7 +65,7 @@ class TestNetworkManagementNetworkInterfacesOperationsAsync(AzureMgmtRecordedTes
             await self.client.network_interfaces.begin_delete(
                 resource_group_name=resource_group.name,
                 network_interface_name="str",
-                api_version="2024-05-01",
+                api_version="2024-07-01",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -78,7 +78,7 @@ class TestNetworkManagementNetworkInterfacesOperationsAsync(AzureMgmtRecordedTes
         response = await self.client.network_interfaces.get(
             resource_group_name=resource_group.name,
             network_interface_name="str",
-            api_version="2024-05-01",
+            api_version="2024-07-01",
         )
 
         # please add some check logic here by yourself
@@ -593,9 +593,12 @@ class TestNetworkManagementNetworkInterfacesOperationsAsync(AzureMgmtRecordedTes
                                     "name": "str",
                                     "provisioningState": "str",
                                     "publicIpAddresses": [{"id": "str"}],
+                                    "publicIpAddressesV6": [{"id": "str"}],
                                     "publicIpPrefixes": [{"id": "str"}],
+                                    "publicIpPrefixesV6": [{"id": "str"}],
                                     "resourceGuid": "str",
                                     "sku": {"name": "str"},
+                                    "sourceVirtualNetwork": {"id": "str"},
                                     "subnets": [{"id": "str"}],
                                     "tags": {"str": "str"},
                                     "type": "str",
@@ -689,9 +692,12 @@ class TestNetworkManagementNetworkInterfacesOperationsAsync(AzureMgmtRecordedTes
                                                 "name": "str",
                                                 "provisioningState": "str",
                                                 "publicIpAddresses": [{"id": "str"}],
+                                                "publicIpAddressesV6": [{"id": "str"}],
                                                 "publicIpPrefixes": [{"id": "str"}],
+                                                "publicIpPrefixesV6": [{"id": "str"}],
                                                 "resourceGuid": "str",
                                                 "sku": {"name": "str"},
+                                                "sourceVirtualNetwork": {"id": "str"},
                                                 "subnets": [{"id": "str"}],
                                                 "tags": {"str": "str"},
                                                 "type": "str",
@@ -1429,9 +1435,12 @@ class TestNetworkManagementNetworkInterfacesOperationsAsync(AzureMgmtRecordedTes
                                                 "name": "str",
                                                 "provisioningState": "str",
                                                 "publicIpAddresses": [{"id": "str"}],
+                                                "publicIpAddressesV6": [{"id": "str"}],
                                                 "publicIpPrefixes": [{"id": "str"}],
+                                                "publicIpPrefixesV6": [{"id": "str"}],
                                                 "resourceGuid": "str",
                                                 "sku": {"name": "str"},
+                                                "sourceVirtualNetwork": {"id": "str"},
                                                 "subnets": [{"id": "str"}],
                                                 "tags": {"str": "str"},
                                                 "type": "str",
@@ -1526,9 +1535,12 @@ class TestNetworkManagementNetworkInterfacesOperationsAsync(AzureMgmtRecordedTes
                                                             "name": "str",
                                                             "provisioningState": "str",
                                                             "publicIpAddresses": [{"id": "str"}],
+                                                            "publicIpAddressesV6": [{"id": "str"}],
                                                             "publicIpPrefixes": [{"id": "str"}],
+                                                            "publicIpPrefixesV6": [{"id": "str"}],
                                                             "resourceGuid": "str",
                                                             "sku": {"name": "str"},
+                                                            "sourceVirtualNetwork": {"id": "str"},
                                                             "subnets": [{"id": "str"}],
                                                             "tags": {"str": "str"},
                                                             "type": "str",
@@ -2104,9 +2116,12 @@ class TestNetworkManagementNetworkInterfacesOperationsAsync(AzureMgmtRecordedTes
                                                 "name": "str",
                                                 "provisioningState": "str",
                                                 "publicIpAddresses": [{"id": "str"}],
+                                                "publicIpAddressesV6": [{"id": "str"}],
                                                 "publicIpPrefixes": [{"id": "str"}],
+                                                "publicIpPrefixesV6": [{"id": "str"}],
                                                 "resourceGuid": "str",
                                                 "sku": {"name": "str"},
+                                                "sourceVirtualNetwork": {"id": "str"},
                                                 "subnets": [{"id": "str"}],
                                                 "tags": {"str": "str"},
                                                 "type": "str",
@@ -2442,9 +2457,12 @@ class TestNetworkManagementNetworkInterfacesOperationsAsync(AzureMgmtRecordedTes
                                             "name": "str",
                                             "provisioningState": "str",
                                             "publicIpAddresses": [{"id": "str"}],
+                                            "publicIpAddressesV6": [{"id": "str"}],
                                             "publicIpPrefixes": [{"id": "str"}],
+                                            "publicIpPrefixesV6": [{"id": "str"}],
                                             "resourceGuid": "str",
                                             "sku": {"name": "str"},
+                                            "sourceVirtualNetwork": {"id": "str"},
                                             "subnets": [{"id": "str"}],
                                             "tags": {"str": "str"},
                                             "type": "str",
@@ -2801,9 +2819,12 @@ class TestNetworkManagementNetworkInterfacesOperationsAsync(AzureMgmtRecordedTes
                                                     "name": "str",
                                                     "provisioningState": "str",
                                                     "publicIpAddresses": [{"id": "str"}],
+                                                    "publicIpAddressesV6": [{"id": "str"}],
                                                     "publicIpPrefixes": [{"id": "str"}],
+                                                    "publicIpPrefixesV6": [{"id": "str"}],
                                                     "resourceGuid": "str",
                                                     "sku": {"name": "str"},
+                                                    "sourceVirtualNetwork": {"id": "str"},
                                                     "subnets": [{"id": "str"}],
                                                     "tags": {"str": "str"},
                                                     "type": "str",
@@ -3537,9 +3558,12 @@ class TestNetworkManagementNetworkInterfacesOperationsAsync(AzureMgmtRecordedTes
                                         "name": "str",
                                         "provisioningState": "str",
                                         "publicIpAddresses": [{"id": "str"}],
+                                        "publicIpAddressesV6": [{"id": "str"}],
                                         "publicIpPrefixes": [{"id": "str"}],
+                                        "publicIpPrefixesV6": [{"id": "str"}],
                                         "resourceGuid": "str",
                                         "sku": {"name": "str"},
+                                        "sourceVirtualNetwork": {"id": "str"},
                                         "subnets": [{"id": "str"}],
                                         "tags": {"str": "str"},
                                         "type": "str",
@@ -3634,9 +3658,12 @@ class TestNetworkManagementNetworkInterfacesOperationsAsync(AzureMgmtRecordedTes
                                                     "name": "str",
                                                     "provisioningState": "str",
                                                     "publicIpAddresses": [{"id": "str"}],
+                                                    "publicIpAddressesV6": [{"id": "str"}],
                                                     "publicIpPrefixes": [{"id": "str"}],
+                                                    "publicIpPrefixesV6": [{"id": "str"}],
                                                     "resourceGuid": "str",
                                                     "sku": {"name": "str"},
+                                                    "sourceVirtualNetwork": {"id": "str"},
                                                     "subnets": [{"id": "str"}],
                                                     "tags": {"str": "str"},
                                                     "type": "str",
@@ -4121,9 +4148,12 @@ class TestNetworkManagementNetworkInterfacesOperationsAsync(AzureMgmtRecordedTes
                                                         "name": "str",
                                                         "provisioningState": "str",
                                                         "publicIpAddresses": [{"id": "str"}],
+                                                        "publicIpAddressesV6": [{"id": "str"}],
                                                         "publicIpPrefixes": [{"id": "str"}],
+                                                        "publicIpPrefixesV6": [{"id": "str"}],
                                                         "resourceGuid": "str",
                                                         "sku": {"name": "str"},
+                                                        "sourceVirtualNetwork": {"id": "str"},
                                                         "subnets": [{"id": "str"}],
                                                         "tags": {"str": "str"},
                                                         "type": "str",
@@ -4815,9 +4845,12 @@ class TestNetworkManagementNetworkInterfacesOperationsAsync(AzureMgmtRecordedTes
                                             "name": "str",
                                             "provisioningState": "str",
                                             "publicIpAddresses": [{"id": "str"}],
+                                            "publicIpAddressesV6": [{"id": "str"}],
                                             "publicIpPrefixes": [{"id": "str"}],
+                                            "publicIpPrefixesV6": [{"id": "str"}],
                                             "resourceGuid": "str",
                                             "sku": {"name": "str"},
+                                            "sourceVirtualNetwork": {"id": "str"},
                                             "subnets": [{"id": "str"}],
                                             "tags": {"str": "str"},
                                             "type": "str",
@@ -4912,9 +4945,12 @@ class TestNetworkManagementNetworkInterfacesOperationsAsync(AzureMgmtRecordedTes
                                                         "name": "str",
                                                         "provisioningState": "str",
                                                         "publicIpAddresses": [{"id": "str"}],
+                                                        "publicIpAddressesV6": [{"id": "str"}],
                                                         "publicIpPrefixes": [{"id": "str"}],
+                                                        "publicIpPrefixesV6": [{"id": "str"}],
                                                         "resourceGuid": "str",
                                                         "sku": {"name": "str"},
+                                                        "sourceVirtualNetwork": {"id": "str"},
                                                         "subnets": [{"id": "str"}],
                                                         "tags": {"str": "str"},
                                                         "type": "str",
@@ -5736,9 +5772,12 @@ class TestNetworkManagementNetworkInterfacesOperationsAsync(AzureMgmtRecordedTes
                                             "name": "str",
                                             "provisioningState": "str",
                                             "publicIpAddresses": [{"id": "str"}],
+                                            "publicIpAddressesV6": [{"id": "str"}],
                                             "publicIpPrefixes": [{"id": "str"}],
+                                            "publicIpPrefixesV6": [{"id": "str"}],
                                             "resourceGuid": "str",
                                             "sku": {"name": "str"},
+                                            "sourceVirtualNetwork": {"id": "str"},
                                             "subnets": [{"id": "str"}],
                                             "tags": {"str": "str"},
                                             "type": "str",
@@ -5832,9 +5871,12 @@ class TestNetworkManagementNetworkInterfacesOperationsAsync(AzureMgmtRecordedTes
                                                         "name": "str",
                                                         "provisioningState": "str",
                                                         "publicIpAddresses": [{"id": "str"}],
+                                                        "publicIpAddressesV6": [{"id": "str"}],
                                                         "publicIpPrefixes": [{"id": "str"}],
+                                                        "publicIpPrefixesV6": [{"id": "str"}],
                                                         "resourceGuid": "str",
                                                         "sku": {"name": "str"},
+                                                        "sourceVirtualNetwork": {"id": "str"},
                                                         "subnets": [{"id": "str"}],
                                                         "tags": {"str": "str"},
                                                         "type": "str",
@@ -6188,7 +6230,7 @@ class TestNetworkManagementNetworkInterfacesOperationsAsync(AzureMgmtRecordedTes
                     "vnetEncryptionSupported": bool,
                     "workloadType": "str",
                 },
-                api_version="2024-05-01",
+                api_version="2024-07-01",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -6202,7 +6244,7 @@ class TestNetworkManagementNetworkInterfacesOperationsAsync(AzureMgmtRecordedTes
             resource_group_name=resource_group.name,
             network_interface_name="str",
             parameters={"tags": {"str": "str"}},
-            api_version="2024-05-01",
+            api_version="2024-07-01",
         )
 
         # please add some check logic here by yourself
@@ -6212,7 +6254,7 @@ class TestNetworkManagementNetworkInterfacesOperationsAsync(AzureMgmtRecordedTes
     @recorded_by_proxy_async
     async def test_network_interfaces_list_all(self, resource_group):
         response = self.client.network_interfaces.list_all(
-            api_version="2024-05-01",
+            api_version="2024-07-01",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -6223,7 +6265,7 @@ class TestNetworkManagementNetworkInterfacesOperationsAsync(AzureMgmtRecordedTes
     async def test_network_interfaces_list(self, resource_group):
         response = self.client.network_interfaces.list(
             resource_group_name=resource_group.name,
-            api_version="2024-05-01",
+            api_version="2024-07-01",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -6236,7 +6278,7 @@ class TestNetworkManagementNetworkInterfacesOperationsAsync(AzureMgmtRecordedTes
             await self.client.network_interfaces.begin_get_effective_route_table(
                 resource_group_name=resource_group.name,
                 network_interface_name="str",
-                api_version="2024-05-01",
+                api_version="2024-07-01",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -6250,7 +6292,7 @@ class TestNetworkManagementNetworkInterfacesOperationsAsync(AzureMgmtRecordedTes
             await self.client.network_interfaces.begin_list_effective_network_security_groups(
                 resource_group_name=resource_group.name,
                 network_interface_name="str",
-                api_version="2024-05-01",
+                api_version="2024-07-01",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -6264,7 +6306,7 @@ class TestNetworkManagementNetworkInterfacesOperationsAsync(AzureMgmtRecordedTes
             resource_group_name=resource_group.name,
             virtual_machine_scale_set_name="str",
             virtualmachine_index="str",
-            api_version="2018-10-01",
+            api_version="2024-07-01",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -6276,7 +6318,7 @@ class TestNetworkManagementNetworkInterfacesOperationsAsync(AzureMgmtRecordedTes
         response = self.client.network_interfaces.list_virtual_machine_scale_set_network_interfaces(
             resource_group_name=resource_group.name,
             virtual_machine_scale_set_name="str",
-            api_version="2018-10-01",
+            api_version="2024-07-01",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -6290,7 +6332,7 @@ class TestNetworkManagementNetworkInterfacesOperationsAsync(AzureMgmtRecordedTes
             virtual_machine_scale_set_name="str",
             virtualmachine_index="str",
             network_interface_name="str",
-            api_version="2018-10-01",
+            api_version="2024-07-01",
         )
 
         # please add some check logic here by yourself
@@ -6304,7 +6346,7 @@ class TestNetworkManagementNetworkInterfacesOperationsAsync(AzureMgmtRecordedTes
             virtual_machine_scale_set_name="str",
             virtualmachine_index="str",
             network_interface_name="str",
-            api_version="2018-10-01",
+            api_version="2024-07-01",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -6319,7 +6361,7 @@ class TestNetworkManagementNetworkInterfacesOperationsAsync(AzureMgmtRecordedTes
             virtualmachine_index="str",
             network_interface_name="str",
             ip_configuration_name="str",
-            api_version="2018-10-01",
+            api_version="2024-07-01",
         )
 
         # please add some check logic here by yourself
