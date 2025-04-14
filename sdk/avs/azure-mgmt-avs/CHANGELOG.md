@@ -1,0 +1,603 @@
+# Release History
+
+## 10.0.0 (2025-03-25)
+
+### Features Added
+
+  - Client `AVSClient` added method `send_request`
+  - Client `AVSClient` added operation group `workload_network_dhcp_configurations`
+  - Client `AVSClient` added operation group `workload_network_dns_services`
+  - Client `AVSClient` added operation group `workload_network_dns_zones`
+  - Client `AVSClient` added operation group `workload_network_gateways`
+  - Client `AVSClient` added operation group `workload_network_port_mirroring_profiles`
+  - Client `AVSClient` added operation group `workload_network_public_ips`
+  - Client `AVSClient` added operation group `workload_network_segments`
+  - Client `AVSClient` added operation group `workload_network_virtual_machines`
+  - Client `AVSClient` added operation group `workload_network_vm_groups`
+  - Model `CloudLink` added property `properties`
+  - Model `Cluster` added property `properties`
+  - Model `ClusterUpdate` added property `properties`
+  - Model `Datastore` added property `properties`
+  - Model `ExpressRouteAuthorization` added property `properties`
+  - Model `GlobalReachConnection` added property `properties`
+  - Model `HcxEnterpriseSite` added property `properties`
+  - Model `IscsiPath` added property `properties`
+  - Model `PrivateCloud` added property `properties`
+  - Model `PrivateCloudUpdate` added property `properties`
+  - Model `ScriptCmdlet` added property `properties`
+  - Model `ScriptExecution` added property `properties`
+  - Model `ScriptPackage` added property `properties`
+  - Model `VirtualMachine` added property `properties`
+  - Model `WorkloadNetwork` added property `properties`
+  - Model `WorkloadNetworkDnsService` added property `properties`
+  - Model `WorkloadNetworkDnsZone` added property `properties`
+  - Model `WorkloadNetworkGateway` added property `properties`
+  - Model `WorkloadNetworkPortMirroring` added property `properties`
+  - Model `WorkloadNetworkPublicIP` added property `properties`
+  - Model `WorkloadNetworkSegment` added property `properties`
+  - Model `WorkloadNetworkVMGroup` added property `properties`
+  - Model `WorkloadNetworkVirtualMachine` added property `properties`
+  - Added model `CloudLinkProperties`
+  - Added model `ClusterProperties`
+  - Added model `ClusterUpdateProperties`
+  - Added model `DatastoreProperties`
+  - Added model `ExpressRouteAuthorizationProperties`
+  - Added model `GlobalReachConnectionProperties`
+  - Added model `HcxEnterpriseSiteProperties`
+  - Added model `IscsiPathProperties`
+  - Added model `PlacementPolicyUpdateProperties`
+  - Added model `PrivateCloudProperties`
+  - Added model `PrivateCloudUpdateProperties`
+  - Added model `ScriptCmdletProperties`
+  - Added model `ScriptExecutionProperties`
+  - Added model `ScriptPackageProperties`
+  - Added model `SystemAssignedServiceIdentity`
+  - Added enum `SystemAssignedServiceIdentityType`
+  - Added model `VirtualMachineProperties`
+  - Added model `VmVmPlacementPolicyProperties`
+  - Added model `WorkloadNetworkDnsServiceProperties`
+  - Added model `WorkloadNetworkDnsZoneProperties`
+  - Added model `WorkloadNetworkGatewayProperties`
+  - Added model `WorkloadNetworkPortMirroringProperties`
+  - Added model `WorkloadNetworkProperties`
+  - Added model `WorkloadNetworkPublicIPProperties`
+  - Added model `WorkloadNetworkSegmentProperties`
+  - Added model `WorkloadNetworkVMGroupProperties`
+  - Added model `WorkloadNetworkVirtualMachineProperties`
+  - Added model `WorkloadNetworkDhcpConfigurationsOperations`
+  - Added model `WorkloadNetworkDnsServicesOperations`
+  - Added model `WorkloadNetworkDnsZonesOperations`
+  - Added model `WorkloadNetworkGatewaysOperations`
+  - Added model `WorkloadNetworkPortMirroringProfilesOperations`
+  - Added model `WorkloadNetworkPublicIpsOperations`
+  - Added model `WorkloadNetworkSegmentsOperations`
+  - Added model `WorkloadNetworkVirtualMachinesOperations`
+  - Added model `WorkloadNetworkVmGroupsOperations`
+  - Method `Addon.__init__` has a new overload `def __init__(self: None, properties: Optional[_models.AddonProperties])`
+  - Method `Addon.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AddonArcProperties.__init__` has a new overload `def __init__(self: None, v_center: Optional[str])`
+  - Method `AddonArcProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AddonArcProperties.__init__` has a new overload `def __init__(self: None, addon_type: str)`
+  - Method `AddonArcProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AddonHcxProperties.__init__` has a new overload `def __init__(self: None, offer: str)`
+  - Method `AddonHcxProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AddonHcxProperties.__init__` has a new overload `def __init__(self: None, addon_type: str)`
+  - Method `AddonHcxProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AddonProperties.__init__` has a new overload `def __init__(self: None, addon_type: str)`
+  - Method `AddonProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AddonSrmProperties.__init__` has a new overload `def __init__(self: None, license_key: Optional[str])`
+  - Method `AddonSrmProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AddonSrmProperties.__init__` has a new overload `def __init__(self: None, addon_type: str)`
+  - Method `AddonSrmProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AddonVrProperties.__init__` has a new overload `def __init__(self: None, vrs_count: int)`
+  - Method `AddonVrProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AddonVrProperties.__init__` has a new overload `def __init__(self: None, addon_type: str)`
+  - Method `AddonVrProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AvailabilityProperties.__init__` has a new overload `def __init__(self: None, strategy: Optional[Union[str, _models.AvailabilityStrategy]], zone: Optional[int], secondary_zone: Optional[int])`
+  - Method `AvailabilityProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `CloudLink.__init__` has a new overload `def __init__(self: None, properties: Optional[_models.CloudLinkProperties])`
+  - Method `CloudLink.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `Cluster.__init__` has a new overload `def __init__(self: None, sku: _models.Sku, properties: Optional[_models.ClusterProperties])`
+  - Method `Cluster.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ClusterUpdate.__init__` has a new overload `def __init__(self: None, sku: Optional[_models.Sku], properties: Optional[_models.ClusterUpdateProperties])`
+  - Method `ClusterUpdate.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ClusterZoneList.__init__` has a new overload `def __init__(self: None, zones: Optional[List[_models.ClusterZone]])`
+  - Method `ClusterZoneList.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `Datastore.__init__` has a new overload `def __init__(self: None, properties: Optional[_models.DatastoreProperties])`
+  - Method `Datastore.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `DiskPoolVolume.__init__` has a new overload `def __init__(self: None, target_id: str, lun_name: str, mount_option: Optional[Union[str, _models.MountOptionEnum]])`
+  - Method `DiskPoolVolume.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ElasticSanVolume.__init__` has a new overload `def __init__(self: None, target_id: str)`
+  - Method `ElasticSanVolume.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `Encryption.__init__` has a new overload `def __init__(self: None, status: Optional[Union[str, _models.EncryptionState]], key_vault_properties: Optional[_models.EncryptionKeyVaultProperties])`
+  - Method `Encryption.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `EncryptionKeyVaultProperties.__init__` has a new overload `def __init__(self: None, key_name: Optional[str], key_version: Optional[str], key_vault_url: Optional[str])`
+  - Method `EncryptionKeyVaultProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ErrorResponse.__init__` has a new overload `def __init__(self: None, error: Optional[_models.ErrorDetail])`
+  - Method `ErrorResponse.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ExpressRouteAuthorization.__init__` has a new overload `def __init__(self: None, properties: Optional[_models.ExpressRouteAuthorizationProperties])`
+  - Method `ExpressRouteAuthorization.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `GlobalReachConnection.__init__` has a new overload `def __init__(self: None, properties: Optional[_models.GlobalReachConnectionProperties])`
+  - Method `GlobalReachConnection.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `HcxEnterpriseSite.__init__` has a new overload `def __init__(self: None, properties: Optional[_models.HcxEnterpriseSiteProperties])`
+  - Method `HcxEnterpriseSite.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `IdentitySource.__init__` has a new overload `def __init__(self: None, name: Optional[str], alias: Optional[str], domain: Optional[str], base_user_dn: Optional[str], base_group_dn: Optional[str], primary_server: Optional[str], secondary_server: Optional[str], ssl: Optional[Union[str, _models.SslEnum]], username: Optional[str], password: Optional[str])`
+  - Method `IdentitySource.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `IscsiPath.__init__` has a new overload `def __init__(self: None, properties: Optional[_models.IscsiPathProperties])`
+  - Method `IscsiPath.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ManagementCluster.__init__` has a new overload `def __init__(self: None, cluster_size: Optional[int], hosts: Optional[List[str]], vsan_datastore_name: Optional[str])`
+  - Method `ManagementCluster.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `NetAppVolume.__init__` has a new overload `def __init__(self: None, id: str)`
+  - Method `NetAppVolume.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `Operation.__init__` has a new overload `def __init__(self: None, display: Optional[_models.OperationDisplay])`
+  - Method `Operation.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `PSCredentialExecutionParameter.__init__` has a new overload `def __init__(self: None, name: str, username: Optional[str], password: Optional[str])`
+  - Method `PSCredentialExecutionParameter.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `PSCredentialExecutionParameter.__init__` has a new overload `def __init__(self: None, type: str, name: str)`
+  - Method `PSCredentialExecutionParameter.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `PlacementPolicy.__init__` has a new overload `def __init__(self: None, properties: Optional[_models.PlacementPolicyProperties])`
+  - Method `PlacementPolicy.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `PlacementPolicyProperties.__init__` has a new overload `def __init__(self: None, type: str, state: Optional[Union[str, _models.PlacementPolicyState]], display_name: Optional[str])`
+  - Method `PlacementPolicyProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `PlacementPolicyUpdate.__init__` has a new overload `def __init__(self: None, properties: Optional[_models.PlacementPolicyUpdateProperties])`
+  - Method `PlacementPolicyUpdate.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `PrivateCloud.__init__` has a new overload `def __init__(self: None, location: str, sku: _models.Sku, tags: Optional[Dict[str, str]], properties: Optional[_models.PrivateCloudProperties], identity: Optional[_models.SystemAssignedServiceIdentity])`
+  - Method `PrivateCloud.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `PrivateCloud.__init__` has a new overload `def __init__(self: None, location: str, tags: Optional[Dict[str, str]])`
+  - Method `PrivateCloud.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `PrivateCloudUpdate.__init__` has a new overload `def __init__(self: None, tags: Optional[Dict[str, str]], sku: Optional[_models.Sku], identity: Optional[_models.SystemAssignedServiceIdentity], properties: Optional[_models.PrivateCloudUpdateProperties])`
+  - Method `PrivateCloudUpdate.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ScriptCmdlet.__init__` has a new overload `def __init__(self: None, properties: Optional[_models.ScriptCmdletProperties])`
+  - Method `ScriptCmdlet.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ScriptExecution.__init__` has a new overload `def __init__(self: None, properties: Optional[_models.ScriptExecutionProperties])`
+  - Method `ScriptExecution.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ScriptExecutionParameter.__init__` has a new overload `def __init__(self: None, type: str, name: str)`
+  - Method `ScriptExecutionParameter.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ScriptPackage.__init__` has a new overload `def __init__(self: None, properties: Optional[_models.ScriptPackageProperties])`
+  - Method `ScriptPackage.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ScriptParameter.__init__` has a new overload `def __init__(self: None, name: Optional[str])`
+  - Method `ScriptParameter.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ScriptSecureStringExecutionParameter.__init__` has a new overload `def __init__(self: None, name: str, secure_value: Optional[str])`
+  - Method `ScriptSecureStringExecutionParameter.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ScriptSecureStringExecutionParameter.__init__` has a new overload `def __init__(self: None, type: str, name: str)`
+  - Method `ScriptSecureStringExecutionParameter.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ScriptStringExecutionParameter.__init__` has a new overload `def __init__(self: None, name: str, value: Optional[str])`
+  - Method `ScriptStringExecutionParameter.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ScriptStringExecutionParameter.__init__` has a new overload `def __init__(self: None, type: str, name: str)`
+  - Method `ScriptStringExecutionParameter.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `Sku.__init__` has a new overload `def __init__(self: None, name: str, tier: Optional[Union[str, _models.SkuTier]], size: Optional[str], family: Optional[str], capacity: Optional[int])`
+  - Method `Sku.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `SystemData.__init__` has a new overload `def __init__(self: None, created_by: Optional[str], created_by_type: Optional[Union[str, _models.CreatedByType]], created_at: Optional[datetime], last_modified_by: Optional[str], last_modified_by_type: Optional[Union[str, _models.CreatedByType]], last_modified_at: Optional[datetime])`
+  - Method `SystemData.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `TrackedResource.__init__` has a new overload `def __init__(self: None, location: str, tags: Optional[Dict[str, str]])`
+  - Method `TrackedResource.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `VirtualMachine.__init__` has a new overload `def __init__(self: None, properties: Optional[_models.VirtualMachineProperties])`
+  - Method `VirtualMachine.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `VirtualMachineRestrictMovement.__init__` has a new overload `def __init__(self: None, restrict_movement: Optional[Union[str, _models.VirtualMachineRestrictMovementState]])`
+  - Method `VirtualMachineRestrictMovement.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `VmHostPlacementPolicyProperties.__init__` has a new overload `def __init__(self: None, vm_members: List[str], host_members: List[str], affinity_type: Union[str, _models.AffinityType], state: Optional[Union[str, _models.PlacementPolicyState]], display_name: Optional[str], affinity_strength: Optional[Union[str, _models.AffinityStrength]], azure_hybrid_benefit_type: Optional[Union[str, _models.AzureHybridBenefitType]])`
+  - Method `VmHostPlacementPolicyProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `VmHostPlacementPolicyProperties.__init__` has a new overload `def __init__(self: None, type: str, state: Optional[Union[str, _models.PlacementPolicyState]], display_name: Optional[str])`
+  - Method `VmHostPlacementPolicyProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `WorkloadNetwork.__init__` has a new overload `def __init__(self: None, properties: Optional[_models.WorkloadNetworkProperties])`
+  - Method `WorkloadNetwork.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `WorkloadNetworkDhcp.__init__` has a new overload `def __init__(self: None, properties: Optional[_models.WorkloadNetworkDhcpEntity])`
+  - Method `WorkloadNetworkDhcp.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `WorkloadNetworkDhcpEntity.__init__` has a new overload `def __init__(self: None, dhcp_type: str, display_name: Optional[str], revision: Optional[int])`
+  - Method `WorkloadNetworkDhcpEntity.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `WorkloadNetworkDhcpRelay.__init__` has a new overload `def __init__(self: None, display_name: Optional[str], revision: Optional[int], server_addresses: Optional[List[str]])`
+  - Method `WorkloadNetworkDhcpRelay.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `WorkloadNetworkDhcpRelay.__init__` has a new overload `def __init__(self: None, dhcp_type: str, display_name: Optional[str], revision: Optional[int])`
+  - Method `WorkloadNetworkDhcpRelay.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `WorkloadNetworkDhcpServer.__init__` has a new overload `def __init__(self: None, display_name: Optional[str], revision: Optional[int], server_address: Optional[str], lease_time: Optional[int])`
+  - Method `WorkloadNetworkDhcpServer.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `WorkloadNetworkDhcpServer.__init__` has a new overload `def __init__(self: None, dhcp_type: str, display_name: Optional[str], revision: Optional[int])`
+  - Method `WorkloadNetworkDhcpServer.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `WorkloadNetworkDnsService.__init__` has a new overload `def __init__(self: None, properties: Optional[_models.WorkloadNetworkDnsServiceProperties])`
+  - Method `WorkloadNetworkDnsService.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `WorkloadNetworkDnsZone.__init__` has a new overload `def __init__(self: None, properties: Optional[_models.WorkloadNetworkDnsZoneProperties])`
+  - Method `WorkloadNetworkDnsZone.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `WorkloadNetworkGateway.__init__` has a new overload `def __init__(self: None, properties: Optional[_models.WorkloadNetworkGatewayProperties])`
+  - Method `WorkloadNetworkGateway.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `WorkloadNetworkPortMirroring.__init__` has a new overload `def __init__(self: None, properties: Optional[_models.WorkloadNetworkPortMirroringProperties])`
+  - Method `WorkloadNetworkPortMirroring.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `WorkloadNetworkPublicIP.__init__` has a new overload `def __init__(self: None, properties: Optional[_models.WorkloadNetworkPublicIPProperties])`
+  - Method `WorkloadNetworkPublicIP.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `WorkloadNetworkSegment.__init__` has a new overload `def __init__(self: None, properties: Optional[_models.WorkloadNetworkSegmentProperties])`
+  - Method `WorkloadNetworkSegment.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `WorkloadNetworkSegmentPortVif.__init__` has a new overload `def __init__(self: None, port_name: Optional[str])`
+  - Method `WorkloadNetworkSegmentPortVif.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `WorkloadNetworkSegmentSubnet.__init__` has a new overload `def __init__(self: None, dhcp_ranges: Optional[List[str]], gateway_address: Optional[str])`
+  - Method `WorkloadNetworkSegmentSubnet.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `WorkloadNetworkVMGroup.__init__` has a new overload `def __init__(self: None, properties: Optional[_models.WorkloadNetworkVMGroupProperties])`
+  - Method `WorkloadNetworkVMGroup.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `WorkloadNetworkVirtualMachine.__init__` has a new overload `def __init__(self: None, properties: Optional[_models.WorkloadNetworkVirtualMachineProperties])`
+  - Method `WorkloadNetworkVirtualMachine.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `CloudLinkProperties.__init__` has a new overload `def __init__(self: None, linked_cloud: Optional[str])`
+  - Method `CloudLinkProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ClusterProperties.__init__` has a new overload `def __init__(self: None, cluster_size: Optional[int], hosts: Optional[List[str]], vsan_datastore_name: Optional[str])`
+  - Method `ClusterProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ClusterUpdateProperties.__init__` has a new overload `def __init__(self: None, cluster_size: Optional[int], hosts: Optional[List[str]])`
+  - Method `ClusterUpdateProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `DatastoreProperties.__init__` has a new overload `def __init__(self: None, net_app_volume: Optional[_models.NetAppVolume], disk_pool_volume: Optional[_models.DiskPoolVolume], elastic_san_volume: Optional[_models.ElasticSanVolume])`
+  - Method `DatastoreProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ExpressRouteAuthorizationProperties.__init__` has a new overload `def __init__(self: None, express_route_id: Optional[str])`
+  - Method `ExpressRouteAuthorizationProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `GlobalReachConnectionProperties.__init__` has a new overload `def __init__(self: None, authorization_key: Optional[str], peer_express_route_circuit: Optional[str], express_route_id: Optional[str])`
+  - Method `GlobalReachConnectionProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `IscsiPathProperties.__init__` has a new overload `def __init__(self: None, network_block: str)`
+  - Method `IscsiPathProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `PlacementPolicyUpdateProperties.__init__` has a new overload `def __init__(self: None, state: Optional[Union[str, _models.PlacementPolicyState]], vm_members: Optional[List[str]], host_members: Optional[List[str]], affinity_strength: Optional[Union[str, _models.AffinityStrength]], azure_hybrid_benefit_type: Optional[Union[str, _models.AzureHybridBenefitType]])`
+  - Method `PlacementPolicyUpdateProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `PrivateCloudProperties.__init__` has a new overload `def __init__(self: None, management_cluster: _models.ManagementCluster, network_block: str, internet: Optional[Union[str, _models.InternetEnum]], identity_sources: Optional[List[_models.IdentitySource]], availability: Optional[_models.AvailabilityProperties], encryption: Optional[_models.Encryption], extended_network_blocks: Optional[List[str]], circuit: Optional[_models.Circuit], vcenter_password: Optional[str], nsxt_password: Optional[str], secondary_circuit: Optional[_models.Circuit], virtual_network_id: Optional[str], dns_zone_type: Optional[Union[str, _models.DnsZoneType]])`
+  - Method `PrivateCloudProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `PrivateCloudUpdateProperties.__init__` has a new overload `def __init__(self: None, management_cluster: Optional[_models.ManagementCluster], internet: Optional[Union[str, _models.InternetEnum]], identity_sources: Optional[List[_models.IdentitySource]], availability: Optional[_models.AvailabilityProperties], encryption: Optional[_models.Encryption], extended_network_blocks: Optional[List[str]], dns_zone_type: Optional[Union[str, _models.DnsZoneType]])`
+  - Method `PrivateCloudUpdateProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ScriptExecutionProperties.__init__` has a new overload `def __init__(self: None, timeout: str, script_cmdlet_id: Optional[str], parameters: Optional[List[_models.ScriptExecutionParameter]], hidden_parameters: Optional[List[_models.ScriptExecutionParameter]], failure_reason: Optional[str], retention: Optional[str], output: Optional[List[str]], named_outputs: Optional[Dict[str, Any]])`
+  - Method `ScriptExecutionProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `SystemAssignedServiceIdentity.__init__` has a new overload `def __init__(self: None, type: Union[str, _models.SystemAssignedServiceIdentityType])`
+  - Method `SystemAssignedServiceIdentity.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `VmVmPlacementPolicyProperties.__init__` has a new overload `def __init__(self: None, vm_members: List[str], affinity_type: Union[str, _models.AffinityType], state: Optional[Union[str, _models.PlacementPolicyState]], display_name: Optional[str])`
+  - Method `VmVmPlacementPolicyProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `VmVmPlacementPolicyProperties.__init__` has a new overload `def __init__(self: None, type: str, state: Optional[Union[str, _models.PlacementPolicyState]], display_name: Optional[str])`
+  - Method `VmVmPlacementPolicyProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `WorkloadNetworkDnsServiceProperties.__init__` has a new overload `def __init__(self: None, display_name: Optional[str], dns_service_ip: Optional[str], default_dns_zone: Optional[str], fqdn_zones: Optional[List[str]], log_level: Optional[Union[str, _models.DnsServiceLogLevelEnum]], revision: Optional[int])`
+  - Method `WorkloadNetworkDnsServiceProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `WorkloadNetworkDnsZoneProperties.__init__` has a new overload `def __init__(self: None, display_name: Optional[str], domain: Optional[List[str]], dns_server_ips: Optional[List[str]], source_ip: Optional[str], dns_services: Optional[int], revision: Optional[int])`
+  - Method `WorkloadNetworkDnsZoneProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `WorkloadNetworkGatewayProperties.__init__` has a new overload `def __init__(self: None, display_name: Optional[str])`
+  - Method `WorkloadNetworkGatewayProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `WorkloadNetworkPortMirroringProperties.__init__` has a new overload `def __init__(self: None, display_name: Optional[str], direction: Optional[Union[str, _models.PortMirroringDirectionEnum]], source: Optional[str], destination: Optional[str], revision: Optional[int])`
+  - Method `WorkloadNetworkPortMirroringProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `WorkloadNetworkPublicIPProperties.__init__` has a new overload `def __init__(self: None, display_name: Optional[str], number_of_public_i_ps: Optional[int])`
+  - Method `WorkloadNetworkPublicIPProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `WorkloadNetworkSegmentProperties.__init__` has a new overload `def __init__(self: None, display_name: Optional[str], connected_gateway: Optional[str], subnet: Optional[_models.WorkloadNetworkSegmentSubnet], revision: Optional[int])`
+  - Method `WorkloadNetworkSegmentProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `WorkloadNetworkVMGroupProperties.__init__` has a new overload `def __init__(self: None, display_name: Optional[str], members: Optional[List[str]], revision: Optional[int])`
+  - Method `WorkloadNetworkVMGroupProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `WorkloadNetworkVirtualMachineProperties.__init__` has a new overload `def __init__(self: None, display_name: Optional[str])`
+  - Method `WorkloadNetworkVirtualMachineProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AddonsOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, private_cloud_name: str, addon_name: str, addon: JSON, content_type: str)`
+  - Method `AuthorizationsOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, private_cloud_name: str, authorization_name: str, authorization: JSON, content_type: str)`
+  - Method `CloudLinksOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, private_cloud_name: str, cloud_link_name: str, cloud_link: JSON, content_type: str)`
+  - Method `ClustersOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, private_cloud_name: str, cluster_name: str, cluster: JSON, content_type: str)`
+  - Method `ClustersOperations.update` has a new overload `def update(self: None, resource_group_name: str, private_cloud_name: str, cluster_name: str, cluster_update: ClusterUpdate, content_type: str)`
+  - Method `ClustersOperations.update` has a new overload `def update(self: None, resource_group_name: str, private_cloud_name: str, cluster_name: str, cluster_update: JSON, content_type: str)`
+  - Method `ClustersOperations.update` has a new overload `def update(self: None, resource_group_name: str, private_cloud_name: str, cluster_name: str, cluster_update: IO[bytes], content_type: str)`
+  - Method `DatastoresOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, private_cloud_name: str, cluster_name: str, datastore_name: str, datastore: JSON, content_type: str)`
+  - Method `GlobalReachConnectionsOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, private_cloud_name: str, global_reach_connection_name: str, global_reach_connection: JSON, content_type: str)`
+  - Method `HcxEnterpriseSitesOperations.create_or_update` has a new overload `def create_or_update(self: None, resource_group_name: str, private_cloud_name: str, hcx_enterprise_site_name: str, hcx_enterprise_site: JSON, content_type: str)`
+  - Method `IscsiPathsOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, private_cloud_name: str, resource: JSON, content_type: str)`
+  - Method `LocationsOperations.check_trial_availability` has a new overload `def check_trial_availability(self: None, location: str, sku: Optional[JSON], content_type: str)`
+  - Method `PlacementPoliciesOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, private_cloud_name: str, cluster_name: str, placement_policy_name: str, placement_policy: JSON, content_type: str)`
+  - Method `PlacementPoliciesOperations.update` has a new overload `def update(self: None, resource_group_name: str, private_cloud_name: str, cluster_name: str, placement_policy_name: str, placement_policy_update: PlacementPolicyUpdate, content_type: str)`
+  - Method `PlacementPoliciesOperations.update` has a new overload `def update(self: None, resource_group_name: str, private_cloud_name: str, cluster_name: str, placement_policy_name: str, placement_policy_update: JSON, content_type: str)`
+  - Method `PlacementPoliciesOperations.update` has a new overload `def update(self: None, resource_group_name: str, private_cloud_name: str, cluster_name: str, placement_policy_name: str, placement_policy_update: IO[bytes], content_type: str)`
+  - Method `PrivateCloudsOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, private_cloud_name: str, private_cloud: JSON, content_type: str)`
+  - Method `PrivateCloudsOperations.update` has a new overload `def update(self: None, resource_group_name: str, private_cloud_name: str, private_cloud_update: PrivateCloudUpdate, content_type: str)`
+  - Method `PrivateCloudsOperations.update` has a new overload `def update(self: None, resource_group_name: str, private_cloud_name: str, private_cloud_update: JSON, content_type: str)`
+  - Method `PrivateCloudsOperations.update` has a new overload `def update(self: None, resource_group_name: str, private_cloud_name: str, private_cloud_update: IO[bytes], content_type: str)`
+  - Method `ScriptExecutionsOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, private_cloud_name: str, script_execution_name: str, script_execution: JSON, content_type: str)`
+  - Method `VirtualMachinesOperations.begin_restrict_movement` has a new overload `def begin_restrict_movement(self: None, resource_group_name: str, private_cloud_name: str, cluster_name: str, virtual_machine_id: str, restrict_movement: JSON, content_type: str)`
+  - Method `WorkloadNetworkDhcpConfigurationsOperations.begin_create` has a new overload `def begin_create(self: None, resource_group_name: str, private_cloud_name: str, dhcp_id: str, workload_network_dhcp: WorkloadNetworkDhcp, content_type: str)`
+  - Method `WorkloadNetworkDhcpConfigurationsOperations.begin_create` has a new overload `def begin_create(self: None, resource_group_name: str, private_cloud_name: str, dhcp_id: str, workload_network_dhcp: JSON, content_type: str)`
+  - Method `WorkloadNetworkDhcpConfigurationsOperations.begin_create` has a new overload `def begin_create(self: None, resource_group_name: str, private_cloud_name: str, dhcp_id: str, workload_network_dhcp: IO[bytes], content_type: str)`
+  - Method `WorkloadNetworkDhcpConfigurationsOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, private_cloud_name: str, dhcp_id: str, workload_network_dhcp: WorkloadNetworkDhcp, content_type: str)`
+  - Method `WorkloadNetworkDhcpConfigurationsOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, private_cloud_name: str, dhcp_id: str, workload_network_dhcp: JSON, content_type: str)`
+  - Method `WorkloadNetworkDhcpConfigurationsOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, private_cloud_name: str, dhcp_id: str, workload_network_dhcp: IO[bytes], content_type: str)`
+  - Method `WorkloadNetworkDnsServicesOperations.begin_create` has a new overload `def begin_create(self: None, resource_group_name: str, private_cloud_name: str, dns_service_id: str, workload_network_dns_service: WorkloadNetworkDnsService, content_type: str)`
+  - Method `WorkloadNetworkDnsServicesOperations.begin_create` has a new overload `def begin_create(self: None, resource_group_name: str, private_cloud_name: str, dns_service_id: str, workload_network_dns_service: JSON, content_type: str)`
+  - Method `WorkloadNetworkDnsServicesOperations.begin_create` has a new overload `def begin_create(self: None, resource_group_name: str, private_cloud_name: str, dns_service_id: str, workload_network_dns_service: IO[bytes], content_type: str)`
+  - Method `WorkloadNetworkDnsServicesOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, private_cloud_name: str, dns_service_id: str, workload_network_dns_service: WorkloadNetworkDnsService, content_type: str)`
+  - Method `WorkloadNetworkDnsServicesOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, private_cloud_name: str, dns_service_id: str, workload_network_dns_service: JSON, content_type: str)`
+  - Method `WorkloadNetworkDnsServicesOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, private_cloud_name: str, dns_service_id: str, workload_network_dns_service: IO[bytes], content_type: str)`
+  - Method `WorkloadNetworkDnsZonesOperations.begin_create` has a new overload `def begin_create(self: None, resource_group_name: str, private_cloud_name: str, dns_zone_id: str, workload_network_dns_zone: WorkloadNetworkDnsZone, content_type: str)`
+  - Method `WorkloadNetworkDnsZonesOperations.begin_create` has a new overload `def begin_create(self: None, resource_group_name: str, private_cloud_name: str, dns_zone_id: str, workload_network_dns_zone: JSON, content_type: str)`
+  - Method `WorkloadNetworkDnsZonesOperations.begin_create` has a new overload `def begin_create(self: None, resource_group_name: str, private_cloud_name: str, dns_zone_id: str, workload_network_dns_zone: IO[bytes], content_type: str)`
+  - Method `WorkloadNetworkDnsZonesOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, private_cloud_name: str, dns_zone_id: str, workload_network_dns_zone: WorkloadNetworkDnsZone, content_type: str)`
+  - Method `WorkloadNetworkDnsZonesOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, private_cloud_name: str, dns_zone_id: str, workload_network_dns_zone: JSON, content_type: str)`
+  - Method `WorkloadNetworkDnsZonesOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, private_cloud_name: str, dns_zone_id: str, workload_network_dns_zone: IO[bytes], content_type: str)`
+  - Method `WorkloadNetworkPortMirroringProfilesOperations.begin_create` has a new overload `def begin_create(self: None, resource_group_name: str, private_cloud_name: str, port_mirroring_id: str, workload_network_port_mirroring: WorkloadNetworkPortMirroring, content_type: str)`
+  - Method `WorkloadNetworkPortMirroringProfilesOperations.begin_create` has a new overload `def begin_create(self: None, resource_group_name: str, private_cloud_name: str, port_mirroring_id: str, workload_network_port_mirroring: JSON, content_type: str)`
+  - Method `WorkloadNetworkPortMirroringProfilesOperations.begin_create` has a new overload `def begin_create(self: None, resource_group_name: str, private_cloud_name: str, port_mirroring_id: str, workload_network_port_mirroring: IO[bytes], content_type: str)`
+  - Method `WorkloadNetworkPortMirroringProfilesOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, private_cloud_name: str, port_mirroring_id: str, workload_network_port_mirroring: WorkloadNetworkPortMirroring, content_type: str)`
+  - Method `WorkloadNetworkPortMirroringProfilesOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, private_cloud_name: str, port_mirroring_id: str, workload_network_port_mirroring: JSON, content_type: str)`
+  - Method `WorkloadNetworkPortMirroringProfilesOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, private_cloud_name: str, port_mirroring_id: str, workload_network_port_mirroring: IO[bytes], content_type: str)`
+  - Method `WorkloadNetworkPublicIpsOperations.begin_create` has a new overload `def begin_create(self: None, resource_group_name: str, private_cloud_name: str, public_ip_id: str, workload_network_public_ip: WorkloadNetworkPublicIP, content_type: str)`
+  - Method `WorkloadNetworkPublicIpsOperations.begin_create` has a new overload `def begin_create(self: None, resource_group_name: str, private_cloud_name: str, public_ip_id: str, workload_network_public_ip: JSON, content_type: str)`
+  - Method `WorkloadNetworkPublicIpsOperations.begin_create` has a new overload `def begin_create(self: None, resource_group_name: str, private_cloud_name: str, public_ip_id: str, workload_network_public_ip: IO[bytes], content_type: str)`
+  - Method `WorkloadNetworkSegmentsOperations.begin_create` has a new overload `def begin_create(self: None, resource_group_name: str, private_cloud_name: str, segment_id: str, workload_network_segment: WorkloadNetworkSegment, content_type: str)`
+  - Method `WorkloadNetworkSegmentsOperations.begin_create` has a new overload `def begin_create(self: None, resource_group_name: str, private_cloud_name: str, segment_id: str, workload_network_segment: JSON, content_type: str)`
+  - Method `WorkloadNetworkSegmentsOperations.begin_create` has a new overload `def begin_create(self: None, resource_group_name: str, private_cloud_name: str, segment_id: str, workload_network_segment: IO[bytes], content_type: str)`
+  - Method `WorkloadNetworkSegmentsOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, private_cloud_name: str, segment_id: str, workload_network_segment: WorkloadNetworkSegment, content_type: str)`
+  - Method `WorkloadNetworkSegmentsOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, private_cloud_name: str, segment_id: str, workload_network_segment: JSON, content_type: str)`
+  - Method `WorkloadNetworkSegmentsOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, private_cloud_name: str, segment_id: str, workload_network_segment: IO[bytes], content_type: str)`
+  - Method `WorkloadNetworkVmGroupsOperations.begin_create` has a new overload `def begin_create(self: None, resource_group_name: str, private_cloud_name: str, vm_group_id: str, workload_network_vm_group: WorkloadNetworkVMGroup, content_type: str)`
+  - Method `WorkloadNetworkVmGroupsOperations.begin_create` has a new overload `def begin_create(self: None, resource_group_name: str, private_cloud_name: str, vm_group_id: str, workload_network_vm_group: JSON, content_type: str)`
+  - Method `WorkloadNetworkVmGroupsOperations.begin_create` has a new overload `def begin_create(self: None, resource_group_name: str, private_cloud_name: str, vm_group_id: str, workload_network_vm_group: IO[bytes], content_type: str)`
+  - Method `WorkloadNetworkVmGroupsOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, private_cloud_name: str, vm_group_id: str, workload_network_vm_group: WorkloadNetworkVMGroup, content_type: str)`
+  - Method `WorkloadNetworkVmGroupsOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, private_cloud_name: str, vm_group_id: str, workload_network_vm_group: JSON, content_type: str)`
+  - Method `WorkloadNetworkVmGroupsOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, private_cloud_name: str, vm_group_id: str, workload_network_vm_group: IO[bytes], content_type: str)`
+
+### Breaking Changes
+
+  - Model `Addon` deleted or renamed its instance variable `additional_properties`
+  - Model `AddonArcProperties` deleted or renamed its instance variable `additional_properties`
+  - Model `AddonHcxProperties` deleted or renamed its instance variable `additional_properties`
+  - Model `AddonProperties` deleted or renamed its instance variable `additional_properties`
+  - Model `AddonSrmProperties` deleted or renamed its instance variable `additional_properties`
+  - Model `AddonVrProperties` deleted or renamed its instance variable `additional_properties`
+  - Model `AdminCredentials` deleted or renamed its instance variable `additional_properties`
+  - Model `AvailabilityProperties` deleted or renamed its instance variable `additional_properties`
+  - Model `Circuit` deleted or renamed its instance variable `additional_properties`
+  - Model `CloudLink` deleted or renamed its instance variable `provisioning_state`
+  - Model `CloudLink` deleted or renamed its instance variable `status`
+  - Model `CloudLink` deleted or renamed its instance variable `linked_cloud`
+  - Model `CloudLink` deleted or renamed its instance variable `additional_properties`
+  - Model `Cluster` deleted or renamed its instance variable `cluster_size`
+  - Model `Cluster` deleted or renamed its instance variable `provisioning_state`
+  - Model `Cluster` deleted or renamed its instance variable `cluster_id`
+  - Model `Cluster` deleted or renamed its instance variable `hosts`
+  - Model `Cluster` deleted or renamed its instance variable `vsan_datastore_name`
+  - Model `Cluster` deleted or renamed its instance variable `additional_properties`
+  - Model `ClusterUpdate` deleted or renamed its instance variable `cluster_size`
+  - Model `ClusterUpdate` deleted or renamed its instance variable `hosts`
+  - Model `ClusterUpdate` deleted or renamed its instance variable `additional_properties`
+  - Model `ClusterZone` deleted or renamed its instance variable `additional_properties`
+  - Model `ClusterZoneList` deleted or renamed its instance variable `additional_properties`
+  - Model `Datastore` deleted or renamed its instance variable `provisioning_state`
+  - Model `Datastore` deleted or renamed its instance variable `net_app_volume`
+  - Model `Datastore` deleted or renamed its instance variable `disk_pool_volume`
+  - Model `Datastore` deleted or renamed its instance variable `elastic_san_volume`
+  - Model `Datastore` deleted or renamed its instance variable `status`
+  - Model `Datastore` deleted or renamed its instance variable `additional_properties`
+  - Model `DiskPoolVolume` deleted or renamed its instance variable `additional_properties`
+  - Model `ElasticSanVolume` deleted or renamed its instance variable `additional_properties`
+  - Model `Encryption` deleted or renamed its instance variable `additional_properties`
+  - Model `EncryptionKeyVaultProperties` deleted or renamed its instance variable `additional_properties`
+  - Model `Endpoints` deleted or renamed its instance variable `additional_properties`
+  - Model `ErrorAdditionalInfo` deleted or renamed its instance variable `additional_properties`
+  - Model `ErrorDetail` deleted or renamed its instance variable `additional_properties`
+  - Model `ErrorResponse` deleted or renamed its instance variable `additional_properties`
+  - Model `ExpressRouteAuthorization` deleted or renamed its instance variable `provisioning_state`
+  - Model `ExpressRouteAuthorization` deleted or renamed its instance variable `express_route_authorization_id`
+  - Model `ExpressRouteAuthorization` deleted or renamed its instance variable `express_route_authorization_key`
+  - Model `ExpressRouteAuthorization` deleted or renamed its instance variable `express_route_id`
+  - Model `ExpressRouteAuthorization` deleted or renamed its instance variable `additional_properties`
+  - Model `GlobalReachConnection` deleted or renamed its instance variable `provisioning_state`
+  - Model `GlobalReachConnection` deleted or renamed its instance variable `address_prefix`
+  - Model `GlobalReachConnection` deleted or renamed its instance variable `authorization_key`
+  - Model `GlobalReachConnection` deleted or renamed its instance variable `circuit_connection_status`
+  - Model `GlobalReachConnection` deleted or renamed its instance variable `peer_express_route_circuit`
+  - Model `GlobalReachConnection` deleted or renamed its instance variable `express_route_id`
+  - Model `GlobalReachConnection` deleted or renamed its instance variable `additional_properties`
+  - Model `HcxEnterpriseSite` deleted or renamed its instance variable `provisioning_state`
+  - Model `HcxEnterpriseSite` deleted or renamed its instance variable `activation_key`
+  - Model `HcxEnterpriseSite` deleted or renamed its instance variable `status`
+  - Model `HcxEnterpriseSite` deleted or renamed its instance variable `additional_properties`
+  - Model `IdentitySource` deleted or renamed its instance variable `additional_properties`
+  - Model `IscsiPath` deleted or renamed its instance variable `provisioning_state`
+  - Model `IscsiPath` deleted or renamed its instance variable `network_block`
+  - Model `IscsiPath` deleted or renamed its instance variable `additional_properties`
+  - Model `ManagementCluster` deleted or renamed its instance variable `additional_properties`
+  - Model `NetAppVolume` deleted or renamed its instance variable `additional_properties`
+  - Model `Operation` deleted or renamed its instance variable `additional_properties`
+  - Model `OperationDisplay` deleted or renamed its instance variable `additional_properties`
+  - Model `PSCredentialExecutionParameter` deleted or renamed its instance variable `additional_properties`
+  - Model `PlacementPolicy` deleted or renamed its instance variable `additional_properties`
+  - Model `PlacementPolicyProperties` deleted or renamed its instance variable `additional_properties`
+  - Model `PlacementPolicyUpdate` deleted or renamed its instance variable `state`
+  - Model `PlacementPolicyUpdate` deleted or renamed its instance variable `vm_members`
+  - Model `PlacementPolicyUpdate` deleted or renamed its instance variable `host_members`
+  - Model `PlacementPolicyUpdate` deleted or renamed its instance variable `affinity_strength`
+  - Model `PlacementPolicyUpdate` deleted or renamed its instance variable `azure_hybrid_benefit_type`
+  - Model `PlacementPolicyUpdate` deleted or renamed its instance variable `additional_properties`
+  - Model `PrivateCloud` deleted or renamed its instance variable `management_cluster`
+  - Model `PrivateCloud` deleted or renamed its instance variable `internet`
+  - Model `PrivateCloud` deleted or renamed its instance variable `identity_sources`
+  - Model `PrivateCloud` deleted or renamed its instance variable `availability`
+  - Model `PrivateCloud` deleted or renamed its instance variable `encryption`
+  - Model `PrivateCloud` deleted or renamed its instance variable `extended_network_blocks`
+  - Model `PrivateCloud` deleted or renamed its instance variable `provisioning_state`
+  - Model `PrivateCloud` deleted or renamed its instance variable `circuit`
+  - Model `PrivateCloud` deleted or renamed its instance variable `endpoints`
+  - Model `PrivateCloud` deleted or renamed its instance variable `network_block`
+  - Model `PrivateCloud` deleted or renamed its instance variable `management_network`
+  - Model `PrivateCloud` deleted or renamed its instance variable `provisioning_network`
+  - Model `PrivateCloud` deleted or renamed its instance variable `vmotion_network`
+  - Model `PrivateCloud` deleted or renamed its instance variable `vcenter_password`
+  - Model `PrivateCloud` deleted or renamed its instance variable `nsxt_password`
+  - Model `PrivateCloud` deleted or renamed its instance variable `vcenter_certificate_thumbprint`
+  - Model `PrivateCloud` deleted or renamed its instance variable `nsxt_certificate_thumbprint`
+  - Model `PrivateCloud` deleted or renamed its instance variable `external_cloud_links`
+  - Model `PrivateCloud` deleted or renamed its instance variable `secondary_circuit`
+  - Model `PrivateCloud` deleted or renamed its instance variable `nsx_public_ip_quota_raised`
+  - Model `PrivateCloud` deleted or renamed its instance variable `virtual_network_id`
+  - Model `PrivateCloud` deleted or renamed its instance variable `dns_zone_type`
+  - Model `PrivateCloud` deleted or renamed its instance variable `additional_properties`
+  - Model `PrivateCloudUpdate` deleted or renamed its instance variable `management_cluster`
+  - Model `PrivateCloudUpdate` deleted or renamed its instance variable `internet`
+  - Model `PrivateCloudUpdate` deleted or renamed its instance variable `identity_sources`
+  - Model `PrivateCloudUpdate` deleted or renamed its instance variable `availability`
+  - Model `PrivateCloudUpdate` deleted or renamed its instance variable `encryption`
+  - Model `PrivateCloudUpdate` deleted or renamed its instance variable `extended_network_blocks`
+  - Model `PrivateCloudUpdate` deleted or renamed its instance variable `dns_zone_type`
+  - Model `PrivateCloudUpdate` deleted or renamed its instance variable `additional_properties`
+  - Model `ProxyResource` deleted or renamed its instance variable `additional_properties`
+  - Model `Quota` deleted or renamed its instance variable `additional_properties`
+  - Model `Resource` deleted or renamed its instance variable `additional_properties`
+  - Model `ScriptCmdlet` deleted or renamed its instance variable `provisioning_state`
+  - Model `ScriptCmdlet` deleted or renamed its instance variable `description`
+  - Model `ScriptCmdlet` deleted or renamed its instance variable `timeout`
+  - Model `ScriptCmdlet` deleted or renamed its instance variable `audience`
+  - Model `ScriptCmdlet` deleted or renamed its instance variable `parameters`
+  - Model `ScriptCmdlet` deleted or renamed its instance variable `additional_properties`
+  - Model `ScriptExecution` deleted or renamed its instance variable `script_cmdlet_id`
+  - Model `ScriptExecution` deleted or renamed its instance variable `parameters`
+  - Model `ScriptExecution` deleted or renamed its instance variable `hidden_parameters`
+  - Model `ScriptExecution` deleted or renamed its instance variable `failure_reason`
+  - Model `ScriptExecution` deleted or renamed its instance variable `timeout`
+  - Model `ScriptExecution` deleted or renamed its instance variable `retention`
+  - Model `ScriptExecution` deleted or renamed its instance variable `submitted_at`
+  - Model `ScriptExecution` deleted or renamed its instance variable `started_at`
+  - Model `ScriptExecution` deleted or renamed its instance variable `finished_at`
+  - Model `ScriptExecution` deleted or renamed its instance variable `provisioning_state`
+  - Model `ScriptExecution` deleted or renamed its instance variable `output`
+  - Model `ScriptExecution` deleted or renamed its instance variable `named_outputs`
+  - Model `ScriptExecution` deleted or renamed its instance variable `information`
+  - Model `ScriptExecution` deleted or renamed its instance variable `warnings`
+  - Model `ScriptExecution` deleted or renamed its instance variable `errors`
+  - Model `ScriptExecution` deleted or renamed its instance variable `additional_properties`
+  - Model `ScriptExecutionParameter` deleted or renamed its instance variable `additional_properties`
+  - Model `ScriptPackage` deleted or renamed its instance variable `provisioning_state`
+  - Model `ScriptPackage` deleted or renamed its instance variable `description`
+  - Model `ScriptPackage` deleted or renamed its instance variable `version`
+  - Model `ScriptPackage` deleted or renamed its instance variable `company`
+  - Model `ScriptPackage` deleted or renamed its instance variable `uri`
+  - Model `ScriptPackage` deleted or renamed its instance variable `additional_properties`
+  - Model `ScriptParameter` deleted or renamed its instance variable `additional_properties`
+  - Model `ScriptSecureStringExecutionParameter` deleted or renamed its instance variable `additional_properties`
+  - Model `ScriptStringExecutionParameter` deleted or renamed its instance variable `additional_properties`
+  - Model `Sku` deleted or renamed its instance variable `additional_properties`
+  - Model `SystemData` deleted or renamed its instance variable `additional_properties`
+  - Model `TrackedResource` deleted or renamed its instance variable `additional_properties`
+  - Model `Trial` deleted or renamed its instance variable `additional_properties`
+  - Model `VirtualMachine` deleted or renamed its instance variable `provisioning_state`
+  - Model `VirtualMachine` deleted or renamed its instance variable `display_name`
+  - Model `VirtualMachine` deleted or renamed its instance variable `mo_ref_id`
+  - Model `VirtualMachine` deleted or renamed its instance variable `folder_path`
+  - Model `VirtualMachine` deleted or renamed its instance variable `restrict_movement`
+  - Model `VirtualMachine` deleted or renamed its instance variable `additional_properties`
+  - Model `VirtualMachineRestrictMovement` deleted or renamed its instance variable `additional_properties`
+  - Model `VmHostPlacementPolicyProperties` deleted or renamed its instance variable `additional_properties`
+  - Model `WorkloadNetwork` deleted or renamed its instance variable `provisioning_state`
+  - Model `WorkloadNetwork` deleted or renamed its instance variable `additional_properties`
+  - Model `WorkloadNetworkDhcp` deleted or renamed its instance variable `additional_properties`
+  - Model `WorkloadNetworkDhcpEntity` deleted or renamed its instance variable `additional_properties`
+  - Model `WorkloadNetworkDhcpRelay` deleted or renamed its instance variable `additional_properties`
+  - Model `WorkloadNetworkDhcpServer` deleted or renamed its instance variable `additional_properties`
+  - Model `WorkloadNetworkDnsService` deleted or renamed its instance variable `display_name`
+  - Model `WorkloadNetworkDnsService` deleted or renamed its instance variable `dns_service_ip`
+  - Model `WorkloadNetworkDnsService` deleted or renamed its instance variable `default_dns_zone`
+  - Model `WorkloadNetworkDnsService` deleted or renamed its instance variable `fqdn_zones`
+  - Model `WorkloadNetworkDnsService` deleted or renamed its instance variable `log_level`
+  - Model `WorkloadNetworkDnsService` deleted or renamed its instance variable `status`
+  - Model `WorkloadNetworkDnsService` deleted or renamed its instance variable `provisioning_state`
+  - Model `WorkloadNetworkDnsService` deleted or renamed its instance variable `revision`
+  - Model `WorkloadNetworkDnsService` deleted or renamed its instance variable `additional_properties`
+  - Model `WorkloadNetworkDnsZone` deleted or renamed its instance variable `display_name`
+  - Model `WorkloadNetworkDnsZone` deleted or renamed its instance variable `domain`
+  - Model `WorkloadNetworkDnsZone` deleted or renamed its instance variable `dns_server_ips`
+  - Model `WorkloadNetworkDnsZone` deleted or renamed its instance variable `source_ip`
+  - Model `WorkloadNetworkDnsZone` deleted or renamed its instance variable `dns_services`
+  - Model `WorkloadNetworkDnsZone` deleted or renamed its instance variable `provisioning_state`
+  - Model `WorkloadNetworkDnsZone` deleted or renamed its instance variable `revision`
+  - Model `WorkloadNetworkDnsZone` deleted or renamed its instance variable `additional_properties`
+  - Model `WorkloadNetworkGateway` deleted or renamed its instance variable `provisioning_state`
+  - Model `WorkloadNetworkGateway` deleted or renamed its instance variable `display_name`
+  - Model `WorkloadNetworkGateway` deleted or renamed its instance variable `path`
+  - Model `WorkloadNetworkGateway` deleted or renamed its instance variable `additional_properties`
+  - Model `WorkloadNetworkPortMirroring` deleted or renamed its instance variable `display_name`
+  - Model `WorkloadNetworkPortMirroring` deleted or renamed its instance variable `direction`
+  - Model `WorkloadNetworkPortMirroring` deleted or renamed its instance variable `source`
+  - Model `WorkloadNetworkPortMirroring` deleted or renamed its instance variable `destination`
+  - Model `WorkloadNetworkPortMirroring` deleted or renamed its instance variable `status`
+  - Model `WorkloadNetworkPortMirroring` deleted or renamed its instance variable `provisioning_state`
+  - Model `WorkloadNetworkPortMirroring` deleted or renamed its instance variable `revision`
+  - Model `WorkloadNetworkPortMirroring` deleted or renamed its instance variable `additional_properties`
+  - Model `WorkloadNetworkPublicIP` deleted or renamed its instance variable `display_name`
+  - Model `WorkloadNetworkPublicIP` deleted or renamed its instance variable `number_of_public_i_ps`
+  - Model `WorkloadNetworkPublicIP` deleted or renamed its instance variable `public_ip_block`
+  - Model `WorkloadNetworkPublicIP` deleted or renamed its instance variable `provisioning_state`
+  - Model `WorkloadNetworkPublicIP` deleted or renamed its instance variable `additional_properties`
+  - Model `WorkloadNetworkSegment` deleted or renamed its instance variable `display_name`
+  - Model `WorkloadNetworkSegment` deleted or renamed its instance variable `connected_gateway`
+  - Model `WorkloadNetworkSegment` deleted or renamed its instance variable `subnet`
+  - Model `WorkloadNetworkSegment` deleted or renamed its instance variable `port_vif`
+  - Model `WorkloadNetworkSegment` deleted or renamed its instance variable `status`
+  - Model `WorkloadNetworkSegment` deleted or renamed its instance variable `provisioning_state`
+  - Model `WorkloadNetworkSegment` deleted or renamed its instance variable `revision`
+  - Model `WorkloadNetworkSegment` deleted or renamed its instance variable `additional_properties`
+  - Model `WorkloadNetworkSegmentPortVif` deleted or renamed its instance variable `additional_properties`
+  - Model `WorkloadNetworkSegmentSubnet` deleted or renamed its instance variable `additional_properties`
+  - Model `WorkloadNetworkVMGroup` deleted or renamed its instance variable `display_name`
+  - Model `WorkloadNetworkVMGroup` deleted or renamed its instance variable `members`
+  - Model `WorkloadNetworkVMGroup` deleted or renamed its instance variable `status`
+  - Model `WorkloadNetworkVMGroup` deleted or renamed its instance variable `provisioning_state`
+  - Model `WorkloadNetworkVMGroup` deleted or renamed its instance variable `revision`
+  - Model `WorkloadNetworkVMGroup` deleted or renamed its instance variable `additional_properties`
+  - Model `WorkloadNetworkVirtualMachine` deleted or renamed its instance variable `provisioning_state`
+  - Model `WorkloadNetworkVirtualMachine` deleted or renamed its instance variable `display_name`
+  - Model `WorkloadNetworkVirtualMachine` deleted or renamed its instance variable `vm_type`
+  - Model `WorkloadNetworkVirtualMachine` deleted or renamed its instance variable `additional_properties`
+  - Deleted or renamed model `AddonList`
+  - Deleted or renamed model `CloudLinkList`
+  - Deleted or renamed model `ClusterList`
+  - Deleted or renamed model `DatastoreList`
+  - Deleted or renamed model `ExpressRouteAuthorizationList`
+  - Deleted or renamed model `GlobalReachConnectionList`
+  - Deleted or renamed model `HcxEnterpriseSiteList`
+  - Deleted or renamed model `PlacementPoliciesList`
+  - Deleted or renamed model `PrivateCloudIdentity`
+  - Deleted or renamed model `PrivateCloudList`
+  - Deleted or renamed model `ResourceIdentityType`
+  - Deleted or renamed model `ScriptCmdletsList`
+  - Deleted or renamed model `ScriptExecutionsList`
+  - Deleted or renamed model `ScriptPackagesList`
+  - Deleted or renamed model `VirtualMachinesList`
+  - Deleted or renamed model `VmPlacementPolicyProperties`
+  - Deleted or renamed model `WorkloadNetworkDhcpList`
+  - Deleted or renamed model `WorkloadNetworkDnsServicesList`
+  - Deleted or renamed model `WorkloadNetworkDnsZonesList`
+  - Deleted or renamed model `WorkloadNetworkGatewayList`
+  - Deleted or renamed model `WorkloadNetworkList`
+  - Deleted or renamed model `WorkloadNetworkPortMirroringList`
+  - Deleted or renamed model `WorkloadNetworkPublicIPsList`
+  - Deleted or renamed model `WorkloadNetworkSegmentsList`
+  - Deleted or renamed model `WorkloadNetworkVMGroupsList`
+  - Deleted or renamed model `WorkloadNetworkVirtualMachinesList`
+  - Deleted or renamed method `ClustersOperations.begin_update`
+  - Deleted or renamed method `PlacementPoliciesOperations.begin_update`
+  - Deleted or renamed method `PrivateCloudsOperations.begin_update`
+  - Deleted or renamed method `WorkloadNetworksOperations.begin_create_dhcp`
+  - Deleted or renamed method `WorkloadNetworksOperations.begin_create_dns_service`
+  - Deleted or renamed method `WorkloadNetworksOperations.begin_create_dns_zone`
+  - Deleted or renamed method `WorkloadNetworksOperations.begin_create_port_mirroring`
+  - Deleted or renamed method `WorkloadNetworksOperations.begin_create_public_ip`
+  - Deleted or renamed method `WorkloadNetworksOperations.begin_create_segments`
+  - Deleted or renamed method `WorkloadNetworksOperations.begin_create_vm_group`
+  - Deleted or renamed method `WorkloadNetworksOperations.begin_delete_dhcp`
+  - Deleted or renamed method `WorkloadNetworksOperations.begin_delete_dns_service`
+  - Deleted or renamed method `WorkloadNetworksOperations.begin_delete_dns_zone`
+  - Deleted or renamed method `WorkloadNetworksOperations.begin_delete_port_mirroring`
+  - Deleted or renamed method `WorkloadNetworksOperations.begin_delete_public_ip`
+  - Deleted or renamed method `WorkloadNetworksOperations.begin_delete_segment`
+  - Deleted or renamed method `WorkloadNetworksOperations.begin_delete_vm_group`
+  - Deleted or renamed method `WorkloadNetworksOperations.begin_update_dhcp`
+  - Deleted or renamed method `WorkloadNetworksOperations.begin_update_dns_service`
+  - Deleted or renamed method `WorkloadNetworksOperations.begin_update_dns_zone`
+  - Deleted or renamed method `WorkloadNetworksOperations.begin_update_port_mirroring`
+  - Deleted or renamed method `WorkloadNetworksOperations.begin_update_segments`
+  - Deleted or renamed method `WorkloadNetworksOperations.begin_update_vm_group`
+  - Deleted or renamed method `WorkloadNetworksOperations.get_dhcp`
+  - Deleted or renamed method `WorkloadNetworksOperations.get_dns_service`
+  - Deleted or renamed method `WorkloadNetworksOperations.get_dns_zone`
+  - Deleted or renamed method `WorkloadNetworksOperations.get_gateway`
+  - Deleted or renamed method `WorkloadNetworksOperations.get_port_mirroring`
+  - Deleted or renamed method `WorkloadNetworksOperations.get_public_ip`
+  - Deleted or renamed method `WorkloadNetworksOperations.get_segment`
+  - Deleted or renamed method `WorkloadNetworksOperations.get_virtual_machine`
+  - Deleted or renamed method `WorkloadNetworksOperations.get_vm_group`
+  - Deleted or renamed method `WorkloadNetworksOperations.list_dhcp`
+  - Deleted or renamed method `WorkloadNetworksOperations.list_dns_services`
+  - Deleted or renamed method `WorkloadNetworksOperations.list_dns_zones`
+  - Deleted or renamed method `WorkloadNetworksOperations.list_gateways`
+  - Deleted or renamed method `WorkloadNetworksOperations.list_port_mirroring`
+  - Deleted or renamed method `WorkloadNetworksOperations.list_public_ips`
+  - Deleted or renamed method `WorkloadNetworksOperations.list_segments`
+  - Deleted or renamed method `WorkloadNetworksOperations.list_virtual_machines`
+  - Deleted or renamed method `WorkloadNetworksOperations.list_vm_groups`
+
+## 1.0.0b1 (1970-01-01)
+
+- Initial version
