@@ -52,12 +52,28 @@ def main():
                         "sharedKey": "string",
                     }
                 },
+                "availabilityZones": ["1", "2", "3"],
                 "customDomainConfiguration": {
                     "certificatePassword": "1234",
                     "certificateValue": "Y2VydA==",
                     "dnsSuffix": "www.my-name.com",
                 },
                 "daprAIConnectionString": "InstrumentationKey=00000000-0000-0000-0000-000000000000;IngestionEndpoint=https://northcentralus-0.in.applicationinsights.azure.com/",
+                "diskEncryptionConfiguration": {
+                    "keyVaultConfiguration": {
+                        "auth": {
+                            "identity": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso-resources/providers/Microsoft.ManagedIdentity/userAssignedIdentities/contoso-identity"
+                        },
+                        "keyUrl": "https://contoso.vault.azure.net/mykey/19ff8313ca394b89b9e824bbbdc8c521",
+                    }
+                },
+                "ingressConfiguration": {
+                    "headerCountLimit": 30,
+                    "requestIdleTimeout": 5,
+                    "scale": {"maxReplicas": 4, "minReplicas": 2},
+                    "terminationGracePeriodSeconds": 3600,
+                    "workloadProfileName": "My-CO-01",
+                },
                 "openTelemetryConfiguration": {
                     "destinationsConfiguration": {
                         "dataDogConfiguration": {"key": "000000000000000000000000", "site": "string"},
@@ -108,6 +124,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/ManagedEnvironments_CreateOrUpdate.json
+# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2025-02-02-preview/examples/ManagedEnvironments_CreateOrUpdate.json
 if __name__ == "__main__":
     main()
