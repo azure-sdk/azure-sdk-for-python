@@ -280,6 +280,7 @@ class ReservedResourceType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     AZURE_FILES = "AzureFiles"
     SQL_EDGE = "SqlEdge"
     VIRTUAL_MACHINE_SOFTWARE = "VirtualMachineSoftware"
+    OPEN_AIPTU = "OpenAIPTU"
 
 
 class ResourceType(str, Enum, metaclass=CaseInsensitiveEnumMeta):

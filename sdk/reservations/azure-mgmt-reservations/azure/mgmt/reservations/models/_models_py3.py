@@ -1,5 +1,5 @@
-# coding=utf-8
 # pylint: disable=too-many-lines
+# coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -9,21 +9,16 @@
 
 import datetime
 import sys
-from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
+from typing import Any, Dict, List, Literal, Optional, TYPE_CHECKING, Union
 
 from .. import _serialization
 
 if sys.version_info >= (3, 9):
     from collections.abc import MutableMapping
 else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
-if sys.version_info >= (3, 8):
-    from typing import Literal  # pylint: disable=no-name-in-module, ungrouped-imports
-else:
-    from typing_extensions import Literal  # type: ignore  # pylint: disable=ungrouped-imports
+    from typing import MutableMapping  # type: ignore
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 JSON = MutableMapping[str, Any]  # pylint: disable=unsubscriptable-object
 
@@ -494,7 +489,7 @@ class CalculatePriceResponse(_serialization.Model):
         self.properties = properties
 
 
-class CalculatePriceResponseProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class CalculatePriceResponseProperties(_serialization.Model):
     """Properties for calculate price response.
 
     :ivar billing_currency_total: Currency and amount that customer will be charged in customer's
@@ -607,7 +602,7 @@ class CalculatePriceResponseProperties(_serialization.Model):  # pylint: disable
         self.payment_schedule = payment_schedule
 
 
-class CalculatePriceResponsePropertiesBillingCurrencyTotal(_serialization.Model):
+class CalculatePriceResponsePropertiesBillingCurrencyTotal(_serialization.Model):  # pylint: disable=name-too-long
     """Currency and amount that customer will be charged in customer's local currency. Tax is not
     included.
 
@@ -636,7 +631,7 @@ class CalculatePriceResponsePropertiesBillingCurrencyTotal(_serialization.Model)
         self.amount = amount
 
 
-class CalculatePriceResponsePropertiesPricingCurrencyTotal(_serialization.Model):
+class CalculatePriceResponsePropertiesPricingCurrencyTotal(_serialization.Model):  # pylint: disable=name-too-long
     """Amount that Microsoft uses for record. Used during refund for calculating refund limit. Tax is
     not included.
 
@@ -763,7 +758,7 @@ class CalculateRefundResponse(_serialization.Model):
         self.properties = properties
 
 
-class Catalog(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class Catalog(_serialization.Model):
     """Product details of a type of resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1994,7 +1989,7 @@ class Resource(_serialization.Model):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -2036,7 +2031,7 @@ class ProxyResource(Resource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -2048,26 +2043,8 @@ class ProxyResource(Resource):
     :vartype system_data: ~azure.mgmt.reservations.models.SystemData
     """
 
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-        "system_data": {"readonly": True},
-    }
 
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "system_data": {"key": "systemData", "type": "SystemData"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-
-
-class PurchaseRequest(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class PurchaseRequest(_serialization.Model):
     """The request for reservation purchase.
 
     :ivar sku: The name of sku.
@@ -2079,7 +2056,7 @@ class PurchaseRequest(_serialization.Model):  # pylint: disable=too-many-instanc
      "VMwareCloudSimple", "RedHatOsa", "Databricks", "AppService", "ManagedDisk", "BlockBlob",
      "RedisCache", "AzureDataExplorer", "MySql", "MariaDb", "PostgreSql", "DedicatedHost",
      "SapHana", "SqlAzureHybridBenefit", "AVS", "DataFactory", "NetAppStorage", "AzureFiles",
-     "SqlEdge", and "VirtualMachineSoftware".
+     "SqlEdge", "VirtualMachineSoftware", and "OpenAIPTU".
     :vartype reserved_resource_type: str or ~azure.mgmt.reservations.models.ReservedResourceType
     :ivar billing_scope_id: Subscription that will be charged for purchasing reservation or savings
      plan.
@@ -2164,7 +2141,7 @@ class PurchaseRequest(_serialization.Model):  # pylint: disable=too-many-instanc
          "VMwareCloudSimple", "RedHatOsa", "Databricks", "AppService", "ManagedDisk", "BlockBlob",
          "RedisCache", "AzureDataExplorer", "MySql", "MariaDb", "PostgreSql", "DedicatedHost",
          "SapHana", "SqlAzureHybridBenefit", "AVS", "DataFactory", "NetAppStorage", "AzureFiles",
-         "SqlEdge", and "VirtualMachineSoftware".
+         "SqlEdge", "VirtualMachineSoftware", and "OpenAIPTU".
         :paramtype reserved_resource_type: str or ~azure.mgmt.reservations.models.ReservedResourceType
         :keyword billing_scope_id: Subscription that will be charged for purchasing reservation or
          savings plan.
@@ -2216,7 +2193,7 @@ class PurchaseRequest(_serialization.Model):  # pylint: disable=too-many-instanc
         self.review_date_time = review_date_time
 
 
-class PurchaseRequestPropertiesReservedResourceProperties(_serialization.Model):
+class PurchaseRequestPropertiesReservedResourceProperties(_serialization.Model):  # pylint: disable=name-too-long
     """Properties specific to each reserved resource type. Not required if not applicable.
 
     :ivar instance_flexibility: Turning this on will apply the reservation discount to other VMs in
@@ -3110,7 +3087,7 @@ class RenewPropertiesResponse(_serialization.Model):
         self.billing_currency_total = billing_currency_total
 
 
-class RenewPropertiesResponseBillingCurrencyTotal(_serialization.Model):
+class RenewPropertiesResponseBillingCurrencyTotal(_serialization.Model):  # pylint: disable=name-too-long
     """Currency and amount that customer will be charged in customer's local currency for renewal
     purchase. Tax is not included.
 
@@ -3139,7 +3116,7 @@ class RenewPropertiesResponseBillingCurrencyTotal(_serialization.Model):
         self.amount = amount
 
 
-class RenewPropertiesResponsePricingCurrencyTotal(_serialization.Model):
+class RenewPropertiesResponsePricingCurrencyTotal(_serialization.Model):  # pylint: disable=name-too-long
     """Amount that Microsoft uses for record. Used during refund for calculating refund limit. Tax is
     not included. This is locked price 30 days before expiry.
 
@@ -3169,7 +3146,7 @@ class RenewPropertiesResponsePricingCurrencyTotal(_serialization.Model):
 
 
 class ReservationList(_serialization.Model):
-    """List of ``Reservation``\ s.
+    """List of ``Reservation``\\ s.
 
     :ivar value:
     :vartype value: list[~azure.mgmt.reservations.models.ReservationResponse]
@@ -3285,7 +3262,7 @@ class ReservationOrderBillingPlanInformation(_serialization.Model):
 
 
 class ReservationOrderList(_serialization.Model):
-    """List of ``ReservationOrder``\ s.
+    """List of ``ReservationOrder``\\ s.
 
     :ivar value:
     :vartype value: list[~azure.mgmt.reservations.models.ReservationOrderResponse]
@@ -3316,7 +3293,7 @@ class ReservationOrderList(_serialization.Model):
         self.next_link = next_link
 
 
-class ReservationOrderResponse(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class ReservationOrderResponse(_serialization.Model):
     """Details of a reservation order being returned.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -3476,7 +3453,7 @@ class ReservationResponse(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -3618,7 +3595,7 @@ class ReservationSplitProperties(_serialization.Model):
         self.split_source = split_source
 
 
-class ReservationsProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class ReservationsProperties(_serialization.Model):
     """The properties of the reservations.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -3628,7 +3605,7 @@ class ReservationsProperties(_serialization.Model):  # pylint: disable=too-many-
      "VMwareCloudSimple", "RedHatOsa", "Databricks", "AppService", "ManagedDisk", "BlockBlob",
      "RedisCache", "AzureDataExplorer", "MySql", "MariaDb", "PostgreSql", "DedicatedHost",
      "SapHana", "SqlAzureHybridBenefit", "AVS", "DataFactory", "NetAppStorage", "AzureFiles",
-     "SqlEdge", and "VirtualMachineSoftware".
+     "SqlEdge", "VirtualMachineSoftware", and "OpenAIPTU".
     :vartype reserved_resource_type: str or ~azure.mgmt.reservations.models.ReservedResourceType
     :ivar instance_flexibility: Allows reservation discount to be applied across skus within the
      same auto fit group. Not all skus support instance size flexibility. Known values are: "On" and
@@ -3806,7 +3783,7 @@ class ReservationsProperties(_serialization.Model):  # pylint: disable=too-many-
          "VMwareCloudSimple", "RedHatOsa", "Databricks", "AppService", "ManagedDisk", "BlockBlob",
          "RedisCache", "AzureDataExplorer", "MySql", "MariaDb", "PostgreSql", "DedicatedHost",
          "SapHana", "SqlAzureHybridBenefit", "AVS", "DataFactory", "NetAppStorage", "AzureFiles",
-         "SqlEdge", and "VirtualMachineSoftware".
+         "SqlEdge", "VirtualMachineSoftware", and "OpenAIPTU".
         :paramtype reserved_resource_type: str or ~azure.mgmt.reservations.models.ReservedResourceType
         :keyword instance_flexibility: Allows reservation discount to be applied across skus within the
          same auto fit group. Not all skus support instance size flexibility. Known values are: "On" and
