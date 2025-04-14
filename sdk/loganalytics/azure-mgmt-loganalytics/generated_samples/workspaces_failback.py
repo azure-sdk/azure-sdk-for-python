@@ -15,7 +15,7 @@ from azure.mgmt.loganalytics import LogAnalyticsManagementClient
     pip install azure-identity
     pip install azure-mgmt-loganalytics
 # USAGE
-    python storage_insights_delete.py
+    python workspaces_failback.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -27,16 +27,15 @@ from azure.mgmt.loganalytics import LogAnalyticsManagementClient
 def main():
     client = LogAnalyticsManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="00000000-0000-0000-0000-00000000000",
+        subscription_id="53bc36c5-91e1-4d09-92c9-63b89e571926",
     )
 
-    client.storage_insight_configs.delete(
-        resource_group_name="OIAutoRest5123",
-        workspace_name="aztest5048",
-        storage_insight_name="AzTestSI1110",
-    )
+    client.workspaces.begin_failback(
+        resource_group_name="oiautorest6685",
+        workspace_name="oiautorest6685",
+    ).result()
 
 
-# x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2025-02-01/examples/StorageInsightsDelete.json
+# x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2025-02-01/examples/WorkspacesFailback.json
 if __name__ == "__main__":
     main()
