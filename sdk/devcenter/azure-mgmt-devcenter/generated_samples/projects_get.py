@@ -37,6 +37,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/stable/2024-02-01/examples/Projects_Get.json
+# x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2025-04-01-preview/examples/Projects_Get.json
 if __name__ == "__main__":
     main()
