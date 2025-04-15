@@ -23,8 +23,9 @@ class TestBackupClientTests(KeyVaultTestCase):
 
     def create_key_client(self, vault_uri, **kwargs):
         from azure.keyvault.keys import KeyClient
+
         credential = self.get_credential(KeyClient)
-        return self.create_client_from_credential(KeyClient, credential=credential, vault_url=vault_uri, **kwargs )
+        return self.create_client_from_credential(KeyClient, credential=credential, vault_url=vault_uri, **kwargs)
 
     @pytest.mark.parametrize("api_version", only_default)
     @KeyVaultBackupClientPreparer()
@@ -90,7 +91,6 @@ class TestBackupClientTests(KeyVaultTestCase):
         key_client = self.create_key_client(managed_hsm_url)
         key_name = self.get_resource_name("selective-restore-test-key")
         key_client.create_rsa_key(key_name)
-
 
         # backup the vault
         container_uri = kwargs.pop("container_uri")

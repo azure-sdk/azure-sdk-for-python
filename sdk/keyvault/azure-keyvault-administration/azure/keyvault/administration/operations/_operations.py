@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=line-too-long,useless-suppression,too-many-lines
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -9,11 +9,10 @@
 from io import IOBase
 import json
 import sys
-from typing import Any, AsyncIterable, AsyncIterator, Callable, Dict, IO, List, Optional, TypeVar, Union, cast, overload
+from typing import Any, Callable, Dict, IO, Iterable, Iterator, List, Optional, TypeVar, Union, cast, overload
 import urllib.parse
 
-from azure.core import AsyncPipelineClient
-from azure.core.async_paging import AsyncItemPaged, AsyncList
+from azure.core import PipelineClient
 from azure.core.exceptions import (
     ClientAuthenticationError,
     HttpResponseError,
@@ -24,40 +23,19 @@ from azure.core.exceptions import (
     StreamConsumedError,
     map_error,
 )
+from azure.core.paging import ItemPaged
 from azure.core.pipeline import PipelineResponse
-from azure.core.polling import AsyncLROPoller, AsyncNoPolling, AsyncPollingMethod
-from azure.core.polling.async_base_polling import AsyncLROBasePolling
-from azure.core.rest import AsyncHttpResponse, HttpRequest
+from azure.core.polling import LROPoller, NoPolling, PollingMethod
+from azure.core.polling.base_polling import LROBasePolling
+from azure.core.rest import HttpRequest, HttpResponse
 from azure.core.tracing.decorator import distributed_trace
-from azure.core.tracing.decorator_async import distributed_trace_async
 from azure.core.utils import case_insensitive_dict
 
-from ... import models as _models
-from ..._model_base import SdkJSONEncoder, _deserialize, _failsafe_deserialize
-from ..._serialization import Deserializer, Serializer
-from ..._validation import api_version_validation
-from ...operations._operations import (
-    build_key_vault_full_backup_request,
-    build_key_vault_full_backup_status_request,
-    build_key_vault_full_restore_operation_request,
-    build_key_vault_get_setting_request,
-    build_key_vault_get_settings_request,
-    build_key_vault_pre_full_backup_request,
-    build_key_vault_pre_full_restore_operation_request,
-    build_key_vault_restore_status_request,
-    build_key_vault_selective_key_restore_operation_request,
-    build_key_vault_selective_key_restore_status_request,
-    build_key_vault_update_setting_request,
-    build_role_assignments_create_request,
-    build_role_assignments_delete_request,
-    build_role_assignments_get_request,
-    build_role_assignments_list_for_scope_request,
-    build_role_definitions_create_or_update_request,
-    build_role_definitions_delete_request,
-    build_role_definitions_get_request,
-    build_role_definitions_list_request,
-)
+from .. import models as _models
 from .._configuration import KeyVaultClientConfiguration
+from .._model_base import SdkJSONEncoder, _deserialize, _failsafe_deserialize
+from .._serialization import Deserializer, Serializer
+from .._validation import api_version_validation
 from .._vendor import KeyVaultClientMixinABC
 
 if sys.version_info >= (3, 9):
@@ -66,419 +44,485 @@ else:
     from typing import MutableMapping  # type: ignore
 JSON = MutableMapping[str, Any]  # pylint: disable=unsubscriptable-object
 T = TypeVar("T")
-ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
+ClsType = Optional[Callable[[PipelineResponse[HttpRequest, HttpResponse], T, Dict[str, Any]], Any]]
+
+_SERIALIZER = Serializer()
+_SERIALIZER.client_side_validation = False
 
 
-class RoleAssignmentsOperations:
-    """
-    .. warning::
-        **DO NOT** instantiate this class directly.
+def build_role_definitions_delete_request(scope: str, role_definition_name: str, **kwargs: Any) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        Instead, you should access the following operations through
-        :class:`~azure.keyvault.administration._generated.aio.KeyVaultClient`'s
-        :attr:`role_assignments` attribute.
-    """
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "7.6-preview.2"))
+    accept = _headers.pop("Accept", "application/json")
 
-    def __init__(self, *args, **kwargs) -> None:
-        input_args = list(args)
-        self._client: AsyncPipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
-        self._config: KeyVaultClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
-        self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
-        self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
+    # Construct URL
+    _url = "/{scope}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionName}"
+    path_format_arguments = {
+        "scope": _SERIALIZER.url("scope", scope, "str", skip_quote=True),
+        "roleDefinitionName": _SERIALIZER.url("role_definition_name", role_definition_name, "str"),
+    }
 
-    @distributed_trace_async
-    async def delete(self, scope: str, role_assignment_name: str, **kwargs: Any) -> _models.RoleAssignment:
-        """Deletes a role assignment.
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
-        :param scope: The scope of the role assignment to delete. Required.
-        :type scope: str
-        :param role_assignment_name: The name of the role assignment to delete. Required.
-        :type role_assignment_name: str
-        :return: RoleAssignment. The RoleAssignment is compatible with MutableMapping
-        :rtype: ~azure.keyvault.administration._generated.models.RoleAssignment
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        error_map: MutableMapping = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
 
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = kwargs.pop("params", {}) or {}
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
-        cls: ClsType[_models.RoleAssignment] = kwargs.pop("cls", None)
+    return HttpRequest(method="DELETE", url=_url, params=_params, headers=_headers, **kwargs)
 
-        _request = build_role_assignments_delete_request(
-            scope=scope,
-            role_assignment_name=role_assignment_name,
-            api_version=self._config.api_version,
-            headers=_headers,
-            params=_params,
-        )
-        path_format_arguments = {
-            "vaultBaseUrl": self._serialize.url(
-                "self._config.vault_base_url", self._config.vault_base_url, "str", skip_quote=True
-            ),
-        }
-        _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
-        _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            _request, stream=_stream, **kwargs
-        )
+def build_role_definitions_create_or_update_request(  # pylint: disable=name-too-long
+    scope: str, role_definition_name: str, **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        response = pipeline_response.http_response
+    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "7.6-preview.2"))
+    accept = _headers.pop("Accept", "application/json")
 
-        if response.status_code not in [200]:
-            if _stream:
-                try:
-                    await response.read()  # Load the body in memory and close the socket
-                except (StreamConsumedError, StreamClosedError):
-                    pass
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _failsafe_deserialize(_models.KeyVaultError, response.json())
-            raise HttpResponseError(response=response, model=error)
+    # Construct URL
+    _url = "/{scope}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionName}"
+    path_format_arguments = {
+        "scope": _SERIALIZER.url("scope", scope, "str", skip_quote=True),
+        "roleDefinitionName": _SERIALIZER.url("role_definition_name", role_definition_name, "str"),
+    }
 
-        if _stream:
-            deserialized = response.iter_bytes()
-        else:
-            deserialized = _deserialize(_models.RoleAssignment, response.json())
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
-        if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
 
-        return deserialized  # type: ignore
+    # Construct headers
+    if content_type is not None:
+        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
-    @overload
-    async def create(
-        self,
-        scope: str,
-        role_assignment_name: str,
-        parameters: _models.RoleAssignmentCreateParameters,
-        *,
-        content_type: str = "application/json",
-        **kwargs: Any
-    ) -> _models.RoleAssignment:
-        """Creates a role assignment.
+    return HttpRequest(method="PUT", url=_url, params=_params, headers=_headers, **kwargs)
 
-        :param scope: The scope of the role assignment to create. Required.
-        :type scope: str
-        :param role_assignment_name: The name of the role assignment to create. It can be any valid
-         GUID. Required.
-        :type role_assignment_name: str
-        :param parameters: Parameters for the role assignment. Required.
-        :type parameters: ~azure.keyvault.administration._generated.models.RoleAssignmentCreateParameters
-        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :return: RoleAssignment. The RoleAssignment is compatible with MutableMapping
-        :rtype: ~azure.keyvault.administration._generated.models.RoleAssignment
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
 
-    @overload
-    async def create(
-        self,
-        scope: str,
-        role_assignment_name: str,
-        parameters: JSON,
-        *,
-        content_type: str = "application/json",
-        **kwargs: Any
-    ) -> _models.RoleAssignment:
-        """Creates a role assignment.
+def build_role_definitions_get_request(scope: str, role_definition_name: str, **kwargs: Any) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        :param scope: The scope of the role assignment to create. Required.
-        :type scope: str
-        :param role_assignment_name: The name of the role assignment to create. It can be any valid
-         GUID. Required.
-        :type role_assignment_name: str
-        :param parameters: Parameters for the role assignment. Required.
-        :type parameters: JSON
-        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :return: RoleAssignment. The RoleAssignment is compatible with MutableMapping
-        :rtype: ~azure.keyvault.administration._generated.models.RoleAssignment
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "7.6-preview.2"))
+    accept = _headers.pop("Accept", "application/json")
 
-    @overload
-    async def create(
-        self,
-        scope: str,
-        role_assignment_name: str,
-        parameters: IO[bytes],
-        *,
-        content_type: str = "application/json",
-        **kwargs: Any
-    ) -> _models.RoleAssignment:
-        """Creates a role assignment.
+    # Construct URL
+    _url = "/{scope}/providers/Microsoft.Authorization/roleDefinitions/{roleDefinitionName}"
+    path_format_arguments = {
+        "scope": _SERIALIZER.url("scope", scope, "str", skip_quote=True),
+        "roleDefinitionName": _SERIALIZER.url("role_definition_name", role_definition_name, "str"),
+    }
 
-        :param scope: The scope of the role assignment to create. Required.
-        :type scope: str
-        :param role_assignment_name: The name of the role assignment to create. It can be any valid
-         GUID. Required.
-        :type role_assignment_name: str
-        :param parameters: Parameters for the role assignment. Required.
-        :type parameters: IO[bytes]
-        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :return: RoleAssignment. The RoleAssignment is compatible with MutableMapping
-        :rtype: ~azure.keyvault.administration._generated.models.RoleAssignment
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
-    @distributed_trace_async
-    async def create(
-        self,
-        scope: str,
-        role_assignment_name: str,
-        parameters: Union[_models.RoleAssignmentCreateParameters, JSON, IO[bytes]],
-        **kwargs: Any
-    ) -> _models.RoleAssignment:
-        """Creates a role assignment.
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
 
-        :param scope: The scope of the role assignment to create. Required.
-        :type scope: str
-        :param role_assignment_name: The name of the role assignment to create. It can be any valid
-         GUID. Required.
-        :type role_assignment_name: str
-        :param parameters: Parameters for the role assignment. Is one of the following types:
-         RoleAssignmentCreateParameters, JSON, IO[bytes] Required.
-        :type parameters: ~azure.keyvault.administration._generated.models.RoleAssignmentCreateParameters or JSON
-         or IO[bytes]
-        :return: RoleAssignment. The RoleAssignment is compatible with MutableMapping
-        :rtype: ~azure.keyvault.administration._generated.models.RoleAssignment
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        error_map: MutableMapping = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
-        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-        _params = kwargs.pop("params", {}) or {}
+    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
-        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.RoleAssignment] = kwargs.pop("cls", None)
 
-        content_type = content_type or "application/json"
-        _content = None
-        if isinstance(parameters, (IOBase, bytes)):
-            _content = parameters
-        else:
-            _content = json.dumps(parameters, cls=SdkJSONEncoder, exclude_readonly=True)  # type: ignore
+def build_role_definitions_list_request(scope: str, *, filter: Optional[str] = None, **kwargs: Any) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        _request = build_role_assignments_create_request(
-            scope=scope,
-            role_assignment_name=role_assignment_name,
-            content_type=content_type,
-            api_version=self._config.api_version,
-            content=_content,
-            headers=_headers,
-            params=_params,
-        )
-        path_format_arguments = {
-            "vaultBaseUrl": self._serialize.url(
-                "self._config.vault_base_url", self._config.vault_base_url, "str", skip_quote=True
-            ),
-        }
-        _request.url = self._client.format_url(_request.url, **path_format_arguments)
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "7.6-preview.2"))
+    accept = _headers.pop("Accept", "application/json")
 
-        _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            _request, stream=_stream, **kwargs
-        )
+    # Construct URL
+    _url = "/{scope}/providers/Microsoft.Authorization/roleDefinitions"
+    path_format_arguments = {
+        "scope": _SERIALIZER.url("scope", scope, "str", skip_quote=True),
+    }
 
-        response = pipeline_response.http_response
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
-        if response.status_code not in [201]:
-            if _stream:
-                try:
-                    await response.read()  # Load the body in memory and close the socket
-                except (StreamConsumedError, StreamClosedError):
-                    pass
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _failsafe_deserialize(_models.KeyVaultError, response.json())
-            raise HttpResponseError(response=response, model=error)
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+    if filter is not None:
+        _params["$filter"] = _SERIALIZER.query("filter", filter, "str")
 
-        if _stream:
-            deserialized = response.iter_bytes()
-        else:
-            deserialized = _deserialize(_models.RoleAssignment, response.json())
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
-        if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
+    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
-        return deserialized  # type: ignore
 
-    @distributed_trace_async
-    async def get(self, scope: str, role_assignment_name: str, **kwargs: Any) -> _models.RoleAssignment:
-        """Get the specified role assignment.
+def build_role_assignments_delete_request(scope: str, role_assignment_name: str, **kwargs: Any) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        :param scope: The scope of the role assignment. Required.
-        :type scope: str
-        :param role_assignment_name: The name of the role assignment to get. Required.
-        :type role_assignment_name: str
-        :return: RoleAssignment. The RoleAssignment is compatible with MutableMapping
-        :rtype: ~azure.keyvault.administration._generated.models.RoleAssignment
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        error_map: MutableMapping = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "7.6-preview.2"))
+    accept = _headers.pop("Accept", "application/json")
 
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = kwargs.pop("params", {}) or {}
+    # Construct URL
+    _url = "/{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}"
+    path_format_arguments = {
+        "scope": _SERIALIZER.url("scope", scope, "str", skip_quote=True),
+        "roleAssignmentName": _SERIALIZER.url("role_assignment_name", role_assignment_name, "str"),
+    }
 
-        cls: ClsType[_models.RoleAssignment] = kwargs.pop("cls", None)
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
-        _request = build_role_assignments_get_request(
-            scope=scope,
-            role_assignment_name=role_assignment_name,
-            api_version=self._config.api_version,
-            headers=_headers,
-            params=_params,
-        )
-        path_format_arguments = {
-            "vaultBaseUrl": self._serialize.url(
-                "self._config.vault_base_url", self._config.vault_base_url, "str", skip_quote=True
-            ),
-        }
-        _request.url = self._client.format_url(_request.url, **path_format_arguments)
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
 
-        _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-            _request, stream=_stream, **kwargs
-        )
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
-        response = pipeline_response.http_response
+    return HttpRequest(method="DELETE", url=_url, params=_params, headers=_headers, **kwargs)
 
-        if response.status_code not in [200]:
-            if _stream:
-                try:
-                    await response.read()  # Load the body in memory and close the socket
-                except (StreamConsumedError, StreamClosedError):
-                    pass
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _failsafe_deserialize(_models.KeyVaultError, response.json())
-            raise HttpResponseError(response=response, model=error)
 
-        if _stream:
-            deserialized = response.iter_bytes()
-        else:
-            deserialized = _deserialize(_models.RoleAssignment, response.json())
+def build_role_assignments_create_request(scope: str, role_assignment_name: str, **kwargs: Any) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-        if cls:
-            return cls(pipeline_response, deserialized, {})  # type: ignore
+    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "7.6-preview.2"))
+    accept = _headers.pop("Accept", "application/json")
 
-        return deserialized  # type: ignore
+    # Construct URL
+    _url = "/{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}"
+    path_format_arguments = {
+        "scope": _SERIALIZER.url("scope", scope, "str", skip_quote=True),
+        "roleAssignmentName": _SERIALIZER.url("role_assignment_name", role_assignment_name, "str"),
+    }
 
-    @distributed_trace
-    def list_for_scope(
-        self, scope: str, *, filter: Optional[str] = None, **kwargs: Any
-    ) -> AsyncIterable["_models.RoleAssignment"]:
-        """Gets role assignments for a scope.
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
-        :param scope: The scope of the role assignments. Required.
-        :type scope: str
-        :keyword filter: The filter to apply on the operation. Use $filter=atScope() to return all role
-         assignments at or above the scope. Use $filter=principalId eq {id} to return all role
-         assignments at, above or below the scope for the specified principal. Default value is None.
-        :paramtype filter: str
-        :return: An iterator like instance of RoleAssignment
-        :rtype:
-         ~azure.core.async_paging.AsyncItemPaged[~azure.keyvault.administration._generated.models.RoleAssignment]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        _headers = kwargs.pop("headers", {}) or {}
-        _params = kwargs.pop("params", {}) or {}
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
 
-        cls: ClsType[List[_models.RoleAssignment]] = kwargs.pop("cls", None)
+    # Construct headers
+    if content_type is not None:
+        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
-        error_map: MutableMapping = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
+    return HttpRequest(method="PUT", url=_url, params=_params, headers=_headers, **kwargs)
 
-        def prepare_request(next_link=None):
-            if not next_link:
 
-                _request = build_role_assignments_list_for_scope_request(
-                    scope=scope,
-                    filter=filter,
-                    api_version=self._config.api_version,
-                    headers=_headers,
-                    params=_params,
-                )
-                path_format_arguments = {
-                    "vaultBaseUrl": self._serialize.url(
-                        "self._config.vault_base_url", self._config.vault_base_url, "str", skip_quote=True
-                    ),
-                }
-                _request.url = self._client.format_url(_request.url, **path_format_arguments)
+def build_role_assignments_get_request(scope: str, role_assignment_name: str, **kwargs: Any) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
-            else:
-                # make call to next link with the client's api-version
-                _parsed_next_link = urllib.parse.urlparse(next_link)
-                _next_request_params = case_insensitive_dict(
-                    {
-                        key: [urllib.parse.quote(v) for v in value]
-                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
-                    }
-                )
-                _next_request_params["api-version"] = self._config.api_version
-                _request = HttpRequest(
-                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
-                )
-                path_format_arguments = {
-                    "vaultBaseUrl": self._serialize.url(
-                        "self._config.vault_base_url", self._config.vault_base_url, "str", skip_quote=True
-                    ),
-                }
-                _request.url = self._client.format_url(_request.url, **path_format_arguments)
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "7.6-preview.2"))
+    accept = _headers.pop("Accept", "application/json")
 
-            return _request
+    # Construct URL
+    _url = "/{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}"
+    path_format_arguments = {
+        "scope": _SERIALIZER.url("scope", scope, "str", skip_quote=True),
+        "roleAssignmentName": _SERIALIZER.url("role_assignment_name", role_assignment_name, "str"),
+    }
 
-        async def extract_data(pipeline_response):
-            deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.RoleAssignment], deserialized["value"])
-            if cls:
-                list_of_elem = cls(list_of_elem)  # type: ignore
-            return deserialized.get("nextLink") or None, AsyncList(list_of_elem)
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
 
-        async def get_next(next_link=None):
-            _request = prepare_request(next_link)
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
 
-            _stream = False
-            pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
-                _request, stream=_stream, **kwargs
-            )
-            response = pipeline_response.http_response
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
 
-            if response.status_code not in [200]:
-                map_error(status_code=response.status_code, response=response, error_map=error_map)
-                error = _failsafe_deserialize(_models.KeyVaultError, response.json())
-                raise HttpResponseError(response=response, model=error)
+    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
-            return pipeline_response
 
-        return AsyncItemPaged(get_next, extract_data)
+def build_role_assignments_list_for_scope_request(  # pylint: disable=name-too-long
+    scope: str, *, filter: Optional[str] = None, **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "7.6-preview.2"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/{scope}/providers/Microsoft.Authorization/roleAssignments"
+    path_format_arguments = {
+        "scope": _SERIALIZER.url("scope", scope, "str", skip_quote=True),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+    if filter is not None:
+        _params["$filter"] = _SERIALIZER.query("filter", filter, "str")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_key_vault_full_backup_status_request(  # pylint: disable=name-too-long
+    job_id: str, **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "7.6-preview.2"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/backup/{jobId}/pending"
+    path_format_arguments = {
+        "jobId": _SERIALIZER.url("job_id", job_id, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_key_vault_full_backup_request(**kwargs: Any) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "7.6-preview.2"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/backup"
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    if content_type is not None:
+        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_key_vault_pre_full_backup_request(**kwargs: Any) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "7.6-preview.2"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/prebackup"
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    if content_type is not None:
+        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="POST", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_key_vault_restore_status_request(job_id: str, **kwargs: Any) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "7.6-preview.2"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/restore/{jobId}/pending"
+    path_format_arguments = {
+        "jobId": _SERIALIZER.url("job_id", job_id, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_key_vault_full_restore_operation_request(**kwargs: Any) -> HttpRequest:  # pylint: disable=name-too-long
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "7.6-preview.2"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/restore"
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    if content_type is not None:
+        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="PUT", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_key_vault_pre_full_restore_operation_request(**kwargs: Any) -> HttpRequest:  # pylint: disable=name-too-long
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "7.6-preview.2"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/prerestore"
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    if content_type is not None:
+        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="PUT", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_key_vault_selective_key_restore_status_request(  # pylint: disable=name-too-long
+    job_id: str, **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "7.6-preview.2"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/restore/{jobId}/pending"
+    path_format_arguments = {
+        "jobId": _SERIALIZER.url("job_id", job_id, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_key_vault_selective_key_restore_operation_request(  # pylint: disable=name-too-long
+    key_name: str, **kwargs: Any
+) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "7.6-preview.2"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/keys/{keyName}/restore"
+    path_format_arguments = {
+        "keyName": _SERIALIZER.url("key_name", key_name, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    if content_type is not None:
+        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="PUT", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_key_vault_update_setting_request(setting_name: str, **kwargs: Any) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "7.6-preview.2"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/settings/{setting-name}"
+    path_format_arguments = {
+        "setting-name": _SERIALIZER.url("setting_name", setting_name, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    if content_type is not None:
+        _headers["Content-Type"] = _SERIALIZER.header("content_type", content_type, "str")
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="PATCH", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_key_vault_get_setting_request(setting_name: str, **kwargs: Any) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "7.6-preview.2"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/settings/{setting-name}"
+    path_format_arguments = {
+        "setting-name": _SERIALIZER.url("setting_name", setting_name, "str"),
+    }
+
+    _url: str = _url.format(**path_format_arguments)  # type: ignore
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
+
+
+def build_key_vault_get_settings_request(**kwargs: Any) -> HttpRequest:
+    _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+    _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+    api_version: str = kwargs.pop("api_version", _params.pop("api-version", "7.6-preview.2"))
+    accept = _headers.pop("Accept", "application/json")
+
+    # Construct URL
+    _url = "/settings"
+
+    # Construct parameters
+    _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
+
+    # Construct headers
+    _headers["Accept"] = _SERIALIZER.header("accept", accept, "str")
+
+    return HttpRequest(method="GET", url=_url, params=_params, headers=_headers, **kwargs)
 
 
 class RoleDefinitionsOperations:
@@ -487,19 +531,19 @@ class RoleDefinitionsOperations:
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
-        :class:`~azure.keyvault.administration._generated.aio.KeyVaultClient`'s
+        :class:`~azure.keyvault.administration.KeyVaultClient`'s
         :attr:`role_definitions` attribute.
     """
 
-    def __init__(self, *args, **kwargs) -> None:
+    def __init__(self, *args, **kwargs):
         input_args = list(args)
-        self._client: AsyncPipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
+        self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
         self._config: KeyVaultClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
         self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
-    @distributed_trace_async
-    async def delete(self, scope: str, role_definition_name: str, **kwargs: Any) -> _models.RoleDefinition:
+    @distributed_trace
+    def delete(self, scope: str, role_definition_name: str, **kwargs: Any) -> _models.RoleDefinition:
         """Deletes a custom role definition.
 
         :param scope: The scope of the role definition to delete. Managed HSM only supports '/'.
@@ -508,7 +552,7 @@ class RoleDefinitionsOperations:
         :param role_definition_name: The name (GUID) of the role definition to delete. Required.
         :type role_definition_name: str
         :return: RoleDefinition. The RoleDefinition is compatible with MutableMapping
-        :rtype: ~azure.keyvault.administration._generated.models.RoleDefinition
+        :rtype: ~azure.keyvault.administration.models.RoleDefinition
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -539,7 +583,7 @@ class RoleDefinitionsOperations:
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -548,7 +592,7 @@ class RoleDefinitionsOperations:
         if response.status_code not in [200]:
             if _stream:
                 try:
-                    await response.read()  # Load the body in memory and close the socket
+                    response.read()  # Load the body in memory and close the socket
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
@@ -566,7 +610,7 @@ class RoleDefinitionsOperations:
         return deserialized  # type: ignore
 
     @overload
-    async def create_or_update(
+    def create_or_update(
         self,
         scope: str,
         role_definition_name: str,
@@ -584,17 +628,17 @@ class RoleDefinitionsOperations:
          valid GUID. Required.
         :type role_definition_name: str
         :param parameters: Parameters for the role definition. Required.
-        :type parameters: ~azure.keyvault.administration._generated.models.RoleDefinitionCreateParameters
+        :type parameters: ~azure.keyvault.administration.models.RoleDefinitionCreateParameters
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :return: RoleDefinition. The RoleDefinition is compatible with MutableMapping
-        :rtype: ~azure.keyvault.administration._generated.models.RoleDefinition
+        :rtype: ~azure.keyvault.administration.models.RoleDefinition
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    async def create_or_update(
+    def create_or_update(
         self,
         scope: str,
         role_definition_name: str,
@@ -617,12 +661,12 @@ class RoleDefinitionsOperations:
          Default value is "application/json".
         :paramtype content_type: str
         :return: RoleDefinition. The RoleDefinition is compatible with MutableMapping
-        :rtype: ~azure.keyvault.administration._generated.models.RoleDefinition
+        :rtype: ~azure.keyvault.administration.models.RoleDefinition
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    async def create_or_update(
+    def create_or_update(
         self,
         scope: str,
         role_definition_name: str,
@@ -645,12 +689,12 @@ class RoleDefinitionsOperations:
          Default value is "application/json".
         :paramtype content_type: str
         :return: RoleDefinition. The RoleDefinition is compatible with MutableMapping
-        :rtype: ~azure.keyvault.administration._generated.models.RoleDefinition
+        :rtype: ~azure.keyvault.administration.models.RoleDefinition
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
-    @distributed_trace_async
-    async def create_or_update(
+    @distributed_trace
+    def create_or_update(
         self,
         scope: str,
         role_definition_name: str,
@@ -667,10 +711,10 @@ class RoleDefinitionsOperations:
         :type role_definition_name: str
         :param parameters: Parameters for the role definition. Is one of the following types:
          RoleDefinitionCreateParameters, JSON, IO[bytes] Required.
-        :type parameters: ~azure.keyvault.administration._generated.models.RoleDefinitionCreateParameters or JSON
+        :type parameters: ~azure.keyvault.administration.models.RoleDefinitionCreateParameters or JSON
          or IO[bytes]
         :return: RoleDefinition. The RoleDefinition is compatible with MutableMapping
-        :rtype: ~azure.keyvault.administration._generated.models.RoleDefinition
+        :rtype: ~azure.keyvault.administration.models.RoleDefinition
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -711,7 +755,7 @@ class RoleDefinitionsOperations:
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -720,7 +764,7 @@ class RoleDefinitionsOperations:
         if response.status_code not in [201]:
             if _stream:
                 try:
-                    await response.read()  # Load the body in memory and close the socket
+                    response.read()  # Load the body in memory and close the socket
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
@@ -737,8 +781,8 @@ class RoleDefinitionsOperations:
 
         return deserialized  # type: ignore
 
-    @distributed_trace_async
-    async def get(self, scope: str, role_definition_name: str, **kwargs: Any) -> _models.RoleDefinition:
+    @distributed_trace
+    def get(self, scope: str, role_definition_name: str, **kwargs: Any) -> _models.RoleDefinition:
         """Get the specified role definition.
 
         :param scope: The scope of the role definition to get. Managed HSM only supports '/'. Required.
@@ -746,7 +790,7 @@ class RoleDefinitionsOperations:
         :param role_definition_name: The name of the role definition to get. Required.
         :type role_definition_name: str
         :return: RoleDefinition. The RoleDefinition is compatible with MutableMapping
-        :rtype: ~azure.keyvault.administration._generated.models.RoleDefinition
+        :rtype: ~azure.keyvault.administration.models.RoleDefinition
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -777,7 +821,7 @@ class RoleDefinitionsOperations:
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -786,7 +830,7 @@ class RoleDefinitionsOperations:
         if response.status_code not in [200]:
             if _stream:
                 try:
-                    await response.read()  # Load the body in memory and close the socket
+                    response.read()  # Load the body in memory and close the socket
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
@@ -804,9 +848,7 @@ class RoleDefinitionsOperations:
         return deserialized  # type: ignore
 
     @distributed_trace
-    def list(
-        self, scope: str, *, filter: Optional[str] = None, **kwargs: Any
-    ) -> AsyncIterable["_models.RoleDefinition"]:
+    def list(self, scope: str, *, filter: Optional[str] = None, **kwargs: Any) -> Iterable["_models.RoleDefinition"]:
         """Get all role definitions that are applicable at scope and above.
 
         :param scope: The scope of the role definition. Required.
@@ -815,8 +857,7 @@ class RoleDefinitionsOperations:
          below the given scope as well. Default value is None.
         :paramtype filter: str
         :return: An iterator like instance of RoleDefinition
-        :rtype:
-         ~azure.core.async_paging.AsyncItemPaged[~azure.keyvault.administration._generated.models.RoleDefinition]
+        :rtype: ~azure.core.paging.ItemPaged[~azure.keyvault.administration.models.RoleDefinition]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
@@ -871,18 +912,18 @@ class RoleDefinitionsOperations:
 
             return _request
 
-        async def extract_data(pipeline_response):
+        def extract_data(pipeline_response):
             deserialized = pipeline_response.http_response.json()
-            list_of_elem = _deserialize(List[_models.RoleDefinition], deserialized["value"])
+            list_of_elem = _deserialize(List[_models.RoleDefinition], deserialized.get("value", []))
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
-            return deserialized.get("nextLink") or None, AsyncList(list_of_elem)
+            return deserialized.get("nextLink") or None, iter(list_of_elem)
 
-        async def get_next(next_link=None):
+        def get_next(next_link=None):
             _request = prepare_request(next_link)
 
             _stream = False
-            pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
                 _request, stream=_stream, **kwargs
             )
             response = pipeline_response.http_response
@@ -894,19 +935,430 @@ class RoleDefinitionsOperations:
 
             return pipeline_response
 
-        return AsyncItemPaged(get_next, extract_data)
+        return ItemPaged(get_next, extract_data)
+
+
+class RoleAssignmentsOperations:
+    """
+    .. warning::
+        **DO NOT** instantiate this class directly.
+
+        Instead, you should access the following operations through
+        :class:`~azure.keyvault.administration.KeyVaultClient`'s
+        :attr:`role_assignments` attribute.
+    """
+
+    def __init__(self, *args, **kwargs):
+        input_args = list(args)
+        self._client: PipelineClient = input_args.pop(0) if input_args else kwargs.pop("client")
+        self._config: KeyVaultClientConfiguration = input_args.pop(0) if input_args else kwargs.pop("config")
+        self._serialize: Serializer = input_args.pop(0) if input_args else kwargs.pop("serializer")
+        self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
+
+    @distributed_trace
+    def delete(self, scope: str, role_assignment_name: str, **kwargs: Any) -> _models.RoleAssignment:
+        """Deletes a role assignment.
+
+        :param scope: The scope of the role assignment to delete. Required.
+        :type scope: str
+        :param role_assignment_name: The name of the role assignment to delete. Required.
+        :type role_assignment_name: str
+        :return: RoleAssignment. The RoleAssignment is compatible with MutableMapping
+        :rtype: ~azure.keyvault.administration.models.RoleAssignment
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = kwargs.pop("params", {}) or {}
+
+        cls: ClsType[_models.RoleAssignment] = kwargs.pop("cls", None)
+
+        _request = build_role_assignments_delete_request(
+            scope=scope,
+            role_assignment_name=role_assignment_name,
+            api_version=self._config.api_version,
+            headers=_headers,
+            params=_params,
+        )
+        path_format_arguments = {
+            "vaultBaseUrl": self._serialize.url(
+                "self._config.vault_base_url", self._config.vault_base_url, "str", skip_quote=True
+            ),
+        }
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+        _stream = kwargs.pop("stream", False)
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            if _stream:
+                try:
+                    response.read()  # Load the body in memory and close the socket
+                except (StreamConsumedError, StreamClosedError):
+                    pass
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = _failsafe_deserialize(_models.KeyVaultError, response.json())
+            raise HttpResponseError(response=response, model=error)
+
+        if _stream:
+            deserialized = response.iter_bytes()
+        else:
+            deserialized = _deserialize(_models.RoleAssignment, response.json())
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
+
+    @overload
+    def create(
+        self,
+        scope: str,
+        role_assignment_name: str,
+        parameters: _models.RoleAssignmentCreateParameters,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> _models.RoleAssignment:
+        """Creates a role assignment.
+
+        :param scope: The scope of the role assignment to create. Required.
+        :type scope: str
+        :param role_assignment_name: The name of the role assignment to create. It can be any valid
+         GUID. Required.
+        :type role_assignment_name: str
+        :param parameters: Parameters for the role assignment. Required.
+        :type parameters: ~azure.keyvault.administration.models.RoleAssignmentCreateParameters
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: RoleAssignment. The RoleAssignment is compatible with MutableMapping
+        :rtype: ~azure.keyvault.administration.models.RoleAssignment
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    def create(
+        self,
+        scope: str,
+        role_assignment_name: str,
+        parameters: JSON,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> _models.RoleAssignment:
+        """Creates a role assignment.
+
+        :param scope: The scope of the role assignment to create. Required.
+        :type scope: str
+        :param role_assignment_name: The name of the role assignment to create. It can be any valid
+         GUID. Required.
+        :type role_assignment_name: str
+        :param parameters: Parameters for the role assignment. Required.
+        :type parameters: JSON
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: RoleAssignment. The RoleAssignment is compatible with MutableMapping
+        :rtype: ~azure.keyvault.administration.models.RoleAssignment
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    def create(
+        self,
+        scope: str,
+        role_assignment_name: str,
+        parameters: IO[bytes],
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> _models.RoleAssignment:
+        """Creates a role assignment.
+
+        :param scope: The scope of the role assignment to create. Required.
+        :type scope: str
+        :param role_assignment_name: The name of the role assignment to create. It can be any valid
+         GUID. Required.
+        :type role_assignment_name: str
+        :param parameters: Parameters for the role assignment. Required.
+        :type parameters: IO[bytes]
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: RoleAssignment. The RoleAssignment is compatible with MutableMapping
+        :rtype: ~azure.keyvault.administration.models.RoleAssignment
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace
+    def create(
+        self,
+        scope: str,
+        role_assignment_name: str,
+        parameters: Union[_models.RoleAssignmentCreateParameters, JSON, IO[bytes]],
+        **kwargs: Any
+    ) -> _models.RoleAssignment:
+        """Creates a role assignment.
+
+        :param scope: The scope of the role assignment to create. Required.
+        :type scope: str
+        :param role_assignment_name: The name of the role assignment to create. It can be any valid
+         GUID. Required.
+        :type role_assignment_name: str
+        :param parameters: Parameters for the role assignment. Is one of the following types:
+         RoleAssignmentCreateParameters, JSON, IO[bytes] Required.
+        :type parameters: ~azure.keyvault.administration.models.RoleAssignmentCreateParameters or JSON
+         or IO[bytes]
+        :return: RoleAssignment. The RoleAssignment is compatible with MutableMapping
+        :rtype: ~azure.keyvault.administration.models.RoleAssignment
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = kwargs.pop("params", {}) or {}
+
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.RoleAssignment] = kwargs.pop("cls", None)
+
+        content_type = content_type or "application/json"
+        _content = None
+        if isinstance(parameters, (IOBase, bytes)):
+            _content = parameters
+        else:
+            _content = json.dumps(parameters, cls=SdkJSONEncoder, exclude_readonly=True)  # type: ignore
+
+        _request = build_role_assignments_create_request(
+            scope=scope,
+            role_assignment_name=role_assignment_name,
+            content_type=content_type,
+            api_version=self._config.api_version,
+            content=_content,
+            headers=_headers,
+            params=_params,
+        )
+        path_format_arguments = {
+            "vaultBaseUrl": self._serialize.url(
+                "self._config.vault_base_url", self._config.vault_base_url, "str", skip_quote=True
+            ),
+        }
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+        _stream = kwargs.pop("stream", False)
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [201]:
+            if _stream:
+                try:
+                    response.read()  # Load the body in memory and close the socket
+                except (StreamConsumedError, StreamClosedError):
+                    pass
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = _failsafe_deserialize(_models.KeyVaultError, response.json())
+            raise HttpResponseError(response=response, model=error)
+
+        if _stream:
+            deserialized = response.iter_bytes()
+        else:
+            deserialized = _deserialize(_models.RoleAssignment, response.json())
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
+
+    @distributed_trace
+    def get(self, scope: str, role_assignment_name: str, **kwargs: Any) -> _models.RoleAssignment:
+        """Get the specified role assignment.
+
+        :param scope: The scope of the role assignment. Required.
+        :type scope: str
+        :param role_assignment_name: The name of the role assignment to get. Required.
+        :type role_assignment_name: str
+        :return: RoleAssignment. The RoleAssignment is compatible with MutableMapping
+        :rtype: ~azure.keyvault.administration.models.RoleAssignment
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = kwargs.pop("params", {}) or {}
+
+        cls: ClsType[_models.RoleAssignment] = kwargs.pop("cls", None)
+
+        _request = build_role_assignments_get_request(
+            scope=scope,
+            role_assignment_name=role_assignment_name,
+            api_version=self._config.api_version,
+            headers=_headers,
+            params=_params,
+        )
+        path_format_arguments = {
+            "vaultBaseUrl": self._serialize.url(
+                "self._config.vault_base_url", self._config.vault_base_url, "str", skip_quote=True
+            ),
+        }
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+        _stream = kwargs.pop("stream", False)
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            if _stream:
+                try:
+                    response.read()  # Load the body in memory and close the socket
+                except (StreamConsumedError, StreamClosedError):
+                    pass
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = _failsafe_deserialize(_models.KeyVaultError, response.json())
+            raise HttpResponseError(response=response, model=error)
+
+        if _stream:
+            deserialized = response.iter_bytes()
+        else:
+            deserialized = _deserialize(_models.RoleAssignment, response.json())
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
+
+    @distributed_trace
+    def list_for_scope(
+        self, scope: str, *, filter: Optional[str] = None, **kwargs: Any
+    ) -> Iterable["_models.RoleAssignment"]:
+        """Gets role assignments for a scope.
+
+        :param scope: The scope of the role assignments. Required.
+        :type scope: str
+        :keyword filter: The filter to apply on the operation. Use $filter=atScope() to return all role
+         assignments at or above the scope. Use $filter=principalId eq {id} to return all role
+         assignments at, above or below the scope for the specified principal. Default value is None.
+        :paramtype filter: str
+        :return: An iterator like instance of RoleAssignment
+        :rtype: ~azure.core.paging.ItemPaged[~azure.keyvault.administration.models.RoleAssignment]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = kwargs.pop("params", {}) or {}
+
+        cls: ClsType[List[_models.RoleAssignment]] = kwargs.pop("cls", None)
+
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        def prepare_request(next_link=None):
+            if not next_link:
+
+                _request = build_role_assignments_list_for_scope_request(
+                    scope=scope,
+                    filter=filter,
+                    api_version=self._config.api_version,
+                    headers=_headers,
+                    params=_params,
+                )
+                path_format_arguments = {
+                    "vaultBaseUrl": self._serialize.url(
+                        "self._config.vault_base_url", self._config.vault_base_url, "str", skip_quote=True
+                    ),
+                }
+                _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+            else:
+                # make call to next link with the client's api-version
+                _parsed_next_link = urllib.parse.urlparse(next_link)
+                _next_request_params = case_insensitive_dict(
+                    {
+                        key: [urllib.parse.quote(v) for v in value]
+                        for key, value in urllib.parse.parse_qs(_parsed_next_link.query).items()
+                    }
+                )
+                _next_request_params["api-version"] = self._config.api_version
+                _request = HttpRequest(
+                    "GET", urllib.parse.urljoin(next_link, _parsed_next_link.path), params=_next_request_params
+                )
+                path_format_arguments = {
+                    "vaultBaseUrl": self._serialize.url(
+                        "self._config.vault_base_url", self._config.vault_base_url, "str", skip_quote=True
+                    ),
+                }
+                _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+            return _request
+
+        def extract_data(pipeline_response):
+            deserialized = pipeline_response.http_response.json()
+            list_of_elem = _deserialize(List[_models.RoleAssignment], deserialized.get("value", []))
+            if cls:
+                list_of_elem = cls(list_of_elem)  # type: ignore
+            return deserialized.get("nextLink") or None, iter(list_of_elem)
+
+        def get_next(next_link=None):
+            _request = prepare_request(next_link)
+
+            _stream = False
+            pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+                _request, stream=_stream, **kwargs
+            )
+            response = pipeline_response.http_response
+
+            if response.status_code not in [200]:
+                map_error(status_code=response.status_code, response=response, error_map=error_map)
+                error = _failsafe_deserialize(_models.KeyVaultError, response.json())
+                raise HttpResponseError(response=response, model=error)
+
+            return pipeline_response
+
+        return ItemPaged(get_next, extract_data)
 
 
 class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
 
-    @distributed_trace_async
-    async def full_backup_status(self, job_id: str, **kwargs: Any) -> _models.FullBackupOperation:
+    @distributed_trace
+    def full_backup_status(self, job_id: str, **kwargs: Any) -> _models.FullBackupOperation:
         """Returns the status of full backup operation.
 
         :param job_id: The id returned as part of the backup request. Required.
         :type job_id: str
         :return: FullBackupOperation. The FullBackupOperation is compatible with MutableMapping
-        :rtype: ~azure.keyvault.administration._generated.models.FullBackupOperation
+        :rtype: ~azure.keyvault.administration.models.FullBackupOperation
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -936,7 +1388,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -945,7 +1397,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
         if response.status_code not in [200]:
             if _stream:
                 try:
-                    await response.read()  # Load the body in memory and close the socket
+                    response.read()  # Load the body in memory and close the socket
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
@@ -962,9 +1414,9 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
 
         return deserialized  # type: ignore
 
-    async def _full_backup_initial(
+    def _full_backup_initial(
         self, azure_storage_blob_container_uri: Union[_models.SASTokenParameter, JSON, IO[bytes]], **kwargs: Any
-    ) -> AsyncIterator[bytes]:
+    ) -> Iterator[bytes]:
         error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
@@ -977,7 +1429,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
         _params = kwargs.pop("params", {}) or {}
 
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[AsyncIterator[bytes]] = kwargs.pop("cls", None)
+        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
 
         content_type = content_type or "application/json"
         _content = None
@@ -1001,7 +1453,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = True
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -1009,7 +1461,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
 
         if response.status_code not in [202]:
             try:
-                await response.read()  # Load the body in memory and close the socket
+                response.read()  # Load the body in memory and close the socket
             except (StreamConsumedError, StreamClosedError):
                 pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
@@ -1030,33 +1482,33 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
         return deserialized  # type: ignore
 
     @overload
-    async def begin_full_backup(
+    def begin_full_backup(
         self,
         azure_storage_blob_container_uri: _models.SASTokenParameter,
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> AsyncLROPoller[_models.FullBackupOperation]:
+    ) -> LROPoller[_models.FullBackupOperation]:
         """Creates a full backup using a user-provided SAS token to an Azure blob storage container.
 
         :param azure_storage_blob_container_uri: Azure blob shared access signature token pointing to a
          valid Azure blob container where full backup needs to be stored. This token needs to be valid
          for at least next 24 hours from the time of making this call. Required.
-        :type azure_storage_blob_container_uri: ~azure.keyvault.administration._generated.models.SASTokenParameter
+        :type azure_storage_blob_container_uri: ~azure.keyvault.administration.models.SASTokenParameter
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of AsyncLROPoller that returns FullBackupOperation. The
-         FullBackupOperation is compatible with MutableMapping
+        :return: An instance of LROPoller that returns FullBackupOperation. The FullBackupOperation is
+         compatible with MutableMapping
         :rtype:
-         ~azure.core.polling.AsyncLROPoller[~azure.keyvault.administration._generated.models.FullBackupOperation]
+         ~azure.core.polling.LROPoller[~azure.keyvault.administration.models.FullBackupOperation]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    async def begin_full_backup(
+    def begin_full_backup(
         self, azure_storage_blob_container_uri: JSON, *, content_type: str = "application/json", **kwargs: Any
-    ) -> AsyncLROPoller[_models.FullBackupOperation]:
+    ) -> LROPoller[_models.FullBackupOperation]:
         """Creates a full backup using a user-provided SAS token to an Azure blob storage container.
 
         :param azure_storage_blob_container_uri: Azure blob shared access signature token pointing to a
@@ -1066,17 +1518,17 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of AsyncLROPoller that returns FullBackupOperation. The
-         FullBackupOperation is compatible with MutableMapping
+        :return: An instance of LROPoller that returns FullBackupOperation. The FullBackupOperation is
+         compatible with MutableMapping
         :rtype:
-         ~azure.core.polling.AsyncLROPoller[~azure.keyvault.administration._generated.models.FullBackupOperation]
+         ~azure.core.polling.LROPoller[~azure.keyvault.administration.models.FullBackupOperation]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    async def begin_full_backup(
+    def begin_full_backup(
         self, azure_storage_blob_container_uri: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
-    ) -> AsyncLROPoller[_models.FullBackupOperation]:
+    ) -> LROPoller[_models.FullBackupOperation]:
         """Creates a full backup using a user-provided SAS token to an Azure blob storage container.
 
         :param azure_storage_blob_container_uri: Azure blob shared access signature token pointing to a
@@ -1086,29 +1538,29 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of AsyncLROPoller that returns FullBackupOperation. The
-         FullBackupOperation is compatible with MutableMapping
+        :return: An instance of LROPoller that returns FullBackupOperation. The FullBackupOperation is
+         compatible with MutableMapping
         :rtype:
-         ~azure.core.polling.AsyncLROPoller[~azure.keyvault.administration._generated.models.FullBackupOperation]
+         ~azure.core.polling.LROPoller[~azure.keyvault.administration.models.FullBackupOperation]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
-    @distributed_trace_async
-    async def begin_full_backup(
+    @distributed_trace
+    def begin_full_backup(
         self, azure_storage_blob_container_uri: Union[_models.SASTokenParameter, JSON, IO[bytes]], **kwargs: Any
-    ) -> AsyncLROPoller[_models.FullBackupOperation]:
+    ) -> LROPoller[_models.FullBackupOperation]:
         """Creates a full backup using a user-provided SAS token to an Azure blob storage container.
 
         :param azure_storage_blob_container_uri: Azure blob shared access signature token pointing to a
          valid Azure blob container where full backup needs to be stored. This token needs to be valid
          for at least next 24 hours from the time of making this call. Is one of the following types:
          SASTokenParameter, JSON, IO[bytes] Required.
-        :type azure_storage_blob_container_uri: ~azure.keyvault.administration._generated.models.SASTokenParameter
+        :type azure_storage_blob_container_uri: ~azure.keyvault.administration.models.SASTokenParameter
          or JSON or IO[bytes]
-        :return: An instance of AsyncLROPoller that returns FullBackupOperation. The
-         FullBackupOperation is compatible with MutableMapping
+        :return: An instance of LROPoller that returns FullBackupOperation. The FullBackupOperation is
+         compatible with MutableMapping
         :rtype:
-         ~azure.core.polling.AsyncLROPoller[~azure.keyvault.administration._generated.models.FullBackupOperation]
+         ~azure.core.polling.LROPoller[~azure.keyvault.administration.models.FullBackupOperation]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -1116,11 +1568,11 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
 
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.FullBackupOperation] = kwargs.pop("cls", None)
-        polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
+        polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
         if cont_token is None:
-            raw_result = await self._full_backup_initial(
+            raw_result = self._full_backup_initial(
                 azure_storage_blob_container_uri=azure_storage_blob_container_uri,
                 content_type=content_type,
                 cls=lambda x, y, z: x,
@@ -1128,7 +1580,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
                 params=_params,
                 **kwargs
             )
-            await raw_result.http_response.read()  # type: ignore
+            raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):
@@ -1151,22 +1603,21 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
         }
 
         if polling is True:
-            polling_method: AsyncPollingMethod = cast(
-                AsyncPollingMethod,
-                AsyncLROBasePolling(lro_delay, path_format_arguments=path_format_arguments, **kwargs),
+            polling_method: PollingMethod = cast(
+                PollingMethod, LROBasePolling(lro_delay, path_format_arguments=path_format_arguments, **kwargs)
             )
         elif polling is False:
-            polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
+            polling_method = cast(PollingMethod, NoPolling())
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller[_models.FullBackupOperation].from_continuation_token(
+            return LROPoller[_models.FullBackupOperation].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller[_models.FullBackupOperation](
+        return LROPoller[_models.FullBackupOperation](
             self._client, raw_result, get_long_running_output, polling_method  # type: ignore
         )
 
@@ -1174,11 +1625,11 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
         method_added_on="7.6-preview.2",
         params_added_on={"7.6-preview.2": ["api_version", "content_type", "accept"]},
     )
-    async def _pre_full_backup_initial(
+    def _pre_full_backup_initial(
         self,
         pre_backup_operation_parameters: Union[_models.PreBackupOperationParameters, JSON, IO[bytes]],
         **kwargs: Any
-    ) -> AsyncIterator[bytes]:
+    ) -> Iterator[bytes]:
         error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
@@ -1191,7 +1642,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
         _params = kwargs.pop("params", {}) or {}
 
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[AsyncIterator[bytes]] = kwargs.pop("cls", None)
+        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
 
         content_type = content_type or "application/json"
         _content = None
@@ -1215,7 +1666,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = True
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -1223,7 +1674,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
 
         if response.status_code not in [202]:
             try:
-                await response.read()  # Load the body in memory and close the socket
+                response.read()  # Load the body in memory and close the socket
             except (StreamConsumedError, StreamClosedError):
                 pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
@@ -1244,33 +1695,33 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
         return deserialized  # type: ignore
 
     @overload
-    async def begin_pre_full_backup(
+    def begin_pre_full_backup(
         self,
         pre_backup_operation_parameters: _models.PreBackupOperationParameters,
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> AsyncLROPoller[_models.FullBackupOperation]:
+    ) -> LROPoller[_models.FullBackupOperation]:
         """Pre-backup operation for checking whether the customer can perform a full backup operation.
 
         :param pre_backup_operation_parameters: Optional parameters to validate prior to performing a
          full backup operation. Required.
         :type pre_backup_operation_parameters:
-         ~azure.keyvault.administration._generated.models.PreBackupOperationParameters
+         ~azure.keyvault.administration.models.PreBackupOperationParameters
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of AsyncLROPoller that returns FullBackupOperation. The
-         FullBackupOperation is compatible with MutableMapping
+        :return: An instance of LROPoller that returns FullBackupOperation. The FullBackupOperation is
+         compatible with MutableMapping
         :rtype:
-         ~azure.core.polling.AsyncLROPoller[~azure.keyvault.administration._generated.models.FullBackupOperation]
+         ~azure.core.polling.LROPoller[~azure.keyvault.administration.models.FullBackupOperation]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    async def begin_pre_full_backup(
+    def begin_pre_full_backup(
         self, pre_backup_operation_parameters: JSON, *, content_type: str = "application/json", **kwargs: Any
-    ) -> AsyncLROPoller[_models.FullBackupOperation]:
+    ) -> LROPoller[_models.FullBackupOperation]:
         """Pre-backup operation for checking whether the customer can perform a full backup operation.
 
         :param pre_backup_operation_parameters: Optional parameters to validate prior to performing a
@@ -1279,17 +1730,17 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of AsyncLROPoller that returns FullBackupOperation. The
-         FullBackupOperation is compatible with MutableMapping
+        :return: An instance of LROPoller that returns FullBackupOperation. The FullBackupOperation is
+         compatible with MutableMapping
         :rtype:
-         ~azure.core.polling.AsyncLROPoller[~azure.keyvault.administration._generated.models.FullBackupOperation]
+         ~azure.core.polling.LROPoller[~azure.keyvault.administration.models.FullBackupOperation]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    async def begin_pre_full_backup(
+    def begin_pre_full_backup(
         self, pre_backup_operation_parameters: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
-    ) -> AsyncLROPoller[_models.FullBackupOperation]:
+    ) -> LROPoller[_models.FullBackupOperation]:
         """Pre-backup operation for checking whether the customer can perform a full backup operation.
 
         :param pre_backup_operation_parameters: Optional parameters to validate prior to performing a
@@ -1298,34 +1749,34 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of AsyncLROPoller that returns FullBackupOperation. The
-         FullBackupOperation is compatible with MutableMapping
+        :return: An instance of LROPoller that returns FullBackupOperation. The FullBackupOperation is
+         compatible with MutableMapping
         :rtype:
-         ~azure.core.polling.AsyncLROPoller[~azure.keyvault.administration._generated.models.FullBackupOperation]
+         ~azure.core.polling.LROPoller[~azure.keyvault.administration.models.FullBackupOperation]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
-    @distributed_trace_async
+    @distributed_trace
     @api_version_validation(
         method_added_on="7.6-preview.2",
         params_added_on={"7.6-preview.2": ["api_version", "content_type", "accept"]},
     )
-    async def begin_pre_full_backup(
+    def begin_pre_full_backup(
         self,
         pre_backup_operation_parameters: Union[_models.PreBackupOperationParameters, JSON, IO[bytes]],
         **kwargs: Any
-    ) -> AsyncLROPoller[_models.FullBackupOperation]:
+    ) -> LROPoller[_models.FullBackupOperation]:
         """Pre-backup operation for checking whether the customer can perform a full backup operation.
 
         :param pre_backup_operation_parameters: Optional parameters to validate prior to performing a
          full backup operation. Is one of the following types: PreBackupOperationParameters, JSON,
          IO[bytes] Required.
         :type pre_backup_operation_parameters:
-         ~azure.keyvault.administration._generated.models.PreBackupOperationParameters or JSON or IO[bytes]
-        :return: An instance of AsyncLROPoller that returns FullBackupOperation. The
-         FullBackupOperation is compatible with MutableMapping
+         ~azure.keyvault.administration.models.PreBackupOperationParameters or JSON or IO[bytes]
+        :return: An instance of LROPoller that returns FullBackupOperation. The FullBackupOperation is
+         compatible with MutableMapping
         :rtype:
-         ~azure.core.polling.AsyncLROPoller[~azure.keyvault.administration._generated.models.FullBackupOperation]
+         ~azure.core.polling.LROPoller[~azure.keyvault.administration.models.FullBackupOperation]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -1333,11 +1784,11 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
 
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.FullBackupOperation] = kwargs.pop("cls", None)
-        polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
+        polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
         if cont_token is None:
-            raw_result = await self._pre_full_backup_initial(
+            raw_result = self._pre_full_backup_initial(
                 pre_backup_operation_parameters=pre_backup_operation_parameters,
                 content_type=content_type,
                 cls=lambda x, y, z: x,
@@ -1345,7 +1796,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
                 params=_params,
                 **kwargs
             )
-            await raw_result.http_response.read()  # type: ignore
+            raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):
@@ -1368,33 +1819,32 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
         }
 
         if polling is True:
-            polling_method: AsyncPollingMethod = cast(
-                AsyncPollingMethod,
-                AsyncLROBasePolling(lro_delay, path_format_arguments=path_format_arguments, **kwargs),
+            polling_method: PollingMethod = cast(
+                PollingMethod, LROBasePolling(lro_delay, path_format_arguments=path_format_arguments, **kwargs)
             )
         elif polling is False:
-            polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
+            polling_method = cast(PollingMethod, NoPolling())
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller[_models.FullBackupOperation].from_continuation_token(
+            return LROPoller[_models.FullBackupOperation].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller[_models.FullBackupOperation](
+        return LROPoller[_models.FullBackupOperation](
             self._client, raw_result, get_long_running_output, polling_method  # type: ignore
         )
 
-    @distributed_trace_async
-    async def restore_status(self, job_id: str, **kwargs: Any) -> _models.RestoreOperation:
+    @distributed_trace
+    def restore_status(self, job_id: str, **kwargs: Any) -> _models.RestoreOperation:
         """Returns the status of restore operation.
 
         :param job_id: The Job Id returned part of the restore operation. Required.
         :type job_id: str
         :return: RestoreOperation. The RestoreOperation is compatible with MutableMapping
-        :rtype: ~azure.keyvault.administration._generated.models.RestoreOperation
+        :rtype: ~azure.keyvault.administration.models.RestoreOperation
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -1424,7 +1874,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -1433,7 +1883,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
         if response.status_code not in [200]:
             if _stream:
                 try:
-                    await response.read()  # Load the body in memory and close the socket
+                    response.read()  # Load the body in memory and close the socket
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
@@ -1450,226 +1900,9 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
 
         return deserialized  # type: ignore
 
-    @api_version_validation(
-        method_added_on="7.6-preview.2",
-        params_added_on={"7.6-preview.2": ["api_version", "content_type", "accept"]},
-    )
-    async def _pre_full_restore_operation_initial(
-        self,
-        pre_restore_operation_parameters: Union[_models.PreRestoreOperationParameters, JSON, IO[bytes]],
-        **kwargs: Any
-    ) -> AsyncIterator[bytes]:
-        error_map: MutableMapping = {
-            401: ClientAuthenticationError,
-            404: ResourceNotFoundError,
-            409: ResourceExistsError,
-            304: ResourceNotModifiedError,
-        }
-        error_map.update(kwargs.pop("error_map", {}) or {})
-
-        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-        _params = kwargs.pop("params", {}) or {}
-
-        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[AsyncIterator[bytes]] = kwargs.pop("cls", None)
-
-        content_type = content_type or "application/json"
-        _content = None
-        if isinstance(pre_restore_operation_parameters, (IOBase, bytes)):
-            _content = pre_restore_operation_parameters
-        else:
-            _content = json.dumps(pre_restore_operation_parameters, cls=SdkJSONEncoder, exclude_readonly=True)  # type: ignore
-
-        _request = build_key_vault_pre_full_restore_operation_request(
-            content_type=content_type,
-            api_version=self._config.api_version,
-            content=_content,
-            headers=_headers,
-            params=_params,
-        )
-        path_format_arguments = {
-            "vaultBaseUrl": self._serialize.url(
-                "self._config.vault_base_url", self._config.vault_base_url, "str", skip_quote=True
-            ),
-        }
-        _request.url = self._client.format_url(_request.url, **path_format_arguments)
-
-        _stream = True
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
-            _request, stream=_stream, **kwargs
-        )
-
-        response = pipeline_response.http_response
-
-        if response.status_code not in [202]:
-            try:
-                await response.read()  # Load the body in memory and close the socket
-            except (StreamConsumedError, StreamClosedError):
-                pass
-            map_error(status_code=response.status_code, response=response, error_map=error_map)
-            error = _failsafe_deserialize(_models.KeyVaultError, response.json())
-            raise HttpResponseError(response=response, model=error)
-
-        response_headers = {}
-        response_headers["Azure-AsyncOperation"] = self._deserialize(
-            "str", response.headers.get("Azure-AsyncOperation")
-        )
-        response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
-
-        deserialized = response.iter_bytes()
-
-        if cls:
-            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
-
-        return deserialized  # type: ignore
-
-    @overload
-    async def begin_pre_full_restore_operation(
-        self,
-        pre_restore_operation_parameters: _models.PreRestoreOperationParameters,
-        *,
-        content_type: str = "application/json",
-        **kwargs: Any
-    ) -> AsyncLROPoller[_models.RestoreOperation]:
-        """Pre-restore operation for checking whether the customer can perform a full restore operation.
-
-        :param pre_restore_operation_parameters: Optional pre restore parameters to validate prior to
-         performing a full restore operation. Required.
-        :type pre_restore_operation_parameters:
-         ~azure.keyvault.administration._generated.models.PreRestoreOperationParameters
-        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :return: An instance of AsyncLROPoller that returns RestoreOperation. The RestoreOperation is
-         compatible with MutableMapping
-        :rtype:
-         ~azure.core.polling.AsyncLROPoller[~azure.keyvault.administration._generated.models.RestoreOperation]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @overload
-    async def begin_pre_full_restore_operation(
-        self, pre_restore_operation_parameters: JSON, *, content_type: str = "application/json", **kwargs: Any
-    ) -> AsyncLROPoller[_models.RestoreOperation]:
-        """Pre-restore operation for checking whether the customer can perform a full restore operation.
-
-        :param pre_restore_operation_parameters: Optional pre restore parameters to validate prior to
-         performing a full restore operation. Required.
-        :type pre_restore_operation_parameters: JSON
-        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :return: An instance of AsyncLROPoller that returns RestoreOperation. The RestoreOperation is
-         compatible with MutableMapping
-        :rtype:
-         ~azure.core.polling.AsyncLROPoller[~azure.keyvault.administration._generated.models.RestoreOperation]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @overload
-    async def begin_pre_full_restore_operation(
-        self, pre_restore_operation_parameters: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
-    ) -> AsyncLROPoller[_models.RestoreOperation]:
-        """Pre-restore operation for checking whether the customer can perform a full restore operation.
-
-        :param pre_restore_operation_parameters: Optional pre restore parameters to validate prior to
-         performing a full restore operation. Required.
-        :type pre_restore_operation_parameters: IO[bytes]
-        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
-         Default value is "application/json".
-        :paramtype content_type: str
-        :return: An instance of AsyncLROPoller that returns RestoreOperation. The RestoreOperation is
-         compatible with MutableMapping
-        :rtype:
-         ~azure.core.polling.AsyncLROPoller[~azure.keyvault.administration._generated.models.RestoreOperation]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-
-    @distributed_trace_async
-    @api_version_validation(
-        method_added_on="7.6-preview.2",
-        params_added_on={"7.6-preview.2": ["api_version", "content_type", "accept"]},
-    )
-    async def begin_pre_full_restore_operation(
-        self,
-        pre_restore_operation_parameters: Union[_models.PreRestoreOperationParameters, JSON, IO[bytes]],
-        **kwargs: Any
-    ) -> AsyncLROPoller[_models.RestoreOperation]:
-        """Pre-restore operation for checking whether the customer can perform a full restore operation.
-
-        :param pre_restore_operation_parameters: Optional pre restore parameters to validate prior to
-         performing a full restore operation. Is one of the following types:
-         PreRestoreOperationParameters, JSON, IO[bytes] Required.
-        :type pre_restore_operation_parameters:
-         ~azure.keyvault.administration._generated.models.PreRestoreOperationParameters or JSON or IO[bytes]
-        :return: An instance of AsyncLROPoller that returns RestoreOperation. The RestoreOperation is
-         compatible with MutableMapping
-        :rtype:
-         ~azure.core.polling.AsyncLROPoller[~azure.keyvault.administration._generated.models.RestoreOperation]
-        :raises ~azure.core.exceptions.HttpResponseError:
-        """
-        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
-        _params = kwargs.pop("params", {}) or {}
-
-        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[_models.RestoreOperation] = kwargs.pop("cls", None)
-        polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
-        lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
-        cont_token: Optional[str] = kwargs.pop("continuation_token", None)
-        if cont_token is None:
-            raw_result = await self._pre_full_restore_operation_initial(
-                pre_restore_operation_parameters=pre_restore_operation_parameters,
-                content_type=content_type,
-                cls=lambda x, y, z: x,
-                headers=_headers,
-                params=_params,
-                **kwargs
-            )
-            await raw_result.http_response.read()  # type: ignore
-        kwargs.pop("error_map", None)
-
-        def get_long_running_output(pipeline_response):
-            response_headers = {}
-            response = pipeline_response.http_response
-            response_headers["Azure-AsyncOperation"] = self._deserialize(
-                "str", response.headers.get("Azure-AsyncOperation")
-            )
-            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
-
-            deserialized = _deserialize(_models.RestoreOperation, response.json())
-            if cls:
-                return cls(pipeline_response, deserialized, response_headers)  # type: ignore
-            return deserialized
-
-        path_format_arguments = {
-            "vaultBaseUrl": self._serialize.url(
-                "self._config.vault_base_url", self._config.vault_base_url, "str", skip_quote=True
-            ),
-        }
-
-        if polling is True:
-            polling_method: AsyncPollingMethod = cast(
-                AsyncPollingMethod,
-                AsyncLROBasePolling(lro_delay, path_format_arguments=path_format_arguments, **kwargs),
-            )
-        elif polling is False:
-            polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
-        else:
-            polling_method = polling
-        if cont_token:
-            return AsyncLROPoller[_models.RestoreOperation].from_continuation_token(
-                polling_method=polling_method,
-                continuation_token=cont_token,
-                client=self._client,
-                deserialization_callback=get_long_running_output,
-            )
-        return AsyncLROPoller[_models.RestoreOperation](
-            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
-        )
-
-    async def _full_restore_operation_initial(
+    def _full_restore_operation_initial(
         self, restore_blob_details: Union[_models.RestoreOperationParameters, JSON, IO[bytes]], **kwargs: Any
-    ) -> AsyncIterator[bytes]:
+    ) -> Iterator[bytes]:
         error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
@@ -1682,7 +1915,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
         _params = kwargs.pop("params", {}) or {}
 
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[AsyncIterator[bytes]] = kwargs.pop("cls", None)
+        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
 
         content_type = content_type or "application/json"
         _content = None
@@ -1706,7 +1939,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = True
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -1714,7 +1947,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
 
         if response.status_code not in [202]:
             try:
-                await response.read()  # Load the body in memory and close the socket
+                response.read()  # Load the body in memory and close the socket
             except (StreamConsumedError, StreamClosedError):
                 pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
@@ -1735,33 +1968,32 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
         return deserialized  # type: ignore
 
     @overload
-    async def begin_full_restore_operation(
+    def begin_full_restore_operation(
         self,
         restore_blob_details: _models.RestoreOperationParameters,
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> AsyncLROPoller[_models.RestoreOperation]:
+    ) -> LROPoller[_models.RestoreOperation]:
         """Restores all key materials using the SAS token pointing to a previously stored Azure Blob
         storage backup folder.
 
         :param restore_blob_details: The Azure blob SAS token pointing to a folder where the previous
          successful full backup was stored. Required.
-        :type restore_blob_details: ~azure.keyvault.administration._generated.models.RestoreOperationParameters
+        :type restore_blob_details: ~azure.keyvault.administration.models.RestoreOperationParameters
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of AsyncLROPoller that returns RestoreOperation. The RestoreOperation is
+        :return: An instance of LROPoller that returns RestoreOperation. The RestoreOperation is
          compatible with MutableMapping
-        :rtype:
-         ~azure.core.polling.AsyncLROPoller[~azure.keyvault.administration._generated.models.RestoreOperation]
+        :rtype: ~azure.core.polling.LROPoller[~azure.keyvault.administration.models.RestoreOperation]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    async def begin_full_restore_operation(
+    def begin_full_restore_operation(
         self, restore_blob_details: JSON, *, content_type: str = "application/json", **kwargs: Any
-    ) -> AsyncLROPoller[_models.RestoreOperation]:
+    ) -> LROPoller[_models.RestoreOperation]:
         """Restores all key materials using the SAS token pointing to a previously stored Azure Blob
         storage backup folder.
 
@@ -1771,17 +2003,16 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of AsyncLROPoller that returns RestoreOperation. The RestoreOperation is
+        :return: An instance of LROPoller that returns RestoreOperation. The RestoreOperation is
          compatible with MutableMapping
-        :rtype:
-         ~azure.core.polling.AsyncLROPoller[~azure.keyvault.administration._generated.models.RestoreOperation]
+        :rtype: ~azure.core.polling.LROPoller[~azure.keyvault.administration.models.RestoreOperation]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    async def begin_full_restore_operation(
+    def begin_full_restore_operation(
         self, restore_blob_details: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
-    ) -> AsyncLROPoller[_models.RestoreOperation]:
+    ) -> LROPoller[_models.RestoreOperation]:
         """Restores all key materials using the SAS token pointing to a previously stored Azure Blob
         storage backup folder.
 
@@ -1791,29 +2022,27 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of AsyncLROPoller that returns RestoreOperation. The RestoreOperation is
+        :return: An instance of LROPoller that returns RestoreOperation. The RestoreOperation is
          compatible with MutableMapping
-        :rtype:
-         ~azure.core.polling.AsyncLROPoller[~azure.keyvault.administration._generated.models.RestoreOperation]
+        :rtype: ~azure.core.polling.LROPoller[~azure.keyvault.administration.models.RestoreOperation]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
-    @distributed_trace_async
-    async def begin_full_restore_operation(
+    @distributed_trace
+    def begin_full_restore_operation(
         self, restore_blob_details: Union[_models.RestoreOperationParameters, JSON, IO[bytes]], **kwargs: Any
-    ) -> AsyncLROPoller[_models.RestoreOperation]:
+    ) -> LROPoller[_models.RestoreOperation]:
         """Restores all key materials using the SAS token pointing to a previously stored Azure Blob
         storage backup folder.
 
         :param restore_blob_details: The Azure blob SAS token pointing to a folder where the previous
          successful full backup was stored. Is one of the following types: RestoreOperationParameters,
          JSON, IO[bytes] Required.
-        :type restore_blob_details: ~azure.keyvault.administration._generated.models.RestoreOperationParameters or
+        :type restore_blob_details: ~azure.keyvault.administration.models.RestoreOperationParameters or
          JSON or IO[bytes]
-        :return: An instance of AsyncLROPoller that returns RestoreOperation. The RestoreOperation is
+        :return: An instance of LROPoller that returns RestoreOperation. The RestoreOperation is
          compatible with MutableMapping
-        :rtype:
-         ~azure.core.polling.AsyncLROPoller[~azure.keyvault.administration._generated.models.RestoreOperation]
+        :rtype: ~azure.core.polling.LROPoller[~azure.keyvault.administration.models.RestoreOperation]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -1821,11 +2050,11 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
 
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.RestoreOperation] = kwargs.pop("cls", None)
-        polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
+        polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
         if cont_token is None:
-            raw_result = await self._full_restore_operation_initial(
+            raw_result = self._full_restore_operation_initial(
                 restore_blob_details=restore_blob_details,
                 content_type=content_type,
                 cls=lambda x, y, z: x,
@@ -1833,7 +2062,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
                 params=_params,
                 **kwargs
             )
-            await raw_result.http_response.read()  # type: ignore
+            raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):
@@ -1856,34 +2085,245 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
         }
 
         if polling is True:
-            polling_method: AsyncPollingMethod = cast(
-                AsyncPollingMethod,
-                AsyncLROBasePolling(lro_delay, path_format_arguments=path_format_arguments, **kwargs),
+            polling_method: PollingMethod = cast(
+                PollingMethod, LROBasePolling(lro_delay, path_format_arguments=path_format_arguments, **kwargs)
             )
         elif polling is False:
-            polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
+            polling_method = cast(PollingMethod, NoPolling())
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller[_models.RestoreOperation].from_continuation_token(
+            return LROPoller[_models.RestoreOperation].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller[_models.RestoreOperation](
+        return LROPoller[_models.RestoreOperation](
             self._client, raw_result, get_long_running_output, polling_method  # type: ignore
         )
 
-    @distributed_trace_async
-    async def selective_key_restore_status(self, job_id: str, **kwargs: Any) -> _models.SelectiveKeyRestoreOperation:
+    @api_version_validation(
+        method_added_on="7.6-preview.2",
+        params_added_on={"7.6-preview.2": ["api_version", "content_type", "accept"]},
+    )
+    def _pre_full_restore_operation_initial(
+        self,
+        pre_restore_operation_parameters: Union[_models.PreRestoreOperationParameters, JSON, IO[bytes]],
+        **kwargs: Any
+    ) -> Iterator[bytes]:
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = kwargs.pop("params", {}) or {}
+
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
+
+        content_type = content_type or "application/json"
+        _content = None
+        if isinstance(pre_restore_operation_parameters, (IOBase, bytes)):
+            _content = pre_restore_operation_parameters
+        else:
+            _content = json.dumps(pre_restore_operation_parameters, cls=SdkJSONEncoder, exclude_readonly=True)  # type: ignore
+
+        _request = build_key_vault_pre_full_restore_operation_request(
+            content_type=content_type,
+            api_version=self._config.api_version,
+            content=_content,
+            headers=_headers,
+            params=_params,
+        )
+        path_format_arguments = {
+            "vaultBaseUrl": self._serialize.url(
+                "self._config.vault_base_url", self._config.vault_base_url, "str", skip_quote=True
+            ),
+        }
+        _request.url = self._client.format_url(_request.url, **path_format_arguments)
+
+        _stream = True
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [202]:
+            try:
+                response.read()  # Load the body in memory and close the socket
+            except (StreamConsumedError, StreamClosedError):
+                pass
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = _failsafe_deserialize(_models.KeyVaultError, response.json())
+            raise HttpResponseError(response=response, model=error)
+
+        response_headers = {}
+        response_headers["Azure-AsyncOperation"] = self._deserialize(
+            "str", response.headers.get("Azure-AsyncOperation")
+        )
+        response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
+
+        deserialized = response.iter_bytes()
+
+        if cls:
+            return cls(pipeline_response, deserialized, response_headers)  # type: ignore
+
+        return deserialized  # type: ignore
+
+    @overload
+    def begin_pre_full_restore_operation(
+        self,
+        pre_restore_operation_parameters: _models.PreRestoreOperationParameters,
+        *,
+        content_type: str = "application/json",
+        **kwargs: Any
+    ) -> LROPoller[_models.RestoreOperation]:
+        """Pre-restore operation for checking whether the customer can perform a full restore operation.
+
+        :param pre_restore_operation_parameters: Optional pre restore parameters to validate prior to
+         performing a full restore operation. Required.
+        :type pre_restore_operation_parameters:
+         ~azure.keyvault.administration.models.PreRestoreOperationParameters
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: An instance of LROPoller that returns RestoreOperation. The RestoreOperation is
+         compatible with MutableMapping
+        :rtype: ~azure.core.polling.LROPoller[~azure.keyvault.administration.models.RestoreOperation]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    def begin_pre_full_restore_operation(
+        self, pre_restore_operation_parameters: JSON, *, content_type: str = "application/json", **kwargs: Any
+    ) -> LROPoller[_models.RestoreOperation]:
+        """Pre-restore operation for checking whether the customer can perform a full restore operation.
+
+        :param pre_restore_operation_parameters: Optional pre restore parameters to validate prior to
+         performing a full restore operation. Required.
+        :type pre_restore_operation_parameters: JSON
+        :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: An instance of LROPoller that returns RestoreOperation. The RestoreOperation is
+         compatible with MutableMapping
+        :rtype: ~azure.core.polling.LROPoller[~azure.keyvault.administration.models.RestoreOperation]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @overload
+    def begin_pre_full_restore_operation(
+        self, pre_restore_operation_parameters: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
+    ) -> LROPoller[_models.RestoreOperation]:
+        """Pre-restore operation for checking whether the customer can perform a full restore operation.
+
+        :param pre_restore_operation_parameters: Optional pre restore parameters to validate prior to
+         performing a full restore operation. Required.
+        :type pre_restore_operation_parameters: IO[bytes]
+        :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
+         Default value is "application/json".
+        :paramtype content_type: str
+        :return: An instance of LROPoller that returns RestoreOperation. The RestoreOperation is
+         compatible with MutableMapping
+        :rtype: ~azure.core.polling.LROPoller[~azure.keyvault.administration.models.RestoreOperation]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+
+    @distributed_trace
+    @api_version_validation(
+        method_added_on="7.6-preview.2",
+        params_added_on={"7.6-preview.2": ["api_version", "content_type", "accept"]},
+    )
+    def begin_pre_full_restore_operation(
+        self,
+        pre_restore_operation_parameters: Union[_models.PreRestoreOperationParameters, JSON, IO[bytes]],
+        **kwargs: Any
+    ) -> LROPoller[_models.RestoreOperation]:
+        """Pre-restore operation for checking whether the customer can perform a full restore operation.
+
+        :param pre_restore_operation_parameters: Optional pre restore parameters to validate prior to
+         performing a full restore operation. Is one of the following types:
+         PreRestoreOperationParameters, JSON, IO[bytes] Required.
+        :type pre_restore_operation_parameters:
+         ~azure.keyvault.administration.models.PreRestoreOperationParameters or JSON or IO[bytes]
+        :return: An instance of LROPoller that returns RestoreOperation. The RestoreOperation is
+         compatible with MutableMapping
+        :rtype: ~azure.core.polling.LROPoller[~azure.keyvault.administration.models.RestoreOperation]
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
+        _params = kwargs.pop("params", {}) or {}
+
+        content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
+        cls: ClsType[_models.RestoreOperation] = kwargs.pop("cls", None)
+        polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
+        lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
+        cont_token: Optional[str] = kwargs.pop("continuation_token", None)
+        if cont_token is None:
+            raw_result = self._pre_full_restore_operation_initial(
+                pre_restore_operation_parameters=pre_restore_operation_parameters,
+                content_type=content_type,
+                cls=lambda x, y, z: x,
+                headers=_headers,
+                params=_params,
+                **kwargs
+            )
+            raw_result.http_response.read()  # type: ignore
+        kwargs.pop("error_map", None)
+
+        def get_long_running_output(pipeline_response):
+            response_headers = {}
+            response = pipeline_response.http_response
+            response_headers["Azure-AsyncOperation"] = self._deserialize(
+                "str", response.headers.get("Azure-AsyncOperation")
+            )
+            response_headers["Retry-After"] = self._deserialize("int", response.headers.get("Retry-After"))
+
+            deserialized = _deserialize(_models.RestoreOperation, response.json())
+            if cls:
+                return cls(pipeline_response, deserialized, response_headers)  # type: ignore
+            return deserialized
+
+        path_format_arguments = {
+            "vaultBaseUrl": self._serialize.url(
+                "self._config.vault_base_url", self._config.vault_base_url, "str", skip_quote=True
+            ),
+        }
+
+        if polling is True:
+            polling_method: PollingMethod = cast(
+                PollingMethod, LROBasePolling(lro_delay, path_format_arguments=path_format_arguments, **kwargs)
+            )
+        elif polling is False:
+            polling_method = cast(PollingMethod, NoPolling())
+        else:
+            polling_method = polling
+        if cont_token:
+            return LROPoller[_models.RestoreOperation].from_continuation_token(
+                polling_method=polling_method,
+                continuation_token=cont_token,
+                client=self._client,
+                deserialization_callback=get_long_running_output,
+            )
+        return LROPoller[_models.RestoreOperation](
+            self._client, raw_result, get_long_running_output, polling_method  # type: ignore
+        )
+
+    @distributed_trace
+    def selective_key_restore_status(self, job_id: str, **kwargs: Any) -> _models.SelectiveKeyRestoreOperation:
         """Returns the status of the selective key restore operation.
 
         :param job_id: The Job Id returned part of the restore operation. Required.
         :type job_id: str
         :return: SelectiveKeyRestoreOperation. The SelectiveKeyRestoreOperation is compatible with
          MutableMapping
-        :rtype: ~azure.keyvault.administration._generated.models.SelectiveKeyRestoreOperation
+        :rtype: ~azure.keyvault.administration.models.SelectiveKeyRestoreOperation
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -1913,7 +2353,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -1922,7 +2362,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
         if response.status_code not in [200]:
             if _stream:
                 try:
-                    await response.read()  # Load the body in memory and close the socket
+                    response.read()  # Load the body in memory and close the socket
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
@@ -1939,12 +2379,12 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
 
         return deserialized  # type: ignore
 
-    async def _selective_key_restore_operation_initial(
+    def _selective_key_restore_operation_initial(
         self,
         key_name: str,
         restore_blob_details: Union[_models.SelectiveKeyRestoreOperationParameters, JSON, IO[bytes]],
         **kwargs: Any
-    ) -> AsyncIterator[bytes]:
+    ) -> Iterator[bytes]:
         error_map: MutableMapping = {
             401: ClientAuthenticationError,
             404: ResourceNotFoundError,
@@ -1957,7 +2397,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
         _params = kwargs.pop("params", {}) or {}
 
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
-        cls: ClsType[AsyncIterator[bytes]] = kwargs.pop("cls", None)
+        cls: ClsType[Iterator[bytes]] = kwargs.pop("cls", None)
 
         content_type = content_type or "application/json"
         _content = None
@@ -1982,7 +2422,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = True
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -1990,7 +2430,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
 
         if response.status_code not in [202]:
             try:
-                await response.read()  # Load the body in memory and close the socket
+                response.read()  # Load the body in memory and close the socket
             except (StreamConsumedError, StreamClosedError):
                 pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
@@ -2011,14 +2451,14 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
         return deserialized  # type: ignore
 
     @overload
-    async def begin_selective_key_restore_operation(
+    def begin_selective_key_restore_operation(
         self,
         key_name: str,
         restore_blob_details: _models.SelectiveKeyRestoreOperationParameters,
         *,
         content_type: str = "application/json",
         **kwargs: Any
-    ) -> AsyncLROPoller[_models.SelectiveKeyRestoreOperation]:
+    ) -> LROPoller[_models.SelectiveKeyRestoreOperation]:
         """Restores all key versions of a given key using user supplied SAS token pointing to a previously
         stored Azure Blob storage backup folder.
 
@@ -2027,21 +2467,21 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
         :param restore_blob_details: The Azure blob SAS token pointing to a folder where the previous
          successful full backup was stored. Required.
         :type restore_blob_details:
-         ~azure.keyvault.administration._generated.models.SelectiveKeyRestoreOperationParameters
+         ~azure.keyvault.administration.models.SelectiveKeyRestoreOperationParameters
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of AsyncLROPoller that returns SelectiveKeyRestoreOperation. The
+        :return: An instance of LROPoller that returns SelectiveKeyRestoreOperation. The
          SelectiveKeyRestoreOperation is compatible with MutableMapping
         :rtype:
-         ~azure.core.polling.AsyncLROPoller[~azure.keyvault.administration._generated.models.SelectiveKeyRestoreOperation]
+         ~azure.core.polling.LROPoller[~azure.keyvault.administration.models.SelectiveKeyRestoreOperation]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    async def begin_selective_key_restore_operation(
+    def begin_selective_key_restore_operation(
         self, key_name: str, restore_blob_details: JSON, *, content_type: str = "application/json", **kwargs: Any
-    ) -> AsyncLROPoller[_models.SelectiveKeyRestoreOperation]:
+    ) -> LROPoller[_models.SelectiveKeyRestoreOperation]:
         """Restores all key versions of a given key using user supplied SAS token pointing to a previously
         stored Azure Blob storage backup folder.
 
@@ -2053,17 +2493,17 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of AsyncLROPoller that returns SelectiveKeyRestoreOperation. The
+        :return: An instance of LROPoller that returns SelectiveKeyRestoreOperation. The
          SelectiveKeyRestoreOperation is compatible with MutableMapping
         :rtype:
-         ~azure.core.polling.AsyncLROPoller[~azure.keyvault.administration._generated.models.SelectiveKeyRestoreOperation]
+         ~azure.core.polling.LROPoller[~azure.keyvault.administration.models.SelectiveKeyRestoreOperation]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    async def begin_selective_key_restore_operation(
+    def begin_selective_key_restore_operation(
         self, key_name: str, restore_blob_details: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
-    ) -> AsyncLROPoller[_models.SelectiveKeyRestoreOperation]:
+    ) -> LROPoller[_models.SelectiveKeyRestoreOperation]:
         """Restores all key versions of a given key using user supplied SAS token pointing to a previously
         stored Azure Blob storage backup folder.
 
@@ -2075,20 +2515,20 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
         :keyword content_type: Body Parameter content-type. Content type parameter for binary body.
          Default value is "application/json".
         :paramtype content_type: str
-        :return: An instance of AsyncLROPoller that returns SelectiveKeyRestoreOperation. The
+        :return: An instance of LROPoller that returns SelectiveKeyRestoreOperation. The
          SelectiveKeyRestoreOperation is compatible with MutableMapping
         :rtype:
-         ~azure.core.polling.AsyncLROPoller[~azure.keyvault.administration._generated.models.SelectiveKeyRestoreOperation]
+         ~azure.core.polling.LROPoller[~azure.keyvault.administration.models.SelectiveKeyRestoreOperation]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
-    @distributed_trace_async
-    async def begin_selective_key_restore_operation(
+    @distributed_trace
+    def begin_selective_key_restore_operation(
         self,
         key_name: str,
         restore_blob_details: Union[_models.SelectiveKeyRestoreOperationParameters, JSON, IO[bytes]],
         **kwargs: Any
-    ) -> AsyncLROPoller[_models.SelectiveKeyRestoreOperation]:
+    ) -> LROPoller[_models.SelectiveKeyRestoreOperation]:
         """Restores all key versions of a given key using user supplied SAS token pointing to a previously
         stored Azure Blob storage backup folder.
 
@@ -2098,12 +2538,12 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
          successful full backup was stored. Is one of the following types:
          SelectiveKeyRestoreOperationParameters, JSON, IO[bytes] Required.
         :type restore_blob_details:
-         ~azure.keyvault.administration._generated.models.SelectiveKeyRestoreOperationParameters or JSON or
+         ~azure.keyvault.administration.models.SelectiveKeyRestoreOperationParameters or JSON or
          IO[bytes]
-        :return: An instance of AsyncLROPoller that returns SelectiveKeyRestoreOperation. The
+        :return: An instance of LROPoller that returns SelectiveKeyRestoreOperation. The
          SelectiveKeyRestoreOperation is compatible with MutableMapping
         :rtype:
-         ~azure.core.polling.AsyncLROPoller[~azure.keyvault.administration._generated.models.SelectiveKeyRestoreOperation]
+         ~azure.core.polling.LROPoller[~azure.keyvault.administration.models.SelectiveKeyRestoreOperation]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = case_insensitive_dict(kwargs.pop("headers", {}) or {})
@@ -2111,11 +2551,11 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
 
         content_type: Optional[str] = kwargs.pop("content_type", _headers.pop("Content-Type", None))
         cls: ClsType[_models.SelectiveKeyRestoreOperation] = kwargs.pop("cls", None)
-        polling: Union[bool, AsyncPollingMethod] = kwargs.pop("polling", True)
+        polling: Union[bool, PollingMethod] = kwargs.pop("polling", True)
         lro_delay = kwargs.pop("polling_interval", self._config.polling_interval)
         cont_token: Optional[str] = kwargs.pop("continuation_token", None)
         if cont_token is None:
-            raw_result = await self._selective_key_restore_operation_initial(
+            raw_result = self._selective_key_restore_operation_initial(
                 key_name=key_name,
                 restore_blob_details=restore_blob_details,
                 content_type=content_type,
@@ -2124,7 +2564,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
                 params=_params,
                 **kwargs
             )
-            await raw_result.http_response.read()  # type: ignore
+            raw_result.http_response.read()  # type: ignore
         kwargs.pop("error_map", None)
 
         def get_long_running_output(pipeline_response):
@@ -2147,27 +2587,26 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
         }
 
         if polling is True:
-            polling_method: AsyncPollingMethod = cast(
-                AsyncPollingMethod,
-                AsyncLROBasePolling(lro_delay, path_format_arguments=path_format_arguments, **kwargs),
+            polling_method: PollingMethod = cast(
+                PollingMethod, LROBasePolling(lro_delay, path_format_arguments=path_format_arguments, **kwargs)
             )
         elif polling is False:
-            polling_method = cast(AsyncPollingMethod, AsyncNoPolling())
+            polling_method = cast(PollingMethod, NoPolling())
         else:
             polling_method = polling
         if cont_token:
-            return AsyncLROPoller[_models.SelectiveKeyRestoreOperation].from_continuation_token(
+            return LROPoller[_models.SelectiveKeyRestoreOperation].from_continuation_token(
                 polling_method=polling_method,
                 continuation_token=cont_token,
                 client=self._client,
                 deserialization_callback=get_long_running_output,
             )
-        return AsyncLROPoller[_models.SelectiveKeyRestoreOperation](
+        return LROPoller[_models.SelectiveKeyRestoreOperation](
             self._client, raw_result, get_long_running_output, polling_method  # type: ignore
         )
 
     @overload
-    async def update_setting(
+    def update_setting(
         self,
         setting_name: str,
         parameters: _models.UpdateSettingRequest,
@@ -2184,17 +2623,17 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
          Required.
         :type setting_name: str
         :param parameters: The parameters to update an account setting. Required.
-        :type parameters: ~azure.keyvault.administration._generated.models.UpdateSettingRequest
+        :type parameters: ~azure.keyvault.administration.models.UpdateSettingRequest
         :keyword content_type: Body Parameter content-type. Content type parameter for JSON body.
          Default value is "application/json".
         :paramtype content_type: str
         :return: Setting. The Setting is compatible with MutableMapping
-        :rtype: ~azure.keyvault.administration._generated.models.Setting
+        :rtype: ~azure.keyvault.administration.models.Setting
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    async def update_setting(
+    def update_setting(
         self, setting_name: str, parameters: JSON, *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.Setting:
         """Updates key vault account setting, stores it, then returns the setting name and value to the
@@ -2211,12 +2650,12 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
          Default value is "application/json".
         :paramtype content_type: str
         :return: Setting. The Setting is compatible with MutableMapping
-        :rtype: ~azure.keyvault.administration._generated.models.Setting
+        :rtype: ~azure.keyvault.administration.models.Setting
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
     @overload
-    async def update_setting(
+    def update_setting(
         self, setting_name: str, parameters: IO[bytes], *, content_type: str = "application/json", **kwargs: Any
     ) -> _models.Setting:
         """Updates key vault account setting, stores it, then returns the setting name and value to the
@@ -2233,12 +2672,12 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
          Default value is "application/json".
         :paramtype content_type: str
         :return: Setting. The Setting is compatible with MutableMapping
-        :rtype: ~azure.keyvault.administration._generated.models.Setting
+        :rtype: ~azure.keyvault.administration.models.Setting
         :raises ~azure.core.exceptions.HttpResponseError:
         """
 
-    @distributed_trace_async
-    async def update_setting(
+    @distributed_trace
+    def update_setting(
         self, setting_name: str, parameters: Union[_models.UpdateSettingRequest, JSON, IO[bytes]], **kwargs: Any
     ) -> _models.Setting:
         """Updates key vault account setting, stores it, then returns the setting name and value to the
@@ -2251,10 +2690,10 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
         :type setting_name: str
         :param parameters: The parameters to update an account setting. Is one of the following types:
          UpdateSettingRequest, JSON, IO[bytes] Required.
-        :type parameters: ~azure.keyvault.administration._generated.models.UpdateSettingRequest or JSON or
+        :type parameters: ~azure.keyvault.administration.models.UpdateSettingRequest or JSON or
          IO[bytes]
         :return: Setting. The Setting is compatible with MutableMapping
-        :rtype: ~azure.keyvault.administration._generated.models.Setting
+        :rtype: ~azure.keyvault.administration.models.Setting
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -2294,7 +2733,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -2303,7 +2742,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
         if response.status_code not in [200]:
             if _stream:
                 try:
-                    await response.read()  # Load the body in memory and close the socket
+                    response.read()  # Load the body in memory and close the socket
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
@@ -2320,8 +2759,8 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
 
         return deserialized  # type: ignore
 
-    @distributed_trace_async
-    async def get_setting(self, setting_name: str, **kwargs: Any) -> _models.Setting:
+    @distributed_trace
+    def get_setting(self, setting_name: str, **kwargs: Any) -> _models.Setting:
         """Get specified account setting object.
 
         Retrieves the setting object of a specified setting name.
@@ -2330,7 +2769,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
          Required.
         :type setting_name: str
         :return: Setting. The Setting is compatible with MutableMapping
-        :rtype: ~azure.keyvault.administration._generated.models.Setting
+        :rtype: ~azure.keyvault.administration.models.Setting
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -2360,7 +2799,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -2369,7 +2808,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
         if response.status_code not in [200]:
             if _stream:
                 try:
-                    await response.read()  # Load the body in memory and close the socket
+                    response.read()  # Load the body in memory and close the socket
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
@@ -2386,14 +2825,14 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
 
         return deserialized  # type: ignore
 
-    @distributed_trace_async
-    async def get_settings(self, **kwargs: Any) -> _models.SettingsListResult:
+    @distributed_trace
+    def get_settings(self, **kwargs: Any) -> _models.SettingsListResult:
         """List account settings.
 
         Retrieves a list of all the available account settings that can be configured.
 
         :return: SettingsListResult. The SettingsListResult is compatible with MutableMapping
-        :rtype: ~azure.keyvault.administration._generated.models.SettingsListResult
+        :rtype: ~azure.keyvault.administration.models.SettingsListResult
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         error_map: MutableMapping = {
@@ -2422,7 +2861,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
         _request.url = self._client.format_url(_request.url, **path_format_arguments)
 
         _stream = kwargs.pop("stream", False)
-        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # type: ignore # pylint: disable=protected-access
+        pipeline_response: PipelineResponse = self._client._pipeline.run(  # pylint: disable=protected-access
             _request, stream=_stream, **kwargs
         )
 
@@ -2431,7 +2870,7 @@ class KeyVaultClientOperationsMixin(KeyVaultClientMixinABC):
         if response.status_code not in [200]:
             if _stream:
                 try:
-                    await response.read()  # Load the body in memory and close the socket
+                    response.read()  # Load the body in memory and close the socket
                 except (StreamConsumedError, StreamClosedError):
                     pass
             map_error(status_code=response.status_code, response=response, error_map=error_map)
