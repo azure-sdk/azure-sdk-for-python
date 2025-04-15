@@ -7,6 +7,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.synapse import SynapseManagementClient
 
 """
@@ -29,12 +30,12 @@ def main():
         subscription_id="01234567-89ab-4def-0123-456789abcdef",
     )
 
-    response = client.sql_pool_operation_results.begin_get_location_header_result(
+    response = client.sql_pool_operation_results.get_location_header_result(
         resource_group_name="ExampleResourceGroup",
         workspace_name="ExampleWorkspace",
         sql_pool_name="ExampleSqlPool",
         operation_id="fedcba98-7654-4210-fedc-ba9876543210",
-    ).result()
+    )
     print(response)
 
 
