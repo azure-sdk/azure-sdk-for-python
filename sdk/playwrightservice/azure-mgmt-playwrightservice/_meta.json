@@ -1,0 +1,6 @@
+{
+  "commit": "4dfcb95c2e76e55b790f64633cc160c2bc2a40b2",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/microsoft.loadtestservice/PlaywrightService.Management",
+  "@azure-tools/typespec-python": "0.42.3"
+}

@@ -1,0 +1,33 @@
+{
+    "CrossLanguagePackageId": "PlaywrightService.Management",
+    "CrossLanguageDefinitionId": {
+        "azure.mgmt.playwrightservice.models.CheckNameAvailabilityRequest": "Azure.ResourceManager.CommonTypes.CheckNameAvailabilityRequest",
+        "azure.mgmt.playwrightservice.models.CheckNameAvailabilityResponse": "Azure.ResourceManager.CommonTypes.CheckNameAvailabilityResponse",
+        "azure.mgmt.playwrightservice.models.ErrorAdditionalInfo": "Azure.ResourceManager.CommonTypes.ErrorAdditionalInfo",
+        "azure.mgmt.playwrightservice.models.ErrorDetail": "Azure.ResourceManager.CommonTypes.ErrorDetail",
+        "azure.mgmt.playwrightservice.models.ErrorResponse": "Azure.ResourceManager.CommonTypes.ErrorResponse",
+        "azure.mgmt.playwrightservice.models.Operation": "Azure.ResourceManager.CommonTypes.Operation",
+        "azure.mgmt.playwrightservice.models.OperationDisplay": "Azure.ResourceManager.CommonTypes.OperationDisplay",
+        "azure.mgmt.playwrightservice.models.Resource": "Azure.ResourceManager.CommonTypes.Resource",
+        "azure.mgmt.playwrightservice.models.TrackedResource": "Azure.ResourceManager.CommonTypes.TrackedResource",
+        "azure.mgmt.playwrightservice.models.PlaywrightWorkspace": "PlaywrightService.Management.PlaywrightWorkspace",
+        "azure.mgmt.playwrightservice.models.PlaywrightWorkspaceProperties": "PlaywrightService.Management.PlaywrightWorkspaceProperties",
+        "azure.mgmt.playwrightservice.models.PlaywrightWorkspaceUpdate": "Azure.ResourceManager.Foundations.ResourceUpdateModel",
+        "azure.mgmt.playwrightservice.models.PlaywrightWorkspaceUpdateProperties": "Azure.ResourceManager.Foundations.ResourceUpdateModelProperties",
+        "azure.mgmt.playwrightservice.models.SystemData": "Azure.ResourceManager.CommonTypes.SystemData",
+        "azure.mgmt.playwrightservice.models.Origin": "Azure.ResourceManager.CommonTypes.Origin",
+        "azure.mgmt.playwrightservice.models.ActionType": "Azure.ResourceManager.CommonTypes.ActionType",
+        "azure.mgmt.playwrightservice.models.CreatedByType": "Azure.ResourceManager.CommonTypes.createdByType",
+        "azure.mgmt.playwrightservice.models.ProvisioningState": "PlaywrightService.Management.ProvisioningState",
+        "azure.mgmt.playwrightservice.models.EnablementStatus": "PlaywrightService.Management.EnablementStatus",
+        "azure.mgmt.playwrightservice.models.CheckNameAvailabilityReason": "Azure.ResourceManager.CommonTypes.CheckNameAvailabilityReason",
+        "azure.mgmt.playwrightservice.ManagementClient.operations.list": "Azure.ResourceManager.Operations.list",
+        "azure.mgmt.playwrightservice.ManagementClient.playwright_workspaces.get": "Azure.ResourceManager.PlaywrightWorkspaces.get",
+        "azure.mgmt.playwrightservice.ManagementClient.playwright_workspaces.begin_create_or_update": "Azure.ResourceManager.PlaywrightWorkspaces.createOrUpdate",
+        "azure.mgmt.playwrightservice.ManagementClient.playwright_workspaces.update": "Azure.ResourceManager.PlaywrightWorkspaces.update",
+        "azure.mgmt.playwrightservice.ManagementClient.playwright_workspaces.begin_delete": "Azure.ResourceManager.PlaywrightWorkspaces.delete",
+        "azure.mgmt.playwrightservice.ManagementClient.playwright_workspaces.list_by_resource_group": "Azure.ResourceManager.PlaywrightWorkspaces.listByResourceGroup",
+        "azure.mgmt.playwrightservice.ManagementClient.playwright_workspaces.list_by_subscription": "Azure.ResourceManager.PlaywrightWorkspaces.listBySubscription",
+        "azure.mgmt.playwrightservice.ManagementClient.playwright_workspaces.check_name_availability": "PlaywrightService.Management.PlaywrightWorkspaces.checkNameAvailability"
+    }
+}
