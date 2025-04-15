@@ -15,14 +15,14 @@ AZURE_LOCATION = "eastus"
 
 
 @pytest.mark.skip("you may need to update the auto-generated test case before run it")
-class TestAppConfigurationManagementPrivateLinkResourcesOperationsAsync(AzureMgmtRecordedTestCase):
+class TestAppConfigurationManagementExperimentationOperationsAsync(AzureMgmtRecordedTestCase):
     def setup_method(self, method):
         self.client = self.create_mgmt_client(AppConfigurationManagementClient, is_async=True)
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_private_link_resources_list_by_configuration_store(self, resource_group):
-        response = self.client.private_link_resources.list_by_configuration_store(
+    async def test_experimentation_list(self, resource_group):
+        response = self.client.experimentation.list(
             resource_group_name=resource_group.name,
             config_store_name="str",
             api_version="2025-02-01-preview",
@@ -33,13 +33,43 @@ class TestAppConfigurationManagementPrivateLinkResourcesOperationsAsync(AzureMgm
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_private_link_resources_get(self, resource_group):
-        response = await self.client.private_link_resources.get(
+    async def test_experimentation_get(self, resource_group):
+        response = await self.client.experimentation.get(
             resource_group_name=resource_group.name,
             config_store_name="str",
-            group_name="str",
+            experimentation_name="str",
             api_version="2025-02-01-preview",
         )
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy_async
+    async def test_experimentation_begin_create(self, resource_group):
+        response = await (
+            await self.client.experimentation.begin_create(
+                resource_group_name=resource_group.name,
+                config_store_name="str",
+                experimentation_name="str",
+                api_version="2025-02-01-preview",
+            )
+        ).result()  # call '.result()' to poll until service return final result
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy_async
+    async def test_experimentation_begin_delete(self, resource_group):
+        response = await (
+            await self.client.experimentation.begin_delete(
+                resource_group_name=resource_group.name,
+                config_store_name="str",
+                experimentation_name="str",
+                api_version="2025-02-01-preview",
+            )
+        ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
         # ...
