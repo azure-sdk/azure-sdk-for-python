@@ -20,11 +20,32 @@ class TestDesktopVirtualizationMgmtWorkspacesOperations(AzureMgmtRecordedTestCas
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_workspaces_list_by_subscription(self, resource_group):
+        response = self.client.workspaces.list_by_subscription(
+            api_version="2025-04-01-preview",
+        )
+        result = [r for r in response]
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy
+    def test_workspaces_list_by_resource_group(self, resource_group):
+        response = self.client.workspaces.list_by_resource_group(
+            resource_group_name=resource_group.name,
+            api_version="2025-04-01-preview",
+        )
+        result = [r for r in response]
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy
+    def test_workspaces_get(self, resource_group):
         response = self.client.workspaces.get(
             resource_group_name=resource_group.name,
             workspace_name="str",
-            api_version="2024-04-03",
+            api_version="2025-04-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -32,7 +53,7 @@ class TestDesktopVirtualizationMgmtWorkspacesOperations(AzureMgmtRecordedTestCas
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_create_or_update(self, resource_group):
+    def test_workspaces_create_or_update(self, resource_group):
         response = self.client.workspaces.create_or_update(
             resource_group_name=resource_group.name,
             workspace_name="str",
@@ -44,7 +65,12 @@ class TestDesktopVirtualizationMgmtWorkspacesOperations(AzureMgmtRecordedTestCas
                 "etag": "str",
                 "friendlyName": "str",
                 "id": "str",
-                "identity": {"principalId": "str", "tenantId": "str", "type": "SystemAssigned"},
+                "identity": {
+                    "type": "str",
+                    "principalId": "str",
+                    "tenantId": "str",
+                    "userAssignedIdentities": {"str": {"clientId": "str", "principalId": "str"}},
+                },
                 "kind": "str",
                 "managedBy": "str",
                 "name": "str",
@@ -52,16 +78,18 @@ class TestDesktopVirtualizationMgmtWorkspacesOperations(AzureMgmtRecordedTestCas
                 "plan": {"name": "str", "product": "str", "publisher": "str", "promotionCode": "str", "version": "str"},
                 "privateEndpointConnections": [
                     {
-                        "groupIds": ["str"],
                         "id": "str",
                         "name": "str",
-                        "privateEndpoint": {"id": "str"},
-                        "privateLinkServiceConnectionState": {
-                            "actionsRequired": "str",
-                            "description": "str",
-                            "status": "str",
+                        "properties": {
+                            "privateLinkServiceConnectionState": {
+                                "actionsRequired": "str",
+                                "description": "str",
+                                "status": "str",
+                            },
+                            "groupIds": ["str"],
+                            "privateEndpoint": {"id": "str"},
+                            "provisioningState": "str",
                         },
-                        "provisioningState": "str",
                         "systemData": {
                             "createdAt": "2020-02-20 00:00:00",
                             "createdBy": "str",
@@ -86,7 +114,7 @@ class TestDesktopVirtualizationMgmtWorkspacesOperations(AzureMgmtRecordedTestCas
                 "tags": {"str": "str"},
                 "type": "str",
             },
-            api_version="2024-04-03",
+            api_version="2025-04-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -94,23 +122,11 @@ class TestDesktopVirtualizationMgmtWorkspacesOperations(AzureMgmtRecordedTestCas
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_delete(self, resource_group):
-        response = self.client.workspaces.delete(
-            resource_group_name=resource_group.name,
-            workspace_name="str",
-            api_version="2024-04-03",
-        )
-
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
-    def test_update(self, resource_group):
+    def test_workspaces_update(self, resource_group):
         response = self.client.workspaces.update(
             resource_group_name=resource_group.name,
             workspace_name="str",
-            api_version="2024-04-03",
+            api_version="2025-04-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -118,21 +134,12 @@ class TestDesktopVirtualizationMgmtWorkspacesOperations(AzureMgmtRecordedTestCas
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_resource_group(self, resource_group):
-        response = self.client.workspaces.list_by_resource_group(
+    def test_workspaces_delete(self, resource_group):
+        response = self.client.workspaces.delete(
             resource_group_name=resource_group.name,
-            api_version="2024-04-03",
+            workspace_name="str",
+            api_version="2025-04-01-preview",
         )
-        result = [r for r in response]
-        # please add some check logic here by yourself
-        # ...
 
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy
-    def test_list_by_subscription(self, resource_group):
-        response = self.client.workspaces.list_by_subscription(
-            api_version="2024-04-03",
-        )
-        result = [r for r in response]
         # please add some check logic here by yourself
         # ...

@@ -21,12 +21,12 @@ class TestDesktopVirtualizationMgmtMsixImagesOperationsAsync(AzureMgmtRecordedTe
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_expand(self, resource_group):
+    async def test_msix_images_expand(self, resource_group):
         response = self.client.msix_images.expand(
             resource_group_name=resource_group.name,
             host_pool_name="str",
             msix_image_uri={"uri": "str"},
-            api_version="2024-04-03",
+            api_version="2025-04-01-preview",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
