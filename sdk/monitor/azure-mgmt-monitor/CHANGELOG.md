@@ -1,5 +1,430 @@
 # Release History
 
+## 7.0.0b2 (2025-04-15)
+
+### Features Added
+
+  - Client `MonitorManagementClient` added method `send_request`
+  - Client `MonitorManagementClient` added operation group `azure_monitor_workspaces`
+  - Client `MonitorManagementClient` added operation group `pipeline_groups`
+  - Model `ErrorDetail` added property `details`
+  - Model `Operation` added property `is_data_action`
+  - Model `Operation` added property `origin`
+  - Model `Operation` added property `action_type`
+  - Model `OperationDisplay` added property `description`
+  - Model `PrivateEndpointConnection` added property `properties`
+  - Model `PrivateEndpointConnection` added property `system_data`
+  - Enum `ProvisioningState` added member `CREATING`
+  - Enum `ProvisioningState` added member `DELETING`
+  - Model `Resource` added property `system_data`
+  - Added enum `ActionType`
+  - Added model `AzureMonitorWorkspace`
+  - Added model `AzureMonitorWorkspaceLogsApiConfig`
+  - Added model `AzureMonitorWorkspaceLogsExporter`
+  - Added model `AzureMonitorWorkspaceProperties`
+  - Added model `AzureMonitorWorkspaceUpdate`
+  - Added model `AzureMonitorWorkspaceUpdateProperties`
+  - Added model `BatchProcessor`
+  - Added model `CacheConfiguration`
+  - Added model `ConcurrencyConfiguration`
+  - Added model `Exporter`
+  - Added enum `ExporterType`
+  - Added model `ExtendedLocation`
+  - Added enum `ExtendedLocationType`
+  - Added enum `ExternalNetworkingMode`
+  - Added model `IngestionSettings`
+  - Added model `Metrics`
+  - Added model `NetworkingConfiguration`
+  - Added model `NetworkingRoute`
+  - Added enum `Origin`
+  - Added model `OtlpReceiver`
+  - Added model `PersistenceConfigurations`
+  - Added model `Pipeline`
+  - Added model `PipelineGroup`
+  - Added model `PipelineGroupProperties`
+  - Added model `PipelineGroupUpdate`
+  - Added model `PipelineGroupUpdateProperties`
+  - Added enum `PipelineType`
+  - Added model `PrivateEndpoint`
+  - Added model `PrivateEndpointConnectionProperties`
+  - Added enum `PrivateEndpointConnectionProvisioningState`
+  - Added enum `PrivateEndpointServiceConnectionStatus`
+  - Added model `PrivateLinkServiceConnectionState`
+  - Added model `Processor`
+  - Added enum `ProcessorType`
+  - Added enum `PublicNetworkAccess`
+  - Added model `Receiver`
+  - Added enum `ReceiverType`
+  - Added model `RecordMap`
+  - Added model `ResourceMap`
+  - Added model `SchemaMap`
+  - Added model `ScopeMap`
+  - Added model `Service`
+  - Added enum `StreamEncodingType`
+  - Added enum `SyslogProtocol`
+  - Added model `SyslogReceiver`
+  - Added model `TcpExporter`
+  - Added model `TrackedResource`
+  - Added model `UdpReceiver`
+  - Added model `AzureMonitorWorkspacesOperations`
+  - Added model `PipelineGroupsOperations`
+  - Method `ErrorResponse.__init__` has a new overload `def __init__(self: None, error: Optional[_models.ErrorDetail])`
+  - Method `ErrorResponse.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `Operation.__init__` has a new overload `def __init__(self: None, display: Optional[_models.OperationDisplay])`
+  - Method `Operation.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `PrivateEndpointConnection.__init__` has a new overload `def __init__(self: None, properties: Optional[_models.PrivateEndpointConnectionProperties])`
+  - Method `PrivateEndpointConnection.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `SystemData.__init__` has a new overload `def __init__(self: None, created_by: Optional[str], created_by_type: Optional[Union[str, _models.CreatedByType]], created_at: Optional[datetime], last_modified_by: Optional[str], last_modified_by_type: Optional[Union[str, _models.CreatedByType]], last_modified_at: Optional[datetime])`
+  - Method `SystemData.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AzureMonitorWorkspace.__init__` has a new overload `def __init__(self: None, location: str, tags: Optional[Dict[str, str]], properties: Optional[_models.AzureMonitorWorkspaceProperties])`
+  - Method `AzureMonitorWorkspace.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AzureMonitorWorkspace.__init__` has a new overload `def __init__(self: None, location: str, tags: Optional[Dict[str, str]])`
+  - Method `AzureMonitorWorkspace.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AzureMonitorWorkspaceLogsApiConfig.__init__` has a new overload `def __init__(self: None, data_collection_endpoint_url: str, stream: str, data_collection_rule: str, schema: _models.SchemaMap)`
+  - Method `AzureMonitorWorkspaceLogsApiConfig.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AzureMonitorWorkspaceLogsExporter.__init__` has a new overload `def __init__(self: None, api: _models.AzureMonitorWorkspaceLogsApiConfig, concurrency: Optional[_models.ConcurrencyConfiguration], cache: Optional[_models.CacheConfiguration])`
+  - Method `AzureMonitorWorkspaceLogsExporter.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AzureMonitorWorkspaceProperties.__init__` has a new overload `def __init__(self: None, metrics: Optional[_models.Metrics])`
+  - Method `AzureMonitorWorkspaceProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AzureMonitorWorkspaceUpdate.__init__` has a new overload `def __init__(self: None, tags: Optional[Dict[str, str]], properties: Optional[_models.AzureMonitorWorkspaceUpdateProperties])`
+  - Method `AzureMonitorWorkspaceUpdate.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AzureMonitorWorkspaceUpdateProperties.__init__` has a new overload `def __init__(self: None, metrics: Optional[_models.Metrics])`
+  - Method `AzureMonitorWorkspaceUpdateProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `BatchProcessor.__init__` has a new overload `def __init__(self: None, batch_size: Optional[int], timeout: Optional[int])`
+  - Method `BatchProcessor.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `CacheConfiguration.__init__` has a new overload `def __init__(self: None, max_storage_usage: Optional[int], retention_period: Optional[int])`
+  - Method `CacheConfiguration.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ConcurrencyConfiguration.__init__` has a new overload `def __init__(self: None, worker_count: Optional[int], batch_queue_size: Optional[int])`
+  - Method `ConcurrencyConfiguration.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `Exporter.__init__` has a new overload `def __init__(self: None, type: Union[str, _models.ExporterType], name: str, azure_monitor_workspace_logs: Optional[_models.AzureMonitorWorkspaceLogsExporter], tcp: Optional[_models.TcpExporter])`
+  - Method `Exporter.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ExtendedLocation.__init__` has a new overload `def __init__(self: None, name: str, type: Union[str, _models.ExtendedLocationType])`
+  - Method `ExtendedLocation.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `NetworkingConfiguration.__init__` has a new overload `def __init__(self: None, external_networking_mode: Union[str, _models.ExternalNetworkingMode], routes: List[_models.NetworkingRoute], host: Optional[str])`
+  - Method `NetworkingConfiguration.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `NetworkingRoute.__init__` has a new overload `def __init__(self: None, receiver: str, port: Optional[int], path: Optional[str], subdomain: Optional[str])`
+  - Method `NetworkingRoute.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `OtlpReceiver.__init__` has a new overload `def __init__(self: None, endpoint: str)`
+  - Method `OtlpReceiver.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `PersistenceConfigurations.__init__` has a new overload `def __init__(self: None, persistent_volume_name: str)`
+  - Method `PersistenceConfigurations.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `Pipeline.__init__` has a new overload `def __init__(self: None, name: str, type: Union[str, _models.PipelineType], receivers: List[str], exporters: List[str], processors: Optional[List[str]])`
+  - Method `Pipeline.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `PipelineGroup.__init__` has a new overload `def __init__(self: None, location: str, tags: Optional[Dict[str, str]], properties: Optional[_models.PipelineGroupProperties], extended_location: Optional[_models.ExtendedLocation])`
+  - Method `PipelineGroup.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `PipelineGroup.__init__` has a new overload `def __init__(self: None, location: str, tags: Optional[Dict[str, str]])`
+  - Method `PipelineGroup.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `PipelineGroupProperties.__init__` has a new overload `def __init__(self: None, receivers: List[_models.Receiver], processors: List[_models.Processor], exporters: List[_models.Exporter], service: _models.Service, replicas: Optional[int], networking_configurations: Optional[List[_models.NetworkingConfiguration]])`
+  - Method `PipelineGroupProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `PipelineGroupUpdate.__init__` has a new overload `def __init__(self: None, tags: Optional[Dict[str, str]], properties: Optional[_models.PipelineGroupUpdateProperties])`
+  - Method `PipelineGroupUpdate.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `PipelineGroupUpdateProperties.__init__` has a new overload `def __init__(self: None, replicas: Optional[int], receivers: Optional[List[_models.Receiver]], processors: Optional[List[_models.Processor]], exporters: Optional[List[_models.Exporter]], service: Optional[_models.Service], networking_configurations: Optional[List[_models.NetworkingConfiguration]])`
+  - Method `PipelineGroupUpdateProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `PrivateEndpointConnectionProperties.__init__` has a new overload `def __init__(self: None, private_link_service_connection_state: _models.PrivateLinkServiceConnectionState, private_endpoint: Optional[_models.PrivateEndpoint])`
+  - Method `PrivateEndpointConnectionProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `PrivateLinkServiceConnectionState.__init__` has a new overload `def __init__(self: None, status: Optional[Union[str, _models.PrivateEndpointServiceConnectionStatus]], description: Optional[str], actions_required: Optional[str])`
+  - Method `PrivateLinkServiceConnectionState.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `Processor.__init__` has a new overload `def __init__(self: None, type: Union[str, _models.ProcessorType], name: str, batch: Optional[_models.BatchProcessor])`
+  - Method `Processor.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `Receiver.__init__` has a new overload `def __init__(self: None, type: Union[str, _models.ReceiverType], name: str, syslog: Optional[_models.SyslogReceiver], otlp: Optional[_models.OtlpReceiver], udp: Optional[_models.UdpReceiver])`
+  - Method `Receiver.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `RecordMap.__init__` has a new overload `def __init__(self: None, from_property: str, to: str)`
+  - Method `RecordMap.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ResourceMap.__init__` has a new overload `def __init__(self: None, from_property: str, to: str)`
+  - Method `ResourceMap.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `SchemaMap.__init__` has a new overload `def __init__(self: None, record_map: List[_models.RecordMap], resource_map: Optional[List[_models.ResourceMap]], scope_map: Optional[List[_models.ScopeMap]])`
+  - Method `SchemaMap.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ScopeMap.__init__` has a new overload `def __init__(self: None, from_property: str, to: str)`
+  - Method `ScopeMap.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `Service.__init__` has a new overload `def __init__(self: None, pipelines: List[_models.Pipeline], persistence: Optional[_models.PersistenceConfigurations])`
+  - Method `Service.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `SyslogReceiver.__init__` has a new overload `def __init__(self: None, endpoint: str, protocol: Optional[Union[str, _models.SyslogProtocol]])`
+  - Method `SyslogReceiver.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `TcpExporter.__init__` has a new overload `def __init__(self: None, url: str)`
+  - Method `TcpExporter.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `TrackedResource.__init__` has a new overload `def __init__(self: None, location: str, tags: Optional[Dict[str, str]])`
+  - Method `TrackedResource.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `UdpReceiver.__init__` has a new overload `def __init__(self: None, endpoint: str, encoding: Optional[Union[str, _models.StreamEncodingType]], read_queue_length: Optional[int])`
+  - Method `UdpReceiver.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AzureMonitorWorkspacesOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, azure_monitor_workspace_name: str, resource: AzureMonitorWorkspace, content_type: str)`
+  - Method `AzureMonitorWorkspacesOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, azure_monitor_workspace_name: str, resource: JSON, content_type: str)`
+  - Method `AzureMonitorWorkspacesOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, azure_monitor_workspace_name: str, resource: IO[bytes], content_type: str)`
+  - Method `AzureMonitorWorkspacesOperations.update` has a new overload `def update(self: None, resource_group_name: str, azure_monitor_workspace_name: str, properties: AzureMonitorWorkspaceUpdate, content_type: str)`
+  - Method `AzureMonitorWorkspacesOperations.update` has a new overload `def update(self: None, resource_group_name: str, azure_monitor_workspace_name: str, properties: JSON, content_type: str)`
+  - Method `AzureMonitorWorkspacesOperations.update` has a new overload `def update(self: None, resource_group_name: str, azure_monitor_workspace_name: str, properties: IO[bytes], content_type: str)`
+  - Method `PipelineGroupsOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, pipeline_group_name: str, resource: PipelineGroup, content_type: str)`
+  - Method `PipelineGroupsOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, pipeline_group_name: str, resource: JSON, content_type: str)`
+  - Method `PipelineGroupsOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, pipeline_group_name: str, resource: IO[bytes], content_type: str)`
+  - Method `PipelineGroupsOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, pipeline_group_name: str, properties: PipelineGroupUpdate, content_type: str)`
+  - Method `PipelineGroupsOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, pipeline_group_name: str, properties: JSON, content_type: str)`
+  - Method `PipelineGroupsOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, pipeline_group_name: str, properties: IO[bytes], content_type: str)`
+
+### Breaking Changes
+
+  - Deleted or renamed client operation group `MonitorManagementClient.action_groups`
+  - Deleted or renamed client operation group `MonitorManagementClient.activity_log_alerts`
+  - Deleted or renamed client operation group `MonitorManagementClient.activity_logs`
+  - Deleted or renamed client operation group `MonitorManagementClient.tenant_activity_logs`
+  - Deleted or renamed client operation group `MonitorManagementClient.alert_rule_incidents`
+  - Deleted or renamed client operation group `MonitorManagementClient.autoscale_settings`
+  - Deleted or renamed client operation group `MonitorManagementClient.predictive_metric`
+  - Deleted or renamed client operation group `MonitorManagementClient.baselines`
+  - Deleted or renamed client operation group `MonitorManagementClient.diagnostic_settings`
+  - Deleted or renamed client operation group `MonitorManagementClient.diagnostic_settings_category`
+  - Deleted or renamed client operation group `MonitorManagementClient.event_categories`
+  - Deleted or renamed client operation group `MonitorManagementClient.guest_diagnostics_settings`
+  - Deleted or renamed client operation group `MonitorManagementClient.guest_diagnostics_settings_association`
+  - Deleted or renamed client operation group `MonitorManagementClient.log_profiles`
+  - Deleted or renamed client operation group `MonitorManagementClient.metric_alerts`
+  - Deleted or renamed client operation group `MonitorManagementClient.metric_alerts_status`
+  - Deleted or renamed client operation group `MonitorManagementClient.metric_definitions`
+  - Deleted or renamed client operation group `MonitorManagementClient.metric_namespaces`
+  - Deleted or renamed client operation group `MonitorManagementClient.metrics`
+  - Deleted or renamed client operation group `MonitorManagementClient.scheduled_query_rules`
+  - Deleted or renamed client operation group `MonitorManagementClient.service_diagnostic_settings`
+  - Deleted or renamed client operation group `MonitorManagementClient.vm_insights`
+  - Deleted or renamed client operation group `MonitorManagementClient.private_link_scopes`
+  - Deleted or renamed client operation group `MonitorManagementClient.private_link_scope_operation_status`
+  - Deleted or renamed client operation group `MonitorManagementClient.private_link_resources`
+  - Deleted or renamed client operation group `MonitorManagementClient.private_endpoint_connections`
+  - Deleted or renamed client operation group `MonitorManagementClient.private_link_scoped_resources`
+  - Deleted or renamed client operation group `MonitorManagementClient.subscription_diagnostic_settings`
+  - Method `Operations.list` changed from `asynchronous` to `synchronous`
+  - Model `ErrorAdditionalInfo` deleted or renamed its instance variable `additional_properties`
+  - Model `ErrorDetail` deleted or renamed its instance variable `additional_properties`
+  - Model `ErrorResponse` deleted or renamed its instance variable `code`
+  - Model `ErrorResponse` deleted or renamed its instance variable `message`
+  - Model `ErrorResponse` deleted or renamed its instance variable `additional_properties`
+  - Model `Operation` deleted or renamed its instance variable `additional_properties`
+  - Model `OperationDisplay` deleted or renamed its instance variable `additional_properties`
+  - Model `PrivateEndpointConnection` deleted or renamed its instance variable `private_endpoint`
+  - Model `PrivateEndpointConnection` deleted or renamed its instance variable `private_link_service_connection_state`
+  - Model `PrivateEndpointConnection` deleted or renamed its instance variable `provisioning_state`
+  - Model `PrivateEndpointConnection` deleted or renamed its instance variable `additional_properties`
+  - Deleted or renamed enum value `ProvisioningState.DEPLOYING`
+  - Model `Resource` deleted or renamed its instance variable `location`
+  - Model `Resource` deleted or renamed its instance variable `tags`
+  - Model `Resource` deleted or renamed its instance variable `additional_properties`
+  - Model `SystemData` deleted or renamed its instance variable `additional_properties`
+  - Deleted or renamed model `Action`
+  - Deleted or renamed model `ActionDetail`
+  - Deleted or renamed model `ActionGroupList`
+  - Deleted or renamed model `ActionGroupPatchBody`
+  - Deleted or renamed model `ActionGroupResource`
+  - Deleted or renamed model `ActivityLogAlertActionGroup`
+  - Deleted or renamed model `ActivityLogAlertActionList`
+  - Deleted or renamed model `ActivityLogAlertAllOfCondition`
+  - Deleted or renamed model `ActivityLogAlertLeafCondition`
+  - Deleted or renamed model `ActivityLogAlertList`
+  - Deleted or renamed model `ActivityLogAlertPatchBody`
+  - Deleted or renamed model `ActivityLogAlertResource`
+  - Deleted or renamed model `AggregationType`
+  - Deleted or renamed model `AggregationTypeEnum`
+  - Deleted or renamed model `AlertSeverity`
+  - Deleted or renamed model `AlertingAction`
+  - Deleted or renamed model `ArmRoleReceiver`
+  - Deleted or renamed model `AutomationRunbookReceiver`
+  - Deleted or renamed model `AutoscaleErrorResponse`
+  - Deleted or renamed model `AutoscaleErrorResponseError`
+  - Deleted or renamed model `AutoscaleNotification`
+  - Deleted or renamed model `AutoscaleProfile`
+  - Deleted or renamed model `AutoscaleSettingResource`
+  - Deleted or renamed model `AutoscaleSettingResourceCollection`
+  - Deleted or renamed model `AutoscaleSettingResourcePatch`
+  - Deleted or renamed model `AzNsActionGroup`
+  - Deleted or renamed model `AzureAppPushReceiver`
+  - Deleted or renamed model `AzureFunctionReceiver`
+  - Deleted or renamed model `AzureMonitorPrivateLinkScope`
+  - Deleted or renamed model `AzureResource`
+  - Deleted or renamed model `BaselineMetadata`
+  - Deleted or renamed model `BaselineSensitivity`
+  - Deleted or renamed model `CategoryType`
+  - Deleted or renamed model `ComparisonOperationType`
+  - Deleted or renamed model `ConditionalOperator`
+  - Deleted or renamed model `Context`
+  - Deleted or renamed model `Criteria`
+  - Deleted or renamed model `CriterionType`
+  - Deleted or renamed model `DataContainer`
+  - Deleted or renamed model `DataSource`
+  - Deleted or renamed model `DataSourceConfiguration`
+  - Deleted or renamed model `DataSourceKind`
+  - Deleted or renamed model `DataStatus`
+  - Deleted or renamed model `DiagnosticSettingsCategoryResource`
+  - Deleted or renamed model `DiagnosticSettingsCategoryResourceCollection`
+  - Deleted or renamed model `DiagnosticSettingsResource`
+  - Deleted or renamed model `DiagnosticSettingsResourceCollection`
+  - Deleted or renamed model `Dimension`
+  - Deleted or renamed model `DynamicMetricCriteria`
+  - Deleted or renamed model `DynamicThresholdFailingPeriods`
+  - Deleted or renamed model `DynamicThresholdOperator`
+  - Deleted or renamed model `DynamicThresholdSensitivity`
+  - Deleted or renamed model `EmailNotification`
+  - Deleted or renamed model `EmailReceiver`
+  - Deleted or renamed model `EnableRequest`
+  - Deleted or renamed model `Enabled`
+  - Deleted or renamed model `Error`
+  - Deleted or renamed model `ErrorContract`
+  - Deleted or renamed model `ErrorDetailAdditionalInfoItem`
+  - Deleted or renamed model `ErrorResponseAutoGenerated`
+  - Deleted or renamed model `ErrorResponseAutoGenerated2`
+  - Deleted or renamed model `ErrorResponseCommon`
+  - Deleted or renamed model `ErrorResponseError`
+  - Deleted or renamed model `ErrorResponseErrorAdditionalInfoItem`
+  - Deleted or renamed model `EtwEventConfiguration`
+  - Deleted or renamed model `EtwProviderConfiguration`
+  - Deleted or renamed model `EventCategoryCollection`
+  - Deleted or renamed model `EventData`
+  - Deleted or renamed model `EventDataCollection`
+  - Deleted or renamed model `EventHubReceiver`
+  - Deleted or renamed model `EventLevel`
+  - Deleted or renamed model `EventLogConfiguration`
+  - Deleted or renamed model `GuestDiagnosticSettingsAssociationList`
+  - Deleted or renamed model `GuestDiagnosticSettingsAssociationResource`
+  - Deleted or renamed model `GuestDiagnosticSettingsAssociationResourcePatch`
+  - Deleted or renamed model `GuestDiagnosticSettingsList`
+  - Deleted or renamed model `GuestDiagnosticSettingsOsType`
+  - Deleted or renamed model `GuestDiagnosticSettingsPatchResource`
+  - Deleted or renamed model `GuestDiagnosticSettingsResource`
+  - Deleted or renamed model `HttpRequestInfo`
+  - Deleted or renamed model `Incident`
+  - Deleted or renamed model `ItsmReceiver`
+  - Deleted or renamed model `LocalizableString`
+  - Deleted or renamed model `LocalizableStringAutoGenerated`
+  - Deleted or renamed model `LogMetricTrigger`
+  - Deleted or renamed model `LogProfileCollection`
+  - Deleted or renamed model `LogProfileResource`
+  - Deleted or renamed model `LogProfileResourcePatch`
+  - Deleted or renamed model `LogSearchRuleResource`
+  - Deleted or renamed model `LogSearchRuleResourceCollection`
+  - Deleted or renamed model `LogSearchRuleResourcePatch`
+  - Deleted or renamed model `LogSettings`
+  - Deleted or renamed model `LogSettingsAutoGenerated`
+  - Deleted or renamed model `LogToMetricAction`
+  - Deleted or renamed model `LogicAppReceiver`
+  - Deleted or renamed model `MetadataValue`
+  - Deleted or renamed model `Metric`
+  - Deleted or renamed model `MetricAlertAction`
+  - Deleted or renamed model `MetricAlertCriteria`
+  - Deleted or renamed model `MetricAlertMultipleResourceMultipleMetricCriteria`
+  - Deleted or renamed model `MetricAlertResource`
+  - Deleted or renamed model `MetricAlertResourceCollection`
+  - Deleted or renamed model `MetricAlertResourcePatch`
+  - Deleted or renamed model `MetricAlertSingleResourceMultipleMetricCriteria`
+  - Deleted or renamed model `MetricAlertStatus`
+  - Deleted or renamed model `MetricAlertStatusCollection`
+  - Deleted or renamed model `MetricAlertStatusProperties`
+  - Deleted or renamed model `MetricAvailability`
+  - Deleted or renamed model `MetricBaselinesResponse`
+  - Deleted or renamed model `MetricClass`
+  - Deleted or renamed model `MetricCriteria`
+  - Deleted or renamed model `MetricDefinition`
+  - Deleted or renamed model `MetricDefinitionCollection`
+  - Deleted or renamed model `MetricDimension`
+  - Deleted or renamed model `MetricNamespace`
+  - Deleted or renamed model `MetricNamespaceCollection`
+  - Deleted or renamed model `MetricNamespaceName`
+  - Deleted or renamed model `MetricSettings`
+  - Deleted or renamed model `MetricSettingsAutoGenerated`
+  - Deleted or renamed model `MetricSingleDimension`
+  - Deleted or renamed model `MetricStatisticType`
+  - Deleted or renamed model `MetricTrigger`
+  - Deleted or renamed model `MetricTriggerType`
+  - Deleted or renamed model `MetricUnit`
+  - Deleted or renamed model `MetricValue`
+  - Deleted or renamed model `MultiMetricCriteria`
+  - Deleted or renamed model `NamespaceClassification`
+  - Deleted or renamed model `NotificationRequestBody`
+  - Deleted or renamed model `Odatatype`
+  - Deleted or renamed model `OnboardingStatus`
+  - Deleted or renamed model `OperationStatus`
+  - Deleted or renamed model `Operator`
+  - Deleted or renamed model `PerformanceCounterConfiguration`
+  - Deleted or renamed model `PredictiveAutoscalePolicy`
+  - Deleted or renamed model `PredictiveAutoscalePolicyScaleMode`
+  - Deleted or renamed model `PredictiveResponse`
+  - Deleted or renamed model `PredictiveValue`
+  - Deleted or renamed model `PrivateEndpointProperty`
+  - Deleted or renamed model `PrivateLinkResource`
+  - Deleted or renamed model `PrivateLinkScopesResource`
+  - Deleted or renamed model `PrivateLinkServiceConnectionStateProperty`
+  - Deleted or renamed model `ProxyOnlyResource`
+  - Deleted or renamed model `ProxyResource`
+  - Deleted or renamed model `QueryType`
+  - Deleted or renamed model `ReceiverStatus`
+  - Deleted or renamed model `Recurrence`
+  - Deleted or renamed model `RecurrenceFrequency`
+  - Deleted or renamed model `RecurrentSchedule`
+  - Deleted or renamed model `ResourceAutoGenerated`
+  - Deleted or renamed model `ResourceAutoGenerated2`
+  - Deleted or renamed model `ResourceAutoGenerated3`
+  - Deleted or renamed model `Response`
+  - Deleted or renamed model `ResponseWithError`
+  - Deleted or renamed model `ResultType`
+  - Deleted or renamed model `RetentionPolicy`
+  - Deleted or renamed model `ScaleAction`
+  - Deleted or renamed model `ScaleCapacity`
+  - Deleted or renamed model `ScaleDirection`
+  - Deleted or renamed model `ScaleRule`
+  - Deleted or renamed model `ScaleRuleMetricDimension`
+  - Deleted or renamed model `ScaleRuleMetricDimensionOperationType`
+  - Deleted or renamed model `ScaleType`
+  - Deleted or renamed model `Schedule`
+  - Deleted or renamed model `ScopedResource`
+  - Deleted or renamed model `SenderAuthorization`
+  - Deleted or renamed model `ServiceDiagnosticSettingsResource`
+  - Deleted or renamed model `ServiceDiagnosticSettingsResourcePatch`
+  - Deleted or renamed model `SingleBaseline`
+  - Deleted or renamed model `SingleMetricBaseline`
+  - Deleted or renamed model `SinkConfiguration`
+  - Deleted or renamed model `SinkConfigurationKind`
+  - Deleted or renamed model `SmsReceiver`
+  - Deleted or renamed model `Source`
+  - Deleted or renamed model `SubscriptionDiagnosticSettingsResource`
+  - Deleted or renamed model `SubscriptionDiagnosticSettingsResourceCollection`
+  - Deleted or renamed model `SubscriptionLogSettings`
+  - Deleted or renamed model `SubscriptionProxyOnlyResource`
+  - Deleted or renamed model `TagsResource`
+  - Deleted or renamed model `TestNotificationDetailsResponse`
+  - Deleted or renamed model `TimeAggregationType`
+  - Deleted or renamed model `TimeSeriesBaseline`
+  - Deleted or renamed model `TimeSeriesElement`
+  - Deleted or renamed model `TimeWindow`
+  - Deleted or renamed model `TriggerCondition`
+  - Deleted or renamed model `VMInsightsOnboardingStatus`
+  - Deleted or renamed model `VoiceReceiver`
+  - Deleted or renamed model `WebhookNotification`
+  - Deleted or renamed model `WebhookReceiver`
+  - Deleted or renamed model `WebtestLocationAvailabilityCriteria`
+  - Deleted or renamed model `WorkspaceInfo`
+  - Deleted or renamed model `ActionGroupsOperations`
+  - Deleted or renamed model `ActivityLogAlertsOperations`
+  - Deleted or renamed model `ActivityLogsOperations`
+  - Deleted or renamed model `AlertRuleIncidentsOperations`
+  - Deleted or renamed model `AutoscaleSettingsOperations`
+  - Deleted or renamed model `BaselinesOperations`
+  - Deleted or renamed model `DiagnosticSettingsCategoryOperations`
+  - Deleted or renamed model `DiagnosticSettingsOperations`
+  - Deleted or renamed model `EventCategoriesOperations`
+  - Deleted or renamed model `GuestDiagnosticsSettingsAssociationOperations`
+  - Deleted or renamed model `GuestDiagnosticsSettingsOperations`
+  - Deleted or renamed model `LogProfilesOperations`
+  - Deleted or renamed model `MetricAlertsOperations`
+  - Deleted or renamed model `MetricAlertsStatusOperations`
+  - Deleted or renamed model `MetricDefinitionsOperations`
+  - Deleted or renamed model `MetricNamespacesOperations`
+  - Deleted or renamed model `MetricsOperations`
+  - Deleted or renamed model `PredictiveMetricOperations`
+  - Deleted or renamed model `PrivateEndpointConnectionsOperations`
+  - Deleted or renamed model `PrivateLinkResourcesOperations`
+  - Deleted or renamed model `PrivateLinkScopeOperationStatusOperations`
+  - Deleted or renamed model `PrivateLinkScopedResourcesOperations`
+  - Deleted or renamed model `PrivateLinkScopesOperations`
+  - Deleted or renamed model `ScheduledQueryRulesOperations`
+  - Deleted or renamed model `ServiceDiagnosticSettingsOperations`
+  - Deleted or renamed model `SubscriptionDiagnosticSettingsOperations`
+  - Deleted or renamed model `TenantActivityLogsOperations`
+  - Deleted or renamed model `VMInsightsOperations`
+
 ## 7.0.0b1 (2025-02-08)
 
 ### Features Added
