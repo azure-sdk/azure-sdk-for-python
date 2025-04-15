@@ -1,5 +1,5 @@
+# pylint: disable=line-too-long,useless-suppression,too-many-lines
 # coding=utf-8
-# pylint: disable=too-many-lines
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -7,21 +7,588 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from collections.abc import MutableMapping
 import datetime
-import sys
 from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 
 from .. import _serialization
 
-if sys.version_info >= (3, 9):
-    from collections.abc import MutableMapping
-else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
-
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
-JSON = MutableMapping[str, Any]  # pylint: disable=unsubscriptable-object
+JSON = MutableMapping[str, Any]
+
+
+class WorkspaceConnectionPropertiesV2(_serialization.Model):
+    """WorkspaceConnectionPropertiesV2.
+
+    You probably want to use the sub-classes and not this class directly. Known sub-classes are:
+    AADAuthTypeWorkspaceConnectionProperties, AccessKeyAuthTypeWorkspaceConnectionProperties,
+    AccountKeyAuthTypeWorkspaceConnectionProperties, ApiKeyAuthWorkspaceConnectionProperties,
+    CustomKeysWorkspaceConnectionProperties, ManagedIdentityAuthTypeWorkspaceConnectionProperties,
+    NoneAuthTypeWorkspaceConnectionProperties, OAuth2AuthTypeWorkspaceConnectionProperties,
+    PATAuthTypeWorkspaceConnectionProperties, SASAuthTypeWorkspaceConnectionProperties,
+    ServicePrincipalAuthTypeWorkspaceConnectionProperties,
+    UsernamePasswordAuthTypeWorkspaceConnectionProperties
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar auth_type: Authentication type of the connection target. Required. Known values are:
+     "PAT", "ManagedIdentity", "UsernamePassword", "None", "SAS", "AccountKey", "ServicePrincipal",
+     "AccessKey", "ApiKey", "CustomKeys", "OAuth2", and "AAD".
+    :vartype auth_type: str or ~azure.mgmt.machinelearningservices.models.ConnectionAuthType
+    :ivar category: Category of the connection. Known values are: "PythonFeed",
+     "ContainerRegistry", "Git", "S3", "Snowflake", "AzureSqlDb", "AzureSynapseAnalytics",
+     "AzureMySqlDb", "AzurePostgresDb", "ADLSGen2", "Redis", "ApiKey", "AzureOpenAI", "AIServices",
+     "CognitiveSearch", "CognitiveService", "CustomKeys", "AzureBlob", "AzureOneLake", "CosmosDb",
+     "CosmosDbMongoDbApi", "AzureDataExplorer", "AzureMariaDb", "AzureDatabricksDeltaLake",
+     "AzureSqlMi", "AzureTableStorage", "AmazonRdsForOracle", "AmazonRdsForSqlServer",
+     "AmazonRedshift", "Db2", "Drill", "GoogleBigQuery", "Greenplum", "Hbase", "Hive", "Impala",
+     "Informix", "MariaDb", "MicrosoftAccess", "MySql", "Netezza", "Oracle", "Phoenix",
+     "PostgreSql", "Presto", "SapOpenHub", "SapBw", "SapHana", "SapTable", "Spark", "SqlServer",
+     "Sybase", "Teradata", "Vertica", "Pinecone", "Cassandra", "Couchbase", "MongoDbV2",
+     "MongoDbAtlas", "AmazonS3Compatible", "FileServer", "FtpServer", "GoogleCloudStorage", "Hdfs",
+     "OracleCloudStorage", "Sftp", "GenericHttp", "ODataRest", "Odbc", "GenericRest", "AmazonMws",
+     "Concur", "Dynamics", "DynamicsAx", "DynamicsCrm", "GoogleAdWords", "Hubspot", "Jira",
+     "Magento", "Marketo", "Office365", "Eloqua", "Responsys", "OracleServiceCloud", "PayPal",
+     "QuickBooks", "Salesforce", "SalesforceServiceCloud", "SalesforceMarketingCloud",
+     "SapCloudForCustomer", "SapEcc", "ServiceNow", "SharePointOnlineList", "Shopify", "Square",
+     "WebTable", "Xero", "Zoho", "GenericContainerRegistry", "Elasticsearch", "OpenAI", "Serp",
+     "BingLLMSearch", "Serverless", and "ManagedOnlineEndpoint".
+    :vartype category: str or ~azure.mgmt.machinelearningservices.models.ConnectionCategory
+    :ivar created_by_workspace_arm_id:
+    :vartype created_by_workspace_arm_id: str
+    :ivar expiry_time:
+    :vartype expiry_time: ~datetime.datetime
+    :ivar group: Group based on connection category. Known values are: "Azure", "AzureAI",
+     "Database", "NoSQL", "File", "GenericProtocol", and "ServicesAndApps".
+    :vartype group: str or ~azure.mgmt.machinelearningservices.models.ConnectionGroup
+    :ivar is_shared_to_all:
+    :vartype is_shared_to_all: bool
+    :ivar target:
+    :vartype target: str
+    :ivar metadata: Store user metadata for this connection.
+    :vartype metadata: dict[str, str]
+    :ivar shared_user_list:
+    :vartype shared_user_list: list[str]
+    :ivar value: Value details of the workspace connection.
+    :vartype value: str
+    :ivar value_format: format for the workspace connection value. "JSON"
+    :vartype value_format: str or ~azure.mgmt.machinelearningservices.models.ValueFormat
+    """
+
+    _validation = {
+        "auth_type": {"required": True},
+        "created_by_workspace_arm_id": {"readonly": True},
+        "group": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "auth_type": {"key": "authType", "type": "str"},
+        "category": {"key": "category", "type": "str"},
+        "created_by_workspace_arm_id": {"key": "createdByWorkspaceArmId", "type": "str"},
+        "expiry_time": {"key": "expiryTime", "type": "iso-8601"},
+        "group": {"key": "group", "type": "str"},
+        "is_shared_to_all": {"key": "isSharedToAll", "type": "bool"},
+        "target": {"key": "target", "type": "str"},
+        "metadata": {"key": "metadata", "type": "{str}"},
+        "shared_user_list": {"key": "sharedUserList", "type": "[str]"},
+        "value": {"key": "value", "type": "str"},
+        "value_format": {"key": "valueFormat", "type": "str"},
+    }
+
+    _subtype_map = {
+        "auth_type": {
+            "AAD": "AADAuthTypeWorkspaceConnectionProperties",
+            "AccessKey": "AccessKeyAuthTypeWorkspaceConnectionProperties",
+            "AccountKey": "AccountKeyAuthTypeWorkspaceConnectionProperties",
+            "ApiKey": "ApiKeyAuthWorkspaceConnectionProperties",
+            "CustomKeys": "CustomKeysWorkspaceConnectionProperties",
+            "ManagedIdentity": "ManagedIdentityAuthTypeWorkspaceConnectionProperties",
+            "None": "NoneAuthTypeWorkspaceConnectionProperties",
+            "OAuth2": "OAuth2AuthTypeWorkspaceConnectionProperties",
+            "PAT": "PATAuthTypeWorkspaceConnectionProperties",
+            "SAS": "SASAuthTypeWorkspaceConnectionProperties",
+            "ServicePrincipal": "ServicePrincipalAuthTypeWorkspaceConnectionProperties",
+            "UsernamePassword": "UsernamePasswordAuthTypeWorkspaceConnectionProperties",
+        }
+    }
+
+    def __init__(
+        self,
+        *,
+        category: Optional[Union[str, "_models.ConnectionCategory"]] = None,
+        expiry_time: Optional[datetime.datetime] = None,
+        is_shared_to_all: Optional[bool] = None,
+        target: Optional[str] = None,
+        metadata: Optional[Dict[str, str]] = None,
+        shared_user_list: Optional[List[str]] = None,
+        value: Optional[str] = None,
+        value_format: Optional[Union[str, "_models.ValueFormat"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword category: Category of the connection. Known values are: "PythonFeed",
+         "ContainerRegistry", "Git", "S3", "Snowflake", "AzureSqlDb", "AzureSynapseAnalytics",
+         "AzureMySqlDb", "AzurePostgresDb", "ADLSGen2", "Redis", "ApiKey", "AzureOpenAI", "AIServices",
+         "CognitiveSearch", "CognitiveService", "CustomKeys", "AzureBlob", "AzureOneLake", "CosmosDb",
+         "CosmosDbMongoDbApi", "AzureDataExplorer", "AzureMariaDb", "AzureDatabricksDeltaLake",
+         "AzureSqlMi", "AzureTableStorage", "AmazonRdsForOracle", "AmazonRdsForSqlServer",
+         "AmazonRedshift", "Db2", "Drill", "GoogleBigQuery", "Greenplum", "Hbase", "Hive", "Impala",
+         "Informix", "MariaDb", "MicrosoftAccess", "MySql", "Netezza", "Oracle", "Phoenix",
+         "PostgreSql", "Presto", "SapOpenHub", "SapBw", "SapHana", "SapTable", "Spark", "SqlServer",
+         "Sybase", "Teradata", "Vertica", "Pinecone", "Cassandra", "Couchbase", "MongoDbV2",
+         "MongoDbAtlas", "AmazonS3Compatible", "FileServer", "FtpServer", "GoogleCloudStorage", "Hdfs",
+         "OracleCloudStorage", "Sftp", "GenericHttp", "ODataRest", "Odbc", "GenericRest", "AmazonMws",
+         "Concur", "Dynamics", "DynamicsAx", "DynamicsCrm", "GoogleAdWords", "Hubspot", "Jira",
+         "Magento", "Marketo", "Office365", "Eloqua", "Responsys", "OracleServiceCloud", "PayPal",
+         "QuickBooks", "Salesforce", "SalesforceServiceCloud", "SalesforceMarketingCloud",
+         "SapCloudForCustomer", "SapEcc", "ServiceNow", "SharePointOnlineList", "Shopify", "Square",
+         "WebTable", "Xero", "Zoho", "GenericContainerRegistry", "Elasticsearch", "OpenAI", "Serp",
+         "BingLLMSearch", "Serverless", and "ManagedOnlineEndpoint".
+        :paramtype category: str or ~azure.mgmt.machinelearningservices.models.ConnectionCategory
+        :keyword expiry_time:
+        :paramtype expiry_time: ~datetime.datetime
+        :keyword is_shared_to_all:
+        :paramtype is_shared_to_all: bool
+        :keyword target:
+        :paramtype target: str
+        :keyword metadata: Store user metadata for this connection.
+        :paramtype metadata: dict[str, str]
+        :keyword shared_user_list:
+        :paramtype shared_user_list: list[str]
+        :keyword value: Value details of the workspace connection.
+        :paramtype value: str
+        :keyword value_format: format for the workspace connection value. "JSON"
+        :paramtype value_format: str or ~azure.mgmt.machinelearningservices.models.ValueFormat
+        """
+        super().__init__(**kwargs)
+        self.auth_type: Optional[str] = None
+        self.category = category
+        self.created_by_workspace_arm_id: Optional[str] = None
+        self.expiry_time = expiry_time
+        self.group: Optional[Union[str, "_models.ConnectionGroup"]] = None
+        self.is_shared_to_all = is_shared_to_all
+        self.target = target
+        self.metadata = metadata
+        self.shared_user_list = shared_user_list
+        self.value = value
+        self.value_format = value_format
+
+
+class AADAuthTypeWorkspaceConnectionProperties(WorkspaceConnectionPropertiesV2):
+    """This connection type covers the AAD auth for any applicable Azure service.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar auth_type: Authentication type of the connection target. Required. Known values are:
+     "PAT", "ManagedIdentity", "UsernamePassword", "None", "SAS", "AccountKey", "ServicePrincipal",
+     "AccessKey", "ApiKey", "CustomKeys", "OAuth2", and "AAD".
+    :vartype auth_type: str or ~azure.mgmt.machinelearningservices.models.ConnectionAuthType
+    :ivar category: Category of the connection. Known values are: "PythonFeed",
+     "ContainerRegistry", "Git", "S3", "Snowflake", "AzureSqlDb", "AzureSynapseAnalytics",
+     "AzureMySqlDb", "AzurePostgresDb", "ADLSGen2", "Redis", "ApiKey", "AzureOpenAI", "AIServices",
+     "CognitiveSearch", "CognitiveService", "CustomKeys", "AzureBlob", "AzureOneLake", "CosmosDb",
+     "CosmosDbMongoDbApi", "AzureDataExplorer", "AzureMariaDb", "AzureDatabricksDeltaLake",
+     "AzureSqlMi", "AzureTableStorage", "AmazonRdsForOracle", "AmazonRdsForSqlServer",
+     "AmazonRedshift", "Db2", "Drill", "GoogleBigQuery", "Greenplum", "Hbase", "Hive", "Impala",
+     "Informix", "MariaDb", "MicrosoftAccess", "MySql", "Netezza", "Oracle", "Phoenix",
+     "PostgreSql", "Presto", "SapOpenHub", "SapBw", "SapHana", "SapTable", "Spark", "SqlServer",
+     "Sybase", "Teradata", "Vertica", "Pinecone", "Cassandra", "Couchbase", "MongoDbV2",
+     "MongoDbAtlas", "AmazonS3Compatible", "FileServer", "FtpServer", "GoogleCloudStorage", "Hdfs",
+     "OracleCloudStorage", "Sftp", "GenericHttp", "ODataRest", "Odbc", "GenericRest", "AmazonMws",
+     "Concur", "Dynamics", "DynamicsAx", "DynamicsCrm", "GoogleAdWords", "Hubspot", "Jira",
+     "Magento", "Marketo", "Office365", "Eloqua", "Responsys", "OracleServiceCloud", "PayPal",
+     "QuickBooks", "Salesforce", "SalesforceServiceCloud", "SalesforceMarketingCloud",
+     "SapCloudForCustomer", "SapEcc", "ServiceNow", "SharePointOnlineList", "Shopify", "Square",
+     "WebTable", "Xero", "Zoho", "GenericContainerRegistry", "Elasticsearch", "OpenAI", "Serp",
+     "BingLLMSearch", "Serverless", and "ManagedOnlineEndpoint".
+    :vartype category: str or ~azure.mgmt.machinelearningservices.models.ConnectionCategory
+    :ivar created_by_workspace_arm_id:
+    :vartype created_by_workspace_arm_id: str
+    :ivar expiry_time:
+    :vartype expiry_time: ~datetime.datetime
+    :ivar group: Group based on connection category. Known values are: "Azure", "AzureAI",
+     "Database", "NoSQL", "File", "GenericProtocol", and "ServicesAndApps".
+    :vartype group: str or ~azure.mgmt.machinelearningservices.models.ConnectionGroup
+    :ivar is_shared_to_all:
+    :vartype is_shared_to_all: bool
+    :ivar target:
+    :vartype target: str
+    :ivar metadata: Store user metadata for this connection.
+    :vartype metadata: dict[str, str]
+    :ivar shared_user_list:
+    :vartype shared_user_list: list[str]
+    :ivar value: Value details of the workspace connection.
+    :vartype value: str
+    :ivar value_format: format for the workspace connection value. "JSON"
+    :vartype value_format: str or ~azure.mgmt.machinelearningservices.models.ValueFormat
+    """
+
+    _validation = {
+        "auth_type": {"required": True},
+        "created_by_workspace_arm_id": {"readonly": True},
+        "group": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "auth_type": {"key": "authType", "type": "str"},
+        "category": {"key": "category", "type": "str"},
+        "created_by_workspace_arm_id": {"key": "createdByWorkspaceArmId", "type": "str"},
+        "expiry_time": {"key": "expiryTime", "type": "iso-8601"},
+        "group": {"key": "group", "type": "str"},
+        "is_shared_to_all": {"key": "isSharedToAll", "type": "bool"},
+        "target": {"key": "target", "type": "str"},
+        "metadata": {"key": "metadata", "type": "{str}"},
+        "shared_user_list": {"key": "sharedUserList", "type": "[str]"},
+        "value": {"key": "value", "type": "str"},
+        "value_format": {"key": "valueFormat", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        category: Optional[Union[str, "_models.ConnectionCategory"]] = None,
+        expiry_time: Optional[datetime.datetime] = None,
+        is_shared_to_all: Optional[bool] = None,
+        target: Optional[str] = None,
+        metadata: Optional[Dict[str, str]] = None,
+        shared_user_list: Optional[List[str]] = None,
+        value: Optional[str] = None,
+        value_format: Optional[Union[str, "_models.ValueFormat"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword category: Category of the connection. Known values are: "PythonFeed",
+         "ContainerRegistry", "Git", "S3", "Snowflake", "AzureSqlDb", "AzureSynapseAnalytics",
+         "AzureMySqlDb", "AzurePostgresDb", "ADLSGen2", "Redis", "ApiKey", "AzureOpenAI", "AIServices",
+         "CognitiveSearch", "CognitiveService", "CustomKeys", "AzureBlob", "AzureOneLake", "CosmosDb",
+         "CosmosDbMongoDbApi", "AzureDataExplorer", "AzureMariaDb", "AzureDatabricksDeltaLake",
+         "AzureSqlMi", "AzureTableStorage", "AmazonRdsForOracle", "AmazonRdsForSqlServer",
+         "AmazonRedshift", "Db2", "Drill", "GoogleBigQuery", "Greenplum", "Hbase", "Hive", "Impala",
+         "Informix", "MariaDb", "MicrosoftAccess", "MySql", "Netezza", "Oracle", "Phoenix",
+         "PostgreSql", "Presto", "SapOpenHub", "SapBw", "SapHana", "SapTable", "Spark", "SqlServer",
+         "Sybase", "Teradata", "Vertica", "Pinecone", "Cassandra", "Couchbase", "MongoDbV2",
+         "MongoDbAtlas", "AmazonS3Compatible", "FileServer", "FtpServer", "GoogleCloudStorage", "Hdfs",
+         "OracleCloudStorage", "Sftp", "GenericHttp", "ODataRest", "Odbc", "GenericRest", "AmazonMws",
+         "Concur", "Dynamics", "DynamicsAx", "DynamicsCrm", "GoogleAdWords", "Hubspot", "Jira",
+         "Magento", "Marketo", "Office365", "Eloqua", "Responsys", "OracleServiceCloud", "PayPal",
+         "QuickBooks", "Salesforce", "SalesforceServiceCloud", "SalesforceMarketingCloud",
+         "SapCloudForCustomer", "SapEcc", "ServiceNow", "SharePointOnlineList", "Shopify", "Square",
+         "WebTable", "Xero", "Zoho", "GenericContainerRegistry", "Elasticsearch", "OpenAI", "Serp",
+         "BingLLMSearch", "Serverless", and "ManagedOnlineEndpoint".
+        :paramtype category: str or ~azure.mgmt.machinelearningservices.models.ConnectionCategory
+        :keyword expiry_time:
+        :paramtype expiry_time: ~datetime.datetime
+        :keyword is_shared_to_all:
+        :paramtype is_shared_to_all: bool
+        :keyword target:
+        :paramtype target: str
+        :keyword metadata: Store user metadata for this connection.
+        :paramtype metadata: dict[str, str]
+        :keyword shared_user_list:
+        :paramtype shared_user_list: list[str]
+        :keyword value: Value details of the workspace connection.
+        :paramtype value: str
+        :keyword value_format: format for the workspace connection value. "JSON"
+        :paramtype value_format: str or ~azure.mgmt.machinelearningservices.models.ValueFormat
+        """
+        super().__init__(
+            category=category,
+            expiry_time=expiry_time,
+            is_shared_to_all=is_shared_to_all,
+            target=target,
+            metadata=metadata,
+            shared_user_list=shared_user_list,
+            value=value,
+            value_format=value_format,
+            **kwargs
+        )
+        self.auth_type: str = "AAD"
+
+
+class AccessKeyAuthTypeWorkspaceConnectionProperties(WorkspaceConnectionPropertiesV2):  # pylint: disable=name-too-long
+    """AccessKeyAuthTypeWorkspaceConnectionProperties.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar auth_type: Authentication type of the connection target. Required. Known values are:
+     "PAT", "ManagedIdentity", "UsernamePassword", "None", "SAS", "AccountKey", "ServicePrincipal",
+     "AccessKey", "ApiKey", "CustomKeys", "OAuth2", and "AAD".
+    :vartype auth_type: str or ~azure.mgmt.machinelearningservices.models.ConnectionAuthType
+    :ivar category: Category of the connection. Known values are: "PythonFeed",
+     "ContainerRegistry", "Git", "S3", "Snowflake", "AzureSqlDb", "AzureSynapseAnalytics",
+     "AzureMySqlDb", "AzurePostgresDb", "ADLSGen2", "Redis", "ApiKey", "AzureOpenAI", "AIServices",
+     "CognitiveSearch", "CognitiveService", "CustomKeys", "AzureBlob", "AzureOneLake", "CosmosDb",
+     "CosmosDbMongoDbApi", "AzureDataExplorer", "AzureMariaDb", "AzureDatabricksDeltaLake",
+     "AzureSqlMi", "AzureTableStorage", "AmazonRdsForOracle", "AmazonRdsForSqlServer",
+     "AmazonRedshift", "Db2", "Drill", "GoogleBigQuery", "Greenplum", "Hbase", "Hive", "Impala",
+     "Informix", "MariaDb", "MicrosoftAccess", "MySql", "Netezza", "Oracle", "Phoenix",
+     "PostgreSql", "Presto", "SapOpenHub", "SapBw", "SapHana", "SapTable", "Spark", "SqlServer",
+     "Sybase", "Teradata", "Vertica", "Pinecone", "Cassandra", "Couchbase", "MongoDbV2",
+     "MongoDbAtlas", "AmazonS3Compatible", "FileServer", "FtpServer", "GoogleCloudStorage", "Hdfs",
+     "OracleCloudStorage", "Sftp", "GenericHttp", "ODataRest", "Odbc", "GenericRest", "AmazonMws",
+     "Concur", "Dynamics", "DynamicsAx", "DynamicsCrm", "GoogleAdWords", "Hubspot", "Jira",
+     "Magento", "Marketo", "Office365", "Eloqua", "Responsys", "OracleServiceCloud", "PayPal",
+     "QuickBooks", "Salesforce", "SalesforceServiceCloud", "SalesforceMarketingCloud",
+     "SapCloudForCustomer", "SapEcc", "ServiceNow", "SharePointOnlineList", "Shopify", "Square",
+     "WebTable", "Xero", "Zoho", "GenericContainerRegistry", "Elasticsearch", "OpenAI", "Serp",
+     "BingLLMSearch", "Serverless", and "ManagedOnlineEndpoint".
+    :vartype category: str or ~azure.mgmt.machinelearningservices.models.ConnectionCategory
+    :ivar created_by_workspace_arm_id:
+    :vartype created_by_workspace_arm_id: str
+    :ivar expiry_time:
+    :vartype expiry_time: ~datetime.datetime
+    :ivar group: Group based on connection category. Known values are: "Azure", "AzureAI",
+     "Database", "NoSQL", "File", "GenericProtocol", and "ServicesAndApps".
+    :vartype group: str or ~azure.mgmt.machinelearningservices.models.ConnectionGroup
+    :ivar is_shared_to_all:
+    :vartype is_shared_to_all: bool
+    :ivar target:
+    :vartype target: str
+    :ivar metadata: Store user metadata for this connection.
+    :vartype metadata: dict[str, str]
+    :ivar shared_user_list:
+    :vartype shared_user_list: list[str]
+    :ivar value: Value details of the workspace connection.
+    :vartype value: str
+    :ivar value_format: format for the workspace connection value. "JSON"
+    :vartype value_format: str or ~azure.mgmt.machinelearningservices.models.ValueFormat
+    :ivar credentials:
+    :vartype credentials: ~azure.mgmt.machinelearningservices.models.WorkspaceConnectionAccessKey
+    """
+
+    _validation = {
+        "auth_type": {"required": True},
+        "created_by_workspace_arm_id": {"readonly": True},
+        "group": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "auth_type": {"key": "authType", "type": "str"},
+        "category": {"key": "category", "type": "str"},
+        "created_by_workspace_arm_id": {"key": "createdByWorkspaceArmId", "type": "str"},
+        "expiry_time": {"key": "expiryTime", "type": "iso-8601"},
+        "group": {"key": "group", "type": "str"},
+        "is_shared_to_all": {"key": "isSharedToAll", "type": "bool"},
+        "target": {"key": "target", "type": "str"},
+        "metadata": {"key": "metadata", "type": "{str}"},
+        "shared_user_list": {"key": "sharedUserList", "type": "[str]"},
+        "value": {"key": "value", "type": "str"},
+        "value_format": {"key": "valueFormat", "type": "str"},
+        "credentials": {"key": "credentials", "type": "WorkspaceConnectionAccessKey"},
+    }
+
+    def __init__(
+        self,
+        *,
+        category: Optional[Union[str, "_models.ConnectionCategory"]] = None,
+        expiry_time: Optional[datetime.datetime] = None,
+        is_shared_to_all: Optional[bool] = None,
+        target: Optional[str] = None,
+        metadata: Optional[Dict[str, str]] = None,
+        shared_user_list: Optional[List[str]] = None,
+        value: Optional[str] = None,
+        value_format: Optional[Union[str, "_models.ValueFormat"]] = None,
+        credentials: Optional["_models.WorkspaceConnectionAccessKey"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword category: Category of the connection. Known values are: "PythonFeed",
+         "ContainerRegistry", "Git", "S3", "Snowflake", "AzureSqlDb", "AzureSynapseAnalytics",
+         "AzureMySqlDb", "AzurePostgresDb", "ADLSGen2", "Redis", "ApiKey", "AzureOpenAI", "AIServices",
+         "CognitiveSearch", "CognitiveService", "CustomKeys", "AzureBlob", "AzureOneLake", "CosmosDb",
+         "CosmosDbMongoDbApi", "AzureDataExplorer", "AzureMariaDb", "AzureDatabricksDeltaLake",
+         "AzureSqlMi", "AzureTableStorage", "AmazonRdsForOracle", "AmazonRdsForSqlServer",
+         "AmazonRedshift", "Db2", "Drill", "GoogleBigQuery", "Greenplum", "Hbase", "Hive", "Impala",
+         "Informix", "MariaDb", "MicrosoftAccess", "MySql", "Netezza", "Oracle", "Phoenix",
+         "PostgreSql", "Presto", "SapOpenHub", "SapBw", "SapHana", "SapTable", "Spark", "SqlServer",
+         "Sybase", "Teradata", "Vertica", "Pinecone", "Cassandra", "Couchbase", "MongoDbV2",
+         "MongoDbAtlas", "AmazonS3Compatible", "FileServer", "FtpServer", "GoogleCloudStorage", "Hdfs",
+         "OracleCloudStorage", "Sftp", "GenericHttp", "ODataRest", "Odbc", "GenericRest", "AmazonMws",
+         "Concur", "Dynamics", "DynamicsAx", "DynamicsCrm", "GoogleAdWords", "Hubspot", "Jira",
+         "Magento", "Marketo", "Office365", "Eloqua", "Responsys", "OracleServiceCloud", "PayPal",
+         "QuickBooks", "Salesforce", "SalesforceServiceCloud", "SalesforceMarketingCloud",
+         "SapCloudForCustomer", "SapEcc", "ServiceNow", "SharePointOnlineList", "Shopify", "Square",
+         "WebTable", "Xero", "Zoho", "GenericContainerRegistry", "Elasticsearch", "OpenAI", "Serp",
+         "BingLLMSearch", "Serverless", and "ManagedOnlineEndpoint".
+        :paramtype category: str or ~azure.mgmt.machinelearningservices.models.ConnectionCategory
+        :keyword expiry_time:
+        :paramtype expiry_time: ~datetime.datetime
+        :keyword is_shared_to_all:
+        :paramtype is_shared_to_all: bool
+        :keyword target:
+        :paramtype target: str
+        :keyword metadata: Store user metadata for this connection.
+        :paramtype metadata: dict[str, str]
+        :keyword shared_user_list:
+        :paramtype shared_user_list: list[str]
+        :keyword value: Value details of the workspace connection.
+        :paramtype value: str
+        :keyword value_format: format for the workspace connection value. "JSON"
+        :paramtype value_format: str or ~azure.mgmt.machinelearningservices.models.ValueFormat
+        :keyword credentials:
+        :paramtype credentials: ~azure.mgmt.machinelearningservices.models.WorkspaceConnectionAccessKey
+        """
+        super().__init__(
+            category=category,
+            expiry_time=expiry_time,
+            is_shared_to_all=is_shared_to_all,
+            target=target,
+            metadata=metadata,
+            shared_user_list=shared_user_list,
+            value=value,
+            value_format=value_format,
+            **kwargs
+        )
+        self.auth_type: str = "AccessKey"
+        self.credentials = credentials
+
+
+class AccountKeyAuthTypeWorkspaceConnectionProperties(WorkspaceConnectionPropertiesV2):  # pylint: disable=name-too-long
+    """This connection type covers the account key connection for Azure storage.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar auth_type: Authentication type of the connection target. Required. Known values are:
+     "PAT", "ManagedIdentity", "UsernamePassword", "None", "SAS", "AccountKey", "ServicePrincipal",
+     "AccessKey", "ApiKey", "CustomKeys", "OAuth2", and "AAD".
+    :vartype auth_type: str or ~azure.mgmt.machinelearningservices.models.ConnectionAuthType
+    :ivar category: Category of the connection. Known values are: "PythonFeed",
+     "ContainerRegistry", "Git", "S3", "Snowflake", "AzureSqlDb", "AzureSynapseAnalytics",
+     "AzureMySqlDb", "AzurePostgresDb", "ADLSGen2", "Redis", "ApiKey", "AzureOpenAI", "AIServices",
+     "CognitiveSearch", "CognitiveService", "CustomKeys", "AzureBlob", "AzureOneLake", "CosmosDb",
+     "CosmosDbMongoDbApi", "AzureDataExplorer", "AzureMariaDb", "AzureDatabricksDeltaLake",
+     "AzureSqlMi", "AzureTableStorage", "AmazonRdsForOracle", "AmazonRdsForSqlServer",
+     "AmazonRedshift", "Db2", "Drill", "GoogleBigQuery", "Greenplum", "Hbase", "Hive", "Impala",
+     "Informix", "MariaDb", "MicrosoftAccess", "MySql", "Netezza", "Oracle", "Phoenix",
+     "PostgreSql", "Presto", "SapOpenHub", "SapBw", "SapHana", "SapTable", "Spark", "SqlServer",
+     "Sybase", "Teradata", "Vertica", "Pinecone", "Cassandra", "Couchbase", "MongoDbV2",
+     "MongoDbAtlas", "AmazonS3Compatible", "FileServer", "FtpServer", "GoogleCloudStorage", "Hdfs",
+     "OracleCloudStorage", "Sftp", "GenericHttp", "ODataRest", "Odbc", "GenericRest", "AmazonMws",
+     "Concur", "Dynamics", "DynamicsAx", "DynamicsCrm", "GoogleAdWords", "Hubspot", "Jira",
+     "Magento", "Marketo", "Office365", "Eloqua", "Responsys", "OracleServiceCloud", "PayPal",
+     "QuickBooks", "Salesforce", "SalesforceServiceCloud", "SalesforceMarketingCloud",
+     "SapCloudForCustomer", "SapEcc", "ServiceNow", "SharePointOnlineList", "Shopify", "Square",
+     "WebTable", "Xero", "Zoho", "GenericContainerRegistry", "Elasticsearch", "OpenAI", "Serp",
+     "BingLLMSearch", "Serverless", and "ManagedOnlineEndpoint".
+    :vartype category: str or ~azure.mgmt.machinelearningservices.models.ConnectionCategory
+    :ivar created_by_workspace_arm_id:
+    :vartype created_by_workspace_arm_id: str
+    :ivar expiry_time:
+    :vartype expiry_time: ~datetime.datetime
+    :ivar group: Group based on connection category. Known values are: "Azure", "AzureAI",
+     "Database", "NoSQL", "File", "GenericProtocol", and "ServicesAndApps".
+    :vartype group: str or ~azure.mgmt.machinelearningservices.models.ConnectionGroup
+    :ivar is_shared_to_all:
+    :vartype is_shared_to_all: bool
+    :ivar target:
+    :vartype target: str
+    :ivar metadata: Store user metadata for this connection.
+    :vartype metadata: dict[str, str]
+    :ivar shared_user_list:
+    :vartype shared_user_list: list[str]
+    :ivar value: Value details of the workspace connection.
+    :vartype value: str
+    :ivar value_format: format for the workspace connection value. "JSON"
+    :vartype value_format: str or ~azure.mgmt.machinelearningservices.models.ValueFormat
+    :ivar credentials:
+    :vartype credentials: ~azure.mgmt.machinelearningservices.models.WorkspaceConnectionAccountKey
+    """
+
+    _validation = {
+        "auth_type": {"required": True},
+        "created_by_workspace_arm_id": {"readonly": True},
+        "group": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "auth_type": {"key": "authType", "type": "str"},
+        "category": {"key": "category", "type": "str"},
+        "created_by_workspace_arm_id": {"key": "createdByWorkspaceArmId", "type": "str"},
+        "expiry_time": {"key": "expiryTime", "type": "iso-8601"},
+        "group": {"key": "group", "type": "str"},
+        "is_shared_to_all": {"key": "isSharedToAll", "type": "bool"},
+        "target": {"key": "target", "type": "str"},
+        "metadata": {"key": "metadata", "type": "{str}"},
+        "shared_user_list": {"key": "sharedUserList", "type": "[str]"},
+        "value": {"key": "value", "type": "str"},
+        "value_format": {"key": "valueFormat", "type": "str"},
+        "credentials": {"key": "credentials", "type": "WorkspaceConnectionAccountKey"},
+    }
+
+    def __init__(
+        self,
+        *,
+        category: Optional[Union[str, "_models.ConnectionCategory"]] = None,
+        expiry_time: Optional[datetime.datetime] = None,
+        is_shared_to_all: Optional[bool] = None,
+        target: Optional[str] = None,
+        metadata: Optional[Dict[str, str]] = None,
+        shared_user_list: Optional[List[str]] = None,
+        value: Optional[str] = None,
+        value_format: Optional[Union[str, "_models.ValueFormat"]] = None,
+        credentials: Optional["_models.WorkspaceConnectionAccountKey"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword category: Category of the connection. Known values are: "PythonFeed",
+         "ContainerRegistry", "Git", "S3", "Snowflake", "AzureSqlDb", "AzureSynapseAnalytics",
+         "AzureMySqlDb", "AzurePostgresDb", "ADLSGen2", "Redis", "ApiKey", "AzureOpenAI", "AIServices",
+         "CognitiveSearch", "CognitiveService", "CustomKeys", "AzureBlob", "AzureOneLake", "CosmosDb",
+         "CosmosDbMongoDbApi", "AzureDataExplorer", "AzureMariaDb", "AzureDatabricksDeltaLake",
+         "AzureSqlMi", "AzureTableStorage", "AmazonRdsForOracle", "AmazonRdsForSqlServer",
+         "AmazonRedshift", "Db2", "Drill", "GoogleBigQuery", "Greenplum", "Hbase", "Hive", "Impala",
+         "Informix", "MariaDb", "MicrosoftAccess", "MySql", "Netezza", "Oracle", "Phoenix",
+         "PostgreSql", "Presto", "SapOpenHub", "SapBw", "SapHana", "SapTable", "Spark", "SqlServer",
+         "Sybase", "Teradata", "Vertica", "Pinecone", "Cassandra", "Couchbase", "MongoDbV2",
+         "MongoDbAtlas", "AmazonS3Compatible", "FileServer", "FtpServer", "GoogleCloudStorage", "Hdfs",
+         "OracleCloudStorage", "Sftp", "GenericHttp", "ODataRest", "Odbc", "GenericRest", "AmazonMws",
+         "Concur", "Dynamics", "DynamicsAx", "DynamicsCrm", "GoogleAdWords", "Hubspot", "Jira",
+         "Magento", "Marketo", "Office365", "Eloqua", "Responsys", "OracleServiceCloud", "PayPal",
+         "QuickBooks", "Salesforce", "SalesforceServiceCloud", "SalesforceMarketingCloud",
+         "SapCloudForCustomer", "SapEcc", "ServiceNow", "SharePointOnlineList", "Shopify", "Square",
+         "WebTable", "Xero", "Zoho", "GenericContainerRegistry", "Elasticsearch", "OpenAI", "Serp",
+         "BingLLMSearch", "Serverless", and "ManagedOnlineEndpoint".
+        :paramtype category: str or ~azure.mgmt.machinelearningservices.models.ConnectionCategory
+        :keyword expiry_time:
+        :paramtype expiry_time: ~datetime.datetime
+        :keyword is_shared_to_all:
+        :paramtype is_shared_to_all: bool
+        :keyword target:
+        :paramtype target: str
+        :keyword metadata: Store user metadata for this connection.
+        :paramtype metadata: dict[str, str]
+        :keyword shared_user_list:
+        :paramtype shared_user_list: list[str]
+        :keyword value: Value details of the workspace connection.
+        :paramtype value: str
+        :keyword value_format: format for the workspace connection value. "JSON"
+        :paramtype value_format: str or ~azure.mgmt.machinelearningservices.models.ValueFormat
+        :keyword credentials:
+        :paramtype credentials:
+         ~azure.mgmt.machinelearningservices.models.WorkspaceConnectionAccountKey
+        """
+        super().__init__(
+            category=category,
+            expiry_time=expiry_time,
+            is_shared_to_all=is_shared_to_all,
+            target=target,
+            metadata=metadata,
+            shared_user_list=shared_user_list,
+            value=value,
+            value_format=value_format,
+            **kwargs
+        )
+        self.auth_type: str = "AccountKey"
+        self.credentials = credentials
 
 
 class DatastoreCredentials(_serialization.Model):
@@ -31,7 +598,7 @@ class DatastoreCredentials(_serialization.Model):
     AccountKeyDatastoreCredentials, CertificateDatastoreCredentials, NoneDatastoreCredentials,
     SasDatastoreCredentials, ServicePrincipalDatastoreCredentials
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar credentials_type: [Required] Credential type used to authentication with storage.
      Required. Known values are: "AccountKey", "Certificate", "None", "Sas", and "ServicePrincipal".
@@ -65,7 +632,7 @@ class DatastoreCredentials(_serialization.Model):
 class AccountKeyDatastoreCredentials(DatastoreCredentials):
     """Account key datastore credentials configuration.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar credentials_type: [Required] Credential type used to authentication with storage.
      Required. Known values are: "AccountKey", "Certificate", "None", "Sas", and "ServicePrincipal".
@@ -101,7 +668,7 @@ class DatastoreSecrets(_serialization.Model):
     AccountKeyDatastoreSecrets, CertificateDatastoreSecrets, SasDatastoreSecrets,
     ServicePrincipalDatastoreSecrets
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar secrets_type: [Required] Credential type used to authentication with storage. Required.
      Known values are: "AccountKey", "Certificate", "Sas", and "ServicePrincipal".
@@ -134,7 +701,7 @@ class DatastoreSecrets(_serialization.Model):
 class AccountKeyDatastoreSecrets(DatastoreSecrets):
     """Datastore account key secrets.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar secrets_type: [Required] Credential type used to authentication with storage. Required.
      Known values are: "AccountKey", "Certificate", "Sas", and "ServicePrincipal".
@@ -169,37 +736,23 @@ class AcrDetails(_serialization.Model):
      Registry.
     :vartype system_created_acr_account:
      ~azure.mgmt.machinelearningservices.models.SystemCreatedAcrAccount
-    :ivar user_created_acr_account: Details of user created ACR account to be used for the
-     Registry.
-    :vartype user_created_acr_account:
-     ~azure.mgmt.machinelearningservices.models.UserCreatedAcrAccount
     """
 
     _attribute_map = {
         "system_created_acr_account": {"key": "systemCreatedAcrAccount", "type": "SystemCreatedAcrAccount"},
-        "user_created_acr_account": {"key": "userCreatedAcrAccount", "type": "UserCreatedAcrAccount"},
     }
 
     def __init__(
-        self,
-        *,
-        system_created_acr_account: Optional["_models.SystemCreatedAcrAccount"] = None,
-        user_created_acr_account: Optional["_models.UserCreatedAcrAccount"] = None,
-        **kwargs: Any
+        self, *, system_created_acr_account: Optional["_models.SystemCreatedAcrAccount"] = None, **kwargs: Any
     ) -> None:
         """
         :keyword system_created_acr_account: Details of system created ACR account to be used for the
          Registry.
         :paramtype system_created_acr_account:
          ~azure.mgmt.machinelearningservices.models.SystemCreatedAcrAccount
-        :keyword user_created_acr_account: Details of user created ACR account to be used for the
-         Registry.
-        :paramtype user_created_acr_account:
-         ~azure.mgmt.machinelearningservices.models.UserCreatedAcrAccount
         """
         super().__init__(**kwargs)
         self.system_created_acr_account = system_created_acr_account
-        self.user_created_acr_account = user_created_acr_account
 
 
 class AKSSchema(_serialization.Model):
@@ -231,7 +784,7 @@ class Compute(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar compute_type: The type of compute. Required. Known values are: "AKS", "Kubernetes",
      "AmlCompute", "ComputeInstance", "DataFactory", "VirtualMachine", "HDInsight", "Databricks",
@@ -322,22 +875,22 @@ class Compute(_serialization.Model):
         super().__init__(**kwargs)
         self.compute_type: Optional[str] = None
         self.compute_location = compute_location
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.description = description
-        self.created_on = None
-        self.modified_on = None
+        self.created_on: Optional[datetime.datetime] = None
+        self.modified_on: Optional[datetime.datetime] = None
         self.resource_id = resource_id
-        self.provisioning_errors = None
-        self.is_attached_compute = None
+        self.provisioning_errors: Optional[List["_models.ErrorResponse"]] = None
+        self.is_attached_compute: Optional[bool] = None
         self.disable_local_auth = disable_local_auth
 
 
-class AKS(Compute, AKSSchema):  # pylint: disable=too-many-instance-attributes
+class AKS(Compute, AKSSchema):
     """A Machine Learning compute based on AKS.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar properties: AKS properties.
     :vartype properties: ~azure.mgmt.machinelearningservices.models.AKSSchemaProperties
@@ -427,13 +980,13 @@ class AKS(Compute, AKSSchema):  # pylint: disable=too-many-instance-attributes
         self.properties = properties
         self.compute_type: str = "AKS"
         self.compute_location = compute_location
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.description = description
-        self.created_on = None
-        self.modified_on = None
+        self.created_on: Optional[datetime.datetime] = None
+        self.modified_on: Optional[datetime.datetime] = None
         self.resource_id = resource_id
-        self.provisioning_errors = None
-        self.is_attached_compute = None
+        self.provisioning_errors: Optional[List["_models.ErrorResponse"]] = None
+        self.is_attached_compute: Optional[bool] = None
         self.disable_local_auth = disable_local_auth
 
 
@@ -486,7 +1039,7 @@ class ComputeSecrets(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     AksComputeSecrets, DatabricksComputeSecrets, VirtualMachineSecrets
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar compute_type: The type of compute. Required. Known values are: "AKS", "Kubernetes",
      "AmlCompute", "ComputeInstance", "DataFactory", "VirtualMachine", "HDInsight", "Databricks",
@@ -519,7 +1072,7 @@ class ComputeSecrets(_serialization.Model):
 class AksComputeSecrets(ComputeSecrets, AksComputeSecretsProperties):
     """Secrets related to a Machine Learning compute based on AKS.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar user_kube_config: Content of kubeconfig file that can be used to connect to the
      Kubernetes cluster.
@@ -718,7 +1271,7 @@ class AKSSchemaProperties(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.cluster_fqdn = cluster_fqdn
-        self.system_services = None
+        self.system_services: Optional[List["_models.SystemService"]] = None
         self.agent_count = agent_count
         self.agent_vm_size = agent_vm_size
         self.cluster_purpose = cluster_purpose
@@ -728,13 +1281,76 @@ class AKSSchemaProperties(_serialization.Model):
         self.load_balancer_subnet = load_balancer_subnet
 
 
+class MonitoringFeatureFilterBase(_serialization.Model):
+    """MonitoringFeatureFilterBase.
+
+    You probably want to use the sub-classes and not this class directly. Known sub-classes are:
+    AllFeatures, FeatureSubset, TopNFeaturesByAttribution
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar filter_type: [Required] Specifies the feature filter to leverage when selecting features
+     to calculate metrics over. Required. Known values are: "AllFeatures", "TopNByAttribution", and
+     "FeatureSubset".
+    :vartype filter_type: str or
+     ~azure.mgmt.machinelearningservices.models.MonitoringFeatureFilterType
+    """
+
+    _validation = {
+        "filter_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "filter_type": {"key": "filterType", "type": "str"},
+    }
+
+    _subtype_map = {
+        "filter_type": {
+            "AllFeatures": "AllFeatures",
+            "FeatureSubset": "FeatureSubset",
+            "TopNByAttribution": "TopNFeaturesByAttribution",
+        }
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.filter_type: Optional[str] = None
+
+
+class AllFeatures(MonitoringFeatureFilterBase):
+    """AllFeatures.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar filter_type: [Required] Specifies the feature filter to leverage when selecting features
+     to calculate metrics over. Required. Known values are: "AllFeatures", "TopNByAttribution", and
+     "FeatureSubset".
+    :vartype filter_type: str or
+     ~azure.mgmt.machinelearningservices.models.MonitoringFeatureFilterType
+    """
+
+    _validation = {
+        "filter_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "filter_type": {"key": "filterType", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.filter_type: str = "AllFeatures"
+
+
 class Nodes(_serialization.Model):
     """Abstract Nodes definition.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     AllNodes
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar nodes_value_type: [Required] Type of the Nodes value. Required. "All"
     :vartype nodes_value_type: str or ~azure.mgmt.machinelearningservices.models.NodesValueType
@@ -759,7 +1375,7 @@ class Nodes(_serialization.Model):
 class AllNodes(Nodes):
     """All nodes means the service will be running on all of the nodes of the job.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar nodes_value_type: [Required] Type of the Nodes value. Required. "All"
     :vartype nodes_value_type: str or ~azure.mgmt.machinelearningservices.models.NodesValueType
@@ -799,12 +1415,12 @@ class AmlComputeSchema(_serialization.Model):
         self.properties = properties
 
 
-class AmlCompute(Compute, AmlComputeSchema):  # pylint: disable=too-many-instance-attributes
+class AmlCompute(Compute, AmlComputeSchema):
     """An Azure Machine Learning compute.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar properties: Properties of AmlCompute.
     :vartype properties: ~azure.mgmt.machinelearningservices.models.AmlComputeProperties
@@ -894,13 +1510,13 @@ class AmlCompute(Compute, AmlComputeSchema):  # pylint: disable=too-many-instanc
         self.properties = properties
         self.compute_type: str = "AmlCompute"
         self.compute_location = compute_location
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.description = description
-        self.created_on = None
-        self.modified_on = None
+        self.created_on: Optional[datetime.datetime] = None
+        self.modified_on: Optional[datetime.datetime] = None
         self.resource_id = resource_id
-        self.provisioning_errors = None
-        self.is_attached_compute = None
+        self.provisioning_errors: Optional[List["_models.ErrorResponse"]] = None
+        self.is_attached_compute: Optional[bool] = None
         self.disable_local_auth = disable_local_auth
 
 
@@ -946,12 +1562,12 @@ class AmlComputeNodeInformation(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.node_id = None
-        self.private_ip_address = None
-        self.public_ip_address = None
-        self.port = None
-        self.node_state = None
-        self.run_id = None
+        self.node_id: Optional[str] = None
+        self.private_ip_address: Optional[str] = None
+        self.public_ip_address: Optional[str] = None
+        self.port: Optional[int] = None
+        self.node_state: Optional[Union[str, "_models.NodeState"]] = None
+        self.run_id: Optional[str] = None
 
 
 class AmlComputeNodesInformation(_serialization.Model):
@@ -978,11 +1594,11 @@ class AmlComputeNodesInformation(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.nodes = None
-        self.next_link = None
+        self.nodes: Optional[List["_models.AmlComputeNodeInformation"]] = None
+        self.next_link: Optional[str] = None
 
 
-class AmlComputeProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class AmlComputeProperties(_serialization.Model):
     """AML Compute properties.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1137,120 +1753,14 @@ class AmlComputeProperties(_serialization.Model):  # pylint: disable=too-many-in
         self.user_account_credentials = user_account_credentials
         self.subnet = subnet
         self.remote_login_port_public_access = remote_login_port_public_access
-        self.allocation_state = None
-        self.allocation_state_transition_time = None
-        self.errors = None
-        self.current_node_count = None
-        self.target_node_count = None
-        self.node_state_counts = None
+        self.allocation_state: Optional[Union[str, "_models.AllocationState"]] = None
+        self.allocation_state_transition_time: Optional[datetime.datetime] = None
+        self.errors: Optional[List["_models.ErrorResponse"]] = None
+        self.current_node_count: Optional[int] = None
+        self.target_node_count: Optional[int] = None
+        self.node_state_counts: Optional["_models.NodeStateCounts"] = None
         self.enable_node_public_ip = enable_node_public_ip
         self.property_bag = property_bag
-
-
-class AmlOperation(_serialization.Model):
-    """Azure Machine Learning workspace REST API operation.
-
-    :ivar name: Operation name: {provider}/{resource}/{operation}.
-    :vartype name: str
-    :ivar display: Display name of operation.
-    :vartype display: ~azure.mgmt.machinelearningservices.models.AmlOperationDisplay
-    :ivar is_data_action: Indicates whether the operation applies to data-plane.
-    :vartype is_data_action: bool
-    """
-
-    _attribute_map = {
-        "name": {"key": "name", "type": "str"},
-        "display": {"key": "display", "type": "AmlOperationDisplay"},
-        "is_data_action": {"key": "isDataAction", "type": "bool"},
-    }
-
-    def __init__(
-        self,
-        *,
-        name: Optional[str] = None,
-        display: Optional["_models.AmlOperationDisplay"] = None,
-        is_data_action: Optional[bool] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword name: Operation name: {provider}/{resource}/{operation}.
-        :paramtype name: str
-        :keyword display: Display name of operation.
-        :paramtype display: ~azure.mgmt.machinelearningservices.models.AmlOperationDisplay
-        :keyword is_data_action: Indicates whether the operation applies to data-plane.
-        :paramtype is_data_action: bool
-        """
-        super().__init__(**kwargs)
-        self.name = name
-        self.display = display
-        self.is_data_action = is_data_action
-
-
-class AmlOperationDisplay(_serialization.Model):
-    """Display name of operation.
-
-    :ivar provider: The resource provider name: Microsoft.MachineLearningExperimentation.
-    :vartype provider: str
-    :ivar resource: The resource on which the operation is performed.
-    :vartype resource: str
-    :ivar operation: The operation that users can perform.
-    :vartype operation: str
-    :ivar description: The description for the operation.
-    :vartype description: str
-    """
-
-    _attribute_map = {
-        "provider": {"key": "provider", "type": "str"},
-        "resource": {"key": "resource", "type": "str"},
-        "operation": {"key": "operation", "type": "str"},
-        "description": {"key": "description", "type": "str"},
-    }
-
-    def __init__(
-        self,
-        *,
-        provider: Optional[str] = None,
-        resource: Optional[str] = None,
-        operation: Optional[str] = None,
-        description: Optional[str] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword provider: The resource provider name: Microsoft.MachineLearningExperimentation.
-        :paramtype provider: str
-        :keyword resource: The resource on which the operation is performed.
-        :paramtype resource: str
-        :keyword operation: The operation that users can perform.
-        :paramtype operation: str
-        :keyword description: The description for the operation.
-        :paramtype description: str
-        """
-        super().__init__(**kwargs)
-        self.provider = provider
-        self.resource = resource
-        self.operation = operation
-        self.description = description
-
-
-class AmlOperationListResult(_serialization.Model):
-    """An array of operations supported by the resource provider.
-
-    :ivar value: List of AML workspace operations supported by the AML workspace resource provider.
-    :vartype value: list[~azure.mgmt.machinelearningservices.models.AmlOperation]
-    """
-
-    _attribute_map = {
-        "value": {"key": "value", "type": "[AmlOperation]"},
-    }
-
-    def __init__(self, *, value: Optional[List["_models.AmlOperation"]] = None, **kwargs: Any) -> None:
-        """
-        :keyword value: List of AML workspace operations supported by the AML workspace resource
-         provider.
-        :paramtype value: list[~azure.mgmt.machinelearningservices.models.AmlOperation]
-        """
-        super().__init__(**kwargs)
-        self.value = value
 
 
 class IdentityConfiguration(_serialization.Model):
@@ -1259,7 +1769,7 @@ class IdentityConfiguration(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     AmlToken, ManagedIdentity, UserIdentity
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar identity_type: [Required] Specifies the type of identity framework. Required. Known
      values are: "Managed", "AMLToken", and "UserIdentity".
@@ -1288,7 +1798,7 @@ class IdentityConfiguration(_serialization.Model):
 class AmlToken(IdentityConfiguration):
     """AML Token identity configuration.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar identity_type: [Required] Specifies the type of identity framework. Required. Known
      values are: "Managed", "AMLToken", and "UserIdentity".
@@ -1308,6 +1818,63 @@ class AmlToken(IdentityConfiguration):
         """ """
         super().__init__(**kwargs)
         self.identity_type: str = "AMLToken"
+
+
+class MonitorComputeIdentityBase(_serialization.Model):
+    """Monitor compute identity base definition.
+
+    You probably want to use the sub-classes and not this class directly. Known sub-classes are:
+    AmlTokenComputeIdentity, ManagedComputeIdentity
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar compute_identity_type: [Required] Specifies the type of identity to use within the
+     monitoring jobs. Required. Known values are: "AmlToken" and "ManagedIdentity".
+    :vartype compute_identity_type: str or
+     ~azure.mgmt.machinelearningservices.models.MonitorComputeIdentityType
+    """
+
+    _validation = {
+        "compute_identity_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "compute_identity_type": {"key": "computeIdentityType", "type": "str"},
+    }
+
+    _subtype_map = {
+        "compute_identity_type": {"AmlToken": "AmlTokenComputeIdentity", "ManagedIdentity": "ManagedComputeIdentity"}
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.compute_identity_type: Optional[str] = None
+
+
+class AmlTokenComputeIdentity(MonitorComputeIdentityBase):
+    """AML token compute identity definition.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar compute_identity_type: [Required] Specifies the type of identity to use within the
+     monitoring jobs. Required. Known values are: "AmlToken" and "ManagedIdentity".
+    :vartype compute_identity_type: str or
+     ~azure.mgmt.machinelearningservices.models.MonitorComputeIdentityType
+    """
+
+    _validation = {
+        "compute_identity_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "compute_identity_type": {"key": "computeIdentityType", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.compute_identity_type: str = "AmlToken"
 
 
 class AmlUserFeature(_serialization.Model):
@@ -1347,6 +1914,230 @@ class AmlUserFeature(_serialization.Model):
         self.id = id
         self.display_name = display_name
         self.description = description
+
+
+class DataReferenceCredential(_serialization.Model):
+    """DataReferenceCredential base class.
+
+    You probably want to use the sub-classes and not this class directly. Known sub-classes are:
+    DockerCredential, ManagedIdentityCredential, AnonymousAccessCredential, SASCredential
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar credential_type: [Required] Credential type used to authentication with storage.
+     Required. Known values are: "SAS", "DockerCredentials", "ManagedIdentity", and "NoCredentials".
+    :vartype credential_type: str or
+     ~azure.mgmt.machinelearningservices.models.DataReferenceCredentialType
+    """
+
+    _validation = {
+        "credential_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "credential_type": {"key": "credentialType", "type": "str"},
+    }
+
+    _subtype_map = {
+        "credential_type": {
+            "DockerCredentials": "DockerCredential",
+            "ManagedIdentity": "ManagedIdentityCredential",
+            "NoCredentials": "AnonymousAccessCredential",
+            "SAS": "SASCredential",
+        }
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.credential_type: Optional[str] = None
+
+
+class AnonymousAccessCredential(DataReferenceCredential):
+    """Access credential with no credentials.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar credential_type: [Required] Credential type used to authentication with storage.
+     Required. Known values are: "SAS", "DockerCredentials", "ManagedIdentity", and "NoCredentials".
+    :vartype credential_type: str or
+     ~azure.mgmt.machinelearningservices.models.DataReferenceCredentialType
+    """
+
+    _validation = {
+        "credential_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "credential_type": {"key": "credentialType", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.credential_type: str = "NoCredentials"
+
+
+class ApiKeyAuthWorkspaceConnectionProperties(WorkspaceConnectionPropertiesV2):
+    """This connection type covers the generic ApiKey auth connection categories, for examples:
+    AzureOpenAI:
+        Category:= AzureOpenAI
+        AuthType:= ApiKey (as type discriminator)
+        Credentials:= {ApiKey} as
+    Microsoft.MachineLearning.AccountRP.Contracts.WorkspaceConnection.ApiKey
+        Target:= {ApiBase}
+
+    CognitiveService:
+        Category:= CognitiveService
+        AuthType:= ApiKey (as type discriminator)
+        Credentials:= {SubscriptionKey} as
+    Microsoft.MachineLearning.AccountRP.Contracts.WorkspaceConnection.ApiKey
+        Target:= ServiceRegion={serviceRegion}
+
+    CognitiveSearch:
+        Category:= CognitiveSearch
+        AuthType:= ApiKey (as type discriminator)
+        Credentials:= {Key} as
+    Microsoft.MachineLearning.AccountRP.Contracts.WorkspaceConnection.ApiKey
+        Target:= {Endpoint}
+
+    Use Metadata property bag for ApiType, ApiVersion, Kind and other metadata fields.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar auth_type: Authentication type of the connection target. Required. Known values are:
+     "PAT", "ManagedIdentity", "UsernamePassword", "None", "SAS", "AccountKey", "ServicePrincipal",
+     "AccessKey", "ApiKey", "CustomKeys", "OAuth2", and "AAD".
+    :vartype auth_type: str or ~azure.mgmt.machinelearningservices.models.ConnectionAuthType
+    :ivar category: Category of the connection. Known values are: "PythonFeed",
+     "ContainerRegistry", "Git", "S3", "Snowflake", "AzureSqlDb", "AzureSynapseAnalytics",
+     "AzureMySqlDb", "AzurePostgresDb", "ADLSGen2", "Redis", "ApiKey", "AzureOpenAI", "AIServices",
+     "CognitiveSearch", "CognitiveService", "CustomKeys", "AzureBlob", "AzureOneLake", "CosmosDb",
+     "CosmosDbMongoDbApi", "AzureDataExplorer", "AzureMariaDb", "AzureDatabricksDeltaLake",
+     "AzureSqlMi", "AzureTableStorage", "AmazonRdsForOracle", "AmazonRdsForSqlServer",
+     "AmazonRedshift", "Db2", "Drill", "GoogleBigQuery", "Greenplum", "Hbase", "Hive", "Impala",
+     "Informix", "MariaDb", "MicrosoftAccess", "MySql", "Netezza", "Oracle", "Phoenix",
+     "PostgreSql", "Presto", "SapOpenHub", "SapBw", "SapHana", "SapTable", "Spark", "SqlServer",
+     "Sybase", "Teradata", "Vertica", "Pinecone", "Cassandra", "Couchbase", "MongoDbV2",
+     "MongoDbAtlas", "AmazonS3Compatible", "FileServer", "FtpServer", "GoogleCloudStorage", "Hdfs",
+     "OracleCloudStorage", "Sftp", "GenericHttp", "ODataRest", "Odbc", "GenericRest", "AmazonMws",
+     "Concur", "Dynamics", "DynamicsAx", "DynamicsCrm", "GoogleAdWords", "Hubspot", "Jira",
+     "Magento", "Marketo", "Office365", "Eloqua", "Responsys", "OracleServiceCloud", "PayPal",
+     "QuickBooks", "Salesforce", "SalesforceServiceCloud", "SalesforceMarketingCloud",
+     "SapCloudForCustomer", "SapEcc", "ServiceNow", "SharePointOnlineList", "Shopify", "Square",
+     "WebTable", "Xero", "Zoho", "GenericContainerRegistry", "Elasticsearch", "OpenAI", "Serp",
+     "BingLLMSearch", "Serverless", and "ManagedOnlineEndpoint".
+    :vartype category: str or ~azure.mgmt.machinelearningservices.models.ConnectionCategory
+    :ivar created_by_workspace_arm_id:
+    :vartype created_by_workspace_arm_id: str
+    :ivar expiry_time:
+    :vartype expiry_time: ~datetime.datetime
+    :ivar group: Group based on connection category. Known values are: "Azure", "AzureAI",
+     "Database", "NoSQL", "File", "GenericProtocol", and "ServicesAndApps".
+    :vartype group: str or ~azure.mgmt.machinelearningservices.models.ConnectionGroup
+    :ivar is_shared_to_all:
+    :vartype is_shared_to_all: bool
+    :ivar target:
+    :vartype target: str
+    :ivar metadata: Store user metadata for this connection.
+    :vartype metadata: dict[str, str]
+    :ivar shared_user_list:
+    :vartype shared_user_list: list[str]
+    :ivar value: Value details of the workspace connection.
+    :vartype value: str
+    :ivar value_format: format for the workspace connection value. "JSON"
+    :vartype value_format: str or ~azure.mgmt.machinelearningservices.models.ValueFormat
+    :ivar credentials: Api key object for workspace connection credential.
+    :vartype credentials: ~azure.mgmt.machinelearningservices.models.WorkspaceConnectionApiKey
+    """
+
+    _validation = {
+        "auth_type": {"required": True},
+        "created_by_workspace_arm_id": {"readonly": True},
+        "group": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "auth_type": {"key": "authType", "type": "str"},
+        "category": {"key": "category", "type": "str"},
+        "created_by_workspace_arm_id": {"key": "createdByWorkspaceArmId", "type": "str"},
+        "expiry_time": {"key": "expiryTime", "type": "iso-8601"},
+        "group": {"key": "group", "type": "str"},
+        "is_shared_to_all": {"key": "isSharedToAll", "type": "bool"},
+        "target": {"key": "target", "type": "str"},
+        "metadata": {"key": "metadata", "type": "{str}"},
+        "shared_user_list": {"key": "sharedUserList", "type": "[str]"},
+        "value": {"key": "value", "type": "str"},
+        "value_format": {"key": "valueFormat", "type": "str"},
+        "credentials": {"key": "credentials", "type": "WorkspaceConnectionApiKey"},
+    }
+
+    def __init__(
+        self,
+        *,
+        category: Optional[Union[str, "_models.ConnectionCategory"]] = None,
+        expiry_time: Optional[datetime.datetime] = None,
+        is_shared_to_all: Optional[bool] = None,
+        target: Optional[str] = None,
+        metadata: Optional[Dict[str, str]] = None,
+        shared_user_list: Optional[List[str]] = None,
+        value: Optional[str] = None,
+        value_format: Optional[Union[str, "_models.ValueFormat"]] = None,
+        credentials: Optional["_models.WorkspaceConnectionApiKey"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword category: Category of the connection. Known values are: "PythonFeed",
+         "ContainerRegistry", "Git", "S3", "Snowflake", "AzureSqlDb", "AzureSynapseAnalytics",
+         "AzureMySqlDb", "AzurePostgresDb", "ADLSGen2", "Redis", "ApiKey", "AzureOpenAI", "AIServices",
+         "CognitiveSearch", "CognitiveService", "CustomKeys", "AzureBlob", "AzureOneLake", "CosmosDb",
+         "CosmosDbMongoDbApi", "AzureDataExplorer", "AzureMariaDb", "AzureDatabricksDeltaLake",
+         "AzureSqlMi", "AzureTableStorage", "AmazonRdsForOracle", "AmazonRdsForSqlServer",
+         "AmazonRedshift", "Db2", "Drill", "GoogleBigQuery", "Greenplum", "Hbase", "Hive", "Impala",
+         "Informix", "MariaDb", "MicrosoftAccess", "MySql", "Netezza", "Oracle", "Phoenix",
+         "PostgreSql", "Presto", "SapOpenHub", "SapBw", "SapHana", "SapTable", "Spark", "SqlServer",
+         "Sybase", "Teradata", "Vertica", "Pinecone", "Cassandra", "Couchbase", "MongoDbV2",
+         "MongoDbAtlas", "AmazonS3Compatible", "FileServer", "FtpServer", "GoogleCloudStorage", "Hdfs",
+         "OracleCloudStorage", "Sftp", "GenericHttp", "ODataRest", "Odbc", "GenericRest", "AmazonMws",
+         "Concur", "Dynamics", "DynamicsAx", "DynamicsCrm", "GoogleAdWords", "Hubspot", "Jira",
+         "Magento", "Marketo", "Office365", "Eloqua", "Responsys", "OracleServiceCloud", "PayPal",
+         "QuickBooks", "Salesforce", "SalesforceServiceCloud", "SalesforceMarketingCloud",
+         "SapCloudForCustomer", "SapEcc", "ServiceNow", "SharePointOnlineList", "Shopify", "Square",
+         "WebTable", "Xero", "Zoho", "GenericContainerRegistry", "Elasticsearch", "OpenAI", "Serp",
+         "BingLLMSearch", "Serverless", and "ManagedOnlineEndpoint".
+        :paramtype category: str or ~azure.mgmt.machinelearningservices.models.ConnectionCategory
+        :keyword expiry_time:
+        :paramtype expiry_time: ~datetime.datetime
+        :keyword is_shared_to_all:
+        :paramtype is_shared_to_all: bool
+        :keyword target:
+        :paramtype target: str
+        :keyword metadata: Store user metadata for this connection.
+        :paramtype metadata: dict[str, str]
+        :keyword shared_user_list:
+        :paramtype shared_user_list: list[str]
+        :keyword value: Value details of the workspace connection.
+        :paramtype value: str
+        :keyword value_format: format for the workspace connection value. "JSON"
+        :paramtype value_format: str or ~azure.mgmt.machinelearningservices.models.ValueFormat
+        :keyword credentials: Api key object for workspace connection credential.
+        :paramtype credentials: ~azure.mgmt.machinelearningservices.models.WorkspaceConnectionApiKey
+        """
+        super().__init__(
+            category=category,
+            expiry_time=expiry_time,
+            is_shared_to_all=is_shared_to_all,
+            target=target,
+            metadata=metadata,
+            shared_user_list=shared_user_list,
+            value=value,
+            value_format=value_format,
+            **kwargs
+        )
+        self.auth_type: str = "ApiKey"
+        self.credentials = credentials
 
 
 class ArmResourceId(_serialization.Model):
@@ -1518,14 +2309,14 @@ class AssetContainer(ResourceBase):
         """
         super().__init__(description=description, properties=properties, tags=tags, **kwargs)
         self.is_archived = is_archived
-        self.latest_version = None
-        self.next_version = None
+        self.latest_version: Optional[str] = None
+        self.next_version: Optional[str] = None
 
 
 class AssetJobInput(_serialization.Model):
     """Asset input type.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar mode: Input Asset Delivery Mode. Known values are: "ReadOnlyMount", "ReadWriteMount",
      "Download", "Direct", "EvalMount", and "EvalDownload".
@@ -1561,7 +2352,8 @@ class AssetJobInput(_serialization.Model):
 class AssetJobOutput(_serialization.Model):
     """Asset output type.
 
-    :ivar mode: Output Asset Delivery Mode. Known values are: "ReadWriteMount" and "Upload".
+    :ivar mode: Output Asset Delivery Mode. Known values are: "ReadWriteMount", "Upload", and
+     "Direct".
     :vartype mode: str or ~azure.mgmt.machinelearningservices.models.OutputDeliveryMode
     :ivar uri: Output Asset URI.
     :vartype uri: str
@@ -1580,7 +2372,8 @@ class AssetJobOutput(_serialization.Model):
         **kwargs: Any
     ) -> None:
         """
-        :keyword mode: Output Asset Delivery Mode. Known values are: "ReadWriteMount" and "Upload".
+        :keyword mode: Output Asset Delivery Mode. Known values are: "ReadWriteMount", "Upload", and
+         "Direct".
         :paramtype mode: str or ~azure.mgmt.machinelearningservices.models.OutputDeliveryMode
         :keyword uri: Output Asset URI.
         :paramtype uri: str
@@ -1596,7 +2389,7 @@ class AssetReferenceBase(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     DataPathAssetReference, IdAssetReference, OutputPathAssetReference
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar reference_type: [Required] Specifies the type of asset reference. Required. Known values
      are: "Id", "DataPath", and "OutputPath".
@@ -1628,7 +2421,7 @@ class AssetReferenceBase(_serialization.Model):
 class AssignedUser(_serialization.Model):
     """A user that can be assigned to a compute instance.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar object_id: User’s AAD Object Id. Required.
     :vartype object_id: str
@@ -1664,7 +2457,7 @@ class ForecastHorizon(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     AutoForecastHorizon, CustomForecastHorizon
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar mode: [Required] Set forecast horizon value selection mode. Required. Known values are:
      "Auto" and "Custom".
@@ -1690,7 +2483,7 @@ class ForecastHorizon(_serialization.Model):
 class AutoForecastHorizon(ForecastHorizon):
     """Forecast horizon determined automatically by system.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar mode: [Required] Set forecast horizon value selection mode. Required. Known values are:
      "Auto" and "Custom".
@@ -1711,15 +2504,15 @@ class AutoForecastHorizon(ForecastHorizon):
         self.mode: str = "Auto"
 
 
-class JobBaseProperties(ResourceBase):  # pylint: disable=too-many-instance-attributes
+class JobBaseProperties(ResourceBase):
     """Base definition for a job.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
-    AutoMLJob, CommandJob, PipelineJob, SweepJob
+    AutoMLJob, CommandJob, PipelineJob, SparkJob, SweepJob
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar description: The asset description text.
     :vartype description: str
@@ -1743,8 +2536,10 @@ class JobBaseProperties(ResourceBase):  # pylint: disable=too-many-instance-attr
     :ivar is_archived: Is the asset archived?.
     :vartype is_archived: bool
     :ivar job_type: [Required] Specifies the type of job. Required. Known values are: "AutoML",
-     "Command", "Sweep", and "Pipeline".
+     "Command", "Sweep", "Pipeline", and "Spark".
     :vartype job_type: str or ~azure.mgmt.machinelearningservices.models.JobType
+    :ivar notification_setting: Notification setting for the job.
+    :vartype notification_setting: ~azure.mgmt.machinelearningservices.models.NotificationSetting
     :ivar services: List of JobEndpoints.
      For local jobs, a job endpoint will have an endpoint value of FileStreamObject.
     :vartype services: dict[str, ~azure.mgmt.machinelearningservices.models.JobService]
@@ -1770,12 +2565,19 @@ class JobBaseProperties(ResourceBase):  # pylint: disable=too-many-instance-attr
         "identity": {"key": "identity", "type": "IdentityConfiguration"},
         "is_archived": {"key": "isArchived", "type": "bool"},
         "job_type": {"key": "jobType", "type": "str"},
+        "notification_setting": {"key": "notificationSetting", "type": "NotificationSetting"},
         "services": {"key": "services", "type": "{JobService}"},
         "status": {"key": "status", "type": "str"},
     }
 
     _subtype_map = {
-        "job_type": {"AutoML": "AutoMLJob", "Command": "CommandJob", "Pipeline": "PipelineJob", "Sweep": "SweepJob"}
+        "job_type": {
+            "AutoML": "AutoMLJob",
+            "Command": "CommandJob",
+            "Pipeline": "PipelineJob",
+            "Spark": "SparkJob",
+            "Sweep": "SweepJob",
+        }
     }
 
     def __init__(
@@ -1790,6 +2592,7 @@ class JobBaseProperties(ResourceBase):  # pylint: disable=too-many-instance-attr
         experiment_name: str = "Default",
         identity: Optional["_models.IdentityConfiguration"] = None,
         is_archived: bool = False,
+        notification_setting: Optional["_models.NotificationSetting"] = None,
         services: Optional[Dict[str, "_models.JobService"]] = None,
         **kwargs: Any
     ) -> None:
@@ -1815,6 +2618,8 @@ class JobBaseProperties(ResourceBase):  # pylint: disable=too-many-instance-attr
         :paramtype identity: ~azure.mgmt.machinelearningservices.models.IdentityConfiguration
         :keyword is_archived: Is the asset archived?.
         :paramtype is_archived: bool
+        :keyword notification_setting: Notification setting for the job.
+        :paramtype notification_setting: ~azure.mgmt.machinelearningservices.models.NotificationSetting
         :keyword services: List of JobEndpoints.
          For local jobs, a job endpoint will have an endpoint value of FileStreamObject.
         :paramtype services: dict[str, ~azure.mgmt.machinelearningservices.models.JobService]
@@ -1827,18 +2632,19 @@ class JobBaseProperties(ResourceBase):  # pylint: disable=too-many-instance-attr
         self.identity = identity
         self.is_archived = is_archived
         self.job_type: Optional[str] = None
+        self.notification_setting = notification_setting
         self.services = services
-        self.status = None
+        self.status: Optional[Union[str, "_models.JobStatus"]] = None
 
 
-class AutoMLJob(JobBaseProperties):  # pylint: disable=too-many-instance-attributes
+class AutoMLJob(JobBaseProperties):
     """AutoMLJob class.
     Use this class for executing AutoML tasks like Classification/Regression etc.
     See TaskType enum for all the tasks supported.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar description: The asset description text.
     :vartype description: str
@@ -1862,8 +2668,10 @@ class AutoMLJob(JobBaseProperties):  # pylint: disable=too-many-instance-attribu
     :ivar is_archived: Is the asset archived?.
     :vartype is_archived: bool
     :ivar job_type: [Required] Specifies the type of job. Required. Known values are: "AutoML",
-     "Command", "Sweep", and "Pipeline".
+     "Command", "Sweep", "Pipeline", and "Spark".
     :vartype job_type: str or ~azure.mgmt.machinelearningservices.models.JobType
+    :ivar notification_setting: Notification setting for the job.
+    :vartype notification_setting: ~azure.mgmt.machinelearningservices.models.NotificationSetting
     :ivar services: List of JobEndpoints.
      For local jobs, a job endpoint will have an endpoint value of FileStreamObject.
     :vartype services: dict[str, ~azure.mgmt.machinelearningservices.models.JobService]
@@ -1879,6 +2687,8 @@ class AutoMLJob(JobBaseProperties):  # pylint: disable=too-many-instance-attribu
     :vartype environment_variables: dict[str, str]
     :ivar outputs: Mapping of output data bindings used in the job.
     :vartype outputs: dict[str, ~azure.mgmt.machinelearningservices.models.JobOutput]
+    :ivar queue_settings: Queue settings for the job.
+    :vartype queue_settings: ~azure.mgmt.machinelearningservices.models.QueueSettings
     :ivar resources: Compute Resource configuration for the job.
     :vartype resources: ~azure.mgmt.machinelearningservices.models.JobResourceConfiguration
     :ivar task_details: [Required] This represents scenario which can be one of Tables/NLP/Image.
@@ -1903,11 +2713,13 @@ class AutoMLJob(JobBaseProperties):  # pylint: disable=too-many-instance-attribu
         "identity": {"key": "identity", "type": "IdentityConfiguration"},
         "is_archived": {"key": "isArchived", "type": "bool"},
         "job_type": {"key": "jobType", "type": "str"},
+        "notification_setting": {"key": "notificationSetting", "type": "NotificationSetting"},
         "services": {"key": "services", "type": "{JobService}"},
         "status": {"key": "status", "type": "str"},
         "environment_id": {"key": "environmentId", "type": "str"},
         "environment_variables": {"key": "environmentVariables", "type": "{str}"},
         "outputs": {"key": "outputs", "type": "{JobOutput}"},
+        "queue_settings": {"key": "queueSettings", "type": "QueueSettings"},
         "resources": {"key": "resources", "type": "JobResourceConfiguration"},
         "task_details": {"key": "taskDetails", "type": "AutoMLVertical"},
     }
@@ -1925,10 +2737,12 @@ class AutoMLJob(JobBaseProperties):  # pylint: disable=too-many-instance-attribu
         experiment_name: str = "Default",
         identity: Optional["_models.IdentityConfiguration"] = None,
         is_archived: bool = False,
+        notification_setting: Optional["_models.NotificationSetting"] = None,
         services: Optional[Dict[str, "_models.JobService"]] = None,
         environment_id: Optional[str] = None,
         environment_variables: Optional[Dict[str, str]] = None,
         outputs: Optional[Dict[str, "_models.JobOutput"]] = None,
+        queue_settings: Optional["_models.QueueSettings"] = None,
         resources: Optional["_models.JobResourceConfiguration"] = None,
         **kwargs: Any
     ) -> None:
@@ -1954,6 +2768,8 @@ class AutoMLJob(JobBaseProperties):  # pylint: disable=too-many-instance-attribu
         :paramtype identity: ~azure.mgmt.machinelearningservices.models.IdentityConfiguration
         :keyword is_archived: Is the asset archived?.
         :paramtype is_archived: bool
+        :keyword notification_setting: Notification setting for the job.
+        :paramtype notification_setting: ~azure.mgmt.machinelearningservices.models.NotificationSetting
         :keyword services: List of JobEndpoints.
          For local jobs, a job endpoint will have an endpoint value of FileStreamObject.
         :paramtype services: dict[str, ~azure.mgmt.machinelearningservices.models.JobService]
@@ -1965,6 +2781,8 @@ class AutoMLJob(JobBaseProperties):  # pylint: disable=too-many-instance-attribu
         :paramtype environment_variables: dict[str, str]
         :keyword outputs: Mapping of output data bindings used in the job.
         :paramtype outputs: dict[str, ~azure.mgmt.machinelearningservices.models.JobOutput]
+        :keyword queue_settings: Queue settings for the job.
+        :paramtype queue_settings: ~azure.mgmt.machinelearningservices.models.QueueSettings
         :keyword resources: Compute Resource configuration for the job.
         :paramtype resources: ~azure.mgmt.machinelearningservices.models.JobResourceConfiguration
         :keyword task_details: [Required] This represents scenario which can be one of
@@ -1981,6 +2799,7 @@ class AutoMLJob(JobBaseProperties):  # pylint: disable=too-many-instance-attribu
             experiment_name=experiment_name,
             identity=identity,
             is_archived=is_archived,
+            notification_setting=notification_setting,
             services=services,
             **kwargs
         )
@@ -1988,6 +2807,7 @@ class AutoMLJob(JobBaseProperties):  # pylint: disable=too-many-instance-attribu
         self.environment_id = environment_id
         self.environment_variables = environment_variables
         self.outputs = outputs
+        self.queue_settings = queue_settings
         self.resources = resources
         self.task_details = task_details
 
@@ -2001,7 +2821,7 @@ class AutoMLVertical(_serialization.Model):
     ImageInstanceSegmentation, ImageObjectDetection, Regression, TextClassification,
     TextClassificationMultilabel, TextNer
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar log_verbosity: Log verbosity for the job. Known values are: "NotSet", "Debug", "Info",
      "Warning", "Error", and "Critical".
@@ -2076,7 +2896,7 @@ class NCrossValidations(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     AutoNCrossValidations, CustomNCrossValidations
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar mode: [Required] Mode for determining N-Cross validations. Required. Known values are:
      "Auto" and "Custom".
@@ -2102,7 +2922,7 @@ class NCrossValidations(_serialization.Model):
 class AutoNCrossValidations(NCrossValidations):
     """N-Cross validations determined automatically.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar mode: [Required] Mode for determining N-Cross validations. Required. Known values are:
      "Auto" and "Custom".
@@ -2196,7 +3016,7 @@ class Seasonality(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     AutoSeasonality, CustomSeasonality
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar mode: [Required] Seasonality mode. Required. Known values are: "Auto" and "Custom".
     :vartype mode: str or ~azure.mgmt.machinelearningservices.models.SeasonalityMode
@@ -2221,7 +3041,7 @@ class Seasonality(_serialization.Model):
 class AutoSeasonality(Seasonality):
     """AutoSeasonality.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar mode: [Required] Seasonality mode. Required. Known values are: "Auto" and "Custom".
     :vartype mode: str or ~azure.mgmt.machinelearningservices.models.SeasonalityMode
@@ -2247,7 +3067,7 @@ class TargetLags(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     AutoTargetLags, CustomTargetLags
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar mode: [Required] Set target lags mode - Auto/Custom. Required. Known values are: "Auto"
      and "Custom".
@@ -2273,7 +3093,7 @@ class TargetLags(_serialization.Model):
 class AutoTargetLags(TargetLags):
     """AutoTargetLags.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar mode: [Required] Set target lags mode - Auto/Custom. Required. Known values are: "Auto"
      and "Custom".
@@ -2300,7 +3120,7 @@ class TargetRollingWindowSize(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     AutoTargetRollingWindowSize, CustomTargetRollingWindowSize
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar mode: [Required] TargetRollingWindowSiz detection mode. Required. Known values are:
      "Auto" and "Custom".
@@ -2326,7 +3146,7 @@ class TargetRollingWindowSize(_serialization.Model):
 class AutoTargetRollingWindowSize(TargetRollingWindowSize):
     """Target lags rolling window determined automatically.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar mode: [Required] TargetRollingWindowSiz detection mode. Required. Known values are:
      "Auto" and "Custom".
@@ -2351,11 +3171,12 @@ class DatastoreProperties(ResourceBase):
     """Base definition for datastore contents configuration.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
-    AzureBlobDatastore, AzureDataLakeGen1Datastore, AzureDataLakeGen2Datastore, AzureFileDatastore
+    AzureBlobDatastore, AzureDataLakeGen1Datastore, AzureDataLakeGen2Datastore, AzureFileDatastore,
+    OneLakeDatastore
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar description: The asset description text.
     :vartype description: str
@@ -2366,7 +3187,7 @@ class DatastoreProperties(ResourceBase):
     :ivar credentials: [Required] Account credentials. Required.
     :vartype credentials: ~azure.mgmt.machinelearningservices.models.DatastoreCredentials
     :ivar datastore_type: [Required] Storage type backing the datastore. Required. Known values
-     are: "AzureBlob", "AzureDataLakeGen1", "AzureDataLakeGen2", and "AzureFile".
+     are: "AzureBlob", "AzureDataLakeGen1", "AzureDataLakeGen2", "AzureFile", and "OneLake".
     :vartype datastore_type: str or ~azure.mgmt.machinelearningservices.models.DatastoreType
     :ivar is_default: Readonly property to indicate if datastore is the workspace default
      datastore.
@@ -2394,6 +3215,7 @@ class DatastoreProperties(ResourceBase):
             "AzureDataLakeGen1": "AzureDataLakeGen1Datastore",
             "AzureDataLakeGen2": "AzureDataLakeGen2Datastore",
             "AzureFile": "AzureFileDatastore",
+            "OneLake": "OneLakeDatastore",
         }
     }
 
@@ -2419,15 +3241,43 @@ class DatastoreProperties(ResourceBase):
         super().__init__(description=description, properties=properties, tags=tags, **kwargs)
         self.credentials = credentials
         self.datastore_type: Optional[str] = None
-        self.is_default = None
+        self.is_default: Optional[bool] = None
 
 
-class AzureBlobDatastore(DatastoreProperties):  # pylint: disable=too-many-instance-attributes
+class AzureDatastore(_serialization.Model):
+    """Base definition for Azure datastore contents configuration.
+
+    :ivar resource_group: Azure Resource Group name.
+    :vartype resource_group: str
+    :ivar subscription_id: Azure Subscription Id.
+    :vartype subscription_id: str
+    """
+
+    _attribute_map = {
+        "resource_group": {"key": "resourceGroup", "type": "str"},
+        "subscription_id": {"key": "subscriptionId", "type": "str"},
+    }
+
+    def __init__(
+        self, *, resource_group: Optional[str] = None, subscription_id: Optional[str] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword resource_group: Azure Resource Group name.
+        :paramtype resource_group: str
+        :keyword subscription_id: Azure Subscription Id.
+        :paramtype subscription_id: str
+        """
+        super().__init__(**kwargs)
+        self.resource_group = resource_group
+        self.subscription_id = subscription_id
+
+
+class AzureBlobDatastore(AzureDatastore, DatastoreProperties):
     """Azure Blob datastore configuration.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar description: The asset description text.
     :vartype description: str
@@ -2438,11 +3288,15 @@ class AzureBlobDatastore(DatastoreProperties):  # pylint: disable=too-many-insta
     :ivar credentials: [Required] Account credentials. Required.
     :vartype credentials: ~azure.mgmt.machinelearningservices.models.DatastoreCredentials
     :ivar datastore_type: [Required] Storage type backing the datastore. Required. Known values
-     are: "AzureBlob", "AzureDataLakeGen1", "AzureDataLakeGen2", and "AzureFile".
+     are: "AzureBlob", "AzureDataLakeGen1", "AzureDataLakeGen2", "AzureFile", and "OneLake".
     :vartype datastore_type: str or ~azure.mgmt.machinelearningservices.models.DatastoreType
     :ivar is_default: Readonly property to indicate if datastore is the workspace default
      datastore.
     :vartype is_default: bool
+    :ivar resource_group: Azure Resource Group name.
+    :vartype resource_group: str
+    :ivar subscription_id: Azure Subscription Id.
+    :vartype subscription_id: str
     :ivar account_name: Storage account name.
     :vartype account_name: str
     :ivar container_name: Storage account container name.
@@ -2471,6 +3325,8 @@ class AzureBlobDatastore(DatastoreProperties):  # pylint: disable=too-many-insta
         "credentials": {"key": "credentials", "type": "DatastoreCredentials"},
         "datastore_type": {"key": "datastoreType", "type": "str"},
         "is_default": {"key": "isDefault", "type": "bool"},
+        "resource_group": {"key": "resourceGroup", "type": "str"},
+        "subscription_id": {"key": "subscriptionId", "type": "str"},
         "account_name": {"key": "accountName", "type": "str"},
         "container_name": {"key": "containerName", "type": "str"},
         "endpoint": {"key": "endpoint", "type": "str"},
@@ -2485,6 +3341,8 @@ class AzureBlobDatastore(DatastoreProperties):  # pylint: disable=too-many-insta
         description: Optional[str] = None,
         properties: Optional[Dict[str, str]] = None,
         tags: Optional[Dict[str, str]] = None,
+        resource_group: Optional[str] = None,
+        subscription_id: Optional[str] = None,
         account_name: Optional[str] = None,
         container_name: Optional[str] = None,
         endpoint: Optional[str] = None,
@@ -2501,6 +3359,10 @@ class AzureBlobDatastore(DatastoreProperties):  # pylint: disable=too-many-insta
         :paramtype tags: dict[str, str]
         :keyword credentials: [Required] Account credentials. Required.
         :paramtype credentials: ~azure.mgmt.machinelearningservices.models.DatastoreCredentials
+        :keyword resource_group: Azure Resource Group name.
+        :paramtype resource_group: str
+        :keyword subscription_id: Azure Subscription Id.
+        :paramtype subscription_id: str
         :keyword account_name: Storage account name.
         :paramtype account_name: str
         :keyword container_name: Storage account container name.
@@ -2515,21 +3377,36 @@ class AzureBlobDatastore(DatastoreProperties):  # pylint: disable=too-many-insta
         :paramtype service_data_access_auth_identity: str or
          ~azure.mgmt.machinelearningservices.models.ServiceDataAccessAuthIdentity
         """
-        super().__init__(description=description, properties=properties, tags=tags, credentials=credentials, **kwargs)
+        super().__init__(
+            resource_group=resource_group,
+            subscription_id=subscription_id,
+            description=description,
+            properties=properties,
+            tags=tags,
+            credentials=credentials,
+            **kwargs
+        )
+        self.description = description
+        self.properties = properties
+        self.tags = tags
+        self.credentials = credentials
         self.datastore_type: str = "AzureBlob"
+        self.is_default: Optional[bool] = None
         self.account_name = account_name
         self.container_name = container_name
         self.endpoint = endpoint
         self.protocol = protocol
         self.service_data_access_auth_identity = service_data_access_auth_identity
+        self.resource_group = resource_group
+        self.subscription_id = subscription_id
 
 
-class AzureDataLakeGen1Datastore(DatastoreProperties):
+class AzureDataLakeGen1Datastore(AzureDatastore, DatastoreProperties):
     """Azure Data Lake Gen1 datastore configuration.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar description: The asset description text.
     :vartype description: str
@@ -2540,11 +3417,15 @@ class AzureDataLakeGen1Datastore(DatastoreProperties):
     :ivar credentials: [Required] Account credentials. Required.
     :vartype credentials: ~azure.mgmt.machinelearningservices.models.DatastoreCredentials
     :ivar datastore_type: [Required] Storage type backing the datastore. Required. Known values
-     are: "AzureBlob", "AzureDataLakeGen1", "AzureDataLakeGen2", and "AzureFile".
+     are: "AzureBlob", "AzureDataLakeGen1", "AzureDataLakeGen2", "AzureFile", and "OneLake".
     :vartype datastore_type: str or ~azure.mgmt.machinelearningservices.models.DatastoreType
     :ivar is_default: Readonly property to indicate if datastore is the workspace default
      datastore.
     :vartype is_default: bool
+    :ivar resource_group: Azure Resource Group name.
+    :vartype resource_group: str
+    :ivar subscription_id: Azure Subscription Id.
+    :vartype subscription_id: str
     :ivar service_data_access_auth_identity: Indicates which identity to use to authenticate
      service data access to customer's storage. Known values are: "None",
      "WorkspaceSystemAssignedIdentity", and "WorkspaceUserAssignedIdentity".
@@ -2568,6 +3449,8 @@ class AzureDataLakeGen1Datastore(DatastoreProperties):
         "credentials": {"key": "credentials", "type": "DatastoreCredentials"},
         "datastore_type": {"key": "datastoreType", "type": "str"},
         "is_default": {"key": "isDefault", "type": "bool"},
+        "resource_group": {"key": "resourceGroup", "type": "str"},
+        "subscription_id": {"key": "subscriptionId", "type": "str"},
         "service_data_access_auth_identity": {"key": "serviceDataAccessAuthIdentity", "type": "str"},
         "store_name": {"key": "storeName", "type": "str"},
     }
@@ -2580,6 +3463,8 @@ class AzureDataLakeGen1Datastore(DatastoreProperties):
         description: Optional[str] = None,
         properties: Optional[Dict[str, str]] = None,
         tags: Optional[Dict[str, str]] = None,
+        resource_group: Optional[str] = None,
+        subscription_id: Optional[str] = None,
         service_data_access_auth_identity: Optional[Union[str, "_models.ServiceDataAccessAuthIdentity"]] = None,
         **kwargs: Any
     ) -> None:
@@ -2592,6 +3477,10 @@ class AzureDataLakeGen1Datastore(DatastoreProperties):
         :paramtype tags: dict[str, str]
         :keyword credentials: [Required] Account credentials. Required.
         :paramtype credentials: ~azure.mgmt.machinelearningservices.models.DatastoreCredentials
+        :keyword resource_group: Azure Resource Group name.
+        :paramtype resource_group: str
+        :keyword subscription_id: Azure Subscription Id.
+        :paramtype subscription_id: str
         :keyword service_data_access_auth_identity: Indicates which identity to use to authenticate
          service data access to customer's storage. Known values are: "None",
          "WorkspaceSystemAssignedIdentity", and "WorkspaceUserAssignedIdentity".
@@ -2600,18 +3489,33 @@ class AzureDataLakeGen1Datastore(DatastoreProperties):
         :keyword store_name: [Required] Azure Data Lake store name. Required.
         :paramtype store_name: str
         """
-        super().__init__(description=description, properties=properties, tags=tags, credentials=credentials, **kwargs)
+        super().__init__(
+            resource_group=resource_group,
+            subscription_id=subscription_id,
+            description=description,
+            properties=properties,
+            tags=tags,
+            credentials=credentials,
+            **kwargs
+        )
+        self.description = description
+        self.properties = properties
+        self.tags = tags
+        self.credentials = credentials
         self.datastore_type: str = "AzureDataLakeGen1"
+        self.is_default: Optional[bool] = None
         self.service_data_access_auth_identity = service_data_access_auth_identity
         self.store_name = store_name
+        self.resource_group = resource_group
+        self.subscription_id = subscription_id
 
 
-class AzureDataLakeGen2Datastore(DatastoreProperties):  # pylint: disable=too-many-instance-attributes
+class AzureDataLakeGen2Datastore(AzureDatastore, DatastoreProperties):
     """Azure Data Lake Gen2 datastore configuration.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar description: The asset description text.
     :vartype description: str
@@ -2622,11 +3526,15 @@ class AzureDataLakeGen2Datastore(DatastoreProperties):  # pylint: disable=too-ma
     :ivar credentials: [Required] Account credentials. Required.
     :vartype credentials: ~azure.mgmt.machinelearningservices.models.DatastoreCredentials
     :ivar datastore_type: [Required] Storage type backing the datastore. Required. Known values
-     are: "AzureBlob", "AzureDataLakeGen1", "AzureDataLakeGen2", and "AzureFile".
+     are: "AzureBlob", "AzureDataLakeGen1", "AzureDataLakeGen2", "AzureFile", and "OneLake".
     :vartype datastore_type: str or ~azure.mgmt.machinelearningservices.models.DatastoreType
     :ivar is_default: Readonly property to indicate if datastore is the workspace default
      datastore.
     :vartype is_default: bool
+    :ivar resource_group: Azure Resource Group name.
+    :vartype resource_group: str
+    :ivar subscription_id: Azure Subscription Id.
+    :vartype subscription_id: str
     :ivar account_name: [Required] Storage account name. Required.
     :vartype account_name: str
     :ivar endpoint: Azure cloud endpoint for the storage account.
@@ -2657,6 +3565,8 @@ class AzureDataLakeGen2Datastore(DatastoreProperties):  # pylint: disable=too-ma
         "credentials": {"key": "credentials", "type": "DatastoreCredentials"},
         "datastore_type": {"key": "datastoreType", "type": "str"},
         "is_default": {"key": "isDefault", "type": "bool"},
+        "resource_group": {"key": "resourceGroup", "type": "str"},
+        "subscription_id": {"key": "subscriptionId", "type": "str"},
         "account_name": {"key": "accountName", "type": "str"},
         "endpoint": {"key": "endpoint", "type": "str"},
         "filesystem": {"key": "filesystem", "type": "str"},
@@ -2673,6 +3583,8 @@ class AzureDataLakeGen2Datastore(DatastoreProperties):  # pylint: disable=too-ma
         description: Optional[str] = None,
         properties: Optional[Dict[str, str]] = None,
         tags: Optional[Dict[str, str]] = None,
+        resource_group: Optional[str] = None,
+        subscription_id: Optional[str] = None,
         endpoint: Optional[str] = None,
         protocol: Optional[str] = None,
         service_data_access_auth_identity: Optional[Union[str, "_models.ServiceDataAccessAuthIdentity"]] = None,
@@ -2687,6 +3599,10 @@ class AzureDataLakeGen2Datastore(DatastoreProperties):  # pylint: disable=too-ma
         :paramtype tags: dict[str, str]
         :keyword credentials: [Required] Account credentials. Required.
         :paramtype credentials: ~azure.mgmt.machinelearningservices.models.DatastoreCredentials
+        :keyword resource_group: Azure Resource Group name.
+        :paramtype resource_group: str
+        :keyword subscription_id: Azure Subscription Id.
+        :paramtype subscription_id: str
         :keyword account_name: [Required] Storage account name. Required.
         :paramtype account_name: str
         :keyword endpoint: Azure cloud endpoint for the storage account.
@@ -2701,21 +3617,102 @@ class AzureDataLakeGen2Datastore(DatastoreProperties):  # pylint: disable=too-ma
         :paramtype service_data_access_auth_identity: str or
          ~azure.mgmt.machinelearningservices.models.ServiceDataAccessAuthIdentity
         """
-        super().__init__(description=description, properties=properties, tags=tags, credentials=credentials, **kwargs)
+        super().__init__(
+            resource_group=resource_group,
+            subscription_id=subscription_id,
+            description=description,
+            properties=properties,
+            tags=tags,
+            credentials=credentials,
+            **kwargs
+        )
+        self.description = description
+        self.properties = properties
+        self.tags = tags
+        self.credentials = credentials
         self.datastore_type: str = "AzureDataLakeGen2"
+        self.is_default: Optional[bool] = None
         self.account_name = account_name
         self.endpoint = endpoint
         self.filesystem = filesystem
         self.protocol = protocol
         self.service_data_access_auth_identity = service_data_access_auth_identity
+        self.resource_group = resource_group
+        self.subscription_id = subscription_id
 
 
-class AzureFileDatastore(DatastoreProperties):  # pylint: disable=too-many-instance-attributes
+class Webhook(_serialization.Model):
+    """Webhook base.
+
+    You probably want to use the sub-classes and not this class directly. Known sub-classes are:
+    AzureDevOpsWebhook
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar event_type: Send callback on a specified notification event.
+    :vartype event_type: str
+    :ivar webhook_type: [Required] Specifies the type of service to send a callback. Required.
+     "AzureDevOps"
+    :vartype webhook_type: str or ~azure.mgmt.machinelearningservices.models.WebhookType
+    """
+
+    _validation = {
+        "webhook_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "event_type": {"key": "eventType", "type": "str"},
+        "webhook_type": {"key": "webhookType", "type": "str"},
+    }
+
+    _subtype_map = {"webhook_type": {"AzureDevOps": "AzureDevOpsWebhook"}}
+
+    def __init__(self, *, event_type: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword event_type: Send callback on a specified notification event.
+        :paramtype event_type: str
+        """
+        super().__init__(**kwargs)
+        self.event_type = event_type
+        self.webhook_type: Optional[str] = None
+
+
+class AzureDevOpsWebhook(Webhook):
+    """Webhook details specific for Azure DevOps.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar event_type: Send callback on a specified notification event.
+    :vartype event_type: str
+    :ivar webhook_type: [Required] Specifies the type of service to send a callback. Required.
+     "AzureDevOps"
+    :vartype webhook_type: str or ~azure.mgmt.machinelearningservices.models.WebhookType
+    """
+
+    _validation = {
+        "webhook_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "event_type": {"key": "eventType", "type": "str"},
+        "webhook_type": {"key": "webhookType", "type": "str"},
+    }
+
+    def __init__(self, *, event_type: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword event_type: Send callback on a specified notification event.
+        :paramtype event_type: str
+        """
+        super().__init__(event_type=event_type, **kwargs)
+        self.webhook_type: str = "AzureDevOps"
+
+
+class AzureFileDatastore(AzureDatastore, DatastoreProperties):
     """Azure File datastore configuration.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar description: The asset description text.
     :vartype description: str
@@ -2726,11 +3723,15 @@ class AzureFileDatastore(DatastoreProperties):  # pylint: disable=too-many-insta
     :ivar credentials: [Required] Account credentials. Required.
     :vartype credentials: ~azure.mgmt.machinelearningservices.models.DatastoreCredentials
     :ivar datastore_type: [Required] Storage type backing the datastore. Required. Known values
-     are: "AzureBlob", "AzureDataLakeGen1", "AzureDataLakeGen2", and "AzureFile".
+     are: "AzureBlob", "AzureDataLakeGen1", "AzureDataLakeGen2", "AzureFile", and "OneLake".
     :vartype datastore_type: str or ~azure.mgmt.machinelearningservices.models.DatastoreType
     :ivar is_default: Readonly property to indicate if datastore is the workspace default
      datastore.
     :vartype is_default: bool
+    :ivar resource_group: Azure Resource Group name.
+    :vartype resource_group: str
+    :ivar subscription_id: Azure Subscription Id.
+    :vartype subscription_id: str
     :ivar account_name: [Required] Storage account name. Required.
     :vartype account_name: str
     :ivar endpoint: Azure cloud endpoint for the storage account.
@@ -2762,6 +3763,8 @@ class AzureFileDatastore(DatastoreProperties):  # pylint: disable=too-many-insta
         "credentials": {"key": "credentials", "type": "DatastoreCredentials"},
         "datastore_type": {"key": "datastoreType", "type": "str"},
         "is_default": {"key": "isDefault", "type": "bool"},
+        "resource_group": {"key": "resourceGroup", "type": "str"},
+        "subscription_id": {"key": "subscriptionId", "type": "str"},
         "account_name": {"key": "accountName", "type": "str"},
         "endpoint": {"key": "endpoint", "type": "str"},
         "file_share_name": {"key": "fileShareName", "type": "str"},
@@ -2778,6 +3781,8 @@ class AzureFileDatastore(DatastoreProperties):  # pylint: disable=too-many-insta
         description: Optional[str] = None,
         properties: Optional[Dict[str, str]] = None,
         tags: Optional[Dict[str, str]] = None,
+        resource_group: Optional[str] = None,
+        subscription_id: Optional[str] = None,
         endpoint: Optional[str] = None,
         protocol: Optional[str] = None,
         service_data_access_auth_identity: Optional[Union[str, "_models.ServiceDataAccessAuthIdentity"]] = None,
@@ -2792,6 +3797,10 @@ class AzureFileDatastore(DatastoreProperties):  # pylint: disable=too-many-insta
         :paramtype tags: dict[str, str]
         :keyword credentials: [Required] Account credentials. Required.
         :paramtype credentials: ~azure.mgmt.machinelearningservices.models.DatastoreCredentials
+        :keyword resource_group: Azure Resource Group name.
+        :paramtype resource_group: str
+        :keyword subscription_id: Azure Subscription Id.
+        :paramtype subscription_id: str
         :keyword account_name: [Required] Storage account name. Required.
         :paramtype account_name: str
         :keyword endpoint: Azure cloud endpoint for the storage account.
@@ -2807,13 +3816,28 @@ class AzureFileDatastore(DatastoreProperties):  # pylint: disable=too-many-insta
         :paramtype service_data_access_auth_identity: str or
          ~azure.mgmt.machinelearningservices.models.ServiceDataAccessAuthIdentity
         """
-        super().__init__(description=description, properties=properties, tags=tags, credentials=credentials, **kwargs)
+        super().__init__(
+            resource_group=resource_group,
+            subscription_id=subscription_id,
+            description=description,
+            properties=properties,
+            tags=tags,
+            credentials=credentials,
+            **kwargs
+        )
+        self.description = description
+        self.properties = properties
+        self.tags = tags
+        self.credentials = credentials
         self.datastore_type: str = "AzureFile"
+        self.is_default: Optional[bool] = None
         self.account_name = account_name
         self.endpoint = endpoint
         self.file_share_name = file_share_name
         self.protocol = protocol
         self.service_data_access_auth_identity = service_data_access_auth_identity
+        self.resource_group = resource_group
+        self.subscription_id = subscription_id
 
 
 class EarlyTerminationPolicy(_serialization.Model):
@@ -2822,7 +3846,7 @@ class EarlyTerminationPolicy(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     BanditPolicy, MedianStoppingPolicy, TruncationSelectionPolicy
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar delay_evaluation: Number of intervals by which to delay the first evaluation.
     :vartype delay_evaluation: int
@@ -2869,7 +3893,7 @@ class BanditPolicy(EarlyTerminationPolicy):
     """Defines an early termination policy based on slack criteria, and a frequency and delay interval
     for evaluation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar delay_evaluation: Number of intervals by which to delay the first evaluation.
     :vartype delay_evaluation: int
@@ -2957,10 +3981,10 @@ class Resource(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
-        self.system_data = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
+        self.system_data: Optional["_models.SystemData"] = None
 
 
 class TrackedResource(Resource):
@@ -2969,7 +3993,7 @@ class TrackedResource(Resource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
@@ -3022,7 +4046,7 @@ class BatchDeployment(TrackedResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
@@ -3105,6 +4129,38 @@ class BatchDeployment(TrackedResource):
         self.sku = sku
 
 
+class BatchDeploymentConfiguration(_serialization.Model):
+    """Properties relevant to different deployment types.
+
+    You probably want to use the sub-classes and not this class directly. Known sub-classes are:
+    BatchPipelineComponentDeploymentConfiguration
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar deployment_configuration_type: [Required] The type of the deployment. Required. Known
+     values are: "Model" and "PipelineComponent".
+    :vartype deployment_configuration_type: str or
+     ~azure.mgmt.machinelearningservices.models.BatchDeploymentConfigurationType
+    """
+
+    _validation = {
+        "deployment_configuration_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "deployment_configuration_type": {"key": "deploymentConfigurationType", "type": "str"},
+    }
+
+    _subtype_map = {
+        "deployment_configuration_type": {"PipelineComponent": "BatchPipelineComponentDeploymentConfiguration"}
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.deployment_configuration_type: Optional[str] = None
+
+
 class EndpointDeploymentPropertiesBase(_serialization.Model):
     """Base definition for endpoint deployment.
 
@@ -3160,7 +4216,7 @@ class EndpointDeploymentPropertiesBase(_serialization.Model):
         self.properties = properties
 
 
-class BatchDeploymentProperties(EndpointDeploymentPropertiesBase):  # pylint: disable=too-many-instance-attributes
+class BatchDeploymentProperties(EndpointDeploymentPropertiesBase):
     """Batch inference settings per deployment.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -3178,6 +4234,9 @@ class BatchDeploymentProperties(EndpointDeploymentPropertiesBase):  # pylint: di
     :vartype properties: dict[str, str]
     :ivar compute: Compute target for batch inference operation.
     :vartype compute: str
+    :ivar deployment_configuration: Properties relevant to different deployment types.
+    :vartype deployment_configuration:
+     ~azure.mgmt.machinelearningservices.models.BatchDeploymentConfiguration
     :ivar error_threshold: Error threshold, if the error count for the entire input goes above this
      value,
      the batch inference will be aborted. Range is [-1, int.MaxValue].
@@ -3224,6 +4283,7 @@ class BatchDeploymentProperties(EndpointDeploymentPropertiesBase):  # pylint: di
         "environment_variables": {"key": "environmentVariables", "type": "{str}"},
         "properties": {"key": "properties", "type": "{str}"},
         "compute": {"key": "compute", "type": "str"},
+        "deployment_configuration": {"key": "deploymentConfiguration", "type": "BatchDeploymentConfiguration"},
         "error_threshold": {"key": "errorThreshold", "type": "int"},
         "logging_level": {"key": "loggingLevel", "type": "str"},
         "max_concurrency_per_instance": {"key": "maxConcurrencyPerInstance", "type": "int"},
@@ -3245,6 +4305,7 @@ class BatchDeploymentProperties(EndpointDeploymentPropertiesBase):  # pylint: di
         environment_variables: Optional[Dict[str, str]] = None,
         properties: Optional[Dict[str, str]] = None,
         compute: Optional[str] = None,
+        deployment_configuration: Optional["_models.BatchDeploymentConfiguration"] = None,
         error_threshold: int = -1,
         logging_level: Optional[Union[str, "_models.BatchLoggingLevel"]] = None,
         max_concurrency_per_instance: int = 1,
@@ -3270,6 +4331,9 @@ class BatchDeploymentProperties(EndpointDeploymentPropertiesBase):  # pylint: di
         :paramtype properties: dict[str, str]
         :keyword compute: Compute target for batch inference operation.
         :paramtype compute: str
+        :keyword deployment_configuration: Properties relevant to different deployment types.
+        :paramtype deployment_configuration:
+         ~azure.mgmt.machinelearningservices.models.BatchDeploymentConfiguration
         :keyword error_threshold: Error threshold, if the error count for the entire input goes above
          this value,
          the batch inference will be aborted. Range is [-1, int.MaxValue].
@@ -3310,6 +4374,7 @@ class BatchDeploymentProperties(EndpointDeploymentPropertiesBase):  # pylint: di
             **kwargs
         )
         self.compute = compute
+        self.deployment_configuration = deployment_configuration
         self.error_threshold = error_threshold
         self.logging_level = logging_level
         self.max_concurrency_per_instance = max_concurrency_per_instance
@@ -3317,12 +4382,12 @@ class BatchDeploymentProperties(EndpointDeploymentPropertiesBase):  # pylint: di
         self.model = model
         self.output_action = output_action
         self.output_file_name = output_file_name
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.DeploymentProvisioningState"]] = None
         self.resources = resources
         self.retry_settings = retry_settings
 
 
-class BatchDeploymentTrackedResourceArmPaginatedResult(_serialization.Model):
+class BatchDeploymentTrackedResourceArmPaginatedResult(_serialization.Model):  # pylint: disable=name-too-long
     """A paginated list of BatchDeployment entities.
 
     :ivar next_link: The link to the next page of BatchDeployment objects. If null, there are no
@@ -3357,7 +4422,7 @@ class BatchEndpoint(TrackedResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
@@ -3467,10 +4532,11 @@ class EndpointPropertiesBase(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar auth_mode: [Required] Use 'Key' for key based authentication and 'AMLToken' for Azure
-     Machine Learning token-based authentication. 'Key' doesn't expire but 'AMLToken' does.
+    :ivar auth_mode: [Required] The authentication method for invoking the endpoint (data plane
+     operation). Use 'Key' for key-based authentication. Use 'AMLToken' for Azure Machine Learning
+     token-based authentication. Use 'AADToken' for Microsoft Entra token-based authentication.
      Required. Known values are: "AMLToken", "Key", and "AADToken".
     :vartype auth_mode: str or ~azure.mgmt.machinelearningservices.models.EndpointAuthMode
     :ivar description: Description of the inference endpoint.
@@ -3512,8 +4578,9 @@ class EndpointPropertiesBase(_serialization.Model):
         **kwargs: Any
     ) -> None:
         """
-        :keyword auth_mode: [Required] Use 'Key' for key based authentication and 'AMLToken' for Azure
-         Machine Learning token-based authentication. 'Key' doesn't expire but 'AMLToken' does.
+        :keyword auth_mode: [Required] The authentication method for invoking the endpoint (data plane
+         operation). Use 'Key' for key-based authentication. Use 'AMLToken' for Azure Machine Learning
+         token-based authentication. Use 'AADToken' for Microsoft Entra token-based authentication.
          Required. Known values are: "AMLToken", "Key", and "AADToken".
         :paramtype auth_mode: str or ~azure.mgmt.machinelearningservices.models.EndpointAuthMode
         :keyword description: Description of the inference endpoint.
@@ -3530,8 +4597,8 @@ class EndpointPropertiesBase(_serialization.Model):
         self.description = description
         self.keys = keys
         self.properties = properties
-        self.scoring_uri = None
-        self.swagger_uri = None
+        self.scoring_uri: Optional[str] = None
+        self.swagger_uri: Optional[str] = None
 
 
 class BatchEndpointProperties(EndpointPropertiesBase):
@@ -3539,10 +4606,11 @@ class BatchEndpointProperties(EndpointPropertiesBase):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar auth_mode: [Required] Use 'Key' for key based authentication and 'AMLToken' for Azure
-     Machine Learning token-based authentication. 'Key' doesn't expire but 'AMLToken' does.
+    :ivar auth_mode: [Required] The authentication method for invoking the endpoint (data plane
+     operation). Use 'Key' for key-based authentication. Use 'AMLToken' for Azure Machine Learning
+     token-based authentication. Use 'AADToken' for Microsoft Entra token-based authentication.
      Required. Known values are: "AMLToken", "Key", and "AADToken".
     :vartype auth_mode: str or ~azure.mgmt.machinelearningservices.models.EndpointAuthMode
     :ivar description: Description of the inference endpoint.
@@ -3594,8 +4662,9 @@ class BatchEndpointProperties(EndpointPropertiesBase):
         **kwargs: Any
     ) -> None:
         """
-        :keyword auth_mode: [Required] Use 'Key' for key based authentication and 'AMLToken' for Azure
-         Machine Learning token-based authentication. 'Key' doesn't expire but 'AMLToken' does.
+        :keyword auth_mode: [Required] The authentication method for invoking the endpoint (data plane
+         operation). Use 'Key' for key-based authentication. Use 'AMLToken' for Azure Machine Learning
+         token-based authentication. Use 'AADToken' for Microsoft Entra token-based authentication.
          Required. Known values are: "AMLToken", "Key", and "AADToken".
         :paramtype auth_mode: str or ~azure.mgmt.machinelearningservices.models.EndpointAuthMode
         :keyword description: Description of the inference endpoint.
@@ -3611,10 +4680,10 @@ class BatchEndpointProperties(EndpointPropertiesBase):
         """
         super().__init__(auth_mode=auth_mode, description=description, keys=keys, properties=properties, **kwargs)
         self.defaults = defaults
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.EndpointProvisioningState"]] = None
 
 
-class BatchEndpointTrackedResourceArmPaginatedResult(_serialization.Model):
+class BatchEndpointTrackedResourceArmPaginatedResult(_serialization.Model):  # pylint: disable=name-too-long
     """A paginated list of BatchEndpoint entities.
 
     :ivar next_link: The link to the next page of BatchEndpoint objects. If null, there are no
@@ -3642,6 +4711,64 @@ class BatchEndpointTrackedResourceArmPaginatedResult(_serialization.Model):
         super().__init__(**kwargs)
         self.next_link = next_link
         self.value = value
+
+
+class BatchPipelineComponentDeploymentConfiguration(BatchDeploymentConfiguration):  # pylint: disable=name-too-long
+    """Properties for a Batch Pipeline Component Deployment.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar deployment_configuration_type: [Required] The type of the deployment. Required. Known
+     values are: "Model" and "PipelineComponent".
+    :vartype deployment_configuration_type: str or
+     ~azure.mgmt.machinelearningservices.models.BatchDeploymentConfigurationType
+    :ivar component_id: The ARM id of the component to be run.
+    :vartype component_id: ~azure.mgmt.machinelearningservices.models.IdAssetReference
+    :ivar description: The description which will be applied to the job.
+    :vartype description: str
+    :ivar settings: Run-time settings for the pipeline job.
+    :vartype settings: dict[str, str]
+    :ivar tags: The tags which will be applied to the job.
+    :vartype tags: dict[str, str]
+    """
+
+    _validation = {
+        "deployment_configuration_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "deployment_configuration_type": {"key": "deploymentConfigurationType", "type": "str"},
+        "component_id": {"key": "componentId", "type": "IdAssetReference"},
+        "description": {"key": "description", "type": "str"},
+        "settings": {"key": "settings", "type": "{str}"},
+        "tags": {"key": "tags", "type": "{str}"},
+    }
+
+    def __init__(
+        self,
+        *,
+        component_id: Optional["_models.IdAssetReference"] = None,
+        description: Optional[str] = None,
+        settings: Optional[Dict[str, str]] = None,
+        tags: Optional[Dict[str, str]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword component_id: The ARM id of the component to be run.
+        :paramtype component_id: ~azure.mgmt.machinelearningservices.models.IdAssetReference
+        :keyword description: The description which will be applied to the job.
+        :paramtype description: str
+        :keyword settings: Run-time settings for the pipeline job.
+        :paramtype settings: dict[str, str]
+        :keyword tags: The tags which will be applied to the job.
+        :paramtype tags: dict[str, str]
+        """
+        super().__init__(**kwargs)
+        self.deployment_configuration_type: str = "PipelineComponent"
+        self.component_id = component_id
+        self.description = description
+        self.settings = settings
+        self.tags = tags
 
 
 class BatchRetrySettings(_serialization.Model):
@@ -3677,7 +4804,7 @@ class SamplingAlgorithm(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     BayesianSamplingAlgorithm, GridSamplingAlgorithm, RandomSamplingAlgorithm
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar sampling_algorithm_type: [Required] The algorithm used for generating hyperparameter
      values, along with configuration properties. Required. Known values are: "Grid", "Random", and
@@ -3711,7 +4838,7 @@ class SamplingAlgorithm(_serialization.Model):
 class BayesianSamplingAlgorithm(SamplingAlgorithm):
     """Defines a Sampling Algorithm that generates values based on previous values.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar sampling_algorithm_type: [Required] The algorithm used for generating hyperparameter
      values, along with configuration properties. Required. Known values are: "Grid", "Random", and
@@ -3817,7 +4944,7 @@ class BlobReferenceForConsumptionDto(_serialization.Model):
 class BuildContext(_serialization.Model):
     """Configuration settings for Docker build context.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar context_uri: [Required] URI of the Docker build context used to build the image. Supports
      blob URIs on environment creation and may return blob or Git URIs.
@@ -3872,10 +4999,284 @@ class BuildContext(_serialization.Model):
         self.dockerfile_path = dockerfile_path
 
 
+class DataDriftMetricThresholdBase(_serialization.Model):
+    """DataDriftMetricThresholdBase.
+
+    You probably want to use the sub-classes and not this class directly. Known sub-classes are:
+    CategoricalDataDriftMetricThreshold, NumericalDataDriftMetricThreshold
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar data_type: [Required] Specifies the data type of the metric threshold. Required. Known
+     values are: "Numerical" and "Categorical".
+    :vartype data_type: str or ~azure.mgmt.machinelearningservices.models.MonitoringFeatureDataType
+    :ivar threshold: The threshold value. If null, a default value will be set depending on the
+     selected metric.
+    :vartype threshold: ~azure.mgmt.machinelearningservices.models.MonitoringThreshold
+    """
+
+    _validation = {
+        "data_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "data_type": {"key": "dataType", "type": "str"},
+        "threshold": {"key": "threshold", "type": "MonitoringThreshold"},
+    }
+
+    _subtype_map = {
+        "data_type": {
+            "Categorical": "CategoricalDataDriftMetricThreshold",
+            "Numerical": "NumericalDataDriftMetricThreshold",
+        }
+    }
+
+    def __init__(self, *, threshold: Optional["_models.MonitoringThreshold"] = None, **kwargs: Any) -> None:
+        """
+        :keyword threshold: The threshold value. If null, a default value will be set depending on the
+         selected metric.
+        :paramtype threshold: ~azure.mgmt.machinelearningservices.models.MonitoringThreshold
+        """
+        super().__init__(**kwargs)
+        self.data_type: Optional[str] = None
+        self.threshold = threshold
+
+
+class CategoricalDataDriftMetricThreshold(DataDriftMetricThresholdBase):
+    """CategoricalDataDriftMetricThreshold.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar data_type: [Required] Specifies the data type of the metric threshold. Required. Known
+     values are: "Numerical" and "Categorical".
+    :vartype data_type: str or ~azure.mgmt.machinelearningservices.models.MonitoringFeatureDataType
+    :ivar threshold: The threshold value. If null, a default value will be set depending on the
+     selected metric.
+    :vartype threshold: ~azure.mgmt.machinelearningservices.models.MonitoringThreshold
+    :ivar metric: [Required] The categorical data drift metric to calculate. Required. Known values
+     are: "JensenShannonDistance", "PopulationStabilityIndex", and "PearsonsChiSquaredTest".
+    :vartype metric: str or ~azure.mgmt.machinelearningservices.models.CategoricalDataDriftMetric
+    """
+
+    _validation = {
+        "data_type": {"required": True},
+        "metric": {"required": True},
+    }
+
+    _attribute_map = {
+        "data_type": {"key": "dataType", "type": "str"},
+        "threshold": {"key": "threshold", "type": "MonitoringThreshold"},
+        "metric": {"key": "metric", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        metric: Union[str, "_models.CategoricalDataDriftMetric"],
+        threshold: Optional["_models.MonitoringThreshold"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword threshold: The threshold value. If null, a default value will be set depending on the
+         selected metric.
+        :paramtype threshold: ~azure.mgmt.machinelearningservices.models.MonitoringThreshold
+        :keyword metric: [Required] The categorical data drift metric to calculate. Required. Known
+         values are: "JensenShannonDistance", "PopulationStabilityIndex", and "PearsonsChiSquaredTest".
+        :paramtype metric: str or ~azure.mgmt.machinelearningservices.models.CategoricalDataDriftMetric
+        """
+        super().__init__(threshold=threshold, **kwargs)
+        self.data_type: str = "Categorical"
+        self.metric = metric
+
+
+class DataQualityMetricThresholdBase(_serialization.Model):
+    """DataQualityMetricThresholdBase.
+
+    You probably want to use the sub-classes and not this class directly. Known sub-classes are:
+    CategoricalDataQualityMetricThreshold, NumericalDataQualityMetricThreshold
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar data_type: [Required] Specifies the data type of the metric threshold. Required. Known
+     values are: "Numerical" and "Categorical".
+    :vartype data_type: str or ~azure.mgmt.machinelearningservices.models.MonitoringFeatureDataType
+    :ivar threshold: The threshold value. If null, a default value will be set depending on the
+     selected metric.
+    :vartype threshold: ~azure.mgmt.machinelearningservices.models.MonitoringThreshold
+    """
+
+    _validation = {
+        "data_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "data_type": {"key": "dataType", "type": "str"},
+        "threshold": {"key": "threshold", "type": "MonitoringThreshold"},
+    }
+
+    _subtype_map = {
+        "data_type": {
+            "Categorical": "CategoricalDataQualityMetricThreshold",
+            "Numerical": "NumericalDataQualityMetricThreshold",
+        }
+    }
+
+    def __init__(self, *, threshold: Optional["_models.MonitoringThreshold"] = None, **kwargs: Any) -> None:
+        """
+        :keyword threshold: The threshold value. If null, a default value will be set depending on the
+         selected metric.
+        :paramtype threshold: ~azure.mgmt.machinelearningservices.models.MonitoringThreshold
+        """
+        super().__init__(**kwargs)
+        self.data_type: Optional[str] = None
+        self.threshold = threshold
+
+
+class CategoricalDataQualityMetricThreshold(DataQualityMetricThresholdBase):
+    """CategoricalDataQualityMetricThreshold.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar data_type: [Required] Specifies the data type of the metric threshold. Required. Known
+     values are: "Numerical" and "Categorical".
+    :vartype data_type: str or ~azure.mgmt.machinelearningservices.models.MonitoringFeatureDataType
+    :ivar threshold: The threshold value. If null, a default value will be set depending on the
+     selected metric.
+    :vartype threshold: ~azure.mgmt.machinelearningservices.models.MonitoringThreshold
+    :ivar metric: [Required] The categorical data quality metric to calculate. Required. Known
+     values are: "NullValueRate", "DataTypeErrorRate", and "OutOfBoundsRate".
+    :vartype metric: str or ~azure.mgmt.machinelearningservices.models.CategoricalDataQualityMetric
+    """
+
+    _validation = {
+        "data_type": {"required": True},
+        "metric": {"required": True},
+    }
+
+    _attribute_map = {
+        "data_type": {"key": "dataType", "type": "str"},
+        "threshold": {"key": "threshold", "type": "MonitoringThreshold"},
+        "metric": {"key": "metric", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        metric: Union[str, "_models.CategoricalDataQualityMetric"],
+        threshold: Optional["_models.MonitoringThreshold"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword threshold: The threshold value. If null, a default value will be set depending on the
+         selected metric.
+        :paramtype threshold: ~azure.mgmt.machinelearningservices.models.MonitoringThreshold
+        :keyword metric: [Required] The categorical data quality metric to calculate. Required. Known
+         values are: "NullValueRate", "DataTypeErrorRate", and "OutOfBoundsRate".
+        :paramtype metric: str or
+         ~azure.mgmt.machinelearningservices.models.CategoricalDataQualityMetric
+        """
+        super().__init__(threshold=threshold, **kwargs)
+        self.data_type: str = "Categorical"
+        self.metric = metric
+
+
+class PredictionDriftMetricThresholdBase(_serialization.Model):
+    """PredictionDriftMetricThresholdBase.
+
+    You probably want to use the sub-classes and not this class directly. Known sub-classes are:
+    CategoricalPredictionDriftMetricThreshold, NumericalPredictionDriftMetricThreshold
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar data_type: [Required] Specifies the data type of the metric threshold. Required. Known
+     values are: "Numerical" and "Categorical".
+    :vartype data_type: str or ~azure.mgmt.machinelearningservices.models.MonitoringFeatureDataType
+    :ivar threshold: The threshold value. If null, a default value will be set depending on the
+     selected metric.
+    :vartype threshold: ~azure.mgmt.machinelearningservices.models.MonitoringThreshold
+    """
+
+    _validation = {
+        "data_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "data_type": {"key": "dataType", "type": "str"},
+        "threshold": {"key": "threshold", "type": "MonitoringThreshold"},
+    }
+
+    _subtype_map = {
+        "data_type": {
+            "Categorical": "CategoricalPredictionDriftMetricThreshold",
+            "Numerical": "NumericalPredictionDriftMetricThreshold",
+        }
+    }
+
+    def __init__(self, *, threshold: Optional["_models.MonitoringThreshold"] = None, **kwargs: Any) -> None:
+        """
+        :keyword threshold: The threshold value. If null, a default value will be set depending on the
+         selected metric.
+        :paramtype threshold: ~azure.mgmt.machinelearningservices.models.MonitoringThreshold
+        """
+        super().__init__(**kwargs)
+        self.data_type: Optional[str] = None
+        self.threshold = threshold
+
+
+class CategoricalPredictionDriftMetricThreshold(PredictionDriftMetricThresholdBase):  # pylint: disable=name-too-long
+    """CategoricalPredictionDriftMetricThreshold.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar data_type: [Required] Specifies the data type of the metric threshold. Required. Known
+     values are: "Numerical" and "Categorical".
+    :vartype data_type: str or ~azure.mgmt.machinelearningservices.models.MonitoringFeatureDataType
+    :ivar threshold: The threshold value. If null, a default value will be set depending on the
+     selected metric.
+    :vartype threshold: ~azure.mgmt.machinelearningservices.models.MonitoringThreshold
+    :ivar metric: [Required] The categorical prediction drift metric to calculate. Required. Known
+     values are: "JensenShannonDistance", "PopulationStabilityIndex", and "PearsonsChiSquaredTest".
+    :vartype metric: str or
+     ~azure.mgmt.machinelearningservices.models.CategoricalPredictionDriftMetric
+    """
+
+    _validation = {
+        "data_type": {"required": True},
+        "metric": {"required": True},
+    }
+
+    _attribute_map = {
+        "data_type": {"key": "dataType", "type": "str"},
+        "threshold": {"key": "threshold", "type": "MonitoringThreshold"},
+        "metric": {"key": "metric", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        metric: Union[str, "_models.CategoricalPredictionDriftMetric"],
+        threshold: Optional["_models.MonitoringThreshold"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword threshold: The threshold value. If null, a default value will be set depending on the
+         selected metric.
+        :paramtype threshold: ~azure.mgmt.machinelearningservices.models.MonitoringThreshold
+        :keyword metric: [Required] The categorical prediction drift metric to calculate. Required.
+         Known values are: "JensenShannonDistance", "PopulationStabilityIndex", and
+         "PearsonsChiSquaredTest".
+        :paramtype metric: str or
+         ~azure.mgmt.machinelearningservices.models.CategoricalPredictionDriftMetric
+        """
+        super().__init__(threshold=threshold, **kwargs)
+        self.data_type: str = "Categorical"
+        self.metric = metric
+
+
 class CertificateDatastoreCredentials(DatastoreCredentials):
     """Certificate datastore credentials configuration.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar credentials_type: [Required] Credential type used to authentication with storage.
      Required. Known values are: "AccountKey", "Certificate", "None", "Sas", and "ServicePrincipal".
@@ -3952,7 +5353,7 @@ class CertificateDatastoreCredentials(DatastoreCredentials):
 class CertificateDatastoreSecrets(DatastoreSecrets):
     """Datastore certificate secrets.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar secrets_type: [Required] Credential type used to authentication with storage. Required.
      Known values are: "AccountKey", "Certificate", "Sas", and "ServicePrincipal".
@@ -4082,10 +5483,10 @@ class TableVertical(_serialization.Model):
         self.weight_column_name = weight_column_name
 
 
-class Classification(TableVertical, AutoMLVertical):  # pylint: disable=too-many-instance-attributes
+class Classification(TableVertical, AutoMLVertical):
     """Classification task in AutoML Table vertical.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar log_verbosity: Log verbosity for the job. Known values are: "NotSet", "Debug", "Info",
      "Warning", "Error", and "Critical".
@@ -4452,7 +5853,7 @@ class ClusterUpdateParameters(_serialization.Model):
 class CodeConfiguration(_serialization.Model):
     """Configuration for a scoring code asset.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar code_id: ARM resource ID of the code asset.
     :vartype code_id: str
@@ -4481,12 +5882,32 @@ class CodeConfiguration(_serialization.Model):
         self.scoring_script = scoring_script
 
 
-class CodeContainer(Resource):
+class ProxyResource(Resource):
+    """The resource model definition for a Azure Resource Manager proxy resource. It will not have
+    tags and a location.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.machinelearningservices.models.SystemData
+    """
+
+
+class CodeContainer(ProxyResource):
     """Azure Resource Manager resource envelope.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
@@ -4587,7 +6008,7 @@ class CodeContainerProperties(AssetContainer):
         :paramtype is_archived: bool
         """
         super().__init__(description=description, properties=properties, tags=tags, is_archived=is_archived, **kwargs)
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.AssetProvisioningState"]] = None
 
 
 class CodeContainerResourceArmPaginatedResult(_serialization.Model):
@@ -4620,12 +6041,12 @@ class CodeContainerResourceArmPaginatedResult(_serialization.Model):
         self.value = value
 
 
-class CodeVersion(Resource):
+class CodeVersion(ProxyResource):
     """Azure Resource Manager resource envelope.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
@@ -4738,7 +6159,7 @@ class CodeVersionProperties(AssetBase):
             **kwargs
         )
         self.code_uri = code_uri
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.AssetProvisioningState"]] = None
 
 
 class CodeVersionResourceArmPaginatedResult(_serialization.Model):
@@ -4771,6 +6192,62 @@ class CodeVersionResourceArmPaginatedResult(_serialization.Model):
         self.value = value
 
 
+class Collection(_serialization.Model):
+    """Collection.
+
+    :ivar client_id: The msi client id used to collect logging to blob storage. If it's
+     null,backend will pick a registered endpoint identity to auth.
+    :vartype client_id: str
+    :ivar data_collection_mode: Enable or disable data collection. Known values are: "Enabled" and
+     "Disabled".
+    :vartype data_collection_mode: str or
+     ~azure.mgmt.machinelearningservices.models.DataCollectionMode
+    :ivar data_id: The data asset arm resource id. Client side will ensure data asset is pointing
+     to the blob storage, and backend will collect data to the blob storage.
+    :vartype data_id: str
+    :ivar sampling_rate: The sampling rate for collection. Sampling rate 1.0 means we collect 100%
+     of data by default.
+    :vartype sampling_rate: float
+    """
+
+    _attribute_map = {
+        "client_id": {"key": "clientId", "type": "str"},
+        "data_collection_mode": {"key": "dataCollectionMode", "type": "str"},
+        "data_id": {"key": "dataId", "type": "str"},
+        "sampling_rate": {"key": "samplingRate", "type": "float"},
+    }
+
+    def __init__(
+        self,
+        *,
+        client_id: Optional[str] = None,
+        data_collection_mode: Optional[Union[str, "_models.DataCollectionMode"]] = None,
+        data_id: Optional[str] = None,
+        sampling_rate: float = 1,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword client_id: The msi client id used to collect logging to blob storage. If it's
+         null,backend will pick a registered endpoint identity to auth.
+        :paramtype client_id: str
+        :keyword data_collection_mode: Enable or disable data collection. Known values are: "Enabled"
+         and "Disabled".
+        :paramtype data_collection_mode: str or
+         ~azure.mgmt.machinelearningservices.models.DataCollectionMode
+        :keyword data_id: The data asset arm resource id. Client side will ensure data asset is
+         pointing to the blob storage, and backend will collect data to the blob storage.
+        :paramtype data_id: str
+        :keyword sampling_rate: The sampling rate for collection. Sampling rate 1.0 means we collect
+         100% of data by default.
+        :paramtype sampling_rate: float
+        """
+        super().__init__(**kwargs)
+        self.client_id = client_id
+        self.data_collection_mode = data_collection_mode
+        self.data_id = data_id
+        self.sampling_rate = sampling_rate
+
+
 class ColumnTransformer(_serialization.Model):
     """Column transformer parameters.
 
@@ -4799,12 +6276,12 @@ class ColumnTransformer(_serialization.Model):
         self.parameters = parameters
 
 
-class CommandJob(JobBaseProperties):  # pylint: disable=too-many-instance-attributes
+class CommandJob(JobBaseProperties):
     """Command job definition.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar description: The asset description text.
     :vartype description: str
@@ -4828,8 +6305,10 @@ class CommandJob(JobBaseProperties):  # pylint: disable=too-many-instance-attrib
     :ivar is_archived: Is the asset archived?.
     :vartype is_archived: bool
     :ivar job_type: [Required] Specifies the type of job. Required. Known values are: "AutoML",
-     "Command", "Sweep", and "Pipeline".
+     "Command", "Sweep", "Pipeline", and "Spark".
     :vartype job_type: str or ~azure.mgmt.machinelearningservices.models.JobType
+    :ivar notification_setting: Notification setting for the job.
+    :vartype notification_setting: ~azure.mgmt.machinelearningservices.models.NotificationSetting
     :ivar services: List of JobEndpoints.
      For local jobs, a job endpoint will have an endpoint value of FileStreamObject.
     :vartype services: dict[str, ~azure.mgmt.machinelearningservices.models.JobService]
@@ -4858,6 +6337,8 @@ class CommandJob(JobBaseProperties):  # pylint: disable=too-many-instance-attrib
     :vartype outputs: dict[str, ~azure.mgmt.machinelearningservices.models.JobOutput]
     :ivar parameters: Input parameters.
     :vartype parameters: JSON
+    :ivar queue_settings: Queue settings for the job.
+    :vartype queue_settings: ~azure.mgmt.machinelearningservices.models.QueueSettings
     :ivar resources: Compute Resource configuration for the job.
     :vartype resources: ~azure.mgmt.machinelearningservices.models.JobResourceConfiguration
     """
@@ -4881,6 +6362,7 @@ class CommandJob(JobBaseProperties):  # pylint: disable=too-many-instance-attrib
         "identity": {"key": "identity", "type": "IdentityConfiguration"},
         "is_archived": {"key": "isArchived", "type": "bool"},
         "job_type": {"key": "jobType", "type": "str"},
+        "notification_setting": {"key": "notificationSetting", "type": "NotificationSetting"},
         "services": {"key": "services", "type": "{JobService}"},
         "status": {"key": "status", "type": "str"},
         "code_id": {"key": "codeId", "type": "str"},
@@ -4892,10 +6374,11 @@ class CommandJob(JobBaseProperties):  # pylint: disable=too-many-instance-attrib
         "limits": {"key": "limits", "type": "CommandJobLimits"},
         "outputs": {"key": "outputs", "type": "{JobOutput}"},
         "parameters": {"key": "parameters", "type": "object"},
+        "queue_settings": {"key": "queueSettings", "type": "QueueSettings"},
         "resources": {"key": "resources", "type": "JobResourceConfiguration"},
     }
 
-    def __init__(
+    def __init__(  # pylint: disable=too-many-locals
         self,
         *,
         command: str,
@@ -4909,6 +6392,7 @@ class CommandJob(JobBaseProperties):  # pylint: disable=too-many-instance-attrib
         experiment_name: str = "Default",
         identity: Optional["_models.IdentityConfiguration"] = None,
         is_archived: bool = False,
+        notification_setting: Optional["_models.NotificationSetting"] = None,
         services: Optional[Dict[str, "_models.JobService"]] = None,
         code_id: Optional[str] = None,
         distribution: Optional["_models.DistributionConfiguration"] = None,
@@ -4916,6 +6400,7 @@ class CommandJob(JobBaseProperties):  # pylint: disable=too-many-instance-attrib
         inputs: Optional[Dict[str, "_models.JobInput"]] = None,
         limits: Optional["_models.CommandJobLimits"] = None,
         outputs: Optional[Dict[str, "_models.JobOutput"]] = None,
+        queue_settings: Optional["_models.QueueSettings"] = None,
         resources: Optional["_models.JobResourceConfiguration"] = None,
         **kwargs: Any
     ) -> None:
@@ -4941,6 +6426,8 @@ class CommandJob(JobBaseProperties):  # pylint: disable=too-many-instance-attrib
         :paramtype identity: ~azure.mgmt.machinelearningservices.models.IdentityConfiguration
         :keyword is_archived: Is the asset archived?.
         :paramtype is_archived: bool
+        :keyword notification_setting: Notification setting for the job.
+        :paramtype notification_setting: ~azure.mgmt.machinelearningservices.models.NotificationSetting
         :keyword services: List of JobEndpoints.
          For local jobs, a job endpoint will have an endpoint value of FileStreamObject.
         :paramtype services: dict[str, ~azure.mgmt.machinelearningservices.models.JobService]
@@ -4963,6 +6450,8 @@ class CommandJob(JobBaseProperties):  # pylint: disable=too-many-instance-attrib
         :paramtype limits: ~azure.mgmt.machinelearningservices.models.CommandJobLimits
         :keyword outputs: Mapping of output data bindings used in the job.
         :paramtype outputs: dict[str, ~azure.mgmt.machinelearningservices.models.JobOutput]
+        :keyword queue_settings: Queue settings for the job.
+        :paramtype queue_settings: ~azure.mgmt.machinelearningservices.models.QueueSettings
         :keyword resources: Compute Resource configuration for the job.
         :paramtype resources: ~azure.mgmt.machinelearningservices.models.JobResourceConfiguration
         """
@@ -4976,6 +6465,7 @@ class CommandJob(JobBaseProperties):  # pylint: disable=too-many-instance-attrib
             experiment_name=experiment_name,
             identity=identity,
             is_archived=is_archived,
+            notification_setting=notification_setting,
             services=services,
             **kwargs
         )
@@ -4988,7 +6478,8 @@ class CommandJob(JobBaseProperties):  # pylint: disable=too-many-instance-attrib
         self.inputs = inputs
         self.limits = limits
         self.outputs = outputs
-        self.parameters = None
+        self.parameters: Optional[JSON] = None
+        self.queue_settings = queue_settings
         self.resources = resources
 
 
@@ -4998,7 +6489,7 @@ class JobLimits(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     CommandJobLimits, SweepJobLimits
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar job_limits_type: [Required] JobLimit type. Required. Known values are: "Command" and
      "Sweep".
@@ -5033,7 +6524,7 @@ class JobLimits(_serialization.Model):
 class CommandJobLimits(JobLimits):
     """Command Job limit class.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar job_limits_type: [Required] JobLimit type. Required. Known values are: "Command" and
      "Sweep".
@@ -5062,12 +6553,12 @@ class CommandJobLimits(JobLimits):
         self.job_limits_type: str = "Command"
 
 
-class ComponentContainer(Resource):
+class ComponentContainer(ProxyResource):
     """Azure Resource Manager resource envelope.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
@@ -5175,10 +6666,10 @@ class ComponentContainerProperties(AssetContainer):
         :paramtype is_archived: bool
         """
         super().__init__(description=description, properties=properties, tags=tags, is_archived=is_archived, **kwargs)
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.AssetProvisioningState"]] = None
 
 
-class ComponentContainerResourceArmPaginatedResult(_serialization.Model):
+class ComponentContainerResourceArmPaginatedResult(_serialization.Model):  # pylint: disable=name-too-long
     """A paginated list of ComponentContainer entities.
 
     :ivar next_link: The link to the next page of ComponentContainer objects. If null, there are no
@@ -5212,12 +6703,12 @@ class ComponentContainerResourceArmPaginatedResult(_serialization.Model):
         self.value = value
 
 
-class ComponentVersion(Resource):
+class ComponentVersion(ProxyResource):
     """Azure Resource Manager resource envelope.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
@@ -5344,10 +6835,10 @@ class ComponentVersionProperties(AssetBase):
             **kwargs
         )
         self.component_spec = component_spec
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.AssetProvisioningState"]] = None
 
 
-class ComponentVersionResourceArmPaginatedResult(_serialization.Model):
+class ComponentVersionResourceArmPaginatedResult(_serialization.Model):  # pylint: disable=name-too-long
     """A paginated list of ComponentVersion entities.
 
     :ivar next_link: The link to the next page of ComponentVersion objects. If null, there are no
@@ -5401,12 +6892,12 @@ class ComputeInstanceSchema(_serialization.Model):
         self.properties = properties
 
 
-class ComputeInstance(Compute, ComputeInstanceSchema):  # pylint: disable=too-many-instance-attributes
+class ComputeInstance(Compute, ComputeInstanceSchema):
     """An Azure Machine Learning compute instance.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar properties: Properties of ComputeInstance.
     :vartype properties: ~azure.mgmt.machinelearningservices.models.ComputeInstanceProperties
@@ -5496,13 +6987,13 @@ class ComputeInstance(Compute, ComputeInstanceSchema):  # pylint: disable=too-ma
         self.properties = properties
         self.compute_type: str = "ComputeInstance"
         self.compute_location = compute_location
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.description = description
-        self.created_on = None
-        self.modified_on = None
+        self.created_on: Optional[datetime.datetime] = None
+        self.modified_on: Optional[datetime.datetime] = None
         self.resource_id = resource_id
-        self.provisioning_errors = None
-        self.is_attached_compute = None
+        self.provisioning_errors: Optional[List["_models.ErrorResponse"]] = None
+        self.is_attached_compute: Optional[bool] = None
         self.disable_local_auth = disable_local_auth
 
 
@@ -5559,8 +7050,8 @@ class ComputeInstanceConnectivityEndpoints(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.public_ip_address = None
-        self.private_ip_address = None
+        self.public_ip_address: Optional[str] = None
+        self.private_ip_address: Optional[str] = None
 
 
 class ComputeInstanceContainer(_serialization.Model):
@@ -5624,7 +7115,7 @@ class ComputeInstanceContainer(_serialization.Model):
         self.gpu = gpu
         self.network = network
         self.environment = environment
-        self.services = None
+        self.services: Optional[List[JSON]] = None
 
 
 class ComputeInstanceCreatedBy(_serialization.Model):
@@ -5655,9 +7146,9 @@ class ComputeInstanceCreatedBy(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.user_name = None
-        self.user_org_id = None
-        self.user_id = None
+        self.user_name: Optional[str] = None
+        self.user_org_id: Optional[str] = None
+        self.user_id: Optional[str] = None
 
 
 class ComputeInstanceDataDisk(_serialization.Model):
@@ -5878,7 +7369,7 @@ class ComputeInstanceLastOperation(_serialization.Model):
         self.operation_trigger = operation_trigger
 
 
-class ComputeInstanceProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class ComputeInstanceProperties(_serialization.Model):
     """Compute Instance properties.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -6040,22 +7531,22 @@ class ComputeInstanceProperties(_serialization.Model):  # pylint: disable=too-ma
         self.application_sharing_policy = application_sharing_policy
         self.ssh_settings = ssh_settings
         self.custom_services = custom_services
-        self.os_image_metadata = None
-        self.connectivity_endpoints = None
-        self.applications = None
-        self.created_by = None
-        self.errors = None
-        self.state = None
+        self.os_image_metadata: Optional["_models.ImageMetadata"] = None
+        self.connectivity_endpoints: Optional["_models.ComputeInstanceConnectivityEndpoints"] = None
+        self.applications: Optional[List["_models.ComputeInstanceApplication"]] = None
+        self.created_by: Optional["_models.ComputeInstanceCreatedBy"] = None
+        self.errors: Optional[List["_models.ErrorResponse"]] = None
+        self.state: Optional[Union[str, "_models.ComputeInstanceState"]] = None
         self.compute_instance_authorization_type = compute_instance_authorization_type
         self.personal_compute_instance_settings = personal_compute_instance_settings
         self.setup_scripts = setup_scripts
-        self.last_operation = None
+        self.last_operation: Optional["_models.ComputeInstanceLastOperation"] = None
         self.schedules = schedules
         self.enable_node_public_ip = enable_node_public_ip
-        self.containers = None
-        self.data_disks = None
-        self.data_mounts = None
-        self.versions = None
+        self.containers: Optional[List["_models.ComputeInstanceContainer"]] = None
+        self.data_disks: Optional[List["_models.ComputeInstanceDataDisk"]] = None
+        self.data_mounts: Optional[List["_models.ComputeInstanceDataMount"]] = None
+        self.versions: Optional["_models.ComputeInstanceVersion"] = None
 
 
 class ComputeInstanceSshSettings(_serialization.Model):
@@ -6108,8 +7599,8 @@ class ComputeInstanceSshSettings(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.ssh_public_access = ssh_public_access
-        self.admin_user_name = None
-        self.ssh_port = None
+        self.admin_user_name: Optional[str] = None
+        self.ssh_port: Optional[int] = None
         self.admin_public_key = admin_public_key
 
 
@@ -6131,6 +7622,59 @@ class ComputeInstanceVersion(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.runtime = runtime
+
+
+class ComputeRecurrenceSchedule(_serialization.Model):
+    """ComputeRecurrenceSchedule.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar hours: [Required] List of hours for the schedule. Required.
+    :vartype hours: list[int]
+    :ivar minutes: [Required] List of minutes for the schedule. Required.
+    :vartype minutes: list[int]
+    :ivar month_days: List of month days for the schedule.
+    :vartype month_days: list[int]
+    :ivar week_days: List of days for the schedule.
+    :vartype week_days: list[str or ~azure.mgmt.machinelearningservices.models.ComputeWeekDay]
+    """
+
+    _validation = {
+        "hours": {"required": True},
+        "minutes": {"required": True},
+    }
+
+    _attribute_map = {
+        "hours": {"key": "hours", "type": "[int]"},
+        "minutes": {"key": "minutes", "type": "[int]"},
+        "month_days": {"key": "monthDays", "type": "[int]"},
+        "week_days": {"key": "weekDays", "type": "[str]"},
+    }
+
+    def __init__(
+        self,
+        *,
+        hours: List[int],
+        minutes: List[int],
+        month_days: Optional[List[int]] = None,
+        week_days: Optional[List[Union[str, "_models.ComputeWeekDay"]]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword hours: [Required] List of hours for the schedule. Required.
+        :paramtype hours: list[int]
+        :keyword minutes: [Required] List of minutes for the schedule. Required.
+        :paramtype minutes: list[int]
+        :keyword month_days: List of month days for the schedule.
+        :paramtype month_days: list[int]
+        :keyword week_days: List of days for the schedule.
+        :paramtype week_days: list[str or ~azure.mgmt.machinelearningservices.models.ComputeWeekDay]
+        """
+        super().__init__(**kwargs)
+        self.hours = hours
+        self.minutes = minutes
+        self.month_days = month_days
+        self.week_days = week_days
 
 
 class ComputeResourceSchema(_serialization.Model):
@@ -6228,10 +7772,30 @@ class ComputeResource(Resource, ComputeResourceSchema):
         self.location = location
         self.tags = tags
         self.sku = sku
-        self.id = None
-        self.name = None
-        self.type = None
-        self.system_data = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
+        self.system_data: Optional["_models.SystemData"] = None
+
+
+class ComputeRuntimeDto(_serialization.Model):
+    """Compute runtime config for feature store type workspace.
+
+    :ivar spark_runtime_version:
+    :vartype spark_runtime_version: str
+    """
+
+    _attribute_map = {
+        "spark_runtime_version": {"key": "sparkRuntimeVersion", "type": "str"},
+    }
+
+    def __init__(self, *, spark_runtime_version: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword spark_runtime_version:
+        :paramtype spark_runtime_version: str
+        """
+        super().__init__(**kwargs)
+        self.spark_runtime_version = spark_runtime_version
 
 
 class ComputeSchedules(_serialization.Model):
@@ -6275,7 +7839,7 @@ class ComputeStartStopSchedule(_serialization.Model):
     :vartype action: str or ~azure.mgmt.machinelearningservices.models.ComputePowerAction
     :ivar trigger_type: [Required] The schedule trigger type. Known values are: "Recurrence" and
      "Cron".
-    :vartype trigger_type: str or ~azure.mgmt.machinelearningservices.models.TriggerType
+    :vartype trigger_type: str or ~azure.mgmt.machinelearningservices.models.ComputeTriggerType
     :ivar recurrence: Required if triggerType is Recurrence.
     :vartype recurrence: ~azure.mgmt.machinelearningservices.models.Recurrence
     :ivar cron: Required if triggerType is Cron.
@@ -6305,7 +7869,7 @@ class ComputeStartStopSchedule(_serialization.Model):
         *,
         status: Optional[Union[str, "_models.ScheduleStatus"]] = None,
         action: Optional[Union[str, "_models.ComputePowerAction"]] = None,
-        trigger_type: Optional[Union[str, "_models.TriggerType"]] = None,
+        trigger_type: Optional[Union[str, "_models.ComputeTriggerType"]] = None,
         recurrence: Optional["_models.Recurrence"] = None,
         cron: Optional["_models.Cron"] = None,
         schedule: Optional["_models.ScheduleBase"] = None,
@@ -6319,7 +7883,7 @@ class ComputeStartStopSchedule(_serialization.Model):
         :paramtype action: str or ~azure.mgmt.machinelearningservices.models.ComputePowerAction
         :keyword trigger_type: [Required] The schedule trigger type. Known values are: "Recurrence" and
          "Cron".
-        :paramtype trigger_type: str or ~azure.mgmt.machinelearningservices.models.TriggerType
+        :paramtype trigger_type: str or ~azure.mgmt.machinelearningservices.models.ComputeTriggerType
         :keyword recurrence: Required if triggerType is Recurrence.
         :paramtype recurrence: ~azure.mgmt.machinelearningservices.models.Recurrence
         :keyword cron: Required if triggerType is Cron.
@@ -6328,8 +7892,8 @@ class ComputeStartStopSchedule(_serialization.Model):
         :paramtype schedule: ~azure.mgmt.machinelearningservices.models.ScheduleBase
         """
         super().__init__(**kwargs)
-        self.id = None
-        self.provisioning_status = None
+        self.id: Optional[str] = None
+        self.provisioning_status: Optional[Union[str, "_models.ProvisioningStatus"]] = None
         self.status = status
         self.action = action
         self.trigger_type = trigger_type
@@ -6414,6 +7978,36 @@ class ContainerResourceSettings(_serialization.Model):
         self.memory = memory
 
 
+class ContentSafety(_serialization.Model):
+    """ContentSafety.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar content_safety_status: [Required] Specifies the status of content safety. Required. Known
+     values are: "Enabled" and "Disabled".
+    :vartype content_safety_status: str or
+     ~azure.mgmt.machinelearningservices.models.ContentSafetyStatus
+    """
+
+    _validation = {
+        "content_safety_status": {"required": True},
+    }
+
+    _attribute_map = {
+        "content_safety_status": {"key": "contentSafetyStatus", "type": "str"},
+    }
+
+    def __init__(self, *, content_safety_status: Union[str, "_models.ContentSafetyStatus"], **kwargs: Any) -> None:
+        """
+        :keyword content_safety_status: [Required] Specifies the status of content safety. Required.
+         Known values are: "Enabled" and "Disabled".
+        :paramtype content_safety_status: str or
+         ~azure.mgmt.machinelearningservices.models.ContentSafetyStatus
+        """
+        super().__init__(**kwargs)
+        self.content_safety_status = content_safety_status
+
+
 class CosmosDbSettings(_serialization.Model):
     """CosmosDbSettings.
 
@@ -6432,6 +8026,73 @@ class CosmosDbSettings(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.collections_throughput = collections_throughput
+
+
+class ScheduleActionBase(_serialization.Model):
+    """ScheduleActionBase.
+
+    You probably want to use the sub-classes and not this class directly. Known sub-classes are:
+    JobScheduleAction, CreateMonitorAction, EndpointScheduleAction
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar action_type: [Required] Specifies the action type of the schedule. Required. Known values
+     are: "CreateJob", "InvokeBatchEndpoint", and "CreateMonitor".
+    :vartype action_type: str or ~azure.mgmt.machinelearningservices.models.ScheduleActionType
+    """
+
+    _validation = {
+        "action_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "action_type": {"key": "actionType", "type": "str"},
+    }
+
+    _subtype_map = {
+        "action_type": {
+            "CreateJob": "JobScheduleAction",
+            "CreateMonitor": "CreateMonitorAction",
+            "InvokeBatchEndpoint": "EndpointScheduleAction",
+        }
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.action_type: Optional[str] = None
+
+
+class CreateMonitorAction(ScheduleActionBase):
+    """CreateMonitorAction.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar action_type: [Required] Specifies the action type of the schedule. Required. Known values
+     are: "CreateJob", "InvokeBatchEndpoint", and "CreateMonitor".
+    :vartype action_type: str or ~azure.mgmt.machinelearningservices.models.ScheduleActionType
+    :ivar monitor_definition: [Required] Defines the monitor. Required.
+    :vartype monitor_definition: ~azure.mgmt.machinelearningservices.models.MonitorDefinition
+    """
+
+    _validation = {
+        "action_type": {"required": True},
+        "monitor_definition": {"required": True},
+    }
+
+    _attribute_map = {
+        "action_type": {"key": "actionType", "type": "str"},
+        "monitor_definition": {"key": "monitorDefinition", "type": "MonitorDefinition"},
+    }
+
+    def __init__(self, *, monitor_definition: "_models.MonitorDefinition", **kwargs: Any) -> None:
+        """
+        :keyword monitor_definition: [Required] Defines the monitor. Required.
+        :paramtype monitor_definition: ~azure.mgmt.machinelearningservices.models.MonitorDefinition
+        """
+        super().__init__(**kwargs)
+        self.action_type: str = "CreateMonitor"
+        self.monitor_definition = monitor_definition
 
 
 class Cron(_serialization.Model):
@@ -6485,7 +8146,7 @@ class TriggerBase(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     CronTrigger, RecurrenceTrigger
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar end_time: Specifies end time of schedule in ISO 8601, but without a UTC offset. Refer
      https://en.wikipedia.org/wiki/ISO_8601.
@@ -6543,7 +8204,7 @@ class TriggerBase(_serialization.Model):
 class CronTrigger(TriggerBase):
     """CronTrigger.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar end_time: Specifies end time of schedule in ISO 8601, but without a UTC offset. Refer
      https://en.wikipedia.org/wiki/ISO_8601.
@@ -6611,7 +8272,7 @@ class CronTrigger(TriggerBase):
 class CustomForecastHorizon(ForecastHorizon):
     """The desired maximum forecast horizon in units of time-series frequency.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar mode: [Required] Set forecast horizon value selection mode. Required. Known values are:
      "Auto" and "Custom".
@@ -6640,6 +8301,207 @@ class CustomForecastHorizon(ForecastHorizon):
         self.value = value
 
 
+class CustomKeys(_serialization.Model):
+    """Custom Keys credential object.
+
+    :ivar keys: Dictionary of :code:`<string>`.
+    :vartype keys: dict[str, str]
+    """
+
+    _attribute_map = {
+        "keys": {"key": "keys", "type": "{str}"},
+    }
+
+    def __init__(self, *, keys: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
+        """
+        :keyword keys: Dictionary of :code:`<string>`.
+        :paramtype keys: dict[str, str]
+        """
+        super().__init__(**kwargs)
+        self.keys = keys
+
+
+class CustomKeysWorkspaceConnectionProperties(WorkspaceConnectionPropertiesV2):
+    """Category:= CustomKeys
+    AuthType:= CustomKeys (as type discriminator)
+    Credentials:= {CustomKeys} as
+    Microsoft.MachineLearning.AccountRP.Contracts.WorkspaceConnection.CustomKeys
+    Target:= {any value}
+    Use Metadata property bag for ApiVersion and other metadata fields.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar auth_type: Authentication type of the connection target. Required. Known values are:
+     "PAT", "ManagedIdentity", "UsernamePassword", "None", "SAS", "AccountKey", "ServicePrincipal",
+     "AccessKey", "ApiKey", "CustomKeys", "OAuth2", and "AAD".
+    :vartype auth_type: str or ~azure.mgmt.machinelearningservices.models.ConnectionAuthType
+    :ivar category: Category of the connection. Known values are: "PythonFeed",
+     "ContainerRegistry", "Git", "S3", "Snowflake", "AzureSqlDb", "AzureSynapseAnalytics",
+     "AzureMySqlDb", "AzurePostgresDb", "ADLSGen2", "Redis", "ApiKey", "AzureOpenAI", "AIServices",
+     "CognitiveSearch", "CognitiveService", "CustomKeys", "AzureBlob", "AzureOneLake", "CosmosDb",
+     "CosmosDbMongoDbApi", "AzureDataExplorer", "AzureMariaDb", "AzureDatabricksDeltaLake",
+     "AzureSqlMi", "AzureTableStorage", "AmazonRdsForOracle", "AmazonRdsForSqlServer",
+     "AmazonRedshift", "Db2", "Drill", "GoogleBigQuery", "Greenplum", "Hbase", "Hive", "Impala",
+     "Informix", "MariaDb", "MicrosoftAccess", "MySql", "Netezza", "Oracle", "Phoenix",
+     "PostgreSql", "Presto", "SapOpenHub", "SapBw", "SapHana", "SapTable", "Spark", "SqlServer",
+     "Sybase", "Teradata", "Vertica", "Pinecone", "Cassandra", "Couchbase", "MongoDbV2",
+     "MongoDbAtlas", "AmazonS3Compatible", "FileServer", "FtpServer", "GoogleCloudStorage", "Hdfs",
+     "OracleCloudStorage", "Sftp", "GenericHttp", "ODataRest", "Odbc", "GenericRest", "AmazonMws",
+     "Concur", "Dynamics", "DynamicsAx", "DynamicsCrm", "GoogleAdWords", "Hubspot", "Jira",
+     "Magento", "Marketo", "Office365", "Eloqua", "Responsys", "OracleServiceCloud", "PayPal",
+     "QuickBooks", "Salesforce", "SalesforceServiceCloud", "SalesforceMarketingCloud",
+     "SapCloudForCustomer", "SapEcc", "ServiceNow", "SharePointOnlineList", "Shopify", "Square",
+     "WebTable", "Xero", "Zoho", "GenericContainerRegistry", "Elasticsearch", "OpenAI", "Serp",
+     "BingLLMSearch", "Serverless", and "ManagedOnlineEndpoint".
+    :vartype category: str or ~azure.mgmt.machinelearningservices.models.ConnectionCategory
+    :ivar created_by_workspace_arm_id:
+    :vartype created_by_workspace_arm_id: str
+    :ivar expiry_time:
+    :vartype expiry_time: ~datetime.datetime
+    :ivar group: Group based on connection category. Known values are: "Azure", "AzureAI",
+     "Database", "NoSQL", "File", "GenericProtocol", and "ServicesAndApps".
+    :vartype group: str or ~azure.mgmt.machinelearningservices.models.ConnectionGroup
+    :ivar is_shared_to_all:
+    :vartype is_shared_to_all: bool
+    :ivar target:
+    :vartype target: str
+    :ivar metadata: Store user metadata for this connection.
+    :vartype metadata: dict[str, str]
+    :ivar shared_user_list:
+    :vartype shared_user_list: list[str]
+    :ivar value: Value details of the workspace connection.
+    :vartype value: str
+    :ivar value_format: format for the workspace connection value. "JSON"
+    :vartype value_format: str or ~azure.mgmt.machinelearningservices.models.ValueFormat
+    :ivar credentials: Custom Keys credential object.
+    :vartype credentials: ~azure.mgmt.machinelearningservices.models.CustomKeys
+    """
+
+    _validation = {
+        "auth_type": {"required": True},
+        "created_by_workspace_arm_id": {"readonly": True},
+        "group": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "auth_type": {"key": "authType", "type": "str"},
+        "category": {"key": "category", "type": "str"},
+        "created_by_workspace_arm_id": {"key": "createdByWorkspaceArmId", "type": "str"},
+        "expiry_time": {"key": "expiryTime", "type": "iso-8601"},
+        "group": {"key": "group", "type": "str"},
+        "is_shared_to_all": {"key": "isSharedToAll", "type": "bool"},
+        "target": {"key": "target", "type": "str"},
+        "metadata": {"key": "metadata", "type": "{str}"},
+        "shared_user_list": {"key": "sharedUserList", "type": "[str]"},
+        "value": {"key": "value", "type": "str"},
+        "value_format": {"key": "valueFormat", "type": "str"},
+        "credentials": {"key": "credentials", "type": "CustomKeys"},
+    }
+
+    def __init__(
+        self,
+        *,
+        category: Optional[Union[str, "_models.ConnectionCategory"]] = None,
+        expiry_time: Optional[datetime.datetime] = None,
+        is_shared_to_all: Optional[bool] = None,
+        target: Optional[str] = None,
+        metadata: Optional[Dict[str, str]] = None,
+        shared_user_list: Optional[List[str]] = None,
+        value: Optional[str] = None,
+        value_format: Optional[Union[str, "_models.ValueFormat"]] = None,
+        credentials: Optional["_models.CustomKeys"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword category: Category of the connection. Known values are: "PythonFeed",
+         "ContainerRegistry", "Git", "S3", "Snowflake", "AzureSqlDb", "AzureSynapseAnalytics",
+         "AzureMySqlDb", "AzurePostgresDb", "ADLSGen2", "Redis", "ApiKey", "AzureOpenAI", "AIServices",
+         "CognitiveSearch", "CognitiveService", "CustomKeys", "AzureBlob", "AzureOneLake", "CosmosDb",
+         "CosmosDbMongoDbApi", "AzureDataExplorer", "AzureMariaDb", "AzureDatabricksDeltaLake",
+         "AzureSqlMi", "AzureTableStorage", "AmazonRdsForOracle", "AmazonRdsForSqlServer",
+         "AmazonRedshift", "Db2", "Drill", "GoogleBigQuery", "Greenplum", "Hbase", "Hive", "Impala",
+         "Informix", "MariaDb", "MicrosoftAccess", "MySql", "Netezza", "Oracle", "Phoenix",
+         "PostgreSql", "Presto", "SapOpenHub", "SapBw", "SapHana", "SapTable", "Spark", "SqlServer",
+         "Sybase", "Teradata", "Vertica", "Pinecone", "Cassandra", "Couchbase", "MongoDbV2",
+         "MongoDbAtlas", "AmazonS3Compatible", "FileServer", "FtpServer", "GoogleCloudStorage", "Hdfs",
+         "OracleCloudStorage", "Sftp", "GenericHttp", "ODataRest", "Odbc", "GenericRest", "AmazonMws",
+         "Concur", "Dynamics", "DynamicsAx", "DynamicsCrm", "GoogleAdWords", "Hubspot", "Jira",
+         "Magento", "Marketo", "Office365", "Eloqua", "Responsys", "OracleServiceCloud", "PayPal",
+         "QuickBooks", "Salesforce", "SalesforceServiceCloud", "SalesforceMarketingCloud",
+         "SapCloudForCustomer", "SapEcc", "ServiceNow", "SharePointOnlineList", "Shopify", "Square",
+         "WebTable", "Xero", "Zoho", "GenericContainerRegistry", "Elasticsearch", "OpenAI", "Serp",
+         "BingLLMSearch", "Serverless", and "ManagedOnlineEndpoint".
+        :paramtype category: str or ~azure.mgmt.machinelearningservices.models.ConnectionCategory
+        :keyword expiry_time:
+        :paramtype expiry_time: ~datetime.datetime
+        :keyword is_shared_to_all:
+        :paramtype is_shared_to_all: bool
+        :keyword target:
+        :paramtype target: str
+        :keyword metadata: Store user metadata for this connection.
+        :paramtype metadata: dict[str, str]
+        :keyword shared_user_list:
+        :paramtype shared_user_list: list[str]
+        :keyword value: Value details of the workspace connection.
+        :paramtype value: str
+        :keyword value_format: format for the workspace connection value. "JSON"
+        :paramtype value_format: str or ~azure.mgmt.machinelearningservices.models.ValueFormat
+        :keyword credentials: Custom Keys credential object.
+        :paramtype credentials: ~azure.mgmt.machinelearningservices.models.CustomKeys
+        """
+        super().__init__(
+            category=category,
+            expiry_time=expiry_time,
+            is_shared_to_all=is_shared_to_all,
+            target=target,
+            metadata=metadata,
+            shared_user_list=shared_user_list,
+            value=value,
+            value_format=value_format,
+            **kwargs
+        )
+        self.auth_type: str = "CustomKeys"
+        self.credentials = credentials
+
+
+class CustomMetricThreshold(_serialization.Model):
+    """CustomMetricThreshold.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar metric: [Required] The user-defined metric to calculate. Required.
+    :vartype metric: str
+    :ivar threshold: The threshold value. If null, a default value will be set depending on the
+     selected metric.
+    :vartype threshold: ~azure.mgmt.machinelearningservices.models.MonitoringThreshold
+    """
+
+    _validation = {
+        "metric": {"required": True, "min_length": 1, "pattern": r"[a-zA-Z0-9_]"},
+    }
+
+    _attribute_map = {
+        "metric": {"key": "metric", "type": "str"},
+        "threshold": {"key": "threshold", "type": "MonitoringThreshold"},
+    }
+
+    def __init__(
+        self, *, metric: str, threshold: Optional["_models.MonitoringThreshold"] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword metric: [Required] The user-defined metric to calculate. Required.
+        :paramtype metric: str
+        :keyword threshold: The threshold value. If null, a default value will be set depending on the
+         selected metric.
+        :paramtype threshold: ~azure.mgmt.machinelearningservices.models.MonitoringThreshold
+        """
+        super().__init__(**kwargs)
+        self.metric = metric
+        self.threshold = threshold
+
+
 class JobInput(_serialization.Model):
     """Command job definition.
 
@@ -6647,7 +8509,7 @@ class JobInput(_serialization.Model):
     CustomModelJobInput, LiteralJobInput, MLFlowModelJobInput, MLTableJobInput,
     TritonModelJobInput, UriFileJobInput, UriFolderJobInput
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar description: Description for the input.
     :vartype description: str
@@ -6691,7 +8553,7 @@ class JobInput(_serialization.Model):
 class CustomModelJobInput(AssetJobInput, JobInput):
     """CustomModelJobInput.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar description: Description for the input.
     :vartype description: str
@@ -6749,7 +8611,7 @@ class JobOutput(_serialization.Model):
     CustomModelJobOutput, MLFlowModelJobOutput, MLTableJobOutput, TritonModelJobOutput,
     UriFileJobOutput, UriFolderJobOutput
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar description: Description for the output.
     :vartype description: str
@@ -6791,14 +8653,15 @@ class JobOutput(_serialization.Model):
 class CustomModelJobOutput(AssetJobOutput, JobOutput):
     """CustomModelJobOutput.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar description: Description for the output.
     :vartype description: str
     :ivar job_output_type: [Required] Specifies the type of job. Required. Known values are:
      "uri_file", "uri_folder", "mltable", "custom_model", "mlflow_model", and "triton_model".
     :vartype job_output_type: str or ~azure.mgmt.machinelearningservices.models.JobOutputType
-    :ivar mode: Output Asset Delivery Mode. Known values are: "ReadWriteMount" and "Upload".
+    :ivar mode: Output Asset Delivery Mode. Known values are: "ReadWriteMount", "Upload", and
+     "Direct".
     :vartype mode: str or ~azure.mgmt.machinelearningservices.models.OutputDeliveryMode
     :ivar uri: Output Asset URI.
     :vartype uri: str
@@ -6826,7 +8689,8 @@ class CustomModelJobOutput(AssetJobOutput, JobOutput):
         """
         :keyword description: Description for the output.
         :paramtype description: str
-        :keyword mode: Output Asset Delivery Mode. Known values are: "ReadWriteMount" and "Upload".
+        :keyword mode: Output Asset Delivery Mode. Known values are: "ReadWriteMount", "Upload", and
+         "Direct".
         :paramtype mode: str or ~azure.mgmt.machinelearningservices.models.OutputDeliveryMode
         :keyword uri: Output Asset URI.
         :paramtype uri: str
@@ -6838,10 +8702,154 @@ class CustomModelJobOutput(AssetJobOutput, JobOutput):
         self.uri = uri
 
 
+class MonitoringSignalBase(_serialization.Model):
+    """MonitoringSignalBase.
+
+    You probably want to use the sub-classes and not this class directly. Known sub-classes are:
+    CustomMonitoringSignal, DataDriftMonitoringSignal, DataQualityMonitoringSignal,
+    FeatureAttributionDriftMonitoringSignal, PredictionDriftMonitoringSignal
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar notification_types: The current notification mode for this signal.
+    :vartype notification_types: list[str or
+     ~azure.mgmt.machinelearningservices.models.MonitoringNotificationType]
+    :ivar properties: Property dictionary. Properties can be added, but not removed or altered.
+    :vartype properties: dict[str, str]
+    :ivar signal_type: [Required] Specifies the type of signal to monitor. Required. Known values
+     are: "DataDrift", "PredictionDrift", "DataQuality", "FeatureAttributionDrift", and "Custom".
+    :vartype signal_type: str or ~azure.mgmt.machinelearningservices.models.MonitoringSignalType
+    """
+
+    _validation = {
+        "signal_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "notification_types": {"key": "notificationTypes", "type": "[str]"},
+        "properties": {"key": "properties", "type": "{str}"},
+        "signal_type": {"key": "signalType", "type": "str"},
+    }
+
+    _subtype_map = {
+        "signal_type": {
+            "Custom": "CustomMonitoringSignal",
+            "DataDrift": "DataDriftMonitoringSignal",
+            "DataQuality": "DataQualityMonitoringSignal",
+            "FeatureAttributionDrift": "FeatureAttributionDriftMonitoringSignal",
+            "PredictionDrift": "PredictionDriftMonitoringSignal",
+        }
+    }
+
+    def __init__(
+        self,
+        *,
+        notification_types: Optional[List[Union[str, "_models.MonitoringNotificationType"]]] = None,
+        properties: Optional[Dict[str, str]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword notification_types: The current notification mode for this signal.
+        :paramtype notification_types: list[str or
+         ~azure.mgmt.machinelearningservices.models.MonitoringNotificationType]
+        :keyword properties: Property dictionary. Properties can be added, but not removed or altered.
+        :paramtype properties: dict[str, str]
+        """
+        super().__init__(**kwargs)
+        self.notification_types = notification_types
+        self.properties = properties
+        self.signal_type: Optional[str] = None
+
+
+class CustomMonitoringSignal(MonitoringSignalBase):
+    """CustomMonitoringSignal.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar notification_types: The current notification mode for this signal.
+    :vartype notification_types: list[str or
+     ~azure.mgmt.machinelearningservices.models.MonitoringNotificationType]
+    :ivar properties: Property dictionary. Properties can be added, but not removed or altered.
+    :vartype properties: dict[str, str]
+    :ivar signal_type: [Required] Specifies the type of signal to monitor. Required. Known values
+     are: "DataDrift", "PredictionDrift", "DataQuality", "FeatureAttributionDrift", and "Custom".
+    :vartype signal_type: str or ~azure.mgmt.machinelearningservices.models.MonitoringSignalType
+    :ivar component_id: [Required] Reference to the component asset used to calculate the custom
+     metrics. Required.
+    :vartype component_id: str
+    :ivar input_assets: Monitoring assets to take as input. Key is the component input port name,
+     value is the data asset.
+    :vartype input_assets: dict[str,
+     ~azure.mgmt.machinelearningservices.models.MonitoringInputDataBase]
+    :ivar inputs: Extra component parameters to take as input. Key is the component literal input
+     port name, value is the parameter value.
+    :vartype inputs: dict[str, ~azure.mgmt.machinelearningservices.models.JobInput]
+    :ivar metric_thresholds: [Required] A list of metrics to calculate and their associated
+     thresholds. Required.
+    :vartype metric_thresholds:
+     list[~azure.mgmt.machinelearningservices.models.CustomMetricThreshold]
+    """
+
+    _validation = {
+        "signal_type": {"required": True},
+        "component_id": {"required": True, "min_length": 1, "pattern": r"[a-zA-Z0-9_]"},
+        "metric_thresholds": {"required": True},
+    }
+
+    _attribute_map = {
+        "notification_types": {"key": "notificationTypes", "type": "[str]"},
+        "properties": {"key": "properties", "type": "{str}"},
+        "signal_type": {"key": "signalType", "type": "str"},
+        "component_id": {"key": "componentId", "type": "str"},
+        "input_assets": {"key": "inputAssets", "type": "{MonitoringInputDataBase}"},
+        "inputs": {"key": "inputs", "type": "{JobInput}"},
+        "metric_thresholds": {"key": "metricThresholds", "type": "[CustomMetricThreshold]"},
+    }
+
+    def __init__(
+        self,
+        *,
+        component_id: str,
+        metric_thresholds: List["_models.CustomMetricThreshold"],
+        notification_types: Optional[List[Union[str, "_models.MonitoringNotificationType"]]] = None,
+        properties: Optional[Dict[str, str]] = None,
+        input_assets: Optional[Dict[str, "_models.MonitoringInputDataBase"]] = None,
+        inputs: Optional[Dict[str, "_models.JobInput"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword notification_types: The current notification mode for this signal.
+        :paramtype notification_types: list[str or
+         ~azure.mgmt.machinelearningservices.models.MonitoringNotificationType]
+        :keyword properties: Property dictionary. Properties can be added, but not removed or altered.
+        :paramtype properties: dict[str, str]
+        :keyword component_id: [Required] Reference to the component asset used to calculate the custom
+         metrics. Required.
+        :paramtype component_id: str
+        :keyword input_assets: Monitoring assets to take as input. Key is the component input port
+         name, value is the data asset.
+        :paramtype input_assets: dict[str,
+         ~azure.mgmt.machinelearningservices.models.MonitoringInputDataBase]
+        :keyword inputs: Extra component parameters to take as input. Key is the component literal
+         input port name, value is the parameter value.
+        :paramtype inputs: dict[str, ~azure.mgmt.machinelearningservices.models.JobInput]
+        :keyword metric_thresholds: [Required] A list of metrics to calculate and their associated
+         thresholds. Required.
+        :paramtype metric_thresholds:
+         list[~azure.mgmt.machinelearningservices.models.CustomMetricThreshold]
+        """
+        super().__init__(notification_types=notification_types, properties=properties, **kwargs)
+        self.signal_type: str = "Custom"
+        self.component_id = component_id
+        self.input_assets = input_assets
+        self.inputs = inputs
+        self.metric_thresholds = metric_thresholds
+
+
 class CustomNCrossValidations(NCrossValidations):
     """N-Cross validations are specified by user.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar mode: [Required] Mode for determining N-Cross validations. Required. Known values are:
      "Auto" and "Custom".
@@ -6873,7 +8881,7 @@ class CustomNCrossValidations(NCrossValidations):
 class CustomSeasonality(Seasonality):
     """CustomSeasonality.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar mode: [Required] Seasonality mode. Required. Known values are: "Auto" and "Custom".
     :vartype mode: str or ~azure.mgmt.machinelearningservices.models.SeasonalityMode
@@ -6975,7 +8983,7 @@ class CustomService(_serialization.Model):
 class CustomTargetLags(TargetLags):
     """CustomTargetLags.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar mode: [Required] Set target lags mode - Auto/Custom. Required. Known values are: "Auto"
      and "Custom".
@@ -7007,7 +9015,7 @@ class CustomTargetLags(TargetLags):
 class CustomTargetRollingWindowSize(TargetRollingWindowSize):
     """CustomTargetRollingWindowSize.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar mode: [Required] TargetRollingWindowSiz detection mode. Required. Known values are:
      "Auto" and "Custom".
@@ -7056,12 +9064,12 @@ class DatabricksSchema(_serialization.Model):
         self.properties = properties
 
 
-class Databricks(Compute, DatabricksSchema):  # pylint: disable=too-many-instance-attributes
+class Databricks(Compute, DatabricksSchema):
     """A DataFactory compute.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar properties: Properties of Databricks.
     :vartype properties: ~azure.mgmt.machinelearningservices.models.DatabricksProperties
@@ -7151,13 +9159,13 @@ class Databricks(Compute, DatabricksSchema):  # pylint: disable=too-many-instanc
         self.properties = properties
         self.compute_type: str = "Databricks"
         self.compute_location = compute_location
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.description = description
-        self.created_on = None
-        self.modified_on = None
+        self.created_on: Optional[datetime.datetime] = None
+        self.modified_on: Optional[datetime.datetime] = None
         self.resource_id = resource_id
-        self.provisioning_errors = None
-        self.is_attached_compute = None
+        self.provisioning_errors: Optional[List["_models.ErrorResponse"]] = None
+        self.is_attached_compute: Optional[bool] = None
         self.disable_local_auth = disable_local_auth
 
 
@@ -7184,7 +9192,7 @@ class DatabricksComputeSecretsProperties(_serialization.Model):
 class DatabricksComputeSecrets(ComputeSecrets, DatabricksComputeSecretsProperties):
     """Secrets related to a Machine Learning compute based on Databricks.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar databricks_access_token: access token for databricks account.
     :vartype databricks_access_token: str
@@ -7241,12 +9249,77 @@ class DatabricksProperties(_serialization.Model):
         self.workspace_url = workspace_url
 
 
-class DataContainer(Resource):
+class DataCollector(_serialization.Model):
+    """DataCollector.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar collections: [Required] The collection configuration. Each collection has it own
+     configuration to collect model data and the name of collection can be arbitrary string.
+     Model data collector can be used for either payload logging or custom logging or both of them.
+     Collection request and response are reserved for payload logging, others are for custom
+     logging. Required.
+    :vartype collections: dict[str, ~azure.mgmt.machinelearningservices.models.Collection]
+    :ivar request_logging: The request logging configuration for mdc, it includes advanced logging
+     settings for all collections. It's optional.
+    :vartype request_logging: ~azure.mgmt.machinelearningservices.models.RequestLogging
+    :ivar rolling_rate: When model data is collected to blob storage, we need to roll the data to
+     different path to avoid logging all of them in a single blob file.
+     If the rolling rate is hour, all data will be collected in the blob path /yyyy/MM/dd/HH/.
+     If it's day, all data will be collected in blob path /yyyy/MM/dd/.
+     The other benefit of rolling path is that model monitoring ui is able to select a time range of
+     data very quickly. Known values are: "Year", "Month", "Day", "Hour", and "Minute".
+    :vartype rolling_rate: str or ~azure.mgmt.machinelearningservices.models.RollingRateType
+    """
+
+    _validation = {
+        "collections": {"required": True},
+    }
+
+    _attribute_map = {
+        "collections": {"key": "collections", "type": "{Collection}"},
+        "request_logging": {"key": "requestLogging", "type": "RequestLogging"},
+        "rolling_rate": {"key": "rollingRate", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        collections: Dict[str, "_models.Collection"],
+        request_logging: Optional["_models.RequestLogging"] = None,
+        rolling_rate: Optional[Union[str, "_models.RollingRateType"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword collections: [Required] The collection configuration. Each collection has it own
+         configuration to collect model data and the name of collection can be arbitrary string.
+         Model data collector can be used for either payload logging or custom logging or both of them.
+         Collection request and response are reserved for payload logging, others are for custom
+         logging. Required.
+        :paramtype collections: dict[str, ~azure.mgmt.machinelearningservices.models.Collection]
+        :keyword request_logging: The request logging configuration for mdc, it includes advanced
+         logging settings for all collections. It's optional.
+        :paramtype request_logging: ~azure.mgmt.machinelearningservices.models.RequestLogging
+        :keyword rolling_rate: When model data is collected to blob storage, we need to roll the data
+         to different path to avoid logging all of them in a single blob file.
+         If the rolling rate is hour, all data will be collected in the blob path /yyyy/MM/dd/HH/.
+         If it's day, all data will be collected in blob path /yyyy/MM/dd/.
+         The other benefit of rolling path is that model monitoring ui is able to select a time range of
+         data very quickly. Known values are: "Year", "Month", "Day", "Hour", and "Minute".
+        :paramtype rolling_rate: str or ~azure.mgmt.machinelearningservices.models.RollingRateType
+        """
+        super().__init__(**kwargs)
+        self.collections = collections
+        self.request_logging = request_logging
+        self.rolling_rate = rolling_rate
+
+
+class DataContainer(ProxyResource):
     """Azure Resource Manager resource envelope.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
@@ -7293,7 +9366,7 @@ class DataContainerProperties(AssetContainer):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar description: The asset description text.
     :vartype description: str
@@ -7385,12 +9458,110 @@ class DataContainerResourceArmPaginatedResult(_serialization.Model):
         self.value = value
 
 
+class DataDriftMonitoringSignal(MonitoringSignalBase):
+    """DataDriftMonitoringSignal.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar notification_types: The current notification mode for this signal.
+    :vartype notification_types: list[str or
+     ~azure.mgmt.machinelearningservices.models.MonitoringNotificationType]
+    :ivar properties: Property dictionary. Properties can be added, but not removed or altered.
+    :vartype properties: dict[str, str]
+    :ivar signal_type: [Required] Specifies the type of signal to monitor. Required. Known values
+     are: "DataDrift", "PredictionDrift", "DataQuality", "FeatureAttributionDrift", and "Custom".
+    :vartype signal_type: str or ~azure.mgmt.machinelearningservices.models.MonitoringSignalType
+    :ivar feature_data_type_override: A dictionary that maps feature names to their respective data
+     types.
+    :vartype feature_data_type_override: dict[str, str or
+     ~azure.mgmt.machinelearningservices.models.MonitoringFeatureDataType]
+    :ivar feature_importance_settings: The settings for computing feature importance.
+    :vartype feature_importance_settings:
+     ~azure.mgmt.machinelearningservices.models.FeatureImportanceSettings
+    :ivar features: The feature filter which identifies which feature to calculate drift over.
+    :vartype features: ~azure.mgmt.machinelearningservices.models.MonitoringFeatureFilterBase
+    :ivar metric_thresholds: [Required] A list of metrics to calculate and their associated
+     thresholds. Required.
+    :vartype metric_thresholds:
+     list[~azure.mgmt.machinelearningservices.models.DataDriftMetricThresholdBase]
+    :ivar production_data: [Required] The data which drift will be calculated for. Required.
+    :vartype production_data: ~azure.mgmt.machinelearningservices.models.MonitoringInputDataBase
+    :ivar reference_data: [Required] The data to calculate drift against. Required.
+    :vartype reference_data: ~azure.mgmt.machinelearningservices.models.MonitoringInputDataBase
+    """
+
+    _validation = {
+        "signal_type": {"required": True},
+        "metric_thresholds": {"required": True},
+        "production_data": {"required": True},
+        "reference_data": {"required": True},
+    }
+
+    _attribute_map = {
+        "notification_types": {"key": "notificationTypes", "type": "[str]"},
+        "properties": {"key": "properties", "type": "{str}"},
+        "signal_type": {"key": "signalType", "type": "str"},
+        "feature_data_type_override": {"key": "featureDataTypeOverride", "type": "{str}"},
+        "feature_importance_settings": {"key": "featureImportanceSettings", "type": "FeatureImportanceSettings"},
+        "features": {"key": "features", "type": "MonitoringFeatureFilterBase"},
+        "metric_thresholds": {"key": "metricThresholds", "type": "[DataDriftMetricThresholdBase]"},
+        "production_data": {"key": "productionData", "type": "MonitoringInputDataBase"},
+        "reference_data": {"key": "referenceData", "type": "MonitoringInputDataBase"},
+    }
+
+    def __init__(
+        self,
+        *,
+        metric_thresholds: List["_models.DataDriftMetricThresholdBase"],
+        production_data: "_models.MonitoringInputDataBase",
+        reference_data: "_models.MonitoringInputDataBase",
+        notification_types: Optional[List[Union[str, "_models.MonitoringNotificationType"]]] = None,
+        properties: Optional[Dict[str, str]] = None,
+        feature_data_type_override: Optional[Dict[str, Union[str, "_models.MonitoringFeatureDataType"]]] = None,
+        feature_importance_settings: Optional["_models.FeatureImportanceSettings"] = None,
+        features: Optional["_models.MonitoringFeatureFilterBase"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword notification_types: The current notification mode for this signal.
+        :paramtype notification_types: list[str or
+         ~azure.mgmt.machinelearningservices.models.MonitoringNotificationType]
+        :keyword properties: Property dictionary. Properties can be added, but not removed or altered.
+        :paramtype properties: dict[str, str]
+        :keyword feature_data_type_override: A dictionary that maps feature names to their respective
+         data types.
+        :paramtype feature_data_type_override: dict[str, str or
+         ~azure.mgmt.machinelearningservices.models.MonitoringFeatureDataType]
+        :keyword feature_importance_settings: The settings for computing feature importance.
+        :paramtype feature_importance_settings:
+         ~azure.mgmt.machinelearningservices.models.FeatureImportanceSettings
+        :keyword features: The feature filter which identifies which feature to calculate drift over.
+        :paramtype features: ~azure.mgmt.machinelearningservices.models.MonitoringFeatureFilterBase
+        :keyword metric_thresholds: [Required] A list of metrics to calculate and their associated
+         thresholds. Required.
+        :paramtype metric_thresholds:
+         list[~azure.mgmt.machinelearningservices.models.DataDriftMetricThresholdBase]
+        :keyword production_data: [Required] The data which drift will be calculated for. Required.
+        :paramtype production_data: ~azure.mgmt.machinelearningservices.models.MonitoringInputDataBase
+        :keyword reference_data: [Required] The data to calculate drift against. Required.
+        :paramtype reference_data: ~azure.mgmt.machinelearningservices.models.MonitoringInputDataBase
+        """
+        super().__init__(notification_types=notification_types, properties=properties, **kwargs)
+        self.signal_type: str = "DataDrift"
+        self.feature_data_type_override = feature_data_type_override
+        self.feature_importance_settings = feature_importance_settings
+        self.features = features
+        self.metric_thresholds = metric_thresholds
+        self.production_data = production_data
+        self.reference_data = reference_data
+
+
 class DataFactory(Compute):
     """A DataFactory compute.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar compute_type: The type of compute. Required. Known values are: "AKS", "Kubernetes",
      "AmlCompute", "ComputeInstance", "DataFactory", "VirtualMachine", "HDInsight", "Databricks",
@@ -7497,12 +9668,12 @@ class DataLakeAnalyticsSchema(_serialization.Model):
         self.properties = properties
 
 
-class DataLakeAnalytics(Compute, DataLakeAnalyticsSchema):  # pylint: disable=too-many-instance-attributes
+class DataLakeAnalytics(Compute, DataLakeAnalyticsSchema):
     """A DataLakeAnalytics compute.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar properties:
     :vartype properties:
@@ -7594,13 +9765,13 @@ class DataLakeAnalytics(Compute, DataLakeAnalyticsSchema):  # pylint: disable=to
         self.properties = properties
         self.compute_type: str = "DataLakeAnalytics"
         self.compute_location = compute_location
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.description = description
-        self.created_on = None
-        self.modified_on = None
+        self.created_on: Optional[datetime.datetime] = None
+        self.modified_on: Optional[datetime.datetime] = None
         self.resource_id = resource_id
-        self.provisioning_errors = None
-        self.is_attached_compute = None
+        self.provisioning_errors: Optional[List["_models.ErrorResponse"]] = None
+        self.is_attached_compute: Optional[bool] = None
         self.disable_local_auth = disable_local_auth
 
 
@@ -7627,7 +9798,7 @@ class DataLakeAnalyticsSchemaProperties(_serialization.Model):
 class DataPathAssetReference(AssetReferenceBase):
     """Reference to an asset via its path in a datastore.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar reference_type: [Required] Specifies the type of asset reference. Required. Known values
      are: "Id", "DataPath", and "OutputPath".
@@ -7661,12 +9832,112 @@ class DataPathAssetReference(AssetReferenceBase):
         self.path = path
 
 
-class Datastore(Resource):
+class DataQualityMonitoringSignal(MonitoringSignalBase):
+    """DataQualityMonitoringSignal.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar notification_types: The current notification mode for this signal.
+    :vartype notification_types: list[str or
+     ~azure.mgmt.machinelearningservices.models.MonitoringNotificationType]
+    :ivar properties: Property dictionary. Properties can be added, but not removed or altered.
+    :vartype properties: dict[str, str]
+    :ivar signal_type: [Required] Specifies the type of signal to monitor. Required. Known values
+     are: "DataDrift", "PredictionDrift", "DataQuality", "FeatureAttributionDrift", and "Custom".
+    :vartype signal_type: str or ~azure.mgmt.machinelearningservices.models.MonitoringSignalType
+    :ivar feature_data_type_override: A dictionary that maps feature names to their respective data
+     types.
+    :vartype feature_data_type_override: dict[str, str or
+     ~azure.mgmt.machinelearningservices.models.MonitoringFeatureDataType]
+    :ivar feature_importance_settings: The settings for computing feature importance.
+    :vartype feature_importance_settings:
+     ~azure.mgmt.machinelearningservices.models.FeatureImportanceSettings
+    :ivar features: The features to calculate drift over.
+    :vartype features: ~azure.mgmt.machinelearningservices.models.MonitoringFeatureFilterBase
+    :ivar metric_thresholds: [Required] A list of metrics to calculate and their associated
+     thresholds. Required.
+    :vartype metric_thresholds:
+     list[~azure.mgmt.machinelearningservices.models.DataQualityMetricThresholdBase]
+    :ivar production_data: [Required] The data produced by the production service which drift will
+     be calculated for. Required.
+    :vartype production_data: ~azure.mgmt.machinelearningservices.models.MonitoringInputDataBase
+    :ivar reference_data: [Required] The data to calculate drift against. Required.
+    :vartype reference_data: ~azure.mgmt.machinelearningservices.models.MonitoringInputDataBase
+    """
+
+    _validation = {
+        "signal_type": {"required": True},
+        "metric_thresholds": {"required": True},
+        "production_data": {"required": True},
+        "reference_data": {"required": True},
+    }
+
+    _attribute_map = {
+        "notification_types": {"key": "notificationTypes", "type": "[str]"},
+        "properties": {"key": "properties", "type": "{str}"},
+        "signal_type": {"key": "signalType", "type": "str"},
+        "feature_data_type_override": {"key": "featureDataTypeOverride", "type": "{str}"},
+        "feature_importance_settings": {"key": "featureImportanceSettings", "type": "FeatureImportanceSettings"},
+        "features": {"key": "features", "type": "MonitoringFeatureFilterBase"},
+        "metric_thresholds": {"key": "metricThresholds", "type": "[DataQualityMetricThresholdBase]"},
+        "production_data": {"key": "productionData", "type": "MonitoringInputDataBase"},
+        "reference_data": {"key": "referenceData", "type": "MonitoringInputDataBase"},
+    }
+
+    def __init__(
+        self,
+        *,
+        metric_thresholds: List["_models.DataQualityMetricThresholdBase"],
+        production_data: "_models.MonitoringInputDataBase",
+        reference_data: "_models.MonitoringInputDataBase",
+        notification_types: Optional[List[Union[str, "_models.MonitoringNotificationType"]]] = None,
+        properties: Optional[Dict[str, str]] = None,
+        feature_data_type_override: Optional[Dict[str, Union[str, "_models.MonitoringFeatureDataType"]]] = None,
+        feature_importance_settings: Optional["_models.FeatureImportanceSettings"] = None,
+        features: Optional["_models.MonitoringFeatureFilterBase"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword notification_types: The current notification mode for this signal.
+        :paramtype notification_types: list[str or
+         ~azure.mgmt.machinelearningservices.models.MonitoringNotificationType]
+        :keyword properties: Property dictionary. Properties can be added, but not removed or altered.
+        :paramtype properties: dict[str, str]
+        :keyword feature_data_type_override: A dictionary that maps feature names to their respective
+         data types.
+        :paramtype feature_data_type_override: dict[str, str or
+         ~azure.mgmt.machinelearningservices.models.MonitoringFeatureDataType]
+        :keyword feature_importance_settings: The settings for computing feature importance.
+        :paramtype feature_importance_settings:
+         ~azure.mgmt.machinelearningservices.models.FeatureImportanceSettings
+        :keyword features: The features to calculate drift over.
+        :paramtype features: ~azure.mgmt.machinelearningservices.models.MonitoringFeatureFilterBase
+        :keyword metric_thresholds: [Required] A list of metrics to calculate and their associated
+         thresholds. Required.
+        :paramtype metric_thresholds:
+         list[~azure.mgmt.machinelearningservices.models.DataQualityMetricThresholdBase]
+        :keyword production_data: [Required] The data produced by the production service which drift
+         will be calculated for. Required.
+        :paramtype production_data: ~azure.mgmt.machinelearningservices.models.MonitoringInputDataBase
+        :keyword reference_data: [Required] The data to calculate drift against. Required.
+        :paramtype reference_data: ~azure.mgmt.machinelearningservices.models.MonitoringInputDataBase
+        """
+        super().__init__(notification_types=notification_types, properties=properties, **kwargs)
+        self.signal_type: str = "DataQuality"
+        self.feature_data_type_override = feature_data_type_override
+        self.feature_importance_settings = feature_importance_settings
+        self.features = features
+        self.metric_thresholds = metric_thresholds
+        self.production_data = production_data
+        self.reference_data = reference_data
+
+
+class Datastore(ProxyResource):
     """Azure Resource Manager resource envelope.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
@@ -7738,12 +10009,12 @@ class DatastoreResourceArmPaginatedResult(_serialization.Model):
         self.value = value
 
 
-class DataVersionBase(Resource):
+class DataVersionBase(ProxyResource):
     """Azure Resource Manager resource envelope.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
@@ -7791,7 +10062,7 @@ class DataVersionBaseProperties(AssetBase):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     MLTableData, UriFileDataVersion, UriFolderDataVersion
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar description: The asset description text.
     :vartype description: str
@@ -7868,7 +10139,7 @@ class DataVersionBaseProperties(AssetBase):
         self.data_uri = data_uri
 
 
-class DataVersionBaseResourceArmPaginatedResult(_serialization.Model):
+class DataVersionBaseResourceArmPaginatedResult(_serialization.Model):  # pylint: disable=name-too-long
     """A paginated list of DataVersionBase entities.
 
     :ivar next_link: The link to the next page of DataVersionBase objects. If null, there are no
@@ -7904,7 +10175,7 @@ class OnlineScaleSettings(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     DefaultScaleSettings, TargetUtilizationScaleSettings
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar scale_type: [Required] Type of deployment scaling algorithm. Required. Known values are:
      "Default" and "TargetUtilization".
@@ -7932,7 +10203,7 @@ class OnlineScaleSettings(_serialization.Model):
 class DefaultScaleSettings(OnlineScaleSettings):
     """DefaultScaleSettings.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar scale_type: [Required] Type of deployment scaling algorithm. Required. Known values are:
      "Default" and "TargetUtilization".
@@ -8057,29 +10328,44 @@ class DeploymentResourceConfiguration(ResourceConfiguration):
     :vartype properties: dict[str, JSON]
     """
 
+
+class DestinationAsset(_serialization.Model):
+    """Publishing destination registry asset information.
+
+    :ivar destination_name: Destination asset name.
+    :vartype destination_name: str
+    :ivar destination_version: Destination asset version.
+    :vartype destination_version: str
+    :ivar registry_name: Destination registry name.
+    :vartype registry_name: str
+    """
+
     _attribute_map = {
-        "instance_count": {"key": "instanceCount", "type": "int"},
-        "instance_type": {"key": "instanceType", "type": "str"},
-        "properties": {"key": "properties", "type": "{object}"},
+        "destination_name": {"key": "destinationName", "type": "str"},
+        "destination_version": {"key": "destinationVersion", "type": "str"},
+        "registry_name": {"key": "registryName", "type": "str"},
     }
 
     def __init__(
         self,
         *,
-        instance_count: int = 1,
-        instance_type: Optional[str] = None,
-        properties: Optional[Dict[str, JSON]] = None,
+        destination_name: Optional[str] = None,
+        destination_version: Optional[str] = None,
+        registry_name: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
-        :keyword instance_count: Optional number of instances or nodes used by the compute target.
-        :paramtype instance_count: int
-        :keyword instance_type: Optional type of VM used as supported by the compute target.
-        :paramtype instance_type: str
-        :keyword properties: Additional properties bag.
-        :paramtype properties: dict[str, JSON]
+        :keyword destination_name: Destination asset name.
+        :paramtype destination_name: str
+        :keyword destination_version: Destination asset version.
+        :paramtype destination_version: str
+        :keyword registry_name: Destination registry name.
+        :paramtype registry_name: str
         """
-        super().__init__(instance_count=instance_count, instance_type=instance_type, properties=properties, **kwargs)
+        super().__init__(**kwargs)
+        self.destination_name = destination_name
+        self.destination_version = destination_version
+        self.registry_name = registry_name
 
 
 class DiagnoseRequestProperties(_serialization.Model):
@@ -8306,9 +10592,9 @@ class DiagnoseResult(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.code = None
-        self.level = None
-        self.message = None
+        self.code: Optional[str] = None
+        self.level: Optional[Union[str, "_models.DiagnoseResultLevel"]] = None
+        self.message: Optional[str] = None
 
 
 class DiagnoseWorkspaceParameters(_serialization.Model):
@@ -8337,7 +10623,7 @@ class DistributionConfiguration(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     Mpi, PyTorch, TensorFlow
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar distribution_type: [Required] Specifies the type of distribution framework. Required.
      Known values are: "PyTorch", "TensorFlow", and "Mpi".
@@ -8394,10 +10680,48 @@ class Docker(_serialization.Model):
         self.privileged = privileged
 
 
+class DockerCredential(DataReferenceCredential):
+    """Credential for docker with username and password.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar credential_type: [Required] Credential type used to authentication with storage.
+     Required. Known values are: "SAS", "DockerCredentials", "ManagedIdentity", and "NoCredentials".
+    :vartype credential_type: str or
+     ~azure.mgmt.machinelearningservices.models.DataReferenceCredentialType
+    :ivar password: DockerCredential user password.
+    :vartype password: str
+    :ivar user_name: DockerCredential user name.
+    :vartype user_name: str
+    """
+
+    _validation = {
+        "credential_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "credential_type": {"key": "credentialType", "type": "str"},
+        "password": {"key": "password", "type": "str"},
+        "user_name": {"key": "userName", "type": "str"},
+    }
+
+    def __init__(self, *, password: Optional[str] = None, user_name: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword password: DockerCredential user password.
+        :paramtype password: str
+        :keyword user_name: DockerCredential user name.
+        :paramtype user_name: str
+        """
+        super().__init__(**kwargs)
+        self.credential_type: str = "DockerCredentials"
+        self.password = password
+        self.user_name = user_name
+
+
 class EncryptionKeyVaultProperties(_serialization.Model):
     """EncryptionKeyVaultProperties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar key_vault_arm_id: The ArmId of the keyVault where the customer owned encryption key is
      present. Required.
@@ -8439,10 +10763,36 @@ class EncryptionKeyVaultProperties(_serialization.Model):
         self.identity_client_id = identity_client_id
 
 
+class EncryptionKeyVaultUpdateProperties(_serialization.Model):
+    """EncryptionKeyVaultUpdateProperties.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar key_identifier: Required.
+    :vartype key_identifier: str
+    """
+
+    _validation = {
+        "key_identifier": {"required": True, "min_length": 1, "pattern": r"[a-zA-Z0-9_]"},
+    }
+
+    _attribute_map = {
+        "key_identifier": {"key": "keyIdentifier", "type": "str"},
+    }
+
+    def __init__(self, *, key_identifier: str, **kwargs: Any) -> None:
+        """
+        :keyword key_identifier: Required.
+        :paramtype key_identifier: str
+        """
+        super().__init__(**kwargs)
+        self.key_identifier = key_identifier
+
+
 class EncryptionProperty(_serialization.Model):
     """EncryptionProperty.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar status: Indicates whether or not the encryption is enabled for the workspace. Required.
      Known values are: "Enabled" and "Disabled".
@@ -8487,6 +10837,34 @@ class EncryptionProperty(_serialization.Model):
         super().__init__(**kwargs)
         self.status = status
         self.identity = identity
+        self.key_vault_properties = key_vault_properties
+
+
+class EncryptionUpdateProperties(_serialization.Model):
+    """EncryptionUpdateProperties.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar key_vault_properties: Required.
+    :vartype key_vault_properties:
+     ~azure.mgmt.machinelearningservices.models.EncryptionKeyVaultUpdateProperties
+    """
+
+    _validation = {
+        "key_vault_properties": {"required": True},
+    }
+
+    _attribute_map = {
+        "key_vault_properties": {"key": "keyVaultProperties", "type": "EncryptionKeyVaultUpdateProperties"},
+    }
+
+    def __init__(self, *, key_vault_properties: "_models.EncryptionKeyVaultUpdateProperties", **kwargs: Any) -> None:
+        """
+        :keyword key_vault_properties: Required.
+        :paramtype key_vault_properties:
+         ~azure.mgmt.machinelearningservices.models.EncryptionKeyVaultUpdateProperties
+        """
+        super().__init__(**kwargs)
         self.key_vault_properties = key_vault_properties
 
 
@@ -8619,42 +10997,13 @@ class EndpointAuthToken(_serialization.Model):
         self.token_type = token_type
 
 
-class ScheduleActionBase(_serialization.Model):
-    """ScheduleActionBase.
-
-    You probably want to use the sub-classes and not this class directly. Known sub-classes are:
-    JobScheduleAction, EndpointScheduleAction
-
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar action_type: [Required] Specifies the action type of the schedule. Required. Known values
-     are: "CreateJob" and "InvokeBatchEndpoint".
-    :vartype action_type: str or ~azure.mgmt.machinelearningservices.models.ScheduleActionType
-    """
-
-    _validation = {
-        "action_type": {"required": True},
-    }
-
-    _attribute_map = {
-        "action_type": {"key": "actionType", "type": "str"},
-    }
-
-    _subtype_map = {"action_type": {"CreateJob": "JobScheduleAction", "InvokeBatchEndpoint": "EndpointScheduleAction"}}
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-        self.action_type: Optional[str] = None
-
-
 class EndpointScheduleAction(ScheduleActionBase):
     """EndpointScheduleAction.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar action_type: [Required] Specifies the action type of the schedule. Required. Known values
-     are: "CreateJob" and "InvokeBatchEndpoint".
+     are: "CreateJob", "InvokeBatchEndpoint", and "CreateMonitor".
     :vartype action_type: str or ~azure.mgmt.machinelearningservices.models.ScheduleActionType
     :ivar endpoint_invocation_definition: [Required] Defines Schedule action definition details.
 
@@ -8690,12 +11039,12 @@ class EndpointScheduleAction(ScheduleActionBase):
         self.endpoint_invocation_definition = endpoint_invocation_definition
 
 
-class EnvironmentContainer(Resource):
+class EnvironmentContainer(ProxyResource):
     """Azure Resource Manager resource envelope.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
@@ -8797,10 +11146,10 @@ class EnvironmentContainerProperties(AssetContainer):
         :paramtype is_archived: bool
         """
         super().__init__(description=description, properties=properties, tags=tags, is_archived=is_archived, **kwargs)
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.AssetProvisioningState"]] = None
 
 
-class EnvironmentContainerResourceArmPaginatedResult(_serialization.Model):
+class EnvironmentContainerResourceArmPaginatedResult(_serialization.Model):  # pylint: disable=name-too-long
     """A paginated list of EnvironmentContainer entities.
 
     :ivar next_link: The link to the next page of EnvironmentContainer objects. If null, there are
@@ -8877,12 +11226,12 @@ class EnvironmentVariable(_serialization.Model):
         self.value = value
 
 
-class EnvironmentVersion(Resource):
+class EnvironmentVersion(ProxyResource):
     """Azure Resource Manager resource envelope.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
@@ -8924,7 +11273,7 @@ class EnvironmentVersion(Resource):
         self.properties = properties
 
 
-class EnvironmentVersionProperties(AssetBase):  # pylint: disable=too-many-instance-attributes
+class EnvironmentVersionProperties(AssetBase):
     """Environment version details.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -9079,15 +11428,15 @@ class EnvironmentVersionProperties(AssetBase):  # pylint: disable=too-many-insta
         self.auto_rebuild = auto_rebuild
         self.build = build
         self.conda_file = conda_file
-        self.environment_type = None
+        self.environment_type: Optional[Union[str, "_models.EnvironmentType"]] = None
         self.image = image
         self.inference_config = inference_config
         self.os_type = os_type
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.AssetProvisioningState"]] = None
         self.stage = stage
 
 
-class EnvironmentVersionResourceArmPaginatedResult(_serialization.Model):
+class EnvironmentVersionResourceArmPaginatedResult(_serialization.Model):  # pylint: disable=name-too-long
     """A paginated list of EnvironmentVersion entities.
 
     :ivar next_link: The link to the next page of EnvironmentVersion objects. If null, there are no
@@ -9145,8 +11494,8 @@ class ErrorAdditionalInfo(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.type = None
-        self.info = None
+        self.type: Optional[str] = None
+        self.info: Optional[JSON] = None
 
 
 class ErrorDetail(_serialization.Model):
@@ -9185,11 +11534,11 @@ class ErrorDetail(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.code = None
-        self.message = None
-        self.target = None
-        self.details = None
-        self.additional_info = None
+        self.code: Optional[str] = None
+        self.message: Optional[str] = None
+        self.target: Optional[str] = None
+        self.details: Optional[List["_models.ErrorDetail"]] = None
+        self.additional_info: Optional[List["_models.ErrorAdditionalInfo"]] = None
 
 
 class ErrorResponse(_serialization.Model):
@@ -9216,7 +11565,7 @@ class ErrorResponse(_serialization.Model):
 class EstimatedVMPrice(_serialization.Model):
     """The estimated price info for using a VM of a particular OS type, tier, etc.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar retail_price: The price charged for using the VM. Required.
     :vartype retail_price: float
@@ -9267,7 +11616,7 @@ class EstimatedVMPrice(_serialization.Model):
 class EstimatedVMPrices(_serialization.Model):
     """The estimated price info for using a VM.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar billing_currency: Three lettered code specifying the currency of the VM price. Example:
      USD. Required. "USD"
@@ -9337,6 +11686,1167 @@ class ExternalFQDNResponse(_serialization.Model):
         self.value = value
 
 
+class Feature(ProxyResource):
+    """Azure Resource Manager resource envelope.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.machinelearningservices.models.SystemData
+    :ivar properties: [Required] Additional attributes of the entity. Required.
+    :vartype properties: ~azure.mgmt.machinelearningservices.models.FeatureProperties
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "properties": {"required": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "properties": {"key": "properties", "type": "FeatureProperties"},
+    }
+
+    def __init__(self, *, properties: "_models.FeatureProperties", **kwargs: Any) -> None:
+        """
+        :keyword properties: [Required] Additional attributes of the entity. Required.
+        :paramtype properties: ~azure.mgmt.machinelearningservices.models.FeatureProperties
+        """
+        super().__init__(**kwargs)
+        self.properties = properties
+
+
+class FeatureAttributionDriftMonitoringSignal(MonitoringSignalBase):
+    """FeatureAttributionDriftMonitoringSignal.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar notification_types: The current notification mode for this signal.
+    :vartype notification_types: list[str or
+     ~azure.mgmt.machinelearningservices.models.MonitoringNotificationType]
+    :ivar properties: Property dictionary. Properties can be added, but not removed or altered.
+    :vartype properties: dict[str, str]
+    :ivar signal_type: [Required] Specifies the type of signal to monitor. Required. Known values
+     are: "DataDrift", "PredictionDrift", "DataQuality", "FeatureAttributionDrift", and "Custom".
+    :vartype signal_type: str or ~azure.mgmt.machinelearningservices.models.MonitoringSignalType
+    :ivar feature_data_type_override: A dictionary that maps feature names to their respective data
+     types.
+    :vartype feature_data_type_override: dict[str, str or
+     ~azure.mgmt.machinelearningservices.models.MonitoringFeatureDataType]
+    :ivar feature_importance_settings: [Required] The settings for computing feature importance.
+     Required.
+    :vartype feature_importance_settings:
+     ~azure.mgmt.machinelearningservices.models.FeatureImportanceSettings
+    :ivar metric_threshold: [Required] A list of metrics to calculate and their associated
+     thresholds. Required.
+    :vartype metric_threshold:
+     ~azure.mgmt.machinelearningservices.models.FeatureAttributionMetricThreshold
+    :ivar production_data: [Required] The data which drift will be calculated for. Required.
+    :vartype production_data:
+     list[~azure.mgmt.machinelearningservices.models.MonitoringInputDataBase]
+    :ivar reference_data: [Required] The data to calculate drift against. Required.
+    :vartype reference_data: ~azure.mgmt.machinelearningservices.models.MonitoringInputDataBase
+    """
+
+    _validation = {
+        "signal_type": {"required": True},
+        "feature_importance_settings": {"required": True},
+        "metric_threshold": {"required": True},
+        "production_data": {"required": True},
+        "reference_data": {"required": True},
+    }
+
+    _attribute_map = {
+        "notification_types": {"key": "notificationTypes", "type": "[str]"},
+        "properties": {"key": "properties", "type": "{str}"},
+        "signal_type": {"key": "signalType", "type": "str"},
+        "feature_data_type_override": {"key": "featureDataTypeOverride", "type": "{str}"},
+        "feature_importance_settings": {"key": "featureImportanceSettings", "type": "FeatureImportanceSettings"},
+        "metric_threshold": {"key": "metricThreshold", "type": "FeatureAttributionMetricThreshold"},
+        "production_data": {"key": "productionData", "type": "[MonitoringInputDataBase]"},
+        "reference_data": {"key": "referenceData", "type": "MonitoringInputDataBase"},
+    }
+
+    def __init__(
+        self,
+        *,
+        feature_importance_settings: "_models.FeatureImportanceSettings",
+        metric_threshold: "_models.FeatureAttributionMetricThreshold",
+        production_data: List["_models.MonitoringInputDataBase"],
+        reference_data: "_models.MonitoringInputDataBase",
+        notification_types: Optional[List[Union[str, "_models.MonitoringNotificationType"]]] = None,
+        properties: Optional[Dict[str, str]] = None,
+        feature_data_type_override: Optional[Dict[str, Union[str, "_models.MonitoringFeatureDataType"]]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword notification_types: The current notification mode for this signal.
+        :paramtype notification_types: list[str or
+         ~azure.mgmt.machinelearningservices.models.MonitoringNotificationType]
+        :keyword properties: Property dictionary. Properties can be added, but not removed or altered.
+        :paramtype properties: dict[str, str]
+        :keyword feature_data_type_override: A dictionary that maps feature names to their respective
+         data types.
+        :paramtype feature_data_type_override: dict[str, str or
+         ~azure.mgmt.machinelearningservices.models.MonitoringFeatureDataType]
+        :keyword feature_importance_settings: [Required] The settings for computing feature importance.
+         Required.
+        :paramtype feature_importance_settings:
+         ~azure.mgmt.machinelearningservices.models.FeatureImportanceSettings
+        :keyword metric_threshold: [Required] A list of metrics to calculate and their associated
+         thresholds. Required.
+        :paramtype metric_threshold:
+         ~azure.mgmt.machinelearningservices.models.FeatureAttributionMetricThreshold
+        :keyword production_data: [Required] The data which drift will be calculated for. Required.
+        :paramtype production_data:
+         list[~azure.mgmt.machinelearningservices.models.MonitoringInputDataBase]
+        :keyword reference_data: [Required] The data to calculate drift against. Required.
+        :paramtype reference_data: ~azure.mgmt.machinelearningservices.models.MonitoringInputDataBase
+        """
+        super().__init__(notification_types=notification_types, properties=properties, **kwargs)
+        self.signal_type: str = "FeatureAttributionDrift"
+        self.feature_data_type_override = feature_data_type_override
+        self.feature_importance_settings = feature_importance_settings
+        self.metric_threshold = metric_threshold
+        self.production_data = production_data
+        self.reference_data = reference_data
+
+
+class FeatureAttributionMetricThreshold(_serialization.Model):
+    """FeatureAttributionMetricThreshold.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar metric: [Required] The feature attribution metric to calculate. Required.
+     "NormalizedDiscountedCumulativeGain"
+    :vartype metric: str or ~azure.mgmt.machinelearningservices.models.FeatureAttributionMetric
+    :ivar threshold: The threshold value. If null, a default value will be set depending on the
+     selected metric.
+    :vartype threshold: ~azure.mgmt.machinelearningservices.models.MonitoringThreshold
+    """
+
+    _validation = {
+        "metric": {"required": True},
+    }
+
+    _attribute_map = {
+        "metric": {"key": "metric", "type": "str"},
+        "threshold": {"key": "threshold", "type": "MonitoringThreshold"},
+    }
+
+    def __init__(
+        self,
+        *,
+        metric: Union[str, "_models.FeatureAttributionMetric"],
+        threshold: Optional["_models.MonitoringThreshold"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword metric: [Required] The feature attribution metric to calculate. Required.
+         "NormalizedDiscountedCumulativeGain"
+        :paramtype metric: str or ~azure.mgmt.machinelearningservices.models.FeatureAttributionMetric
+        :keyword threshold: The threshold value. If null, a default value will be set depending on the
+         selected metric.
+        :paramtype threshold: ~azure.mgmt.machinelearningservices.models.MonitoringThreshold
+        """
+        super().__init__(**kwargs)
+        self.metric = metric
+        self.threshold = threshold
+
+
+class FeatureImportanceSettings(_serialization.Model):
+    """FeatureImportanceSettings.
+
+    :ivar mode: The mode of operation for computing feature importance. Known values are:
+     "Disabled" and "Enabled".
+    :vartype mode: str or ~azure.mgmt.machinelearningservices.models.FeatureImportanceMode
+    :ivar target_column: The name of the target column within the input data asset.
+    :vartype target_column: str
+    """
+
+    _attribute_map = {
+        "mode": {"key": "mode", "type": "str"},
+        "target_column": {"key": "targetColumn", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        mode: Optional[Union[str, "_models.FeatureImportanceMode"]] = None,
+        target_column: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword mode: The mode of operation for computing feature importance. Known values are:
+         "Disabled" and "Enabled".
+        :paramtype mode: str or ~azure.mgmt.machinelearningservices.models.FeatureImportanceMode
+        :keyword target_column: The name of the target column within the input data asset.
+        :paramtype target_column: str
+        """
+        super().__init__(**kwargs)
+        self.mode = mode
+        self.target_column = target_column
+
+
+class FeatureProperties(ResourceBase):
+    """DTO object representing feature.
+
+    :ivar description: The asset description text.
+    :vartype description: str
+    :ivar properties: The asset property dictionary.
+    :vartype properties: dict[str, str]
+    :ivar tags: Tag dictionary. Tags can be added, removed, and updated.
+    :vartype tags: dict[str, str]
+    :ivar data_type: Specifies type. Known values are: "String", "Integer", "Long", "Float",
+     "Double", "Binary", "Datetime", and "Boolean".
+    :vartype data_type: str or ~azure.mgmt.machinelearningservices.models.FeatureDataType
+    :ivar feature_name: Specifies name.
+    :vartype feature_name: str
+    """
+
+    _attribute_map = {
+        "description": {"key": "description", "type": "str"},
+        "properties": {"key": "properties", "type": "{str}"},
+        "tags": {"key": "tags", "type": "{str}"},
+        "data_type": {"key": "dataType", "type": "str"},
+        "feature_name": {"key": "featureName", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        description: Optional[str] = None,
+        properties: Optional[Dict[str, str]] = None,
+        tags: Optional[Dict[str, str]] = None,
+        data_type: Optional[Union[str, "_models.FeatureDataType"]] = None,
+        feature_name: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword description: The asset description text.
+        :paramtype description: str
+        :keyword properties: The asset property dictionary.
+        :paramtype properties: dict[str, str]
+        :keyword tags: Tag dictionary. Tags can be added, removed, and updated.
+        :paramtype tags: dict[str, str]
+        :keyword data_type: Specifies type. Known values are: "String", "Integer", "Long", "Float",
+         "Double", "Binary", "Datetime", and "Boolean".
+        :paramtype data_type: str or ~azure.mgmt.machinelearningservices.models.FeatureDataType
+        :keyword feature_name: Specifies name.
+        :paramtype feature_name: str
+        """
+        super().__init__(description=description, properties=properties, tags=tags, **kwargs)
+        self.data_type = data_type
+        self.feature_name = feature_name
+
+
+class FeatureResourceArmPaginatedResult(_serialization.Model):
+    """A paginated list of Feature entities.
+
+    :ivar next_link: The link to the next page of Feature objects. If null, there are no additional
+     pages.
+    :vartype next_link: str
+    :ivar value: An array of objects of type Feature.
+    :vartype value: list[~azure.mgmt.machinelearningservices.models.Feature]
+    """
+
+    _attribute_map = {
+        "next_link": {"key": "nextLink", "type": "str"},
+        "value": {"key": "value", "type": "[Feature]"},
+    }
+
+    def __init__(
+        self, *, next_link: Optional[str] = None, value: Optional[List["_models.Feature"]] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword next_link: The link to the next page of Feature objects. If null, there are no
+         additional pages.
+        :paramtype next_link: str
+        :keyword value: An array of objects of type Feature.
+        :paramtype value: list[~azure.mgmt.machinelearningservices.models.Feature]
+        """
+        super().__init__(**kwargs)
+        self.next_link = next_link
+        self.value = value
+
+
+class FeaturesetContainer(ProxyResource):
+    """Azure Resource Manager resource envelope.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.machinelearningservices.models.SystemData
+    :ivar properties: [Required] Additional attributes of the entity. Required.
+    :vartype properties: ~azure.mgmt.machinelearningservices.models.FeaturesetContainerProperties
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "properties": {"required": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "properties": {"key": "properties", "type": "FeaturesetContainerProperties"},
+    }
+
+    def __init__(self, *, properties: "_models.FeaturesetContainerProperties", **kwargs: Any) -> None:
+        """
+        :keyword properties: [Required] Additional attributes of the entity. Required.
+        :paramtype properties: ~azure.mgmt.machinelearningservices.models.FeaturesetContainerProperties
+        """
+        super().__init__(**kwargs)
+        self.properties = properties
+
+
+class FeaturesetContainerProperties(AssetContainer):
+    """DTO object representing feature set.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar description: The asset description text.
+    :vartype description: str
+    :ivar properties: The asset property dictionary.
+    :vartype properties: dict[str, str]
+    :ivar tags: Tag dictionary. Tags can be added, removed, and updated.
+    :vartype tags: dict[str, str]
+    :ivar is_archived: Is the asset archived?.
+    :vartype is_archived: bool
+    :ivar latest_version: The latest version inside this container.
+    :vartype latest_version: str
+    :ivar next_version: The next auto incremental version.
+    :vartype next_version: str
+    :ivar provisioning_state: Provisioning state for the featureset container. Known values are:
+     "Succeeded", "Failed", "Canceled", "Creating", "Updating", and "Deleting".
+    :vartype provisioning_state: str or
+     ~azure.mgmt.machinelearningservices.models.AssetProvisioningState
+    """
+
+    _validation = {
+        "latest_version": {"readonly": True},
+        "next_version": {"readonly": True},
+        "provisioning_state": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "description": {"key": "description", "type": "str"},
+        "properties": {"key": "properties", "type": "{str}"},
+        "tags": {"key": "tags", "type": "{str}"},
+        "is_archived": {"key": "isArchived", "type": "bool"},
+        "latest_version": {"key": "latestVersion", "type": "str"},
+        "next_version": {"key": "nextVersion", "type": "str"},
+        "provisioning_state": {"key": "provisioningState", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        description: Optional[str] = None,
+        properties: Optional[Dict[str, str]] = None,
+        tags: Optional[Dict[str, str]] = None,
+        is_archived: bool = False,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword description: The asset description text.
+        :paramtype description: str
+        :keyword properties: The asset property dictionary.
+        :paramtype properties: dict[str, str]
+        :keyword tags: Tag dictionary. Tags can be added, removed, and updated.
+        :paramtype tags: dict[str, str]
+        :keyword is_archived: Is the asset archived?.
+        :paramtype is_archived: bool
+        """
+        super().__init__(description=description, properties=properties, tags=tags, is_archived=is_archived, **kwargs)
+        self.provisioning_state: Optional[Union[str, "_models.AssetProvisioningState"]] = None
+
+
+class FeaturesetContainerResourceArmPaginatedResult(_serialization.Model):  # pylint: disable=name-too-long
+    """A paginated list of FeaturesetContainer entities.
+
+    :ivar next_link: The link to the next page of FeaturesetContainer objects. If null, there are
+     no additional pages.
+    :vartype next_link: str
+    :ivar value: An array of objects of type FeaturesetContainer.
+    :vartype value: list[~azure.mgmt.machinelearningservices.models.FeaturesetContainer]
+    """
+
+    _attribute_map = {
+        "next_link": {"key": "nextLink", "type": "str"},
+        "value": {"key": "value", "type": "[FeaturesetContainer]"},
+    }
+
+    def __init__(
+        self,
+        *,
+        next_link: Optional[str] = None,
+        value: Optional[List["_models.FeaturesetContainer"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword next_link: The link to the next page of FeaturesetContainer objects. If null, there
+         are no additional pages.
+        :paramtype next_link: str
+        :keyword value: An array of objects of type FeaturesetContainer.
+        :paramtype value: list[~azure.mgmt.machinelearningservices.models.FeaturesetContainer]
+        """
+        super().__init__(**kwargs)
+        self.next_link = next_link
+        self.value = value
+
+
+class FeaturesetSpecification(_serialization.Model):
+    """DTO object representing specification.
+
+    :ivar path: Specifies the spec path.
+    :vartype path: str
+    """
+
+    _attribute_map = {
+        "path": {"key": "path", "type": "str"},
+    }
+
+    def __init__(self, *, path: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword path: Specifies the spec path.
+        :paramtype path: str
+        """
+        super().__init__(**kwargs)
+        self.path = path
+
+
+class FeaturesetVersion(ProxyResource):
+    """Azure Resource Manager resource envelope.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.machinelearningservices.models.SystemData
+    :ivar properties: [Required] Additional attributes of the entity. Required.
+    :vartype properties: ~azure.mgmt.machinelearningservices.models.FeaturesetVersionProperties
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "properties": {"required": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "properties": {"key": "properties", "type": "FeaturesetVersionProperties"},
+    }
+
+    def __init__(self, *, properties: "_models.FeaturesetVersionProperties", **kwargs: Any) -> None:
+        """
+        :keyword properties: [Required] Additional attributes of the entity. Required.
+        :paramtype properties: ~azure.mgmt.machinelearningservices.models.FeaturesetVersionProperties
+        """
+        super().__init__(**kwargs)
+        self.properties = properties
+
+
+class FeaturesetVersionBackfillRequest(_serialization.Model):
+    """Request payload for creating a backfill request for a given feature set version.
+
+    :ivar data_availability_status: Specified the data availability status that you want to
+     backfill.
+    :vartype data_availability_status: list[str or
+     ~azure.mgmt.machinelearningservices.models.DataAvailabilityStatus]
+    :ivar description: Specifies description.
+    :vartype description: str
+    :ivar display_name: Specifies description.
+    :vartype display_name: str
+    :ivar feature_window: Specifies the backfill feature window to be materialized.
+    :vartype feature_window: ~azure.mgmt.machinelearningservices.models.FeatureWindow
+    :ivar job_id: Specify the jobId to retry the failed materialization.
+    :vartype job_id: str
+    :ivar properties: Specifies the properties.
+    :vartype properties: dict[str, str]
+    :ivar resource: Specifies the compute resource settings.
+    :vartype resource: ~azure.mgmt.machinelearningservices.models.MaterializationComputeResource
+    :ivar spark_configuration: Specifies the spark compute settings.
+    :vartype spark_configuration: dict[str, str]
+    :ivar tags: Specifies the tags.
+    :vartype tags: dict[str, str]
+    """
+
+    _attribute_map = {
+        "data_availability_status": {"key": "dataAvailabilityStatus", "type": "[str]"},
+        "description": {"key": "description", "type": "str"},
+        "display_name": {"key": "displayName", "type": "str"},
+        "feature_window": {"key": "featureWindow", "type": "FeatureWindow"},
+        "job_id": {"key": "jobId", "type": "str"},
+        "properties": {"key": "properties", "type": "{str}"},
+        "resource": {"key": "resource", "type": "MaterializationComputeResource"},
+        "spark_configuration": {"key": "sparkConfiguration", "type": "{str}"},
+        "tags": {"key": "tags", "type": "{str}"},
+    }
+
+    def __init__(
+        self,
+        *,
+        data_availability_status: Optional[List[Union[str, "_models.DataAvailabilityStatus"]]] = None,
+        description: Optional[str] = None,
+        display_name: Optional[str] = None,
+        feature_window: Optional["_models.FeatureWindow"] = None,
+        job_id: Optional[str] = None,
+        properties: Optional[Dict[str, str]] = None,
+        resource: Optional["_models.MaterializationComputeResource"] = None,
+        spark_configuration: Optional[Dict[str, str]] = None,
+        tags: Optional[Dict[str, str]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword data_availability_status: Specified the data availability status that you want to
+         backfill.
+        :paramtype data_availability_status: list[str or
+         ~azure.mgmt.machinelearningservices.models.DataAvailabilityStatus]
+        :keyword description: Specifies description.
+        :paramtype description: str
+        :keyword display_name: Specifies description.
+        :paramtype display_name: str
+        :keyword feature_window: Specifies the backfill feature window to be materialized.
+        :paramtype feature_window: ~azure.mgmt.machinelearningservices.models.FeatureWindow
+        :keyword job_id: Specify the jobId to retry the failed materialization.
+        :paramtype job_id: str
+        :keyword properties: Specifies the properties.
+        :paramtype properties: dict[str, str]
+        :keyword resource: Specifies the compute resource settings.
+        :paramtype resource: ~azure.mgmt.machinelearningservices.models.MaterializationComputeResource
+        :keyword spark_configuration: Specifies the spark compute settings.
+        :paramtype spark_configuration: dict[str, str]
+        :keyword tags: Specifies the tags.
+        :paramtype tags: dict[str, str]
+        """
+        super().__init__(**kwargs)
+        self.data_availability_status = data_availability_status
+        self.description = description
+        self.display_name = display_name
+        self.feature_window = feature_window
+        self.job_id = job_id
+        self.properties = properties
+        self.resource = resource
+        self.spark_configuration = spark_configuration
+        self.tags = tags
+
+
+class FeaturesetVersionBackfillResponse(_serialization.Model):
+    """Response payload for creating a backfill request for a given feature set version.
+
+    :ivar job_ids: List of jobs submitted as part of the backfill request.
+    :vartype job_ids: list[str]
+    """
+
+    _attribute_map = {
+        "job_ids": {"key": "jobIds", "type": "[str]"},
+    }
+
+    def __init__(self, *, job_ids: Optional[List[str]] = None, **kwargs: Any) -> None:
+        """
+        :keyword job_ids: List of jobs submitted as part of the backfill request.
+        :paramtype job_ids: list[str]
+        """
+        super().__init__(**kwargs)
+        self.job_ids = job_ids
+
+
+class FeaturesetVersionProperties(AssetBase):
+    """DTO object representing feature set version.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar description: The asset description text.
+    :vartype description: str
+    :ivar properties: The asset property dictionary.
+    :vartype properties: dict[str, str]
+    :ivar tags: Tag dictionary. Tags can be added, removed, and updated.
+    :vartype tags: dict[str, str]
+    :ivar is_anonymous: If the name version are system generated (anonymous registration).
+    :vartype is_anonymous: bool
+    :ivar is_archived: Is the asset archived?.
+    :vartype is_archived: bool
+    :ivar entities: Specifies list of entities.
+    :vartype entities: list[str]
+    :ivar materialization_settings: Specifies the materialization settings.
+    :vartype materialization_settings:
+     ~azure.mgmt.machinelearningservices.models.MaterializationSettings
+    :ivar provisioning_state: Provisioning state for the featureset version container. Known values
+     are: "Succeeded", "Failed", "Canceled", "Creating", "Updating", and "Deleting".
+    :vartype provisioning_state: str or
+     ~azure.mgmt.machinelearningservices.models.AssetProvisioningState
+    :ivar specification: Specifies the feature spec details.
+    :vartype specification: ~azure.mgmt.machinelearningservices.models.FeaturesetSpecification
+    :ivar stage: Specifies the asset stage.
+    :vartype stage: str
+    """
+
+    _validation = {
+        "provisioning_state": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "description": {"key": "description", "type": "str"},
+        "properties": {"key": "properties", "type": "{str}"},
+        "tags": {"key": "tags", "type": "{str}"},
+        "is_anonymous": {"key": "isAnonymous", "type": "bool"},
+        "is_archived": {"key": "isArchived", "type": "bool"},
+        "entities": {"key": "entities", "type": "[str]"},
+        "materialization_settings": {"key": "materializationSettings", "type": "MaterializationSettings"},
+        "provisioning_state": {"key": "provisioningState", "type": "str"},
+        "specification": {"key": "specification", "type": "FeaturesetSpecification"},
+        "stage": {"key": "stage", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        description: Optional[str] = None,
+        properties: Optional[Dict[str, str]] = None,
+        tags: Optional[Dict[str, str]] = None,
+        is_anonymous: bool = False,
+        is_archived: bool = False,
+        entities: Optional[List[str]] = None,
+        materialization_settings: Optional["_models.MaterializationSettings"] = None,
+        specification: Optional["_models.FeaturesetSpecification"] = None,
+        stage: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword description: The asset description text.
+        :paramtype description: str
+        :keyword properties: The asset property dictionary.
+        :paramtype properties: dict[str, str]
+        :keyword tags: Tag dictionary. Tags can be added, removed, and updated.
+        :paramtype tags: dict[str, str]
+        :keyword is_anonymous: If the name version are system generated (anonymous registration).
+        :paramtype is_anonymous: bool
+        :keyword is_archived: Is the asset archived?.
+        :paramtype is_archived: bool
+        :keyword entities: Specifies list of entities.
+        :paramtype entities: list[str]
+        :keyword materialization_settings: Specifies the materialization settings.
+        :paramtype materialization_settings:
+         ~azure.mgmt.machinelearningservices.models.MaterializationSettings
+        :keyword specification: Specifies the feature spec details.
+        :paramtype specification: ~azure.mgmt.machinelearningservices.models.FeaturesetSpecification
+        :keyword stage: Specifies the asset stage.
+        :paramtype stage: str
+        """
+        super().__init__(
+            description=description,
+            properties=properties,
+            tags=tags,
+            is_anonymous=is_anonymous,
+            is_archived=is_archived,
+            **kwargs
+        )
+        self.entities = entities
+        self.materialization_settings = materialization_settings
+        self.provisioning_state: Optional[Union[str, "_models.AssetProvisioningState"]] = None
+        self.specification = specification
+        self.stage = stage
+
+
+class FeaturesetVersionResourceArmPaginatedResult(_serialization.Model):  # pylint: disable=name-too-long
+    """A paginated list of FeaturesetVersion entities.
+
+    :ivar next_link: The link to the next page of FeaturesetVersion objects. If null, there are no
+     additional pages.
+    :vartype next_link: str
+    :ivar value: An array of objects of type FeaturesetVersion.
+    :vartype value: list[~azure.mgmt.machinelearningservices.models.FeaturesetVersion]
+    """
+
+    _attribute_map = {
+        "next_link": {"key": "nextLink", "type": "str"},
+        "value": {"key": "value", "type": "[FeaturesetVersion]"},
+    }
+
+    def __init__(
+        self,
+        *,
+        next_link: Optional[str] = None,
+        value: Optional[List["_models.FeaturesetVersion"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword next_link: The link to the next page of FeaturesetVersion objects. If null, there are
+         no additional pages.
+        :paramtype next_link: str
+        :keyword value: An array of objects of type FeaturesetVersion.
+        :paramtype value: list[~azure.mgmt.machinelearningservices.models.FeaturesetVersion]
+        """
+        super().__init__(**kwargs)
+        self.next_link = next_link
+        self.value = value
+
+
+class FeaturestoreEntityContainer(ProxyResource):
+    """Azure Resource Manager resource envelope.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.machinelearningservices.models.SystemData
+    :ivar properties: [Required] Additional attributes of the entity. Required.
+    :vartype properties:
+     ~azure.mgmt.machinelearningservices.models.FeaturestoreEntityContainerProperties
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "properties": {"required": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "properties": {"key": "properties", "type": "FeaturestoreEntityContainerProperties"},
+    }
+
+    def __init__(self, *, properties: "_models.FeaturestoreEntityContainerProperties", **kwargs: Any) -> None:
+        """
+        :keyword properties: [Required] Additional attributes of the entity. Required.
+        :paramtype properties:
+         ~azure.mgmt.machinelearningservices.models.FeaturestoreEntityContainerProperties
+        """
+        super().__init__(**kwargs)
+        self.properties = properties
+
+
+class FeaturestoreEntityContainerProperties(AssetContainer):
+    """DTO object representing feature entity.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar description: The asset description text.
+    :vartype description: str
+    :ivar properties: The asset property dictionary.
+    :vartype properties: dict[str, str]
+    :ivar tags: Tag dictionary. Tags can be added, removed, and updated.
+    :vartype tags: dict[str, str]
+    :ivar is_archived: Is the asset archived?.
+    :vartype is_archived: bool
+    :ivar latest_version: The latest version inside this container.
+    :vartype latest_version: str
+    :ivar next_version: The next auto incremental version.
+    :vartype next_version: str
+    :ivar provisioning_state: Provisioning state for the featurestore entity container. Known
+     values are: "Succeeded", "Failed", "Canceled", "Creating", "Updating", and "Deleting".
+    :vartype provisioning_state: str or
+     ~azure.mgmt.machinelearningservices.models.AssetProvisioningState
+    """
+
+    _validation = {
+        "latest_version": {"readonly": True},
+        "next_version": {"readonly": True},
+        "provisioning_state": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "description": {"key": "description", "type": "str"},
+        "properties": {"key": "properties", "type": "{str}"},
+        "tags": {"key": "tags", "type": "{str}"},
+        "is_archived": {"key": "isArchived", "type": "bool"},
+        "latest_version": {"key": "latestVersion", "type": "str"},
+        "next_version": {"key": "nextVersion", "type": "str"},
+        "provisioning_state": {"key": "provisioningState", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        description: Optional[str] = None,
+        properties: Optional[Dict[str, str]] = None,
+        tags: Optional[Dict[str, str]] = None,
+        is_archived: bool = False,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword description: The asset description text.
+        :paramtype description: str
+        :keyword properties: The asset property dictionary.
+        :paramtype properties: dict[str, str]
+        :keyword tags: Tag dictionary. Tags can be added, removed, and updated.
+        :paramtype tags: dict[str, str]
+        :keyword is_archived: Is the asset archived?.
+        :paramtype is_archived: bool
+        """
+        super().__init__(description=description, properties=properties, tags=tags, is_archived=is_archived, **kwargs)
+        self.provisioning_state: Optional[Union[str, "_models.AssetProvisioningState"]] = None
+
+
+class FeaturestoreEntityContainerResourceArmPaginatedResult(_serialization.Model):  # pylint: disable=name-too-long
+    """A paginated list of FeaturestoreEntityContainer entities.
+
+    :ivar next_link: The link to the next page of FeaturestoreEntityContainer objects. If null,
+     there are no additional pages.
+    :vartype next_link: str
+    :ivar value: An array of objects of type FeaturestoreEntityContainer.
+    :vartype value: list[~azure.mgmt.machinelearningservices.models.FeaturestoreEntityContainer]
+    """
+
+    _attribute_map = {
+        "next_link": {"key": "nextLink", "type": "str"},
+        "value": {"key": "value", "type": "[FeaturestoreEntityContainer]"},
+    }
+
+    def __init__(
+        self,
+        *,
+        next_link: Optional[str] = None,
+        value: Optional[List["_models.FeaturestoreEntityContainer"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword next_link: The link to the next page of FeaturestoreEntityContainer objects. If null,
+         there are no additional pages.
+        :paramtype next_link: str
+        :keyword value: An array of objects of type FeaturestoreEntityContainer.
+        :paramtype value: list[~azure.mgmt.machinelearningservices.models.FeaturestoreEntityContainer]
+        """
+        super().__init__(**kwargs)
+        self.next_link = next_link
+        self.value = value
+
+
+class FeaturestoreEntityVersion(ProxyResource):
+    """Azure Resource Manager resource envelope.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.machinelearningservices.models.SystemData
+    :ivar properties: [Required] Additional attributes of the entity. Required.
+    :vartype properties:
+     ~azure.mgmt.machinelearningservices.models.FeaturestoreEntityVersionProperties
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "properties": {"required": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "properties": {"key": "properties", "type": "FeaturestoreEntityVersionProperties"},
+    }
+
+    def __init__(self, *, properties: "_models.FeaturestoreEntityVersionProperties", **kwargs: Any) -> None:
+        """
+        :keyword properties: [Required] Additional attributes of the entity. Required.
+        :paramtype properties:
+         ~azure.mgmt.machinelearningservices.models.FeaturestoreEntityVersionProperties
+        """
+        super().__init__(**kwargs)
+        self.properties = properties
+
+
+class FeaturestoreEntityVersionProperties(AssetBase):
+    """DTO object representing feature entity version.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar description: The asset description text.
+    :vartype description: str
+    :ivar properties: The asset property dictionary.
+    :vartype properties: dict[str, str]
+    :ivar tags: Tag dictionary. Tags can be added, removed, and updated.
+    :vartype tags: dict[str, str]
+    :ivar is_anonymous: If the name version are system generated (anonymous registration).
+    :vartype is_anonymous: bool
+    :ivar is_archived: Is the asset archived?.
+    :vartype is_archived: bool
+    :ivar index_columns: Specifies index columns.
+    :vartype index_columns: list[~azure.mgmt.machinelearningservices.models.IndexColumn]
+    :ivar provisioning_state: Provisioning state for the featurestore entity version. Known values
+     are: "Succeeded", "Failed", "Canceled", "Creating", "Updating", and "Deleting".
+    :vartype provisioning_state: str or
+     ~azure.mgmt.machinelearningservices.models.AssetProvisioningState
+    :ivar stage: Specifies the asset stage.
+    :vartype stage: str
+    """
+
+    _validation = {
+        "provisioning_state": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "description": {"key": "description", "type": "str"},
+        "properties": {"key": "properties", "type": "{str}"},
+        "tags": {"key": "tags", "type": "{str}"},
+        "is_anonymous": {"key": "isAnonymous", "type": "bool"},
+        "is_archived": {"key": "isArchived", "type": "bool"},
+        "index_columns": {"key": "indexColumns", "type": "[IndexColumn]"},
+        "provisioning_state": {"key": "provisioningState", "type": "str"},
+        "stage": {"key": "stage", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        description: Optional[str] = None,
+        properties: Optional[Dict[str, str]] = None,
+        tags: Optional[Dict[str, str]] = None,
+        is_anonymous: bool = False,
+        is_archived: bool = False,
+        index_columns: Optional[List["_models.IndexColumn"]] = None,
+        stage: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword description: The asset description text.
+        :paramtype description: str
+        :keyword properties: The asset property dictionary.
+        :paramtype properties: dict[str, str]
+        :keyword tags: Tag dictionary. Tags can be added, removed, and updated.
+        :paramtype tags: dict[str, str]
+        :keyword is_anonymous: If the name version are system generated (anonymous registration).
+        :paramtype is_anonymous: bool
+        :keyword is_archived: Is the asset archived?.
+        :paramtype is_archived: bool
+        :keyword index_columns: Specifies index columns.
+        :paramtype index_columns: list[~azure.mgmt.machinelearningservices.models.IndexColumn]
+        :keyword stage: Specifies the asset stage.
+        :paramtype stage: str
+        """
+        super().__init__(
+            description=description,
+            properties=properties,
+            tags=tags,
+            is_anonymous=is_anonymous,
+            is_archived=is_archived,
+            **kwargs
+        )
+        self.index_columns = index_columns
+        self.provisioning_state: Optional[Union[str, "_models.AssetProvisioningState"]] = None
+        self.stage = stage
+
+
+class FeaturestoreEntityVersionResourceArmPaginatedResult(_serialization.Model):  # pylint: disable=name-too-long
+    """A paginated list of FeaturestoreEntityVersion entities.
+
+    :ivar next_link: The link to the next page of FeaturestoreEntityVersion objects. If null, there
+     are no additional pages.
+    :vartype next_link: str
+    :ivar value: An array of objects of type FeaturestoreEntityVersion.
+    :vartype value: list[~azure.mgmt.machinelearningservices.models.FeaturestoreEntityVersion]
+    """
+
+    _attribute_map = {
+        "next_link": {"key": "nextLink", "type": "str"},
+        "value": {"key": "value", "type": "[FeaturestoreEntityVersion]"},
+    }
+
+    def __init__(
+        self,
+        *,
+        next_link: Optional[str] = None,
+        value: Optional[List["_models.FeaturestoreEntityVersion"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword next_link: The link to the next page of FeaturestoreEntityVersion objects. If null,
+         there are no additional pages.
+        :paramtype next_link: str
+        :keyword value: An array of objects of type FeaturestoreEntityVersion.
+        :paramtype value: list[~azure.mgmt.machinelearningservices.models.FeaturestoreEntityVersion]
+        """
+        super().__init__(**kwargs)
+        self.next_link = next_link
+        self.value = value
+
+
+class FeatureStoreSettings(_serialization.Model):
+    """Settings for feature store type workspace.
+
+    :ivar compute_runtime: Compute runtime config for feature store type workspace.
+    :vartype compute_runtime: ~azure.mgmt.machinelearningservices.models.ComputeRuntimeDto
+    :ivar offline_store_connection_name:
+    :vartype offline_store_connection_name: str
+    :ivar online_store_connection_name:
+    :vartype online_store_connection_name: str
+    """
+
+    _attribute_map = {
+        "compute_runtime": {"key": "computeRuntime", "type": "ComputeRuntimeDto"},
+        "offline_store_connection_name": {"key": "offlineStoreConnectionName", "type": "str"},
+        "online_store_connection_name": {"key": "onlineStoreConnectionName", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        compute_runtime: Optional["_models.ComputeRuntimeDto"] = None,
+        offline_store_connection_name: Optional[str] = None,
+        online_store_connection_name: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword compute_runtime: Compute runtime config for feature store type workspace.
+        :paramtype compute_runtime: ~azure.mgmt.machinelearningservices.models.ComputeRuntimeDto
+        :keyword offline_store_connection_name:
+        :paramtype offline_store_connection_name: str
+        :keyword online_store_connection_name:
+        :paramtype online_store_connection_name: str
+        """
+        super().__init__(**kwargs)
+        self.compute_runtime = compute_runtime
+        self.offline_store_connection_name = offline_store_connection_name
+        self.online_store_connection_name = online_store_connection_name
+
+
+class FeatureSubset(MonitoringFeatureFilterBase):
+    """FeatureSubset.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar filter_type: [Required] Specifies the feature filter to leverage when selecting features
+     to calculate metrics over. Required. Known values are: "AllFeatures", "TopNByAttribution", and
+     "FeatureSubset".
+    :vartype filter_type: str or
+     ~azure.mgmt.machinelearningservices.models.MonitoringFeatureFilterType
+    :ivar features: [Required] The list of features to include. Required.
+    :vartype features: list[str]
+    """
+
+    _validation = {
+        "filter_type": {"required": True},
+        "features": {"required": True},
+    }
+
+    _attribute_map = {
+        "filter_type": {"key": "filterType", "type": "str"},
+        "features": {"key": "features", "type": "[str]"},
+    }
+
+    def __init__(self, *, features: List[str], **kwargs: Any) -> None:
+        """
+        :keyword features: [Required] The list of features to include. Required.
+        :paramtype features: list[str]
+        """
+        super().__init__(**kwargs)
+        self.filter_type: str = "FeatureSubset"
+        self.features = features
+
+
+class FeatureWindow(_serialization.Model):
+    """Specifies the feature window.
+
+    :ivar feature_window_end: Specifies the feature window end time.
+    :vartype feature_window_end: ~datetime.datetime
+    :ivar feature_window_start: Specifies the feature window start time.
+    :vartype feature_window_start: ~datetime.datetime
+    """
+
+    _attribute_map = {
+        "feature_window_end": {"key": "featureWindowEnd", "type": "iso-8601"},
+        "feature_window_start": {"key": "featureWindowStart", "type": "iso-8601"},
+    }
+
+    def __init__(
+        self,
+        *,
+        feature_window_end: Optional[datetime.datetime] = None,
+        feature_window_start: Optional[datetime.datetime] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword feature_window_end: Specifies the feature window end time.
+        :paramtype feature_window_end: ~datetime.datetime
+        :keyword feature_window_start: Specifies the feature window start time.
+        :paramtype feature_window_start: ~datetime.datetime
+        """
+        super().__init__(**kwargs)
+        self.feature_window_end = feature_window_end
+        self.feature_window_start = feature_window_start
+
+
 class FeaturizationSettings(_serialization.Model):
     """Featurization Configuration.
 
@@ -9355,6 +12865,137 @@ class FeaturizationSettings(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.dataset_language = dataset_language
+
+
+class MonitoringInputDataBase(_serialization.Model):
+    """Monitoring input data base definition.
+
+    You probably want to use the sub-classes and not this class directly. Known sub-classes are:
+    FixedInputData, RollingInputData, StaticInputData
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar columns: Mapping of column names to special uses.
+    :vartype columns: dict[str, str]
+    :ivar data_context: The context metadata of the data source.
+    :vartype data_context: str
+    :ivar input_data_type: [Required] Specifies the type of signal to monitor. Required. Known
+     values are: "Static", "Rolling", and "Fixed".
+    :vartype input_data_type: str or
+     ~azure.mgmt.machinelearningservices.models.MonitoringInputDataType
+    :ivar job_input_type: [Required] Specifies the type of job. Required. Known values are:
+     "literal", "uri_file", "uri_folder", "mltable", "custom_model", "mlflow_model", and
+     "triton_model".
+    :vartype job_input_type: str or ~azure.mgmt.machinelearningservices.models.JobInputType
+    :ivar uri: [Required] Input Asset URI. Required.
+    :vartype uri: str
+    """
+
+    _validation = {
+        "input_data_type": {"required": True},
+        "job_input_type": {"required": True},
+        "uri": {"required": True, "min_length": 1, "pattern": r"[a-zA-Z0-9_]"},
+    }
+
+    _attribute_map = {
+        "columns": {"key": "columns", "type": "{str}"},
+        "data_context": {"key": "dataContext", "type": "str"},
+        "input_data_type": {"key": "inputDataType", "type": "str"},
+        "job_input_type": {"key": "jobInputType", "type": "str"},
+        "uri": {"key": "uri", "type": "str"},
+    }
+
+    _subtype_map = {
+        "input_data_type": {"Fixed": "FixedInputData", "Rolling": "RollingInputData", "Static": "StaticInputData"}
+    }
+
+    def __init__(
+        self,
+        *,
+        job_input_type: Union[str, "_models.JobInputType"],
+        uri: str,
+        columns: Optional[Dict[str, str]] = None,
+        data_context: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword columns: Mapping of column names to special uses.
+        :paramtype columns: dict[str, str]
+        :keyword data_context: The context metadata of the data source.
+        :paramtype data_context: str
+        :keyword job_input_type: [Required] Specifies the type of job. Required. Known values are:
+         "literal", "uri_file", "uri_folder", "mltable", "custom_model", "mlflow_model", and
+         "triton_model".
+        :paramtype job_input_type: str or ~azure.mgmt.machinelearningservices.models.JobInputType
+        :keyword uri: [Required] Input Asset URI. Required.
+        :paramtype uri: str
+        """
+        super().__init__(**kwargs)
+        self.columns = columns
+        self.data_context = data_context
+        self.input_data_type: Optional[str] = None
+        self.job_input_type = job_input_type
+        self.uri = uri
+
+
+class FixedInputData(MonitoringInputDataBase):
+    """Fixed input data definition.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar columns: Mapping of column names to special uses.
+    :vartype columns: dict[str, str]
+    :ivar data_context: The context metadata of the data source.
+    :vartype data_context: str
+    :ivar input_data_type: [Required] Specifies the type of signal to monitor. Required. Known
+     values are: "Static", "Rolling", and "Fixed".
+    :vartype input_data_type: str or
+     ~azure.mgmt.machinelearningservices.models.MonitoringInputDataType
+    :ivar job_input_type: [Required] Specifies the type of job. Required. Known values are:
+     "literal", "uri_file", "uri_folder", "mltable", "custom_model", "mlflow_model", and
+     "triton_model".
+    :vartype job_input_type: str or ~azure.mgmt.machinelearningservices.models.JobInputType
+    :ivar uri: [Required] Input Asset URI. Required.
+    :vartype uri: str
+    """
+
+    _validation = {
+        "input_data_type": {"required": True},
+        "job_input_type": {"required": True},
+        "uri": {"required": True, "min_length": 1, "pattern": r"[a-zA-Z0-9_]"},
+    }
+
+    _attribute_map = {
+        "columns": {"key": "columns", "type": "{str}"},
+        "data_context": {"key": "dataContext", "type": "str"},
+        "input_data_type": {"key": "inputDataType", "type": "str"},
+        "job_input_type": {"key": "jobInputType", "type": "str"},
+        "uri": {"key": "uri", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        job_input_type: Union[str, "_models.JobInputType"],
+        uri: str,
+        columns: Optional[Dict[str, str]] = None,
+        data_context: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword columns: Mapping of column names to special uses.
+        :paramtype columns: dict[str, str]
+        :keyword data_context: The context metadata of the data source.
+        :paramtype data_context: str
+        :keyword job_input_type: [Required] Specifies the type of job. Required. Known values are:
+         "literal", "uri_file", "uri_folder", "mltable", "custom_model", "mlflow_model", and
+         "triton_model".
+        :paramtype job_input_type: str or ~azure.mgmt.machinelearningservices.models.JobInputType
+        :keyword uri: [Required] Input Asset URI. Required.
+        :paramtype uri: str
+        """
+        super().__init__(columns=columns, data_context=data_context, job_input_type=job_input_type, uri=uri, **kwargs)
+        self.input_data_type: str = "Fixed"
 
 
 class FlavorData(_serialization.Model):
@@ -9377,10 +13018,10 @@ class FlavorData(_serialization.Model):
         self.data = data
 
 
-class Forecasting(TableVertical, AutoMLVertical):  # pylint: disable=too-many-instance-attributes
+class Forecasting(TableVertical, AutoMLVertical):
     """Forecasting task in AutoML Table vertical.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar log_verbosity: Log verbosity for the job. Known values are: "NotSet", "Debug", "Info",
      "Warning", "Error", and "Critical".
@@ -9560,7 +13201,7 @@ class Forecasting(TableVertical, AutoMLVertical):  # pylint: disable=too-many-in
         self.weight_column_name = weight_column_name
 
 
-class ForecastingSettings(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class ForecastingSettings(_serialization.Model):
     """Forecasting specific parameters.
 
     :ivar country_or_region_for_holidays: Country or region for holidays for forecasting tasks.
@@ -9911,10 +13552,239 @@ class FQDNEndpointsProperties(_serialization.Model):
         self.endpoints = endpoints
 
 
+class OutboundRule(_serialization.Model):
+    """Outbound Rule for the managed network of a machine learning workspace.
+
+    You probably want to use the sub-classes and not this class directly. Known sub-classes are:
+    FqdnOutboundRule, PrivateEndpointOutboundRule, ServiceTagOutboundRule
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar category: Category of a managed network Outbound Rule of a machine learning workspace.
+     Known values are: "Required", "Recommended", "UserDefined", and "Dependency".
+    :vartype category: str or ~azure.mgmt.machinelearningservices.models.RuleCategory
+    :ivar status: Type of a managed network Outbound Rule of a machine learning workspace. Known
+     values are: "Inactive", "Active", "Provisioning", "Deleting", and "Failed".
+    :vartype status: str or ~azure.mgmt.machinelearningservices.models.RuleStatus
+    :ivar type: Type of a managed network Outbound Rule of a machine learning workspace. Required.
+     Known values are: "FQDN", "PrivateEndpoint", and "ServiceTag".
+    :vartype type: str or ~azure.mgmt.machinelearningservices.models.RuleType
+    :ivar error_information: Error information about an outbound rule of a machine learning
+     workspace if RuleStatus is failed.
+    :vartype error_information: str
+    :ivar parent_rule_names:
+    :vartype parent_rule_names: list[str]
+    """
+
+    _validation = {
+        "type": {"required": True},
+        "error_information": {"readonly": True},
+        "parent_rule_names": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "category": {"key": "category", "type": "str"},
+        "status": {"key": "status", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "error_information": {"key": "errorInformation", "type": "str"},
+        "parent_rule_names": {"key": "parentRuleNames", "type": "[str]"},
+    }
+
+    _subtype_map = {
+        "type": {
+            "FQDN": "FqdnOutboundRule",
+            "PrivateEndpoint": "PrivateEndpointOutboundRule",
+            "ServiceTag": "ServiceTagOutboundRule",
+        }
+    }
+
+    def __init__(
+        self,
+        *,
+        category: Optional[Union[str, "_models.RuleCategory"]] = None,
+        status: Optional[Union[str, "_models.RuleStatus"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword category: Category of a managed network Outbound Rule of a machine learning workspace.
+         Known values are: "Required", "Recommended", "UserDefined", and "Dependency".
+        :paramtype category: str or ~azure.mgmt.machinelearningservices.models.RuleCategory
+        :keyword status: Type of a managed network Outbound Rule of a machine learning workspace. Known
+         values are: "Inactive", "Active", "Provisioning", "Deleting", and "Failed".
+        :paramtype status: str or ~azure.mgmt.machinelearningservices.models.RuleStatus
+        """
+        super().__init__(**kwargs)
+        self.category = category
+        self.status = status
+        self.type: Optional[str] = None
+        self.error_information: Optional[str] = None
+        self.parent_rule_names: Optional[List[str]] = None
+
+
+class FqdnOutboundRule(OutboundRule):
+    """FQDN Outbound Rule for the managed network of a machine learning workspace.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar category: Category of a managed network Outbound Rule of a machine learning workspace.
+     Known values are: "Required", "Recommended", "UserDefined", and "Dependency".
+    :vartype category: str or ~azure.mgmt.machinelearningservices.models.RuleCategory
+    :ivar status: Type of a managed network Outbound Rule of a machine learning workspace. Known
+     values are: "Inactive", "Active", "Provisioning", "Deleting", and "Failed".
+    :vartype status: str or ~azure.mgmt.machinelearningservices.models.RuleStatus
+    :ivar type: Type of a managed network Outbound Rule of a machine learning workspace. Required.
+     Known values are: "FQDN", "PrivateEndpoint", and "ServiceTag".
+    :vartype type: str or ~azure.mgmt.machinelearningservices.models.RuleType
+    :ivar error_information: Error information about an outbound rule of a machine learning
+     workspace if RuleStatus is failed.
+    :vartype error_information: str
+    :ivar parent_rule_names:
+    :vartype parent_rule_names: list[str]
+    :ivar destination:
+    :vartype destination: str
+    """
+
+    _validation = {
+        "type": {"required": True},
+        "error_information": {"readonly": True},
+        "parent_rule_names": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "category": {"key": "category", "type": "str"},
+        "status": {"key": "status", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "error_information": {"key": "errorInformation", "type": "str"},
+        "parent_rule_names": {"key": "parentRuleNames", "type": "[str]"},
+        "destination": {"key": "destination", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        category: Optional[Union[str, "_models.RuleCategory"]] = None,
+        status: Optional[Union[str, "_models.RuleStatus"]] = None,
+        destination: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword category: Category of a managed network Outbound Rule of a machine learning workspace.
+         Known values are: "Required", "Recommended", "UserDefined", and "Dependency".
+        :paramtype category: str or ~azure.mgmt.machinelearningservices.models.RuleCategory
+        :keyword status: Type of a managed network Outbound Rule of a machine learning workspace. Known
+         values are: "Inactive", "Active", "Provisioning", "Deleting", and "Failed".
+        :paramtype status: str or ~azure.mgmt.machinelearningservices.models.RuleStatus
+        :keyword destination:
+        :paramtype destination: str
+        """
+        super().__init__(category=category, status=status, **kwargs)
+        self.type: str = "FQDN"
+        self.destination = destination
+
+
+class GetBlobReferenceForConsumptionDto(_serialization.Model):
+    """GetBlobReferenceForConsumptionDto.
+
+    :ivar blob_uri: Blob uri, example: https://blob.windows.core.net/Container/Path.
+    :vartype blob_uri: str
+    :ivar credential: Credential info to access storage account.
+    :vartype credential: ~azure.mgmt.machinelearningservices.models.DataReferenceCredential
+    :ivar storage_account_arm_id: The ARM id of the storage account.
+    :vartype storage_account_arm_id: str
+    """
+
+    _attribute_map = {
+        "blob_uri": {"key": "blobUri", "type": "str"},
+        "credential": {"key": "credential", "type": "DataReferenceCredential"},
+        "storage_account_arm_id": {"key": "storageAccountArmId", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        blob_uri: Optional[str] = None,
+        credential: Optional["_models.DataReferenceCredential"] = None,
+        storage_account_arm_id: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword blob_uri: Blob uri, example: https://blob.windows.core.net/Container/Path.
+        :paramtype blob_uri: str
+        :keyword credential: Credential info to access storage account.
+        :paramtype credential: ~azure.mgmt.machinelearningservices.models.DataReferenceCredential
+        :keyword storage_account_arm_id: The ARM id of the storage account.
+        :paramtype storage_account_arm_id: str
+        """
+        super().__init__(**kwargs)
+        self.blob_uri = blob_uri
+        self.credential = credential
+        self.storage_account_arm_id = storage_account_arm_id
+
+
+class GetBlobReferenceSASRequestDto(_serialization.Model):
+    """BlobReferenceSASRequest for getBlobReferenceSAS API.
+
+    :ivar asset_id: Id of the asset to be accessed.
+    :vartype asset_id: str
+    :ivar blob_uri: Blob uri of the asset to be accessed.
+    :vartype blob_uri: str
+    """
+
+    _attribute_map = {
+        "asset_id": {"key": "assetId", "type": "str"},
+        "blob_uri": {"key": "blobUri", "type": "str"},
+    }
+
+    def __init__(self, *, asset_id: Optional[str] = None, blob_uri: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword asset_id: Id of the asset to be accessed.
+        :paramtype asset_id: str
+        :keyword blob_uri: Blob uri of the asset to be accessed.
+        :paramtype blob_uri: str
+        """
+        super().__init__(**kwargs)
+        self.asset_id = asset_id
+        self.blob_uri = blob_uri
+
+
+class GetBlobReferenceSASResponseDto(_serialization.Model):
+    """BlobReferenceSASResponse for getBlobReferenceSAS API.
+
+    :ivar blob_reference_for_consumption: Blob reference for consumption details.
+    :vartype blob_reference_for_consumption:
+     ~azure.mgmt.machinelearningservices.models.GetBlobReferenceForConsumptionDto
+    """
+
+    _attribute_map = {
+        "blob_reference_for_consumption": {
+            "key": "blobReferenceForConsumption",
+            "type": "GetBlobReferenceForConsumptionDto",
+        },
+    }
+
+    def __init__(
+        self,
+        *,
+        blob_reference_for_consumption: Optional["_models.GetBlobReferenceForConsumptionDto"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword blob_reference_for_consumption: Blob reference for consumption details.
+        :paramtype blob_reference_for_consumption:
+         ~azure.mgmt.machinelearningservices.models.GetBlobReferenceForConsumptionDto
+        """
+        super().__init__(**kwargs)
+        self.blob_reference_for_consumption = blob_reference_for_consumption
+
+
 class GridSamplingAlgorithm(SamplingAlgorithm):
     """Defines a Sampling Algorithm that exhaustively generates every value combination in the space.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar sampling_algorithm_type: [Required] The algorithm used for generating hyperparameter
      values, along with configuration properties. Required. Known values are: "Grid", "Random", and
@@ -9957,12 +13827,12 @@ class HDInsightSchema(_serialization.Model):
         self.properties = properties
 
 
-class HDInsight(Compute, HDInsightSchema):  # pylint: disable=too-many-instance-attributes
+class HDInsight(Compute, HDInsightSchema):
     """A HDInsight compute.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar properties: HDInsight compute properties.
     :vartype properties: ~azure.mgmt.machinelearningservices.models.HDInsightProperties
@@ -10052,13 +13922,13 @@ class HDInsight(Compute, HDInsightSchema):  # pylint: disable=too-many-instance-
         self.properties = properties
         self.compute_type: str = "HDInsight"
         self.compute_location = compute_location
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.description = description
-        self.created_on = None
-        self.modified_on = None
+        self.created_on: Optional[datetime.datetime] = None
+        self.modified_on: Optional[datetime.datetime] = None
         self.resource_id = resource_id
-        self.provisioning_errors = None
-        self.is_attached_compute = None
+        self.provisioning_errors: Optional[List["_models.ErrorResponse"]] = None
+        self.is_attached_compute: Optional[bool] = None
         self.disable_local_auth = disable_local_auth
 
 
@@ -10106,7 +13976,7 @@ class HDInsightProperties(_serialization.Model):
 class IdAssetReference(AssetReferenceBase):
     """Reference to an asset via its ARM resource ID.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar reference_type: [Required] Specifies the type of asset reference. Required. Known values
      are: "Id", "DataPath", and "OutputPath".
@@ -10227,7 +14097,7 @@ class ImageVertical(_serialization.Model):
     such as Image Classification / Image Classification Multilabel / Image Object Detection / Image
     Instance Segmentation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar limit_settings: [Required] Limit settings for the AutoML job. Required.
     :vartype limit_settings: ~azure.mgmt.machinelearningservices.models.ImageLimitSettings
@@ -10285,7 +14155,7 @@ class ImageVertical(_serialization.Model):
 class ImageClassificationBase(ImageVertical):
     """ImageClassificationBase.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar limit_settings: [Required] Limit settings for the AutoML job. Required.
     :vartype limit_settings: ~azure.mgmt.machinelearningservices.models.ImageLimitSettings
@@ -10362,13 +14232,13 @@ class ImageClassificationBase(ImageVertical):
         self.search_space = search_space
 
 
-class ImageClassification(ImageClassificationBase, AutoMLVertical):  # pylint: disable=too-many-instance-attributes
+class ImageClassification(ImageClassificationBase, AutoMLVertical):
     """Image Classification. Multi-class image classification is used when an image is classified with
     only a single label
     from a set of classes - e.g. each image is classified as either an image of a 'cat' or a 'dog'
     or a 'duck'.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar log_verbosity: Log verbosity for the job. Known values are: "NotSet", "Debug", "Info",
      "Warning", "Error", and "Critical".
@@ -10501,14 +14371,12 @@ class ImageClassification(ImageClassificationBase, AutoMLVertical):  # pylint: d
         self.search_space = search_space
 
 
-class ImageClassificationMultilabel(
-    ImageClassificationBase, AutoMLVertical
-):  # pylint: disable=too-many-instance-attributes
+class ImageClassificationMultilabel(ImageClassificationBase, AutoMLVertical):
     """Image Classification Multilabel. Multi-label image classification is used when an image could
     have one or more labels
     from a set of labels - e.g. an image could be labeled with both 'cat' and 'dog'.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar log_verbosity: Log verbosity for the job. Known values are: "NotSet", "Debug", "Info",
      "Warning", "Error", and "Critical".
@@ -10644,7 +14512,7 @@ class ImageClassificationMultilabel(
 class ImageObjectDetectionBase(ImageVertical):
     """ImageObjectDetectionBase.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar limit_settings: [Required] Limit settings for the AutoML job. Required.
     :vartype limit_settings: ~azure.mgmt.machinelearningservices.models.ImageLimitSettings
@@ -10721,14 +14589,12 @@ class ImageObjectDetectionBase(ImageVertical):
         self.search_space = search_space
 
 
-class ImageInstanceSegmentation(
-    ImageObjectDetectionBase, AutoMLVertical
-):  # pylint: disable=too-many-instance-attributes
+class ImageInstanceSegmentation(ImageObjectDetectionBase, AutoMLVertical):
     """Image Instance Segmentation. Instance segmentation is used to identify objects in an image at
     the pixel level,
     drawing a polygon around each object in the image.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar log_verbosity: Log verbosity for the job. Known values are: "NotSet", "Debug", "Info",
      "Warning", "Error", and "Critical".
@@ -10934,7 +14800,7 @@ class ImageMetadata(_serialization.Model):
         self.is_latest_os_image_version = is_latest_os_image_version
 
 
-class ImageModelDistributionSettings(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class ImageModelDistributionSettings(_serialization.Model):
     """Distribution expressions to sweep over values of model settings.
 
     :code:`<example>
@@ -11209,9 +15075,7 @@ class ImageModelDistributionSettings(_serialization.Model):  # pylint: disable=t
         self.weight_decay = weight_decay
 
 
-class ImageModelDistributionSettingsClassification(
-    ImageModelDistributionSettings
-):  # pylint: disable=too-many-instance-attributes
+class ImageModelDistributionSettingsClassification(ImageModelDistributionSettings):  # pylint: disable=name-too-long
     """Distribution expressions to sweep over values of model settings.
 
     :code:`<example>
@@ -11523,9 +15387,7 @@ class ImageModelDistributionSettingsClassification(
         self.weighted_loss = weighted_loss
 
 
-class ImageModelDistributionSettingsObjectDetection(
-    ImageModelDistributionSettings
-):  # pylint: disable=too-many-instance-attributes
+class ImageModelDistributionSettingsObjectDetection(ImageModelDistributionSettings):  # pylint: disable=name-too-long
     """Distribution expressions to sweep over values of model settings.
 
     :code:`<example>
@@ -11942,7 +15804,7 @@ class ImageModelDistributionSettingsObjectDetection(
         self.validation_metric_type = validation_metric_type
 
 
-class ImageModelSettings(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class ImageModelSettings(_serialization.Model):
     """Settings used for training the model.
     For more information on the available settings please visit the official documentation:
     https://docs.microsoft.com/en-us/azure/machine-learning/how-to-auto-train-image-models.
@@ -12237,7 +16099,7 @@ class ImageModelSettings(_serialization.Model):  # pylint: disable=too-many-inst
         self.weight_decay = weight_decay
 
 
-class ImageModelSettingsClassification(ImageModelSettings):  # pylint: disable=too-many-instance-attributes
+class ImageModelSettingsClassification(ImageModelSettings):
     """Settings used for training the model.
     For more information on the available settings please visit the official documentation:
     https://docs.microsoft.com/en-us/azure/machine-learning/how-to-auto-train-image-models.
@@ -12572,7 +16434,7 @@ class ImageModelSettingsClassification(ImageModelSettings):  # pylint: disable=t
         self.weighted_loss = weighted_loss
 
 
-class ImageModelSettingsObjectDetection(ImageModelSettings):  # pylint: disable=too-many-instance-attributes
+class ImageModelSettingsObjectDetection(ImageModelSettings):
     """Settings used for training the model.
     For more information on the available settings please visit the official documentation:
     https://docs.microsoft.com/en-us/azure/machine-learning/how-to-auto-train-image-models.
@@ -13014,12 +16876,12 @@ class ImageModelSettingsObjectDetection(ImageModelSettings):  # pylint: disable=
         self.validation_metric_type = validation_metric_type
 
 
-class ImageObjectDetection(ImageObjectDetectionBase, AutoMLVertical):  # pylint: disable=too-many-instance-attributes
+class ImageObjectDetection(ImageObjectDetectionBase, AutoMLVertical):
     """Image Object Detection. Object detection is used to identify objects in an image and locate
     each object with a
     bounding box e.g. locate all dogs and cats in an image and draw a bounding box around each.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar log_verbosity: Log verbosity for the job. Known values are: "NotSet", "Debug", "Info",
      "Warning", "Error", and "Critical".
@@ -13151,7 +17013,7 @@ class ImageObjectDetection(ImageObjectDetectionBase, AutoMLVertical):  # pylint:
 class ImageSweepSettings(_serialization.Model):
     """Model sweeping and hyperparameter sweeping related settings.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar early_termination: Type of early termination policy.
     :vartype early_termination: ~azure.mgmt.machinelearningservices.models.EarlyTerminationPolicy
@@ -13190,6 +17052,40 @@ class ImageSweepSettings(_serialization.Model):
         self.sampling_algorithm = sampling_algorithm
 
 
+class IndexColumn(_serialization.Model):
+    """DTO object representing index column.
+
+    :ivar column_name: Specifies the column name.
+    :vartype column_name: str
+    :ivar data_type: Specifies the data type. Known values are: "String", "Integer", "Long",
+     "Float", "Double", "Binary", "Datetime", and "Boolean".
+    :vartype data_type: str or ~azure.mgmt.machinelearningservices.models.FeatureDataType
+    """
+
+    _attribute_map = {
+        "column_name": {"key": "columnName", "type": "str"},
+        "data_type": {"key": "dataType", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        column_name: Optional[str] = None,
+        data_type: Optional[Union[str, "_models.FeatureDataType"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword column_name: Specifies the column name.
+        :paramtype column_name: str
+        :keyword data_type: Specifies the data type. Known values are: "String", "Integer", "Long",
+         "Float", "Double", "Binary", "Datetime", and "Boolean".
+        :paramtype data_type: str or ~azure.mgmt.machinelearningservices.models.FeatureDataType
+        """
+        super().__init__(**kwargs)
+        self.column_name = column_name
+        self.data_type = data_type
+
+
 class InferenceContainerProperties(_serialization.Model):
     """InferenceContainerProperties.
 
@@ -13197,6 +17093,8 @@ class InferenceContainerProperties(_serialization.Model):
     :vartype liveness_route: ~azure.mgmt.machinelearningservices.models.Route
     :ivar readiness_route: The route to check the readiness of the inference server container.
     :vartype readiness_route: ~azure.mgmt.machinelearningservices.models.Route
+    :ivar startup_route: The route to check the startup of the application in the container.
+    :vartype startup_route: ~azure.mgmt.machinelearningservices.models.Route
     :ivar scoring_route: The port to send the scoring requests to, within the inference server
      container.
     :vartype scoring_route: ~azure.mgmt.machinelearningservices.models.Route
@@ -13205,6 +17103,7 @@ class InferenceContainerProperties(_serialization.Model):
     _attribute_map = {
         "liveness_route": {"key": "livenessRoute", "type": "Route"},
         "readiness_route": {"key": "readinessRoute", "type": "Route"},
+        "startup_route": {"key": "startupRoute", "type": "Route"},
         "scoring_route": {"key": "scoringRoute", "type": "Route"},
     }
 
@@ -13213,6 +17112,7 @@ class InferenceContainerProperties(_serialization.Model):
         *,
         liveness_route: Optional["_models.Route"] = None,
         readiness_route: Optional["_models.Route"] = None,
+        startup_route: Optional["_models.Route"] = None,
         scoring_route: Optional["_models.Route"] = None,
         **kwargs: Any
     ) -> None:
@@ -13221,6 +17121,8 @@ class InferenceContainerProperties(_serialization.Model):
         :paramtype liveness_route: ~azure.mgmt.machinelearningservices.models.Route
         :keyword readiness_route: The route to check the readiness of the inference server container.
         :paramtype readiness_route: ~azure.mgmt.machinelearningservices.models.Route
+        :keyword startup_route: The route to check the startup of the application in the container.
+        :paramtype startup_route: ~azure.mgmt.machinelearningservices.models.Route
         :keyword scoring_route: The port to send the scoring requests to, within the inference server
          container.
         :paramtype scoring_route: ~azure.mgmt.machinelearningservices.models.Route
@@ -13228,6 +17130,7 @@ class InferenceContainerProperties(_serialization.Model):
         super().__init__(**kwargs)
         self.liveness_route = liveness_route
         self.readiness_route = readiness_route
+        self.startup_route = startup_route
         self.scoring_route = scoring_route
 
 
@@ -13291,12 +17194,12 @@ class InstanceTypeSchemaResources(_serialization.Model):
         self.limits = limits
 
 
-class JobBase(Resource):
+class JobBase(ProxyResource):
     """Azure Resource Manager resource envelope.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
@@ -13433,10 +17336,10 @@ class JobResourceConfiguration(ResourceConfiguration):
 class JobScheduleAction(ScheduleActionBase):
     """JobScheduleAction.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar action_type: [Required] Specifies the action type of the schedule. Required. Known values
-     are: "CreateJob" and "InvokeBatchEndpoint".
+     are: "CreateJob", "InvokeBatchEndpoint", and "CreateMonitor".
     :vartype action_type: str or ~azure.mgmt.machinelearningservices.models.ScheduleActionType
     :ivar job_definition: [Required] Defines Schedule action definition details. Required.
     :vartype job_definition: ~azure.mgmt.machinelearningservices.models.JobBaseProperties
@@ -13524,12 +17427,12 @@ class JobService(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.endpoint = endpoint
-        self.error_message = None
+        self.error_message: Optional[str] = None
         self.job_service_type = job_service_type
         self.nodes = nodes
         self.port = port
         self.properties = properties
-        self.status = None
+        self.status: Optional[str] = None
 
 
 class KubernetesSchema(_serialization.Model):
@@ -13552,12 +17455,12 @@ class KubernetesSchema(_serialization.Model):
         self.properties = properties
 
 
-class Kubernetes(Compute, KubernetesSchema):  # pylint: disable=too-many-instance-attributes
+class Kubernetes(Compute, KubernetesSchema):
     """A Machine Learning compute based on Kubernetes Compute.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar properties: Properties of Kubernetes.
     :vartype properties: ~azure.mgmt.machinelearningservices.models.KubernetesProperties
@@ -13647,17 +17550,17 @@ class Kubernetes(Compute, KubernetesSchema):  # pylint: disable=too-many-instanc
         self.properties = properties
         self.compute_type: str = "Kubernetes"
         self.compute_location = compute_location
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.description = description
-        self.created_on = None
-        self.modified_on = None
+        self.created_on: Optional[datetime.datetime] = None
+        self.modified_on: Optional[datetime.datetime] = None
         self.resource_id = resource_id
-        self.provisioning_errors = None
-        self.is_attached_compute = None
+        self.provisioning_errors: Optional[List["_models.ErrorResponse"]] = None
+        self.is_attached_compute: Optional[bool] = None
         self.disable_local_auth = disable_local_auth
 
 
-class OnlineDeploymentProperties(EndpointDeploymentPropertiesBase):  # pylint: disable=too-many-instance-attributes
+class OnlineDeploymentProperties(EndpointDeploymentPropertiesBase):
     """OnlineDeploymentProperties.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
@@ -13665,7 +17568,7 @@ class OnlineDeploymentProperties(EndpointDeploymentPropertiesBase):  # pylint: d
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar code_configuration: Code configuration for the endpoint deployment.
     :vartype code_configuration: ~azure.mgmt.machinelearningservices.models.CodeConfiguration
@@ -13680,6 +17583,8 @@ class OnlineDeploymentProperties(EndpointDeploymentPropertiesBase):  # pylint: d
     :vartype properties: dict[str, str]
     :ivar app_insights_enabled: If true, enables Application Insights logging.
     :vartype app_insights_enabled: bool
+    :ivar data_collector: The mdc configuration, we disable mdc when it's null.
+    :vartype data_collector: ~azure.mgmt.machinelearningservices.models.DataCollector
     :ivar egress_public_network_access: If Enabled, allow egress public network access. If
      Disabled, this will create secure egress. Default: Enabled. Known values are: "Enabled" and
      "Disabled".
@@ -13689,7 +17594,7 @@ class OnlineDeploymentProperties(EndpointDeploymentPropertiesBase):  # pylint: d
      values are: "Managed", "Kubernetes", and "AzureMLCompute".
     :vartype endpoint_compute_type: str or
      ~azure.mgmt.machinelearningservices.models.EndpointComputeType
-    :ivar instance_type: Compute instance type.
+    :ivar instance_type: Compute instance type. Default: Standard_F4s_v2.
     :vartype instance_type: str
     :ivar liveness_probe: Liveness probe monitors the health of the container regularly.
     :vartype liveness_probe: ~azure.mgmt.machinelearningservices.models.ProbeSettings
@@ -13704,6 +17609,9 @@ class OnlineDeploymentProperties(EndpointDeploymentPropertiesBase):  # pylint: d
     :ivar readiness_probe: Readiness probe validates if the container is ready to serve traffic.
      The properties and defaults are the same as liveness probe.
     :vartype readiness_probe: ~azure.mgmt.machinelearningservices.models.ProbeSettings
+    :ivar startup_probe: Startup probe verify whether an application within a container has started
+     successfully.
+    :vartype startup_probe: ~azure.mgmt.machinelearningservices.models.ProbeSettings
     :ivar request_settings: Request settings for the deployment.
     :vartype request_settings: ~azure.mgmt.machinelearningservices.models.OnlineRequestSettings
     :ivar scale_settings: Scale settings for the deployment.
@@ -13725,6 +17633,7 @@ class OnlineDeploymentProperties(EndpointDeploymentPropertiesBase):  # pylint: d
         "environment_variables": {"key": "environmentVariables", "type": "{str}"},
         "properties": {"key": "properties", "type": "{str}"},
         "app_insights_enabled": {"key": "appInsightsEnabled", "type": "bool"},
+        "data_collector": {"key": "dataCollector", "type": "DataCollector"},
         "egress_public_network_access": {"key": "egressPublicNetworkAccess", "type": "str"},
         "endpoint_compute_type": {"key": "endpointComputeType", "type": "str"},
         "instance_type": {"key": "instanceType", "type": "str"},
@@ -13733,6 +17642,7 @@ class OnlineDeploymentProperties(EndpointDeploymentPropertiesBase):  # pylint: d
         "model_mount_path": {"key": "modelMountPath", "type": "str"},
         "provisioning_state": {"key": "provisioningState", "type": "str"},
         "readiness_probe": {"key": "readinessProbe", "type": "ProbeSettings"},
+        "startup_probe": {"key": "startupProbe", "type": "ProbeSettings"},
         "request_settings": {"key": "requestSettings", "type": "OnlineRequestSettings"},
         "scale_settings": {"key": "scaleSettings", "type": "OnlineScaleSettings"},
     }
@@ -13750,12 +17660,14 @@ class OnlineDeploymentProperties(EndpointDeploymentPropertiesBase):  # pylint: d
         environment_variables: Optional[Dict[str, str]] = None,
         properties: Optional[Dict[str, str]] = None,
         app_insights_enabled: bool = False,
+        data_collector: Optional["_models.DataCollector"] = None,
         egress_public_network_access: Optional[Union[str, "_models.EgressPublicNetworkAccessType"]] = None,
-        instance_type: Optional[str] = None,
+        instance_type: str = "Standard_F4s_v2",
         liveness_probe: Optional["_models.ProbeSettings"] = None,
         model: Optional[str] = None,
         model_mount_path: Optional[str] = None,
         readiness_probe: Optional["_models.ProbeSettings"] = None,
+        startup_probe: Optional["_models.ProbeSettings"] = None,
         request_settings: Optional["_models.OnlineRequestSettings"] = None,
         scale_settings: Optional["_models.OnlineScaleSettings"] = None,
         **kwargs: Any
@@ -13774,12 +17686,14 @@ class OnlineDeploymentProperties(EndpointDeploymentPropertiesBase):  # pylint: d
         :paramtype properties: dict[str, str]
         :keyword app_insights_enabled: If true, enables Application Insights logging.
         :paramtype app_insights_enabled: bool
+        :keyword data_collector: The mdc configuration, we disable mdc when it's null.
+        :paramtype data_collector: ~azure.mgmt.machinelearningservices.models.DataCollector
         :keyword egress_public_network_access: If Enabled, allow egress public network access. If
          Disabled, this will create secure egress. Default: Enabled. Known values are: "Enabled" and
          "Disabled".
         :paramtype egress_public_network_access: str or
          ~azure.mgmt.machinelearningservices.models.EgressPublicNetworkAccessType
-        :keyword instance_type: Compute instance type.
+        :keyword instance_type: Compute instance type. Default: Standard_F4s_v2.
         :paramtype instance_type: str
         :keyword liveness_probe: Liveness probe monitors the health of the container regularly.
         :paramtype liveness_probe: ~azure.mgmt.machinelearningservices.models.ProbeSettings
@@ -13790,6 +17704,9 @@ class OnlineDeploymentProperties(EndpointDeploymentPropertiesBase):  # pylint: d
         :keyword readiness_probe: Readiness probe validates if the container is ready to serve traffic.
          The properties and defaults are the same as liveness probe.
         :paramtype readiness_probe: ~azure.mgmt.machinelearningservices.models.ProbeSettings
+        :keyword startup_probe: Startup probe verify whether an application within a container has
+         started successfully.
+        :paramtype startup_probe: ~azure.mgmt.machinelearningservices.models.ProbeSettings
         :keyword request_settings: Request settings for the deployment.
         :paramtype request_settings: ~azure.mgmt.machinelearningservices.models.OnlineRequestSettings
         :keyword scale_settings: Scale settings for the deployment.
@@ -13807,24 +17724,26 @@ class OnlineDeploymentProperties(EndpointDeploymentPropertiesBase):  # pylint: d
             **kwargs
         )
         self.app_insights_enabled = app_insights_enabled
+        self.data_collector = data_collector
         self.egress_public_network_access = egress_public_network_access
         self.endpoint_compute_type: Optional[str] = None
         self.instance_type = instance_type
         self.liveness_probe = liveness_probe
         self.model = model
         self.model_mount_path = model_mount_path
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.DeploymentProvisioningState"]] = None
         self.readiness_probe = readiness_probe
+        self.startup_probe = startup_probe
         self.request_settings = request_settings
         self.scale_settings = scale_settings
 
 
-class KubernetesOnlineDeployment(OnlineDeploymentProperties):  # pylint: disable=too-many-instance-attributes
+class KubernetesOnlineDeployment(OnlineDeploymentProperties):
     """Properties specific to a KubernetesOnlineDeployment.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar code_configuration: Code configuration for the endpoint deployment.
     :vartype code_configuration: ~azure.mgmt.machinelearningservices.models.CodeConfiguration
@@ -13839,6 +17758,8 @@ class KubernetesOnlineDeployment(OnlineDeploymentProperties):  # pylint: disable
     :vartype properties: dict[str, str]
     :ivar app_insights_enabled: If true, enables Application Insights logging.
     :vartype app_insights_enabled: bool
+    :ivar data_collector: The mdc configuration, we disable mdc when it's null.
+    :vartype data_collector: ~azure.mgmt.machinelearningservices.models.DataCollector
     :ivar egress_public_network_access: If Enabled, allow egress public network access. If
      Disabled, this will create secure egress. Default: Enabled. Known values are: "Enabled" and
      "Disabled".
@@ -13848,7 +17769,7 @@ class KubernetesOnlineDeployment(OnlineDeploymentProperties):  # pylint: disable
      values are: "Managed", "Kubernetes", and "AzureMLCompute".
     :vartype endpoint_compute_type: str or
      ~azure.mgmt.machinelearningservices.models.EndpointComputeType
-    :ivar instance_type: Compute instance type.
+    :ivar instance_type: Compute instance type. Default: Standard_F4s_v2.
     :vartype instance_type: str
     :ivar liveness_probe: Liveness probe monitors the health of the container regularly.
     :vartype liveness_probe: ~azure.mgmt.machinelearningservices.models.ProbeSettings
@@ -13863,6 +17784,9 @@ class KubernetesOnlineDeployment(OnlineDeploymentProperties):  # pylint: disable
     :ivar readiness_probe: Readiness probe validates if the container is ready to serve traffic.
      The properties and defaults are the same as liveness probe.
     :vartype readiness_probe: ~azure.mgmt.machinelearningservices.models.ProbeSettings
+    :ivar startup_probe: Startup probe verify whether an application within a container has started
+     successfully.
+    :vartype startup_probe: ~azure.mgmt.machinelearningservices.models.ProbeSettings
     :ivar request_settings: Request settings for the deployment.
     :vartype request_settings: ~azure.mgmt.machinelearningservices.models.OnlineRequestSettings
     :ivar scale_settings: Scale settings for the deployment.
@@ -13888,6 +17812,7 @@ class KubernetesOnlineDeployment(OnlineDeploymentProperties):  # pylint: disable
         "environment_variables": {"key": "environmentVariables", "type": "{str}"},
         "properties": {"key": "properties", "type": "{str}"},
         "app_insights_enabled": {"key": "appInsightsEnabled", "type": "bool"},
+        "data_collector": {"key": "dataCollector", "type": "DataCollector"},
         "egress_public_network_access": {"key": "egressPublicNetworkAccess", "type": "str"},
         "endpoint_compute_type": {"key": "endpointComputeType", "type": "str"},
         "instance_type": {"key": "instanceType", "type": "str"},
@@ -13896,6 +17821,7 @@ class KubernetesOnlineDeployment(OnlineDeploymentProperties):  # pylint: disable
         "model_mount_path": {"key": "modelMountPath", "type": "str"},
         "provisioning_state": {"key": "provisioningState", "type": "str"},
         "readiness_probe": {"key": "readinessProbe", "type": "ProbeSettings"},
+        "startup_probe": {"key": "startupProbe", "type": "ProbeSettings"},
         "request_settings": {"key": "requestSettings", "type": "OnlineRequestSettings"},
         "scale_settings": {"key": "scaleSettings", "type": "OnlineScaleSettings"},
         "container_resource_requirements": {
@@ -13913,12 +17839,14 @@ class KubernetesOnlineDeployment(OnlineDeploymentProperties):  # pylint: disable
         environment_variables: Optional[Dict[str, str]] = None,
         properties: Optional[Dict[str, str]] = None,
         app_insights_enabled: bool = False,
+        data_collector: Optional["_models.DataCollector"] = None,
         egress_public_network_access: Optional[Union[str, "_models.EgressPublicNetworkAccessType"]] = None,
-        instance_type: Optional[str] = None,
+        instance_type: str = "Standard_F4s_v2",
         liveness_probe: Optional["_models.ProbeSettings"] = None,
         model: Optional[str] = None,
         model_mount_path: Optional[str] = None,
         readiness_probe: Optional["_models.ProbeSettings"] = None,
+        startup_probe: Optional["_models.ProbeSettings"] = None,
         request_settings: Optional["_models.OnlineRequestSettings"] = None,
         scale_settings: Optional["_models.OnlineScaleSettings"] = None,
         container_resource_requirements: Optional["_models.ContainerResourceRequirements"] = None,
@@ -13938,12 +17866,14 @@ class KubernetesOnlineDeployment(OnlineDeploymentProperties):  # pylint: disable
         :paramtype properties: dict[str, str]
         :keyword app_insights_enabled: If true, enables Application Insights logging.
         :paramtype app_insights_enabled: bool
+        :keyword data_collector: The mdc configuration, we disable mdc when it's null.
+        :paramtype data_collector: ~azure.mgmt.machinelearningservices.models.DataCollector
         :keyword egress_public_network_access: If Enabled, allow egress public network access. If
          Disabled, this will create secure egress. Default: Enabled. Known values are: "Enabled" and
          "Disabled".
         :paramtype egress_public_network_access: str or
          ~azure.mgmt.machinelearningservices.models.EgressPublicNetworkAccessType
-        :keyword instance_type: Compute instance type.
+        :keyword instance_type: Compute instance type. Default: Standard_F4s_v2.
         :paramtype instance_type: str
         :keyword liveness_probe: Liveness probe monitors the health of the container regularly.
         :paramtype liveness_probe: ~azure.mgmt.machinelearningservices.models.ProbeSettings
@@ -13954,6 +17884,9 @@ class KubernetesOnlineDeployment(OnlineDeploymentProperties):  # pylint: disable
         :keyword readiness_probe: Readiness probe validates if the container is ready to serve traffic.
          The properties and defaults are the same as liveness probe.
         :paramtype readiness_probe: ~azure.mgmt.machinelearningservices.models.ProbeSettings
+        :keyword startup_probe: Startup probe verify whether an application within a container has
+         started successfully.
+        :paramtype startup_probe: ~azure.mgmt.machinelearningservices.models.ProbeSettings
         :keyword request_settings: Request settings for the deployment.
         :paramtype request_settings: ~azure.mgmt.machinelearningservices.models.OnlineRequestSettings
         :keyword scale_settings: Scale settings for the deployment.
@@ -13973,12 +17906,14 @@ class KubernetesOnlineDeployment(OnlineDeploymentProperties):  # pylint: disable
             environment_variables=environment_variables,
             properties=properties,
             app_insights_enabled=app_insights_enabled,
+            data_collector=data_collector,
             egress_public_network_access=egress_public_network_access,
             instance_type=instance_type,
             liveness_probe=liveness_probe,
             model=model,
             model_mount_path=model_mount_path,
             readiness_probe=readiness_probe,
+            startup_probe=startup_probe,
             request_settings=request_settings,
             scale_settings=scale_settings,
             **kwargs
@@ -14063,6 +17998,72 @@ class KubernetesProperties(_serialization.Model):
         self.instance_types = instance_types
 
 
+class OneLakeArtifact(_serialization.Model):
+    """OneLake artifact (data source) configuration.
+
+    You probably want to use the sub-classes and not this class directly. Known sub-classes are:
+    LakeHouseArtifact
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar artifact_name: [Required] OneLake artifact name. Required.
+    :vartype artifact_name: str
+    :ivar artifact_type: [Required] OneLake artifact type. Required. "LakeHouse"
+    :vartype artifact_type: str or ~azure.mgmt.machinelearningservices.models.OneLakeArtifactType
+    """
+
+    _validation = {
+        "artifact_name": {"required": True, "min_length": 1, "pattern": r"[a-zA-Z0-9_]"},
+        "artifact_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "artifact_name": {"key": "artifactName", "type": "str"},
+        "artifact_type": {"key": "artifactType", "type": "str"},
+    }
+
+    _subtype_map = {"artifact_type": {"LakeHouse": "LakeHouseArtifact"}}
+
+    def __init__(self, *, artifact_name: str, **kwargs: Any) -> None:
+        """
+        :keyword artifact_name: [Required] OneLake artifact name. Required.
+        :paramtype artifact_name: str
+        """
+        super().__init__(**kwargs)
+        self.artifact_name = artifact_name
+        self.artifact_type: Optional[str] = None
+
+
+class LakeHouseArtifact(OneLakeArtifact):
+    """LakeHouseArtifact.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar artifact_name: [Required] OneLake artifact name. Required.
+    :vartype artifact_name: str
+    :ivar artifact_type: [Required] OneLake artifact type. Required. "LakeHouse"
+    :vartype artifact_type: str or ~azure.mgmt.machinelearningservices.models.OneLakeArtifactType
+    """
+
+    _validation = {
+        "artifact_name": {"required": True, "min_length": 1, "pattern": r"[a-zA-Z0-9_]"},
+        "artifact_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "artifact_name": {"key": "artifactName", "type": "str"},
+        "artifact_type": {"key": "artifactType", "type": "str"},
+    }
+
+    def __init__(self, *, artifact_name: str, **kwargs: Any) -> None:
+        """
+        :keyword artifact_name: [Required] OneLake artifact name. Required.
+        :paramtype artifact_name: str
+        """
+        super().__init__(artifact_name=artifact_name, **kwargs)
+        self.artifact_type: str = "LakeHouse"
+
+
 class ListAmlUserFeatureResult(_serialization.Model):
     """The List Aml user feature operation response.
 
@@ -14088,8 +18089,8 @@ class ListAmlUserFeatureResult(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.value = None
-        self.next_link = None
+        self.value: Optional[List["_models.AmlUserFeature"]] = None
+        self.next_link: Optional[str] = None
 
 
 class ListNotebookKeysResult(_serialization.Model):
@@ -14116,8 +18117,8 @@ class ListNotebookKeysResult(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.primary_access_key = None
-        self.secondary_access_key = None
+        self.primary_access_key: Optional[str] = None
+        self.secondary_access_key: Optional[str] = None
 
 
 class ListStorageAccountKeysResult(_serialization.Model):
@@ -14140,7 +18141,7 @@ class ListStorageAccountKeysResult(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.user_storage_key = None
+        self.user_storage_key: Optional[str] = None
 
 
 class ListUsagesResult(_serialization.Model):
@@ -14168,8 +18169,8 @@ class ListUsagesResult(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.value = None
-        self.next_link = None
+        self.value: Optional[List["_models.Usage"]] = None
+        self.next_link: Optional[str] = None
 
 
 class ListWorkspaceKeysResult(_serialization.Model):
@@ -14213,11 +18214,11 @@ class ListWorkspaceKeysResult(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.user_storage_key = None
-        self.user_storage_resource_id = None
-        self.app_insights_instrumentation_key = None
-        self.container_registry_credentials = None
-        self.notebook_access_keys = None
+        self.user_storage_key: Optional[str] = None
+        self.user_storage_resource_id: Optional[str] = None
+        self.app_insights_instrumentation_key: Optional[str] = None
+        self.container_registry_credentials: Optional["_models.RegistryListCredentialsResult"] = None
+        self.notebook_access_keys: Optional["_models.ListNotebookKeysResult"] = None
 
 
 class ListWorkspaceQuotas(_serialization.Model):
@@ -14245,14 +18246,14 @@ class ListWorkspaceQuotas(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.value = None
-        self.next_link = None
+        self.value: Optional[List["_models.ResourceQuota"]] = None
+        self.next_link: Optional[str] = None
 
 
 class LiteralJobInput(JobInput):
     """Literal input type.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar description: Description for the input.
     :vartype description: str
@@ -14287,10 +18288,42 @@ class LiteralJobInput(JobInput):
         self.value = value
 
 
+class ManagedComputeIdentity(MonitorComputeIdentityBase):
+    """Managed compute identity definition.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar compute_identity_type: [Required] Specifies the type of identity to use within the
+     monitoring jobs. Required. Known values are: "AmlToken" and "ManagedIdentity".
+    :vartype compute_identity_type: str or
+     ~azure.mgmt.machinelearningservices.models.MonitorComputeIdentityType
+    :ivar identity: The identity which will be leveraged by the monitoring jobs.
+    :vartype identity: ~azure.mgmt.machinelearningservices.models.ManagedServiceIdentity
+    """
+
+    _validation = {
+        "compute_identity_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "compute_identity_type": {"key": "computeIdentityType", "type": "str"},
+        "identity": {"key": "identity", "type": "ManagedServiceIdentity"},
+    }
+
+    def __init__(self, *, identity: Optional["_models.ManagedServiceIdentity"] = None, **kwargs: Any) -> None:
+        """
+        :keyword identity: The identity which will be leveraged by the monitoring jobs.
+        :paramtype identity: ~azure.mgmt.machinelearningservices.models.ManagedServiceIdentity
+        """
+        super().__init__(**kwargs)
+        self.compute_identity_type: str = "ManagedIdentity"
+        self.identity = identity
+
+
 class ManagedIdentity(IdentityConfiguration):
     """Managed identity configuration.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar identity_type: [Required] Specifies the type of identity framework. Required. Known
      values are: "Managed", "AMLToken", and "UserIdentity".
@@ -14344,93 +18377,53 @@ class ManagedIdentity(IdentityConfiguration):
         self.resource_id = resource_id
 
 
-class WorkspaceConnectionPropertiesV2(_serialization.Model):
-    """WorkspaceConnectionPropertiesV2.
-
-    You probably want to use the sub-classes and not this class directly. Known sub-classes are:
-    ManagedIdentityAuthTypeWorkspaceConnectionProperties,
-    NoneAuthTypeWorkspaceConnectionProperties, PATAuthTypeWorkspaceConnectionProperties,
-    SASAuthTypeWorkspaceConnectionProperties, UsernamePasswordAuthTypeWorkspaceConnectionProperties
-
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar auth_type: Authentication type of the connection target. Required. Known values are:
-     "PAT", "ManagedIdentity", "UsernamePassword", "None", and "SAS".
-    :vartype auth_type: str or ~azure.mgmt.machinelearningservices.models.ConnectionAuthType
-    :ivar category: Category of the connection. Known values are: "PythonFeed",
-     "ContainerRegistry", and "Git".
-    :vartype category: str or ~azure.mgmt.machinelearningservices.models.ConnectionCategory
-    :ivar target:
-    :vartype target: str
-    :ivar value: Value details of the workspace connection.
-    :vartype value: str
-    :ivar value_format: format for the workspace connection value. "JSON"
-    :vartype value_format: str or ~azure.mgmt.machinelearningservices.models.ValueFormat
-    """
-
-    _validation = {
-        "auth_type": {"required": True},
-    }
-
-    _attribute_map = {
-        "auth_type": {"key": "authType", "type": "str"},
-        "category": {"key": "category", "type": "str"},
-        "target": {"key": "target", "type": "str"},
-        "value": {"key": "value", "type": "str"},
-        "value_format": {"key": "valueFormat", "type": "str"},
-    }
-
-    _subtype_map = {
-        "auth_type": {
-            "ManagedIdentity": "ManagedIdentityAuthTypeWorkspaceConnectionProperties",
-            "None": "NoneAuthTypeWorkspaceConnectionProperties",
-            "PAT": "PATAuthTypeWorkspaceConnectionProperties",
-            "SAS": "SASAuthTypeWorkspaceConnectionProperties",
-            "UsernamePassword": "UsernamePasswordAuthTypeWorkspaceConnectionProperties",
-        }
-    }
-
-    def __init__(
-        self,
-        *,
-        category: Optional[Union[str, "_models.ConnectionCategory"]] = None,
-        target: Optional[str] = None,
-        value: Optional[str] = None,
-        value_format: Optional[Union[str, "_models.ValueFormat"]] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword category: Category of the connection. Known values are: "PythonFeed",
-         "ContainerRegistry", and "Git".
-        :paramtype category: str or ~azure.mgmt.machinelearningservices.models.ConnectionCategory
-        :keyword target:
-        :paramtype target: str
-        :keyword value: Value details of the workspace connection.
-        :paramtype value: str
-        :keyword value_format: format for the workspace connection value. "JSON"
-        :paramtype value_format: str or ~azure.mgmt.machinelearningservices.models.ValueFormat
-        """
-        super().__init__(**kwargs)
-        self.auth_type: Optional[str] = None
-        self.category = category
-        self.target = target
-        self.value = value
-        self.value_format = value_format
-
-
-class ManagedIdentityAuthTypeWorkspaceConnectionProperties(WorkspaceConnectionPropertiesV2):
+class ManagedIdentityAuthTypeWorkspaceConnectionProperties(
+    WorkspaceConnectionPropertiesV2
+):  # pylint: disable=name-too-long
     """ManagedIdentityAuthTypeWorkspaceConnectionProperties.
 
-    All required parameters must be populated in order to send to Azure.
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
 
     :ivar auth_type: Authentication type of the connection target. Required. Known values are:
-     "PAT", "ManagedIdentity", "UsernamePassword", "None", and "SAS".
+     "PAT", "ManagedIdentity", "UsernamePassword", "None", "SAS", "AccountKey", "ServicePrincipal",
+     "AccessKey", "ApiKey", "CustomKeys", "OAuth2", and "AAD".
     :vartype auth_type: str or ~azure.mgmt.machinelearningservices.models.ConnectionAuthType
     :ivar category: Category of the connection. Known values are: "PythonFeed",
-     "ContainerRegistry", and "Git".
+     "ContainerRegistry", "Git", "S3", "Snowflake", "AzureSqlDb", "AzureSynapseAnalytics",
+     "AzureMySqlDb", "AzurePostgresDb", "ADLSGen2", "Redis", "ApiKey", "AzureOpenAI", "AIServices",
+     "CognitiveSearch", "CognitiveService", "CustomKeys", "AzureBlob", "AzureOneLake", "CosmosDb",
+     "CosmosDbMongoDbApi", "AzureDataExplorer", "AzureMariaDb", "AzureDatabricksDeltaLake",
+     "AzureSqlMi", "AzureTableStorage", "AmazonRdsForOracle", "AmazonRdsForSqlServer",
+     "AmazonRedshift", "Db2", "Drill", "GoogleBigQuery", "Greenplum", "Hbase", "Hive", "Impala",
+     "Informix", "MariaDb", "MicrosoftAccess", "MySql", "Netezza", "Oracle", "Phoenix",
+     "PostgreSql", "Presto", "SapOpenHub", "SapBw", "SapHana", "SapTable", "Spark", "SqlServer",
+     "Sybase", "Teradata", "Vertica", "Pinecone", "Cassandra", "Couchbase", "MongoDbV2",
+     "MongoDbAtlas", "AmazonS3Compatible", "FileServer", "FtpServer", "GoogleCloudStorage", "Hdfs",
+     "OracleCloudStorage", "Sftp", "GenericHttp", "ODataRest", "Odbc", "GenericRest", "AmazonMws",
+     "Concur", "Dynamics", "DynamicsAx", "DynamicsCrm", "GoogleAdWords", "Hubspot", "Jira",
+     "Magento", "Marketo", "Office365", "Eloqua", "Responsys", "OracleServiceCloud", "PayPal",
+     "QuickBooks", "Salesforce", "SalesforceServiceCloud", "SalesforceMarketingCloud",
+     "SapCloudForCustomer", "SapEcc", "ServiceNow", "SharePointOnlineList", "Shopify", "Square",
+     "WebTable", "Xero", "Zoho", "GenericContainerRegistry", "Elasticsearch", "OpenAI", "Serp",
+     "BingLLMSearch", "Serverless", and "ManagedOnlineEndpoint".
     :vartype category: str or ~azure.mgmt.machinelearningservices.models.ConnectionCategory
+    :ivar created_by_workspace_arm_id:
+    :vartype created_by_workspace_arm_id: str
+    :ivar expiry_time:
+    :vartype expiry_time: ~datetime.datetime
+    :ivar group: Group based on connection category. Known values are: "Azure", "AzureAI",
+     "Database", "NoSQL", "File", "GenericProtocol", and "ServicesAndApps".
+    :vartype group: str or ~azure.mgmt.machinelearningservices.models.ConnectionGroup
+    :ivar is_shared_to_all:
+    :vartype is_shared_to_all: bool
     :ivar target:
     :vartype target: str
+    :ivar metadata: Store user metadata for this connection.
+    :vartype metadata: dict[str, str]
+    :ivar shared_user_list:
+    :vartype shared_user_list: list[str]
     :ivar value: Value details of the workspace connection.
     :vartype value: str
     :ivar value_format: format for the workspace connection value. "JSON"
@@ -14442,12 +18435,20 @@ class ManagedIdentityAuthTypeWorkspaceConnectionProperties(WorkspaceConnectionPr
 
     _validation = {
         "auth_type": {"required": True},
+        "created_by_workspace_arm_id": {"readonly": True},
+        "group": {"readonly": True},
     }
 
     _attribute_map = {
         "auth_type": {"key": "authType", "type": "str"},
         "category": {"key": "category", "type": "str"},
+        "created_by_workspace_arm_id": {"key": "createdByWorkspaceArmId", "type": "str"},
+        "expiry_time": {"key": "expiryTime", "type": "iso-8601"},
+        "group": {"key": "group", "type": "str"},
+        "is_shared_to_all": {"key": "isSharedToAll", "type": "bool"},
         "target": {"key": "target", "type": "str"},
+        "metadata": {"key": "metadata", "type": "{str}"},
+        "shared_user_list": {"key": "sharedUserList", "type": "[str]"},
         "value": {"key": "value", "type": "str"},
         "value_format": {"key": "valueFormat", "type": "str"},
         "credentials": {"key": "credentials", "type": "WorkspaceConnectionManagedIdentity"},
@@ -14457,7 +18458,11 @@ class ManagedIdentityAuthTypeWorkspaceConnectionProperties(WorkspaceConnectionPr
         self,
         *,
         category: Optional[Union[str, "_models.ConnectionCategory"]] = None,
+        expiry_time: Optional[datetime.datetime] = None,
+        is_shared_to_all: Optional[bool] = None,
         target: Optional[str] = None,
+        metadata: Optional[Dict[str, str]] = None,
+        shared_user_list: Optional[List[str]] = None,
         value: Optional[str] = None,
         value_format: Optional[Union[str, "_models.ValueFormat"]] = None,
         credentials: Optional["_models.WorkspaceConnectionManagedIdentity"] = None,
@@ -14465,10 +18470,34 @@ class ManagedIdentityAuthTypeWorkspaceConnectionProperties(WorkspaceConnectionPr
     ) -> None:
         """
         :keyword category: Category of the connection. Known values are: "PythonFeed",
-         "ContainerRegistry", and "Git".
+         "ContainerRegistry", "Git", "S3", "Snowflake", "AzureSqlDb", "AzureSynapseAnalytics",
+         "AzureMySqlDb", "AzurePostgresDb", "ADLSGen2", "Redis", "ApiKey", "AzureOpenAI", "AIServices",
+         "CognitiveSearch", "CognitiveService", "CustomKeys", "AzureBlob", "AzureOneLake", "CosmosDb",
+         "CosmosDbMongoDbApi", "AzureDataExplorer", "AzureMariaDb", "AzureDatabricksDeltaLake",
+         "AzureSqlMi", "AzureTableStorage", "AmazonRdsForOracle", "AmazonRdsForSqlServer",
+         "AmazonRedshift", "Db2", "Drill", "GoogleBigQuery", "Greenplum", "Hbase", "Hive", "Impala",
+         "Informix", "MariaDb", "MicrosoftAccess", "MySql", "Netezza", "Oracle", "Phoenix",
+         "PostgreSql", "Presto", "SapOpenHub", "SapBw", "SapHana", "SapTable", "Spark", "SqlServer",
+         "Sybase", "Teradata", "Vertica", "Pinecone", "Cassandra", "Couchbase", "MongoDbV2",
+         "MongoDbAtlas", "AmazonS3Compatible", "FileServer", "FtpServer", "GoogleCloudStorage", "Hdfs",
+         "OracleCloudStorage", "Sftp", "GenericHttp", "ODataRest", "Odbc", "GenericRest", "AmazonMws",
+         "Concur", "Dynamics", "DynamicsAx", "DynamicsCrm", "GoogleAdWords", "Hubspot", "Jira",
+         "Magento", "Marketo", "Office365", "Eloqua", "Responsys", "OracleServiceCloud", "PayPal",
+         "QuickBooks", "Salesforce", "SalesforceServiceCloud", "SalesforceMarketingCloud",
+         "SapCloudForCustomer", "SapEcc", "ServiceNow", "SharePointOnlineList", "Shopify", "Square",
+         "WebTable", "Xero", "Zoho", "GenericContainerRegistry", "Elasticsearch", "OpenAI", "Serp",
+         "BingLLMSearch", "Serverless", and "ManagedOnlineEndpoint".
         :paramtype category: str or ~azure.mgmt.machinelearningservices.models.ConnectionCategory
+        :keyword expiry_time:
+        :paramtype expiry_time: ~datetime.datetime
+        :keyword is_shared_to_all:
+        :paramtype is_shared_to_all: bool
         :keyword target:
         :paramtype target: str
+        :keyword metadata: Store user metadata for this connection.
+        :paramtype metadata: dict[str, str]
+        :keyword shared_user_list:
+        :paramtype shared_user_list: list[str]
         :keyword value: Value details of the workspace connection.
         :paramtype value: str
         :keyword value_format: format for the workspace connection value. "JSON"
@@ -14477,17 +18506,236 @@ class ManagedIdentityAuthTypeWorkspaceConnectionProperties(WorkspaceConnectionPr
         :paramtype credentials:
          ~azure.mgmt.machinelearningservices.models.WorkspaceConnectionManagedIdentity
         """
-        super().__init__(category=category, target=target, value=value, value_format=value_format, **kwargs)
+        super().__init__(
+            category=category,
+            expiry_time=expiry_time,
+            is_shared_to_all=is_shared_to_all,
+            target=target,
+            metadata=metadata,
+            shared_user_list=shared_user_list,
+            value=value,
+            value_format=value_format,
+            **kwargs
+        )
         self.auth_type: str = "ManagedIdentity"
         self.credentials = credentials
 
 
-class ManagedOnlineDeployment(OnlineDeploymentProperties):  # pylint: disable=too-many-instance-attributes
+class ManagedIdentityCredential(DataReferenceCredential):
+    """Credential for user managed identity.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar credential_type: [Required] Credential type used to authentication with storage.
+     Required. Known values are: "SAS", "DockerCredentials", "ManagedIdentity", and "NoCredentials".
+    :vartype credential_type: str or
+     ~azure.mgmt.machinelearningservices.models.DataReferenceCredentialType
+    :ivar managed_identity_type: ManagedIdentityCredential identity type.
+    :vartype managed_identity_type: str
+    :ivar user_managed_identity_client_id: ClientId for the UAMI. For ManagedIdentityType =
+     SystemManaged, this field is null.
+    :vartype user_managed_identity_client_id: str
+    :ivar user_managed_identity_principal_id: PrincipalId for the UAMI. For ManagedIdentityType =
+     SystemManaged, this field is null.
+    :vartype user_managed_identity_principal_id: str
+    :ivar user_managed_identity_resource_id: Full arm scope for the Id. For ManagedIdentityType =
+     SystemManaged, this field is null.
+    :vartype user_managed_identity_resource_id: str
+    :ivar user_managed_identity_tenant_id: TenantId for the UAMI. For ManagedIdentityType =
+     SystemManaged, this field is null.
+    :vartype user_managed_identity_tenant_id: str
+    """
+
+    _validation = {
+        "credential_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "credential_type": {"key": "credentialType", "type": "str"},
+        "managed_identity_type": {"key": "managedIdentityType", "type": "str"},
+        "user_managed_identity_client_id": {"key": "userManagedIdentityClientId", "type": "str"},
+        "user_managed_identity_principal_id": {"key": "userManagedIdentityPrincipalId", "type": "str"},
+        "user_managed_identity_resource_id": {"key": "userManagedIdentityResourceId", "type": "str"},
+        "user_managed_identity_tenant_id": {"key": "userManagedIdentityTenantId", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        managed_identity_type: Optional[str] = None,
+        user_managed_identity_client_id: Optional[str] = None,
+        user_managed_identity_principal_id: Optional[str] = None,
+        user_managed_identity_resource_id: Optional[str] = None,
+        user_managed_identity_tenant_id: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword managed_identity_type: ManagedIdentityCredential identity type.
+        :paramtype managed_identity_type: str
+        :keyword user_managed_identity_client_id: ClientId for the UAMI. For ManagedIdentityType =
+         SystemManaged, this field is null.
+        :paramtype user_managed_identity_client_id: str
+        :keyword user_managed_identity_principal_id: PrincipalId for the UAMI. For ManagedIdentityType
+         = SystemManaged, this field is null.
+        :paramtype user_managed_identity_principal_id: str
+        :keyword user_managed_identity_resource_id: Full arm scope for the Id. For ManagedIdentityType
+         = SystemManaged, this field is null.
+        :paramtype user_managed_identity_resource_id: str
+        :keyword user_managed_identity_tenant_id: TenantId for the UAMI. For ManagedIdentityType =
+         SystemManaged, this field is null.
+        :paramtype user_managed_identity_tenant_id: str
+        """
+        super().__init__(**kwargs)
+        self.credential_type: str = "ManagedIdentity"
+        self.managed_identity_type = managed_identity_type
+        self.user_managed_identity_client_id = user_managed_identity_client_id
+        self.user_managed_identity_principal_id = user_managed_identity_principal_id
+        self.user_managed_identity_resource_id = user_managed_identity_resource_id
+        self.user_managed_identity_tenant_id = user_managed_identity_tenant_id
+
+
+class ManagedNetworkProvisionOptions(_serialization.Model):
+    """Managed Network Provisioning options for managed network of a machine learning workspace.
+
+    :ivar include_spark:
+    :vartype include_spark: bool
+    """
+
+    _attribute_map = {
+        "include_spark": {"key": "includeSpark", "type": "bool"},
+    }
+
+    def __init__(self, *, include_spark: Optional[bool] = None, **kwargs: Any) -> None:
+        """
+        :keyword include_spark:
+        :paramtype include_spark: bool
+        """
+        super().__init__(**kwargs)
+        self.include_spark = include_spark
+
+
+class ManagedNetworkProvisionStatus(_serialization.Model):
+    """Status of the Provisioning for the managed network of a machine learning workspace.
+
+    :ivar spark_ready:
+    :vartype spark_ready: bool
+    :ivar status: Status for the managed network of a machine learning workspace. Known values are:
+     "Inactive" and "Active".
+    :vartype status: str or ~azure.mgmt.machinelearningservices.models.ManagedNetworkStatus
+    """
+
+    _attribute_map = {
+        "spark_ready": {"key": "sparkReady", "type": "bool"},
+        "status": {"key": "status", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        spark_ready: Optional[bool] = None,
+        status: Optional[Union[str, "_models.ManagedNetworkStatus"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword spark_ready:
+        :paramtype spark_ready: bool
+        :keyword status: Status for the managed network of a machine learning workspace. Known values
+         are: "Inactive" and "Active".
+        :paramtype status: str or ~azure.mgmt.machinelearningservices.models.ManagedNetworkStatus
+        """
+        super().__init__(**kwargs)
+        self.spark_ready = spark_ready
+        self.status = status
+
+
+class ManagedNetworkSettings(_serialization.Model):
+    """Managed Network settings for a machine learning workspace.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar isolation_mode: Isolation mode for the managed network of a machine learning workspace.
+     Known values are: "Disabled", "AllowInternetOutbound", and "AllowOnlyApprovedOutbound".
+    :vartype isolation_mode: str or ~azure.mgmt.machinelearningservices.models.IsolationMode
+    :ivar network_id:
+    :vartype network_id: str
+    :ivar outbound_rules: Dictionary of :code:`<OutboundRule>`.
+    :vartype outbound_rules: dict[str, ~azure.mgmt.machinelearningservices.models.OutboundRule]
+    :ivar status: Status of the Provisioning for the managed network of a machine learning
+     workspace.
+    :vartype status: ~azure.mgmt.machinelearningservices.models.ManagedNetworkProvisionStatus
+    :ivar firewall_sku: Firewall Sku used for FQDN Rules. Known values are: "Standard" and "Basic".
+    :vartype firewall_sku: str or ~azure.mgmt.machinelearningservices.models.FirewallSku
+    :ivar managed_network_kind: The Kind of the managed network. Users can switch from V1 to V2 for
+     granular access controls, but cannot switch back to V1 once V2 is enabled. Known values are:
+     "V1" and "V2".
+    :vartype managed_network_kind: str or
+     ~azure.mgmt.machinelearningservices.models.ManagedNetworkKind
+    :ivar firewall_public_ip_address: Public IP address assigned to the Azure Firewall.
+    :vartype firewall_public_ip_address: str
+    """
+
+    _validation = {
+        "network_id": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "isolation_mode": {"key": "isolationMode", "type": "str"},
+        "network_id": {"key": "networkId", "type": "str"},
+        "outbound_rules": {"key": "outboundRules", "type": "{OutboundRule}"},
+        "status": {"key": "status", "type": "ManagedNetworkProvisionStatus"},
+        "firewall_sku": {"key": "firewallSku", "type": "str"},
+        "managed_network_kind": {"key": "managedNetworkKind", "type": "str"},
+        "firewall_public_ip_address": {"key": "firewallPublicIpAddress", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        isolation_mode: Optional[Union[str, "_models.IsolationMode"]] = None,
+        outbound_rules: Optional[Dict[str, "_models.OutboundRule"]] = None,
+        status: Optional["_models.ManagedNetworkProvisionStatus"] = None,
+        firewall_sku: Optional[Union[str, "_models.FirewallSku"]] = None,
+        managed_network_kind: Optional[Union[str, "_models.ManagedNetworkKind"]] = None,
+        firewall_public_ip_address: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword isolation_mode: Isolation mode for the managed network of a machine learning
+         workspace. Known values are: "Disabled", "AllowInternetOutbound", and
+         "AllowOnlyApprovedOutbound".
+        :paramtype isolation_mode: str or ~azure.mgmt.machinelearningservices.models.IsolationMode
+        :keyword outbound_rules: Dictionary of :code:`<OutboundRule>`.
+        :paramtype outbound_rules: dict[str, ~azure.mgmt.machinelearningservices.models.OutboundRule]
+        :keyword status: Status of the Provisioning for the managed network of a machine learning
+         workspace.
+        :paramtype status: ~azure.mgmt.machinelearningservices.models.ManagedNetworkProvisionStatus
+        :keyword firewall_sku: Firewall Sku used for FQDN Rules. Known values are: "Standard" and
+         "Basic".
+        :paramtype firewall_sku: str or ~azure.mgmt.machinelearningservices.models.FirewallSku
+        :keyword managed_network_kind: The Kind of the managed network. Users can switch from V1 to V2
+         for granular access controls, but cannot switch back to V1 once V2 is enabled. Known values
+         are: "V1" and "V2".
+        :paramtype managed_network_kind: str or
+         ~azure.mgmt.machinelearningservices.models.ManagedNetworkKind
+        :keyword firewall_public_ip_address: Public IP address assigned to the Azure Firewall.
+        :paramtype firewall_public_ip_address: str
+        """
+        super().__init__(**kwargs)
+        self.isolation_mode = isolation_mode
+        self.network_id: Optional[str] = None
+        self.outbound_rules = outbound_rules
+        self.status = status
+        self.firewall_sku = firewall_sku
+        self.managed_network_kind = managed_network_kind
+        self.firewall_public_ip_address = firewall_public_ip_address
+
+
+class ManagedOnlineDeployment(OnlineDeploymentProperties):
     """Properties specific to a ManagedOnlineDeployment.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar code_configuration: Code configuration for the endpoint deployment.
     :vartype code_configuration: ~azure.mgmt.machinelearningservices.models.CodeConfiguration
@@ -14502,6 +18750,8 @@ class ManagedOnlineDeployment(OnlineDeploymentProperties):  # pylint: disable=to
     :vartype properties: dict[str, str]
     :ivar app_insights_enabled: If true, enables Application Insights logging.
     :vartype app_insights_enabled: bool
+    :ivar data_collector: The mdc configuration, we disable mdc when it's null.
+    :vartype data_collector: ~azure.mgmt.machinelearningservices.models.DataCollector
     :ivar egress_public_network_access: If Enabled, allow egress public network access. If
      Disabled, this will create secure egress. Default: Enabled. Known values are: "Enabled" and
      "Disabled".
@@ -14511,7 +18761,7 @@ class ManagedOnlineDeployment(OnlineDeploymentProperties):  # pylint: disable=to
      values are: "Managed", "Kubernetes", and "AzureMLCompute".
     :vartype endpoint_compute_type: str or
      ~azure.mgmt.machinelearningservices.models.EndpointComputeType
-    :ivar instance_type: Compute instance type.
+    :ivar instance_type: Compute instance type. Default: Standard_F4s_v2.
     :vartype instance_type: str
     :ivar liveness_probe: Liveness probe monitors the health of the container regularly.
     :vartype liveness_probe: ~azure.mgmt.machinelearningservices.models.ProbeSettings
@@ -14526,6 +18776,9 @@ class ManagedOnlineDeployment(OnlineDeploymentProperties):  # pylint: disable=to
     :ivar readiness_probe: Readiness probe validates if the container is ready to serve traffic.
      The properties and defaults are the same as liveness probe.
     :vartype readiness_probe: ~azure.mgmt.machinelearningservices.models.ProbeSettings
+    :ivar startup_probe: Startup probe verify whether an application within a container has started
+     successfully.
+    :vartype startup_probe: ~azure.mgmt.machinelearningservices.models.ProbeSettings
     :ivar request_settings: Request settings for the deployment.
     :vartype request_settings: ~azure.mgmt.machinelearningservices.models.OnlineRequestSettings
     :ivar scale_settings: Scale settings for the deployment.
@@ -14547,6 +18800,7 @@ class ManagedOnlineDeployment(OnlineDeploymentProperties):  # pylint: disable=to
         "environment_variables": {"key": "environmentVariables", "type": "{str}"},
         "properties": {"key": "properties", "type": "{str}"},
         "app_insights_enabled": {"key": "appInsightsEnabled", "type": "bool"},
+        "data_collector": {"key": "dataCollector", "type": "DataCollector"},
         "egress_public_network_access": {"key": "egressPublicNetworkAccess", "type": "str"},
         "endpoint_compute_type": {"key": "endpointComputeType", "type": "str"},
         "instance_type": {"key": "instanceType", "type": "str"},
@@ -14555,6 +18809,7 @@ class ManagedOnlineDeployment(OnlineDeploymentProperties):  # pylint: disable=to
         "model_mount_path": {"key": "modelMountPath", "type": "str"},
         "provisioning_state": {"key": "provisioningState", "type": "str"},
         "readiness_probe": {"key": "readinessProbe", "type": "ProbeSettings"},
+        "startup_probe": {"key": "startupProbe", "type": "ProbeSettings"},
         "request_settings": {"key": "requestSettings", "type": "OnlineRequestSettings"},
         "scale_settings": {"key": "scaleSettings", "type": "OnlineScaleSettings"},
     }
@@ -14568,12 +18823,14 @@ class ManagedOnlineDeployment(OnlineDeploymentProperties):  # pylint: disable=to
         environment_variables: Optional[Dict[str, str]] = None,
         properties: Optional[Dict[str, str]] = None,
         app_insights_enabled: bool = False,
+        data_collector: Optional["_models.DataCollector"] = None,
         egress_public_network_access: Optional[Union[str, "_models.EgressPublicNetworkAccessType"]] = None,
-        instance_type: Optional[str] = None,
+        instance_type: str = "Standard_F4s_v2",
         liveness_probe: Optional["_models.ProbeSettings"] = None,
         model: Optional[str] = None,
         model_mount_path: Optional[str] = None,
         readiness_probe: Optional["_models.ProbeSettings"] = None,
+        startup_probe: Optional["_models.ProbeSettings"] = None,
         request_settings: Optional["_models.OnlineRequestSettings"] = None,
         scale_settings: Optional["_models.OnlineScaleSettings"] = None,
         **kwargs: Any
@@ -14592,12 +18849,14 @@ class ManagedOnlineDeployment(OnlineDeploymentProperties):  # pylint: disable=to
         :paramtype properties: dict[str, str]
         :keyword app_insights_enabled: If true, enables Application Insights logging.
         :paramtype app_insights_enabled: bool
+        :keyword data_collector: The mdc configuration, we disable mdc when it's null.
+        :paramtype data_collector: ~azure.mgmt.machinelearningservices.models.DataCollector
         :keyword egress_public_network_access: If Enabled, allow egress public network access. If
          Disabled, this will create secure egress. Default: Enabled. Known values are: "Enabled" and
          "Disabled".
         :paramtype egress_public_network_access: str or
          ~azure.mgmt.machinelearningservices.models.EgressPublicNetworkAccessType
-        :keyword instance_type: Compute instance type.
+        :keyword instance_type: Compute instance type. Default: Standard_F4s_v2.
         :paramtype instance_type: str
         :keyword liveness_probe: Liveness probe monitors the health of the container regularly.
         :paramtype liveness_probe: ~azure.mgmt.machinelearningservices.models.ProbeSettings
@@ -14608,6 +18867,9 @@ class ManagedOnlineDeployment(OnlineDeploymentProperties):  # pylint: disable=to
         :keyword readiness_probe: Readiness probe validates if the container is ready to serve traffic.
          The properties and defaults are the same as liveness probe.
         :paramtype readiness_probe: ~azure.mgmt.machinelearningservices.models.ProbeSettings
+        :keyword startup_probe: Startup probe verify whether an application within a container has
+         started successfully.
+        :paramtype startup_probe: ~azure.mgmt.machinelearningservices.models.ProbeSettings
         :keyword request_settings: Request settings for the deployment.
         :paramtype request_settings: ~azure.mgmt.machinelearningservices.models.OnlineRequestSettings
         :keyword scale_settings: Scale settings for the deployment.
@@ -14623,12 +18885,14 @@ class ManagedOnlineDeployment(OnlineDeploymentProperties):  # pylint: disable=to
             environment_variables=environment_variables,
             properties=properties,
             app_insights_enabled=app_insights_enabled,
+            data_collector=data_collector,
             egress_public_network_access=egress_public_network_access,
             instance_type=instance_type,
             liveness_probe=liveness_probe,
             model=model,
             model_mount_path=model_mount_path,
             readiness_probe=readiness_probe,
+            startup_probe=startup_probe,
             request_settings=request_settings,
             scale_settings=scale_settings,
             **kwargs
@@ -14636,12 +18900,62 @@ class ManagedOnlineDeployment(OnlineDeploymentProperties):  # pylint: disable=to
         self.endpoint_compute_type: str = "Managed"
 
 
+class ManagedResourceGroupAssignedIdentities(_serialization.Model):
+    """Details for managed resource group assigned identities.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar principal_id: Identity principal Id.
+    :vartype principal_id: str
+    """
+
+    _validation = {
+        "principal_id": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "principal_id": {"key": "principalId", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.principal_id: Optional[str] = None
+
+
+class ManagedResourceGroupSettings(_serialization.Model):
+    """Managed resource group settings.
+
+    :ivar assigned_identities: List of assigned identities for the managed resource group.
+    :vartype assigned_identities:
+     list[~azure.mgmt.machinelearningservices.models.ManagedResourceGroupAssignedIdentities]
+    """
+
+    _attribute_map = {
+        "assigned_identities": {"key": "assignedIdentities", "type": "[ManagedResourceGroupAssignedIdentities]"},
+    }
+
+    def __init__(
+        self,
+        *,
+        assigned_identities: Optional[List["_models.ManagedResourceGroupAssignedIdentities"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword assigned_identities: List of assigned identities for the managed resource group.
+        :paramtype assigned_identities:
+         list[~azure.mgmt.machinelearningservices.models.ManagedResourceGroupAssignedIdentities]
+        """
+        super().__init__(**kwargs)
+        self.assigned_identities = assigned_identities
+
+
 class ManagedServiceIdentity(_serialization.Model):
     """Managed service identity (system assigned and/or user assigned identities).
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar principal_id: The service principal ID of the system assigned identity. This property
      will only be provided for a system assigned identity.
@@ -14694,17 +19008,258 @@ class ManagedServiceIdentity(_serialization.Model):
          ~azure.mgmt.machinelearningservices.models.UserAssignedIdentity]
         """
         super().__init__(**kwargs)
-        self.principal_id = None
-        self.tenant_id = None
+        self.principal_id: Optional[str] = None
+        self.tenant_id: Optional[str] = None
         self.type = type
         self.user_assigned_identities = user_assigned_identities
+
+
+class MarketplacePlan(_serialization.Model):
+    """MarketplacePlan.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar offer_id: The identifying name of the Offer of the Marketplace Plan.
+    :vartype offer_id: str
+    :ivar plan_id: The identifying name of the Plan of the Marketplace Plan.
+    :vartype plan_id: str
+    :ivar publisher_id: The identifying name of the Publisher of the Marketplace Plan.
+    :vartype publisher_id: str
+    """
+
+    _validation = {
+        "offer_id": {"readonly": True},
+        "plan_id": {"readonly": True},
+        "publisher_id": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "offer_id": {"key": "offerId", "type": "str"},
+        "plan_id": {"key": "planId", "type": "str"},
+        "publisher_id": {"key": "publisherId", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.offer_id: Optional[str] = None
+        self.plan_id: Optional[str] = None
+        self.publisher_id: Optional[str] = None
+
+
+class MarketplaceSubscription(ProxyResource):
+    """Azure Resource Manager resource envelope.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.machinelearningservices.models.SystemData
+    :ivar properties: [Required] Additional attributes of the entity. Required.
+    :vartype properties:
+     ~azure.mgmt.machinelearningservices.models.MarketplaceSubscriptionProperties
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "properties": {"required": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "properties": {"key": "properties", "type": "MarketplaceSubscriptionProperties"},
+    }
+
+    def __init__(self, *, properties: "_models.MarketplaceSubscriptionProperties", **kwargs: Any) -> None:
+        """
+        :keyword properties: [Required] Additional attributes of the entity. Required.
+        :paramtype properties:
+         ~azure.mgmt.machinelearningservices.models.MarketplaceSubscriptionProperties
+        """
+        super().__init__(**kwargs)
+        self.properties = properties
+
+
+class MarketplaceSubscriptionProperties(_serialization.Model):
+    """MarketplaceSubscriptionProperties.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar marketplace_plan: Marketplace Plan associated with the Marketplace Subscription.
+    :vartype marketplace_plan: ~azure.mgmt.machinelearningservices.models.MarketplacePlan
+    :ivar marketplace_subscription_status: Current status of the Marketplace Subscription. Known
+     values are: "Subscribed", "Suspended", and "Unsubscribed".
+    :vartype marketplace_subscription_status: str or
+     ~azure.mgmt.machinelearningservices.models.MarketplaceSubscriptionStatus
+    :ivar model_id: [Required] Target Marketplace Model ID to create a Marketplace Subscription
+     for. Required.
+    :vartype model_id: str
+    :ivar provisioning_state: Provisioning State of the Marketplace Subscription. Known values are:
+     "Creating", "Deleting", "Succeeded", "Failed", "Updating", and "Canceled".
+    :vartype provisioning_state: str or
+     ~azure.mgmt.machinelearningservices.models.MarketplaceSubscriptionProvisioningState
+    """
+
+    _validation = {
+        "marketplace_plan": {"readonly": True},
+        "marketplace_subscription_status": {"readonly": True},
+        "model_id": {"required": True, "min_length": 1, "pattern": r"[a-zA-Z0-9_]"},
+        "provisioning_state": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "marketplace_plan": {"key": "marketplacePlan", "type": "MarketplacePlan"},
+        "marketplace_subscription_status": {"key": "marketplaceSubscriptionStatus", "type": "str"},
+        "model_id": {"key": "modelId", "type": "str"},
+        "provisioning_state": {"key": "provisioningState", "type": "str"},
+    }
+
+    def __init__(self, *, model_id: str, **kwargs: Any) -> None:
+        """
+        :keyword model_id: [Required] Target Marketplace Model ID to create a Marketplace Subscription
+         for. Required.
+        :paramtype model_id: str
+        """
+        super().__init__(**kwargs)
+        self.marketplace_plan: Optional["_models.MarketplacePlan"] = None
+        self.marketplace_subscription_status: Optional[Union[str, "_models.MarketplaceSubscriptionStatus"]] = None
+        self.model_id = model_id
+        self.provisioning_state: Optional[Union[str, "_models.MarketplaceSubscriptionProvisioningState"]] = None
+
+
+class MarketplaceSubscriptionResourceArmPaginatedResult(_serialization.Model):  # pylint: disable=name-too-long
+    """A paginated list of MarketplaceSubscription entities.
+
+    :ivar next_link: The link to the next page of MarketplaceSubscription objects. If null, there
+     are no additional pages.
+    :vartype next_link: str
+    :ivar value: An array of objects of type MarketplaceSubscription.
+    :vartype value: list[~azure.mgmt.machinelearningservices.models.MarketplaceSubscription]
+    """
+
+    _attribute_map = {
+        "next_link": {"key": "nextLink", "type": "str"},
+        "value": {"key": "value", "type": "[MarketplaceSubscription]"},
+    }
+
+    def __init__(
+        self,
+        *,
+        next_link: Optional[str] = None,
+        value: Optional[List["_models.MarketplaceSubscription"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword next_link: The link to the next page of MarketplaceSubscription objects. If null,
+         there are no additional pages.
+        :paramtype next_link: str
+        :keyword value: An array of objects of type MarketplaceSubscription.
+        :paramtype value: list[~azure.mgmt.machinelearningservices.models.MarketplaceSubscription]
+        """
+        super().__init__(**kwargs)
+        self.next_link = next_link
+        self.value = value
+
+
+class MaterializationComputeResource(_serialization.Model):
+    """DTO object representing compute resource.
+
+    :ivar instance_type: Specifies the instance type.
+    :vartype instance_type: str
+    """
+
+    _attribute_map = {
+        "instance_type": {"key": "instanceType", "type": "str"},
+    }
+
+    def __init__(self, *, instance_type: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword instance_type: Specifies the instance type.
+        :paramtype instance_type: str
+        """
+        super().__init__(**kwargs)
+        self.instance_type = instance_type
+
+
+class MaterializationSettings(_serialization.Model):
+    """MaterializationSettings.
+
+    :ivar notification: Specifies the notification details.
+    :vartype notification: ~azure.mgmt.machinelearningservices.models.NotificationSetting
+    :ivar resource: Specifies the compute resource settings.
+    :vartype resource: ~azure.mgmt.machinelearningservices.models.MaterializationComputeResource
+    :ivar schedule: Specifies the schedule details.
+    :vartype schedule: ~azure.mgmt.machinelearningservices.models.RecurrenceTrigger
+    :ivar spark_configuration: Specifies the spark compute settings.
+    :vartype spark_configuration: dict[str, str]
+    :ivar store_type: Specifies the stores to which materialization should happen. Known values
+     are: "None", "Online", "Offline", and "OnlineAndOffline".
+    :vartype store_type: str or ~azure.mgmt.machinelearningservices.models.MaterializationStoreType
+    """
+
+    _attribute_map = {
+        "notification": {"key": "notification", "type": "NotificationSetting"},
+        "resource": {"key": "resource", "type": "MaterializationComputeResource"},
+        "schedule": {"key": "schedule", "type": "RecurrenceTrigger"},
+        "spark_configuration": {"key": "sparkConfiguration", "type": "{str}"},
+        "store_type": {"key": "storeType", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        notification: Optional["_models.NotificationSetting"] = None,
+        resource: Optional["_models.MaterializationComputeResource"] = None,
+        schedule: Optional["_models.RecurrenceTrigger"] = None,
+        spark_configuration: Optional[Dict[str, str]] = None,
+        store_type: Optional[Union[str, "_models.MaterializationStoreType"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword notification: Specifies the notification details.
+        :paramtype notification: ~azure.mgmt.machinelearningservices.models.NotificationSetting
+        :keyword resource: Specifies the compute resource settings.
+        :paramtype resource: ~azure.mgmt.machinelearningservices.models.MaterializationComputeResource
+        :keyword schedule: Specifies the schedule details.
+        :paramtype schedule: ~azure.mgmt.machinelearningservices.models.RecurrenceTrigger
+        :keyword spark_configuration: Specifies the spark compute settings.
+        :paramtype spark_configuration: dict[str, str]
+        :keyword store_type: Specifies the stores to which materialization should happen. Known values
+         are: "None", "Online", "Offline", and "OnlineAndOffline".
+        :paramtype store_type: str or
+         ~azure.mgmt.machinelearningservices.models.MaterializationStoreType
+        """
+        super().__init__(**kwargs)
+        self.notification = notification
+        self.resource = resource
+        self.schedule = schedule
+        self.spark_configuration = spark_configuration
+        self.store_type = store_type
 
 
 class MedianStoppingPolicy(EarlyTerminationPolicy):
     """Defines an early termination policy based on running averages of the primary metric of all
     runs.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar delay_evaluation: Number of intervals by which to delay the first evaluation.
     :vartype delay_evaluation: int
@@ -14740,7 +19295,7 @@ class MedianStoppingPolicy(EarlyTerminationPolicy):
 class MLFlowModelJobInput(AssetJobInput, JobInput):
     """MLFlowModelJobInput.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar description: Description for the input.
     :vartype description: str
@@ -14794,14 +19349,15 @@ class MLFlowModelJobInput(AssetJobInput, JobInput):
 class MLFlowModelJobOutput(AssetJobOutput, JobOutput):
     """MLFlowModelJobOutput.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar description: Description for the output.
     :vartype description: str
     :ivar job_output_type: [Required] Specifies the type of job. Required. Known values are:
      "uri_file", "uri_folder", "mltable", "custom_model", "mlflow_model", and "triton_model".
     :vartype job_output_type: str or ~azure.mgmt.machinelearningservices.models.JobOutputType
-    :ivar mode: Output Asset Delivery Mode. Known values are: "ReadWriteMount" and "Upload".
+    :ivar mode: Output Asset Delivery Mode. Known values are: "ReadWriteMount", "Upload", and
+     "Direct".
     :vartype mode: str or ~azure.mgmt.machinelearningservices.models.OutputDeliveryMode
     :ivar uri: Output Asset URI.
     :vartype uri: str
@@ -14829,7 +19385,8 @@ class MLFlowModelJobOutput(AssetJobOutput, JobOutput):
         """
         :keyword description: Description for the output.
         :paramtype description: str
-        :keyword mode: Output Asset Delivery Mode. Known values are: "ReadWriteMount" and "Upload".
+        :keyword mode: Output Asset Delivery Mode. Known values are: "ReadWriteMount", "Upload", and
+         "Direct".
         :paramtype mode: str or ~azure.mgmt.machinelearningservices.models.OutputDeliveryMode
         :keyword uri: Output Asset URI.
         :paramtype uri: str
@@ -14844,7 +19401,7 @@ class MLFlowModelJobOutput(AssetJobOutput, JobOutput):
 class MLTableData(DataVersionBaseProperties):
     """MLTable data definition.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar description: The asset description text.
     :vartype description: str
@@ -14927,7 +19484,7 @@ class MLTableData(DataVersionBaseProperties):
 class MLTableJobInput(AssetJobInput, JobInput):
     """MLTableJobInput.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar description: Description for the input.
     :vartype description: str
@@ -14981,14 +19538,15 @@ class MLTableJobInput(AssetJobInput, JobInput):
 class MLTableJobOutput(AssetJobOutput, JobOutput):
     """MLTableJobOutput.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar description: Description for the output.
     :vartype description: str
     :ivar job_output_type: [Required] Specifies the type of job. Required. Known values are:
      "uri_file", "uri_folder", "mltable", "custom_model", "mlflow_model", and "triton_model".
     :vartype job_output_type: str or ~azure.mgmt.machinelearningservices.models.JobOutputType
-    :ivar mode: Output Asset Delivery Mode. Known values are: "ReadWriteMount" and "Upload".
+    :ivar mode: Output Asset Delivery Mode. Known values are: "ReadWriteMount", "Upload", and
+     "Direct".
     :vartype mode: str or ~azure.mgmt.machinelearningservices.models.OutputDeliveryMode
     :ivar uri: Output Asset URI.
     :vartype uri: str
@@ -15016,7 +19574,8 @@ class MLTableJobOutput(AssetJobOutput, JobOutput):
         """
         :keyword description: Description for the output.
         :paramtype description: str
-        :keyword mode: Output Asset Delivery Mode. Known values are: "ReadWriteMount" and "Upload".
+        :keyword mode: Output Asset Delivery Mode. Known values are: "ReadWriteMount", "Upload", and
+         "Direct".
         :paramtype mode: str or ~azure.mgmt.machinelearningservices.models.OutputDeliveryMode
         :keyword uri: Output Asset URI.
         :paramtype uri: str
@@ -15028,12 +19587,12 @@ class MLTableJobOutput(AssetJobOutput, JobOutput):
         self.uri = uri
 
 
-class ModelContainer(Resource):
+class ModelContainer(ProxyResource):
     """Azure Resource Manager resource envelope.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
@@ -15134,7 +19693,7 @@ class ModelContainerProperties(AssetContainer):
         :paramtype is_archived: bool
         """
         super().__init__(description=description, properties=properties, tags=tags, is_archived=is_archived, **kwargs)
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.AssetProvisioningState"]] = None
 
 
 class ModelContainerResourceArmPaginatedResult(_serialization.Model):
@@ -15167,12 +19726,32 @@ class ModelContainerResourceArmPaginatedResult(_serialization.Model):
         self.value = value
 
 
-class ModelVersion(Resource):
+class ModelSettings(_serialization.Model):
+    """ModelSettings.
+
+    :ivar model_id: The unique model identifier that this ServerlessEndpoint should provision.
+    :vartype model_id: str
+    """
+
+    _attribute_map = {
+        "model_id": {"key": "modelId", "type": "str"},
+    }
+
+    def __init__(self, *, model_id: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword model_id: The unique model identifier that this ServerlessEndpoint should provision.
+        :paramtype model_id: str
+        """
+        super().__init__(**kwargs)
+        self.model_id = model_id
+
+
+class ModelVersion(ProxyResource):
     """Azure Resource Manager resource envelope.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
@@ -15214,7 +19793,7 @@ class ModelVersion(Resource):
         self.properties = properties
 
 
-class ModelVersionProperties(AssetBase):  # pylint: disable=too-many-instance-attributes
+class ModelVersionProperties(AssetBase):
     """Model asset version details.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -15312,7 +19891,7 @@ class ModelVersionProperties(AssetBase):  # pylint: disable=too-many-instance-at
         self.job_name = job_name
         self.model_type = model_type
         self.model_uri = model_uri
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.AssetProvisioningState"]] = None
         self.stage = stage
 
 
@@ -15346,10 +19925,266 @@ class ModelVersionResourceArmPaginatedResult(_serialization.Model):
         self.value = value
 
 
+class MonitorComputeConfigurationBase(_serialization.Model):
+    """Monitor compute configuration base definition.
+
+    You probably want to use the sub-classes and not this class directly. Known sub-classes are:
+    MonitorServerlessSparkCompute
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar compute_type: [Required] Specifies the type of signal to monitor. Required.
+     "ServerlessSpark"
+    :vartype compute_type: str or ~azure.mgmt.machinelearningservices.models.MonitorComputeType
+    """
+
+    _validation = {
+        "compute_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "compute_type": {"key": "computeType", "type": "str"},
+    }
+
+    _subtype_map = {"compute_type": {"ServerlessSpark": "MonitorServerlessSparkCompute"}}
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.compute_type: Optional[str] = None
+
+
+class MonitorDefinition(_serialization.Model):
+    """MonitorDefinition.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar alert_notification_settings: The monitor's notification settings.
+    :vartype alert_notification_settings:
+     ~azure.mgmt.machinelearningservices.models.MonitorNotificationSettings
+    :ivar compute_configuration: [Required] The ARM resource ID of the compute resource to run the
+     monitoring job on. Required.
+    :vartype compute_configuration:
+     ~azure.mgmt.machinelearningservices.models.MonitorComputeConfigurationBase
+    :ivar monitoring_target: The entities targeted by the monitor.
+    :vartype monitoring_target: ~azure.mgmt.machinelearningservices.models.MonitoringTarget
+    :ivar signals: [Required] The signals to monitor. Required.
+    :vartype signals: dict[str, ~azure.mgmt.machinelearningservices.models.MonitoringSignalBase]
+    """
+
+    _validation = {
+        "compute_configuration": {"required": True},
+        "signals": {"required": True},
+    }
+
+    _attribute_map = {
+        "alert_notification_settings": {"key": "alertNotificationSettings", "type": "MonitorNotificationSettings"},
+        "compute_configuration": {"key": "computeConfiguration", "type": "MonitorComputeConfigurationBase"},
+        "monitoring_target": {"key": "monitoringTarget", "type": "MonitoringTarget"},
+        "signals": {"key": "signals", "type": "{MonitoringSignalBase}"},
+    }
+
+    def __init__(
+        self,
+        *,
+        compute_configuration: "_models.MonitorComputeConfigurationBase",
+        signals: Dict[str, "_models.MonitoringSignalBase"],
+        alert_notification_settings: Optional["_models.MonitorNotificationSettings"] = None,
+        monitoring_target: Optional["_models.MonitoringTarget"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword alert_notification_settings: The monitor's notification settings.
+        :paramtype alert_notification_settings:
+         ~azure.mgmt.machinelearningservices.models.MonitorNotificationSettings
+        :keyword compute_configuration: [Required] The ARM resource ID of the compute resource to run
+         the monitoring job on. Required.
+        :paramtype compute_configuration:
+         ~azure.mgmt.machinelearningservices.models.MonitorComputeConfigurationBase
+        :keyword monitoring_target: The entities targeted by the monitor.
+        :paramtype monitoring_target: ~azure.mgmt.machinelearningservices.models.MonitoringTarget
+        :keyword signals: [Required] The signals to monitor. Required.
+        :paramtype signals: dict[str, ~azure.mgmt.machinelearningservices.models.MonitoringSignalBase]
+        """
+        super().__init__(**kwargs)
+        self.alert_notification_settings = alert_notification_settings
+        self.compute_configuration = compute_configuration
+        self.monitoring_target = monitoring_target
+        self.signals = signals
+
+
+class MonitorEmailNotificationSettings(_serialization.Model):
+    """MonitorEmailNotificationSettings.
+
+    :ivar emails: The email recipient list which has a limitation of 499 characters in total.
+    :vartype emails: list[str]
+    """
+
+    _attribute_map = {
+        "emails": {"key": "emails", "type": "[str]"},
+    }
+
+    def __init__(self, *, emails: Optional[List[str]] = None, **kwargs: Any) -> None:
+        """
+        :keyword emails: The email recipient list which has a limitation of 499 characters in total.
+        :paramtype emails: list[str]
+        """
+        super().__init__(**kwargs)
+        self.emails = emails
+
+
+class MonitoringTarget(_serialization.Model):
+    """Monitoring target definition.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar deployment_id: Reference to the deployment asset targeted by this monitor.
+    :vartype deployment_id: str
+    :ivar model_id: Reference to the model asset targeted by this monitor.
+    :vartype model_id: str
+    :ivar task_type: [Required] The machine learning task type of the monitored model. Required.
+     Known values are: "Classification" and "Regression".
+    :vartype task_type: str or ~azure.mgmt.machinelearningservices.models.ModelTaskType
+    """
+
+    _validation = {
+        "task_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "deployment_id": {"key": "deploymentId", "type": "str"},
+        "model_id": {"key": "modelId", "type": "str"},
+        "task_type": {"key": "taskType", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        task_type: Union[str, "_models.ModelTaskType"],
+        deployment_id: Optional[str] = None,
+        model_id: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword deployment_id: Reference to the deployment asset targeted by this monitor.
+        :paramtype deployment_id: str
+        :keyword model_id: Reference to the model asset targeted by this monitor.
+        :paramtype model_id: str
+        :keyword task_type: [Required] The machine learning task type of the monitored model. Required.
+         Known values are: "Classification" and "Regression".
+        :paramtype task_type: str or ~azure.mgmt.machinelearningservices.models.ModelTaskType
+        """
+        super().__init__(**kwargs)
+        self.deployment_id = deployment_id
+        self.model_id = model_id
+        self.task_type = task_type
+
+
+class MonitoringThreshold(_serialization.Model):
+    """MonitoringThreshold.
+
+    :ivar value: The threshold value. If null, the set default is dependent on the metric type.
+    :vartype value: float
+    """
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "float"},
+    }
+
+    def __init__(self, *, value: Optional[float] = None, **kwargs: Any) -> None:
+        """
+        :keyword value: The threshold value. If null, the set default is dependent on the metric type.
+        :paramtype value: float
+        """
+        super().__init__(**kwargs)
+        self.value = value
+
+
+class MonitorNotificationSettings(_serialization.Model):
+    """MonitorNotificationSettings.
+
+    :ivar email_notification_settings: The AML notification email settings.
+    :vartype email_notification_settings:
+     ~azure.mgmt.machinelearningservices.models.MonitorEmailNotificationSettings
+    """
+
+    _attribute_map = {
+        "email_notification_settings": {"key": "emailNotificationSettings", "type": "MonitorEmailNotificationSettings"},
+    }
+
+    def __init__(
+        self, *, email_notification_settings: Optional["_models.MonitorEmailNotificationSettings"] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword email_notification_settings: The AML notification email settings.
+        :paramtype email_notification_settings:
+         ~azure.mgmt.machinelearningservices.models.MonitorEmailNotificationSettings
+        """
+        super().__init__(**kwargs)
+        self.email_notification_settings = email_notification_settings
+
+
+class MonitorServerlessSparkCompute(MonitorComputeConfigurationBase):
+    """Monitor serverless spark compute definition.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar compute_type: [Required] Specifies the type of signal to monitor. Required.
+     "ServerlessSpark"
+    :vartype compute_type: str or ~azure.mgmt.machinelearningservices.models.MonitorComputeType
+    :ivar compute_identity: [Required] The identity scheme leveraged to by the spark jobs running
+     on serverless Spark. Required.
+    :vartype compute_identity:
+     ~azure.mgmt.machinelearningservices.models.MonitorComputeIdentityBase
+    :ivar instance_type: [Required] The instance type running the Spark job. Required.
+    :vartype instance_type: str
+    :ivar runtime_version: [Required] The Spark runtime version. Required.
+    :vartype runtime_version: str
+    """
+
+    _validation = {
+        "compute_type": {"required": True},
+        "compute_identity": {"required": True},
+        "instance_type": {"required": True, "min_length": 1, "pattern": r"[a-zA-Z0-9_]"},
+        "runtime_version": {"required": True, "min_length": 1, "pattern": r"^[0-9]+\.[0-9]+$"},
+    }
+
+    _attribute_map = {
+        "compute_type": {"key": "computeType", "type": "str"},
+        "compute_identity": {"key": "computeIdentity", "type": "MonitorComputeIdentityBase"},
+        "instance_type": {"key": "instanceType", "type": "str"},
+        "runtime_version": {"key": "runtimeVersion", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        compute_identity: "_models.MonitorComputeIdentityBase",
+        instance_type: str,
+        runtime_version: str,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword compute_identity: [Required] The identity scheme leveraged to by the spark jobs
+         running on serverless Spark. Required.
+        :paramtype compute_identity:
+         ~azure.mgmt.machinelearningservices.models.MonitorComputeIdentityBase
+        :keyword instance_type: [Required] The instance type running the Spark job. Required.
+        :paramtype instance_type: str
+        :keyword runtime_version: [Required] The Spark runtime version. Required.
+        :paramtype runtime_version: str
+        """
+        super().__init__(**kwargs)
+        self.compute_type: str = "ServerlessSpark"
+        self.compute_identity = compute_identity
+        self.instance_type = instance_type
+        self.runtime_version = runtime_version
+
+
 class Mpi(DistributionConfiguration):
     """MPI distribution configuration.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar distribution_type: [Required] Specifies the type of distribution framework. Required.
      Known values are: "PyTorch", "TensorFlow", and "Mpi".
@@ -15426,17 +20261,6 @@ class NlpVerticalFeaturizationSettings(FeaturizationSettings):
     :vartype dataset_language: str
     """
 
-    _attribute_map = {
-        "dataset_language": {"key": "datasetLanguage", "type": "str"},
-    }
-
-    def __init__(self, *, dataset_language: Optional[str] = None, **kwargs: Any) -> None:
-        """
-        :keyword dataset_language: Dataset language, useful for the text data.
-        :paramtype dataset_language: str
-        """
-        super().__init__(dataset_language=dataset_language, **kwargs)
-
 
 class NlpVerticalLimitSettings(_serialization.Model):
     """Job execution constraints.
@@ -15512,27 +20336,59 @@ class NodeStateCounts(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.idle_node_count = None
-        self.running_node_count = None
-        self.preparing_node_count = None
-        self.unusable_node_count = None
-        self.leaving_node_count = None
-        self.preempted_node_count = None
+        self.idle_node_count: Optional[int] = None
+        self.running_node_count: Optional[int] = None
+        self.preparing_node_count: Optional[int] = None
+        self.unusable_node_count: Optional[int] = None
+        self.leaving_node_count: Optional[int] = None
+        self.preempted_node_count: Optional[int] = None
 
 
-class NoneAuthTypeWorkspaceConnectionProperties(WorkspaceConnectionPropertiesV2):
+class NoneAuthTypeWorkspaceConnectionProperties(WorkspaceConnectionPropertiesV2):  # pylint: disable=name-too-long
     """NoneAuthTypeWorkspaceConnectionProperties.
 
-    All required parameters must be populated in order to send to Azure.
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
 
     :ivar auth_type: Authentication type of the connection target. Required. Known values are:
-     "PAT", "ManagedIdentity", "UsernamePassword", "None", and "SAS".
+     "PAT", "ManagedIdentity", "UsernamePassword", "None", "SAS", "AccountKey", "ServicePrincipal",
+     "AccessKey", "ApiKey", "CustomKeys", "OAuth2", and "AAD".
     :vartype auth_type: str or ~azure.mgmt.machinelearningservices.models.ConnectionAuthType
     :ivar category: Category of the connection. Known values are: "PythonFeed",
-     "ContainerRegistry", and "Git".
+     "ContainerRegistry", "Git", "S3", "Snowflake", "AzureSqlDb", "AzureSynapseAnalytics",
+     "AzureMySqlDb", "AzurePostgresDb", "ADLSGen2", "Redis", "ApiKey", "AzureOpenAI", "AIServices",
+     "CognitiveSearch", "CognitiveService", "CustomKeys", "AzureBlob", "AzureOneLake", "CosmosDb",
+     "CosmosDbMongoDbApi", "AzureDataExplorer", "AzureMariaDb", "AzureDatabricksDeltaLake",
+     "AzureSqlMi", "AzureTableStorage", "AmazonRdsForOracle", "AmazonRdsForSqlServer",
+     "AmazonRedshift", "Db2", "Drill", "GoogleBigQuery", "Greenplum", "Hbase", "Hive", "Impala",
+     "Informix", "MariaDb", "MicrosoftAccess", "MySql", "Netezza", "Oracle", "Phoenix",
+     "PostgreSql", "Presto", "SapOpenHub", "SapBw", "SapHana", "SapTable", "Spark", "SqlServer",
+     "Sybase", "Teradata", "Vertica", "Pinecone", "Cassandra", "Couchbase", "MongoDbV2",
+     "MongoDbAtlas", "AmazonS3Compatible", "FileServer", "FtpServer", "GoogleCloudStorage", "Hdfs",
+     "OracleCloudStorage", "Sftp", "GenericHttp", "ODataRest", "Odbc", "GenericRest", "AmazonMws",
+     "Concur", "Dynamics", "DynamicsAx", "DynamicsCrm", "GoogleAdWords", "Hubspot", "Jira",
+     "Magento", "Marketo", "Office365", "Eloqua", "Responsys", "OracleServiceCloud", "PayPal",
+     "QuickBooks", "Salesforce", "SalesforceServiceCloud", "SalesforceMarketingCloud",
+     "SapCloudForCustomer", "SapEcc", "ServiceNow", "SharePointOnlineList", "Shopify", "Square",
+     "WebTable", "Xero", "Zoho", "GenericContainerRegistry", "Elasticsearch", "OpenAI", "Serp",
+     "BingLLMSearch", "Serverless", and "ManagedOnlineEndpoint".
     :vartype category: str or ~azure.mgmt.machinelearningservices.models.ConnectionCategory
+    :ivar created_by_workspace_arm_id:
+    :vartype created_by_workspace_arm_id: str
+    :ivar expiry_time:
+    :vartype expiry_time: ~datetime.datetime
+    :ivar group: Group based on connection category. Known values are: "Azure", "AzureAI",
+     "Database", "NoSQL", "File", "GenericProtocol", and "ServicesAndApps".
+    :vartype group: str or ~azure.mgmt.machinelearningservices.models.ConnectionGroup
+    :ivar is_shared_to_all:
+    :vartype is_shared_to_all: bool
     :ivar target:
     :vartype target: str
+    :ivar metadata: Store user metadata for this connection.
+    :vartype metadata: dict[str, str]
+    :ivar shared_user_list:
+    :vartype shared_user_list: list[str]
     :ivar value: Value details of the workspace connection.
     :vartype value: str
     :ivar value_format: format for the workspace connection value. "JSON"
@@ -15541,12 +20397,20 @@ class NoneAuthTypeWorkspaceConnectionProperties(WorkspaceConnectionPropertiesV2)
 
     _validation = {
         "auth_type": {"required": True},
+        "created_by_workspace_arm_id": {"readonly": True},
+        "group": {"readonly": True},
     }
 
     _attribute_map = {
         "auth_type": {"key": "authType", "type": "str"},
         "category": {"key": "category", "type": "str"},
+        "created_by_workspace_arm_id": {"key": "createdByWorkspaceArmId", "type": "str"},
+        "expiry_time": {"key": "expiryTime", "type": "iso-8601"},
+        "group": {"key": "group", "type": "str"},
+        "is_shared_to_all": {"key": "isSharedToAll", "type": "bool"},
         "target": {"key": "target", "type": "str"},
+        "metadata": {"key": "metadata", "type": "{str}"},
+        "shared_user_list": {"key": "sharedUserList", "type": "[str]"},
         "value": {"key": "value", "type": "str"},
         "value_format": {"key": "valueFormat", "type": "str"},
     }
@@ -15555,30 +20419,68 @@ class NoneAuthTypeWorkspaceConnectionProperties(WorkspaceConnectionPropertiesV2)
         self,
         *,
         category: Optional[Union[str, "_models.ConnectionCategory"]] = None,
+        expiry_time: Optional[datetime.datetime] = None,
+        is_shared_to_all: Optional[bool] = None,
         target: Optional[str] = None,
+        metadata: Optional[Dict[str, str]] = None,
+        shared_user_list: Optional[List[str]] = None,
         value: Optional[str] = None,
         value_format: Optional[Union[str, "_models.ValueFormat"]] = None,
         **kwargs: Any
     ) -> None:
         """
         :keyword category: Category of the connection. Known values are: "PythonFeed",
-         "ContainerRegistry", and "Git".
+         "ContainerRegistry", "Git", "S3", "Snowflake", "AzureSqlDb", "AzureSynapseAnalytics",
+         "AzureMySqlDb", "AzurePostgresDb", "ADLSGen2", "Redis", "ApiKey", "AzureOpenAI", "AIServices",
+         "CognitiveSearch", "CognitiveService", "CustomKeys", "AzureBlob", "AzureOneLake", "CosmosDb",
+         "CosmosDbMongoDbApi", "AzureDataExplorer", "AzureMariaDb", "AzureDatabricksDeltaLake",
+         "AzureSqlMi", "AzureTableStorage", "AmazonRdsForOracle", "AmazonRdsForSqlServer",
+         "AmazonRedshift", "Db2", "Drill", "GoogleBigQuery", "Greenplum", "Hbase", "Hive", "Impala",
+         "Informix", "MariaDb", "MicrosoftAccess", "MySql", "Netezza", "Oracle", "Phoenix",
+         "PostgreSql", "Presto", "SapOpenHub", "SapBw", "SapHana", "SapTable", "Spark", "SqlServer",
+         "Sybase", "Teradata", "Vertica", "Pinecone", "Cassandra", "Couchbase", "MongoDbV2",
+         "MongoDbAtlas", "AmazonS3Compatible", "FileServer", "FtpServer", "GoogleCloudStorage", "Hdfs",
+         "OracleCloudStorage", "Sftp", "GenericHttp", "ODataRest", "Odbc", "GenericRest", "AmazonMws",
+         "Concur", "Dynamics", "DynamicsAx", "DynamicsCrm", "GoogleAdWords", "Hubspot", "Jira",
+         "Magento", "Marketo", "Office365", "Eloqua", "Responsys", "OracleServiceCloud", "PayPal",
+         "QuickBooks", "Salesforce", "SalesforceServiceCloud", "SalesforceMarketingCloud",
+         "SapCloudForCustomer", "SapEcc", "ServiceNow", "SharePointOnlineList", "Shopify", "Square",
+         "WebTable", "Xero", "Zoho", "GenericContainerRegistry", "Elasticsearch", "OpenAI", "Serp",
+         "BingLLMSearch", "Serverless", and "ManagedOnlineEndpoint".
         :paramtype category: str or ~azure.mgmt.machinelearningservices.models.ConnectionCategory
+        :keyword expiry_time:
+        :paramtype expiry_time: ~datetime.datetime
+        :keyword is_shared_to_all:
+        :paramtype is_shared_to_all: bool
         :keyword target:
         :paramtype target: str
+        :keyword metadata: Store user metadata for this connection.
+        :paramtype metadata: dict[str, str]
+        :keyword shared_user_list:
+        :paramtype shared_user_list: list[str]
         :keyword value: Value details of the workspace connection.
         :paramtype value: str
         :keyword value_format: format for the workspace connection value. "JSON"
         :paramtype value_format: str or ~azure.mgmt.machinelearningservices.models.ValueFormat
         """
-        super().__init__(category=category, target=target, value=value, value_format=value_format, **kwargs)
+        super().__init__(
+            category=category,
+            expiry_time=expiry_time,
+            is_shared_to_all=is_shared_to_all,
+            target=target,
+            metadata=metadata,
+            shared_user_list=shared_user_list,
+            value=value,
+            value_format=value_format,
+            **kwargs
+        )
         self.auth_type: str = "None"
 
 
 class NoneDatastoreCredentials(DatastoreCredentials):
     """Empty/none datastore credentials.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar credentials_type: [Required] Credential type used to authentication with storage.
      Required. Known values are: "AccountKey", "Certificate", "None", "Sas", and "ServicePrincipal".
@@ -15647,14 +20549,14 @@ class NotebookAccessTokenResult(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.notebook_resource_id = None
-        self.host_name = None
-        self.public_dns = None
-        self.access_token = None
-        self.token_type = None
-        self.expires_in = None
-        self.refresh_token = None
-        self.scope = None
+        self.notebook_resource_id: Optional[str] = None
+        self.host_name: Optional[str] = None
+        self.public_dns: Optional[str] = None
+        self.access_token: Optional[str] = None
+        self.token_type: Optional[str] = None
+        self.expires_in: Optional[int] = None
+        self.refresh_token: Optional[str] = None
+        self.scope: Optional[str] = None
 
 
 class NotebookPreparationError(_serialization.Model):
@@ -15726,10 +20628,344 @@ class NotebookResourceInfo(_serialization.Model):
         self.notebook_preparation_error = notebook_preparation_error
 
 
+class NotificationSetting(_serialization.Model):
+    """Configuration for notification.
+
+    :ivar email_on: Send email notification to user on specified notification type.
+    :vartype email_on: list[str or
+     ~azure.mgmt.machinelearningservices.models.EmailNotificationEnableType]
+    :ivar emails: This is the email recipient list which has a limitation of 499 characters in
+     total concat with comma separator.
+    :vartype emails: list[str]
+    :ivar webhooks: Send webhook callback to a service. Key is a user-provided name for the
+     webhook.
+    :vartype webhooks: dict[str, ~azure.mgmt.machinelearningservices.models.Webhook]
+    """
+
+    _attribute_map = {
+        "email_on": {"key": "emailOn", "type": "[str]"},
+        "emails": {"key": "emails", "type": "[str]"},
+        "webhooks": {"key": "webhooks", "type": "{Webhook}"},
+    }
+
+    def __init__(
+        self,
+        *,
+        email_on: Optional[List[Union[str, "_models.EmailNotificationEnableType"]]] = None,
+        emails: Optional[List[str]] = None,
+        webhooks: Optional[Dict[str, "_models.Webhook"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword email_on: Send email notification to user on specified notification type.
+        :paramtype email_on: list[str or
+         ~azure.mgmt.machinelearningservices.models.EmailNotificationEnableType]
+        :keyword emails: This is the email recipient list which has a limitation of 499 characters in
+         total concat with comma separator.
+        :paramtype emails: list[str]
+        :keyword webhooks: Send webhook callback to a service. Key is a user-provided name for the
+         webhook.
+        :paramtype webhooks: dict[str, ~azure.mgmt.machinelearningservices.models.Webhook]
+        """
+        super().__init__(**kwargs)
+        self.email_on = email_on
+        self.emails = emails
+        self.webhooks = webhooks
+
+
+class NumericalDataDriftMetricThreshold(DataDriftMetricThresholdBase):
+    """NumericalDataDriftMetricThreshold.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar data_type: [Required] Specifies the data type of the metric threshold. Required. Known
+     values are: "Numerical" and "Categorical".
+    :vartype data_type: str or ~azure.mgmt.machinelearningservices.models.MonitoringFeatureDataType
+    :ivar threshold: The threshold value. If null, a default value will be set depending on the
+     selected metric.
+    :vartype threshold: ~azure.mgmt.machinelearningservices.models.MonitoringThreshold
+    :ivar metric: [Required] The numerical data drift metric to calculate. Required. Known values
+     are: "JensenShannonDistance", "PopulationStabilityIndex", "NormalizedWassersteinDistance", and
+     "TwoSampleKolmogorovSmirnovTest".
+    :vartype metric: str or ~azure.mgmt.machinelearningservices.models.NumericalDataDriftMetric
+    """
+
+    _validation = {
+        "data_type": {"required": True},
+        "metric": {"required": True},
+    }
+
+    _attribute_map = {
+        "data_type": {"key": "dataType", "type": "str"},
+        "threshold": {"key": "threshold", "type": "MonitoringThreshold"},
+        "metric": {"key": "metric", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        metric: Union[str, "_models.NumericalDataDriftMetric"],
+        threshold: Optional["_models.MonitoringThreshold"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword threshold: The threshold value. If null, a default value will be set depending on the
+         selected metric.
+        :paramtype threshold: ~azure.mgmt.machinelearningservices.models.MonitoringThreshold
+        :keyword metric: [Required] The numerical data drift metric to calculate. Required. Known
+         values are: "JensenShannonDistance", "PopulationStabilityIndex",
+         "NormalizedWassersteinDistance", and "TwoSampleKolmogorovSmirnovTest".
+        :paramtype metric: str or ~azure.mgmt.machinelearningservices.models.NumericalDataDriftMetric
+        """
+        super().__init__(threshold=threshold, **kwargs)
+        self.data_type: str = "Numerical"
+        self.metric = metric
+
+
+class NumericalDataQualityMetricThreshold(DataQualityMetricThresholdBase):
+    """NumericalDataQualityMetricThreshold.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar data_type: [Required] Specifies the data type of the metric threshold. Required. Known
+     values are: "Numerical" and "Categorical".
+    :vartype data_type: str or ~azure.mgmt.machinelearningservices.models.MonitoringFeatureDataType
+    :ivar threshold: The threshold value. If null, a default value will be set depending on the
+     selected metric.
+    :vartype threshold: ~azure.mgmt.machinelearningservices.models.MonitoringThreshold
+    :ivar metric: [Required] The numerical data quality metric to calculate. Required. Known values
+     are: "NullValueRate", "DataTypeErrorRate", and "OutOfBoundsRate".
+    :vartype metric: str or ~azure.mgmt.machinelearningservices.models.NumericalDataQualityMetric
+    """
+
+    _validation = {
+        "data_type": {"required": True},
+        "metric": {"required": True},
+    }
+
+    _attribute_map = {
+        "data_type": {"key": "dataType", "type": "str"},
+        "threshold": {"key": "threshold", "type": "MonitoringThreshold"},
+        "metric": {"key": "metric", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        metric: Union[str, "_models.NumericalDataQualityMetric"],
+        threshold: Optional["_models.MonitoringThreshold"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword threshold: The threshold value. If null, a default value will be set depending on the
+         selected metric.
+        :paramtype threshold: ~azure.mgmt.machinelearningservices.models.MonitoringThreshold
+        :keyword metric: [Required] The numerical data quality metric to calculate. Required. Known
+         values are: "NullValueRate", "DataTypeErrorRate", and "OutOfBoundsRate".
+        :paramtype metric: str or ~azure.mgmt.machinelearningservices.models.NumericalDataQualityMetric
+        """
+        super().__init__(threshold=threshold, **kwargs)
+        self.data_type: str = "Numerical"
+        self.metric = metric
+
+
+class NumericalPredictionDriftMetricThreshold(PredictionDriftMetricThresholdBase):
+    """NumericalPredictionDriftMetricThreshold.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar data_type: [Required] Specifies the data type of the metric threshold. Required. Known
+     values are: "Numerical" and "Categorical".
+    :vartype data_type: str or ~azure.mgmt.machinelearningservices.models.MonitoringFeatureDataType
+    :ivar threshold: The threshold value. If null, a default value will be set depending on the
+     selected metric.
+    :vartype threshold: ~azure.mgmt.machinelearningservices.models.MonitoringThreshold
+    :ivar metric: [Required] The numerical prediction drift metric to calculate. Required. Known
+     values are: "JensenShannonDistance", "PopulationStabilityIndex",
+     "NormalizedWassersteinDistance", and "TwoSampleKolmogorovSmirnovTest".
+    :vartype metric: str or
+     ~azure.mgmt.machinelearningservices.models.NumericalPredictionDriftMetric
+    """
+
+    _validation = {
+        "data_type": {"required": True},
+        "metric": {"required": True},
+    }
+
+    _attribute_map = {
+        "data_type": {"key": "dataType", "type": "str"},
+        "threshold": {"key": "threshold", "type": "MonitoringThreshold"},
+        "metric": {"key": "metric", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        metric: Union[str, "_models.NumericalPredictionDriftMetric"],
+        threshold: Optional["_models.MonitoringThreshold"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword threshold: The threshold value. If null, a default value will be set depending on the
+         selected metric.
+        :paramtype threshold: ~azure.mgmt.machinelearningservices.models.MonitoringThreshold
+        :keyword metric: [Required] The numerical prediction drift metric to calculate. Required. Known
+         values are: "JensenShannonDistance", "PopulationStabilityIndex",
+         "NormalizedWassersteinDistance", and "TwoSampleKolmogorovSmirnovTest".
+        :paramtype metric: str or
+         ~azure.mgmt.machinelearningservices.models.NumericalPredictionDriftMetric
+        """
+        super().__init__(threshold=threshold, **kwargs)
+        self.data_type: str = "Numerical"
+        self.metric = metric
+
+
+class OAuth2AuthTypeWorkspaceConnectionProperties(WorkspaceConnectionPropertiesV2):  # pylint: disable=name-too-long
+    """OAuth2AuthTypeWorkspaceConnectionProperties.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar auth_type: Authentication type of the connection target. Required. Known values are:
+     "PAT", "ManagedIdentity", "UsernamePassword", "None", "SAS", "AccountKey", "ServicePrincipal",
+     "AccessKey", "ApiKey", "CustomKeys", "OAuth2", and "AAD".
+    :vartype auth_type: str or ~azure.mgmt.machinelearningservices.models.ConnectionAuthType
+    :ivar category: Category of the connection. Known values are: "PythonFeed",
+     "ContainerRegistry", "Git", "S3", "Snowflake", "AzureSqlDb", "AzureSynapseAnalytics",
+     "AzureMySqlDb", "AzurePostgresDb", "ADLSGen2", "Redis", "ApiKey", "AzureOpenAI", "AIServices",
+     "CognitiveSearch", "CognitiveService", "CustomKeys", "AzureBlob", "AzureOneLake", "CosmosDb",
+     "CosmosDbMongoDbApi", "AzureDataExplorer", "AzureMariaDb", "AzureDatabricksDeltaLake",
+     "AzureSqlMi", "AzureTableStorage", "AmazonRdsForOracle", "AmazonRdsForSqlServer",
+     "AmazonRedshift", "Db2", "Drill", "GoogleBigQuery", "Greenplum", "Hbase", "Hive", "Impala",
+     "Informix", "MariaDb", "MicrosoftAccess", "MySql", "Netezza", "Oracle", "Phoenix",
+     "PostgreSql", "Presto", "SapOpenHub", "SapBw", "SapHana", "SapTable", "Spark", "SqlServer",
+     "Sybase", "Teradata", "Vertica", "Pinecone", "Cassandra", "Couchbase", "MongoDbV2",
+     "MongoDbAtlas", "AmazonS3Compatible", "FileServer", "FtpServer", "GoogleCloudStorage", "Hdfs",
+     "OracleCloudStorage", "Sftp", "GenericHttp", "ODataRest", "Odbc", "GenericRest", "AmazonMws",
+     "Concur", "Dynamics", "DynamicsAx", "DynamicsCrm", "GoogleAdWords", "Hubspot", "Jira",
+     "Magento", "Marketo", "Office365", "Eloqua", "Responsys", "OracleServiceCloud", "PayPal",
+     "QuickBooks", "Salesforce", "SalesforceServiceCloud", "SalesforceMarketingCloud",
+     "SapCloudForCustomer", "SapEcc", "ServiceNow", "SharePointOnlineList", "Shopify", "Square",
+     "WebTable", "Xero", "Zoho", "GenericContainerRegistry", "Elasticsearch", "OpenAI", "Serp",
+     "BingLLMSearch", "Serverless", and "ManagedOnlineEndpoint".
+    :vartype category: str or ~azure.mgmt.machinelearningservices.models.ConnectionCategory
+    :ivar created_by_workspace_arm_id:
+    :vartype created_by_workspace_arm_id: str
+    :ivar expiry_time:
+    :vartype expiry_time: ~datetime.datetime
+    :ivar group: Group based on connection category. Known values are: "Azure", "AzureAI",
+     "Database", "NoSQL", "File", "GenericProtocol", and "ServicesAndApps".
+    :vartype group: str or ~azure.mgmt.machinelearningservices.models.ConnectionGroup
+    :ivar is_shared_to_all:
+    :vartype is_shared_to_all: bool
+    :ivar target:
+    :vartype target: str
+    :ivar metadata: Store user metadata for this connection.
+    :vartype metadata: dict[str, str]
+    :ivar shared_user_list:
+    :vartype shared_user_list: list[str]
+    :ivar value: Value details of the workspace connection.
+    :vartype value: str
+    :ivar value_format: format for the workspace connection value. "JSON"
+    :vartype value_format: str or ~azure.mgmt.machinelearningservices.models.ValueFormat
+    :ivar credentials: ClientId and ClientSecret are required. Other properties are optional
+     depending on each OAuth2 provider's implementation.
+    :vartype credentials: ~azure.mgmt.machinelearningservices.models.WorkspaceConnectionOAuth2
+    """
+
+    _validation = {
+        "auth_type": {"required": True},
+        "created_by_workspace_arm_id": {"readonly": True},
+        "group": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "auth_type": {"key": "authType", "type": "str"},
+        "category": {"key": "category", "type": "str"},
+        "created_by_workspace_arm_id": {"key": "createdByWorkspaceArmId", "type": "str"},
+        "expiry_time": {"key": "expiryTime", "type": "iso-8601"},
+        "group": {"key": "group", "type": "str"},
+        "is_shared_to_all": {"key": "isSharedToAll", "type": "bool"},
+        "target": {"key": "target", "type": "str"},
+        "metadata": {"key": "metadata", "type": "{str}"},
+        "shared_user_list": {"key": "sharedUserList", "type": "[str]"},
+        "value": {"key": "value", "type": "str"},
+        "value_format": {"key": "valueFormat", "type": "str"},
+        "credentials": {"key": "credentials", "type": "WorkspaceConnectionOAuth2"},
+    }
+
+    def __init__(
+        self,
+        *,
+        category: Optional[Union[str, "_models.ConnectionCategory"]] = None,
+        expiry_time: Optional[datetime.datetime] = None,
+        is_shared_to_all: Optional[bool] = None,
+        target: Optional[str] = None,
+        metadata: Optional[Dict[str, str]] = None,
+        shared_user_list: Optional[List[str]] = None,
+        value: Optional[str] = None,
+        value_format: Optional[Union[str, "_models.ValueFormat"]] = None,
+        credentials: Optional["_models.WorkspaceConnectionOAuth2"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword category: Category of the connection. Known values are: "PythonFeed",
+         "ContainerRegistry", "Git", "S3", "Snowflake", "AzureSqlDb", "AzureSynapseAnalytics",
+         "AzureMySqlDb", "AzurePostgresDb", "ADLSGen2", "Redis", "ApiKey", "AzureOpenAI", "AIServices",
+         "CognitiveSearch", "CognitiveService", "CustomKeys", "AzureBlob", "AzureOneLake", "CosmosDb",
+         "CosmosDbMongoDbApi", "AzureDataExplorer", "AzureMariaDb", "AzureDatabricksDeltaLake",
+         "AzureSqlMi", "AzureTableStorage", "AmazonRdsForOracle", "AmazonRdsForSqlServer",
+         "AmazonRedshift", "Db2", "Drill", "GoogleBigQuery", "Greenplum", "Hbase", "Hive", "Impala",
+         "Informix", "MariaDb", "MicrosoftAccess", "MySql", "Netezza", "Oracle", "Phoenix",
+         "PostgreSql", "Presto", "SapOpenHub", "SapBw", "SapHana", "SapTable", "Spark", "SqlServer",
+         "Sybase", "Teradata", "Vertica", "Pinecone", "Cassandra", "Couchbase", "MongoDbV2",
+         "MongoDbAtlas", "AmazonS3Compatible", "FileServer", "FtpServer", "GoogleCloudStorage", "Hdfs",
+         "OracleCloudStorage", "Sftp", "GenericHttp", "ODataRest", "Odbc", "GenericRest", "AmazonMws",
+         "Concur", "Dynamics", "DynamicsAx", "DynamicsCrm", "GoogleAdWords", "Hubspot", "Jira",
+         "Magento", "Marketo", "Office365", "Eloqua", "Responsys", "OracleServiceCloud", "PayPal",
+         "QuickBooks", "Salesforce", "SalesforceServiceCloud", "SalesforceMarketingCloud",
+         "SapCloudForCustomer", "SapEcc", "ServiceNow", "SharePointOnlineList", "Shopify", "Square",
+         "WebTable", "Xero", "Zoho", "GenericContainerRegistry", "Elasticsearch", "OpenAI", "Serp",
+         "BingLLMSearch", "Serverless", and "ManagedOnlineEndpoint".
+        :paramtype category: str or ~azure.mgmt.machinelearningservices.models.ConnectionCategory
+        :keyword expiry_time:
+        :paramtype expiry_time: ~datetime.datetime
+        :keyword is_shared_to_all:
+        :paramtype is_shared_to_all: bool
+        :keyword target:
+        :paramtype target: str
+        :keyword metadata: Store user metadata for this connection.
+        :paramtype metadata: dict[str, str]
+        :keyword shared_user_list:
+        :paramtype shared_user_list: list[str]
+        :keyword value: Value details of the workspace connection.
+        :paramtype value: str
+        :keyword value_format: format for the workspace connection value. "JSON"
+        :paramtype value_format: str or ~azure.mgmt.machinelearningservices.models.ValueFormat
+        :keyword credentials: ClientId and ClientSecret are required. Other properties are optional
+         depending on each OAuth2 provider's implementation.
+        :paramtype credentials: ~azure.mgmt.machinelearningservices.models.WorkspaceConnectionOAuth2
+        """
+        super().__init__(
+            category=category,
+            expiry_time=expiry_time,
+            is_shared_to_all=is_shared_to_all,
+            target=target,
+            metadata=metadata,
+            shared_user_list=shared_user_list,
+            value=value,
+            value_format=value_format,
+            **kwargs
+        )
+        self.auth_type: str = "OAuth2"
+        self.credentials = credentials
+
+
 class Objective(_serialization.Model):
     """Optimization objective.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar goal: [Required] Defines supported metric goals for hyperparameter tuning. Required.
      Known values are: "Minimize" and "Maximize".
@@ -15761,12 +20997,109 @@ class Objective(_serialization.Model):
         self.primary_metric = primary_metric
 
 
+class OneLakeDatastore(DatastoreProperties):
+    """OneLake (Trident) datastore configuration.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar description: The asset description text.
+    :vartype description: str
+    :ivar properties: The asset property dictionary.
+    :vartype properties: dict[str, str]
+    :ivar tags: Tag dictionary. Tags can be added, removed, and updated.
+    :vartype tags: dict[str, str]
+    :ivar credentials: [Required] Account credentials. Required.
+    :vartype credentials: ~azure.mgmt.machinelearningservices.models.DatastoreCredentials
+    :ivar datastore_type: [Required] Storage type backing the datastore. Required. Known values
+     are: "AzureBlob", "AzureDataLakeGen1", "AzureDataLakeGen2", "AzureFile", and "OneLake".
+    :vartype datastore_type: str or ~azure.mgmt.machinelearningservices.models.DatastoreType
+    :ivar is_default: Readonly property to indicate if datastore is the workspace default
+     datastore.
+    :vartype is_default: bool
+    :ivar artifact: [Required] OneLake artifact backing the datastore. Required.
+    :vartype artifact: ~azure.mgmt.machinelearningservices.models.OneLakeArtifact
+    :ivar endpoint: OneLake endpoint to use for the datastore.
+    :vartype endpoint: str
+    :ivar one_lake_workspace_name: [Required] OneLake workspace name. Required.
+    :vartype one_lake_workspace_name: str
+    :ivar service_data_access_auth_identity: Indicates which identity to use to authenticate
+     service data access to customer's storage. Known values are: "None",
+     "WorkspaceSystemAssignedIdentity", and "WorkspaceUserAssignedIdentity".
+    :vartype service_data_access_auth_identity: str or
+     ~azure.mgmt.machinelearningservices.models.ServiceDataAccessAuthIdentity
+    """
+
+    _validation = {
+        "credentials": {"required": True},
+        "datastore_type": {"required": True},
+        "is_default": {"readonly": True},
+        "artifact": {"required": True},
+        "one_lake_workspace_name": {"required": True, "min_length": 1, "pattern": r"[a-zA-Z0-9_]"},
+    }
+
+    _attribute_map = {
+        "description": {"key": "description", "type": "str"},
+        "properties": {"key": "properties", "type": "{str}"},
+        "tags": {"key": "tags", "type": "{str}"},
+        "credentials": {"key": "credentials", "type": "DatastoreCredentials"},
+        "datastore_type": {"key": "datastoreType", "type": "str"},
+        "is_default": {"key": "isDefault", "type": "bool"},
+        "artifact": {"key": "artifact", "type": "OneLakeArtifact"},
+        "endpoint": {"key": "endpoint", "type": "str"},
+        "one_lake_workspace_name": {"key": "oneLakeWorkspaceName", "type": "str"},
+        "service_data_access_auth_identity": {"key": "serviceDataAccessAuthIdentity", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        credentials: "_models.DatastoreCredentials",
+        artifact: "_models.OneLakeArtifact",
+        one_lake_workspace_name: str,
+        description: Optional[str] = None,
+        properties: Optional[Dict[str, str]] = None,
+        tags: Optional[Dict[str, str]] = None,
+        endpoint: Optional[str] = None,
+        service_data_access_auth_identity: Optional[Union[str, "_models.ServiceDataAccessAuthIdentity"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword description: The asset description text.
+        :paramtype description: str
+        :keyword properties: The asset property dictionary.
+        :paramtype properties: dict[str, str]
+        :keyword tags: Tag dictionary. Tags can be added, removed, and updated.
+        :paramtype tags: dict[str, str]
+        :keyword credentials: [Required] Account credentials. Required.
+        :paramtype credentials: ~azure.mgmt.machinelearningservices.models.DatastoreCredentials
+        :keyword artifact: [Required] OneLake artifact backing the datastore. Required.
+        :paramtype artifact: ~azure.mgmt.machinelearningservices.models.OneLakeArtifact
+        :keyword endpoint: OneLake endpoint to use for the datastore.
+        :paramtype endpoint: str
+        :keyword one_lake_workspace_name: [Required] OneLake workspace name. Required.
+        :paramtype one_lake_workspace_name: str
+        :keyword service_data_access_auth_identity: Indicates which identity to use to authenticate
+         service data access to customer's storage. Known values are: "None",
+         "WorkspaceSystemAssignedIdentity", and "WorkspaceUserAssignedIdentity".
+        :paramtype service_data_access_auth_identity: str or
+         ~azure.mgmt.machinelearningservices.models.ServiceDataAccessAuthIdentity
+        """
+        super().__init__(description=description, properties=properties, tags=tags, credentials=credentials, **kwargs)
+        self.datastore_type: str = "OneLake"
+        self.artifact = artifact
+        self.endpoint = endpoint
+        self.one_lake_workspace_name = one_lake_workspace_name
+        self.service_data_access_auth_identity = service_data_access_auth_identity
+
+
 class OnlineDeployment(TrackedResource):
     """OnlineDeployment.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
@@ -15849,7 +21182,7 @@ class OnlineDeployment(TrackedResource):
         self.sku = sku
 
 
-class OnlineDeploymentTrackedResourceArmPaginatedResult(_serialization.Model):
+class OnlineDeploymentTrackedResourceArmPaginatedResult(_serialization.Model):  # pylint: disable=name-too-long
     """A paginated list of OnlineDeployment entities.
 
     :ivar next_link: The link to the next page of OnlineDeployment objects. If null, there are no
@@ -15888,7 +21221,7 @@ class OnlineEndpoint(TrackedResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
@@ -15971,15 +21304,16 @@ class OnlineEndpoint(TrackedResource):
         self.sku = sku
 
 
-class OnlineEndpointProperties(EndpointPropertiesBase):  # pylint: disable=too-many-instance-attributes
+class OnlineEndpointProperties(EndpointPropertiesBase):
     """Online endpoint configuration.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar auth_mode: [Required] Use 'Key' for key based authentication and 'AMLToken' for Azure
-     Machine Learning token-based authentication. 'Key' doesn't expire but 'AMLToken' does.
+    :ivar auth_mode: [Required] The authentication method for invoking the endpoint (data plane
+     operation). Use 'Key' for key-based authentication. Use 'AMLToken' for Azure Machine Learning
+     token-based authentication. Use 'AADToken' for Microsoft Entra token-based authentication.
      Required. Known values are: "AMLToken", "Key", and "AADToken".
     :vartype auth_mode: str or ~azure.mgmt.machinelearningservices.models.EndpointAuthMode
     :ivar description: Description of the inference endpoint.
@@ -16048,8 +21382,9 @@ class OnlineEndpointProperties(EndpointPropertiesBase):  # pylint: disable=too-m
         **kwargs: Any
     ) -> None:
         """
-        :keyword auth_mode: [Required] Use 'Key' for key based authentication and 'AMLToken' for Azure
-         Machine Learning token-based authentication. 'Key' doesn't expire but 'AMLToken' does.
+        :keyword auth_mode: [Required] The authentication method for invoking the endpoint (data plane
+         operation). Use 'Key' for key-based authentication. Use 'AMLToken' for Azure Machine Learning
+         token-based authentication. Use 'AADToken' for Microsoft Entra token-based authentication.
          Required. Known values are: "AMLToken", "Key", and "AADToken".
         :paramtype auth_mode: str or ~azure.mgmt.machinelearningservices.models.EndpointAuthMode
         :keyword description: Description of the inference endpoint.
@@ -16077,12 +21412,12 @@ class OnlineEndpointProperties(EndpointPropertiesBase):  # pylint: disable=too-m
         super().__init__(auth_mode=auth_mode, description=description, keys=keys, properties=properties, **kwargs)
         self.compute = compute
         self.mirror_traffic = mirror_traffic
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.EndpointProvisioningState"]] = None
         self.public_network_access = public_network_access
         self.traffic = traffic
 
 
-class OnlineEndpointTrackedResourceArmPaginatedResult(_serialization.Model):
+class OnlineEndpointTrackedResourceArmPaginatedResult(_serialization.Model):  # pylint: disable=name-too-long
     """A paginated list of OnlineEndpoint entities.
 
     :ivar next_link: The link to the next page of OnlineEndpoint objects. If null, there are no
@@ -16118,9 +21453,10 @@ class OnlineRequestSettings(_serialization.Model):
     :ivar max_concurrent_requests_per_instance: The number of maximum concurrent requests per node
      allowed per deployment. Defaults to 1.
     :vartype max_concurrent_requests_per_instance: int
-    :ivar max_queue_wait: The maximum amount of time a request will stay in the queue in ISO 8601
-     format.
+    :ivar max_queue_wait: (Deprecated for Managed Online Endpoints) The maximum amount of time a
+     request will stay in the queue in ISO 8601 format.
      Defaults to 500ms.
+     (Now increase ``request_timeout_ms`` to account for any networking/queue delays).
     :vartype max_queue_wait: ~datetime.timedelta
     :ivar request_timeout: The scoring timeout in ISO 8601 format.
      Defaults to 5000ms.
@@ -16145,9 +21481,10 @@ class OnlineRequestSettings(_serialization.Model):
         :keyword max_concurrent_requests_per_instance: The number of maximum concurrent requests per
          node allowed per deployment. Defaults to 1.
         :paramtype max_concurrent_requests_per_instance: int
-        :keyword max_queue_wait: The maximum amount of time a request will stay in the queue in ISO
-         8601 format.
+        :keyword max_queue_wait: (Deprecated for Managed Online Endpoints) The maximum amount of time a
+         request will stay in the queue in ISO 8601 format.
          Defaults to 500ms.
+         (Now increase ``request_timeout_ms`` to account for any networking/queue delays).
         :paramtype max_queue_wait: ~datetime.timedelta
         :keyword request_timeout: The scoring timeout in ISO 8601 format.
          Defaults to 5000ms.
@@ -16159,10 +21496,216 @@ class OnlineRequestSettings(_serialization.Model):
         self.request_timeout = request_timeout
 
 
+class Operation(_serialization.Model):
+    """Details of a REST API operation, returned from the Resource Provider Operations API.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar name: The name of the operation, as per Resource-Based Access Control (RBAC). Examples:
+     "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action".
+    :vartype name: str
+    :ivar is_data_action: Whether the operation applies to data-plane. This is "true" for
+     data-plane operations and "false" for ARM/control-plane operations.
+    :vartype is_data_action: bool
+    :ivar display: Localized display information for this particular operation.
+    :vartype display: ~azure.mgmt.machinelearningservices.models.OperationDisplay
+    :ivar origin: The intended executor of the operation; as in Resource Based Access Control
+     (RBAC) and audit logs UX. Default value is "user,system". Known values are: "user", "system",
+     and "user,system".
+    :vartype origin: str or ~azure.mgmt.machinelearningservices.models.Origin
+    :ivar action_type: Enum. Indicates the action type. "Internal" refers to actions that are for
+     internal only APIs. "Internal"
+    :vartype action_type: str or ~azure.mgmt.machinelearningservices.models.ActionType
+    """
+
+    _validation = {
+        "name": {"readonly": True},
+        "is_data_action": {"readonly": True},
+        "origin": {"readonly": True},
+        "action_type": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "name": {"key": "name", "type": "str"},
+        "is_data_action": {"key": "isDataAction", "type": "bool"},
+        "display": {"key": "display", "type": "OperationDisplay"},
+        "origin": {"key": "origin", "type": "str"},
+        "action_type": {"key": "actionType", "type": "str"},
+    }
+
+    def __init__(self, *, display: Optional["_models.OperationDisplay"] = None, **kwargs: Any) -> None:
+        """
+        :keyword display: Localized display information for this particular operation.
+        :paramtype display: ~azure.mgmt.machinelearningservices.models.OperationDisplay
+        """
+        super().__init__(**kwargs)
+        self.name: Optional[str] = None
+        self.is_data_action: Optional[bool] = None
+        self.display = display
+        self.origin: Optional[Union[str, "_models.Origin"]] = None
+        self.action_type: Optional[Union[str, "_models.ActionType"]] = None
+
+
+class OperationDisplay(_serialization.Model):
+    """Localized display information for this particular operation.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar provider: The localized friendly form of the resource provider name, e.g. "Microsoft
+     Monitoring Insights" or "Microsoft Compute".
+    :vartype provider: str
+    :ivar resource: The localized friendly name of the resource type related to this operation.
+     E.g. "Virtual Machines" or "Job Schedule Collections".
+    :vartype resource: str
+    :ivar operation: The concise, localized friendly name for the operation; suitable for
+     dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine".
+    :vartype operation: str
+    :ivar description: The short, localized friendly description of the operation; suitable for
+     tool tips and detailed views.
+    :vartype description: str
+    """
+
+    _validation = {
+        "provider": {"readonly": True},
+        "resource": {"readonly": True},
+        "operation": {"readonly": True},
+        "description": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "provider": {"key": "provider", "type": "str"},
+        "resource": {"key": "resource", "type": "str"},
+        "operation": {"key": "operation", "type": "str"},
+        "description": {"key": "description", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.provider: Optional[str] = None
+        self.resource: Optional[str] = None
+        self.operation: Optional[str] = None
+        self.description: Optional[str] = None
+
+
+class OperationListResult(_serialization.Model):
+    """A list of REST API operations supported by an Azure Resource Provider. It contains an URL link
+    to get the next set of results.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar value: List of operations supported by the resource provider.
+    :vartype value: list[~azure.mgmt.machinelearningservices.models.Operation]
+    :ivar next_link: URL to get the next set of operation list results (if there are any).
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "value": {"readonly": True},
+        "next_link": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[Operation]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.value: Optional[List["_models.Operation"]] = None
+        self.next_link: Optional[str] = None
+
+
+class OutboundRuleBasicResource(Resource):
+    """Outbound Rule Basic Resource for the managed network of a machine learning workspace.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.machinelearningservices.models.SystemData
+    :ivar properties: Outbound Rule for the managed network of a machine learning workspace.
+     Required.
+    :vartype properties: ~azure.mgmt.machinelearningservices.models.OutboundRule
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "properties": {"required": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "properties": {"key": "properties", "type": "OutboundRule"},
+    }
+
+    def __init__(self, *, properties: "_models.OutboundRule", **kwargs: Any) -> None:
+        """
+        :keyword properties: Outbound Rule for the managed network of a machine learning workspace.
+         Required.
+        :paramtype properties: ~azure.mgmt.machinelearningservices.models.OutboundRule
+        """
+        super().__init__(**kwargs)
+        self.properties = properties
+
+
+class OutboundRuleListResult(_serialization.Model):
+    """List of outbound rules for the managed network of a machine learning workspace.
+
+    :ivar next_link: The link to the next page constructed using the continuationToken.  If null,
+     there are no additional pages.
+    :vartype next_link: str
+    :ivar value: The list of machine learning workspaces. Since this list may be incomplete, the
+     nextLink field should be used to request the next list of machine learning workspaces.
+    :vartype value: list[~azure.mgmt.machinelearningservices.models.OutboundRuleBasicResource]
+    """
+
+    _attribute_map = {
+        "next_link": {"key": "nextLink", "type": "str"},
+        "value": {"key": "value", "type": "[OutboundRuleBasicResource]"},
+    }
+
+    def __init__(
+        self,
+        *,
+        next_link: Optional[str] = None,
+        value: Optional[List["_models.OutboundRuleBasicResource"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword next_link: The link to the next page constructed using the continuationToken.  If
+         null, there are no additional pages.
+        :paramtype next_link: str
+        :keyword value: The list of machine learning workspaces. Since this list may be incomplete, the
+         nextLink field should be used to request the next list of machine learning workspaces.
+        :paramtype value: list[~azure.mgmt.machinelearningservices.models.OutboundRuleBasicResource]
+        """
+        super().__init__(**kwargs)
+        self.next_link = next_link
+        self.value = value
+
+
 class OutputPathAssetReference(AssetReferenceBase):
     """Reference to an asset via its path in a job output.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar reference_type: [Required] Specifies the type of asset reference. Required. Known values
      are: "Id", "DataPath", and "OutputPath".
@@ -16244,7 +21787,9 @@ class PartialBatchDeployment(_serialization.Model):
         self.description = description
 
 
-class PartialBatchDeploymentPartialMinimalTrackedResourceWithProperties(_serialization.Model):
+class PartialBatchDeploymentPartialMinimalTrackedResourceWithProperties(
+    _serialization.Model
+):  # pylint: disable=name-too-long
     """Strictly used in update requests.
 
     :ivar properties: Additional attributes of the entity.
@@ -16336,7 +21881,7 @@ class PartialMinimalTrackedResource(_serialization.Model):
         self.tags = tags
 
 
-class PartialMinimalTrackedResourceWithIdentity(PartialMinimalTrackedResource):
+class PartialMinimalTrackedResourceWithIdentity(PartialMinimalTrackedResource):  # pylint: disable=name-too-long
     """Strictly used in update requests.
 
     :ivar tags: Resource tags.
@@ -16391,6 +21936,44 @@ class PartialMinimalTrackedResourceWithSku(PartialMinimalTrackedResource):
         :paramtype sku: ~azure.mgmt.machinelearningservices.models.PartialSku
         """
         super().__init__(tags=tags, **kwargs)
+        self.sku = sku
+
+
+class PartialMinimalTrackedResourceWithSkuAndIdentity(PartialMinimalTrackedResource):  # pylint: disable=name-too-long
+    """Strictly used in update requests.
+
+    :ivar tags: Resource tags.
+    :vartype tags: dict[str, str]
+    :ivar identity: Managed service identity (system assigned and/or user assigned identities).
+    :vartype identity: ~azure.mgmt.machinelearningservices.models.PartialManagedServiceIdentity
+    :ivar sku: Sku details required for ARM contract for Autoscaling.
+    :vartype sku: ~azure.mgmt.machinelearningservices.models.PartialSku
+    """
+
+    _attribute_map = {
+        "tags": {"key": "tags", "type": "{str}"},
+        "identity": {"key": "identity", "type": "PartialManagedServiceIdentity"},
+        "sku": {"key": "sku", "type": "PartialSku"},
+    }
+
+    def __init__(
+        self,
+        *,
+        tags: Optional[Dict[str, str]] = None,
+        identity: Optional["_models.PartialManagedServiceIdentity"] = None,
+        sku: Optional["_models.PartialSku"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword tags: Resource tags.
+        :paramtype tags: dict[str, str]
+        :keyword identity: Managed service identity (system assigned and/or user assigned identities).
+        :paramtype identity: ~azure.mgmt.machinelearningservices.models.PartialManagedServiceIdentity
+        :keyword sku: Sku details required for ARM contract for Autoscaling.
+        :paramtype sku: ~azure.mgmt.machinelearningservices.models.PartialSku
+        """
+        super().__init__(tags=tags, **kwargs)
+        self.identity = identity
         self.sku = sku
 
 
@@ -16522,23 +22105,55 @@ class Password(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.name = None
-        self.value = None
+        self.name: Optional[str] = None
+        self.value: Optional[str] = None
 
 
 class PATAuthTypeWorkspaceConnectionProperties(WorkspaceConnectionPropertiesV2):
     """PATAuthTypeWorkspaceConnectionProperties.
 
-    All required parameters must be populated in order to send to Azure.
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
 
     :ivar auth_type: Authentication type of the connection target. Required. Known values are:
-     "PAT", "ManagedIdentity", "UsernamePassword", "None", and "SAS".
+     "PAT", "ManagedIdentity", "UsernamePassword", "None", "SAS", "AccountKey", "ServicePrincipal",
+     "AccessKey", "ApiKey", "CustomKeys", "OAuth2", and "AAD".
     :vartype auth_type: str or ~azure.mgmt.machinelearningservices.models.ConnectionAuthType
     :ivar category: Category of the connection. Known values are: "PythonFeed",
-     "ContainerRegistry", and "Git".
+     "ContainerRegistry", "Git", "S3", "Snowflake", "AzureSqlDb", "AzureSynapseAnalytics",
+     "AzureMySqlDb", "AzurePostgresDb", "ADLSGen2", "Redis", "ApiKey", "AzureOpenAI", "AIServices",
+     "CognitiveSearch", "CognitiveService", "CustomKeys", "AzureBlob", "AzureOneLake", "CosmosDb",
+     "CosmosDbMongoDbApi", "AzureDataExplorer", "AzureMariaDb", "AzureDatabricksDeltaLake",
+     "AzureSqlMi", "AzureTableStorage", "AmazonRdsForOracle", "AmazonRdsForSqlServer",
+     "AmazonRedshift", "Db2", "Drill", "GoogleBigQuery", "Greenplum", "Hbase", "Hive", "Impala",
+     "Informix", "MariaDb", "MicrosoftAccess", "MySql", "Netezza", "Oracle", "Phoenix",
+     "PostgreSql", "Presto", "SapOpenHub", "SapBw", "SapHana", "SapTable", "Spark", "SqlServer",
+     "Sybase", "Teradata", "Vertica", "Pinecone", "Cassandra", "Couchbase", "MongoDbV2",
+     "MongoDbAtlas", "AmazonS3Compatible", "FileServer", "FtpServer", "GoogleCloudStorage", "Hdfs",
+     "OracleCloudStorage", "Sftp", "GenericHttp", "ODataRest", "Odbc", "GenericRest", "AmazonMws",
+     "Concur", "Dynamics", "DynamicsAx", "DynamicsCrm", "GoogleAdWords", "Hubspot", "Jira",
+     "Magento", "Marketo", "Office365", "Eloqua", "Responsys", "OracleServiceCloud", "PayPal",
+     "QuickBooks", "Salesforce", "SalesforceServiceCloud", "SalesforceMarketingCloud",
+     "SapCloudForCustomer", "SapEcc", "ServiceNow", "SharePointOnlineList", "Shopify", "Square",
+     "WebTable", "Xero", "Zoho", "GenericContainerRegistry", "Elasticsearch", "OpenAI", "Serp",
+     "BingLLMSearch", "Serverless", and "ManagedOnlineEndpoint".
     :vartype category: str or ~azure.mgmt.machinelearningservices.models.ConnectionCategory
+    :ivar created_by_workspace_arm_id:
+    :vartype created_by_workspace_arm_id: str
+    :ivar expiry_time:
+    :vartype expiry_time: ~datetime.datetime
+    :ivar group: Group based on connection category. Known values are: "Azure", "AzureAI",
+     "Database", "NoSQL", "File", "GenericProtocol", and "ServicesAndApps".
+    :vartype group: str or ~azure.mgmt.machinelearningservices.models.ConnectionGroup
+    :ivar is_shared_to_all:
+    :vartype is_shared_to_all: bool
     :ivar target:
     :vartype target: str
+    :ivar metadata: Store user metadata for this connection.
+    :vartype metadata: dict[str, str]
+    :ivar shared_user_list:
+    :vartype shared_user_list: list[str]
     :ivar value: Value details of the workspace connection.
     :vartype value: str
     :ivar value_format: format for the workspace connection value. "JSON"
@@ -16550,12 +22165,20 @@ class PATAuthTypeWorkspaceConnectionProperties(WorkspaceConnectionPropertiesV2):
 
     _validation = {
         "auth_type": {"required": True},
+        "created_by_workspace_arm_id": {"readonly": True},
+        "group": {"readonly": True},
     }
 
     _attribute_map = {
         "auth_type": {"key": "authType", "type": "str"},
         "category": {"key": "category", "type": "str"},
+        "created_by_workspace_arm_id": {"key": "createdByWorkspaceArmId", "type": "str"},
+        "expiry_time": {"key": "expiryTime", "type": "iso-8601"},
+        "group": {"key": "group", "type": "str"},
+        "is_shared_to_all": {"key": "isSharedToAll", "type": "bool"},
         "target": {"key": "target", "type": "str"},
+        "metadata": {"key": "metadata", "type": "{str}"},
+        "shared_user_list": {"key": "sharedUserList", "type": "[str]"},
         "value": {"key": "value", "type": "str"},
         "value_format": {"key": "valueFormat", "type": "str"},
         "credentials": {"key": "credentials", "type": "WorkspaceConnectionPersonalAccessToken"},
@@ -16565,7 +22188,11 @@ class PATAuthTypeWorkspaceConnectionProperties(WorkspaceConnectionPropertiesV2):
         self,
         *,
         category: Optional[Union[str, "_models.ConnectionCategory"]] = None,
+        expiry_time: Optional[datetime.datetime] = None,
+        is_shared_to_all: Optional[bool] = None,
         target: Optional[str] = None,
+        metadata: Optional[Dict[str, str]] = None,
+        shared_user_list: Optional[List[str]] = None,
         value: Optional[str] = None,
         value_format: Optional[Union[str, "_models.ValueFormat"]] = None,
         credentials: Optional["_models.WorkspaceConnectionPersonalAccessToken"] = None,
@@ -16573,10 +22200,34 @@ class PATAuthTypeWorkspaceConnectionProperties(WorkspaceConnectionPropertiesV2):
     ) -> None:
         """
         :keyword category: Category of the connection. Known values are: "PythonFeed",
-         "ContainerRegistry", and "Git".
+         "ContainerRegistry", "Git", "S3", "Snowflake", "AzureSqlDb", "AzureSynapseAnalytics",
+         "AzureMySqlDb", "AzurePostgresDb", "ADLSGen2", "Redis", "ApiKey", "AzureOpenAI", "AIServices",
+         "CognitiveSearch", "CognitiveService", "CustomKeys", "AzureBlob", "AzureOneLake", "CosmosDb",
+         "CosmosDbMongoDbApi", "AzureDataExplorer", "AzureMariaDb", "AzureDatabricksDeltaLake",
+         "AzureSqlMi", "AzureTableStorage", "AmazonRdsForOracle", "AmazonRdsForSqlServer",
+         "AmazonRedshift", "Db2", "Drill", "GoogleBigQuery", "Greenplum", "Hbase", "Hive", "Impala",
+         "Informix", "MariaDb", "MicrosoftAccess", "MySql", "Netezza", "Oracle", "Phoenix",
+         "PostgreSql", "Presto", "SapOpenHub", "SapBw", "SapHana", "SapTable", "Spark", "SqlServer",
+         "Sybase", "Teradata", "Vertica", "Pinecone", "Cassandra", "Couchbase", "MongoDbV2",
+         "MongoDbAtlas", "AmazonS3Compatible", "FileServer", "FtpServer", "GoogleCloudStorage", "Hdfs",
+         "OracleCloudStorage", "Sftp", "GenericHttp", "ODataRest", "Odbc", "GenericRest", "AmazonMws",
+         "Concur", "Dynamics", "DynamicsAx", "DynamicsCrm", "GoogleAdWords", "Hubspot", "Jira",
+         "Magento", "Marketo", "Office365", "Eloqua", "Responsys", "OracleServiceCloud", "PayPal",
+         "QuickBooks", "Salesforce", "SalesforceServiceCloud", "SalesforceMarketingCloud",
+         "SapCloudForCustomer", "SapEcc", "ServiceNow", "SharePointOnlineList", "Shopify", "Square",
+         "WebTable", "Xero", "Zoho", "GenericContainerRegistry", "Elasticsearch", "OpenAI", "Serp",
+         "BingLLMSearch", "Serverless", and "ManagedOnlineEndpoint".
         :paramtype category: str or ~azure.mgmt.machinelearningservices.models.ConnectionCategory
+        :keyword expiry_time:
+        :paramtype expiry_time: ~datetime.datetime
+        :keyword is_shared_to_all:
+        :paramtype is_shared_to_all: bool
         :keyword target:
         :paramtype target: str
+        :keyword metadata: Store user metadata for this connection.
+        :paramtype metadata: dict[str, str]
+        :keyword shared_user_list:
+        :paramtype shared_user_list: list[str]
         :keyword value: Value details of the workspace connection.
         :paramtype value: str
         :keyword value_format: format for the workspace connection value. "JSON"
@@ -16585,7 +22236,17 @@ class PATAuthTypeWorkspaceConnectionProperties(WorkspaceConnectionPropertiesV2):
         :paramtype credentials:
          ~azure.mgmt.machinelearningservices.models.WorkspaceConnectionPersonalAccessToken
         """
-        super().__init__(category=category, target=target, value=value, value_format=value_format, **kwargs)
+        super().__init__(
+            category=category,
+            expiry_time=expiry_time,
+            is_shared_to_all=is_shared_to_all,
+            target=target,
+            metadata=metadata,
+            shared_user_list=shared_user_list,
+            value=value,
+            value_format=value_format,
+            **kwargs
+        )
         self.auth_type: str = "PAT"
         self.credentials = credentials
 
@@ -16596,7 +22257,7 @@ class PendingUploadCredentialDto(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     SASCredentialDto
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar credential_type: [Required] Credential type used to authentication with storage.
      Required. "SAS"
@@ -16724,12 +22385,12 @@ class PersonalComputeInstanceSettings(_serialization.Model):
         self.assigned_user = assigned_user
 
 
-class PipelineJob(JobBaseProperties):  # pylint: disable=too-many-instance-attributes
+class PipelineJob(JobBaseProperties):
     """Pipeline Job definition: defines generic to MFE attributes.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar description: The asset description text.
     :vartype description: str
@@ -16753,8 +22414,10 @@ class PipelineJob(JobBaseProperties):  # pylint: disable=too-many-instance-attri
     :ivar is_archived: Is the asset archived?.
     :vartype is_archived: bool
     :ivar job_type: [Required] Specifies the type of job. Required. Known values are: "AutoML",
-     "Command", "Sweep", and "Pipeline".
+     "Command", "Sweep", "Pipeline", and "Spark".
     :vartype job_type: str or ~azure.mgmt.machinelearningservices.models.JobType
+    :ivar notification_setting: Notification setting for the job.
+    :vartype notification_setting: ~azure.mgmt.machinelearningservices.models.NotificationSetting
     :ivar services: List of JobEndpoints.
      For local jobs, a job endpoint will have an endpoint value of FileStreamObject.
     :vartype services: dict[str, ~azure.mgmt.machinelearningservices.models.JobService]
@@ -16790,6 +22453,7 @@ class PipelineJob(JobBaseProperties):  # pylint: disable=too-many-instance-attri
         "identity": {"key": "identity", "type": "IdentityConfiguration"},
         "is_archived": {"key": "isArchived", "type": "bool"},
         "job_type": {"key": "jobType", "type": "str"},
+        "notification_setting": {"key": "notificationSetting", "type": "NotificationSetting"},
         "services": {"key": "services", "type": "{JobService}"},
         "status": {"key": "status", "type": "str"},
         "inputs": {"key": "inputs", "type": "{JobInput}"},
@@ -16811,6 +22475,7 @@ class PipelineJob(JobBaseProperties):  # pylint: disable=too-many-instance-attri
         experiment_name: str = "Default",
         identity: Optional["_models.IdentityConfiguration"] = None,
         is_archived: bool = False,
+        notification_setting: Optional["_models.NotificationSetting"] = None,
         services: Optional[Dict[str, "_models.JobService"]] = None,
         inputs: Optional[Dict[str, "_models.JobInput"]] = None,
         jobs: Optional[Dict[str, JSON]] = None,
@@ -16841,6 +22506,8 @@ class PipelineJob(JobBaseProperties):  # pylint: disable=too-many-instance-attri
         :paramtype identity: ~azure.mgmt.machinelearningservices.models.IdentityConfiguration
         :keyword is_archived: Is the asset archived?.
         :paramtype is_archived: bool
+        :keyword notification_setting: Notification setting for the job.
+        :paramtype notification_setting: ~azure.mgmt.machinelearningservices.models.NotificationSetting
         :keyword services: List of JobEndpoints.
          For local jobs, a job endpoint will have an endpoint value of FileStreamObject.
         :paramtype services: dict[str, ~azure.mgmt.machinelearningservices.models.JobService]
@@ -16865,6 +22532,7 @@ class PipelineJob(JobBaseProperties):  # pylint: disable=too-many-instance-attri
             experiment_name=experiment_name,
             identity=identity,
             is_archived=is_archived,
+            notification_setting=notification_setting,
             services=services,
             **kwargs
         )
@@ -16874,6 +22542,88 @@ class PipelineJob(JobBaseProperties):  # pylint: disable=too-many-instance-attri
         self.outputs = outputs
         self.settings = settings
         self.source_job_id = source_job_id
+
+
+class PredictionDriftMonitoringSignal(MonitoringSignalBase):
+    """PredictionDriftMonitoringSignal.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar notification_types: The current notification mode for this signal.
+    :vartype notification_types: list[str or
+     ~azure.mgmt.machinelearningservices.models.MonitoringNotificationType]
+    :ivar properties: Property dictionary. Properties can be added, but not removed or altered.
+    :vartype properties: dict[str, str]
+    :ivar signal_type: [Required] Specifies the type of signal to monitor. Required. Known values
+     are: "DataDrift", "PredictionDrift", "DataQuality", "FeatureAttributionDrift", and "Custom".
+    :vartype signal_type: str or ~azure.mgmt.machinelearningservices.models.MonitoringSignalType
+    :ivar feature_data_type_override: A dictionary that maps feature names to their respective data
+     types.
+    :vartype feature_data_type_override: dict[str, str or
+     ~azure.mgmt.machinelearningservices.models.MonitoringFeatureDataType]
+    :ivar metric_thresholds: [Required] A list of metrics to calculate and their associated
+     thresholds. Required.
+    :vartype metric_thresholds:
+     list[~azure.mgmt.machinelearningservices.models.PredictionDriftMetricThresholdBase]
+    :ivar production_data: [Required] The data which drift will be calculated for. Required.
+    :vartype production_data: ~azure.mgmt.machinelearningservices.models.MonitoringInputDataBase
+    :ivar reference_data: [Required] The data to calculate drift against. Required.
+    :vartype reference_data: ~azure.mgmt.machinelearningservices.models.MonitoringInputDataBase
+    """
+
+    _validation = {
+        "signal_type": {"required": True},
+        "metric_thresholds": {"required": True},
+        "production_data": {"required": True},
+        "reference_data": {"required": True},
+    }
+
+    _attribute_map = {
+        "notification_types": {"key": "notificationTypes", "type": "[str]"},
+        "properties": {"key": "properties", "type": "{str}"},
+        "signal_type": {"key": "signalType", "type": "str"},
+        "feature_data_type_override": {"key": "featureDataTypeOverride", "type": "{str}"},
+        "metric_thresholds": {"key": "metricThresholds", "type": "[PredictionDriftMetricThresholdBase]"},
+        "production_data": {"key": "productionData", "type": "MonitoringInputDataBase"},
+        "reference_data": {"key": "referenceData", "type": "MonitoringInputDataBase"},
+    }
+
+    def __init__(
+        self,
+        *,
+        metric_thresholds: List["_models.PredictionDriftMetricThresholdBase"],
+        production_data: "_models.MonitoringInputDataBase",
+        reference_data: "_models.MonitoringInputDataBase",
+        notification_types: Optional[List[Union[str, "_models.MonitoringNotificationType"]]] = None,
+        properties: Optional[Dict[str, str]] = None,
+        feature_data_type_override: Optional[Dict[str, Union[str, "_models.MonitoringFeatureDataType"]]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword notification_types: The current notification mode for this signal.
+        :paramtype notification_types: list[str or
+         ~azure.mgmt.machinelearningservices.models.MonitoringNotificationType]
+        :keyword properties: Property dictionary. Properties can be added, but not removed or altered.
+        :paramtype properties: dict[str, str]
+        :keyword feature_data_type_override: A dictionary that maps feature names to their respective
+         data types.
+        :paramtype feature_data_type_override: dict[str, str or
+         ~azure.mgmt.machinelearningservices.models.MonitoringFeatureDataType]
+        :keyword metric_thresholds: [Required] A list of metrics to calculate and their associated
+         thresholds. Required.
+        :paramtype metric_thresholds:
+         list[~azure.mgmt.machinelearningservices.models.PredictionDriftMetricThresholdBase]
+        :keyword production_data: [Required] The data which drift will be calculated for. Required.
+        :paramtype production_data: ~azure.mgmt.machinelearningservices.models.MonitoringInputDataBase
+        :keyword reference_data: [Required] The data to calculate drift against. Required.
+        :paramtype reference_data: ~azure.mgmt.machinelearningservices.models.MonitoringInputDataBase
+        """
+        super().__init__(notification_types=notification_types, properties=properties, **kwargs)
+        self.signal_type: str = "PredictionDrift"
+        self.feature_data_type_override = feature_data_type_override
+        self.metric_thresholds = metric_thresholds
+        self.production_data = production_data
+        self.reference_data = reference_data
 
 
 class PrivateEndpoint(_serialization.Model):
@@ -16896,10 +22646,10 @@ class PrivateEndpoint(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.id = None
+        self.id: Optional[str] = None
 
 
-class PrivateEndpointConnection(Resource):  # pylint: disable=too-many-instance-attributes
+class PrivateEndpointConnection(Resource):
     """The Private Endpoint Connection resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -16994,7 +22744,7 @@ class PrivateEndpointConnection(Resource):  # pylint: disable=too-many-instance-
         self.sku = sku
         self.private_endpoint = private_endpoint
         self.private_link_service_connection_state = private_link_service_connection_state
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.PrivateEndpointConnectionProvisioningState"]] = None
 
 
 class PrivateEndpointConnectionListResult(_serialization.Model):
@@ -17015,6 +22765,120 @@ class PrivateEndpointConnectionListResult(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
+
+
+class PrivateEndpointDestination(_serialization.Model):
+    """Private Endpoint destination for a Private Endpoint Outbound Rule for the managed network of a
+    machine learning workspace.
+
+    :ivar service_resource_id:
+    :vartype service_resource_id: str
+    :ivar spark_enabled:
+    :vartype spark_enabled: bool
+    :ivar spark_status: Type of a managed network Outbound Rule of a machine learning workspace.
+     Known values are: "Inactive", "Active", "Provisioning", "Deleting", and "Failed".
+    :vartype spark_status: str or ~azure.mgmt.machinelearningservices.models.RuleStatus
+    :ivar subresource_target:
+    :vartype subresource_target: str
+    """
+
+    _attribute_map = {
+        "service_resource_id": {"key": "serviceResourceId", "type": "str"},
+        "spark_enabled": {"key": "sparkEnabled", "type": "bool"},
+        "spark_status": {"key": "sparkStatus", "type": "str"},
+        "subresource_target": {"key": "subresourceTarget", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        service_resource_id: Optional[str] = None,
+        spark_enabled: Optional[bool] = None,
+        spark_status: Optional[Union[str, "_models.RuleStatus"]] = None,
+        subresource_target: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword service_resource_id:
+        :paramtype service_resource_id: str
+        :keyword spark_enabled:
+        :paramtype spark_enabled: bool
+        :keyword spark_status: Type of a managed network Outbound Rule of a machine learning workspace.
+         Known values are: "Inactive", "Active", "Provisioning", "Deleting", and "Failed".
+        :paramtype spark_status: str or ~azure.mgmt.machinelearningservices.models.RuleStatus
+        :keyword subresource_target:
+        :paramtype subresource_target: str
+        """
+        super().__init__(**kwargs)
+        self.service_resource_id = service_resource_id
+        self.spark_enabled = spark_enabled
+        self.spark_status = spark_status
+        self.subresource_target = subresource_target
+
+
+class PrivateEndpointOutboundRule(OutboundRule):
+    """Private Endpoint Outbound Rule for the managed network of a machine learning workspace.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar category: Category of a managed network Outbound Rule of a machine learning workspace.
+     Known values are: "Required", "Recommended", "UserDefined", and "Dependency".
+    :vartype category: str or ~azure.mgmt.machinelearningservices.models.RuleCategory
+    :ivar status: Type of a managed network Outbound Rule of a machine learning workspace. Known
+     values are: "Inactive", "Active", "Provisioning", "Deleting", and "Failed".
+    :vartype status: str or ~azure.mgmt.machinelearningservices.models.RuleStatus
+    :ivar type: Type of a managed network Outbound Rule of a machine learning workspace. Required.
+     Known values are: "FQDN", "PrivateEndpoint", and "ServiceTag".
+    :vartype type: str or ~azure.mgmt.machinelearningservices.models.RuleType
+    :ivar error_information: Error information about an outbound rule of a machine learning
+     workspace if RuleStatus is failed.
+    :vartype error_information: str
+    :ivar parent_rule_names:
+    :vartype parent_rule_names: list[str]
+    :ivar destination: Private Endpoint destination for a Private Endpoint Outbound Rule for the
+     managed network of a machine learning workspace.
+    :vartype destination: ~azure.mgmt.machinelearningservices.models.PrivateEndpointDestination
+    """
+
+    _validation = {
+        "type": {"required": True},
+        "error_information": {"readonly": True},
+        "parent_rule_names": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "category": {"key": "category", "type": "str"},
+        "status": {"key": "status", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "error_information": {"key": "errorInformation", "type": "str"},
+        "parent_rule_names": {"key": "parentRuleNames", "type": "[str]"},
+        "destination": {"key": "destination", "type": "PrivateEndpointDestination"},
+    }
+
+    def __init__(
+        self,
+        *,
+        category: Optional[Union[str, "_models.RuleCategory"]] = None,
+        status: Optional[Union[str, "_models.RuleStatus"]] = None,
+        destination: Optional["_models.PrivateEndpointDestination"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword category: Category of a managed network Outbound Rule of a machine learning workspace.
+         Known values are: "Required", "Recommended", "UserDefined", and "Dependency".
+        :paramtype category: str or ~azure.mgmt.machinelearningservices.models.RuleCategory
+        :keyword status: Type of a managed network Outbound Rule of a machine learning workspace. Known
+         values are: "Inactive", "Active", "Provisioning", "Deleting", and "Failed".
+        :paramtype status: str or ~azure.mgmt.machinelearningservices.models.RuleStatus
+        :keyword destination: Private Endpoint destination for a Private Endpoint Outbound Rule for the
+         managed network of a machine learning workspace.
+        :paramtype destination: ~azure.mgmt.machinelearningservices.models.PrivateEndpointDestination
+        """
+        super().__init__(category=category, status=status, **kwargs)
+        self.type: str = "PrivateEndpoint"
+        self.destination = destination
 
 
 class PrivateEndpointResource(PrivateEndpoint):
@@ -17046,7 +22910,7 @@ class PrivateEndpointResource(PrivateEndpoint):
         self.subnet_arm_id = subnet_arm_id
 
 
-class PrivateLinkResource(Resource):  # pylint: disable=too-many-instance-attributes
+class PrivateLinkResource(Resource):
     """A private link resource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -17128,8 +22992,8 @@ class PrivateLinkResource(Resource):  # pylint: disable=too-many-instance-attrib
         self.location = location
         self.tags = tags
         self.sku = sku
-        self.group_id = None
-        self.required_members = None
+        self.group_id: Optional[str] = None
+        self.required_members: Optional[List[str]] = None
         self.required_zone_names = required_zone_names
 
 
@@ -17258,7 +23122,7 @@ class ProbeSettings(_serialization.Model):
 class PyTorch(DistributionConfiguration):
     """PyTorch distribution configuration.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar distribution_type: [Required] Specifies the type of distribution framework. Required.
      Known values are: "PyTorch", "TensorFlow", and "Mpi".
@@ -17284,6 +23148,28 @@ class PyTorch(DistributionConfiguration):
         super().__init__(**kwargs)
         self.distribution_type: str = "PyTorch"
         self.process_count_per_instance = process_count_per_instance
+
+
+class QueueSettings(_serialization.Model):
+    """QueueSettings.
+
+    :ivar job_tier: Controls the compute job tier. Known values are: "Null", "Spot", "Basic",
+     "Standard", and "Premium".
+    :vartype job_tier: str or ~azure.mgmt.machinelearningservices.models.JobTier
+    """
+
+    _attribute_map = {
+        "job_tier": {"key": "jobTier", "type": "str"},
+    }
+
+    def __init__(self, *, job_tier: Optional[Union[str, "_models.JobTier"]] = None, **kwargs: Any) -> None:
+        """
+        :keyword job_tier: Controls the compute job tier. Known values are: "Null", "Spot", "Basic",
+         "Standard", and "Premium".
+        :paramtype job_tier: str or ~azure.mgmt.machinelearningservices.models.JobTier
+        """
+        super().__init__(**kwargs)
+        self.job_tier = job_tier
 
 
 class QuotaBaseProperties(_serialization.Model):
@@ -17367,7 +23253,7 @@ class QuotaUpdateParameters(_serialization.Model):
 class RandomSamplingAlgorithm(SamplingAlgorithm):
     """Defines a Sampling Algorithm that generates values randomly.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar sampling_algorithm_type: [Required] The algorithm used for generating hyperparameter
      values, along with configuration properties. Required. Known values are: "Grid", "Random", and
@@ -17414,7 +23300,8 @@ class Recurrence(_serialization.Model):
 
     :ivar frequency: [Required] The frequency to trigger schedule. Known values are: "Minute",
      "Hour", "Day", "Week", and "Month".
-    :vartype frequency: str or ~azure.mgmt.machinelearningservices.models.RecurrenceFrequency
+    :vartype frequency: str or
+     ~azure.mgmt.machinelearningservices.models.ComputeRecurrenceFrequency
     :ivar interval: [Required] Specifies schedule interval in conjunction with frequency.
     :vartype interval: int
     :ivar start_time: The start time in yyyy-MM-ddTHH:mm:ss format.
@@ -17424,7 +23311,7 @@ class Recurrence(_serialization.Model):
      https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/default-time-zones?view=windows-11.
     :vartype time_zone: str
     :ivar schedule: [Required] The recurrence schedule.
-    :vartype schedule: ~azure.mgmt.machinelearningservices.models.RecurrenceSchedule
+    :vartype schedule: ~azure.mgmt.machinelearningservices.models.ComputeRecurrenceSchedule
     """
 
     _attribute_map = {
@@ -17432,23 +23319,24 @@ class Recurrence(_serialization.Model):
         "interval": {"key": "interval", "type": "int"},
         "start_time": {"key": "startTime", "type": "str"},
         "time_zone": {"key": "timeZone", "type": "str"},
-        "schedule": {"key": "schedule", "type": "RecurrenceSchedule"},
+        "schedule": {"key": "schedule", "type": "ComputeRecurrenceSchedule"},
     }
 
     def __init__(
         self,
         *,
-        frequency: Optional[Union[str, "_models.RecurrenceFrequency"]] = None,
+        frequency: Optional[Union[str, "_models.ComputeRecurrenceFrequency"]] = None,
         interval: Optional[int] = None,
         start_time: Optional[str] = None,
         time_zone: str = "UTC",
-        schedule: Optional["_models.RecurrenceSchedule"] = None,
+        schedule: Optional["_models.ComputeRecurrenceSchedule"] = None,
         **kwargs: Any
     ) -> None:
         """
         :keyword frequency: [Required] The frequency to trigger schedule. Known values are: "Minute",
          "Hour", "Day", "Week", and "Month".
-        :paramtype frequency: str or ~azure.mgmt.machinelearningservices.models.RecurrenceFrequency
+        :paramtype frequency: str or
+         ~azure.mgmt.machinelearningservices.models.ComputeRecurrenceFrequency
         :keyword interval: [Required] Specifies schedule interval in conjunction with frequency.
         :paramtype interval: int
         :keyword start_time: The start time in yyyy-MM-ddTHH:mm:ss format.
@@ -17458,7 +23346,7 @@ class Recurrence(_serialization.Model):
          https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/default-time-zones?view=windows-11.
         :paramtype time_zone: str
         :keyword schedule: [Required] The recurrence schedule.
-        :paramtype schedule: ~azure.mgmt.machinelearningservices.models.RecurrenceSchedule
+        :paramtype schedule: ~azure.mgmt.machinelearningservices.models.ComputeRecurrenceSchedule
         """
         super().__init__(**kwargs)
         self.frequency = frequency
@@ -17471,7 +23359,7 @@ class Recurrence(_serialization.Model):
 class RecurrenceSchedule(_serialization.Model):
     """RecurrenceSchedule.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar hours: [Required] List of hours for the schedule. Required.
     :vartype hours: list[int]
@@ -17524,7 +23412,7 @@ class RecurrenceSchedule(_serialization.Model):
 class RecurrenceTrigger(TriggerBase):
     """RecurrenceTrigger.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar end_time: Specifies end time of schedule in ISO 8601, but without a UTC offset. Refer
      https://en.wikipedia.org/wiki/ISO_8601.
@@ -17608,7 +23496,7 @@ class RecurrenceTrigger(TriggerBase):
 class RegenerateEndpointKeysRequest(_serialization.Model):
     """RegenerateEndpointKeysRequest.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar key_type: [Required] Specification for which type of key to generate. Primary or
      Secondary. Required. Known values are: "Primary" and "Secondary".
@@ -17641,12 +23529,12 @@ class RegenerateEndpointKeysRequest(_serialization.Model):
         self.key_value = key_value
 
 
-class Registry(TrackedResource):  # pylint: disable=too-many-instance-attributes
+class Registry(TrackedResource):
     """Registry.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
@@ -17677,6 +23565,9 @@ class Registry(TrackedResource):  # pylint: disable=too-many-instance-attributes
     :ivar managed_resource_group: ResourceId of the managed RG if the registry has system created
      resources.
     :vartype managed_resource_group: ~azure.mgmt.machinelearningservices.models.ArmResourceId
+    :ivar managed_resource_group_settings: Managed resource group specific settings.
+    :vartype managed_resource_group_settings:
+     ~azure.mgmt.machinelearningservices.models.ManagedResourceGroupSettings
     :ivar ml_flow_registry_uri: MLFlow Registry URI for the Registry.
     :vartype ml_flow_registry_uri: str
     :ivar registry_private_endpoint_connections: Private endpoint connections info used for pending
@@ -17712,6 +23603,10 @@ class Registry(TrackedResource):  # pylint: disable=too-many-instance-attributes
         "discovery_url": {"key": "properties.discoveryUrl", "type": "str"},
         "intellectual_property_publisher": {"key": "properties.intellectualPropertyPublisher", "type": "str"},
         "managed_resource_group": {"key": "properties.managedResourceGroup", "type": "ArmResourceId"},
+        "managed_resource_group_settings": {
+            "key": "properties.managedResourceGroupSettings",
+            "type": "ManagedResourceGroupSettings",
+        },
         "ml_flow_registry_uri": {"key": "properties.mlFlowRegistryUri", "type": "str"},
         "registry_private_endpoint_connections": {
             "key": "properties.registryPrivateEndpointConnections",
@@ -17732,6 +23627,7 @@ class Registry(TrackedResource):  # pylint: disable=too-many-instance-attributes
         discovery_url: Optional[str] = None,
         intellectual_property_publisher: Optional[str] = None,
         managed_resource_group: Optional["_models.ArmResourceId"] = None,
+        managed_resource_group_settings: Optional["_models.ManagedResourceGroupSettings"] = None,
         ml_flow_registry_uri: Optional[str] = None,
         registry_private_endpoint_connections: Optional[List["_models.RegistryPrivateEndpointConnection"]] = None,
         public_network_access: Optional[str] = None,
@@ -17757,6 +23653,9 @@ class Registry(TrackedResource):  # pylint: disable=too-many-instance-attributes
         :keyword managed_resource_group: ResourceId of the managed RG if the registry has system
          created resources.
         :paramtype managed_resource_group: ~azure.mgmt.machinelearningservices.models.ArmResourceId
+        :keyword managed_resource_group_settings: Managed resource group specific settings.
+        :paramtype managed_resource_group_settings:
+         ~azure.mgmt.machinelearningservices.models.ManagedResourceGroupSettings
         :keyword ml_flow_registry_uri: MLFlow Registry URI for the Registry.
         :paramtype ml_flow_registry_uri: str
         :keyword registry_private_endpoint_connections: Private endpoint connections info used for
@@ -17777,6 +23676,7 @@ class Registry(TrackedResource):  # pylint: disable=too-many-instance-attributes
         self.discovery_url = discovery_url
         self.intellectual_property_publisher = intellectual_property_publisher
         self.managed_resource_group = managed_resource_group
+        self.managed_resource_group_settings = managed_resource_group_settings
         self.ml_flow_registry_uri = ml_flow_registry_uri
         self.registry_private_endpoint_connections = registry_private_endpoint_connections
         self.public_network_access = public_network_access
@@ -17813,8 +23713,8 @@ class RegistryListCredentialsResult(_serialization.Model):
         :paramtype passwords: list[~azure.mgmt.machinelearningservices.models.Password]
         """
         super().__init__(**kwargs)
-        self.location = None
-        self.username = None
+        self.location: Optional[str] = None
+        self.username: Optional[str] = None
         self.passwords = passwords
 
 
@@ -17823,7 +23723,7 @@ class RegistryPartialManagedServiceIdentity(ManagedServiceIdentity):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar principal_id: The service principal ID of the system assigned identity. This property
      will only be provided for a system assigned identity.
@@ -17842,40 +23742,6 @@ class RegistryPartialManagedServiceIdentity(ManagedServiceIdentity):
     :vartype user_assigned_identities: dict[str,
      ~azure.mgmt.machinelearningservices.models.UserAssignedIdentity]
     """
-
-    _validation = {
-        "principal_id": {"readonly": True},
-        "tenant_id": {"readonly": True},
-        "type": {"required": True},
-    }
-
-    _attribute_map = {
-        "principal_id": {"key": "principalId", "type": "str"},
-        "tenant_id": {"key": "tenantId", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "user_assigned_identities": {"key": "userAssignedIdentities", "type": "{UserAssignedIdentity}"},
-    }
-
-    def __init__(
-        self,
-        *,
-        type: Union[str, "_models.ManagedServiceIdentityType"],
-        user_assigned_identities: Optional[Dict[str, "_models.UserAssignedIdentity"]] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword type: Type of managed service identity (where both SystemAssigned and UserAssigned
-         types are allowed). Required. Known values are: "None", "SystemAssigned", "UserAssigned", and
-         "SystemAssigned,UserAssigned".
-        :paramtype type: str or ~azure.mgmt.machinelearningservices.models.ManagedServiceIdentityType
-        :keyword user_assigned_identities: The set of user assigned identities associated with the
-         resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form:
-         '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.
-         The dictionary values can be empty objects ({}) in requests.
-        :paramtype user_assigned_identities: dict[str,
-         ~azure.mgmt.machinelearningservices.models.UserAssignedIdentity]
-        """
-        super().__init__(type=type, user_assigned_identities=user_assigned_identities, **kwargs)
 
 
 class RegistryPrivateEndpointConnection(_serialization.Model):
@@ -17951,7 +23817,7 @@ class RegistryPrivateEndpointConnection(_serialization.Model):
         self.provisioning_state = provisioning_state
 
 
-class RegistryPrivateLinkServiceConnectionState(_serialization.Model):
+class RegistryPrivateLinkServiceConnectionState(_serialization.Model):  # pylint: disable=name-too-long
     """The connection state.
 
     :ivar actions_required: Some RP chose "None". Other RPs use this for region expansion.
@@ -18037,7 +23903,7 @@ class RegistryRegionArmDetails(_serialization.Model):
         self.storage_account_details = storage_account_details
 
 
-class RegistryTrackedResourceArmPaginatedResult(_serialization.Model):
+class RegistryTrackedResourceArmPaginatedResult(_serialization.Model):  # pylint: disable=name-too-long
     """A paginated list of Registry entities.
 
     :ivar next_link: The link to the next page of Registry objects. If null, there are no
@@ -18067,10 +23933,10 @@ class RegistryTrackedResourceArmPaginatedResult(_serialization.Model):
         self.value = value
 
 
-class Regression(TableVertical, AutoMLVertical):  # pylint: disable=too-many-instance-attributes
+class Regression(TableVertical, AutoMLVertical):
     """Regression task in AutoML Table vertical.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar log_verbosity: Log verbosity for the job. Known values are: "NotSet", "Debug", "Info",
      "Warning", "Error", and "Critical".
@@ -18336,10 +24202,34 @@ class RegressionTrainingSettings(TrainingSettings):
         self.blocked_training_algorithms = blocked_training_algorithms
 
 
+class RequestLogging(_serialization.Model):
+    """RequestLogging.
+
+    :ivar capture_headers: For payload logging, we only collect payload by default. If customers
+     also want to collect the specified headers, they can set them in captureHeaders so that backend
+     will collect those headers along with payload.
+    :vartype capture_headers: list[str]
+    """
+
+    _attribute_map = {
+        "capture_headers": {"key": "captureHeaders", "type": "[str]"},
+    }
+
+    def __init__(self, *, capture_headers: Optional[List[str]] = None, **kwargs: Any) -> None:
+        """
+        :keyword capture_headers: For payload logging, we only collect payload by default. If customers
+         also want to collect the specified headers, they can set them in captureHeaders so that backend
+         will collect those headers along with payload.
+        :paramtype capture_headers: list[str]
+        """
+        super().__init__(**kwargs)
+        self.capture_headers = capture_headers
+
+
 class ResourceId(_serialization.Model):
     """Represents a resource ID. For example, for a subnet, it is the resource URL for the subnet.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The ID of the resource. Required.
     :vartype id: str
@@ -18386,8 +24276,8 @@ class ResourceName(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.value = None
-        self.localized_value = None
+        self.value: Optional[str] = None
+        self.localized_value: Optional[str] = None
 
 
 class ResourceQuota(_serialization.Model):
@@ -18430,18 +24320,104 @@ class ResourceQuota(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.id = None
-        self.aml_workspace_location = None
-        self.type = None
-        self.name = None
-        self.limit = None
-        self.unit = None
+        self.id: Optional[str] = None
+        self.aml_workspace_location: Optional[str] = None
+        self.type: Optional[str] = None
+        self.name: Optional["_models.ResourceName"] = None
+        self.limit: Optional[int] = None
+        self.unit: Optional[Union[str, "_models.QuotaUnit"]] = None
+
+
+class RollingInputData(MonitoringInputDataBase):
+    """Rolling input data definition.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar columns: Mapping of column names to special uses.
+    :vartype columns: dict[str, str]
+    :ivar data_context: The context metadata of the data source.
+    :vartype data_context: str
+    :ivar input_data_type: [Required] Specifies the type of signal to monitor. Required. Known
+     values are: "Static", "Rolling", and "Fixed".
+    :vartype input_data_type: str or
+     ~azure.mgmt.machinelearningservices.models.MonitoringInputDataType
+    :ivar job_input_type: [Required] Specifies the type of job. Required. Known values are:
+     "literal", "uri_file", "uri_folder", "mltable", "custom_model", "mlflow_model", and
+     "triton_model".
+    :vartype job_input_type: str or ~azure.mgmt.machinelearningservices.models.JobInputType
+    :ivar uri: [Required] Input Asset URI. Required.
+    :vartype uri: str
+    :ivar preprocessing_component_id: Reference to the component asset used to preprocess the data.
+    :vartype preprocessing_component_id: str
+    :ivar window_offset: [Required] The time offset between the end of the data window and the
+     monitor's current run time. Required.
+    :vartype window_offset: ~datetime.timedelta
+    :ivar window_size: [Required] The size of the rolling data window. Required.
+    :vartype window_size: ~datetime.timedelta
+    """
+
+    _validation = {
+        "input_data_type": {"required": True},
+        "job_input_type": {"required": True},
+        "uri": {"required": True, "min_length": 1, "pattern": r"[a-zA-Z0-9_]"},
+        "window_offset": {"required": True},
+        "window_size": {"required": True},
+    }
+
+    _attribute_map = {
+        "columns": {"key": "columns", "type": "{str}"},
+        "data_context": {"key": "dataContext", "type": "str"},
+        "input_data_type": {"key": "inputDataType", "type": "str"},
+        "job_input_type": {"key": "jobInputType", "type": "str"},
+        "uri": {"key": "uri", "type": "str"},
+        "preprocessing_component_id": {"key": "preprocessingComponentId", "type": "str"},
+        "window_offset": {"key": "windowOffset", "type": "duration"},
+        "window_size": {"key": "windowSize", "type": "duration"},
+    }
+
+    def __init__(
+        self,
+        *,
+        job_input_type: Union[str, "_models.JobInputType"],
+        uri: str,
+        window_offset: datetime.timedelta,
+        window_size: datetime.timedelta,
+        columns: Optional[Dict[str, str]] = None,
+        data_context: Optional[str] = None,
+        preprocessing_component_id: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword columns: Mapping of column names to special uses.
+        :paramtype columns: dict[str, str]
+        :keyword data_context: The context metadata of the data source.
+        :paramtype data_context: str
+        :keyword job_input_type: [Required] Specifies the type of job. Required. Known values are:
+         "literal", "uri_file", "uri_folder", "mltable", "custom_model", "mlflow_model", and
+         "triton_model".
+        :paramtype job_input_type: str or ~azure.mgmt.machinelearningservices.models.JobInputType
+        :keyword uri: [Required] Input Asset URI. Required.
+        :paramtype uri: str
+        :keyword preprocessing_component_id: Reference to the component asset used to preprocess the
+         data.
+        :paramtype preprocessing_component_id: str
+        :keyword window_offset: [Required] The time offset between the end of the data window and the
+         monitor's current run time. Required.
+        :paramtype window_offset: ~datetime.timedelta
+        :keyword window_size: [Required] The size of the rolling data window. Required.
+        :paramtype window_size: ~datetime.timedelta
+        """
+        super().__init__(columns=columns, data_context=data_context, job_input_type=job_input_type, uri=uri, **kwargs)
+        self.input_data_type: str = "Rolling"
+        self.preprocessing_component_id = preprocessing_component_id
+        self.window_offset = window_offset
+        self.window_size = window_size
 
 
 class Route(_serialization.Model):
     """Route.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar path: [Required] The path for the route. Required.
     :vartype path: str
@@ -18474,16 +24450,48 @@ class Route(_serialization.Model):
 class SASAuthTypeWorkspaceConnectionProperties(WorkspaceConnectionPropertiesV2):
     """SASAuthTypeWorkspaceConnectionProperties.
 
-    All required parameters must be populated in order to send to Azure.
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
 
     :ivar auth_type: Authentication type of the connection target. Required. Known values are:
-     "PAT", "ManagedIdentity", "UsernamePassword", "None", and "SAS".
+     "PAT", "ManagedIdentity", "UsernamePassword", "None", "SAS", "AccountKey", "ServicePrincipal",
+     "AccessKey", "ApiKey", "CustomKeys", "OAuth2", and "AAD".
     :vartype auth_type: str or ~azure.mgmt.machinelearningservices.models.ConnectionAuthType
     :ivar category: Category of the connection. Known values are: "PythonFeed",
-     "ContainerRegistry", and "Git".
+     "ContainerRegistry", "Git", "S3", "Snowflake", "AzureSqlDb", "AzureSynapseAnalytics",
+     "AzureMySqlDb", "AzurePostgresDb", "ADLSGen2", "Redis", "ApiKey", "AzureOpenAI", "AIServices",
+     "CognitiveSearch", "CognitiveService", "CustomKeys", "AzureBlob", "AzureOneLake", "CosmosDb",
+     "CosmosDbMongoDbApi", "AzureDataExplorer", "AzureMariaDb", "AzureDatabricksDeltaLake",
+     "AzureSqlMi", "AzureTableStorage", "AmazonRdsForOracle", "AmazonRdsForSqlServer",
+     "AmazonRedshift", "Db2", "Drill", "GoogleBigQuery", "Greenplum", "Hbase", "Hive", "Impala",
+     "Informix", "MariaDb", "MicrosoftAccess", "MySql", "Netezza", "Oracle", "Phoenix",
+     "PostgreSql", "Presto", "SapOpenHub", "SapBw", "SapHana", "SapTable", "Spark", "SqlServer",
+     "Sybase", "Teradata", "Vertica", "Pinecone", "Cassandra", "Couchbase", "MongoDbV2",
+     "MongoDbAtlas", "AmazonS3Compatible", "FileServer", "FtpServer", "GoogleCloudStorage", "Hdfs",
+     "OracleCloudStorage", "Sftp", "GenericHttp", "ODataRest", "Odbc", "GenericRest", "AmazonMws",
+     "Concur", "Dynamics", "DynamicsAx", "DynamicsCrm", "GoogleAdWords", "Hubspot", "Jira",
+     "Magento", "Marketo", "Office365", "Eloqua", "Responsys", "OracleServiceCloud", "PayPal",
+     "QuickBooks", "Salesforce", "SalesforceServiceCloud", "SalesforceMarketingCloud",
+     "SapCloudForCustomer", "SapEcc", "ServiceNow", "SharePointOnlineList", "Shopify", "Square",
+     "WebTable", "Xero", "Zoho", "GenericContainerRegistry", "Elasticsearch", "OpenAI", "Serp",
+     "BingLLMSearch", "Serverless", and "ManagedOnlineEndpoint".
     :vartype category: str or ~azure.mgmt.machinelearningservices.models.ConnectionCategory
+    :ivar created_by_workspace_arm_id:
+    :vartype created_by_workspace_arm_id: str
+    :ivar expiry_time:
+    :vartype expiry_time: ~datetime.datetime
+    :ivar group: Group based on connection category. Known values are: "Azure", "AzureAI",
+     "Database", "NoSQL", "File", "GenericProtocol", and "ServicesAndApps".
+    :vartype group: str or ~azure.mgmt.machinelearningservices.models.ConnectionGroup
+    :ivar is_shared_to_all:
+    :vartype is_shared_to_all: bool
     :ivar target:
     :vartype target: str
+    :ivar metadata: Store user metadata for this connection.
+    :vartype metadata: dict[str, str]
+    :ivar shared_user_list:
+    :vartype shared_user_list: list[str]
     :ivar value: Value details of the workspace connection.
     :vartype value: str
     :ivar value_format: format for the workspace connection value. "JSON"
@@ -18495,12 +24503,20 @@ class SASAuthTypeWorkspaceConnectionProperties(WorkspaceConnectionPropertiesV2):
 
     _validation = {
         "auth_type": {"required": True},
+        "created_by_workspace_arm_id": {"readonly": True},
+        "group": {"readonly": True},
     }
 
     _attribute_map = {
         "auth_type": {"key": "authType", "type": "str"},
         "category": {"key": "category", "type": "str"},
+        "created_by_workspace_arm_id": {"key": "createdByWorkspaceArmId", "type": "str"},
+        "expiry_time": {"key": "expiryTime", "type": "iso-8601"},
+        "group": {"key": "group", "type": "str"},
+        "is_shared_to_all": {"key": "isSharedToAll", "type": "bool"},
         "target": {"key": "target", "type": "str"},
+        "metadata": {"key": "metadata", "type": "{str}"},
+        "shared_user_list": {"key": "sharedUserList", "type": "[str]"},
         "value": {"key": "value", "type": "str"},
         "value_format": {"key": "valueFormat", "type": "str"},
         "credentials": {"key": "credentials", "type": "WorkspaceConnectionSharedAccessSignature"},
@@ -18510,7 +24526,11 @@ class SASAuthTypeWorkspaceConnectionProperties(WorkspaceConnectionPropertiesV2):
         self,
         *,
         category: Optional[Union[str, "_models.ConnectionCategory"]] = None,
+        expiry_time: Optional[datetime.datetime] = None,
+        is_shared_to_all: Optional[bool] = None,
         target: Optional[str] = None,
+        metadata: Optional[Dict[str, str]] = None,
+        shared_user_list: Optional[List[str]] = None,
         value: Optional[str] = None,
         value_format: Optional[Union[str, "_models.ValueFormat"]] = None,
         credentials: Optional["_models.WorkspaceConnectionSharedAccessSignature"] = None,
@@ -18518,10 +24538,34 @@ class SASAuthTypeWorkspaceConnectionProperties(WorkspaceConnectionPropertiesV2):
     ) -> None:
         """
         :keyword category: Category of the connection. Known values are: "PythonFeed",
-         "ContainerRegistry", and "Git".
+         "ContainerRegistry", "Git", "S3", "Snowflake", "AzureSqlDb", "AzureSynapseAnalytics",
+         "AzureMySqlDb", "AzurePostgresDb", "ADLSGen2", "Redis", "ApiKey", "AzureOpenAI", "AIServices",
+         "CognitiveSearch", "CognitiveService", "CustomKeys", "AzureBlob", "AzureOneLake", "CosmosDb",
+         "CosmosDbMongoDbApi", "AzureDataExplorer", "AzureMariaDb", "AzureDatabricksDeltaLake",
+         "AzureSqlMi", "AzureTableStorage", "AmazonRdsForOracle", "AmazonRdsForSqlServer",
+         "AmazonRedshift", "Db2", "Drill", "GoogleBigQuery", "Greenplum", "Hbase", "Hive", "Impala",
+         "Informix", "MariaDb", "MicrosoftAccess", "MySql", "Netezza", "Oracle", "Phoenix",
+         "PostgreSql", "Presto", "SapOpenHub", "SapBw", "SapHana", "SapTable", "Spark", "SqlServer",
+         "Sybase", "Teradata", "Vertica", "Pinecone", "Cassandra", "Couchbase", "MongoDbV2",
+         "MongoDbAtlas", "AmazonS3Compatible", "FileServer", "FtpServer", "GoogleCloudStorage", "Hdfs",
+         "OracleCloudStorage", "Sftp", "GenericHttp", "ODataRest", "Odbc", "GenericRest", "AmazonMws",
+         "Concur", "Dynamics", "DynamicsAx", "DynamicsCrm", "GoogleAdWords", "Hubspot", "Jira",
+         "Magento", "Marketo", "Office365", "Eloqua", "Responsys", "OracleServiceCloud", "PayPal",
+         "QuickBooks", "Salesforce", "SalesforceServiceCloud", "SalesforceMarketingCloud",
+         "SapCloudForCustomer", "SapEcc", "ServiceNow", "SharePointOnlineList", "Shopify", "Square",
+         "WebTable", "Xero", "Zoho", "GenericContainerRegistry", "Elasticsearch", "OpenAI", "Serp",
+         "BingLLMSearch", "Serverless", and "ManagedOnlineEndpoint".
         :paramtype category: str or ~azure.mgmt.machinelearningservices.models.ConnectionCategory
+        :keyword expiry_time:
+        :paramtype expiry_time: ~datetime.datetime
+        :keyword is_shared_to_all:
+        :paramtype is_shared_to_all: bool
         :keyword target:
         :paramtype target: str
+        :keyword metadata: Store user metadata for this connection.
+        :paramtype metadata: dict[str, str]
+        :keyword shared_user_list:
+        :paramtype shared_user_list: list[str]
         :keyword value: Value details of the workspace connection.
         :paramtype value: str
         :keyword value_format: format for the workspace connection value. "JSON"
@@ -18530,15 +24574,57 @@ class SASAuthTypeWorkspaceConnectionProperties(WorkspaceConnectionPropertiesV2):
         :paramtype credentials:
          ~azure.mgmt.machinelearningservices.models.WorkspaceConnectionSharedAccessSignature
         """
-        super().__init__(category=category, target=target, value=value, value_format=value_format, **kwargs)
+        super().__init__(
+            category=category,
+            expiry_time=expiry_time,
+            is_shared_to_all=is_shared_to_all,
+            target=target,
+            metadata=metadata,
+            shared_user_list=shared_user_list,
+            value=value,
+            value_format=value_format,
+            **kwargs
+        )
         self.auth_type: str = "SAS"
         self.credentials = credentials
+
+
+class SASCredential(DataReferenceCredential):
+    """Access with full SAS uri.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar credential_type: [Required] Credential type used to authentication with storage.
+     Required. Known values are: "SAS", "DockerCredentials", "ManagedIdentity", and "NoCredentials".
+    :vartype credential_type: str or
+     ~azure.mgmt.machinelearningservices.models.DataReferenceCredentialType
+    :ivar sas_uri: Full SAS Uri, including the storage, container/blob path and SAS token.
+    :vartype sas_uri: str
+    """
+
+    _validation = {
+        "credential_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "credential_type": {"key": "credentialType", "type": "str"},
+        "sas_uri": {"key": "sasUri", "type": "str"},
+    }
+
+    def __init__(self, *, sas_uri: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword sas_uri: Full SAS Uri, including the storage, container/blob path and SAS token.
+        :paramtype sas_uri: str
+        """
+        super().__init__(**kwargs)
+        self.credential_type: str = "SAS"
+        self.sas_uri = sas_uri
 
 
 class SASCredentialDto(PendingUploadCredentialDto):
     """SASCredentialDto.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar credential_type: [Required] Credential type used to authentication with storage.
      Required. "SAS"
@@ -18570,7 +24656,7 @@ class SASCredentialDto(PendingUploadCredentialDto):
 class SasDatastoreCredentials(DatastoreCredentials):
     """SAS datastore credentials configuration.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar credentials_type: [Required] Credential type used to authentication with storage.
      Required. Known values are: "AccountKey", "Certificate", "None", "Sas", and "ServicePrincipal".
@@ -18602,7 +24688,7 @@ class SasDatastoreCredentials(DatastoreCredentials):
 class SasDatastoreSecrets(DatastoreSecrets):
     """Datastore SAS secrets.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar secrets_type: [Required] Credential type used to authentication with storage. Required.
      Known values are: "AccountKey", "Certificate", "Sas", and "ServicePrincipal".
@@ -18633,7 +24719,7 @@ class SasDatastoreSecrets(DatastoreSecrets):
 class ScaleSettings(_serialization.Model):
     """scale settings for AML Compute.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar max_node_count: Max number of nodes to use. Required.
     :vartype max_node_count: int
@@ -18697,12 +24783,12 @@ class ScaleSettingsInformation(_serialization.Model):
         self.scale_settings = scale_settings
 
 
-class Schedule(Resource):
+class Schedule(ProxyResource):
     """Azure Resource Manager resource envelope.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
@@ -18793,7 +24879,7 @@ class ScheduleProperties(ResourceBase):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar description: The asset description text.
     :vartype description: str
@@ -18864,7 +24950,7 @@ class ScheduleProperties(ResourceBase):
         self.action = action
         self.display_name = display_name
         self.is_enabled = is_enabled
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ScheduleProvisioningStatus"]] = None
         self.trigger = trigger
 
 
@@ -18976,6 +25062,283 @@ class ScriptsToExecute(_serialization.Model):
         self.creation_script = creation_script
 
 
+class ServerlessComputeSettings(_serialization.Model):
+    """ServerlessComputeSettings.
+
+    :ivar serverless_compute_custom_subnet: The resource ID of an existing virtual network subnet
+     in which serverless compute nodes should be deployed.
+    :vartype serverless_compute_custom_subnet: str
+    :ivar serverless_compute_no_public_ip: The flag to signal if serverless compute nodes deployed
+     in custom vNet would have no public IP addresses for a workspace with private endpoint.
+    :vartype serverless_compute_no_public_ip: bool
+    """
+
+    _attribute_map = {
+        "serverless_compute_custom_subnet": {"key": "serverlessComputeCustomSubnet", "type": "str"},
+        "serverless_compute_no_public_ip": {"key": "serverlessComputeNoPublicIP", "type": "bool"},
+    }
+
+    def __init__(
+        self,
+        *,
+        serverless_compute_custom_subnet: Optional[str] = None,
+        serverless_compute_no_public_ip: Optional[bool] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword serverless_compute_custom_subnet: The resource ID of an existing virtual network
+         subnet in which serverless compute nodes should be deployed.
+        :paramtype serverless_compute_custom_subnet: str
+        :keyword serverless_compute_no_public_ip: The flag to signal if serverless compute nodes
+         deployed in custom vNet would have no public IP addresses for a workspace with private
+         endpoint.
+        :paramtype serverless_compute_no_public_ip: bool
+        """
+        super().__init__(**kwargs)
+        self.serverless_compute_custom_subnet = serverless_compute_custom_subnet
+        self.serverless_compute_no_public_ip = serverless_compute_no_public_ip
+
+
+class ServerlessEndpoint(TrackedResource):
+    """ServerlessEndpoint.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.machinelearningservices.models.SystemData
+    :ivar tags: Resource tags.
+    :vartype tags: dict[str, str]
+    :ivar location: The geo-location where the resource lives. Required.
+    :vartype location: str
+    :ivar identity: Managed service identity (system assigned and/or user assigned identities).
+    :vartype identity: ~azure.mgmt.machinelearningservices.models.ManagedServiceIdentity
+    :ivar kind: Metadata used by portal/tooling/etc to render different UX experiences for
+     resources of the same type.
+    :vartype kind: str
+    :ivar properties: [Required] Additional attributes of the entity. Required.
+    :vartype properties: ~azure.mgmt.machinelearningservices.models.ServerlessEndpointProperties
+    :ivar sku: Sku details required for ARM contract for Autoscaling.
+    :vartype sku: ~azure.mgmt.machinelearningservices.models.Sku
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "location": {"required": True},
+        "properties": {"required": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "tags": {"key": "tags", "type": "{str}"},
+        "location": {"key": "location", "type": "str"},
+        "identity": {"key": "identity", "type": "ManagedServiceIdentity"},
+        "kind": {"key": "kind", "type": "str"},
+        "properties": {"key": "properties", "type": "ServerlessEndpointProperties"},
+        "sku": {"key": "sku", "type": "Sku"},
+    }
+
+    def __init__(
+        self,
+        *,
+        location: str,
+        properties: "_models.ServerlessEndpointProperties",
+        tags: Optional[Dict[str, str]] = None,
+        identity: Optional["_models.ManagedServiceIdentity"] = None,
+        kind: Optional[str] = None,
+        sku: Optional["_models.Sku"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword tags: Resource tags.
+        :paramtype tags: dict[str, str]
+        :keyword location: The geo-location where the resource lives. Required.
+        :paramtype location: str
+        :keyword identity: Managed service identity (system assigned and/or user assigned identities).
+        :paramtype identity: ~azure.mgmt.machinelearningservices.models.ManagedServiceIdentity
+        :keyword kind: Metadata used by portal/tooling/etc to render different UX experiences for
+         resources of the same type.
+        :paramtype kind: str
+        :keyword properties: [Required] Additional attributes of the entity. Required.
+        :paramtype properties: ~azure.mgmt.machinelearningservices.models.ServerlessEndpointProperties
+        :keyword sku: Sku details required for ARM contract for Autoscaling.
+        :paramtype sku: ~azure.mgmt.machinelearningservices.models.Sku
+        """
+        super().__init__(tags=tags, location=location, **kwargs)
+        self.identity = identity
+        self.kind = kind
+        self.properties = properties
+        self.sku = sku
+
+
+class ServerlessEndpointProperties(_serialization.Model):
+    """ServerlessEndpointProperties.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar auth_mode: [Required] Specifies the authentication mode for the Serverless endpoint.
+     Required. "Key"
+    :vartype auth_mode: str or
+     ~azure.mgmt.machinelearningservices.models.ServerlessInferenceEndpointAuthMode
+    :ivar content_safety: Specifies the content safety options. If omitted, the default content
+     safety settings will be configured.
+    :vartype content_safety: ~azure.mgmt.machinelearningservices.models.ContentSafety
+    :ivar endpoint_state: The current state of the ServerlessEndpoint. Known values are: "Unknown",
+     "Creating", "Deleting", "Suspending", "Reinstating", "Online", "Suspended", "CreationFailed",
+     and "DeletionFailed".
+    :vartype endpoint_state: str or
+     ~azure.mgmt.machinelearningservices.models.ServerlessEndpointState
+    :ivar inference_endpoint: The inference uri to target when making requests against the
+     serverless endpoint.
+    :vartype inference_endpoint:
+     ~azure.mgmt.machinelearningservices.models.ServerlessInferenceEndpoint
+    :ivar marketplace_subscription_id: The MarketplaceSubscription Azure ID associated to this
+     ServerlessEndpoint.
+    :vartype marketplace_subscription_id: str
+    :ivar model_settings: The model settings (model id) for the model being serviced on the
+     ServerlessEndpoint.
+    :vartype model_settings: ~azure.mgmt.machinelearningservices.models.ModelSettings
+    :ivar provisioning_state: Provisioning state for the endpoint. Known values are: "Creating",
+     "Deleting", "Succeeded", "Failed", "Updating", and "Canceled".
+    :vartype provisioning_state: str or
+     ~azure.mgmt.machinelearningservices.models.EndpointProvisioningState
+    """
+
+    _validation = {
+        "auth_mode": {"required": True},
+        "endpoint_state": {"readonly": True},
+        "inference_endpoint": {"readonly": True},
+        "marketplace_subscription_id": {"readonly": True},
+        "provisioning_state": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "auth_mode": {"key": "authMode", "type": "str"},
+        "content_safety": {"key": "contentSafety", "type": "ContentSafety"},
+        "endpoint_state": {"key": "endpointState", "type": "str"},
+        "inference_endpoint": {"key": "inferenceEndpoint", "type": "ServerlessInferenceEndpoint"},
+        "marketplace_subscription_id": {"key": "marketplaceSubscriptionId", "type": "str"},
+        "model_settings": {"key": "modelSettings", "type": "ModelSettings"},
+        "provisioning_state": {"key": "provisioningState", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        auth_mode: Union[str, "_models.ServerlessInferenceEndpointAuthMode"],
+        content_safety: Optional["_models.ContentSafety"] = None,
+        model_settings: Optional["_models.ModelSettings"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword auth_mode: [Required] Specifies the authentication mode for the Serverless endpoint.
+         Required. "Key"
+        :paramtype auth_mode: str or
+         ~azure.mgmt.machinelearningservices.models.ServerlessInferenceEndpointAuthMode
+        :keyword content_safety: Specifies the content safety options. If omitted, the default content
+         safety settings will be configured.
+        :paramtype content_safety: ~azure.mgmt.machinelearningservices.models.ContentSafety
+        :keyword model_settings: The model settings (model id) for the model being serviced on the
+         ServerlessEndpoint.
+        :paramtype model_settings: ~azure.mgmt.machinelearningservices.models.ModelSettings
+        """
+        super().__init__(**kwargs)
+        self.auth_mode = auth_mode
+        self.content_safety = content_safety
+        self.endpoint_state: Optional[Union[str, "_models.ServerlessEndpointState"]] = None
+        self.inference_endpoint: Optional["_models.ServerlessInferenceEndpoint"] = None
+        self.marketplace_subscription_id: Optional[str] = None
+        self.model_settings = model_settings
+        self.provisioning_state: Optional[Union[str, "_models.EndpointProvisioningState"]] = None
+
+
+class ServerlessEndpointTrackedResourceArmPaginatedResult(_serialization.Model):  # pylint: disable=name-too-long
+    """A paginated list of ServerlessEndpoint entities.
+
+    :ivar next_link: The link to the next page of ServerlessEndpoint objects. If null, there are no
+     additional pages.
+    :vartype next_link: str
+    :ivar value: An array of objects of type ServerlessEndpoint.
+    :vartype value: list[~azure.mgmt.machinelearningservices.models.ServerlessEndpoint]
+    """
+
+    _attribute_map = {
+        "next_link": {"key": "nextLink", "type": "str"},
+        "value": {"key": "value", "type": "[ServerlessEndpoint]"},
+    }
+
+    def __init__(
+        self,
+        *,
+        next_link: Optional[str] = None,
+        value: Optional[List["_models.ServerlessEndpoint"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword next_link: The link to the next page of ServerlessEndpoint objects. If null, there are
+         no additional pages.
+        :paramtype next_link: str
+        :keyword value: An array of objects of type ServerlessEndpoint.
+        :paramtype value: list[~azure.mgmt.machinelearningservices.models.ServerlessEndpoint]
+        """
+        super().__init__(**kwargs)
+        self.next_link = next_link
+        self.value = value
+
+
+class ServerlessInferenceEndpoint(_serialization.Model):
+    """ServerlessInferenceEndpoint.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar headers: Specifies any required headers to target this serverless endpoint.
+    :vartype headers: dict[str, str]
+    :ivar uri: [Required] The inference uri to target when making requests against the Serverless
+     Endpoint. Required.
+    :vartype uri: str
+    """
+
+    _validation = {
+        "headers": {"readonly": True},
+        "uri": {"required": True},
+    }
+
+    _attribute_map = {
+        "headers": {"key": "headers", "type": "{str}"},
+        "uri": {"key": "uri", "type": "str"},
+    }
+
+    def __init__(self, *, uri: str, **kwargs: Any) -> None:
+        """
+        :keyword uri: [Required] The inference uri to target when making requests against the
+         Serverless Endpoint. Required.
+        :paramtype uri: str
+        """
+        super().__init__(**kwargs)
+        self.headers: Optional[Dict[str, str]] = None
+        self.uri = uri
+
+
 class ServiceManagedResourcesSettings(_serialization.Model):
     """ServiceManagedResourcesSettings.
 
@@ -18996,10 +25359,154 @@ class ServiceManagedResourcesSettings(_serialization.Model):
         self.cosmos_db = cosmos_db
 
 
+class ServicePrincipalAuthTypeWorkspaceConnectionProperties(
+    WorkspaceConnectionPropertiesV2
+):  # pylint: disable=name-too-long
+    """ServicePrincipalAuthTypeWorkspaceConnectionProperties.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar auth_type: Authentication type of the connection target. Required. Known values are:
+     "PAT", "ManagedIdentity", "UsernamePassword", "None", "SAS", "AccountKey", "ServicePrincipal",
+     "AccessKey", "ApiKey", "CustomKeys", "OAuth2", and "AAD".
+    :vartype auth_type: str or ~azure.mgmt.machinelearningservices.models.ConnectionAuthType
+    :ivar category: Category of the connection. Known values are: "PythonFeed",
+     "ContainerRegistry", "Git", "S3", "Snowflake", "AzureSqlDb", "AzureSynapseAnalytics",
+     "AzureMySqlDb", "AzurePostgresDb", "ADLSGen2", "Redis", "ApiKey", "AzureOpenAI", "AIServices",
+     "CognitiveSearch", "CognitiveService", "CustomKeys", "AzureBlob", "AzureOneLake", "CosmosDb",
+     "CosmosDbMongoDbApi", "AzureDataExplorer", "AzureMariaDb", "AzureDatabricksDeltaLake",
+     "AzureSqlMi", "AzureTableStorage", "AmazonRdsForOracle", "AmazonRdsForSqlServer",
+     "AmazonRedshift", "Db2", "Drill", "GoogleBigQuery", "Greenplum", "Hbase", "Hive", "Impala",
+     "Informix", "MariaDb", "MicrosoftAccess", "MySql", "Netezza", "Oracle", "Phoenix",
+     "PostgreSql", "Presto", "SapOpenHub", "SapBw", "SapHana", "SapTable", "Spark", "SqlServer",
+     "Sybase", "Teradata", "Vertica", "Pinecone", "Cassandra", "Couchbase", "MongoDbV2",
+     "MongoDbAtlas", "AmazonS3Compatible", "FileServer", "FtpServer", "GoogleCloudStorage", "Hdfs",
+     "OracleCloudStorage", "Sftp", "GenericHttp", "ODataRest", "Odbc", "GenericRest", "AmazonMws",
+     "Concur", "Dynamics", "DynamicsAx", "DynamicsCrm", "GoogleAdWords", "Hubspot", "Jira",
+     "Magento", "Marketo", "Office365", "Eloqua", "Responsys", "OracleServiceCloud", "PayPal",
+     "QuickBooks", "Salesforce", "SalesforceServiceCloud", "SalesforceMarketingCloud",
+     "SapCloudForCustomer", "SapEcc", "ServiceNow", "SharePointOnlineList", "Shopify", "Square",
+     "WebTable", "Xero", "Zoho", "GenericContainerRegistry", "Elasticsearch", "OpenAI", "Serp",
+     "BingLLMSearch", "Serverless", and "ManagedOnlineEndpoint".
+    :vartype category: str or ~azure.mgmt.machinelearningservices.models.ConnectionCategory
+    :ivar created_by_workspace_arm_id:
+    :vartype created_by_workspace_arm_id: str
+    :ivar expiry_time:
+    :vartype expiry_time: ~datetime.datetime
+    :ivar group: Group based on connection category. Known values are: "Azure", "AzureAI",
+     "Database", "NoSQL", "File", "GenericProtocol", and "ServicesAndApps".
+    :vartype group: str or ~azure.mgmt.machinelearningservices.models.ConnectionGroup
+    :ivar is_shared_to_all:
+    :vartype is_shared_to_all: bool
+    :ivar target:
+    :vartype target: str
+    :ivar metadata: Store user metadata for this connection.
+    :vartype metadata: dict[str, str]
+    :ivar shared_user_list:
+    :vartype shared_user_list: list[str]
+    :ivar value: Value details of the workspace connection.
+    :vartype value: str
+    :ivar value_format: format for the workspace connection value. "JSON"
+    :vartype value_format: str or ~azure.mgmt.machinelearningservices.models.ValueFormat
+    :ivar credentials:
+    :vartype credentials:
+     ~azure.mgmt.machinelearningservices.models.WorkspaceConnectionServicePrincipal
+    """
+
+    _validation = {
+        "auth_type": {"required": True},
+        "created_by_workspace_arm_id": {"readonly": True},
+        "group": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "auth_type": {"key": "authType", "type": "str"},
+        "category": {"key": "category", "type": "str"},
+        "created_by_workspace_arm_id": {"key": "createdByWorkspaceArmId", "type": "str"},
+        "expiry_time": {"key": "expiryTime", "type": "iso-8601"},
+        "group": {"key": "group", "type": "str"},
+        "is_shared_to_all": {"key": "isSharedToAll", "type": "bool"},
+        "target": {"key": "target", "type": "str"},
+        "metadata": {"key": "metadata", "type": "{str}"},
+        "shared_user_list": {"key": "sharedUserList", "type": "[str]"},
+        "value": {"key": "value", "type": "str"},
+        "value_format": {"key": "valueFormat", "type": "str"},
+        "credentials": {"key": "credentials", "type": "WorkspaceConnectionServicePrincipal"},
+    }
+
+    def __init__(
+        self,
+        *,
+        category: Optional[Union[str, "_models.ConnectionCategory"]] = None,
+        expiry_time: Optional[datetime.datetime] = None,
+        is_shared_to_all: Optional[bool] = None,
+        target: Optional[str] = None,
+        metadata: Optional[Dict[str, str]] = None,
+        shared_user_list: Optional[List[str]] = None,
+        value: Optional[str] = None,
+        value_format: Optional[Union[str, "_models.ValueFormat"]] = None,
+        credentials: Optional["_models.WorkspaceConnectionServicePrincipal"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword category: Category of the connection. Known values are: "PythonFeed",
+         "ContainerRegistry", "Git", "S3", "Snowflake", "AzureSqlDb", "AzureSynapseAnalytics",
+         "AzureMySqlDb", "AzurePostgresDb", "ADLSGen2", "Redis", "ApiKey", "AzureOpenAI", "AIServices",
+         "CognitiveSearch", "CognitiveService", "CustomKeys", "AzureBlob", "AzureOneLake", "CosmosDb",
+         "CosmosDbMongoDbApi", "AzureDataExplorer", "AzureMariaDb", "AzureDatabricksDeltaLake",
+         "AzureSqlMi", "AzureTableStorage", "AmazonRdsForOracle", "AmazonRdsForSqlServer",
+         "AmazonRedshift", "Db2", "Drill", "GoogleBigQuery", "Greenplum", "Hbase", "Hive", "Impala",
+         "Informix", "MariaDb", "MicrosoftAccess", "MySql", "Netezza", "Oracle", "Phoenix",
+         "PostgreSql", "Presto", "SapOpenHub", "SapBw", "SapHana", "SapTable", "Spark", "SqlServer",
+         "Sybase", "Teradata", "Vertica", "Pinecone", "Cassandra", "Couchbase", "MongoDbV2",
+         "MongoDbAtlas", "AmazonS3Compatible", "FileServer", "FtpServer", "GoogleCloudStorage", "Hdfs",
+         "OracleCloudStorage", "Sftp", "GenericHttp", "ODataRest", "Odbc", "GenericRest", "AmazonMws",
+         "Concur", "Dynamics", "DynamicsAx", "DynamicsCrm", "GoogleAdWords", "Hubspot", "Jira",
+         "Magento", "Marketo", "Office365", "Eloqua", "Responsys", "OracleServiceCloud", "PayPal",
+         "QuickBooks", "Salesforce", "SalesforceServiceCloud", "SalesforceMarketingCloud",
+         "SapCloudForCustomer", "SapEcc", "ServiceNow", "SharePointOnlineList", "Shopify", "Square",
+         "WebTable", "Xero", "Zoho", "GenericContainerRegistry", "Elasticsearch", "OpenAI", "Serp",
+         "BingLLMSearch", "Serverless", and "ManagedOnlineEndpoint".
+        :paramtype category: str or ~azure.mgmt.machinelearningservices.models.ConnectionCategory
+        :keyword expiry_time:
+        :paramtype expiry_time: ~datetime.datetime
+        :keyword is_shared_to_all:
+        :paramtype is_shared_to_all: bool
+        :keyword target:
+        :paramtype target: str
+        :keyword metadata: Store user metadata for this connection.
+        :paramtype metadata: dict[str, str]
+        :keyword shared_user_list:
+        :paramtype shared_user_list: list[str]
+        :keyword value: Value details of the workspace connection.
+        :paramtype value: str
+        :keyword value_format: format for the workspace connection value. "JSON"
+        :paramtype value_format: str or ~azure.mgmt.machinelearningservices.models.ValueFormat
+        :keyword credentials:
+        :paramtype credentials:
+         ~azure.mgmt.machinelearningservices.models.WorkspaceConnectionServicePrincipal
+        """
+        super().__init__(
+            category=category,
+            expiry_time=expiry_time,
+            is_shared_to_all=is_shared_to_all,
+            target=target,
+            metadata=metadata,
+            shared_user_list=shared_user_list,
+            value=value,
+            value_format=value_format,
+            **kwargs
+        )
+        self.auth_type: str = "ServicePrincipal"
+        self.credentials = credentials
+
+
 class ServicePrincipalDatastoreCredentials(DatastoreCredentials):
     """Service Principal datastore credentials configuration.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar credentials_type: [Required] Credential type used to authentication with storage.
      Required. Known values are: "AccountKey", "Certificate", "None", "Sas", and "ServicePrincipal".
@@ -19067,7 +25574,7 @@ class ServicePrincipalDatastoreCredentials(DatastoreCredentials):
 class ServicePrincipalDatastoreSecrets(DatastoreSecrets):
     """Datastore Service Principal secrets.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar secrets_type: [Required] Credential type used to authentication with storage. Required.
      Known values are: "AccountKey", "Certificate", "Sas", and "ServicePrincipal".
@@ -19093,6 +25600,128 @@ class ServicePrincipalDatastoreSecrets(DatastoreSecrets):
         super().__init__(**kwargs)
         self.secrets_type: str = "ServicePrincipal"
         self.client_secret = client_secret
+
+
+class ServiceTagDestination(_serialization.Model):
+    """Service Tag destination for a Service Tag Outbound Rule for the managed network of a machine
+    learning workspace.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar action: The action enum for networking rule. Known values are: "Allow" and "Deny".
+    :vartype action: str or ~azure.mgmt.machinelearningservices.models.RuleAction
+    :ivar address_prefixes: Optional, if provided, the ServiceTag property will be ignored.
+    :vartype address_prefixes: list[str]
+    :ivar port_ranges:
+    :vartype port_ranges: str
+    :ivar protocol:
+    :vartype protocol: str
+    :ivar service_tag:
+    :vartype service_tag: str
+    """
+
+    _validation = {
+        "address_prefixes": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "action": {"key": "action", "type": "str"},
+        "address_prefixes": {"key": "addressPrefixes", "type": "[str]"},
+        "port_ranges": {"key": "portRanges", "type": "str"},
+        "protocol": {"key": "protocol", "type": "str"},
+        "service_tag": {"key": "serviceTag", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        action: Optional[Union[str, "_models.RuleAction"]] = None,
+        port_ranges: Optional[str] = None,
+        protocol: Optional[str] = None,
+        service_tag: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword action: The action enum for networking rule. Known values are: "Allow" and "Deny".
+        :paramtype action: str or ~azure.mgmt.machinelearningservices.models.RuleAction
+        :keyword port_ranges:
+        :paramtype port_ranges: str
+        :keyword protocol:
+        :paramtype protocol: str
+        :keyword service_tag:
+        :paramtype service_tag: str
+        """
+        super().__init__(**kwargs)
+        self.action = action
+        self.address_prefixes: Optional[List[str]] = None
+        self.port_ranges = port_ranges
+        self.protocol = protocol
+        self.service_tag = service_tag
+
+
+class ServiceTagOutboundRule(OutboundRule):
+    """Service Tag Outbound Rule for the managed network of a machine learning workspace.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar category: Category of a managed network Outbound Rule of a machine learning workspace.
+     Known values are: "Required", "Recommended", "UserDefined", and "Dependency".
+    :vartype category: str or ~azure.mgmt.machinelearningservices.models.RuleCategory
+    :ivar status: Type of a managed network Outbound Rule of a machine learning workspace. Known
+     values are: "Inactive", "Active", "Provisioning", "Deleting", and "Failed".
+    :vartype status: str or ~azure.mgmt.machinelearningservices.models.RuleStatus
+    :ivar type: Type of a managed network Outbound Rule of a machine learning workspace. Required.
+     Known values are: "FQDN", "PrivateEndpoint", and "ServiceTag".
+    :vartype type: str or ~azure.mgmt.machinelearningservices.models.RuleType
+    :ivar error_information: Error information about an outbound rule of a machine learning
+     workspace if RuleStatus is failed.
+    :vartype error_information: str
+    :ivar parent_rule_names:
+    :vartype parent_rule_names: list[str]
+    :ivar destination: Service Tag destination for a Service Tag Outbound Rule for the managed
+     network of a machine learning workspace.
+    :vartype destination: ~azure.mgmt.machinelearningservices.models.ServiceTagDestination
+    """
+
+    _validation = {
+        "type": {"required": True},
+        "error_information": {"readonly": True},
+        "parent_rule_names": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "category": {"key": "category", "type": "str"},
+        "status": {"key": "status", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "error_information": {"key": "errorInformation", "type": "str"},
+        "parent_rule_names": {"key": "parentRuleNames", "type": "[str]"},
+        "destination": {"key": "destination", "type": "ServiceTagDestination"},
+    }
+
+    def __init__(
+        self,
+        *,
+        category: Optional[Union[str, "_models.RuleCategory"]] = None,
+        status: Optional[Union[str, "_models.RuleStatus"]] = None,
+        destination: Optional["_models.ServiceTagDestination"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword category: Category of a managed network Outbound Rule of a machine learning workspace.
+         Known values are: "Required", "Recommended", "UserDefined", and "Dependency".
+        :paramtype category: str or ~azure.mgmt.machinelearningservices.models.RuleCategory
+        :keyword status: Type of a managed network Outbound Rule of a machine learning workspace. Known
+         values are: "Inactive", "Active", "Provisioning", "Deleting", and "Failed".
+        :paramtype status: str or ~azure.mgmt.machinelearningservices.models.RuleStatus
+        :keyword destination: Service Tag destination for a Service Tag Outbound Rule for the managed
+         network of a machine learning workspace.
+        :paramtype destination: ~azure.mgmt.machinelearningservices.models.ServiceTagDestination
+        """
+        super().__init__(category=category, status=status, **kwargs)
+        self.type: str = "ServiceTag"
+        self.destination = destination
 
 
 class SetupScripts(_serialization.Model):
@@ -19177,7 +25806,7 @@ class SharedPrivateLinkResource(_serialization.Model):
 class Sku(_serialization.Model):
     """The resource model definition representing SKU.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: The name of the SKU. Ex - P3. It is typically a letter+number code. Required.
     :vartype name: str
@@ -19329,7 +25958,7 @@ class SkuResource(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.capacity = capacity
-        self.resource_type = None
+        self.resource_type: Optional[str] = None
         self.sku = sku
 
 
@@ -19366,7 +25995,7 @@ class SkuResourceArmPaginatedResult(_serialization.Model):
 class SkuSetting(_serialization.Model):
     """SkuSetting fulfills the need for stripped down SKU info in ARM contract.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: [Required] The name of the SKU. Ex - P3. It is typically a letter+number code.
      Required.
@@ -19399,6 +26028,357 @@ class SkuSetting(_serialization.Model):
         super().__init__(**kwargs)
         self.name = name
         self.tier = tier
+
+
+class SparkJob(JobBaseProperties):
+    """Spark job definition.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar description: The asset description text.
+    :vartype description: str
+    :ivar properties: The asset property dictionary.
+    :vartype properties: dict[str, str]
+    :ivar tags: Tag dictionary. Tags can be added, removed, and updated.
+    :vartype tags: dict[str, str]
+    :ivar component_id: ARM resource ID of the component resource.
+    :vartype component_id: str
+    :ivar compute_id: ARM resource ID of the compute resource.
+    :vartype compute_id: str
+    :ivar display_name: Display name of job.
+    :vartype display_name: str
+    :ivar experiment_name: The name of the experiment the job belongs to. If not set, the job is
+     placed in the "Default" experiment.
+    :vartype experiment_name: str
+    :ivar identity: Identity configuration. If set, this should be one of AmlToken,
+     ManagedIdentity, UserIdentity or null.
+     Defaults to AmlToken if null.
+    :vartype identity: ~azure.mgmt.machinelearningservices.models.IdentityConfiguration
+    :ivar is_archived: Is the asset archived?.
+    :vartype is_archived: bool
+    :ivar job_type: [Required] Specifies the type of job. Required. Known values are: "AutoML",
+     "Command", "Sweep", "Pipeline", and "Spark".
+    :vartype job_type: str or ~azure.mgmt.machinelearningservices.models.JobType
+    :ivar notification_setting: Notification setting for the job.
+    :vartype notification_setting: ~azure.mgmt.machinelearningservices.models.NotificationSetting
+    :ivar services: List of JobEndpoints.
+     For local jobs, a job endpoint will have an endpoint value of FileStreamObject.
+    :vartype services: dict[str, ~azure.mgmt.machinelearningservices.models.JobService]
+    :ivar status: Status of the job. Known values are: "NotStarted", "Starting", "Provisioning",
+     "Preparing", "Queued", "Running", "Finalizing", "CancelRequested", "Completed", "Failed",
+     "Canceled", "NotResponding", "Paused", and "Unknown".
+    :vartype status: str or ~azure.mgmt.machinelearningservices.models.JobStatus
+    :ivar archives: Archive files used in the job.
+    :vartype archives: list[str]
+    :ivar args: Arguments for the job.
+    :vartype args: str
+    :ivar code_id: [Required] arm-id of the code asset. Required.
+    :vartype code_id: str
+    :ivar conf: Spark configured properties.
+    :vartype conf: dict[str, str]
+    :ivar entry: [Required] The entry to execute on startup of the job. Required.
+    :vartype entry: ~azure.mgmt.machinelearningservices.models.SparkJobEntry
+    :ivar environment_id: The ARM resource ID of the Environment specification for the job.
+    :vartype environment_id: str
+    :ivar environment_variables: Environment variables included in the job.
+    :vartype environment_variables: dict[str, str]
+    :ivar files: Files used in the job.
+    :vartype files: list[str]
+    :ivar inputs: Mapping of input data bindings used in the job.
+    :vartype inputs: dict[str, ~azure.mgmt.machinelearningservices.models.JobInput]
+    :ivar jars: Jar files used in the job.
+    :vartype jars: list[str]
+    :ivar outputs: Mapping of output data bindings used in the job.
+    :vartype outputs: dict[str, ~azure.mgmt.machinelearningservices.models.JobOutput]
+    :ivar py_files: Python files used in the job.
+    :vartype py_files: list[str]
+    :ivar queue_settings: Queue settings for the job.
+    :vartype queue_settings: ~azure.mgmt.machinelearningservices.models.QueueSettings
+    :ivar resources: Compute Resource configuration for the job.
+    :vartype resources: ~azure.mgmt.machinelearningservices.models.SparkResourceConfiguration
+    """
+
+    _validation = {
+        "job_type": {"required": True},
+        "status": {"readonly": True},
+        "code_id": {"required": True},
+        "entry": {"required": True},
+    }
+
+    _attribute_map = {
+        "description": {"key": "description", "type": "str"},
+        "properties": {"key": "properties", "type": "{str}"},
+        "tags": {"key": "tags", "type": "{str}"},
+        "component_id": {"key": "componentId", "type": "str"},
+        "compute_id": {"key": "computeId", "type": "str"},
+        "display_name": {"key": "displayName", "type": "str"},
+        "experiment_name": {"key": "experimentName", "type": "str"},
+        "identity": {"key": "identity", "type": "IdentityConfiguration"},
+        "is_archived": {"key": "isArchived", "type": "bool"},
+        "job_type": {"key": "jobType", "type": "str"},
+        "notification_setting": {"key": "notificationSetting", "type": "NotificationSetting"},
+        "services": {"key": "services", "type": "{JobService}"},
+        "status": {"key": "status", "type": "str"},
+        "archives": {"key": "archives", "type": "[str]"},
+        "args": {"key": "args", "type": "str"},
+        "code_id": {"key": "codeId", "type": "str"},
+        "conf": {"key": "conf", "type": "{str}"},
+        "entry": {"key": "entry", "type": "SparkJobEntry"},
+        "environment_id": {"key": "environmentId", "type": "str"},
+        "environment_variables": {"key": "environmentVariables", "type": "{str}"},
+        "files": {"key": "files", "type": "[str]"},
+        "inputs": {"key": "inputs", "type": "{JobInput}"},
+        "jars": {"key": "jars", "type": "[str]"},
+        "outputs": {"key": "outputs", "type": "{JobOutput}"},
+        "py_files": {"key": "pyFiles", "type": "[str]"},
+        "queue_settings": {"key": "queueSettings", "type": "QueueSettings"},
+        "resources": {"key": "resources", "type": "SparkResourceConfiguration"},
+    }
+
+    def __init__(  # pylint: disable=too-many-locals
+        self,
+        *,
+        code_id: str,
+        entry: "_models.SparkJobEntry",
+        description: Optional[str] = None,
+        properties: Optional[Dict[str, str]] = None,
+        tags: Optional[Dict[str, str]] = None,
+        component_id: Optional[str] = None,
+        compute_id: Optional[str] = None,
+        display_name: Optional[str] = None,
+        experiment_name: str = "Default",
+        identity: Optional["_models.IdentityConfiguration"] = None,
+        is_archived: bool = False,
+        notification_setting: Optional["_models.NotificationSetting"] = None,
+        services: Optional[Dict[str, "_models.JobService"]] = None,
+        archives: Optional[List[str]] = None,
+        args: Optional[str] = None,
+        conf: Optional[Dict[str, str]] = None,
+        environment_id: Optional[str] = None,
+        environment_variables: Optional[Dict[str, str]] = None,
+        files: Optional[List[str]] = None,
+        inputs: Optional[Dict[str, "_models.JobInput"]] = None,
+        jars: Optional[List[str]] = None,
+        outputs: Optional[Dict[str, "_models.JobOutput"]] = None,
+        py_files: Optional[List[str]] = None,
+        queue_settings: Optional["_models.QueueSettings"] = None,
+        resources: Optional["_models.SparkResourceConfiguration"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword description: The asset description text.
+        :paramtype description: str
+        :keyword properties: The asset property dictionary.
+        :paramtype properties: dict[str, str]
+        :keyword tags: Tag dictionary. Tags can be added, removed, and updated.
+        :paramtype tags: dict[str, str]
+        :keyword component_id: ARM resource ID of the component resource.
+        :paramtype component_id: str
+        :keyword compute_id: ARM resource ID of the compute resource.
+        :paramtype compute_id: str
+        :keyword display_name: Display name of job.
+        :paramtype display_name: str
+        :keyword experiment_name: The name of the experiment the job belongs to. If not set, the job is
+         placed in the "Default" experiment.
+        :paramtype experiment_name: str
+        :keyword identity: Identity configuration. If set, this should be one of AmlToken,
+         ManagedIdentity, UserIdentity or null.
+         Defaults to AmlToken if null.
+        :paramtype identity: ~azure.mgmt.machinelearningservices.models.IdentityConfiguration
+        :keyword is_archived: Is the asset archived?.
+        :paramtype is_archived: bool
+        :keyword notification_setting: Notification setting for the job.
+        :paramtype notification_setting: ~azure.mgmt.machinelearningservices.models.NotificationSetting
+        :keyword services: List of JobEndpoints.
+         For local jobs, a job endpoint will have an endpoint value of FileStreamObject.
+        :paramtype services: dict[str, ~azure.mgmt.machinelearningservices.models.JobService]
+        :keyword archives: Archive files used in the job.
+        :paramtype archives: list[str]
+        :keyword args: Arguments for the job.
+        :paramtype args: str
+        :keyword code_id: [Required] arm-id of the code asset. Required.
+        :paramtype code_id: str
+        :keyword conf: Spark configured properties.
+        :paramtype conf: dict[str, str]
+        :keyword entry: [Required] The entry to execute on startup of the job. Required.
+        :paramtype entry: ~azure.mgmt.machinelearningservices.models.SparkJobEntry
+        :keyword environment_id: The ARM resource ID of the Environment specification for the job.
+        :paramtype environment_id: str
+        :keyword environment_variables: Environment variables included in the job.
+        :paramtype environment_variables: dict[str, str]
+        :keyword files: Files used in the job.
+        :paramtype files: list[str]
+        :keyword inputs: Mapping of input data bindings used in the job.
+        :paramtype inputs: dict[str, ~azure.mgmt.machinelearningservices.models.JobInput]
+        :keyword jars: Jar files used in the job.
+        :paramtype jars: list[str]
+        :keyword outputs: Mapping of output data bindings used in the job.
+        :paramtype outputs: dict[str, ~azure.mgmt.machinelearningservices.models.JobOutput]
+        :keyword py_files: Python files used in the job.
+        :paramtype py_files: list[str]
+        :keyword queue_settings: Queue settings for the job.
+        :paramtype queue_settings: ~azure.mgmt.machinelearningservices.models.QueueSettings
+        :keyword resources: Compute Resource configuration for the job.
+        :paramtype resources: ~azure.mgmt.machinelearningservices.models.SparkResourceConfiguration
+        """
+        super().__init__(
+            description=description,
+            properties=properties,
+            tags=tags,
+            component_id=component_id,
+            compute_id=compute_id,
+            display_name=display_name,
+            experiment_name=experiment_name,
+            identity=identity,
+            is_archived=is_archived,
+            notification_setting=notification_setting,
+            services=services,
+            **kwargs
+        )
+        self.job_type: str = "Spark"
+        self.archives = archives
+        self.args = args
+        self.code_id = code_id
+        self.conf = conf
+        self.entry = entry
+        self.environment_id = environment_id
+        self.environment_variables = environment_variables
+        self.files = files
+        self.inputs = inputs
+        self.jars = jars
+        self.outputs = outputs
+        self.py_files = py_files
+        self.queue_settings = queue_settings
+        self.resources = resources
+
+
+class SparkJobEntry(_serialization.Model):
+    """Spark job entry point definition.
+
+    You probably want to use the sub-classes and not this class directly. Known sub-classes are:
+    SparkJobPythonEntry, SparkJobScalaEntry
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar spark_job_entry_type: [Required] Type of the job's entry point. Required. Known values
+     are: "SparkJobPythonEntry" and "SparkJobScalaEntry".
+    :vartype spark_job_entry_type: str or
+     ~azure.mgmt.machinelearningservices.models.SparkJobEntryType
+    """
+
+    _validation = {
+        "spark_job_entry_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "spark_job_entry_type": {"key": "sparkJobEntryType", "type": "str"},
+    }
+
+    _subtype_map = {
+        "spark_job_entry_type": {
+            "SparkJobPythonEntry": "SparkJobPythonEntry",
+            "SparkJobScalaEntry": "SparkJobScalaEntry",
+        }
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.spark_job_entry_type: Optional[str] = None
+
+
+class SparkJobPythonEntry(SparkJobEntry):
+    """SparkJobPythonEntry.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar spark_job_entry_type: [Required] Type of the job's entry point. Required. Known values
+     are: "SparkJobPythonEntry" and "SparkJobScalaEntry".
+    :vartype spark_job_entry_type: str or
+     ~azure.mgmt.machinelearningservices.models.SparkJobEntryType
+    :ivar file: [Required] Relative python file path for job entry point. Required.
+    :vartype file: str
+    """
+
+    _validation = {
+        "spark_job_entry_type": {"required": True},
+        "file": {"required": True, "min_length": 1, "pattern": r"[a-zA-Z0-9_]"},
+    }
+
+    _attribute_map = {
+        "spark_job_entry_type": {"key": "sparkJobEntryType", "type": "str"},
+        "file": {"key": "file", "type": "str"},
+    }
+
+    def __init__(self, *, file: str, **kwargs: Any) -> None:
+        """
+        :keyword file: [Required] Relative python file path for job entry point. Required.
+        :paramtype file: str
+        """
+        super().__init__(**kwargs)
+        self.spark_job_entry_type: str = "SparkJobPythonEntry"
+        self.file = file
+
+
+class SparkJobScalaEntry(SparkJobEntry):
+    """SparkJobScalaEntry.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar spark_job_entry_type: [Required] Type of the job's entry point. Required. Known values
+     are: "SparkJobPythonEntry" and "SparkJobScalaEntry".
+    :vartype spark_job_entry_type: str or
+     ~azure.mgmt.machinelearningservices.models.SparkJobEntryType
+    :ivar class_name: [Required] Scala class name used as entry point. Required.
+    :vartype class_name: str
+    """
+
+    _validation = {
+        "spark_job_entry_type": {"required": True},
+        "class_name": {"required": True, "min_length": 1, "pattern": r"[a-zA-Z0-9_]"},
+    }
+
+    _attribute_map = {
+        "spark_job_entry_type": {"key": "sparkJobEntryType", "type": "str"},
+        "class_name": {"key": "className", "type": "str"},
+    }
+
+    def __init__(self, *, class_name: str, **kwargs: Any) -> None:
+        """
+        :keyword class_name: [Required] Scala class name used as entry point. Required.
+        :paramtype class_name: str
+        """
+        super().__init__(**kwargs)
+        self.spark_job_entry_type: str = "SparkJobScalaEntry"
+        self.class_name = class_name
+
+
+class SparkResourceConfiguration(_serialization.Model):
+    """SparkResourceConfiguration.
+
+    :ivar instance_type: Optional type of VM used as supported by the compute target.
+    :vartype instance_type: str
+    :ivar runtime_version: Version of spark runtime used for the job.
+    :vartype runtime_version: str
+    """
+
+    _attribute_map = {
+        "instance_type": {"key": "instanceType", "type": "str"},
+        "runtime_version": {"key": "runtimeVersion", "type": "str"},
+    }
+
+    def __init__(self, *, instance_type: Optional[str] = None, runtime_version: str = "3.1", **kwargs: Any) -> None:
+        """
+        :keyword instance_type: Optional type of VM used as supported by the compute target.
+        :paramtype instance_type: str
+        :keyword runtime_version: Version of spark runtime used for the job.
+        :paramtype runtime_version: str
+        """
+        super().__init__(**kwargs)
+        self.instance_type = instance_type
+        self.runtime_version = runtime_version
 
 
 class SslConfiguration(_serialization.Model):
@@ -19516,6 +26496,90 @@ class StackEnsembleSettings(_serialization.Model):
         self.stack_meta_learner_type = stack_meta_learner_type
 
 
+class StaticInputData(MonitoringInputDataBase):
+    """Static input data definition.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar columns: Mapping of column names to special uses.
+    :vartype columns: dict[str, str]
+    :ivar data_context: The context metadata of the data source.
+    :vartype data_context: str
+    :ivar input_data_type: [Required] Specifies the type of signal to monitor. Required. Known
+     values are: "Static", "Rolling", and "Fixed".
+    :vartype input_data_type: str or
+     ~azure.mgmt.machinelearningservices.models.MonitoringInputDataType
+    :ivar job_input_type: [Required] Specifies the type of job. Required. Known values are:
+     "literal", "uri_file", "uri_folder", "mltable", "custom_model", "mlflow_model", and
+     "triton_model".
+    :vartype job_input_type: str or ~azure.mgmt.machinelearningservices.models.JobInputType
+    :ivar uri: [Required] Input Asset URI. Required.
+    :vartype uri: str
+    :ivar preprocessing_component_id: Reference to the component asset used to preprocess the data.
+    :vartype preprocessing_component_id: str
+    :ivar window_end: [Required] The end date of the data window. Required.
+    :vartype window_end: ~datetime.datetime
+    :ivar window_start: [Required] The start date of the data window. Required.
+    :vartype window_start: ~datetime.datetime
+    """
+
+    _validation = {
+        "input_data_type": {"required": True},
+        "job_input_type": {"required": True},
+        "uri": {"required": True, "min_length": 1, "pattern": r"[a-zA-Z0-9_]"},
+        "window_end": {"required": True},
+        "window_start": {"required": True},
+    }
+
+    _attribute_map = {
+        "columns": {"key": "columns", "type": "{str}"},
+        "data_context": {"key": "dataContext", "type": "str"},
+        "input_data_type": {"key": "inputDataType", "type": "str"},
+        "job_input_type": {"key": "jobInputType", "type": "str"},
+        "uri": {"key": "uri", "type": "str"},
+        "preprocessing_component_id": {"key": "preprocessingComponentId", "type": "str"},
+        "window_end": {"key": "windowEnd", "type": "iso-8601"},
+        "window_start": {"key": "windowStart", "type": "iso-8601"},
+    }
+
+    def __init__(
+        self,
+        *,
+        job_input_type: Union[str, "_models.JobInputType"],
+        uri: str,
+        window_end: datetime.datetime,
+        window_start: datetime.datetime,
+        columns: Optional[Dict[str, str]] = None,
+        data_context: Optional[str] = None,
+        preprocessing_component_id: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword columns: Mapping of column names to special uses.
+        :paramtype columns: dict[str, str]
+        :keyword data_context: The context metadata of the data source.
+        :paramtype data_context: str
+        :keyword job_input_type: [Required] Specifies the type of job. Required. Known values are:
+         "literal", "uri_file", "uri_folder", "mltable", "custom_model", "mlflow_model", and
+         "triton_model".
+        :paramtype job_input_type: str or ~azure.mgmt.machinelearningservices.models.JobInputType
+        :keyword uri: [Required] Input Asset URI. Required.
+        :paramtype uri: str
+        :keyword preprocessing_component_id: Reference to the component asset used to preprocess the
+         data.
+        :paramtype preprocessing_component_id: str
+        :keyword window_end: [Required] The end date of the data window. Required.
+        :paramtype window_end: ~datetime.datetime
+        :keyword window_start: [Required] The start date of the data window. Required.
+        :paramtype window_start: ~datetime.datetime
+        """
+        super().__init__(columns=columns, data_context=data_context, job_input_type=job_input_type, uri=uri, **kwargs)
+        self.input_data_type: str = "Static"
+        self.preprocessing_component_id = preprocessing_component_id
+        self.window_end = window_end
+        self.window_start = window_start
+
+
 class StorageAccountDetails(_serialization.Model):
     """Details of storage account to be used for the Registry.
 
@@ -19523,45 +26587,31 @@ class StorageAccountDetails(_serialization.Model):
      the registry.
     :vartype system_created_storage_account:
      ~azure.mgmt.machinelearningservices.models.SystemCreatedStorageAccount
-    :ivar user_created_storage_account: Details of user created storage account to be used for the
-     registry.
-    :vartype user_created_storage_account:
-     ~azure.mgmt.machinelearningservices.models.UserCreatedStorageAccount
     """
 
     _attribute_map = {
         "system_created_storage_account": {"key": "systemCreatedStorageAccount", "type": "SystemCreatedStorageAccount"},
-        "user_created_storage_account": {"key": "userCreatedStorageAccount", "type": "UserCreatedStorageAccount"},
     }
 
     def __init__(
-        self,
-        *,
-        system_created_storage_account: Optional["_models.SystemCreatedStorageAccount"] = None,
-        user_created_storage_account: Optional["_models.UserCreatedStorageAccount"] = None,
-        **kwargs: Any
+        self, *, system_created_storage_account: Optional["_models.SystemCreatedStorageAccount"] = None, **kwargs: Any
     ) -> None:
         """
         :keyword system_created_storage_account: Details of system created storage account to be used
          for the registry.
         :paramtype system_created_storage_account:
          ~azure.mgmt.machinelearningservices.models.SystemCreatedStorageAccount
-        :keyword user_created_storage_account: Details of user created storage account to be used for
-         the registry.
-        :paramtype user_created_storage_account:
-         ~azure.mgmt.machinelearningservices.models.UserCreatedStorageAccount
         """
         super().__init__(**kwargs)
         self.system_created_storage_account = system_created_storage_account
-        self.user_created_storage_account = user_created_storage_account
 
 
-class SweepJob(JobBaseProperties):  # pylint: disable=too-many-instance-attributes
+class SweepJob(JobBaseProperties):
     """Sweep job definition.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar description: The asset description text.
     :vartype description: str
@@ -19585,8 +26635,10 @@ class SweepJob(JobBaseProperties):  # pylint: disable=too-many-instance-attribut
     :ivar is_archived: Is the asset archived?.
     :vartype is_archived: bool
     :ivar job_type: [Required] Specifies the type of job. Required. Known values are: "AutoML",
-     "Command", "Sweep", and "Pipeline".
+     "Command", "Sweep", "Pipeline", and "Spark".
     :vartype job_type: str or ~azure.mgmt.machinelearningservices.models.JobType
+    :ivar notification_setting: Notification setting for the job.
+    :vartype notification_setting: ~azure.mgmt.machinelearningservices.models.NotificationSetting
     :ivar services: List of JobEndpoints.
      For local jobs, a job endpoint will have an endpoint value of FileStreamObject.
     :vartype services: dict[str, ~azure.mgmt.machinelearningservices.models.JobService]
@@ -19605,6 +26657,8 @@ class SweepJob(JobBaseProperties):  # pylint: disable=too-many-instance-attribut
     :vartype objective: ~azure.mgmt.machinelearningservices.models.Objective
     :ivar outputs: Mapping of output data bindings used in the job.
     :vartype outputs: dict[str, ~azure.mgmt.machinelearningservices.models.JobOutput]
+    :ivar queue_settings: Queue settings for the job.
+    :vartype queue_settings: ~azure.mgmt.machinelearningservices.models.QueueSettings
     :ivar sampling_algorithm: [Required] The hyperparameter sampling algorithm. Required.
     :vartype sampling_algorithm: ~azure.mgmt.machinelearningservices.models.SamplingAlgorithm
     :ivar search_space: [Required] A dictionary containing each parameter and its distribution. The
@@ -19634,6 +26688,7 @@ class SweepJob(JobBaseProperties):  # pylint: disable=too-many-instance-attribut
         "identity": {"key": "identity", "type": "IdentityConfiguration"},
         "is_archived": {"key": "isArchived", "type": "bool"},
         "job_type": {"key": "jobType", "type": "str"},
+        "notification_setting": {"key": "notificationSetting", "type": "NotificationSetting"},
         "services": {"key": "services", "type": "{JobService}"},
         "status": {"key": "status", "type": "str"},
         "early_termination": {"key": "earlyTermination", "type": "EarlyTerminationPolicy"},
@@ -19641,6 +26696,7 @@ class SweepJob(JobBaseProperties):  # pylint: disable=too-many-instance-attribut
         "limits": {"key": "limits", "type": "SweepJobLimits"},
         "objective": {"key": "objective", "type": "Objective"},
         "outputs": {"key": "outputs", "type": "{JobOutput}"},
+        "queue_settings": {"key": "queueSettings", "type": "QueueSettings"},
         "sampling_algorithm": {"key": "samplingAlgorithm", "type": "SamplingAlgorithm"},
         "search_space": {"key": "searchSpace", "type": "object"},
         "trial": {"key": "trial", "type": "TrialComponent"},
@@ -19662,11 +26718,13 @@ class SweepJob(JobBaseProperties):  # pylint: disable=too-many-instance-attribut
         experiment_name: str = "Default",
         identity: Optional["_models.IdentityConfiguration"] = None,
         is_archived: bool = False,
+        notification_setting: Optional["_models.NotificationSetting"] = None,
         services: Optional[Dict[str, "_models.JobService"]] = None,
         early_termination: Optional["_models.EarlyTerminationPolicy"] = None,
         inputs: Optional[Dict[str, "_models.JobInput"]] = None,
         limits: Optional["_models.SweepJobLimits"] = None,
         outputs: Optional[Dict[str, "_models.JobOutput"]] = None,
+        queue_settings: Optional["_models.QueueSettings"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -19691,6 +26749,8 @@ class SweepJob(JobBaseProperties):  # pylint: disable=too-many-instance-attribut
         :paramtype identity: ~azure.mgmt.machinelearningservices.models.IdentityConfiguration
         :keyword is_archived: Is the asset archived?.
         :paramtype is_archived: bool
+        :keyword notification_setting: Notification setting for the job.
+        :paramtype notification_setting: ~azure.mgmt.machinelearningservices.models.NotificationSetting
         :keyword services: List of JobEndpoints.
          For local jobs, a job endpoint will have an endpoint value of FileStreamObject.
         :paramtype services: dict[str, ~azure.mgmt.machinelearningservices.models.JobService]
@@ -19705,6 +26765,8 @@ class SweepJob(JobBaseProperties):  # pylint: disable=too-many-instance-attribut
         :paramtype objective: ~azure.mgmt.machinelearningservices.models.Objective
         :keyword outputs: Mapping of output data bindings used in the job.
         :paramtype outputs: dict[str, ~azure.mgmt.machinelearningservices.models.JobOutput]
+        :keyword queue_settings: Queue settings for the job.
+        :paramtype queue_settings: ~azure.mgmt.machinelearningservices.models.QueueSettings
         :keyword sampling_algorithm: [Required] The hyperparameter sampling algorithm. Required.
         :paramtype sampling_algorithm: ~azure.mgmt.machinelearningservices.models.SamplingAlgorithm
         :keyword search_space: [Required] A dictionary containing each parameter and its distribution.
@@ -19723,6 +26785,7 @@ class SweepJob(JobBaseProperties):  # pylint: disable=too-many-instance-attribut
             experiment_name=experiment_name,
             identity=identity,
             is_archived=is_archived,
+            notification_setting=notification_setting,
             services=services,
             **kwargs
         )
@@ -19732,6 +26795,7 @@ class SweepJob(JobBaseProperties):  # pylint: disable=too-many-instance-attribut
         self.limits = limits
         self.objective = objective
         self.outputs = outputs
+        self.queue_settings = queue_settings
         self.sampling_algorithm = sampling_algorithm
         self.search_space = search_space
         self.trial = trial
@@ -19740,7 +26804,7 @@ class SweepJob(JobBaseProperties):  # pylint: disable=too-many-instance-attribut
 class SweepJobLimits(JobLimits):
     """Sweep Job limit class.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar job_limits_type: [Required] JobLimit type. Required. Known values are: "Command" and
      "Sweep".
@@ -19795,12 +26859,12 @@ class SweepJobLimits(JobLimits):
         self.trial_timeout = trial_timeout
 
 
-class SynapseSpark(Compute):  # pylint: disable=too-many-instance-attributes
+class SynapseSpark(Compute):
     """A SynapseSpark compute.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar compute_type: The type of compute. Required. Known values are: "AKS", "Kubernetes",
      "AmlCompute", "ComputeInstance", "DataFactory", "VirtualMachine", "HDInsight", "Databricks",
@@ -20181,9 +27245,9 @@ class SystemService(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.system_service_type = None
-        self.public_ip_address = None
-        self.version = None
+        self.system_service_type: Optional[str] = None
+        self.public_ip_address: Optional[str] = None
+        self.version: Optional[str] = None
 
 
 class TableVerticalFeaturizationSettings(FeaturizationSettings):
@@ -20335,7 +27399,7 @@ class TableVerticalLimitSettings(_serialization.Model):
 class TargetUtilizationScaleSettings(OnlineScaleSettings):
     """TargetUtilizationScaleSettings.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar scale_type: [Required] Type of deployment scaling algorithm. Required. Known values are:
      "Default" and "TargetUtilization".
@@ -20396,7 +27460,7 @@ class TargetUtilizationScaleSettings(OnlineScaleSettings):
 class TensorFlow(DistributionConfiguration):
     """TensorFlow distribution configuration.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar distribution_type: [Required] Specifies the type of distribution framework. Required.
      Known values are: "PyTorch", "TensorFlow", and "Mpi".
@@ -20434,7 +27498,7 @@ class TextClassification(NlpVertical, AutoMLVertical):
     """Text Classification task in AutoML NLP vertical.
     NLP - Natural Language Processing.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar log_verbosity: Log verbosity for the job. Known values are: "NotSet", "Debug", "Info",
      "Warning", "Error", and "Critical".
@@ -20538,7 +27602,7 @@ class TextClassificationMultilabel(NlpVertical, AutoMLVertical):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar log_verbosity: Log verbosity for the job. Known values are: "NotSet", "Debug", "Info",
      "Warning", "Error", and "Critical".
@@ -20626,7 +27690,7 @@ class TextClassificationMultilabel(NlpVertical, AutoMLVertical):
         self.target_column_name = target_column_name
         self.task_type: str = "TextClassificationMultilabel"
         self.training_data = training_data
-        self.primary_metric = None
+        self.primary_metric: Optional[Union[str, "_models.ClassificationMultilabelPrimaryMetrics"]] = None
         self.featurization_settings = featurization_settings
         self.limit_settings = limit_settings
         self.validation_data = validation_data
@@ -20639,7 +27703,7 @@ class TextNer(NlpVertical, AutoMLVertical):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar log_verbosity: Log verbosity for the job. Known values are: "NotSet", "Debug", "Info",
      "Warning", "Error", and "Critical".
@@ -20727,7 +27791,7 @@ class TextNer(NlpVertical, AutoMLVertical):
         self.target_column_name = target_column_name
         self.task_type: str = "TextNER"
         self.training_data = training_data
-        self.primary_metric = None
+        self.primary_metric: Optional[Union[str, "_models.ClassificationPrimaryMetrics"]] = None
         self.featurization_settings = featurization_settings
         self.limit_settings = limit_settings
         self.validation_data = validation_data
@@ -20753,10 +27817,43 @@ class TmpfsOptions(_serialization.Model):
         self.size = size
 
 
+class TopNFeaturesByAttribution(MonitoringFeatureFilterBase):
+    """TopNFeaturesByAttribution.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar filter_type: [Required] Specifies the feature filter to leverage when selecting features
+     to calculate metrics over. Required. Known values are: "AllFeatures", "TopNByAttribution", and
+     "FeatureSubset".
+    :vartype filter_type: str or
+     ~azure.mgmt.machinelearningservices.models.MonitoringFeatureFilterType
+    :ivar top: The number of top features to include.
+    :vartype top: int
+    """
+
+    _validation = {
+        "filter_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "filter_type": {"key": "filterType", "type": "str"},
+        "top": {"key": "top", "type": "int"},
+    }
+
+    def __init__(self, *, top: int = 10, **kwargs: Any) -> None:
+        """
+        :keyword top: The number of top features to include.
+        :paramtype top: int
+        """
+        super().__init__(**kwargs)
+        self.filter_type: str = "TopNByAttribution"
+        self.top = top
+
+
 class TrialComponent(_serialization.Model):
     """Trial component definition.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar code_id: ARM resource ID of the code asset.
     :vartype code_id: str
@@ -20829,7 +27926,7 @@ class TrialComponent(_serialization.Model):
 class TritonModelJobInput(AssetJobInput, JobInput):
     """TritonModelJobInput.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar description: Description for the input.
     :vartype description: str
@@ -20883,14 +27980,15 @@ class TritonModelJobInput(AssetJobInput, JobInput):
 class TritonModelJobOutput(AssetJobOutput, JobOutput):
     """TritonModelJobOutput.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar description: Description for the output.
     :vartype description: str
     :ivar job_output_type: [Required] Specifies the type of job. Required. Known values are:
      "uri_file", "uri_folder", "mltable", "custom_model", "mlflow_model", and "triton_model".
     :vartype job_output_type: str or ~azure.mgmt.machinelearningservices.models.JobOutputType
-    :ivar mode: Output Asset Delivery Mode. Known values are: "ReadWriteMount" and "Upload".
+    :ivar mode: Output Asset Delivery Mode. Known values are: "ReadWriteMount", "Upload", and
+     "Direct".
     :vartype mode: str or ~azure.mgmt.machinelearningservices.models.OutputDeliveryMode
     :ivar uri: Output Asset URI.
     :vartype uri: str
@@ -20918,7 +28016,8 @@ class TritonModelJobOutput(AssetJobOutput, JobOutput):
         """
         :keyword description: Description for the output.
         :paramtype description: str
-        :keyword mode: Output Asset Delivery Mode. Known values are: "ReadWriteMount" and "Upload".
+        :keyword mode: Output Asset Delivery Mode. Known values are: "ReadWriteMount", "Upload", and
+         "Direct".
         :paramtype mode: str or ~azure.mgmt.machinelearningservices.models.OutputDeliveryMode
         :keyword uri: Output Asset URI.
         :paramtype uri: str
@@ -20934,7 +28033,7 @@ class TruncationSelectionPolicy(EarlyTerminationPolicy):
     """Defines an early termination policy that cancels a given percentage of runs at each evaluation
     interval.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar delay_evaluation: Number of intervals by which to delay the first evaluation.
     :vartype delay_evaluation: int
@@ -21020,10 +28119,10 @@ class UpdateWorkspaceQuotas(_serialization.Model):
         :paramtype status: str or ~azure.mgmt.machinelearningservices.models.Status
         """
         super().__init__(**kwargs)
-        self.id = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.type: Optional[str] = None
         self.limit = limit
-        self.unit = None
+        self.unit: Optional[Union[str, "_models.QuotaUnit"]] = None
         self.status = status
 
 
@@ -21052,14 +28151,14 @@ class UpdateWorkspaceQuotasResult(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.value = None
-        self.next_link = None
+        self.value: Optional[List["_models.UpdateWorkspaceQuotas"]] = None
+        self.next_link: Optional[str] = None
 
 
 class UriFileDataVersion(DataVersionBaseProperties):
     """uri-file data version entity.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar description: The asset description text.
     :vartype description: str
@@ -21135,7 +28234,7 @@ class UriFileDataVersion(DataVersionBaseProperties):
 class UriFileJobInput(AssetJobInput, JobInput):
     """UriFileJobInput.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar description: Description for the input.
     :vartype description: str
@@ -21189,14 +28288,15 @@ class UriFileJobInput(AssetJobInput, JobInput):
 class UriFileJobOutput(AssetJobOutput, JobOutput):
     """UriFileJobOutput.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar description: Description for the output.
     :vartype description: str
     :ivar job_output_type: [Required] Specifies the type of job. Required. Known values are:
      "uri_file", "uri_folder", "mltable", "custom_model", "mlflow_model", and "triton_model".
     :vartype job_output_type: str or ~azure.mgmt.machinelearningservices.models.JobOutputType
-    :ivar mode: Output Asset Delivery Mode. Known values are: "ReadWriteMount" and "Upload".
+    :ivar mode: Output Asset Delivery Mode. Known values are: "ReadWriteMount", "Upload", and
+     "Direct".
     :vartype mode: str or ~azure.mgmt.machinelearningservices.models.OutputDeliveryMode
     :ivar uri: Output Asset URI.
     :vartype uri: str
@@ -21224,7 +28324,8 @@ class UriFileJobOutput(AssetJobOutput, JobOutput):
         """
         :keyword description: Description for the output.
         :paramtype description: str
-        :keyword mode: Output Asset Delivery Mode. Known values are: "ReadWriteMount" and "Upload".
+        :keyword mode: Output Asset Delivery Mode. Known values are: "ReadWriteMount", "Upload", and
+         "Direct".
         :paramtype mode: str or ~azure.mgmt.machinelearningservices.models.OutputDeliveryMode
         :keyword uri: Output Asset URI.
         :paramtype uri: str
@@ -21239,7 +28340,7 @@ class UriFileJobOutput(AssetJobOutput, JobOutput):
 class UriFolderDataVersion(DataVersionBaseProperties):
     """uri-folder data version entity.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar description: The asset description text.
     :vartype description: str
@@ -21315,7 +28416,7 @@ class UriFolderDataVersion(DataVersionBaseProperties):
 class UriFolderJobInput(AssetJobInput, JobInput):
     """UriFolderJobInput.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar description: Description for the input.
     :vartype description: str
@@ -21369,14 +28470,15 @@ class UriFolderJobInput(AssetJobInput, JobInput):
 class UriFolderJobOutput(AssetJobOutput, JobOutput):
     """UriFolderJobOutput.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar description: Description for the output.
     :vartype description: str
     :ivar job_output_type: [Required] Specifies the type of job. Required. Known values are:
      "uri_file", "uri_folder", "mltable", "custom_model", "mlflow_model", and "triton_model".
     :vartype job_output_type: str or ~azure.mgmt.machinelearningservices.models.JobOutputType
-    :ivar mode: Output Asset Delivery Mode. Known values are: "ReadWriteMount" and "Upload".
+    :ivar mode: Output Asset Delivery Mode. Known values are: "ReadWriteMount", "Upload", and
+     "Direct".
     :vartype mode: str or ~azure.mgmt.machinelearningservices.models.OutputDeliveryMode
     :ivar uri: Output Asset URI.
     :vartype uri: str
@@ -21404,7 +28506,8 @@ class UriFolderJobOutput(AssetJobOutput, JobOutput):
         """
         :keyword description: Description for the output.
         :paramtype description: str
-        :keyword mode: Output Asset Delivery Mode. Known values are: "ReadWriteMount" and "Upload".
+        :keyword mode: Output Asset Delivery Mode. Known values are: "ReadWriteMount", "Upload", and
+         "Direct".
         :paramtype mode: str or ~azure.mgmt.machinelearningservices.models.OutputDeliveryMode
         :keyword uri: Output Asset URI.
         :paramtype uri: str
@@ -21460,13 +28563,13 @@ class Usage(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.id = None
-        self.aml_workspace_location = None
-        self.type = None
-        self.unit = None
-        self.current_value = None
-        self.limit = None
-        self.name = None
+        self.id: Optional[str] = None
+        self.aml_workspace_location: Optional[str] = None
+        self.type: Optional[str] = None
+        self.unit: Optional[Union[str, "_models.UsageUnit"]] = None
+        self.current_value: Optional[int] = None
+        self.limit: Optional[int] = None
+        self.name: Optional["_models.UsageName"] = None
 
 
 class UsageName(_serialization.Model):
@@ -21493,14 +28596,14 @@ class UsageName(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.value = None
-        self.localized_value = None
+        self.value: Optional[str] = None
+        self.localized_value: Optional[str] = None
 
 
 class UserAccountCredentials(_serialization.Model):
     """Settings for user account that gets created on each on the nodes of a compute.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar admin_user_name: Name of the administrator user account which can be used to SSH to
      nodes. Required.
@@ -21568,54 +28671,14 @@ class UserAssignedIdentity(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.principal_id = None
-        self.client_id = None
-
-
-class UserCreatedAcrAccount(_serialization.Model):
-    """UserCreatedAcrAccount.
-
-    :ivar arm_resource_id: ARM ResourceId of a resource.
-    :vartype arm_resource_id: ~azure.mgmt.machinelearningservices.models.ArmResourceId
-    """
-
-    _attribute_map = {
-        "arm_resource_id": {"key": "armResourceId", "type": "ArmResourceId"},
-    }
-
-    def __init__(self, *, arm_resource_id: Optional["_models.ArmResourceId"] = None, **kwargs: Any) -> None:
-        """
-        :keyword arm_resource_id: ARM ResourceId of a resource.
-        :paramtype arm_resource_id: ~azure.mgmt.machinelearningservices.models.ArmResourceId
-        """
-        super().__init__(**kwargs)
-        self.arm_resource_id = arm_resource_id
-
-
-class UserCreatedStorageAccount(_serialization.Model):
-    """UserCreatedStorageAccount.
-
-    :ivar arm_resource_id: ARM ResourceId of a resource.
-    :vartype arm_resource_id: ~azure.mgmt.machinelearningservices.models.ArmResourceId
-    """
-
-    _attribute_map = {
-        "arm_resource_id": {"key": "armResourceId", "type": "ArmResourceId"},
-    }
-
-    def __init__(self, *, arm_resource_id: Optional["_models.ArmResourceId"] = None, **kwargs: Any) -> None:
-        """
-        :keyword arm_resource_id: ARM ResourceId of a resource.
-        :paramtype arm_resource_id: ~azure.mgmt.machinelearningservices.models.ArmResourceId
-        """
-        super().__init__(**kwargs)
-        self.arm_resource_id = arm_resource_id
+        self.principal_id: Optional[str] = None
+        self.client_id: Optional[str] = None
 
 
 class UserIdentity(IdentityConfiguration):
     """User identity configuration.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar identity_type: [Required] Specifies the type of identity framework. Required. Known
      values are: "Managed", "AMLToken", and "UserIdentity".
@@ -21637,19 +28700,53 @@ class UserIdentity(IdentityConfiguration):
         self.identity_type: str = "UserIdentity"
 
 
-class UsernamePasswordAuthTypeWorkspaceConnectionProperties(WorkspaceConnectionPropertiesV2):
+class UsernamePasswordAuthTypeWorkspaceConnectionProperties(
+    WorkspaceConnectionPropertiesV2
+):  # pylint: disable=name-too-long
     """UsernamePasswordAuthTypeWorkspaceConnectionProperties.
 
-    All required parameters must be populated in order to send to Azure.
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
 
     :ivar auth_type: Authentication type of the connection target. Required. Known values are:
-     "PAT", "ManagedIdentity", "UsernamePassword", "None", and "SAS".
+     "PAT", "ManagedIdentity", "UsernamePassword", "None", "SAS", "AccountKey", "ServicePrincipal",
+     "AccessKey", "ApiKey", "CustomKeys", "OAuth2", and "AAD".
     :vartype auth_type: str or ~azure.mgmt.machinelearningservices.models.ConnectionAuthType
     :ivar category: Category of the connection. Known values are: "PythonFeed",
-     "ContainerRegistry", and "Git".
+     "ContainerRegistry", "Git", "S3", "Snowflake", "AzureSqlDb", "AzureSynapseAnalytics",
+     "AzureMySqlDb", "AzurePostgresDb", "ADLSGen2", "Redis", "ApiKey", "AzureOpenAI", "AIServices",
+     "CognitiveSearch", "CognitiveService", "CustomKeys", "AzureBlob", "AzureOneLake", "CosmosDb",
+     "CosmosDbMongoDbApi", "AzureDataExplorer", "AzureMariaDb", "AzureDatabricksDeltaLake",
+     "AzureSqlMi", "AzureTableStorage", "AmazonRdsForOracle", "AmazonRdsForSqlServer",
+     "AmazonRedshift", "Db2", "Drill", "GoogleBigQuery", "Greenplum", "Hbase", "Hive", "Impala",
+     "Informix", "MariaDb", "MicrosoftAccess", "MySql", "Netezza", "Oracle", "Phoenix",
+     "PostgreSql", "Presto", "SapOpenHub", "SapBw", "SapHana", "SapTable", "Spark", "SqlServer",
+     "Sybase", "Teradata", "Vertica", "Pinecone", "Cassandra", "Couchbase", "MongoDbV2",
+     "MongoDbAtlas", "AmazonS3Compatible", "FileServer", "FtpServer", "GoogleCloudStorage", "Hdfs",
+     "OracleCloudStorage", "Sftp", "GenericHttp", "ODataRest", "Odbc", "GenericRest", "AmazonMws",
+     "Concur", "Dynamics", "DynamicsAx", "DynamicsCrm", "GoogleAdWords", "Hubspot", "Jira",
+     "Magento", "Marketo", "Office365", "Eloqua", "Responsys", "OracleServiceCloud", "PayPal",
+     "QuickBooks", "Salesforce", "SalesforceServiceCloud", "SalesforceMarketingCloud",
+     "SapCloudForCustomer", "SapEcc", "ServiceNow", "SharePointOnlineList", "Shopify", "Square",
+     "WebTable", "Xero", "Zoho", "GenericContainerRegistry", "Elasticsearch", "OpenAI", "Serp",
+     "BingLLMSearch", "Serverless", and "ManagedOnlineEndpoint".
     :vartype category: str or ~azure.mgmt.machinelearningservices.models.ConnectionCategory
+    :ivar created_by_workspace_arm_id:
+    :vartype created_by_workspace_arm_id: str
+    :ivar expiry_time:
+    :vartype expiry_time: ~datetime.datetime
+    :ivar group: Group based on connection category. Known values are: "Azure", "AzureAI",
+     "Database", "NoSQL", "File", "GenericProtocol", and "ServicesAndApps".
+    :vartype group: str or ~azure.mgmt.machinelearningservices.models.ConnectionGroup
+    :ivar is_shared_to_all:
+    :vartype is_shared_to_all: bool
     :ivar target:
     :vartype target: str
+    :ivar metadata: Store user metadata for this connection.
+    :vartype metadata: dict[str, str]
+    :ivar shared_user_list:
+    :vartype shared_user_list: list[str]
     :ivar value: Value details of the workspace connection.
     :vartype value: str
     :ivar value_format: format for the workspace connection value. "JSON"
@@ -21661,12 +28758,20 @@ class UsernamePasswordAuthTypeWorkspaceConnectionProperties(WorkspaceConnectionP
 
     _validation = {
         "auth_type": {"required": True},
+        "created_by_workspace_arm_id": {"readonly": True},
+        "group": {"readonly": True},
     }
 
     _attribute_map = {
         "auth_type": {"key": "authType", "type": "str"},
         "category": {"key": "category", "type": "str"},
+        "created_by_workspace_arm_id": {"key": "createdByWorkspaceArmId", "type": "str"},
+        "expiry_time": {"key": "expiryTime", "type": "iso-8601"},
+        "group": {"key": "group", "type": "str"},
+        "is_shared_to_all": {"key": "isSharedToAll", "type": "bool"},
         "target": {"key": "target", "type": "str"},
+        "metadata": {"key": "metadata", "type": "{str}"},
+        "shared_user_list": {"key": "sharedUserList", "type": "[str]"},
         "value": {"key": "value", "type": "str"},
         "value_format": {"key": "valueFormat", "type": "str"},
         "credentials": {"key": "credentials", "type": "WorkspaceConnectionUsernamePassword"},
@@ -21676,7 +28781,11 @@ class UsernamePasswordAuthTypeWorkspaceConnectionProperties(WorkspaceConnectionP
         self,
         *,
         category: Optional[Union[str, "_models.ConnectionCategory"]] = None,
+        expiry_time: Optional[datetime.datetime] = None,
+        is_shared_to_all: Optional[bool] = None,
         target: Optional[str] = None,
+        metadata: Optional[Dict[str, str]] = None,
+        shared_user_list: Optional[List[str]] = None,
         value: Optional[str] = None,
         value_format: Optional[Union[str, "_models.ValueFormat"]] = None,
         credentials: Optional["_models.WorkspaceConnectionUsernamePassword"] = None,
@@ -21684,10 +28793,34 @@ class UsernamePasswordAuthTypeWorkspaceConnectionProperties(WorkspaceConnectionP
     ) -> None:
         """
         :keyword category: Category of the connection. Known values are: "PythonFeed",
-         "ContainerRegistry", and "Git".
+         "ContainerRegistry", "Git", "S3", "Snowflake", "AzureSqlDb", "AzureSynapseAnalytics",
+         "AzureMySqlDb", "AzurePostgresDb", "ADLSGen2", "Redis", "ApiKey", "AzureOpenAI", "AIServices",
+         "CognitiveSearch", "CognitiveService", "CustomKeys", "AzureBlob", "AzureOneLake", "CosmosDb",
+         "CosmosDbMongoDbApi", "AzureDataExplorer", "AzureMariaDb", "AzureDatabricksDeltaLake",
+         "AzureSqlMi", "AzureTableStorage", "AmazonRdsForOracle", "AmazonRdsForSqlServer",
+         "AmazonRedshift", "Db2", "Drill", "GoogleBigQuery", "Greenplum", "Hbase", "Hive", "Impala",
+         "Informix", "MariaDb", "MicrosoftAccess", "MySql", "Netezza", "Oracle", "Phoenix",
+         "PostgreSql", "Presto", "SapOpenHub", "SapBw", "SapHana", "SapTable", "Spark", "SqlServer",
+         "Sybase", "Teradata", "Vertica", "Pinecone", "Cassandra", "Couchbase", "MongoDbV2",
+         "MongoDbAtlas", "AmazonS3Compatible", "FileServer", "FtpServer", "GoogleCloudStorage", "Hdfs",
+         "OracleCloudStorage", "Sftp", "GenericHttp", "ODataRest", "Odbc", "GenericRest", "AmazonMws",
+         "Concur", "Dynamics", "DynamicsAx", "DynamicsCrm", "GoogleAdWords", "Hubspot", "Jira",
+         "Magento", "Marketo", "Office365", "Eloqua", "Responsys", "OracleServiceCloud", "PayPal",
+         "QuickBooks", "Salesforce", "SalesforceServiceCloud", "SalesforceMarketingCloud",
+         "SapCloudForCustomer", "SapEcc", "ServiceNow", "SharePointOnlineList", "Shopify", "Square",
+         "WebTable", "Xero", "Zoho", "GenericContainerRegistry", "Elasticsearch", "OpenAI", "Serp",
+         "BingLLMSearch", "Serverless", and "ManagedOnlineEndpoint".
         :paramtype category: str or ~azure.mgmt.machinelearningservices.models.ConnectionCategory
+        :keyword expiry_time:
+        :paramtype expiry_time: ~datetime.datetime
+        :keyword is_shared_to_all:
+        :paramtype is_shared_to_all: bool
         :keyword target:
         :paramtype target: str
+        :keyword metadata: Store user metadata for this connection.
+        :paramtype metadata: dict[str, str]
+        :keyword shared_user_list:
+        :paramtype shared_user_list: list[str]
         :keyword value: Value details of the workspace connection.
         :paramtype value: str
         :keyword value_format: format for the workspace connection value. "JSON"
@@ -21696,7 +28829,17 @@ class UsernamePasswordAuthTypeWorkspaceConnectionProperties(WorkspaceConnectionP
         :paramtype credentials:
          ~azure.mgmt.machinelearningservices.models.WorkspaceConnectionUsernamePassword
         """
-        super().__init__(category=category, target=target, value=value, value_format=value_format, **kwargs)
+        super().__init__(
+            category=category,
+            expiry_time=expiry_time,
+            is_shared_to_all=is_shared_to_all,
+            target=target,
+            metadata=metadata,
+            shared_user_list=shared_user_list,
+            value=value,
+            value_format=value_format,
+            **kwargs
+        )
         self.auth_type: str = "UsernamePassword"
         self.credentials = credentials
 
@@ -21722,12 +28865,12 @@ class VirtualMachineSchema(_serialization.Model):
         self.properties = properties
 
 
-class VirtualMachine(Compute, VirtualMachineSchema):  # pylint: disable=too-many-instance-attributes
+class VirtualMachine(Compute, VirtualMachineSchema):
     """A Machine Learning compute based on Azure Virtual Machines.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar properties:
     :vartype properties: ~azure.mgmt.machinelearningservices.models.VirtualMachineSchemaProperties
@@ -21818,20 +28961,20 @@ class VirtualMachine(Compute, VirtualMachineSchema):  # pylint: disable=too-many
         self.properties = properties
         self.compute_type: str = "VirtualMachine"
         self.compute_location = compute_location
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.description = description
-        self.created_on = None
-        self.modified_on = None
+        self.created_on: Optional[datetime.datetime] = None
+        self.modified_on: Optional[datetime.datetime] = None
         self.resource_id = resource_id
-        self.provisioning_errors = None
-        self.is_attached_compute = None
+        self.provisioning_errors: Optional[List["_models.ErrorResponse"]] = None
+        self.is_attached_compute: Optional[bool] = None
         self.disable_local_auth = disable_local_auth
 
 
 class VirtualMachineImage(_serialization.Model):
     """Virtual Machine image for Windows AML Compute.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Virtual Machine image path. Required.
     :vartype id: str
@@ -21945,7 +29088,7 @@ class VirtualMachineSecretsSchema(_serialization.Model):
 class VirtualMachineSecrets(ComputeSecrets, VirtualMachineSecretsSchema):
     """Secrets related to a Machine Learning compute based on AKS.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar administrator_account: Admin credentials for virtual machine.
     :vartype administrator_account:
@@ -21978,7 +29121,7 @@ class VirtualMachineSecrets(ComputeSecrets, VirtualMachineSecretsSchema):
         self.compute_type: str = "VirtualMachine"
 
 
-class VirtualMachineSize(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class VirtualMachineSize(_serialization.Model):
     """Describes the properties of a VM size.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -22050,15 +29193,15 @@ class VirtualMachineSize(_serialization.Model):  # pylint: disable=too-many-inst
         :paramtype supported_compute_types: list[str]
         """
         super().__init__(**kwargs)
-        self.name = None
-        self.family = None
-        self.v_cp_us = None
-        self.gpus = None
-        self.os_vhd_size_mb = None
-        self.max_resource_volume_mb = None
-        self.memory_gb = None
-        self.low_priority_capable = None
-        self.premium_io = None
+        self.name: Optional[str] = None
+        self.family: Optional[str] = None
+        self.v_cp_us: Optional[int] = None
+        self.gpus: Optional[int] = None
+        self.os_vhd_size_mb: Optional[int] = None
+        self.max_resource_volume_mb: Optional[int] = None
+        self.memory_gb: Optional[float] = None
+        self.low_priority_capable: Optional[bool] = None
+        self.premium_io: Optional[bool] = None
         self.estimated_vm_prices = estimated_vm_prices
         self.supported_compute_types = supported_compute_types
 
@@ -22226,7 +29369,7 @@ class VolumeOptions(_serialization.Model):
         self.nocopy = nocopy
 
 
-class Workspace(Resource):  # pylint: disable=too-many-instance-attributes
+class Workspace(Resource):
     """An object that represents a machine learning workspace.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -22244,6 +29387,8 @@ class Workspace(Resource):  # pylint: disable=too-many-instance-attributes
     :vartype system_data: ~azure.mgmt.machinelearningservices.models.SystemData
     :ivar identity: The identity of the resource.
     :vartype identity: ~azure.mgmt.machinelearningservices.models.ManagedServiceIdentity
+    :ivar kind:
+    :vartype kind: str
     :ivar location: Specifies the location of the resource.
     :vartype location: str
     :ivar tags: Contains resource tags defined as key/value pairs.
@@ -22296,6 +29441,9 @@ class Workspace(Resource):  # pylint: disable=too-many-instance-attributes
     :ivar private_endpoint_connections: The list of private endpoint connections in the workspace.
     :vartype private_endpoint_connections:
      list[~azure.mgmt.machinelearningservices.models.PrivateEndpointConnection]
+    :ivar serverless_compute_settings: Settings for serverless compute created in the workspace.
+    :vartype serverless_compute_settings:
+     ~azure.mgmt.machinelearningservices.models.ServerlessComputeSettings
     :ivar shared_private_link_resources: The list of shared private link resources in this
      workspace.
     :vartype shared_private_link_resources:
@@ -22319,6 +29467,19 @@ class Workspace(Resource):  # pylint: disable=too-many-instance-attributes
     :ivar v1_legacy_mode: Enabling v1_legacy_mode may prevent you from using features provided by
      the v2 API.
     :vartype v1_legacy_mode: bool
+    :ivar managed_network: Managed Network settings for a machine learning workspace.
+    :vartype managed_network: ~azure.mgmt.machinelearningservices.models.ManagedNetworkSettings
+    :ivar feature_store_settings: Settings for feature store type workspace.
+    :vartype feature_store_settings:
+     ~azure.mgmt.machinelearningservices.models.FeatureStoreSettings
+    :ivar associated_workspaces:
+    :vartype associated_workspaces: list[str]
+    :ivar enable_data_isolation:
+    :vartype enable_data_isolation: bool
+    :ivar hub_resource_id:
+    :vartype hub_resource_id: str
+    :ivar workspace_hub_config: WorkspaceHub's configuration object.
+    :vartype workspace_hub_config: ~azure.mgmt.machinelearningservices.models.WorkspaceHubConfig
     """
 
     _validation = {
@@ -22343,6 +29504,7 @@ class Workspace(Resource):  # pylint: disable=too-many-instance-attributes
         "type": {"key": "type", "type": "str"},
         "system_data": {"key": "systemData", "type": "SystemData"},
         "identity": {"key": "identity", "type": "ManagedServiceIdentity"},
+        "kind": {"key": "kind", "type": "str"},
         "location": {"key": "location", "type": "str"},
         "tags": {"key": "tags", "type": "{str}"},
         "sku": {"key": "sku", "type": "Sku"},
@@ -22366,6 +29528,10 @@ class Workspace(Resource):  # pylint: disable=too-many-instance-attributes
             "key": "properties.privateEndpointConnections",
             "type": "[PrivateEndpointConnection]",
         },
+        "serverless_compute_settings": {
+            "key": "properties.serverlessComputeSettings",
+            "type": "ServerlessComputeSettings",
+        },
         "shared_private_link_resources": {
             "key": "properties.sharedPrivateLinkResources",
             "type": "[SharedPrivateLinkResource]",
@@ -22380,12 +29546,19 @@ class Workspace(Resource):  # pylint: disable=too-many-instance-attributes
         "storage_hns_enabled": {"key": "properties.storageHnsEnabled", "type": "bool"},
         "ml_flow_tracking_uri": {"key": "properties.mlFlowTrackingUri", "type": "str"},
         "v1_legacy_mode": {"key": "properties.v1LegacyMode", "type": "bool"},
+        "managed_network": {"key": "properties.managedNetwork", "type": "ManagedNetworkSettings"},
+        "feature_store_settings": {"key": "properties.featureStoreSettings", "type": "FeatureStoreSettings"},
+        "associated_workspaces": {"key": "properties.associatedWorkspaces", "type": "[str]"},
+        "enable_data_isolation": {"key": "properties.enableDataIsolation", "type": "bool"},
+        "hub_resource_id": {"key": "properties.hubResourceId", "type": "str"},
+        "workspace_hub_config": {"key": "properties.workspaceHubConfig", "type": "WorkspaceHubConfig"},
     }
 
     def __init__(  # pylint: disable=too-many-locals
         self,
         *,
         identity: Optional["_models.ManagedServiceIdentity"] = None,
+        kind: Optional[str] = None,
         location: Optional[str] = None,
         tags: Optional[Dict[str, str]] = None,
         sku: Optional["_models.Sku"] = None,
@@ -22401,15 +29574,24 @@ class Workspace(Resource):  # pylint: disable=too-many-instance-attributes
         image_build_compute: Optional[str] = None,
         allow_public_access_when_behind_vnet: bool = False,
         public_network_access: Optional[Union[str, "_models.PublicNetworkAccess"]] = None,
+        serverless_compute_settings: Optional["_models.ServerlessComputeSettings"] = None,
         shared_private_link_resources: Optional[List["_models.SharedPrivateLinkResource"]] = None,
         service_managed_resources_settings: Optional["_models.ServiceManagedResourcesSettings"] = None,
         primary_user_assigned_identity: Optional[str] = None,
         v1_legacy_mode: bool = False,
+        managed_network: Optional["_models.ManagedNetworkSettings"] = None,
+        feature_store_settings: Optional["_models.FeatureStoreSettings"] = None,
+        associated_workspaces: Optional[List[str]] = None,
+        enable_data_isolation: Optional[bool] = None,
+        hub_resource_id: Optional[str] = None,
+        workspace_hub_config: Optional["_models.WorkspaceHubConfig"] = None,
         **kwargs: Any
     ) -> None:
         """
         :keyword identity: The identity of the resource.
         :paramtype identity: ~azure.mgmt.machinelearningservices.models.ManagedServiceIdentity
+        :keyword kind:
+        :paramtype kind: str
         :keyword location: Specifies the location of the resource.
         :paramtype location: str
         :keyword tags: Contains resource tags defined as key/value pairs.
@@ -22448,6 +29630,9 @@ class Workspace(Resource):  # pylint: disable=too-many-instance-attributes
          are: "Enabled" and "Disabled".
         :paramtype public_network_access: str or
          ~azure.mgmt.machinelearningservices.models.PublicNetworkAccess
+        :keyword serverless_compute_settings: Settings for serverless compute created in the workspace.
+        :paramtype serverless_compute_settings:
+         ~azure.mgmt.machinelearningservices.models.ServerlessComputeSettings
         :keyword shared_private_link_resources: The list of shared private link resources in this
          workspace.
         :paramtype shared_private_link_resources:
@@ -22461,13 +29646,27 @@ class Workspace(Resource):  # pylint: disable=too-many-instance-attributes
         :keyword v1_legacy_mode: Enabling v1_legacy_mode may prevent you from using features provided
          by the v2 API.
         :paramtype v1_legacy_mode: bool
+        :keyword managed_network: Managed Network settings for a machine learning workspace.
+        :paramtype managed_network: ~azure.mgmt.machinelearningservices.models.ManagedNetworkSettings
+        :keyword feature_store_settings: Settings for feature store type workspace.
+        :paramtype feature_store_settings:
+         ~azure.mgmt.machinelearningservices.models.FeatureStoreSettings
+        :keyword associated_workspaces:
+        :paramtype associated_workspaces: list[str]
+        :keyword enable_data_isolation:
+        :paramtype enable_data_isolation: bool
+        :keyword hub_resource_id:
+        :paramtype hub_resource_id: str
+        :keyword workspace_hub_config: WorkspaceHub's configuration object.
+        :paramtype workspace_hub_config: ~azure.mgmt.machinelearningservices.models.WorkspaceHubConfig
         """
         super().__init__(**kwargs)
         self.identity = identity
+        self.kind = kind
         self.location = location
         self.tags = tags
         self.sku = sku
-        self.workspace_id = None
+        self.workspace_id: Optional[str] = None
         self.description = description
         self.friendly_name = friendly_name
         self.key_vault = key_vault
@@ -22475,23 +29674,98 @@ class Workspace(Resource):  # pylint: disable=too-many-instance-attributes
         self.container_registry = container_registry
         self.storage_account = storage_account
         self.discovery_url = discovery_url
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.encryption = encryption
         self.hbi_workspace = hbi_workspace
-        self.service_provisioned_resource_group = None
-        self.private_link_count = None
+        self.service_provisioned_resource_group: Optional[str] = None
+        self.private_link_count: Optional[int] = None
         self.image_build_compute = image_build_compute
         self.allow_public_access_when_behind_vnet = allow_public_access_when_behind_vnet
         self.public_network_access = public_network_access
-        self.private_endpoint_connections = None
+        self.private_endpoint_connections: Optional[List["_models.PrivateEndpointConnection"]] = None
+        self.serverless_compute_settings = serverless_compute_settings
         self.shared_private_link_resources = shared_private_link_resources
-        self.notebook_info = None
+        self.notebook_info: Optional["_models.NotebookResourceInfo"] = None
         self.service_managed_resources_settings = service_managed_resources_settings
         self.primary_user_assigned_identity = primary_user_assigned_identity
-        self.tenant_id = None
-        self.storage_hns_enabled = None
-        self.ml_flow_tracking_uri = None
+        self.tenant_id: Optional[str] = None
+        self.storage_hns_enabled: Optional[bool] = None
+        self.ml_flow_tracking_uri: Optional[str] = None
         self.v1_legacy_mode = v1_legacy_mode
+        self.managed_network = managed_network
+        self.feature_store_settings = feature_store_settings
+        self.associated_workspaces = associated_workspaces
+        self.enable_data_isolation = enable_data_isolation
+        self.hub_resource_id = hub_resource_id
+        self.workspace_hub_config = workspace_hub_config
+
+
+class WorkspaceConnectionAccessKey(_serialization.Model):
+    """WorkspaceConnectionAccessKey.
+
+    :ivar access_key_id:
+    :vartype access_key_id: str
+    :ivar secret_access_key:
+    :vartype secret_access_key: str
+    """
+
+    _attribute_map = {
+        "access_key_id": {"key": "accessKeyId", "type": "str"},
+        "secret_access_key": {"key": "secretAccessKey", "type": "str"},
+    }
+
+    def __init__(
+        self, *, access_key_id: Optional[str] = None, secret_access_key: Optional[str] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword access_key_id:
+        :paramtype access_key_id: str
+        :keyword secret_access_key:
+        :paramtype secret_access_key: str
+        """
+        super().__init__(**kwargs)
+        self.access_key_id = access_key_id
+        self.secret_access_key = secret_access_key
+
+
+class WorkspaceConnectionAccountKey(_serialization.Model):
+    """WorkspaceConnectionAccountKey.
+
+    :ivar key:
+    :vartype key: str
+    """
+
+    _attribute_map = {
+        "key": {"key": "key", "type": "str"},
+    }
+
+    def __init__(self, *, key: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword key:
+        :paramtype key: str
+        """
+        super().__init__(**kwargs)
+        self.key = key
+
+
+class WorkspaceConnectionApiKey(_serialization.Model):
+    """Api key object for workspace connection credential.
+
+    :ivar key:
+    :vartype key: str
+    """
+
+    _attribute_map = {
+        "key": {"key": "key", "type": "str"},
+    }
+
+    def __init__(self, *, key: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword key:
+        :paramtype key: str
+        """
+        super().__init__(**kwargs)
+        self.key = key
 
 
 class WorkspaceConnectionManagedIdentity(_serialization.Model):
@@ -22520,6 +29794,87 @@ class WorkspaceConnectionManagedIdentity(_serialization.Model):
         self.client_id = client_id
 
 
+class WorkspaceConnectionOAuth2(_serialization.Model):
+    """ClientId and ClientSecret are required. Other properties are optional
+    depending on each OAuth2 provider's implementation.
+
+    :ivar auth_url: Required by Concur connection category.
+    :vartype auth_url: str
+    :ivar client_id: Client id in the format of UUID.
+    :vartype client_id: str
+    :ivar client_secret:
+    :vartype client_secret: str
+    :ivar developer_token: Required by GoogleAdWords connection category.
+    :vartype developer_token: str
+    :ivar password:
+    :vartype password: str
+    :ivar refresh_token: Required by GoogleBigQuery, GoogleAdWords, Hubspot, QuickBooks, Square,
+     Xero, Zoho
+     where user needs to get RefreshToken offline.
+    :vartype refresh_token: str
+    :ivar tenant_id: Required by QuickBooks and Xero connection categories.
+    :vartype tenant_id: str
+    :ivar username: Concur, ServiceNow auth server AccessToken grant type is 'Password'
+     which requires UsernamePassword.
+    :vartype username: str
+    """
+
+    _attribute_map = {
+        "auth_url": {"key": "authUrl", "type": "str"},
+        "client_id": {"key": "clientId", "type": "str"},
+        "client_secret": {"key": "clientSecret", "type": "str"},
+        "developer_token": {"key": "developerToken", "type": "str"},
+        "password": {"key": "password", "type": "str"},
+        "refresh_token": {"key": "refreshToken", "type": "str"},
+        "tenant_id": {"key": "tenantId", "type": "str"},
+        "username": {"key": "username", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        auth_url: Optional[str] = None,
+        client_id: Optional[str] = None,
+        client_secret: Optional[str] = None,
+        developer_token: Optional[str] = None,
+        password: Optional[str] = None,
+        refresh_token: Optional[str] = None,
+        tenant_id: Optional[str] = None,
+        username: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword auth_url: Required by Concur connection category.
+        :paramtype auth_url: str
+        :keyword client_id: Client id in the format of UUID.
+        :paramtype client_id: str
+        :keyword client_secret:
+        :paramtype client_secret: str
+        :keyword developer_token: Required by GoogleAdWords connection category.
+        :paramtype developer_token: str
+        :keyword password:
+        :paramtype password: str
+        :keyword refresh_token: Required by GoogleBigQuery, GoogleAdWords, Hubspot, QuickBooks, Square,
+         Xero, Zoho
+         where user needs to get RefreshToken offline.
+        :paramtype refresh_token: str
+        :keyword tenant_id: Required by QuickBooks and Xero connection categories.
+        :paramtype tenant_id: str
+        :keyword username: Concur, ServiceNow auth server AccessToken grant type is 'Password'
+         which requires UsernamePassword.
+        :paramtype username: str
+        """
+        super().__init__(**kwargs)
+        self.auth_url = auth_url
+        self.client_id = client_id
+        self.client_secret = client_secret
+        self.developer_token = developer_token
+        self.password = password
+        self.refresh_token = refresh_token
+        self.tenant_id = tenant_id
+        self.username = username
+
+
 class WorkspaceConnectionPersonalAccessToken(_serialization.Model):
     """WorkspaceConnectionPersonalAccessToken.
 
@@ -22540,12 +29895,12 @@ class WorkspaceConnectionPersonalAccessToken(_serialization.Model):
         self.pat = pat
 
 
-class WorkspaceConnectionPropertiesV2BasicResource(Resource):
+class WorkspaceConnectionPropertiesV2BasicResource(Resource):  # pylint: disable=name-too-long
     """WorkspaceConnectionPropertiesV2BasicResource.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
@@ -22588,7 +29943,9 @@ class WorkspaceConnectionPropertiesV2BasicResource(Resource):
         self.properties = properties
 
 
-class WorkspaceConnectionPropertiesV2BasicResourceArmPaginatedResult(_serialization.Model):
+class WorkspaceConnectionPropertiesV2BasicResourceArmPaginatedResult(
+    _serialization.Model
+):  # pylint: disable=name-too-long
     """WorkspaceConnectionPropertiesV2BasicResourceArmPaginatedResult.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -22619,7 +29976,46 @@ class WorkspaceConnectionPropertiesV2BasicResourceArmPaginatedResult(_serializat
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
+
+
+class WorkspaceConnectionServicePrincipal(_serialization.Model):
+    """WorkspaceConnectionServicePrincipal.
+
+    :ivar client_id:
+    :vartype client_id: str
+    :ivar client_secret:
+    :vartype client_secret: str
+    :ivar tenant_id:
+    :vartype tenant_id: str
+    """
+
+    _attribute_map = {
+        "client_id": {"key": "clientId", "type": "str"},
+        "client_secret": {"key": "clientSecret", "type": "str"},
+        "tenant_id": {"key": "tenantId", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        client_id: Optional[str] = None,
+        client_secret: Optional[str] = None,
+        tenant_id: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword client_id:
+        :paramtype client_id: str
+        :keyword client_secret:
+        :paramtype client_secret: str
+        :keyword tenant_id:
+        :paramtype tenant_id: str
+        """
+        super().__init__(**kwargs)
+        self.client_id = client_id
+        self.client_secret = client_secret
+        self.tenant_id = tenant_id
 
 
 class WorkspaceConnectionSharedAccessSignature(_serialization.Model):
@@ -22642,6 +30038,31 @@ class WorkspaceConnectionSharedAccessSignature(_serialization.Model):
         self.sas = sas
 
 
+class WorkspaceConnectionUpdateParameter(_serialization.Model):
+    """The properties that the machine learning workspace connection will be updated with.
+
+    :ivar properties: The properties that the machine learning workspace connection will be updated
+     with.
+    :vartype properties: ~azure.mgmt.machinelearningservices.models.WorkspaceConnectionPropertiesV2
+    """
+
+    _attribute_map = {
+        "properties": {"key": "properties", "type": "WorkspaceConnectionPropertiesV2"},
+    }
+
+    def __init__(
+        self, *, properties: Optional["_models.WorkspaceConnectionPropertiesV2"] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword properties: The properties that the machine learning workspace connection will be
+         updated with.
+        :paramtype properties:
+         ~azure.mgmt.machinelearningservices.models.WorkspaceConnectionPropertiesV2
+        """
+        super().__init__(**kwargs)
+        self.properties = properties
+
+
 class WorkspaceConnectionUsernamePassword(_serialization.Model):
     """WorkspaceConnectionUsernamePassword.
 
@@ -22649,23 +30070,70 @@ class WorkspaceConnectionUsernamePassword(_serialization.Model):
     :vartype username: str
     :ivar password:
     :vartype password: str
+    :ivar security_token: Optional, required by connections like SalesForce for extra security in
+     addition to UsernamePassword.
+    :vartype security_token: str
     """
 
     _attribute_map = {
         "username": {"key": "username", "type": "str"},
         "password": {"key": "password", "type": "str"},
+        "security_token": {"key": "securityToken", "type": "str"},
     }
 
-    def __init__(self, *, username: Optional[str] = None, password: Optional[str] = None, **kwargs: Any) -> None:
+    def __init__(
+        self,
+        *,
+        username: Optional[str] = None,
+        password: Optional[str] = None,
+        security_token: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword username:
         :paramtype username: str
         :keyword password:
         :paramtype password: str
+        :keyword security_token: Optional, required by connections like SalesForce for extra security
+         in addition to UsernamePassword.
+        :paramtype security_token: str
         """
         super().__init__(**kwargs)
         self.username = username
         self.password = password
+        self.security_token = security_token
+
+
+class WorkspaceHubConfig(_serialization.Model):
+    """WorkspaceHub's configuration object.
+
+    :ivar additional_workspace_storage_accounts:
+    :vartype additional_workspace_storage_accounts: list[str]
+    :ivar default_workspace_resource_group:
+    :vartype default_workspace_resource_group: str
+    """
+
+    _attribute_map = {
+        "additional_workspace_storage_accounts": {"key": "additionalWorkspaceStorageAccounts", "type": "[str]"},
+        "default_workspace_resource_group": {"key": "defaultWorkspaceResourceGroup", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        additional_workspace_storage_accounts: Optional[List[str]] = None,
+        default_workspace_resource_group: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword additional_workspace_storage_accounts:
+        :paramtype additional_workspace_storage_accounts: list[str]
+        :keyword default_workspace_resource_group:
+        :paramtype default_workspace_resource_group: str
+        """
+        super().__init__(**kwargs)
+        self.additional_workspace_storage_accounts = additional_workspace_storage_accounts
+        self.default_workspace_resource_group = default_workspace_resource_group
 
 
 class WorkspaceListResult(_serialization.Model):
@@ -22700,7 +30168,7 @@ class WorkspaceListResult(_serialization.Model):
         self.next_link = next_link
 
 
-class WorkspaceUpdateParameters(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class WorkspaceUpdateParameters(_serialization.Model):
     """The parameters for updating a machine learning workspace.
 
     :ivar tags: The resource tags for the machine learning workspace.
@@ -22721,6 +30189,9 @@ class WorkspaceUpdateParameters(_serialization.Model):  # pylint: disable=too-ma
     :ivar primary_user_assigned_identity: The user assigned identity resource id that represents
      the workspace identity.
     :vartype primary_user_assigned_identity: str
+    :ivar serverless_compute_settings: Settings for serverless compute created in the workspace.
+    :vartype serverless_compute_settings:
+     ~azure.mgmt.machinelearningservices.models.ServerlessComputeSettings
     :ivar public_network_access: Whether requests from Public Network are allowed. Known values
      are: "Enabled" and "Disabled".
     :vartype public_network_access: str or
@@ -22729,6 +30200,18 @@ class WorkspaceUpdateParameters(_serialization.Model):  # pylint: disable=too-ma
     :vartype application_insights: str
     :ivar container_registry: ARM id of the container registry associated with this workspace.
     :vartype container_registry: str
+    :ivar feature_store_settings: Settings for feature store type workspace.
+    :vartype feature_store_settings:
+     ~azure.mgmt.machinelearningservices.models.FeatureStoreSettings
+    :ivar managed_network: Managed Network settings for a machine learning workspace.
+    :vartype managed_network: ~azure.mgmt.machinelearningservices.models.ManagedNetworkSettings
+    :ivar enable_data_isolation:
+    :vartype enable_data_isolation: bool
+    :ivar v1_legacy_mode: Enabling v1_legacy_mode may prevent you from using features provided by
+     the v2 API.
+    :vartype v1_legacy_mode: bool
+    :ivar encryption:
+    :vartype encryption: ~azure.mgmt.machinelearningservices.models.EncryptionUpdateProperties
     """
 
     _attribute_map = {
@@ -22743,9 +30226,18 @@ class WorkspaceUpdateParameters(_serialization.Model):  # pylint: disable=too-ma
             "type": "ServiceManagedResourcesSettings",
         },
         "primary_user_assigned_identity": {"key": "properties.primaryUserAssignedIdentity", "type": "str"},
+        "serverless_compute_settings": {
+            "key": "properties.serverlessComputeSettings",
+            "type": "ServerlessComputeSettings",
+        },
         "public_network_access": {"key": "properties.publicNetworkAccess", "type": "str"},
         "application_insights": {"key": "properties.applicationInsights", "type": "str"},
         "container_registry": {"key": "properties.containerRegistry", "type": "str"},
+        "feature_store_settings": {"key": "properties.featureStoreSettings", "type": "FeatureStoreSettings"},
+        "managed_network": {"key": "properties.managedNetwork", "type": "ManagedNetworkSettings"},
+        "enable_data_isolation": {"key": "properties.enableDataIsolation", "type": "bool"},
+        "v1_legacy_mode": {"key": "properties.v1LegacyMode", "type": "bool"},
+        "encryption": {"key": "properties.encryption", "type": "EncryptionUpdateProperties"},
     }
 
     def __init__(
@@ -22759,9 +30251,15 @@ class WorkspaceUpdateParameters(_serialization.Model):  # pylint: disable=too-ma
         image_build_compute: Optional[str] = None,
         service_managed_resources_settings: Optional["_models.ServiceManagedResourcesSettings"] = None,
         primary_user_assigned_identity: Optional[str] = None,
+        serverless_compute_settings: Optional["_models.ServerlessComputeSettings"] = None,
         public_network_access: Optional[Union[str, "_models.PublicNetworkAccess"]] = None,
         application_insights: Optional[str] = None,
         container_registry: Optional[str] = None,
+        feature_store_settings: Optional["_models.FeatureStoreSettings"] = None,
+        managed_network: Optional["_models.ManagedNetworkSettings"] = None,
+        enable_data_isolation: Optional[bool] = None,
+        v1_legacy_mode: Optional[bool] = None,
+        encryption: Optional["_models.EncryptionUpdateProperties"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -22783,6 +30281,9 @@ class WorkspaceUpdateParameters(_serialization.Model):  # pylint: disable=too-ma
         :keyword primary_user_assigned_identity: The user assigned identity resource id that represents
          the workspace identity.
         :paramtype primary_user_assigned_identity: str
+        :keyword serverless_compute_settings: Settings for serverless compute created in the workspace.
+        :paramtype serverless_compute_settings:
+         ~azure.mgmt.machinelearningservices.models.ServerlessComputeSettings
         :keyword public_network_access: Whether requests from Public Network are allowed. Known values
          are: "Enabled" and "Disabled".
         :paramtype public_network_access: str or
@@ -22792,6 +30293,18 @@ class WorkspaceUpdateParameters(_serialization.Model):  # pylint: disable=too-ma
         :paramtype application_insights: str
         :keyword container_registry: ARM id of the container registry associated with this workspace.
         :paramtype container_registry: str
+        :keyword feature_store_settings: Settings for feature store type workspace.
+        :paramtype feature_store_settings:
+         ~azure.mgmt.machinelearningservices.models.FeatureStoreSettings
+        :keyword managed_network: Managed Network settings for a machine learning workspace.
+        :paramtype managed_network: ~azure.mgmt.machinelearningservices.models.ManagedNetworkSettings
+        :keyword enable_data_isolation:
+        :paramtype enable_data_isolation: bool
+        :keyword v1_legacy_mode: Enabling v1_legacy_mode may prevent you from using features provided
+         by the v2 API.
+        :paramtype v1_legacy_mode: bool
+        :keyword encryption:
+        :paramtype encryption: ~azure.mgmt.machinelearningservices.models.EncryptionUpdateProperties
         """
         super().__init__(**kwargs)
         self.tags = tags
@@ -22802,6 +30315,12 @@ class WorkspaceUpdateParameters(_serialization.Model):  # pylint: disable=too-ma
         self.image_build_compute = image_build_compute
         self.service_managed_resources_settings = service_managed_resources_settings
         self.primary_user_assigned_identity = primary_user_assigned_identity
+        self.serverless_compute_settings = serverless_compute_settings
         self.public_network_access = public_network_access
         self.application_insights = application_insights
         self.container_registry = container_registry
+        self.feature_store_settings = feature_store_settings
+        self.managed_network = managed_network
+        self.enable_data_isolation = enable_data_isolation
+        self.v1_legacy_mode = v1_legacy_mode
+        self.encryption = encryption
