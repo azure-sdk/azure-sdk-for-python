@@ -1,5 +1,53 @@
 # Release History
 
+## 2.0.0 (2025-04-16)
+
+### Features Added
+
+  - Client `AttestationManagementClient` added operation group `private_endpoint_connections`
+  - Client `AttestationManagementClient` added operation group `private_link_resources`
+  - Model `AttestationProvider` added property `system_data`
+  - Model `AttestationProvider` added property `public_network_access`
+  - Model `AttestationProvider` added property `private_endpoint_connections`
+  - Model `AttestationProvider` added property `tpm_attestation_authentication`
+  - Model `AttestationProviderListResult` added property `system_data`
+  - Model `AttestationServiceCreationSpecificParams` added property `public_network_access`
+  - Model `AttestationServiceCreationSpecificParams` added property `tpm_attestation_authentication`
+  - Model `AttestationServicePatchParams` added property `properties`
+  - Model `OperationList` added property `system_data`
+  - Model `OperationsDefinition` added property `properties`
+  - Added model `AttestationServicePatchSpecificParams`
+  - Added enum `CreatedByType`
+  - Added model `LogSpecification`
+  - Added model `OperationProperties`
+  - Added model `PrivateEndpoint`
+  - Added model `PrivateEndpointConnection`
+  - Added model `PrivateEndpointConnectionListResult`
+  - Added enum `PrivateEndpointConnectionProvisioningState`
+  - Added enum `PrivateEndpointServiceConnectionStatus`
+  - Added model `PrivateLinkResource`
+  - Added model `PrivateLinkResourceListResult`
+  - Added model `PrivateLinkServiceConnectionState`
+  - Added enum `PublicNetworkAccessType`
+  - Added model `ServiceSpecification`
+  - Added model `SystemData`
+  - Added enum `TpmAttestationAuthenticationType`
+  - Model `AttestationProvidersOperations` added parameter `kwargs` in method `__init__`
+  - Model `Operations` added parameter `kwargs` in method `__init__`
+  - Added model `PrivateEndpointConnectionsOperations`
+  - Added model `PrivateLinkResourcesOperations`
+  - Method `AttestationProvidersOperations.create` has a new overload `def create(self: None, resource_group_name: str, provider_name: str, creation_params: AttestationServiceCreationParams, content_type: str)`
+  - Method `AttestationProvidersOperations.create` has a new overload `def create(self: None, resource_group_name: str, provider_name: str, creation_params: IO[bytes], content_type: str)`
+  - Method `AttestationProvidersOperations.update` has a new overload `def update(self: None, resource_group_name: str, provider_name: str, update_params: AttestationServicePatchParams, content_type: str)`
+  - Method `AttestationProvidersOperations.update` has a new overload `def update(self: None, resource_group_name: str, provider_name: str, update_params: IO[bytes], content_type: str)`
+  - Method `PrivateEndpointConnectionsOperations.create` has a new overload `def create(self: None, resource_group_name: str, provider_name: str, private_endpoint_connection_name: str, properties: PrivateEndpointConnection, content_type: str)`
+  - Method `PrivateEndpointConnectionsOperations.create` has a new overload `def create(self: None, resource_group_name: str, provider_name: str, private_endpoint_connection_name: str, properties: IO[bytes], content_type: str)`
+
+### Breaking Changes
+
+  - Method `AttestationManagementClient.__init__` parameter `base_url` changed default value from `None` to `str`
+  - Model `AttestationServiceCreationSpecificParams` deleted or renamed its instance variable `attestation_policy`
+
 ## 2.0.0b1 (2022-10-28)
 
 ### Features Added
