@@ -56,9 +56,9 @@ class ComponentsResource(_serialization.Model):
         :paramtype tags: dict[str, str]
         """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
         self.location = location
         self.tags = tags
 
@@ -302,26 +302,26 @@ class ApplicationInsightsComponent(ComponentsResource):
         super().__init__(location=location, tags=tags, **kwargs)
         self.kind = kind
         self.etag = etag
-        self.application_id = None
-        self.app_id = None
-        self.name_properties_name = None
+        self.application_id: Optional[str] = None
+        self.app_id: Optional[str] = None
+        self.name_properties_name: Optional[str] = None
         self.application_type = application_type
         self.flow_type = flow_type
         self.request_source = request_source
-        self.instrumentation_key = None
-        self.creation_date = None
-        self.tenant_id = None
+        self.instrumentation_key: Optional[str] = None
+        self.creation_date: Optional[datetime.datetime] = None
+        self.tenant_id: Optional[str] = None
         self.hockey_app_id = hockey_app_id
-        self.hockey_app_token = None
-        self.provisioning_state = None
+        self.hockey_app_token: Optional[str] = None
+        self.provisioning_state: Optional[str] = None
         self.sampling_percentage = sampling_percentage
-        self.connection_string = None
-        self.retention_in_days = None
+        self.connection_string: Optional[str] = None
+        self.retention_in_days: Optional[int] = None
         self.disable_ip_masking = disable_ip_masking
         self.immediate_purge_data_on30_days = immediate_purge_data_on30_days
         self.workspace_resource_id = workspace_resource_id
-        self.la_migration_date = None
-        self.private_link_scoped_resources = None
+        self.la_migration_date: Optional[datetime.datetime] = None
+        self.private_link_scoped_resources: Optional[List["_models.PrivateLinkScopedResource"]] = None
         self.public_network_access_for_ingestion = public_network_access_for_ingestion
         self.public_network_access_for_query = public_network_access_for_query
         self.ingestion_mode = ingestion_mode
@@ -538,8 +538,8 @@ class ErrorAdditionalInfo(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.type = None
-        self.info = None
+        self.type: Optional[str] = None
+        self.info: Optional[JSON] = None
 
 
 class ErrorDetail(_serialization.Model):
@@ -579,11 +579,11 @@ class ErrorDetail(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.code = None
-        self.message = None
-        self.target = None
-        self.details = None
-        self.additional_info = None
+        self.code: Optional[str] = None
+        self.message: Optional[str] = None
+        self.target: Optional[str] = None
+        self.details: Optional[List["_models.ErrorDetail"]] = None
+        self.additional_info: Optional[List["_models.ErrorAdditionalInfo"]] = None
 
 
 class ErrorResponse(_serialization.Model):
