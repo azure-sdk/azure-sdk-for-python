@@ -1,5 +1,105 @@
 # Release History
 
+## 3.2.0b2 (2025-04-16)
+
+### Features Added
+
+  - Client `ContainerAppsAPIClient` added operation group `container_apps_label_history`
+  - Client `ContainerAppsAPIClient` added operation group `http_route_config`
+  - Client `ContainerAppsAPIClient` added operation group `maintenance_configurations`
+  - Enum `ActiveRevisionsMode` added member `LABELS`
+  - Model `AzureFileProperties` added property `account_key_vault_properties`
+  - Enum `BindingType` added member `AUTO`
+  - Model `BlobStorageTokenStore` added property `blob_container_uri`
+  - Model `BlobStorageTokenStore` added property `client_id`
+  - Model `BlobStorageTokenStore` added property `managed_identity_resource_id`
+  - Model `CertificateProperties` added property `deployment_errors`
+  - Model `Configuration` added property `target_label`
+  - Model `Configuration` added property `revision_transition_threshold`
+  - Model `ConnectedEnvironmentStorageProperties` added property `provisioning_state`
+  - Model `ConnectedEnvironmentStorageProperties` added property `deployment_errors`
+  - Model `ContainerApp` added property `running_status`
+  - Model `ContainerResources` added property `gpu`
+  - Model `Dapr` added property `app_health`
+  - Model `Dapr` added property `max_concurrency`
+  - Model `ManagedEnvironment` added property `private_link_default_domain`
+  - Model `ManagedEnvironment` added property `availability_zones`
+  - Model `ManagedEnvironment` added property `ingress_configuration`
+  - Model `Revision` added property `labels`
+  - Model `SessionPool` added property `identity`
+  - Model `SessionPool` added property `managed_identity_settings`
+  - Model `SessionPoolUpdatableProperties` added property `identity`
+  - Added model `ConnectedEnvironmentDaprComponent`
+  - Added model `ConnectedEnvironmentDaprComponentProperties`
+  - Added enum `ConnectedEnvironmentDaprComponentProvisioningState`
+  - Added model `ConnectedEnvironmentDaprComponentsCollection`
+  - Added model `ConnectedEnvironmentPatchResource`
+  - Added enum `ConnectedEnvironmentStorageProvisioningState`
+  - Added enum `ContainerAppRunningStatus`
+  - Added model `DaprAppHealth`
+  - Added model `DaprComponentProperties`
+  - Added model `HttpRoute`
+  - Added model `HttpRouteAction`
+  - Added model `HttpRouteConfig`
+  - Added model `HttpRouteConfigCollection`
+  - Added model `HttpRouteConfigProperties`
+  - Added model `HttpRouteMatch`
+  - Added model `HttpRouteProvisioningErrors`
+  - Added enum `HttpRouteProvisioningState`
+  - Added model `HttpRouteRule`
+  - Added model `HttpRouteTarget`
+  - Added model `IngressConfiguration`
+  - Added model `IngressConfigurationScale`
+  - Added model `LabelHistory`
+  - Added model `LabelHistoryCollection`
+  - Added model `LabelHistoryProperties`
+  - Added model `LabelHistoryRecordItem`
+  - Added model `MaintenanceConfigurationCollection`
+  - Added model `MaintenanceConfigurationResource`
+  - Added model `ManagedIdentitySetting`
+  - Added model `ResourceTags`
+  - Added model `ScheduledEntry`
+  - Added model `SecretKeyVaultProperties`
+  - Added enum `Status`
+  - Added enum `WeekDay`
+  - Model `ConnectedEnvironmentsCertificatesOperations` added method `begin_create_or_update`
+  - Model `ConnectedEnvironmentsCertificatesOperations` added method `begin_delete`
+  - Model `ConnectedEnvironmentsCertificatesOperations` added method `begin_update`
+  - Model `ConnectedEnvironmentsDaprComponentsOperations` added method `begin_create_or_update`
+  - Model `ConnectedEnvironmentsDaprComponentsOperations` added method `begin_delete`
+  - Model `ConnectedEnvironmentsStoragesOperations` added method `begin_create_or_update`
+  - Model `ConnectedEnvironmentsStoragesOperations` added method `begin_delete`
+  - Added model `ContainerAppsLabelHistoryOperations`
+  - Added model `HttpRouteConfigOperations`
+  - Added model `MaintenanceConfigurationsOperations`
+  - Method `ConnectedEnvironmentsCertificatesOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, connected_environment_name: str, certificate_name: str, certificate_envelope: Optional[Certificate], content_type: str)`
+  - Method `ConnectedEnvironmentsCertificatesOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, connected_environment_name: str, certificate_name: str, certificate_envelope: Optional[IO[bytes]], content_type: str)`
+  - Method `ConnectedEnvironmentsCertificatesOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, connected_environment_name: str, certificate_name: str, certificate_envelope: CertificatePatch, content_type: str)`
+  - Method `ConnectedEnvironmentsCertificatesOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, connected_environment_name: str, certificate_name: str, certificate_envelope: IO[bytes], content_type: str)`
+  - Method `ConnectedEnvironmentsDaprComponentsOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, connected_environment_name: str, component_name: str, dapr_component_envelope: ConnectedEnvironmentDaprComponent, content_type: str)`
+  - Method `ConnectedEnvironmentsDaprComponentsOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, connected_environment_name: str, component_name: str, dapr_component_envelope: IO[bytes], content_type: str)`
+  - Method `ConnectedEnvironmentsOperations.update` has a new overload `def update(self: None, resource_group_name: str, connected_environment_name: str, environment_envelope: Optional[ConnectedEnvironmentPatchResource], content_type: str)`
+  - Method `ConnectedEnvironmentsOperations.update` has a new overload `def update(self: None, resource_group_name: str, connected_environment_name: str, environment_envelope: Optional[IO[bytes]], content_type: str)`
+  - Method `ConnectedEnvironmentsStoragesOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, connected_environment_name: str, storage_name: str, storage_envelope: ConnectedEnvironmentStorage, content_type: str)`
+  - Method `ConnectedEnvironmentsStoragesOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, connected_environment_name: str, storage_name: str, storage_envelope: IO[bytes], content_type: str)`
+  - Method `HttpRouteConfigOperations.create_or_update` has a new overload `def create_or_update(self: None, resource_group_name: str, environment_name: str, http_route_name: str, http_route_config_envelope: Optional[HttpRouteConfig], content_type: str)`
+  - Method `HttpRouteConfigOperations.create_or_update` has a new overload `def create_or_update(self: None, resource_group_name: str, environment_name: str, http_route_name: str, http_route_config_envelope: Optional[IO[bytes]], content_type: str)`
+  - Method `HttpRouteConfigOperations.update` has a new overload `def update(self: None, resource_group_name: str, environment_name: str, http_route_name: str, http_route_config_envelope: HttpRouteConfig, content_type: str)`
+  - Method `HttpRouteConfigOperations.update` has a new overload `def update(self: None, resource_group_name: str, environment_name: str, http_route_name: str, http_route_config_envelope: IO[bytes], content_type: str)`
+  - Method `MaintenanceConfigurationsOperations.create_or_update` has a new overload `def create_or_update(self: None, resource_group_name: str, environment_name: str, config_name: str, maintenance_configuration_envelope: MaintenanceConfigurationResource, content_type: str)`
+  - Method `MaintenanceConfigurationsOperations.create_or_update` has a new overload `def create_or_update(self: None, resource_group_name: str, environment_name: str, config_name: str, maintenance_configuration_envelope: IO[bytes], content_type: str)`
+
+### Breaking Changes
+
+  - Method `IdentitySettings.__init__` parameter `lifecycle` changed default value from `str` to `none`
+  - Deleted or renamed method `ConnectedEnvironmentsCertificatesOperations.create_or_update`
+  - Deleted or renamed method `ConnectedEnvironmentsCertificatesOperations.delete`
+  - Deleted or renamed method `ConnectedEnvironmentsCertificatesOperations.update`
+  - Deleted or renamed method `ConnectedEnvironmentsDaprComponentsOperations.create_or_update`
+  - Deleted or renamed method `ConnectedEnvironmentsDaprComponentsOperations.delete`
+  - Deleted or renamed method `ConnectedEnvironmentsStoragesOperations.create_or_update`
+  - Deleted or renamed method `ConnectedEnvironmentsStoragesOperations.delete`
+
 ## 3.2.0b1 (2024-10-28)
 
 ### Features Added
