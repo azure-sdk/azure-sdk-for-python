@@ -1,5 +1,5 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
-# pylint: disable=too-many-lines
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -13,7 +13,6 @@ from typing import Any, List, Optional, TYPE_CHECKING, Union
 from ... import _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
@@ -214,7 +213,7 @@ class ExpandedPropertiesScope(_serialization.Model):
         self.type = type
 
 
-class RoleAssignmentScheduleRequest(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class RoleAssignmentScheduleRequest(_serialization.Model):
     """Role Assignment schedule request.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -376,16 +375,16 @@ class RoleAssignmentScheduleRequest(_serialization.Model):  # pylint: disable=to
         :paramtype condition_version: str
         """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
-        self.scope = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
+        self.scope: Optional[str] = None
         self.role_definition_id = role_definition_id
         self.principal_id = principal_id
-        self.principal_type = None
+        self.principal_type: Optional[Union[str, "_models.PrincipalType"]] = None
         self.request_type = request_type
-        self.status = None
-        self.approval_id = None
+        self.status: Optional[Union[str, "_models.Status"]] = None
+        self.approval_id: Optional[str] = None
         self.target_role_assignment_schedule_id = target_role_assignment_schedule_id
         self.target_role_assignment_schedule_instance_id = target_role_assignment_schedule_instance_id
         self.schedule_info = schedule_info
@@ -394,9 +393,9 @@ class RoleAssignmentScheduleRequest(_serialization.Model):  # pylint: disable=to
         self.ticket_info = ticket_info
         self.condition = condition
         self.condition_version = condition_version
-        self.created_on = None
-        self.requestor_id = None
-        self.expanded_properties = None
+        self.created_on: Optional[datetime.datetime] = None
+        self.requestor_id: Optional[str] = None
+        self.expanded_properties: Optional["_models.ExpandedProperties"] = None
 
 
 class RoleAssignmentScheduleRequestFilter(_serialization.Model):
@@ -479,7 +478,7 @@ class RoleAssignmentScheduleRequestListResult(_serialization.Model):
         self.next_link = next_link
 
 
-class RoleAssignmentScheduleRequestPropertiesScheduleInfo(_serialization.Model):
+class RoleAssignmentScheduleRequestPropertiesScheduleInfo(_serialization.Model):  # pylint: disable=name-too-long
     """Schedule info of the role assignment schedule.
 
     :ivar start_date_time: Start DateTime of the role assignment schedule.
@@ -513,7 +512,9 @@ class RoleAssignmentScheduleRequestPropertiesScheduleInfo(_serialization.Model):
         self.expiration = expiration
 
 
-class RoleAssignmentScheduleRequestPropertiesScheduleInfoExpiration(_serialization.Model):
+class RoleAssignmentScheduleRequestPropertiesScheduleInfoExpiration(
+    _serialization.Model
+):  # pylint: disable=name-too-long
     """Expiration of the role assignment schedule.
 
     :ivar type: Type of the role assignment schedule expiration. Known values are: "AfterDuration",
@@ -554,7 +555,7 @@ class RoleAssignmentScheduleRequestPropertiesScheduleInfoExpiration(_serializati
         self.duration = duration
 
 
-class RoleAssignmentScheduleRequestPropertiesTicketInfo(_serialization.Model):
+class RoleAssignmentScheduleRequestPropertiesTicketInfo(_serialization.Model):  # pylint: disable=name-too-long
     """Ticket Info of the role assignment.
 
     :ivar ticket_number: Ticket number for the role assignment.
@@ -582,7 +583,7 @@ class RoleAssignmentScheduleRequestPropertiesTicketInfo(_serialization.Model):
         self.ticket_system = ticket_system
 
 
-class RoleEligibilityScheduleRequest(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class RoleEligibilityScheduleRequest(_serialization.Model):
     """Role Eligibility schedule request.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -736,16 +737,16 @@ class RoleEligibilityScheduleRequest(_serialization.Model):  # pylint: disable=t
         :paramtype condition_version: str
         """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
-        self.scope = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
+        self.scope: Optional[str] = None
         self.role_definition_id = role_definition_id
         self.principal_id = principal_id
-        self.principal_type = None
+        self.principal_type: Optional[Union[str, "_models.PrincipalType"]] = None
         self.request_type = request_type
-        self.status = None
-        self.approval_id = None
+        self.status: Optional[Union[str, "_models.Status"]] = None
+        self.approval_id: Optional[str] = None
         self.schedule_info = schedule_info
         self.target_role_eligibility_schedule_id = target_role_eligibility_schedule_id
         self.target_role_eligibility_schedule_instance_id = target_role_eligibility_schedule_instance_id
@@ -753,9 +754,9 @@ class RoleEligibilityScheduleRequest(_serialization.Model):  # pylint: disable=t
         self.ticket_info = ticket_info
         self.condition = condition
         self.condition_version = condition_version
-        self.created_on = None
-        self.requestor_id = None
-        self.expanded_properties = None
+        self.created_on: Optional[datetime.datetime] = None
+        self.requestor_id: Optional[str] = None
+        self.expanded_properties: Optional["_models.ExpandedProperties"] = None
 
 
 class RoleEligibilityScheduleRequestFilter(_serialization.Model):
@@ -838,7 +839,7 @@ class RoleEligibilityScheduleRequestListResult(_serialization.Model):
         self.next_link = next_link
 
 
-class RoleEligibilityScheduleRequestPropertiesScheduleInfo(_serialization.Model):
+class RoleEligibilityScheduleRequestPropertiesScheduleInfo(_serialization.Model):  # pylint: disable=name-too-long
     """Schedule info of the role eligibility schedule.
 
     :ivar start_date_time: Start DateTime of the role eligibility schedule.
@@ -872,7 +873,9 @@ class RoleEligibilityScheduleRequestPropertiesScheduleInfo(_serialization.Model)
         self.expiration = expiration
 
 
-class RoleEligibilityScheduleRequestPropertiesScheduleInfoExpiration(_serialization.Model):
+class RoleEligibilityScheduleRequestPropertiesScheduleInfoExpiration(
+    _serialization.Model
+):  # pylint: disable=name-too-long
     """Expiration of the role eligibility schedule.
 
     :ivar type: Type of the role eligibility schedule expiration. Known values are:
@@ -913,7 +916,7 @@ class RoleEligibilityScheduleRequestPropertiesScheduleInfoExpiration(_serializat
         self.duration = duration
 
 
-class RoleEligibilityScheduleRequestPropertiesTicketInfo(_serialization.Model):
+class RoleEligibilityScheduleRequestPropertiesTicketInfo(_serialization.Model):  # pylint: disable=name-too-long
     """Ticket Info of the role eligibility.
 
     :ivar ticket_number: Ticket number for the role eligibility.
