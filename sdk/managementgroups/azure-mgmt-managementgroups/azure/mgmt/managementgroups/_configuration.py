@@ -14,11 +14,10 @@ from azure.mgmt.core.policies import ARMChallengeAuthenticationPolicy, ARMHttpLo
 from ._version import VERSION
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from azure.core.credentials import TokenCredential
 
 
-class ManagementGroupsAPIConfiguration:  # pylint: disable=too-many-instance-attributes,name-too-long
+class ManagementGroupsAPIConfiguration:  # pylint: disable=too-many-instance-attributes
     """Configuration for ManagementGroupsAPI.
 
     Note that all parameters used to create this instance are saved as instance
@@ -26,13 +25,13 @@ class ManagementGroupsAPIConfiguration:  # pylint: disable=too-many-instance-att
 
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials.TokenCredential
-    :keyword api_version: Api Version. Default value is "2021-04-01". Note that overriding this
+    :keyword api_version: Api Version. Default value is "2023-04-01". Note that overriding this
      default value may result in unsupported behavior.
     :paramtype api_version: str
     """
 
     def __init__(self, credential: "TokenCredential", **kwargs: Any) -> None:
-        api_version: str = kwargs.pop("api_version", "2021-04-01")
+        api_version: str = kwargs.pop("api_version", "2023-04-01")
 
         if credential is None:
             raise ValueError("Parameter 'credential' must not be None.")

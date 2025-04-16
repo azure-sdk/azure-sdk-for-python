@@ -21,11 +21,11 @@ class TestManagementGroupsAPIManagementGroupSubscriptionsOperationsAsync(AzureMg
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_create(self, resource_group):
+    async def test_management_group_subscriptions_create(self, resource_group):
         response = await self.client.management_group_subscriptions.create(
             group_id="str",
             subscription_id="str",
-            api_version="2021-04-01",
+            api_version="2023-04-01",
         )
 
         # please add some check logic here by yourself
@@ -33,11 +33,11 @@ class TestManagementGroupsAPIManagementGroupSubscriptionsOperationsAsync(AzureMg
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_delete(self, resource_group):
+    async def test_management_group_subscriptions_delete(self, resource_group):
         response = await self.client.management_group_subscriptions.delete(
             group_id="str",
             subscription_id="str",
-            api_version="2021-04-01",
+            api_version="2023-04-01",
         )
 
         # please add some check logic here by yourself
@@ -45,11 +45,11 @@ class TestManagementGroupsAPIManagementGroupSubscriptionsOperationsAsync(AzureMg
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get_subscription(self, resource_group):
+    async def test_management_group_subscriptions_get_subscription(self, resource_group):
         response = await self.client.management_group_subscriptions.get_subscription(
             group_id="str",
             subscription_id="str",
-            api_version="2021-04-01",
+            api_version="2023-04-01",
         )
 
         # please add some check logic here by yourself
@@ -57,10 +57,10 @@ class TestManagementGroupsAPIManagementGroupSubscriptionsOperationsAsync(AzureMg
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get_subscriptions_under_management_group(self, resource_group):
+    async def test_management_group_subscriptions_get_subscriptions_under_management_group(self, resource_group):
         response = self.client.management_group_subscriptions.get_subscriptions_under_management_group(
             group_id="str",
-            api_version="2021-04-01",
+            api_version="2023-04-01",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
