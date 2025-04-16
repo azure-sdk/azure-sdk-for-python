@@ -199,12 +199,6 @@ class ExecutionState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     CANCELED = "Canceled"
 
 
-class Expand(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Expand."""
-
-    PROPERTIES = "Properties"
-
-
 class ExpandTypeForListVMs(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """ExpandTypeForListVMs."""
 
