@@ -20,10 +20,10 @@ class TestManagementGroupsAPIHierarchySettingsOperations(AzureMgmtRecordedTestCa
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list(self, resource_group):
+    def test_hierarchy_settings_list(self, resource_group):
         response = self.client.hierarchy_settings.list(
             group_id="str",
-            api_version="2021-04-01",
+            api_version="2023-04-01",
         )
 
         # please add some check logic here by yourself
@@ -31,10 +31,10 @@ class TestManagementGroupsAPIHierarchySettingsOperations(AzureMgmtRecordedTestCa
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_hierarchy_settings_get(self, resource_group):
         response = self.client.hierarchy_settings.get(
             group_id="str",
-            api_version="2021-04-01",
+            api_version="2023-04-01",
         )
 
         # please add some check logic here by yourself
@@ -42,14 +42,14 @@ class TestManagementGroupsAPIHierarchySettingsOperations(AzureMgmtRecordedTestCa
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_create_or_update(self, resource_group):
+    def test_hierarchy_settings_create_or_update(self, resource_group):
         response = self.client.hierarchy_settings.create_or_update(
             group_id="str",
             create_tenant_settings_request={
                 "defaultManagementGroup": "str",
                 "requireAuthorizationForGroupCreation": bool,
             },
-            api_version="2021-04-01",
+            api_version="2023-04-01",
         )
 
         # please add some check logic here by yourself
@@ -57,14 +57,14 @@ class TestManagementGroupsAPIHierarchySettingsOperations(AzureMgmtRecordedTestCa
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_update(self, resource_group):
+    def test_hierarchy_settings_update(self, resource_group):
         response = self.client.hierarchy_settings.update(
             group_id="str",
             create_tenant_settings_request={
                 "defaultManagementGroup": "str",
                 "requireAuthorizationForGroupCreation": bool,
             },
-            api_version="2021-04-01",
+            api_version="2023-04-01",
         )
 
         # please add some check logic here by yourself
@@ -72,10 +72,10 @@ class TestManagementGroupsAPIHierarchySettingsOperations(AzureMgmtRecordedTestCa
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_delete(self, resource_group):
+    def test_hierarchy_settings_delete(self, resource_group):
         response = self.client.hierarchy_settings.delete(
             group_id="str",
-            api_version="2021-04-01",
+            api_version="2023-04-01",
         )
 
         # please add some check logic here by yourself
