@@ -1,5 +1,100 @@
 # Release History
 
+## 10.1.0b1 (2025-04-16)
+
+### Features Added
+
+  - Client `AppPlatformManagementClient` added operation group `eureka_servers`
+  - Client `AppPlatformManagementClient` added operation group `jobs`
+  - Client `AppPlatformManagementClient` added operation group `job`
+  - Client `AppPlatformManagementClient` added operation group `job_execution`
+  - Client `AppPlatformManagementClient` added operation group `job_executions`
+  - Model `AppResourceProperties` added property `secrets`
+  - Model `AppResourceProperties` added property `workload_profile_name`
+  - Model `AppResourceProperties` added property `test_endpoint_auth_state`
+  - Enum `BindingType` added member `CA_CERTIFICATES`
+  - Model `BuildpackProperties` added property `version`
+  - Model `ClusterResourceProperties` added property `maintenance_schedule_configuration`
+  - Model `ClusterResourceProperties` added property `managed_environment_id`
+  - Model `ClusterResourceProperties` added property `infra_resource_group`
+  - Model `ConfigServerProperties` added property `resource_requests`
+  - Model `ConfigServerProperties` added property `instances`
+  - Model `ConfigServerProperties` added property `enabled_state`
+  - Enum `ConfigServerState` added member `CREATING`
+  - Enum `ConfigServerState` added member `DELETING`
+  - Model `ConfigurationServiceSettings` added property `refresh_interval_in_seconds`
+  - Model `DeploymentSettings` added property `scale`
+  - Model `GatewayProperties` added property `apm_types`
+  - Model `GatewayProperties` added property `addon_configs`
+  - Model `GatewayProperties` added property `response_cache_properties`
+  - Model `ServiceResource` added property `identity`
+  - Model `ServiceVNetAddons` added property `private_storage_access`
+  - Model `ServiceVNetAddons` added property `private_dns_zone_id`
+  - Model `SupportedBuildpackResourceProperties` added property `version`
+  - Enum `SupportedRuntimeValue` added member `JAVA21`
+  - Added enum `ApmType`
+  - Added enum `ConfigServerEnabledState`
+  - Added model `ConfigServerInstance`
+  - Added model `ConfigServerResourceCollection`
+  - Added model `ConfigServerResourceRequests`
+  - Added model `CustomScaleRule`
+  - Added model `EnvSecretsCollection`
+  - Added model `EnvVar`
+  - Added enum `EurekaServerEnabledState`
+  - Added model `EurekaServerProperties`
+  - Added model `EurekaServerResource`
+  - Added model `EurekaServerResourceCollection`
+  - Added enum `EurekaServerState`
+  - Added enum `Frequency`
+  - Added model `GatewayLocalResponseCachePerInstanceProperties`
+  - Added model `GatewayLocalResponseCachePerRouteProperties`
+  - Added model `GatewayResponseCacheProperties`
+  - Added model `HttpScaleRule`
+  - Added model `JobExecution`
+  - Added model `JobExecutionCollection`
+  - Added enum `JobExecutionRunningState`
+  - Added model `JobExecutionTemplate`
+  - Added model `JobResource`
+  - Added model `JobResourceCollection`
+  - Added model `JobResourceProperties`
+  - Added enum `JobResourceProvisioningState`
+  - Added model `JobResourceRequests`
+  - Added model `JobTriggerConfig`
+  - Added model `MaintenanceScheduleConfiguration`
+  - Added model `ManagedComponentReference`
+  - Added model `ManualJobTriggerConfig`
+  - Added enum `PrivateStorageAccess`
+  - Added model `QueueScaleRule`
+  - Added model `Scale`
+  - Added model `ScaleRule`
+  - Added model `ScaleRuleAuth`
+  - Added model `Secret`
+  - Added model `SystemAssignedServiceIdentity`
+  - Added enum `SystemAssignedServiceIdentityType`
+  - Added model `TcpScaleRule`
+  - Added enum `TestEndpointAuthState`
+  - Added enum `TriggerType`
+  - Added enum `WeekDay`
+  - Added model `WeeklyMaintenanceScheduleConfiguration`
+  - Model `ConfigServersOperations` added method `begin_delete`
+  - Model `ConfigServersOperations` added method `list`
+  - Model `GatewaysOperations` added method `begin_update_capacity`
+  - Added model `EurekaServersOperations`
+  - Added model `JobExecutionOperations`
+  - Added model `JobExecutionsOperations`
+  - Added model `JobOperations`
+  - Added model `JobsOperations`
+  - Method `GatewaysOperations.begin_update_capacity` has a new overload `def begin_update_capacity(self: None, resource_group_name: str, service_name: str, gateway_name: str, gateway_capacity_resource: SkuObject, content_type: str)`
+  - Method `GatewaysOperations.begin_update_capacity` has a new overload `def begin_update_capacity(self: None, resource_group_name: str, service_name: str, gateway_name: str, gateway_capacity_resource: IO[bytes], content_type: str)`
+  - Method `EurekaServersOperations.begin_update_patch` has a new overload `def begin_update_patch(self: None, resource_group_name: str, service_name: str, eureka_server_resource: EurekaServerResource, content_type: str)`
+  - Method `EurekaServersOperations.begin_update_patch` has a new overload `def begin_update_patch(self: None, resource_group_name: str, service_name: str, eureka_server_resource: IO[bytes], content_type: str)`
+  - Method `EurekaServersOperations.begin_update_put` has a new overload `def begin_update_put(self: None, resource_group_name: str, service_name: str, eureka_server_resource: EurekaServerResource, content_type: str)`
+  - Method `EurekaServersOperations.begin_update_put` has a new overload `def begin_update_put(self: None, resource_group_name: str, service_name: str, eureka_server_resource: IO[bytes], content_type: str)`
+  - Method `JobOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, service_name: str, job_name: str, job_resource: JobResource, content_type: str)`
+  - Method `JobOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, service_name: str, job_name: str, job_resource: IO[bytes], content_type: str)`
+  - Method `JobOperations.begin_start` has a new overload `def begin_start(self: None, resource_group_name: str, service_name: str, job_name: str, template: Optional[JobExecutionTemplate], content_type: str)`
+  - Method `JobOperations.begin_start` has a new overload `def begin_start(self: None, resource_group_name: str, service_name: str, job_name: str, template: Optional[IO[bytes]], content_type: str)`
+
 ## 10.0.0 (2024-10-29)
 
 ### Breaking Changes
