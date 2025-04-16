@@ -21,9 +21,9 @@ class TestContainerAppsAPIContainerAppsSessionPoolsOperationsAsync(AzureMgmtReco
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_by_subscription(self, resource_group):
+    async def test_container_apps_session_pools_list_by_subscription(self, resource_group):
         response = self.client.container_apps_session_pools.list_by_subscription(
-            api_version="2024-08-02-preview",
+            api_version="2025-02-02-preview",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -31,10 +31,10 @@ class TestContainerAppsAPIContainerAppsSessionPoolsOperationsAsync(AzureMgmtReco
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_by_resource_group(self, resource_group):
+    async def test_container_apps_session_pools_list_by_resource_group(self, resource_group):
         response = self.client.container_apps_session_pools.list_by_resource_group(
             resource_group_name=resource_group.name,
-            api_version="2024-08-02-preview",
+            api_version="2025-02-02-preview",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -42,11 +42,11 @@ class TestContainerAppsAPIContainerAppsSessionPoolsOperationsAsync(AzureMgmtReco
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get(self, resource_group):
+    async def test_container_apps_session_pools_get(self, resource_group):
         response = await self.client.container_apps_session_pools.get(
             resource_group_name=resource_group.name,
             session_pool_name="str",
-            api_version="2024-08-02-preview",
+            api_version="2025-02-02-preview",
         )
 
         # please add some check logic here by yourself
@@ -54,7 +54,7 @@ class TestContainerAppsAPIContainerAppsSessionPoolsOperationsAsync(AzureMgmtReco
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_create_or_update(self, resource_group):
+    async def test_container_apps_session_pools_begin_create_or_update(self, resource_group):
         response = await (
             await self.client.container_apps_session_pools.begin_create_or_update(
                 resource_group_name=resource_group.name,
@@ -84,6 +84,13 @@ class TestContainerAppsAPIContainerAppsSessionPoolsOperationsAsync(AzureMgmtReco
                     "dynamicPoolConfiguration": {"cooldownPeriodInSeconds": 0, "executionType": "str"},
                     "environmentId": "str",
                     "id": "str",
+                    "identity": {
+                        "type": "str",
+                        "principalId": "str",
+                        "tenantId": "str",
+                        "userAssignedIdentities": {"str": {"clientId": "str", "principalId": "str"}},
+                    },
+                    "managedIdentitySettings": [{"identity": "str", "lifecycle": "str"}],
                     "name": "str",
                     "nodeCount": 0,
                     "poolManagementEndpoint": "str",
@@ -103,7 +110,7 @@ class TestContainerAppsAPIContainerAppsSessionPoolsOperationsAsync(AzureMgmtReco
                     "tags": {"str": "str"},
                     "type": "str",
                 },
-                api_version="2024-08-02-preview",
+                api_version="2025-02-02-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -112,7 +119,7 @@ class TestContainerAppsAPIContainerAppsSessionPoolsOperationsAsync(AzureMgmtReco
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_update(self, resource_group):
+    async def test_container_apps_session_pools_begin_update(self, resource_group):
         response = await (
             await self.client.container_apps_session_pools.begin_update(
                 resource_group_name=resource_group.name,
@@ -138,11 +145,17 @@ class TestContainerAppsAPIContainerAppsSessionPoolsOperationsAsync(AzureMgmtReco
                         },
                     },
                     "dynamicPoolConfiguration": {"cooldownPeriodInSeconds": 0, "executionType": "str"},
+                    "identity": {
+                        "type": "str",
+                        "principalId": "str",
+                        "tenantId": "str",
+                        "userAssignedIdentities": {"str": {"clientId": "str", "principalId": "str"}},
+                    },
                     "scaleConfiguration": {"maxConcurrentSessions": 0, "readySessionInstances": 0},
                     "secrets": [{"name": "str", "value": "str"}],
                     "sessionNetworkConfiguration": {"status": "str"},
                 },
-                api_version="2024-08-02-preview",
+                api_version="2025-02-02-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -151,12 +164,12 @@ class TestContainerAppsAPIContainerAppsSessionPoolsOperationsAsync(AzureMgmtReco
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_delete(self, resource_group):
+    async def test_container_apps_session_pools_begin_delete(self, resource_group):
         response = await (
             await self.client.container_apps_session_pools.begin_delete(
                 resource_group_name=resource_group.name,
                 session_pool_name="str",
-                api_version="2024-08-02-preview",
+                api_version="2025-02-02-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
