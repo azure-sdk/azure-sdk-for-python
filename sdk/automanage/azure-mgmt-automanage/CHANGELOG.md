@@ -1,5 +1,43 @@
 # Release History
 
+## 2.0.0 (2025-04-16)
+
+### Features Added
+
+  - Model `BestPractice` added property `properties`
+  - Model `Report` added property `properties`
+  - Model `ServicePrincipal` added property `properties`
+  - Added model `AssignmentReportProperties`
+  - Added model `ServicePrincipalProperties`
+  - Method `ConfigurationProfileAssignmentsOperations.create_or_update` has a new overload `def create_or_update(self: None, configuration_profile_assignment_name: str, resource_group_name: str, vm_name: str, parameters: ConfigurationProfileAssignment, content_type: str)`
+  - Method `ConfigurationProfileAssignmentsOperations.create_or_update` has a new overload `def create_or_update(self: None, configuration_profile_assignment_name: str, resource_group_name: str, vm_name: str, parameters: IO[bytes], content_type: str)`
+  - Method `ConfigurationProfileHCIAssignmentsOperations.create_or_update` has a new overload `def create_or_update(self: None, resource_group_name: str, cluster_name: str, configuration_profile_assignment_name: str, parameters: ConfigurationProfileAssignment, content_type: str)`
+  - Method `ConfigurationProfileHCIAssignmentsOperations.create_or_update` has a new overload `def create_or_update(self: None, resource_group_name: str, cluster_name: str, configuration_profile_assignment_name: str, parameters: IO[bytes], content_type: str)`
+  - Method `ConfigurationProfileHCRPAssignmentsOperations.create_or_update` has a new overload `def create_or_update(self: None, resource_group_name: str, machine_name: str, configuration_profile_assignment_name: str, parameters: ConfigurationProfileAssignment, content_type: str)`
+  - Method `ConfigurationProfileHCRPAssignmentsOperations.create_or_update` has a new overload `def create_or_update(self: None, resource_group_name: str, machine_name: str, configuration_profile_assignment_name: str, parameters: IO[bytes], content_type: str)`
+  - Method `ConfigurationProfilesOperations.create_or_update` has a new overload `def create_or_update(self: None, configuration_profile_name: str, resource_group_name: str, parameters: ConfigurationProfile, content_type: str)`
+  - Method `ConfigurationProfilesOperations.create_or_update` has a new overload `def create_or_update(self: None, configuration_profile_name: str, resource_group_name: str, parameters: IO[bytes], content_type: str)`
+  - Method `ConfigurationProfilesOperations.update` has a new overload `def update(self: None, configuration_profile_name: str, resource_group_name: str, parameters: ConfigurationProfileUpdate, content_type: str)`
+  - Method `ConfigurationProfilesOperations.update` has a new overload `def update(self: None, configuration_profile_name: str, resource_group_name: str, parameters: IO[bytes], content_type: str)`
+  - Method `ConfigurationProfilesVersionsOperations.create_or_update` has a new overload `def create_or_update(self: None, configuration_profile_name: str, version_name: str, resource_group_name: str, parameters: ConfigurationProfile, content_type: str)`
+  - Method `ConfigurationProfilesVersionsOperations.create_or_update` has a new overload `def create_or_update(self: None, configuration_profile_name: str, version_name: str, resource_group_name: str, parameters: IO[bytes], content_type: str)`
+
+### Breaking Changes
+
+  - Model `BestPractice` deleted or renamed its instance variable `configuration`
+  - Model `Report` deleted or renamed its instance variable `start_time`
+  - Model `Report` deleted or renamed its instance variable `end_time`
+  - Model `Report` deleted or renamed its instance variable `last_modified_time`
+  - Model `Report` deleted or renamed its instance variable `duration`
+  - Model `Report` deleted or renamed its instance variable `type_properties_type`
+  - Model `Report` deleted or renamed its instance variable `status`
+  - Model `Report` deleted or renamed its instance variable `configuration_profile`
+  - Model `Report` deleted or renamed its instance variable `resources`
+  - Model `Report` deleted or renamed its instance variable `error`
+  - Model `Report` deleted or renamed its instance variable `report_format_version`
+  - Model `ServicePrincipal` deleted or renamed its instance variable `service_principal_id`
+  - Model `ServicePrincipal` deleted or renamed its instance variable `authorization_set`
+
 ## 2.0.0b1 (2022-12-14)
 
 ### Features Added
