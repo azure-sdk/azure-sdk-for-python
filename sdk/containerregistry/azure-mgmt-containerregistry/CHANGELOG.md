@@ -1,5 +1,33 @@
 # Release History
 
+## 13.0.0 (2025-04-16)
+
+### Features Added
+
+  - Added operation RunsOperations.cancel
+  - Added operation RunsOperations.update
+  - Added operation TaskRunsOperations.delete
+  - Added operation TasksOperations.create
+  - Added operation TasksOperations.delete
+  - Added operation TasksOperations.update
+  - Model SourceRegistryCredentials has a new parameter identity
+
+### Breaking Changes
+
+  - Model Policies no longer has parameter soft_delete_policy
+  - Model Registry no longer has parameter auto_generated_domain_name_label_scope
+  - Model Registry no longer has parameter metadata_search
+  - Model RegistryNameCheckRequest no longer has parameter auto_generated_domain_name_label_scope
+  - Model RegistryNameCheckRequest no longer has parameter resource_group_name
+  - Model RegistryNameStatus no longer has parameter available_login_server_name
+  - Model RegistryUpdateParameters no longer has parameter metadata_search
+  - Removed operation RunsOperations.begin_cancel
+  - Removed operation RunsOperations.begin_update
+  - Removed operation TaskRunsOperations.begin_delete
+  - Removed operation TasksOperations.begin_create
+  - Removed operation TasksOperations.begin_delete
+  - Removed operation TasksOperations.begin_update
+
 ## 12.0.0 (2025-02-24)
 
 ### Breaking Changes
