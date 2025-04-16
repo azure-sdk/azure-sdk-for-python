@@ -43,9 +43,9 @@ class ErrorDefinition(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.code = None
-        self.message = None
-        self.innererror = None
+        self.code: Optional[str] = None
+        self.message: Optional[str] = None
+        self.innererror: Optional[Any] = None
 
 
 class InnerErrorTrace(_serialization.Model):
@@ -68,7 +68,7 @@ class InnerErrorTrace(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.trace = None
+        self.trace: Optional[List[str]] = None
 
 
 class MyWorkbookResource(_serialization.Model):
@@ -275,14 +275,14 @@ class MyWorkbook(MyWorkbookResource):
             identity=identity, id=id, name=name, type=type, location=location, tags=tags, etag=etag, **kwargs
         )
         self.kind = kind
-        self.system_data = None
+        self.system_data: Optional["_models.SystemData"] = None
         self.display_name = display_name
         self.serialized_data = serialized_data
         self.version = version
-        self.time_modified = None
+        self.time_modified: Optional[str] = None
         self.category = category
         self.tags_properties_tags = tags_properties_tags
-        self.user_id = None
+        self.user_id: Optional[str] = None
         self.source_id = source_id
         self.storage_uri = storage_uri
 
@@ -369,7 +369,7 @@ class MyWorkbooksListResult(_serialization.Model):
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
-        self.value = None
+        self.value: Optional[List["_models.MyWorkbook"]] = None
         self.next_link = next_link
 
 
@@ -397,8 +397,8 @@ class MyWorkbookUserAssignedIdentities(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.principal_id = None
-        self.tenant_id = None
+        self.principal_id: Optional[str] = None
+        self.tenant_id: Optional[str] = None
 
 
 class SystemData(_serialization.Model):

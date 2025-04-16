@@ -229,9 +229,9 @@ class Resource(_serialization.Model):
         :paramtype tags: dict[str, str]
         """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
         self.kind = kind
         self.location = location
         self.tags = tags
@@ -346,11 +346,11 @@ class Workbook(Resource):
         super().__init__(kind=kind, location=location, tags=tags, **kwargs)
         self.display_name = display_name
         self.serialized_data = serialized_data
-        self.time_modified = None
+        self.time_modified: Optional[str] = None
         self.category = category
         self.version = version
         self.tags_properties_tags = tags_properties_tags
-        self.user_id = None
+        self.user_id: Optional[str] = None
         self.source_id = source_id
 
 
