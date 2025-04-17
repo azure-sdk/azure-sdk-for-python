@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,6 +8,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.alertsmanagement import AlertsManagementClient
 
 """
@@ -26,17 +28,17 @@ from azure.mgmt.alertsmanagement import AlertsManagementClient
 def main():
     client = AlertsManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7",
+        subscription_id="ffffffff-ffff-ffff-ffff-ffffffffffff",
     )
 
     response = client.prometheus_rule_groups.update(
-        resource_group_name="giladstest",
+        resource_group_name="promResourceGroup",
         rule_group_name="myPrometheusRuleGroup",
-        parameters={"properties": {"enabled": False}, "tags": {"tag1": "value1"}},
+        parameters={"properties": {"enabled": False}, "tags": {"tag1": "tagValueFromPatch"}},
     )
     print(response)
 
 
-# x-ms-original-file: specification/alertsmanagement/resource-manager/Microsoft.AlertsManagement/preview/2021-07-22-preview/examples/patchPrometheusRuleGroup.json
+# x-ms-original-file: specification/alertsmanagement/resource-manager/Microsoft.AlertsManagement/stable/2023-03-01/examples/patchPrometheusRuleGroup.json
 if __name__ == "__main__":
     main()
