@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -86,6 +87,7 @@ def main():
                 "persistentDisk": {"mountPath": "/mypersistentdisk", "sizeInGB": 2},
                 "public": True,
                 "temporaryDisk": {"mountPath": "/mytemporarydisk", "sizeInGB": 2},
+                "testEndpointAuthState": "Enabled",
                 "vnetAddons": {"publicEndpoint": True},
             },
         },
@@ -93,6 +95,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/stable/2023-12-01/examples/Apps_CreateOrUpdate_VNetInjection.json
+# x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2024-05-01-preview/examples/Apps_CreateOrUpdate_VNetInjection.json
 if __name__ == "__main__":
     main()
