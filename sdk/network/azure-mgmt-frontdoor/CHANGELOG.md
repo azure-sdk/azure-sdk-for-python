@@ -1,5 +1,16 @@
 # Release History
 
+## 2.0.0 (2025-04-17)
+
+### Features Added
+
+  - Enum `MatchProcessingBehavior` added member `CONTINUE`
+
+### Breaking Changes
+
+  - Method `FrontDoorManagementClient.__init__` parameter `base_url` changed default value from `str` to `none`
+  - Deleted or renamed enum value `MatchProcessingBehavior.CONTINUE_ENUM`
+
 ## 1.2.0 (2024-04-15)
 
 ### Features Added
