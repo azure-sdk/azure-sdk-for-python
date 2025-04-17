@@ -21,11 +21,10 @@ from ._configuration import InformaticaDataMgmtClientConfiguration
 from .operations import Operations, OrganizationsOperations, ServerlessRuntimesOperations
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from azure.core.credentials_async import AsyncTokenCredential
 
 
-class InformaticaDataMgmtClient:  # pylint: disable=client-accepts-api-version-keyword
+class InformaticaDataMgmtClient:
     """InformaticaDataMgmtClient.
 
     :ivar operations: Operations operations
