@@ -1,0 +1,18 @@
+{
+    "CrossLanguagePackageId": "Playwright",
+    "CrossLanguageDefinitionId": {
+        "azure.developer.playwright.models.AccessToken": "Playwright.AccessToken",
+        "azure.developer.playwright.models.Workspace": "Playwright.Shared.Workspace",
+        "azure.developer.playwright.models.AccessTokenState": "Playwright.AccessTokenState",
+        "azure.developer.playwright.models.ResourceState": "Playwright.Shared.ResourceState",
+        "azure.developer.playwright.models.SubscriptionState": "Playwright.Shared.SubscriptionState",
+        "azure.developer.playwright.models.EnablementStatus": "Playwright.Shared.EnablementStatus",
+        "azure.developer.playwright.models.OS": "Playwright.OS",
+        "azure.developer.playwright.PlaywrightClient.access_tokens.create_or_replace": "Playwright.AccessTokens.createOrReplace",
+        "azure.developer.playwright.PlaywrightClient.access_tokens.get": "Playwright.AccessTokens.get",
+        "azure.developer.playwright.PlaywrightClient.access_tokens.delete": "Playwright.AccessTokens.delete",
+        "azure.developer.playwright.PlaywrightClient.access_tokens.list": "Playwright.AccessTokens.list",
+        "azure.developer.playwright.PlaywrightClient.workspaces.get": "Playwright.Workspaces.get",
+        "azure.developer.playwright.PlaywrightClient.workspaces.get_browsers": "Playwright.Workspaces.getBrowsers"
+    }
+}
