@@ -1,5 +1,5 @@
+# pylint: disable=line-too-long,useless-suppression,too-many-lines
 # coding=utf-8
-# pylint: disable=too-many-lines
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -13,7 +13,6 @@ from typing import Any, List, Optional, TYPE_CHECKING, Union
 from ... import _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
@@ -207,9 +206,9 @@ class EligibleChildResource(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
 
 
 class EligibleChildResourcesListResult(_serialization.Model):
@@ -270,8 +269,8 @@ class ErrorAdditionalInfo(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.type = None
-        self.info = None
+        self.type: Optional[str] = None
+        self.info: Optional[JSON] = None
 
 
 class ErrorDetail(_serialization.Model):
@@ -311,11 +310,11 @@ class ErrorDetail(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.code = None
-        self.message = None
-        self.target = None
-        self.details = None
-        self.additional_info = None
+        self.code: Optional[str] = None
+        self.message: Optional[str] = None
+        self.target: Optional[str] = None
+        self.details: Optional[List["_models.ErrorDetail"]] = None
+        self.additional_info: Optional[List["_models.ErrorAdditionalInfo"]] = None
 
 
 class ErrorResponse(_serialization.Model):
@@ -635,7 +634,7 @@ class PolicyAssignmentPropertiesPolicy(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.id = id
-        self.last_modified_by = None
+        self.last_modified_by: Optional["_models.Principal"] = None
         self.last_modified_date_time = last_modified_date_time
 
 
@@ -737,7 +736,7 @@ class PolicyProperties(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.scope = None
+        self.scope: Optional["_models.PolicyPropertiesScope"] = None
 
 
 class PolicyPropertiesScope(_serialization.Model):
@@ -825,7 +824,7 @@ class Principal(_serialization.Model):
         self.email = email
 
 
-class RoleAssignment(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class RoleAssignment(_serialization.Model):
     """Role Assignments.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -933,29 +932,29 @@ class RoleAssignment(_serialization.Model):  # pylint: disable=too-many-instance
         :paramtype delegated_managed_identity_resource_id: str
         """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
-        self.scope = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
+        self.scope: Optional[str] = None
         self.role_definition_id = role_definition_id
         self.principal_id = principal_id
         self.principal_type = principal_type
         self.description = description
         self.condition = condition
         self.condition_version = condition_version
-        self.created_on = None
-        self.updated_on = None
-        self.created_by = None
-        self.updated_by = None
+        self.created_on: Optional[datetime.datetime] = None
+        self.updated_on: Optional[datetime.datetime] = None
+        self.created_by: Optional[str] = None
+        self.updated_by: Optional[str] = None
         self.delegated_managed_identity_resource_id = delegated_managed_identity_resource_id
 
 
-class RoleAssignmentCreateParameters(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class RoleAssignmentCreateParameters(_serialization.Model):
     """Role assignment create parameters.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar scope: The role assignment scope.
     :vartype scope: str
@@ -1050,17 +1049,17 @@ class RoleAssignmentCreateParameters(_serialization.Model):  # pylint: disable=t
         :paramtype delegated_managed_identity_resource_id: str
         """
         super().__init__(**kwargs)
-        self.scope = None
+        self.scope: Optional[str] = None
         self.role_definition_id = role_definition_id
         self.principal_id = principal_id
         self.principal_type = principal_type
         self.description = description
         self.condition = condition
         self.condition_version = condition_version
-        self.created_on = None
-        self.updated_on = None
-        self.created_by = None
-        self.updated_by = None
+        self.created_on: Optional[datetime.datetime] = None
+        self.updated_on: Optional[datetime.datetime] = None
+        self.created_by: Optional[str] = None
+        self.updated_by: Optional[str] = None
         self.delegated_managed_identity_resource_id = delegated_managed_identity_resource_id
 
 
@@ -1111,10 +1110,10 @@ class RoleAssignmentListResult(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
-class RoleAssignmentSchedule(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class RoleAssignmentSchedule(_serialization.Model):
     """Role Assignment schedule.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1275,9 +1274,9 @@ class RoleAssignmentSchedule(_serialization.Model):  # pylint: disable=too-many-
          ~azure.mgmt.authorization.v2020_10_01_preview.models.ExpandedProperties
         """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
         self.scope = scope
         self.role_definition_id = role_definition_id
         self.principal_id = principal_id
@@ -1335,7 +1334,7 @@ class RoleAssignmentScheduleFilter(_serialization.Model):
         self.status = status
 
 
-class RoleAssignmentScheduleInstance(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class RoleAssignmentScheduleInstance(_serialization.Model):
     """Information about current or upcoming role assignment schedule instance.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1503,9 +1502,9 @@ class RoleAssignmentScheduleInstance(_serialization.Model):  # pylint: disable=t
          ~azure.mgmt.authorization.v2020_10_01_preview.models.ExpandedProperties
         """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
         self.scope = scope
         self.role_definition_id = role_definition_id
         self.principal_id = principal_id
@@ -1643,7 +1642,7 @@ class RoleAssignmentScheduleListResult(_serialization.Model):
         self.next_link = next_link
 
 
-class RoleAssignmentScheduleRequest(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class RoleAssignmentScheduleRequest(_serialization.Model):
     """Role Assignment schedule request.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1805,16 +1804,16 @@ class RoleAssignmentScheduleRequest(_serialization.Model):  # pylint: disable=to
         :paramtype condition_version: str
         """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
-        self.scope = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
+        self.scope: Optional[str] = None
         self.role_definition_id = role_definition_id
         self.principal_id = principal_id
-        self.principal_type = None
+        self.principal_type: Optional[Union[str, "_models.PrincipalType"]] = None
         self.request_type = request_type
-        self.status = None
-        self.approval_id = None
+        self.status: Optional[Union[str, "_models.Status"]] = None
+        self.approval_id: Optional[str] = None
         self.target_role_assignment_schedule_id = target_role_assignment_schedule_id
         self.target_role_assignment_schedule_instance_id = target_role_assignment_schedule_instance_id
         self.schedule_info = schedule_info
@@ -1823,9 +1822,9 @@ class RoleAssignmentScheduleRequest(_serialization.Model):  # pylint: disable=to
         self.ticket_info = ticket_info
         self.condition = condition
         self.condition_version = condition_version
-        self.created_on = None
-        self.requestor_id = None
-        self.expanded_properties = None
+        self.created_on: Optional[datetime.datetime] = None
+        self.requestor_id: Optional[str] = None
+        self.expanded_properties: Optional["_models.ExpandedProperties"] = None
 
 
 class RoleAssignmentScheduleRequestFilter(_serialization.Model):
@@ -1908,7 +1907,7 @@ class RoleAssignmentScheduleRequestListResult(_serialization.Model):
         self.next_link = next_link
 
 
-class RoleAssignmentScheduleRequestPropertiesScheduleInfo(_serialization.Model):
+class RoleAssignmentScheduleRequestPropertiesScheduleInfo(_serialization.Model):  # pylint: disable=name-too-long
     """Schedule info of the role assignment schedule.
 
     :ivar start_date_time: Start DateTime of the role assignment schedule.
@@ -1942,7 +1941,9 @@ class RoleAssignmentScheduleRequestPropertiesScheduleInfo(_serialization.Model):
         self.expiration = expiration
 
 
-class RoleAssignmentScheduleRequestPropertiesScheduleInfoExpiration(_serialization.Model):
+class RoleAssignmentScheduleRequestPropertiesScheduleInfoExpiration(
+    _serialization.Model
+):  # pylint: disable=name-too-long
     """Expiration of the role assignment schedule.
 
     :ivar type: Type of the role assignment schedule expiration. Known values are: "AfterDuration",
@@ -1983,7 +1984,7 @@ class RoleAssignmentScheduleRequestPropertiesScheduleInfoExpiration(_serializati
         self.duration = duration
 
 
-class RoleAssignmentScheduleRequestPropertiesTicketInfo(_serialization.Model):
+class RoleAssignmentScheduleRequestPropertiesTicketInfo(_serialization.Model):  # pylint: disable=name-too-long
     """Ticket Info of the role assignment.
 
     :ivar ticket_number: Ticket number for the role assignment.
@@ -2011,7 +2012,7 @@ class RoleAssignmentScheduleRequestPropertiesTicketInfo(_serialization.Model):
         self.ticket_system = ticket_system
 
 
-class RoleEligibilitySchedule(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class RoleEligibilitySchedule(_serialization.Model):
     """Role eligibility schedule.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -2154,9 +2155,9 @@ class RoleEligibilitySchedule(_serialization.Model):  # pylint: disable=too-many
          ~azure.mgmt.authorization.v2020_10_01_preview.models.ExpandedProperties
         """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
         self.scope = scope
         self.role_definition_id = role_definition_id
         self.principal_id = principal_id
@@ -2212,7 +2213,7 @@ class RoleEligibilityScheduleFilter(_serialization.Model):
         self.status = status
 
 
-class RoleEligibilityScheduleInstance(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class RoleEligibilityScheduleInstance(_serialization.Model):
     """Information about current or upcoming role eligibility schedule instance.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -2347,9 +2348,9 @@ class RoleEligibilityScheduleInstance(_serialization.Model):  # pylint: disable=
          ~azure.mgmt.authorization.v2020_10_01_preview.models.ExpandedProperties
         """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
         self.scope = scope
         self.role_definition_id = role_definition_id
         self.principal_id = principal_id
@@ -2415,7 +2416,7 @@ class RoleEligibilityScheduleInstanceFilter(_serialization.Model):
         self.role_eligibility_schedule_id = role_eligibility_schedule_id
 
 
-class RoleEligibilityScheduleInstanceListResult(_serialization.Model):
+class RoleEligibilityScheduleInstanceListResult(_serialization.Model):  # pylint: disable=name-too-long
     """Role eligibility schedule instance list operation result.
 
     :ivar value: Role eligibility schedule instance list.
@@ -2483,7 +2484,7 @@ class RoleEligibilityScheduleListResult(_serialization.Model):
         self.next_link = next_link
 
 
-class RoleEligibilityScheduleRequest(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class RoleEligibilityScheduleRequest(_serialization.Model):
     """Role Eligibility schedule request.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -2637,16 +2638,16 @@ class RoleEligibilityScheduleRequest(_serialization.Model):  # pylint: disable=t
         :paramtype condition_version: str
         """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
-        self.scope = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
+        self.scope: Optional[str] = None
         self.role_definition_id = role_definition_id
         self.principal_id = principal_id
-        self.principal_type = None
+        self.principal_type: Optional[Union[str, "_models.PrincipalType"]] = None
         self.request_type = request_type
-        self.status = None
-        self.approval_id = None
+        self.status: Optional[Union[str, "_models.Status"]] = None
+        self.approval_id: Optional[str] = None
         self.schedule_info = schedule_info
         self.target_role_eligibility_schedule_id = target_role_eligibility_schedule_id
         self.target_role_eligibility_schedule_instance_id = target_role_eligibility_schedule_instance_id
@@ -2654,9 +2655,9 @@ class RoleEligibilityScheduleRequest(_serialization.Model):  # pylint: disable=t
         self.ticket_info = ticket_info
         self.condition = condition
         self.condition_version = condition_version
-        self.created_on = None
-        self.requestor_id = None
-        self.expanded_properties = None
+        self.created_on: Optional[datetime.datetime] = None
+        self.requestor_id: Optional[str] = None
+        self.expanded_properties: Optional["_models.ExpandedProperties"] = None
 
 
 class RoleEligibilityScheduleRequestFilter(_serialization.Model):
@@ -2739,7 +2740,7 @@ class RoleEligibilityScheduleRequestListResult(_serialization.Model):
         self.next_link = next_link
 
 
-class RoleEligibilityScheduleRequestPropertiesScheduleInfo(_serialization.Model):
+class RoleEligibilityScheduleRequestPropertiesScheduleInfo(_serialization.Model):  # pylint: disable=name-too-long
     """Schedule info of the role eligibility schedule.
 
     :ivar start_date_time: Start DateTime of the role eligibility schedule.
@@ -2773,7 +2774,9 @@ class RoleEligibilityScheduleRequestPropertiesScheduleInfo(_serialization.Model)
         self.expiration = expiration
 
 
-class RoleEligibilityScheduleRequestPropertiesScheduleInfoExpiration(_serialization.Model):
+class RoleEligibilityScheduleRequestPropertiesScheduleInfoExpiration(
+    _serialization.Model
+):  # pylint: disable=name-too-long
     """Expiration of the role eligibility schedule.
 
     :ivar type: Type of the role eligibility schedule expiration. Known values are:
@@ -2814,7 +2817,7 @@ class RoleEligibilityScheduleRequestPropertiesScheduleInfoExpiration(_serializat
         self.duration = duration
 
 
-class RoleEligibilityScheduleRequestPropertiesTicketInfo(_serialization.Model):
+class RoleEligibilityScheduleRequestPropertiesTicketInfo(_serialization.Model):  # pylint: disable=name-too-long
     """Ticket Info of the role eligibility.
 
     :ivar ticket_number: Ticket number for the role eligibility.
@@ -2842,7 +2845,7 @@ class RoleEligibilityScheduleRequestPropertiesTicketInfo(_serialization.Model):
         self.ticket_system = ticket_system
 
 
-class RoleManagementPolicy(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class RoleManagementPolicy(_serialization.Model):
     """Role management policy.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -2925,18 +2928,18 @@ class RoleManagementPolicy(_serialization.Model):  # pylint: disable=too-many-in
          list[~azure.mgmt.authorization.v2020_10_01_preview.models.RoleManagementPolicyRule]
         """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
         self.scope = scope
         self.display_name = display_name
         self.description = description
         self.is_organization_default = is_organization_default
-        self.last_modified_by = None
-        self.last_modified_date_time = None
+        self.last_modified_by: Optional["_models.Principal"] = None
+        self.last_modified_date_time: Optional[datetime.datetime] = None
         self.rules = rules
-        self.effective_rules = None
-        self.policy_properties = None
+        self.effective_rules: Optional[List["_models.RoleManagementPolicyRule"]] = None
+        self.policy_properties: Optional["_models.PolicyProperties"] = None
 
 
 class RoleManagementPolicyRule(_serialization.Model):
@@ -2947,7 +2950,7 @@ class RoleManagementPolicyRule(_serialization.Model):
     RoleManagementPolicyEnablementRule, RoleManagementPolicyExpirationRule,
     RoleManagementPolicyNotificationRule
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The id of the rule.
     :vartype id: str
@@ -3005,7 +3008,7 @@ class RoleManagementPolicyRule(_serialization.Model):
 class RoleManagementPolicyApprovalRule(RoleManagementPolicyRule):
     """The role management policy approval rule.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The id of the rule.
     :vartype id: str
@@ -3114,13 +3117,13 @@ class RoleManagementPolicyAssignment(_serialization.Model):
         :paramtype policy_id: str
         """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
         self.scope = scope
         self.role_definition_id = role_definition_id
         self.policy_id = policy_id
-        self.policy_assignment_properties = None
+        self.policy_assignment_properties: Optional["_models.PolicyAssignmentProperties"] = None
 
 
 class RoleManagementPolicyAssignmentListResult(_serialization.Model):
@@ -3157,10 +3160,10 @@ class RoleManagementPolicyAssignmentListResult(_serialization.Model):
         self.next_link = next_link
 
 
-class RoleManagementPolicyAuthenticationContextRule(RoleManagementPolicyRule):
+class RoleManagementPolicyAuthenticationContextRule(RoleManagementPolicyRule):  # pylint: disable=name-too-long
     """The role management policy authentication context rule.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The id of the rule.
     :vartype id: str
@@ -3220,7 +3223,7 @@ class RoleManagementPolicyAuthenticationContextRule(RoleManagementPolicyRule):
 class RoleManagementPolicyEnablementRule(RoleManagementPolicyRule):
     """The role management policy rule.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The id of the rule.
     :vartype id: str
@@ -3275,7 +3278,7 @@ class RoleManagementPolicyEnablementRule(RoleManagementPolicyRule):
 class RoleManagementPolicyExpirationRule(RoleManagementPolicyRule):
     """The role management policy expiration rule.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The id of the rule.
     :vartype id: str
@@ -3368,7 +3371,7 @@ class RoleManagementPolicyListResult(_serialization.Model):
 class RoleManagementPolicyNotificationRule(RoleManagementPolicyRule):
     """The role management policy notification rule.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The id of the rule.
     :vartype id: str
@@ -3592,7 +3595,7 @@ class ValidationResponse(_serialization.Model):
          ~azure.mgmt.authorization.v2020_10_01_preview.models.ValidationResponseErrorInfo
         """
         super().__init__(**kwargs)
-        self.is_valid = None
+        self.is_valid: Optional[bool] = None
         self.error_info = error_info
 
 
@@ -3620,5 +3623,5 @@ class ValidationResponseErrorInfo(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.code = None
-        self.message = None
+        self.code: Optional[str] = None
+        self.message: Optional[str] = None
