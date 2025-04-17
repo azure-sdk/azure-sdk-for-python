@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=line-too-long,useless-suppression,too-many-lines
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -135,7 +135,7 @@ class AnnotationsListResult(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.value = None
+        self.value: Optional[List["_models.Annotation"]] = None
 
 
 class APIKeyRequest(_serialization.Model):
@@ -219,9 +219,9 @@ class ComponentsResource(_serialization.Model):
         :paramtype tags: dict[str, str]
         """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
         self.location = location
         self.tags = tags
 
@@ -407,23 +407,23 @@ class ApplicationInsightsComponent(ComponentsResource):
         """
         super().__init__(location=location, tags=tags, **kwargs)
         self.kind = kind
-        self.application_id = None
-        self.app_id = None
+        self.application_id: Optional[str] = None
+        self.app_id: Optional[str] = None
         self.application_type = application_type
         self.flow_type = flow_type
         self.request_source = request_source
-        self.instrumentation_key = None
-        self.creation_date = None
-        self.tenant_id = None
+        self.instrumentation_key: Optional[str] = None
+        self.creation_date: Optional[datetime.datetime] = None
+        self.tenant_id: Optional[str] = None
         self.hockey_app_id = hockey_app_id
-        self.hockey_app_token = None
-        self.provisioning_state = None
+        self.hockey_app_token: Optional[str] = None
+        self.provisioning_state: Optional[str] = None
         self.sampling_percentage = sampling_percentage
-        self.connection_string = None
+        self.connection_string: Optional[str] = None
         self.retention_in_days = retention_in_days
         self.disable_ip_masking = disable_ip_masking
         self.immediate_purge_data_on30_days = immediate_purge_data_on30_days
-        self.private_link_scoped_resources = None
+        self.private_link_scoped_resources: Optional[List["_models.PrivateLinkScopedResource"]] = None
         self.ingestion_mode = ingestion_mode
 
 
@@ -511,11 +511,11 @@ class ApplicationInsightsComponentAnalyticsItem(_serialization.Model):  # pylint
         self.id = id
         self.name = name
         self.content = content
-        self.version = None
+        self.version: Optional[str] = None
         self.scope = scope
         self.type = type
-        self.time_created = None
-        self.time_modified = None
+        self.time_created: Optional[str] = None
+        self.time_modified: Optional[str] = None
         self.properties = properties
 
 
@@ -594,8 +594,8 @@ class ApplicationInsightsComponentAPIKey(_serialization.Model):
         :paramtype linked_write_properties: list[str]
         """
         super().__init__(**kwargs)
-        self.id = None
-        self.api_key = None
+        self.id: Optional[str] = None
+        self.api_key: Optional[str] = None
         self.created_date = created_date
         self.name = name
         self.linked_read_properties = linked_read_properties
@@ -651,7 +651,7 @@ class ApplicationInsightsComponentAvailableFeatures(_serialization.Model):  # py
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.result = None
+        self.result: Optional[List["_models.ApplicationInsightsComponentFeature"]] = None
 
 
 class ApplicationInsightsComponentBillingFeatures(_serialization.Model):  # pylint: disable=name-too-long
@@ -746,11 +746,11 @@ class ApplicationInsightsComponentDataVolumeCap(_serialization.Model):  # pylint
         """
         super().__init__(**kwargs)
         self.cap = cap
-        self.reset_time = None
+        self.reset_time: Optional[int] = None
         self.warning_threshold = warning_threshold
         self.stop_send_notification_when_hit_threshold = stop_send_notification_when_hit_threshold
         self.stop_send_notification_when_hit_cap = stop_send_notification_when_hit_cap
-        self.max_history_cap = None
+        self.max_history_cap: Optional[float] = None
 
 
 class ApplicationInsightsComponentExportConfiguration(_serialization.Model):  # pylint: disable=name-too-long
@@ -859,25 +859,25 @@ class ApplicationInsightsComponentExportConfiguration(_serialization.Model):  # 
         :paramtype notification_queue_enabled: str
         """
         super().__init__(**kwargs)
-        self.export_id = None
-        self.instrumentation_key = None
+        self.export_id: Optional[str] = None
+        self.instrumentation_key: Optional[str] = None
         self.record_types = record_types
-        self.application_name = None
-        self.subscription_id = None
-        self.resource_group = None
-        self.destination_storage_subscription_id = None
-        self.destination_storage_location_id = None
-        self.destination_account_id = None
-        self.destination_type = None
-        self.is_user_enabled = None
-        self.last_user_update = None
+        self.application_name: Optional[str] = None
+        self.subscription_id: Optional[str] = None
+        self.resource_group: Optional[str] = None
+        self.destination_storage_subscription_id: Optional[str] = None
+        self.destination_storage_location_id: Optional[str] = None
+        self.destination_account_id: Optional[str] = None
+        self.destination_type: Optional[str] = None
+        self.is_user_enabled: Optional[str] = None
+        self.last_user_update: Optional[str] = None
         self.notification_queue_enabled = notification_queue_enabled
-        self.export_status = None
-        self.last_success_time = None
-        self.last_gap_time = None
-        self.permanent_error_reason = None
-        self.storage_name = None
-        self.container_name = None
+        self.export_status: Optional[str] = None
+        self.last_success_time: Optional[str] = None
+        self.last_gap_time: Optional[str] = None
+        self.permanent_error_reason: Optional[str] = None
+        self.storage_name: Optional[str] = None
+        self.container_name: Optional[str] = None
 
 
 class ApplicationInsightsComponentExportRequest(_serialization.Model):  # pylint: disable=name-too-long
@@ -1068,14 +1068,14 @@ class ApplicationInsightsComponentFavorite(_serialization.Model):
         self.name = name
         self.config = config
         self.version = version
-        self.favorite_id = None
+        self.favorite_id: Optional[str] = None
         self.favorite_type = favorite_type
         self.source_type = source_type
-        self.time_modified = None
+        self.time_modified: Optional[str] = None
         self.tags = tags
         self.category = category
         self.is_generated_from_template = is_generated_from_template
-        self.user_id = None
+        self.user_id: Optional[str] = None
 
 
 class ApplicationInsightsComponentFeature(_serialization.Model):
@@ -1131,15 +1131,15 @@ class ApplicationInsightsComponentFeature(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.feature_name = None
-        self.meter_id = None
-        self.meter_rate_frequency = None
-        self.resouce_id = None
-        self.is_hidden = None
-        self.capabilities = None
-        self.title = None
-        self.is_main_feature = None
-        self.supported_addon_features = None
+        self.feature_name: Optional[str] = None
+        self.meter_id: Optional[str] = None
+        self.meter_rate_frequency: Optional[str] = None
+        self.resouce_id: Optional[str] = None
+        self.is_hidden: Optional[bool] = None
+        self.capabilities: Optional[List["_models.ApplicationInsightsComponentFeatureCapability"]] = None
+        self.title: Optional[str] = None
+        self.is_main_feature: Optional[bool] = None
+        self.supported_addon_features: Optional[str] = None
 
 
 class ApplicationInsightsComponentFeatureCapabilities(_serialization.Model):  # pylint: disable=name-too-long
@@ -1222,22 +1222,22 @@ class ApplicationInsightsComponentFeatureCapabilities(_serialization.Model):  # 
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.support_export_data = None
-        self.burst_throttle_policy = None
-        self.metadata_class = None
-        self.live_stream_metrics = None
-        self.application_map = None
-        self.work_item_integration = None
-        self.power_bi_integration = None
-        self.open_schema = None
-        self.proactive_detection = None
-        self.analytics_integration = None
-        self.multiple_step_web_test = None
-        self.api_access_level = None
-        self.tracking_type = None
-        self.daily_cap = None
-        self.daily_cap_reset_time = None
-        self.throttle_rate = None
+        self.support_export_data: Optional[bool] = None
+        self.burst_throttle_policy: Optional[str] = None
+        self.metadata_class: Optional[str] = None
+        self.live_stream_metrics: Optional[bool] = None
+        self.application_map: Optional[bool] = None
+        self.work_item_integration: Optional[bool] = None
+        self.power_bi_integration: Optional[bool] = None
+        self.open_schema: Optional[bool] = None
+        self.proactive_detection: Optional[bool] = None
+        self.analytics_integration: Optional[bool] = None
+        self.multiple_step_web_test: Optional[bool] = None
+        self.api_access_level: Optional[str] = None
+        self.tracking_type: Optional[str] = None
+        self.daily_cap: Optional[float] = None
+        self.daily_cap_reset_time: Optional[float] = None
+        self.throttle_rate: Optional[float] = None
 
 
 class ApplicationInsightsComponentFeatureCapability(_serialization.Model):  # pylint: disable=name-too-long
@@ -1280,12 +1280,12 @@ class ApplicationInsightsComponentFeatureCapability(_serialization.Model):  # py
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.name = None
-        self.description = None
-        self.value = None
-        self.unit = None
-        self.meter_id = None
-        self.meter_rate_frequency = None
+        self.name: Optional[str] = None
+        self.description: Optional[str] = None
+        self.value: Optional[str] = None
+        self.unit: Optional[str] = None
+        self.meter_id: Optional[str] = None
+        self.meter_rate_frequency: Optional[str] = None
 
 
 class ApplicationInsightsComponentListResult(_serialization.Model):
@@ -1345,7 +1345,7 @@ class ApplicationInsightsComponentProactiveDetectionConfiguration(
     :ivar rule_definitions: Static definitions of the ProactiveDetection configuration rule (same
      values for all components).
     :vartype rule_definitions:
-     ~azure.mgmt.applicationinsights.v2015_05_01.models.ApplicationInsightsComponentProactiveDetectionConfigurationRuleDefinitions  # pylint: disable=line-too-long
+     ~azure.mgmt.applicationinsights.v2015_05_01.models.ApplicationInsightsComponentProactiveDetectionConfigurationRuleDefinitions
     """
 
     _attribute_map = {
@@ -1388,7 +1388,7 @@ class ApplicationInsightsComponentProactiveDetectionConfiguration(
         :keyword rule_definitions: Static definitions of the ProactiveDetection configuration rule
          (same values for all components).
         :paramtype rule_definitions:
-         ~azure.mgmt.applicationinsights.v2015_05_01.models.ApplicationInsightsComponentProactiveDetectionConfigurationRuleDefinitions  # pylint: disable=line-too-long
+         ~azure.mgmt.applicationinsights.v2015_05_01.models.ApplicationInsightsComponentProactiveDetectionConfigurationRuleDefinitions
         """
         super().__init__(**kwargs)
         self.name = name
@@ -1508,9 +1508,9 @@ class ApplicationInsightsComponentQuotaStatus(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.app_id = None
-        self.should_be_throttled = None
-        self.expiration_time = None
+        self.app_id: Optional[str] = None
+        self.should_be_throttled: Optional[bool] = None
+        self.expiration_time: Optional[str] = None
 
 
 class ApplicationInsightsComponentWebTestLocation(_serialization.Model):  # pylint: disable=name-too-long
@@ -1537,8 +1537,8 @@ class ApplicationInsightsComponentWebTestLocation(_serialization.Model):  # pyli
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.display_name = None
-        self.tag = None
+        self.display_name: Optional[str] = None
+        self.tag: Optional[str] = None
 
 
 class ApplicationInsightsWebTestLocationsListResult(_serialization.Model):  # pylint: disable=name-too-long
@@ -2011,10 +2011,10 @@ class MyWorkbook(MyWorkbookResource):
         self.display_name = display_name
         self.serialized_data = serialized_data
         self.version = version
-        self.time_modified = None
+        self.time_modified: Optional[str] = None
         self.category = category
         self.tags_properties_tags = tags_properties_tags
-        self.user_id = None
+        self.user_id: Optional[str] = None
         self.source_id = source_id
 
 
@@ -2079,7 +2079,7 @@ class MyWorkbooksListResult(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.value = None
+        self.value: Optional[List["_models.MyWorkbook"]] = None
 
 
 class Operation(_serialization.Model):
@@ -2267,9 +2267,9 @@ class WebtestsResource(_serialization.Model):
         :paramtype tags: dict[str, str]
         """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
         self.location = location
         self.tags = tags
 
@@ -2417,7 +2417,7 @@ class WebTest(WebtestsResource):
         self.retry_enabled = retry_enabled
         self.locations = locations
         self.configuration = configuration
-        self.provisioning_state = None
+        self.provisioning_state: Optional[str] = None
 
 
 class WebTestGeolocation(_serialization.Model):
@@ -2534,9 +2534,9 @@ class WorkbookResource(_serialization.Model):
         :paramtype tags: dict[str, str]
         """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
         self.location = location
         self.tags = tags
 
@@ -2671,7 +2671,7 @@ class Workbook(WorkbookResource):
         self.version = version
         self.workbook_id = workbook_id
         self.shared_type_kind = shared_type_kind
-        self.time_modified = None
+        self.time_modified: Optional[str] = None
         self.category = category
         self.tags_properties_tags = tags_properties_tags
         self.user_id = user_id
@@ -2739,7 +2739,7 @@ class WorkbooksListResult(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.value = None
+        self.value: Optional[List["_models.Workbook"]] = None
 
 
 class WorkItemConfiguration(_serialization.Model):
@@ -2854,7 +2854,7 @@ class WorkItemConfigurationsListResult(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.value = None
+        self.value: Optional[List["_models.WorkItemConfiguration"]] = None
 
 
 class WorkItemCreateConfiguration(_serialization.Model):
