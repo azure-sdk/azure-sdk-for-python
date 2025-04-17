@@ -38,6 +38,7 @@ class LoadTestAdministrationClient(LoadTestAdministrationClientOperationsMixin):
     def __init__(self, endpoint: str, credential: "TokenCredential", **kwargs: Any) -> None:
         _endpoint = "https://{endpoint}"
         self._config = LoadTestAdministrationClientConfiguration(endpoint=endpoint, credential=credential, **kwargs)
+
         _policies = kwargs.pop("policies", None)
         if _policies is None:
             _policies = [
@@ -114,6 +115,7 @@ class LoadTestRunClient(LoadTestRunClientOperationsMixin):
     def __init__(self, endpoint: str, credential: "TokenCredential", **kwargs: Any) -> None:
         _endpoint = "https://{endpoint}"
         self._config = LoadTestRunClientConfiguration(endpoint=endpoint, credential=credential, **kwargs)
+
         _policies = kwargs.pop("policies", None)
         if _policies is None:
             _policies = [
