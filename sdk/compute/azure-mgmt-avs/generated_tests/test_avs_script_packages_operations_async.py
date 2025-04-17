@@ -21,7 +21,7 @@ class TestAVSScriptPackagesOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list(self, resource_group):
+    async def test_script_packages_list(self, resource_group):
         response = self.client.script_packages.list(
             resource_group_name=resource_group.name,
             private_cloud_name="str",
@@ -33,7 +33,7 @@ class TestAVSScriptPackagesOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get(self, resource_group):
+    async def test_script_packages_get(self, resource_group):
         response = await self.client.script_packages.get(
             resource_group_name=resource_group.name,
             private_cloud_name="str",
