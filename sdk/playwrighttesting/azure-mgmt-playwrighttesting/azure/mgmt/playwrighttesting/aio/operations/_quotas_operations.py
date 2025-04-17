@@ -6,7 +6,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 from collections.abc import MutableMapping
-from typing import Any, AsyncIterable, Callable, Dict, Optional, TypeVar
+from typing import Any, AsyncIterable, Callable, Dict, Optional, TypeVar, Union
 import urllib.parse
 
 from azure.core import AsyncPipelineClient
@@ -22,26 +22,27 @@ from azure.core.exceptions import (
 from azure.core.pipeline import PipelineResponse
 from azure.core.rest import AsyncHttpResponse, HttpRequest
 from azure.core.tracing.decorator import distributed_trace
+from azure.core.tracing.decorator_async import distributed_trace_async
 from azure.core.utils import case_insensitive_dict
 from azure.mgmt.core.exceptions import ARMErrorFormat
 
 from ... import models as _models
 from ..._serialization import Deserializer, Serializer
-from ...operations._operations import build_list_request
+from ...operations._quotas_operations import build_get_request, build_list_by_subscription_request
 from .._configuration import PlaywrightTestingMgmtClientConfiguration
 
 T = TypeVar("T")
 ClsType = Optional[Callable[[PipelineResponse[HttpRequest, AsyncHttpResponse], T, Dict[str, Any]], Any]]
 
 
-class Operations:
+class QuotasOperations:
     """
     .. warning::
         **DO NOT** instantiate this class directly.
 
         Instead, you should access the following operations through
         :class:`~azure.mgmt.playwrighttesting.aio.PlaywrightTestingMgmtClient`'s
-        :attr:`operations` attribute.
+        :attr:`quotas` attribute.
     """
 
     models = _models
@@ -56,18 +57,21 @@ class Operations:
         self._deserialize: Deserializer = input_args.pop(0) if input_args else kwargs.pop("deserializer")
 
     @distributed_trace
-    def list(self, **kwargs: Any) -> AsyncIterable["_models.Operation"]:
-        """List the operations for the provider.
+    def list_by_subscription(self, location: str, **kwargs: Any) -> AsyncIterable["_models.Quota"]:
+        """List quotas for a given subscription Id.
 
-        :return: An iterator like instance of either Operation or the result of cls(response)
-        :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.playwrighttesting.models.Operation]
+        :param location: The location of quota in ARM Normalized format like eastus, southeastasia etc.
+         Required.
+        :type location: str
+        :return: An iterator like instance of either Quota or the result of cls(response)
+        :rtype: ~azure.core.async_paging.AsyncItemPaged[~azure.mgmt.playwrighttesting.models.Quota]
         :raises ~azure.core.exceptions.HttpResponseError:
         """
         _headers = kwargs.pop("headers", {}) or {}
         _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
 
         api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
-        cls: ClsType[_models.OperationListResult] = kwargs.pop("cls", None)
+        cls: ClsType[_models.QuotaListResult] = kwargs.pop("cls", None)
 
         error_map: MutableMapping = {
             401: ClientAuthenticationError,
@@ -80,7 +84,9 @@ class Operations:
         def prepare_request(next_link=None):
             if not next_link:
 
-                _request = build_list_request(
+                _request = build_list_by_subscription_request(
+                    location=location,
+                    subscription_id=self._config.subscription_id,
                     api_version=api_version,
                     headers=_headers,
                     params=_params,
@@ -105,7 +111,7 @@ class Operations:
             return _request
 
         async def extract_data(pipeline_response):
-            deserialized = self._deserialize("OperationListResult", pipeline_response)
+            deserialized = self._deserialize("QuotaListResult", pipeline_response)
             list_of_elem = deserialized.value
             if cls:
                 list_of_elem = cls(list_of_elem)  # type: ignore
@@ -128,3 +134,60 @@ class Operations:
             return pipeline_response
 
         return AsyncItemPaged(get_next, extract_data)
+
+    @distributed_trace_async
+    async def get(self, location: str, quota_name: Union[str, _models.QuotaNames], **kwargs: Any) -> _models.Quota:
+        """Get subscription quota by name.
+
+        :param location: The location of quota in ARM Normalized format like eastus, southeastasia etc.
+         Required.
+        :type location: str
+        :param quota_name: The quota name. Known values are: "ScalableExecution" and "Reporting".
+         Required.
+        :type quota_name: str or ~azure.mgmt.playwrighttesting.models.QuotaNames
+        :return: Quota or the result of cls(response)
+        :rtype: ~azure.mgmt.playwrighttesting.models.Quota
+        :raises ~azure.core.exceptions.HttpResponseError:
+        """
+        error_map: MutableMapping = {
+            401: ClientAuthenticationError,
+            404: ResourceNotFoundError,
+            409: ResourceExistsError,
+            304: ResourceNotModifiedError,
+        }
+        error_map.update(kwargs.pop("error_map", {}) or {})
+
+        _headers = kwargs.pop("headers", {}) or {}
+        _params = case_insensitive_dict(kwargs.pop("params", {}) or {})
+
+        api_version: str = kwargs.pop("api_version", _params.pop("api-version", self._config.api_version))
+        cls: ClsType[_models.Quota] = kwargs.pop("cls", None)
+
+        _request = build_get_request(
+            location=location,
+            quota_name=quota_name,
+            subscription_id=self._config.subscription_id,
+            api_version=api_version,
+            headers=_headers,
+            params=_params,
+        )
+        _request.url = self._client.format_url(_request.url)
+
+        _stream = False
+        pipeline_response: PipelineResponse = await self._client._pipeline.run(  # pylint: disable=protected-access
+            _request, stream=_stream, **kwargs
+        )
+
+        response = pipeline_response.http_response
+
+        if response.status_code not in [200]:
+            map_error(status_code=response.status_code, response=response, error_map=error_map)
+            error = self._deserialize.failsafe_deserialize(_models.ErrorResponse, pipeline_response)
+            raise HttpResponseError(response=response, model=error, error_format=ARMErrorFormat)
+
+        deserialized = self._deserialize("Quota", pipeline_response.http_response)
+
+        if cls:
+            return cls(pipeline_response, deserialized, {})  # type: ignore
+
+        return deserialized  # type: ignore
