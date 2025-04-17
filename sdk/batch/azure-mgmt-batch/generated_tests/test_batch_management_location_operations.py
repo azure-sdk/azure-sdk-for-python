@@ -20,7 +20,7 @@ class TestBatchManagementLocationOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get_quotas(self, resource_group):
+    def test_location_get_quotas(self, resource_group):
         response = self.client.location.get_quotas(
             location_name="str",
             api_version="2024-07-01",
@@ -31,7 +31,7 @@ class TestBatchManagementLocationOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_supported_virtual_machine_skus(self, resource_group):
+    def test_location_list_supported_virtual_machine_skus(self, resource_group):
         response = self.client.location.list_supported_virtual_machine_skus(
             location_name="str",
             api_version="2024-07-01",
@@ -42,7 +42,7 @@ class TestBatchManagementLocationOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_check_name_availability(self, resource_group):
+    def test_location_check_name_availability(self, resource_group):
         response = self.client.location.check_name_availability(
             location_name="str",
             parameters={"name": "str", "type": "Microsoft.Batch/batchAccounts"},

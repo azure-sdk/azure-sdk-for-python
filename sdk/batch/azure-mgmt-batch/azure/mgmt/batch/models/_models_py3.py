@@ -1,5 +1,5 @@
+# pylint: disable=line-too-long,useless-suppression,too-many-lines
 # coding=utf-8
-# pylint: disable=too-many-lines
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -7,21 +7,15 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from collections.abc import MutableMapping
 import datetime
-import sys
 from typing import Any, Dict, List, Literal, Optional, TYPE_CHECKING, Union
 
 from .. import _serialization
 
-if sys.version_info >= (3, 9):
-    from collections.abc import MutableMapping
-else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
-
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
-JSON = MutableMapping[str, Any]  # pylint: disable=unsubscriptable-object
+JSON = MutableMapping[str, Any]
 
 
 class AccessRule(_serialization.Model):
@@ -205,10 +199,10 @@ class AzureProxyResource(_serialization.Model):
         :paramtype tags: dict[str, str]
         """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
-        self.etag = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
+        self.etag: Optional[str] = None
         self.tags = tags
 
 
@@ -342,11 +336,11 @@ class ApplicationPackage(AzureProxyResource):
         :paramtype tags: dict[str, str]
         """
         super().__init__(tags=tags, **kwargs)
-        self.state = None
-        self.format = None
-        self.storage_url = None
-        self.storage_url_expiry = None
-        self.last_activation_time = None
+        self.state: Optional[Union[str, "_models.PackageState"]] = None
+        self.format: Optional[str] = None
+        self.storage_url: Optional[str] = None
+        self.storage_url_expiry: Optional[datetime.datetime] = None
+        self.last_activation_time: Optional[datetime.datetime] = None
 
 
 class ApplicationPackageReference(_serialization.Model):
@@ -398,9 +392,9 @@ class AutomaticOSUpgradePolicy(_serialization.Model):
     :vartype disable_automatic_rollback: bool
     :ivar enable_automatic_os_upgrade: Indicates whether OS upgrades should automatically be
      applied to scale set instances in a rolling fashion when a newer version of the OS image
-     becomes available. :code:`<br />`:code:`<br />` If this is set to true for Windows based pools,
-     `WindowsConfiguration.enableAutomaticUpdates
-     <https://learn.microsoft.com/en-us/rest/api/batchmanagement/pool/create?tabs=HTTP#windowsconfiguration>`_
+     becomes available. :code:`<br />`\\ :code:`<br />` If this is set to true for Windows based
+     pools, `WindowsConfiguration.enableAutomaticUpdates
+     <https://learn.microsoft.com/rest/api/batchmanagement/pool/create?tabs=HTTP#windowsconfiguration>`_
      cannot be set to true.
     :vartype enable_automatic_os_upgrade: bool
     :ivar use_rolling_upgrade_policy: Indicates whether rolling upgrade policy should be used
@@ -432,9 +426,9 @@ class AutomaticOSUpgradePolicy(_serialization.Model):
         :paramtype disable_automatic_rollback: bool
         :keyword enable_automatic_os_upgrade: Indicates whether OS upgrades should automatically be
          applied to scale set instances in a rolling fashion when a newer version of the OS image
-         becomes available. :code:`<br />`:code:`<br />` If this is set to true for Windows based pools,
-         `WindowsConfiguration.enableAutomaticUpdates
-         <https://learn.microsoft.com/en-us/rest/api/batchmanagement/pool/create?tabs=HTTP#windowsconfiguration>`_
+         becomes available. :code:`<br />`\\ :code:`<br />` If this is set to true for Windows based
+         pools, `WindowsConfiguration.enableAutomaticUpdates
+         <https://learn.microsoft.com/rest/api/batchmanagement/pool/create?tabs=HTTP#windowsconfiguration>`_
          cannot be set to true.
         :paramtype enable_automatic_os_upgrade: bool
         :keyword use_rolling_upgrade_policy: Indicates whether rolling upgrade policy should be used
@@ -918,14 +912,14 @@ class AzureResource(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
-        self.location = None
-        self.tags = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
+        self.location: Optional[str] = None
+        self.tags: Optional[Dict[str, str]] = None
 
 
-class BatchAccount(AzureResource):  # pylint: disable=too-many-instance-attributes
+class BatchAccount(AzureResource):
     """Contains information about an Azure Batch account.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1076,23 +1070,23 @@ class BatchAccount(AzureResource):  # pylint: disable=too-many-instance-attribut
         """
         super().__init__(**kwargs)
         self.identity = identity
-        self.account_endpoint = None
-        self.node_management_endpoint = None
-        self.provisioning_state = None
-        self.pool_allocation_mode = None
-        self.key_vault_reference = None
+        self.account_endpoint: Optional[str] = None
+        self.node_management_endpoint: Optional[str] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
+        self.pool_allocation_mode: Optional[Union[str, "_models.PoolAllocationMode"]] = None
+        self.key_vault_reference: Optional["_models.KeyVaultReference"] = None
         self.public_network_access = public_network_access
         self.network_profile = network_profile
-        self.private_endpoint_connections = None
-        self.auto_storage = None
-        self.encryption = None
-        self.dedicated_core_quota = None
-        self.low_priority_core_quota = None
-        self.dedicated_core_quota_per_vm_family = None
-        self.dedicated_core_quota_per_vm_family_enforced = None
-        self.pool_quota = None
-        self.active_job_and_job_schedule_quota = None
-        self.allowed_authentication_modes = None
+        self.private_endpoint_connections: Optional[List["_models.PrivateEndpointConnection"]] = None
+        self.auto_storage: Optional["_models.AutoStorageProperties"] = None
+        self.encryption: Optional["_models.EncryptionProperties"] = None
+        self.dedicated_core_quota: Optional[int] = None
+        self.low_priority_core_quota: Optional[int] = None
+        self.dedicated_core_quota_per_vm_family: Optional[List["_models.VirtualMachineFamilyCoreQuota"]] = None
+        self.dedicated_core_quota_per_vm_family_enforced: Optional[bool] = None
+        self.pool_quota: Optional[int] = None
+        self.active_job_and_job_schedule_quota: Optional[int] = None
+        self.allowed_authentication_modes: Optional[List[Union[str, "_models.AuthenticationMode"]]] = None
 
 
 class BatchAccountCreateParameters(_serialization.Model):
@@ -1262,8 +1256,8 @@ class BatchAccountIdentity(_serialization.Model):
         :paramtype user_assigned_identities: dict[str, ~azure.mgmt.batch.models.UserAssignedIdentities]
         """
         super().__init__(**kwargs)
-        self.principal_id = None
-        self.tenant_id = None
+        self.principal_id: Optional[str] = None
+        self.tenant_id: Optional[str] = None
         self.type = type
         self.user_assigned_identities = user_assigned_identities
 
@@ -1296,9 +1290,9 @@ class BatchAccountKeys(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.account_name = None
-        self.primary = None
-        self.secondary = None
+        self.account_name: Optional[str] = None
+        self.primary: Optional[str] = None
+        self.secondary: Optional[str] = None
 
 
 class BatchAccountListResult(_serialization.Model):
@@ -1458,7 +1452,7 @@ class BatchLocationQuota(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.account_quota = None
+        self.account_quota: Optional[int] = None
 
 
 class BatchPoolIdentity(_serialization.Model):
@@ -1503,7 +1497,7 @@ class BatchPoolIdentity(_serialization.Model):
         self.user_assigned_identities = user_assigned_identities
 
 
-class Certificate(AzureProxyResource):  # pylint: disable=too-many-instance-attributes
+class Certificate(AzureProxyResource):
     """Contains information about a certificate.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1603,12 +1597,12 @@ class Certificate(AzureProxyResource):  # pylint: disable=too-many-instance-attr
         self.thumbprint_algorithm = thumbprint_algorithm
         self.thumbprint = thumbprint
         self.format = format
-        self.provisioning_state = None
-        self.provisioning_state_transition_time = None
-        self.previous_provisioning_state = None
-        self.previous_provisioning_state_transition_time = None
-        self.public_data = None
-        self.delete_certificate_error = None
+        self.provisioning_state: Optional[Union[str, "_models.CertificateProvisioningState"]] = None
+        self.provisioning_state_transition_time: Optional[datetime.datetime] = None
+        self.previous_provisioning_state: Optional[Union[str, "_models.CertificateProvisioningState"]] = None
+        self.previous_provisioning_state_transition_time: Optional[datetime.datetime] = None
+        self.public_data: Optional[str] = None
+        self.delete_certificate_error: Optional["_models.DeleteCertificateError"] = None
 
 
 class CertificateBaseProperties(_serialization.Model):
@@ -1873,12 +1867,12 @@ class CertificateProperties(CertificateBaseProperties):
         :paramtype format: str or ~azure.mgmt.batch.models.CertificateFormat
         """
         super().__init__(thumbprint_algorithm=thumbprint_algorithm, thumbprint=thumbprint, format=format, **kwargs)
-        self.provisioning_state = None
-        self.provisioning_state_transition_time = None
-        self.previous_provisioning_state = None
-        self.previous_provisioning_state_transition_time = None
-        self.public_data = None
-        self.delete_certificate_error = None
+        self.provisioning_state: Optional[Union[str, "_models.CertificateProvisioningState"]] = None
+        self.provisioning_state_transition_time: Optional[datetime.datetime] = None
+        self.previous_provisioning_state: Optional[Union[str, "_models.CertificateProvisioningState"]] = None
+        self.previous_provisioning_state_transition_time: Optional[datetime.datetime] = None
+        self.public_data: Optional[str] = None
+        self.delete_certificate_error: Optional["_models.DeleteCertificateError"] = None
 
 
 class CertificateReference(_serialization.Model):
@@ -2022,9 +2016,9 @@ class CheckNameAvailabilityResult(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.name_available = None
-        self.reason = None
-        self.message = None
+        self.name_available: Optional[bool] = None
+        self.reason: Optional[Union[str, "_models.NameAvailabilityReason"]] = None
+        self.message: Optional[str] = None
 
 
 class CIFSMountConfiguration(_serialization.Model):
@@ -2367,7 +2361,7 @@ class DataDisk(_serialization.Model):
           readWrite - The caching mode for the disk is read and write.
 
           The default value for caching is none. For information about the caching options see:
-         https://blogs.msdn.microsoft.com/windowsazurestorage/2012/06/27/exploring-windows-azure-drives-disks-and-images/.  # pylint: disable=line-too-long
+         https://blogs.msdn.microsoft.com/windowsazurestorage/2012/06/27/exploring-windows-azure-drives-disks-and-images/.
          Known values are: "None", "ReadOnly", and "ReadWrite".
         :paramtype caching: str or ~azure.mgmt.batch.models.CachingType
         :keyword disk_size_gb: The initial disk size in GB when creating new data disk. Required.
@@ -2555,9 +2549,9 @@ class DiffDiskSettings(_serialization.Model):
      operating system should be in. e.g., cache disk space for Ephemeral OS disk provisioning. For
      more information on Ephemeral OS disk size requirements, please refer to Ephemeral OS disk size
      requirements for Windows VMs at
-     https://docs.microsoft.com/en-us/azure/virtual-machines/windows/ephemeral-os-disks#size-requirements
+     https://learn.microsoft.com/azure/virtual-machines/windows/ephemeral-os-disks#size-requirements
      and Linux VMs at
-     https://docs.microsoft.com/en-us/azure/virtual-machines/linux/ephemeral-os-disks#size-requirements.
+     https://learn.microsoft.com/azure/virtual-machines/linux/ephemeral-os-disks#size-requirements.
      Default value is "CacheDisk".
     :vartype placement: str
     """
@@ -2572,9 +2566,9 @@ class DiffDiskSettings(_serialization.Model):
          the operating system should be in. e.g., cache disk space for Ephemeral OS disk provisioning.
          For more information on Ephemeral OS disk size requirements, please refer to Ephemeral OS disk
          size requirements for Windows VMs at
-         https://docs.microsoft.com/en-us/azure/virtual-machines/windows/ephemeral-os-disks#size-requirements
+         https://learn.microsoft.com/azure/virtual-machines/windows/ephemeral-os-disks#size-requirements
          and Linux VMs at
-         https://docs.microsoft.com/en-us/azure/virtual-machines/linux/ephemeral-os-disks#size-requirements.
+         https://learn.microsoft.com/azure/virtual-machines/linux/ephemeral-os-disks#size-requirements.
          Default value is "CacheDisk".
         :paramtype placement: str
         """
@@ -2714,9 +2708,9 @@ class EndpointDependency(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.domain_name = None
-        self.description = None
-        self.endpoint_details = None
+        self.domain_name: Optional[str] = None
+        self.description: Optional[str] = None
+        self.endpoint_details: Optional[List["_models.EndpointDetail"]] = None
 
 
 class EndpointDetail(_serialization.Model):
@@ -2739,7 +2733,7 @@ class EndpointDetail(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.port = None
+        self.port: Optional[int] = None
 
 
 class EnvironmentSetting(_serialization.Model):
@@ -2798,8 +2792,8 @@ class ErrorAdditionalInfo(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.type = None
-        self.info = None
+        self.type: Optional[str] = None
+        self.info: Optional[JSON] = None
 
 
 class ErrorDetail(_serialization.Model):
@@ -2838,11 +2832,11 @@ class ErrorDetail(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.code = None
-        self.message = None
-        self.target = None
-        self.details = None
-        self.additional_info = None
+        self.code: Optional[str] = None
+        self.message: Optional[str] = None
+        self.target: Optional[str] = None
+        self.details: Optional[List["_models.ErrorDetail"]] = None
+        self.additional_info: Optional[List["_models.ErrorAdditionalInfo"]] = None
 
 
 class ErrorResponse(_serialization.Model):
@@ -2943,7 +2937,7 @@ class ImageReference(_serialization.Model):
     :ivar id: This property is mutually exclusive with other properties. The Azure Compute Gallery
      Image must have replicas in the same region as the Azure Batch account. For information about
      the firewall settings for the Batch node agent to communicate with the Batch service see
-     https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration.
+     https://learn.microsoft.com/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration.
     :vartype id: str
     :ivar shared_gallery_image_id: This property is mutually exclusive with other properties and
      can be fetched from shared gallery image GET call.
@@ -2988,7 +2982,7 @@ class ImageReference(_serialization.Model):
         :keyword id: This property is mutually exclusive with other properties. The Azure Compute
          Gallery Image must have replicas in the same region as the Azure Batch account. For information
          about the firewall settings for the Batch node agent to communicate with the Batch service see
-         https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration.
+         https://learn.microsoft.com/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration.
         :paramtype id: str
         :keyword shared_gallery_image_id: This property is mutually exclusive with other properties and
          can be fetched from shared gallery image GET call.
@@ -3021,8 +3015,8 @@ class InboundNatPool(_serialization.Model):
     :ivar protocol: The protocol of the endpoint. Required. Known values are: "TCP" and "UDP".
     :vartype protocol: str or ~azure.mgmt.batch.models.InboundEndpointProtocol
     :ivar backend_port: This must be unique within a Batch pool. Acceptable values are between 1
-     and 65535 except for 22, 3389, 29876 and 29877 as these are reserved. If any reserved values
-     are provided the request fails with HTTP status code 400. Required.
+     and 65535 except for 29876 and 29877 as these are reserved. If any reserved values are provided
+     the request fails with HTTP status code 400. Required.
     :vartype backend_port: int
     :ivar frontend_port_range_start: Acceptable values range between 1 and 65534 except ports from
      50000 to 55000 which are reserved. All ranges within a pool must be distinct and cannot
@@ -3079,8 +3073,8 @@ class InboundNatPool(_serialization.Model):
         :keyword protocol: The protocol of the endpoint. Required. Known values are: "TCP" and "UDP".
         :paramtype protocol: str or ~azure.mgmt.batch.models.InboundEndpointProtocol
         :keyword backend_port: This must be unique within a Batch pool. Acceptable values are between 1
-         and 65535 except for 22, 3389, 29876 and 29877 as these are reserved. If any reserved values
-         are provided the request fails with HTTP status code 400. Required.
+         and 65535 except for 29876 and 29877 as these are reserved. If any reserved values are provided
+         the request fails with HTTP status code 400. Required.
         :paramtype backend_port: int
         :keyword frontend_port_range_start: Acceptable values range between 1 and 65534 except ports
          from 50000 to 55000 which are reserved. All ranges within a pool must be distinct and cannot
@@ -3587,10 +3581,9 @@ class NetworkConfiguration(_serialization.Model):
      communication to the compute nodes in the specified subnet is denied by an NSG, then the Batch
      service will set the state of the compute nodes to unusable. If the specified VNet has any
      associated Network Security Groups (NSG), then a few reserved system ports must be enabled for
-     inbound communication. Enable ports 29876 and 29877, as well as port 22 for Linux and port 3389
-     for Windows. Also enable outbound connections to Azure Storage on port 443. For more details
-     see:
-     https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration.
+     inbound communication，including ports 29876 and 29877. Also enable outbound connections to
+     Azure Storage on port 443. For more details see:
+     https://learn.microsoft.com/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration.
     :vartype subnet_id: str
     :ivar dynamic_vnet_assignment_scope: The scope of dynamic vnet assignment. Known values are:
      "none" and "job".
@@ -3641,10 +3634,9 @@ class NetworkConfiguration(_serialization.Model):
          communication to the compute nodes in the specified subnet is denied by an NSG, then the Batch
          service will set the state of the compute nodes to unusable. If the specified VNet has any
          associated Network Security Groups (NSG), then a few reserved system ports must be enabled for
-         inbound communication. Enable ports 29876 and 29877, as well as port 22 for Linux and port 3389
-         for Windows. Also enable outbound connections to Azure Storage on port 443. For more details
-         see:
-         https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration.
+         inbound communication，including ports 29876 and 29877. Also enable outbound connections to
+         Azure Storage on port 443. For more details see:
+         https://learn.microsoft.com/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration.
         :paramtype subnet_id: str
         :keyword dynamic_vnet_assignment_scope: The scope of dynamic vnet assignment. Known values are:
          "none" and "job".
@@ -3825,7 +3817,7 @@ class Resource(_serialization.Model):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -3854,10 +3846,10 @@ class Resource(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
-        self.system_data = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
+        self.system_data: Optional["_models.SystemData"] = None
 
 
 class ProxyResource(Resource):
@@ -3867,7 +3859,7 @@ class ProxyResource(Resource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -3886,7 +3878,7 @@ class NetworkSecurityPerimeterConfiguration(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -4008,8 +4000,10 @@ class NetworkSecurityPerimeterConfigurationProperties(_serialization.Model):  # 
         :paramtype profile: ~azure.mgmt.batch.models.NetworkSecurityProfile
         """
         super().__init__(**kwargs)
-        self.provisioning_state = None
-        self.provisioning_issues = None
+        self.provisioning_state: Optional[
+            Union[str, "_models.NetworkSecurityPerimeterConfigurationProvisioningState"]
+        ] = None
+        self.provisioning_issues: Optional[List["_models.ProvisioningIssue"]] = None
         self.network_security_perimeter = network_security_perimeter
         self.resource_association = resource_association
         self.profile = profile
@@ -4348,8 +4342,8 @@ class OutboundEnvironmentEndpoint(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.category = None
-        self.endpoints = None
+        self.category: Optional[str] = None
+        self.endpoints: Optional[List["_models.EndpointDependency"]] = None
 
 
 class OutboundEnvironmentEndpointCollection(_serialization.Model):
@@ -4379,11 +4373,11 @@ class OutboundEnvironmentEndpointCollection(_serialization.Model):
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
-        self.value = None
+        self.value: Optional[List["_models.OutboundEnvironmentEndpoint"]] = None
         self.next_link = next_link
 
 
-class Pool(AzureProxyResource):  # pylint: disable=too-many-instance-attributes
+class Pool(AzureProxyResource):
     """Contains information about a pool.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -4420,12 +4414,10 @@ class Pool(AzureProxyResource):  # pylint: disable=too-many-instance-attributes
     :ivar allocation_state_transition_time: The time at which the pool entered its current
      allocation state.
     :vartype allocation_state_transition_time: ~datetime.datetime
-    :ivar vm_size: For information about available VM sizes, see Sizes for Virtual Machines (Linux)
-     (https://azure.microsoft.com/documentation/articles/virtual-machines-linux-sizes/) or Sizes for
-     Virtual Machines (Windows)
-     (https://azure.microsoft.com/documentation/articles/virtual-machines-windows-sizes/). Batch
-     supports all Azure VM sizes except STANDARD_A0 and those with premium storage (STANDARD_GS,
-     STANDARD_DS, and STANDARD_DSV2 series).
+    :ivar vm_size: For information about available VM sizes, see Sizes for Virtual Machines in
+     Azure (https://learn.microsoft.com/azure/virtual-machines/sizes/overview). Batch supports all
+     Azure VM sizes except STANDARD_A0 and those with premium storage (STANDARD_GS, STANDARD_DS, and
+     STANDARD_DSV2 series).
     :vartype vm_size: str
     :ivar deployment_configuration: Deployment configuration properties.
     :vartype deployment_configuration: ~azure.mgmt.batch.models.DeploymentConfiguration
@@ -4592,12 +4584,10 @@ class Pool(AzureProxyResource):  # pylint: disable=too-many-instance-attributes
         :keyword display_name: The display name need not be unique and can contain any Unicode
          characters up to a maximum length of 1024.
         :paramtype display_name: str
-        :keyword vm_size: For information about available VM sizes, see Sizes for Virtual Machines
-         (Linux) (https://azure.microsoft.com/documentation/articles/virtual-machines-linux-sizes/) or
-         Sizes for Virtual Machines (Windows)
-         (https://azure.microsoft.com/documentation/articles/virtual-machines-windows-sizes/). Batch
-         supports all Azure VM sizes except STANDARD_A0 and those with premium storage (STANDARD_GS,
-         STANDARD_DS, and STANDARD_DSV2 series).
+        :keyword vm_size: For information about available VM sizes, see Sizes for Virtual Machines in
+         Azure (https://learn.microsoft.com/azure/virtual-machines/sizes/overview). Batch supports all
+         Azure VM sizes except STANDARD_A0 and those with premium storage (STANDARD_GS, STANDARD_DS, and
+         STANDARD_DSV2 series).
         :paramtype vm_size: str
         :keyword deployment_configuration: Deployment configuration properties.
         :paramtype deployment_configuration: ~azure.mgmt.batch.models.DeploymentConfiguration
@@ -4664,18 +4654,18 @@ class Pool(AzureProxyResource):  # pylint: disable=too-many-instance-attributes
         super().__init__(tags=tags, **kwargs)
         self.identity = identity
         self.display_name = display_name
-        self.last_modified = None
-        self.creation_time = None
-        self.provisioning_state = None
-        self.provisioning_state_transition_time = None
-        self.allocation_state = None
-        self.allocation_state_transition_time = None
+        self.last_modified: Optional[datetime.datetime] = None
+        self.creation_time: Optional[datetime.datetime] = None
+        self.provisioning_state: Optional[Union[str, "_models.PoolProvisioningState"]] = None
+        self.provisioning_state_transition_time: Optional[datetime.datetime] = None
+        self.allocation_state: Optional[Union[str, "_models.AllocationState"]] = None
+        self.allocation_state_transition_time: Optional[datetime.datetime] = None
         self.vm_size = vm_size
         self.deployment_configuration = deployment_configuration
-        self.current_dedicated_nodes = None
-        self.current_low_priority_nodes = None
+        self.current_dedicated_nodes: Optional[int] = None
+        self.current_low_priority_nodes: Optional[int] = None
         self.scale_settings = scale_settings
-        self.auto_scale_run = None
+        self.auto_scale_run: Optional["_models.AutoScaleRun"] = None
         self.inter_node_communication = inter_node_communication
         self.network_configuration = network_configuration
         self.task_slots_per_node = task_slots_per_node
@@ -4686,10 +4676,10 @@ class Pool(AzureProxyResource):  # pylint: disable=too-many-instance-attributes
         self.certificates = certificates
         self.application_packages = application_packages
         self.application_licenses = application_licenses
-        self.resize_operation_status = None
+        self.resize_operation_status: Optional["_models.ResizeOperationStatus"] = None
         self.mount_configuration = mount_configuration
         self.target_node_communication_mode = target_node_communication_mode
-        self.current_node_communication_mode = None
+        self.current_node_communication_mode: Optional[Union[str, "_models.NodeCommunicationMode"]] = None
         self.upgrade_policy = upgrade_policy
         self.resource_tags = resource_tags
 
@@ -4730,7 +4720,7 @@ class PrivateEndpoint(_serialization.Model):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: The ARM resource identifier of the private endpoint. This is of the form
-     /subscriptions/{subscription}/resourceGroups/{group}/providers/Microsoft.Network/privateEndpoints/{privateEndpoint}.  # pylint: disable=line-too-long
+     /subscriptions/{subscription}/resourceGroups/{group}/providers/Microsoft.Network/privateEndpoints/{privateEndpoint}.
     :vartype id: str
     """
 
@@ -4745,7 +4735,7 @@ class PrivateEndpoint(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.id = None
+        self.id: Optional[str] = None
 
 
 class PrivateEndpointConnection(AzureProxyResource):
@@ -4818,9 +4808,9 @@ class PrivateEndpointConnection(AzureProxyResource):
          ~azure.mgmt.batch.models.PrivateLinkServiceConnectionState
         """
         super().__init__(tags=tags, **kwargs)
-        self.provisioning_state = None
-        self.private_endpoint = None
-        self.group_ids = None
+        self.provisioning_state: Optional[Union[str, "_models.PrivateEndpointConnectionProvisioningState"]] = None
+        self.private_endpoint: Optional["_models.PrivateEndpoint"] = None
+        self.group_ids: Optional[List[str]] = None
         self.private_link_service_connection_state = private_link_service_connection_state
 
 
@@ -4875,9 +4865,9 @@ class PrivateLinkResource(AzureProxyResource):
         :paramtype tags: dict[str, str]
         """
         super().__init__(tags=tags, **kwargs)
-        self.group_id = None
-        self.required_members = None
-        self.required_zone_names = None
+        self.group_id: Optional[str] = None
+        self.required_members: Optional[List[str]] = None
+        self.required_zone_names: Optional[List[str]] = None
 
 
 class PrivateLinkServiceConnectionState(_serialization.Model):
@@ -4924,7 +4914,7 @@ class PrivateLinkServiceConnectionState(_serialization.Model):
         super().__init__(**kwargs)
         self.status = status
         self.description = description
-        self.actions_required = None
+        self.actions_required: Optional[str] = None
 
 
 class ProvisioningIssue(_serialization.Model):
@@ -4954,8 +4944,8 @@ class ProvisioningIssue(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.name = None
-        self.properties = None
+        self.name: Optional[str] = None
+        self.properties: Optional["_models.ProvisioningIssueProperties"] = None
 
 
 class ProvisioningIssueProperties(_serialization.Model):
@@ -5001,11 +4991,11 @@ class ProvisioningIssueProperties(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.issue_type = None
-        self.severity = None
-        self.description = None
-        self.suggested_resource_ids = None
-        self.suggested_access_rules = None
+        self.issue_type: Optional[Union[str, "_models.IssueType"]] = None
+        self.severity: Optional[Union[str, "_models.Severity"]] = None
+        self.description: Optional[str] = None
+        self.suggested_resource_ids: Optional[List[str]] = None
+        self.suggested_access_rules: Optional[List["_models.AccessRule"]] = None
 
 
 class PublicIPAddressConfiguration(_serialization.Model):
@@ -5530,7 +5520,7 @@ class ServiceArtifactReference(_serialization.Model):
     All required parameters must be populated in order to send to server.
 
     :ivar id: The service artifact reference id in the form of
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/serviceArtifacts/{serviceArtifactName}/vmArtifactsProfiles/{vmArtifactsProfilesName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/serviceArtifacts/{serviceArtifactName}/vmArtifactsProfiles/{vmArtifactsProfilesName}.
      Required.
     :vartype id: str
     """
@@ -5546,7 +5536,7 @@ class ServiceArtifactReference(_serialization.Model):
     def __init__(self, *, id: str, **kwargs: Any) -> None:  # pylint: disable=redefined-builtin
         """
         :keyword id: The service artifact reference id in the form of
-         /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/serviceArtifacts/{serviceArtifactName}/vmArtifactsProfiles/{vmArtifactsProfilesName}.  # pylint: disable=line-too-long
+         /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/serviceArtifacts/{serviceArtifactName}/vmArtifactsProfiles/{vmArtifactsProfilesName}.
          Required.
         :paramtype id: str
         """
@@ -5578,8 +5568,8 @@ class SkuCapability(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.name = None
-        self.value = None
+        self.name: Optional[str] = None
+        self.value: Optional[str] = None
 
 
 class StartTask(_serialization.Model):
@@ -5726,10 +5716,10 @@ class SupportedSku(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.name = None
-        self.family_name = None
-        self.capabilities = None
-        self.batch_support_end_of_life = None
+        self.name: Optional[str] = None
+        self.family_name: Optional[str] = None
+        self.capabilities: Optional[List["_models.SkuCapability"]] = None
+        self.batch_support_end_of_life: Optional[datetime.datetime] = None
 
 
 class SupportedSkusResult(_serialization.Model):
@@ -5762,7 +5752,7 @@ class SupportedSkusResult(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class SystemData(_serialization.Model):
@@ -5970,13 +5960,13 @@ class UpgradePolicy(_serialization.Model):
 
     All required parameters must be populated in order to send to server.
 
-    :ivar mode: Specifies the mode of an upgrade to virtual machines in the scale set.:code:`<br
-     />`:code:`<br />` Possible values are::code:`<br />`:code:`<br />` **Manual** - You  control
-     the application of updates to virtual machines in the scale set. You do this by using the
-     manualUpgrade action.:code:`<br />`:code:`<br />` **Automatic** - All virtual machines in the
-     scale set are automatically updated at the same time.:code:`<br />`:code:`<br />` **Rolling** -
-     Scale set performs updates in batches with an optional pause time in between. Required. Known
-     values are: "automatic", "manual", and "rolling".
+    :ivar mode: Specifies the mode of an upgrade to virtual machines in the scale set.\\ :code:`<br
+     />`\\ :code:`<br />` Possible values are:\\ :code:`<br />`\\ :code:`<br />` **Manual** - You
+     control the application of updates to virtual machines in the scale set. You do this by using
+     the manualUpgrade action.\\ :code:`<br />`\\ :code:`<br />` **Automatic** - All virtual
+     machines in the scale set are automatically updated at the same time.\\ :code:`<br />`\\
+     :code:`<br />` **Rolling** - Scale set performs updates in batches with an optional pause time
+     in between. Required. Known values are: "automatic", "manual", and "rolling".
     :vartype mode: str or ~azure.mgmt.batch.models.UpgradeMode
     :ivar automatic_os_upgrade_policy: The configuration parameters used for performing automatic
      OS upgrade.
@@ -6005,13 +5995,13 @@ class UpgradePolicy(_serialization.Model):
         **kwargs: Any
     ) -> None:
         """
-        :keyword mode: Specifies the mode of an upgrade to virtual machines in the scale set.:code:`<br
-         />`:code:`<br />` Possible values are::code:`<br />`:code:`<br />` **Manual** - You  control
-         the application of updates to virtual machines in the scale set. You do this by using the
-         manualUpgrade action.:code:`<br />`:code:`<br />` **Automatic** - All virtual machines in the
-         scale set are automatically updated at the same time.:code:`<br />`:code:`<br />` **Rolling** -
-         Scale set performs updates in batches with an optional pause time in between. Required. Known
-         values are: "automatic", "manual", and "rolling".
+        :keyword mode: Specifies the mode of an upgrade to virtual machines in the scale set.\\
+         :code:`<br />`\\ :code:`<br />` Possible values are:\\ :code:`<br />`\\ :code:`<br />`
+         **Manual** - You  control the application of updates to virtual machines in the scale set. You
+         do this by using the manualUpgrade action.\\ :code:`<br />`\\ :code:`<br />` **Automatic** -
+         All virtual machines in the scale set are automatically updated at the same time.\\ :code:`<br
+         />`\\ :code:`<br />` **Rolling** - Scale set performs updates in batches with an optional pause
+         time in between. Required. Known values are: "automatic", "manual", and "rolling".
         :paramtype mode: str or ~azure.mgmt.batch.models.UpgradeMode
         :keyword automatic_os_upgrade_policy: The configuration parameters used for performing
          automatic OS upgrade.
@@ -6122,8 +6112,8 @@ class UserAssignedIdentities(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.principal_id = None
-        self.client_id = None
+        self.principal_id: Optional[str] = None
+        self.client_id: Optional[str] = None
 
 
 class UserIdentity(_serialization.Model):
@@ -6162,7 +6152,7 @@ class UserIdentity(_serialization.Model):
         self.auto_user = auto_user
 
 
-class VirtualMachineConfiguration(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class VirtualMachineConfiguration(_serialization.Model):
     """The configuration for compute nodes in a pool based on the Azure Virtual Machines
     infrastructure.
 
@@ -6211,7 +6201,7 @@ class VirtualMachineConfiguration(_serialization.Model):  # pylint: disable=too-
      virtual machine scale set.
     :vartype security_profile: ~azure.mgmt.batch.models.SecurityProfile
     :ivar service_artifact_reference: The service artifact reference id in the form of
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/serviceArtifacts/{serviceArtifactName}/vmArtifactsProfiles/{vmArtifactsProfilesName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/serviceArtifacts/{serviceArtifactName}/vmArtifactsProfiles/{vmArtifactsProfilesName}.
     :vartype service_artifact_reference: ~azure.mgmt.batch.models.ServiceArtifactReference
     """
 
@@ -6296,7 +6286,7 @@ class VirtualMachineConfiguration(_serialization.Model):  # pylint: disable=too-
          virtual machine scale set.
         :paramtype security_profile: ~azure.mgmt.batch.models.SecurityProfile
         :keyword service_artifact_reference: The service artifact reference id in the form of
-         /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/serviceArtifacts/{serviceArtifactName}/vmArtifactsProfiles/{vmArtifactsProfilesName}.  # pylint: disable=line-too-long
+         /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/serviceArtifacts/{serviceArtifactName}/vmArtifactsProfiles/{vmArtifactsProfilesName}.
         :paramtype service_artifact_reference: ~azure.mgmt.batch.models.ServiceArtifactReference
         """
         super().__init__(**kwargs)
@@ -6338,8 +6328,8 @@ class VirtualMachineFamilyCoreQuota(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.name = None
-        self.core_quota = None
+        self.name: Optional[str] = None
+        self.core_quota: Optional[int] = None
 
 
 class VMDiskSecurityProfile(_serialization.Model):
