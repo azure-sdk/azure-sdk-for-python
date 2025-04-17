@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,6 +8,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.attestation import AttestationManagementClient
 
 """
@@ -14,7 +16,7 @@ from azure.mgmt.attestation import AttestationManagementClient
     pip install azure-identity
     pip install azure-mgmt-attestation
 # USAGE
-    python attestation_providers_delete.py
+    python attestation_provider_list_private_link_resources.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -29,13 +31,13 @@ def main():
         subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.attestation_providers.delete(
-        resource_group_name="sample-resource-group",
+    response = client.private_link_resources.list_by_provider(
+        resource_group_name="MyResourceGroup",
         provider_name="myattestationprovider",
     )
     print(response)
 
 
-# x-ms-original-file: specification/attestation/resource-manager/Microsoft.Attestation/stable/2020-10-01/examples/Delete_AttestationProvider.json
+# x-ms-original-file: specification/attestation/resource-manager/Microsoft.Attestation/stable/2021-06-01/examples/AttestationProviderListPrivateLinkResources.json
 if __name__ == "__main__":
     main()
