@@ -1,5 +1,94 @@
 # Release History
 
+## 10.0.0b2 (2025-04-17)
+
+### Features Added
+
+  - Client `AdvisorManagementClient` added method `predict`
+  - Client `AdvisorManagementClient` added operation group `advisor_scores`
+  - Client `AdvisorManagementClient` added operation group `assessments`
+  - Client `AdvisorManagementClient` added operation group `assessment_types`
+  - Client `AdvisorManagementClient` added operation group `workloads`
+  - Client `AdvisorManagementClient` added operation group `resiliency_reviews`
+  - Client `AdvisorManagementClient` added operation group `triage_recommendations`
+  - Client `AdvisorManagementClient` added operation group `triage_resources`
+  - Model `ConfigData` added property `duration`
+  - Model `ConfigData` added property `system_data`
+  - Model `Resource` added property `system_data`
+  - Model `ResourceRecommendationBase` added property `risk`
+  - Model `ResourceRecommendationBase` added property `tracked`
+  - Model `ResourceRecommendationBase` added property `tracked_properties`
+  - Model `ResourceRecommendationBase` added property `review`
+  - Model `ResourceRecommendationBase` added property `resource_workload`
+  - Model `ResourceRecommendationBase` added property `source_system`
+  - Model `ResourceRecommendationBase` added property `notes`
+  - Model `ResourceRecommendationBase` added property `system_data`
+  - Model `SuppressionContract` added property `system_data`
+  - Added model `AdvisorScoreEntity`
+  - Added model `AdvisorScoreEntityProperties`
+  - Added model `AdvisorScoreResponse`
+  - Added enum `Aggregated`
+  - Added model `AssessmentListResult`
+  - Added model `AssessmentResult`
+  - Added model `AssessmentTypeListResult`
+  - Added model `AssessmentTypeResult`
+  - Added enum `CreatedByType`
+  - Added enum `Duration`
+  - Added model `ErrorAdditionalInfo`
+  - Added model `ErrorDetail`
+  - Added model `ErrorResponse`
+  - Added model `PredictionRequest`
+  - Added model `PredictionResponse`
+  - Added enum `PredictionType`
+  - Added enum `Priority`
+  - Added enum `PriorityName`
+  - Added model `ProxyResource`
+  - Added enum `Reason`
+  - Added enum `ReasonForRejectionName`
+  - Added model `RecommendationPropertiesResourceWorkload`
+  - Added model `RecommendationPropertiesReview`
+  - Added model `RecommendationRejectBody`
+  - Added enum `RecommendationStatusName`
+  - Added model `ResiliencyReview`
+  - Added model `ResiliencyReviewCollection`
+  - Added enum `ReviewStatus`
+  - Added enum `Risk`
+  - Added model `ScoreEntity`
+  - Added enum `State`
+  - Added model `SystemData`
+  - Added model `TimeSeriesEntityItem`
+  - Added model `TrackedRecommendationProperties`
+  - Added model `TrackedRecommendationPropertiesPayload`
+  - Added model `TrackedRecommendationPropertiesPayloadProperties`
+  - Added model `TriageRecommendation`
+  - Added model `TriageRecommendationCollection`
+  - Added model `TriageResource`
+  - Added model `TriageResourceCollection`
+  - Added model `WorkloadListResult`
+  - Added model `WorkloadResult`
+  - Model `RecommendationsOperations` added method `patch`
+  - Added model `AdvisorManagementClientOperationsMixin`
+  - Added model `AdvisorScoresOperations`
+  - Added model `AssessmentTypesOperations`
+  - Added model `AssessmentsOperations`
+  - Added model `ResiliencyReviewsOperations`
+  - Added model `TriageRecommendationsOperations`
+  - Added model `TriageResourcesOperations`
+  - Added model `WorkloadsOperations`
+  - Method `AdvisorManagementClient.predict` has a new overload `def predict(self: None, prediction_request: PredictionRequest, content_type: str)`
+  - Method `AdvisorManagementClient.predict` has a new overload `def predict(self: None, prediction_request: IO[bytes], content_type: str)`
+  - Method `ConfigurationsOperations.create_in_resource_group` has a new overload `def create_in_resource_group(self: None, configuration_name: Union[str, ConfigurationName], resource_group: str, config_contract: IO[bytes], content_type: str)`
+  - Method `ConfigurationsOperations.create_in_subscription` has a new overload `def create_in_subscription(self: None, configuration_name: Union[str, ConfigurationName], config_contract: IO[bytes], content_type: str)`
+  - Method `RecommendationsOperations.patch` has a new overload `def patch(self: None, resource_uri: str, recommendation_id: str, tracked_properties: TrackedRecommendationPropertiesPayload, content_type: str)`
+  - Method `RecommendationsOperations.patch` has a new overload `def patch(self: None, resource_uri: str, recommendation_id: str, tracked_properties: IO[bytes], content_type: str)`
+  - Method `SuppressionsOperations.create` has a new overload `def create(self: None, resource_uri: str, recommendation_id: str, name: str, suppression_contract: IO[bytes], content_type: str)`
+  - Method `AdvisorManagementClientOperationsMixin.predict` has a new overload `def predict(self: None, prediction_request: PredictionRequest, content_type: str)`
+  - Method `AdvisorManagementClientOperationsMixin.predict` has a new overload `def predict(self: None, prediction_request: IO[bytes], content_type: str)`
+  - Method `AssessmentsOperations.put` has a new overload `def put(self: None, assessment_name: str, assessment_contract: AssessmentResult, content_type: str)`
+  - Method `AssessmentsOperations.put` has a new overload `def put(self: None, assessment_name: str, assessment_contract: IO[bytes], content_type: str)`
+  - Method `TriageRecommendationsOperations.reject_triage_recommendation` has a new overload `def reject_triage_recommendation(self: None, review_id: str, recommendation_id: str, recommendation_reject_body: RecommendationRejectBody, content_type: str)`
+  - Method `TriageRecommendationsOperations.reject_triage_recommendation` has a new overload `def reject_triage_recommendation(self: None, review_id: str, recommendation_id: str, recommendation_reject_body: IO[bytes], content_type: str)`
+
 ## 10.0.0b1 (2022-10-28)
 
 ### Features Added
