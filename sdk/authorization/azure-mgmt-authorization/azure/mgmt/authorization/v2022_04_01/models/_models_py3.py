@@ -1,5 +1,5 @@
-# coding=utf-8
 # pylint: disable=too-many-lines
+# coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -7,20 +7,14 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-import sys
+from collections.abc import MutableMapping
 from typing import Any, List, Optional, TYPE_CHECKING, Union
 
 from ... import _serialization
 
-if sys.version_info >= (3, 9):
-    from collections.abc import MutableMapping
-else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
-
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
-JSON = MutableMapping[str, Any]  # pylint: disable=unsubscriptable-object
+JSON = MutableMapping[str, Any]
 
 
 class ApprovalSettings(_serialization.Model):
@@ -148,7 +142,7 @@ class ApprovalStage(_serialization.Model):
         self.escalation_approvers = escalation_approvers
 
 
-class DenyAssignment(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class DenyAssignment(_serialization.Model):
     """Deny Assignment.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -269,9 +263,9 @@ class DenyAssignment(_serialization.Model):  # pylint: disable=too-many-instance
         :paramtype condition_version: str
         """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
         self.deny_assignment_name = deny_assignment_name
         self.description = description
         self.permissions = permissions
@@ -282,10 +276,10 @@ class DenyAssignment(_serialization.Model):  # pylint: disable=too-many-instance
         self.is_system_protected = is_system_protected
         self.condition = condition
         self.condition_version = condition_version
-        self.created_on = None
-        self.updated_on = None
-        self.created_by = None
-        self.updated_by = None
+        self.created_on: Optional[datetime.datetime] = None
+        self.updated_on: Optional[datetime.datetime] = None
+        self.created_by: Optional[str] = None
+        self.updated_by: Optional[str] = None
 
 
 class DenyAssignmentFilter(_serialization.Model):
@@ -447,8 +441,8 @@ class ErrorAdditionalInfo(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.type = None
-        self.info = None
+        self.type: Optional[str] = None
+        self.info: Optional[JSON] = None
 
 
 class ErrorDetail(_serialization.Model):
@@ -488,11 +482,11 @@ class ErrorDetail(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.code = None
-        self.message = None
-        self.target = None
-        self.details = None
-        self.additional_info = None
+        self.code: Optional[str] = None
+        self.message: Optional[str] = None
+        self.target: Optional[str] = None
+        self.details: Optional[List["_models.ErrorDetail"]] = None
+        self.additional_info: Optional[List["_models.ErrorAdditionalInfo"]] = None
 
 
 class ErrorResponse(_serialization.Model):
@@ -827,7 +821,7 @@ class ResourceType(_serialization.Model):
         self.operations = operations
 
 
-class RoleAssignment(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class RoleAssignment(_serialization.Model):
     """Role Assignments.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -934,29 +928,29 @@ class RoleAssignment(_serialization.Model):  # pylint: disable=too-many-instance
         :paramtype delegated_managed_identity_resource_id: str
         """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
-        self.scope = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
+        self.scope: Optional[str] = None
         self.role_definition_id = role_definition_id
         self.principal_id = principal_id
         self.principal_type = principal_type
         self.description = description
         self.condition = condition
         self.condition_version = condition_version
-        self.created_on = None
-        self.updated_on = None
-        self.created_by = None
-        self.updated_by = None
+        self.created_on: Optional[datetime.datetime] = None
+        self.updated_on: Optional[datetime.datetime] = None
+        self.created_by: Optional[str] = None
+        self.updated_by: Optional[str] = None
         self.delegated_managed_identity_resource_id = delegated_managed_identity_resource_id
 
 
-class RoleAssignmentCreateParameters(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class RoleAssignmentCreateParameters(_serialization.Model):
     """Role assignment create parameters.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar scope: The role assignment scope.
     :vartype scope: str
@@ -1050,17 +1044,17 @@ class RoleAssignmentCreateParameters(_serialization.Model):  # pylint: disable=t
         :paramtype delegated_managed_identity_resource_id: str
         """
         super().__init__(**kwargs)
-        self.scope = None
+        self.scope: Optional[str] = None
         self.role_definition_id = role_definition_id
         self.principal_id = principal_id
         self.principal_type = principal_type
         self.description = description
         self.condition = condition
         self.condition_version = condition_version
-        self.created_on = None
-        self.updated_on = None
-        self.created_by = None
-        self.updated_by = None
+        self.created_on: Optional[datetime.datetime] = None
+        self.updated_on: Optional[datetime.datetime] = None
+        self.created_by: Optional[str] = None
+        self.updated_by: Optional[str] = None
         self.delegated_managed_identity_resource_id = delegated_managed_identity_resource_id
 
 
@@ -1111,10 +1105,10 @@ class RoleAssignmentListResult(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
-class RoleDefinition(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class RoleDefinition(_serialization.Model):
     """Role definition.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1193,18 +1187,18 @@ class RoleDefinition(_serialization.Model):  # pylint: disable=too-many-instance
         :paramtype assignable_scopes: list[str]
         """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
         self.role_name = role_name
         self.description = description
         self.role_type = role_type
         self.permissions = permissions
         self.assignable_scopes = assignable_scopes
-        self.created_on = None
-        self.updated_on = None
-        self.created_by = None
-        self.updated_by = None
+        self.created_on: Optional[datetime.datetime] = None
+        self.updated_on: Optional[datetime.datetime] = None
+        self.created_by: Optional[str] = None
+        self.updated_by: Optional[str] = None
 
 
 class RoleDefinitionFilter(_serialization.Model):
@@ -1269,7 +1263,7 @@ class RoleManagementPolicyRule(_serialization.Model):
     RoleManagementPolicyEnablementRule, RoleManagementPolicyExpirationRule,
     RoleManagementPolicyNotificationRule
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The id of the rule.
     :vartype id: str
@@ -1325,7 +1319,7 @@ class RoleManagementPolicyRule(_serialization.Model):
 class RoleManagementPolicyApprovalRule(RoleManagementPolicyRule):
     """The role management policy approval rule.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The id of the rule.
     :vartype id: str
@@ -1373,10 +1367,10 @@ class RoleManagementPolicyApprovalRule(RoleManagementPolicyRule):
         self.setting = setting
 
 
-class RoleManagementPolicyAuthenticationContextRule(RoleManagementPolicyRule):
+class RoleManagementPolicyAuthenticationContextRule(RoleManagementPolicyRule):  # pylint: disable=name-too-long
     """The role management policy authentication context rule.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The id of the rule.
     :vartype id: str
@@ -1434,7 +1428,7 @@ class RoleManagementPolicyAuthenticationContextRule(RoleManagementPolicyRule):
 class RoleManagementPolicyEnablementRule(RoleManagementPolicyRule):
     """The role management policy enablement rule.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The id of the rule.
     :vartype id: str
@@ -1487,7 +1481,7 @@ class RoleManagementPolicyEnablementRule(RoleManagementPolicyRule):
 class RoleManagementPolicyExpirationRule(RoleManagementPolicyRule):
     """The role management policy expiration rule.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The id of the rule.
     :vartype id: str
@@ -1545,7 +1539,7 @@ class RoleManagementPolicyExpirationRule(RoleManagementPolicyRule):
 class RoleManagementPolicyNotificationRule(RoleManagementPolicyRule):
     """The role management policy notification rule.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: The id of the rule.
     :vartype id: str
@@ -1763,7 +1757,7 @@ class ValidationResponse(_serialization.Model):
         :paramtype error_info: ~azure.mgmt.authorization.v2022_04_01.models.ValidationResponseErrorInfo
         """
         super().__init__(**kwargs)
-        self.is_valid = None
+        self.is_valid: Optional[bool] = None
         self.error_info = error_info
 
 
@@ -1791,5 +1785,5 @@ class ValidationResponseErrorInfo(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.code = None
-        self.message = None
+        self.code: Optional[str] = None
+        self.message: Optional[str] = None

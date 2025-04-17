@@ -1,5 +1,4 @@
 # coding=utf-8
-# pylint: disable=too-many-lines
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -12,7 +11,6 @@ from typing import Any, List, Optional, TYPE_CHECKING, Union
 from ... import _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
@@ -63,7 +61,7 @@ class ErrorDefinitionProperties(_serialization.Model):
         :paramtype code: str
         """
         super().__init__(**kwargs)
-        self.message = None
+        self.message: Optional[str] = None
         self.code = code
 
 
@@ -145,10 +143,10 @@ class OperationDisplay(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.provider = None
-        self.resource = None
-        self.operation = None
-        self.description = None
+        self.provider: Optional[str] = None
+        self.resource: Optional[str] = None
+        self.operation: Optional[str] = None
+        self.description: Optional[str] = None
 
 
 class OperationListResult(_serialization.Model):
@@ -215,9 +213,9 @@ class RoleAssignmentApproval(_serialization.Model):
          list[~azure.mgmt.authorization.v2021_01_01_preview.models.RoleAssignmentApprovalStep]
         """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
         self.stages = stages
 
 
@@ -250,10 +248,10 @@ class RoleAssignmentApprovalListResult(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
-class RoleAssignmentApprovalStep(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class RoleAssignmentApprovalStep(_serialization.Model):
     """Role assignment approval stage properties.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -343,19 +341,19 @@ class RoleAssignmentApprovalStep(_serialization.Model):  # pylint: disable=too-m
         :paramtype justification: str
         """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
         self.display_name = display_name
-        self.status = None
-        self.assigned_to_me = None
-        self.reviewed_date_time = None
+        self.status: Optional[Union[str, "_models.RoleAssignmentApprovalStepStatus"]] = None
+        self.assigned_to_me: Optional[bool] = None
+        self.reviewed_date_time: Optional[datetime.datetime] = None
         self.review_result = review_result
         self.justification = justification
-        self.principal_id = None
-        self.principal_type = None
-        self.principal_name = None
-        self.user_principal_name = None
+        self.principal_id: Optional[str] = None
+        self.principal_type: Optional[Union[str, "_models.RoleAssignmentApprovalActorIdentityType"]] = None
+        self.principal_name: Optional[str] = None
+        self.user_principal_name: Optional[str] = None
 
 
 class RoleAssignmentApprovalStepListResult(_serialization.Model):
@@ -387,7 +385,7 @@ class RoleAssignmentApprovalStepListResult(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class RoleAssignmentApprovalStepProperties(_serialization.Model):
@@ -469,12 +467,12 @@ class RoleAssignmentApprovalStepProperties(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.display_name = display_name
-        self.status = None
-        self.assigned_to_me = None
-        self.reviewed_date_time = None
+        self.status: Optional[Union[str, "_models.RoleAssignmentApprovalStepStatus"]] = None
+        self.assigned_to_me: Optional[bool] = None
+        self.reviewed_date_time: Optional[datetime.datetime] = None
         self.review_result = review_result
         self.justification = justification
-        self.principal_id = None
-        self.principal_type = None
-        self.principal_name = None
-        self.user_principal_name = None
+        self.principal_id: Optional[str] = None
+        self.principal_type: Optional[Union[str, "_models.RoleAssignmentApprovalActorIdentityType"]] = None
+        self.principal_name: Optional[str] = None
+        self.user_principal_name: Optional[str] = None

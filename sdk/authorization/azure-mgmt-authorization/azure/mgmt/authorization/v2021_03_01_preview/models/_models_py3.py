@@ -1,5 +1,5 @@
-# coding=utf-8
 # pylint: disable=too-many-lines
+# coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -13,11 +13,10 @@ from typing import Any, List, Optional, TYPE_CHECKING, Union
 from ... import _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
-class AccessReviewDecision(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class AccessReviewDecision(_serialization.Model):
     """Access Review.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -172,29 +171,33 @@ class AccessReviewDecision(_serialization.Model):  # pylint: disable=too-many-in
         :paramtype justification: str
         """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
-        self.recommendation = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
+        self.recommendation: Optional[Union[str, "_models.AccessRecommendationType"]] = None
         self.decision = decision
         self.justification = justification
-        self.reviewed_date_time = None
-        self.apply_result = None
-        self.applied_date_time = None
-        self.principal_id_properties_applied_by_principal_id = None
-        self.principal_type_properties_applied_by_principal_type = None
-        self.principal_name_properties_applied_by_principal_name = None
-        self.user_principal_name_properties_applied_by_user_principal_name = None
-        self.principal_id_properties_reviewed_by_principal_id = None
-        self.principal_type_properties_reviewed_by_principal_type = None
-        self.principal_name_properties_reviewed_by_principal_name = None
-        self.user_principal_name_properties_reviewed_by_user_principal_name = None
+        self.reviewed_date_time: Optional[datetime.datetime] = None
+        self.apply_result: Optional[Union[str, "_models.AccessReviewApplyResult"]] = None
+        self.applied_date_time: Optional[datetime.datetime] = None
+        self.principal_id_properties_applied_by_principal_id: Optional[str] = None
+        self.principal_type_properties_applied_by_principal_type: Optional[
+            Union[str, "_models.AccessReviewActorIdentityType"]
+        ] = None
+        self.principal_name_properties_applied_by_principal_name: Optional[str] = None
+        self.user_principal_name_properties_applied_by_user_principal_name: Optional[str] = None
+        self.principal_id_properties_reviewed_by_principal_id: Optional[str] = None
+        self.principal_type_properties_reviewed_by_principal_type: Optional[
+            Union[str, "_models.AccessReviewActorIdentityType"]
+        ] = None
+        self.principal_name_properties_reviewed_by_principal_name: Optional[str] = None
+        self.user_principal_name_properties_reviewed_by_user_principal_name: Optional[str] = None
         self.type_properties_resource_type: Optional[str] = None
-        self.id_properties_resource_id = None
-        self.display_name_properties_resource_display_name = None
+        self.id_properties_resource_id: Optional[str] = None
+        self.display_name_properties_resource_display_name: Optional[str] = None
         self.type_properties_principal_type: Optional[str] = None
-        self.id_properties_principal_id = None
-        self.display_name_properties_principal_display_name = None
+        self.id_properties_principal_id: Optional[str] = None
+        self.display_name_properties_principal_display_name: Optional[str] = None
 
 
 class AccessReviewDecisionIdentity(_serialization.Model):
@@ -205,7 +208,7 @@ class AccessReviewDecisionIdentity(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar type: The type of decision target : User/ServicePrincipal. Required. Known values are:
      "user" and "servicePrincipal".
@@ -239,8 +242,8 @@ class AccessReviewDecisionIdentity(_serialization.Model):
         """ """
         super().__init__(**kwargs)
         self.type: Optional[str] = None
-        self.id = None
-        self.display_name = None
+        self.id: Optional[str] = None
+        self.display_name: Optional[str] = None
 
 
 class AccessReviewDecisionListResult(_serialization.Model):
@@ -276,7 +279,7 @@ class AccessReviewDecisionListResult(_serialization.Model):
         self.next_link = next_link
 
 
-class AccessReviewDecisionProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class AccessReviewDecisionProperties(_serialization.Model):
     """Approval Step.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -399,26 +402,30 @@ class AccessReviewDecisionProperties(_serialization.Model):  # pylint: disable=t
         :paramtype justification: str
         """
         super().__init__(**kwargs)
-        self.recommendation = None
+        self.recommendation: Optional[Union[str, "_models.AccessRecommendationType"]] = None
         self.decision = decision
         self.justification = justification
-        self.reviewed_date_time = None
-        self.apply_result = None
-        self.applied_date_time = None
-        self.principal_id_applied_by_principal_id = None
-        self.principal_type_applied_by_principal_type = None
-        self.principal_name_applied_by_principal_name = None
-        self.user_principal_name_applied_by_user_principal_name = None
-        self.principal_id_reviewed_by_principal_id = None
-        self.principal_type_reviewed_by_principal_type = None
-        self.principal_name_reviewed_by_principal_name = None
-        self.user_principal_name_reviewed_by_user_principal_name = None
+        self.reviewed_date_time: Optional[datetime.datetime] = None
+        self.apply_result: Optional[Union[str, "_models.AccessReviewApplyResult"]] = None
+        self.applied_date_time: Optional[datetime.datetime] = None
+        self.principal_id_applied_by_principal_id: Optional[str] = None
+        self.principal_type_applied_by_principal_type: Optional[Union[str, "_models.AccessReviewActorIdentityType"]] = (
+            None
+        )
+        self.principal_name_applied_by_principal_name: Optional[str] = None
+        self.user_principal_name_applied_by_user_principal_name: Optional[str] = None
+        self.principal_id_reviewed_by_principal_id: Optional[str] = None
+        self.principal_type_reviewed_by_principal_type: Optional[
+            Union[str, "_models.AccessReviewActorIdentityType"]
+        ] = None
+        self.principal_name_reviewed_by_principal_name: Optional[str] = None
+        self.user_principal_name_reviewed_by_user_principal_name: Optional[str] = None
         self.type_resource_type: Optional[str] = None
-        self.id_resource_id = None
-        self.display_name_resource_display_name = None
+        self.id_resource_id: Optional[str] = None
+        self.display_name_resource_display_name: Optional[str] = None
         self.type_principal_type: Optional[str] = None
-        self.id_principal_id = None
-        self.display_name_principal_display_name = None
+        self.id_principal_id: Optional[str] = None
+        self.display_name_principal_display_name: Optional[str] = None
 
 
 class AccessReviewDecisionResource(_serialization.Model):
@@ -426,7 +433,7 @@ class AccessReviewDecisionResource(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar type: The type of resource. Required. "azureRole"
     :vartype type: str or ~azure.mgmt.authorization.v2021_03_01_preview.models.DecisionResourceType
@@ -452,16 +459,16 @@ class AccessReviewDecisionResource(_serialization.Model):
         """ """
         super().__init__(**kwargs)
         self.type: Optional[str] = None
-        self.id = None
-        self.display_name = None
+        self.id: Optional[str] = None
+        self.display_name: Optional[str] = None
 
 
-class AccessReviewDecisionServicePrincipalIdentity(AccessReviewDecisionIdentity):
+class AccessReviewDecisionServicePrincipalIdentity(AccessReviewDecisionIdentity):  # pylint: disable=name-too-long
     """Service Principal Decision Target.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar type: The type of decision target : User/ServicePrincipal. Required. Known values are:
      "user" and "servicePrincipal".
@@ -492,7 +499,7 @@ class AccessReviewDecisionServicePrincipalIdentity(AccessReviewDecisionIdentity)
         """ """
         super().__init__(**kwargs)
         self.type: str = "servicePrincipal"
-        self.app_id = None
+        self.app_id: Optional[str] = None
 
 
 class AccessReviewDecisionUserIdentity(AccessReviewDecisionIdentity):
@@ -500,7 +507,7 @@ class AccessReviewDecisionUserIdentity(AccessReviewDecisionIdentity):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar type: The type of decision target : User/ServicePrincipal. Required. Known values are:
      "user" and "servicePrincipal".
@@ -531,10 +538,10 @@ class AccessReviewDecisionUserIdentity(AccessReviewDecisionIdentity):
         """ """
         super().__init__(**kwargs)
         self.type: str = "user"
-        self.user_principal_name = None
+        self.user_principal_name: Optional[str] = None
 
 
-class AccessReviewDefaultSettings(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class AccessReviewDefaultSettings(_serialization.Model):
     """Access Review Default Settings.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -687,9 +694,9 @@ class AccessReviewDefaultSettings(_serialization.Model):  # pylint: disable=too-
         :paramtype interval: int
         """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
         self.mail_notifications_enabled = mail_notifications_enabled
         self.reminder_notifications_enabled = reminder_notifications_enabled
         self.default_decision_enabled = default_decision_enabled
@@ -758,10 +765,10 @@ class AccessReviewInstance(_serialization.Model):
         :paramtype end_date_time: ~datetime.datetime
         """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
-        self.status = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
+        self.status: Optional[Union[str, "_models.AccessReviewInstanceStatus"]] = None
         self.start_date_time = start_date_time
         self.end_date_time = end_date_time
 
@@ -828,10 +835,10 @@ class AccessReviewReviewer(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.principal_id = principal_id
-        self.principal_type = None
+        self.principal_type: Optional[Union[str, "_models.AccessReviewReviewerType"]] = None
 
 
-class AccessReviewScheduleDefinition(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class AccessReviewScheduleDefinition(_serialization.Model):
     """Access Review Schedule Definition.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1109,21 +1116,23 @@ class AccessReviewScheduleDefinition(_serialization.Model):  # pylint: disable=t
         :paramtype interval: int
         """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
         self.display_name = display_name
-        self.status = None
+        self.status: Optional[Union[str, "_models.AccessReviewScheduleDefinitionStatus"]] = None
         self.description_for_admins = description_for_admins
         self.description_for_reviewers = description_for_reviewers
         self.reviewers = reviewers
         self.backup_reviewers = backup_reviewers
-        self.reviewers_type = None
+        self.reviewers_type: Optional[Union[str, "_models.AccessReviewScheduleDefinitionReviewersType"]] = None
         self.instances = instances
-        self.resource_id = None
-        self.role_definition_id = None
-        self.principal_type_properties_scope_principal_type = None
-        self.assignment_state = None
+        self.resource_id: Optional[str] = None
+        self.role_definition_id: Optional[str] = None
+        self.principal_type_properties_scope_principal_type: Optional[
+            Union[str, "_models.AccessReviewScopePrincipalType"]
+        ] = None
+        self.assignment_state: Optional[Union[str, "_models.AccessReviewScopeAssignmentState"]] = None
         self.inactive_duration = inactive_duration
         self.mail_notifications_enabled = mail_notifications_enabled
         self.reminder_notifications_enabled = reminder_notifications_enabled
@@ -1139,10 +1148,12 @@ class AccessReviewScheduleDefinition(_serialization.Model):  # pylint: disable=t
         self.end_date = end_date
         self.type_properties_settings_recurrence_pattern_type = type_properties_settings_recurrence_pattern_type
         self.interval = interval
-        self.principal_id = None
-        self.principal_type_properties_created_by_principal_type = None
-        self.principal_name = None
-        self.user_principal_name = None
+        self.principal_id: Optional[str] = None
+        self.principal_type_properties_created_by_principal_type: Optional[
+            Union[str, "_models.AccessReviewActorIdentityType"]
+        ] = None
+        self.principal_name: Optional[str] = None
+        self.user_principal_name: Optional[str] = None
 
 
 class AccessReviewScheduleDefinitionListResult(_serialization.Model):
@@ -1179,7 +1190,7 @@ class AccessReviewScheduleDefinitionListResult(_serialization.Model):
         self.next_link = next_link
 
 
-class AccessReviewScheduleDefinitionProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class AccessReviewScheduleDefinitionProperties(_serialization.Model):
     """Access Review.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1429,17 +1440,17 @@ class AccessReviewScheduleDefinitionProperties(_serialization.Model):  # pylint:
         """
         super().__init__(**kwargs)
         self.display_name = display_name
-        self.status = None
+        self.status: Optional[Union[str, "_models.AccessReviewScheduleDefinitionStatus"]] = None
         self.description_for_admins = description_for_admins
         self.description_for_reviewers = description_for_reviewers
         self.reviewers = reviewers
         self.backup_reviewers = backup_reviewers
-        self.reviewers_type = None
+        self.reviewers_type: Optional[Union[str, "_models.AccessReviewScheduleDefinitionReviewersType"]] = None
         self.instances = instances
-        self.resource_id = None
-        self.role_definition_id = None
-        self.principal_type_scope_principal_type = None
-        self.assignment_state = None
+        self.resource_id: Optional[str] = None
+        self.role_definition_id: Optional[str] = None
+        self.principal_type_scope_principal_type: Optional[Union[str, "_models.AccessReviewScopePrincipalType"]] = None
+        self.assignment_state: Optional[Union[str, "_models.AccessReviewScopeAssignmentState"]] = None
         self.inactive_duration = inactive_duration
         self.mail_notifications_enabled = mail_notifications_enabled
         self.reminder_notifications_enabled = reminder_notifications_enabled
@@ -1455,13 +1466,15 @@ class AccessReviewScheduleDefinitionProperties(_serialization.Model):  # pylint:
         self.end_date = end_date
         self.type_settings_recurrence_pattern_type = type_settings_recurrence_pattern_type
         self.interval = interval
-        self.principal_id = None
-        self.principal_type_created_by_principal_type = None
-        self.principal_name = None
-        self.user_principal_name = None
+        self.principal_id: Optional[str] = None
+        self.principal_type_created_by_principal_type: Optional[Union[str, "_models.AccessReviewActorIdentityType"]] = (
+            None
+        )
+        self.principal_name: Optional[str] = None
+        self.user_principal_name: Optional[str] = None
 
 
-class AccessReviewScheduleSettings(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class AccessReviewScheduleSettings(_serialization.Model):
     """Settings of an Access Review.
 
     :ivar mail_notifications_enabled: Flag to indicate whether sending mails to reviewers and the
@@ -1657,7 +1670,7 @@ class ErrorDefinitionProperties(_serialization.Model):
         :paramtype code: str
         """
         super().__init__(**kwargs)
-        self.message = None
+        self.message: Optional[str] = None
         self.code = code
 
 
@@ -1739,10 +1752,10 @@ class OperationDisplay(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.provider = None
-        self.resource = None
-        self.operation = None
-        self.description = None
+        self.provider: Optional[str] = None
+        self.resource: Optional[str] = None
+        self.operation: Optional[str] = None
+        self.description: Optional[str] = None
 
 
 class OperationListResult(_serialization.Model):
