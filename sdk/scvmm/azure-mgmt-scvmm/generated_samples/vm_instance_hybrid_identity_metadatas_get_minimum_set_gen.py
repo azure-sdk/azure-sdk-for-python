@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -36,6 +37,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/stable/2023-10-07/examples/VmInstanceHybridIdentityMetadatas_Get_MinimumSet_Gen.json
+# x-ms-original-file: specification/scvmm/resource-manager/Microsoft.ScVmm/stable/2025-03-13/examples/VmInstanceHybridIdentityMetadatas_Get_MinimumSet_Gen.json
 if __name__ == "__main__":
     main()
