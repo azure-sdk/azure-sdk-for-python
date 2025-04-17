@@ -16,7 +16,7 @@ from azure.mgmt.playwrighttesting import PlaywrightTestingMgmtClient
     pip install azure-identity
     pip install azure-mgmt-playwrighttesting
 # USAGE
-    python operations_list.py
+    python accounts_get.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -28,14 +28,16 @@ from azure.mgmt.playwrighttesting import PlaywrightTestingMgmtClient
 def main():
     client = PlaywrightTestingMgmtClient(
         credential=DefaultAzureCredential(),
-        subscription_id="SUBSCRIPTION_ID",
+        subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
-    response = client.operations.list()
-    for item in response:
-        print(item)
+    response = client.accounts.get(
+        resource_group_name="dummyrg",
+        account_name="myPlaywrightAccount",
+    )
+    print(response)
 
 
-# x-ms-original-file: specification/playwrighttesting/resource-manager/Microsoft.AzurePlaywrightService/stable/2024-12-01/examples/Operations_List.json
+# x-ms-original-file: specification/playwrighttesting/resource-manager/Microsoft.AzurePlaywrightService/stable/2024-12-01/examples/Accounts_Get.json
 if __name__ == "__main__":
     main()
