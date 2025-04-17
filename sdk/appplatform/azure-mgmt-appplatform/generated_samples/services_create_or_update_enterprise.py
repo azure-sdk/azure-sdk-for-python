@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -34,6 +35,7 @@ def main():
         resource_group_name="myResourceGroup",
         service_name="myservice",
         resource={
+            "identity": {"type": "SystemAssigned"},
             "location": "eastus",
             "properties": {
                 "marketplaceResource": {
@@ -49,6 +51,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/stable/2023-12-01/examples/Services_CreateOrUpdate_Enterprise.json
+# x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2024-05-01-preview/examples/Services_CreateOrUpdate_Enterprise.json
 if __name__ == "__main__":
     main()
