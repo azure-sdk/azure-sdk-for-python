@@ -21,7 +21,7 @@ class TestQumuloMgmtFileSystemsOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_by_subscription(self, resource_group):
+    async def test_file_systems_list_by_subscription(self, resource_group):
         response = self.client.file_systems.list_by_subscription(
             api_version="2024-06-19",
         )
@@ -31,7 +31,7 @@ class TestQumuloMgmtFileSystemsOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_by_resource_group(self, resource_group):
+    async def test_file_systems_list_by_resource_group(self, resource_group):
         response = self.client.file_systems.list_by_resource_group(
             resource_group_name=resource_group.name,
             api_version="2024-06-19",
@@ -42,7 +42,7 @@ class TestQumuloMgmtFileSystemsOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get(self, resource_group):
+    async def test_file_systems_get(self, resource_group):
         response = await self.client.file_systems.get(
             resource_group_name=resource_group.name,
             file_system_name="str",
@@ -54,7 +54,7 @@ class TestQumuloMgmtFileSystemsOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_create_or_update(self, resource_group):
+    async def test_file_systems_begin_create_or_update(self, resource_group):
         response = await (
             await self.client.file_systems.begin_create_or_update(
                 resource_group_name=resource_group.name,
@@ -105,7 +105,7 @@ class TestQumuloMgmtFileSystemsOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_update(self, resource_group):
+    async def test_file_systems_update(self, resource_group):
         response = await self.client.file_systems.update(
             resource_group_name=resource_group.name,
             file_system_name="str",
@@ -138,7 +138,7 @@ class TestQumuloMgmtFileSystemsOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_delete(self, resource_group):
+    async def test_file_systems_begin_delete(self, resource_group):
         response = await (
             await self.client.file_systems.begin_delete(
                 resource_group_name=resource_group.name,
