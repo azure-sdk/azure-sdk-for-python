@@ -7,13 +7,15 @@
 # --------------------------------------------------------------------------
 
 from copy import deepcopy
-from typing import Any, TYPE_CHECKING
+from typing import Any, Optional, TYPE_CHECKING, cast
 from typing_extensions import Self
 
 from azure.core.pipeline import policies
 from azure.core.rest import HttpRequest, HttpResponse
+from azure.core.settings import settings
 from azure.mgmt.core import ARMPipelineClient
 from azure.mgmt.core.policies import ARMAutoResourceProviderRegistrationPolicy
+from azure.mgmt.core.tools import get_arm_endpoints
 
 from . import models as _models
 from ._configuration import ContainerAppsAPIClientConfiguration
@@ -36,6 +38,7 @@ from .operations import (
     ContainerAppsBuildsByContainerAppOperations,
     ContainerAppsBuildsOperations,
     ContainerAppsDiagnosticsOperations,
+    ContainerAppsLabelHistoryOperations,
     ContainerAppsOperations,
     ContainerAppsPatchesOperations,
     ContainerAppsRevisionReplicasOperations,
@@ -47,10 +50,12 @@ from .operations import (
     DaprSubscriptionsOperations,
     DotNetComponentsOperations,
     FunctionsExtensionOperations,
+    HttpRouteConfigOperations,
     JavaComponentsOperations,
     JobsExecutionsOperations,
     JobsOperations,
     LogicAppsOperations,
+    MaintenanceConfigurationsOperations,
     ManagedCertificatesOperations,
     ManagedEnvironmentDiagnosticsOperations,
     ManagedEnvironmentPrivateEndpointConnectionsOperations,
@@ -65,13 +70,10 @@ from .operations import (
 )
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from azure.core.credentials import TokenCredential
 
 
-class ContainerAppsAPIClient(
-    ContainerAppsAPIClientOperationsMixin
-):  # pylint: disable=client-accepts-api-version-keyword,too-many-instance-attributes
+class ContainerAppsAPIClient(ContainerAppsAPIClientOperationsMixin):  # pylint: disable=too-many-instance-attributes
     """Functions is an extension resource to revisions and the api listed is used to proxy the call
     from Web RP to the function app's host process, this api is not exposed to users and only Web
     RP is allowed to invoke functions extension resource.
@@ -118,6 +120,9 @@ class ContainerAppsAPIClient(
     :ivar container_apps_builds: ContainerAppsBuildsOperations operations
     :vartype container_apps_builds:
      azure.mgmt.appcontainers.operations.ContainerAppsBuildsOperations
+    :ivar container_apps_label_history: ContainerAppsLabelHistoryOperations operations
+    :vartype container_apps_label_history:
+     azure.mgmt.appcontainers.operations.ContainerAppsLabelHistoryOperations
     :ivar container_apps_patches: ContainerAppsPatchesOperations operations
     :vartype container_apps_patches:
      azure.mgmt.appcontainers.operations.ContainerAppsPatchesOperations
@@ -175,6 +180,11 @@ class ContainerAppsAPIClient(
     :vartype dapr_components: azure.mgmt.appcontainers.operations.DaprComponentsOperations
     :ivar dapr_subscriptions: DaprSubscriptionsOperations operations
     :vartype dapr_subscriptions: azure.mgmt.appcontainers.operations.DaprSubscriptionsOperations
+    :ivar http_route_config: HttpRouteConfigOperations operations
+    :vartype http_route_config: azure.mgmt.appcontainers.operations.HttpRouteConfigOperations
+    :ivar maintenance_configurations: MaintenanceConfigurationsOperations operations
+    :vartype maintenance_configurations:
+     azure.mgmt.appcontainers.operations.MaintenanceConfigurationsOperations
     :ivar managed_environments_storages: ManagedEnvironmentsStoragesOperations operations
     :vartype managed_environments_storages:
      azure.mgmt.appcontainers.operations.ManagedEnvironmentsStoragesOperations
@@ -193,9 +203,9 @@ class ContainerAppsAPIClient(
     :type credential: ~azure.core.credentials.TokenCredential
     :param subscription_id: The ID of the target subscription. The value must be an UUID. Required.
     :type subscription_id: str
-    :param base_url: Service URL. Default value is "https://management.azure.com".
+    :param base_url: Service URL. Default value is None.
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2024-08-02-preview". Note that overriding
+    :keyword api_version: Api Version. Default value is "2025-02-02-preview". Note that overriding
      this default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
@@ -203,15 +213,17 @@ class ContainerAppsAPIClient(
     """
 
     def __init__(
-        self,
-        credential: "TokenCredential",
-        subscription_id: str,
-        base_url: str = "https://management.azure.com",
-        **kwargs: Any
+        self, credential: "TokenCredential", subscription_id: str, base_url: Optional[str] = None, **kwargs: Any
     ) -> None:
+        _cloud = kwargs.pop("cloud_setting", None) or settings.current.azure_cloud  # type: ignore
+        _endpoints = get_arm_endpoints(_cloud)
+        if not base_url:
+            base_url = _endpoints["resource_manager"]
+        credential_scopes = kwargs.pop("credential_scopes", _endpoints["credential_scopes"])
         self._config = ContainerAppsAPIClientConfiguration(
-            credential=credential, subscription_id=subscription_id, **kwargs
+            credential=credential, subscription_id=subscription_id, credential_scopes=credential_scopes, **kwargs
         )
+
         _policies = kwargs.pop("policies", None)
         if _policies is None:
             _policies = [
@@ -230,7 +242,7 @@ class ContainerAppsAPIClient(
                 policies.SensitiveHeaderCleanupPolicy(**kwargs) if self._config.redirect_policy else None,
                 self._config.http_logging_policy,
             ]
-        self._client: ARMPipelineClient = ARMPipelineClient(base_url=base_url, policies=_policies, **kwargs)
+        self._client: ARMPipelineClient = ARMPipelineClient(base_url=cast(str, base_url), policies=_policies, **kwargs)
 
         client_models = {k: v for k, v in _models.__dict__.items() if isinstance(v, type)}
         self._serialize = Serializer(client_models)
@@ -267,6 +279,9 @@ class ContainerAppsAPIClient(
             self._client, self._config, self._serialize, self._deserialize
         )
         self.container_apps_builds = ContainerAppsBuildsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.container_apps_label_history = ContainerAppsLabelHistoryOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
         self.container_apps_patches = ContainerAppsPatchesOperations(
@@ -317,6 +332,12 @@ class ContainerAppsAPIClient(
         )
         self.dapr_components = DaprComponentsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.dapr_subscriptions = DaprSubscriptionsOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.http_route_config = HttpRouteConfigOperations(
+            self._client, self._config, self._serialize, self._deserialize
+        )
+        self.maintenance_configurations = MaintenanceConfigurationsOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
         self.managed_environments_storages = ManagedEnvironmentsStoragesOperations(
