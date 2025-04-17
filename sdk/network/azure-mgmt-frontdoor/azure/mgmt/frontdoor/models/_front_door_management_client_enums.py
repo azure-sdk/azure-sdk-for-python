@@ -260,8 +260,9 @@ class MatchProcessingBehavior(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     If not present, defaults to Continue.
     """
 
-    CONTINUE_ENUM = "Continue"
+    CONTINUE = "Continue"
     STOP = "Stop"
+    CONTINUE_ENUM = "Continue"
 
 
 class MatchVariable(str, Enum, metaclass=CaseInsensitiveEnumMeta):
