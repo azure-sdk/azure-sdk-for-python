@@ -1,5 +1,601 @@
 # Release History
 
+## 2.0.0 (2025-04-17)
+
+### Features Added
+
+  - Model `CancelOperationsRequest` added parameter `kwargs` in method `as_dict`
+  - Model `CancelOperationsRequest` added method `deserialize`
+  - Model `CancelOperationsRequest` added method `enable_additional_properties_sending`
+  - Model `CancelOperationsRequest` added method `from_dict`
+  - Model `CancelOperationsRequest` added method `is_xml_model`
+  - Model `CancelOperationsRequest` added method `serialize`
+  - Model `CancelOperationsRequest` added property `additional_properties`
+  - Model `CancelOperationsResponse` added parameter `kwargs` in method `as_dict`
+  - Model `CancelOperationsResponse` added method `deserialize`
+  - Model `CancelOperationsResponse` added method `enable_additional_properties_sending`
+  - Model `CancelOperationsResponse` added method `from_dict`
+  - Model `CancelOperationsResponse` added method `is_xml_model`
+  - Model `CancelOperationsResponse` added method `serialize`
+  - Model `CancelOperationsResponse` added property `additional_properties`
+  - Model `DeallocateResourceOperationResponse` added parameter `kwargs` in method `as_dict`
+  - Model `DeallocateResourceOperationResponse` added method `deserialize`
+  - Model `DeallocateResourceOperationResponse` added method `enable_additional_properties_sending`
+  - Model `DeallocateResourceOperationResponse` added method `from_dict`
+  - Model `DeallocateResourceOperationResponse` added method `is_xml_model`
+  - Model `DeallocateResourceOperationResponse` added method `serialize`
+  - Model `DeallocateResourceOperationResponse` added property `additional_properties`
+  - Model `ErrorAdditionalInfo` added parameter `kwargs` in method `as_dict`
+  - Model `ErrorAdditionalInfo` added method `deserialize`
+  - Model `ErrorAdditionalInfo` added method `enable_additional_properties_sending`
+  - Model `ErrorAdditionalInfo` added method `from_dict`
+  - Model `ErrorAdditionalInfo` added method `is_xml_model`
+  - Model `ErrorAdditionalInfo` added method `serialize`
+  - Model `ErrorAdditionalInfo` added property `additional_properties`
+  - Model `ErrorDetail` added parameter `kwargs` in method `as_dict`
+  - Model `ErrorDetail` added method `deserialize`
+  - Model `ErrorDetail` added method `enable_additional_properties_sending`
+  - Model `ErrorDetail` added method `from_dict`
+  - Model `ErrorDetail` added method `is_xml_model`
+  - Model `ErrorDetail` added method `serialize`
+  - Model `ErrorDetail` added property `additional_properties`
+  - Model `ErrorResponse` added parameter `kwargs` in method `as_dict`
+  - Model `ErrorResponse` added method `deserialize`
+  - Model `ErrorResponse` added method `enable_additional_properties_sending`
+  - Model `ErrorResponse` added method `from_dict`
+  - Model `ErrorResponse` added method `is_xml_model`
+  - Model `ErrorResponse` added method `serialize`
+  - Model `ErrorResponse` added property `additional_properties`
+  - Model `ExecuteDeallocateRequest` added parameter `kwargs` in method `as_dict`
+  - Model `ExecuteDeallocateRequest` added method `deserialize`
+  - Model `ExecuteDeallocateRequest` added method `enable_additional_properties_sending`
+  - Model `ExecuteDeallocateRequest` added method `from_dict`
+  - Model `ExecuteDeallocateRequest` added method `is_xml_model`
+  - Model `ExecuteDeallocateRequest` added method `serialize`
+  - Model `ExecuteDeallocateRequest` added property `additional_properties`
+  - Model `ExecuteHibernateRequest` added parameter `kwargs` in method `as_dict`
+  - Model `ExecuteHibernateRequest` added method `deserialize`
+  - Model `ExecuteHibernateRequest` added method `enable_additional_properties_sending`
+  - Model `ExecuteHibernateRequest` added method `from_dict`
+  - Model `ExecuteHibernateRequest` added method `is_xml_model`
+  - Model `ExecuteHibernateRequest` added method `serialize`
+  - Model `ExecuteHibernateRequest` added property `additional_properties`
+  - Model `ExecuteStartRequest` added parameter `kwargs` in method `as_dict`
+  - Model `ExecuteStartRequest` added method `deserialize`
+  - Model `ExecuteStartRequest` added method `enable_additional_properties_sending`
+  - Model `ExecuteStartRequest` added method `from_dict`
+  - Model `ExecuteStartRequest` added method `is_xml_model`
+  - Model `ExecuteStartRequest` added method `serialize`
+  - Model `ExecuteStartRequest` added property `additional_properties`
+  - Model `ExecutionParameters` added parameter `kwargs` in method `as_dict`
+  - Model `ExecutionParameters` added method `deserialize`
+  - Model `ExecutionParameters` added method `enable_additional_properties_sending`
+  - Model `ExecutionParameters` added method `from_dict`
+  - Model `ExecutionParameters` added method `is_xml_model`
+  - Model `ExecutionParameters` added method `serialize`
+  - Model `ExecutionParameters` added property `additional_properties`
+  - Model `GetOperationErrorsRequest` added parameter `kwargs` in method `as_dict`
+  - Model `GetOperationErrorsRequest` added method `deserialize`
+  - Model `GetOperationErrorsRequest` added method `enable_additional_properties_sending`
+  - Model `GetOperationErrorsRequest` added method `from_dict`
+  - Model `GetOperationErrorsRequest` added method `is_xml_model`
+  - Model `GetOperationErrorsRequest` added method `serialize`
+  - Model `GetOperationErrorsRequest` added property `additional_properties`
+  - Model `GetOperationErrorsResponse` added parameter `kwargs` in method `as_dict`
+  - Model `GetOperationErrorsResponse` added method `deserialize`
+  - Model `GetOperationErrorsResponse` added method `enable_additional_properties_sending`
+  - Model `GetOperationErrorsResponse` added method `from_dict`
+  - Model `GetOperationErrorsResponse` added method `is_xml_model`
+  - Model `GetOperationErrorsResponse` added method `serialize`
+  - Model `GetOperationErrorsResponse` added property `additional_properties`
+  - Model `GetOperationStatusRequest` added parameter `kwargs` in method `as_dict`
+  - Model `GetOperationStatusRequest` added method `deserialize`
+  - Model `GetOperationStatusRequest` added method `enable_additional_properties_sending`
+  - Model `GetOperationStatusRequest` added method `from_dict`
+  - Model `GetOperationStatusRequest` added method `is_xml_model`
+  - Model `GetOperationStatusRequest` added method `serialize`
+  - Model `GetOperationStatusRequest` added property `additional_properties`
+  - Model `GetOperationStatusResponse` added parameter `kwargs` in method `as_dict`
+  - Model `GetOperationStatusResponse` added method `deserialize`
+  - Model `GetOperationStatusResponse` added method `enable_additional_properties_sending`
+  - Model `GetOperationStatusResponse` added method `from_dict`
+  - Model `GetOperationStatusResponse` added method `is_xml_model`
+  - Model `GetOperationStatusResponse` added method `serialize`
+  - Model `GetOperationStatusResponse` added property `additional_properties`
+  - Model `HibernateResourceOperationResponse` added parameter `kwargs` in method `as_dict`
+  - Model `HibernateResourceOperationResponse` added method `deserialize`
+  - Model `HibernateResourceOperationResponse` added method `enable_additional_properties_sending`
+  - Model `HibernateResourceOperationResponse` added method `from_dict`
+  - Model `HibernateResourceOperationResponse` added method `is_xml_model`
+  - Model `HibernateResourceOperationResponse` added method `serialize`
+  - Model `HibernateResourceOperationResponse` added property `additional_properties`
+  - Model `Operation` added parameter `kwargs` in method `as_dict`
+  - Model `Operation` added method `deserialize`
+  - Model `Operation` added method `enable_additional_properties_sending`
+  - Model `Operation` added method `from_dict`
+  - Model `Operation` added method `is_xml_model`
+  - Model `Operation` added method `serialize`
+  - Model `Operation` added property `additional_properties`
+  - Model `OperationDisplay` added parameter `kwargs` in method `as_dict`
+  - Model `OperationDisplay` added method `deserialize`
+  - Model `OperationDisplay` added method `enable_additional_properties_sending`
+  - Model `OperationDisplay` added method `from_dict`
+  - Model `OperationDisplay` added method `is_xml_model`
+  - Model `OperationDisplay` added method `serialize`
+  - Model `OperationDisplay` added property `additional_properties`
+  - Model `OperationErrorDetails` added parameter `kwargs` in method `as_dict`
+  - Model `OperationErrorDetails` added method `deserialize`
+  - Model `OperationErrorDetails` added method `enable_additional_properties_sending`
+  - Model `OperationErrorDetails` added method `from_dict`
+  - Model `OperationErrorDetails` added method `is_xml_model`
+  - Model `OperationErrorDetails` added method `serialize`
+  - Model `OperationErrorDetails` added property `additional_properties`
+  - Model `OperationErrorsResult` added parameter `kwargs` in method `as_dict`
+  - Model `OperationErrorsResult` added method `deserialize`
+  - Model `OperationErrorsResult` added method `enable_additional_properties_sending`
+  - Model `OperationErrorsResult` added method `from_dict`
+  - Model `OperationErrorsResult` added method `is_xml_model`
+  - Model `OperationErrorsResult` added method `serialize`
+  - Model `OperationErrorsResult` added property `additional_properties`
+  - Model `ResourceOperation` added parameter `kwargs` in method `as_dict`
+  - Model `ResourceOperation` added method `deserialize`
+  - Model `ResourceOperation` added method `enable_additional_properties_sending`
+  - Model `ResourceOperation` added method `from_dict`
+  - Model `ResourceOperation` added method `is_xml_model`
+  - Model `ResourceOperation` added method `serialize`
+  - Model `ResourceOperation` added property `additional_properties`
+  - Model `ResourceOperationDetails` added parameter `kwargs` in method `as_dict`
+  - Model `ResourceOperationDetails` added method `deserialize`
+  - Model `ResourceOperationDetails` added method `enable_additional_properties_sending`
+  - Model `ResourceOperationDetails` added method `from_dict`
+  - Model `ResourceOperationDetails` added method `is_xml_model`
+  - Model `ResourceOperationDetails` added method `serialize`
+  - Model `ResourceOperationDetails` added property `additional_properties`
+  - Model `ResourceOperationError` added parameter `kwargs` in method `as_dict`
+  - Model `ResourceOperationError` added method `deserialize`
+  - Model `ResourceOperationError` added method `enable_additional_properties_sending`
+  - Model `ResourceOperationError` added method `from_dict`
+  - Model `ResourceOperationError` added method `is_xml_model`
+  - Model `ResourceOperationError` added method `serialize`
+  - Model `ResourceOperationError` added property `additional_properties`
+  - Model `Resources` added parameter `kwargs` in method `as_dict`
+  - Model `Resources` added method `deserialize`
+  - Model `Resources` added method `enable_additional_properties_sending`
+  - Model `Resources` added method `from_dict`
+  - Model `Resources` added method `is_xml_model`
+  - Model `Resources` added method `serialize`
+  - Model `Resources` added property `additional_properties`
+  - Model `RetryPolicy` added parameter `kwargs` in method `as_dict`
+  - Model `RetryPolicy` added method `deserialize`
+  - Model `RetryPolicy` added method `enable_additional_properties_sending`
+  - Model `RetryPolicy` added method `from_dict`
+  - Model `RetryPolicy` added method `is_xml_model`
+  - Model `RetryPolicy` added method `serialize`
+  - Model `RetryPolicy` added property `additional_properties`
+  - Model `Schedule` added parameter `kwargs` in method `as_dict`
+  - Model `Schedule` added method `deserialize`
+  - Model `Schedule` added method `enable_additional_properties_sending`
+  - Model `Schedule` added method `from_dict`
+  - Model `Schedule` added method `is_xml_model`
+  - Model `Schedule` added method `serialize`
+  - Model `Schedule` added property `additional_properties`
+  - Model `StartResourceOperationResponse` added parameter `kwargs` in method `as_dict`
+  - Model `StartResourceOperationResponse` added method `deserialize`
+  - Model `StartResourceOperationResponse` added method `enable_additional_properties_sending`
+  - Model `StartResourceOperationResponse` added method `from_dict`
+  - Model `StartResourceOperationResponse` added method `is_xml_model`
+  - Model `StartResourceOperationResponse` added method `serialize`
+  - Model `StartResourceOperationResponse` added property `additional_properties`
+  - Model `SubmitDeallocateRequest` added parameter `kwargs` in method `as_dict`
+  - Model `SubmitDeallocateRequest` added method `deserialize`
+  - Model `SubmitDeallocateRequest` added method `enable_additional_properties_sending`
+  - Model `SubmitDeallocateRequest` added method `from_dict`
+  - Model `SubmitDeallocateRequest` added method `is_xml_model`
+  - Model `SubmitDeallocateRequest` added method `serialize`
+  - Model `SubmitDeallocateRequest` added property `additional_properties`
+  - Model `SubmitHibernateRequest` added parameter `kwargs` in method `as_dict`
+  - Model `SubmitHibernateRequest` added method `deserialize`
+  - Model `SubmitHibernateRequest` added method `enable_additional_properties_sending`
+  - Model `SubmitHibernateRequest` added method `from_dict`
+  - Model `SubmitHibernateRequest` added method `is_xml_model`
+  - Model `SubmitHibernateRequest` added method `serialize`
+  - Model `SubmitHibernateRequest` added property `additional_properties`
+  - Model `SubmitStartRequest` added parameter `kwargs` in method `as_dict`
+  - Model `SubmitStartRequest` added method `deserialize`
+  - Model `SubmitStartRequest` added method `enable_additional_properties_sending`
+  - Model `SubmitStartRequest` added method `from_dict`
+  - Model `SubmitStartRequest` added method `is_xml_model`
+  - Model `SubmitStartRequest` added method `serialize`
+  - Model `SubmitStartRequest` added property `additional_properties`
+  - Added model `OperationListResult`
+
+### Breaking Changes
+
+  - Deleted or renamed client `ComputeScheduleMgmtClient`
+  - Method `CancelOperationsRequest.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `CancelOperationsRequest.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `CancelOperationsRequest.clear`
+  - Deleted or renamed method `CancelOperationsRequest.copy`
+  - Deleted or renamed method `CancelOperationsRequest.get`
+  - Deleted or renamed method `CancelOperationsRequest.items`
+  - Deleted or renamed method `CancelOperationsRequest.keys`
+  - Deleted or renamed method `CancelOperationsRequest.pop`
+  - Deleted or renamed method `CancelOperationsRequest.popitem`
+  - Deleted or renamed method `CancelOperationsRequest.setdefault`
+  - Deleted or renamed method `CancelOperationsRequest.update`
+  - Deleted or renamed method `CancelOperationsRequest.values`
+  - Method `CancelOperationsResponse.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `CancelOperationsResponse.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `CancelOperationsResponse.clear`
+  - Deleted or renamed method `CancelOperationsResponse.copy`
+  - Deleted or renamed method `CancelOperationsResponse.get`
+  - Deleted or renamed method `CancelOperationsResponse.items`
+  - Deleted or renamed method `CancelOperationsResponse.keys`
+  - Deleted or renamed method `CancelOperationsResponse.pop`
+  - Deleted or renamed method `CancelOperationsResponse.popitem`
+  - Deleted or renamed method `CancelOperationsResponse.setdefault`
+  - Deleted or renamed method `CancelOperationsResponse.update`
+  - Deleted or renamed method `CancelOperationsResponse.values`
+  - Method `DeallocateResourceOperationResponse.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `DeallocateResourceOperationResponse.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `DeallocateResourceOperationResponse.clear`
+  - Deleted or renamed method `DeallocateResourceOperationResponse.copy`
+  - Deleted or renamed method `DeallocateResourceOperationResponse.get`
+  - Deleted or renamed method `DeallocateResourceOperationResponse.items`
+  - Deleted or renamed method `DeallocateResourceOperationResponse.keys`
+  - Deleted or renamed method `DeallocateResourceOperationResponse.pop`
+  - Deleted or renamed method `DeallocateResourceOperationResponse.popitem`
+  - Deleted or renamed method `DeallocateResourceOperationResponse.setdefault`
+  - Deleted or renamed method `DeallocateResourceOperationResponse.update`
+  - Deleted or renamed method `DeallocateResourceOperationResponse.values`
+  - Method `ErrorAdditionalInfo.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `ErrorAdditionalInfo.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `ErrorAdditionalInfo.clear`
+  - Deleted or renamed method `ErrorAdditionalInfo.copy`
+  - Deleted or renamed method `ErrorAdditionalInfo.get`
+  - Deleted or renamed method `ErrorAdditionalInfo.items`
+  - Deleted or renamed method `ErrorAdditionalInfo.keys`
+  - Deleted or renamed method `ErrorAdditionalInfo.pop`
+  - Deleted or renamed method `ErrorAdditionalInfo.popitem`
+  - Deleted or renamed method `ErrorAdditionalInfo.setdefault`
+  - Deleted or renamed method `ErrorAdditionalInfo.update`
+  - Deleted or renamed method `ErrorAdditionalInfo.values`
+  - Method `ErrorDetail.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `ErrorDetail.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `ErrorDetail.clear`
+  - Deleted or renamed method `ErrorDetail.copy`
+  - Deleted or renamed method `ErrorDetail.get`
+  - Deleted or renamed method `ErrorDetail.items`
+  - Deleted or renamed method `ErrorDetail.keys`
+  - Deleted or renamed method `ErrorDetail.pop`
+  - Deleted or renamed method `ErrorDetail.popitem`
+  - Deleted or renamed method `ErrorDetail.setdefault`
+  - Deleted or renamed method `ErrorDetail.update`
+  - Deleted or renamed method `ErrorDetail.values`
+  - Method `ErrorResponse.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `ErrorResponse.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `ErrorResponse.clear`
+  - Deleted or renamed method `ErrorResponse.copy`
+  - Deleted or renamed method `ErrorResponse.get`
+  - Deleted or renamed method `ErrorResponse.items`
+  - Deleted or renamed method `ErrorResponse.keys`
+  - Deleted or renamed method `ErrorResponse.pop`
+  - Deleted or renamed method `ErrorResponse.popitem`
+  - Deleted or renamed method `ErrorResponse.setdefault`
+  - Deleted or renamed method `ErrorResponse.update`
+  - Deleted or renamed method `ErrorResponse.values`
+  - Method `ExecuteDeallocateRequest.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `ExecuteDeallocateRequest.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `ExecuteDeallocateRequest.clear`
+  - Deleted or renamed method `ExecuteDeallocateRequest.copy`
+  - Deleted or renamed method `ExecuteDeallocateRequest.get`
+  - Deleted or renamed method `ExecuteDeallocateRequest.items`
+  - Deleted or renamed method `ExecuteDeallocateRequest.keys`
+  - Deleted or renamed method `ExecuteDeallocateRequest.pop`
+  - Deleted or renamed method `ExecuteDeallocateRequest.popitem`
+  - Deleted or renamed method `ExecuteDeallocateRequest.setdefault`
+  - Deleted or renamed method `ExecuteDeallocateRequest.update`
+  - Deleted or renamed method `ExecuteDeallocateRequest.values`
+  - Method `ExecuteHibernateRequest.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `ExecuteHibernateRequest.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `ExecuteHibernateRequest.clear`
+  - Deleted or renamed method `ExecuteHibernateRequest.copy`
+  - Deleted or renamed method `ExecuteHibernateRequest.get`
+  - Deleted or renamed method `ExecuteHibernateRequest.items`
+  - Deleted or renamed method `ExecuteHibernateRequest.keys`
+  - Deleted or renamed method `ExecuteHibernateRequest.pop`
+  - Deleted or renamed method `ExecuteHibernateRequest.popitem`
+  - Deleted or renamed method `ExecuteHibernateRequest.setdefault`
+  - Deleted or renamed method `ExecuteHibernateRequest.update`
+  - Deleted or renamed method `ExecuteHibernateRequest.values`
+  - Method `ExecuteStartRequest.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `ExecuteStartRequest.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `ExecuteStartRequest.clear`
+  - Deleted or renamed method `ExecuteStartRequest.copy`
+  - Deleted or renamed method `ExecuteStartRequest.get`
+  - Deleted or renamed method `ExecuteStartRequest.items`
+  - Deleted or renamed method `ExecuteStartRequest.keys`
+  - Deleted or renamed method `ExecuteStartRequest.pop`
+  - Deleted or renamed method `ExecuteStartRequest.popitem`
+  - Deleted or renamed method `ExecuteStartRequest.setdefault`
+  - Deleted or renamed method `ExecuteStartRequest.update`
+  - Deleted or renamed method `ExecuteStartRequest.values`
+  - Method `ExecutionParameters.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `ExecutionParameters.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `ExecutionParameters.clear`
+  - Deleted or renamed method `ExecutionParameters.copy`
+  - Deleted or renamed method `ExecutionParameters.get`
+  - Deleted or renamed method `ExecutionParameters.items`
+  - Deleted or renamed method `ExecutionParameters.keys`
+  - Deleted or renamed method `ExecutionParameters.pop`
+  - Deleted or renamed method `ExecutionParameters.popitem`
+  - Deleted or renamed method `ExecutionParameters.setdefault`
+  - Deleted or renamed method `ExecutionParameters.update`
+  - Deleted or renamed method `ExecutionParameters.values`
+  - Method `GetOperationErrorsRequest.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `GetOperationErrorsRequest.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `GetOperationErrorsRequest.clear`
+  - Deleted or renamed method `GetOperationErrorsRequest.copy`
+  - Deleted or renamed method `GetOperationErrorsRequest.get`
+  - Deleted or renamed method `GetOperationErrorsRequest.items`
+  - Deleted or renamed method `GetOperationErrorsRequest.keys`
+  - Deleted or renamed method `GetOperationErrorsRequest.pop`
+  - Deleted or renamed method `GetOperationErrorsRequest.popitem`
+  - Deleted or renamed method `GetOperationErrorsRequest.setdefault`
+  - Deleted or renamed method `GetOperationErrorsRequest.update`
+  - Deleted or renamed method `GetOperationErrorsRequest.values`
+  - Method `GetOperationErrorsResponse.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `GetOperationErrorsResponse.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `GetOperationErrorsResponse.clear`
+  - Deleted or renamed method `GetOperationErrorsResponse.copy`
+  - Deleted or renamed method `GetOperationErrorsResponse.get`
+  - Deleted or renamed method `GetOperationErrorsResponse.items`
+  - Deleted or renamed method `GetOperationErrorsResponse.keys`
+  - Deleted or renamed method `GetOperationErrorsResponse.pop`
+  - Deleted or renamed method `GetOperationErrorsResponse.popitem`
+  - Deleted or renamed method `GetOperationErrorsResponse.setdefault`
+  - Deleted or renamed method `GetOperationErrorsResponse.update`
+  - Deleted or renamed method `GetOperationErrorsResponse.values`
+  - Method `GetOperationStatusRequest.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `GetOperationStatusRequest.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `GetOperationStatusRequest.clear`
+  - Deleted or renamed method `GetOperationStatusRequest.copy`
+  - Deleted or renamed method `GetOperationStatusRequest.get`
+  - Deleted or renamed method `GetOperationStatusRequest.items`
+  - Deleted or renamed method `GetOperationStatusRequest.keys`
+  - Deleted or renamed method `GetOperationStatusRequest.pop`
+  - Deleted or renamed method `GetOperationStatusRequest.popitem`
+  - Deleted or renamed method `GetOperationStatusRequest.setdefault`
+  - Deleted or renamed method `GetOperationStatusRequest.update`
+  - Deleted or renamed method `GetOperationStatusRequest.values`
+  - Method `GetOperationStatusResponse.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `GetOperationStatusResponse.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `GetOperationStatusResponse.clear`
+  - Deleted or renamed method `GetOperationStatusResponse.copy`
+  - Deleted or renamed method `GetOperationStatusResponse.get`
+  - Deleted or renamed method `GetOperationStatusResponse.items`
+  - Deleted or renamed method `GetOperationStatusResponse.keys`
+  - Deleted or renamed method `GetOperationStatusResponse.pop`
+  - Deleted or renamed method `GetOperationStatusResponse.popitem`
+  - Deleted or renamed method `GetOperationStatusResponse.setdefault`
+  - Deleted or renamed method `GetOperationStatusResponse.update`
+  - Deleted or renamed method `GetOperationStatusResponse.values`
+  - Method `HibernateResourceOperationResponse.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `HibernateResourceOperationResponse.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `HibernateResourceOperationResponse.clear`
+  - Deleted or renamed method `HibernateResourceOperationResponse.copy`
+  - Deleted or renamed method `HibernateResourceOperationResponse.get`
+  - Deleted or renamed method `HibernateResourceOperationResponse.items`
+  - Deleted or renamed method `HibernateResourceOperationResponse.keys`
+  - Deleted or renamed method `HibernateResourceOperationResponse.pop`
+  - Deleted or renamed method `HibernateResourceOperationResponse.popitem`
+  - Deleted or renamed method `HibernateResourceOperationResponse.setdefault`
+  - Deleted or renamed method `HibernateResourceOperationResponse.update`
+  - Deleted or renamed method `HibernateResourceOperationResponse.values`
+  - Method `Operation.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `Operation.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `Operation.clear`
+  - Deleted or renamed method `Operation.copy`
+  - Deleted or renamed method `Operation.get`
+  - Deleted or renamed method `Operation.items`
+  - Deleted or renamed method `Operation.keys`
+  - Deleted or renamed method `Operation.pop`
+  - Deleted or renamed method `Operation.popitem`
+  - Deleted or renamed method `Operation.setdefault`
+  - Deleted or renamed method `Operation.update`
+  - Deleted or renamed method `Operation.values`
+  - Method `OperationDisplay.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `OperationDisplay.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `OperationDisplay.clear`
+  - Deleted or renamed method `OperationDisplay.copy`
+  - Deleted or renamed method `OperationDisplay.get`
+  - Deleted or renamed method `OperationDisplay.items`
+  - Deleted or renamed method `OperationDisplay.keys`
+  - Deleted or renamed method `OperationDisplay.pop`
+  - Deleted or renamed method `OperationDisplay.popitem`
+  - Deleted or renamed method `OperationDisplay.setdefault`
+  - Deleted or renamed method `OperationDisplay.update`
+  - Deleted or renamed method `OperationDisplay.values`
+  - Method `OperationErrorDetails.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `OperationErrorDetails.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `OperationErrorDetails.clear`
+  - Deleted or renamed method `OperationErrorDetails.copy`
+  - Deleted or renamed method `OperationErrorDetails.get`
+  - Deleted or renamed method `OperationErrorDetails.items`
+  - Deleted or renamed method `OperationErrorDetails.keys`
+  - Deleted or renamed method `OperationErrorDetails.pop`
+  - Deleted or renamed method `OperationErrorDetails.popitem`
+  - Deleted or renamed method `OperationErrorDetails.setdefault`
+  - Deleted or renamed method `OperationErrorDetails.update`
+  - Deleted or renamed method `OperationErrorDetails.values`
+  - Method `OperationErrorsResult.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `OperationErrorsResult.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `OperationErrorsResult.clear`
+  - Deleted or renamed method `OperationErrorsResult.copy`
+  - Deleted or renamed method `OperationErrorsResult.get`
+  - Deleted or renamed method `OperationErrorsResult.items`
+  - Deleted or renamed method `OperationErrorsResult.keys`
+  - Deleted or renamed method `OperationErrorsResult.pop`
+  - Deleted or renamed method `OperationErrorsResult.popitem`
+  - Deleted or renamed method `OperationErrorsResult.setdefault`
+  - Deleted or renamed method `OperationErrorsResult.update`
+  - Deleted or renamed method `OperationErrorsResult.values`
+  - Method `ResourceOperation.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `ResourceOperation.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `ResourceOperation.clear`
+  - Deleted or renamed method `ResourceOperation.copy`
+  - Deleted or renamed method `ResourceOperation.get`
+  - Deleted or renamed method `ResourceOperation.items`
+  - Deleted or renamed method `ResourceOperation.keys`
+  - Deleted or renamed method `ResourceOperation.pop`
+  - Deleted or renamed method `ResourceOperation.popitem`
+  - Deleted or renamed method `ResourceOperation.setdefault`
+  - Deleted or renamed method `ResourceOperation.update`
+  - Deleted or renamed method `ResourceOperation.values`
+  - Method `ResourceOperationDetails.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `ResourceOperationDetails.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `ResourceOperationDetails.clear`
+  - Deleted or renamed method `ResourceOperationDetails.copy`
+  - Deleted or renamed method `ResourceOperationDetails.get`
+  - Deleted or renamed method `ResourceOperationDetails.items`
+  - Deleted or renamed method `ResourceOperationDetails.keys`
+  - Deleted or renamed method `ResourceOperationDetails.pop`
+  - Deleted or renamed method `ResourceOperationDetails.popitem`
+  - Deleted or renamed method `ResourceOperationDetails.setdefault`
+  - Deleted or renamed method `ResourceOperationDetails.update`
+  - Deleted or renamed method `ResourceOperationDetails.values`
+  - Method `ResourceOperationError.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `ResourceOperationError.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `ResourceOperationError.clear`
+  - Deleted or renamed method `ResourceOperationError.copy`
+  - Deleted or renamed method `ResourceOperationError.get`
+  - Deleted or renamed method `ResourceOperationError.items`
+  - Deleted or renamed method `ResourceOperationError.keys`
+  - Deleted or renamed method `ResourceOperationError.pop`
+  - Deleted or renamed method `ResourceOperationError.popitem`
+  - Deleted or renamed method `ResourceOperationError.setdefault`
+  - Deleted or renamed method `ResourceOperationError.update`
+  - Deleted or renamed method `ResourceOperationError.values`
+  - Method `Resources.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `Resources.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `Resources.clear`
+  - Deleted or renamed method `Resources.copy`
+  - Deleted or renamed method `Resources.get`
+  - Deleted or renamed method `Resources.items`
+  - Deleted or renamed method `Resources.keys`
+  - Deleted or renamed method `Resources.pop`
+  - Deleted or renamed method `Resources.popitem`
+  - Deleted or renamed method `Resources.setdefault`
+  - Deleted or renamed method `Resources.update`
+  - Deleted or renamed method `Resources.values`
+  - Method `RetryPolicy.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `RetryPolicy.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `RetryPolicy.clear`
+  - Deleted or renamed method `RetryPolicy.copy`
+  - Deleted or renamed method `RetryPolicy.get`
+  - Deleted or renamed method `RetryPolicy.items`
+  - Deleted or renamed method `RetryPolicy.keys`
+  - Deleted or renamed method `RetryPolicy.pop`
+  - Deleted or renamed method `RetryPolicy.popitem`
+  - Deleted or renamed method `RetryPolicy.setdefault`
+  - Deleted or renamed method `RetryPolicy.update`
+  - Deleted or renamed method `RetryPolicy.values`
+  - Method `Schedule.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `Schedule.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `Schedule.clear`
+  - Deleted or renamed method `Schedule.copy`
+  - Deleted or renamed method `Schedule.get`
+  - Deleted or renamed method `Schedule.items`
+  - Deleted or renamed method `Schedule.keys`
+  - Deleted or renamed method `Schedule.pop`
+  - Deleted or renamed method `Schedule.popitem`
+  - Deleted or renamed method `Schedule.setdefault`
+  - Deleted or renamed method `Schedule.update`
+  - Deleted or renamed method `Schedule.values`
+  - Method `StartResourceOperationResponse.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `StartResourceOperationResponse.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `StartResourceOperationResponse.clear`
+  - Deleted or renamed method `StartResourceOperationResponse.copy`
+  - Deleted or renamed method `StartResourceOperationResponse.get`
+  - Deleted or renamed method `StartResourceOperationResponse.items`
+  - Deleted or renamed method `StartResourceOperationResponse.keys`
+  - Deleted or renamed method `StartResourceOperationResponse.pop`
+  - Deleted or renamed method `StartResourceOperationResponse.popitem`
+  - Deleted or renamed method `StartResourceOperationResponse.setdefault`
+  - Deleted or renamed method `StartResourceOperationResponse.update`
+  - Deleted or renamed method `StartResourceOperationResponse.values`
+  - Method `SubmitDeallocateRequest.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `SubmitDeallocateRequest.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `SubmitDeallocateRequest.clear`
+  - Deleted or renamed method `SubmitDeallocateRequest.copy`
+  - Deleted or renamed method `SubmitDeallocateRequest.get`
+  - Deleted or renamed method `SubmitDeallocateRequest.items`
+  - Deleted or renamed method `SubmitDeallocateRequest.keys`
+  - Deleted or renamed method `SubmitDeallocateRequest.pop`
+  - Deleted or renamed method `SubmitDeallocateRequest.popitem`
+  - Deleted or renamed method `SubmitDeallocateRequest.setdefault`
+  - Deleted or renamed method `SubmitDeallocateRequest.update`
+  - Deleted or renamed method `SubmitDeallocateRequest.values`
+  - Method `SubmitHibernateRequest.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `SubmitHibernateRequest.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `SubmitHibernateRequest.clear`
+  - Deleted or renamed method `SubmitHibernateRequest.copy`
+  - Deleted or renamed method `SubmitHibernateRequest.get`
+  - Deleted or renamed method `SubmitHibernateRequest.items`
+  - Deleted or renamed method `SubmitHibernateRequest.keys`
+  - Deleted or renamed method `SubmitHibernateRequest.pop`
+  - Deleted or renamed method `SubmitHibernateRequest.popitem`
+  - Deleted or renamed method `SubmitHibernateRequest.setdefault`
+  - Deleted or renamed method `SubmitHibernateRequest.update`
+  - Deleted or renamed method `SubmitHibernateRequest.values`
+  - Method `SubmitStartRequest.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `SubmitStartRequest.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `SubmitStartRequest.clear`
+  - Deleted or renamed method `SubmitStartRequest.copy`
+  - Deleted or renamed method `SubmitStartRequest.get`
+  - Deleted or renamed method `SubmitStartRequest.items`
+  - Deleted or renamed method `SubmitStartRequest.keys`
+  - Deleted or renamed method `SubmitStartRequest.pop`
+  - Deleted or renamed method `SubmitStartRequest.popitem`
+  - Deleted or renamed method `SubmitStartRequest.setdefault`
+  - Deleted or renamed method `SubmitStartRequest.update`
+  - Deleted or renamed method `SubmitStartRequest.values`
+  - `CancelOperationsRequest.__init__` had all overloads removed
+  - `CancelOperationsResponse.__init__` had all overloads removed
+  - `DeallocateResourceOperationResponse.__init__` had all overloads removed
+  - `ErrorResponse.__init__` had all overloads removed
+  - `ExecuteDeallocateRequest.__init__` had all overloads removed
+  - `ExecuteHibernateRequest.__init__` had all overloads removed
+  - `ExecuteStartRequest.__init__` had all overloads removed
+  - `ExecutionParameters.__init__` had all overloads removed
+  - `GetOperationErrorsRequest.__init__` had all overloads removed
+  - `GetOperationErrorsResponse.__init__` had all overloads removed
+  - `GetOperationStatusRequest.__init__` had all overloads removed
+  - `GetOperationStatusResponse.__init__` had all overloads removed
+  - `HibernateResourceOperationResponse.__init__` had all overloads removed
+  - `Operation.__init__` had all overloads removed
+  - `OperationErrorDetails.__init__` had all overloads removed
+  - `OperationErrorsResult.__init__` had all overloads removed
+  - `ResourceOperation.__init__` had all overloads removed
+  - `ResourceOperationDetails.__init__` had all overloads removed
+  - `ResourceOperationError.__init__` had all overloads removed
+  - `Resources.__init__` had all overloads removed
+  - `RetryPolicy.__init__` had all overloads removed
+  - `Schedule.__init__` had all overloads removed
+  - `StartResourceOperationResponse.__init__` had all overloads removed
+  - `SubmitDeallocateRequest.__init__` had all overloads removed
+  - `SubmitHibernateRequest.__init__` had all overloads removed
+  - `SubmitStartRequest.__init__` had all overloads removed
+  - `ScheduledActionsOperations.virtual_machines_cancel_operations` had an overload `def virtual_machines_cancel_operations(self: None, locationparameter: str, request_body: JSON, content_type: str)` removed
+  - `ScheduledActionsOperations.virtual_machines_execute_deallocate` had an overload `def virtual_machines_execute_deallocate(self: None, locationparameter: str, request_body: JSON, content_type: str)` removed
+  - `ScheduledActionsOperations.virtual_machines_execute_hibernate` had an overload `def virtual_machines_execute_hibernate(self: None, locationparameter: str, request_body: JSON, content_type: str)` removed
+  - `ScheduledActionsOperations.virtual_machines_execute_start` had an overload `def virtual_machines_execute_start(self: None, locationparameter: str, request_body: JSON, content_type: str)` removed
+  - `ScheduledActionsOperations.virtual_machines_get_operation_errors` had an overload `def virtual_machines_get_operation_errors(self: None, locationparameter: str, request_body: JSON, content_type: str)` removed
+  - `ScheduledActionsOperations.virtual_machines_get_operation_status` had an overload `def virtual_machines_get_operation_status(self: None, locationparameter: str, request_body: JSON, content_type: str)` removed
+  - `ScheduledActionsOperations.virtual_machines_submit_deallocate` had an overload `def virtual_machines_submit_deallocate(self: None, locationparameter: str, request_body: JSON, content_type: str)` removed
+  - `ScheduledActionsOperations.virtual_machines_submit_hibernate` had an overload `def virtual_machines_submit_hibernate(self: None, locationparameter: str, request_body: JSON, content_type: str)` removed
+  - `ScheduledActionsOperations.virtual_machines_submit_start` had an overload `def virtual_machines_submit_start(self: None, locationparameter: str, request_body: JSON, content_type: str)` removed
+
 ## 1.0.0 (2025-01-20)
 
 ### Features Added

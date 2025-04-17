@@ -1,6 +1,13 @@
 {
-  "commit": "b6075dbc2321933382ea91c787ee62c6bdb87e5d",
+  "commit": "3390d8d263bb898608d361abb4f4cd0830fdf4bf",
   "repository_url": "https://github.com/Azure/azure-rest-api-specs",
   "typespec_src": "specification/computeschedule/ComputeSchedule.Management",
-  "@azure-tools/typespec-python": "0.37.3"
+  "@azure-tools/typespec-python": "0.37.3",
+  "autorest": "3.10.2",
+  "use": [
+    "@autorest/python@6.32.3",
+    "@autorest/modelerfour@4.27.0"
+  ],
+  "autorest_command": "autorest specification/computeschedule/resource-manager/readme.md --generate-sample=True --generate-test=True --include-x-ms-examples-original-file=True --python --python-sdks-folder=/mnt/vss/_work/1/s/azure-sdk-for-python/sdk --use=@autorest/python@6.32.3 --use=@autorest/modelerfour@4.27.0 --version=3.10.2 --version-tolerant=False",
+  "readme": "specification/computeschedule/resource-manager/readme.md"
 }
