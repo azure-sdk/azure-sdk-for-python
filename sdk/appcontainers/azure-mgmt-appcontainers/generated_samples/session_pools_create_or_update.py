@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -34,6 +35,7 @@ def main():
         resource_group_name="rg",
         session_pool_name="testsessionpool",
         session_pool_envelope={
+            "identity": {"type": "SystemAssigned"},
             "location": "East US",
             "properties": {
                 "containerType": "CustomContainer",
@@ -48,9 +50,14 @@ def main():
                         }
                     ],
                     "ingress": {"targetPort": 80},
+                    "registryCredentials": {
+                        "identity": "/subscriptions/7a497526-bb8d-4816-9795-db1418a1f977/resourcegroups/test/providers/Microsoft.ManagedIdentity/userAssignedIdentities/testSP",
+                        "server": "test.azurecr.io",
+                    },
                 },
                 "dynamicPoolConfiguration": {"cooldownPeriodInSeconds": 600, "executionType": "Timed"},
                 "environmentId": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.App/managedEnvironments/demokube",
+                "managedIdentitySettings": [{"identity": "system", "lifecycle": "Main"}],
                 "poolManagementType": "Dynamic",
                 "scaleConfiguration": {"maxConcurrentSessions": 500, "readySessionInstances": 100},
                 "sessionNetworkConfiguration": {"status": "EgressEnabled"},
@@ -60,6 +67,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/SessionPools_CreateOrUpdate.json
+# x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2025-02-02-preview/examples/SessionPools_CreateOrUpdate.json
 if __name__ == "__main__":
     main()
