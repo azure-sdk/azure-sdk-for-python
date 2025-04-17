@@ -39,11 +39,10 @@ from .operations import (
 )
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from azure.core.credentials import TokenCredential
 
 
-class AVSClient:  # pylint: disable=client-accepts-api-version-keyword,too-many-instance-attributes
+class AVSClient:  # pylint: disable=too-many-instance-attributes
     """Azure VMware Solution API.
 
     :ivar operations: Operations operations

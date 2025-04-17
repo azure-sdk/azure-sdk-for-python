@@ -21,7 +21,7 @@ class TestAVSClustersOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list(self, resource_group):
+    async def test_clusters_list(self, resource_group):
         response = self.client.clusters.list(
             resource_group_name=resource_group.name,
             private_cloud_name="str",
@@ -33,7 +33,7 @@ class TestAVSClustersOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get(self, resource_group):
+    async def test_clusters_get(self, resource_group):
         response = await self.client.clusters.get(
             resource_group_name=resource_group.name,
             private_cloud_name="str",
@@ -46,7 +46,7 @@ class TestAVSClustersOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_create_or_update(self, resource_group):
+    async def test_clusters_begin_create_or_update(self, resource_group):
         response = await (
             await self.client.clusters.begin_create_or_update(
                 resource_group_name=resource_group.name,
@@ -80,7 +80,7 @@ class TestAVSClustersOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_update(self, resource_group):
+    async def test_clusters_begin_update(self, resource_group):
         response = await (
             await self.client.clusters.begin_update(
                 resource_group_name=resource_group.name,
@@ -100,7 +100,7 @@ class TestAVSClustersOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_delete(self, resource_group):
+    async def test_clusters_begin_delete(self, resource_group):
         response = await (
             await self.client.clusters.begin_delete(
                 resource_group_name=resource_group.name,
@@ -115,7 +115,7 @@ class TestAVSClustersOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_zones(self, resource_group):
+    async def test_clusters_list_zones(self, resource_group):
         response = await self.client.clusters.list_zones(
             resource_group_name=resource_group.name,
             private_cloud_name="str",

@@ -21,7 +21,7 @@ class TestAVSPrivateCloudsOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_in_subscription(self, resource_group):
+    async def test_private_clouds_list_in_subscription(self, resource_group):
         response = self.client.private_clouds.list_in_subscription(
             api_version="2023-09-01",
         )
@@ -31,7 +31,7 @@ class TestAVSPrivateCloudsOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list(self, resource_group):
+    async def test_private_clouds_list(self, resource_group):
         response = self.client.private_clouds.list(
             resource_group_name=resource_group.name,
             api_version="2023-09-01",
@@ -42,7 +42,7 @@ class TestAVSPrivateCloudsOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get(self, resource_group):
+    async def test_private_clouds_get(self, resource_group):
         response = await self.client.private_clouds.get(
             resource_group_name=resource_group.name,
             private_cloud_name="str",
@@ -54,7 +54,7 @@ class TestAVSPrivateCloudsOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_create_or_update(self, resource_group):
+    async def test_private_clouds_begin_create_or_update(self, resource_group):
         response = await (
             await self.client.private_clouds.begin_create_or_update(
                 resource_group_name=resource_group.name,
@@ -153,7 +153,7 @@ class TestAVSPrivateCloudsOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_update(self, resource_group):
+    async def test_private_clouds_begin_update(self, resource_group):
         response = await (
             await self.client.private_clouds.begin_update(
                 resource_group_name=resource_group.name,
@@ -208,7 +208,7 @@ class TestAVSPrivateCloudsOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_delete(self, resource_group):
+    async def test_private_clouds_begin_delete(self, resource_group):
         response = await (
             await self.client.private_clouds.begin_delete(
                 resource_group_name=resource_group.name,
@@ -222,7 +222,7 @@ class TestAVSPrivateCloudsOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_admin_credentials(self, resource_group):
+    async def test_private_clouds_list_admin_credentials(self, resource_group):
         response = await self.client.private_clouds.list_admin_credentials(
             resource_group_name=resource_group.name,
             private_cloud_name="str",
@@ -234,7 +234,7 @@ class TestAVSPrivateCloudsOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_rotate_nsxt_password(self, resource_group):
+    async def test_private_clouds_begin_rotate_nsxt_password(self, resource_group):
         response = await (
             await self.client.private_clouds.begin_rotate_nsxt_password(
                 resource_group_name=resource_group.name,
@@ -248,7 +248,7 @@ class TestAVSPrivateCloudsOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_rotate_vcenter_password(self, resource_group):
+    async def test_private_clouds_begin_rotate_vcenter_password(self, resource_group):
         response = await (
             await self.client.private_clouds.begin_rotate_vcenter_password(
                 resource_group_name=resource_group.name,
