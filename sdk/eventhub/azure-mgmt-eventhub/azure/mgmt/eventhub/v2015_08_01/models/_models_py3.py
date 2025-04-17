@@ -87,7 +87,7 @@ class CheckNameAvailabilityResult(_serialization.Model):
         super().__init__(**kwargs)
         self.name_available = name_available
         self.reason = reason
-        self.message = None
+        self.message: Optional[str] = None
 
 
 class ConsumerGroupCreateOrUpdateParameters(_serialization.Model):
@@ -153,9 +153,9 @@ class ConsumerGroupCreateOrUpdateParameters(_serialization.Model):
         self.location = location
         self.type = type
         self.name = name
-        self.created_at = None
-        self.event_hub_path = None
-        self.updated_at = None
+        self.created_at: Optional[datetime.datetime] = None
+        self.event_hub_path: Optional[str] = None
+        self.updated_at: Optional[datetime.datetime] = None
         self.user_metadata = user_metadata
 
 
@@ -227,10 +227,10 @@ class Resource(_serialization.Model):
         :paramtype location: str
         """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
         self.location = location
-        self.type = None
+        self.type: Optional[str] = None
 
 
 class ConsumerGroupResource(Resource):
@@ -284,9 +284,9 @@ class ConsumerGroupResource(Resource):
         :paramtype user_metadata: str
         """
         super().__init__(location=location, **kwargs)
-        self.created_at = None
-        self.event_hub_path = None
-        self.updated_at = None
+        self.created_at: Optional[datetime.datetime] = None
+        self.event_hub_path: Optional[str] = None
+        self.updated_at: Optional[datetime.datetime] = None
         self.user_metadata = user_metadata
 
 
@@ -369,12 +369,12 @@ class EventHubCreateOrUpdateParameters(_serialization.Model):
         self.location = location
         self.type = type
         self.name = name
-        self.created_at = None
+        self.created_at: Optional[datetime.datetime] = None
         self.message_retention_in_days = message_retention_in_days
         self.partition_count = partition_count
-        self.partition_ids = None
+        self.partition_ids: Optional[List[str]] = None
         self.status = status
-        self.updated_at = None
+        self.updated_at: Optional[datetime.datetime] = None
 
 
 class EventHubListResult(_serialization.Model):
@@ -484,12 +484,12 @@ class EventHubResource(Resource):
         :paramtype status: str or ~azure.mgmt.eventhub.v2015_08_01.models.EntityStatus
         """
         super().__init__(location=location, **kwargs)
-        self.created_at = None
+        self.created_at: Optional[datetime.datetime] = None
         self.message_retention_in_days = message_retention_in_days
         self.partition_count = partition_count
-        self.partition_ids = None
+        self.partition_ids: Optional[List[str]] = None
         self.status = status
-        self.updated_at = None
+        self.updated_at: Optional[datetime.datetime] = None
 
 
 class NamespaceCreateOrUpdateParameters(_serialization.Model):
@@ -586,7 +586,7 @@ class NamespaceCreateOrUpdateParameters(_serialization.Model):
         self.created_at = created_at
         self.updated_at = updated_at
         self.service_bus_endpoint = service_bus_endpoint
-        self.metric_id = None
+        self.metric_id: Optional[str] = None
         self.enabled = enabled
 
 
@@ -767,7 +767,7 @@ class NamespaceResource(TrackedResource):
         self.created_at = created_at
         self.updated_at = updated_at
         self.service_bus_endpoint = service_bus_endpoint
-        self.metric_id = None
+        self.metric_id: Optional[str] = None
         self.enabled = enabled
 
 
@@ -825,7 +825,7 @@ class Operation(_serialization.Model):
         :paramtype display: ~azure.mgmt.eventhub.v2015_08_01.models.OperationDisplay
         """
         super().__init__(**kwargs)
-        self.name = None
+        self.name: Optional[str] = None
         self.display = display
 
 
@@ -857,9 +857,9 @@ class OperationDisplay(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.provider = None
-        self.resource = None
-        self.operation = None
+        self.provider: Optional[str] = None
+        self.resource: Optional[str] = None
+        self.operation: Optional[str] = None
 
 
 class OperationListResult(_serialization.Model):
@@ -888,8 +888,8 @@ class OperationListResult(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.value = None
-        self.next_link = None
+        self.value: Optional[List["_models.Operation"]] = None
+        self.next_link: Optional[str] = None
 
 
 class RegenerateKeysParameters(_serialization.Model):
@@ -954,11 +954,11 @@ class ResourceListKeys(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.primary_connection_string = None
-        self.secondary_connection_string = None
-        self.primary_key = None
-        self.secondary_key = None
-        self.key_name = None
+        self.primary_connection_string: Optional[str] = None
+        self.secondary_connection_string: Optional[str] = None
+        self.primary_key: Optional[str] = None
+        self.secondary_key: Optional[str] = None
+        self.key_name: Optional[str] = None
 
 
 class SharedAccessAuthorizationRuleCreateOrUpdateParameters(_serialization.Model):  # pylint: disable=name-too-long
