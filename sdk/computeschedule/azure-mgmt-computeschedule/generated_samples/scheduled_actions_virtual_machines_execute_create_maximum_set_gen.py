@@ -15,7 +15,7 @@ from azure.mgmt.computeschedule import ComputeScheduleMgmtClient
     pip install azure-identity
     pip install azure-mgmt-computeschedule
 # USAGE
-    python scheduled_actions_virtual_machines_submit_deallocate.py
+    python scheduled_actions_virtual_machines_execute_create_maximum_set_gen.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -30,22 +30,33 @@ def main():
         subscription_id="SUBSCRIPTION_ID",
     )
 
-    response = client.scheduled_actions.virtual_machines_submit_deallocate(
-        locationparameter="eastus2euap",
+    response = client.scheduled_actions.virtual_machines_execute_create(
+        locationparameter="egiw",
         request_body={
-            "correlationid": "23480d2f-1dca-4610-afb4-dd25eec1f34r",
-            "executionParameters": {"retryPolicy": {"retryCount": 4, "retryWindowInMinutes": 27}},
-            "resources": {
-                "ids": [
-                    "/subscriptions/YourSubscriptionId/resourceGroups/YourResourceGroupName/providers/Microsoft.Compute/virtualMachines/testResource3"
-                ]
+            "correlationid": "erpswvxajdpqgxfpgmzy",
+            "executionParameters": {
+                "optimizationPreference": "Cost",
+                "retryPolicy": {"retryCount": 25, "retryWindowInMinutes": 4},
             },
-            "schedule": {"deadline": "2024-11-01T17:52:54.215Z", "deadlineType": "InitiateAt", "timezone": "UTC"},
+            "resourceConfigParameters": {
+                "baseProfile": "tfgrulcuneopmbdjydzofmhpa",
+                "resourceCount": 28,
+                "resourceOverrides": ["hsqtjgsobjaffl"],
+                "resourcePrefix": "rqlxavviucrxfjj",
+                "vmExtensions": [
+                    {
+                        "location": "daubzmbqetankmfvcc",
+                        "name": "xnymtvrxgddnppywidgkxcsrcthx",
+                        "properties": {},
+                        "tags": {},
+                    }
+                ],
+            },
         },
     )
     print(response)
 
 
-# x-ms-original-file: 2024-10-01/ScheduledActions_VirtualMachinesSubmitDeallocate.json
+# x-ms-original-file: 2025-05-01/ScheduledActions_VirtualMachinesExecuteCreate_MaximumSet_Gen.json
 if __name__ == "__main__":
     main()

@@ -150,6 +150,110 @@ class TestComputeScheduleMgmtScheduledActionsOperationsAsync(AzureMgmtRecordedTe
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
+    async def test_scheduled_actions_virtual_machines_execute_create(self, resource_group):
+        response = await self.client.scheduled_actions.virtual_machines_execute_create(
+            locationparameter="str",
+            request_body={
+                "executionParameters": {
+                    "optimizationPreference": "str",
+                    "retryPolicy": {"retryCount": 0, "retryWindowInMinutes": 0},
+                },
+                "resourceConfigParameters": {
+                    "resourceCount": 0,
+                    "baseProfile": "str",
+                    "resourceOverrides": ["str"],
+                    "resourcePrefix": "str",
+                    "vmExtensions": [
+                        {"name": "str", "properties": {"str": {}}, "location": "str", "tags": {"str": "str"}}
+                    ],
+                },
+                "correlationid": "str",
+            },
+        )
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy_async
+    async def test_scheduled_actions_virtual_machines_execute_delete(self, resource_group):
+        response = await self.client.scheduled_actions.virtual_machines_execute_delete(
+            locationparameter="str",
+            request_body={
+                "executionParameters": {
+                    "optimizationPreference": "str",
+                    "retryPolicy": {"retryCount": 0, "retryWindowInMinutes": 0},
+                },
+                "resources": {"ids": ["str"]},
+                "correlationid": "str",
+                "forceDeletion": bool,
+            },
+        )
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy_async
+    async def test_scheduled_actions_virtual_machines_submit_create(self, resource_group):
+        response = await self.client.scheduled_actions.virtual_machines_submit_create(
+            locationparameter="str",
+            request_body={
+                "resourceConfigParameters": {
+                    "resourceCount": 0,
+                    "baseProfile": "str",
+                    "resourceOverrides": ["str"],
+                    "resourcePrefix": "str",
+                    "vmExtensions": [
+                        {"name": "str", "properties": {"str": {}}, "location": "str", "tags": {"str": "str"}}
+                    ],
+                },
+                "schedule": {
+                    "deadlineType": "str",
+                    "deadLine": "2020-02-20 00:00:00",
+                    "deadline": "2020-02-20 00:00:00",
+                    "timeZone": "str",
+                    "timezone": "str",
+                },
+                "correlationid": "str",
+                "executionParameters": {
+                    "optimizationPreference": "str",
+                    "retryPolicy": {"retryCount": 0, "retryWindowInMinutes": 0},
+                },
+            },
+        )
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy_async
+    async def test_scheduled_actions_virtual_machines_submit_delete(self, resource_group):
+        response = await self.client.scheduled_actions.virtual_machines_submit_delete(
+            locationparameter="str",
+            request_body={
+                "executionParameters": {
+                    "optimizationPreference": "str",
+                    "retryPolicy": {"retryCount": 0, "retryWindowInMinutes": 0},
+                },
+                "resources": {"ids": ["str"]},
+                "schedule": {
+                    "deadlineType": "str",
+                    "deadLine": "2020-02-20 00:00:00",
+                    "deadline": "2020-02-20 00:00:00",
+                    "timeZone": "str",
+                    "timezone": "str",
+                },
+                "correlationid": "str",
+                "forceDeletion": bool,
+            },
+        )
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy_async
     async def test_scheduled_actions_virtual_machines_get_operation_status(self, resource_group):
         response = await self.client.scheduled_actions.virtual_machines_get_operation_status(
             locationparameter="str",
