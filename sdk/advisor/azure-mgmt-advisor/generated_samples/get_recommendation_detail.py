@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,6 +8,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.advisor import AdvisorManagementClient
 
 """
@@ -30,12 +32,12 @@ def main():
     )
 
     response = client.recommendations.get(
-        resource_uri="resourceUri",
-        recommendation_id="recommendationId",
+        resource_uri="subscriptions/a5481ee1-95df-47d0-85d4-dd3f0dfa19bc/resourceGroups/resourceGroup/providers/Microsoft.Compute/availabilitysets/armavset",
+        recommendation_id="bd27ddc6-1312-4067-b4af-cbb45e32cfd7",
     )
     print(response)
 
 
-# x-ms-original-file: specification/advisor/resource-manager/Microsoft.Advisor/stable/2020-01-01/examples/GetRecommendationDetail.json
+# x-ms-original-file: specification/advisor/resource-manager/Microsoft.Advisor/preview/2024-11-18-preview/examples/GetRecommendationDetail.json
 if __name__ == "__main__":
     main()
