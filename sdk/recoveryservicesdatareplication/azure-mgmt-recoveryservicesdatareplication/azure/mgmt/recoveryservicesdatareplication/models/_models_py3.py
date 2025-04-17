@@ -1,5 +1,5 @@
+# pylint: disable=line-too-long,useless-suppression,too-many-lines
 # coding=utf-8
-# pylint: disable=too-many-lines
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -8,19 +8,18 @@
 # --------------------------------------------------------------------------
 
 import datetime
-from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
+from typing import Any, Dict, List, Literal, Optional, TYPE_CHECKING, Union
 
 from .. import _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
 class AzStackHCIClusterProperties(_serialization.Model):
     """AzStackHCI cluster properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar cluster_name: Gets or sets the AzStackHCICluster FQDN name. Required.
     :vartype cluster_name: str
@@ -83,14 +82,14 @@ class FabricModelCustomProperties(_serialization.Model):
     AzStackHCIFabricModelCustomProperties, HyperVMigrateFabricModelCustomProperties,
     VMwareMigrateFabricModelCustomProperties
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar instance_type: Gets or sets the instance type. Required.
+    :ivar instance_type: Discriminator property for FabricModelCustomProperties. Required.
     :vartype instance_type: str
     """
 
     _validation = {
-        "instance_type": {"required": True, "min_length": 1},
+        "instance_type": {"required": True},
     }
 
     _attribute_map = {
@@ -116,9 +115,9 @@ class AzStackHCIFabricModelCustomProperties(FabricModelCustomProperties):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar instance_type: Gets or sets the instance type. Required.
+    :ivar instance_type: Discriminator property for FabricModelCustomProperties. Required.
     :vartype instance_type: str
     :ivar az_stack_hci_site_id: Gets or sets the ARM Id of the AzStackHCI site. Required.
     :vartype az_stack_hci_site_id: str
@@ -138,13 +137,13 @@ class AzStackHCIFabricModelCustomProperties(FabricModelCustomProperties):
     """
 
     _validation = {
-        "instance_type": {"required": True, "min_length": 1},
-        "az_stack_hci_site_id": {"required": True, "min_length": 1},
+        "instance_type": {"required": True},
+        "az_stack_hci_site_id": {"required": True},
         "appliance_name": {"readonly": True},
         "cluster": {"required": True},
         "fabric_resource_id": {"readonly": True},
         "fabric_container_id": {"readonly": True},
-        "migration_solution_id": {"required": True, "min_length": 1},
+        "migration_solution_id": {"required": True},
         "migration_hub_uri": {"readonly": True},
     }
 
@@ -179,12 +178,12 @@ class AzStackHCIFabricModelCustomProperties(FabricModelCustomProperties):
         super().__init__(**kwargs)
         self.instance_type: str = "AzStackHCI"
         self.az_stack_hci_site_id = az_stack_hci_site_id
-        self.appliance_name = None
+        self.appliance_name: Optional[List[str]] = None
         self.cluster = cluster
-        self.fabric_resource_id = None
-        self.fabric_container_id = None
+        self.fabric_resource_id: Optional[str] = None
+        self.fabric_container_id: Optional[str] = None
         self.migration_solution_id = migration_solution_id
-        self.migration_hub_uri = None
+        self.migration_hub_uri: Optional[str] = None
 
 
 class CheckNameAvailabilityModel(_serialization.Model):
@@ -254,6 +253,59 @@ class CheckNameAvailabilityResponseModel(_serialization.Model):
         self.message = message
 
 
+class ConnectionDetails(_serialization.Model):
+    """Private endpoint connection details at member level.
+
+    :ivar id: Gets or sets id.
+    :vartype id: str
+    :ivar private_ip_address: Gets or sets private IP address.
+    :vartype private_ip_address: str
+    :ivar link_identifier: Gets or sets link identifier.
+    :vartype link_identifier: str
+    :ivar group_id: Gets or sets group id.
+    :vartype group_id: str
+    :ivar member_name: Gets or sets member name.
+    :vartype member_name: str
+    """
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "private_ip_address": {"key": "privateIpAddress", "type": "str"},
+        "link_identifier": {"key": "linkIdentifier", "type": "str"},
+        "group_id": {"key": "groupId", "type": "str"},
+        "member_name": {"key": "memberName", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        id: Optional[str] = None,  # pylint: disable=redefined-builtin
+        private_ip_address: Optional[str] = None,
+        link_identifier: Optional[str] = None,
+        group_id: Optional[str] = None,
+        member_name: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword id: Gets or sets id.
+        :paramtype id: str
+        :keyword private_ip_address: Gets or sets private IP address.
+        :paramtype private_ip_address: str
+        :keyword link_identifier: Gets or sets link identifier.
+        :paramtype link_identifier: str
+        :keyword group_id: Gets or sets group id.
+        :paramtype group_id: str
+        :keyword member_name: Gets or sets member name.
+        :paramtype member_name: str
+        """
+        super().__init__(**kwargs)
+        self.id = id
+        self.private_ip_address = private_ip_address
+        self.link_identifier = link_identifier
+        self.group_id = group_id
+        self.member_name = member_name
+
+
 class DeploymentPreflightModel(_serialization.Model):
     """Deployment preflight model.
 
@@ -289,6 +341,8 @@ class DeploymentPreflightResource(_serialization.Model):
     :vartype location: str
     :ivar api_version: Gets or sets the Api version.
     :vartype api_version: str
+    :ivar properties: Gets or sets the properties of the resource.
+    :vartype properties: any
     """
 
     _attribute_map = {
@@ -296,6 +350,7 @@ class DeploymentPreflightResource(_serialization.Model):
         "type": {"key": "type", "type": "str"},
         "location": {"key": "location", "type": "str"},
         "api_version": {"key": "apiVersion", "type": "str"},
+        "properties": {"key": "properties", "type": "object"},
     }
 
     def __init__(
@@ -305,6 +360,7 @@ class DeploymentPreflightResource(_serialization.Model):
         type: Optional[str] = None,
         location: Optional[str] = None,
         api_version: Optional[str] = None,
+        properties: Optional[Any] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -316,35 +372,76 @@ class DeploymentPreflightResource(_serialization.Model):
         :paramtype location: str
         :keyword api_version: Gets or sets the Api version.
         :paramtype api_version: str
+        :keyword properties: Gets or sets the properties of the resource.
+        :paramtype properties: any
         """
         super().__init__(**kwargs)
         self.name = name
         self.type = type
         self.location = location
         self.api_version = api_version
+        self.properties = properties
 
 
-class DraModel(_serialization.Model):
-    """Dra model.
+class DiskControllerInputs(_serialization.Model):
+    """Disk controller.
 
-    Variables are only populated by the server, and will be ignored when sending a request.
+    All required parameters must be populated in order to send to server.
 
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar properties: Dra model properties. Required.
-    :vartype properties: ~azure.mgmt.recoveryservicesdatareplication.models.DraModelProperties
-    :ivar id: Gets or sets the Id of the resource.
-    :vartype id: str
-    :ivar name: Gets or sets the name of the resource.
-    :vartype name: str
-    :ivar type: Gets or sets the type of the resource.
-    :vartype type: str
-    :ivar system_data:
-    :vartype system_data: ~azure.mgmt.recoveryservicesdatareplication.models.DraModelSystemData
+    :ivar controller_name: Gets or sets the controller name (IDE,SCSI). Required.
+    :vartype controller_name: str
+    :ivar controller_id: Gets or sets the controller ID. Required.
+    :vartype controller_id: int
+    :ivar controller_location: Gets or sets the controller Location. Required.
+    :vartype controller_location: int
     """
 
     _validation = {
-        "properties": {"required": True},
+        "controller_name": {"required": True, "min_length": 1},
+        "controller_id": {"required": True},
+        "controller_location": {"required": True},
+    }
+
+    _attribute_map = {
+        "controller_name": {"key": "controllerName", "type": "str"},
+        "controller_id": {"key": "controllerId", "type": "int"},
+        "controller_location": {"key": "controllerLocation", "type": "int"},
+    }
+
+    def __init__(self, *, controller_name: str, controller_id: int, controller_location: int, **kwargs: Any) -> None:
+        """
+        :keyword controller_name: Gets or sets the controller name (IDE,SCSI). Required.
+        :paramtype controller_name: str
+        :keyword controller_id: Gets or sets the controller ID. Required.
+        :paramtype controller_id: int
+        :keyword controller_location: Gets or sets the controller Location. Required.
+        :paramtype controller_location: int
+        """
+        super().__init__(**kwargs)
+        self.controller_name = controller_name
+        self.controller_id = controller_id
+        self.controller_location = controller_location
+
+
+class Resource(_serialization.Model):
+    """Common fields that are returned in the response for all Azure Resource Manager resources.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.recoveryservicesdatareplication.models.SystemData
+    """
+
+    _validation = {
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
@@ -352,347 +449,63 @@ class DraModel(_serialization.Model):
     }
 
     _attribute_map = {
-        "properties": {"key": "properties", "type": "DraModelProperties"},
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
-        "system_data": {"key": "systemData", "type": "DraModelSystemData"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
     }
-
-    def __init__(self, *, properties: "_models.DraModelProperties", **kwargs: Any) -> None:
-        """
-        :keyword properties: Dra model properties. Required.
-        :paramtype properties: ~azure.mgmt.recoveryservicesdatareplication.models.DraModelProperties
-        """
-        super().__init__(**kwargs)
-        self.properties = properties
-        self.id = None
-        self.name = None
-        self.type = None
-        self.system_data = None
-
-
-class DraModelCollection(_serialization.Model):
-    """Dra model collection.
-
-    :ivar value: Gets or sets the list of Dras.
-    :vartype value: list[~azure.mgmt.recoveryservicesdatareplication.models.DraModel]
-    :ivar next_link: Gets or sets the value of next link.
-    :vartype next_link: str
-    """
-
-    _attribute_map = {
-        "value": {"key": "value", "type": "[DraModel]"},
-        "next_link": {"key": "nextLink", "type": "str"},
-    }
-
-    def __init__(
-        self, *, value: Optional[List["_models.DraModel"]] = None, next_link: Optional[str] = None, **kwargs: Any
-    ) -> None:
-        """
-        :keyword value: Gets or sets the list of Dras.
-        :paramtype value: list[~azure.mgmt.recoveryservicesdatareplication.models.DraModel]
-        :keyword next_link: Gets or sets the value of next link.
-        :paramtype next_link: str
-        """
-        super().__init__(**kwargs)
-        self.value = value
-        self.next_link = next_link
-
-
-class DraModelCustomProperties(_serialization.Model):
-    """Dra model custom properties.
-
-    You probably want to use the sub-classes and not this class directly. Known sub-classes are:
-    VMwareDraModelCustomProperties
-
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar instance_type: Gets or sets the instance type. Required.
-    :vartype instance_type: str
-    """
-
-    _validation = {
-        "instance_type": {"required": True, "min_length": 1},
-    }
-
-    _attribute_map = {
-        "instance_type": {"key": "instanceType", "type": "str"},
-    }
-
-    _subtype_map = {"instance_type": {"VMware": "VMwareDraModelCustomProperties"}}
 
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.instance_type: Optional[str] = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
+        self.system_data: Optional["_models.SystemData"] = None
 
 
-class DraModelProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
-    """Dra model properties.
+class ProxyResource(Resource):
+    """The resource model definition for a Azure Resource Manager proxy resource. It will not have
+    tags and a location.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar correlation_id: Gets or sets the Dra correlation Id.
-    :vartype correlation_id: str
-    :ivar machine_id: Gets or sets the machine Id where Dra is running. Required.
-    :vartype machine_id: str
-    :ivar machine_name: Gets or sets the machine name where Dra is running. Required.
-    :vartype machine_name: str
-    :ivar authentication_identity: Identity model. Required.
-    :vartype authentication_identity:
-     ~azure.mgmt.recoveryservicesdatareplication.models.IdentityModel
-    :ivar resource_access_identity: Identity model. Required.
-    :vartype resource_access_identity:
-     ~azure.mgmt.recoveryservicesdatareplication.models.IdentityModel
-    :ivar is_responsive: Gets or sets a value indicating whether Dra is responsive.
-    :vartype is_responsive: bool
-    :ivar last_heartbeat: Gets or sets the time when last heartbeat was sent by the Dra.
-    :vartype last_heartbeat: ~datetime.datetime
-    :ivar version_number: Gets or sets the Dra version.
-    :vartype version_number: str
-    :ivar provisioning_state: Gets or sets the provisioning state of the Dra. Known values are:
-     "Canceled", "Creating", "Deleting", "Deleted", "Failed", "Succeeded", and "Updating".
-    :vartype provisioning_state: str or
-     ~azure.mgmt.recoveryservicesdatareplication.models.ProvisioningState
-    :ivar health_errors: Gets or sets the list of health errors.
-    :vartype health_errors:
-     list[~azure.mgmt.recoveryservicesdatareplication.models.HealthErrorModel]
-    :ivar custom_properties: Dra model custom properties. Required.
-    :vartype custom_properties:
-     ~azure.mgmt.recoveryservicesdatareplication.models.DraModelCustomProperties
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.recoveryservicesdatareplication.models.SystemData
     """
 
-    _validation = {
-        "correlation_id": {"readonly": True},
-        "machine_id": {"required": True, "min_length": 1},
-        "machine_name": {"required": True, "min_length": 1},
-        "authentication_identity": {"required": True},
-        "resource_access_identity": {"required": True},
-        "is_responsive": {"readonly": True},
-        "last_heartbeat": {"readonly": True},
-        "version_number": {"readonly": True},
-        "provisioning_state": {"readonly": True},
-        "health_errors": {"readonly": True},
-        "custom_properties": {"required": True},
-    }
 
-    _attribute_map = {
-        "correlation_id": {"key": "correlationId", "type": "str"},
-        "machine_id": {"key": "machineId", "type": "str"},
-        "machine_name": {"key": "machineName", "type": "str"},
-        "authentication_identity": {"key": "authenticationIdentity", "type": "IdentityModel"},
-        "resource_access_identity": {"key": "resourceAccessIdentity", "type": "IdentityModel"},
-        "is_responsive": {"key": "isResponsive", "type": "bool"},
-        "last_heartbeat": {"key": "lastHeartbeat", "type": "iso-8601"},
-        "version_number": {"key": "versionNumber", "type": "str"},
-        "provisioning_state": {"key": "provisioningState", "type": "str"},
-        "health_errors": {"key": "healthErrors", "type": "[HealthErrorModel]"},
-        "custom_properties": {"key": "customProperties", "type": "DraModelCustomProperties"},
-    }
-
-    def __init__(
-        self,
-        *,
-        machine_id: str,
-        machine_name: str,
-        authentication_identity: "_models.IdentityModel",
-        resource_access_identity: "_models.IdentityModel",
-        custom_properties: "_models.DraModelCustomProperties",
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword machine_id: Gets or sets the machine Id where Dra is running. Required.
-        :paramtype machine_id: str
-        :keyword machine_name: Gets or sets the machine name where Dra is running. Required.
-        :paramtype machine_name: str
-        :keyword authentication_identity: Identity model. Required.
-        :paramtype authentication_identity:
-         ~azure.mgmt.recoveryservicesdatareplication.models.IdentityModel
-        :keyword resource_access_identity: Identity model. Required.
-        :paramtype resource_access_identity:
-         ~azure.mgmt.recoveryservicesdatareplication.models.IdentityModel
-        :keyword custom_properties: Dra model custom properties. Required.
-        :paramtype custom_properties:
-         ~azure.mgmt.recoveryservicesdatareplication.models.DraModelCustomProperties
-        """
-        super().__init__(**kwargs)
-        self.correlation_id = None
-        self.machine_id = machine_id
-        self.machine_name = machine_name
-        self.authentication_identity = authentication_identity
-        self.resource_access_identity = resource_access_identity
-        self.is_responsive = None
-        self.last_heartbeat = None
-        self.version_number = None
-        self.provisioning_state = None
-        self.health_errors = None
-        self.custom_properties = custom_properties
-
-
-class SystemDataModel(_serialization.Model):
-    """System data required to be defined for Azure resources.
-
-    :ivar created_by: Gets or sets identity that created the resource.
-    :vartype created_by: str
-    :ivar created_by_type: Gets or sets the type of identity that created the resource: user,
-     application,
-     managedIdentity.
-    :vartype created_by_type: str
-    :ivar created_at: Gets or sets the timestamp of resource creation (UTC).
-    :vartype created_at: ~datetime.datetime
-    :ivar last_modified_by: Gets or sets the identity that last modified the resource.
-    :vartype last_modified_by: str
-    :ivar last_modified_by_type: Gets or sets the type of identity that last modified the resource:
-     user, application,
-     managedIdentity.
-    :vartype last_modified_by_type: str
-    :ivar last_modified_at: Gets or sets the timestamp of resource last modification (UTC).
-    :vartype last_modified_at: ~datetime.datetime
-    """
-
-    _attribute_map = {
-        "created_by": {"key": "createdBy", "type": "str"},
-        "created_by_type": {"key": "createdByType", "type": "str"},
-        "created_at": {"key": "createdAt", "type": "iso-8601"},
-        "last_modified_by": {"key": "lastModifiedBy", "type": "str"},
-        "last_modified_by_type": {"key": "lastModifiedByType", "type": "str"},
-        "last_modified_at": {"key": "lastModifiedAt", "type": "iso-8601"},
-    }
-
-    def __init__(
-        self,
-        *,
-        created_by: Optional[str] = None,
-        created_by_type: Optional[str] = None,
-        created_at: Optional[datetime.datetime] = None,
-        last_modified_by: Optional[str] = None,
-        last_modified_by_type: Optional[str] = None,
-        last_modified_at: Optional[datetime.datetime] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword created_by: Gets or sets identity that created the resource.
-        :paramtype created_by: str
-        :keyword created_by_type: Gets or sets the type of identity that created the resource: user,
-         application,
-         managedIdentity.
-        :paramtype created_by_type: str
-        :keyword created_at: Gets or sets the timestamp of resource creation (UTC).
-        :paramtype created_at: ~datetime.datetime
-        :keyword last_modified_by: Gets or sets the identity that last modified the resource.
-        :paramtype last_modified_by: str
-        :keyword last_modified_by_type: Gets or sets the type of identity that last modified the
-         resource: user, application,
-         managedIdentity.
-        :paramtype last_modified_by_type: str
-        :keyword last_modified_at: Gets or sets the timestamp of resource last modification (UTC).
-        :paramtype last_modified_at: ~datetime.datetime
-        """
-        super().__init__(**kwargs)
-        self.created_by = created_by
-        self.created_by_type = created_by_type
-        self.created_at = created_at
-        self.last_modified_by = last_modified_by
-        self.last_modified_by_type = last_modified_by_type
-        self.last_modified_at = last_modified_at
-
-
-class DraModelSystemData(SystemDataModel):
-    """DraModelSystemData.
-
-    :ivar created_by: Gets or sets identity that created the resource.
-    :vartype created_by: str
-    :ivar created_by_type: Gets or sets the type of identity that created the resource: user,
-     application,
-     managedIdentity.
-    :vartype created_by_type: str
-    :ivar created_at: Gets or sets the timestamp of resource creation (UTC).
-    :vartype created_at: ~datetime.datetime
-    :ivar last_modified_by: Gets or sets the identity that last modified the resource.
-    :vartype last_modified_by: str
-    :ivar last_modified_by_type: Gets or sets the type of identity that last modified the resource:
-     user, application,
-     managedIdentity.
-    :vartype last_modified_by_type: str
-    :ivar last_modified_at: Gets or sets the timestamp of resource last modification (UTC).
-    :vartype last_modified_at: ~datetime.datetime
-    """
-
-    _attribute_map = {
-        "created_by": {"key": "createdBy", "type": "str"},
-        "created_by_type": {"key": "createdByType", "type": "str"},
-        "created_at": {"key": "createdAt", "type": "iso-8601"},
-        "last_modified_by": {"key": "lastModifiedBy", "type": "str"},
-        "last_modified_by_type": {"key": "lastModifiedByType", "type": "str"},
-        "last_modified_at": {"key": "lastModifiedAt", "type": "iso-8601"},
-    }
-
-    def __init__(
-        self,
-        *,
-        created_by: Optional[str] = None,
-        created_by_type: Optional[str] = None,
-        created_at: Optional[datetime.datetime] = None,
-        last_modified_by: Optional[str] = None,
-        last_modified_by_type: Optional[str] = None,
-        last_modified_at: Optional[datetime.datetime] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword created_by: Gets or sets identity that created the resource.
-        :paramtype created_by: str
-        :keyword created_by_type: Gets or sets the type of identity that created the resource: user,
-         application,
-         managedIdentity.
-        :paramtype created_by_type: str
-        :keyword created_at: Gets or sets the timestamp of resource creation (UTC).
-        :paramtype created_at: ~datetime.datetime
-        :keyword last_modified_by: Gets or sets the identity that last modified the resource.
-        :paramtype last_modified_by: str
-        :keyword last_modified_by_type: Gets or sets the type of identity that last modified the
-         resource: user, application,
-         managedIdentity.
-        :paramtype last_modified_by_type: str
-        :keyword last_modified_at: Gets or sets the timestamp of resource last modification (UTC).
-        :paramtype last_modified_at: ~datetime.datetime
-        """
-        super().__init__(
-            created_by=created_by,
-            created_by_type=created_by_type,
-            created_at=created_at,
-            last_modified_by=last_modified_by,
-            last_modified_by_type=last_modified_by_type,
-            last_modified_at=last_modified_at,
-            **kwargs
-        )
-
-
-class EmailConfigurationModel(_serialization.Model):
+class EmailConfigurationModel(ProxyResource):
     """Email configuration model.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar properties: Email configuration model properties. Required.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.recoveryservicesdatareplication.models.SystemData
+    :ivar properties: The resource-specific properties for this resource.
     :vartype properties:
      ~azure.mgmt.recoveryservicesdatareplication.models.EmailConfigurationModelProperties
-    :ivar id: Gets or sets the Id of the resource.
-    :vartype id: str
-    :ivar name: Gets or sets the name of the resource.
-    :vartype name: str
-    :ivar type: Gets or sets the type of the resource.
-    :vartype type: str
-    :ivar system_data:
-    :vartype system_data:
-     ~azure.mgmt.recoveryservicesdatareplication.models.EmailConfigurationModelSystemData
     """
 
     _validation = {
-        "properties": {"required": True},
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
@@ -700,36 +513,40 @@ class EmailConfigurationModel(_serialization.Model):
     }
 
     _attribute_map = {
-        "properties": {"key": "properties", "type": "EmailConfigurationModelProperties"},
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
-        "system_data": {"key": "systemData", "type": "EmailConfigurationModelSystemData"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "properties": {"key": "properties", "type": "EmailConfigurationModelProperties"},
     }
 
-    def __init__(self, *, properties: "_models.EmailConfigurationModelProperties", **kwargs: Any) -> None:
+    def __init__(
+        self, *, properties: Optional["_models.EmailConfigurationModelProperties"] = None, **kwargs: Any
+    ) -> None:
         """
-        :keyword properties: Email configuration model properties. Required.
+        :keyword properties: The resource-specific properties for this resource.
         :paramtype properties:
          ~azure.mgmt.recoveryservicesdatareplication.models.EmailConfigurationModelProperties
         """
         super().__init__(**kwargs)
         self.properties = properties
-        self.id = None
-        self.name = None
-        self.type = None
-        self.system_data = None
 
 
-class EmailConfigurationModelCollection(_serialization.Model):
-    """Email configuration model collection.
+class EmailConfigurationModelListResult(_serialization.Model):
+    """The response of a EmailConfigurationModel list operation.
 
-    :ivar value: Gets or sets the list of email configurations.
+    All required parameters must be populated in order to send to server.
+
+    :ivar value: The EmailConfigurationModel items on this page. Required.
     :vartype value:
      list[~azure.mgmt.recoveryservicesdatareplication.models.EmailConfigurationModel]
-    :ivar next_link: Gets or sets the value of next link.
+    :ivar next_link: The link to the next page of items.
     :vartype next_link: str
     """
+
+    _validation = {
+        "value": {"required": True},
+    }
 
     _attribute_map = {
         "value": {"key": "value", "type": "[EmailConfigurationModel]"},
@@ -737,17 +554,13 @@ class EmailConfigurationModelCollection(_serialization.Model):
     }
 
     def __init__(
-        self,
-        *,
-        value: Optional[List["_models.EmailConfigurationModel"]] = None,
-        next_link: Optional[str] = None,
-        **kwargs: Any
+        self, *, value: List["_models.EmailConfigurationModel"], next_link: Optional[str] = None, **kwargs: Any
     ) -> None:
         """
-        :keyword value: Gets or sets the list of email configurations.
+        :keyword value: The EmailConfigurationModel items on this page. Required.
         :paramtype value:
          list[~azure.mgmt.recoveryservicesdatareplication.models.EmailConfigurationModel]
-        :keyword next_link: Gets or sets the value of next link.
+        :keyword next_link: The link to the next page of items.
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
@@ -758,7 +571,9 @@ class EmailConfigurationModelCollection(_serialization.Model):
 class EmailConfigurationModelProperties(_serialization.Model):
     """Email configuration model properties.
 
-    All required parameters must be populated in order to send to Azure.
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
 
     :ivar send_to_owners: Gets or sets a value indicating whether to send email to subscription
      administrator. Required.
@@ -767,16 +582,23 @@ class EmailConfigurationModelProperties(_serialization.Model):
     :vartype custom_email_addresses: list[str]
     :ivar locale: Gets or sets the locale for the email notification.
     :vartype locale: str
+    :ivar provisioning_state: Gets or sets the provisioning state of the email configuration. Known
+     values are: "Canceled", "Creating", "Deleting", "Deleted", "Failed", "Succeeded", and
+     "Updating".
+    :vartype provisioning_state: str or
+     ~azure.mgmt.recoveryservicesdatareplication.models.ProvisioningState
     """
 
     _validation = {
         "send_to_owners": {"required": True},
+        "provisioning_state": {"readonly": True},
     }
 
     _attribute_map = {
         "send_to_owners": {"key": "sendToOwners", "type": "bool"},
         "custom_email_addresses": {"key": "customEmailAddresses", "type": "[str]"},
         "locale": {"key": "locale", "type": "str"},
+        "provisioning_state": {"key": "provisioningState", "type": "str"},
     }
 
     def __init__(
@@ -800,76 +622,7 @@ class EmailConfigurationModelProperties(_serialization.Model):
         self.send_to_owners = send_to_owners
         self.custom_email_addresses = custom_email_addresses
         self.locale = locale
-
-
-class EmailConfigurationModelSystemData(SystemDataModel):
-    """EmailConfigurationModelSystemData.
-
-    :ivar created_by: Gets or sets identity that created the resource.
-    :vartype created_by: str
-    :ivar created_by_type: Gets or sets the type of identity that created the resource: user,
-     application,
-     managedIdentity.
-    :vartype created_by_type: str
-    :ivar created_at: Gets or sets the timestamp of resource creation (UTC).
-    :vartype created_at: ~datetime.datetime
-    :ivar last_modified_by: Gets or sets the identity that last modified the resource.
-    :vartype last_modified_by: str
-    :ivar last_modified_by_type: Gets or sets the type of identity that last modified the resource:
-     user, application,
-     managedIdentity.
-    :vartype last_modified_by_type: str
-    :ivar last_modified_at: Gets or sets the timestamp of resource last modification (UTC).
-    :vartype last_modified_at: ~datetime.datetime
-    """
-
-    _attribute_map = {
-        "created_by": {"key": "createdBy", "type": "str"},
-        "created_by_type": {"key": "createdByType", "type": "str"},
-        "created_at": {"key": "createdAt", "type": "iso-8601"},
-        "last_modified_by": {"key": "lastModifiedBy", "type": "str"},
-        "last_modified_by_type": {"key": "lastModifiedByType", "type": "str"},
-        "last_modified_at": {"key": "lastModifiedAt", "type": "iso-8601"},
-    }
-
-    def __init__(
-        self,
-        *,
-        created_by: Optional[str] = None,
-        created_by_type: Optional[str] = None,
-        created_at: Optional[datetime.datetime] = None,
-        last_modified_by: Optional[str] = None,
-        last_modified_by_type: Optional[str] = None,
-        last_modified_at: Optional[datetime.datetime] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword created_by: Gets or sets identity that created the resource.
-        :paramtype created_by: str
-        :keyword created_by_type: Gets or sets the type of identity that created the resource: user,
-         application,
-         managedIdentity.
-        :paramtype created_by_type: str
-        :keyword created_at: Gets or sets the timestamp of resource creation (UTC).
-        :paramtype created_at: ~datetime.datetime
-        :keyword last_modified_by: Gets or sets the identity that last modified the resource.
-        :paramtype last_modified_by: str
-        :keyword last_modified_by_type: Gets or sets the type of identity that last modified the
-         resource: user, application,
-         managedIdentity.
-        :paramtype last_modified_by_type: str
-        :keyword last_modified_at: Gets or sets the timestamp of resource last modification (UTC).
-        :paramtype last_modified_at: ~datetime.datetime
-        """
-        super().__init__(
-            created_by=created_by,
-            created_by_type=created_by_type,
-            created_at=created_at,
-            last_modified_by=last_modified_by,
-            last_modified_by_type=last_modified_by_type,
-            last_modified_at=last_modified_at,
-            **kwargs
-        )
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class ErrorAdditionalInfo(_serialization.Model):
@@ -896,8 +649,8 @@ class ErrorAdditionalInfo(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.type = None
-        self.info = None
+        self.type: Optional[str] = None
+        self.info: Optional[JSON] = None
 
 
 class ErrorDetail(_serialization.Model):
@@ -937,11 +690,11 @@ class ErrorDetail(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.code = None
-        self.message = None
-        self.target = None
-        self.details = None
-        self.additional_info = None
+        self.code: Optional[str] = None
+        self.message: Optional[str] = None
+        self.target: Optional[str] = None
+        self.details: Optional[List["_models.ErrorDetail"]] = None
+        self.additional_info: Optional[List["_models.ErrorAdditionalInfo"]] = None
 
 
 class ErrorModel(_serialization.Model):
@@ -988,13 +741,13 @@ class ErrorModel(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.code = None
-        self.type = None
-        self.severity = None
-        self.creation_time = None
-        self.message = None
-        self.causes = None
-        self.recommendation = None
+        self.code: Optional[str] = None
+        self.type: Optional[str] = None
+        self.severity: Optional[str] = None
+        self.creation_time: Optional[datetime.datetime] = None
+        self.message: Optional[str] = None
+        self.causes: Optional[str] = None
+        self.recommendation: Optional[str] = None
 
 
 class ErrorResponse(_serialization.Model):
@@ -1018,27 +771,27 @@ class ErrorResponse(_serialization.Model):
         self.error = error
 
 
-class EventModel(_serialization.Model):
+class EventModel(ProxyResource):
     """Event model.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar properties: Event model properties. Required.
-    :vartype properties: ~azure.mgmt.recoveryservicesdatareplication.models.EventModelProperties
-    :ivar id: Gets or sets the Id of the resource.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
-    :ivar name: Gets or sets the name of the resource.
+    :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: Gets or sets the type of the resource.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
-    :ivar system_data:
-    :vartype system_data: ~azure.mgmt.recoveryservicesdatareplication.models.EventModelSystemData
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.recoveryservicesdatareplication.models.SystemData
+    :ivar properties: The resource-specific properties for this resource.
+    :vartype properties: ~azure.mgmt.recoveryservicesdatareplication.models.EventModelProperties
     """
 
     _validation = {
-        "properties": {"required": True},
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
@@ -1046,75 +799,48 @@ class EventModel(_serialization.Model):
     }
 
     _attribute_map = {
-        "properties": {"key": "properties", "type": "EventModelProperties"},
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
-        "system_data": {"key": "systemData", "type": "EventModelSystemData"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "properties": {"key": "properties", "type": "EventModelProperties"},
     }
 
-    def __init__(self, *, properties: "_models.EventModelProperties", **kwargs: Any) -> None:
+    def __init__(self, *, properties: Optional["_models.EventModelProperties"] = None, **kwargs: Any) -> None:
         """
-        :keyword properties: Event model properties. Required.
+        :keyword properties: The resource-specific properties for this resource.
         :paramtype properties: ~azure.mgmt.recoveryservicesdatareplication.models.EventModelProperties
         """
         super().__init__(**kwargs)
         self.properties = properties
-        self.id = None
-        self.name = None
-        self.type = None
-        self.system_data = None
-
-
-class EventModelCollection(_serialization.Model):
-    """Event model collection.
-
-    :ivar value: Gets or sets the list of events.
-    :vartype value: list[~azure.mgmt.recoveryservicesdatareplication.models.EventModel]
-    :ivar next_link: Gets or sets the value of next link.
-    :vartype next_link: str
-    """
-
-    _attribute_map = {
-        "value": {"key": "value", "type": "[EventModel]"},
-        "next_link": {"key": "nextLink", "type": "str"},
-    }
-
-    def __init__(
-        self, *, value: Optional[List["_models.EventModel"]] = None, next_link: Optional[str] = None, **kwargs: Any
-    ) -> None:
-        """
-        :keyword value: Gets or sets the list of events.
-        :paramtype value: list[~azure.mgmt.recoveryservicesdatareplication.models.EventModel]
-        :keyword next_link: Gets or sets the value of next link.
-        :paramtype next_link: str
-        """
-        super().__init__(**kwargs)
-        self.value = value
-        self.next_link = next_link
 
 
 class EventModelCustomProperties(_serialization.Model):
     """Event model custom properties.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
-    HyperVToAzStackHCIEventModelCustomProperties
+    HyperVToAzStackHCIEventModelCustomProperties, VMwareToAzStackHCIEventModelCustomProperties
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar instance_type: Gets or sets the instance type. Required.
+    :ivar instance_type: Discriminator property for EventModelCustomProperties. Required.
     :vartype instance_type: str
     """
 
     _validation = {
-        "instance_type": {"required": True, "min_length": 1},
+        "instance_type": {"required": True},
     }
 
     _attribute_map = {
         "instance_type": {"key": "instanceType", "type": "str"},
     }
 
-    _subtype_map = {"instance_type": {"HyperVToAzStackHCI": "HyperVToAzStackHCIEventModelCustomProperties"}}
+    _subtype_map = {
+        "instance_type": {
+            "HyperVToAzStackHCI": "HyperVToAzStackHCIEventModelCustomProperties",
+            "VMwareToAzStackHCI": "VMwareToAzStackHCIEventModelCustomProperties",
+        }
+    }
 
     def __init__(self, **kwargs: Any) -> None:
         """ """
@@ -1122,12 +848,44 @@ class EventModelCustomProperties(_serialization.Model):
         self.instance_type: Optional[str] = None
 
 
+class EventModelListResult(_serialization.Model):
+    """The response of a EventModel list operation.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar value: The EventModel items on this page. Required.
+    :vartype value: list[~azure.mgmt.recoveryservicesdatareplication.models.EventModel]
+    :ivar next_link: The link to the next page of items.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "value": {"required": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[EventModel]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(self, *, value: List["_models.EventModel"], next_link: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword value: The EventModel items on this page. Required.
+        :paramtype value: list[~azure.mgmt.recoveryservicesdatareplication.models.EventModel]
+        :keyword next_link: The link to the next page of items.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = next_link
+
+
 class EventModelProperties(_serialization.Model):
     """Event model properties.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar resource_type: Gets or sets the resource type.
     :vartype resource_type: str
@@ -1151,6 +909,10 @@ class EventModelProperties(_serialization.Model):
     :ivar custom_properties: Event model custom properties. Required.
     :vartype custom_properties:
      ~azure.mgmt.recoveryservicesdatareplication.models.EventModelCustomProperties
+    :ivar provisioning_state: Gets or sets the provisioning state of the event. Known values are:
+     "Canceled", "Creating", "Deleting", "Deleted", "Failed", "Succeeded", and "Updating".
+    :vartype provisioning_state: str or
+     ~azure.mgmt.recoveryservicesdatareplication.models.ProvisioningState
     """
 
     _validation = {
@@ -1164,6 +926,7 @@ class EventModelProperties(_serialization.Model):
         "correlation_id": {"readonly": True},
         "health_errors": {"readonly": True},
         "custom_properties": {"required": True},
+        "provisioning_state": {"readonly": True},
     }
 
     _attribute_map = {
@@ -1177,6 +940,7 @@ class EventModelProperties(_serialization.Model):
         "correlation_id": {"key": "correlationId", "type": "str"},
         "health_errors": {"key": "healthErrors", "type": "[HealthErrorModel]"},
         "custom_properties": {"key": "customProperties", "type": "EventModelCustomProperties"},
+        "provisioning_state": {"key": "provisioningState", "type": "str"},
     }
 
     def __init__(self, *, custom_properties: "_models.EventModelCustomProperties", **kwargs: Any) -> None:
@@ -1186,114 +950,41 @@ class EventModelProperties(_serialization.Model):
          ~azure.mgmt.recoveryservicesdatareplication.models.EventModelCustomProperties
         """
         super().__init__(**kwargs)
-        self.resource_type = None
-        self.resource_name = None
-        self.event_type = None
-        self.event_name = None
-        self.time_of_occurrence = None
-        self.severity = None
-        self.description = None
-        self.correlation_id = None
-        self.health_errors = None
+        self.resource_type: Optional[str] = None
+        self.resource_name: Optional[str] = None
+        self.event_type: Optional[str] = None
+        self.event_name: Optional[str] = None
+        self.time_of_occurrence: Optional[datetime.datetime] = None
+        self.severity: Optional[str] = None
+        self.description: Optional[str] = None
+        self.correlation_id: Optional[str] = None
+        self.health_errors: Optional[List["_models.HealthErrorModel"]] = None
         self.custom_properties = custom_properties
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
-class EventModelSystemData(SystemDataModel):
-    """EventModelSystemData.
-
-    :ivar created_by: Gets or sets identity that created the resource.
-    :vartype created_by: str
-    :ivar created_by_type: Gets or sets the type of identity that created the resource: user,
-     application,
-     managedIdentity.
-    :vartype created_by_type: str
-    :ivar created_at: Gets or sets the timestamp of resource creation (UTC).
-    :vartype created_at: ~datetime.datetime
-    :ivar last_modified_by: Gets or sets the identity that last modified the resource.
-    :vartype last_modified_by: str
-    :ivar last_modified_by_type: Gets or sets the type of identity that last modified the resource:
-     user, application,
-     managedIdentity.
-    :vartype last_modified_by_type: str
-    :ivar last_modified_at: Gets or sets the timestamp of resource last modification (UTC).
-    :vartype last_modified_at: ~datetime.datetime
-    """
-
-    _attribute_map = {
-        "created_by": {"key": "createdBy", "type": "str"},
-        "created_by_type": {"key": "createdByType", "type": "str"},
-        "created_at": {"key": "createdAt", "type": "iso-8601"},
-        "last_modified_by": {"key": "lastModifiedBy", "type": "str"},
-        "last_modified_by_type": {"key": "lastModifiedByType", "type": "str"},
-        "last_modified_at": {"key": "lastModifiedAt", "type": "iso-8601"},
-    }
-
-    def __init__(
-        self,
-        *,
-        created_by: Optional[str] = None,
-        created_by_type: Optional[str] = None,
-        created_at: Optional[datetime.datetime] = None,
-        last_modified_by: Optional[str] = None,
-        last_modified_by_type: Optional[str] = None,
-        last_modified_at: Optional[datetime.datetime] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword created_by: Gets or sets identity that created the resource.
-        :paramtype created_by: str
-        :keyword created_by_type: Gets or sets the type of identity that created the resource: user,
-         application,
-         managedIdentity.
-        :paramtype created_by_type: str
-        :keyword created_at: Gets or sets the timestamp of resource creation (UTC).
-        :paramtype created_at: ~datetime.datetime
-        :keyword last_modified_by: Gets or sets the identity that last modified the resource.
-        :paramtype last_modified_by: str
-        :keyword last_modified_by_type: Gets or sets the type of identity that last modified the
-         resource: user, application,
-         managedIdentity.
-        :paramtype last_modified_by_type: str
-        :keyword last_modified_at: Gets or sets the timestamp of resource last modification (UTC).
-        :paramtype last_modified_at: ~datetime.datetime
-        """
-        super().__init__(
-            created_by=created_by,
-            created_by_type=created_by_type,
-            created_at=created_at,
-            last_modified_by=last_modified_by,
-            last_modified_by_type=last_modified_by_type,
-            last_modified_at=last_modified_at,
-            **kwargs
-        )
-
-
-class FabricModel(_serialization.Model):
-    """Fabric model.
+class FabricAgentModel(ProxyResource):
+    """Fabric agent model.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar location: Gets or sets the location of the fabric. Required.
-    :vartype location: str
-    :ivar tags: Gets or sets the resource tags.
-    :vartype tags: dict[str, str]
-    :ivar properties: Fabric model properties. Required.
-    :vartype properties: ~azure.mgmt.recoveryservicesdatareplication.models.FabricModelProperties
-    :ivar id: Gets or sets the Id of the resource.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
-    :ivar name: Gets or sets the name of the resource.
+    :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: Gets or sets the type of the resource.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
-    :ivar system_data:
-    :vartype system_data: ~azure.mgmt.recoveryservicesdatareplication.models.FabricModelSystemData
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.recoveryservicesdatareplication.models.SystemData
+    :ivar properties: The resource-specific properties for this resource.
+    :vartype properties:
+     ~azure.mgmt.recoveryservicesdatareplication.models.FabricAgentModelProperties
     """
 
     _validation = {
-        "location": {"required": True, "min_length": 1},
-        "properties": {"required": True},
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
@@ -1301,62 +992,332 @@ class FabricModel(_serialization.Model):
     }
 
     _attribute_map = {
-        "location": {"key": "location", "type": "str"},
-        "tags": {"key": "tags", "type": "{str}"},
-        "properties": {"key": "properties", "type": "FabricModelProperties"},
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
-        "system_data": {"key": "systemData", "type": "FabricModelSystemData"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "properties": {"key": "properties", "type": "FabricAgentModelProperties"},
+    }
+
+    def __init__(self, *, properties: Optional["_models.FabricAgentModelProperties"] = None, **kwargs: Any) -> None:
+        """
+        :keyword properties: The resource-specific properties for this resource.
+        :paramtype properties:
+         ~azure.mgmt.recoveryservicesdatareplication.models.FabricAgentModelProperties
+        """
+        super().__init__(**kwargs)
+        self.properties = properties
+
+
+class FabricAgentModelCustomProperties(_serialization.Model):
+    """Fabric agent model custom properties.
+
+    You probably want to use the sub-classes and not this class directly. Known sub-classes are:
+    VMwareFabricAgentModelCustomProperties
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar instance_type: Discriminator property for FabricAgentModelCustomProperties. Required.
+    :vartype instance_type: str
+    """
+
+    _validation = {
+        "instance_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "instance_type": {"key": "instanceType", "type": "str"},
+    }
+
+    _subtype_map = {"instance_type": {"VMware": "VMwareFabricAgentModelCustomProperties"}}
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.instance_type: Optional[str] = None
+
+
+class FabricAgentModelListResult(_serialization.Model):
+    """The response of a FabricAgentModel list operation.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar value: The FabricAgentModel items on this page. Required.
+    :vartype value: list[~azure.mgmt.recoveryservicesdatareplication.models.FabricAgentModel]
+    :ivar next_link: The link to the next page of items.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "value": {"required": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[FabricAgentModel]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self, *, value: List["_models.FabricAgentModel"], next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: The FabricAgentModel items on this page. Required.
+        :paramtype value: list[~azure.mgmt.recoveryservicesdatareplication.models.FabricAgentModel]
+        :keyword next_link: The link to the next page of items.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = next_link
+
+
+class FabricAgentModelProperties(_serialization.Model):
+    """Fabric agent model properties.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar correlation_id: Gets or sets the fabric agent correlation Id.
+    :vartype correlation_id: str
+    :ivar machine_id: Gets or sets the machine Id where fabric agent is running. Required.
+    :vartype machine_id: str
+    :ivar machine_name: Gets or sets the machine name where fabric agent is running. Required.
+    :vartype machine_name: str
+    :ivar authentication_identity: Identity model. Required.
+    :vartype authentication_identity:
+     ~azure.mgmt.recoveryservicesdatareplication.models.IdentityModel
+    :ivar resource_access_identity: Identity model. Required.
+    :vartype resource_access_identity:
+     ~azure.mgmt.recoveryservicesdatareplication.models.IdentityModel
+    :ivar is_responsive: Gets or sets a value indicating whether the fabric agent is responsive.
+    :vartype is_responsive: bool
+    :ivar last_heartbeat: Gets or sets the time when last heartbeat was sent by the fabric agent.
+    :vartype last_heartbeat: ~datetime.datetime
+    :ivar version_number: Gets or sets the fabric agent version.
+    :vartype version_number: str
+    :ivar provisioning_state: Gets or sets the provisioning state of the fabric agent. Known values
+     are: "Canceled", "Creating", "Deleting", "Deleted", "Failed", "Succeeded", and "Updating".
+    :vartype provisioning_state: str or
+     ~azure.mgmt.recoveryservicesdatareplication.models.ProvisioningState
+    :ivar health_errors: Gets or sets the list of health errors.
+    :vartype health_errors:
+     list[~azure.mgmt.recoveryservicesdatareplication.models.HealthErrorModel]
+    :ivar custom_properties: Fabric agent model custom properties. Required.
+    :vartype custom_properties:
+     ~azure.mgmt.recoveryservicesdatareplication.models.FabricAgentModelCustomProperties
+    """
+
+    _validation = {
+        "correlation_id": {"readonly": True},
+        "machine_id": {"required": True, "min_length": 1},
+        "machine_name": {"required": True, "min_length": 1},
+        "authentication_identity": {"required": True},
+        "resource_access_identity": {"required": True},
+        "is_responsive": {"readonly": True},
+        "last_heartbeat": {"readonly": True},
+        "version_number": {"readonly": True},
+        "provisioning_state": {"readonly": True},
+        "health_errors": {"readonly": True},
+        "custom_properties": {"required": True},
+    }
+
+    _attribute_map = {
+        "correlation_id": {"key": "correlationId", "type": "str"},
+        "machine_id": {"key": "machineId", "type": "str"},
+        "machine_name": {"key": "machineName", "type": "str"},
+        "authentication_identity": {"key": "authenticationIdentity", "type": "IdentityModel"},
+        "resource_access_identity": {"key": "resourceAccessIdentity", "type": "IdentityModel"},
+        "is_responsive": {"key": "isResponsive", "type": "bool"},
+        "last_heartbeat": {"key": "lastHeartbeat", "type": "iso-8601"},
+        "version_number": {"key": "versionNumber", "type": "str"},
+        "provisioning_state": {"key": "provisioningState", "type": "str"},
+        "health_errors": {"key": "healthErrors", "type": "[HealthErrorModel]"},
+        "custom_properties": {"key": "customProperties", "type": "FabricAgentModelCustomProperties"},
+    }
+
+    def __init__(
+        self,
+        *,
+        machine_id: str,
+        machine_name: str,
+        authentication_identity: "_models.IdentityModel",
+        resource_access_identity: "_models.IdentityModel",
+        custom_properties: "_models.FabricAgentModelCustomProperties",
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword machine_id: Gets or sets the machine Id where fabric agent is running. Required.
+        :paramtype machine_id: str
+        :keyword machine_name: Gets or sets the machine name where fabric agent is running. Required.
+        :paramtype machine_name: str
+        :keyword authentication_identity: Identity model. Required.
+        :paramtype authentication_identity:
+         ~azure.mgmt.recoveryservicesdatareplication.models.IdentityModel
+        :keyword resource_access_identity: Identity model. Required.
+        :paramtype resource_access_identity:
+         ~azure.mgmt.recoveryservicesdatareplication.models.IdentityModel
+        :keyword custom_properties: Fabric agent model custom properties. Required.
+        :paramtype custom_properties:
+         ~azure.mgmt.recoveryservicesdatareplication.models.FabricAgentModelCustomProperties
+        """
+        super().__init__(**kwargs)
+        self.correlation_id: Optional[str] = None
+        self.machine_id = machine_id
+        self.machine_name = machine_name
+        self.authentication_identity = authentication_identity
+        self.resource_access_identity = resource_access_identity
+        self.is_responsive: Optional[bool] = None
+        self.last_heartbeat: Optional[datetime.datetime] = None
+        self.version_number: Optional[str] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
+        self.health_errors: Optional[List["_models.HealthErrorModel"]] = None
+        self.custom_properties = custom_properties
+
+
+class TrackedResource(Resource):
+    """The resource model definition for an Azure Resource Manager tracked top level resource which
+    has 'tags' and a 'location'.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.recoveryservicesdatareplication.models.SystemData
+    :ivar tags: Resource tags.
+    :vartype tags: dict[str, str]
+    :ivar location: The geo-location where the resource lives. Required.
+    :vartype location: str
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "location": {"required": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "tags": {"key": "tags", "type": "{str}"},
+        "location": {"key": "location", "type": "str"},
+    }
+
+    def __init__(self, *, location: str, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
+        """
+        :keyword tags: Resource tags.
+        :paramtype tags: dict[str, str]
+        :keyword location: The geo-location where the resource lives. Required.
+        :paramtype location: str
+        """
+        super().__init__(**kwargs)
+        self.tags = tags
+        self.location = location
+
+
+class FabricModel(TrackedResource):
+    """Fabric model.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.recoveryservicesdatareplication.models.SystemData
+    :ivar tags: Resource tags.
+    :vartype tags: dict[str, str]
+    :ivar location: The geo-location where the resource lives. Required.
+    :vartype location: str
+    :ivar properties: The resource-specific properties for this resource.
+    :vartype properties: ~azure.mgmt.recoveryservicesdatareplication.models.FabricModelProperties
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "location": {"required": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "tags": {"key": "tags", "type": "{str}"},
+        "location": {"key": "location", "type": "str"},
+        "properties": {"key": "properties", "type": "FabricModelProperties"},
     }
 
     def __init__(
         self,
         *,
         location: str,
-        properties: "_models.FabricModelProperties",
         tags: Optional[Dict[str, str]] = None,
+        properties: Optional["_models.FabricModelProperties"] = None,
         **kwargs: Any
     ) -> None:
         """
-        :keyword location: Gets or sets the location of the fabric. Required.
-        :paramtype location: str
-        :keyword tags: Gets or sets the resource tags.
+        :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
-        :keyword properties: Fabric model properties. Required.
+        :keyword location: The geo-location where the resource lives. Required.
+        :paramtype location: str
+        :keyword properties: The resource-specific properties for this resource.
         :paramtype properties: ~azure.mgmt.recoveryservicesdatareplication.models.FabricModelProperties
         """
-        super().__init__(**kwargs)
-        self.location = location
-        self.tags = tags
+        super().__init__(tags=tags, location=location, **kwargs)
         self.properties = properties
-        self.id = None
-        self.name = None
-        self.type = None
-        self.system_data = None
 
 
-class FabricModelCollection(_serialization.Model):
-    """Fabric model collection.
+class FabricModelListResult(_serialization.Model):
+    """The response of a FabricModel list operation.
 
-    :ivar value: Gets or sets the list of fabrics.
+    All required parameters must be populated in order to send to server.
+
+    :ivar value: The FabricModel items on this page. Required.
     :vartype value: list[~azure.mgmt.recoveryservicesdatareplication.models.FabricModel]
-    :ivar next_link: Gets or sets the value of next link.
+    :ivar next_link: The link to the next page of items.
     :vartype next_link: str
     """
+
+    _validation = {
+        "value": {"required": True},
+    }
 
     _attribute_map = {
         "value": {"key": "value", "type": "[FabricModel]"},
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(
-        self, *, value: Optional[List["_models.FabricModel"]] = None, next_link: Optional[str] = None, **kwargs: Any
-    ) -> None:
+    def __init__(self, *, value: List["_models.FabricModel"], next_link: Optional[str] = None, **kwargs: Any) -> None:
         """
-        :keyword value: Gets or sets the list of fabrics.
+        :keyword value: The FabricModel items on this page. Required.
         :paramtype value: list[~azure.mgmt.recoveryservicesdatareplication.models.FabricModel]
-        :keyword next_link: Gets or sets the value of next link.
+        :keyword next_link: The link to the next page of items.
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
@@ -1369,7 +1330,7 @@ class FabricModelProperties(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar provisioning_state: Gets or sets the provisioning state of the fabric. Known values are:
      "Canceled", "Creating", "Deleting", "Deleted", "Failed", "Succeeded", and "Updating".
@@ -1415,86 +1376,16 @@ class FabricModelProperties(_serialization.Model):
          ~azure.mgmt.recoveryservicesdatareplication.models.FabricModelCustomProperties
         """
         super().__init__(**kwargs)
-        self.provisioning_state = None
-        self.service_endpoint = None
-        self.service_resource_id = None
-        self.health = None
-        self.health_errors = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
+        self.service_endpoint: Optional[str] = None
+        self.service_resource_id: Optional[str] = None
+        self.health: Optional[Union[str, "_models.HealthStatus"]] = None
+        self.health_errors: Optional[List["_models.HealthErrorModel"]] = None
         self.custom_properties = custom_properties
 
 
-class FabricModelSystemData(SystemDataModel):
-    """FabricModelSystemData.
-
-    :ivar created_by: Gets or sets identity that created the resource.
-    :vartype created_by: str
-    :ivar created_by_type: Gets or sets the type of identity that created the resource: user,
-     application,
-     managedIdentity.
-    :vartype created_by_type: str
-    :ivar created_at: Gets or sets the timestamp of resource creation (UTC).
-    :vartype created_at: ~datetime.datetime
-    :ivar last_modified_by: Gets or sets the identity that last modified the resource.
-    :vartype last_modified_by: str
-    :ivar last_modified_by_type: Gets or sets the type of identity that last modified the resource:
-     user, application,
-     managedIdentity.
-    :vartype last_modified_by_type: str
-    :ivar last_modified_at: Gets or sets the timestamp of resource last modification (UTC).
-    :vartype last_modified_at: ~datetime.datetime
-    """
-
-    _attribute_map = {
-        "created_by": {"key": "createdBy", "type": "str"},
-        "created_by_type": {"key": "createdByType", "type": "str"},
-        "created_at": {"key": "createdAt", "type": "iso-8601"},
-        "last_modified_by": {"key": "lastModifiedBy", "type": "str"},
-        "last_modified_by_type": {"key": "lastModifiedByType", "type": "str"},
-        "last_modified_at": {"key": "lastModifiedAt", "type": "iso-8601"},
-    }
-
-    def __init__(
-        self,
-        *,
-        created_by: Optional[str] = None,
-        created_by_type: Optional[str] = None,
-        created_at: Optional[datetime.datetime] = None,
-        last_modified_by: Optional[str] = None,
-        last_modified_by_type: Optional[str] = None,
-        last_modified_at: Optional[datetime.datetime] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword created_by: Gets or sets identity that created the resource.
-        :paramtype created_by: str
-        :keyword created_by_type: Gets or sets the type of identity that created the resource: user,
-         application,
-         managedIdentity.
-        :paramtype created_by_type: str
-        :keyword created_at: Gets or sets the timestamp of resource creation (UTC).
-        :paramtype created_at: ~datetime.datetime
-        :keyword last_modified_by: Gets or sets the identity that last modified the resource.
-        :paramtype last_modified_by: str
-        :keyword last_modified_by_type: Gets or sets the type of identity that last modified the
-         resource: user, application,
-         managedIdentity.
-        :paramtype last_modified_by_type: str
-        :keyword last_modified_at: Gets or sets the timestamp of resource last modification (UTC).
-        :paramtype last_modified_at: ~datetime.datetime
-        """
-        super().__init__(
-            created_by=created_by,
-            created_by_type=created_by_type,
-            created_at=created_at,
-            last_modified_by=last_modified_by,
-            last_modified_by_type=last_modified_by_type,
-            last_modified_at=last_modified_at,
-            **kwargs
-        )
-
-
 class FabricModelUpdate(_serialization.Model):
-    """Fabric model for update.
+    """Fabric model update.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -1508,9 +1399,8 @@ class FabricModelUpdate(_serialization.Model):
     :vartype name: str
     :ivar type: Gets or sets the type of the resource.
     :vartype type: str
-    :ivar system_data:
-    :vartype system_data:
-     ~azure.mgmt.recoveryservicesdatareplication.models.FabricModelUpdateSystemData
+    :ivar system_data: Metadata pertaining to creation and last modification of the resource.
+    :vartype system_data: ~azure.mgmt.recoveryservicesdatareplication.models.SystemData
     """
 
     _validation = {
@@ -1526,7 +1416,7 @@ class FabricModelUpdate(_serialization.Model):
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
-        "system_data": {"key": "systemData", "type": "FabricModelUpdateSystemData"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
     }
 
     def __init__(
@@ -1545,80 +1435,95 @@ class FabricModelUpdate(_serialization.Model):
         super().__init__(**kwargs)
         self.tags = tags
         self.properties = properties
-        self.id = None
-        self.name = None
-        self.type = None
-        self.system_data = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
+        self.system_data: Optional["_models.SystemData"] = None
 
 
-class FabricModelUpdateSystemData(SystemDataModel):
-    """FabricModelUpdateSystemData.
+class JobModelCustomProperties(_serialization.Model):
+    """Job model custom properties.
 
-    :ivar created_by: Gets or sets identity that created the resource.
-    :vartype created_by: str
-    :ivar created_by_type: Gets or sets the type of identity that created the resource: user,
-     application,
-     managedIdentity.
-    :vartype created_by_type: str
-    :ivar created_at: Gets or sets the timestamp of resource creation (UTC).
-    :vartype created_at: ~datetime.datetime
-    :ivar last_modified_by: Gets or sets the identity that last modified the resource.
-    :vartype last_modified_by: str
-    :ivar last_modified_by_type: Gets or sets the type of identity that last modified the resource:
-     user, application,
-     managedIdentity.
-    :vartype last_modified_by_type: str
-    :ivar last_modified_at: Gets or sets the timestamp of resource last modification (UTC).
-    :vartype last_modified_at: ~datetime.datetime
+    You probably want to use the sub-classes and not this class directly. Known sub-classes are:
+    FailoverJobModelCustomProperties, TestFailoverCleanupJobModelCustomProperties,
+    TestFailoverJobModelCustomProperties
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar instance_type: Discriminator property for JobModelCustomProperties. Required.
+    :vartype instance_type: str
+    :ivar affected_object_details: Gets or sets any custom properties of the affected object.
+    :vartype affected_object_details:
+     ~azure.mgmt.recoveryservicesdatareplication.models.JobModelCustomPropertiesAffectedObjectDetails
     """
 
-    _attribute_map = {
-        "created_by": {"key": "createdBy", "type": "str"},
-        "created_by_type": {"key": "createdByType", "type": "str"},
-        "created_at": {"key": "createdAt", "type": "iso-8601"},
-        "last_modified_by": {"key": "lastModifiedBy", "type": "str"},
-        "last_modified_by_type": {"key": "lastModifiedByType", "type": "str"},
-        "last_modified_at": {"key": "lastModifiedAt", "type": "iso-8601"},
+    _validation = {
+        "instance_type": {"required": True},
+        "affected_object_details": {"readonly": True},
     }
 
-    def __init__(
-        self,
-        *,
-        created_by: Optional[str] = None,
-        created_by_type: Optional[str] = None,
-        created_at: Optional[datetime.datetime] = None,
-        last_modified_by: Optional[str] = None,
-        last_modified_by_type: Optional[str] = None,
-        last_modified_at: Optional[datetime.datetime] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword created_by: Gets or sets identity that created the resource.
-        :paramtype created_by: str
-        :keyword created_by_type: Gets or sets the type of identity that created the resource: user,
-         application,
-         managedIdentity.
-        :paramtype created_by_type: str
-        :keyword created_at: Gets or sets the timestamp of resource creation (UTC).
-        :paramtype created_at: ~datetime.datetime
-        :keyword last_modified_by: Gets or sets the identity that last modified the resource.
-        :paramtype last_modified_by: str
-        :keyword last_modified_by_type: Gets or sets the type of identity that last modified the
-         resource: user, application,
-         managedIdentity.
-        :paramtype last_modified_by_type: str
-        :keyword last_modified_at: Gets or sets the timestamp of resource last modification (UTC).
-        :paramtype last_modified_at: ~datetime.datetime
-        """
-        super().__init__(
-            created_by=created_by,
-            created_by_type=created_by_type,
-            created_at=created_at,
-            last_modified_by=last_modified_by,
-            last_modified_by_type=last_modified_by_type,
-            last_modified_at=last_modified_at,
-            **kwargs
-        )
+    _attribute_map = {
+        "instance_type": {"key": "instanceType", "type": "str"},
+        "affected_object_details": {
+            "key": "affectedObjectDetails",
+            "type": "JobModelCustomPropertiesAffectedObjectDetails",
+        },
+    }
+
+    _subtype_map = {
+        "instance_type": {
+            "FailoverJobDetails": "FailoverJobModelCustomProperties",
+            "TestFailoverCleanupJobDetails": "TestFailoverCleanupJobModelCustomProperties",
+            "TestFailoverJobDetails": "TestFailoverJobModelCustomProperties",
+        }
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.instance_type: Optional[str] = None
+        self.affected_object_details: Optional["_models.JobModelCustomPropertiesAffectedObjectDetails"] = None
+
+
+class FailoverJobModelCustomProperties(JobModelCustomProperties):
+    """Failover job model custom properties.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar instance_type: Discriminator property for JobModelCustomProperties. Required.
+    :vartype instance_type: str
+    :ivar affected_object_details: Gets or sets any custom properties of the affected object.
+    :vartype affected_object_details:
+     ~azure.mgmt.recoveryservicesdatareplication.models.JobModelCustomPropertiesAffectedObjectDetails
+    :ivar protected_item_details: Gets or sets the failed over protected item details.
+    :vartype protected_item_details:
+     list[~azure.mgmt.recoveryservicesdatareplication.models.FailoverProtectedItemProperties]
+    """
+
+    _validation = {
+        "instance_type": {"required": True},
+        "affected_object_details": {"readonly": True},
+        "protected_item_details": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "instance_type": {"key": "instanceType", "type": "str"},
+        "affected_object_details": {
+            "key": "affectedObjectDetails",
+            "type": "JobModelCustomPropertiesAffectedObjectDetails",
+        },
+        "protected_item_details": {"key": "protectedItemDetails", "type": "[FailoverProtectedItemProperties]"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.instance_type: str = "FailoverJobDetails"
+        self.protected_item_details: Optional[List["_models.FailoverProtectedItemProperties"]] = None
 
 
 class FailoverProtectedItemProperties(_serialization.Model):
@@ -1665,93 +1570,76 @@ class FailoverProtectedItemProperties(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.protected_item_name = None
-        self.vm_name = None
-        self.test_vm_name = None
-        self.recovery_point_id = None
-        self.recovery_point_time = None
-        self.network_name = None
-        self.subnet = None
+        self.protected_item_name: Optional[str] = None
+        self.vm_name: Optional[str] = None
+        self.test_vm_name: Optional[str] = None
+        self.recovery_point_id: Optional[str] = None
+        self.recovery_point_time: Optional[datetime.datetime] = None
+        self.network_name: Optional[str] = None
+        self.subnet: Optional[str] = None
 
 
-class WorkflowModelCustomProperties(_serialization.Model):
-    """Workflow model custom properties.
+class GroupConnectivityInformation(_serialization.Model):
+    """Represents of a connection's group information.
 
-    You probably want to use the sub-classes and not this class directly. Known sub-classes are:
-    FailoverWorkflowModelCustomProperties, TestFailoverCleanupWorkflowModelCustomProperties,
-    TestFailoverWorkflowModelCustomProperties
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar instance_type: Gets or sets the instance type. Required.
-    :vartype instance_type: str
-    :ivar affected_object_details: Gets or sets any custom properties of the affected object.
-    :vartype affected_object_details: dict[str, str]
+    :ivar group_id: Gets or sets group id.
+    :vartype group_id: str
+    :ivar member_name: Gets or sets member name.
+    :vartype member_name: str
+    :ivar customer_visible_fqdns: Gets or sets customer visible FQDNs.
+    :vartype customer_visible_fqdns: list[str]
+    :ivar internal_fqdn: Gets or sets Internal Fqdn.
+    :vartype internal_fqdn: str
+    :ivar redirect_map_id: Gets or sets the redirect map id.
+    :vartype redirect_map_id: str
+    :ivar private_link_service_arm_region: Gets or sets the private link service arm region.
+    :vartype private_link_service_arm_region: str
     """
 
-    _validation = {
-        "instance_type": {"required": True, "min_length": 1},
-        "affected_object_details": {"readonly": True},
-    }
-
     _attribute_map = {
-        "instance_type": {"key": "instanceType", "type": "str"},
-        "affected_object_details": {"key": "affectedObjectDetails", "type": "{str}"},
+        "group_id": {"key": "groupId", "type": "str"},
+        "member_name": {"key": "memberName", "type": "str"},
+        "customer_visible_fqdns": {"key": "customerVisibleFqdns", "type": "[str]"},
+        "internal_fqdn": {"key": "internalFqdn", "type": "str"},
+        "redirect_map_id": {"key": "redirectMapId", "type": "str"},
+        "private_link_service_arm_region": {"key": "privateLinkServiceArmRegion", "type": "str"},
     }
 
-    _subtype_map = {
-        "instance_type": {
-            "FailoverWorkflowDetails": "FailoverWorkflowModelCustomProperties",
-            "TestFailoverCleanupWorkflowDetails": "TestFailoverCleanupWorkflowModelCustomProperties",
-            "TestFailoverWorkflowDetails": "TestFailoverWorkflowModelCustomProperties",
-        }
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
+    def __init__(
+        self,
+        *,
+        group_id: Optional[str] = None,
+        member_name: Optional[str] = None,
+        customer_visible_fqdns: Optional[List[str]] = None,
+        internal_fqdn: Optional[str] = None,
+        redirect_map_id: Optional[str] = None,
+        private_link_service_arm_region: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword group_id: Gets or sets group id.
+        :paramtype group_id: str
+        :keyword member_name: Gets or sets member name.
+        :paramtype member_name: str
+        :keyword customer_visible_fqdns: Gets or sets customer visible FQDNs.
+        :paramtype customer_visible_fqdns: list[str]
+        :keyword internal_fqdn: Gets or sets Internal Fqdn.
+        :paramtype internal_fqdn: str
+        :keyword redirect_map_id: Gets or sets the redirect map id.
+        :paramtype redirect_map_id: str
+        :keyword private_link_service_arm_region: Gets or sets the private link service arm region.
+        :paramtype private_link_service_arm_region: str
+        """
         super().__init__(**kwargs)
-        self.instance_type: Optional[str] = None
-        self.affected_object_details = None
+        self.group_id = group_id
+        self.member_name = member_name
+        self.customer_visible_fqdns = customer_visible_fqdns
+        self.internal_fqdn = internal_fqdn
+        self.redirect_map_id = redirect_map_id
+        self.private_link_service_arm_region = private_link_service_arm_region
 
 
-class FailoverWorkflowModelCustomProperties(WorkflowModelCustomProperties):
-    """Failover workflow model custom properties.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar instance_type: Gets or sets the instance type. Required.
-    :vartype instance_type: str
-    :ivar affected_object_details: Gets or sets any custom properties of the affected object.
-    :vartype affected_object_details: dict[str, str]
-    :ivar protected_item_details: Gets or sets the failed over protected item details.
-    :vartype protected_item_details:
-     list[~azure.mgmt.recoveryservicesdatareplication.models.FailoverProtectedItemProperties]
-    """
-
-    _validation = {
-        "instance_type": {"required": True, "min_length": 1},
-        "affected_object_details": {"readonly": True},
-        "protected_item_details": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "instance_type": {"key": "instanceType", "type": "str"},
-        "affected_object_details": {"key": "affectedObjectDetails", "type": "{str}"},
-        "protected_item_details": {"key": "protectedItemDetails", "type": "[FailoverProtectedItemProperties]"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-        self.instance_type: str = "FailoverWorkflowDetails"
-        self.protected_item_details = None
-
-
-class HealthErrorModel(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class HealthErrorModel(_serialization.Model):
     """Health error model.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1759,9 +1647,8 @@ class HealthErrorModel(_serialization.Model):  # pylint: disable=too-many-instan
     :ivar affected_resource_type: Gets or sets the type of affected resource type.
     :vartype affected_resource_type: str
     :ivar affected_resource_correlation_ids: Gets or sets the list of affected resource correlation
-     Ids. This can be used to
-     uniquely identify the count of items affected by a specific category and severity
-     as well as count of item affected by an specific issue.
+     Ids. This can be used to uniquely identify the count of items affected by a specific category
+     and severity as well as count of item affected by an specific issue.
     :vartype affected_resource_correlation_ids: list[str]
     :ivar child_errors: Gets or sets a list of child health errors associated with this error.
     :vartype child_errors:
@@ -1834,9 +1721,8 @@ class HealthErrorModel(_serialization.Model):  # pylint: disable=too-many-instan
         :keyword affected_resource_type: Gets or sets the type of affected resource type.
         :paramtype affected_resource_type: str
         :keyword affected_resource_correlation_ids: Gets or sets the list of affected resource
-         correlation Ids. This can be used to
-         uniquely identify the count of items affected by a specific category and severity
-         as well as count of item affected by an specific issue.
+         correlation Ids. This can be used to uniquely identify the count of items affected by a
+         specific category and severity as well as count of item affected by an specific issue.
         :paramtype affected_resource_correlation_ids: list[str]
         :keyword child_errors: Gets or sets a list of child health errors associated with this error.
         :paramtype child_errors:
@@ -1846,17 +1732,17 @@ class HealthErrorModel(_serialization.Model):  # pylint: disable=too-many-instan
         self.affected_resource_type = affected_resource_type
         self.affected_resource_correlation_ids = affected_resource_correlation_ids
         self.child_errors = child_errors
-        self.code = None
-        self.health_category = None
-        self.category = None
-        self.severity = None
-        self.source = None
-        self.creation_time = None
-        self.is_customer_resolvable = None
-        self.summary = None
-        self.message = None
-        self.causes = None
-        self.recommendation = None
+        self.code: Optional[str] = None
+        self.health_category: Optional[str] = None
+        self.category: Optional[str] = None
+        self.severity: Optional[str] = None
+        self.source: Optional[str] = None
+        self.creation_time: Optional[datetime.datetime] = None
+        self.is_customer_resolvable: Optional[bool] = None
+        self.summary: Optional[str] = None
+        self.message: Optional[str] = None
+        self.causes: Optional[str] = None
+        self.recommendation: Optional[str] = None
 
 
 class HyperVMigrateFabricModelCustomProperties(FabricModelCustomProperties):
@@ -1864,9 +1750,9 @@ class HyperVMigrateFabricModelCustomProperties(FabricModelCustomProperties):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar instance_type: Gets or sets the instance type. Required.
+    :ivar instance_type: Discriminator property for FabricModelCustomProperties. Required.
     :vartype instance_type: str
     :ivar hyper_v_site_id: Gets or sets the ARM Id of the HyperV site. Required.
     :vartype hyper_v_site_id: str
@@ -1881,11 +1767,11 @@ class HyperVMigrateFabricModelCustomProperties(FabricModelCustomProperties):
     """
 
     _validation = {
-        "instance_type": {"required": True, "min_length": 1},
-        "hyper_v_site_id": {"required": True, "min_length": 1},
+        "instance_type": {"required": True},
+        "hyper_v_site_id": {"required": True},
         "fabric_resource_id": {"readonly": True},
         "fabric_container_id": {"readonly": True},
-        "migration_solution_id": {"required": True, "min_length": 1},
+        "migration_solution_id": {"required": True},
         "migration_hub_uri": {"readonly": True},
     }
 
@@ -1908,24 +1794,23 @@ class HyperVMigrateFabricModelCustomProperties(FabricModelCustomProperties):
         super().__init__(**kwargs)
         self.instance_type: str = "HyperVMigrate"
         self.hyper_v_site_id = hyper_v_site_id
-        self.fabric_resource_id = None
-        self.fabric_container_id = None
+        self.fabric_resource_id: Optional[str] = None
+        self.fabric_container_id: Optional[str] = None
         self.migration_solution_id = migration_solution_id
-        self.migration_hub_uri = None
+        self.migration_hub_uri: Optional[str] = None
 
 
 class HyperVToAzStackHCIDiskInput(_serialization.Model):
     """HyperVToAzStack disk input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar disk_id: Gets or sets the disk Id. Required.
     :vartype disk_id: str
     :ivar storage_container_id: Gets or sets the target storage account ARM Id.
     :vartype storage_container_id: str
     :ivar is_dynamic: Gets or sets a value indicating whether dynamic sizing is enabled on the
-     virtual hard
-     disk.
+     virtual hard disk.
     :vartype is_dynamic: bool
     :ivar disk_size_gb: Gets or sets the disk size in GB. Required.
     :vartype disk_size_gb: int
@@ -1933,6 +1818,17 @@ class HyperVToAzStackHCIDiskInput(_serialization.Model):
     :vartype disk_file_format: str
     :ivar is_os_disk: Gets or sets a value indicating whether disk is os disk. Required.
     :vartype is_os_disk: bool
+    :ivar disk_block_size: Gets or sets a value of disk block size.
+    :vartype disk_block_size: int
+    :ivar disk_logical_sector_size: Gets or sets a value of disk logical sector size.
+    :vartype disk_logical_sector_size: int
+    :ivar disk_physical_sector_size: Gets or sets a value of disk physical sector size.
+    :vartype disk_physical_sector_size: int
+    :ivar disk_identifier: Gets or sets a value of disk identifier.
+    :vartype disk_identifier: str
+    :ivar disk_controller: Disk controller.
+    :vartype disk_controller:
+     ~azure.mgmt.recoveryservicesdatareplication.models.DiskControllerInputs
     """
 
     _validation = {
@@ -1949,6 +1845,11 @@ class HyperVToAzStackHCIDiskInput(_serialization.Model):
         "disk_size_gb": {"key": "diskSizeGB", "type": "int"},
         "disk_file_format": {"key": "diskFileFormat", "type": "str"},
         "is_os_disk": {"key": "isOsDisk", "type": "bool"},
+        "disk_block_size": {"key": "diskBlockSize", "type": "int"},
+        "disk_logical_sector_size": {"key": "diskLogicalSectorSize", "type": "int"},
+        "disk_physical_sector_size": {"key": "diskPhysicalSectorSize", "type": "int"},
+        "disk_identifier": {"key": "diskIdentifier", "type": "str"},
+        "disk_controller": {"key": "diskController", "type": "DiskControllerInputs"},
     }
 
     def __init__(
@@ -1960,6 +1861,11 @@ class HyperVToAzStackHCIDiskInput(_serialization.Model):
         is_os_disk: bool,
         storage_container_id: Optional[str] = None,
         is_dynamic: Optional[bool] = None,
+        disk_block_size: Optional[int] = None,
+        disk_logical_sector_size: Optional[int] = None,
+        disk_physical_sector_size: Optional[int] = None,
+        disk_identifier: Optional[str] = None,
+        disk_controller: Optional["_models.DiskControllerInputs"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -1968,8 +1874,7 @@ class HyperVToAzStackHCIDiskInput(_serialization.Model):
         :keyword storage_container_id: Gets or sets the target storage account ARM Id.
         :paramtype storage_container_id: str
         :keyword is_dynamic: Gets or sets a value indicating whether dynamic sizing is enabled on the
-         virtual hard
-         disk.
+         virtual hard disk.
         :paramtype is_dynamic: bool
         :keyword disk_size_gb: Gets or sets the disk size in GB. Required.
         :paramtype disk_size_gb: int
@@ -1978,6 +1883,17 @@ class HyperVToAzStackHCIDiskInput(_serialization.Model):
         :paramtype disk_file_format: str
         :keyword is_os_disk: Gets or sets a value indicating whether disk is os disk. Required.
         :paramtype is_os_disk: bool
+        :keyword disk_block_size: Gets or sets a value of disk block size.
+        :paramtype disk_block_size: int
+        :keyword disk_logical_sector_size: Gets or sets a value of disk logical sector size.
+        :paramtype disk_logical_sector_size: int
+        :keyword disk_physical_sector_size: Gets or sets a value of disk physical sector size.
+        :paramtype disk_physical_sector_size: int
+        :keyword disk_identifier: Gets or sets a value of disk identifier.
+        :paramtype disk_identifier: str
+        :keyword disk_controller: Disk controller.
+        :paramtype disk_controller:
+         ~azure.mgmt.recoveryservicesdatareplication.models.DiskControllerInputs
         """
         super().__init__(**kwargs)
         self.disk_id = disk_id
@@ -1986,18 +1902,23 @@ class HyperVToAzStackHCIDiskInput(_serialization.Model):
         self.disk_size_gb = disk_size_gb
         self.disk_file_format = disk_file_format
         self.is_os_disk = is_os_disk
+        self.disk_block_size = disk_block_size
+        self.disk_logical_sector_size = disk_logical_sector_size
+        self.disk_physical_sector_size = disk_physical_sector_size
+        self.disk_identifier = disk_identifier
+        self.disk_controller = disk_controller
 
 
-class HyperVToAzStackHCIEventModelCustomProperties(EventModelCustomProperties):
+class HyperVToAzStackHCIEventModelCustomProperties(EventModelCustomProperties):  # pylint: disable=name-too-long
     """HyperV to  AzStackHCI event model custom properties. This class provides provider specific
     details for events of type DataContract.HealthEvents.HealthEventType.ProtectedItemHealth and
     DataContract.HealthEvents.HealthEventType.AgentHealth.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar instance_type: Gets or sets the instance type. Required.
+    :ivar instance_type: Discriminator property for EventModelCustomProperties. Required.
     :vartype instance_type: str
     :ivar event_source_friendly_name: Gets or sets the friendly name of the source which has raised
      this health event.
@@ -2013,7 +1934,7 @@ class HyperVToAzStackHCIEventModelCustomProperties(EventModelCustomProperties):
     """
 
     _validation = {
-        "instance_type": {"required": True, "min_length": 1},
+        "instance_type": {"required": True},
         "event_source_friendly_name": {"readonly": True},
         "protected_item_friendly_name": {"readonly": True},
         "source_appliance_name": {"readonly": True},
@@ -2034,11 +1955,11 @@ class HyperVToAzStackHCIEventModelCustomProperties(EventModelCustomProperties):
         """ """
         super().__init__(**kwargs)
         self.instance_type: str = "HyperVToAzStackHCI"
-        self.event_source_friendly_name = None
-        self.protected_item_friendly_name = None
-        self.source_appliance_name = None
-        self.target_appliance_name = None
-        self.server_type = None
+        self.event_source_friendly_name: Optional[str] = None
+        self.protected_item_friendly_name: Optional[str] = None
+        self.source_appliance_name: Optional[str] = None
+        self.target_appliance_name: Optional[str] = None
+        self.server_type: Optional[str] = None
 
 
 class HyperVToAzStackHCINicInput(_serialization.Model):
@@ -2046,29 +1967,31 @@ class HyperVToAzStackHCINicInput(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar nic_id: Gets or sets the NIC Id. Required.
     :vartype nic_id: str
     :ivar network_name: Gets or sets the network name.
     :vartype network_name: str
     :ivar target_network_id: Gets or sets the target network Id within AzStackHCI Cluster.
-     Required.
     :vartype target_network_id: str
     :ivar test_network_id: Gets or sets the target test network Id within AzStackHCI Cluster.
-     Required.
     :vartype test_network_id: str
     :ivar selection_type_for_failover: Gets or sets the selection type of the NIC. Required. Known
      values are: "NotSelected", "SelectedByUser", "SelectedByDefault", and "SelectedByUserOverride".
     :vartype selection_type_for_failover: str or
      ~azure.mgmt.recoveryservicesdatareplication.models.VMNicSelection
+    :ivar is_static_ip_migration_enabled: Gets or sets a value indicating whether static ip
+     migration is enabled.
+    :vartype is_static_ip_migration_enabled: bool
+    :ivar is_mac_migration_enabled: Gets or sets a value indicating whether mac address migration
+     is enabled.
+    :vartype is_mac_migration_enabled: bool
     """
 
     _validation = {
         "nic_id": {"required": True, "min_length": 1},
         "network_name": {"readonly": True},
-        "target_network_id": {"required": True, "min_length": 1},
-        "test_network_id": {"required": True, "min_length": 1},
         "selection_type_for_failover": {"required": True},
     }
 
@@ -2078,38 +2001,48 @@ class HyperVToAzStackHCINicInput(_serialization.Model):
         "target_network_id": {"key": "targetNetworkId", "type": "str"},
         "test_network_id": {"key": "testNetworkId", "type": "str"},
         "selection_type_for_failover": {"key": "selectionTypeForFailover", "type": "str"},
+        "is_static_ip_migration_enabled": {"key": "isStaticIpMigrationEnabled", "type": "bool"},
+        "is_mac_migration_enabled": {"key": "isMacMigrationEnabled", "type": "bool"},
     }
 
     def __init__(
         self,
         *,
         nic_id: str,
-        target_network_id: str,
-        test_network_id: str,
         selection_type_for_failover: Union[str, "_models.VMNicSelection"],
+        target_network_id: Optional[str] = None,
+        test_network_id: Optional[str] = None,
+        is_static_ip_migration_enabled: Optional[bool] = None,
+        is_mac_migration_enabled: Optional[bool] = None,
         **kwargs: Any
     ) -> None:
         """
         :keyword nic_id: Gets or sets the NIC Id. Required.
         :paramtype nic_id: str
         :keyword target_network_id: Gets or sets the target network Id within AzStackHCI Cluster.
-         Required.
         :paramtype target_network_id: str
         :keyword test_network_id: Gets or sets the target test network Id within AzStackHCI Cluster.
-         Required.
         :paramtype test_network_id: str
         :keyword selection_type_for_failover: Gets or sets the selection type of the NIC. Required.
          Known values are: "NotSelected", "SelectedByUser", "SelectedByDefault", and
          "SelectedByUserOverride".
         :paramtype selection_type_for_failover: str or
          ~azure.mgmt.recoveryservicesdatareplication.models.VMNicSelection
+        :keyword is_static_ip_migration_enabled: Gets or sets a value indicating whether static ip
+         migration is enabled.
+        :paramtype is_static_ip_migration_enabled: bool
+        :keyword is_mac_migration_enabled: Gets or sets a value indicating whether mac address
+         migration is enabled.
+        :paramtype is_mac_migration_enabled: bool
         """
         super().__init__(**kwargs)
         self.nic_id = nic_id
-        self.network_name = None
+        self.network_name: Optional[str] = None
         self.target_network_id = target_network_id
         self.test_network_id = test_network_id
         self.selection_type_for_failover = selection_type_for_failover
+        self.is_static_ip_migration_enabled = is_static_ip_migration_enabled
+        self.is_mac_migration_enabled = is_mac_migration_enabled
 
 
 class PlannedFailoverModelCustomProperties(_serialization.Model):
@@ -2119,14 +2052,14 @@ class PlannedFailoverModelCustomProperties(_serialization.Model):
     HyperVToAzStackHCIPlannedFailoverModelCustomProperties,
     VMwareToAzStackHCIPlannedFailoverModelCustomProperties
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar instance_type: Gets or sets the instance type. Required.
+    :ivar instance_type: Discriminator property for PlannedFailoverModelCustomProperties. Required.
     :vartype instance_type: str
     """
 
     _validation = {
-        "instance_type": {"required": True, "min_length": 1},
+        "instance_type": {"required": True},
     }
 
     _attribute_map = {
@@ -2146,12 +2079,14 @@ class PlannedFailoverModelCustomProperties(_serialization.Model):
         self.instance_type: Optional[str] = None
 
 
-class HyperVToAzStackHCIPlannedFailoverModelCustomProperties(PlannedFailoverModelCustomProperties):
+class HyperVToAzStackHCIPlannedFailoverModelCustomProperties(
+    PlannedFailoverModelCustomProperties
+):  # pylint: disable=name-too-long
     """HyperV to AzStackHCI planned failover model custom properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar instance_type: Gets or sets the instance type. Required.
+    :ivar instance_type: Discriminator property for PlannedFailoverModelCustomProperties. Required.
     :vartype instance_type: str
     :ivar shutdown_source_vm: Gets or sets a value indicating whether VM needs to be shut down.
      Required.
@@ -2159,7 +2094,7 @@ class HyperVToAzStackHCIPlannedFailoverModelCustomProperties(PlannedFailoverMode
     """
 
     _validation = {
-        "instance_type": {"required": True, "min_length": 1},
+        "instance_type": {"required": True},
         "shutdown_source_vm": {"required": True},
     }
 
@@ -2185,14 +2120,14 @@ class PolicyModelCustomProperties(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     HyperVToAzStackHCIPolicyModelCustomProperties, VMwareToAzStackHCIPolicyModelCustomProperties
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar instance_type: Gets or sets the instance type. Required.
+    :ivar instance_type: Discriminator property for PolicyModelCustomProperties. Required.
     :vartype instance_type: str
     """
 
     _validation = {
-        "instance_type": {"required": True, "min_length": 1},
+        "instance_type": {"required": True},
     }
 
     _attribute_map = {
@@ -2212,16 +2147,15 @@ class PolicyModelCustomProperties(_serialization.Model):
         self.instance_type: Optional[str] = None
 
 
-class HyperVToAzStackHCIPolicyModelCustomProperties(PolicyModelCustomProperties):
+class HyperVToAzStackHCIPolicyModelCustomProperties(PolicyModelCustomProperties):  # pylint: disable=name-too-long
     """HyperV To AzStackHCI Policy model custom properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar instance_type: Gets or sets the instance type. Required.
+    :ivar instance_type: Discriminator property for PolicyModelCustomProperties. Required.
     :vartype instance_type: str
     :ivar recovery_point_history_in_minutes: Gets or sets the duration in minutes until which the
-     recovery points need to be
-     stored. Required.
+     recovery points need to be stored. Required.
     :vartype recovery_point_history_in_minutes: int
     :ivar crash_consistent_frequency_in_minutes: Gets or sets the crash consistent snapshot
      frequency (in minutes). Required.
@@ -2232,7 +2166,7 @@ class HyperVToAzStackHCIPolicyModelCustomProperties(PolicyModelCustomProperties)
     """
 
     _validation = {
-        "instance_type": {"required": True, "min_length": 1},
+        "instance_type": {"required": True},
         "recovery_point_history_in_minutes": {"required": True},
         "crash_consistent_frequency_in_minutes": {"required": True},
         "app_consistent_frequency_in_minutes": {"required": True},
@@ -2255,8 +2189,7 @@ class HyperVToAzStackHCIPolicyModelCustomProperties(PolicyModelCustomProperties)
     ) -> None:
         """
         :keyword recovery_point_history_in_minutes: Gets or sets the duration in minutes until which
-         the recovery points need to be
-         stored. Required.
+         the recovery points need to be stored. Required.
         :paramtype recovery_point_history_in_minutes: int
         :keyword crash_consistent_frequency_in_minutes: Gets or sets the crash consistent snapshot
          frequency (in minutes). Required.
@@ -2272,7 +2205,7 @@ class HyperVToAzStackHCIPolicyModelCustomProperties(PolicyModelCustomProperties)
         self.app_consistent_frequency_in_minutes = app_consistent_frequency_in_minutes
 
 
-class HyperVToAzStackHCIProtectedDiskProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class HyperVToAzStackHCIProtectedDiskProperties(_serialization.Model):  # pylint: disable=name-too-long
     """HyperVToAzStackHCI protected disk properties.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -2296,11 +2229,16 @@ class HyperVToAzStackHCIProtectedDiskProperties(_serialization.Model):  # pylint
     :ivar capacity_in_bytes: Gets or sets the disk capacity in bytes.
     :vartype capacity_in_bytes: int
     :ivar is_dynamic: Gets or sets a value indicating whether dynamic sizing is enabled on the
-     virtual hard
-     disk.
+     virtual hard disk.
     :vartype is_dynamic: bool
     :ivar disk_type: Gets or sets the disk type.
     :vartype disk_type: str
+    :ivar disk_block_size: Gets or sets a value of disk block size.
+    :vartype disk_block_size: int
+    :ivar disk_logical_sector_size: Gets or sets a value of disk logical sector size.
+    :vartype disk_logical_sector_size: int
+    :ivar disk_physical_sector_size: Gets or sets a value of disk physical sector size.
+    :vartype disk_physical_sector_size: int
     """
 
     _validation = {
@@ -2315,6 +2253,9 @@ class HyperVToAzStackHCIProtectedDiskProperties(_serialization.Model):  # pylint
         "capacity_in_bytes": {"readonly": True},
         "is_dynamic": {"readonly": True},
         "disk_type": {"readonly": True},
+        "disk_block_size": {"readonly": True},
+        "disk_logical_sector_size": {"readonly": True},
+        "disk_physical_sector_size": {"readonly": True},
     }
 
     _attribute_map = {
@@ -2329,22 +2270,28 @@ class HyperVToAzStackHCIProtectedDiskProperties(_serialization.Model):  # pylint
         "capacity_in_bytes": {"key": "capacityInBytes", "type": "int"},
         "is_dynamic": {"key": "isDynamic", "type": "bool"},
         "disk_type": {"key": "diskType", "type": "str"},
+        "disk_block_size": {"key": "diskBlockSize", "type": "int"},
+        "disk_logical_sector_size": {"key": "diskLogicalSectorSize", "type": "int"},
+        "disk_physical_sector_size": {"key": "diskPhysicalSectorSize", "type": "int"},
     }
 
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.storage_container_id = None
-        self.storage_container_local_path = None
-        self.source_disk_id = None
-        self.source_disk_name = None
-        self.seed_disk_name = None
-        self.test_migrate_disk_name = None
-        self.migrate_disk_name = None
-        self.is_os_disk = None
-        self.capacity_in_bytes = None
-        self.is_dynamic = None
-        self.disk_type = None
+        self.storage_container_id: Optional[str] = None
+        self.storage_container_local_path: Optional[str] = None
+        self.source_disk_id: Optional[str] = None
+        self.source_disk_name: Optional[str] = None
+        self.seed_disk_name: Optional[str] = None
+        self.test_migrate_disk_name: Optional[str] = None
+        self.migrate_disk_name: Optional[str] = None
+        self.is_os_disk: Optional[bool] = None
+        self.capacity_in_bytes: Optional[int] = None
+        self.is_dynamic: Optional[bool] = None
+        self.disk_type: Optional[str] = None
+        self.disk_block_size: Optional[int] = None
+        self.disk_logical_sector_size: Optional[int] = None
+        self.disk_physical_sector_size: Optional[int] = None
 
 
 class ProtectedItemModelCustomProperties(_serialization.Model):
@@ -2354,14 +2301,14 @@ class ProtectedItemModelCustomProperties(_serialization.Model):
     HyperVToAzStackHCIProtectedItemModelCustomProperties,
     VMwareToAzStackHCIProtectedItemModelCustomProperties
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar instance_type: Gets or sets the instance type. Required.
+    :ivar instance_type: Discriminator property for ProtectedItemModelCustomProperties. Required.
     :vartype instance_type: str
     """
 
     _validation = {
-        "instance_type": {"required": True, "min_length": 1},
+        "instance_type": {"required": True},
     }
 
     _attribute_map = {
@@ -2383,14 +2330,14 @@ class ProtectedItemModelCustomProperties(_serialization.Model):
 
 class HyperVToAzStackHCIProtectedItemModelCustomProperties(
     ProtectedItemModelCustomProperties
-):  # pylint: disable=too-many-instance-attributes
+):  # pylint: disable=name-too-long
     """HyperV to AzStackHCI Protected item model custom properties.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar instance_type: Gets or sets the instance type. Required.
+    :ivar instance_type: Discriminator property for ProtectedItemModelCustomProperties. Required.
     :vartype instance_type: str
     :ivar active_location: Gets or sets the location of the protected item. Known values are:
      "Primary" and "Recovery".
@@ -2441,10 +2388,10 @@ class HyperVToAzStackHCIProtectedItemModelCustomProperties(
     :vartype target_memory_in_mega_bytes: int
     :ivar run_as_account_id: Gets or sets the Run As account Id. Required.
     :vartype run_as_account_id: str
-    :ivar source_dra_name: Gets or sets the source DRA name. Required.
-    :vartype source_dra_name: str
-    :ivar target_dra_name: Gets or sets the target DRA name. Required.
-    :vartype target_dra_name: str
+    :ivar source_fabric_agent_name: Gets or sets the source fabric agent name. Required.
+    :vartype source_fabric_agent_name: str
+    :ivar target_fabric_agent_name: Gets or sets the target fabric agent name. Required.
+    :vartype target_fabric_agent_name: str
     :ivar source_appliance_name: Gets or sets the source appliance name.
     :vartype source_appliance_name: str
     :ivar target_appliance_name: Gets or sets the target appliance name.
@@ -2468,12 +2415,10 @@ class HyperVToAzStackHCIProtectedItemModelCustomProperties(
     :ivar last_recovery_point_id: Gets or sets the last recovery point Id.
     :vartype last_recovery_point_id: str
     :ivar initial_replication_progress_percentage: Gets or sets the initial replication progress
-     percentage. This is calculated based on
-     total bytes processed for all disks in the source VM.
+     percentage. This is calculated based on total bytes processed for all disks in the source VM.
     :vartype initial_replication_progress_percentage: int
     :ivar resync_progress_percentage: Gets or sets the resync progress percentage. This is
-     calculated based on total bytes
-     processed for all disks in the source VM.
+     calculated based on total bytes processed for all disks in the source VM.
     :vartype resync_progress_percentage: int
     :ivar protected_disks: Gets or sets the list of protected disks.
     :vartype protected_disks:
@@ -2489,23 +2434,23 @@ class HyperVToAzStackHCIProtectedItemModelCustomProperties(
     """
 
     _validation = {
-        "instance_type": {"required": True, "min_length": 1},
+        "instance_type": {"required": True},
         "active_location": {"readonly": True},
-        "target_hci_cluster_id": {"required": True, "min_length": 1},
-        "target_arc_cluster_custom_location_id": {"required": True, "min_length": 1},
+        "target_hci_cluster_id": {"required": True},
+        "target_arc_cluster_custom_location_id": {"required": True},
         "target_az_stack_hci_cluster_name": {"readonly": True},
-        "fabric_discovery_machine_id": {"required": True, "min_length": 1},
-        "disks_to_include": {"required": True, "min_items": 1},
-        "nics_to_include": {"required": True, "min_items": 1},
+        "fabric_discovery_machine_id": {"required": True},
+        "disks_to_include": {"required": True},
+        "nics_to_include": {"required": True},
         "source_vm_name": {"readonly": True},
         "source_cpu_cores": {"readonly": True},
         "source_memory_in_mega_bytes": {"readonly": True},
-        "target_resource_group_id": {"required": True, "min_length": 1},
-        "storage_container_id": {"required": True, "min_length": 1},
+        "target_resource_group_id": {"required": True},
+        "storage_container_id": {"required": True},
         "hyper_v_generation": {"required": True, "min_length": 1},
         "run_as_account_id": {"required": True, "min_length": 1},
-        "source_dra_name": {"required": True, "min_length": 1},
-        "target_dra_name": {"required": True, "min_length": 1},
+        "source_fabric_agent_name": {"required": True, "min_length": 1},
+        "target_fabric_agent_name": {"required": True, "min_length": 1},
         "source_appliance_name": {"readonly": True},
         "target_appliance_name": {"readonly": True},
         "os_type": {"readonly": True},
@@ -2547,8 +2492,8 @@ class HyperVToAzStackHCIProtectedItemModelCustomProperties(
         "dynamic_memory_config": {"key": "dynamicMemoryConfig", "type": "ProtectedItemDynamicMemoryConfig"},
         "target_memory_in_mega_bytes": {"key": "targetMemoryInMegaBytes", "type": "int"},
         "run_as_account_id": {"key": "runAsAccountId", "type": "str"},
-        "source_dra_name": {"key": "sourceDraName", "type": "str"},
-        "target_dra_name": {"key": "targetDraName", "type": "str"},
+        "source_fabric_agent_name": {"key": "sourceFabricAgentName", "type": "str"},
+        "target_fabric_agent_name": {"key": "targetFabricAgentName", "type": "str"},
         "source_appliance_name": {"key": "sourceApplianceName", "type": "str"},
         "target_appliance_name": {"key": "targetApplianceName", "type": "str"},
         "os_type": {"key": "osType", "type": "str"},
@@ -2579,8 +2524,8 @@ class HyperVToAzStackHCIProtectedItemModelCustomProperties(
         storage_container_id: str,
         hyper_v_generation: str,
         run_as_account_id: str,
-        source_dra_name: str,
-        target_dra_name: str,
+        source_fabric_agent_name: str,
+        target_fabric_agent_name: str,
         custom_location_region: str,
         target_vm_name: Optional[str] = None,
         target_network_id: Optional[str] = None,
@@ -2630,26 +2575,26 @@ class HyperVToAzStackHCIProtectedItemModelCustomProperties(
         :paramtype target_memory_in_mega_bytes: int
         :keyword run_as_account_id: Gets or sets the Run As account Id. Required.
         :paramtype run_as_account_id: str
-        :keyword source_dra_name: Gets or sets the source DRA name. Required.
-        :paramtype source_dra_name: str
-        :keyword target_dra_name: Gets or sets the target DRA name. Required.
-        :paramtype target_dra_name: str
+        :keyword source_fabric_agent_name: Gets or sets the source fabric agent name. Required.
+        :paramtype source_fabric_agent_name: str
+        :keyword target_fabric_agent_name: Gets or sets the target fabric agent name. Required.
+        :paramtype target_fabric_agent_name: str
         :keyword custom_location_region: Gets or sets the location of Azure Arc HCI custom location
          resource. Required.
         :paramtype custom_location_region: str
         """
         super().__init__(**kwargs)
         self.instance_type: str = "HyperVToAzStackHCI"
-        self.active_location = None
+        self.active_location: Optional[Union[str, "_models.ProtectedItemActiveLocation"]] = None
         self.target_hci_cluster_id = target_hci_cluster_id
         self.target_arc_cluster_custom_location_id = target_arc_cluster_custom_location_id
-        self.target_az_stack_hci_cluster_name = None
+        self.target_az_stack_hci_cluster_name: Optional[str] = None
         self.fabric_discovery_machine_id = fabric_discovery_machine_id
         self.disks_to_include = disks_to_include
         self.nics_to_include = nics_to_include
-        self.source_vm_name = None
-        self.source_cpu_cores = None
-        self.source_memory_in_mega_bytes = None
+        self.source_vm_name: Optional[str] = None
+        self.source_cpu_cores: Optional[int] = None
+        self.source_memory_in_mega_bytes: Optional[float] = None
         self.target_vm_name = target_vm_name
         self.target_resource_group_id = target_resource_group_id
         self.storage_container_id = storage_container_id
@@ -2661,24 +2606,136 @@ class HyperVToAzStackHCIProtectedItemModelCustomProperties(
         self.dynamic_memory_config = dynamic_memory_config
         self.target_memory_in_mega_bytes = target_memory_in_mega_bytes
         self.run_as_account_id = run_as_account_id
-        self.source_dra_name = source_dra_name
-        self.target_dra_name = target_dra_name
-        self.source_appliance_name = None
-        self.target_appliance_name = None
-        self.os_type = None
-        self.os_name = None
-        self.firmware_type = None
-        self.target_location = None
+        self.source_fabric_agent_name = source_fabric_agent_name
+        self.target_fabric_agent_name = target_fabric_agent_name
+        self.source_appliance_name: Optional[str] = None
+        self.target_appliance_name: Optional[str] = None
+        self.os_type: Optional[str] = None
+        self.os_name: Optional[str] = None
+        self.firmware_type: Optional[str] = None
+        self.target_location: Optional[str] = None
         self.custom_location_region = custom_location_region
-        self.failover_recovery_point_id = None
-        self.last_recovery_point_received = None
-        self.last_recovery_point_id = None
-        self.initial_replication_progress_percentage = None
-        self.resync_progress_percentage = None
-        self.protected_disks = None
-        self.protected_nics = None
-        self.target_vm_bios_id = None
-        self.last_replication_update_time = None
+        self.failover_recovery_point_id: Optional[str] = None
+        self.last_recovery_point_received: Optional[datetime.datetime] = None
+        self.last_recovery_point_id: Optional[str] = None
+        self.initial_replication_progress_percentage: Optional[int] = None
+        self.resync_progress_percentage: Optional[int] = None
+        self.protected_disks: Optional[List["_models.HyperVToAzStackHCIProtectedDiskProperties"]] = None
+        self.protected_nics: Optional[List["_models.HyperVToAzStackHCIProtectedNicProperties"]] = None
+        self.target_vm_bios_id: Optional[str] = None
+        self.last_replication_update_time: Optional[datetime.datetime] = None
+
+
+class ProtectedItemModelCustomPropertiesUpdate(_serialization.Model):
+    """Protected item model custom properties.
+
+    You probably want to use the sub-classes and not this class directly. Known sub-classes are:
+    HyperVToAzStackHCIProtectedItemModelCustomPropertiesUpdate,
+    VMwareToAzStackHCIProtectedItemModelCustomPropertiesUpdate
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar instance_type: Discriminator property for ProtectedItemModelCustomPropertiesUpdate.
+     Required.
+    :vartype instance_type: str
+    """
+
+    _validation = {
+        "instance_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "instance_type": {"key": "instanceType", "type": "str"},
+    }
+
+    _subtype_map = {
+        "instance_type": {
+            "HyperVToAzStackHCI": "HyperVToAzStackHCIProtectedItemModelCustomPropertiesUpdate",
+            "VMwareToAzStackHCI": "VMwareToAzStackHCIProtectedItemModelCustomPropertiesUpdate",
+        }
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.instance_type: Optional[str] = None
+
+
+class HyperVToAzStackHCIProtectedItemModelCustomPropertiesUpdate(
+    ProtectedItemModelCustomPropertiesUpdate
+):  # pylint: disable=name-too-long
+    """HyperV to AzStackHCI Protected item model custom properties.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar instance_type: Discriminator property for ProtectedItemModelCustomPropertiesUpdate.
+     Required.
+    :vartype instance_type: str
+    :ivar nics_to_include: Gets or sets the list of VM NIC to replicate.
+    :vartype nics_to_include:
+     list[~azure.mgmt.recoveryservicesdatareplication.models.HyperVToAzStackHCINicInput]
+    :ivar target_cpu_cores: Gets or sets the target CPU cores.
+    :vartype target_cpu_cores: int
+    :ivar is_dynamic_ram: Gets or sets a value indicating whether memory is dynamical.
+    :vartype is_dynamic_ram: bool
+    :ivar dynamic_memory_config: Protected item dynamic memory config.
+    :vartype dynamic_memory_config:
+     ~azure.mgmt.recoveryservicesdatareplication.models.ProtectedItemDynamicMemoryConfig
+    :ivar target_memory_in_mega_bytes: Gets or sets the target memory in mega-bytes.
+    :vartype target_memory_in_mega_bytes: int
+    :ivar os_type: Gets or sets the type of the OS.
+    :vartype os_type: str
+    """
+
+    _validation = {
+        "instance_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "instance_type": {"key": "instanceType", "type": "str"},
+        "nics_to_include": {"key": "nicsToInclude", "type": "[HyperVToAzStackHCINicInput]"},
+        "target_cpu_cores": {"key": "targetCpuCores", "type": "int"},
+        "is_dynamic_ram": {"key": "isDynamicRam", "type": "bool"},
+        "dynamic_memory_config": {"key": "dynamicMemoryConfig", "type": "ProtectedItemDynamicMemoryConfig"},
+        "target_memory_in_mega_bytes": {"key": "targetMemoryInMegaBytes", "type": "int"},
+        "os_type": {"key": "osType", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        nics_to_include: Optional[List["_models.HyperVToAzStackHCINicInput"]] = None,
+        target_cpu_cores: Optional[int] = None,
+        is_dynamic_ram: Optional[bool] = None,
+        dynamic_memory_config: Optional["_models.ProtectedItemDynamicMemoryConfig"] = None,
+        target_memory_in_mega_bytes: Optional[int] = None,
+        os_type: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword nics_to_include: Gets or sets the list of VM NIC to replicate.
+        :paramtype nics_to_include:
+         list[~azure.mgmt.recoveryservicesdatareplication.models.HyperVToAzStackHCINicInput]
+        :keyword target_cpu_cores: Gets or sets the target CPU cores.
+        :paramtype target_cpu_cores: int
+        :keyword is_dynamic_ram: Gets or sets a value indicating whether memory is dynamical.
+        :paramtype is_dynamic_ram: bool
+        :keyword dynamic_memory_config: Protected item dynamic memory config.
+        :paramtype dynamic_memory_config:
+         ~azure.mgmt.recoveryservicesdatareplication.models.ProtectedItemDynamicMemoryConfig
+        :keyword target_memory_in_mega_bytes: Gets or sets the target memory in mega-bytes.
+        :paramtype target_memory_in_mega_bytes: int
+        :keyword os_type: Gets or sets the type of the OS.
+        :paramtype os_type: str
+        """
+        super().__init__(**kwargs)
+        self.instance_type: str = "HyperVToAzStackHCI"
+        self.nics_to_include = nics_to_include
+        self.target_cpu_cores = target_cpu_cores
+        self.is_dynamic_ram = is_dynamic_ram
+        self.dynamic_memory_config = dynamic_memory_config
+        self.target_memory_in_mega_bytes = target_memory_in_mega_bytes
+        self.os_type = os_type
 
 
 class HyperVToAzStackHCIProtectedNicProperties(_serialization.Model):
@@ -2723,35 +2780,41 @@ class HyperVToAzStackHCIProtectedNicProperties(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.nic_id = None
-        self.mac_address = None
-        self.network_name = None
-        self.target_network_id = None
-        self.test_network_id = None
-        self.selection_type_for_failover = None
+        self.nic_id: Optional[str] = None
+        self.mac_address: Optional[str] = None
+        self.network_name: Optional[str] = None
+        self.target_network_id: Optional[str] = None
+        self.test_network_id: Optional[str] = None
+        self.selection_type_for_failover: Optional[Union[str, "_models.VMNicSelection"]] = None
 
 
 class RecoveryPointModelCustomProperties(_serialization.Model):
     """Recovery point model custom properties.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
-    HyperVToAzStackHCIRecoveryPointModelCustomProperties
+    HyperVToAzStackHCIRecoveryPointModelCustomProperties,
+    VMwareToAzStackHCIRecoveryPointModelCustomProperties
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar instance_type: Gets or sets the instance type. Required.
+    :ivar instance_type: Discriminator property for RecoveryPointModelCustomProperties. Required.
     :vartype instance_type: str
     """
 
     _validation = {
-        "instance_type": {"required": True, "min_length": 1},
+        "instance_type": {"required": True},
     }
 
     _attribute_map = {
         "instance_type": {"key": "instanceType", "type": "str"},
     }
 
-    _subtype_map = {"instance_type": {"HyperVToAzStackHCI": "HyperVToAzStackHCIRecoveryPointModelCustomProperties"}}
+    _subtype_map = {
+        "instance_type": {
+            "HyperVToAzStackHCI": "HyperVToAzStackHCIRecoveryPointModelCustomProperties",
+            "VMwareToAzStackHCIRecoveryPointModelCustomProperties": "VMwareToAzStackHCIRecoveryPointModelCustomProperties",
+        }
+    }
 
     def __init__(self, **kwargs: Any) -> None:
         """ """
@@ -2759,21 +2822,23 @@ class RecoveryPointModelCustomProperties(_serialization.Model):
         self.instance_type: Optional[str] = None
 
 
-class HyperVToAzStackHCIRecoveryPointModelCustomProperties(RecoveryPointModelCustomProperties):
+class HyperVToAzStackHCIRecoveryPointModelCustomProperties(
+    RecoveryPointModelCustomProperties
+):  # pylint: disable=name-too-long
     """HyperV to AzStackHCI recovery point model custom properties.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar instance_type: Gets or sets the instance type. Required.
+    :ivar instance_type: Discriminator property for RecoveryPointModelCustomProperties. Required.
     :vartype instance_type: str
     :ivar disk_ids: Gets or sets the list of the disk Ids.
     :vartype disk_ids: list[str]
     """
 
     _validation = {
-        "instance_type": {"required": True, "min_length": 1},
+        "instance_type": {"required": True},
         "disk_ids": {"readonly": True},
     }
 
@@ -2786,24 +2851,25 @@ class HyperVToAzStackHCIRecoveryPointModelCustomProperties(RecoveryPointModelCus
         """ """
         super().__init__(**kwargs)
         self.instance_type: str = "HyperVToAzStackHCI"
-        self.disk_ids = None
+        self.disk_ids: Optional[List[str]] = None
 
 
-class ReplicationExtensionModelCustomProperties(_serialization.Model):
+class ReplicationExtensionModelCustomProperties(_serialization.Model):  # pylint: disable=name-too-long
     """Replication extension model custom properties.
 
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     HyperVToAzStackHCIReplicationExtensionModelCustomProperties,
     VMwareToAzStackHCIReplicationExtensionModelCustomProperties
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar instance_type: Gets or sets the instance type. Required.
+    :ivar instance_type: Discriminator property for ReplicationExtensionModelCustomProperties.
+     Required.
     :vartype instance_type: str
     """
 
     _validation = {
-        "instance_type": {"required": True, "min_length": 1},
+        "instance_type": {"required": True},
     }
 
     _attribute_map = {
@@ -2825,14 +2891,15 @@ class ReplicationExtensionModelCustomProperties(_serialization.Model):
 
 class HyperVToAzStackHCIReplicationExtensionModelCustomProperties(
     ReplicationExtensionModelCustomProperties
-):  # pylint: disable=too-many-instance-attributes
+):  # pylint: disable=name-too-long
     """HyperV to AzStackHCI Replication extension model custom properties.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar instance_type: Gets or sets the instance type. Required.
+    :ivar instance_type: Discriminator property for ReplicationExtensionModelCustomProperties.
+     Required.
     :vartype instance_type: str
     :ivar hyper_v_fabric_arm_id: Gets or sets the ARM Id of the source HyperV fabric. Required.
     :vartype hyper_v_fabric_arm_id: str
@@ -2870,10 +2937,10 @@ class HyperVToAzStackHCIReplicationExtensionModelCustomProperties(
     """
 
     _validation = {
-        "instance_type": {"required": True, "min_length": 1},
-        "hyper_v_fabric_arm_id": {"required": True, "min_length": 1},
+        "instance_type": {"required": True},
+        "hyper_v_fabric_arm_id": {"required": True},
         "hyper_v_site_id": {"readonly": True},
-        "az_stack_hci_fabric_arm_id": {"required": True, "min_length": 1},
+        "az_stack_hci_fabric_arm_id": {"required": True},
         "az_stack_hci_site_id": {"readonly": True},
         "asr_service_uri": {"readonly": True},
         "rcm_service_uri": {"readonly": True},
@@ -2930,43 +2997,42 @@ class HyperVToAzStackHCIReplicationExtensionModelCustomProperties(
         super().__init__(**kwargs)
         self.instance_type: str = "HyperVToAzStackHCI"
         self.hyper_v_fabric_arm_id = hyper_v_fabric_arm_id
-        self.hyper_v_site_id = None
+        self.hyper_v_site_id: Optional[str] = None
         self.az_stack_hci_fabric_arm_id = az_stack_hci_fabric_arm_id
-        self.az_stack_hci_site_id = None
+        self.az_stack_hci_site_id: Optional[str] = None
         self.storage_account_id = storage_account_id
         self.storage_account_sas_secret_name = storage_account_sas_secret_name
-        self.asr_service_uri = None
-        self.rcm_service_uri = None
-        self.gateway_service_uri = None
-        self.source_gateway_service_id = None
-        self.target_gateway_service_id = None
-        self.source_storage_container_name = None
-        self.target_storage_container_name = None
-        self.resource_location = None
-        self.subscription_id = None
-        self.resource_group = None
+        self.asr_service_uri: Optional[str] = None
+        self.rcm_service_uri: Optional[str] = None
+        self.gateway_service_uri: Optional[str] = None
+        self.source_gateway_service_id: Optional[str] = None
+        self.target_gateway_service_id: Optional[str] = None
+        self.source_storage_container_name: Optional[str] = None
+        self.target_storage_container_name: Optional[str] = None
+        self.resource_location: Optional[str] = None
+        self.subscription_id: Optional[str] = None
+        self.resource_group: Optional[str] = None
 
 
 class IdentityModel(_serialization.Model):
     """Identity model.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar tenant_id: Gets or sets the tenant Id of the SPN with which Dra communicates to service.
-     Required.
+    :ivar tenant_id: Gets or sets the tenant Id of the SPN with which fabric agent communicates to
+     service. Required.
     :vartype tenant_id: str
-    :ivar application_id: Gets or sets the client/application Id of the SPN with which Dra
-     communicates to
-     service. Required.
+    :ivar application_id: Gets or sets the client/application Id of the SPN with which fabric agent
+     communicates to service. Required.
     :vartype application_id: str
-    :ivar object_id: Gets or sets the object Id of the SPN with which Dra communicates to service.
-     Required.
-    :vartype object_id: str
-    :ivar audience: Gets or sets the audience of the SPN with which Dra communicates to service.
-     Required.
-    :vartype audience: str
-    :ivar aad_authority: Gets or sets the authority of the SPN with which Dra communicates to
+    :ivar object_id: Gets or sets the object Id of the SPN with which fabric agent communicates to
      service. Required.
+    :vartype object_id: str
+    :ivar audience: Gets or sets the audience of the SPN with which fabric agent communicates to
+     service. Required.
+    :vartype audience: str
+    :ivar aad_authority: Gets or sets the authority of the SPN with which fabric agent communicates
+     to service. Required.
     :vartype aad_authority: str
     """
 
@@ -2990,21 +3056,20 @@ class IdentityModel(_serialization.Model):
         self, *, tenant_id: str, application_id: str, object_id: str, audience: str, aad_authority: str, **kwargs: Any
     ) -> None:
         """
-        :keyword tenant_id: Gets or sets the tenant Id of the SPN with which Dra communicates to
-         service. Required.
+        :keyword tenant_id: Gets or sets the tenant Id of the SPN with which fabric agent communicates
+         to service. Required.
         :paramtype tenant_id: str
-        :keyword application_id: Gets or sets the client/application Id of the SPN with which Dra
-         communicates to
-         service. Required.
+        :keyword application_id: Gets or sets the client/application Id of the SPN with which fabric
+         agent communicates to service. Required.
         :paramtype application_id: str
-        :keyword object_id: Gets or sets the object Id of the SPN with which Dra communicates to
-         service. Required.
+        :keyword object_id: Gets or sets the object Id of the SPN with which fabric agent communicates
+         to service. Required.
         :paramtype object_id: str
-        :keyword audience: Gets or sets the audience of the SPN with which Dra communicates to service.
-         Required.
-        :paramtype audience: str
-        :keyword aad_authority: Gets or sets the authority of the SPN with which Dra communicates to
+        :keyword audience: Gets or sets the audience of the SPN with which fabric agent communicates to
          service. Required.
+        :paramtype audience: str
+        :keyword aad_authority: Gets or sets the authority of the SPN with which fabric agent
+         communicates to service. Required.
         :paramtype aad_authority: str
         """
         super().__init__(**kwargs)
@@ -3015,7 +3080,7 @@ class IdentityModel(_serialization.Model):
         self.aad_authority = aad_authority
 
 
-class InnerHealthErrorModel(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class InnerHealthErrorModel(_serialization.Model):
     """Inner health error model.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -3076,17 +3141,308 @@ class InnerHealthErrorModel(_serialization.Model):  # pylint: disable=too-many-i
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.code = None
-        self.health_category = None
-        self.category = None
-        self.severity = None
-        self.source = None
-        self.creation_time = None
-        self.is_customer_resolvable = None
-        self.summary = None
-        self.message = None
-        self.causes = None
-        self.recommendation = None
+        self.code: Optional[str] = None
+        self.health_category: Optional[str] = None
+        self.category: Optional[str] = None
+        self.severity: Optional[str] = None
+        self.source: Optional[str] = None
+        self.creation_time: Optional[datetime.datetime] = None
+        self.is_customer_resolvable: Optional[bool] = None
+        self.summary: Optional[str] = None
+        self.message: Optional[str] = None
+        self.causes: Optional[str] = None
+        self.recommendation: Optional[str] = None
+
+
+class JobModel(ProxyResource):
+    """Job model.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.recoveryservicesdatareplication.models.SystemData
+    :ivar properties: The resource-specific properties for this resource.
+    :vartype properties: ~azure.mgmt.recoveryservicesdatareplication.models.JobModelProperties
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "properties": {"key": "properties", "type": "JobModelProperties"},
+    }
+
+    def __init__(self, *, properties: Optional["_models.JobModelProperties"] = None, **kwargs: Any) -> None:
+        """
+        :keyword properties: The resource-specific properties for this resource.
+        :paramtype properties: ~azure.mgmt.recoveryservicesdatareplication.models.JobModelProperties
+        """
+        super().__init__(**kwargs)
+        self.properties = properties
+
+
+class JobModelCustomPropertiesAffectedObjectDetails(_serialization.Model):  # pylint: disable=name-too-long
+    """Gets or sets any custom properties of the affected object.
+
+    :ivar description:
+    :vartype description: str
+    :ivar type: Default value is "object".
+    :vartype type: str
+    """
+
+    _attribute_map = {
+        "description": {"key": "description", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+    }
+
+    def __init__(
+        self, *, description: Optional[str] = None, type: Optional[Literal["object"]] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword description:
+        :paramtype description: str
+        :keyword type: Default value is "object".
+        :paramtype type: str
+        """
+        super().__init__(**kwargs)
+        self.description = description
+        self.type = type
+
+
+class JobModelListResult(_serialization.Model):
+    """The response of a JobModel list operation.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar value: The JobModel items on this page. Required.
+    :vartype value: list[~azure.mgmt.recoveryservicesdatareplication.models.JobModel]
+    :ivar next_link: The link to the next page of items.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "value": {"required": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[JobModel]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(self, *, value: List["_models.JobModel"], next_link: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword value: The JobModel items on this page. Required.
+        :paramtype value: list[~azure.mgmt.recoveryservicesdatareplication.models.JobModel]
+        :keyword next_link: The link to the next page of items.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = next_link
+
+
+class JobModelProperties(_serialization.Model):
+    """Job model properties.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar display_name: Gets or sets the friendly display name.
+    :vartype display_name: str
+    :ivar state: Gets or sets the job state. Known values are: "Pending", "Started", "Cancelling",
+     "Succeeded", "Failed", "Cancelled", "CompletedWithInformation", "CompletedWithWarnings", and
+     "CompletedWithErrors".
+    :vartype state: str or ~azure.mgmt.recoveryservicesdatareplication.models.JobState
+    :ivar start_time: Gets or sets the start time.
+    :vartype start_time: ~datetime.datetime
+    :ivar end_time: Gets or sets the end time.
+    :vartype end_time: ~datetime.datetime
+    :ivar object_id: Gets or sets the affected object Id.
+    :vartype object_id: str
+    :ivar object_name: Gets or sets the affected object name.
+    :vartype object_name: str
+    :ivar object_internal_id: Gets or sets the affected object internal Id.
+    :vartype object_internal_id: str
+    :ivar object_internal_name: Gets or sets the affected object internal name.
+    :vartype object_internal_name: str
+    :ivar object_type: Gets or sets the object type. Known values are: "AvsDiskPool",
+     "FabricAgent", "Fabric", "Policy", "ProtectedItem", "RecoveryPlan", "ReplicationExtension", and
+     "Vault".
+    :vartype object_type: str or ~azure.mgmt.recoveryservicesdatareplication.models.JobObjectType
+    :ivar replication_provider_id: Gets or sets the replication provider.
+    :vartype replication_provider_id: str
+    :ivar source_fabric_provider_id: Gets or sets the source fabric provider.
+    :vartype source_fabric_provider_id: str
+    :ivar target_fabric_provider_id: Gets or sets the target fabric provider.
+    :vartype target_fabric_provider_id: str
+    :ivar allowed_actions: Gets or sets the list of allowed actions on the job.
+    :vartype allowed_actions: list[str]
+    :ivar activity_id: Gets or sets the job activity id.
+    :vartype activity_id: str
+    :ivar tasks: Gets or sets the list of tasks.
+    :vartype tasks: list[~azure.mgmt.recoveryservicesdatareplication.models.TaskModel]
+    :ivar errors: Gets or sets the list of errors.
+    :vartype errors: list[~azure.mgmt.recoveryservicesdatareplication.models.ErrorModel]
+    :ivar custom_properties: Job model custom properties. Required.
+    :vartype custom_properties:
+     ~azure.mgmt.recoveryservicesdatareplication.models.JobModelCustomProperties
+    :ivar provisioning_state: Gets or sets the provisioning state of the job. Known values are:
+     "Canceled", "Creating", "Deleting", "Deleted", "Failed", "Succeeded", and "Updating".
+    :vartype provisioning_state: str or
+     ~azure.mgmt.recoveryservicesdatareplication.models.ProvisioningState
+    """
+
+    _validation = {
+        "display_name": {"readonly": True},
+        "state": {"readonly": True},
+        "start_time": {"readonly": True},
+        "end_time": {"readonly": True},
+        "object_id": {"readonly": True},
+        "object_name": {"readonly": True},
+        "object_internal_id": {"readonly": True},
+        "object_internal_name": {"readonly": True},
+        "object_type": {"readonly": True},
+        "replication_provider_id": {"readonly": True},
+        "source_fabric_provider_id": {"readonly": True},
+        "target_fabric_provider_id": {"readonly": True},
+        "allowed_actions": {"readonly": True},
+        "activity_id": {"readonly": True},
+        "tasks": {"readonly": True},
+        "errors": {"readonly": True},
+        "custom_properties": {"required": True},
+        "provisioning_state": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "display_name": {"key": "displayName", "type": "str"},
+        "state": {"key": "state", "type": "str"},
+        "start_time": {"key": "startTime", "type": "iso-8601"},
+        "end_time": {"key": "endTime", "type": "iso-8601"},
+        "object_id": {"key": "objectId", "type": "str"},
+        "object_name": {"key": "objectName", "type": "str"},
+        "object_internal_id": {"key": "objectInternalId", "type": "str"},
+        "object_internal_name": {"key": "objectInternalName", "type": "str"},
+        "object_type": {"key": "objectType", "type": "str"},
+        "replication_provider_id": {"key": "replicationProviderId", "type": "str"},
+        "source_fabric_provider_id": {"key": "sourceFabricProviderId", "type": "str"},
+        "target_fabric_provider_id": {"key": "targetFabricProviderId", "type": "str"},
+        "allowed_actions": {"key": "allowedActions", "type": "[str]"},
+        "activity_id": {"key": "activityId", "type": "str"},
+        "tasks": {"key": "tasks", "type": "[TaskModel]"},
+        "errors": {"key": "errors", "type": "[ErrorModel]"},
+        "custom_properties": {"key": "customProperties", "type": "JobModelCustomProperties"},
+        "provisioning_state": {"key": "provisioningState", "type": "str"},
+    }
+
+    def __init__(self, *, custom_properties: "_models.JobModelCustomProperties", **kwargs: Any) -> None:
+        """
+        :keyword custom_properties: Job model custom properties. Required.
+        :paramtype custom_properties:
+         ~azure.mgmt.recoveryservicesdatareplication.models.JobModelCustomProperties
+        """
+        super().__init__(**kwargs)
+        self.display_name: Optional[str] = None
+        self.state: Optional[Union[str, "_models.JobState"]] = None
+        self.start_time: Optional[datetime.datetime] = None
+        self.end_time: Optional[datetime.datetime] = None
+        self.object_id: Optional[str] = None
+        self.object_name: Optional[str] = None
+        self.object_internal_id: Optional[str] = None
+        self.object_internal_name: Optional[str] = None
+        self.object_type: Optional[Union[str, "_models.JobObjectType"]] = None
+        self.replication_provider_id: Optional[str] = None
+        self.source_fabric_provider_id: Optional[str] = None
+        self.target_fabric_provider_id: Optional[str] = None
+        self.allowed_actions: Optional[List[str]] = None
+        self.activity_id: Optional[str] = None
+        self.tasks: Optional[List["_models.TaskModel"]] = None
+        self.errors: Optional[List["_models.ErrorModel"]] = None
+        self.custom_properties = custom_properties
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
+
+
+class ManagedServiceIdentity(_serialization.Model):
+    """Managed service identity (system assigned and/or user assigned identities).
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar principal_id: The service principal ID of the system assigned identity. This property
+     will only be provided for a system assigned identity.
+    :vartype principal_id: str
+    :ivar tenant_id: The tenant ID of the system assigned identity. This property will only be
+     provided for a system assigned identity.
+    :vartype tenant_id: str
+    :ivar type: Type of managed service identity (where both SystemAssigned and UserAssigned types
+     are allowed). Required. Known values are: "None", "SystemAssigned", "UserAssigned", and
+     "SystemAssigned,UserAssigned".
+    :vartype type: str or
+     ~azure.mgmt.recoveryservicesdatareplication.models.ManagedServiceIdentityType
+    :ivar user_assigned_identities: The set of user assigned identities associated with the
+     resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form:
+     '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.
+     The dictionary values can be empty objects ({}) in requests.
+    :vartype user_assigned_identities: dict[str,
+     ~azure.mgmt.recoveryservicesdatareplication.models.UserAssignedIdentity]
+    """
+
+    _validation = {
+        "principal_id": {"readonly": True},
+        "tenant_id": {"readonly": True},
+        "type": {"required": True},
+    }
+
+    _attribute_map = {
+        "principal_id": {"key": "principalId", "type": "str"},
+        "tenant_id": {"key": "tenantId", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "user_assigned_identities": {"key": "userAssignedIdentities", "type": "{UserAssignedIdentity}"},
+    }
+
+    def __init__(
+        self,
+        *,
+        type: Union[str, "_models.ManagedServiceIdentityType"],
+        user_assigned_identities: Optional[Dict[str, "_models.UserAssignedIdentity"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword type: Type of managed service identity (where both SystemAssigned and UserAssigned
+         types are allowed). Required. Known values are: "None", "SystemAssigned", "UserAssigned", and
+         "SystemAssigned,UserAssigned".
+        :paramtype type: str or
+         ~azure.mgmt.recoveryservicesdatareplication.models.ManagedServiceIdentityType
+        :keyword user_assigned_identities: The set of user assigned identities associated with the
+         resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form:
+         '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.
+         The dictionary values can be empty objects ({}) in requests.
+        :paramtype user_assigned_identities: dict[str,
+         ~azure.mgmt.recoveryservicesdatareplication.models.UserAssignedIdentity]
+        """
+        super().__init__(**kwargs)
+        self.principal_id: Optional[str] = None
+        self.tenant_id: Optional[str] = None
+        self.type = type
+        self.user_assigned_identities = user_assigned_identities
 
 
 class Operation(_serialization.Model):
@@ -3132,11 +3488,11 @@ class Operation(_serialization.Model):
         :paramtype display: ~azure.mgmt.recoveryservicesdatareplication.models.OperationDisplay
         """
         super().__init__(**kwargs)
-        self.name = None
-        self.is_data_action = None
+        self.name: Optional[str] = None
+        self.is_data_action: Optional[bool] = None
         self.display = display
-        self.origin = None
-        self.action_type = None
+        self.origin: Optional[Union[str, "_models.Origin"]] = None
+        self.action_type: Optional[Union[str, "_models.ActionType"]] = None
 
 
 class OperationDisplay(_serialization.Model):
@@ -3175,10 +3531,10 @@ class OperationDisplay(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.provider = None
-        self.resource = None
-        self.operation = None
-        self.description = None
+        self.provider: Optional[str] = None
+        self.resource: Optional[str] = None
+        self.operation: Optional[str] = None
+        self.description: Optional[str] = None
 
 
 class OperationListResult(_serialization.Model):
@@ -3206,132 +3562,8 @@ class OperationListResult(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.value = None
-        self.next_link = None
-
-
-class OperationModel(_serialization.Model):
-    """Operation model.
-
-    :ivar name: Gets or sets the name of the operation.
-    :vartype name: str
-    :ivar is_data_action: Gets or sets a value indicating whether the action is specific to data
-     plane or
-     control plane.
-    :vartype is_data_action: bool
-    :ivar origin: Gets or sets the executor of the operation.
-    :vartype origin: str
-    :ivar display: Operation model properties.
-    :vartype display: ~azure.mgmt.recoveryservicesdatareplication.models.OperationModelProperties
-    """
-
-    _attribute_map = {
-        "name": {"key": "name", "type": "str"},
-        "is_data_action": {"key": "isDataAction", "type": "bool"},
-        "origin": {"key": "origin", "type": "str"},
-        "display": {"key": "display", "type": "OperationModelProperties"},
-    }
-
-    def __init__(
-        self,
-        *,
-        name: Optional[str] = None,
-        is_data_action: Optional[bool] = None,
-        origin: Optional[str] = None,
-        display: Optional["_models.OperationModelProperties"] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword name: Gets or sets the name of the operation.
-        :paramtype name: str
-        :keyword is_data_action: Gets or sets a value indicating whether the action is specific to data
-         plane or
-         control plane.
-        :paramtype is_data_action: bool
-        :keyword origin: Gets or sets the executor of the operation.
-        :paramtype origin: str
-        :keyword display: Operation model properties.
-        :paramtype display: ~azure.mgmt.recoveryservicesdatareplication.models.OperationModelProperties
-        """
-        super().__init__(**kwargs)
-        self.name = name
-        self.is_data_action = is_data_action
-        self.origin = origin
-        self.display = display
-
-
-class OperationModelCollection(_serialization.Model):
-    """Available operations of the service.
-
-    :ivar value: Gets or sets the list of operations.
-    :vartype value: list[~azure.mgmt.recoveryservicesdatareplication.models.OperationModel]
-    :ivar next_link: Gets or sets the value of next link.
-    :vartype next_link: str
-    """
-
-    _attribute_map = {
-        "value": {"key": "value", "type": "[OperationModel]"},
-        "next_link": {"key": "nextLink", "type": "str"},
-    }
-
-    def __init__(
-        self, *, value: Optional[List["_models.OperationModel"]] = None, next_link: Optional[str] = None, **kwargs: Any
-    ) -> None:
-        """
-        :keyword value: Gets or sets the list of operations.
-        :paramtype value: list[~azure.mgmt.recoveryservicesdatareplication.models.OperationModel]
-        :keyword next_link: Gets or sets the value of next link.
-        :paramtype next_link: str
-        """
-        super().__init__(**kwargs)
-        self.value = value
-        self.next_link = next_link
-
-
-class OperationModelProperties(_serialization.Model):
-    """Operation model properties.
-
-    :ivar provider: Gets or sets the resource provider name.
-    :vartype provider: str
-    :ivar resource: Gets or sets resource name.
-    :vartype resource: str
-    :ivar operation: Gets or sets the operation.
-    :vartype operation: str
-    :ivar description: Gets or sets the description.
-    :vartype description: str
-    """
-
-    _attribute_map = {
-        "provider": {"key": "provider", "type": "str"},
-        "resource": {"key": "resource", "type": "str"},
-        "operation": {"key": "operation", "type": "str"},
-        "description": {"key": "description", "type": "str"},
-    }
-
-    def __init__(
-        self,
-        *,
-        provider: Optional[str] = None,
-        resource: Optional[str] = None,
-        operation: Optional[str] = None,
-        description: Optional[str] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword provider: Gets or sets the resource provider name.
-        :paramtype provider: str
-        :keyword resource: Gets or sets resource name.
-        :paramtype resource: str
-        :keyword operation: Gets or sets the operation.
-        :paramtype operation: str
-        :keyword description: Gets or sets the description.
-        :paramtype description: str
-        """
-        super().__init__(**kwargs)
-        self.provider = provider
-        self.resource = resource
-        self.operation = operation
-        self.description = description
+        self.value: Optional[List["_models.Operation"]] = None
+        self.next_link: Optional[str] = None
 
 
 class OperationStatus(_serialization.Model):
@@ -3342,8 +3574,7 @@ class OperationStatus(_serialization.Model):
     :ivar name: Gets or sets the operation name.
     :vartype name: str
     :ivar status: Gets or sets the status of the operation. ARM expects the terminal status to be
-     one of
-     Succeeded/ Failed/ Canceled. All other values imply that the operation is still running.
+     one of Succeeded/ Failed/ Canceled. All other values imply that the operation is still running.
     :vartype status: str
     :ivar start_time: Gets or sets the start time.
     :vartype start_time: str
@@ -3375,8 +3606,8 @@ class OperationStatus(_serialization.Model):
         :keyword name: Gets or sets the operation name.
         :paramtype name: str
         :keyword status: Gets or sets the status of the operation. ARM expects the terminal status to
-         be one of
-         Succeeded/ Failed/ Canceled. All other values imply that the operation is still running.
+         be one of Succeeded/ Failed/ Canceled. All other values imply that the operation is still
+         running.
         :paramtype status: str
         :keyword start_time: Gets or sets the start time.
         :paramtype start_time: str
@@ -3394,7 +3625,7 @@ class OperationStatus(_serialization.Model):
 class PlannedFailoverModel(_serialization.Model):
     """Planned failover model.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar properties: Planned failover model properties. Required.
     :vartype properties:
@@ -3422,7 +3653,7 @@ class PlannedFailoverModel(_serialization.Model):
 class PlannedFailoverModelProperties(_serialization.Model):
     """Planned failover model properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar custom_properties: Planned failover model custom properties. Required.
     :vartype custom_properties:
@@ -3447,27 +3678,27 @@ class PlannedFailoverModelProperties(_serialization.Model):
         self.custom_properties = custom_properties
 
 
-class PolicyModel(_serialization.Model):
+class PolicyModel(ProxyResource):
     """Policy model.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar properties: Policy model properties. Required.
-    :vartype properties: ~azure.mgmt.recoveryservicesdatareplication.models.PolicyModelProperties
-    :ivar id: Gets or sets the Id of the resource.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
-    :ivar name: Gets or sets the name of the resource.
+    :ivar name: The name of the resource.
     :vartype name: str
-    :ivar type: Gets or sets the type of the resource.
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
     :vartype type: str
-    :ivar system_data:
-    :vartype system_data: ~azure.mgmt.recoveryservicesdatareplication.models.PolicyModelSystemData
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.recoveryservicesdatareplication.models.SystemData
+    :ivar properties: The resource-specific properties for this resource.
+    :vartype properties: ~azure.mgmt.recoveryservicesdatareplication.models.PolicyModelProperties
     """
 
     _validation = {
-        "properties": {"required": True},
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
@@ -3475,47 +3706,47 @@ class PolicyModel(_serialization.Model):
     }
 
     _attribute_map = {
-        "properties": {"key": "properties", "type": "PolicyModelProperties"},
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
-        "system_data": {"key": "systemData", "type": "PolicyModelSystemData"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "properties": {"key": "properties", "type": "PolicyModelProperties"},
     }
 
-    def __init__(self, *, properties: "_models.PolicyModelProperties", **kwargs: Any) -> None:
+    def __init__(self, *, properties: Optional["_models.PolicyModelProperties"] = None, **kwargs: Any) -> None:
         """
-        :keyword properties: Policy model properties. Required.
+        :keyword properties: The resource-specific properties for this resource.
         :paramtype properties: ~azure.mgmt.recoveryservicesdatareplication.models.PolicyModelProperties
         """
         super().__init__(**kwargs)
         self.properties = properties
-        self.id = None
-        self.name = None
-        self.type = None
-        self.system_data = None
 
 
-class PolicyModelCollection(_serialization.Model):
-    """Policy model collection.
+class PolicyModelListResult(_serialization.Model):
+    """The response of a PolicyModel list operation.
 
-    :ivar value: Gets or sets the list of policies.
+    All required parameters must be populated in order to send to server.
+
+    :ivar value: The PolicyModel items on this page. Required.
     :vartype value: list[~azure.mgmt.recoveryservicesdatareplication.models.PolicyModel]
-    :ivar next_link: Gets or sets the value of next link.
+    :ivar next_link: The link to the next page of items.
     :vartype next_link: str
     """
+
+    _validation = {
+        "value": {"required": True},
+    }
 
     _attribute_map = {
         "value": {"key": "value", "type": "[PolicyModel]"},
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(
-        self, *, value: Optional[List["_models.PolicyModel"]] = None, next_link: Optional[str] = None, **kwargs: Any
-    ) -> None:
+    def __init__(self, *, value: List["_models.PolicyModel"], next_link: Optional[str] = None, **kwargs: Any) -> None:
         """
-        :keyword value: Gets or sets the list of policies.
+        :keyword value: The PolicyModel items on this page. Required.
         :paramtype value: list[~azure.mgmt.recoveryservicesdatareplication.models.PolicyModel]
-        :keyword next_link: Gets or sets the value of next link.
+        :keyword next_link: The link to the next page of items.
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
@@ -3528,7 +3759,7 @@ class PolicyModelProperties(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar provisioning_state: Gets or sets the provisioning state of the policy. Known values are:
      "Canceled", "Creating", "Deleting", "Deleted", "Failed", "Succeeded", and "Updating".
@@ -3556,84 +3787,585 @@ class PolicyModelProperties(_serialization.Model):
          ~azure.mgmt.recoveryservicesdatareplication.models.PolicyModelCustomProperties
         """
         super().__init__(**kwargs)
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.custom_properties = custom_properties
 
 
-class PolicyModelSystemData(SystemDataModel):
-    """PolicyModelSystemData.
+class PrivateEndpoint(_serialization.Model):
+    """Represent private Endpoint network resource that is linked to the Private Endpoint connection.
 
-    :ivar created_by: Gets or sets identity that created the resource.
-    :vartype created_by: str
-    :ivar created_by_type: Gets or sets the type of identity that created the resource: user,
-     application,
-     managedIdentity.
-    :vartype created_by_type: str
-    :ivar created_at: Gets or sets the timestamp of resource creation (UTC).
-    :vartype created_at: ~datetime.datetime
-    :ivar last_modified_by: Gets or sets the identity that last modified the resource.
-    :vartype last_modified_by: str
-    :ivar last_modified_by_type: Gets or sets the type of identity that last modified the resource:
-     user, application,
-     managedIdentity.
-    :vartype last_modified_by_type: str
-    :ivar last_modified_at: Gets or sets the timestamp of resource last modification (UTC).
-    :vartype last_modified_at: ~datetime.datetime
+    :ivar id: Gets or sets the id.
+    :vartype id: str
     """
 
     _attribute_map = {
-        "created_by": {"key": "createdBy", "type": "str"},
-        "created_by_type": {"key": "createdByType", "type": "str"},
-        "created_at": {"key": "createdAt", "type": "iso-8601"},
-        "last_modified_by": {"key": "lastModifiedBy", "type": "str"},
-        "last_modified_by_type": {"key": "lastModifiedByType", "type": "str"},
-        "last_modified_at": {"key": "lastModifiedAt", "type": "iso-8601"},
+        "id": {"key": "id", "type": "str"},
+    }
+
+    def __init__(self, *, id: Optional[str] = None, **kwargs: Any) -> None:  # pylint: disable=redefined-builtin
+        """
+        :keyword id: Gets or sets the id.
+        :paramtype id: str
+        """
+        super().__init__(**kwargs)
+        self.id = id
+
+
+class PrivateEndpointConnection(ProxyResource):
+    """Represents private endpoint connection.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.recoveryservicesdatareplication.models.SystemData
+    :ivar properties: The resource-specific properties for this resource.
+    :vartype properties:
+     ~azure.mgmt.recoveryservicesdatareplication.models.PrivateEndpointConnectionResponseProperties
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "properties": {"key": "properties", "type": "PrivateEndpointConnectionResponseProperties"},
+    }
+
+    def __init__(
+        self, *, properties: Optional["_models.PrivateEndpointConnectionResponseProperties"] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword properties: The resource-specific properties for this resource.
+        :paramtype properties:
+         ~azure.mgmt.recoveryservicesdatareplication.models.PrivateEndpointConnectionResponseProperties
+        """
+        super().__init__(**kwargs)
+        self.properties = properties
+
+
+class PrivateEndpointConnectionListResult(_serialization.Model):
+    """The response of a PrivateEndpointConnection list operation.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar value: The PrivateEndpointConnection items on this page. Required.
+    :vartype value:
+     list[~azure.mgmt.recoveryservicesdatareplication.models.PrivateEndpointConnection]
+    :ivar next_link: The link to the next page of items.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "value": {"required": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[PrivateEndpointConnection]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self, *, value: List["_models.PrivateEndpointConnection"], next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: The PrivateEndpointConnection items on this page. Required.
+        :paramtype value:
+         list[~azure.mgmt.recoveryservicesdatareplication.models.PrivateEndpointConnection]
+        :keyword next_link: The link to the next page of items.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = next_link
+
+
+class PrivateEndpointConnectionProxy(ProxyResource):
+    """Represents private endpoint connection proxy request.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.recoveryservicesdatareplication.models.SystemData
+    :ivar properties: The resource-specific properties for this resource.
+    :vartype properties:
+     ~azure.mgmt.recoveryservicesdatareplication.models.PrivateEndpointConnectionProxyProperties
+    :ivar etag: Gets or sets ETag.
+    :vartype etag: str
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "properties": {"key": "properties", "type": "PrivateEndpointConnectionProxyProperties"},
+        "etag": {"key": "etag", "type": "str"},
     }
 
     def __init__(
         self,
         *,
-        created_by: Optional[str] = None,
-        created_by_type: Optional[str] = None,
-        created_at: Optional[datetime.datetime] = None,
-        last_modified_by: Optional[str] = None,
-        last_modified_by_type: Optional[str] = None,
-        last_modified_at: Optional[datetime.datetime] = None,
+        properties: Optional["_models.PrivateEndpointConnectionProxyProperties"] = None,
+        etag: Optional[str] = None,
         **kwargs: Any
     ) -> None:
         """
-        :keyword created_by: Gets or sets identity that created the resource.
-        :paramtype created_by: str
-        :keyword created_by_type: Gets or sets the type of identity that created the resource: user,
-         application,
-         managedIdentity.
-        :paramtype created_by_type: str
-        :keyword created_at: Gets or sets the timestamp of resource creation (UTC).
-        :paramtype created_at: ~datetime.datetime
-        :keyword last_modified_by: Gets or sets the identity that last modified the resource.
-        :paramtype last_modified_by: str
-        :keyword last_modified_by_type: Gets or sets the type of identity that last modified the
-         resource: user, application,
-         managedIdentity.
-        :paramtype last_modified_by_type: str
-        :keyword last_modified_at: Gets or sets the timestamp of resource last modification (UTC).
-        :paramtype last_modified_at: ~datetime.datetime
+        :keyword properties: The resource-specific properties for this resource.
+        :paramtype properties:
+         ~azure.mgmt.recoveryservicesdatareplication.models.PrivateEndpointConnectionProxyProperties
+        :keyword etag: Gets or sets ETag.
+        :paramtype etag: str
         """
-        super().__init__(
-            created_by=created_by,
-            created_by_type=created_by_type,
-            created_at=created_at,
-            last_modified_by=last_modified_by,
-            last_modified_by_type=last_modified_by_type,
-            last_modified_at=last_modified_at,
-            **kwargs
-        )
+        super().__init__(**kwargs)
+        self.properties = properties
+        self.etag = etag
+
+
+class PrivateEndpointConnectionProxyListResult(_serialization.Model):
+    """The response of a PrivateEndpointConnectionProxy list operation.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar value: The PrivateEndpointConnectionProxy items on this page. Required.
+    :vartype value:
+     list[~azure.mgmt.recoveryservicesdatareplication.models.PrivateEndpointConnectionProxy]
+    :ivar next_link: The link to the next page of items.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "value": {"required": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[PrivateEndpointConnectionProxy]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self, *, value: List["_models.PrivateEndpointConnectionProxy"], next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: The PrivateEndpointConnectionProxy items on this page. Required.
+        :paramtype value:
+         list[~azure.mgmt.recoveryservicesdatareplication.models.PrivateEndpointConnectionProxy]
+        :keyword next_link: The link to the next page of items.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = next_link
+
+
+class PrivateEndpointConnectionProxyProperties(_serialization.Model):
+    """Represents private endpoint connection proxy request.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar provisioning_state: Gets or sets the provisioning state of the private endpoint
+     connection proxy. Known values are: "Canceled", "Creating", "Deleting", "Deleted", "Failed",
+     "Succeeded", and "Updating".
+    :vartype provisioning_state: str or
+     ~azure.mgmt.recoveryservicesdatareplication.models.ProvisioningState
+    :ivar remote_private_endpoint: Represent remote private endpoint information for the private
+     endpoint connection proxy.
+    :vartype remote_private_endpoint:
+     ~azure.mgmt.recoveryservicesdatareplication.models.RemotePrivateEndpoint
+    """
+
+    _validation = {
+        "provisioning_state": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "provisioning_state": {"key": "provisioningState", "type": "str"},
+        "remote_private_endpoint": {"key": "remotePrivateEndpoint", "type": "RemotePrivateEndpoint"},
+    }
+
+    def __init__(
+        self, *, remote_private_endpoint: Optional["_models.RemotePrivateEndpoint"] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword remote_private_endpoint: Represent remote private endpoint information for the private
+         endpoint connection proxy.
+        :paramtype remote_private_endpoint:
+         ~azure.mgmt.recoveryservicesdatareplication.models.RemotePrivateEndpoint
+        """
+        super().__init__(**kwargs)
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
+        self.remote_private_endpoint = remote_private_endpoint
+
+
+class PrivateEndpointConnectionResponseProperties(_serialization.Model):  # pylint: disable=name-too-long
+    """Represents Private endpoint connection response properties.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar provisioning_state: Gets or sets provisioning state of the private endpoint connection.
+     Known values are: "Canceled", "Creating", "Deleting", "Deleted", "Failed", "Succeeded", and
+     "Updating".
+    :vartype provisioning_state: str or
+     ~azure.mgmt.recoveryservicesdatareplication.models.ProvisioningState
+    :ivar private_endpoint: Represent private Endpoint network resource that is linked to the
+     Private Endpoint connection.
+    :vartype private_endpoint: ~azure.mgmt.recoveryservicesdatareplication.models.PrivateEndpoint
+    :ivar private_link_service_connection_state: Represents Private link service connection state.
+    :vartype private_link_service_connection_state:
+     ~azure.mgmt.recoveryservicesdatareplication.models.PrivateLinkServiceConnectionState
+    """
+
+    _validation = {
+        "provisioning_state": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "provisioning_state": {"key": "provisioningState", "type": "str"},
+        "private_endpoint": {"key": "privateEndpoint", "type": "PrivateEndpoint"},
+        "private_link_service_connection_state": {
+            "key": "privateLinkServiceConnectionState",
+            "type": "PrivateLinkServiceConnectionState",
+        },
+    }
+
+    def __init__(
+        self,
+        *,
+        private_endpoint: Optional["_models.PrivateEndpoint"] = None,
+        private_link_service_connection_state: Optional["_models.PrivateLinkServiceConnectionState"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword private_endpoint: Represent private Endpoint network resource that is linked to the
+         Private Endpoint connection.
+        :paramtype private_endpoint: ~azure.mgmt.recoveryservicesdatareplication.models.PrivateEndpoint
+        :keyword private_link_service_connection_state: Represents Private link service connection
+         state.
+        :paramtype private_link_service_connection_state:
+         ~azure.mgmt.recoveryservicesdatareplication.models.PrivateLinkServiceConnectionState
+        """
+        super().__init__(**kwargs)
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
+        self.private_endpoint = private_endpoint
+        self.private_link_service_connection_state = private_link_service_connection_state
+
+
+class PrivateLinkResource(ProxyResource):
+    """Represents private link resource.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.recoveryservicesdatareplication.models.SystemData
+    :ivar properties: The resource-specific properties for this resource.
+    :vartype properties:
+     ~azure.mgmt.recoveryservicesdatareplication.models.PrivateLinkResourceProperties
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "properties": {"key": "properties", "type": "PrivateLinkResourceProperties"},
+    }
+
+    def __init__(self, *, properties: Optional["_models.PrivateLinkResourceProperties"] = None, **kwargs: Any) -> None:
+        """
+        :keyword properties: The resource-specific properties for this resource.
+        :paramtype properties:
+         ~azure.mgmt.recoveryservicesdatareplication.models.PrivateLinkResourceProperties
+        """
+        super().__init__(**kwargs)
+        self.properties = properties
+
+
+class PrivateLinkResourceListResult(_serialization.Model):
+    """The response of a PrivateLinkResource list operation.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar value: The PrivateLinkResource items on this page. Required.
+    :vartype value: list[~azure.mgmt.recoveryservicesdatareplication.models.PrivateLinkResource]
+    :ivar next_link: The link to the next page of items.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "value": {"required": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[PrivateLinkResource]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self, *, value: List["_models.PrivateLinkResource"], next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: The PrivateLinkResource items on this page. Required.
+        :paramtype value: list[~azure.mgmt.recoveryservicesdatareplication.models.PrivateLinkResource]
+        :keyword next_link: The link to the next page of items.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = next_link
+
+
+class PrivateLinkResourceProperties(_serialization.Model):
+    """Represents private link resource properties.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar group_id: Gets or sets the group id.
+    :vartype group_id: str
+    :ivar required_members: Gets or sets the required member. This translates to how many Private
+     IPs should be created for each privately linkable resource.
+    :vartype required_members: list[str]
+    :ivar required_zone_names: Gets or sets the private DNS zone names.
+    :vartype required_zone_names: list[str]
+    :ivar provisioning_state: Gets or sets the provisioning state of the private link resource.
+     Known values are: "Canceled", "Creating", "Deleting", "Deleted", "Failed", "Succeeded", and
+     "Updating".
+    :vartype provisioning_state: str or
+     ~azure.mgmt.recoveryservicesdatareplication.models.ProvisioningState
+    """
+
+    _validation = {
+        "provisioning_state": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "group_id": {"key": "groupId", "type": "str"},
+        "required_members": {"key": "requiredMembers", "type": "[str]"},
+        "required_zone_names": {"key": "requiredZoneNames", "type": "[str]"},
+        "provisioning_state": {"key": "provisioningState", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        group_id: Optional[str] = None,
+        required_members: Optional[List[str]] = None,
+        required_zone_names: Optional[List[str]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword group_id: Gets or sets the group id.
+        :paramtype group_id: str
+        :keyword required_members: Gets or sets the required member. This translates to how many
+         Private IPs should be created for each privately linkable resource.
+        :paramtype required_members: list[str]
+        :keyword required_zone_names: Gets or sets the private DNS zone names.
+        :paramtype required_zone_names: list[str]
+        """
+        super().__init__(**kwargs)
+        self.group_id = group_id
+        self.required_members = required_members
+        self.required_zone_names = required_zone_names
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
+
+
+class PrivateLinkServiceConnection(_serialization.Model):
+    """Represents of an NRP private link service connection.
+
+    :ivar name: Gets or sets private link service connection name.
+    :vartype name: str
+    :ivar group_ids: Gets or sets group ids.
+    :vartype group_ids: list[str]
+    :ivar request_message: Gets or sets the request message for the private link service
+     connection.
+    :vartype request_message: str
+    """
+
+    _attribute_map = {
+        "name": {"key": "name", "type": "str"},
+        "group_ids": {"key": "groupIds", "type": "[str]"},
+        "request_message": {"key": "requestMessage", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        name: Optional[str] = None,
+        group_ids: Optional[List[str]] = None,
+        request_message: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword name: Gets or sets private link service connection name.
+        :paramtype name: str
+        :keyword group_ids: Gets or sets group ids.
+        :paramtype group_ids: list[str]
+        :keyword request_message: Gets or sets the request message for the private link service
+         connection.
+        :paramtype request_message: str
+        """
+        super().__init__(**kwargs)
+        self.name = name
+        self.group_ids = group_ids
+        self.request_message = request_message
+
+
+class PrivateLinkServiceConnectionState(_serialization.Model):
+    """Represents Private link service connection state.
+
+    :ivar status: Gets or sets the status. Known values are: "Approved", "Disconnected", "Pending",
+     and "Rejected".
+    :vartype status: str or
+     ~azure.mgmt.recoveryservicesdatareplication.models.PrivateEndpointConnectionStatus
+    :ivar description: Gets or sets description.
+    :vartype description: str
+    :ivar actions_required: Gets or sets actions required.
+    :vartype actions_required: str
+    """
+
+    _attribute_map = {
+        "status": {"key": "status", "type": "str"},
+        "description": {"key": "description", "type": "str"},
+        "actions_required": {"key": "actionsRequired", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        status: Optional[Union[str, "_models.PrivateEndpointConnectionStatus"]] = None,
+        description: Optional[str] = None,
+        actions_required: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword status: Gets or sets the status. Known values are: "Approved", "Disconnected",
+         "Pending", and "Rejected".
+        :paramtype status: str or
+         ~azure.mgmt.recoveryservicesdatareplication.models.PrivateEndpointConnectionStatus
+        :keyword description: Gets or sets description.
+        :paramtype description: str
+        :keyword actions_required: Gets or sets actions required.
+        :paramtype actions_required: str
+        """
+        super().__init__(**kwargs)
+        self.status = status
+        self.description = description
+        self.actions_required = actions_required
+
+
+class PrivateLinkServiceProxy(_serialization.Model):
+    """Represents NRP private link service proxy.
+
+    :ivar id: Gets or sets private link service proxy id.
+    :vartype id: str
+    :ivar remote_private_link_service_connection_state: Represents Private link service connection
+     state.
+    :vartype remote_private_link_service_connection_state:
+     ~azure.mgmt.recoveryservicesdatareplication.models.PrivateLinkServiceConnectionState
+    :ivar remote_private_endpoint_connection: Represent remote private endpoint connection.
+    :vartype remote_private_endpoint_connection:
+     ~azure.mgmt.recoveryservicesdatareplication.models.RemotePrivateEndpointConnection
+    :ivar group_connectivity_information: Gets or sets group connectivity information.
+    :vartype group_connectivity_information:
+     list[~azure.mgmt.recoveryservicesdatareplication.models.GroupConnectivityInformation]
+    """
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "remote_private_link_service_connection_state": {
+            "key": "remotePrivateLinkServiceConnectionState",
+            "type": "PrivateLinkServiceConnectionState",
+        },
+        "remote_private_endpoint_connection": {
+            "key": "remotePrivateEndpointConnection",
+            "type": "RemotePrivateEndpointConnection",
+        },
+        "group_connectivity_information": {
+            "key": "groupConnectivityInformation",
+            "type": "[GroupConnectivityInformation]",
+        },
+    }
+
+    def __init__(
+        self,
+        *,
+        id: Optional[str] = None,  # pylint: disable=redefined-builtin
+        remote_private_link_service_connection_state: Optional["_models.PrivateLinkServiceConnectionState"] = None,
+        remote_private_endpoint_connection: Optional["_models.RemotePrivateEndpointConnection"] = None,
+        group_connectivity_information: Optional[List["_models.GroupConnectivityInformation"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword id: Gets or sets private link service proxy id.
+        :paramtype id: str
+        :keyword remote_private_link_service_connection_state: Represents Private link service
+         connection state.
+        :paramtype remote_private_link_service_connection_state:
+         ~azure.mgmt.recoveryservicesdatareplication.models.PrivateLinkServiceConnectionState
+        :keyword remote_private_endpoint_connection: Represent remote private endpoint connection.
+        :paramtype remote_private_endpoint_connection:
+         ~azure.mgmt.recoveryservicesdatareplication.models.RemotePrivateEndpointConnection
+        :keyword group_connectivity_information: Gets or sets group connectivity information.
+        :paramtype group_connectivity_information:
+         list[~azure.mgmt.recoveryservicesdatareplication.models.GroupConnectivityInformation]
+        """
+        super().__init__(**kwargs)
+        self.id = id
+        self.remote_private_link_service_connection_state = remote_private_link_service_connection_state
+        self.remote_private_endpoint_connection = remote_private_endpoint_connection
+        self.group_connectivity_information = group_connectivity_information
 
 
 class ProtectedItemDynamicMemoryConfig(_serialization.Model):
     """Protected item dynamic memory config.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar maximum_memory_in_mega_bytes: Gets or sets maximum memory in MB. Required.
     :vartype maximum_memory_in_mega_bytes: int
@@ -3684,17 +4416,17 @@ class ProtectedItemJobProperties(_serialization.Model):
 
     :ivar scenario_name: Gets or sets protection scenario name.
     :vartype scenario_name: str
-    :ivar id: Gets or sets workflow Id.
+    :ivar id: Gets or sets job Id.
     :vartype id: str
-    :ivar name: Gets or sets workflow name.
+    :ivar name: Gets or sets job name.
     :vartype name: str
-    :ivar display_name: Gets or sets the workflow friendly display name.
+    :ivar display_name: Gets or sets the job friendly display name.
     :vartype display_name: str
-    :ivar state: Gets or sets workflow state.
+    :ivar state: Gets or sets job state.
     :vartype state: str
-    :ivar start_time: Gets or sets start time of the workflow.
+    :ivar start_time: Gets or sets start time of the job.
     :vartype start_time: ~datetime.datetime
-    :ivar end_time: Gets or sets end time of the workflow.
+    :ivar end_time: Gets or sets end time of the job.
     :vartype end_time: ~datetime.datetime
     """
 
@@ -3721,38 +4453,37 @@ class ProtectedItemJobProperties(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.scenario_name = None
-        self.id = None
-        self.name = None
-        self.display_name = None
-        self.state = None
-        self.start_time = None
-        self.end_time = None
+        self.scenario_name: Optional[str] = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.display_name: Optional[str] = None
+        self.state: Optional[str] = None
+        self.start_time: Optional[datetime.datetime] = None
+        self.end_time: Optional[datetime.datetime] = None
 
 
-class ProtectedItemModel(_serialization.Model):
+class ProtectedItemModel(ProxyResource):
     """Protected item model.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar properties: Protected item model properties. Required.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.recoveryservicesdatareplication.models.SystemData
+    :ivar properties: The resource-specific properties for this resource.
     :vartype properties:
      ~azure.mgmt.recoveryservicesdatareplication.models.ProtectedItemModelProperties
-    :ivar id: Gets or sets the Id of the resource.
-    :vartype id: str
-    :ivar name: Gets or sets the name of the resource.
-    :vartype name: str
-    :ivar type: Gets or sets the type of the resource.
-    :vartype type: str
-    :ivar system_data:
-    :vartype system_data:
-     ~azure.mgmt.recoveryservicesdatareplication.models.ProtectedItemModelSystemData
     """
 
     _validation = {
-        "properties": {"required": True},
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
@@ -3760,35 +4491,37 @@ class ProtectedItemModel(_serialization.Model):
     }
 
     _attribute_map = {
-        "properties": {"key": "properties", "type": "ProtectedItemModelProperties"},
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
-        "system_data": {"key": "systemData", "type": "ProtectedItemModelSystemData"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "properties": {"key": "properties", "type": "ProtectedItemModelProperties"},
     }
 
-    def __init__(self, *, properties: "_models.ProtectedItemModelProperties", **kwargs: Any) -> None:
+    def __init__(self, *, properties: Optional["_models.ProtectedItemModelProperties"] = None, **kwargs: Any) -> None:
         """
-        :keyword properties: Protected item model properties. Required.
+        :keyword properties: The resource-specific properties for this resource.
         :paramtype properties:
          ~azure.mgmt.recoveryservicesdatareplication.models.ProtectedItemModelProperties
         """
         super().__init__(**kwargs)
         self.properties = properties
-        self.id = None
-        self.name = None
-        self.type = None
-        self.system_data = None
 
 
-class ProtectedItemModelCollection(_serialization.Model):
-    """Protected item model collection.
+class ProtectedItemModelListResult(_serialization.Model):
+    """The response of a ProtectedItemModel list operation.
 
-    :ivar value: Gets or sets the list of protected items.
+    All required parameters must be populated in order to send to server.
+
+    :ivar value: The ProtectedItemModel items on this page. Required.
     :vartype value: list[~azure.mgmt.recoveryservicesdatareplication.models.ProtectedItemModel]
-    :ivar next_link: Gets or sets the value of next link.
+    :ivar next_link: The link to the next page of items.
     :vartype next_link: str
     """
+
+    _validation = {
+        "value": {"required": True},
+    }
 
     _attribute_map = {
         "value": {"key": "value", "type": "[ProtectedItemModel]"},
@@ -3796,16 +4529,12 @@ class ProtectedItemModelCollection(_serialization.Model):
     }
 
     def __init__(
-        self,
-        *,
-        value: Optional[List["_models.ProtectedItemModel"]] = None,
-        next_link: Optional[str] = None,
-        **kwargs: Any
+        self, *, value: List["_models.ProtectedItemModel"], next_link: Optional[str] = None, **kwargs: Any
     ) -> None:
         """
-        :keyword value: Gets or sets the list of protected items.
+        :keyword value: The ProtectedItemModel items on this page. Required.
         :paramtype value: list[~azure.mgmt.recoveryservicesdatareplication.models.ProtectedItemModel]
-        :keyword next_link: Gets or sets the value of next link.
+        :keyword next_link: The link to the next page of items.
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
@@ -3813,12 +4542,12 @@ class ProtectedItemModelCollection(_serialization.Model):
         self.next_link = next_link
 
 
-class ProtectedItemModelProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class ProtectedItemModelProperties(_serialization.Model):
     """Protected item model properties.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar policy_name: Gets or sets the policy name. Required.
     :vartype policy_name: str
@@ -3826,8 +4555,8 @@ class ProtectedItemModelProperties(_serialization.Model):  # pylint: disable=too
     :vartype replication_extension_name: str
     :ivar correlation_id: Gets or sets the protected item correlation Id.
     :vartype correlation_id: str
-    :ivar provisioning_state: Gets or sets the provisioning state of the Dra. Known values are:
-     "Canceled", "Creating", "Deleting", "Deleted", "Failed", "Succeeded", and "Updating".
+    :ivar provisioning_state: Gets or sets the provisioning state of the fabric agent. Known values
+     are: "Canceled", "Creating", "Deleting", "Deleted", "Failed", "Succeeded", and "Updating".
     :vartype provisioning_state: str or
      ~azure.mgmt.recoveryservicesdatareplication.models.ProvisioningState
     :ivar protection_state: Gets or sets the protection state. Known values are:
@@ -3880,10 +4609,10 @@ class ProtectedItemModelProperties(_serialization.Model):  # pylint: disable=too
     :vartype fabric_id: str
     :ivar target_fabric_id: Gets or sets the target fabric Id.
     :vartype target_fabric_id: str
-    :ivar dra_id: Gets or sets the DRA Id.
-    :vartype dra_id: str
-    :ivar target_dra_id: Gets or sets the target DRA Id.
-    :vartype target_dra_id: str
+    :ivar fabric_agent_id: Gets or sets the fabric agent Id.
+    :vartype fabric_agent_id: str
+    :ivar target_fabric_agent_id: Gets or sets the target fabric agent Id.
+    :vartype target_fabric_agent_id: str
     :ivar resync_required: Gets or sets a value indicating whether resynchronization is required or
      not.
     :vartype resync_required: bool
@@ -3895,20 +4624,20 @@ class ProtectedItemModelProperties(_serialization.Model):  # pylint: disable=too
     :vartype last_successful_unplanned_failover_time: ~datetime.datetime
     :ivar last_successful_test_failover_time: Gets or sets the Last successful test failover time.
     :vartype last_successful_test_failover_time: ~datetime.datetime
-    :ivar current_job:
+    :ivar current_job: Gets or sets the current scenario.
     :vartype current_job:
-     ~azure.mgmt.recoveryservicesdatareplication.models.ProtectedItemModelPropertiesCurrentJob
+     ~azure.mgmt.recoveryservicesdatareplication.models.ProtectedItemJobProperties
     :ivar allowed_jobs: Gets or sets the allowed scenarios on the protected item.
     :vartype allowed_jobs: list[str]
-    :ivar last_failed_enable_protection_job:
+    :ivar last_failed_enable_protection_job: Gets or sets the last failed enabled protection job.
     :vartype last_failed_enable_protection_job:
-     ~azure.mgmt.recoveryservicesdatareplication.models.ProtectedItemModelPropertiesLastFailedEnableProtectionJob
-    :ivar last_failed_planned_failover_job:
+     ~azure.mgmt.recoveryservicesdatareplication.models.ProtectedItemJobProperties
+    :ivar last_failed_planned_failover_job: Gets or sets the last failed planned failover job.
     :vartype last_failed_planned_failover_job:
-     ~azure.mgmt.recoveryservicesdatareplication.models.ProtectedItemModelPropertiesLastFailedPlannedFailoverJob
-    :ivar last_test_failover_job:
+     ~azure.mgmt.recoveryservicesdatareplication.models.ProtectedItemJobProperties
+    :ivar last_test_failover_job: Gets or sets the last test failover job.
     :vartype last_test_failover_job:
-     ~azure.mgmt.recoveryservicesdatareplication.models.ProtectedItemModelPropertiesLastTestFailoverJob
+     ~azure.mgmt.recoveryservicesdatareplication.models.ProtectedItemJobProperties
     :ivar replication_health: Gets or sets protected item replication health. Known values are:
      "Normal", "Warning", and "Critical".
     :vartype replication_health: str or
@@ -3937,8 +4666,8 @@ class ProtectedItemModelProperties(_serialization.Model):  # pylint: disable=too
         "target_fabric_provider_id": {"readonly": True},
         "fabric_id": {"readonly": True},
         "target_fabric_id": {"readonly": True},
-        "dra_id": {"readonly": True},
-        "target_dra_id": {"readonly": True},
+        "fabric_agent_id": {"readonly": True},
+        "target_fabric_agent_id": {"readonly": True},
         "resync_required": {"readonly": True},
         "last_successful_planned_failover_time": {"readonly": True},
         "last_successful_unplanned_failover_time": {"readonly": True},
@@ -3969,26 +4698,23 @@ class ProtectedItemModelProperties(_serialization.Model):  # pylint: disable=too
         "target_fabric_provider_id": {"key": "targetFabricProviderId", "type": "str"},
         "fabric_id": {"key": "fabricId", "type": "str"},
         "target_fabric_id": {"key": "targetFabricId", "type": "str"},
-        "dra_id": {"key": "draId", "type": "str"},
-        "target_dra_id": {"key": "targetDraId", "type": "str"},
+        "fabric_agent_id": {"key": "fabricAgentId", "type": "str"},
+        "target_fabric_agent_id": {"key": "targetFabricAgentId", "type": "str"},
         "resync_required": {"key": "resyncRequired", "type": "bool"},
         "last_successful_planned_failover_time": {"key": "lastSuccessfulPlannedFailoverTime", "type": "iso-8601"},
         "last_successful_unplanned_failover_time": {"key": "lastSuccessfulUnplannedFailoverTime", "type": "iso-8601"},
         "last_successful_test_failover_time": {"key": "lastSuccessfulTestFailoverTime", "type": "iso-8601"},
-        "current_job": {"key": "currentJob", "type": "ProtectedItemModelPropertiesCurrentJob"},
+        "current_job": {"key": "currentJob", "type": "ProtectedItemJobProperties"},
         "allowed_jobs": {"key": "allowedJobs", "type": "[str]"},
         "last_failed_enable_protection_job": {
             "key": "lastFailedEnableProtectionJob",
-            "type": "ProtectedItemModelPropertiesLastFailedEnableProtectionJob",
+            "type": "ProtectedItemJobProperties",
         },
         "last_failed_planned_failover_job": {
             "key": "lastFailedPlannedFailoverJob",
-            "type": "ProtectedItemModelPropertiesLastFailedPlannedFailoverJob",
+            "type": "ProtectedItemJobProperties",
         },
-        "last_test_failover_job": {
-            "key": "lastTestFailoverJob",
-            "type": "ProtectedItemModelPropertiesLastTestFailoverJob",
-        },
+        "last_test_failover_job": {"key": "lastTestFailoverJob", "type": "ProtectedItemJobProperties"},
         "replication_health": {"key": "replicationHealth", "type": "str"},
         "health_errors": {"key": "healthErrors", "type": "[HealthErrorModel]"},
         "custom_properties": {"key": "customProperties", "type": "ProtectedItemModelCustomProperties"},
@@ -4014,312 +4740,78 @@ class ProtectedItemModelProperties(_serialization.Model):  # pylint: disable=too
         super().__init__(**kwargs)
         self.policy_name = policy_name
         self.replication_extension_name = replication_extension_name
-        self.correlation_id = None
-        self.provisioning_state = None
-        self.protection_state = None
-        self.protection_state_description = None
-        self.test_failover_state = None
-        self.test_failover_state_description = None
-        self.resynchronization_state = None
-        self.fabric_object_id = None
-        self.fabric_object_name = None
-        self.source_fabric_provider_id = None
-        self.target_fabric_provider_id = None
-        self.fabric_id = None
-        self.target_fabric_id = None
-        self.dra_id = None
-        self.target_dra_id = None
-        self.resync_required = None
-        self.last_successful_planned_failover_time = None
-        self.last_successful_unplanned_failover_time = None
-        self.last_successful_test_failover_time = None
-        self.current_job = None
-        self.allowed_jobs = None
-        self.last_failed_enable_protection_job = None
-        self.last_failed_planned_failover_job = None
-        self.last_test_failover_job = None
-        self.replication_health = None
-        self.health_errors = None
+        self.correlation_id: Optional[str] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
+        self.protection_state: Optional[Union[str, "_models.ProtectionState"]] = None
+        self.protection_state_description: Optional[str] = None
+        self.test_failover_state: Optional[Union[str, "_models.TestFailoverState"]] = None
+        self.test_failover_state_description: Optional[str] = None
+        self.resynchronization_state: Optional[Union[str, "_models.ResynchronizationState"]] = None
+        self.fabric_object_id: Optional[str] = None
+        self.fabric_object_name: Optional[str] = None
+        self.source_fabric_provider_id: Optional[str] = None
+        self.target_fabric_provider_id: Optional[str] = None
+        self.fabric_id: Optional[str] = None
+        self.target_fabric_id: Optional[str] = None
+        self.fabric_agent_id: Optional[str] = None
+        self.target_fabric_agent_id: Optional[str] = None
+        self.resync_required: Optional[bool] = None
+        self.last_successful_planned_failover_time: Optional[datetime.datetime] = None
+        self.last_successful_unplanned_failover_time: Optional[datetime.datetime] = None
+        self.last_successful_test_failover_time: Optional[datetime.datetime] = None
+        self.current_job: Optional["_models.ProtectedItemJobProperties"] = None
+        self.allowed_jobs: Optional[List[str]] = None
+        self.last_failed_enable_protection_job: Optional["_models.ProtectedItemJobProperties"] = None
+        self.last_failed_planned_failover_job: Optional["_models.ProtectedItemJobProperties"] = None
+        self.last_test_failover_job: Optional["_models.ProtectedItemJobProperties"] = None
+        self.replication_health: Optional[Union[str, "_models.HealthStatus"]] = None
+        self.health_errors: Optional[List["_models.HealthErrorModel"]] = None
         self.custom_properties = custom_properties
 
 
-class ProtectedItemModelPropertiesCurrentJob(ProtectedItemJobProperties):
-    """ProtectedItemModelPropertiesCurrentJob.
+class ProtectedItemModelPropertiesUpdate(_serialization.Model):
+    """Protected item model properties update.
 
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar scenario_name: Gets or sets protection scenario name.
-    :vartype scenario_name: str
-    :ivar id: Gets or sets workflow Id.
-    :vartype id: str
-    :ivar name: Gets or sets workflow name.
-    :vartype name: str
-    :ivar display_name: Gets or sets the workflow friendly display name.
-    :vartype display_name: str
-    :ivar state: Gets or sets workflow state.
-    :vartype state: str
-    :ivar start_time: Gets or sets start time of the workflow.
-    :vartype start_time: ~datetime.datetime
-    :ivar end_time: Gets or sets end time of the workflow.
-    :vartype end_time: ~datetime.datetime
-    """
-
-    _validation = {
-        "scenario_name": {"readonly": True},
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "display_name": {"readonly": True},
-        "state": {"readonly": True},
-        "start_time": {"readonly": True},
-        "end_time": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "scenario_name": {"key": "scenarioName", "type": "str"},
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "display_name": {"key": "displayName", "type": "str"},
-        "state": {"key": "state", "type": "str"},
-        "start_time": {"key": "startTime", "type": "iso-8601"},
-        "end_time": {"key": "endTime", "type": "iso-8601"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-
-
-class ProtectedItemModelPropertiesLastFailedEnableProtectionJob(ProtectedItemJobProperties):
-    """ProtectedItemModelPropertiesLastFailedEnableProtectionJob.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar scenario_name: Gets or sets protection scenario name.
-    :vartype scenario_name: str
-    :ivar id: Gets or sets workflow Id.
-    :vartype id: str
-    :ivar name: Gets or sets workflow name.
-    :vartype name: str
-    :ivar display_name: Gets or sets the workflow friendly display name.
-    :vartype display_name: str
-    :ivar state: Gets or sets workflow state.
-    :vartype state: str
-    :ivar start_time: Gets or sets start time of the workflow.
-    :vartype start_time: ~datetime.datetime
-    :ivar end_time: Gets or sets end time of the workflow.
-    :vartype end_time: ~datetime.datetime
-    """
-
-    _validation = {
-        "scenario_name": {"readonly": True},
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "display_name": {"readonly": True},
-        "state": {"readonly": True},
-        "start_time": {"readonly": True},
-        "end_time": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "scenario_name": {"key": "scenarioName", "type": "str"},
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "display_name": {"key": "displayName", "type": "str"},
-        "state": {"key": "state", "type": "str"},
-        "start_time": {"key": "startTime", "type": "iso-8601"},
-        "end_time": {"key": "endTime", "type": "iso-8601"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-
-
-class ProtectedItemModelPropertiesLastFailedPlannedFailoverJob(ProtectedItemJobProperties):
-    """ProtectedItemModelPropertiesLastFailedPlannedFailoverJob.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar scenario_name: Gets or sets protection scenario name.
-    :vartype scenario_name: str
-    :ivar id: Gets or sets workflow Id.
-    :vartype id: str
-    :ivar name: Gets or sets workflow name.
-    :vartype name: str
-    :ivar display_name: Gets or sets the workflow friendly display name.
-    :vartype display_name: str
-    :ivar state: Gets or sets workflow state.
-    :vartype state: str
-    :ivar start_time: Gets or sets start time of the workflow.
-    :vartype start_time: ~datetime.datetime
-    :ivar end_time: Gets or sets end time of the workflow.
-    :vartype end_time: ~datetime.datetime
-    """
-
-    _validation = {
-        "scenario_name": {"readonly": True},
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "display_name": {"readonly": True},
-        "state": {"readonly": True},
-        "start_time": {"readonly": True},
-        "end_time": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "scenario_name": {"key": "scenarioName", "type": "str"},
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "display_name": {"key": "displayName", "type": "str"},
-        "state": {"key": "state", "type": "str"},
-        "start_time": {"key": "startTime", "type": "iso-8601"},
-        "end_time": {"key": "endTime", "type": "iso-8601"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-
-
-class ProtectedItemModelPropertiesLastTestFailoverJob(ProtectedItemJobProperties):
-    """ProtectedItemModelPropertiesLastTestFailoverJob.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar scenario_name: Gets or sets protection scenario name.
-    :vartype scenario_name: str
-    :ivar id: Gets or sets workflow Id.
-    :vartype id: str
-    :ivar name: Gets or sets workflow name.
-    :vartype name: str
-    :ivar display_name: Gets or sets the workflow friendly display name.
-    :vartype display_name: str
-    :ivar state: Gets or sets workflow state.
-    :vartype state: str
-    :ivar start_time: Gets or sets start time of the workflow.
-    :vartype start_time: ~datetime.datetime
-    :ivar end_time: Gets or sets end time of the workflow.
-    :vartype end_time: ~datetime.datetime
-    """
-
-    _validation = {
-        "scenario_name": {"readonly": True},
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "display_name": {"readonly": True},
-        "state": {"readonly": True},
-        "start_time": {"readonly": True},
-        "end_time": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "scenario_name": {"key": "scenarioName", "type": "str"},
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "display_name": {"key": "displayName", "type": "str"},
-        "state": {"key": "state", "type": "str"},
-        "start_time": {"key": "startTime", "type": "iso-8601"},
-        "end_time": {"key": "endTime", "type": "iso-8601"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-
-
-class ProtectedItemModelSystemData(SystemDataModel):
-    """ProtectedItemModelSystemData.
-
-    :ivar created_by: Gets or sets identity that created the resource.
-    :vartype created_by: str
-    :ivar created_by_type: Gets or sets the type of identity that created the resource: user,
-     application,
-     managedIdentity.
-    :vartype created_by_type: str
-    :ivar created_at: Gets or sets the timestamp of resource creation (UTC).
-    :vartype created_at: ~datetime.datetime
-    :ivar last_modified_by: Gets or sets the identity that last modified the resource.
-    :vartype last_modified_by: str
-    :ivar last_modified_by_type: Gets or sets the type of identity that last modified the resource:
-     user, application,
-     managedIdentity.
-    :vartype last_modified_by_type: str
-    :ivar last_modified_at: Gets or sets the timestamp of resource last modification (UTC).
-    :vartype last_modified_at: ~datetime.datetime
+    :ivar custom_properties: Protected item model custom properties update.
+    :vartype custom_properties:
+     ~azure.mgmt.recoveryservicesdatareplication.models.ProtectedItemModelCustomPropertiesUpdate
     """
 
     _attribute_map = {
-        "created_by": {"key": "createdBy", "type": "str"},
-        "created_by_type": {"key": "createdByType", "type": "str"},
-        "created_at": {"key": "createdAt", "type": "iso-8601"},
-        "last_modified_by": {"key": "lastModifiedBy", "type": "str"},
-        "last_modified_by_type": {"key": "lastModifiedByType", "type": "str"},
-        "last_modified_at": {"key": "lastModifiedAt", "type": "iso-8601"},
+        "custom_properties": {"key": "customProperties", "type": "ProtectedItemModelCustomPropertiesUpdate"},
     }
 
     def __init__(
-        self,
-        *,
-        created_by: Optional[str] = None,
-        created_by_type: Optional[str] = None,
-        created_at: Optional[datetime.datetime] = None,
-        last_modified_by: Optional[str] = None,
-        last_modified_by_type: Optional[str] = None,
-        last_modified_at: Optional[datetime.datetime] = None,
-        **kwargs: Any
+        self, *, custom_properties: Optional["_models.ProtectedItemModelCustomPropertiesUpdate"] = None, **kwargs: Any
     ) -> None:
         """
-        :keyword created_by: Gets or sets identity that created the resource.
-        :paramtype created_by: str
-        :keyword created_by_type: Gets or sets the type of identity that created the resource: user,
-         application,
-         managedIdentity.
-        :paramtype created_by_type: str
-        :keyword created_at: Gets or sets the timestamp of resource creation (UTC).
-        :paramtype created_at: ~datetime.datetime
-        :keyword last_modified_by: Gets or sets the identity that last modified the resource.
-        :paramtype last_modified_by: str
-        :keyword last_modified_by_type: Gets or sets the type of identity that last modified the
-         resource: user, application,
-         managedIdentity.
-        :paramtype last_modified_by_type: str
-        :keyword last_modified_at: Gets or sets the timestamp of resource last modification (UTC).
-        :paramtype last_modified_at: ~datetime.datetime
+        :keyword custom_properties: Protected item model custom properties update.
+        :paramtype custom_properties:
+         ~azure.mgmt.recoveryservicesdatareplication.models.ProtectedItemModelCustomPropertiesUpdate
         """
-        super().__init__(
-            created_by=created_by,
-            created_by_type=created_by_type,
-            created_at=created_at,
-            last_modified_by=last_modified_by,
-            last_modified_by_type=last_modified_by_type,
-            last_modified_at=last_modified_at,
-            **kwargs
-        )
+        super().__init__(**kwargs)
+        self.custom_properties = custom_properties
 
 
-class RecoveryPointModel(_serialization.Model):
-    """Recovery point model.
+class ProtectedItemModelUpdate(_serialization.Model):
+    """Protected item model update.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar properties: Recovery point model properties. Required.
+    :ivar properties: Protected item model properties.
     :vartype properties:
-     ~azure.mgmt.recoveryservicesdatareplication.models.RecoveryPointModelProperties
+     ~azure.mgmt.recoveryservicesdatareplication.models.ProtectedItemModelPropertiesUpdate
     :ivar id: Gets or sets the Id of the resource.
     :vartype id: str
     :ivar name: Gets or sets the name of the resource.
     :vartype name: str
     :ivar type: Gets or sets the type of the resource.
     :vartype type: str
-    :ivar system_data:
-    :vartype system_data:
-     ~azure.mgmt.recoveryservicesdatareplication.models.RecoveryPointModelSystemData
+    :ivar system_data: Metadata pertaining to creation and last modification of the resource.
+    :vartype system_data: ~azure.mgmt.recoveryservicesdatareplication.models.SystemData
     """
 
     _validation = {
-        "properties": {"required": True},
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
@@ -4327,35 +4819,89 @@ class RecoveryPointModel(_serialization.Model):
     }
 
     _attribute_map = {
-        "properties": {"key": "properties", "type": "RecoveryPointModelProperties"},
+        "properties": {"key": "properties", "type": "ProtectedItemModelPropertiesUpdate"},
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
-        "system_data": {"key": "systemData", "type": "RecoveryPointModelSystemData"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
     }
 
-    def __init__(self, *, properties: "_models.RecoveryPointModelProperties", **kwargs: Any) -> None:
+    def __init__(
+        self, *, properties: Optional["_models.ProtectedItemModelPropertiesUpdate"] = None, **kwargs: Any
+    ) -> None:
         """
-        :keyword properties: Recovery point model properties. Required.
+        :keyword properties: Protected item model properties.
+        :paramtype properties:
+         ~azure.mgmt.recoveryservicesdatareplication.models.ProtectedItemModelPropertiesUpdate
+        """
+        super().__init__(**kwargs)
+        self.properties = properties
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
+        self.system_data: Optional["_models.SystemData"] = None
+
+
+class RecoveryPointModel(ProxyResource):
+    """Recovery point model.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.recoveryservicesdatareplication.models.SystemData
+    :ivar properties: The resource-specific properties for this resource.
+    :vartype properties:
+     ~azure.mgmt.recoveryservicesdatareplication.models.RecoveryPointModelProperties
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "properties": {"key": "properties", "type": "RecoveryPointModelProperties"},
+    }
+
+    def __init__(self, *, properties: Optional["_models.RecoveryPointModelProperties"] = None, **kwargs: Any) -> None:
+        """
+        :keyword properties: The resource-specific properties for this resource.
         :paramtype properties:
          ~azure.mgmt.recoveryservicesdatareplication.models.RecoveryPointModelProperties
         """
         super().__init__(**kwargs)
         self.properties = properties
-        self.id = None
-        self.name = None
-        self.type = None
-        self.system_data = None
 
 
-class RecoveryPointModelCollection(_serialization.Model):
-    """Recovery point model collection.
+class RecoveryPointModelListResult(_serialization.Model):
+    """The response of a RecoveryPointModel list operation.
 
-    :ivar value: Gets or sets the list of recovery points.
+    All required parameters must be populated in order to send to server.
+
+    :ivar value: The RecoveryPointModel items on this page. Required.
     :vartype value: list[~azure.mgmt.recoveryservicesdatareplication.models.RecoveryPointModel]
-    :ivar next_link: Gets or sets the value of next link.
+    :ivar next_link: The link to the next page of items.
     :vartype next_link: str
     """
+
+    _validation = {
+        "value": {"required": True},
+    }
 
     _attribute_map = {
         "value": {"key": "value", "type": "[RecoveryPointModel]"},
@@ -4363,16 +4909,12 @@ class RecoveryPointModelCollection(_serialization.Model):
     }
 
     def __init__(
-        self,
-        *,
-        value: Optional[List["_models.RecoveryPointModel"]] = None,
-        next_link: Optional[str] = None,
-        **kwargs: Any
+        self, *, value: List["_models.RecoveryPointModel"], next_link: Optional[str] = None, **kwargs: Any
     ) -> None:
         """
-        :keyword value: Gets or sets the list of recovery points.
+        :keyword value: The RecoveryPointModel items on this page. Required.
         :paramtype value: list[~azure.mgmt.recoveryservicesdatareplication.models.RecoveryPointModel]
-        :keyword next_link: Gets or sets the value of next link.
+        :keyword next_link: The link to the next page of items.
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
@@ -4383,7 +4925,9 @@ class RecoveryPointModelCollection(_serialization.Model):
 class RecoveryPointModelProperties(_serialization.Model):
     """Recovery point model properties.
 
-    All required parameters must be populated in order to send to Azure.
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
 
     :ivar recovery_point_time: Gets or sets the recovery point time. Required.
     :vartype recovery_point_time: ~datetime.datetime
@@ -4394,18 +4938,25 @@ class RecoveryPointModelProperties(_serialization.Model):
     :ivar custom_properties: Recovery point model custom properties. Required.
     :vartype custom_properties:
      ~azure.mgmt.recoveryservicesdatareplication.models.RecoveryPointModelCustomProperties
+    :ivar provisioning_state: Gets or sets the provisioning state of the recovery point item. Known
+     values are: "Canceled", "Creating", "Deleting", "Deleted", "Failed", "Succeeded", and
+     "Updating".
+    :vartype provisioning_state: str or
+     ~azure.mgmt.recoveryservicesdatareplication.models.ProvisioningState
     """
 
     _validation = {
         "recovery_point_time": {"required": True},
         "recovery_point_type": {"required": True},
         "custom_properties": {"required": True},
+        "provisioning_state": {"readonly": True},
     }
 
     _attribute_map = {
         "recovery_point_time": {"key": "recoveryPointTime", "type": "iso-8601"},
         "recovery_point_type": {"key": "recoveryPointType", "type": "str"},
         "custom_properties": {"key": "customProperties", "type": "RecoveryPointModelCustomProperties"},
+        "provisioning_state": {"key": "provisioningState", "type": "str"},
     }
 
     def __init__(
@@ -4431,101 +4982,130 @@ class RecoveryPointModelProperties(_serialization.Model):
         self.recovery_point_time = recovery_point_time
         self.recovery_point_type = recovery_point_type
         self.custom_properties = custom_properties
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
-class RecoveryPointModelSystemData(SystemDataModel):
-    """RecoveryPointModelSystemData.
+class RemotePrivateEndpoint(_serialization.Model):
+    """Represent remote private endpoint information for the private endpoint connection proxy.
 
-    :ivar created_by: Gets or sets identity that created the resource.
-    :vartype created_by: str
-    :ivar created_by_type: Gets or sets the type of identity that created the resource: user,
-     application,
-     managedIdentity.
-    :vartype created_by_type: str
-    :ivar created_at: Gets or sets the timestamp of resource creation (UTC).
-    :vartype created_at: ~datetime.datetime
-    :ivar last_modified_by: Gets or sets the identity that last modified the resource.
-    :vartype last_modified_by: str
-    :ivar last_modified_by_type: Gets or sets the type of identity that last modified the resource:
-     user, application,
-     managedIdentity.
-    :vartype last_modified_by_type: str
-    :ivar last_modified_at: Gets or sets the timestamp of resource last modification (UTC).
-    :vartype last_modified_at: ~datetime.datetime
+    All required parameters must be populated in order to send to server.
+
+    :ivar id: Gets or sets private link service proxy id. Required.
+    :vartype id: str
+    :ivar private_link_service_connections: Gets or sets the list of Private Link Service
+     Connections and gets populated for Auto approval flow.
+    :vartype private_link_service_connections:
+     list[~azure.mgmt.recoveryservicesdatareplication.models.PrivateLinkServiceConnection]
+    :ivar manual_private_link_service_connections: Gets or sets the list of Manual Private Link
+     Service Connections and gets populated for Manual approval flow.
+    :vartype manual_private_link_service_connections:
+     list[~azure.mgmt.recoveryservicesdatareplication.models.PrivateLinkServiceConnection]
+    :ivar private_link_service_proxies: Gets or sets the list of private link service proxies.
+    :vartype private_link_service_proxies:
+     list[~azure.mgmt.recoveryservicesdatareplication.models.PrivateLinkServiceProxy]
+    :ivar connection_details: Gets or sets the list of Connection Details. This is the connection
+     details for private endpoint.
+    :vartype connection_details:
+     list[~azure.mgmt.recoveryservicesdatareplication.models.ConnectionDetails]
     """
 
+    _validation = {
+        "id": {"required": True, "min_length": 1},
+    }
+
     _attribute_map = {
-        "created_by": {"key": "createdBy", "type": "str"},
-        "created_by_type": {"key": "createdByType", "type": "str"},
-        "created_at": {"key": "createdAt", "type": "iso-8601"},
-        "last_modified_by": {"key": "lastModifiedBy", "type": "str"},
-        "last_modified_by_type": {"key": "lastModifiedByType", "type": "str"},
-        "last_modified_at": {"key": "lastModifiedAt", "type": "iso-8601"},
+        "id": {"key": "id", "type": "str"},
+        "private_link_service_connections": {
+            "key": "privateLinkServiceConnections",
+            "type": "[PrivateLinkServiceConnection]",
+        },
+        "manual_private_link_service_connections": {
+            "key": "manualPrivateLinkServiceConnections",
+            "type": "[PrivateLinkServiceConnection]",
+        },
+        "private_link_service_proxies": {"key": "privateLinkServiceProxies", "type": "[PrivateLinkServiceProxy]"},
+        "connection_details": {"key": "connectionDetails", "type": "[ConnectionDetails]"},
     }
 
     def __init__(
         self,
         *,
-        created_by: Optional[str] = None,
-        created_by_type: Optional[str] = None,
-        created_at: Optional[datetime.datetime] = None,
-        last_modified_by: Optional[str] = None,
-        last_modified_by_type: Optional[str] = None,
-        last_modified_at: Optional[datetime.datetime] = None,
+        id: str,  # pylint: disable=redefined-builtin
+        private_link_service_connections: Optional[List["_models.PrivateLinkServiceConnection"]] = None,
+        manual_private_link_service_connections: Optional[List["_models.PrivateLinkServiceConnection"]] = None,
+        private_link_service_proxies: Optional[List["_models.PrivateLinkServiceProxy"]] = None,
+        connection_details: Optional[List["_models.ConnectionDetails"]] = None,
         **kwargs: Any
     ) -> None:
         """
-        :keyword created_by: Gets or sets identity that created the resource.
-        :paramtype created_by: str
-        :keyword created_by_type: Gets or sets the type of identity that created the resource: user,
-         application,
-         managedIdentity.
-        :paramtype created_by_type: str
-        :keyword created_at: Gets or sets the timestamp of resource creation (UTC).
-        :paramtype created_at: ~datetime.datetime
-        :keyword last_modified_by: Gets or sets the identity that last modified the resource.
-        :paramtype last_modified_by: str
-        :keyword last_modified_by_type: Gets or sets the type of identity that last modified the
-         resource: user, application,
-         managedIdentity.
-        :paramtype last_modified_by_type: str
-        :keyword last_modified_at: Gets or sets the timestamp of resource last modification (UTC).
-        :paramtype last_modified_at: ~datetime.datetime
+        :keyword id: Gets or sets private link service proxy id. Required.
+        :paramtype id: str
+        :keyword private_link_service_connections: Gets or sets the list of Private Link Service
+         Connections and gets populated for Auto approval flow.
+        :paramtype private_link_service_connections:
+         list[~azure.mgmt.recoveryservicesdatareplication.models.PrivateLinkServiceConnection]
+        :keyword manual_private_link_service_connections: Gets or sets the list of Manual Private Link
+         Service Connections and gets populated for Manual approval flow.
+        :paramtype manual_private_link_service_connections:
+         list[~azure.mgmt.recoveryservicesdatareplication.models.PrivateLinkServiceConnection]
+        :keyword private_link_service_proxies: Gets or sets the list of private link service proxies.
+        :paramtype private_link_service_proxies:
+         list[~azure.mgmt.recoveryservicesdatareplication.models.PrivateLinkServiceProxy]
+        :keyword connection_details: Gets or sets the list of Connection Details. This is the
+         connection details for private endpoint.
+        :paramtype connection_details:
+         list[~azure.mgmt.recoveryservicesdatareplication.models.ConnectionDetails]
         """
-        super().__init__(
-            created_by=created_by,
-            created_by_type=created_by_type,
-            created_at=created_at,
-            last_modified_by=last_modified_by,
-            last_modified_by_type=last_modified_by_type,
-            last_modified_at=last_modified_at,
-            **kwargs
-        )
+        super().__init__(**kwargs)
+        self.id = id
+        self.private_link_service_connections = private_link_service_connections
+        self.manual_private_link_service_connections = manual_private_link_service_connections
+        self.private_link_service_proxies = private_link_service_proxies
+        self.connection_details = connection_details
 
 
-class ReplicationExtensionModel(_serialization.Model):
+class RemotePrivateEndpointConnection(_serialization.Model):
+    """Represent remote private endpoint connection.
+
+    :ivar id: Gets or sets the remote private endpoint connection id.
+    :vartype id: str
+    """
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+    }
+
+    def __init__(self, *, id: Optional[str] = None, **kwargs: Any) -> None:  # pylint: disable=redefined-builtin
+        """
+        :keyword id: Gets or sets the remote private endpoint connection id.
+        :paramtype id: str
+        """
+        super().__init__(**kwargs)
+        self.id = id
+
+
+class ReplicationExtensionModel(ProxyResource):
     """Replication extension model.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar properties: Replication extension model properties. Required.
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.recoveryservicesdatareplication.models.SystemData
+    :ivar properties: The resource-specific properties for this resource.
     :vartype properties:
      ~azure.mgmt.recoveryservicesdatareplication.models.ReplicationExtensionModelProperties
-    :ivar id: Gets or sets the Id of the resource.
-    :vartype id: str
-    :ivar name: Gets or sets the name of the resource.
-    :vartype name: str
-    :ivar type: Gets or sets the type of the resource.
-    :vartype type: str
-    :ivar system_data:
-    :vartype system_data:
-     ~azure.mgmt.recoveryservicesdatareplication.models.ReplicationExtensionModelSystemData
     """
 
     _validation = {
-        "properties": {"required": True},
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
@@ -4533,36 +5113,40 @@ class ReplicationExtensionModel(_serialization.Model):
     }
 
     _attribute_map = {
-        "properties": {"key": "properties", "type": "ReplicationExtensionModelProperties"},
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
-        "system_data": {"key": "systemData", "type": "ReplicationExtensionModelSystemData"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "properties": {"key": "properties", "type": "ReplicationExtensionModelProperties"},
     }
 
-    def __init__(self, *, properties: "_models.ReplicationExtensionModelProperties", **kwargs: Any) -> None:
+    def __init__(
+        self, *, properties: Optional["_models.ReplicationExtensionModelProperties"] = None, **kwargs: Any
+    ) -> None:
         """
-        :keyword properties: Replication extension model properties. Required.
+        :keyword properties: The resource-specific properties for this resource.
         :paramtype properties:
          ~azure.mgmt.recoveryservicesdatareplication.models.ReplicationExtensionModelProperties
         """
         super().__init__(**kwargs)
         self.properties = properties
-        self.id = None
-        self.name = None
-        self.type = None
-        self.system_data = None
 
 
-class ReplicationExtensionModelCollection(_serialization.Model):
-    """Replication extension model collection.
+class ReplicationExtensionModelListResult(_serialization.Model):
+    """The response of a ReplicationExtensionModel list operation.
 
-    :ivar value: Gets or sets the list of replication extensions.
+    All required parameters must be populated in order to send to server.
+
+    :ivar value: The ReplicationExtensionModel items on this page. Required.
     :vartype value:
      list[~azure.mgmt.recoveryservicesdatareplication.models.ReplicationExtensionModel]
-    :ivar next_link: Gets or sets the value of next link.
+    :ivar next_link: The link to the next page of items.
     :vartype next_link: str
     """
+
+    _validation = {
+        "value": {"required": True},
+    }
 
     _attribute_map = {
         "value": {"key": "value", "type": "[ReplicationExtensionModel]"},
@@ -4570,17 +5154,13 @@ class ReplicationExtensionModelCollection(_serialization.Model):
     }
 
     def __init__(
-        self,
-        *,
-        value: Optional[List["_models.ReplicationExtensionModel"]] = None,
-        next_link: Optional[str] = None,
-        **kwargs: Any
+        self, *, value: List["_models.ReplicationExtensionModel"], next_link: Optional[str] = None, **kwargs: Any
     ) -> None:
         """
-        :keyword value: Gets or sets the list of replication extensions.
+        :keyword value: The ReplicationExtensionModel items on this page. Required.
         :paramtype value:
          list[~azure.mgmt.recoveryservicesdatareplication.models.ReplicationExtensionModel]
-        :keyword next_link: Gets or sets the value of next link.
+        :keyword next_link: The link to the next page of items.
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
@@ -4593,7 +5173,7 @@ class ReplicationExtensionModelProperties(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar provisioning_state: Gets or sets the provisioning state of the replication extension.
      Known values are: "Canceled", "Creating", "Deleting", "Deleted", "Failed", "Succeeded", and
@@ -4624,84 +5204,14 @@ class ReplicationExtensionModelProperties(_serialization.Model):
          ~azure.mgmt.recoveryservicesdatareplication.models.ReplicationExtensionModelCustomProperties
         """
         super().__init__(**kwargs)
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.custom_properties = custom_properties
-
-
-class ReplicationExtensionModelSystemData(SystemDataModel):
-    """ReplicationExtensionModelSystemData.
-
-    :ivar created_by: Gets or sets identity that created the resource.
-    :vartype created_by: str
-    :ivar created_by_type: Gets or sets the type of identity that created the resource: user,
-     application,
-     managedIdentity.
-    :vartype created_by_type: str
-    :ivar created_at: Gets or sets the timestamp of resource creation (UTC).
-    :vartype created_at: ~datetime.datetime
-    :ivar last_modified_by: Gets or sets the identity that last modified the resource.
-    :vartype last_modified_by: str
-    :ivar last_modified_by_type: Gets or sets the type of identity that last modified the resource:
-     user, application,
-     managedIdentity.
-    :vartype last_modified_by_type: str
-    :ivar last_modified_at: Gets or sets the timestamp of resource last modification (UTC).
-    :vartype last_modified_at: ~datetime.datetime
-    """
-
-    _attribute_map = {
-        "created_by": {"key": "createdBy", "type": "str"},
-        "created_by_type": {"key": "createdByType", "type": "str"},
-        "created_at": {"key": "createdAt", "type": "iso-8601"},
-        "last_modified_by": {"key": "lastModifiedBy", "type": "str"},
-        "last_modified_by_type": {"key": "lastModifiedByType", "type": "str"},
-        "last_modified_at": {"key": "lastModifiedAt", "type": "iso-8601"},
-    }
-
-    def __init__(
-        self,
-        *,
-        created_by: Optional[str] = None,
-        created_by_type: Optional[str] = None,
-        created_at: Optional[datetime.datetime] = None,
-        last_modified_by: Optional[str] = None,
-        last_modified_by_type: Optional[str] = None,
-        last_modified_at: Optional[datetime.datetime] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword created_by: Gets or sets identity that created the resource.
-        :paramtype created_by: str
-        :keyword created_by_type: Gets or sets the type of identity that created the resource: user,
-         application,
-         managedIdentity.
-        :paramtype created_by_type: str
-        :keyword created_at: Gets or sets the timestamp of resource creation (UTC).
-        :paramtype created_at: ~datetime.datetime
-        :keyword last_modified_by: Gets or sets the identity that last modified the resource.
-        :paramtype last_modified_by: str
-        :keyword last_modified_by_type: Gets or sets the type of identity that last modified the
-         resource: user, application,
-         managedIdentity.
-        :paramtype last_modified_by_type: str
-        :keyword last_modified_at: Gets or sets the timestamp of resource last modification (UTC).
-        :paramtype last_modified_at: ~datetime.datetime
-        """
-        super().__init__(
-            created_by=created_by,
-            created_by_type=created_by_type,
-            created_at=created_at,
-            last_modified_by=last_modified_by,
-            last_modified_by_type=last_modified_by_type,
-            last_modified_at=last_modified_at,
-            **kwargs
-        )
 
 
 class StorageContainerProperties(_serialization.Model):
     """Storage container properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar name: Gets or sets the Name. Required.
     :vartype name: str
@@ -4731,6 +5241,74 @@ class StorageContainerProperties(_serialization.Model):
         self.cluster_shared_volume_path = cluster_shared_volume_path
 
 
+class SystemData(_serialization.Model):
+    """Metadata pertaining to creation and last modification of the resource.
+
+    :ivar created_by: The identity that created the resource.
+    :vartype created_by: str
+    :ivar created_by_type: The type of identity that created the resource. Known values are:
+     "User", "Application", "ManagedIdentity", and "Key".
+    :vartype created_by_type: str or
+     ~azure.mgmt.recoveryservicesdatareplication.models.CreatedByType
+    :ivar created_at: The timestamp of resource creation (UTC).
+    :vartype created_at: ~datetime.datetime
+    :ivar last_modified_by: The identity that last modified the resource.
+    :vartype last_modified_by: str
+    :ivar last_modified_by_type: The type of identity that last modified the resource. Known values
+     are: "User", "Application", "ManagedIdentity", and "Key".
+    :vartype last_modified_by_type: str or
+     ~azure.mgmt.recoveryservicesdatareplication.models.CreatedByType
+    :ivar last_modified_at: The timestamp of resource last modification (UTC).
+    :vartype last_modified_at: ~datetime.datetime
+    """
+
+    _attribute_map = {
+        "created_by": {"key": "createdBy", "type": "str"},
+        "created_by_type": {"key": "createdByType", "type": "str"},
+        "created_at": {"key": "createdAt", "type": "iso-8601"},
+        "last_modified_by": {"key": "lastModifiedBy", "type": "str"},
+        "last_modified_by_type": {"key": "lastModifiedByType", "type": "str"},
+        "last_modified_at": {"key": "lastModifiedAt", "type": "iso-8601"},
+    }
+
+    def __init__(
+        self,
+        *,
+        created_by: Optional[str] = None,
+        created_by_type: Optional[Union[str, "_models.CreatedByType"]] = None,
+        created_at: Optional[datetime.datetime] = None,
+        last_modified_by: Optional[str] = None,
+        last_modified_by_type: Optional[Union[str, "_models.CreatedByType"]] = None,
+        last_modified_at: Optional[datetime.datetime] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword created_by: The identity that created the resource.
+        :paramtype created_by: str
+        :keyword created_by_type: The type of identity that created the resource. Known values are:
+         "User", "Application", "ManagedIdentity", and "Key".
+        :paramtype created_by_type: str or
+         ~azure.mgmt.recoveryservicesdatareplication.models.CreatedByType
+        :keyword created_at: The timestamp of resource creation (UTC).
+        :paramtype created_at: ~datetime.datetime
+        :keyword last_modified_by: The identity that last modified the resource.
+        :paramtype last_modified_by: str
+        :keyword last_modified_by_type: The type of identity that last modified the resource. Known
+         values are: "User", "Application", "ManagedIdentity", and "Key".
+        :paramtype last_modified_by_type: str or
+         ~azure.mgmt.recoveryservicesdatareplication.models.CreatedByType
+        :keyword last_modified_at: The timestamp of resource last modification (UTC).
+        :paramtype last_modified_at: ~datetime.datetime
+        """
+        super().__init__(**kwargs)
+        self.created_by = created_by
+        self.created_by_type = created_by_type
+        self.created_at = created_at
+        self.last_modified_by = last_modified_by
+        self.last_modified_by_type = last_modified_by_type
+        self.last_modified_at = last_modified_at
+
+
 class TaskModel(_serialization.Model):
     """Task model.
 
@@ -4748,9 +5326,8 @@ class TaskModel(_serialization.Model):
     :ivar custom_properties: Task model custom properties.
     :vartype custom_properties:
      ~azure.mgmt.recoveryservicesdatareplication.models.TaskModelCustomProperties
-    :ivar children_workflows: Gets or sets the list of children workflow models.
-    :vartype children_workflows:
-     list[~azure.mgmt.recoveryservicesdatareplication.models.WorkflowModel]
+    :ivar children_jobs: Gets or sets the list of children job models.
+    :vartype children_jobs: list[~azure.mgmt.recoveryservicesdatareplication.models.JobModel]
     """
 
     _validation = {
@@ -4766,37 +5343,36 @@ class TaskModel(_serialization.Model):
         "start_time": {"key": "startTime", "type": "iso-8601"},
         "end_time": {"key": "endTime", "type": "iso-8601"},
         "custom_properties": {"key": "customProperties", "type": "TaskModelCustomProperties"},
-        "children_workflows": {"key": "childrenWorkflows", "type": "[WorkflowModel]"},
+        "children_jobs": {"key": "childrenJobs", "type": "[JobModel]"},
     }
 
     def __init__(
         self,
         *,
         custom_properties: Optional["_models.TaskModelCustomProperties"] = None,
-        children_workflows: Optional[List["_models.WorkflowModel"]] = None,
+        children_jobs: Optional[List["_models.JobModel"]] = None,
         **kwargs: Any
     ) -> None:
         """
         :keyword custom_properties: Task model custom properties.
         :paramtype custom_properties:
          ~azure.mgmt.recoveryservicesdatareplication.models.TaskModelCustomProperties
-        :keyword children_workflows: Gets or sets the list of children workflow models.
-        :paramtype children_workflows:
-         list[~azure.mgmt.recoveryservicesdatareplication.models.WorkflowModel]
+        :keyword children_jobs: Gets or sets the list of children job models.
+        :paramtype children_jobs: list[~azure.mgmt.recoveryservicesdatareplication.models.JobModel]
         """
         super().__init__(**kwargs)
-        self.task_name = None
-        self.state = None
-        self.start_time = None
-        self.end_time = None
+        self.task_name: Optional[str] = None
+        self.state: Optional[Union[str, "_models.TaskState"]] = None
+        self.start_time: Optional[datetime.datetime] = None
+        self.end_time: Optional[datetime.datetime] = None
         self.custom_properties = custom_properties
-        self.children_workflows = children_workflows
+        self.children_jobs = children_jobs
 
 
 class TaskModelCustomProperties(_serialization.Model):
     """Task model custom properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar instance_type: Gets or sets the instance type. Required.
     :vartype instance_type: str
@@ -4819,114 +5395,198 @@ class TaskModelCustomProperties(_serialization.Model):
         self.instance_type = instance_type
 
 
-class TestFailoverCleanupWorkflowModelCustomProperties(WorkflowModelCustomProperties):
-    """Test failover cleanup workflow model custom properties.
+class TestFailoverCleanupJobModelCustomProperties(JobModelCustomProperties):  # pylint: disable=name-too-long
+    """Test failover cleanup job model custom properties.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar instance_type: Gets or sets the instance type. Required.
+    :ivar instance_type: Discriminator property for JobModelCustomProperties. Required.
     :vartype instance_type: str
     :ivar affected_object_details: Gets or sets any custom properties of the affected object.
-    :vartype affected_object_details: dict[str, str]
+    :vartype affected_object_details:
+     ~azure.mgmt.recoveryservicesdatareplication.models.JobModelCustomPropertiesAffectedObjectDetails
     :ivar comments: Gets or sets the test failover cleanup comments.
     :vartype comments: str
     """
 
     _validation = {
-        "instance_type": {"required": True, "min_length": 1},
+        "instance_type": {"required": True},
         "affected_object_details": {"readonly": True},
         "comments": {"readonly": True},
     }
 
     _attribute_map = {
         "instance_type": {"key": "instanceType", "type": "str"},
-        "affected_object_details": {"key": "affectedObjectDetails", "type": "{str}"},
+        "affected_object_details": {
+            "key": "affectedObjectDetails",
+            "type": "JobModelCustomPropertiesAffectedObjectDetails",
+        },
         "comments": {"key": "comments", "type": "str"},
     }
 
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.instance_type: str = "TestFailoverCleanupWorkflowDetails"
-        self.comments = None
+        self.instance_type: str = "TestFailoverCleanupJobDetails"
+        self.comments: Optional[str] = None
 
 
-class TestFailoverWorkflowModelCustomProperties(WorkflowModelCustomProperties):
-    """Test failover workflow model custom properties.
+class TestFailoverJobModelCustomProperties(JobModelCustomProperties):
+    """Test failover job model custom properties.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar instance_type: Gets or sets the instance type. Required.
+    :ivar instance_type: Discriminator property for JobModelCustomProperties. Required.
     :vartype instance_type: str
     :ivar affected_object_details: Gets or sets any custom properties of the affected object.
-    :vartype affected_object_details: dict[str, str]
+    :vartype affected_object_details:
+     ~azure.mgmt.recoveryservicesdatareplication.models.JobModelCustomPropertiesAffectedObjectDetails
     :ivar protected_item_details: Gets or sets the test VM details.
     :vartype protected_item_details:
      list[~azure.mgmt.recoveryservicesdatareplication.models.FailoverProtectedItemProperties]
     """
 
     _validation = {
-        "instance_type": {"required": True, "min_length": 1},
+        "instance_type": {"required": True},
         "affected_object_details": {"readonly": True},
         "protected_item_details": {"readonly": True},
     }
 
     _attribute_map = {
         "instance_type": {"key": "instanceType", "type": "str"},
-        "affected_object_details": {"key": "affectedObjectDetails", "type": "{str}"},
+        "affected_object_details": {
+            "key": "affectedObjectDetails",
+            "type": "JobModelCustomPropertiesAffectedObjectDetails",
+        },
         "protected_item_details": {"key": "protectedItemDetails", "type": "[FailoverProtectedItemProperties]"},
     }
 
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.instance_type: str = "TestFailoverWorkflowDetails"
-        self.protected_item_details = None
+        self.instance_type: str = "TestFailoverJobDetails"
+        self.protected_item_details: Optional[List["_models.FailoverProtectedItemProperties"]] = None
 
 
-class VaultModel(_serialization.Model):
+class UserAssignedIdentity(_serialization.Model):
+    """User assigned identity properties.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar principal_id: The principal ID of the assigned identity.
+    :vartype principal_id: str
+    :ivar client_id: The client ID of the assigned identity.
+    :vartype client_id: str
+    """
+
+    _validation = {
+        "principal_id": {"readonly": True},
+        "client_id": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "principal_id": {"key": "principalId", "type": "str"},
+        "client_id": {"key": "clientId", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.principal_id: Optional[str] = None
+        self.client_id: Optional[str] = None
+
+
+class VaultIdentityModel(_serialization.Model):
     """Vault model.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar location: Gets or sets the location of the vault. Required.
-    :vartype location: str
-    :ivar tags: Gets or sets the resource tags.
-    :vartype tags: dict[str, str]
-    :ivar properties: Vault properties.
-    :vartype properties: ~azure.mgmt.recoveryservicesdatareplication.models.VaultModelProperties
-    :ivar id: Gets or sets the Id of the resource.
-    :vartype id: str
-    :ivar name: Gets or sets the name of the resource.
-    :vartype name: str
-    :ivar type: Gets or sets the type of the resource.
-    :vartype type: str
-    :ivar system_data:
-    :vartype system_data: ~azure.mgmt.recoveryservicesdatareplication.models.VaultModelSystemData
+    :ivar type: Gets or sets the identityType which can be either SystemAssigned or None. Required.
+     Known values are: "None", "SystemAssigned", and "UserAssigned".
+    :vartype type: str or ~azure.mgmt.recoveryservicesdatareplication.models.VaultIdentityType
+    :ivar principal_id: Gets or sets the object ID of the service principal object for the managed
+     identity that is used to grant role-based access to an Azure resource.
+    :vartype principal_id: str
+    :ivar tenant_id: Gets or sets a Globally Unique Identifier (GUID) that represents the Azure AD
+     tenant where the resource is now a member.
+    :vartype tenant_id: str
     """
 
     _validation = {
-        "location": {"required": True, "min_length": 1},
+        "type": {"required": True},
+        "principal_id": {"readonly": True},
+        "tenant_id": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "type": {"key": "type", "type": "str"},
+        "principal_id": {"key": "principalId", "type": "str"},
+        "tenant_id": {"key": "tenantId", "type": "str"},
+    }
+
+    def __init__(self, *, type: Union[str, "_models.VaultIdentityType"], **kwargs: Any) -> None:
+        """
+        :keyword type: Gets or sets the identityType which can be either SystemAssigned or None.
+         Required. Known values are: "None", "SystemAssigned", and "UserAssigned".
+        :paramtype type: str or ~azure.mgmt.recoveryservicesdatareplication.models.VaultIdentityType
+        """
+        super().__init__(**kwargs)
+        self.type = type
+        self.principal_id: Optional[str] = None
+        self.tenant_id: Optional[str] = None
+
+
+class VaultModel(TrackedResource):
+    """Vault model.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.recoveryservicesdatareplication.models.SystemData
+    :ivar tags: Resource tags.
+    :vartype tags: dict[str, str]
+    :ivar location: The geo-location where the resource lives. Required.
+    :vartype location: str
+    :ivar properties: The resource-specific properties for this resource.
+    :vartype properties: ~azure.mgmt.recoveryservicesdatareplication.models.VaultModelProperties
+    :ivar identity: The managed service identities assigned to this resource.
+    :vartype identity: ~azure.mgmt.recoveryservicesdatareplication.models.ManagedServiceIdentity
+    """
+
+    _validation = {
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
         "system_data": {"readonly": True},
+        "location": {"required": True},
     }
 
     _attribute_map = {
-        "location": {"key": "location", "type": "str"},
-        "tags": {"key": "tags", "type": "{str}"},
-        "properties": {"key": "properties", "type": "VaultModelProperties"},
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
-        "system_data": {"key": "systemData", "type": "VaultModelSystemData"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "tags": {"key": "tags", "type": "{str}"},
+        "location": {"key": "location", "type": "str"},
+        "properties": {"key": "properties", "type": "VaultModelProperties"},
+        "identity": {"key": "identity", "type": "ManagedServiceIdentity"},
     }
 
     def __init__(
@@ -4935,47 +5595,49 @@ class VaultModel(_serialization.Model):
         location: str,
         tags: Optional[Dict[str, str]] = None,
         properties: Optional["_models.VaultModelProperties"] = None,
+        identity: Optional["_models.ManagedServiceIdentity"] = None,
         **kwargs: Any
     ) -> None:
         """
-        :keyword location: Gets or sets the location of the vault. Required.
-        :paramtype location: str
-        :keyword tags: Gets or sets the resource tags.
+        :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
-        :keyword properties: Vault properties.
+        :keyword location: The geo-location where the resource lives. Required.
+        :paramtype location: str
+        :keyword properties: The resource-specific properties for this resource.
         :paramtype properties: ~azure.mgmt.recoveryservicesdatareplication.models.VaultModelProperties
+        :keyword identity: The managed service identities assigned to this resource.
+        :paramtype identity: ~azure.mgmt.recoveryservicesdatareplication.models.ManagedServiceIdentity
         """
-        super().__init__(**kwargs)
-        self.location = location
-        self.tags = tags
+        super().__init__(tags=tags, location=location, **kwargs)
         self.properties = properties
-        self.id = None
-        self.name = None
-        self.type = None
-        self.system_data = None
+        self.identity = identity
 
 
-class VaultModelCollection(_serialization.Model):
-    """Vault model collection.
+class VaultModelListResult(_serialization.Model):
+    """The response of a VaultModel list operation.
 
-    :ivar value: Gets or sets the list of vaults.
+    All required parameters must be populated in order to send to server.
+
+    :ivar value: The VaultModel items on this page. Required.
     :vartype value: list[~azure.mgmt.recoveryservicesdatareplication.models.VaultModel]
-    :ivar next_link: Gets or sets the value of next link.
+    :ivar next_link: The link to the next page of items.
     :vartype next_link: str
     """
+
+    _validation = {
+        "value": {"required": True},
+    }
 
     _attribute_map = {
         "value": {"key": "value", "type": "[VaultModel]"},
         "next_link": {"key": "nextLink", "type": "str"},
     }
 
-    def __init__(
-        self, *, value: Optional[List["_models.VaultModel"]] = None, next_link: Optional[str] = None, **kwargs: Any
-    ) -> None:
+    def __init__(self, *, value: List["_models.VaultModel"], next_link: Optional[str] = None, **kwargs: Any) -> None:
         """
-        :keyword value: Gets or sets the list of vaults.
+        :keyword value: The VaultModel items on this page. Required.
         :paramtype value: list[~azure.mgmt.recoveryservicesdatareplication.models.VaultModel]
-        :keyword next_link: Gets or sets the value of next link.
+        :keyword next_link: The link to the next page of items.
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
@@ -5021,83 +5683,13 @@ class VaultModelProperties(_serialization.Model):
          ~azure.mgmt.recoveryservicesdatareplication.models.ReplicationVaultType
         """
         super().__init__(**kwargs)
-        self.provisioning_state = None
-        self.service_resource_id = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
+        self.service_resource_id: Optional[str] = None
         self.vault_type = vault_type
 
 
-class VaultModelSystemData(SystemDataModel):
-    """VaultModelSystemData.
-
-    :ivar created_by: Gets or sets identity that created the resource.
-    :vartype created_by: str
-    :ivar created_by_type: Gets or sets the type of identity that created the resource: user,
-     application,
-     managedIdentity.
-    :vartype created_by_type: str
-    :ivar created_at: Gets or sets the timestamp of resource creation (UTC).
-    :vartype created_at: ~datetime.datetime
-    :ivar last_modified_by: Gets or sets the identity that last modified the resource.
-    :vartype last_modified_by: str
-    :ivar last_modified_by_type: Gets or sets the type of identity that last modified the resource:
-     user, application,
-     managedIdentity.
-    :vartype last_modified_by_type: str
-    :ivar last_modified_at: Gets or sets the timestamp of resource last modification (UTC).
-    :vartype last_modified_at: ~datetime.datetime
-    """
-
-    _attribute_map = {
-        "created_by": {"key": "createdBy", "type": "str"},
-        "created_by_type": {"key": "createdByType", "type": "str"},
-        "created_at": {"key": "createdAt", "type": "iso-8601"},
-        "last_modified_by": {"key": "lastModifiedBy", "type": "str"},
-        "last_modified_by_type": {"key": "lastModifiedByType", "type": "str"},
-        "last_modified_at": {"key": "lastModifiedAt", "type": "iso-8601"},
-    }
-
-    def __init__(
-        self,
-        *,
-        created_by: Optional[str] = None,
-        created_by_type: Optional[str] = None,
-        created_at: Optional[datetime.datetime] = None,
-        last_modified_by: Optional[str] = None,
-        last_modified_by_type: Optional[str] = None,
-        last_modified_at: Optional[datetime.datetime] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword created_by: Gets or sets identity that created the resource.
-        :paramtype created_by: str
-        :keyword created_by_type: Gets or sets the type of identity that created the resource: user,
-         application,
-         managedIdentity.
-        :paramtype created_by_type: str
-        :keyword created_at: Gets or sets the timestamp of resource creation (UTC).
-        :paramtype created_at: ~datetime.datetime
-        :keyword last_modified_by: Gets or sets the identity that last modified the resource.
-        :paramtype last_modified_by: str
-        :keyword last_modified_by_type: Gets or sets the type of identity that last modified the
-         resource: user, application,
-         managedIdentity.
-        :paramtype last_modified_by_type: str
-        :keyword last_modified_at: Gets or sets the timestamp of resource last modification (UTC).
-        :paramtype last_modified_at: ~datetime.datetime
-        """
-        super().__init__(
-            created_by=created_by,
-            created_by_type=created_by_type,
-            created_at=created_at,
-            last_modified_by=last_modified_by,
-            last_modified_by_type=last_modified_by_type,
-            last_modified_at=last_modified_at,
-            **kwargs
-        )
-
-
 class VaultModelUpdate(_serialization.Model):
-    """Vault model for update.
+    """Vault model update.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
@@ -5105,15 +5697,16 @@ class VaultModelUpdate(_serialization.Model):
     :vartype tags: dict[str, str]
     :ivar properties: Vault properties.
     :vartype properties: ~azure.mgmt.recoveryservicesdatareplication.models.VaultModelProperties
+    :ivar identity: Vault identity.
+    :vartype identity: ~azure.mgmt.recoveryservicesdatareplication.models.VaultIdentityModel
     :ivar id: Gets or sets the Id of the resource.
     :vartype id: str
     :ivar name: Gets or sets the name of the resource.
     :vartype name: str
     :ivar type: Gets or sets the type of the resource.
     :vartype type: str
-    :ivar system_data:
-    :vartype system_data:
-     ~azure.mgmt.recoveryservicesdatareplication.models.VaultModelUpdateSystemData
+    :ivar system_data: Metadata pertaining to creation and last modification of the resource.
+    :vartype system_data: ~azure.mgmt.recoveryservicesdatareplication.models.SystemData
     """
 
     _validation = {
@@ -5126,10 +5719,11 @@ class VaultModelUpdate(_serialization.Model):
     _attribute_map = {
         "tags": {"key": "tags", "type": "{str}"},
         "properties": {"key": "properties", "type": "VaultModelProperties"},
+        "identity": {"key": "identity", "type": "VaultIdentityModel"},
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
-        "system_data": {"key": "systemData", "type": "VaultModelUpdateSystemData"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
     }
 
     def __init__(
@@ -5137,6 +5731,7 @@ class VaultModelUpdate(_serialization.Model):
         *,
         tags: Optional[Dict[str, str]] = None,
         properties: Optional["_models.VaultModelProperties"] = None,
+        identity: Optional["_models.VaultIdentityModel"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -5144,94 +5739,27 @@ class VaultModelUpdate(_serialization.Model):
         :paramtype tags: dict[str, str]
         :keyword properties: Vault properties.
         :paramtype properties: ~azure.mgmt.recoveryservicesdatareplication.models.VaultModelProperties
+        :keyword identity: Vault identity.
+        :paramtype identity: ~azure.mgmt.recoveryservicesdatareplication.models.VaultIdentityModel
         """
         super().__init__(**kwargs)
         self.tags = tags
         self.properties = properties
-        self.id = None
-        self.name = None
-        self.type = None
-        self.system_data = None
+        self.identity = identity
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
+        self.system_data: Optional["_models.SystemData"] = None
 
 
-class VaultModelUpdateSystemData(SystemDataModel):
-    """VaultModelUpdateSystemData.
+class VMwareFabricAgentModelCustomProperties(FabricAgentModelCustomProperties):
+    """VMware fabric agent model custom properties.
 
-    :ivar created_by: Gets or sets identity that created the resource.
-    :vartype created_by: str
-    :ivar created_by_type: Gets or sets the type of identity that created the resource: user,
-     application,
-     managedIdentity.
-    :vartype created_by_type: str
-    :ivar created_at: Gets or sets the timestamp of resource creation (UTC).
-    :vartype created_at: ~datetime.datetime
-    :ivar last_modified_by: Gets or sets the identity that last modified the resource.
-    :vartype last_modified_by: str
-    :ivar last_modified_by_type: Gets or sets the type of identity that last modified the resource:
-     user, application,
-     managedIdentity.
-    :vartype last_modified_by_type: str
-    :ivar last_modified_at: Gets or sets the timestamp of resource last modification (UTC).
-    :vartype last_modified_at: ~datetime.datetime
-    """
+    All required parameters must be populated in order to send to server.
 
-    _attribute_map = {
-        "created_by": {"key": "createdBy", "type": "str"},
-        "created_by_type": {"key": "createdByType", "type": "str"},
-        "created_at": {"key": "createdAt", "type": "iso-8601"},
-        "last_modified_by": {"key": "lastModifiedBy", "type": "str"},
-        "last_modified_by_type": {"key": "lastModifiedByType", "type": "str"},
-        "last_modified_at": {"key": "lastModifiedAt", "type": "iso-8601"},
-    }
-
-    def __init__(
-        self,
-        *,
-        created_by: Optional[str] = None,
-        created_by_type: Optional[str] = None,
-        created_at: Optional[datetime.datetime] = None,
-        last_modified_by: Optional[str] = None,
-        last_modified_by_type: Optional[str] = None,
-        last_modified_at: Optional[datetime.datetime] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword created_by: Gets or sets identity that created the resource.
-        :paramtype created_by: str
-        :keyword created_by_type: Gets or sets the type of identity that created the resource: user,
-         application,
-         managedIdentity.
-        :paramtype created_by_type: str
-        :keyword created_at: Gets or sets the timestamp of resource creation (UTC).
-        :paramtype created_at: ~datetime.datetime
-        :keyword last_modified_by: Gets or sets the identity that last modified the resource.
-        :paramtype last_modified_by: str
-        :keyword last_modified_by_type: Gets or sets the type of identity that last modified the
-         resource: user, application,
-         managedIdentity.
-        :paramtype last_modified_by_type: str
-        :keyword last_modified_at: Gets or sets the timestamp of resource last modification (UTC).
-        :paramtype last_modified_at: ~datetime.datetime
-        """
-        super().__init__(
-            created_by=created_by,
-            created_by_type=created_by_type,
-            created_at=created_at,
-            last_modified_by=last_modified_by,
-            last_modified_by_type=last_modified_by_type,
-            last_modified_at=last_modified_at,
-            **kwargs
-        )
-
-
-class VMwareDraModelCustomProperties(DraModelCustomProperties):
-    """VMware DRA model custom properties.
-
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar instance_type: Gets or sets the instance type. Required.
+    :ivar instance_type: Discriminator property for FabricAgentModelCustomProperties. Required.
     :vartype instance_type: str
-    :ivar bios_id: Gets or sets the BIOS Id of the DRA machine. Required.
+    :ivar bios_id: Gets or sets the BIOS Id of the fabric agent machine. Required.
     :vartype bios_id: str
     :ivar mars_authentication_identity: Identity model. Required.
     :vartype mars_authentication_identity:
@@ -5239,7 +5767,7 @@ class VMwareDraModelCustomProperties(DraModelCustomProperties):
     """
 
     _validation = {
-        "instance_type": {"required": True, "min_length": 1},
+        "instance_type": {"required": True},
         "bios_id": {"required": True, "min_length": 1},
         "mars_authentication_identity": {"required": True},
     }
@@ -5252,7 +5780,7 @@ class VMwareDraModelCustomProperties(DraModelCustomProperties):
 
     def __init__(self, *, bios_id: str, mars_authentication_identity: "_models.IdentityModel", **kwargs: Any) -> None:
         """
-        :keyword bios_id: Gets or sets the BIOS Id of the DRA machine. Required.
+        :keyword bios_id: Gets or sets the BIOS Id of the fabric agent machine. Required.
         :paramtype bios_id: str
         :keyword mars_authentication_identity: Identity model. Required.
         :paramtype mars_authentication_identity:
@@ -5267,9 +5795,9 @@ class VMwareDraModelCustomProperties(DraModelCustomProperties):
 class VMwareMigrateFabricModelCustomProperties(FabricModelCustomProperties):
     """VMware migrate fabric model custom properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar instance_type: Gets or sets the instance type. Required.
+    :ivar instance_type: Discriminator property for FabricModelCustomProperties. Required.
     :vartype instance_type: str
     :ivar vmware_site_id: Gets or sets the ARM Id of the VMware site. Required.
     :vartype vmware_site_id: str
@@ -5278,9 +5806,9 @@ class VMwareMigrateFabricModelCustomProperties(FabricModelCustomProperties):
     """
 
     _validation = {
-        "instance_type": {"required": True, "min_length": 1},
-        "vmware_site_id": {"required": True, "min_length": 1},
-        "migration_solution_id": {"required": True, "min_length": 1},
+        "instance_type": {"required": True},
+        "vmware_site_id": {"required": True},
+        "migration_solution_id": {"required": True},
     }
 
     _attribute_map = {
@@ -5305,15 +5833,14 @@ class VMwareMigrateFabricModelCustomProperties(FabricModelCustomProperties):
 class VMwareToAzStackHCIDiskInput(_serialization.Model):
     """VMwareToAzStack disk input.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar disk_id: Gets or sets the disk Id. Required.
     :vartype disk_id: str
     :ivar storage_container_id: Gets or sets the target storage account ARM Id.
     :vartype storage_container_id: str
     :ivar is_dynamic: Gets or sets a value indicating whether dynamic sizing is enabled on the
-     virtual hard
-     disk.
+     virtual hard disk.
     :vartype is_dynamic: bool
     :ivar disk_size_gb: Gets or sets the disk size in GB. Required.
     :vartype disk_size_gb: int
@@ -5321,6 +5848,17 @@ class VMwareToAzStackHCIDiskInput(_serialization.Model):
     :vartype disk_file_format: str
     :ivar is_os_disk: Gets or sets a value indicating whether disk is os disk. Required.
     :vartype is_os_disk: bool
+    :ivar disk_block_size: Gets or sets a value of disk block size.
+    :vartype disk_block_size: int
+    :ivar disk_logical_sector_size: Gets or sets a value of disk logical sector size.
+    :vartype disk_logical_sector_size: int
+    :ivar disk_physical_sector_size: Gets or sets a value of disk physical sector size.
+    :vartype disk_physical_sector_size: int
+    :ivar disk_identifier: Gets or sets a value of disk identifier.
+    :vartype disk_identifier: str
+    :ivar disk_controller: Disk controller.
+    :vartype disk_controller:
+     ~azure.mgmt.recoveryservicesdatareplication.models.DiskControllerInputs
     """
 
     _validation = {
@@ -5337,6 +5875,11 @@ class VMwareToAzStackHCIDiskInput(_serialization.Model):
         "disk_size_gb": {"key": "diskSizeGB", "type": "int"},
         "disk_file_format": {"key": "diskFileFormat", "type": "str"},
         "is_os_disk": {"key": "isOsDisk", "type": "bool"},
+        "disk_block_size": {"key": "diskBlockSize", "type": "int"},
+        "disk_logical_sector_size": {"key": "diskLogicalSectorSize", "type": "int"},
+        "disk_physical_sector_size": {"key": "diskPhysicalSectorSize", "type": "int"},
+        "disk_identifier": {"key": "diskIdentifier", "type": "str"},
+        "disk_controller": {"key": "diskController", "type": "DiskControllerInputs"},
     }
 
     def __init__(
@@ -5348,6 +5891,11 @@ class VMwareToAzStackHCIDiskInput(_serialization.Model):
         is_os_disk: bool,
         storage_container_id: Optional[str] = None,
         is_dynamic: Optional[bool] = None,
+        disk_block_size: Optional[int] = None,
+        disk_logical_sector_size: Optional[int] = None,
+        disk_physical_sector_size: Optional[int] = None,
+        disk_identifier: Optional[str] = None,
+        disk_controller: Optional["_models.DiskControllerInputs"] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -5356,8 +5904,7 @@ class VMwareToAzStackHCIDiskInput(_serialization.Model):
         :keyword storage_container_id: Gets or sets the target storage account ARM Id.
         :paramtype storage_container_id: str
         :keyword is_dynamic: Gets or sets a value indicating whether dynamic sizing is enabled on the
-         virtual hard
-         disk.
+         virtual hard disk.
         :paramtype is_dynamic: bool
         :keyword disk_size_gb: Gets or sets the disk size in GB. Required.
         :paramtype disk_size_gb: int
@@ -5366,6 +5913,17 @@ class VMwareToAzStackHCIDiskInput(_serialization.Model):
         :paramtype disk_file_format: str
         :keyword is_os_disk: Gets or sets a value indicating whether disk is os disk. Required.
         :paramtype is_os_disk: bool
+        :keyword disk_block_size: Gets or sets a value of disk block size.
+        :paramtype disk_block_size: int
+        :keyword disk_logical_sector_size: Gets or sets a value of disk logical sector size.
+        :paramtype disk_logical_sector_size: int
+        :keyword disk_physical_sector_size: Gets or sets a value of disk physical sector size.
+        :paramtype disk_physical_sector_size: int
+        :keyword disk_identifier: Gets or sets a value of disk identifier.
+        :paramtype disk_identifier: str
+        :keyword disk_controller: Disk controller.
+        :paramtype disk_controller:
+         ~azure.mgmt.recoveryservicesdatareplication.models.DiskControllerInputs
         """
         super().__init__(**kwargs)
         self.disk_id = disk_id
@@ -5374,6 +5932,64 @@ class VMwareToAzStackHCIDiskInput(_serialization.Model):
         self.disk_size_gb = disk_size_gb
         self.disk_file_format = disk_file_format
         self.is_os_disk = is_os_disk
+        self.disk_block_size = disk_block_size
+        self.disk_logical_sector_size = disk_logical_sector_size
+        self.disk_physical_sector_size = disk_physical_sector_size
+        self.disk_identifier = disk_identifier
+        self.disk_controller = disk_controller
+
+
+class VMwareToAzStackHCIEventModelCustomProperties(EventModelCustomProperties):  # pylint: disable=name-too-long
+    """VMware to  AzStackHCI event model custom properties. This class provides provider specific
+    details for events of type DataContract.HealthEvents.HealthEventType.ProtectedItemHealth and
+    DataContract.HealthEvents.HealthEventType.AgentHealth.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar instance_type: Discriminator property for EventModelCustomProperties. Required.
+    :vartype instance_type: str
+    :ivar event_source_friendly_name: Gets or sets the friendly name of the source which has raised
+     this health event.
+    :vartype event_source_friendly_name: str
+    :ivar protected_item_friendly_name: Gets or sets the protected item friendly name.
+    :vartype protected_item_friendly_name: str
+    :ivar source_appliance_name: Gets or sets the source appliance name.
+    :vartype source_appliance_name: str
+    :ivar target_appliance_name: Gets or sets the source target name.
+    :vartype target_appliance_name: str
+    :ivar server_type: Gets or sets the server type.
+    :vartype server_type: str
+    """
+
+    _validation = {
+        "instance_type": {"required": True},
+        "event_source_friendly_name": {"readonly": True},
+        "protected_item_friendly_name": {"readonly": True},
+        "source_appliance_name": {"readonly": True},
+        "target_appliance_name": {"readonly": True},
+        "server_type": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "instance_type": {"key": "instanceType", "type": "str"},
+        "event_source_friendly_name": {"key": "eventSourceFriendlyName", "type": "str"},
+        "protected_item_friendly_name": {"key": "protectedItemFriendlyName", "type": "str"},
+        "source_appliance_name": {"key": "sourceApplianceName", "type": "str"},
+        "target_appliance_name": {"key": "targetApplianceName", "type": "str"},
+        "server_type": {"key": "serverType", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.instance_type: str = "VMwareToAzStackHCI"
+        self.event_source_friendly_name: Optional[str] = None
+        self.protected_item_friendly_name: Optional[str] = None
+        self.source_appliance_name: Optional[str] = None
+        self.target_appliance_name: Optional[str] = None
+        self.server_type: Optional[str] = None
 
 
 class VMwareToAzStackHCINicInput(_serialization.Model):
@@ -5381,7 +5997,7 @@ class VMwareToAzStackHCINicInput(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar nic_id: Gets or sets the NIC Id. Required.
     :vartype nic_id: str
@@ -5390,23 +6006,25 @@ class VMwareToAzStackHCINicInput(_serialization.Model):
     :ivar network_name: Gets or sets the network name.
     :vartype network_name: str
     :ivar target_network_id: Gets or sets the target network Id within AzStackHCI Cluster.
-     Required.
     :vartype target_network_id: str
     :ivar test_network_id: Gets or sets the target test network Id within AzStackHCI Cluster.
-     Required.
     :vartype test_network_id: str
     :ivar selection_type_for_failover: Gets or sets the selection type of the NIC. Required. Known
      values are: "NotSelected", "SelectedByUser", "SelectedByDefault", and "SelectedByUserOverride".
     :vartype selection_type_for_failover: str or
      ~azure.mgmt.recoveryservicesdatareplication.models.VMNicSelection
+    :ivar is_static_ip_migration_enabled: Gets or sets a value indicating whether static ip
+     migration is enabled.
+    :vartype is_static_ip_migration_enabled: bool
+    :ivar is_mac_migration_enabled: Gets or sets a value indicating whether mac address migration
+     is enabled.
+    :vartype is_mac_migration_enabled: bool
     """
 
     _validation = {
         "nic_id": {"required": True, "min_length": 1},
         "label": {"required": True, "min_length": 1},
         "network_name": {"readonly": True},
-        "target_network_id": {"required": True, "min_length": 1},
-        "test_network_id": {"required": True, "min_length": 1},
         "selection_type_for_failover": {"required": True},
     }
 
@@ -5417,6 +6035,8 @@ class VMwareToAzStackHCINicInput(_serialization.Model):
         "target_network_id": {"key": "targetNetworkId", "type": "str"},
         "test_network_id": {"key": "testNetworkId", "type": "str"},
         "selection_type_for_failover": {"key": "selectionTypeForFailover", "type": "str"},
+        "is_static_ip_migration_enabled": {"key": "isStaticIpMigrationEnabled", "type": "bool"},
+        "is_mac_migration_enabled": {"key": "isMacMigrationEnabled", "type": "bool"},
     }
 
     def __init__(
@@ -5424,9 +6044,11 @@ class VMwareToAzStackHCINicInput(_serialization.Model):
         *,
         nic_id: str,
         label: str,
-        target_network_id: str,
-        test_network_id: str,
         selection_type_for_failover: Union[str, "_models.VMNicSelection"],
+        target_network_id: Optional[str] = None,
+        test_network_id: Optional[str] = None,
+        is_static_ip_migration_enabled: Optional[bool] = None,
+        is_mac_migration_enabled: Optional[bool] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -5435,32 +6057,40 @@ class VMwareToAzStackHCINicInput(_serialization.Model):
         :keyword label: Gets or sets the NIC label. Required.
         :paramtype label: str
         :keyword target_network_id: Gets or sets the target network Id within AzStackHCI Cluster.
-         Required.
         :paramtype target_network_id: str
         :keyword test_network_id: Gets or sets the target test network Id within AzStackHCI Cluster.
-         Required.
         :paramtype test_network_id: str
         :keyword selection_type_for_failover: Gets or sets the selection type of the NIC. Required.
          Known values are: "NotSelected", "SelectedByUser", "SelectedByDefault", and
          "SelectedByUserOverride".
         :paramtype selection_type_for_failover: str or
          ~azure.mgmt.recoveryservicesdatareplication.models.VMNicSelection
+        :keyword is_static_ip_migration_enabled: Gets or sets a value indicating whether static ip
+         migration is enabled.
+        :paramtype is_static_ip_migration_enabled: bool
+        :keyword is_mac_migration_enabled: Gets or sets a value indicating whether mac address
+         migration is enabled.
+        :paramtype is_mac_migration_enabled: bool
         """
         super().__init__(**kwargs)
         self.nic_id = nic_id
         self.label = label
-        self.network_name = None
+        self.network_name: Optional[str] = None
         self.target_network_id = target_network_id
         self.test_network_id = test_network_id
         self.selection_type_for_failover = selection_type_for_failover
+        self.is_static_ip_migration_enabled = is_static_ip_migration_enabled
+        self.is_mac_migration_enabled = is_mac_migration_enabled
 
 
-class VMwareToAzStackHCIPlannedFailoverModelCustomProperties(PlannedFailoverModelCustomProperties):
+class VMwareToAzStackHCIPlannedFailoverModelCustomProperties(
+    PlannedFailoverModelCustomProperties
+):  # pylint: disable=name-too-long
     """VMware to AzStackHCI planned failover model custom properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar instance_type: Gets or sets the instance type. Required.
+    :ivar instance_type: Discriminator property for PlannedFailoverModelCustomProperties. Required.
     :vartype instance_type: str
     :ivar shutdown_source_vm: Gets or sets a value indicating whether VM needs to be shut down.
      Required.
@@ -5468,7 +6098,7 @@ class VMwareToAzStackHCIPlannedFailoverModelCustomProperties(PlannedFailoverMode
     """
 
     _validation = {
-        "instance_type": {"required": True, "min_length": 1},
+        "instance_type": {"required": True},
         "shutdown_source_vm": {"required": True},
     }
 
@@ -5488,16 +6118,15 @@ class VMwareToAzStackHCIPlannedFailoverModelCustomProperties(PlannedFailoverMode
         self.shutdown_source_vm = shutdown_source_vm
 
 
-class VMwareToAzStackHCIPolicyModelCustomProperties(PolicyModelCustomProperties):
+class VMwareToAzStackHCIPolicyModelCustomProperties(PolicyModelCustomProperties):  # pylint: disable=name-too-long
     """VMware To AzStackHCI Policy model custom properties.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar instance_type: Gets or sets the instance type. Required.
+    :ivar instance_type: Discriminator property for PolicyModelCustomProperties. Required.
     :vartype instance_type: str
     :ivar recovery_point_history_in_minutes: Gets or sets the duration in minutes until which the
-     recovery points need to be
-     stored. Required.
+     recovery points need to be stored. Required.
     :vartype recovery_point_history_in_minutes: int
     :ivar crash_consistent_frequency_in_minutes: Gets or sets the crash consistent snapshot
      frequency (in minutes). Required.
@@ -5508,7 +6137,7 @@ class VMwareToAzStackHCIPolicyModelCustomProperties(PolicyModelCustomProperties)
     """
 
     _validation = {
-        "instance_type": {"required": True, "min_length": 1},
+        "instance_type": {"required": True},
         "recovery_point_history_in_minutes": {"required": True},
         "crash_consistent_frequency_in_minutes": {"required": True},
         "app_consistent_frequency_in_minutes": {"required": True},
@@ -5531,8 +6160,7 @@ class VMwareToAzStackHCIPolicyModelCustomProperties(PolicyModelCustomProperties)
     ) -> None:
         """
         :keyword recovery_point_history_in_minutes: Gets or sets the duration in minutes until which
-         the recovery points need to be
-         stored. Required.
+         the recovery points need to be stored. Required.
         :paramtype recovery_point_history_in_minutes: int
         :keyword crash_consistent_frequency_in_minutes: Gets or sets the crash consistent snapshot
          frequency (in minutes). Required.
@@ -5548,7 +6176,7 @@ class VMwareToAzStackHCIPolicyModelCustomProperties(PolicyModelCustomProperties)
         self.app_consistent_frequency_in_minutes = app_consistent_frequency_in_minutes
 
 
-class VMwareToAzStackHCIProtectedDiskProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class VMwareToAzStackHCIProtectedDiskProperties(_serialization.Model):  # pylint: disable=name-too-long
     """VMwareToAzStackHCI protected disk properties.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -5572,11 +6200,16 @@ class VMwareToAzStackHCIProtectedDiskProperties(_serialization.Model):  # pylint
     :ivar capacity_in_bytes: Gets or sets the disk capacity in bytes.
     :vartype capacity_in_bytes: int
     :ivar is_dynamic: Gets or sets a value indicating whether dynamic sizing is enabled on the
-     virtual hard
-     disk.
+     virtual hard disk.
     :vartype is_dynamic: bool
     :ivar disk_type: Gets or sets the disk type.
     :vartype disk_type: str
+    :ivar disk_block_size: Gets or sets a value of disk block size.
+    :vartype disk_block_size: int
+    :ivar disk_logical_sector_size: Gets or sets a value of disk logical sector size.
+    :vartype disk_logical_sector_size: int
+    :ivar disk_physical_sector_size: Gets or sets a value of disk physical sector size.
+    :vartype disk_physical_sector_size: int
     """
 
     _validation = {
@@ -5591,6 +6224,9 @@ class VMwareToAzStackHCIProtectedDiskProperties(_serialization.Model):  # pylint
         "capacity_in_bytes": {"readonly": True},
         "is_dynamic": {"readonly": True},
         "disk_type": {"readonly": True},
+        "disk_block_size": {"readonly": True},
+        "disk_logical_sector_size": {"readonly": True},
+        "disk_physical_sector_size": {"readonly": True},
     }
 
     _attribute_map = {
@@ -5605,34 +6241,40 @@ class VMwareToAzStackHCIProtectedDiskProperties(_serialization.Model):  # pylint
         "capacity_in_bytes": {"key": "capacityInBytes", "type": "int"},
         "is_dynamic": {"key": "isDynamic", "type": "bool"},
         "disk_type": {"key": "diskType", "type": "str"},
+        "disk_block_size": {"key": "diskBlockSize", "type": "int"},
+        "disk_logical_sector_size": {"key": "diskLogicalSectorSize", "type": "int"},
+        "disk_physical_sector_size": {"key": "diskPhysicalSectorSize", "type": "int"},
     }
 
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.storage_container_id = None
-        self.storage_container_local_path = None
-        self.source_disk_id = None
-        self.source_disk_name = None
-        self.seed_disk_name = None
-        self.test_migrate_disk_name = None
-        self.migrate_disk_name = None
-        self.is_os_disk = None
-        self.capacity_in_bytes = None
-        self.is_dynamic = None
-        self.disk_type = None
+        self.storage_container_id: Optional[str] = None
+        self.storage_container_local_path: Optional[str] = None
+        self.source_disk_id: Optional[str] = None
+        self.source_disk_name: Optional[str] = None
+        self.seed_disk_name: Optional[str] = None
+        self.test_migrate_disk_name: Optional[str] = None
+        self.migrate_disk_name: Optional[str] = None
+        self.is_os_disk: Optional[bool] = None
+        self.capacity_in_bytes: Optional[int] = None
+        self.is_dynamic: Optional[bool] = None
+        self.disk_type: Optional[str] = None
+        self.disk_block_size: Optional[int] = None
+        self.disk_logical_sector_size: Optional[int] = None
+        self.disk_physical_sector_size: Optional[int] = None
 
 
 class VMwareToAzStackHCIProtectedItemModelCustomProperties(
     ProtectedItemModelCustomProperties
-):  # pylint: disable=too-many-instance-attributes
+):  # pylint: disable=name-too-long
     """VMware to AzStackHCI Protected item model custom properties.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar instance_type: Gets or sets the instance type. Required.
+    :ivar instance_type: Discriminator property for ProtectedItemModelCustomProperties. Required.
     :vartype instance_type: str
     :ivar active_location: Gets or sets the location of the protected item. Known values are:
      "Primary" and "Recovery".
@@ -5702,10 +6344,10 @@ class VMwareToAzStackHCIProtectedItemModelCustomProperties(
     :vartype source_memory_in_mega_bytes: float
     :ivar run_as_account_id: Gets or sets the run as account Id. Required.
     :vartype run_as_account_id: str
-    :ivar source_dra_name: Gets or sets the source DRA name. Required.
-    :vartype source_dra_name: str
-    :ivar target_dra_name: Gets or sets the target DRA name. Required.
-    :vartype target_dra_name: str
+    :ivar source_fabric_agent_name: Gets or sets the source fabric agent name. Required.
+    :vartype source_fabric_agent_name: str
+    :ivar target_fabric_agent_name: Gets or sets the target fabric agent name. Required.
+    :vartype target_fabric_agent_name: str
     :ivar source_appliance_name: Gets or sets the source appliance name.
     :vartype source_appliance_name: str
     :ivar target_appliance_name: Gets or sets the target appliance name.
@@ -5718,16 +6360,14 @@ class VMwareToAzStackHCIProtectedItemModelCustomProperties(
     :ivar last_recovery_point_id: Gets or sets the last recovery point Id.
     :vartype last_recovery_point_id: str
     :ivar initial_replication_progress_percentage: Gets or sets the initial replication progress
-     percentage. This is calculated based on
-     total bytes processed for all disks in the source VM.
+     percentage. This is calculated based on total bytes processed for all disks in the source VM.
     :vartype initial_replication_progress_percentage: int
     :ivar migration_progress_percentage: Gets or sets the migration progress percentage.
     :vartype migration_progress_percentage: int
     :ivar resume_progress_percentage: Gets or sets the resume progress percentage.
     :vartype resume_progress_percentage: int
     :ivar resync_progress_percentage: Gets or sets the resync progress percentage. This is
-     calculated based on total bytes
-     processed for all disks in the source VM.
+     calculated based on total bytes processed for all disks in the source VM.
     :vartype resync_progress_percentage: int
     :ivar resync_retry_count: Gets or sets the resync retry count.
     :vartype resync_retry_count: int
@@ -5747,17 +6387,17 @@ class VMwareToAzStackHCIProtectedItemModelCustomProperties(
     """
 
     _validation = {
-        "instance_type": {"required": True, "min_length": 1},
+        "instance_type": {"required": True},
         "active_location": {"readonly": True},
-        "target_hci_cluster_id": {"required": True, "min_length": 1},
-        "target_arc_cluster_custom_location_id": {"required": True, "min_length": 1},
+        "target_hci_cluster_id": {"required": True},
+        "target_arc_cluster_custom_location_id": {"required": True},
         "target_az_stack_hci_cluster_name": {"readonly": True},
-        "storage_container_id": {"required": True, "min_length": 1},
-        "target_resource_group_id": {"required": True, "min_length": 1},
+        "storage_container_id": {"required": True},
+        "target_resource_group_id": {"required": True},
         "target_location": {"readonly": True},
         "custom_location_region": {"required": True, "min_length": 1},
-        "disks_to_include": {"required": True, "min_items": 1},
-        "nics_to_include": {"required": True, "min_items": 1},
+        "disks_to_include": {"required": True},
+        "nics_to_include": {"required": True},
         "protected_disks": {"readonly": True},
         "protected_nics": {"readonly": True},
         "target_vm_bios_id": {"readonly": True},
@@ -5765,13 +6405,13 @@ class VMwareToAzStackHCIProtectedItemModelCustomProperties(
         "os_type": {"readonly": True},
         "os_name": {"readonly": True},
         "firmware_type": {"readonly": True},
-        "fabric_discovery_machine_id": {"required": True, "min_length": 1},
+        "fabric_discovery_machine_id": {"required": True},
         "source_vm_name": {"readonly": True},
         "source_cpu_cores": {"readonly": True},
         "source_memory_in_mega_bytes": {"readonly": True},
         "run_as_account_id": {"required": True, "min_length": 1},
-        "source_dra_name": {"required": True, "min_length": 1},
-        "target_dra_name": {"required": True, "min_length": 1},
+        "source_fabric_agent_name": {"required": True, "min_length": 1},
+        "target_fabric_agent_name": {"required": True, "min_length": 1},
         "source_appliance_name": {"readonly": True},
         "target_appliance_name": {"readonly": True},
         "failover_recovery_point_id": {"readonly": True},
@@ -5819,8 +6459,8 @@ class VMwareToAzStackHCIProtectedItemModelCustomProperties(
         "source_cpu_cores": {"key": "sourceCpuCores", "type": "int"},
         "source_memory_in_mega_bytes": {"key": "sourceMemoryInMegaBytes", "type": "float"},
         "run_as_account_id": {"key": "runAsAccountId", "type": "str"},
-        "source_dra_name": {"key": "sourceDraName", "type": "str"},
-        "target_dra_name": {"key": "targetDraName", "type": "str"},
+        "source_fabric_agent_name": {"key": "sourceFabricAgentName", "type": "str"},
+        "target_fabric_agent_name": {"key": "targetFabricAgentName", "type": "str"},
         "source_appliance_name": {"key": "sourceApplianceName", "type": "str"},
         "target_appliance_name": {"key": "targetApplianceName", "type": "str"},
         "failover_recovery_point_id": {"key": "failoverRecoveryPointId", "type": "str"},
@@ -5851,8 +6491,8 @@ class VMwareToAzStackHCIProtectedItemModelCustomProperties(
         hyper_v_generation: str,
         fabric_discovery_machine_id: str,
         run_as_account_id: str,
-        source_dra_name: str,
-        target_dra_name: str,
+        source_fabric_agent_name: str,
+        target_fabric_agent_name: str,
         target_vm_name: Optional[str] = None,
         target_network_id: Optional[str] = None,
         test_network_id: Optional[str] = None,
@@ -5905,29 +6545,29 @@ class VMwareToAzStackHCIProtectedItemModelCustomProperties(
         :paramtype fabric_discovery_machine_id: str
         :keyword run_as_account_id: Gets or sets the run as account Id. Required.
         :paramtype run_as_account_id: str
-        :keyword source_dra_name: Gets or sets the source DRA name. Required.
-        :paramtype source_dra_name: str
-        :keyword target_dra_name: Gets or sets the target DRA name. Required.
-        :paramtype target_dra_name: str
+        :keyword source_fabric_agent_name: Gets or sets the source fabric agent name. Required.
+        :paramtype source_fabric_agent_name: str
+        :keyword target_fabric_agent_name: Gets or sets the target fabric agent name. Required.
+        :paramtype target_fabric_agent_name: str
         :keyword perform_auto_resync: Gets or sets a value indicating whether auto resync is to be
          done.
         :paramtype perform_auto_resync: bool
         """
         super().__init__(**kwargs)
         self.instance_type: str = "VMwareToAzStackHCI"
-        self.active_location = None
+        self.active_location: Optional[Union[str, "_models.ProtectedItemActiveLocation"]] = None
         self.target_hci_cluster_id = target_hci_cluster_id
         self.target_arc_cluster_custom_location_id = target_arc_cluster_custom_location_id
-        self.target_az_stack_hci_cluster_name = None
+        self.target_az_stack_hci_cluster_name: Optional[str] = None
         self.storage_container_id = storage_container_id
         self.target_resource_group_id = target_resource_group_id
-        self.target_location = None
+        self.target_location: Optional[str] = None
         self.custom_location_region = custom_location_region
         self.disks_to_include = disks_to_include
         self.nics_to_include = nics_to_include
-        self.protected_disks = None
-        self.protected_nics = None
-        self.target_vm_bios_id = None
+        self.protected_disks: Optional[List["_models.VMwareToAzStackHCIProtectedDiskProperties"]] = None
+        self.protected_nics: Optional[List["_models.VMwareToAzStackHCIProtectedNicProperties"]] = None
+        self.target_vm_bios_id: Optional[str] = None
         self.target_vm_name = target_vm_name
         self.hyper_v_generation = hyper_v_generation
         self.target_network_id = target_network_id
@@ -5936,31 +6576,108 @@ class VMwareToAzStackHCIProtectedItemModelCustomProperties(
         self.is_dynamic_ram = is_dynamic_ram
         self.dynamic_memory_config = dynamic_memory_config
         self.target_memory_in_mega_bytes = target_memory_in_mega_bytes
-        self.os_type = None
-        self.os_name = None
-        self.firmware_type = None
+        self.os_type: Optional[str] = None
+        self.os_name: Optional[str] = None
+        self.firmware_type: Optional[str] = None
         self.fabric_discovery_machine_id = fabric_discovery_machine_id
-        self.source_vm_name = None
-        self.source_cpu_cores = None
-        self.source_memory_in_mega_bytes = None
+        self.source_vm_name: Optional[str] = None
+        self.source_cpu_cores: Optional[int] = None
+        self.source_memory_in_mega_bytes: Optional[float] = None
         self.run_as_account_id = run_as_account_id
-        self.source_dra_name = source_dra_name
-        self.target_dra_name = target_dra_name
-        self.source_appliance_name = None
-        self.target_appliance_name = None
-        self.failover_recovery_point_id = None
-        self.last_recovery_point_received = None
-        self.last_recovery_point_id = None
-        self.initial_replication_progress_percentage = None
-        self.migration_progress_percentage = None
-        self.resume_progress_percentage = None
-        self.resync_progress_percentage = None
-        self.resync_retry_count = None
-        self.resync_required = None
-        self.resync_state = None
+        self.source_fabric_agent_name = source_fabric_agent_name
+        self.target_fabric_agent_name = target_fabric_agent_name
+        self.source_appliance_name: Optional[str] = None
+        self.target_appliance_name: Optional[str] = None
+        self.failover_recovery_point_id: Optional[str] = None
+        self.last_recovery_point_received: Optional[datetime.datetime] = None
+        self.last_recovery_point_id: Optional[str] = None
+        self.initial_replication_progress_percentage: Optional[int] = None
+        self.migration_progress_percentage: Optional[int] = None
+        self.resume_progress_percentage: Optional[int] = None
+        self.resync_progress_percentage: Optional[int] = None
+        self.resync_retry_count: Optional[int] = None
+        self.resync_required: Optional[bool] = None
+        self.resync_state: Optional[Union[str, "_models.VMwareToAzureMigrateResyncState"]] = None
         self.perform_auto_resync = perform_auto_resync
-        self.resume_retry_count = None
-        self.last_replication_update_time = None
+        self.resume_retry_count: Optional[int] = None
+        self.last_replication_update_time: Optional[datetime.datetime] = None
+
+
+class VMwareToAzStackHCIProtectedItemModelCustomPropertiesUpdate(
+    ProtectedItemModelCustomPropertiesUpdate
+):  # pylint: disable=name-too-long
+    """VMware to AzStackHCI Protected item model custom properties.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar instance_type: Discriminator property for ProtectedItemModelCustomPropertiesUpdate.
+     Required.
+    :vartype instance_type: str
+    :ivar nics_to_include: Gets or sets the list of VM NIC to replicate.
+    :vartype nics_to_include:
+     list[~azure.mgmt.recoveryservicesdatareplication.models.VMwareToAzStackHCINicInput]
+    :ivar target_cpu_cores: Gets or sets the target CPU cores.
+    :vartype target_cpu_cores: int
+    :ivar is_dynamic_ram: Gets or sets a value indicating whether memory is dynamical.
+    :vartype is_dynamic_ram: bool
+    :ivar dynamic_memory_config: Protected item dynamic memory config.
+    :vartype dynamic_memory_config:
+     ~azure.mgmt.recoveryservicesdatareplication.models.ProtectedItemDynamicMemoryConfig
+    :ivar target_memory_in_mega_bytes: Gets or sets the target memory in mega-bytes.
+    :vartype target_memory_in_mega_bytes: int
+    :ivar os_type: Gets or sets the type of the OS.
+    :vartype os_type: str
+    """
+
+    _validation = {
+        "instance_type": {"required": True},
+    }
+
+    _attribute_map = {
+        "instance_type": {"key": "instanceType", "type": "str"},
+        "nics_to_include": {"key": "nicsToInclude", "type": "[VMwareToAzStackHCINicInput]"},
+        "target_cpu_cores": {"key": "targetCpuCores", "type": "int"},
+        "is_dynamic_ram": {"key": "isDynamicRam", "type": "bool"},
+        "dynamic_memory_config": {"key": "dynamicMemoryConfig", "type": "ProtectedItemDynamicMemoryConfig"},
+        "target_memory_in_mega_bytes": {"key": "targetMemoryInMegaBytes", "type": "int"},
+        "os_type": {"key": "osType", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        nics_to_include: Optional[List["_models.VMwareToAzStackHCINicInput"]] = None,
+        target_cpu_cores: Optional[int] = None,
+        is_dynamic_ram: Optional[bool] = None,
+        dynamic_memory_config: Optional["_models.ProtectedItemDynamicMemoryConfig"] = None,
+        target_memory_in_mega_bytes: Optional[int] = None,
+        os_type: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword nics_to_include: Gets or sets the list of VM NIC to replicate.
+        :paramtype nics_to_include:
+         list[~azure.mgmt.recoveryservicesdatareplication.models.VMwareToAzStackHCINicInput]
+        :keyword target_cpu_cores: Gets or sets the target CPU cores.
+        :paramtype target_cpu_cores: int
+        :keyword is_dynamic_ram: Gets or sets a value indicating whether memory is dynamical.
+        :paramtype is_dynamic_ram: bool
+        :keyword dynamic_memory_config: Protected item dynamic memory config.
+        :paramtype dynamic_memory_config:
+         ~azure.mgmt.recoveryservicesdatareplication.models.ProtectedItemDynamicMemoryConfig
+        :keyword target_memory_in_mega_bytes: Gets or sets the target memory in mega-bytes.
+        :paramtype target_memory_in_mega_bytes: int
+        :keyword os_type: Gets or sets the type of the OS.
+        :paramtype os_type: str
+        """
+        super().__init__(**kwargs)
+        self.instance_type: str = "VMwareToAzStackHCI"
+        self.nics_to_include = nics_to_include
+        self.target_cpu_cores = target_cpu_cores
+        self.is_dynamic_ram = is_dynamic_ram
+        self.dynamic_memory_config = dynamic_memory_config
+        self.target_memory_in_mega_bytes = target_memory_in_mega_bytes
+        self.os_type = os_type
 
 
 class VMwareToAzStackHCIProtectedNicProperties(_serialization.Model):
@@ -6015,26 +6732,59 @@ class VMwareToAzStackHCIProtectedNicProperties(_serialization.Model):
         :paramtype is_primary_nic: bool
         """
         super().__init__(**kwargs)
-        self.nic_id = None
-        self.mac_address = None
-        self.label = None
+        self.nic_id: Optional[str] = None
+        self.mac_address: Optional[str] = None
+        self.label: Optional[str] = None
         self.is_primary_nic = is_primary_nic
-        self.network_name = None
-        self.target_network_id = None
-        self.test_network_id = None
-        self.selection_type_for_failover = None
+        self.network_name: Optional[str] = None
+        self.target_network_id: Optional[str] = None
+        self.test_network_id: Optional[str] = None
+        self.selection_type_for_failover: Optional[Union[str, "_models.VMNicSelection"]] = None
+
+
+class VMwareToAzStackHCIRecoveryPointModelCustomProperties(
+    RecoveryPointModelCustomProperties
+):  # pylint: disable=name-too-long
+    """VMware to AzStackHCI recovery point model custom properties.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar instance_type: Discriminator property for RecoveryPointModelCustomProperties. Required.
+    :vartype instance_type: str
+    :ivar disk_ids: Gets or sets the list of the disk Ids.
+    :vartype disk_ids: list[str]
+    """
+
+    _validation = {
+        "instance_type": {"required": True},
+        "disk_ids": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "instance_type": {"key": "instanceType", "type": "str"},
+        "disk_ids": {"key": "diskIds", "type": "[str]"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.instance_type: str = "VMwareToAzStackHCIRecoveryPointModelCustomProperties"
+        self.disk_ids: Optional[List[str]] = None
 
 
 class VMwareToAzStackHCIReplicationExtensionModelCustomProperties(
     ReplicationExtensionModelCustomProperties
-):  # pylint: disable=too-many-instance-attributes
+):  # pylint: disable=name-too-long
     """VMware to AzStackHCI Replication extension model custom properties.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar instance_type: Gets or sets the instance type. Required.
+    :ivar instance_type: Discriminator property for ReplicationExtensionModelCustomProperties.
+     Required.
     :vartype instance_type: str
     :ivar vmware_fabric_arm_id: Gets or sets the ARM Id of the source VMware fabric. Required.
     :vartype vmware_fabric_arm_id: str
@@ -6072,10 +6822,10 @@ class VMwareToAzStackHCIReplicationExtensionModelCustomProperties(
     """
 
     _validation = {
-        "instance_type": {"required": True, "min_length": 1},
-        "vmware_fabric_arm_id": {"required": True, "min_length": 1},
+        "instance_type": {"required": True},
+        "vmware_fabric_arm_id": {"required": True},
         "vmware_site_id": {"readonly": True},
-        "az_stack_hci_fabric_arm_id": {"required": True, "min_length": 1},
+        "az_stack_hci_fabric_arm_id": {"required": True},
         "az_stack_hci_site_id": {"readonly": True},
         "asr_service_uri": {"readonly": True},
         "rcm_service_uri": {"readonly": True},
@@ -6132,280 +6882,18 @@ class VMwareToAzStackHCIReplicationExtensionModelCustomProperties(
         super().__init__(**kwargs)
         self.instance_type: str = "VMwareToAzStackHCI"
         self.vmware_fabric_arm_id = vmware_fabric_arm_id
-        self.vmware_site_id = None
+        self.vmware_site_id: Optional[str] = None
         self.az_stack_hci_fabric_arm_id = az_stack_hci_fabric_arm_id
-        self.az_stack_hci_site_id = None
+        self.az_stack_hci_site_id: Optional[str] = None
         self.storage_account_id = storage_account_id
         self.storage_account_sas_secret_name = storage_account_sas_secret_name
-        self.asr_service_uri = None
-        self.rcm_service_uri = None
-        self.gateway_service_uri = None
-        self.source_gateway_service_id = None
-        self.target_gateway_service_id = None
-        self.source_storage_container_name = None
-        self.target_storage_container_name = None
-        self.resource_location = None
-        self.subscription_id = None
-        self.resource_group = None
-
-
-class WorkflowModel(_serialization.Model):
-    """Workflow model.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar properties: Workflow model properties. Required.
-    :vartype properties: ~azure.mgmt.recoveryservicesdatareplication.models.WorkflowModelProperties
-    :ivar id: Gets or sets the Id of the resource.
-    :vartype id: str
-    :ivar name: Gets or sets the name of the resource.
-    :vartype name: str
-    :ivar type: Gets or sets the type of the resource.
-    :vartype type: str
-    :ivar system_data:
-    :vartype system_data:
-     ~azure.mgmt.recoveryservicesdatareplication.models.WorkflowModelSystemData
-    """
-
-    _validation = {
-        "properties": {"required": True},
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-        "system_data": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "properties": {"key": "properties", "type": "WorkflowModelProperties"},
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "system_data": {"key": "systemData", "type": "WorkflowModelSystemData"},
-    }
-
-    def __init__(self, *, properties: "_models.WorkflowModelProperties", **kwargs: Any) -> None:
-        """
-        :keyword properties: Workflow model properties. Required.
-        :paramtype properties:
-         ~azure.mgmt.recoveryservicesdatareplication.models.WorkflowModelProperties
-        """
-        super().__init__(**kwargs)
-        self.properties = properties
-        self.id = None
-        self.name = None
-        self.type = None
-        self.system_data = None
-
-
-class WorkflowModelCollection(_serialization.Model):
-    """Workflow model collection.
-
-    :ivar value: Gets or sets the list of workflows.
-    :vartype value: list[~azure.mgmt.recoveryservicesdatareplication.models.WorkflowModel]
-    :ivar next_link: Gets or sets the value of next link.
-    :vartype next_link: str
-    """
-
-    _attribute_map = {
-        "value": {"key": "value", "type": "[WorkflowModel]"},
-        "next_link": {"key": "nextLink", "type": "str"},
-    }
-
-    def __init__(
-        self, *, value: Optional[List["_models.WorkflowModel"]] = None, next_link: Optional[str] = None, **kwargs: Any
-    ) -> None:
-        """
-        :keyword value: Gets or sets the list of workflows.
-        :paramtype value: list[~azure.mgmt.recoveryservicesdatareplication.models.WorkflowModel]
-        :keyword next_link: Gets or sets the value of next link.
-        :paramtype next_link: str
-        """
-        super().__init__(**kwargs)
-        self.value = value
-        self.next_link = next_link
-
-
-class WorkflowModelProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
-    """Workflow model properties.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar display_name: Gets or sets the friendly display name.
-    :vartype display_name: str
-    :ivar state: Gets or sets the workflow state. Known values are: "Pending", "Started",
-     "Cancelling", "Succeeded", "Failed", "Cancelled", "CompletedWithInformation",
-     "CompletedWithWarnings", and "CompletedWithErrors".
-    :vartype state: str or ~azure.mgmt.recoveryservicesdatareplication.models.WorkflowState
-    :ivar start_time: Gets or sets the start time.
-    :vartype start_time: ~datetime.datetime
-    :ivar end_time: Gets or sets the end time.
-    :vartype end_time: ~datetime.datetime
-    :ivar object_id: Gets or sets the affected object Id.
-    :vartype object_id: str
-    :ivar object_name: Gets or sets the affected object name.
-    :vartype object_name: str
-    :ivar object_internal_id: Gets or sets the affected object internal Id.
-    :vartype object_internal_id: str
-    :ivar object_internal_name: Gets or sets the affected object internal name.
-    :vartype object_internal_name: str
-    :ivar object_type: Gets or sets the object type. Known values are: "AvsDiskPool", "Dra",
-     "Fabric", "Policy", "ProtectedItem", "RecoveryPlan", "ReplicationExtension", and "Vault".
-    :vartype object_type: str or
-     ~azure.mgmt.recoveryservicesdatareplication.models.WorkflowObjectType
-    :ivar replication_provider_id: Gets or sets the replication provider.
-    :vartype replication_provider_id: str
-    :ivar source_fabric_provider_id: Gets or sets the source fabric provider.
-    :vartype source_fabric_provider_id: str
-    :ivar target_fabric_provider_id: Gets or sets the target fabric provider.
-    :vartype target_fabric_provider_id: str
-    :ivar allowed_actions: Gets or sets the list of allowed actions on the workflow.
-    :vartype allowed_actions: list[str]
-    :ivar activity_id: Gets or sets the workflow activity id.
-    :vartype activity_id: str
-    :ivar tasks: Gets or sets the list of tasks.
-    :vartype tasks: list[~azure.mgmt.recoveryservicesdatareplication.models.TaskModel]
-    :ivar errors: Gets or sets the list of errors.
-    :vartype errors: list[~azure.mgmt.recoveryservicesdatareplication.models.ErrorModel]
-    :ivar custom_properties: Workflow model custom properties. Required.
-    :vartype custom_properties:
-     ~azure.mgmt.recoveryservicesdatareplication.models.WorkflowModelCustomProperties
-    """
-
-    _validation = {
-        "display_name": {"readonly": True},
-        "state": {"readonly": True},
-        "start_time": {"readonly": True},
-        "end_time": {"readonly": True},
-        "object_id": {"readonly": True},
-        "object_name": {"readonly": True},
-        "object_internal_id": {"readonly": True},
-        "object_internal_name": {"readonly": True},
-        "object_type": {"readonly": True},
-        "replication_provider_id": {"readonly": True},
-        "source_fabric_provider_id": {"readonly": True},
-        "target_fabric_provider_id": {"readonly": True},
-        "allowed_actions": {"readonly": True},
-        "activity_id": {"readonly": True},
-        "tasks": {"readonly": True},
-        "errors": {"readonly": True},
-        "custom_properties": {"required": True},
-    }
-
-    _attribute_map = {
-        "display_name": {"key": "displayName", "type": "str"},
-        "state": {"key": "state", "type": "str"},
-        "start_time": {"key": "startTime", "type": "iso-8601"},
-        "end_time": {"key": "endTime", "type": "iso-8601"},
-        "object_id": {"key": "objectId", "type": "str"},
-        "object_name": {"key": "objectName", "type": "str"},
-        "object_internal_id": {"key": "objectInternalId", "type": "str"},
-        "object_internal_name": {"key": "objectInternalName", "type": "str"},
-        "object_type": {"key": "objectType", "type": "str"},
-        "replication_provider_id": {"key": "replicationProviderId", "type": "str"},
-        "source_fabric_provider_id": {"key": "sourceFabricProviderId", "type": "str"},
-        "target_fabric_provider_id": {"key": "targetFabricProviderId", "type": "str"},
-        "allowed_actions": {"key": "allowedActions", "type": "[str]"},
-        "activity_id": {"key": "activityId", "type": "str"},
-        "tasks": {"key": "tasks", "type": "[TaskModel]"},
-        "errors": {"key": "errors", "type": "[ErrorModel]"},
-        "custom_properties": {"key": "customProperties", "type": "WorkflowModelCustomProperties"},
-    }
-
-    def __init__(self, *, custom_properties: "_models.WorkflowModelCustomProperties", **kwargs: Any) -> None:
-        """
-        :keyword custom_properties: Workflow model custom properties. Required.
-        :paramtype custom_properties:
-         ~azure.mgmt.recoveryservicesdatareplication.models.WorkflowModelCustomProperties
-        """
-        super().__init__(**kwargs)
-        self.display_name = None
-        self.state = None
-        self.start_time = None
-        self.end_time = None
-        self.object_id = None
-        self.object_name = None
-        self.object_internal_id = None
-        self.object_internal_name = None
-        self.object_type = None
-        self.replication_provider_id = None
-        self.source_fabric_provider_id = None
-        self.target_fabric_provider_id = None
-        self.allowed_actions = None
-        self.activity_id = None
-        self.tasks = None
-        self.errors = None
-        self.custom_properties = custom_properties
-
-
-class WorkflowModelSystemData(SystemDataModel):
-    """WorkflowModelSystemData.
-
-    :ivar created_by: Gets or sets identity that created the resource.
-    :vartype created_by: str
-    :ivar created_by_type: Gets or sets the type of identity that created the resource: user,
-     application,
-     managedIdentity.
-    :vartype created_by_type: str
-    :ivar created_at: Gets or sets the timestamp of resource creation (UTC).
-    :vartype created_at: ~datetime.datetime
-    :ivar last_modified_by: Gets or sets the identity that last modified the resource.
-    :vartype last_modified_by: str
-    :ivar last_modified_by_type: Gets or sets the type of identity that last modified the resource:
-     user, application,
-     managedIdentity.
-    :vartype last_modified_by_type: str
-    :ivar last_modified_at: Gets or sets the timestamp of resource last modification (UTC).
-    :vartype last_modified_at: ~datetime.datetime
-    """
-
-    _attribute_map = {
-        "created_by": {"key": "createdBy", "type": "str"},
-        "created_by_type": {"key": "createdByType", "type": "str"},
-        "created_at": {"key": "createdAt", "type": "iso-8601"},
-        "last_modified_by": {"key": "lastModifiedBy", "type": "str"},
-        "last_modified_by_type": {"key": "lastModifiedByType", "type": "str"},
-        "last_modified_at": {"key": "lastModifiedAt", "type": "iso-8601"},
-    }
-
-    def __init__(
-        self,
-        *,
-        created_by: Optional[str] = None,
-        created_by_type: Optional[str] = None,
-        created_at: Optional[datetime.datetime] = None,
-        last_modified_by: Optional[str] = None,
-        last_modified_by_type: Optional[str] = None,
-        last_modified_at: Optional[datetime.datetime] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword created_by: Gets or sets identity that created the resource.
-        :paramtype created_by: str
-        :keyword created_by_type: Gets or sets the type of identity that created the resource: user,
-         application,
-         managedIdentity.
-        :paramtype created_by_type: str
-        :keyword created_at: Gets or sets the timestamp of resource creation (UTC).
-        :paramtype created_at: ~datetime.datetime
-        :keyword last_modified_by: Gets or sets the identity that last modified the resource.
-        :paramtype last_modified_by: str
-        :keyword last_modified_by_type: Gets or sets the type of identity that last modified the
-         resource: user, application,
-         managedIdentity.
-        :paramtype last_modified_by_type: str
-        :keyword last_modified_at: Gets or sets the timestamp of resource last modification (UTC).
-        :paramtype last_modified_at: ~datetime.datetime
-        """
-        super().__init__(
-            created_by=created_by,
-            created_by_type=created_by_type,
-            created_at=created_at,
-            last_modified_by=last_modified_by,
-            last_modified_by_type=last_modified_by_type,
-            last_modified_at=last_modified_at,
-            **kwargs
-        )
+        self.asr_service_uri: Optional[str] = None
+        self.rcm_service_uri: Optional[str] = None
+        self.gateway_service_uri: Optional[str] = None
+        self.source_gateway_service_id: Optional[str] = None
+        self.target_gateway_service_id: Optional[str] = None
+        self.source_storage_container_name: Optional[str] = None
+        self.target_storage_container_name: Optional[str] = None
+        self.resource_location: Optional[str] = None
+        self.subscription_id: Optional[str] = None
+        self.resource_group: Optional[str] = None
