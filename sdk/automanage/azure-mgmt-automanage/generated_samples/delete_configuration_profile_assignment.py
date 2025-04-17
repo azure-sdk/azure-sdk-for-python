@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,6 +8,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.automanage import AutomanageClient
 
 """
@@ -29,12 +31,11 @@ def main():
         subscription_id="mySubscriptionId",
     )
 
-    response = client.configuration_profile_assignments.delete(
+    client.configuration_profile_assignments.delete(
         resource_group_name="myResourceGroupName",
         configuration_profile_assignment_name="default",
         vm_name="myVMName",
     )
-    print(response)
 
 
 # x-ms-original-file: specification/automanage/resource-manager/Microsoft.Automanage/stable/2022-05-04/examples/deleteConfigurationProfileAssignment.json
