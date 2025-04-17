@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=line-too-long,useless-suppression,too-many-lines
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,20 +7,15 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from collections.abc import MutableMapping
 import datetime
-import sys
 from typing import Any, Dict, List, Literal, Optional, TYPE_CHECKING, Union
 
 from ... import _serialization
 
-if sys.version_info >= (3, 9):
-    from collections.abc import MutableMapping
-else:
-    from typing import MutableMapping  # type: ignore
-
 if TYPE_CHECKING:
     from .. import models as _models
-JSON = MutableMapping[str, Any]  # pylint: disable=unsubscriptable-object
+JSON = MutableMapping[str, Any]
 
 
 class AccessKeys(_serialization.Model):
@@ -73,13 +68,13 @@ class AccessKeys(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.primary_connection_string = None
-        self.secondary_connection_string = None
-        self.alias_primary_connection_string = None
-        self.alias_secondary_connection_string = None
-        self.primary_key = None
-        self.secondary_key = None
-        self.key_name = None
+        self.primary_connection_string: Optional[str] = None
+        self.secondary_connection_string: Optional[str] = None
+        self.alias_primary_connection_string: Optional[str] = None
+        self.alias_secondary_connection_string: Optional[str] = None
+        self.primary_key: Optional[str] = None
+        self.secondary_key: Optional[str] = None
+        self.key_name: Optional[str] = None
 
 
 class ProxyResource(_serialization.Model):
@@ -88,7 +83,7 @@ class ProxyResource(_serialization.Model):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -116,10 +111,10 @@ class ProxyResource(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
-        self.location = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
+        self.location: Optional[str] = None
 
 
 class ApplicationGroup(ProxyResource):
@@ -128,7 +123,7 @@ class ApplicationGroup(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -192,7 +187,7 @@ class ApplicationGroup(ProxyResource):
          list[~azure.mgmt.eventhub.v2022_01_01_preview.models.ApplicationGroupPolicy]
         """
         super().__init__(**kwargs)
-        self.system_data = None
+        self.system_data: Optional["_models.SystemData"] = None
         self.is_enabled = is_enabled
         self.client_app_group_identifier = client_app_group_identifier
         self.policies = policies
@@ -226,7 +221,7 @@ class ApplicationGroupListResult(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class ApplicationGroupPolicy(_serialization.Model):
@@ -272,7 +267,7 @@ class ArmDisasterRecovery(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -335,12 +330,12 @@ class ArmDisasterRecovery(ProxyResource):
         :paramtype alternate_name: str
         """
         super().__init__(**kwargs)
-        self.system_data = None
-        self.provisioning_state = None
+        self.system_data: Optional["_models.SystemData"] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningStateDR"]] = None
         self.partner_namespace = partner_namespace
         self.alternate_name = alternate_name
-        self.role = None
-        self.pending_replication_operations_count = None
+        self.role: Optional[Union[str, "_models.RoleDisasterRecovery"]] = None
+        self.pending_replication_operations_count: Optional[int] = None
 
 
 class ArmDisasterRecoveryListResult(_serialization.Model):
@@ -371,7 +366,7 @@ class ArmDisasterRecoveryListResult(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class AuthorizationRule(ProxyResource):
@@ -380,7 +375,7 @@ class AuthorizationRule(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -418,7 +413,7 @@ class AuthorizationRule(ProxyResource):
         :paramtype rights: list[str or ~azure.mgmt.eventhub.v2022_01_01_preview.models.AccessRights]
         """
         super().__init__(**kwargs)
-        self.system_data = None
+        self.system_data: Optional["_models.SystemData"] = None
         self.rights = rights
 
 
@@ -638,7 +633,7 @@ class CheckNameAvailabilityResult(_serialization.Model):
         :paramtype reason: str or ~azure.mgmt.eventhub.v2022_01_01_preview.models.UnavailableReason
         """
         super().__init__(**kwargs)
-        self.message = None
+        self.message: Optional[str] = None
         self.name_available = name_available
         self.reason = reason
 
@@ -649,7 +644,7 @@ class Resource(_serialization.Model):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -673,9 +668,9 @@ class Resource(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
 
 
 class TrackedResource(Resource):
@@ -684,7 +679,7 @@ class TrackedResource(Resource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -729,7 +724,7 @@ class Cluster(TrackedResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -804,11 +799,11 @@ class Cluster(TrackedResource):
         """
         super().__init__(location=location, tags=tags, **kwargs)
         self.sku = sku
-        self.system_data = None
-        self.created_at = None
-        self.updated_at = None
-        self.metric_id = None
-        self.status = None
+        self.system_data: Optional["_models.SystemData"] = None
+        self.created_at: Optional[str] = None
+        self.updated_at: Optional[str] = None
+        self.metric_id: Optional[str] = None
+        self.status: Optional[str] = None
         self.supports_scaling = supports_scaling
 
 
@@ -941,7 +936,7 @@ class ConsumerGroup(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -991,9 +986,9 @@ class ConsumerGroup(ProxyResource):
         :paramtype user_metadata: str
         """
         super().__init__(**kwargs)
-        self.system_data = None
-        self.created_at = None
-        self.updated_at = None
+        self.system_data: Optional["_models.SystemData"] = None
+        self.created_at: Optional[datetime.datetime] = None
+        self.updated_at: Optional[datetime.datetime] = None
         self.user_metadata = user_metadata
 
 
@@ -1106,7 +1101,7 @@ class EHNamespace(TrackedResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1275,15 +1270,15 @@ class EHNamespace(TrackedResource):
         super().__init__(location=location, tags=tags, **kwargs)
         self.sku = sku
         self.identity = identity
-        self.system_data = None
+        self.system_data: Optional["_models.SystemData"] = None
         self.minimum_tls_version = minimum_tls_version
-        self.provisioning_state = None
-        self.status = None
-        self.created_at = None
-        self.updated_at = None
-        self.service_bus_endpoint = None
+        self.provisioning_state: Optional[str] = None
+        self.status: Optional[str] = None
+        self.created_at: Optional[datetime.datetime] = None
+        self.updated_at: Optional[datetime.datetime] = None
+        self.service_bus_endpoint: Optional[str] = None
         self.cluster_arm_id = cluster_arm_id
-        self.metric_id = None
+        self.metric_id: Optional[str] = None
         self.is_auto_inflate_enabled = is_auto_inflate_enabled
         self.public_network_access = public_network_access
         self.maximum_throughput_units = maximum_throughput_units
@@ -1433,8 +1428,8 @@ class ErrorAdditionalInfo(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.type = None
-        self.info = None
+        self.type: Optional[str] = None
+        self.info: Optional[JSON] = None
 
 
 class ErrorDetail(_serialization.Model):
@@ -1474,11 +1469,11 @@ class ErrorDetail(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.code = None
-        self.message = None
-        self.target = None
-        self.details = None
-        self.additional_info = None
+        self.code: Optional[str] = None
+        self.message: Optional[str] = None
+        self.target: Optional[str] = None
+        self.details: Optional[List["_models.ErrorDetail"]] = None
+        self.additional_info: Optional[List["_models.ErrorAdditionalInfo"]] = None
 
 
 class ErrorResponse(_serialization.Model):
@@ -1508,7 +1503,7 @@ class Eventhub(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1593,10 +1588,10 @@ class Eventhub(ProxyResource):
          ~azure.mgmt.eventhub.v2022_01_01_preview.models.CaptureDescription
         """
         super().__init__(**kwargs)
-        self.system_data = None
-        self.partition_ids = None
-        self.created_at = None
-        self.updated_at = None
+        self.system_data: Optional["_models.SystemData"] = None
+        self.partition_ids: Optional[List[str]] = None
+        self.created_at: Optional[datetime.datetime] = None
+        self.updated_at: Optional[datetime.datetime] = None
         self.message_retention_in_days = message_retention_in_days
         self.partition_count = partition_count
         self.status = status
@@ -1680,8 +1675,8 @@ class Identity(_serialization.Model):
          ~azure.mgmt.eventhub.v2022_01_01_preview.models.UserAssignedIdentity]
         """
         super().__init__(**kwargs)
-        self.principal_id = None
-        self.tenant_id = None
+        self.principal_id: Optional[str] = None
+        self.tenant_id: Optional[str] = None
         self.type = type
         self.user_assigned_identities = user_assigned_identities
 
@@ -1740,7 +1735,7 @@ class NetworkRuleSet(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1821,7 +1816,7 @@ class NetworkRuleSet(ProxyResource):
          ~azure.mgmt.eventhub.v2022_01_01_preview.models.PublicNetworkAccessFlag
         """
         super().__init__(**kwargs)
-        self.system_data = None
+        self.system_data: Optional["_models.SystemData"] = None
         self.trusted_service_access_enabled = trusted_service_access_enabled
         self.default_action = default_action
         self.virtual_network_rules = virtual_network_rules
@@ -1904,7 +1899,7 @@ class NetworkSecurityPerimeterConfiguration(TrackedResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1992,9 +1987,11 @@ class NetworkSecurityPerimeterConfiguration(TrackedResource):
         super().__init__(location=location, tags=tags, **kwargs)
         self.provisioning_state = provisioning_state
         self.provisioning_issues = provisioning_issues
-        self.network_security_perimeter = None
-        self.resource_association = None
-        self.profile = None
+        self.network_security_perimeter: Optional["_models.NetworkSecurityPerimeter"] = None
+        self.resource_association: Optional[
+            "_models.NetworkSecurityPerimeterConfigurationPropertiesResourceAssociation"
+        ] = None
+        self.profile: Optional["_models.NetworkSecurityPerimeterConfigurationPropertiesProfile"] = None
 
 
 class NetworkSecurityPerimeterConfigurationList(_serialization.Model):  # pylint: disable=name-too-long
@@ -2018,7 +2015,7 @@ class NetworkSecurityPerimeterConfigurationList(_serialization.Model):  # pylint
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.value = None
+        self.value: Optional[List["_models.NetworkSecurityPerimeterConfiguration"]] = None
 
 
 class NetworkSecurityPerimeterConfigurationPropertiesProfile(_serialization.Model):  # pylint: disable=name-too-long
@@ -2144,7 +2141,7 @@ class NspAccessRule(_serialization.Model):
         self.id = id
         self.name = name
         self.type = type
-        self.properties = None
+        self.properties: Optional["_models.NspAccessRuleProperties"] = None
 
 
 class NspAccessRuleProperties(_serialization.Model):
@@ -2202,8 +2199,8 @@ class NspAccessRuleProperties(_serialization.Model):
         self.direction = direction
         self.address_prefixes = address_prefixes
         self.subscriptions = subscriptions
-        self.network_security_perimeters = None
-        self.fully_qualified_domain_names = None
+        self.network_security_perimeters: Optional[List["_models.NetworkSecurityPerimeter"]] = None
+        self.fully_qualified_domain_names: Optional[List[str]] = None
 
 
 class NspAccessRulePropertiesSubscriptionsItem(_serialization.Model):
@@ -2341,7 +2338,7 @@ class Operation(_serialization.Model):
         :paramtype properties: JSON
         """
         super().__init__(**kwargs)
-        self.name = None
+        self.name: Optional[str] = None
         self.is_data_action = is_data_action
         self.display = display
         self.origin = origin
@@ -2380,10 +2377,10 @@ class OperationDisplay(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.provider = None
-        self.resource = None
-        self.operation = None
-        self.description = None
+        self.provider: Optional[str] = None
+        self.resource: Optional[str] = None
+        self.operation: Optional[str] = None
+        self.description: Optional[str] = None
 
 
 class OperationListResult(_serialization.Model):
@@ -2412,8 +2409,8 @@ class OperationListResult(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.value = None
-        self.next_link = None
+        self.value: Optional[List["_models.Operation"]] = None
+        self.next_link: Optional[str] = None
 
 
 class PrivateEndpoint(_serialization.Model):
@@ -2442,7 +2439,7 @@ class PrivateEndpointConnection(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -2506,7 +2503,7 @@ class PrivateEndpointConnection(ProxyResource):
          ~azure.mgmt.eventhub.v2022_01_01_preview.models.EndPointProvisioningState
         """
         super().__init__(**kwargs)
-        self.system_data = None
+        self.system_data: Optional["_models.SystemData"] = None
         self.private_endpoint = private_endpoint
         self.private_link_service_connection_state = private_link_service_connection_state
         self.provisioning_state = provisioning_state
@@ -2665,7 +2662,7 @@ class ProvisioningIssue(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.name = name
-        self.properties = None
+        self.properties: Optional["_models.ProvisioningIssueProperties"] = None
 
 
 class ProvisioningIssueProperties(_serialization.Model):
@@ -2737,7 +2734,7 @@ class SchemaGroup(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -2806,10 +2803,10 @@ class SchemaGroup(ProxyResource):
         :paramtype schema_type: str or ~azure.mgmt.eventhub.v2022_01_01_preview.models.SchemaType
         """
         super().__init__(**kwargs)
-        self.system_data = None
-        self.updated_at_utc = None
-        self.created_at_utc = None
-        self.e_tag = None
+        self.system_data: Optional["_models.SystemData"] = None
+        self.updated_at_utc: Optional[datetime.datetime] = None
+        self.created_at_utc: Optional[datetime.datetime] = None
+        self.e_tag: Optional[str] = None
         self.group_properties = group_properties
         self.schema_compatibility = schema_compatibility
         self.schema_type = schema_type
@@ -3064,8 +3061,8 @@ class UserAssignedIdentity(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.principal_id = None
-        self.client_id = None
+        self.principal_id: Optional[str] = None
+        self.client_id: Optional[str] = None
 
 
 class UserAssignedIdentityProperties(_serialization.Model):
