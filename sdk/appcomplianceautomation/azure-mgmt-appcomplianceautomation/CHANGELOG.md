@@ -1,5 +1,11 @@
 # Release History
 
+## 2.0.0 (2025-04-18)
+
+### Breaking Changes
+
+  - Method `AppComplianceAutomationMgmtClient.__init__` parameter `base_url` changed default value from `str` to `none`
+
 ## 1.0.0 (2024-06-23)
 
 ### Features Added
