@@ -12,6 +12,7 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from ._patch import *  # pylint: disable=unused-wildcard-import
 
+from ._operations import DiagnosticsOperations  # type: ignore
 from ._operations import Operations  # type: ignore
 from ._operations import InstanceOperations  # type: ignore
 from ._operations import BrokerOperations  # type: ignore
@@ -21,12 +22,14 @@ from ._operations import BrokerAuthorizationOperations  # type: ignore
 from ._operations import DataflowProfileOperations  # type: ignore
 from ._operations import DataflowOperations  # type: ignore
 from ._operations import DataflowEndpointOperations  # type: ignore
+from ._operations import DiagnosticOperations  # type: ignore
 
 from ._patch import __all__ as _patch_all
 from ._patch import *
 from ._patch import patch_sdk as _patch_sdk
 
 __all__ = [
+    "DiagnosticsOperations",
     "Operations",
     "InstanceOperations",
     "BrokerOperations",
@@ -36,6 +39,7 @@ __all__ = [
     "DataflowProfileOperations",
     "DataflowOperations",
     "DataflowEndpointOperations",
+    "DiagnosticOperations",
 ]
 __all__.extend([p for p in _patch_all if p not in __all__])  # pyright: ignore
 _patch_sdk()

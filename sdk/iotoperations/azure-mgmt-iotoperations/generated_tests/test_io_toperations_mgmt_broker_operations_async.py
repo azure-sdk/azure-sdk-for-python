@@ -81,7 +81,11 @@ class TestIoTOperationsMgmtBrokerOperationsAsync(AzureMgmtRecordedTestCase):
                                 "accessModes": ["str"],
                                 "dataSource": {"kind": "str", "name": "str", "apiGroup": "str"},
                                 "dataSourceRef": {"kind": "str", "name": "str", "apiGroup": "str", "namespace": "str"},
-                                "resources": {"limits": {"str": "str"}, "requests": {"str": "str"}},
+                                "resources": {
+                                    "claims": [{"name": "str", "resources": ...}],
+                                    "limits": {"str": "str"},
+                                    "requests": {"str": "str"},
+                                },
                                 "selector": {
                                     "matchExpressions": [{"key": "str", "operator": "str", "values": ["str"]}],
                                     "matchLabels": {"str": "str"},
@@ -94,7 +98,11 @@ class TestIoTOperationsMgmtBrokerOperationsAsync(AzureMgmtRecordedTestCase):
                                 "accessModes": ["str"],
                                 "dataSource": {"kind": "str", "name": "str", "apiGroup": "str"},
                                 "dataSourceRef": {"kind": "str", "name": "str", "apiGroup": "str", "namespace": "str"},
-                                "resources": {"limits": {"str": "str"}, "requests": {"str": "str"}},
+                                "resources": {
+                                    "claims": [{"name": "str", "resources": ...}],
+                                    "limits": {"str": "str"},
+                                    "requests": {"str": "str"},
+                                },
                                 "selector": {
                                     "matchExpressions": [{"key": "str", "operator": "str", "values": ["str"]}],
                                     "matchLabels": {"str": "str"},
@@ -106,6 +114,30 @@ class TestIoTOperationsMgmtBrokerOperationsAsync(AzureMgmtRecordedTestCase):
                         },
                         "generateResourceLimits": {"cpu": "str"},
                         "memoryProfile": "str",
+                        "persistence": {
+                            "maxSize": "str",
+                            "dynamicSettings": {"userPropertyKey": "str", "userPropertyValue": "str"},
+                            "persistentVolumeClaimSpec": {
+                                "accessModes": ["str"],
+                                "dataSource": {"kind": "str", "name": "str", "apiGroup": "str"},
+                                "dataSourceRef": {"kind": "str", "name": "str", "apiGroup": "str", "namespace": "str"},
+                                "resources": {
+                                    "claims": [{"name": "str", "resources": ...}],
+                                    "limits": {"str": "str"},
+                                    "requests": {"str": "str"},
+                                },
+                                "selector": {
+                                    "matchExpressions": [{"key": "str", "operator": "str", "values": ["str"]}],
+                                    "matchLabels": {"str": "str"},
+                                },
+                                "storageClassName": "str",
+                                "volumeMode": "str",
+                                "volumeName": "str",
+                            },
+                            "retain": "topic_retainment_policy",
+                            "stateStore": "state_store_retainment_policy",
+                            "subscriberQueue": "subscriber_queue_retainment_policy",
+                        },
                         "provisioningState": "str",
                     },
                     "systemData": {

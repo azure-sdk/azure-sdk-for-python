@@ -15,16 +15,17 @@ AZURE_LOCATION = "eastus"
 
 
 @pytest.mark.skip("you may need to update the auto-generated test case before run it")
-class TestIoTOperationsMgmtInstanceOperationsAsync(AzureMgmtRecordedTestCase):
+class TestIoTOperationsMgmtDiagnosticOperationsAsync(AzureMgmtRecordedTestCase):
     def setup_method(self, method):
         self.client = self.create_mgmt_client(IoTOperationsMgmtClient, is_async=True)
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_instance_get(self, resource_group):
-        response = await self.client.instance.get(
+    async def test_diagnostic_get(self, resource_group):
+        response = await self.client.diagnostic.get(
             resource_group_name=resource_group.name,
             instance_name="str",
+            diagnostic_name="str",
         )
 
         # please add some check logic here by yourself
@@ -32,30 +33,19 @@ class TestIoTOperationsMgmtInstanceOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_instance_begin_create_or_update(self, resource_group):
+    async def test_diagnostic_begin_create_or_update(self, resource_group):
         response = await (
-            await self.client.instance.begin_create_or_update(
+            await self.client.diagnostic.begin_create_or_update(
                 resource_group_name=resource_group.name,
                 instance_name="str",
+                diagnostic_name="str",
                 resource={
                     "extendedLocation": {"name": "str", "type": "str"},
-                    "location": "str",
                     "id": "str",
-                    "identity": {
-                        "type": "str",
-                        "principalId": "str",
-                        "tenantId": "str",
-                        "userAssignedIdentities": {"str": {"clientId": "str", "principalId": "str"}},
-                    },
                     "name": "str",
                     "properties": {
-                        "schemaRegistryRef": {"resourceId": "str"},
-                        "adrNamespace": "str",
-                        "description": "str",
-                        "features": {"str": {"mode": "str", "settings": {"str": "str"}}},
                         "provisioningState": "str",
-                        "secretProviderClassRef": "str",
-                        "version": "str",
+                        "remoteSupport": {"accessLevel": "str", "expirationTimestamp": "str", "state": "str"},
                     },
                     "systemData": {
                         "createdAt": "2020-02-20 00:00:00",
@@ -65,7 +55,6 @@ class TestIoTOperationsMgmtInstanceOperationsAsync(AzureMgmtRecordedTestCase):
                         "lastModifiedBy": "str",
                         "lastModifiedByType": "str",
                     },
-                    "tags": {"str": "str"},
                     "type": "str",
                 },
             )
@@ -76,31 +65,12 @@ class TestIoTOperationsMgmtInstanceOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_instance_update(self, resource_group):
-        response = await self.client.instance.update(
-            resource_group_name=resource_group.name,
-            instance_name="str",
-            properties={
-                "identity": {
-                    "type": "str",
-                    "principalId": "str",
-                    "tenantId": "str",
-                    "userAssignedIdentities": {"str": {"clientId": "str", "principalId": "str"}},
-                },
-                "tags": {"str": "str"},
-            },
-        )
-
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy_async
-    async def test_instance_begin_delete(self, resource_group):
+    async def test_diagnostic_begin_delete(self, resource_group):
         response = await (
-            await self.client.instance.begin_delete(
+            await self.client.diagnostic.begin_delete(
                 resource_group_name=resource_group.name,
                 instance_name="str",
+                diagnostic_name="str",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -109,18 +79,11 @@ class TestIoTOperationsMgmtInstanceOperationsAsync(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_instance_list_by_resource_group(self, resource_group):
-        response = self.client.instance.list_by_resource_group(
+    async def test_diagnostic_list_by_resource_group(self, resource_group):
+        response = self.client.diagnostic.list_by_resource_group(
             resource_group_name=resource_group.name,
+            instance_name="str",
         )
-        result = [r async for r in response]
-        # please add some check logic here by yourself
-        # ...
-
-    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
-    @recorded_by_proxy_async
-    async def test_instance_list_by_subscription(self, resource_group):
-        response = self.client.instance.list_by_subscription()
         result = [r async for r in response]
         # please add some check logic here by yourself
         # ...
