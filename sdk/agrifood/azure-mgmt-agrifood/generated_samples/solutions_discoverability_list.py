@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,6 +8,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.agrifood import AgriFoodMgmtClient
 
 """
@@ -26,7 +28,6 @@ from azure.mgmt.agrifood import AgriFoodMgmtClient
 def main():
     client = AgriFoodMgmtClient(
         credential=DefaultAzureCredential(),
-        solution_id="SOLUTION_ID",
         subscription_id="SUBSCRIPTION_ID",
     )
 
@@ -35,6 +36,6 @@ def main():
         print(item)
 
 
-# x-ms-original-file: specification/agrifood/resource-manager/Microsoft.AgFoodPlatform/preview/2021-09-01-preview/examples/SolutionsDiscoverability_List.json
+# x-ms-original-file: specification/agrifood/resource-manager/Microsoft.AgFoodPlatform/preview/2023-06-01-preview/examples/SolutionsDiscoverability_List.json
 if __name__ == "__main__":
     main()
