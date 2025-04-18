@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,6 +8,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.storageactions import StorageActionsMgmtClient
 
 """
@@ -33,6 +35,12 @@ def main():
         resource_group_name="res4228",
         storage_task_name="mytask1",
         parameters={
+            "identity": {
+                "type": "UserAssigned",
+                "userAssignedIdentities": {
+                    "/subscriptions/1f31ba14-ce16-4281-b9b4-3e78da6e1616/resourceGroups/res4228/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myUserAssignedIdentity": {}
+                },
+            },
             "properties": {
                 "action": {
                     "else": {"operations": [{"name": "DeleteBlob", "onFailure": "break", "onSuccess": "continue"}]},
@@ -47,10 +55,8 @@ def main():
                             }
                         ],
                     },
-                },
-                "description": "My Storage task",
-                "enabled": True,
-            }
+                }
+            },
         },
     ).result()
     print(response)
