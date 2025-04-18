@@ -1,0 +1,6 @@
+{
+  "commit": "4b95da5225d354c3adca9e244531b5b0e409e33e",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/carbon/Carbon.Management",
+  "@azure-tools/typespec-python": "0.42.3"
+}
