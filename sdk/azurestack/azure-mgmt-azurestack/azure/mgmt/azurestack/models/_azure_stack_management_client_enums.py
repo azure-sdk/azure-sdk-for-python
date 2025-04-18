@@ -44,6 +44,7 @@ class Location(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Location of the resource."""
 
     GLOBAL = "global"
+    GLOBAL_ENUM = "global"
 
 
 class OperatingSystem(str, Enum, metaclass=CaseInsensitiveEnumMeta):
