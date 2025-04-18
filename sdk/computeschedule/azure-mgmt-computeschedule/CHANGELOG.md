@@ -1,5 +1,14 @@
 # Release History
 
+## 1.1.0 (2025-04-17)
+
+### Features Added
+
+  - Added operation ScheduledActionsOperations.virtual_machines_execute_create
+  - Added operation ScheduledActionsOperations.virtual_machines_execute_delete
+  - Added operation ScheduledActionsOperations.virtual_machines_submit_create
+  - Added operation ScheduledActionsOperations.virtual_machines_submit_delete
+
 ## 1.0.0 (2025-01-20)
 
 ### Features Added
