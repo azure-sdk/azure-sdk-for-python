@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -27,7 +28,7 @@ from azure.mgmt.support import MicrosoftSupport
 def main():
     client = MicrosoftSupport(
         credential=DefaultAzureCredential(),
-        subscription_id="132d901f-189d-4381-9214-fe68e27e05a1",
+        subscription_id="subid",
     )
 
     response = client.file_workspaces.get(
@@ -36,6 +37,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/support/resource-manager/Microsoft.Support/stable/2024-04-01/examples/GetFileWorkspaceDetailsForSubscription.json
+# x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2023-06-01-preview/examples/GetFileWorkspaceDetailsForSubscription.json
 if __name__ == "__main__":
     main()
