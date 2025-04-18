@@ -134,6 +134,12 @@ class TestIoTOperationsMgmtDataflowEndpointOperationsAsync(AzureMgmtRecordedTest
                             "sessionExpirySeconds": 0,
                             "tls": {"mode": "str", "trustedCaCertificateConfigMapRef": "str"},
                         },
+                        "otelSettings": {
+                            "host": "str",
+                            "batching": {"latencySeconds": 0, "maxMessages": 0},
+                            "metricIntervalSec": 0,
+                            "tls": {"mode": "str", "trustedCaCertificateConfigMapRef": "str"},
+                        },
                         "provisioningState": "str",
                     },
                     "systemData": {

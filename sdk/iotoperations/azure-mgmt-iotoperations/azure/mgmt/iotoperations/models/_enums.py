@@ -202,6 +202,16 @@ class EndpointType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Local Storage Type"""
     MQTT = "Mqtt"
     """Broker Type"""
+    EVENTHUB = "Eventhub"
+    """Eventhub Type"""
+    EVENT_GRID = "EventGrid"
+    """EventGrid Type"""
+    LOCAL_MQ = "LocalMq"
+    """LocalMq Type"""
+    FABRIC_RT = "FabricRT"
+    """FabricRT Type"""
+    OTEL = "Otel"
+    """OpenTelemetry Type"""
 
 
 class ExtendedLocationType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -225,6 +235,17 @@ class FilterType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
 
     FILTER = "Filter"
     """Filter type"""
+
+
+class InstanceFeatureMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """The enum defining mode of a feature."""
+
+    STABLE = "Stable"
+    """Opt in to enable a stable feature"""
+    PREVIEW = "Preview"
+    """Opt in to enable a preview feature"""
+    DISABLED = "Disabled"
+    """Opt out of a feature"""
 
 
 class KafkaAuthMethod(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -372,6 +393,37 @@ class ProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Resource is Deleting."""
     ACCEPTED = "Accepted"
     """Resource has been Accepted."""
+
+
+class RemoteSupportAccessLevels(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """DiagnosticAccessLevels allowed."""
+
+    DIAGNOSE = "Diagnose"
+    """Diagnose access level"""
+    DIAGNOSE_AND_REPAIR = "DiagnoseAndRepair"
+    """Diagnose And Repair Access Level"""
+
+
+class RemoteSupportActivationState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Represents the activation state of Diagnostic."""
+
+    ENABLED = "Enabled"
+    """Remote Support is enabled."""
+    DISABLED = "Disabled"
+    """Remote Support is disabled."""
+    EXPIRED = "Expired"
+    """Remote Support has Expired."""
+
+
+class RetainmentPolicyMode(str, Enum, metaclass=CaseInsensitiveEnumMeta):
+    """Type of RetainmentPolicyMode."""
+
+    ALL = "All"
+    """Persist all 'retain' messages."""
+    NONE = "None"
+    """Persist no messages."""
+    CUSTOM = "Custom"
+    """Persist only the specified topics."""
 
 
 class ServiceType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
