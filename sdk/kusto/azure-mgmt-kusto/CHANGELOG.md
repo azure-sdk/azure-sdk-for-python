@@ -1,5 +1,11 @@
 # Release History
 
+## 4.0.0 (2025-04-18)
+
+### Breaking Changes
+
+  - Method `KustoManagementClient.__init__` parameter `base_url` changed default value from `str` to `none`
+
 ## 3.4.0 (2024-01-24)
 
 ### Features Added
