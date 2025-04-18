@@ -1,5 +1,30 @@
 # Release History
 
+## 1.1.0b3 (2025-04-18)
+
+### Features Added
+
+  - Model `AzureBareMetalStorageInstance` added property `identity`
+  - Added model `AzureBareMetalStorageInstanceBody`
+  - Added model `AzureBareMetalStorageInstanceIdentity`
+  - Added enum `ResourceIdentityType`
+  - Model `AzureBareMetalInstancesOperations` added method `create`
+  - Model `AzureBareMetalInstancesOperations` added method `delete`
+  - Method `AzureBareMetalInstancesOperations.begin_restart` has a new overload `def begin_restart(self: None, resource_group_name: str, azure_bare_metal_instance_name: str, force_parameter: Optional[IO[bytes]], content_type: str)`
+  - Method `AzureBareMetalInstancesOperations.update` has a new overload `def update(self: None, resource_group_name: str, azure_bare_metal_instance_name: str, tags_parameter: IO[bytes], content_type: str)`
+  - Method `AzureBareMetalInstancesOperations.create` has a new overload `def create(self: None, resource_group_name: str, azure_bare_metal_instance_name: str, request_body_parameters: AzureBareMetalInstance, content_type: str)`
+  - Method `AzureBareMetalInstancesOperations.create` has a new overload `def create(self: None, resource_group_name: str, azure_bare_metal_instance_name: str, request_body_parameters: IO[bytes], content_type: str)`
+  - Method `AzureBareMetalStorageInstancesOperations.create` has a new overload `def create(self: None, resource_group_name: str, azure_bare_metal_storage_instance_name: str, request_body_parameters: IO[bytes], content_type: str)`
+  - Method `AzureBareMetalStorageInstancesOperations.update` has a new overload `def update(self: None, resource_group_name: str, azure_bare_metal_storage_instance_name: str, azure_bare_metal_storage_instance_body_parameter: AzureBareMetalStorageInstanceBody, content_type: str)`
+  - Method `AzureBareMetalStorageInstancesOperations.update` has a new overload `def update(self: None, resource_group_name: str, azure_bare_metal_storage_instance_name: str, azure_bare_metal_storage_instance_body_parameter: IO[bytes], content_type: str)`
+
+### Breaking Changes
+
+  - Method `BareMetalInfrastructureClient.__init__` parameter `base_url` changed default value from `str` to `none`
+  - Method `AzureBareMetalStorageInstancesOperations.update` inserted a `positional_or_keyword` parameter `azure_bare_metal_storage_instance_body_parameter`
+  - Method `AzureBareMetalStorageInstancesOperations.update` deleted or renamed its parameter `tags_parameter` of kind `positional_or_keyword`
+  - Method `AzureBareMetalStorageInstancesOperations.update` re-ordered its parameters from `['self', 'resource_group_name', 'azure_bare_metal_storage_instance_name', 'tags_parameter', 'kwargs']` to `['self', 'resource_group_name', 'azure_bare_metal_storage_instance_name', 'azure_bare_metal_storage_instance_body_parameter', 'kwargs']`
+
 ## 1.1.0b2 (2023-10-23)
 
 ### Features Added
