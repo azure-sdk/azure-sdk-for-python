@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,6 +8,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.baremetalinfrastructure import BareMetalInfrastructureClient
 
 """
@@ -40,7 +42,6 @@ def main():
                     "generation": "Gen4",
                     "hardwareType": "NetApp",
                     "offeringType": "EPIC",
-                    "provisioningState": "Succeeded",
                     "storageBillingProperties": {"azureBareMetalStorageInstanceSize": "", "billingMode": "PAYG"},
                     "storageType": "FC",
                     "workloadType": "ODB",
@@ -52,6 +53,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/baremetalinfrastructure/resource-manager/Microsoft.BareMetalInfrastructure/preview/2023-08-04-preview/examples/AzureBareMetalStorageInstances_Create.json
+# x-ms-original-file: specification/baremetalinfrastructure/resource-manager/Microsoft.BareMetalInfrastructure/preview/2024-08-01-preview/examples/AzureBareMetalStorageInstances_Create.json
 if __name__ == "__main__":
     main()
