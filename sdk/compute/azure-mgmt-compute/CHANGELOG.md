@@ -1,5 +1,11 @@
 # Release History
 
+## 34.2.0 (2025-04-18)
+
+### Features Added
+
+  - Added model GalleryApplicationPropertiesProvisioningState
+
 ## 34.1.0 (2025-03-24)
 
 ### Features Added
