@@ -1,0 +1,6 @@
+{
+  "commit": "143c5e2152a3124e957d55c8d27c01725fa46906",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/portalservices/CopilotSettings.Management",
+  "@azure-tools/typespec-python": "0.43.0"
+}
