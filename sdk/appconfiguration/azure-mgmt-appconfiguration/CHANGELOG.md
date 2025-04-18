@@ -1,5 +1,11 @@
 # Release History
 
+## 5.0.0 (2025-04-18)
+
+### Breaking Changes
+
+  - Method `AppConfigurationManagementClient.__init__` parameter `base_url` changed default value from `str` to `none`
+
 ## 4.0.0 (2024-10-29)
 
 ### Breaking Changes
