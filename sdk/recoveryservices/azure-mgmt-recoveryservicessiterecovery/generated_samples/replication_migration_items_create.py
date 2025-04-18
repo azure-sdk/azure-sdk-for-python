@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,6 +8,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.recoveryservicessiterecovery import SiteRecoveryManagementClient
 
 """
@@ -43,9 +45,12 @@ def main():
                     "disksToInclude": [
                         {
                             "diskId": "disk1",
+                            "diskSizeInGB": 60,
+                            "iops": 3000,
                             "isOSDisk": "true",
                             "logStorageAccountId": "/Subscriptions/cb53d0c3-bd59-4721-89bc-06916a9147ef/resourceGroups/resourcegroup1/providers/Microsoft.Storage/storageAccounts/logStorageAccount1",
                             "logStorageAccountSasSecretName": "logStorageSas",
+                            "throughputInMbps": 5000,
                         }
                     ],
                     "instanceType": "VMwareCbt",
@@ -60,6 +65,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationMigrationItems_Create.json
+# x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2025-02-01/examples/ReplicationMigrationItems_Create.json
 if __name__ == "__main__":
     main()
