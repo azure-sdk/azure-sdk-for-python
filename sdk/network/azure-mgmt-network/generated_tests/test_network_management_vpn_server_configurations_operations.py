@@ -200,3 +200,15 @@ class TestNetworkManagementVpnServerConfigurationsOperations(AzureMgmtRecordedTe
         result = [r for r in response]
         # please add some check logic here by yourself
         # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy
+    def test_vpn_server_configurations_list_radius_secrets(self, resource_group):
+        response = self.client.vpn_server_configurations.list_radius_secrets(
+            resource_group_name=resource_group.name,
+            vpn_server_configuration_name="str",
+            api_version="2024-05-01",
+        )
+
+        # please add some check logic here by yourself
+        # ...

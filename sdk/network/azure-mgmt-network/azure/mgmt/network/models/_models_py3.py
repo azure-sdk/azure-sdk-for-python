@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=line-too-long,useless-suppression,too-many-lines
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -298,9 +298,9 @@ class EffectiveConnectivityConfiguration(_serialization.Model):
         self.hubs = hubs
         self.is_global = is_global
         self.applies_to_groups = applies_to_groups
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.delete_existing_peering = delete_existing_peering
-        self.resource_guid = None
+        self.resource_guid: Optional[str] = None
 
 
 class ActiveConnectivityConfiguration(EffectiveConnectivityConfiguration):
@@ -587,18 +587,18 @@ class ActiveDefaultSecurityAdminRule(ActiveBaseSecurityAdminRule):
             **kwargs
         )
         self.kind: str = "Default"
-        self.description = None
+        self.description: Optional[str] = None
         self.flag = flag
-        self.protocol = None
-        self.sources = None
-        self.destinations = None
-        self.source_port_ranges = None
-        self.destination_port_ranges = None
-        self.access = None
-        self.priority = None
-        self.direction = None
-        self.provisioning_state = None
-        self.resource_guid = None
+        self.protocol: Optional[Union[str, "_models.SecurityConfigurationRuleProtocol"]] = None
+        self.sources: Optional[List["_models.AddressPrefixItem"]] = None
+        self.destinations: Optional[List["_models.AddressPrefixItem"]] = None
+        self.source_port_ranges: Optional[List[str]] = None
+        self.destination_port_ranges: Optional[List[str]] = None
+        self.access: Optional[Union[str, "_models.SecurityConfigurationRuleAccess"]] = None
+        self.priority: Optional[int] = None
+        self.direction: Optional[Union[str, "_models.SecurityConfigurationRuleDirection"]] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
+        self.resource_guid: Optional[str] = None
 
 
 class ActiveSecurityAdminRule(ActiveBaseSecurityAdminRule):
@@ -769,8 +769,8 @@ class ActiveSecurityAdminRule(ActiveBaseSecurityAdminRule):
         self.access = access
         self.priority = priority
         self.direction = direction
-        self.provisioning_state = None
-        self.resource_guid = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
+        self.resource_guid: Optional[str] = None
 
 
 class ActiveSecurityAdminRulesListResult(_serialization.Model):
@@ -911,10 +911,10 @@ class ChildResource(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
-        self.etag = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
+        self.etag: Optional[str] = None
 
 
 class BaseAdminRule(ChildResource):
@@ -966,7 +966,7 @@ class BaseAdminRule(ChildResource):
         """ """
         super().__init__(**kwargs)
         self.kind: Optional[str] = None
-        self.system_data = None
+        self.system_data: Optional["_models.SystemData"] = None
 
 
 class AdminRule(BaseAdminRule):
@@ -1101,8 +1101,8 @@ class AdminRule(BaseAdminRule):
         self.access = access
         self.priority = priority
         self.direction = direction
-        self.provisioning_state = None
-        self.resource_guid = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
+        self.resource_guid: Optional[str] = None
 
 
 class AdminRuleCollection(ChildResource):
@@ -1167,11 +1167,11 @@ class AdminRuleCollection(ChildResource):
         :paramtype applies_to_groups: list[~azure.mgmt.network.models.NetworkManagerSecurityGroupItem]
         """
         super().__init__(**kwargs)
-        self.system_data = None
+        self.system_data: Optional["_models.SystemData"] = None
         self.description = description
         self.applies_to_groups = applies_to_groups
-        self.provisioning_state = None
-        self.resource_guid = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
+        self.resource_guid: Optional[str] = None
 
 
 class AdminRuleCollectionListResult(_serialization.Model):
@@ -1282,8 +1282,8 @@ class Resource(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.id = id
-        self.name = None
-        self.type = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
         self.location = location
         self.tags = tags
 
@@ -1715,12 +1715,12 @@ class ApplicationGateway(Resource):
          ~azure.mgmt.network.models.ApplicationGatewayGlobalConfiguration
         """
         super().__init__(id=id, location=location, tags=tags, **kwargs)
-        self.etag = None
+        self.etag: Optional[str] = None
         self.zones = zones
         self.identity = identity
         self.sku = sku
         self.ssl_policy = ssl_policy
-        self.operational_state = None
+        self.operational_state: Optional[Union[str, "_models.ApplicationGatewayOperationalState"]] = None
         self.gateway_ip_configurations = gateway_ip_configurations
         self.authentication_certificates = authentication_certificates
         self.trusted_root_certificates = trusted_root_certificates
@@ -1746,14 +1746,14 @@ class ApplicationGateway(Resource):
         self.enable_fips = enable_fips
         self.autoscale_configuration = autoscale_configuration
         self.private_link_configurations = private_link_configurations
-        self.private_endpoint_connections = None
-        self.resource_guid = None
-        self.provisioning_state = None
+        self.private_endpoint_connections: Optional[List["_models.ApplicationGatewayPrivateEndpointConnection"]] = None
+        self.resource_guid: Optional[str] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.custom_error_configurations = custom_error_configurations
         self.force_firewall_policy_association = force_firewall_policy_association
         self.load_distribution_policies = load_distribution_policies
         self.global_configuration = global_configuration
-        self.default_predefined_ssl_policy = None
+        self.default_predefined_ssl_policy: Optional[Union[str, "_models.ApplicationGatewaySslPolicyName"]] = None
 
 
 class SubResource(_serialization.Model):
@@ -1831,10 +1831,10 @@ class ApplicationGatewayAuthenticationCertificate(SubResource):  # pylint: disab
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
-        self.type = None
+        self.etag: Optional[str] = None
+        self.type: Optional[str] = None
         self.data = data
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class ApplicationGatewayAutoscaleConfiguration(_serialization.Model):
@@ -2096,11 +2096,11 @@ class ApplicationGatewayBackendAddressPool(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
-        self.type = None
-        self.backend_ip_configurations = None
+        self.etag: Optional[str] = None
+        self.type: Optional[str] = None
+        self.backend_ip_configurations: Optional[List["_models.NetworkInterfaceIPConfiguration"]] = None
         self.backend_addresses = backend_addresses
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class ApplicationGatewayBackendHealth(_serialization.Model):
@@ -2433,8 +2433,8 @@ class ApplicationGatewayBackendHttpSettings(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
-        self.type = None
+        self.etag: Optional[str] = None
+        self.type: Optional[str] = None
         self.port = port
         self.protocol = protocol
         self.cookie_based_affinity = cookie_based_affinity
@@ -2448,7 +2448,7 @@ class ApplicationGatewayBackendHttpSettings(SubResource):
         self.affinity_cookie_name = affinity_cookie_name
         self.probe_enabled = probe_enabled
         self.path = path
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class ApplicationGatewayBackendSettings(SubResource):
@@ -2550,8 +2550,8 @@ class ApplicationGatewayBackendSettings(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
-        self.type = None
+        self.etag: Optional[str] = None
+        self.type: Optional[str] = None
         self.port = port
         self.protocol = protocol
         self.timeout = timeout
@@ -2559,7 +2559,7 @@ class ApplicationGatewayBackendSettings(SubResource):
         self.trusted_root_certificates = trusted_root_certificates
         self.host_name = host_name
         self.pick_host_name_from_backend_address = pick_host_name_from_backend_address
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class ApplicationGatewayClientAuthConfiguration(_serialization.Model):  # pylint: disable=name-too-long
@@ -3012,7 +3012,7 @@ class ApplicationGatewayFirewallRuleSet(Resource):
         :paramtype tiers: list[str or ~azure.mgmt.network.models.ApplicationGatewayTierTypes]
         """
         super().__init__(id=id, location=location, tags=tags, **kwargs)
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.rule_set_type = rule_set_type
         self.rule_set_version = rule_set_version
         self.rule_groups = rule_groups
@@ -3127,14 +3127,14 @@ class ApplicationGatewayFrontendIPConfiguration(SubResource):  # pylint: disable
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
-        self.type = None
+        self.etag: Optional[str] = None
+        self.type: Optional[str] = None
         self.private_ip_address = private_ip_address
         self.private_ip_allocation_method = private_ip_allocation_method
         self.subnet = subnet
         self.public_ip_address = public_ip_address
         self.private_link_configuration = private_link_configuration
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class ApplicationGatewayFrontendPort(SubResource):
@@ -3190,10 +3190,10 @@ class ApplicationGatewayFrontendPort(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
-        self.type = None
+        self.etag: Optional[str] = None
+        self.type: Optional[str] = None
         self.port = port
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class ApplicationGatewayGlobalConfiguration(_serialization.Model):
@@ -3392,8 +3392,8 @@ class ApplicationGatewayHttpListener(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
-        self.type = None
+        self.etag: Optional[str] = None
+        self.type: Optional[str] = None
         self.frontend_ip_configuration = frontend_ip_configuration
         self.frontend_port = frontend_port
         self.protocol = protocol
@@ -3401,7 +3401,7 @@ class ApplicationGatewayHttpListener(SubResource):
         self.ssl_certificate = ssl_certificate
         self.ssl_profile = ssl_profile
         self.require_server_name_indication = require_server_name_indication
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.custom_error_configurations = custom_error_configurations
         self.firewall_policy = firewall_policy
         self.host_names = host_names
@@ -3464,10 +3464,10 @@ class ApplicationGatewayIPConfiguration(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
-        self.type = None
+        self.etag: Optional[str] = None
+        self.type: Optional[str] = None
         self.subnet = subnet
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class ApplicationGatewayListener(SubResource):
@@ -3557,14 +3557,14 @@ class ApplicationGatewayListener(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
-        self.type = None
+        self.etag: Optional[str] = None
+        self.type: Optional[str] = None
         self.frontend_ip_configuration = frontend_ip_configuration
         self.frontend_port = frontend_port
         self.protocol = protocol
         self.ssl_certificate = ssl_certificate
         self.ssl_profile = ssl_profile
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.host_names = host_names
 
 
@@ -3670,11 +3670,11 @@ class ApplicationGatewayLoadDistributionPolicy(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
-        self.type = None
+        self.etag: Optional[str] = None
+        self.type: Optional[str] = None
         self.load_distribution_targets = load_distribution_targets
         self.load_distribution_algorithm = load_distribution_algorithm
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class ApplicationGatewayLoadDistributionTarget(SubResource):
@@ -3733,8 +3733,8 @@ class ApplicationGatewayLoadDistributionTarget(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
-        self.type = None
+        self.etag: Optional[str] = None
+        self.type: Optional[str] = None
         self.weight_per_server = weight_per_server
         self.backend_address_pool = backend_address_pool
 
@@ -3748,7 +3748,7 @@ class ApplicationGatewayOnDemandProbe(_serialization.Model):
     :ivar host: Host name to send the probe to.
     :vartype host: str
     :ivar path: Relative path of probe. Valid path starts from '/'. Probe is sent to
-     :code:`<Protocol>`://:code:`<host>`::code:`<port>`:code:`<path>`.
+     :code:`<Protocol>`://\\ :code:`<host>`:\\ :code:`<port>`\\ :code:`<path>`.
     :vartype path: str
     :ivar timeout: The probe timeout in seconds. Probe marked as failed if valid response is not
      received with this timeout period. Acceptable values are from 1 second to 86400 seconds.
@@ -3797,7 +3797,7 @@ class ApplicationGatewayOnDemandProbe(_serialization.Model):
         :keyword host: Host name to send the probe to.
         :paramtype host: str
         :keyword path: Relative path of probe. Valid path starts from '/'. Probe is sent to
-         :code:`<Protocol>`://:code:`<host>`::code:`<port>`:code:`<path>`.
+         :code:`<Protocol>`://\\ :code:`<host>`:\\ :code:`<port>`\\ :code:`<path>`.
         :paramtype path: str
         :keyword timeout: The probe timeout in seconds. Probe marked as failed if valid response is not
          received with this timeout period. Acceptable values are from 1 second to 86400 seconds.
@@ -3914,15 +3914,15 @@ class ApplicationGatewayPathRule(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
-        self.type = None
+        self.etag: Optional[str] = None
+        self.type: Optional[str] = None
         self.paths = paths
         self.backend_address_pool = backend_address_pool
         self.backend_http_settings = backend_http_settings
         self.redirect_configuration = redirect_configuration
         self.rewrite_rule_set = rewrite_rule_set
         self.load_distribution_policy = load_distribution_policy
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.firewall_policy = firewall_policy
 
 
@@ -3995,12 +3995,12 @@ class ApplicationGatewayPrivateEndpointConnection(SubResource):  # pylint: disab
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
-        self.type = None
-        self.private_endpoint = None
+        self.etag: Optional[str] = None
+        self.type: Optional[str] = None
+        self.private_endpoint: Optional["_models.PrivateEndpoint"] = None
         self.private_link_service_connection_state = private_link_service_connection_state
-        self.provisioning_state = None
-        self.link_identifier = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
+        self.link_identifier: Optional[str] = None
 
 
 class ApplicationGatewayPrivateEndpointConnectionListResult(_serialization.Model):  # pylint: disable=name-too-long
@@ -4097,10 +4097,10 @@ class ApplicationGatewayPrivateLinkConfiguration(SubResource):  # pylint: disabl
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
-        self.type = None
+        self.etag: Optional[str] = None
+        self.type: Optional[str] = None
         self.ip_configurations = ip_configurations
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class ApplicationGatewayPrivateLinkIpConfiguration(SubResource):  # pylint: disable=name-too-long
@@ -4177,13 +4177,13 @@ class ApplicationGatewayPrivateLinkIpConfiguration(SubResource):  # pylint: disa
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
-        self.type = None
+        self.etag: Optional[str] = None
+        self.type: Optional[str] = None
         self.private_ip_address = private_ip_address
         self.private_ip_allocation_method = private_ip_allocation_method
         self.subnet = subnet
         self.primary = primary
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class ApplicationGatewayPrivateLinkResource(SubResource):
@@ -4242,10 +4242,10 @@ class ApplicationGatewayPrivateLinkResource(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
-        self.type = None
-        self.group_id = None
-        self.required_members = None
+        self.etag: Optional[str] = None
+        self.type: Optional[str] = None
+        self.group_id: Optional[str] = None
+        self.required_members: Optional[List[str]] = None
         self.required_zone_names = required_zone_names
 
 
@@ -4301,7 +4301,7 @@ class ApplicationGatewayProbe(SubResource):
     :ivar host: Host name to send the probe to.
     :vartype host: str
     :ivar path: Relative path of probe. Valid path starts from '/'. Probe is sent to
-     :code:`<Protocol>`://:code:`<host>`::code:`<port>`:code:`<path>`.
+     :code:`<Protocol>`://\\ :code:`<host>`:\\ :code:`<port>`\\ :code:`<path>`.
     :vartype path: str
     :ivar interval: The probing interval in seconds. This is the time interval between two
      consecutive probes. Acceptable values are from 1 second to 86400 seconds.
@@ -4391,7 +4391,7 @@ class ApplicationGatewayProbe(SubResource):
         :keyword host: Host name to send the probe to.
         :paramtype host: str
         :keyword path: Relative path of probe. Valid path starts from '/'. Probe is sent to
-         :code:`<Protocol>`://:code:`<host>`::code:`<port>`:code:`<path>`.
+         :code:`<Protocol>`://\\ :code:`<host>`:\\ :code:`<port>`\\ :code:`<path>`.
         :paramtype path: str
         :keyword interval: The probing interval in seconds. This is the time interval between two
          consecutive probes. Acceptable values are from 1 second to 86400 seconds.
@@ -4421,8 +4421,8 @@ class ApplicationGatewayProbe(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
-        self.type = None
+        self.etag: Optional[str] = None
+        self.type: Optional[str] = None
         self.protocol = protocol
         self.host = host
         self.path = path
@@ -4433,7 +4433,7 @@ class ApplicationGatewayProbe(SubResource):
         self.pick_host_name_from_backend_settings = pick_host_name_from_backend_settings
         self.min_servers = min_servers
         self.match = match
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.port = port
 
 
@@ -4557,8 +4557,8 @@ class ApplicationGatewayRedirectConfiguration(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
-        self.type = None
+        self.etag: Optional[str] = None
+        self.type: Optional[str] = None
         self.redirect_type = redirect_type
         self.target_listener = target_listener
         self.target_url = target_url
@@ -4673,8 +4673,8 @@ class ApplicationGatewayRequestRoutingRule(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
-        self.type = None
+        self.etag: Optional[str] = None
+        self.type: Optional[str] = None
         self.rule_type = rule_type
         self.priority = priority
         self.backend_address_pool = backend_address_pool
@@ -4684,7 +4684,7 @@ class ApplicationGatewayRequestRoutingRule(SubResource):
         self.rewrite_rule_set = rewrite_rule_set
         self.redirect_configuration = redirect_configuration
         self.load_distribution_policy = load_distribution_policy
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class ApplicationGatewayRewriteRule(_serialization.Model):
@@ -4885,9 +4885,9 @@ class ApplicationGatewayRewriteRuleSet(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
+        self.etag: Optional[str] = None
         self.rewrite_rules = rewrite_rules
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class ApplicationGatewayRoutingRule(SubResource):
@@ -4969,14 +4969,14 @@ class ApplicationGatewayRoutingRule(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
-        self.type = None
+        self.etag: Optional[str] = None
+        self.type: Optional[str] = None
         self.rule_type = rule_type
         self.priority = priority
         self.backend_address_pool = backend_address_pool
         self.backend_settings = backend_settings
         self.listener = listener
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class ApplicationGatewaySku(_serialization.Model):
@@ -5105,13 +5105,13 @@ class ApplicationGatewaySslCertificate(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
-        self.type = None
+        self.etag: Optional[str] = None
+        self.type: Optional[str] = None
         self.data = data
         self.password = password
-        self.public_cert_data = None
+        self.public_cert_data: Optional[str] = None
         self.key_vault_secret_id = key_vault_secret_id
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class ApplicationGatewaySslPolicy(_serialization.Model):
@@ -5308,12 +5308,12 @@ class ApplicationGatewaySslProfile(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
-        self.type = None
+        self.etag: Optional[str] = None
+        self.type: Optional[str] = None
         self.trusted_client_certificates = trusted_client_certificates
         self.ssl_policy = ssl_policy
         self.client_auth_configuration = client_auth_configuration
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class ApplicationGatewayTrustedClientCertificate(SubResource):  # pylint: disable=name-too-long
@@ -5379,12 +5379,12 @@ class ApplicationGatewayTrustedClientCertificate(SubResource):  # pylint: disabl
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
-        self.type = None
+        self.etag: Optional[str] = None
+        self.type: Optional[str] = None
         self.data = data
-        self.validated_cert_data = None
-        self.client_cert_issuer_dn = None
-        self.provisioning_state = None
+        self.validated_cert_data: Optional[str] = None
+        self.client_cert_issuer_dn: Optional[str] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class ApplicationGatewayTrustedRootCertificate(SubResource):
@@ -5449,11 +5449,11 @@ class ApplicationGatewayTrustedRootCertificate(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
-        self.type = None
+        self.etag: Optional[str] = None
+        self.type: Optional[str] = None
         self.data = data
         self.key_vault_secret_id = key_vault_secret_id
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class ApplicationGatewayUrlConfiguration(_serialization.Model):
@@ -5587,15 +5587,15 @@ class ApplicationGatewayUrlPathMap(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
-        self.type = None
+        self.etag: Optional[str] = None
+        self.type: Optional[str] = None
         self.default_backend_address_pool = default_backend_address_pool
         self.default_backend_http_settings = default_backend_http_settings
         self.default_rewrite_rule_set = default_rewrite_rule_set
         self.default_redirect_configuration = default_redirect_configuration
         self.default_load_distribution_policy = default_load_distribution_policy
         self.path_rules = path_rules
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class ApplicationGatewayWafDynamicManifestResult(_serialization.Model):  # pylint: disable=name-too-long
@@ -5657,8 +5657,8 @@ class ApplicationGatewayWafDynamicManifestResult(_serialization.Model):  # pylin
         """
         super().__init__(**kwargs)
         self.id = id
-        self.name = None
-        self.type = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
         self.available_rule_sets = available_rule_sets
         self.rule_set_type = rule_set_type
         self.rule_set_version = rule_set_version
@@ -6021,9 +6021,9 @@ class ApplicationSecurityGroup(Resource):
         :paramtype tags: dict[str, str]
         """
         super().__init__(id=id, location=location, tags=tags, **kwargs)
-        self.etag = None
-        self.resource_guid = None
-        self.provisioning_state = None
+        self.etag: Optional[str] = None
+        self.resource_guid: Optional[str] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class ApplicationSecurityGroupListResult(_serialization.Model):
@@ -6053,7 +6053,7 @@ class ApplicationSecurityGroupListResult(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class AuthorizationListResult(_serialization.Model):
@@ -6139,7 +6139,7 @@ class AutoApprovedPrivateLinkServicesResult(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class Availability(_serialization.Model):
@@ -6261,7 +6261,7 @@ class AvailableDelegationsResult(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class AvailablePrivateEndpointType(_serialization.Model):
@@ -6344,7 +6344,7 @@ class AvailablePrivateEndpointTypesResult(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class AvailableProvidersList(_serialization.Model):
@@ -6598,7 +6598,7 @@ class AvailableServiceAliasesResult(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class AzureAsyncOperationResult(_serialization.Model):
@@ -6809,18 +6809,18 @@ class AzureFirewall(Resource):
         """
         super().__init__(id=id, location=location, tags=tags, **kwargs)
         self.zones = zones
-        self.etag = None
+        self.etag: Optional[str] = None
         self.application_rule_collections = application_rule_collections
         self.nat_rule_collections = nat_rule_collections
         self.network_rule_collections = network_rule_collections
         self.ip_configurations = ip_configurations
         self.management_ip_configuration = management_ip_configuration
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.threat_intel_mode = threat_intel_mode
         self.virtual_hub = virtual_hub
         self.firewall_policy = firewall_policy
         self.hub_ip_addresses = hub_ip_addresses
-        self.ip_groups = None
+        self.ip_groups: Optional[List["_models.AzureFirewallIpGroups"]] = None
         self.sku = sku
         self.additional_properties = additional_properties
         self.autoscale_configuration = autoscale_configuration
@@ -6957,11 +6957,11 @@ class AzureFirewallApplicationRuleCollection(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
+        self.etag: Optional[str] = None
         self.priority = priority
         self.action = action
         self.rules = rules
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class AzureFirewallApplicationRuleProtocol(_serialization.Model):
@@ -7100,9 +7100,9 @@ class AzureFirewallFqdnTag(Resource):
         :paramtype tags: dict[str, str]
         """
         super().__init__(id=id, location=location, tags=tags, **kwargs)
-        self.etag = None
-        self.provisioning_state = None
-        self.fqdn_tag_name = None
+        self.etag: Optional[str] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
+        self.fqdn_tag_name: Optional[str] = None
 
 
 class AzureFirewallFqdnTagListResult(_serialization.Model):
@@ -7208,12 +7208,12 @@ class AzureFirewallIPConfiguration(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
-        self.type = None
-        self.private_ip_address = None
+        self.etag: Optional[str] = None
+        self.type: Optional[str] = None
+        self.private_ip_address: Optional[str] = None
         self.subnet = subnet
         self.public_ip_address = public_ip_address
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class AzureFirewallIpGroups(_serialization.Model):
@@ -7240,8 +7240,8 @@ class AzureFirewallIpGroups(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.id = None
-        self.change_number = None
+        self.id: Optional[str] = None
+        self.change_number: Optional[str] = None
 
 
 class AzureFirewallListResult(_serialization.Model):
@@ -7448,11 +7448,11 @@ class AzureFirewallNatRuleCollection(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
+        self.etag: Optional[str] = None
         self.priority = priority
         self.action = action
         self.rules = rules
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class AzureFirewallNetworkRule(_serialization.Model):
@@ -7600,11 +7600,11 @@ class AzureFirewallNetworkRuleCollection(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
+        self.etag: Optional[str] = None
         self.priority = priority
         self.action = action
         self.rules = rules
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class AzureFirewallPacketCaptureFlags(_serialization.Model):
@@ -8003,10 +8003,10 @@ class AzureWebCategory(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.id = id
-        self.name = None
-        self.type = None
-        self.etag = None
-        self.group = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
+        self.etag: Optional[str] = None
+        self.group: Optional[str] = None
 
 
 class AzureWebCategoryListResult(_serialization.Model):
@@ -8191,17 +8191,17 @@ class BackendAddressPool(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
-        self.type = None
+        self.etag: Optional[str] = None
+        self.type: Optional[str] = None
         self.location = location
         self.tunnel_interfaces = tunnel_interfaces
         self.load_balancer_backend_addresses = load_balancer_backend_addresses
-        self.backend_ip_configurations = None
-        self.load_balancing_rules = None
-        self.outbound_rule = None
-        self.outbound_rules = None
-        self.inbound_nat_rules = None
-        self.provisioning_state = None
+        self.backend_ip_configurations: Optional[List["_models.NetworkInterfaceIPConfiguration"]] = None
+        self.load_balancing_rules: Optional[List["_models.SubResource"]] = None
+        self.outbound_rule: Optional["_models.SubResource"] = None
+        self.outbound_rules: Optional[List["_models.SubResource"]] = None
+        self.inbound_nat_rules: Optional[List["_models.SubResource"]] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.drain_period_in_seconds = drain_period_in_seconds
         self.virtual_network = virtual_network
         self.sync_mode = sync_mode
@@ -8267,17 +8267,17 @@ class BastionActiveSession(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.session_id = None
-        self.start_time = None
-        self.target_subscription_id = None
-        self.resource_type = None
-        self.target_host_name = None
-        self.target_resource_group = None
-        self.user_name = None
-        self.target_ip_address = None
-        self.protocol = None
-        self.target_resource_id = None
-        self.session_duration_in_mins = None
+        self.session_id: Optional[str] = None
+        self.start_time: Optional[JSON] = None
+        self.target_subscription_id: Optional[str] = None
+        self.resource_type: Optional[str] = None
+        self.target_host_name: Optional[str] = None
+        self.target_resource_group: Optional[str] = None
+        self.user_name: Optional[str] = None
+        self.target_ip_address: Optional[str] = None
+        self.protocol: Optional[Union[str, "_models.BastionConnectProtocol"]] = None
+        self.target_resource_id: Optional[str] = None
+        self.session_duration_in_mins: Optional[float] = None
 
 
 class BastionActiveSessionListResult(_serialization.Model):
@@ -8466,13 +8466,13 @@ class BastionHost(Resource):
         """
         super().__init__(id=id, location=location, tags=tags, **kwargs)
         self.zones = zones
-        self.etag = None
+        self.etag: Optional[str] = None
         self.sku = sku
         self.ip_configurations = ip_configurations
         self.dns_name = dns_name
         self.virtual_network = virtual_network
         self.network_acls = network_acls
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.scale_units = scale_units
         self.disable_copy_paste = disable_copy_paste
         self.enable_file_copy = enable_file_copy
@@ -8553,11 +8553,11 @@ class BastionHostIPConfiguration(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
-        self.type = None
+        self.etag: Optional[str] = None
+        self.type: Optional[str] = None
         self.subnet = subnet
         self.public_ip_address = public_ip_address
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.private_ip_allocation_method = private_ip_allocation_method
 
 
@@ -8669,9 +8669,9 @@ class BastionSessionState(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.session_id = None
-        self.message = None
-        self.state = None
+        self.session_id: Optional[str] = None
+        self.message: Optional[str] = None
+        self.state: Optional[str] = None
 
 
 class BastionShareableLink(_serialization.Model):
@@ -8713,9 +8713,9 @@ class BastionShareableLink(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.vm = vm
-        self.bsl = None
-        self.created_at = None
-        self.message = None
+        self.bsl: Optional[str] = None
+        self.created_at: Optional[str] = None
+        self.message: Optional[str] = None
 
 
 class BastionShareableLinkListRequest(_serialization.Model):
@@ -8927,13 +8927,13 @@ class BgpConnection(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
-        self.type = None
+        self.etag: Optional[str] = None
+        self.type: Optional[str] = None
         self.peer_asn = peer_asn
         self.peer_ip = peer_ip
         self.hub_virtual_network_connection = hub_virtual_network_connection
-        self.provisioning_state = None
-        self.connection_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
+        self.connection_state: Optional[Union[str, "_models.HubBgpConnectionStatus"]] = None
 
 
 class BgpPeerStatus(_serialization.Model):
@@ -8985,14 +8985,14 @@ class BgpPeerStatus(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.local_address = None
-        self.neighbor = None
-        self.asn = None
-        self.state = None
-        self.connected_duration = None
-        self.routes_received = None
-        self.messages_sent = None
-        self.messages_received = None
+        self.local_address: Optional[str] = None
+        self.neighbor: Optional[str] = None
+        self.asn: Optional[int] = None
+        self.state: Optional[Union[str, "_models.BgpPeerState"]] = None
+        self.connected_duration: Optional[str] = None
+        self.routes_received: Optional[int] = None
+        self.messages_sent: Optional[int] = None
+        self.messages_received: Optional[int] = None
 
 
 class BgpPeerStatusListResult(_serialization.Model):
@@ -9299,8 +9299,8 @@ class CommonErrorAdditionalInfo(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.type = None
-        self.info = None
+        self.type: Optional[str] = None
+        self.info: Optional[JSON] = None
 
 
 class CommonErrorDetail(_serialization.Model):
@@ -9339,11 +9339,11 @@ class CommonErrorDetail(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.code = None
-        self.message = None
-        self.target = None
-        self.details = None
-        self.additional_info = None
+        self.code: Optional[str] = None
+        self.message: Optional[str] = None
+        self.target: Optional[str] = None
+        self.details: Optional[List["_models.CommonErrorDetail"]] = None
+        self.additional_info: Optional[List["_models.CommonErrorAdditionalInfo"]] = None
 
 
 class CommonErrorResponse(_serialization.Model):
@@ -9373,7 +9373,7 @@ class CommonResource(_serialization.Model):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -9402,10 +9402,10 @@ class CommonResource(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
-        self.system_data = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
+        self.system_data: Optional["_models.SystemData"] = None
 
 
 class CommonProxyResource(CommonResource):
@@ -9415,7 +9415,7 @@ class CommonProxyResource(CommonResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -9437,7 +9437,7 @@ class CommonTrackedResource(CommonResource):
     All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -9508,8 +9508,8 @@ class Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidenti
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.principal_id = None
-        self.client_id = None
+        self.principal_id: Optional[str] = None
+        self.client_id: Optional[str] = None
 
 
 class ConfigurationGroup(_serialization.Model):
@@ -9565,8 +9565,8 @@ class ConfigurationGroup(_serialization.Model):
         self.id = id
         self.description = description
         self.member_type = member_type
-        self.provisioning_state = None
-        self.resource_guid = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
+        self.resource_guid: Optional[str] = None
 
 
 class ConnectionMonitor(_serialization.Model):
@@ -10358,10 +10358,10 @@ class ConnectionMonitorResult(_serialization.Model):
         :paramtype notes: str
         """
         super().__init__(**kwargs)
-        self.name = None
-        self.id = None
-        self.etag = None
-        self.type = None
+        self.name: Optional[str] = None
+        self.id: Optional[str] = None
+        self.etag: Optional[str] = None
+        self.type: Optional[str] = None
         self.location = location
         self.tags = tags
         self.source = source
@@ -10373,10 +10373,10 @@ class ConnectionMonitorResult(_serialization.Model):
         self.test_groups = test_groups
         self.outputs = outputs
         self.notes = notes
-        self.provisioning_state = None
-        self.start_time = None
-        self.monitoring_status = None
-        self.connection_monitor_type = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
+        self.start_time: Optional[datetime.datetime] = None
+        self.monitoring_status: Optional[str] = None
+        self.connection_monitor_type: Optional[Union[str, "_models.ConnectionMonitorType"]] = None
 
 
 class ConnectionMonitorResultProperties(ConnectionMonitorParameters):
@@ -10487,10 +10487,10 @@ class ConnectionMonitorResultProperties(ConnectionMonitorParameters):
             notes=notes,
             **kwargs
         )
-        self.provisioning_state = None
-        self.start_time = None
-        self.monitoring_status = None
-        self.connection_monitor_type = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
+        self.start_time: Optional[datetime.datetime] = None
+        self.monitoring_status: Optional[str] = None
+        self.connection_monitor_type: Optional[Union[str, "_models.ConnectionMonitorType"]] = None
 
 
 class ConnectionMonitorSource(_serialization.Model):
@@ -10884,7 +10884,7 @@ class ConnectionSharedKeyResult(SubResource):
         super().__init__(id=id, **kwargs)
         self.properties = properties
         self.name = name
-        self.type = None
+        self.type: Optional[str] = None
 
 
 class ConnectionSharedKeyResultList(_serialization.Model):
@@ -11017,7 +11017,7 @@ class ConnectionStateSnapshot(_serialization.Model):
         self.max_latency_in_ms = max_latency_in_ms
         self.probes_sent = probes_sent
         self.probes_failed = probes_failed
-        self.hops = None
+        self.hops: Optional[List["_models.ConnectivityHop"]] = None
 
 
 class ConnectivityConfiguration(ChildResource):
@@ -11110,15 +11110,15 @@ class ConnectivityConfiguration(ChildResource):
         :paramtype delete_existing_peering: str or ~azure.mgmt.network.models.DeleteExistingPeering
         """
         super().__init__(**kwargs)
-        self.system_data = None
+        self.system_data: Optional["_models.SystemData"] = None
         self.description = description
         self.connectivity_topology = connectivity_topology
         self.hubs = hubs
         self.is_global = is_global
         self.applies_to_groups = applies_to_groups
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.delete_existing_peering = delete_existing_peering
-        self.resource_guid = None
+        self.resource_guid: Optional[str] = None
 
 
 class ConnectivityConfigurationListResult(_serialization.Model):
@@ -11306,15 +11306,15 @@ class ConnectivityHop(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.type = None
-        self.id = None
-        self.address = None
-        self.resource_id = None
-        self.next_hop_ids = None
-        self.previous_hop_ids = None
-        self.links = None
-        self.previous_links = None
-        self.issues = None
+        self.type: Optional[str] = None
+        self.id: Optional[str] = None
+        self.address: Optional[str] = None
+        self.resource_id: Optional[str] = None
+        self.next_hop_ids: Optional[List[str]] = None
+        self.previous_hop_ids: Optional[List[str]] = None
+        self.links: Optional[List["_models.HopLink"]] = None
+        self.previous_links: Optional[List["_models.HopLink"]] = None
+        self.issues: Optional[List["_models.ConnectivityIssue"]] = None
 
 
 class ConnectivityInformation(_serialization.Model):
@@ -11362,13 +11362,13 @@ class ConnectivityInformation(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.hops = None
-        self.connection_status = None
-        self.avg_latency_in_ms = None
-        self.min_latency_in_ms = None
-        self.max_latency_in_ms = None
-        self.probes_sent = None
-        self.probes_failed = None
+        self.hops: Optional[List["_models.ConnectivityHop"]] = None
+        self.connection_status: Optional[Union[str, "_models.ConnectionStatus"]] = None
+        self.avg_latency_in_ms: Optional[int] = None
+        self.min_latency_in_ms: Optional[int] = None
+        self.max_latency_in_ms: Optional[int] = None
+        self.probes_sent: Optional[int] = None
+        self.probes_failed: Optional[int] = None
 
 
 class ConnectivityIssue(_serialization.Model):
@@ -11405,10 +11405,10 @@ class ConnectivityIssue(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.origin = None
-        self.severity = None
-        self.type = None
-        self.context = None
+        self.origin: Optional[Union[str, "_models.Origin"]] = None
+        self.severity: Optional[Union[str, "_models.Severity"]] = None
+        self.type: Optional[Union[str, "_models.IssueType"]] = None
+        self.context: Optional[List[Dict[str, str]]] = None
 
 
 class ConnectivityParameters(_serialization.Model):
@@ -11588,12 +11588,14 @@ class ContainerNetworkInterface(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.type = None
-        self.etag = None
-        self.container_network_interface_configuration = None
+        self.type: Optional[str] = None
+        self.etag: Optional[str] = None
+        self.container_network_interface_configuration: Optional["_models.ContainerNetworkInterfaceConfiguration"] = (
+            None
+        )
         self.container = container
-        self.ip_configurations = None
-        self.provisioning_state = None
+        self.ip_configurations: Optional[List["_models.ContainerNetworkInterfaceIpConfiguration"]] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class ContainerNetworkInterfaceConfiguration(SubResource):
@@ -11660,11 +11662,11 @@ class ContainerNetworkInterfaceConfiguration(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.type = None
-        self.etag = None
+        self.type: Optional[str] = None
+        self.etag: Optional[str] = None
         self.ip_configurations = ip_configurations
         self.container_network_interfaces = container_network_interfaces
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class ContainerNetworkInterfaceIpConfiguration(_serialization.Model):
@@ -11704,9 +11706,9 @@ class ContainerNetworkInterfaceIpConfiguration(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.name = name
-        self.type = None
-        self.etag = None
-        self.provisioning_state = None
+        self.type: Optional[str] = None
+        self.etag: Optional[str] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class Criterion(_serialization.Model):
@@ -11785,9 +11787,9 @@ class CrossTenantScopes(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.tenant_id = None
-        self.management_groups = None
-        self.subscriptions = None
+        self.tenant_id: Optional[str] = None
+        self.management_groups: Optional[List[str]] = None
+        self.subscriptions: Optional[List[str]] = None
 
 
 class CustomDnsConfigPropertiesFormat(_serialization.Model):
@@ -11973,23 +11975,23 @@ class CustomIpPrefix(Resource):
         """
         super().__init__(id=id, location=location, tags=tags, **kwargs)
         self.extended_location = extended_location
-        self.etag = None
+        self.etag: Optional[str] = None
         self.zones = zones
         self.asn = asn
         self.cidr = cidr
         self.signed_message = signed_message
         self.authorization_message = authorization_message
         self.custom_ip_prefix_parent = custom_ip_prefix_parent
-        self.child_custom_ip_prefixes = None
+        self.child_custom_ip_prefixes: Optional[List["_models.SubResource"]] = None
         self.commissioned_state = commissioned_state
         self.express_route_advertise = express_route_advertise
         self.geo = geo
         self.no_internet_advertise = no_internet_advertise
         self.prefix_type = prefix_type
-        self.public_ip_prefixes = None
-        self.resource_guid = None
-        self.failed_reason = None
-        self.provisioning_state = None
+        self.public_ip_prefixes: Optional[List["_models.SubResource"]] = None
+        self.resource_guid: Optional[str] = None
+        self.failed_reason: Optional[str] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class CustomIpPrefixListResult(_serialization.Model):
@@ -12082,9 +12084,9 @@ class DdosCustomPolicy(Resource):
         :paramtype tags: dict[str, str]
         """
         super().__init__(id=id, location=location, tags=tags, **kwargs)
-        self.etag = None
-        self.resource_guid = None
-        self.provisioning_state = None
+        self.etag: Optional[str] = None
+        self.resource_guid: Optional[str] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class DdosProtectionPlan(_serialization.Model):
@@ -12151,16 +12153,16 @@ class DdosProtectionPlan(_serialization.Model):
         :paramtype tags: dict[str, str]
         """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
         self.location = location
         self.tags = tags
-        self.etag = None
-        self.resource_guid = None
-        self.provisioning_state = None
-        self.public_ip_addresses = None
-        self.virtual_networks = None
+        self.etag: Optional[str] = None
+        self.resource_guid: Optional[str] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
+        self.public_ip_addresses: Optional[List["_models.SubResource"]] = None
+        self.virtual_networks: Optional[List["_models.SubResource"]] = None
 
 
 class DdosProtectionPlanListResult(_serialization.Model):
@@ -12190,7 +12192,7 @@ class DdosProtectionPlanListResult(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class DdosSettings(_serialization.Model):
@@ -12329,18 +12331,18 @@ class DefaultAdminRule(BaseAdminRule):
         """
         super().__init__(**kwargs)
         self.kind: str = "Default"
-        self.description = None
+        self.description: Optional[str] = None
         self.flag = flag
-        self.protocol = None
-        self.sources = None
-        self.destinations = None
-        self.source_port_ranges = None
-        self.destination_port_ranges = None
-        self.access = None
-        self.priority = None
-        self.direction = None
-        self.provisioning_state = None
-        self.resource_guid = None
+        self.protocol: Optional[Union[str, "_models.SecurityConfigurationRuleProtocol"]] = None
+        self.sources: Optional[List["_models.AddressPrefixItem"]] = None
+        self.destinations: Optional[List["_models.AddressPrefixItem"]] = None
+        self.source_port_ranges: Optional[List[str]] = None
+        self.destination_port_ranges: Optional[List[str]] = None
+        self.access: Optional[Union[str, "_models.SecurityConfigurationRuleAccess"]] = None
+        self.priority: Optional[int] = None
+        self.direction: Optional[Union[str, "_models.SecurityConfigurationRuleDirection"]] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
+        self.resource_guid: Optional[str] = None
 
 
 class Delegation(SubResource):
@@ -12406,11 +12408,11 @@ class Delegation(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
+        self.etag: Optional[str] = None
         self.type = type
         self.service_name = service_name
-        self.actions = None
-        self.provisioning_state = None
+        self.actions: Optional[List[str]] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class DelegationProperties(_serialization.Model):
@@ -12441,7 +12443,7 @@ class DelegationProperties(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.service_name = service_name
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class DeviceProperties(_serialization.Model):
@@ -12718,7 +12720,7 @@ class DscpConfiguration(Resource):
         :paramtype qos_definition_collection: list[~azure.mgmt.network.models.QosDefinition]
         """
         super().__init__(id=id, location=location, tags=tags, **kwargs)
-        self.etag = None
+        self.etag: Optional[str] = None
         self.markings = markings
         self.source_ip_ranges = source_ip_ranges
         self.destination_ip_ranges = destination_ip_ranges
@@ -12726,10 +12728,10 @@ class DscpConfiguration(Resource):
         self.destination_port_ranges = destination_port_ranges
         self.protocol = protocol
         self.qos_definition_collection = qos_definition_collection
-        self.qos_collection_id = None
-        self.associated_network_interfaces = None
-        self.resource_guid = None
-        self.provisioning_state = None
+        self.qos_collection_id: Optional[str] = None
+        self.associated_network_interfaces: Optional[List["_models.NetworkInterface"]] = None
+        self.resource_guid: Optional[str] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class DscpConfigurationListResult(_serialization.Model):
@@ -12759,7 +12761,7 @@ class DscpConfigurationListResult(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class EffectiveBaseSecurityAdminRule(_serialization.Model):
@@ -12963,18 +12965,18 @@ class EffectiveDefaultSecurityAdminRule(EffectiveBaseSecurityAdminRule):
             **kwargs
         )
         self.kind: str = "Default"
-        self.description = None
+        self.description: Optional[str] = None
         self.flag = flag
-        self.protocol = None
-        self.sources = None
-        self.destinations = None
-        self.source_port_ranges = None
-        self.destination_port_ranges = None
-        self.access = None
-        self.priority = None
-        self.direction = None
-        self.provisioning_state = None
-        self.resource_guid = None
+        self.protocol: Optional[Union[str, "_models.SecurityConfigurationRuleProtocol"]] = None
+        self.sources: Optional[List["_models.AddressPrefixItem"]] = None
+        self.destinations: Optional[List["_models.AddressPrefixItem"]] = None
+        self.source_port_ranges: Optional[List[str]] = None
+        self.destination_port_ranges: Optional[List[str]] = None
+        self.access: Optional[Union[str, "_models.SecurityConfigurationRuleAccess"]] = None
+        self.priority: Optional[int] = None
+        self.direction: Optional[Union[str, "_models.SecurityConfigurationRuleDirection"]] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
+        self.resource_guid: Optional[str] = None
 
 
 class EffectiveNetworkSecurityGroup(_serialization.Model):
@@ -13091,7 +13093,7 @@ class EffectiveNetworkSecurityGroupListResult(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class EffectiveNetworkSecurityRule(_serialization.Model):
@@ -13333,7 +13335,7 @@ class EffectiveRouteListResult(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class EffectiveRouteMapRoute(_serialization.Model):
@@ -13579,8 +13581,8 @@ class EffectiveSecurityAdminRule(EffectiveBaseSecurityAdminRule):
         self.access = access
         self.priority = priority
         self.direction = direction
-        self.provisioning_state = None
-        self.resource_guid = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
+        self.resource_guid: Optional[str] = None
 
 
 class EndpointServiceResult(SubResource):
@@ -13613,8 +13615,8 @@ class EndpointServiceResult(SubResource):
         :paramtype id: str
         """
         super().__init__(id=id, **kwargs)
-        self.name = None
-        self.type = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
 
 
 class EndpointServicesListResult(_serialization.Model):
@@ -13803,7 +13805,7 @@ class EvaluatedNetworkSecurityGroup(_serialization.Model):
         self.network_security_group_id = network_security_group_id
         self.applied_to = applied_to
         self.matched_rule = matched_rule
-        self.rules_evaluation_result = None
+        self.rules_evaluation_result: Optional[List["_models.NetworkSecurityRulesEvaluationResult"]] = None
 
 
 class ExceptionEntry(_serialization.Model):
@@ -14237,7 +14239,7 @@ class ExpressRouteCircuit(Resource):
         """
         super().__init__(id=id, location=location, tags=tags, **kwargs)
         self.sku = sku
-        self.etag = None
+        self.etag: Optional[str] = None
         self.allow_classic_operations = allow_classic_operations
         self.circuit_provisioning_state = circuit_provisioning_state
         self.service_provider_provisioning_state = service_provider_provisioning_state
@@ -14248,12 +14250,12 @@ class ExpressRouteCircuit(Resource):
         self.service_provider_properties = service_provider_properties
         self.express_route_port = express_route_port
         self.bandwidth_in_gbps = bandwidth_in_gbps
-        self.stag = None
-        self.provisioning_state = None
+        self.stag: Optional[int] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.gateway_manager_etag = gateway_manager_etag
         self.global_reach_enabled = global_reach_enabled
         self.authorization_key = authorization_key
-        self.authorization_status = None
+        self.authorization_status: Optional[str] = None
         self.enable_direct_port_rate_limit = enable_direct_port_rate_limit
 
 
@@ -14371,12 +14373,12 @@ class ExpressRouteCircuitAuthorization(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
-        self.type = None
+        self.etag: Optional[str] = None
+        self.type: Optional[str] = None
         self.authorization_key = authorization_key
         self.authorization_use_status = authorization_use_status
-        self.connection_resource_uri = None
-        self.provisioning_state = None
+        self.connection_resource_uri: Optional[str] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class ExpressRouteCircuitConnection(SubResource):
@@ -14477,15 +14479,15 @@ class ExpressRouteCircuitConnection(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
-        self.type = None
+        self.etag: Optional[str] = None
+        self.type: Optional[str] = None
         self.express_route_circuit_peering = express_route_circuit_peering
         self.peer_express_route_circuit_peering = peer_express_route_circuit_peering
         self.address_prefix = address_prefix
         self.authorization_key = authorization_key
         self.ipv6_circuit_connection_config = ipv6_circuit_connection_config
-        self.circuit_connection_status = None
-        self.provisioning_state = None
+        self.circuit_connection_status: Optional[Union[str, "_models.CircuitConnectionStatus"]] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class ExpressRouteCircuitConnectionListResult(_serialization.Model):
@@ -14724,8 +14726,8 @@ class ExpressRouteCircuitPeering(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
-        self.type = None
+        self.etag: Optional[str] = None
+        self.type: Optional[str] = None
         self.peering_type = peering_type
         self.state = state
         self.azure_asn = azure_asn
@@ -14738,14 +14740,14 @@ class ExpressRouteCircuitPeering(SubResource):
         self.vlan_id = vlan_id
         self.microsoft_peering_config = microsoft_peering_config
         self.stats = stats
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.gateway_manager_etag = gateway_manager_etag
-        self.last_modified_by = None
+        self.last_modified_by: Optional[str] = None
         self.route_filter = route_filter
         self.ipv6_peering_config = ipv6_peering_config
         self.express_route_connection = express_route_connection
         self.connections = connections
-        self.peered_connections = None
+        self.peered_connections: Optional[List["_models.PeerExpressRouteCircuitConnection"]] = None
 
 
 class ExpressRouteCircuitPeeringConfig(_serialization.Model):
@@ -14809,7 +14811,9 @@ class ExpressRouteCircuitPeeringConfig(_serialization.Model):
         super().__init__(**kwargs)
         self.advertised_public_prefixes = advertised_public_prefixes
         self.advertised_communities = advertised_communities
-        self.advertised_public_prefixes_state = None
+        self.advertised_public_prefixes_state: Optional[
+            Union[str, "_models.ExpressRouteCircuitPeeringAdvertisedPublicPrefixState"]
+        ] = None
         self.legacy_mode = legacy_mode
         self.customer_asn = customer_asn
         self.routing_registry_name = routing_registry_name
@@ -15313,7 +15317,7 @@ class ExpressRouteConnection(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.express_route_circuit_peering = express_route_circuit_peering
         self.authorization_key = authorization_key
         self.routing_weight = routing_weight
@@ -15343,7 +15347,7 @@ class ExpressRouteConnectionId(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.id = None
+        self.id: Optional[str] = None
 
 
 class ExpressRouteConnectionList(_serialization.Model):
@@ -15473,16 +15477,16 @@ class ExpressRouteCrossConnection(Resource):
         :paramtype peerings: list[~azure.mgmt.network.models.ExpressRouteCrossConnectionPeering]
         """
         super().__init__(id=id, location=location, tags=tags, **kwargs)
-        self.etag = None
-        self.primary_azure_port = None
-        self.secondary_azure_port = None
-        self.s_tag = None
-        self.peering_location = None
-        self.bandwidth_in_mbps = None
+        self.etag: Optional[str] = None
+        self.primary_azure_port: Optional[str] = None
+        self.secondary_azure_port: Optional[str] = None
+        self.s_tag: Optional[int] = None
+        self.peering_location: Optional[str] = None
+        self.bandwidth_in_mbps: Optional[int] = None
         self.express_route_circuit = express_route_circuit
         self.service_provider_provisioning_state = service_provider_provisioning_state
         self.service_provider_notes = service_provider_notes
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.peerings = peerings
 
 
@@ -15513,7 +15517,7 @@ class ExpressRouteCrossConnectionListResult(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class ExpressRouteCrossConnectionPeering(SubResource):
@@ -15645,21 +15649,21 @@ class ExpressRouteCrossConnectionPeering(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
+        self.etag: Optional[str] = None
         self.peering_type = peering_type
         self.state = state
-        self.azure_asn = None
+        self.azure_asn: Optional[int] = None
         self.peer_asn = peer_asn
         self.primary_peer_address_prefix = primary_peer_address_prefix
         self.secondary_peer_address_prefix = secondary_peer_address_prefix
-        self.primary_azure_port = None
-        self.secondary_azure_port = None
+        self.primary_azure_port: Optional[str] = None
+        self.secondary_azure_port: Optional[str] = None
         self.shared_key = shared_key
         self.vlan_id = vlan_id
         self.microsoft_peering_config = microsoft_peering_config
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.gateway_manager_etag = gateway_manager_etag
-        self.last_modified_by = None
+        self.last_modified_by: Optional[str] = None
         self.ipv6_peering_config = ipv6_peering_config
 
 
@@ -15693,7 +15697,7 @@ class ExpressRouteCrossConnectionPeeringList(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class ExpressRouteCrossConnectionRoutesTableSummary(_serialization.Model):  # pylint: disable=name-too-long
@@ -15776,7 +15780,7 @@ class ExpressRouteCrossConnectionsRoutesTableSummaryListResult(_serialization.Mo
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class ExpressRouteFailoverCircuitResourceDetails(_serialization.Model):  # pylint: disable=name-too-long
@@ -16194,10 +16198,10 @@ class ExpressRouteGateway(Resource):
         :paramtype allow_non_virtual_wan_traffic: bool
         """
         super().__init__(id=id, location=location, tags=tags, **kwargs)
-        self.etag = None
+        self.etag: Optional[str] = None
         self.auto_scale_configuration = auto_scale_configuration
         self.express_route_connections = express_route_connections
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.virtual_hub = virtual_hub
         self.allow_non_virtual_wan_traffic = allow_non_virtual_wan_traffic
 
@@ -16364,15 +16368,15 @@ class ExpressRouteLink(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
-        self.router_name = None
-        self.interface_name = None
-        self.patch_panel_id = None
-        self.rack_id = None
-        self.colo_location = None
-        self.connector_type = None
+        self.etag: Optional[str] = None
+        self.router_name: Optional[str] = None
+        self.interface_name: Optional[str] = None
+        self.patch_panel_id: Optional[str] = None
+        self.rack_id: Optional[str] = None
+        self.colo_location: Optional[str] = None
+        self.connector_type: Optional[Union[str, "_models.ExpressRouteLinkConnectorType"]] = None
         self.admin_state = admin_state
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.mac_sec_config = mac_sec_config
 
 
@@ -16580,19 +16584,19 @@ class ExpressRoutePort(Resource):
         :paramtype billing_type: str or ~azure.mgmt.network.models.ExpressRoutePortsBillingType
         """
         super().__init__(id=id, location=location, tags=tags, **kwargs)
-        self.etag = None
+        self.etag: Optional[str] = None
         self.identity = identity
         self.peering_location = peering_location
         self.bandwidth_in_gbps = bandwidth_in_gbps
-        self.provisioned_bandwidth_in_gbps = None
-        self.mtu = None
+        self.provisioned_bandwidth_in_gbps: Optional[float] = None
+        self.mtu: Optional[str] = None
         self.encapsulation = encapsulation
-        self.ether_type = None
-        self.allocation_date = None
+        self.ether_type: Optional[str] = None
+        self.allocation_date: Optional[str] = None
         self.links = links
-        self.circuits = None
-        self.provisioning_state = None
-        self.resource_guid = None
+        self.circuits: Optional[List["_models.SubResource"]] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
+        self.resource_guid: Optional[str] = None
         self.billing_type = billing_type
 
 
@@ -16660,12 +16664,12 @@ class ExpressRoutePortAuthorization(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
-        self.type = None
-        self.authorization_key = None
-        self.authorization_use_status = None
-        self.circuit_resource_uri = None
-        self.provisioning_state = None
+        self.etag: Optional[str] = None
+        self.type: Optional[str] = None
+        self.authorization_key: Optional[str] = None
+        self.authorization_use_status: Optional[Union[str, "_models.ExpressRoutePortAuthorizationUseStatus"]] = None
+        self.circuit_resource_uri: Optional[str] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class ExpressRoutePortAuthorizationListResult(_serialization.Model):
@@ -16803,10 +16807,10 @@ class ExpressRoutePortsLocation(Resource):
          list[~azure.mgmt.network.models.ExpressRoutePortsLocationBandwidths]
         """
         super().__init__(id=id, location=location, tags=tags, **kwargs)
-        self.address = None
-        self.contact = None
+        self.address: Optional[str] = None
+        self.contact: Optional[str] = None
         self.available_bandwidths = available_bandwidths
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class ExpressRoutePortsLocationBandwidths(_serialization.Model):
@@ -16833,8 +16837,8 @@ class ExpressRoutePortsLocationBandwidths(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.offer_name = None
-        self.value_in_gbps = None
+        self.offer_name: Optional[str] = None
+        self.value_in_gbps: Optional[int] = None
 
 
 class ExpressRoutePortsLocationListResult(_serialization.Model):
@@ -16962,10 +16966,10 @@ class ExpressRouteProviderPort(Resource):
         :paramtype remaining_bandwidth_in_mbps: int
         """
         super().__init__(id=id, location=location, tags=tags, **kwargs)
-        self.etag = None
-        self.port_pair_descriptor = None
-        self.primary_azure_port = None
-        self.secondary_azure_port = None
+        self.etag: Optional[str] = None
+        self.port_pair_descriptor: Optional[str] = None
+        self.primary_azure_port: Optional[str] = None
+        self.secondary_azure_port: Optional[str] = None
         self.peering_location = peering_location
         self.overprovision_factor = overprovision_factor
         self.port_bandwidth_in_mbps = port_bandwidth_in_mbps
@@ -17000,7 +17004,7 @@ class ExpressRouteProviderPortListResult(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class ExpressRouteServiceProvider(Resource):
@@ -17075,7 +17079,7 @@ class ExpressRouteServiceProvider(Resource):
         super().__init__(id=id, location=location, tags=tags, **kwargs)
         self.peering_locations = peering_locations
         self.bandwidths_offered = bandwidths_offered
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class ExpressRouteServiceProviderBandwidthsOffered(_serialization.Model):  # pylint: disable=name-too-long
@@ -17461,14 +17465,14 @@ class FirewallPolicy(Resource):
         :paramtype sku: ~azure.mgmt.network.models.FirewallPolicySku
         """
         super().__init__(id=id, location=location, tags=tags, **kwargs)
-        self.etag = None
+        self.etag: Optional[str] = None
         self.identity = identity
-        self.size = None
-        self.rule_collection_groups = None
-        self.provisioning_state = None
+        self.size: Optional[str] = None
+        self.rule_collection_groups: Optional[List["_models.SubResource"]] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.base_policy = base_policy
-        self.firewalls = None
-        self.child_policies = None
+        self.firewalls: Optional[List["_models.SubResource"]] = None
+        self.child_policies: Optional[List["_models.SubResource"]] = None
         self.threat_intel_mode = threat_intel_mode
         self.threat_intel_whitelist = threat_intel_whitelist
         self.insights = insights
@@ -18313,12 +18317,12 @@ class FirewallPolicyRuleCollectionGroup(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
-        self.type = None
-        self.size = None
+        self.etag: Optional[str] = None
+        self.type: Optional[str] = None
+        self.size: Optional[str] = None
         self.priority = priority
         self.rule_collections = rule_collections
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class FirewallPolicyRuleCollectionGroupDraft(SubResource):
@@ -18379,8 +18383,8 @@ class FirewallPolicyRuleCollectionGroupDraft(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.type = None
-        self.size = None
+        self.type: Optional[str] = None
+        self.size: Optional[str] = None
         self.priority = priority
         self.rule_collections = rule_collections
 
@@ -18662,17 +18666,17 @@ class FlowLog(Resource):
         :paramtype flow_analytics_configuration: ~azure.mgmt.network.models.TrafficAnalyticsProperties
         """
         super().__init__(id=id, location=location, tags=tags, **kwargs)
-        self.etag = None
+        self.etag: Optional[str] = None
         self.identity = identity
         self.target_resource_id = target_resource_id
-        self.target_resource_guid = None
+        self.target_resource_guid: Optional[str] = None
         self.storage_id = storage_id
         self.enabled_filtering_criteria = enabled_filtering_criteria
         self.enabled = enabled
         self.retention_policy = retention_policy
         self.format = format
         self.flow_analytics_configuration = flow_analytics_configuration
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class FlowLogFormatParameters(_serialization.Model):
@@ -18820,7 +18824,7 @@ class FlowLogListResult(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class FlowLogStatusParameters(_serialization.Model):
@@ -18971,13 +18975,13 @@ class FrontendIPConfiguration(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
-        self.type = None
+        self.etag: Optional[str] = None
+        self.type: Optional[str] = None
         self.zones = zones
-        self.inbound_nat_rules = None
-        self.inbound_nat_pools = None
-        self.outbound_rules = None
-        self.load_balancing_rules = None
+        self.inbound_nat_rules: Optional[List["_models.SubResource"]] = None
+        self.inbound_nat_pools: Optional[List["_models.SubResource"]] = None
+        self.outbound_rules: Optional[List["_models.SubResource"]] = None
+        self.load_balancing_rules: Optional[List["_models.SubResource"]] = None
         self.private_ip_address = private_ip_address
         self.private_ip_allocation_method = private_ip_allocation_method
         self.private_ip_address_version = private_ip_address_version
@@ -18985,7 +18989,7 @@ class FrontendIPConfiguration(SubResource):
         self.public_ip_address = public_ip_address
         self.public_ip_prefix = public_ip_prefix
         self.gateway_load_balancer = gateway_load_balancer
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class GatewayCustomBgpIpAddressIpConfiguration(_serialization.Model):
@@ -19119,13 +19123,13 @@ class GatewayRoute(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.local_address = None
-        self.network = None
-        self.next_hop = None
-        self.source_peer = None
-        self.origin = None
-        self.as_path = None
-        self.weight = None
+        self.local_address: Optional[str] = None
+        self.network: Optional[str] = None
+        self.next_hop: Optional[str] = None
+        self.source_peer: Optional[str] = None
+        self.origin: Optional[str] = None
+        self.as_path: Optional[str] = None
+        self.weight: Optional[int] = None
 
 
 class GatewayRouteListResult(_serialization.Model):
@@ -19440,14 +19444,14 @@ class HopLink(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.next_hop_id = None
-        self.link_type = None
-        self.issues = None
-        self.context = None
-        self.resource_id = None
-        self.round_trip_time_min = None
-        self.round_trip_time_avg = None
-        self.round_trip_time_max = None
+        self.next_hop_id: Optional[str] = None
+        self.link_type: Optional[str] = None
+        self.issues: Optional[List["_models.ConnectivityIssue"]] = None
+        self.context: Optional[Dict[str, str]] = None
+        self.resource_id: Optional[str] = None
+        self.round_trip_time_min: Optional[int] = None
+        self.round_trip_time_avg: Optional[int] = None
+        self.round_trip_time_max: Optional[int] = None
 
 
 class HTTPConfiguration(_serialization.Model):
@@ -19648,13 +19652,13 @@ class HubIpConfiguration(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
-        self.type = None
+        self.etag: Optional[str] = None
+        self.type: Optional[str] = None
         self.private_ip_address = private_ip_address
         self.private_ip_allocation_method = private_ip_allocation_method
         self.subnet = subnet
         self.public_ip_address = public_ip_address
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class HubPublicIPAddresses(_serialization.Model):
@@ -19825,13 +19829,13 @@ class HubRouteTable(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
-        self.type = None
+        self.etag: Optional[str] = None
+        self.type: Optional[str] = None
         self.routes = routes
         self.labels = labels
-        self.associated_connections = None
-        self.propagating_connections = None
-        self.provisioning_state = None
+        self.associated_connections: Optional[List[str]] = None
+        self.propagating_connections: Optional[List[str]] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class HubVirtualNetworkConnection(SubResource):
@@ -19919,13 +19923,13 @@ class HubVirtualNetworkConnection(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
+        self.etag: Optional[str] = None
         self.remote_virtual_network = remote_virtual_network
         self.allow_hub_to_remote_vnet_transit = allow_hub_to_remote_vnet_transit
         self.allow_remote_vnet_to_use_hub_vnet_gateways = allow_remote_vnet_to_use_hub_vnet_gateways
         self.enable_internet_security = enable_internet_security
         self.routing_configuration = routing_configuration
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class IDPSQueryObject(_serialization.Model):
@@ -20106,8 +20110,8 @@ class InboundNatPool(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
-        self.type = None
+        self.etag: Optional[str] = None
+        self.type: Optional[str] = None
         self.frontend_ip_configuration = frontend_ip_configuration
         self.protocol = protocol
         self.frontend_port_range_start = frontend_port_range_start
@@ -20116,7 +20120,7 @@ class InboundNatPool(SubResource):
         self.idle_timeout_in_minutes = idle_timeout_in_minutes
         self.enable_floating_ip = enable_floating_ip
         self.enable_tcp_reset = enable_tcp_reset
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class InboundNatRule(SubResource):
@@ -20267,10 +20271,10 @@ class InboundNatRule(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
-        self.type = None
+        self.etag: Optional[str] = None
+        self.type: Optional[str] = None
         self.frontend_ip_configuration = frontend_ip_configuration
-        self.backend_ip_configuration = None
+        self.backend_ip_configuration: Optional["_models.NetworkInterfaceIPConfiguration"] = None
         self.protocol = protocol
         self.frontend_port = frontend_port
         self.backend_port = backend_port
@@ -20280,7 +20284,7 @@ class InboundNatRule(SubResource):
         self.frontend_port_range_start = frontend_port_range_start
         self.frontend_port_range_end = frontend_port_range_end
         self.backend_address_pool = backend_address_pool
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class InboundNatRuleListResult(_serialization.Model):
@@ -20310,7 +20314,7 @@ class InboundNatRuleListResult(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class InboundNatRulePortMapping(_serialization.Model):
@@ -20346,10 +20350,10 @@ class InboundNatRulePortMapping(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.inbound_nat_rule_name = None
-        self.protocol = None
-        self.frontend_port = None
-        self.backend_port = None
+        self.inbound_nat_rule_name: Optional[str] = None
+        self.protocol: Optional[Union[str, "_models.TransportProtocol"]] = None
+        self.frontend_port: Optional[int] = None
+        self.backend_port: Optional[int] = None
 
 
 class InboundSecurityRule(SubResource):
@@ -20415,11 +20419,11 @@ class InboundSecurityRule(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
-        self.type = None
+        self.etag: Optional[str] = None
+        self.type: Optional[str] = None
         self.rule_type = rule_type
         self.rules = rules
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class InboundSecurityRules(_serialization.Model):
@@ -20707,9 +20711,9 @@ class IpAllocation(Resource):
         :paramtype allocation_tags: dict[str, str]
         """
         super().__init__(id=id, location=location, tags=tags, **kwargs)
-        self.etag = None
-        self.subnet = None
-        self.virtual_network = None
+        self.etag: Optional[str] = None
+        self.subnet: Optional["_models.SubResource"] = None
+        self.virtual_network: Optional["_models.SubResource"] = None
         self.type_properties_type = type_properties_type
         self.prefix = prefix
         self.prefix_length = prefix_length
@@ -20754,7 +20758,7 @@ class IpamPool(CommonTrackedResource):
     All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -20880,7 +20884,7 @@ class IpamPoolPrefixAllocation(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.number_of_ip_addresses = number_of_ip_addresses
-        self.allocated_address_prefixes = None
+        self.allocated_address_prefixes: Optional[List[str]] = None
         self.id = id
 
 
@@ -20948,7 +20952,7 @@ class IpamPoolProperties(_serialization.Model):
         super().__init__(**kwargs)
         self.description = description
         self.display_name = display_name
-        self.ip_address_type = None
+        self.ip_address_type: Optional[List[Union[str, "_models.IpType"]]] = None
         self.parent_pool_name = parent_pool_name
         self.address_prefixes = address_prefixes
         self.provisioning_state = provisioning_state
@@ -21083,12 +21087,12 @@ class IPConfiguration(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
+        self.etag: Optional[str] = None
         self.private_ip_address = private_ip_address
         self.private_ip_allocation_method = private_ip_allocation_method
         self.subnet = subnet
         self.public_ip_address = public_ip_address
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class IPConfigurationBgpPeeringAddress(_serialization.Model):
@@ -21137,9 +21141,9 @@ class IPConfigurationBgpPeeringAddress(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.ipconfiguration_id = ipconfiguration_id
-        self.default_bgp_ip_addresses = None
+        self.default_bgp_ip_addresses: Optional[List[str]] = None
         self.custom_bgp_ip_addresses = custom_bgp_ip_addresses
-        self.tunnel_ip_addresses = None
+        self.tunnel_ip_addresses: Optional[List[str]] = None
 
 
 class IPConfigurationProfile(SubResource):
@@ -21197,10 +21201,10 @@ class IPConfigurationProfile(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.type = None
-        self.etag = None
+        self.type: Optional[str] = None
+        self.etag: Optional[str] = None
         self.subnet = subnet
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class IpGroup(Resource):
@@ -21275,11 +21279,11 @@ class IpGroup(Resource):
         :paramtype ip_addresses: list[str]
         """
         super().__init__(id=id, location=location, tags=tags, **kwargs)
-        self.etag = None
-        self.provisioning_state = None
+        self.etag: Optional[str] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.ip_addresses = ip_addresses
-        self.firewalls = None
-        self.firewall_policies = None
+        self.firewalls: Optional[List["_models.SubResource"]] = None
+        self.firewall_policies: Optional[List["_models.SubResource"]] = None
 
 
 class IpGroupListResult(_serialization.Model):
@@ -21577,7 +21581,7 @@ class Ipv6CircuitConnectionConfig(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.address_prefix = address_prefix
-        self.circuit_connection_status = None
+        self.circuit_connection_status: Optional[Union[str, "_models.CircuitConnectionStatus"]] = None
 
 
 class Ipv6ExpressRouteCircuitPeeringConfig(_serialization.Model):
@@ -22353,7 +22357,7 @@ class LoadBalancer(Resource):
         super().__init__(id=id, location=location, tags=tags, **kwargs)
         self.extended_location = extended_location
         self.sku = sku
-        self.etag = None
+        self.etag: Optional[str] = None
         self.frontend_ip_configurations = frontend_ip_configurations
         self.backend_address_pools = backend_address_pools
         self.load_balancing_rules = load_balancing_rules
@@ -22361,8 +22365,8 @@ class LoadBalancer(Resource):
         self.inbound_nat_rules = inbound_nat_rules
         self.inbound_nat_pools = inbound_nat_pools
         self.outbound_rules = outbound_rules
-        self.resource_guid = None
-        self.provisioning_state = None
+        self.resource_guid: Optional[str] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class LoadBalancerBackendAddress(_serialization.Model):
@@ -22450,9 +22454,9 @@ class LoadBalancerBackendAddress(_serialization.Model):
         self.virtual_network = virtual_network
         self.subnet = subnet
         self.ip_address = ip_address
-        self.network_interface_ip_configuration = None
+        self.network_interface_ip_configuration: Optional["_models.SubResource"] = None
         self.load_balancer_frontend_ip_configuration = load_balancer_frontend_ip_configuration
-        self.inbound_nat_rules_port_mapping = None
+        self.inbound_nat_rules_port_mapping: Optional[List["_models.NatRulePortMapping"]] = None
         self.admin_state = admin_state
 
 
@@ -22483,7 +22487,7 @@ class LoadBalancerBackendAddressPoolListResult(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class LoadBalancerFrontendIPConfigurationListResult(_serialization.Model):  # pylint: disable=name-too-long
@@ -22513,7 +22517,7 @@ class LoadBalancerFrontendIPConfigurationListResult(_serialization.Model):  # py
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class LoadBalancerHealthPerRule(_serialization.Model):
@@ -22644,7 +22648,7 @@ class LoadBalancerListResult(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class LoadBalancerLoadBalancingRuleListResult(_serialization.Model):
@@ -22674,7 +22678,7 @@ class LoadBalancerLoadBalancingRuleListResult(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class LoadBalancerOutboundRuleListResult(_serialization.Model):
@@ -22704,7 +22708,7 @@ class LoadBalancerOutboundRuleListResult(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class LoadBalancerProbeListResult(_serialization.Model):
@@ -22734,7 +22738,7 @@ class LoadBalancerProbeListResult(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class LoadBalancerSku(_serialization.Model):
@@ -22982,8 +22986,8 @@ class LoadBalancingRule(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
-        self.type = None
+        self.etag: Optional[str] = None
+        self.type: Optional[str] = None
         self.frontend_ip_configuration = frontend_ip_configuration
         self.backend_address_pool = backend_address_pool
         self.backend_address_pools = backend_address_pools
@@ -22996,7 +23000,7 @@ class LoadBalancingRule(SubResource):
         self.enable_floating_ip = enable_floating_ip
         self.enable_tcp_reset = enable_tcp_reset
         self.disable_outbound_snat = disable_outbound_snat
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class LocalNetworkGateway(Resource):
@@ -23083,13 +23087,13 @@ class LocalNetworkGateway(Resource):
         :paramtype bgp_settings: ~azure.mgmt.network.models.BgpSettings
         """
         super().__init__(id=id, location=location, tags=tags, **kwargs)
-        self.etag = None
+        self.etag: Optional[str] = None
         self.local_network_address_space = local_network_address_space
         self.gateway_ip_address = gateway_ip_address
         self.fqdn = fqdn
         self.bgp_settings = bgp_settings
-        self.resource_guid = None
-        self.provisioning_state = None
+        self.resource_guid: Optional[str] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class LocalNetworkGatewayListResult(_serialization.Model):
@@ -23119,7 +23123,7 @@ class LocalNetworkGatewayListResult(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class LogSpecification(_serialization.Model):
@@ -23365,9 +23369,9 @@ class ManagedServiceIdentity(_serialization.Model):
     :vartype type: str or ~azure.mgmt.network.models.ResourceIdentityType
     :ivar user_assigned_identities: The list of user identities associated with resource. The user
      identity dictionary key references will be ARM resource ids in the form:
-     '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.  # pylint: disable=line-too-long
+     '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
     :vartype user_assigned_identities: dict[str,
-     ~azure.mgmt.network.models.Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties]  # pylint: disable=line-too-long
+     ~azure.mgmt.network.models.Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties]
     """
 
     _validation = {
@@ -23405,13 +23409,13 @@ class ManagedServiceIdentity(_serialization.Model):
         :paramtype type: str or ~azure.mgmt.network.models.ResourceIdentityType
         :keyword user_assigned_identities: The list of user identities associated with resource. The
          user identity dictionary key references will be ARM resource ids in the form:
-         '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.  # pylint: disable=line-too-long
+         '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
         :paramtype user_assigned_identities: dict[str,
-         ~azure.mgmt.network.models.Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties]  # pylint: disable=line-too-long
+         ~azure.mgmt.network.models.Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties]
         """
         super().__init__(**kwargs)
-        self.principal_id = None
-        self.tenant_id = None
+        self.principal_id: Optional[str] = None
+        self.tenant_id: Optional[str] = None
         self.type = type
         self.user_assigned_identities = user_assigned_identities
 
@@ -23807,13 +23811,13 @@ class NatGateway(Resource):
         super().__init__(id=id, location=location, tags=tags, **kwargs)
         self.sku = sku
         self.zones = zones
-        self.etag = None
+        self.etag: Optional[str] = None
         self.idle_timeout_in_minutes = idle_timeout_in_minutes
         self.public_ip_addresses = public_ip_addresses
         self.public_ip_prefixes = public_ip_prefixes
-        self.subnets = None
-        self.resource_guid = None
-        self.provisioning_state = None
+        self.subnets: Optional[List["_models.SubResource"]] = None
+        self.resource_guid: Optional[str] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class NatGatewayListResult(_serialization.Model):
@@ -24142,7 +24146,7 @@ class NetworkConfigurationDiagnosticResponse(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.results = None
+        self.results: Optional[List["_models.NetworkConfigurationDiagnosticResult"]] = None
 
 
 class NetworkConfigurationDiagnosticResult(_serialization.Model):
@@ -24241,11 +24245,11 @@ class NetworkGroup(ChildResource):
         :paramtype member_type: str or ~azure.mgmt.network.models.GroupMemberType
         """
         super().__init__(**kwargs)
-        self.system_data = None
+        self.system_data: Optional["_models.SystemData"] = None
         self.description = description
         self.member_type = member_type
-        self.provisioning_state = None
-        self.resource_guid = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
+        self.resource_guid: Optional[str] = None
 
 
 class NetworkGroupListResult(_serialization.Model):
@@ -24328,7 +24332,7 @@ class NetworkIntentPolicy(Resource):
         :paramtype tags: dict[str, str]
         """
         super().__init__(id=id, location=location, tags=tags, **kwargs)
-        self.etag = None
+        self.etag: Optional[str] = None
 
 
 class NetworkIntentPolicyConfiguration(_serialization.Model):
@@ -24558,24 +24562,24 @@ class NetworkInterface(Resource):
         """
         super().__init__(id=id, location=location, tags=tags, **kwargs)
         self.extended_location = extended_location
-        self.etag = None
-        self.virtual_machine = None
+        self.etag: Optional[str] = None
+        self.virtual_machine: Optional["_models.SubResource"] = None
         self.network_security_group = network_security_group
-        self.private_endpoint = None
+        self.private_endpoint: Optional["_models.PrivateEndpoint"] = None
         self.ip_configurations = ip_configurations
-        self.tap_configurations = None
+        self.tap_configurations: Optional[List["_models.NetworkInterfaceTapConfiguration"]] = None
         self.dns_settings = dns_settings
-        self.mac_address = None
-        self.primary = None
-        self.vnet_encryption_supported = None
-        self.default_outbound_connectivity_enabled = None
+        self.mac_address: Optional[str] = None
+        self.primary: Optional[bool] = None
+        self.vnet_encryption_supported: Optional[bool] = None
+        self.default_outbound_connectivity_enabled: Optional[bool] = None
         self.enable_accelerated_networking = enable_accelerated_networking
         self.disable_tcp_state_tracking = disable_tcp_state_tracking
         self.enable_ip_forwarding = enable_ip_forwarding
-        self.hosted_workloads = None
-        self.dscp_configuration = None
-        self.resource_guid = None
-        self.provisioning_state = None
+        self.hosted_workloads: Optional[List[str]] = None
+        self.dscp_configuration: Optional["_models.SubResource"] = None
+        self.resource_guid: Optional[str] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.workload_type = workload_type
         self.nic_type = nic_type
         self.private_link_service = private_link_service
@@ -24610,7 +24614,7 @@ class NetworkInterfaceAssociation(_serialization.Model):
         :paramtype security_rules: list[~azure.mgmt.network.models.SecurityRule]
         """
         super().__init__(**kwargs)
-        self.id = None
+        self.id: Optional[str] = None
         self.security_rules = security_rules
 
 
@@ -24667,10 +24671,10 @@ class NetworkInterfaceDnsSettings(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.dns_servers = dns_servers
-        self.applied_dns_servers = None
+        self.applied_dns_servers: Optional[List[str]] = None
         self.internal_dns_name_label = internal_dns_name_label
-        self.internal_fqdn = None
-        self.internal_domain_name_suffix = None
+        self.internal_fqdn: Optional[str] = None
+        self.internal_domain_name_suffix: Optional[str] = None
 
 
 class NetworkInterfaceIPConfiguration(SubResource):
@@ -24702,7 +24706,7 @@ class NetworkInterfaceIPConfiguration(SubResource):
     :ivar load_balancer_inbound_nat_rules: A list of references of LoadBalancerInboundNatRules.
     :vartype load_balancer_inbound_nat_rules: list[~azure.mgmt.network.models.InboundNatRule]
     :ivar private_ip_address: Private IP address of the IP configuration. It can be a single IP
-     address or a CIDR block in the format :code:`<address>`/:code:`<prefix-length>`.
+     address or a CIDR block in the format :code:`<address>`/\\ :code:`<prefix-length>`.
     :vartype private_ip_address: str
     :ivar private_ip_address_prefix_length: The private IP address prefix length. If specified and
      the allocation method is dynamic, the service will allocate a CIDR block instead of a single IP
@@ -24822,7 +24826,7 @@ class NetworkInterfaceIPConfiguration(SubResource):
         :keyword load_balancer_inbound_nat_rules: A list of references of LoadBalancerInboundNatRules.
         :paramtype load_balancer_inbound_nat_rules: list[~azure.mgmt.network.models.InboundNatRule]
         :keyword private_ip_address: Private IP address of the IP configuration. It can be a single IP
-         address or a CIDR block in the format :code:`<address>`/:code:`<prefix-length>`.
+         address or a CIDR block in the format :code:`<address>`/\\ :code:`<prefix-length>`.
         :paramtype private_ip_address: str
         :keyword private_ip_address_prefix_length: The private IP address prefix length. If specified
          and the allocation method is dynamic, the service will allocate a CIDR block instead of a
@@ -24847,7 +24851,7 @@ class NetworkInterfaceIPConfiguration(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
+        self.etag: Optional[str] = None
         self.type = type
         self.gateway_load_balancer = gateway_load_balancer
         self.virtual_network_taps = virtual_network_taps
@@ -24862,8 +24866,10 @@ class NetworkInterfaceIPConfiguration(SubResource):
         self.primary = primary
         self.public_ip_address = public_ip_address
         self.application_security_groups = application_security_groups
-        self.provisioning_state = None
-        self.private_link_connection_properties = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
+        self.private_link_connection_properties: Optional[
+            "_models.NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties"
+        ] = None
 
 
 class NetworkInterfaceIPConfigurationListResult(_serialization.Model):  # pylint: disable=name-too-long
@@ -24895,7 +24901,7 @@ class NetworkInterfaceIPConfigurationListResult(_serialization.Model):  # pylint
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties(
@@ -24928,9 +24934,9 @@ class NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties(
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.group_id = None
-        self.required_member_name = None
-        self.fqdns = None
+        self.group_id: Optional[str] = None
+        self.required_member_name: Optional[str] = None
+        self.fqdns: Optional[List[str]] = None
 
 
 class NetworkInterfaceListResult(_serialization.Model):
@@ -24960,7 +24966,7 @@ class NetworkInterfaceListResult(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class NetworkInterfaceLoadBalancerListResult(_serialization.Model):
@@ -24990,7 +24996,7 @@ class NetworkInterfaceLoadBalancerListResult(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class NetworkInterfaceTapConfiguration(SubResource):
@@ -25049,10 +25055,10 @@ class NetworkInterfaceTapConfiguration(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
-        self.type = None
+        self.etag: Optional[str] = None
+        self.type: Optional[str] = None
         self.virtual_network_tap = virtual_network_tap
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class NetworkInterfaceTapConfigurationListResult(_serialization.Model):  # pylint: disable=name-too-long
@@ -25084,7 +25090,7 @@ class NetworkInterfaceTapConfigurationListResult(_serialization.Model):  # pylin
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class NetworkManager(Resource):
@@ -25176,13 +25182,13 @@ class NetworkManager(Resource):
          ~azure.mgmt.network.models.ConfigurationType]
         """
         super().__init__(id=id, location=location, tags=tags, **kwargs)
-        self.etag = None
-        self.system_data = None
+        self.etag: Optional[str] = None
+        self.system_data: Optional["_models.SystemData"] = None
         self.description = description
         self.network_manager_scopes = network_manager_scopes
         self.network_manager_scope_accesses = network_manager_scope_accesses
-        self.provisioning_state = None
-        self.resource_guid = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
+        self.resource_guid: Optional[str] = None
 
 
 class NetworkManagerCommit(_serialization.Model):
@@ -25234,7 +25240,7 @@ class NetworkManagerCommit(_serialization.Model):
         :paramtype commit_type: str or ~azure.mgmt.network.models.ConfigurationType
         """
         super().__init__(**kwargs)
-        self.commit_id = None
+        self.commit_id: Optional[str] = None
         self.target_locations = target_locations
         self.configuration_ids = configuration_ids
         self.commit_type = commit_type
@@ -25294,9 +25300,9 @@ class NetworkManagerConnection(ChildResource):
         :paramtype description: str
         """
         super().__init__(**kwargs)
-        self.system_data = None
+        self.system_data: Optional["_models.SystemData"] = None
         self.network_manager_id = network_manager_id
-        self.connection_state = None
+        self.connection_state: Optional[Union[str, "_models.ScopeConnectionState"]] = None
         self.description = description
 
 
@@ -25605,7 +25611,7 @@ class NetworkManagerPropertiesNetworkManagerScopes(_serialization.Model):  # pyl
         super().__init__(**kwargs)
         self.management_groups = management_groups
         self.subscriptions = subscriptions
-        self.cross_tenant_scopes = None
+        self.cross_tenant_scopes: Optional[List["_models.CrossTenantScopes"]] = None
 
 
 class NetworkManagerRoutingConfiguration(ChildResource):
@@ -25659,10 +25665,10 @@ class NetworkManagerRoutingConfiguration(ChildResource):
         :paramtype description: str
         """
         super().__init__(**kwargs)
-        self.system_data = None
+        self.system_data: Optional["_models.SystemData"] = None
         self.description = description
-        self.provisioning_state = None
-        self.resource_guid = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
+        self.resource_guid: Optional[str] = None
 
 
 class NetworkManagerRoutingConfigurationListResult(_serialization.Model):  # pylint: disable=name-too-long
@@ -25832,11 +25838,11 @@ class NetworkProfile(Resource):
          list[~azure.mgmt.network.models.ContainerNetworkInterfaceConfiguration]
         """
         super().__init__(id=id, location=location, tags=tags, **kwargs)
-        self.etag = None
-        self.container_network_interfaces = None
+        self.etag: Optional[str] = None
+        self.container_network_interfaces: Optional[List["_models.ContainerNetworkInterface"]] = None
         self.container_network_interface_configurations = container_network_interface_configurations
-        self.resource_guid = None
-        self.provisioning_state = None
+        self.resource_guid: Optional[str] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class NetworkProfileListResult(_serialization.Model):
@@ -26049,15 +26055,15 @@ class NetworkSecurityGroup(Resource):
         :paramtype security_rules: list[~azure.mgmt.network.models.SecurityRule]
         """
         super().__init__(id=id, location=location, tags=tags, **kwargs)
-        self.etag = None
+        self.etag: Optional[str] = None
         self.flush_connection = flush_connection
         self.security_rules = security_rules
-        self.default_security_rules = None
-        self.network_interfaces = None
-        self.subnets = None
-        self.flow_logs = None
-        self.resource_guid = None
-        self.provisioning_state = None
+        self.default_security_rules: Optional[List["_models.SecurityRule"]] = None
+        self.network_interfaces: Optional[List["_models.NetworkInterface"]] = None
+        self.subnets: Optional[List["_models.Subnet"]] = None
+        self.flow_logs: Optional[List["_models.FlowLog"]] = None
+        self.resource_guid: Optional[str] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class NetworkSecurityGroupListResult(_serialization.Model):
@@ -26127,7 +26133,7 @@ class NetworkSecurityGroupResult(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.security_rule_access_result = security_rule_access_result
-        self.evaluated_network_security_groups = None
+        self.evaluated_network_security_groups: Optional[List["_models.EvaluatedNetworkSecurityGroup"]] = None
 
 
 class NetworkSecurityRulesEvaluationResult(_serialization.Model):
@@ -26370,24 +26376,24 @@ class NetworkVirtualAppliance(Resource):
         """
         super().__init__(id=id, location=location, tags=tags, **kwargs)
         self.identity = identity
-        self.etag = None
+        self.etag: Optional[str] = None
         self.nva_sku = nva_sku
-        self.address_prefix = None
+        self.address_prefix: Optional[str] = None
         self.boot_strap_configuration_blobs = boot_strap_configuration_blobs
         self.virtual_hub = virtual_hub
         self.cloud_init_configuration_blobs = cloud_init_configuration_blobs
         self.cloud_init_configuration = cloud_init_configuration
         self.virtual_appliance_asn = virtual_appliance_asn
         self.ssh_public_key = ssh_public_key
-        self.virtual_appliance_nics = None
+        self.virtual_appliance_nics: Optional[List["_models.VirtualApplianceNicProperties"]] = None
         self.network_profile = network_profile
         self.additional_nics = additional_nics
         self.internet_ingress_public_ips = internet_ingress_public_ips
-        self.virtual_appliance_sites = None
-        self.virtual_appliance_connections = None
-        self.inbound_security_rules = None
-        self.provisioning_state = None
-        self.deployment_type = None
+        self.virtual_appliance_sites: Optional[List["_models.SubResource"]] = None
+        self.virtual_appliance_connections: Optional[List["_models.SubResource"]] = None
+        self.inbound_security_rules: Optional[List["_models.SubResource"]] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
+        self.deployment_type: Optional[str] = None
         self.delegation = delegation
         self.partner_managed_resource = partner_managed_resource
 
@@ -26473,7 +26479,7 @@ class NetworkVirtualApplianceConnection(SubResource):
         super().__init__(id=id, **kwargs)
         self.name = name
         self.name_properties_name = name_properties_name
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.asn = asn
         self.tunnel_identifier = tunnel_identifier
         self.bgp_peer_address = bgp_peer_address
@@ -26704,9 +26710,9 @@ class NetworkVirtualApplianceSku(Resource):
          list[~azure.mgmt.network.models.NetworkVirtualApplianceSkuInstances]
         """
         super().__init__(id=id, location=location, tags=tags, **kwargs)
-        self.etag = None
-        self.vendor = None
-        self.available_versions = None
+        self.etag: Optional[str] = None
+        self.vendor: Optional[str] = None
+        self.available_versions: Optional[List[str]] = None
         self.available_scale_units = available_scale_units
 
 
@@ -26734,8 +26740,8 @@ class NetworkVirtualApplianceSkuInstances(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.scale_unit = None
-        self.instance_count = None
+        self.scale_unit: Optional[str] = None
+        self.instance_count: Optional[int] = None
 
 
 class NetworkVirtualApplianceSkuListResult(_serialization.Model):
@@ -26826,8 +26832,8 @@ class NetworkWatcher(Resource):
         :paramtype tags: dict[str, str]
         """
         super().__init__(id=id, location=location, tags=tags, **kwargs)
-        self.etag = None
-        self.provisioning_state = None
+        self.etag: Optional[str] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class NetworkWatcherListResult(_serialization.Model):
@@ -27319,12 +27325,12 @@ class OutboundRule(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
-        self.type = None
+        self.etag: Optional[str] = None
+        self.type: Optional[str] = None
         self.allocated_outbound_ports = allocated_outbound_ports
         self.frontend_ip_configurations = frontend_ip_configurations
         self.backend_address_pool = backend_address_pool
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.protocol = protocol
         self.enable_tcp_reset = enable_tcp_reset
         self.idle_timeout_in_minutes = idle_timeout_in_minutes
@@ -27488,13 +27494,15 @@ class P2SConnectionConfiguration(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
+        self.etag: Optional[str] = None
         self.vpn_client_address_pool = vpn_client_address_pool
         self.routing_configuration = routing_configuration
         self.enable_internet_security = enable_internet_security
-        self.configuration_policy_group_associations = None
-        self.previous_configuration_policy_group_associations = None
-        self.provisioning_state = None
+        self.configuration_policy_group_associations: Optional[List["_models.SubResource"]] = None
+        self.previous_configuration_policy_group_associations: Optional[
+            List["_models.VpnServerConfigurationPolicyGroup"]
+        ] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class P2SVpnConnectionHealth(_serialization.Model):
@@ -27682,13 +27690,13 @@ class P2SVpnGateway(Resource):
         :paramtype is_routing_preference_internet: bool
         """
         super().__init__(id=id, location=location, tags=tags, **kwargs)
-        self.etag = None
+        self.etag: Optional[str] = None
         self.virtual_hub = virtual_hub
         self.p2_s_connection_configurations = p2_s_connection_configurations
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.vpn_gateway_scale_unit = vpn_gateway_scale_unit
         self.vpn_server_configuration = vpn_server_configuration
-        self.vpn_client_connection_health = None
+        self.vpn_client_connection_health: Optional["_models.VpnClientConnectionHealth"] = None
         self.custom_dns_servers = custom_dns_servers
         self.is_routing_preference_internet = is_routing_preference_internet
 
@@ -28249,9 +28257,9 @@ class PacketCaptureResult(_serialization.Model):
         :paramtype capture_settings: ~azure.mgmt.network.models.PacketCaptureSettings
         """
         super().__init__(**kwargs)
-        self.name = None
-        self.id = None
-        self.etag = None
+        self.name: Optional[str] = None
+        self.id: Optional[str] = None
+        self.etag: Optional[str] = None
         self.target = target
         self.scope = scope
         self.target_type = target_type
@@ -28262,7 +28270,7 @@ class PacketCaptureResult(_serialization.Model):
         self.filters = filters
         self.continuous_capture = continuous_capture
         self.capture_settings = capture_settings
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class PacketCaptureResultProperties(PacketCaptureParameters):
@@ -28386,7 +28394,7 @@ class PacketCaptureResultProperties(PacketCaptureParameters):
             capture_settings=capture_settings,
             **kwargs
         )
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class PacketCaptureSettings(_serialization.Model):
@@ -28567,9 +28575,9 @@ class PartnerManagedResourceProperties(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.id = None
-        self.internal_load_balancer_id = None
-        self.standard_load_balancer_id = None
+        self.id: Optional[str] = None
+        self.internal_load_balancer_id: Optional[str] = None
+        self.standard_load_balancer_id: Optional[str] = None
 
 
 class PatchObject(_serialization.Model):
@@ -28657,14 +28665,14 @@ class PatchRouteFilter(SubResource):
         :paramtype rules: list[~azure.mgmt.network.models.RouteFilterRule]
         """
         super().__init__(id=id, **kwargs)
-        self.name = None
-        self.etag = None
-        self.type = None
+        self.name: Optional[str] = None
+        self.etag: Optional[str] = None
+        self.type: Optional[str] = None
         self.tags = tags
         self.rules = rules
-        self.peerings = None
-        self.ipv6_peerings = None
-        self.provisioning_state = None
+        self.peerings: Optional[List["_models.ExpressRouteCircuitPeering"]] = None
+        self.ipv6_peerings: Optional[List["_models.ExpressRouteCircuitPeering"]] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class PatchRouteFilterRule(SubResource):
@@ -28728,12 +28736,12 @@ class PatchRouteFilterRule(SubResource):
         :paramtype communities: list[str]
         """
         super().__init__(id=id, **kwargs)
-        self.name = None
-        self.etag = None
+        self.name: Optional[str] = None
+        self.etag: Optional[str] = None
         self.access = access
         self.route_filter_rule_type = route_filter_rule_type
         self.communities = communities
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class PeerExpressRouteCircuitConnection(SubResource):
@@ -28830,15 +28838,15 @@ class PeerExpressRouteCircuitConnection(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
-        self.type = None
+        self.etag: Optional[str] = None
+        self.type: Optional[str] = None
         self.express_route_circuit_peering = express_route_circuit_peering
         self.peer_express_route_circuit_peering = peer_express_route_circuit_peering
         self.address_prefix = address_prefix
-        self.circuit_connection_status = None
+        self.circuit_connection_status: Optional[Union[str, "_models.CircuitConnectionStatus"]] = None
         self.connection_name = connection_name
         self.auth_resource_guid = auth_resource_guid
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class PeerExpressRouteCircuitConnectionListResult(_serialization.Model):  # pylint: disable=name-too-long
@@ -28920,13 +28928,13 @@ class PeerRoute(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.local_address = None
-        self.network = None
-        self.next_hop = None
-        self.source_peer = None
-        self.origin = None
-        self.as_path = None
-        self.weight = None
+        self.local_address: Optional[str] = None
+        self.network: Optional[str] = None
+        self.next_hop: Optional[str] = None
+        self.source_peer: Optional[str] = None
+        self.origin: Optional[str] = None
+        self.as_path: Optional[str] = None
+        self.weight: Optional[int] = None
 
 
 class PolicySettings(_serialization.Model):
@@ -29152,12 +29160,12 @@ class PoolAssociation(_serialization.Model):
         self.resource_id = resource_id
         self.pool_id = pool_id
         self.description = description
-        self.address_prefixes = None
-        self.reserved_prefixes = None
-        self.total_number_of_ip_addresses = None
-        self.number_of_reserved_ip_addresses = None
-        self.created_at = None
-        self.reservation_expires_at = None
+        self.address_prefixes: Optional[List[str]] = None
+        self.reserved_prefixes: Optional[List[str]] = None
+        self.total_number_of_ip_addresses: Optional[str] = None
+        self.number_of_reserved_ip_addresses: Optional[str] = None
+        self.created_at: Optional[datetime.datetime] = None
+        self.reservation_expires_at: Optional[datetime.datetime] = None
 
 
 class PoolAssociationList(_serialization.Model):
@@ -29241,15 +29249,15 @@ class PoolUsage(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.address_prefixes = None
-        self.child_pools = None
-        self.allocated_address_prefixes = None
-        self.reserved_address_prefixes = None
-        self.available_address_prefixes = None
-        self.total_number_of_ip_addresses = None
-        self.number_of_allocated_ip_addresses = None
-        self.number_of_reserved_ip_addresses = None
-        self.number_of_available_ip_addresses = None
+        self.address_prefixes: Optional[List[str]] = None
+        self.child_pools: Optional[List["_models.ResourceBasics"]] = None
+        self.allocated_address_prefixes: Optional[List[str]] = None
+        self.reserved_address_prefixes: Optional[List[str]] = None
+        self.available_address_prefixes: Optional[List[str]] = None
+        self.total_number_of_ip_addresses: Optional[str] = None
+        self.number_of_allocated_ip_addresses: Optional[str] = None
+        self.number_of_reserved_ip_addresses: Optional[str] = None
+        self.number_of_available_ip_addresses: Optional[str] = None
 
 
 class PrepareNetworkPoliciesRequest(_serialization.Model):
@@ -29325,7 +29333,7 @@ class PrivateDnsZoneConfig(_serialization.Model):
         super().__init__(**kwargs)
         self.name = name
         self.private_dns_zone_id = private_dns_zone_id
-        self.record_sets = None
+        self.record_sets: Optional[List["_models.RecordSet"]] = None
 
 
 class PrivateDnsZoneGroup(SubResource):
@@ -29381,8 +29389,8 @@ class PrivateDnsZoneGroup(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
-        self.provisioning_state = None
+        self.etag: Optional[str] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.private_dns_zone_configs = private_dns_zone_configs
 
 
@@ -29413,7 +29421,7 @@ class PrivateDnsZoneGroupListResult(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class PrivateEndpoint(Resource):
@@ -29552,10 +29560,10 @@ class PrivateEndpoint(Resource):
         """
         super().__init__(id=id, location=location, tags=tags, **kwargs)
         self.extended_location = extended_location
-        self.etag = None
+        self.etag: Optional[str] = None
         self.subnet = subnet
-        self.network_interfaces = None
-        self.provisioning_state = None
+        self.network_interfaces: Optional[List["_models.NetworkInterface"]] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.private_link_service_connections = private_link_service_connections
         self.manual_private_link_service_connections = manual_private_link_service_connections
         self.custom_dns_configs = custom_dns_configs
@@ -29638,13 +29646,13 @@ class PrivateEndpointConnection(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.type = None
-        self.etag = None
-        self.private_endpoint = None
+        self.type: Optional[str] = None
+        self.etag: Optional[str] = None
+        self.private_endpoint: Optional["_models.PrivateEndpoint"] = None
         self.private_link_service_connection_state = private_link_service_connection_state
-        self.provisioning_state = None
-        self.link_identifier = None
-        self.private_endpoint_location = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
+        self.link_identifier: Optional[str] = None
+        self.private_endpoint_location: Optional[str] = None
 
 
 class PrivateEndpointConnectionListResult(_serialization.Model):
@@ -29675,7 +29683,7 @@ class PrivateEndpointConnectionListResult(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class PrivateEndpointIPConfiguration(_serialization.Model):
@@ -29736,8 +29744,8 @@ class PrivateEndpointIPConfiguration(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.name = name
-        self.type = None
-        self.etag = None
+        self.type: Optional[str] = None
+        self.etag: Optional[str] = None
         self.group_id = group_id
         self.member_name = member_name
         self.private_ip_address = private_ip_address
@@ -29770,7 +29778,7 @@ class PrivateEndpointListResult(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class PrivateLinkService(Resource):
@@ -29905,17 +29913,17 @@ class PrivateLinkService(Resource):
         """
         super().__init__(id=id, location=location, tags=tags, **kwargs)
         self.extended_location = extended_location
-        self.etag = None
+        self.etag: Optional[str] = None
         self.load_balancer_frontend_ip_configurations = load_balancer_frontend_ip_configurations
         self.ip_configurations = ip_configurations
         self.destination_ip_address = destination_ip_address
-        self.network_interfaces = None
-        self.provisioning_state = None
-        self.private_endpoint_connections = None
+        self.network_interfaces: Optional[List["_models.NetworkInterface"]] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
+        self.private_endpoint_connections: Optional[List["_models.PrivateEndpointConnection"]] = None
         self.visibility = visibility
         self.auto_approval = auto_approval
         self.fqdns = fqdns
-        self.alias = None
+        self.alias: Optional[str] = None
         self.enable_proxy_protocol = enable_proxy_protocol
 
 
@@ -30004,9 +30012,9 @@ class PrivateLinkServiceConnection(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.type = None
-        self.etag = None
-        self.provisioning_state = None
+        self.type: Optional[str] = None
+        self.etag: Optional[str] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.private_link_service_id = private_link_service_id
         self.group_ids = group_ids
         self.request_message = request_message
@@ -30139,13 +30147,13 @@ class PrivateLinkServiceIpConfiguration(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
-        self.type = None
+        self.etag: Optional[str] = None
+        self.type: Optional[str] = None
         self.private_ip_address = private_ip_address
         self.private_ip_allocation_method = private_ip_allocation_method
         self.subnet = subnet
         self.primary = primary
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.private_ip_address_version = private_ip_address_version
 
 
@@ -30176,7 +30184,7 @@ class PrivateLinkServiceListResult(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class ResourceSet(_serialization.Model):
@@ -30362,9 +30370,9 @@ class Probe(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
-        self.type = None
-        self.load_balancing_rules = None
+        self.etag: Optional[str] = None
+        self.type: Optional[str] = None
+        self.load_balancing_rules: Optional[List["_models.SubResource"]] = None
         self.protocol = protocol
         self.port = port
         self.interval_in_seconds = interval_in_seconds
@@ -30372,7 +30380,7 @@ class Probe(SubResource):
         self.number_of_probes = number_of_probes
         self.probe_threshold = probe_threshold
         self.request_path = request_path
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class PropagatedRouteTable(_serialization.Model):
@@ -30600,19 +30608,19 @@ class PublicIPAddress(Resource):
         super().__init__(id=id, location=location, tags=tags, **kwargs)
         self.extended_location = extended_location
         self.sku = sku
-        self.etag = None
+        self.etag: Optional[str] = None
         self.zones = zones
         self.public_ip_allocation_method = public_ip_allocation_method
         self.public_ip_address_version = public_ip_address_version
-        self.ip_configuration = None
+        self.ip_configuration: Optional["_models.IPConfiguration"] = None
         self.dns_settings = dns_settings
         self.ddos_settings = ddos_settings
         self.ip_tags = ip_tags
         self.ip_address = ip_address
         self.public_ip_prefix = public_ip_prefix
         self.idle_timeout_in_minutes = idle_timeout_in_minutes
-        self.resource_guid = None
-        self.provisioning_state = None
+        self.resource_guid: Optional[str] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.service_public_ip_address = service_public_ip_address
         self.nat_gateway = nat_gateway
         self.migration_phase = migration_phase
@@ -30928,17 +30936,17 @@ class PublicIPPrefix(Resource):
         super().__init__(id=id, location=location, tags=tags, **kwargs)
         self.extended_location = extended_location
         self.sku = sku
-        self.etag = None
+        self.etag: Optional[str] = None
         self.zones = zones
         self.public_ip_address_version = public_ip_address_version
         self.ip_tags = ip_tags
         self.prefix_length = prefix_length
-        self.ip_prefix = None
-        self.public_ip_addresses = None
-        self.load_balancer_frontend_ip_configuration = None
+        self.ip_prefix: Optional[str] = None
+        self.public_ip_addresses: Optional[List["_models.ReferencedPublicIpAddress"]] = None
+        self.load_balancer_frontend_ip_configuration: Optional["_models.SubResource"] = None
         self.custom_ip_prefix = custom_ip_prefix
-        self.resource_guid = None
-        self.provisioning_state = None
+        self.resource_guid: Optional[str] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.nat_gateway = nat_gateway
 
 
@@ -31234,6 +31242,34 @@ class QueryTroubleshootingParameters(_serialization.Model):
         self.target_resource_id = target_resource_id
 
 
+class RadiusAuthServer(_serialization.Model):
+    """Gateway or VpnServerConfiguration Radius server with radius secret details.
+
+    :ivar radius_server_address: Radius server name.
+    :vartype radius_server_address: str
+    :ivar radius_server_secret: Radius server secret.
+    :vartype radius_server_secret: str
+    """
+
+    _attribute_map = {
+        "radius_server_address": {"key": "radiusServerAddress", "type": "str"},
+        "radius_server_secret": {"key": "RadiusServerSecret", "type": "str"},
+    }
+
+    def __init__(
+        self, *, radius_server_address: Optional[str] = None, radius_server_secret: Optional[str] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword radius_server_address: Radius server name.
+        :paramtype radius_server_address: str
+        :keyword radius_server_secret: Radius server secret.
+        :paramtype radius_server_secret: str
+        """
+        super().__init__(**kwargs)
+        self.radius_server_address = radius_server_address
+        self.radius_server_secret = radius_server_secret
+
+
 class RadiusServer(_serialization.Model):
     """Radius Server Settings.
 
@@ -31287,7 +31323,7 @@ class ReachabilityAnalysisIntent(CommonProxyResource):
     All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -31431,7 +31467,7 @@ class ReachabilityAnalysisRun(CommonProxyResource):
     All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -31560,9 +31596,9 @@ class ReachabilityAnalysisRunProperties(_serialization.Model):
         super().__init__(**kwargs)
         self.description = description
         self.intent_id = intent_id
-        self.intent_content = None
-        self.analysis_result = None
-        self.error_message = None
+        self.intent_content: Optional["_models.IntentContent"] = None
+        self.analysis_result: Optional[str] = None
+        self.error_message: Optional[str] = None
         self.provisioning_state = provisioning_state
 
 
@@ -31625,7 +31661,7 @@ class RecordSet(_serialization.Model):
         self.record_type = record_type
         self.record_set_name = record_set_name
         self.fqdn = fqdn
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.ttl = ttl
         self.ip_addresses = ip_addresses
 
@@ -31739,11 +31775,11 @@ class ResourceNavigationLink(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
-        self.type = None
+        self.etag: Optional[str] = None
+        self.type: Optional[str] = None
         self.linked_resource_type = linked_resource_type
         self.link = link
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class ResourceNavigationLinksListResult(_serialization.Model):
@@ -31773,7 +31809,7 @@ class ResourceNavigationLinksListResult(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class RetentionPolicyParameters(_serialization.Model):
@@ -31880,13 +31916,13 @@ class Route(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
+        self.etag: Optional[str] = None
         self.type = type
         self.address_prefix = address_prefix
         self.next_hop_type = next_hop_type
         self.next_hop_ip_address = next_hop_ip_address
-        self.provisioning_state = None
-        self.has_bgp_override = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
+        self.has_bgp_override: Optional[bool] = None
 
 
 class RouteFilter(Resource):
@@ -31959,11 +31995,11 @@ class RouteFilter(Resource):
         :paramtype rules: list[~azure.mgmt.network.models.RouteFilterRule]
         """
         super().__init__(id=id, location=location, tags=tags, **kwargs)
-        self.etag = None
+        self.etag: Optional[str] = None
         self.rules = rules
-        self.peerings = None
-        self.ipv6_peerings = None
-        self.provisioning_state = None
+        self.peerings: Optional[List["_models.ExpressRouteCircuitPeering"]] = None
+        self.ipv6_peerings: Optional[List["_models.ExpressRouteCircuitPeering"]] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class RouteFilterListResult(_serialization.Model):
@@ -32066,11 +32102,11 @@ class RouteFilterRule(SubResource):
         super().__init__(id=id, **kwargs)
         self.name = name
         self.location = location
-        self.etag = None
+        self.etag: Optional[str] = None
         self.access = access
         self.route_filter_rule_type = route_filter_rule_type
         self.communities = communities
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class RouteFilterRuleListResult(_serialization.Model):
@@ -32196,13 +32232,13 @@ class RouteMap(SubResource):
         :paramtype rules: list[~azure.mgmt.network.models.RouteMapRule]
         """
         super().__init__(id=id, **kwargs)
-        self.name = None
-        self.etag = None
-        self.type = None
+        self.name: Optional[str] = None
+        self.etag: Optional[str] = None
+        self.type: Optional[str] = None
         self.associated_inbound_connections = associated_inbound_connections
         self.associated_outbound_connections = associated_outbound_connections
         self.rules = rules
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class RouteMapRule(_serialization.Model):
@@ -32333,12 +32369,12 @@ class RouteTable(Resource):
         :paramtype disable_bgp_route_propagation: bool
         """
         super().__init__(id=id, location=location, tags=tags, **kwargs)
-        self.etag = None
+        self.etag: Optional[str] = None
         self.routes = routes
-        self.subnets = None
+        self.subnets: Optional[List["_models.Subnet"]] = None
         self.disable_bgp_route_propagation = disable_bgp_route_propagation
-        self.provisioning_state = None
-        self.resource_guid = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
+        self.resource_guid: Optional[str] = None
 
 
 class RouteTableListResult(_serialization.Model):
@@ -32486,10 +32522,10 @@ class RoutingIntent(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
-        self.type = None
+        self.etag: Optional[str] = None
+        self.type: Optional[str] = None
         self.routing_policies = routing_policies
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class RoutingPolicy(_serialization.Model):
@@ -32604,10 +32640,10 @@ class RoutingRule(ChildResource):
         :paramtype next_hop: ~azure.mgmt.network.models.RoutingRuleNextHop
         """
         super().__init__(**kwargs)
-        self.system_data = None
+        self.system_data: Optional["_models.SystemData"] = None
         self.description = description
-        self.provisioning_state = None
-        self.resource_guid = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
+        self.resource_guid: Optional[str] = None
         self.destination = destination
         self.next_hop = next_hop
 
@@ -32684,10 +32720,10 @@ class RoutingRuleCollection(ChildResource):
          ~azure.mgmt.network.models.DisableBgpRoutePropagation
         """
         super().__init__(**kwargs)
-        self.system_data = None
+        self.system_data: Optional["_models.SystemData"] = None
         self.description = description
-        self.provisioning_state = None
-        self.resource_guid = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
+        self.resource_guid: Optional[str] = None
         self.applies_to = applies_to
         self.disable_bgp_route_propagation = disable_bgp_route_propagation
 
@@ -32893,10 +32929,10 @@ class ScopeConnection(ChildResource):
         :paramtype description: str
         """
         super().__init__(**kwargs)
-        self.system_data = None
+        self.system_data: Optional["_models.SystemData"] = None
         self.tenant_id = tenant_id
         self.resource_id = resource_id
-        self.connection_state = None
+        self.connection_state: Optional[Union[str, "_models.ScopeConnectionState"]] = None
         self.description = description
 
 
@@ -33016,12 +33052,12 @@ class SecurityAdminConfiguration(ChildResource):
          ~azure.mgmt.network.models.AddressSpaceAggregationOption
         """
         super().__init__(**kwargs)
-        self.system_data = None
+        self.system_data: Optional["_models.SystemData"] = None
         self.description = description
         self.apply_on_network_intent_policy_based_services = apply_on_network_intent_policy_based_services
         self.network_group_address_space_aggregation_option = network_group_address_space_aggregation_option
-        self.provisioning_state = None
-        self.resource_guid = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
+        self.resource_guid: Optional[str] = None
 
 
 class SecurityAdminConfigurationListResult(_serialization.Model):
@@ -33212,10 +33248,10 @@ class SecurityPartnerProvider(Resource):
         :paramtype virtual_hub: ~azure.mgmt.network.models.SubResource
         """
         super().__init__(id=id, location=location, tags=tags, **kwargs)
-        self.etag = None
-        self.provisioning_state = None
+        self.etag: Optional[str] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.security_provider_name = security_provider_name
-        self.connection_status = None
+        self.connection_status: Optional[Union[str, "_models.SecurityPartnerProviderConnectionStatus"]] = None
         self.virtual_hub = virtual_hub
 
 
@@ -33428,7 +33464,7 @@ class SecurityRule(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
+        self.etag: Optional[str] = None
         self.type = type
         self.description = description
         self.protocol = protocol
@@ -33445,7 +33481,7 @@ class SecurityRule(SubResource):
         self.access = access
         self.priority = priority
         self.direction = direction
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class SecurityRuleAssociations(_serialization.Model):
@@ -33579,10 +33615,10 @@ class SecurityUserConfiguration(ChildResource):
         :paramtype description: str
         """
         super().__init__(**kwargs)
-        self.system_data = None
+        self.system_data: Optional["_models.SystemData"] = None
         self.description = description
-        self.provisioning_state = None
-        self.resource_guid = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
+        self.resource_guid: Optional[str] = None
 
 
 class SecurityUserConfigurationListResult(_serialization.Model):
@@ -33740,7 +33776,7 @@ class SecurityUserRule(ChildResource):
         :paramtype direction: str or ~azure.mgmt.network.models.SecurityConfigurationRuleDirection
         """
         super().__init__(**kwargs)
-        self.system_data = None
+        self.system_data: Optional["_models.SystemData"] = None
         self.description = description
         self.protocol = protocol
         self.sources = sources
@@ -33748,8 +33784,8 @@ class SecurityUserRule(ChildResource):
         self.source_port_ranges = source_port_ranges
         self.destination_port_ranges = destination_port_ranges
         self.direction = direction
-        self.provisioning_state = None
-        self.resource_guid = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
+        self.resource_guid: Optional[str] = None
 
 
 class SecurityUserRuleCollection(ChildResource):
@@ -33814,11 +33850,11 @@ class SecurityUserRuleCollection(ChildResource):
         :paramtype applies_to_groups: list[~azure.mgmt.network.models.SecurityUserGroupItem]
         """
         super().__init__(**kwargs)
-        self.system_data = None
+        self.system_data: Optional["_models.SystemData"] = None
         self.description = description
         self.applies_to_groups = applies_to_groups
-        self.provisioning_state = None
-        self.resource_guid = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
+        self.resource_guid: Optional[str] = None
 
 
 class SecurityUserRuleCollectionListResult(_serialization.Model):
@@ -33958,11 +33994,11 @@ class ServiceAssociationLink(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
-        self.type = None
+        self.etag: Optional[str] = None
+        self.type: Optional[str] = None
         self.linked_resource_type = linked_resource_type
         self.link = link
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.allow_delete = allow_delete
         self.locations = locations
 
@@ -33994,7 +34030,7 @@ class ServiceAssociationLinksListResult(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class ServiceEndpointPolicy(Resource):
@@ -34095,12 +34131,12 @@ class ServiceEndpointPolicy(Resource):
         :paramtype contextual_service_endpoint_policies: list[str]
         """
         super().__init__(id=id, location=location, tags=tags, **kwargs)
-        self.etag = None
-        self.kind = None
+        self.etag: Optional[str] = None
+        self.kind: Optional[str] = None
         self.service_endpoint_policy_definitions = service_endpoint_policy_definitions
-        self.subnets = None
-        self.resource_guid = None
-        self.provisioning_state = None
+        self.subnets: Optional[List["_models.Subnet"]] = None
+        self.resource_guid: Optional[str] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.service_alias = service_alias
         self.contextual_service_endpoint_policies = contextual_service_endpoint_policies
 
@@ -34175,12 +34211,12 @@ class ServiceEndpointPolicyDefinition(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
+        self.etag: Optional[str] = None
         self.type = type
         self.description = description
         self.service = service
         self.service_resources = service_resources
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class ServiceEndpointPolicyDefinitionListResult(_serialization.Model):  # pylint: disable=name-too-long
@@ -34243,7 +34279,7 @@ class ServiceEndpointPolicyListResult(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class ServiceEndpointPropertiesFormat(_serialization.Model):
@@ -34293,7 +34329,7 @@ class ServiceEndpointPropertiesFormat(_serialization.Model):
         self.service = service
         self.network_identifier = network_identifier
         self.locations = locations
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class ServiceTagInformation(_serialization.Model):
@@ -34328,10 +34364,10 @@ class ServiceTagInformation(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.properties = None
-        self.name = None
-        self.id = None
-        self.service_tag_change_number = None
+        self.properties: Optional["_models.ServiceTagInformationPropertiesFormat"] = None
+        self.name: Optional[str] = None
+        self.id: Optional[str] = None
+        self.service_tag_change_number: Optional[str] = None
 
 
 class ServiceTagInformationListResult(_serialization.Model):
@@ -34362,7 +34398,7 @@ class ServiceTagInformationListResult(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class ServiceTagInformationPropertiesFormat(_serialization.Model):
@@ -34401,11 +34437,11 @@ class ServiceTagInformationPropertiesFormat(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.change_number = None
-        self.region = None
-        self.system_service = None
-        self.address_prefixes = None
-        self.state = None
+        self.change_number: Optional[str] = None
+        self.region: Optional[str] = None
+        self.system_service: Optional[str] = None
+        self.address_prefixes: Optional[List[str]] = None
+        self.state: Optional[str] = None
 
 
 class ServiceTagsListResult(_serialization.Model):
@@ -34452,13 +34488,13 @@ class ServiceTagsListResult(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.name = None
-        self.id = None
-        self.type = None
-        self.change_number = None
-        self.cloud = None
-        self.values = None
-        self.next_link = None
+        self.name: Optional[str] = None
+        self.id: Optional[str] = None
+        self.type: Optional[str] = None
+        self.change_number: Optional[str] = None
+        self.cloud: Optional[str] = None
+        self.values: Optional[List["_models.ServiceTagInformation"]] = None
+        self.next_link: Optional[str] = None
 
 
 class SessionIds(_serialization.Model):
@@ -34518,7 +34554,7 @@ class SharedKeyProperties(_serialization.Model):
         super().__init__(**kwargs)
         self.shared_key = shared_key
         self.shared_key_length = shared_key_length
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class SignatureOverridesFilterValuesQuery(_serialization.Model):
@@ -34787,7 +34823,7 @@ class StaticCidr(CommonProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -34910,7 +34946,7 @@ class StaticCidrProperties(_serialization.Model):
         self.description = description
         self.number_of_ip_addresses_to_allocate = number_of_ip_addresses_to_allocate
         self.address_prefixes = address_prefixes
-        self.total_number_of_ip_addresses = None
+        self.total_number_of_ip_addresses: Optional[str] = None
         self.provisioning_state = provisioning_state
 
 
@@ -34965,10 +35001,10 @@ class StaticMember(ChildResource):
         :paramtype resource_id: str
         """
         super().__init__(**kwargs)
-        self.system_data = None
+        self.system_data: Optional["_models.SystemData"] = None
         self.resource_id = resource_id
-        self.region = None
-        self.provisioning_state = None
+        self.region: Optional[str] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class StaticMemberListResult(_serialization.Model):
@@ -35076,7 +35112,7 @@ class StaticRoutesConfig(_serialization.Model):
          ~azure.mgmt.network.models.VnetLocalRouteOverrideCriteria
         """
         super().__init__(**kwargs)
-        self.propagate_static_routes = None
+        self.propagate_static_routes: Optional[bool] = None
         self.vnet_local_route_override_criteria = vnet_local_route_override_criteria
 
 
@@ -35284,7 +35320,7 @@ class Subnet(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
+        self.etag: Optional[str] = None
         self.type = type
         self.address_prefix = address_prefix
         self.address_prefixes = address_prefixes
@@ -35293,15 +35329,15 @@ class Subnet(SubResource):
         self.nat_gateway = nat_gateway
         self.service_endpoints = service_endpoints
         self.service_endpoint_policies = service_endpoint_policies
-        self.private_endpoints = None
-        self.ip_configurations = None
-        self.ip_configuration_profiles = None
+        self.private_endpoints: Optional[List["_models.PrivateEndpoint"]] = None
+        self.ip_configurations: Optional[List["_models.IPConfiguration"]] = None
+        self.ip_configuration_profiles: Optional[List["_models.IPConfigurationProfile"]] = None
         self.ip_allocations = ip_allocations
-        self.resource_navigation_links = None
-        self.service_association_links = None
+        self.resource_navigation_links: Optional[List["_models.ResourceNavigationLink"]] = None
+        self.service_association_links: Optional[List["_models.ServiceAssociationLink"]] = None
         self.delegations = delegations
-        self.purpose = None
-        self.provisioning_state = None
+        self.purpose: Optional[str] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.private_endpoint_network_policies = private_endpoint_network_policies
         self.private_link_service_network_policies = private_link_service_network_policies
         self.application_gateway_ip_configurations = application_gateway_ip_configurations
@@ -35336,7 +35372,7 @@ class SubnetAssociation(_serialization.Model):
         :paramtype security_rules: list[~azure.mgmt.network.models.SecurityRule]
         """
         super().__init__(**kwargs)
-        self.id = None
+        self.id: Optional[str] = None
         self.security_rules = security_rules
 
 
@@ -35403,9 +35439,9 @@ class SwapResource(_serialization.Model):
         :paramtype properties: ~azure.mgmt.network.models.SwapResourceProperties
         """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
         self.properties = properties
 
 
@@ -35570,9 +35606,9 @@ class Topology(_serialization.Model):
         :paramtype resources: list[~azure.mgmt.network.models.TopologyResource]
         """
         super().__init__(**kwargs)
-        self.id = None
-        self.created_date_time = None
-        self.last_modified = None
+        self.id: Optional[str] = None
+        self.created_date_time: Optional[datetime.datetime] = None
+        self.last_modified: Optional[datetime.datetime] = None
         self.resources = resources
 
 
@@ -36057,11 +36093,11 @@ class TunnelConnectionHealth(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.tunnel = None
-        self.connection_status = None
-        self.ingress_bytes_transferred = None
-        self.egress_bytes_transferred = None
-        self.last_connection_established_utc_time = None
+        self.tunnel: Optional[str] = None
+        self.connection_status: Optional[Union[str, "_models.VirtualNetworkGatewayConnectionStatus"]] = None
+        self.ingress_bytes_transferred: Optional[int] = None
+        self.egress_bytes_transferred: Optional[int] = None
+        self.last_connection_established_utc_time: Optional[str] = None
 
 
 class UnprepareNetworkPoliciesRequest(_serialization.Model):
@@ -36139,7 +36175,7 @@ class Usage(_serialization.Model):
         :paramtype name: ~azure.mgmt.network.models.UsageName
         """
         super().__init__(**kwargs)
-        self.id = None
+        self.id: Optional[str] = None
         self.unit = unit
         self.current_value = current_value
         self.limit = limit
@@ -36338,7 +36374,7 @@ class VerifierWorkspace(CommonTrackedResource):
     All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -36685,11 +36721,11 @@ class VirtualApplianceNicProperties(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.nic_type = None
-        self.name = None
-        self.public_ip_address = None
-        self.private_ip_address = None
-        self.instance_name = None
+        self.nic_type: Optional[Union[str, "_models.NicTypeInResponse"]] = None
+        self.name: Optional[str] = None
+        self.public_ip_address: Optional[str] = None
+        self.private_ip_address: Optional[str] = None
+        self.instance_name: Optional[str] = None
 
 
 class VirtualApplianceSite(SubResource):
@@ -36751,11 +36787,11 @@ class VirtualApplianceSite(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
-        self.type = None
+        self.etag: Optional[str] = None
+        self.type: Optional[str] = None
         self.address_prefix = address_prefix
         self.o365_policy = o365_policy
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class VirtualApplianceSkuProperties(_serialization.Model):
@@ -36995,8 +37031,8 @@ class VirtualHub(Resource):
          ~azure.mgmt.network.models.VirtualRouterAutoScaleConfiguration
         """
         super().__init__(id=id, location=location, tags=tags, **kwargs)
-        self.etag = None
-        self.kind = None
+        self.etag: Optional[str] = None
+        self.kind: Optional[str] = None
         self.virtual_wan = virtual_wan
         self.vpn_gateway = vpn_gateway
         self.p2_s_vpn_gateway = p2_s_vpn_gateway
@@ -37005,14 +37041,14 @@ class VirtualHub(Resource):
         self.security_partner_provider = security_partner_provider
         self.address_prefix = address_prefix
         self.route_table = route_table
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.security_provider_name = security_provider_name
         self.virtual_hub_route_table_v2_s = virtual_hub_route_table_v2_s
         self.sku = sku
-        self.routing_state = None
-        self.bgp_connections = None
-        self.ip_configurations = None
-        self.route_maps = None
+        self.routing_state: Optional[Union[str, "_models.RoutingState"]] = None
+        self.bgp_connections: Optional[List["_models.SubResource"]] = None
+        self.ip_configurations: Optional[List["_models.SubResource"]] = None
+        self.route_maps: Optional[List["_models.SubResource"]] = None
         self.virtual_router_asn = virtual_router_asn
         self.virtual_router_ips = virtual_router_ips
         self.allow_branch_to_branch_traffic = allow_branch_to_branch_traffic
@@ -37225,10 +37261,10 @@ class VirtualHubRouteTableV2(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
+        self.etag: Optional[str] = None
         self.routes = routes
         self.attached_connections = attached_connections
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class VirtualHubRouteV2(_serialization.Model):
@@ -37438,21 +37474,21 @@ class VirtualNetwork(Resource):
         """
         super().__init__(id=id, location=location, tags=tags, **kwargs)
         self.extended_location = extended_location
-        self.etag = None
+        self.etag: Optional[str] = None
         self.address_space = address_space
         self.dhcp_options = dhcp_options
         self.flow_timeout_in_minutes = flow_timeout_in_minutes
         self.subnets = subnets
         self.virtual_network_peerings = virtual_network_peerings
-        self.resource_guid = None
-        self.provisioning_state = None
+        self.resource_guid: Optional[str] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.enable_ddos_protection = enable_ddos_protection
         self.enable_vm_protection = enable_vm_protection
         self.ddos_protection_plan = ddos_protection_plan
         self.bgp_communities = bgp_communities
         self.encryption = encryption
         self.ip_allocations = ip_allocations
-        self.flow_logs = None
+        self.flow_logs: Optional[List["_models.FlowLog"]] = None
         self.private_endpoint_v_net_policies = private_endpoint_v_net_policies
 
 
@@ -37488,7 +37524,7 @@ class VirtualNetworkBgpCommunities(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.virtual_network_community = virtual_network_community
-        self.regional_community = None
+        self.regional_community: Optional[str] = None
 
 
 class VirtualNetworkConnectionGatewayReference(_serialization.Model):
@@ -37853,7 +37889,7 @@ class VirtualNetworkGateway(Resource):
         """
         super().__init__(id=id, location=location, tags=tags, **kwargs)
         self.extended_location = extended_location
-        self.etag = None
+        self.etag: Optional[str] = None
         self.identity = identity
         self.auto_scale_configuration = auto_scale_configuration
         self.ip_configurations = ip_configurations
@@ -37870,10 +37906,10 @@ class VirtualNetworkGateway(Resource):
         self.virtual_network_gateway_policy_groups = virtual_network_gateway_policy_groups
         self.bgp_settings = bgp_settings
         self.custom_routes = custom_routes
-        self.resource_guid = None
-        self.provisioning_state = None
+        self.resource_guid: Optional[str] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.enable_dns_forwarding = enable_dns_forwarding
-        self.inbound_dns_forwarding_endpoint = None
+        self.inbound_dns_forwarding_endpoint: Optional[str] = None
         self.v_net_extended_location_resource_id = v_net_extended_location_resource_id
         self.nat_rules = nat_rules
         self.enable_bgp_route_translation_for_nat = enable_bgp_route_translation_for_nat
@@ -38168,7 +38204,7 @@ class VirtualNetworkGatewayConnection(Resource):
         :paramtype enable_private_link_fast_path: bool
         """
         super().__init__(id=id, location=location, tags=tags, **kwargs)
-        self.etag = None
+        self.etag: Optional[str] = None
         self.authorization_key = authorization_key
         self.virtual_network_gateway1 = virtual_network_gateway1
         self.virtual_network_gateway2 = virtual_network_gateway2
@@ -38181,10 +38217,10 @@ class VirtualNetworkGatewayConnection(Resource):
         self.dpd_timeout_seconds = dpd_timeout_seconds
         self.connection_mode = connection_mode
         self.shared_key = shared_key
-        self.connection_status = None
-        self.tunnel_connection_status = None
-        self.egress_bytes_transferred = None
-        self.ingress_bytes_transferred = None
+        self.connection_status: Optional[Union[str, "_models.VirtualNetworkGatewayConnectionStatus"]] = None
+        self.tunnel_connection_status: Optional[List["_models.TunnelConnectionHealth"]] = None
+        self.egress_bytes_transferred: Optional[int] = None
+        self.ingress_bytes_transferred: Optional[int] = None
         self.peer = peer
         self.enable_bgp = enable_bgp
         self.gateway_custom_bgp_ip_addresses = gateway_custom_bgp_ip_addresses
@@ -38192,8 +38228,8 @@ class VirtualNetworkGatewayConnection(Resource):
         self.use_policy_based_traffic_selectors = use_policy_based_traffic_selectors
         self.ipsec_policies = ipsec_policies
         self.traffic_selector_policies = traffic_selector_policies
-        self.resource_guid = None
-        self.provisioning_state = None
+        self.resource_guid: Optional[str] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.express_route_gateway_bypass = express_route_gateway_bypass
         self.enable_private_link_fast_path = enable_private_link_fast_path
 
@@ -38420,7 +38456,7 @@ class VirtualNetworkGatewayConnectionListEntity(Resource):  # pylint: disable=na
         :paramtype enable_private_link_fast_path: bool
         """
         super().__init__(id=id, location=location, tags=tags, **kwargs)
-        self.etag = None
+        self.etag: Optional[str] = None
         self.authorization_key = authorization_key
         self.virtual_network_gateway1 = virtual_network_gateway1
         self.virtual_network_gateway2 = virtual_network_gateway2
@@ -38430,18 +38466,18 @@ class VirtualNetworkGatewayConnectionListEntity(Resource):  # pylint: disable=na
         self.routing_weight = routing_weight
         self.connection_mode = connection_mode
         self.shared_key = shared_key
-        self.connection_status = None
-        self.tunnel_connection_status = None
-        self.egress_bytes_transferred = None
-        self.ingress_bytes_transferred = None
+        self.connection_status: Optional[Union[str, "_models.VirtualNetworkGatewayConnectionStatus"]] = None
+        self.tunnel_connection_status: Optional[List["_models.TunnelConnectionHealth"]] = None
+        self.egress_bytes_transferred: Optional[int] = None
+        self.ingress_bytes_transferred: Optional[int] = None
         self.peer = peer
         self.enable_bgp = enable_bgp
         self.gateway_custom_bgp_ip_addresses = gateway_custom_bgp_ip_addresses
         self.use_policy_based_traffic_selectors = use_policy_based_traffic_selectors
         self.ipsec_policies = ipsec_policies
         self.traffic_selector_policies = traffic_selector_policies
-        self.resource_guid = None
-        self.provisioning_state = None
+        self.resource_guid: Optional[str] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.express_route_gateway_bypass = express_route_gateway_bypass
         self.enable_private_link_fast_path = enable_private_link_fast_path
 
@@ -38477,7 +38513,7 @@ class VirtualNetworkGatewayConnectionListResult(_serialization.Model):  # pylint
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class VirtualNetworkGatewayIPConfiguration(SubResource):
@@ -38550,12 +38586,12 @@ class VirtualNetworkGatewayIPConfiguration(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
+        self.etag: Optional[str] = None
         self.private_ip_allocation_method = private_ip_allocation_method
         self.subnet = subnet
         self.public_ip_address = public_ip_address
-        self.private_ip_address = None
-        self.provisioning_state = None
+        self.private_ip_address: Optional[str] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class VirtualNetworkGatewayListConnectionsResult(_serialization.Model):  # pylint: disable=name-too-long
@@ -38589,7 +38625,7 @@ class VirtualNetworkGatewayListConnectionsResult(_serialization.Model):  # pylin
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class VirtualNetworkGatewayListResult(_serialization.Model):
@@ -38619,7 +38655,7 @@ class VirtualNetworkGatewayListResult(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.value = value
-        self.next_link = None
+        self.next_link: Optional[str] = None
 
 
 class VirtualNetworkGatewayNatRule(SubResource):
@@ -38705,9 +38741,9 @@ class VirtualNetworkGatewayNatRule(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
-        self.type = None
-        self.provisioning_state = None
+        self.etag: Optional[str] = None
+        self.type: Optional[str] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.type_properties_type = type_properties_type
         self.mode = mode
         self.internal_mappings = internal_mappings
@@ -38789,12 +38825,12 @@ class VirtualNetworkGatewayPolicyGroup(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
+        self.etag: Optional[str] = None
         self.is_default = is_default
         self.priority = priority
         self.policy_members = policy_members
-        self.vng_client_connection_configurations = None
-        self.provisioning_state = None
+        self.vng_client_connection_configurations: Optional[List["_models.SubResource"]] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class VirtualNetworkGatewayPolicyGroupMember(_serialization.Model):
@@ -38887,7 +38923,7 @@ class VirtualNetworkGatewaySku(_serialization.Model):
         super().__init__(**kwargs)
         self.name = name
         self.tier = tier
-        self.capacity = None
+        self.capacity: Optional[int] = None
 
 
 class VirtualNetworkListResult(_serialization.Model):
@@ -38944,7 +38980,7 @@ class VirtualNetworkListUsageResult(_serialization.Model):
         :paramtype next_link: str
         """
         super().__init__(**kwargs)
-        self.value = None
+        self.value: Optional[List["_models.VirtualNetworkUsage"]] = None
         self.next_link = next_link
 
 
@@ -39155,7 +39191,7 @@ class VirtualNetworkPeering(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
+        self.etag: Optional[str] = None
         self.type = type
         self.allow_virtual_network_access = allow_virtual_network_access
         self.allow_forwarded_traffic = allow_forwarded_traffic
@@ -39167,12 +39203,12 @@ class VirtualNetworkPeering(SubResource):
         self.remote_address_space = remote_address_space
         self.remote_virtual_network_address_space = remote_virtual_network_address_space
         self.remote_bgp_communities = remote_bgp_communities
-        self.remote_virtual_network_encryption = None
+        self.remote_virtual_network_encryption: Optional["_models.VirtualNetworkEncryption"] = None
         self.peering_state = peering_state
         self.peering_sync_level = peering_sync_level
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.do_not_verify_remote_gateways = do_not_verify_remote_gateways
-        self.resource_guid = None
+        self.resource_guid: Optional[str] = None
         self.peer_complete_vnets = peer_complete_vnets
         self.enable_only_i_pv6_peering = enable_only_i_pv6_peering
         self.local_subnet_names = local_subnet_names
@@ -39313,10 +39349,10 @@ class VirtualNetworkTap(Resource):
         :paramtype destination_port: int
         """
         super().__init__(id=id, location=location, tags=tags, **kwargs)
-        self.etag = None
-        self.network_interface_tap_configurations = None
-        self.resource_guid = None
-        self.provisioning_state = None
+        self.etag: Optional[str] = None
+        self.network_interface_tap_configurations: Optional[List["_models.NetworkInterfaceTapConfiguration"]] = None
+        self.resource_guid: Optional[str] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.destination_network_interface_ip_configuration = destination_network_interface_ip_configuration
         self.destination_load_balancer_front_end_ip_configuration = destination_load_balancer_front_end_ip_configuration
         self.destination_port = destination_port
@@ -39390,11 +39426,11 @@ class VirtualNetworkUsage(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.current_value = None
-        self.id = None
-        self.limit = None
-        self.name = None
-        self.unit = None
+        self.current_value: Optional[float] = None
+        self.id: Optional[str] = None
+        self.limit: Optional[float] = None
+        self.name: Optional["_models.VirtualNetworkUsageName"] = None
+        self.unit: Optional[str] = None
 
 
 class VirtualNetworkUsageName(_serialization.Model):
@@ -39421,8 +39457,8 @@ class VirtualNetworkUsageName(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.localized_value = None
-        self.value = None
+        self.localized_value: Optional[str] = None
+        self.value: Optional[str] = None
 
 
 class VirtualRouter(Resource):
@@ -39510,13 +39546,13 @@ class VirtualRouter(Resource):
         :paramtype hosted_gateway: ~azure.mgmt.network.models.SubResource
         """
         super().__init__(id=id, location=location, tags=tags, **kwargs)
-        self.etag = None
+        self.etag: Optional[str] = None
         self.virtual_router_asn = virtual_router_asn
         self.virtual_router_ips = virtual_router_ips
         self.hosted_subnet = hosted_subnet
         self.hosted_gateway = hosted_gateway
-        self.peerings = None
-        self.provisioning_state = None
+        self.peerings: Optional[List["_models.SubResource"]] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class VirtualRouterAutoScaleConfiguration(_serialization.Model):
@@ -39631,11 +39667,11 @@ class VirtualRouterPeering(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
-        self.type = None
+        self.etag: Optional[str] = None
+        self.type: Optional[str] = None
         self.peer_asn = peer_asn
         self.peer_ip = peer_ip
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class VirtualRouterPeeringListResult(_serialization.Model):
@@ -39764,14 +39800,14 @@ class VirtualWAN(Resource):
         :paramtype type_properties_type: str
         """
         super().__init__(id=id, location=location, tags=tags, **kwargs)
-        self.etag = None
+        self.etag: Optional[str] = None
         self.disable_vpn_encryption = disable_vpn_encryption
-        self.virtual_hubs = None
-        self.vpn_sites = None
+        self.virtual_hubs: Optional[List["_models.SubResource"]] = None
+        self.vpn_sites: Optional[List["_models.SubResource"]] = None
         self.allow_branch_to_branch_traffic = allow_branch_to_branch_traffic
         self.allow_vnet_to_vnet_traffic = allow_vnet_to_vnet_traffic
-        self.office365_local_breakout_category = None
-        self.provisioning_state = None
+        self.office365_local_breakout_category: Optional[Union[str, "_models.OfficeTrafficCategory"]] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.type_properties_type = type_properties_type
 
 
@@ -39808,7 +39844,7 @@ class VirtualWanSecurityProvider(_serialization.Model):
         super().__init__(**kwargs)
         self.name = name
         self.url = url
-        self.type = None
+        self.type: Optional[Union[str, "_models.VirtualWanSecurityProviderType"]] = None
 
 
 class VirtualWanSecurityProviders(_serialization.Model):
@@ -39926,7 +39962,7 @@ class VnetRoute(_serialization.Model):
         super().__init__(**kwargs)
         self.static_routes_config = static_routes_config
         self.static_routes = static_routes
-        self.bgp_connections = None
+        self.bgp_connections: Optional[List["_models.SubResource"]] = None
 
 
 class VngClientConnectionConfiguration(SubResource):
@@ -39994,10 +40030,10 @@ class VngClientConnectionConfiguration(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
+        self.etag: Optional[str] = None
         self.vpn_client_address_pool = vpn_client_address_pool
         self.virtual_network_gateway_policy_groups = virtual_network_gateway_policy_groups
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class VpnClientConfiguration(_serialization.Model):
@@ -40184,8 +40220,8 @@ class VpnClientConnectionHealth(_serialization.Model):
         :paramtype allocated_ip_addresses: list[str]
         """
         super().__init__(**kwargs)
-        self.total_ingress_bytes_transferred = None
-        self.total_egress_bytes_transferred = None
+        self.total_ingress_bytes_transferred: Optional[int] = None
+        self.total_egress_bytes_transferred: Optional[int] = None
         self.vpn_client_connections_count = vpn_client_connections_count
         self.allocated_ip_addresses = allocated_ip_addresses
 
@@ -40254,18 +40290,18 @@ class VpnClientConnectionHealthDetail(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.vpn_connection_id = None
-        self.vpn_connection_duration = None
-        self.vpn_connection_time = None
-        self.public_ip_address = None
-        self.private_ip_address = None
-        self.vpn_user_name = None
-        self.max_bandwidth = None
-        self.egress_packets_transferred = None
-        self.egress_bytes_transferred = None
-        self.ingress_packets_transferred = None
-        self.ingress_bytes_transferred = None
-        self.max_packets_per_second = None
+        self.vpn_connection_id: Optional[str] = None
+        self.vpn_connection_duration: Optional[int] = None
+        self.vpn_connection_time: Optional[str] = None
+        self.public_ip_address: Optional[str] = None
+        self.private_ip_address: Optional[str] = None
+        self.vpn_user_name: Optional[str] = None
+        self.max_bandwidth: Optional[int] = None
+        self.egress_packets_transferred: Optional[int] = None
+        self.egress_bytes_transferred: Optional[int] = None
+        self.ingress_packets_transferred: Optional[int] = None
+        self.ingress_bytes_transferred: Optional[int] = None
+        self.max_packets_per_second: Optional[int] = None
 
 
 class VpnClientConnectionHealthDetailListResult(_serialization.Model):  # pylint: disable=name-too-long
@@ -40507,9 +40543,9 @@ class VpnClientRevokedCertificate(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
+        self.etag: Optional[str] = None
         self.thumbprint = thumbprint
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class VpnClientRootCertificate(SubResource):
@@ -40566,9 +40602,9 @@ class VpnClientRootCertificate(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
+        self.etag: Optional[str] = None
         self.public_cert_data = public_cert_data
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class VpnConnection(SubResource):
@@ -40727,14 +40763,14 @@ class VpnConnection(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
+        self.etag: Optional[str] = None
         self.remote_vpn_site = remote_vpn_site
         self.routing_weight = routing_weight
         self.dpd_timeout_seconds = dpd_timeout_seconds
-        self.connection_status = None
+        self.connection_status: Optional[Union[str, "_models.VpnConnectionStatus"]] = None
         self.vpn_connection_protocol_type = vpn_connection_protocol_type
-        self.ingress_bytes_transferred = None
-        self.egress_bytes_transferred = None
+        self.ingress_bytes_transferred: Optional[int] = None
+        self.egress_bytes_transferred: Optional[int] = None
         self.connection_bandwidth = connection_bandwidth
         self.shared_key = shared_key
         self.enable_bgp = enable_bgp
@@ -40744,7 +40780,7 @@ class VpnConnection(SubResource):
         self.enable_rate_limiting = enable_rate_limiting
         self.enable_internet_security = enable_internet_security
         self.use_local_azure_ip_address = use_local_azure_ip_address
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.vpn_link_connections = vpn_link_connections
         self.routing_configuration = routing_configuration
 
@@ -40951,13 +40987,13 @@ class VpnGateway(Resource):
         :paramtype nat_rules: list[~azure.mgmt.network.models.VpnGatewayNatRule]
         """
         super().__init__(id=id, location=location, tags=tags, **kwargs)
-        self.etag = None
+        self.etag: Optional[str] = None
         self.virtual_hub = virtual_hub
         self.connections = connections
         self.bgp_settings = bgp_settings
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.vpn_gateway_scale_unit = vpn_gateway_scale_unit
-        self.ip_configurations = None
+        self.ip_configurations: Optional[List["_models.VpnGatewayIpConfiguration"]] = None
         self.enable_bgp_route_translation_for_nat = enable_bgp_route_translation_for_nat
         self.is_routing_preference_internet = is_routing_preference_internet
         self.nat_rules = nat_rules
@@ -41096,16 +41132,16 @@ class VpnGatewayNatRule(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
-        self.type = None
-        self.provisioning_state = None
+        self.etag: Optional[str] = None
+        self.type: Optional[str] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.type_properties_type = type_properties_type
         self.mode = mode
         self.internal_mappings = internal_mappings
         self.external_mappings = external_mappings
         self.ip_configuration_id = ip_configuration_id
-        self.egress_vpn_site_link_connections = None
-        self.ingress_vpn_site_link_connections = None
+        self.egress_vpn_site_link_connections: Optional[List["_models.SubResource"]] = None
+        self.ingress_vpn_site_link_connections: Optional[List["_models.SubResource"]] = None
 
 
 class VpnGatewayPacketCaptureStartParameters(_serialization.Model):
@@ -41526,7 +41562,7 @@ class VpnServerConfiguration(Resource):
          list[~azure.mgmt.network.models.VpnServerConfigurationPolicyGroup]
         """
         super().__init__(id=id, location=location, tags=tags, **kwargs)
-        self.etag = None
+        self.etag: Optional[str] = None
         self.name_properties_name = name_properties_name
         self.vpn_protocols = vpn_protocols
         self.vpn_authentication_types = vpn_authentication_types
@@ -41539,10 +41575,10 @@ class VpnServerConfiguration(Resource):
         self.radius_server_secret = radius_server_secret
         self.radius_servers = radius_servers
         self.aad_authentication_parameters = aad_authentication_parameters
-        self.provisioning_state = None
-        self.p2_s_vpn_gateways = None
+        self.provisioning_state: Optional[str] = None
+        self.p2_s_vpn_gateways: Optional[List["_models.P2SVpnGateway"]] = None
         self.configuration_policy_groups = configuration_policy_groups
-        self.etag_properties_etag = None
+        self.etag_properties_etag: Optional[str] = None
 
 
 class VpnServerConfigurationPolicyGroup(SubResource):
@@ -41618,14 +41654,14 @@ class VpnServerConfigurationPolicyGroup(SubResource):
          list[~azure.mgmt.network.models.VpnServerConfigurationPolicyGroupMember]
         """
         super().__init__(id=id, **kwargs)
-        self.etag = None
+        self.etag: Optional[str] = None
         self.name = name
-        self.type = None
+        self.type: Optional[str] = None
         self.is_default = is_default
         self.priority = priority
         self.policy_members = policy_members
-        self.p2_s_connection_configurations = None
-        self.provisioning_state = None
+        self.p2_s_connection_configurations: Optional[List["_models.SubResource"]] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class VpnServerConfigurationPolicyGroupMember(_serialization.Model):
@@ -41855,14 +41891,14 @@ class VpnSite(Resource):
         :paramtype o365_policy: ~azure.mgmt.network.models.O365PolicyProperties
         """
         super().__init__(id=id, location=location, tags=tags, **kwargs)
-        self.etag = None
+        self.etag: Optional[str] = None
         self.virtual_wan = virtual_wan
         self.device_properties = device_properties
         self.ip_address = ip_address
         self.site_key = site_key
         self.address_space = address_space
         self.bgp_properties = bgp_properties
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.is_security_site = is_security_site
         self.vpn_site_links = vpn_site_links
         self.o365_policy = o365_policy
@@ -41888,7 +41924,7 @@ class VpnSiteId(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.vpn_site = None
+        self.vpn_site: Optional[str] = None
 
 
 class VpnSiteLink(SubResource):
@@ -41963,14 +41999,14 @@ class VpnSiteLink(SubResource):
         :paramtype bgp_properties: ~azure.mgmt.network.models.VpnLinkBgpSettings
         """
         super().__init__(id=id, **kwargs)
-        self.etag = None
+        self.etag: Optional[str] = None
         self.name = name
-        self.type = None
+        self.type: Optional[str] = None
         self.link_properties = link_properties
         self.ip_address = ip_address
         self.fqdn = fqdn
         self.bgp_properties = bgp_properties
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class VpnSiteLinkConnection(SubResource):
@@ -42137,15 +42173,15 @@ class VpnSiteLinkConnection(SubResource):
         """
         super().__init__(id=id, **kwargs)
         self.name = name
-        self.etag = None
-        self.type = None
+        self.etag: Optional[str] = None
+        self.type: Optional[str] = None
         self.vpn_site_link = vpn_site_link
         self.routing_weight = routing_weight
         self.vpn_link_connection_mode = vpn_link_connection_mode
-        self.connection_status = None
+        self.connection_status: Optional[Union[str, "_models.VpnConnectionStatus"]] = None
         self.vpn_connection_protocol_type = vpn_connection_protocol_type
-        self.ingress_bytes_transferred = None
-        self.egress_bytes_transferred = None
+        self.ingress_bytes_transferred: Optional[int] = None
+        self.egress_bytes_transferred: Optional[int] = None
         self.connection_bandwidth = connection_bandwidth
         self.shared_key = shared_key
         self.enable_bgp = enable_bgp
@@ -42154,7 +42190,7 @@ class VpnSiteLinkConnection(SubResource):
         self.ipsec_policies = ipsec_policies
         self.enable_rate_limiting = enable_rate_limiting
         self.use_local_azure_ip_address = use_local_azure_ip_address
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.ingress_nat_rules = ingress_nat_rules
         self.egress_nat_rules = egress_nat_rules
         self.dpd_timeout_seconds = dpd_timeout_seconds
@@ -42263,7 +42299,7 @@ class WebApplicationFirewallCustomRule(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.name = name
-        self.etag = None
+        self.etag: Optional[str] = None
         self.priority = priority
         self.state = state
         self.rate_limit_duration = rate_limit_duration
@@ -42376,16 +42412,18 @@ class WebApplicationFirewallPolicy(Resource):
         :paramtype managed_rules: ~azure.mgmt.network.models.ManagedRulesDefinition
         """
         super().__init__(id=id, location=location, tags=tags, **kwargs)
-        self.etag = None
+        self.etag: Optional[str] = None
         self.policy_settings = policy_settings
         self.custom_rules = custom_rules
-        self.application_gateways = None
-        self.provisioning_state = None
-        self.resource_state = None
+        self.application_gateways: Optional[List["_models.ApplicationGateway"]] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
+        self.resource_state: Optional[Union[str, "_models.WebApplicationFirewallPolicyResourceState"]] = None
         self.managed_rules = managed_rules
-        self.http_listeners = None
-        self.path_based_rules = None
-        self.application_gateway_for_containers = None
+        self.http_listeners: Optional[List["_models.SubResource"]] = None
+        self.path_based_rules: Optional[List["_models.SubResource"]] = None
+        self.application_gateway_for_containers: Optional[
+            List["_models.ApplicationGatewayForContainersReferenceDefinition"]
+        ] = None
 
 
 class WebApplicationFirewallPolicyListResult(_serialization.Model):
@@ -42414,8 +42452,8 @@ class WebApplicationFirewallPolicyListResult(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.value = None
-        self.next_link = None
+        self.value: Optional[List["_models.WebApplicationFirewallPolicy"]] = None
+        self.next_link: Optional[str] = None
 
 
 class WebApplicationFirewallScrubbingRules(_serialization.Model):
