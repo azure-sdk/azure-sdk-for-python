@@ -1,5 +1,254 @@
 # Release History
 
+## 2.0.0 (2025-04-21)
+
+### Features Added
+
+  - Client `ScVmmMgmtClient` added method `send_request`
+  - Model `CloudCapacity` added property `storage_gb`
+  - Model `GuestAgentProperties` added property `private_link_scope_resource_id`
+  - Model `OsProfileForVmInstance` added property `admin_username`
+  - Model `OsProfileForVmInstance` added property `domain_name`
+  - Model `OsProfileForVmInstance` added property `domain_username`
+  - Model `OsProfileForVmInstance` added property `domain_password`
+  - Model `OsProfileForVmInstance` added property `workgroup`
+  - Model `OsProfileForVmInstance` added property `product_key`
+  - Model `OsProfileForVmInstance` added property `timezone`
+  - Model `OsProfileForVmInstance` added property `run_once_commands`
+  - Model `VirtualMachineInventoryItem` added property `generation`
+  - Added model `ExtensionResource`
+  - Method `AvailabilitySet.__init__` has a new overload `def __init__(self: None, location: str, extended_location: _models.ExtendedLocation, tags: Optional[Dict[str, str]], properties: Optional[_models.AvailabilitySetProperties])`
+  - Method `AvailabilitySet.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AvailabilitySet.__init__` has a new overload `def __init__(self: None, location: str, tags: Optional[Dict[str, str]])`
+  - Method `AvailabilitySet.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AvailabilitySetListItem.__init__` has a new overload `def __init__(self: None, id: Optional[str], name: Optional[str])`
+  - Method `AvailabilitySetListItem.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AvailabilitySetProperties.__init__` has a new overload `def __init__(self: None, availability_set_name: Optional[str], vmm_server_id: Optional[str])`
+  - Method `AvailabilitySetProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AvailabilitySetTagsUpdate.__init__` has a new overload `def __init__(self: None, tags: Optional[Dict[str, str]])`
+  - Method `AvailabilitySetTagsUpdate.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `Checkpoint.__init__` has a new overload `def __init__(self: None, parent_checkpoint_id: Optional[str], checkpoint_id: Optional[str], name: Optional[str], description: Optional[str])`
+  - Method `Checkpoint.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `Cloud.__init__` has a new overload `def __init__(self: None, location: str, extended_location: _models.ExtendedLocation, tags: Optional[Dict[str, str]], properties: Optional[_models.CloudProperties])`
+  - Method `Cloud.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `Cloud.__init__` has a new overload `def __init__(self: None, location: str, tags: Optional[Dict[str, str]])`
+  - Method `Cloud.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `CloudInventoryItem.__init__` has a new overload `def __init__(self: None)`
+  - Method `CloudInventoryItem.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `CloudInventoryItem.__init__` has a new overload `def __init__(self: None, inventory_type: str)`
+  - Method `CloudInventoryItem.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `CloudProperties.__init__` has a new overload `def __init__(self: None, inventory_item_id: Optional[str], uuid: Optional[str], vmm_server_id: Optional[str])`
+  - Method `CloudProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `CloudTagsUpdate.__init__` has a new overload `def __init__(self: None, tags: Optional[Dict[str, str]])`
+  - Method `CloudTagsUpdate.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ErrorResponse.__init__` has a new overload `def __init__(self: None, error: Optional[_models.ErrorDetail])`
+  - Method `ErrorResponse.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `ExtendedLocation.__init__` has a new overload `def __init__(self: None, type: Optional[str], name: Optional[str])`
+  - Method `ExtendedLocation.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `GuestAgent.__init__` has a new overload `def __init__(self: None, properties: Optional[_models.GuestAgentProperties])`
+  - Method `GuestAgent.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `GuestAgentProperties.__init__` has a new overload `def __init__(self: None, credentials: Optional[_models.GuestCredential], http_proxy_config: Optional[_models.HttpProxyConfiguration], provisioning_action: Optional[Union[str, _models.ProvisioningAction]], private_link_scope_resource_id: Optional[str])`
+  - Method `GuestAgentProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `GuestCredential.__init__` has a new overload `def __init__(self: None, username: str, password: str)`
+  - Method `GuestCredential.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `HardwareProfile.__init__` has a new overload `def __init__(self: None, memory_mb: Optional[int], cpu_count: Optional[int], limit_cpu_for_migration: Optional[Union[str, _models.LimitCpuForMigration]], dynamic_memory_enabled: Optional[Union[str, _models.DynamicMemoryEnabled]], dynamic_memory_max_mb: Optional[int], dynamic_memory_min_mb: Optional[int])`
+  - Method `HardwareProfile.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `HardwareProfileUpdate.__init__` has a new overload `def __init__(self: None, memory_mb: Optional[int], cpu_count: Optional[int], limit_cpu_for_migration: Optional[Union[str, _models.LimitCpuForMigration]], dynamic_memory_enabled: Optional[Union[str, _models.DynamicMemoryEnabled]], dynamic_memory_max_mb: Optional[int], dynamic_memory_min_mb: Optional[int])`
+  - Method `HardwareProfileUpdate.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `HttpProxyConfiguration.__init__` has a new overload `def __init__(self: None, https_proxy: Optional[str])`
+  - Method `HttpProxyConfiguration.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `InfrastructureProfile.__init__` has a new overload `def __init__(self: None, inventory_item_id: Optional[str], vmm_server_id: Optional[str], cloud_id: Optional[str], template_id: Optional[str], vm_name: Optional[str], uuid: Optional[str], checkpoint_type: Optional[str], generation: Optional[int], bios_guid: Optional[str])`
+  - Method `InfrastructureProfile.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `InfrastructureProfileUpdate.__init__` has a new overload `def __init__(self: None, checkpoint_type: Optional[str])`
+  - Method `InfrastructureProfileUpdate.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `InventoryItem.__init__` has a new overload `def __init__(self: None, properties: Optional[_models.InventoryItemProperties], kind: Optional[str])`
+  - Method `InventoryItem.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `InventoryItemDetails.__init__` has a new overload `def __init__(self: None, inventory_item_id: Optional[str], inventory_item_name: Optional[str])`
+  - Method `InventoryItemDetails.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `InventoryItemProperties.__init__` has a new overload `def __init__(self: None, inventory_type: str)`
+  - Method `InventoryItemProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `NetworkInterface.__init__` has a new overload `def __init__(self: None, name: Optional[str], mac_address: Optional[str], virtual_network_id: Optional[str], ipv4_address_type: Optional[Union[str, _models.AllocationMethod]], ipv6_address_type: Optional[Union[str, _models.AllocationMethod]], mac_address_type: Optional[Union[str, _models.AllocationMethod]], nic_id: Optional[str])`
+  - Method `NetworkInterface.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `NetworkInterfaceUpdate.__init__` has a new overload `def __init__(self: None, name: Optional[str], mac_address: Optional[str], virtual_network_id: Optional[str], ipv4_address_type: Optional[Union[str, _models.AllocationMethod]], ipv6_address_type: Optional[Union[str, _models.AllocationMethod]], mac_address_type: Optional[Union[str, _models.AllocationMethod]], nic_id: Optional[str])`
+  - Method `NetworkInterfaceUpdate.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `NetworkProfile.__init__` has a new overload `def __init__(self: None, network_interfaces: Optional[List[_models.NetworkInterface]])`
+  - Method `NetworkProfile.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `NetworkProfileUpdate.__init__` has a new overload `def __init__(self: None, network_interfaces: Optional[List[_models.NetworkInterfaceUpdate]])`
+  - Method `NetworkProfileUpdate.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `Operation.__init__` has a new overload `def __init__(self: None, display: Optional[_models.OperationDisplay])`
+  - Method `Operation.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `OsProfileForVmInstance.__init__` has a new overload `def __init__(self: None, admin_username: Optional[str], admin_password: Optional[str], computer_name: Optional[str], domain_name: Optional[str], domain_username: Optional[str], domain_password: Optional[str], workgroup: Optional[str], product_key: Optional[str], timezone: Optional[int], run_once_commands: Optional[str])`
+  - Method `OsProfileForVmInstance.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `StopVirtualMachineOptions.__init__` has a new overload `def __init__(self: None, skip_shutdown: Optional[Union[str, _models.SkipShutdown]])`
+  - Method `StopVirtualMachineOptions.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `StorageProfile.__init__` has a new overload `def __init__(self: None, disks: Optional[List[_models.VirtualDisk]])`
+  - Method `StorageProfile.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `StorageProfileUpdate.__init__` has a new overload `def __init__(self: None, disks: Optional[List[_models.VirtualDiskUpdate]])`
+  - Method `StorageProfileUpdate.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `StorageQosPolicy.__init__` has a new overload `def __init__(self: None, name: Optional[str], id: Optional[str], iops_maximum: Optional[int], iops_minimum: Optional[int], bandwidth_limit: Optional[int], policy_id: Optional[str])`
+  - Method `StorageQosPolicy.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `StorageQosPolicyDetails.__init__` has a new overload `def __init__(self: None, name: Optional[str], id: Optional[str])`
+  - Method `StorageQosPolicyDetails.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `SystemData.__init__` has a new overload `def __init__(self: None, created_by: Optional[str], created_by_type: Optional[Union[str, _models.CreatedByType]], created_at: Optional[datetime], last_modified_by: Optional[str], last_modified_by_type: Optional[Union[str, _models.CreatedByType]], last_modified_at: Optional[datetime])`
+  - Method `SystemData.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `TrackedResource.__init__` has a new overload `def __init__(self: None, location: str, tags: Optional[Dict[str, str]])`
+  - Method `TrackedResource.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `VirtualDisk.__init__` has a new overload `def __init__(self: None, name: Optional[str], disk_id: Optional[str], disk_size_gb: Optional[int], bus: Optional[int], lun: Optional[int], bus_type: Optional[str], vhd_type: Optional[str], template_disk_id: Optional[str], storage_qos_policy: Optional[_models.StorageQosPolicyDetails], create_diff_disk: Optional[Union[str, _models.CreateDiffDisk]])`
+  - Method `VirtualDisk.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `VirtualDiskUpdate.__init__` has a new overload `def __init__(self: None, name: Optional[str], disk_id: Optional[str], disk_size_gb: Optional[int], bus: Optional[int], lun: Optional[int], bus_type: Optional[str], vhd_type: Optional[str], storage_qos_policy: Optional[_models.StorageQosPolicyDetails])`
+  - Method `VirtualDiskUpdate.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `VirtualMachineCreateCheckpoint.__init__` has a new overload `def __init__(self: None, name: Optional[str], description: Optional[str])`
+  - Method `VirtualMachineCreateCheckpoint.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `VirtualMachineDeleteCheckpoint.__init__` has a new overload `def __init__(self: None, id: Optional[str])`
+  - Method `VirtualMachineDeleteCheckpoint.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `VirtualMachineInstance.__init__` has a new overload `def __init__(self: None, extended_location: _models.ExtendedLocation, properties: Optional[_models.VirtualMachineInstanceProperties])`
+  - Method `VirtualMachineInstance.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `VirtualMachineInstanceProperties.__init__` has a new overload `def __init__(self: None, availability_sets: Optional[List[_models.AvailabilitySetListItem]], os_profile: Optional[_models.OsProfileForVmInstance], hardware_profile: Optional[_models.HardwareProfile], network_profile: Optional[_models.NetworkProfile], storage_profile: Optional[_models.StorageProfile], infrastructure_profile: Optional[_models.InfrastructureProfile])`
+  - Method `VirtualMachineInstanceProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `VirtualMachineInstanceUpdate.__init__` has a new overload `def __init__(self: None, properties: Optional[_models.VirtualMachineInstanceUpdateProperties])`
+  - Method `VirtualMachineInstanceUpdate.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `VirtualMachineInstanceUpdateProperties.__init__` has a new overload `def __init__(self: None, availability_sets: Optional[List[_models.AvailabilitySetListItem]], hardware_profile: Optional[_models.HardwareProfileUpdate], network_profile: Optional[_models.NetworkProfileUpdate], storage_profile: Optional[_models.StorageProfileUpdate], infrastructure_profile: Optional[_models.InfrastructureProfileUpdate])`
+  - Method `VirtualMachineInstanceUpdateProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `VirtualMachineInventoryItem.__init__` has a new overload `def __init__(self: None, ip_addresses: Optional[List[str]], cloud: Optional[_models.InventoryItemDetails])`
+  - Method `VirtualMachineInventoryItem.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `VirtualMachineInventoryItem.__init__` has a new overload `def __init__(self: None, inventory_type: str)`
+  - Method `VirtualMachineInventoryItem.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `VirtualMachineRestoreCheckpoint.__init__` has a new overload `def __init__(self: None, id: Optional[str])`
+  - Method `VirtualMachineRestoreCheckpoint.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `VirtualMachineTemplate.__init__` has a new overload `def __init__(self: None, location: str, extended_location: _models.ExtendedLocation, tags: Optional[Dict[str, str]], properties: Optional[_models.VirtualMachineTemplateProperties])`
+  - Method `VirtualMachineTemplate.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `VirtualMachineTemplate.__init__` has a new overload `def __init__(self: None, location: str, tags: Optional[Dict[str, str]])`
+  - Method `VirtualMachineTemplate.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `VirtualMachineTemplateInventoryItem.__init__` has a new overload `def __init__(self: None)`
+  - Method `VirtualMachineTemplateInventoryItem.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `VirtualMachineTemplateInventoryItem.__init__` has a new overload `def __init__(self: None, inventory_type: str)`
+  - Method `VirtualMachineTemplateInventoryItem.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `VirtualMachineTemplateProperties.__init__` has a new overload `def __init__(self: None, inventory_item_id: Optional[str], uuid: Optional[str], vmm_server_id: Optional[str])`
+  - Method `VirtualMachineTemplateProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `VirtualMachineTemplateTagsUpdate.__init__` has a new overload `def __init__(self: None, tags: Optional[Dict[str, str]])`
+  - Method `VirtualMachineTemplateTagsUpdate.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `VirtualNetwork.__init__` has a new overload `def __init__(self: None, location: str, extended_location: _models.ExtendedLocation, tags: Optional[Dict[str, str]], properties: Optional[_models.VirtualNetworkProperties])`
+  - Method `VirtualNetwork.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `VirtualNetwork.__init__` has a new overload `def __init__(self: None, location: str, tags: Optional[Dict[str, str]])`
+  - Method `VirtualNetwork.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `VirtualNetworkInventoryItem.__init__` has a new overload `def __init__(self: None)`
+  - Method `VirtualNetworkInventoryItem.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `VirtualNetworkInventoryItem.__init__` has a new overload `def __init__(self: None, inventory_type: str)`
+  - Method `VirtualNetworkInventoryItem.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `VirtualNetworkProperties.__init__` has a new overload `def __init__(self: None, inventory_item_id: Optional[str], uuid: Optional[str], vmm_server_id: Optional[str])`
+  - Method `VirtualNetworkProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `VirtualNetworkTagsUpdate.__init__` has a new overload `def __init__(self: None, tags: Optional[Dict[str, str]])`
+  - Method `VirtualNetworkTagsUpdate.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `VmInstanceHybridIdentityMetadata.__init__` has a new overload `def __init__(self: None, properties: Optional[_models.VmInstanceHybridIdentityMetadataProperties])`
+  - Method `VmInstanceHybridIdentityMetadata.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `VmInstanceHybridIdentityMetadataProperties.__init__` has a new overload `def __init__(self: None, resource_uid: Optional[str], public_key: Optional[str])`
+  - Method `VmInstanceHybridIdentityMetadataProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `VmmCredential.__init__` has a new overload `def __init__(self: None, username: Optional[str], password: Optional[str])`
+  - Method `VmmCredential.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `VmmServer.__init__` has a new overload `def __init__(self: None, location: str, extended_location: _models.ExtendedLocation, tags: Optional[Dict[str, str]], properties: Optional[_models.VmmServerProperties])`
+  - Method `VmmServer.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `VmmServer.__init__` has a new overload `def __init__(self: None, location: str, tags: Optional[Dict[str, str]])`
+  - Method `VmmServer.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `VmmServerProperties.__init__` has a new overload `def __init__(self: None, fqdn: str, credentials: Optional[_models.VmmCredential], port: Optional[int])`
+  - Method `VmmServerProperties.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `VmmServerTagsUpdate.__init__` has a new overload `def __init__(self: None, tags: Optional[Dict[str, str]])`
+  - Method `VmmServerTagsUpdate.__init__` has a new overload `def __init__(self: None, mapping: Mapping[str, Any])`
+  - Method `AvailabilitySetsOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, availability_set_resource_name: str, resource: JSON, content_type: str)`
+  - Method `AvailabilitySetsOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, availability_set_resource_name: str, properties: JSON, content_type: str)`
+  - Method `CloudsOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, cloud_resource_name: str, resource: JSON, content_type: str)`
+  - Method `CloudsOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, cloud_resource_name: str, properties: JSON, content_type: str)`
+  - Method `GuestAgentsOperations.begin_create` has a new overload `def begin_create(self: None, resource_uri: str, resource: JSON, content_type: str)`
+  - Method `InventoryItemsOperations.create` has a new overload `def create(self: None, resource_group_name: str, vmm_server_name: str, inventory_item_resource_name: str, resource: JSON, content_type: str)`
+  - Method `VirtualMachineInstancesOperations.begin_create_checkpoint` has a new overload `def begin_create_checkpoint(self: None, resource_uri: str, body: JSON, content_type: str)`
+  - Method `VirtualMachineInstancesOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_uri: str, resource: JSON, content_type: str)`
+  - Method `VirtualMachineInstancesOperations.begin_delete_checkpoint` has a new overload `def begin_delete_checkpoint(self: None, resource_uri: str, body: JSON, content_type: str)`
+  - Method `VirtualMachineInstancesOperations.begin_restore_checkpoint` has a new overload `def begin_restore_checkpoint(self: None, resource_uri: str, body: JSON, content_type: str)`
+  - Method `VirtualMachineInstancesOperations.begin_stop` has a new overload `def begin_stop(self: None, resource_uri: str, body: Optional[JSON], content_type: str)`
+  - Method `VirtualMachineInstancesOperations.begin_stop` has a new overload `def begin_stop(self: None, resource_uri: str, body: Optional[IO[bytes]], content_type: str)`
+  - Method `VirtualMachineInstancesOperations.begin_stop` has a new overload `def begin_stop(self: None, resource_uri: str, body: Optional[StopVirtualMachineOptions], content_type: str)`
+  - Method `VirtualMachineInstancesOperations.begin_update` has a new overload `def begin_update(self: None, resource_uri: str, properties: JSON, content_type: str)`
+  - Method `VirtualMachineTemplatesOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, virtual_machine_template_name: str, resource: JSON, content_type: str)`
+  - Method `VirtualMachineTemplatesOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, virtual_machine_template_name: str, properties: JSON, content_type: str)`
+  - Method `VirtualNetworksOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, virtual_network_name: str, resource: JSON, content_type: str)`
+  - Method `VirtualNetworksOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, virtual_network_name: str, properties: JSON, content_type: str)`
+  - Method `VmmServersOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, vmm_server_name: str, resource: JSON, content_type: str)`
+  - Method `VmmServersOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, vmm_server_name: str, properties: JSON, content_type: str)`
+
+### Breaking Changes
+
+  - Model `AvailabilitySet` deleted or renamed its instance variable `additional_properties`
+  - Model `AvailabilitySetListItem` deleted or renamed its instance variable `additional_properties`
+  - Model `AvailabilitySetProperties` deleted or renamed its instance variable `additional_properties`
+  - Model `AvailabilitySetTagsUpdate` deleted or renamed its instance variable `additional_properties`
+  - Model `Checkpoint` deleted or renamed its instance variable `additional_properties`
+  - Model `Cloud` deleted or renamed its instance variable `additional_properties`
+  - Model `CloudCapacity` deleted or renamed its instance variable `additional_properties`
+  - Model `CloudInventoryItem` deleted or renamed its instance variable `additional_properties`
+  - Model `CloudProperties` deleted or renamed its instance variable `additional_properties`
+  - Model `CloudTagsUpdate` deleted or renamed its instance variable `additional_properties`
+  - Model `ErrorAdditionalInfo` deleted or renamed its instance variable `additional_properties`
+  - Model `ErrorDetail` deleted or renamed its instance variable `additional_properties`
+  - Model `ErrorResponse` deleted or renamed its instance variable `additional_properties`
+  - Model `ExtendedLocation` deleted or renamed its instance variable `additional_properties`
+  - Model `GuestAgent` deleted or renamed its instance variable `additional_properties`
+  - Model `GuestAgentProperties` deleted or renamed its instance variable `additional_properties`
+  - Model `GuestCredential` deleted or renamed its instance variable `additional_properties`
+  - Model `HardwareProfile` deleted or renamed its instance variable `additional_properties`
+  - Model `HardwareProfileUpdate` deleted or renamed its instance variable `additional_properties`
+  - Model `HttpProxyConfiguration` deleted or renamed its instance variable `additional_properties`
+  - Model `InfrastructureProfile` deleted or renamed its instance variable `additional_properties`
+  - Model `InfrastructureProfileUpdate` deleted or renamed its instance variable `additional_properties`
+  - Model `InventoryItem` deleted or renamed its instance variable `additional_properties`
+  - Model `InventoryItemDetails` deleted or renamed its instance variable `additional_properties`
+  - Model `InventoryItemProperties` deleted or renamed its instance variable `additional_properties`
+  - Model `NetworkInterface` deleted or renamed its instance variable `additional_properties`
+  - Model `NetworkInterfaceUpdate` deleted or renamed its instance variable `additional_properties`
+  - Model `NetworkProfile` deleted or renamed its instance variable `additional_properties`
+  - Model `NetworkProfileUpdate` deleted or renamed its instance variable `additional_properties`
+  - Model `Operation` deleted or renamed its instance variable `additional_properties`
+  - Model `OperationDisplay` deleted or renamed its instance variable `additional_properties`
+  - Model `OsProfileForVmInstance` deleted or renamed its instance variable `additional_properties`
+  - Model `ProxyResource` deleted or renamed its instance variable `additional_properties`
+  - Model `Resource` deleted or renamed its instance variable `additional_properties`
+  - Model `StopVirtualMachineOptions` deleted or renamed its instance variable `additional_properties`
+  - Model `StorageProfile` deleted or renamed its instance variable `additional_properties`
+  - Model `StorageProfileUpdate` deleted or renamed its instance variable `additional_properties`
+  - Model `StorageQosPolicy` deleted or renamed its instance variable `additional_properties`
+  - Model `StorageQosPolicyDetails` deleted or renamed its instance variable `additional_properties`
+  - Model `SystemData` deleted or renamed its instance variable `additional_properties`
+  - Model `TrackedResource` deleted or renamed its instance variable `additional_properties`
+  - Model `VirtualDisk` deleted or renamed its instance variable `additional_properties`
+  - Model `VirtualDiskUpdate` deleted or renamed its instance variable `additional_properties`
+  - Model `VirtualMachineCreateCheckpoint` deleted or renamed its instance variable `additional_properties`
+  - Model `VirtualMachineDeleteCheckpoint` deleted or renamed its instance variable `additional_properties`
+  - Model `VirtualMachineInstance` deleted or renamed its instance variable `additional_properties`
+  - Model `VirtualMachineInstanceProperties` deleted or renamed its instance variable `additional_properties`
+  - Model `VirtualMachineInstanceUpdate` deleted or renamed its instance variable `additional_properties`
+  - Model `VirtualMachineInstanceUpdateProperties` deleted or renamed its instance variable `additional_properties`
+  - Model `VirtualMachineInventoryItem` deleted or renamed its instance variable `additional_properties`
+  - Model `VirtualMachineRestoreCheckpoint` deleted or renamed its instance variable `additional_properties`
+  - Model `VirtualMachineTemplate` deleted or renamed its instance variable `additional_properties`
+  - Model `VirtualMachineTemplateInventoryItem` deleted or renamed its instance variable `additional_properties`
+  - Model `VirtualMachineTemplateProperties` deleted or renamed its instance variable `additional_properties`
+  - Model `VirtualMachineTemplateTagsUpdate` deleted or renamed its instance variable `additional_properties`
+  - Model `VirtualNetwork` deleted or renamed its instance variable `additional_properties`
+  - Model `VirtualNetworkInventoryItem` deleted or renamed its instance variable `additional_properties`
+  - Model `VirtualNetworkProperties` deleted or renamed its instance variable `additional_properties`
+  - Model `VirtualNetworkTagsUpdate` deleted or renamed its instance variable `additional_properties`
+  - Model `VmInstanceHybridIdentityMetadata` deleted or renamed its instance variable `additional_properties`
+  - Model `VmInstanceHybridIdentityMetadataProperties` deleted or renamed its instance variable `additional_properties`
+  - Model `VmmCredential` deleted or renamed its instance variable `additional_properties`
+  - Model `VmmServer` deleted or renamed its instance variable `additional_properties`
+  - Model `VmmServerProperties` deleted or renamed its instance variable `additional_properties`
+  - Model `VmmServerTagsUpdate` deleted or renamed its instance variable `additional_properties`
+  - Method `AvailabilitySetsOperations.begin_delete` changed its parameter `force` from `positional_or_keyword` to `keyword_only`
+  - Method `CloudsOperations.begin_delete` changed its parameter `force` from `positional_or_keyword` to `keyword_only`
+  - Method `VirtualMachineInstancesOperations.begin_delete` changed its parameter `force` from `positional_or_keyword` to `keyword_only`
+  - Method `VirtualMachineInstancesOperations.begin_delete` changed its parameter `delete_from_host` from `positional_or_keyword` to `keyword_only`
+  - Method `VirtualMachineTemplatesOperations.begin_delete` changed its parameter `force` from `positional_or_keyword` to `keyword_only`
+  - Method `VirtualNetworksOperations.begin_delete` changed its parameter `force` from `positional_or_keyword` to `keyword_only`
+  - Method `VmmServersOperations.begin_delete` changed its parameter `force` from `positional_or_keyword` to `keyword_only`
+
 ## 1.0.0 (2024-06-20)
 
 ### Features Added
