@@ -43,9 +43,9 @@ class Resource(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
 
 
 class ApplicationInsightsComponentPricingPlan(Resource):
@@ -126,11 +126,11 @@ class ApplicationInsightsComponentPricingPlan(Resource):
         super().__init__(**kwargs)
         self.plan_type = plan_type
         self.cap = cap
-        self.reset_hour = None
+        self.reset_hour: Optional[int] = None
         self.warning_threshold = warning_threshold
         self.stop_send_notification_when_hit_threshold = stop_send_notification_when_hit_threshold
         self.stop_send_notification_when_hit_cap = stop_send_notification_when_hit_cap
-        self.max_history_cap = None
+        self.max_history_cap: Optional[float] = None
 
 
 class CloudErrorBody(_serialization.Model):
