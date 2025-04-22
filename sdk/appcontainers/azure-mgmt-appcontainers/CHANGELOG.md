@@ -1,5 +1,299 @@
 # Release History
 
+## 4.0.0b1 (2025-04-22)
+
+### Features Added
+
+  - Client `ContainerAppsAPIClient` added operation group `app_resiliency`
+  - Client `ContainerAppsAPIClient` added operation group `builders`
+  - Client `ContainerAppsAPIClient` added operation group `builds_by_builder_resource`
+  - Client `ContainerAppsAPIClient` added operation group `builds`
+  - Client `ContainerAppsAPIClient` added operation group `build_auth_token`
+  - Client `ContainerAppsAPIClient` added operation group `container_apps_builds_by_container_app`
+  - Client `ContainerAppsAPIClient` added operation group `container_apps_builds`
+  - Client `ContainerAppsAPIClient` added operation group `container_apps_label_history`
+  - Client `ContainerAppsAPIClient` added operation group `container_apps_patches`
+  - Client `ContainerAppsAPIClient` added operation group `dot_net_components`
+  - Client `ContainerAppsAPIClient` added operation group `functions_extension`
+  - Client `ContainerAppsAPIClient` added operation group `logic_apps`
+  - Client `ContainerAppsAPIClient` added operation group `managed_environment_private_endpoint_connections`
+  - Client `ContainerAppsAPIClient` added operation group `managed_environment_private_link_resources`
+  - Client `ContainerAppsAPIClient` added operation group `dapr_component_resiliency_policies`
+  - Client `ContainerAppsAPIClient` added operation group `dapr_subscriptions`
+  - Client `ContainerAppsAPIClient` added operation group `http_route_config`
+  - Client `ContainerAppsAPIClient` added operation group `maintenance_configurations`
+  - Enum `ActiveRevisionsMode` added member `LABELS`
+  - Model `AzureFileProperties` added property `account_key_vault_properties`
+  - Model `BaseContainer` added property `image_type`
+  - Enum `BindingType` added member `AUTO`
+  - Model `BlobStorageTokenStore` added property `blob_container_uri`
+  - Model `BlobStorageTokenStore` added property `client_id`
+  - Model `BlobStorageTokenStore` added property `managed_identity_resource_id`
+  - Model `CertificateProperties` added property `deployment_errors`
+  - Model `CertificateProperties` added property `certificate_type`
+  - Enum `CertificateProvisioningState` added member `DELETING`
+  - Model `Configuration` added property `target_label`
+  - Model `Configuration` added property `revision_transition_threshold`
+  - Model `ConnectedEnvironmentStorageProperties` added property `provisioning_state`
+  - Model `ConnectedEnvironmentStorageProperties` added property `deployment_errors`
+  - Model `ConnectedEnvironmentStorageProperties` added property `smb`
+  - Model `Container` added property `image_type`
+  - Model `ContainerApp` added property `kind`
+  - Model `ContainerApp` added property `deployment_errors`
+  - Model `ContainerApp` added property `patching_configuration`
+  - Model `ContainerResources` added property `gpu`
+  - Model `Dapr` added property `app_health`
+  - Model `Dapr` added property `max_concurrency`
+  - Model `DaprComponent` added property `service_component_bind`
+  - Model `GithubActionConfiguration` added property `dockerfile_path`
+  - Model `GithubActionConfiguration` added property `build_environment_variables`
+  - Model `Ingress` added property `target_port_http_scheme`
+  - Model `InitContainer` added property `image_type`
+  - Enum `JavaComponentType` added member `NACOS`
+  - Enum `JavaComponentType` added member `SPRING_CLOUD_GATEWAY`
+  - Model `Job` added property `extended_location`
+  - Model `Job` added property `running_state`
+  - Model `JobExecution` added property `detailed_status`
+  - Model `JobPatchProperties` added property `extended_location`
+  - Model `LogAnalyticsConfiguration` added property `dynamic_json_columns`
+  - Model `ManagedEnvironment` added property `private_link_default_domain`
+  - Model `ManagedEnvironment` added property `app_insights_configuration`
+  - Model `ManagedEnvironment` added property `open_telemetry_configuration`
+  - Model `ManagedEnvironment` added property `availability_zones`
+  - Model `ManagedEnvironment` added property `ingress_configuration`
+  - Model `ManagedEnvironment` added property `private_endpoint_connections`
+  - Model `ManagedEnvironment` added property `public_network_access`
+  - Model `ReplicaContainer` added property `debug_endpoint`
+  - Model `Revision` added property `labels`
+  - Model `Runtime` added property `dotnet`
+  - Model `RuntimeJava` added property `java_agent`
+  - Model `ServiceBind` added property `client_type`
+  - Model `ServiceBind` added property `customized_keys`
+  - Model `SessionContainer` added property `probes`
+  - Enum `StorageType` added member `SMB`
+  - Model `WorkloadProfile` added property `enable_fips`
+  - Added model `AppInsightsConfiguration`
+  - Added model `AppResiliency`
+  - Added model `AppResiliencyCollection`
+  - Added model `BuildCollection`
+  - Added model `BuildConfiguration`
+  - Added enum `BuildProvisioningState`
+  - Added model `BuildResource`
+  - Added enum `BuildStatus`
+  - Added model `BuildToken`
+  - Added model `BuilderCollection`
+  - Added enum `BuilderProvisioningState`
+  - Added model `BuilderResource`
+  - Added model `BuilderResourceUpdate`
+  - Added enum `CertificateType`
+  - Added model `CircuitBreakerPolicy`
+  - Added model `ConnectedEnvironmentDaprComponent`
+  - Added model `ConnectedEnvironmentDaprComponentProperties`
+  - Added enum `ConnectedEnvironmentDaprComponentProvisioningState`
+  - Added model `ConnectedEnvironmentDaprComponentsCollection`
+  - Added model `ConnectedEnvironmentPatchResource`
+  - Added enum `ConnectedEnvironmentStorageProvisioningState`
+  - Added model `ContainerAppPropertiesPatchingConfiguration`
+  - Added model `ContainerAppsBuildCollection`
+  - Added model `ContainerAppsBuildConfiguration`
+  - Added model `ContainerAppsBuildResource`
+  - Added model `ContainerAppsPatchResource`
+  - Added model `ContainerExecutionStatus`
+  - Added model `ContainerRegistry`
+  - Added model `ContainerRegistryWithCustomImage`
+  - Added model `DaprAppHealth`
+  - Added model `DaprComponentProperties`
+  - Added model `DaprComponentResiliencyPoliciesCollection`
+  - Added model `DaprComponentResiliencyPolicy`
+  - Added model `DaprComponentResiliencyPolicyCircuitBreakerPolicyConfiguration`
+  - Added model `DaprComponentResiliencyPolicyConfiguration`
+  - Added model `DaprComponentResiliencyPolicyHttpRetryBackOffConfiguration`
+  - Added model `DaprComponentResiliencyPolicyHttpRetryPolicyConfiguration`
+  - Added model `DaprComponentResiliencyPolicyTimeoutPolicyConfiguration`
+  - Added model `DaprComponentServiceBinding`
+  - Added model `DaprServiceBindMetadata`
+  - Added model `DaprSubscription`
+  - Added model `DaprSubscriptionBulkSubscribeOptions`
+  - Added model `DaprSubscriptionRouteRule`
+  - Added model `DaprSubscriptionRoutes`
+  - Added model `DaprSubscriptionsCollection`
+  - Added model `DataDogConfiguration`
+  - Added model `DestinationsConfiguration`
+  - Added enum `DetectionStatus`
+  - Added model `DotNetComponent`
+  - Added model `DotNetComponentConfigurationProperty`
+  - Added enum `DotNetComponentProvisioningState`
+  - Added model `DotNetComponentServiceBind`
+  - Added enum `DotNetComponentType`
+  - Added model `DotNetComponentsCollection`
+  - Added model `EnvironmentVariable`
+  - Added model `ErrorEntity`
+  - Added model `ExecutionStatus`
+  - Added model `Header`
+  - Added model `HeaderMatch`
+  - Added model `HttpConnectionPool`
+  - Added model `HttpGet`
+  - Added model `HttpRetryPolicy`
+  - Added model `HttpRoute`
+  - Added model `HttpRouteAction`
+  - Added model `HttpRouteConfig`
+  - Added model `HttpRouteConfigCollection`
+  - Added model `HttpRouteConfigProperties`
+  - Added model `HttpRouteMatch`
+  - Added model `HttpRouteProvisioningErrors`
+  - Added enum `HttpRouteProvisioningState`
+  - Added model `HttpRouteRule`
+  - Added model `HttpRouteTarget`
+  - Added enum `ImageType`
+  - Added model `IngressConfiguration`
+  - Added model `IngressConfigurationScale`
+  - Added enum `IngressTargetPortHttpScheme`
+  - Added enum `JobRunningState`
+  - Added enum `Kind`
+  - Added model `LabelHistory`
+  - Added model `LabelHistoryCollection`
+  - Added model `LabelHistoryProperties`
+  - Added model `LabelHistoryRecordItem`
+  - Added enum `Level`
+  - Added model `LoggerSetting`
+  - Added model `LogicApp`
+  - Added enum `LogicAppsProxyMethod`
+  - Added model `LogsConfiguration`
+  - Added model `MaintenanceConfigurationCollection`
+  - Added model `MaintenanceConfigurationResource`
+  - Added model `MetricsConfiguration`
+  - Added model `NacosComponent`
+  - Added model `OpenTelemetryConfiguration`
+  - Added model `OtlpConfiguration`
+  - Added enum `PatchApplyStatus`
+  - Added model `PatchCollection`
+  - Added model `PatchDetails`
+  - Added model `PatchDetailsNewLayer`
+  - Added model `PatchDetailsOldLayer`
+  - Added model `PatchProperties`
+  - Added model `PatchSkipConfig`
+  - Added enum `PatchType`
+  - Added enum `PatchingMode`
+  - Added model `PreBuildStep`
+  - Added model `PrivateEndpoint`
+  - Added model `PrivateEndpointConnection`
+  - Added model `PrivateEndpointConnectionListResult`
+  - Added enum `PrivateEndpointConnectionProvisioningState`
+  - Added enum `PrivateEndpointServiceConnectionStatus`
+  - Added model `PrivateLinkResource`
+  - Added model `PrivateLinkResourceListResult`
+  - Added model `PrivateLinkServiceConnectionState`
+  - Added enum `PublicNetworkAccess`
+  - Added model `ReplicaExecutionStatus`
+  - Added model `ResourceTags`
+  - Added model `RuntimeDotnet`
+  - Added model `RuntimeJavaAgent`
+  - Added model `RuntimeJavaAgentLogging`
+  - Added model `ScgRoute`
+  - Added model `ScheduledEntry`
+  - Added model `SecretKeyVaultProperties`
+  - Added model `SessionProbe`
+  - Added model `SessionProbeHttpGet`
+  - Added model `SessionProbeHttpGetHttpHeadersItem`
+  - Added model `SessionProbeTcpSocket`
+  - Added enum `SessionProbeType`
+  - Added model `SmbStorage`
+  - Added model `SpringCloudGatewayComponent`
+  - Added enum `Status`
+  - Added model `TcpConnectionPool`
+  - Added model `TcpRetryPolicy`
+  - Added model `TimeoutPolicy`
+  - Added model `TracesConfiguration`
+  - Added enum `WeekDay`
+  - Added model `WorkflowArtifacts`
+  - Added model `WorkflowEnvelope`
+  - Added model `WorkflowEnvelopeCollection`
+  - Added model `WorkflowEnvelopeProperties`
+  - Added model `WorkflowHealth`
+  - Added enum `WorkflowHealthState`
+  - Added enum `WorkflowState`
+  - Model `ConnectedEnvironmentsCertificatesOperations` added method `begin_create_or_update`
+  - Model `ConnectedEnvironmentsCertificatesOperations` added method `begin_delete`
+  - Model `ConnectedEnvironmentsCertificatesOperations` added method `begin_update`
+  - Model `ConnectedEnvironmentsDaprComponentsOperations` added method `begin_create_or_update`
+  - Model `ConnectedEnvironmentsDaprComponentsOperations` added method `begin_delete`
+  - Model `ConnectedEnvironmentsStoragesOperations` added method `begin_create_or_update`
+  - Model `ConnectedEnvironmentsStoragesOperations` added method `begin_delete`
+  - Model `JobsOperations` added method `begin_resume`
+  - Model `JobsOperations` added method `begin_suspend`
+  - Added model `AppResiliencyOperations`
+  - Added model `BuildAuthTokenOperations`
+  - Added model `BuildersOperations`
+  - Added model `BuildsByBuilderResourceOperations`
+  - Added model `BuildsOperations`
+  - Added model `ContainerAppsBuildsByContainerAppOperations`
+  - Added model `ContainerAppsBuildsOperations`
+  - Added model `ContainerAppsLabelHistoryOperations`
+  - Added model `ContainerAppsPatchesOperations`
+  - Added model `DaprComponentResiliencyPoliciesOperations`
+  - Added model `DaprSubscriptionsOperations`
+  - Added model `DotNetComponentsOperations`
+  - Added model `FunctionsExtensionOperations`
+  - Added model `HttpRouteConfigOperations`
+  - Added model `LogicAppsOperations`
+  - Added model `MaintenanceConfigurationsOperations`
+  - Added model `ManagedEnvironmentPrivateEndpointConnectionsOperations`
+  - Added model `ManagedEnvironmentPrivateLinkResourcesOperations`
+  - Method `ConnectedEnvironmentsCertificatesOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, connected_environment_name: str, certificate_name: str, certificate_envelope: Optional[Certificate], content_type: str)`
+  - Method `ConnectedEnvironmentsCertificatesOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, connected_environment_name: str, certificate_name: str, certificate_envelope: Optional[IO[bytes]], content_type: str)`
+  - Method `ConnectedEnvironmentsCertificatesOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, connected_environment_name: str, certificate_name: str, certificate_envelope: CertificatePatch, content_type: str)`
+  - Method `ConnectedEnvironmentsCertificatesOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, connected_environment_name: str, certificate_name: str, certificate_envelope: IO[bytes], content_type: str)`
+  - Method `ConnectedEnvironmentsDaprComponentsOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, connected_environment_name: str, component_name: str, dapr_component_envelope: ConnectedEnvironmentDaprComponent, content_type: str)`
+  - Method `ConnectedEnvironmentsDaprComponentsOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, connected_environment_name: str, component_name: str, dapr_component_envelope: IO[bytes], content_type: str)`
+  - Method `ConnectedEnvironmentsOperations.update` has a new overload `def update(self: None, resource_group_name: str, connected_environment_name: str, environment_envelope: Optional[ConnectedEnvironmentPatchResource], content_type: str)`
+  - Method `ConnectedEnvironmentsOperations.update` has a new overload `def update(self: None, resource_group_name: str, connected_environment_name: str, environment_envelope: Optional[IO[bytes]], content_type: str)`
+  - Method `ConnectedEnvironmentsStoragesOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, connected_environment_name: str, storage_name: str, storage_envelope: ConnectedEnvironmentStorage, content_type: str)`
+  - Method `ConnectedEnvironmentsStoragesOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, connected_environment_name: str, storage_name: str, storage_envelope: IO[bytes], content_type: str)`
+  - Method `ContainerAppsSourceControlsOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, container_app_name: str, source_control_name: str, source_control_envelope: SourceControl, x_ms_github_auxiliary: Optional[str], content_type: str)`
+  - Method `ContainerAppsSourceControlsOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, container_app_name: str, source_control_name: str, source_control_envelope: IO[bytes], x_ms_github_auxiliary: Optional[str], content_type: str)`
+  - Method `AppResiliencyOperations.create_or_update` has a new overload `def create_or_update(self: None, resource_group_name: str, app_name: str, name: str, resiliency_envelope: AppResiliency, content_type: str)`
+  - Method `AppResiliencyOperations.create_or_update` has a new overload `def create_or_update(self: None, resource_group_name: str, app_name: str, name: str, resiliency_envelope: IO[bytes], content_type: str)`
+  - Method `AppResiliencyOperations.update` has a new overload `def update(self: None, resource_group_name: str, app_name: str, name: str, resiliency_envelope: AppResiliency, content_type: str)`
+  - Method `AppResiliencyOperations.update` has a new overload `def update(self: None, resource_group_name: str, app_name: str, name: str, resiliency_envelope: IO[bytes], content_type: str)`
+  - Method `BuildersOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, builder_name: str, builder_envelope: BuilderResource, content_type: str)`
+  - Method `BuildersOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, builder_name: str, builder_envelope: IO[bytes], content_type: str)`
+  - Method `BuildersOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, builder_name: str, builder_envelope: BuilderResourceUpdate, content_type: str)`
+  - Method `BuildersOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, builder_name: str, builder_envelope: IO[bytes], content_type: str)`
+  - Method `BuildsOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, builder_name: str, build_name: str, build_envelope: BuildResource, content_type: str)`
+  - Method `BuildsOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, builder_name: str, build_name: str, build_envelope: IO[bytes], content_type: str)`
+  - Method `ContainerAppsPatchesOperations.begin_skip_configure` has a new overload `def begin_skip_configure(self: None, resource_group_name: str, container_app_name: str, patch_name: str, patch_skip_config: PatchSkipConfig, content_type: str)`
+  - Method `ContainerAppsPatchesOperations.begin_skip_configure` has a new overload `def begin_skip_configure(self: None, resource_group_name: str, container_app_name: str, patch_name: str, patch_skip_config: IO[bytes], content_type: str)`
+  - Method `DaprComponentResiliencyPoliciesOperations.create_or_update` has a new overload `def create_or_update(self: None, resource_group_name: str, environment_name: str, component_name: str, name: str, dapr_component_resiliency_policy_envelope: DaprComponentResiliencyPolicy, content_type: str)`
+  - Method `DaprComponentResiliencyPoliciesOperations.create_or_update` has a new overload `def create_or_update(self: None, resource_group_name: str, environment_name: str, component_name: str, name: str, dapr_component_resiliency_policy_envelope: IO[bytes], content_type: str)`
+  - Method `DaprSubscriptionsOperations.create_or_update` has a new overload `def create_or_update(self: None, resource_group_name: str, environment_name: str, name: str, dapr_subscription_envelope: DaprSubscription, content_type: str)`
+  - Method `DaprSubscriptionsOperations.create_or_update` has a new overload `def create_or_update(self: None, resource_group_name: str, environment_name: str, name: str, dapr_subscription_envelope: IO[bytes], content_type: str)`
+  - Method `DotNetComponentsOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, environment_name: str, name: str, dot_net_component_envelope: DotNetComponent, content_type: str)`
+  - Method `DotNetComponentsOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, environment_name: str, name: str, dot_net_component_envelope: IO[bytes], content_type: str)`
+  - Method `DotNetComponentsOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, environment_name: str, name: str, dot_net_component_envelope: DotNetComponent, content_type: str)`
+  - Method `DotNetComponentsOperations.begin_update` has a new overload `def begin_update(self: None, resource_group_name: str, environment_name: str, name: str, dot_net_component_envelope: IO[bytes], content_type: str)`
+  - Method `HttpRouteConfigOperations.create_or_update` has a new overload `def create_or_update(self: None, resource_group_name: str, environment_name: str, http_route_name: str, http_route_config_envelope: Optional[HttpRouteConfig], content_type: str)`
+  - Method `HttpRouteConfigOperations.create_or_update` has a new overload `def create_or_update(self: None, resource_group_name: str, environment_name: str, http_route_name: str, http_route_config_envelope: Optional[IO[bytes]], content_type: str)`
+  - Method `HttpRouteConfigOperations.update` has a new overload `def update(self: None, resource_group_name: str, environment_name: str, http_route_name: str, http_route_config_envelope: HttpRouteConfig, content_type: str)`
+  - Method `HttpRouteConfigOperations.update` has a new overload `def update(self: None, resource_group_name: str, environment_name: str, http_route_name: str, http_route_config_envelope: IO[bytes], content_type: str)`
+  - Method `LogicAppsOperations.create_or_update` has a new overload `def create_or_update(self: None, resource_group_name: str, container_app_name: str, logic_app_name: str, resource: LogicApp, content_type: str)`
+  - Method `LogicAppsOperations.create_or_update` has a new overload `def create_or_update(self: None, resource_group_name: str, container_app_name: str, logic_app_name: str, resource: IO[bytes], content_type: str)`
+  - Method `LogicAppsOperations.deploy_workflow_artifacts` has a new overload `def deploy_workflow_artifacts(self: None, resource_group_name: str, container_app_name: str, logic_app_name: str, workflow_artifacts: Optional[WorkflowArtifacts], content_type: str)`
+  - Method `LogicAppsOperations.deploy_workflow_artifacts` has a new overload `def deploy_workflow_artifacts(self: None, resource_group_name: str, container_app_name: str, logic_app_name: str, workflow_artifacts: Optional[IO[bytes]], content_type: str)`
+  - Method `MaintenanceConfigurationsOperations.create_or_update` has a new overload `def create_or_update(self: None, resource_group_name: str, environment_name: str, config_name: str, maintenance_configuration_envelope: MaintenanceConfigurationResource, content_type: str)`
+  - Method `MaintenanceConfigurationsOperations.create_or_update` has a new overload `def create_or_update(self: None, resource_group_name: str, environment_name: str, config_name: str, maintenance_configuration_envelope: IO[bytes], content_type: str)`
+  - Method `ManagedEnvironmentPrivateEndpointConnectionsOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, environment_name: str, private_endpoint_connection_name: str, private_endpoint_connection_envelope: PrivateEndpointConnection, content_type: str)`
+  - Method `ManagedEnvironmentPrivateEndpointConnectionsOperations.begin_create_or_update` has a new overload `def begin_create_or_update(self: None, resource_group_name: str, environment_name: str, private_endpoint_connection_name: str, private_endpoint_connection_envelope: IO[bytes], content_type: str)`
+
+### Breaking Changes
+
+  - Deleted or renamed method `ConnectedEnvironmentsCertificatesOperations.create_or_update`
+  - Deleted or renamed method `ConnectedEnvironmentsCertificatesOperations.delete`
+  - Deleted or renamed method `ConnectedEnvironmentsCertificatesOperations.update`
+  - Deleted or renamed method `ConnectedEnvironmentsDaprComponentsOperations.create_or_update`
+  - Deleted or renamed method `ConnectedEnvironmentsDaprComponentsOperations.delete`
+  - Deleted or renamed method `ConnectedEnvironmentsStoragesOperations.create_or_update`
+  - Deleted or renamed method `ConnectedEnvironmentsStoragesOperations.delete`
+
 ## 3.2.0 (2025-04-20)
 
 ### Features Added
