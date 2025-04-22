@@ -16,7 +16,7 @@ from azure.mgmt.redisenterprise import RedisEnterpriseManagementClient
     pip install azure-identity
     pip install azure-mgmt-redisenterprise
 # USAGE
-    python redis_enterprise_list_private_link_resources.py
+    python redis_enterprise_list_skus_for_scaling.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -31,14 +31,13 @@ def main():
         subscription_id="e7b5a9d2-6b6a-4d2f-9143-20d9a10f5b8f",
     )
 
-    response = client.private_link_resources.list_by_cluster(
+    response = client.redis_enterprise.list_skus_for_scaling(
         resource_group_name="rg1",
         cluster_name="cache1",
     )
-    for item in response:
-        print(item)
+    print(response)
 
 
-# x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/preview/2025-05-01-preview/examples/RedisEnterpriseListPrivateLinkResources.json
+# x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/preview/2025-05-01-preview/examples/RedisEnterpriseListSkusForScaling.json
 if __name__ == "__main__":
     main()
