@@ -5921,12 +5921,12 @@ class RunStepFileSearchToolCall(RunStepToolCall, discriminator="file_search"):
     that represents
     executed file search.
 
-    :ivar type: The object type, which is always 'file_search'. Required. Default value is
-     "file_search".
-    :vartype type: str
     :ivar id: The ID of the tool call. This ID must be referenced when you submit tool outputs.
      Required.
     :vartype id: str
+    :ivar type: The object type, which is always 'file_search'. Required. Default value is
+     "file_search".
+    :vartype type: str
     :ivar file_search: For now, this is always going to be an empty object. Required.
     :vartype file_search: ~azure.ai.projects.models.RunStepFileSearchToolCallResults
     """
