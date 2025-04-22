@@ -16,7 +16,7 @@ from azure.mgmt.extendedlocation import CustomLocations
     pip install azure-identity
     pip install azure-mgmt-extendedlocation
 # USAGE
-    python custom_locations_delete.py
+    python resource_sync_rules_patch.py
 
     Before run the sample, please set the values of the client ID, tenant ID and client secret
     of the AAD application as environment variables: AZURE_CLIENT_ID, AZURE_TENANT_ID,
@@ -31,12 +31,14 @@ def main():
         subscription_id="11111111-2222-3333-4444-555555555555",
     )
 
-    client.custom_locations.begin_delete(
+    response = client.resource_sync_rules.update(
         resource_group_name="testresourcegroup",
         resource_name="customLocation01",
-    ).result()
+        child_resource_name="resourceSyncRule01",
+    )
+    print(response)
 
 
-# x-ms-original-file: specification/extendedlocation/resource-manager/Microsoft.ExtendedLocation/preview/2021-08-31-preview/examples/CustomLocationsDelete.json
+# x-ms-original-file: specification/extendedlocation/resource-manager/Microsoft.ExtendedLocation/preview/2021-08-31-preview/examples/ResourceSyncRulesPatch.json
 if __name__ == "__main__":
     main()

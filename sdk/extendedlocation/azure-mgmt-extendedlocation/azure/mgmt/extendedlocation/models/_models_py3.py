@@ -1,5 +1,5 @@
+# pylint: disable=line-too-long,useless-suppression,too-many-lines
 # coding=utf-8
-# pylint: disable=too-many-lines
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -13,7 +13,6 @@ from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 from .. import _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
@@ -23,33 +22,39 @@ class Resource(_serialization.Model):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
     :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
      "Microsoft.Storage/storageAccounts".
     :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.extendedlocation.models.SystemData
     """
 
     _validation = {
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
+        "system_data": {"readonly": True},
     }
 
     _attribute_map = {
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
     }
 
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
+        self.system_data: Optional["_models.SystemData"] = None
 
 
 class TrackedResource(Resource):
@@ -61,13 +66,16 @@ class TrackedResource(Resource):
     All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
     :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
      "Microsoft.Storage/storageAccounts".
     :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.extendedlocation.models.SystemData
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
     :ivar location: The geo-location where the resource lives. Required.
@@ -78,6 +86,7 @@ class TrackedResource(Resource):
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
+        "system_data": {"readonly": True},
         "location": {"required": True},
     }
 
@@ -85,6 +94,7 @@ class TrackedResource(Resource):
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
         "tags": {"key": "tags", "type": "{str}"},
         "location": {"key": "location", "type": "str"},
     }
@@ -101,7 +111,7 @@ class TrackedResource(Resource):
         self.location = location
 
 
-class CustomLocation(TrackedResource):  # pylint: disable=too-many-instance-attributes
+class CustomLocation(TrackedResource):
     """Custom Locations definition.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -109,21 +119,22 @@ class CustomLocation(TrackedResource):  # pylint: disable=too-many-instance-attr
     All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
     :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
      "Microsoft.Storage/storageAccounts".
     :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.extendedlocation.models.SystemData
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
     :ivar location: The geo-location where the resource lives. Required.
     :vartype location: str
     :ivar identity: Identity for the resource.
     :vartype identity: ~azure.mgmt.extendedlocation.models.Identity
-    :ivar system_data: Metadata pertaining to creation and last modification of the resource.
-    :vartype system_data: ~azure.mgmt.extendedlocation.models.SystemData
     :ivar authentication: This is optional input that contains the authentication that should be
      used to generate the namespace.
     :vartype authentication:
@@ -149,18 +160,18 @@ class CustomLocation(TrackedResource):  # pylint: disable=too-many-instance-attr
         "id": {"readonly": True},
         "name": {"readonly": True},
         "type": {"readonly": True},
-        "location": {"required": True},
         "system_data": {"readonly": True},
+        "location": {"required": True},
     }
 
     _attribute_map = {
         "id": {"key": "id", "type": "str"},
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
         "tags": {"key": "tags", "type": "{str}"},
         "location": {"key": "location", "type": "str"},
         "identity": {"key": "identity", "type": "Identity"},
-        "system_data": {"key": "systemData", "type": "SystemData"},
         "authentication": {"key": "properties.authentication", "type": "CustomLocationPropertiesAuthentication"},
         "cluster_extension_ids": {"key": "properties.clusterExtensionIds", "type": "[str]"},
         "display_name": {"key": "properties.displayName", "type": "str"},
@@ -214,7 +225,6 @@ class CustomLocation(TrackedResource):  # pylint: disable=too-many-instance-attr
         """
         super().__init__(tags=tags, location=location, **kwargs)
         self.identity = identity
-        self.system_data = None
         self.authentication = authentication
         self.cluster_extension_ids = cluster_extension_ids
         self.display_name = display_name
@@ -224,96 +234,68 @@ class CustomLocation(TrackedResource):  # pylint: disable=too-many-instance-attr
         self.provisioning_state = provisioning_state
 
 
+class CustomLocationFindTargetResourceGroupProperties(_serialization.Model):  # pylint: disable=name-too-long
+    """The Find Target Resource Group operation request.
+
+    :ivar labels: Labels of the custom resource, this is a map of {key,value} pairs.
+    :vartype labels: dict[str, str]
+    """
+
+    _attribute_map = {
+        "labels": {"key": "labels", "type": "{str}"},
+    }
+
+    def __init__(self, *, labels: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
+        """
+        :keyword labels: Labels of the custom resource, this is a map of {key,value} pairs.
+        :paramtype labels: dict[str, str]
+        """
+        super().__init__(**kwargs)
+        self.labels = labels
+
+
+class CustomLocationFindTargetResourceGroupResult(_serialization.Model):  # pylint: disable=name-too-long
+    """The Find Target Resource Group operation response.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar matched_resource_sync_rule: The matching resource sync rule is the particular resource
+     sync rule that matched the match expressions and labels and had lowest priority. This is the
+     rule responsible for mapping the target resource to the target resource group.
+    :vartype matched_resource_sync_rule: str
+    :ivar target_resource_group: The target resource group of matching resource sync rule. The
+     labels from the request will be used to find out matching resource sync rule against the
+     selector property of the resource sync rule. The one with highest priority will be returned if
+     there are multiple matching rules.
+    :vartype target_resource_group: str
+    """
+
+    _validation = {
+        "matched_resource_sync_rule": {"readonly": True},
+        "target_resource_group": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "matched_resource_sync_rule": {"key": "matchedResourceSyncRule", "type": "str"},
+        "target_resource_group": {"key": "targetResourceGroup", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.matched_resource_sync_rule: Optional[str] = None
+        self.target_resource_group: Optional[str] = None
+
+
 class CustomLocationListResult(_serialization.Model):
-    """The List Custom Locations operation response.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar next_link: The URL to use for getting the next set of results.
-    :vartype next_link: str
-    :ivar value: The list of Custom Locations.
-    :vartype value: list[~azure.mgmt.extendedlocation.models.CustomLocation]
-    """
-
-    _validation = {
-        "next_link": {"readonly": True},
-        "value": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "next_link": {"key": "nextLink", "type": "str"},
-        "value": {"key": "value", "type": "[CustomLocation]"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-        self.next_link = None
-        self.value = None
-
-
-class CustomLocationOperation(_serialization.Model):
-    """Custom Locations operation.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar is_data_action: Is this Operation a data plane operation.
-    :vartype is_data_action: bool
-    :ivar name: The name of the compute operation.
-    :vartype name: str
-    :ivar origin: The origin of the compute operation.
-    :vartype origin: str
-    :ivar description: The description of the operation.
-    :vartype description: str
-    :ivar operation: The display name of the compute operation.
-    :vartype operation: str
-    :ivar provider: The resource provider for the operation.
-    :vartype provider: str
-    :ivar resource: The display name of the resource the operation applies to.
-    :vartype resource: str
-    """
-
-    _validation = {
-        "is_data_action": {"readonly": True},
-        "name": {"readonly": True},
-        "origin": {"readonly": True},
-        "description": {"readonly": True},
-        "operation": {"readonly": True},
-        "provider": {"readonly": True},
-        "resource": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "is_data_action": {"key": "isDataAction", "type": "bool"},
-        "name": {"key": "name", "type": "str"},
-        "origin": {"key": "origin", "type": "str"},
-        "description": {"key": "display.description", "type": "str"},
-        "operation": {"key": "display.operation", "type": "str"},
-        "provider": {"key": "display.provider", "type": "str"},
-        "resource": {"key": "display.resource", "type": "str"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-        self.is_data_action = None
-        self.name = None
-        self.origin = None
-        self.description = None
-        self.operation = None
-        self.provider = None
-        self.resource = None
-
-
-class CustomLocationOperationsList(_serialization.Model):
-    """Lists of Custom Locations operations.
+    """The response of a CustomLocation list operation.
 
     All required parameters must be populated in order to send to server.
 
-    :ivar next_link: Next page of operations.
+    :ivar value: The CustomLocation items on this page. Required.
+    :vartype value: list[~azure.mgmt.extendedlocation.models.CustomLocation]
+    :ivar next_link: The link to the next page of items.
     :vartype next_link: str
-    :ivar value: Array of customLocationOperation. Required.
-    :vartype value: list[~azure.mgmt.extendedlocation.models.CustomLocationOperation]
     """
 
     _validation = {
@@ -321,22 +303,22 @@ class CustomLocationOperationsList(_serialization.Model):
     }
 
     _attribute_map = {
+        "value": {"key": "value", "type": "[CustomLocation]"},
         "next_link": {"key": "nextLink", "type": "str"},
-        "value": {"key": "value", "type": "[CustomLocationOperation]"},
     }
 
     def __init__(
-        self, *, value: List["_models.CustomLocationOperation"], next_link: Optional[str] = None, **kwargs: Any
+        self, *, value: List["_models.CustomLocation"], next_link: Optional[str] = None, **kwargs: Any
     ) -> None:
         """
-        :keyword next_link: Next page of operations.
+        :keyword value: The CustomLocation items on this page. Required.
+        :paramtype value: list[~azure.mgmt.extendedlocation.models.CustomLocation]
+        :keyword next_link: The link to the next page of items.
         :paramtype next_link: str
-        :keyword value: Array of customLocationOperation. Required.
-        :paramtype value: list[~azure.mgmt.extendedlocation.models.CustomLocationOperation]
         """
         super().__init__(**kwargs)
-        self.next_link = next_link
         self.value = value
+        self.next_link = next_link
 
 
 class CustomLocationPropertiesAuthentication(_serialization.Model):
@@ -373,13 +355,16 @@ class ProxyResource(Resource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
     :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
      "Microsoft.Storage/storageAccounts".
     :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.extendedlocation.models.SystemData
     """
 
 
@@ -389,14 +374,15 @@ class EnabledResourceType(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
     :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
      "Microsoft.Storage/storageAccounts".
     :vartype type: str
-    :ivar system_data: Metadata pertaining to creation and last modification of the resource.
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
     :vartype system_data: ~azure.mgmt.extendedlocation.models.SystemData
     :ivar cluster_extension_id: Cluster Extension ID.
     :vartype cluster_extension_id: str
@@ -445,10 +431,43 @@ class EnabledResourceType(ProxyResource):
          list[~azure.mgmt.extendedlocation.models.EnabledResourceTypePropertiesTypesMetadataItem]
         """
         super().__init__(**kwargs)
-        self.system_data = None
         self.cluster_extension_id = cluster_extension_id
         self.extension_type = extension_type
         self.types_metadata = types_metadata
+
+
+class EnabledResourceTypeListResult(_serialization.Model):
+    """The response of a EnabledResourceType list operation.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar value: The EnabledResourceType items on this page. Required.
+    :vartype value: list[~azure.mgmt.extendedlocation.models.EnabledResourceType]
+    :ivar next_link: The link to the next page of items.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "value": {"required": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[EnabledResourceType]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self, *, value: List["_models.EnabledResourceType"], next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: The EnabledResourceType items on this page. Required.
+        :paramtype value: list[~azure.mgmt.extendedlocation.models.EnabledResourceType]
+        :keyword next_link: The link to the next page of items.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = next_link
 
 
 class EnabledResourceTypePropertiesTypesMetadataItem(_serialization.Model):  # pylint: disable=name-too-long
@@ -490,34 +509,6 @@ class EnabledResourceTypePropertiesTypesMetadataItem(_serialization.Model):  # p
         self.resource_type = resource_type
 
 
-class EnabledResourceTypesListResult(_serialization.Model):
-    """List of EnabledResourceTypes definition.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar next_link: The URL to use for getting the next set of results.
-    :vartype next_link: str
-    :ivar value: The list of EnabledResourceTypes available for a customLocation.
-    :vartype value: list[~azure.mgmt.extendedlocation.models.EnabledResourceType]
-    """
-
-    _validation = {
-        "next_link": {"readonly": True},
-        "value": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "next_link": {"key": "nextLink", "type": "str"},
-        "value": {"key": "value", "type": "[EnabledResourceType]"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-        self.next_link = None
-        self.value = None
-
-
 class ErrorAdditionalInfo(_serialization.Model):
     """The resource management error additional info.
 
@@ -542,8 +533,8 @@ class ErrorAdditionalInfo(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.type = None
-        self.info = None
+        self.type: Optional[str] = None
+        self.info: Optional[JSON] = None
 
 
 class ErrorDetail(_serialization.Model):
@@ -582,11 +573,11 @@ class ErrorDetail(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.code = None
-        self.message = None
-        self.target = None
-        self.details = None
-        self.additional_info = None
+        self.code: Optional[str] = None
+        self.message: Optional[str] = None
+        self.target: Optional[str] = None
+        self.details: Optional[List["_models.ErrorDetail"]] = None
+        self.additional_info: Optional[List["_models.ErrorAdditionalInfo"]] = None
 
 
 class ErrorResponse(_serialization.Model):
@@ -640,9 +631,171 @@ class Identity(_serialization.Model):
         :paramtype type: str or ~azure.mgmt.extendedlocation.models.ResourceIdentityType
         """
         super().__init__(**kwargs)
-        self.principal_id = None
-        self.tenant_id = None
+        self.principal_id: Optional[str] = None
+        self.tenant_id: Optional[str] = None
         self.type = type
+
+
+class MatchExpressionsProperties(_serialization.Model):
+    """Resource Sync Rules matchExpression property definition.
+
+    :ivar key: Key is the label key that the selector applies to.
+    :vartype key: str
+    :ivar operator: The Operator field represents a key's relationship to a set of values. Valid
+     operators are In, NotIn, Exists and DoesNotExist.
+    :vartype operator: str
+    :ivar values: The label value.
+    :vartype values: list[str]
+    """
+
+    _attribute_map = {
+        "key": {"key": "key", "type": "str"},
+        "operator": {"key": "operator", "type": "str"},
+        "values": {"key": "values", "type": "[str]"},
+    }
+
+    def __init__(
+        self,
+        *,
+        key: Optional[str] = None,
+        operator: Optional[str] = None,
+        values: Optional[List[str]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword key: Key is the label key that the selector applies to.
+        :paramtype key: str
+        :keyword operator: The Operator field represents a key's relationship to a set of values. Valid
+         operators are In, NotIn, Exists and DoesNotExist.
+        :paramtype operator: str
+        :keyword values: The label value.
+        :paramtype values: list[str]
+        """
+        super().__init__(**kwargs)
+        self.key = key
+        self.operator = operator
+        self.values = values
+
+
+class Operation(_serialization.Model):
+    """Details of a REST API operation, returned from the Resource Provider Operations API.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar name: The name of the operation, as per Resource-Based Access Control (RBAC). Examples:
+     "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action".
+    :vartype name: str
+    :ivar is_data_action: Whether the operation applies to data-plane. This is "true" for
+     data-plane operations and "false" for ARM/control-plane operations.
+    :vartype is_data_action: bool
+    :ivar display: Localized display information for this particular operation.
+    :vartype display: ~azure.mgmt.extendedlocation.models.OperationDisplay
+    :ivar origin: The intended executor of the operation; as in Resource Based Access Control
+     (RBAC) and audit logs UX. Default value is "user,system". Known values are: "user", "system",
+     and "user,system".
+    :vartype origin: str or ~azure.mgmt.extendedlocation.models.Origin
+    :ivar action_type: Enum. Indicates the action type. "Internal" refers to actions that are for
+     internal only APIs. "Internal"
+    :vartype action_type: str or ~azure.mgmt.extendedlocation.models.ActionType
+    """
+
+    _validation = {
+        "name": {"readonly": True},
+        "is_data_action": {"readonly": True},
+        "origin": {"readonly": True},
+        "action_type": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "name": {"key": "name", "type": "str"},
+        "is_data_action": {"key": "isDataAction", "type": "bool"},
+        "display": {"key": "display", "type": "OperationDisplay"},
+        "origin": {"key": "origin", "type": "str"},
+        "action_type": {"key": "actionType", "type": "str"},
+    }
+
+    def __init__(self, *, display: Optional["_models.OperationDisplay"] = None, **kwargs: Any) -> None:
+        """
+        :keyword display: Localized display information for this particular operation.
+        :paramtype display: ~azure.mgmt.extendedlocation.models.OperationDisplay
+        """
+        super().__init__(**kwargs)
+        self.name: Optional[str] = None
+        self.is_data_action: Optional[bool] = None
+        self.display = display
+        self.origin: Optional[Union[str, "_models.Origin"]] = None
+        self.action_type: Optional[Union[str, "_models.ActionType"]] = None
+
+
+class OperationDisplay(_serialization.Model):
+    """Localized display information for this particular operation.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar provider: The localized friendly form of the resource provider name, e.g. "Microsoft
+     Monitoring Insights" or "Microsoft Compute".
+    :vartype provider: str
+    :ivar resource: The localized friendly name of the resource type related to this operation.
+     E.g. "Virtual Machines" or "Job Schedule Collections".
+    :vartype resource: str
+    :ivar operation: The concise, localized friendly name for the operation; suitable for
+     dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine".
+    :vartype operation: str
+    :ivar description: The short, localized friendly description of the operation; suitable for
+     tool tips and detailed views.
+    :vartype description: str
+    """
+
+    _validation = {
+        "provider": {"readonly": True},
+        "resource": {"readonly": True},
+        "operation": {"readonly": True},
+        "description": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "provider": {"key": "provider", "type": "str"},
+        "resource": {"key": "resource", "type": "str"},
+        "operation": {"key": "operation", "type": "str"},
+        "description": {"key": "description", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.provider: Optional[str] = None
+        self.resource: Optional[str] = None
+        self.operation: Optional[str] = None
+        self.description: Optional[str] = None
+
+
+class OperationListResult(_serialization.Model):
+    """A list of REST API operations supported by an Azure Resource Provider. It contains an URL link
+    to get the next set of results.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar value: List of operations supported by the resource provider.
+    :vartype value: list[~azure.mgmt.extendedlocation.models.Operation]
+    :ivar next_link: URL to get the next set of operation list results (if there are any).
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "value": {"readonly": True},
+        "next_link": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[Operation]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.value: Optional[List["_models.Operation"]] = None
+        self.next_link: Optional[str] = None
 
 
 class PatchableCustomLocations(_serialization.Model):
@@ -734,6 +887,276 @@ class PatchableCustomLocations(_serialization.Model):
         self.host_type = host_type
         self.namespace = namespace
         self.provisioning_state = provisioning_state
+
+
+class PatchableResourceSyncRule(_serialization.Model):
+    """The Resource Sync Rules patchable resource definition.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar tags: Resource tags.
+    :vartype tags: dict[str, str]
+    :ivar priority: Priority represents a priority of the Resource Sync Rule.
+    :vartype priority: int
+    :ivar provisioning_state: Provisioning State for the Resource Sync Rule.
+    :vartype provisioning_state: str
+    :ivar selector: A label selector is composed of two parts, matchLabels and matchExpressions.
+     The first part, matchLabels is a map of {key,value} pairs. A single {key,value} in the
+     matchLabels map is equivalent to an element of matchExpressions, whose key field is 'key', the
+     operator is 'In', and the values array contains only 'value'. The second part, matchExpressions
+     is a list of resource selector requirements. Valid operators include In, NotIn, Exists, and
+     DoesNotExist. The values set must be non-empty in the case of In and NotIn. The values set must
+     be empty in the case of Exists and DoesNotExist. All of the requirements, from both matchLabels
+     and matchExpressions must all be satisfied in order to match.
+    :vartype selector: ~azure.mgmt.extendedlocation.models.ResourceSyncRulePropertiesSelector
+    :ivar target_resource_group: For an unmapped custom resource, its labels will be used to find
+     matching resource sync rules. If this resource sync rule is one of the matching rules with
+     highest priority, then the unmapped custom resource will be projected to the target resource
+     group associated with this resource sync rule. The user creating this resource sync rule should
+     have write permissions on the target resource group and this write permission will be validated
+     when creating the resource sync rule.
+    :vartype target_resource_group: str
+    """
+
+    _validation = {
+        "provisioning_state": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "tags": {"key": "tags", "type": "{str}"},
+        "priority": {"key": "properties.priority", "type": "int"},
+        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
+        "selector": {"key": "properties.selector", "type": "ResourceSyncRulePropertiesSelector"},
+        "target_resource_group": {"key": "properties.targetResourceGroup", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        tags: Optional[Dict[str, str]] = None,
+        priority: Optional[int] = None,
+        selector: Optional["_models.ResourceSyncRulePropertiesSelector"] = None,
+        target_resource_group: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword tags: Resource tags.
+        :paramtype tags: dict[str, str]
+        :keyword priority: Priority represents a priority of the Resource Sync Rule.
+        :paramtype priority: int
+        :keyword selector: A label selector is composed of two parts, matchLabels and matchExpressions.
+         The first part, matchLabels is a map of {key,value} pairs. A single {key,value} in the
+         matchLabels map is equivalent to an element of matchExpressions, whose key field is 'key', the
+         operator is 'In', and the values array contains only 'value'. The second part, matchExpressions
+         is a list of resource selector requirements. Valid operators include In, NotIn, Exists, and
+         DoesNotExist. The values set must be non-empty in the case of In and NotIn. The values set must
+         be empty in the case of Exists and DoesNotExist. All of the requirements, from both matchLabels
+         and matchExpressions must all be satisfied in order to match.
+        :paramtype selector: ~azure.mgmt.extendedlocation.models.ResourceSyncRulePropertiesSelector
+        :keyword target_resource_group: For an unmapped custom resource, its labels will be used to
+         find matching resource sync rules. If this resource sync rule is one of the matching rules with
+         highest priority, then the unmapped custom resource will be projected to the target resource
+         group associated with this resource sync rule. The user creating this resource sync rule should
+         have write permissions on the target resource group and this write permission will be validated
+         when creating the resource sync rule.
+        :paramtype target_resource_group: str
+        """
+        super().__init__(**kwargs)
+        self.tags = tags
+        self.priority = priority
+        self.provisioning_state: Optional[str] = None
+        self.selector = selector
+        self.target_resource_group = target_resource_group
+
+
+class ResourceSyncRule(TrackedResource):
+    """Resource Sync Rules definition.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.extendedlocation.models.SystemData
+    :ivar tags: Resource tags.
+    :vartype tags: dict[str, str]
+    :ivar location: The geo-location where the resource lives. Required.
+    :vartype location: str
+    :ivar priority: Priority represents a priority of the Resource Sync Rule.
+    :vartype priority: int
+    :ivar provisioning_state: Provisioning State for the Resource Sync Rule.
+    :vartype provisioning_state: str
+    :ivar selector: A label selector is composed of two parts, matchLabels and matchExpressions.
+     The first part, matchLabels is a map of {key,value} pairs. A single {key,value} in the
+     matchLabels map is equivalent to an element of matchExpressions, whose key field is 'key', the
+     operator is 'In', and the values array contains only 'value'. The second part, matchExpressions
+     is a list of resource selector requirements. Valid operators include In, NotIn, Exists, and
+     DoesNotExist. The values set must be non-empty in the case of In and NotIn. The values set must
+     be empty in the case of Exists and DoesNotExist. All of the requirements, from both matchLabels
+     and matchExpressions must all be satisfied in order to match.
+    :vartype selector: ~azure.mgmt.extendedlocation.models.ResourceSyncRulePropertiesSelector
+    :ivar target_resource_group: For an unmapped custom resource, its labels will be used to find
+     matching resource sync rules. If this resource sync rule is one of the matching rules with
+     highest priority, then the unmapped custom resource will be projected to the target resource
+     group associated with this resource sync rule. The user creating this resource sync rule should
+     have write permissions on the target resource group and this write permission will be validated
+     when creating the resource sync rule.
+    :vartype target_resource_group: str
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "location": {"required": True},
+        "provisioning_state": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "tags": {"key": "tags", "type": "{str}"},
+        "location": {"key": "location", "type": "str"},
+        "priority": {"key": "properties.priority", "type": "int"},
+        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
+        "selector": {"key": "properties.selector", "type": "ResourceSyncRulePropertiesSelector"},
+        "target_resource_group": {"key": "properties.targetResourceGroup", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        location: str,
+        tags: Optional[Dict[str, str]] = None,
+        priority: Optional[int] = None,
+        selector: Optional["_models.ResourceSyncRulePropertiesSelector"] = None,
+        target_resource_group: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword tags: Resource tags.
+        :paramtype tags: dict[str, str]
+        :keyword location: The geo-location where the resource lives. Required.
+        :paramtype location: str
+        :keyword priority: Priority represents a priority of the Resource Sync Rule.
+        :paramtype priority: int
+        :keyword selector: A label selector is composed of two parts, matchLabels and matchExpressions.
+         The first part, matchLabels is a map of {key,value} pairs. A single {key,value} in the
+         matchLabels map is equivalent to an element of matchExpressions, whose key field is 'key', the
+         operator is 'In', and the values array contains only 'value'. The second part, matchExpressions
+         is a list of resource selector requirements. Valid operators include In, NotIn, Exists, and
+         DoesNotExist. The values set must be non-empty in the case of In and NotIn. The values set must
+         be empty in the case of Exists and DoesNotExist. All of the requirements, from both matchLabels
+         and matchExpressions must all be satisfied in order to match.
+        :paramtype selector: ~azure.mgmt.extendedlocation.models.ResourceSyncRulePropertiesSelector
+        :keyword target_resource_group: For an unmapped custom resource, its labels will be used to
+         find matching resource sync rules. If this resource sync rule is one of the matching rules with
+         highest priority, then the unmapped custom resource will be projected to the target resource
+         group associated with this resource sync rule. The user creating this resource sync rule should
+         have write permissions on the target resource group and this write permission will be validated
+         when creating the resource sync rule.
+        :paramtype target_resource_group: str
+        """
+        super().__init__(tags=tags, location=location, **kwargs)
+        self.priority = priority
+        self.provisioning_state: Optional[str] = None
+        self.selector = selector
+        self.target_resource_group = target_resource_group
+
+
+class ResourceSyncRuleListResult(_serialization.Model):
+    """The response of a ResourceSyncRule list operation.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar value: The ResourceSyncRule items on this page. Required.
+    :vartype value: list[~azure.mgmt.extendedlocation.models.ResourceSyncRule]
+    :ivar next_link: The link to the next page of items.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "value": {"required": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[ResourceSyncRule]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(
+        self, *, value: List["_models.ResourceSyncRule"], next_link: Optional[str] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword value: The ResourceSyncRule items on this page. Required.
+        :paramtype value: list[~azure.mgmt.extendedlocation.models.ResourceSyncRule]
+        :keyword next_link: The link to the next page of items.
+        :paramtype next_link: str
+        """
+        super().__init__(**kwargs)
+        self.value = value
+        self.next_link = next_link
+
+
+class ResourceSyncRulePropertiesSelector(_serialization.Model):
+    """A label selector is composed of two parts, matchLabels and matchExpressions. The first part,
+    matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is
+    equivalent to an element of matchExpressions, whose key field is 'key', the operator is 'In',
+    and the values array contains only 'value'. The second part, matchExpressions is a list of
+    resource selector requirements. Valid operators include In, NotIn, Exists, and DoesNotExist.
+    The values set must be non-empty in the case of In and NotIn. The values set must be empty in
+    the case of Exists and DoesNotExist. All of the requirements, from both matchLabels and
+    matchExpressions must all be satisfied in order to match.
+
+    :ivar match_expressions: MatchExpressions is a list of resource selector requirements. Valid
+     operators include In, NotIn, Exists, and DoesNotExist. The values set must be non-empty in the
+     case of In and NotIn. The values set must be empty in the case of Exists and DoesNotExist.
+    :vartype match_expressions:
+     list[~azure.mgmt.extendedlocation.models.MatchExpressionsProperties]
+    :ivar match_labels: MatchLabels is a map of {key,value} pairs. A single {key,value} in the
+     matchLabels map is equivalent to an element of matchExpressions, whose key field is 'key', the
+     operator is 'In', and the values array contains only 'value'.
+    :vartype match_labels: dict[str, str]
+    """
+
+    _attribute_map = {
+        "match_expressions": {"key": "matchExpressions", "type": "[MatchExpressionsProperties]"},
+        "match_labels": {"key": "matchLabels", "type": "{str}"},
+    }
+
+    def __init__(
+        self,
+        *,
+        match_expressions: Optional[List["_models.MatchExpressionsProperties"]] = None,
+        match_labels: Optional[Dict[str, str]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword match_expressions: MatchExpressions is a list of resource selector requirements. Valid
+         operators include In, NotIn, Exists, and DoesNotExist. The values set must be non-empty in the
+         case of In and NotIn. The values set must be empty in the case of Exists and DoesNotExist.
+        :paramtype match_expressions:
+         list[~azure.mgmt.extendedlocation.models.MatchExpressionsProperties]
+        :keyword match_labels: MatchLabels is a map of {key,value} pairs. A single {key,value} in the
+         matchLabels map is equivalent to an element of matchExpressions, whose key field is 'key', the
+         operator is 'In', and the values array contains only 'value'.
+        :paramtype match_labels: dict[str, str]
+        """
+        super().__init__(**kwargs)
+        self.match_expressions = match_expressions
+        self.match_labels = match_labels
 
 
 class SystemData(_serialization.Model):
