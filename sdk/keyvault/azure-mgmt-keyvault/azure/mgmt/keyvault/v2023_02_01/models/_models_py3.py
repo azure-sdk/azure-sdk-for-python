@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=line-too-long,useless-suppression,too-many-lines
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -152,8 +152,8 @@ class Attributes(_serialization.Model):
         self.enabled = enabled
         self.not_before = not_before
         self.expires = expires
-        self.created = None
-        self.updated = None
+        self.created: Optional[datetime.datetime] = None
+        self.updated: Optional[datetime.datetime] = None
 
 
 class CheckMhsmNameAvailabilityParameters(_serialization.Model):
@@ -213,9 +213,9 @@ class CheckMhsmNameAvailabilityResult(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.name_available = None
-        self.reason = None
-        self.message = None
+        self.name_available: Optional[bool] = None
+        self.reason: Optional[Union[str, "_models.Reason"]] = None
+        self.message: Optional[str] = None
 
 
 class CheckNameAvailabilityResult(_serialization.Model):
@@ -249,9 +249,9 @@ class CheckNameAvailabilityResult(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.name_available = None
-        self.reason = None
-        self.message = None
+        self.name_available: Optional[bool] = None
+        self.reason: Optional[Union[str, "_models.Reason"]] = None
+        self.message: Optional[str] = None
 
 
 class CloudErrorBody(_serialization.Model):
@@ -316,9 +316,9 @@ class DeletedManagedHsm(_serialization.Model):
         :paramtype properties: ~azure.mgmt.keyvault.v2023_02_01.models.DeletedManagedHsmProperties
         """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
         self.properties = properties
 
 
@@ -394,12 +394,12 @@ class DeletedManagedHsmProperties(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.mhsm_id = None
-        self.location = None
-        self.deletion_date = None
-        self.scheduled_purge_date = None
-        self.purge_protection_enabled = None
-        self.tags = None
+        self.mhsm_id: Optional[str] = None
+        self.location: Optional[str] = None
+        self.deletion_date: Optional[datetime.datetime] = None
+        self.scheduled_purge_date: Optional[datetime.datetime] = None
+        self.purge_protection_enabled: Optional[bool] = None
+        self.tags: Optional[Dict[str, str]] = None
 
 
 class DeletedVault(_serialization.Model):
@@ -436,9 +436,9 @@ class DeletedVault(_serialization.Model):
         :paramtype properties: ~azure.mgmt.keyvault.v2023_02_01.models.DeletedVaultProperties
         """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
         self.properties = properties
 
 
@@ -510,12 +510,12 @@ class DeletedVaultProperties(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.vault_id = None
-        self.location = None
-        self.deletion_date = None
-        self.scheduled_purge_date = None
-        self.tags = None
-        self.purge_protection_enabled = None
+        self.vault_id: Optional[str] = None
+        self.location: Optional[str] = None
+        self.deletion_date: Optional[datetime.datetime] = None
+        self.scheduled_purge_date: Optional[datetime.datetime] = None
+        self.tags: Optional[Dict[str, str]] = None
+        self.purge_protection_enabled: Optional[bool] = None
 
 
 class DimensionProperties(_serialization.Model):
@@ -587,9 +587,9 @@ class Error(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.code = None
-        self.message = None
-        self.inner_error = None
+        self.code: Optional[str] = None
+        self.message: Optional[str] = None
+        self.inner_error: Optional["_models.Error"] = None
 
 
 class IPRule(_serialization.Model):
@@ -656,11 +656,11 @@ class Resource(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
-        self.location = None
-        self.tags = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
+        self.location: Optional[str] = None
+        self.tags: Optional[Dict[str, str]] = None
 
 
 class Key(Resource):
@@ -767,8 +767,8 @@ class Key(Resource):
         self.key_ops = key_ops
         self.key_size = key_size
         self.curve_name = curve_name
-        self.key_uri = None
-        self.key_uri_with_version = None
+        self.key_uri: Optional[str] = None
+        self.key_uri_with_version: Optional[str] = None
         self.rotation_policy = rotation_policy
         self.release_policy = release_policy
 
@@ -837,9 +837,9 @@ class KeyAttributes(_serialization.Model):
         self.enabled = enabled
         self.not_before = not_before
         self.expires = expires
-        self.created = None
-        self.updated = None
-        self.recovery_level = None
+        self.created: Optional[int] = None
+        self.updated: Optional[int] = None
+        self.recovery_level: Optional[Union[str, "_models.DeletionRecoveryLevel"]] = None
         self.exportable = exportable
 
 
@@ -989,8 +989,8 @@ class KeyProperties(_serialization.Model):
         self.key_ops = key_ops
         self.key_size = key_size
         self.curve_name = curve_name
-        self.key_uri = None
-        self.key_uri_with_version = None
+        self.key_uri: Optional[str] = None
+        self.key_uri_with_version: Optional[str] = None
         self.rotation_policy = rotation_policy
         self.release_policy = release_policy
 
@@ -1055,8 +1055,8 @@ class KeyRotationPolicyAttributes(_serialization.Model):
         :paramtype expiry_time: str
         """
         super().__init__(**kwargs)
-        self.created = None
-        self.updated = None
+        self.created: Optional[int] = None
+        self.updated: Optional[int] = None
         self.expiry_time = expiry_time
 
 
@@ -1183,13 +1183,13 @@ class ManagedHsmResource(_serialization.Model):
         :paramtype tags: dict[str, str]
         """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
         self.location = location
         self.sku = sku
         self.tags = tags
-        self.system_data = None
+        self.system_data: Optional["_models.SystemData"] = None
 
 
 class ManagedHsm(ManagedHsmResource):
@@ -1301,7 +1301,7 @@ class ManagedHsmError(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.error = None
+        self.error: Optional["_models.Error"] = None
 
 
 class ProxyResourceWithoutSystemData(_serialization.Model):
@@ -1310,7 +1310,7 @@ class ProxyResourceWithoutSystemData(_serialization.Model):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1340,9 +1340,9 @@ class ProxyResourceWithoutSystemData(_serialization.Model):
         :paramtype tags: dict[str, str]
         """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
         self.tags = tags
 
 
@@ -1352,7 +1352,7 @@ class ManagedHsmKey(ProxyResourceWithoutSystemData):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1450,8 +1450,8 @@ class ManagedHsmKey(ProxyResourceWithoutSystemData):
         self.key_ops = key_ops
         self.key_size = key_size
         self.curve_name = curve_name
-        self.key_uri = None
-        self.key_uri_with_version = None
+        self.key_uri: Optional[str] = None
+        self.key_uri_with_version: Optional[str] = None
         self.rotation_policy = rotation_policy
         self.release_policy = release_policy
 
@@ -1520,9 +1520,9 @@ class ManagedHsmKeyAttributes(_serialization.Model):
         self.enabled = enabled
         self.not_before = not_before
         self.expires = expires
-        self.created = None
-        self.updated = None
-        self.recovery_level = None
+        self.created: Optional[int] = None
+        self.updated: Optional[int] = None
+        self.recovery_level: Optional[Union[str, "_models.DeletionRecoveryLevel"]] = None
         self.exportable = exportable
 
 
@@ -1672,8 +1672,8 @@ class ManagedHsmKeyProperties(_serialization.Model):
         self.key_ops = key_ops
         self.key_size = key_size
         self.curve_name = curve_name
-        self.key_uri = None
-        self.key_uri_with_version = None
+        self.key_uri: Optional[str] = None
+        self.key_uri_with_version: Optional[str] = None
         self.rotation_policy = rotation_policy
         self.release_policy = release_policy
 
@@ -1738,8 +1738,8 @@ class ManagedHsmKeyRotationPolicyAttributes(_serialization.Model):
         :paramtype expiry_time: str
         """
         super().__init__(**kwargs)
-        self.created = None
-        self.updated = None
+        self.created: Optional[int] = None
+        self.updated: Optional[int] = None
         self.expiry_time = expiry_time
 
 
@@ -1937,19 +1937,19 @@ class ManagedHsmProperties(_serialization.Model):
         super().__init__(**kwargs)
         self.tenant_id = tenant_id
         self.initial_admin_object_ids = initial_admin_object_ids
-        self.hsm_uri = None
+        self.hsm_uri: Optional[str] = None
         self.enable_soft_delete = enable_soft_delete
         self.soft_delete_retention_in_days = soft_delete_retention_in_days
         self.enable_purge_protection = enable_purge_protection
         self.create_mode = create_mode
-        self.status_message = None
-        self.provisioning_state = None
+        self.status_message: Optional[str] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.network_acls = network_acls
         self.regions = regions
-        self.private_endpoint_connections = None
+        self.private_endpoint_connections: Optional[List["_models.MHSMPrivateEndpointConnectionItem"]] = None
         self.public_network_access = public_network_access
-        self.scheduled_purge_date = None
-        self.security_domain_properties = None
+        self.scheduled_purge_date: Optional[datetime.datetime] = None
+        self.security_domain_properties: Optional["_models.ManagedHSMSecurityDomainProperties"] = None
 
 
 class ManagedHsmRotationPolicy(_serialization.Model):
@@ -2013,8 +2013,8 @@ class ManagedHSMSecurityDomainProperties(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.activation_status = None
-        self.activation_status_message = None
+        self.activation_status: Optional[Union[str, "_models.ActivationStatus"]] = None
+        self.activation_status_message: Optional[str] = None
 
 
 class ManagedHsmSku(_serialization.Model):
@@ -2223,7 +2223,7 @@ class MHSMGeoReplicatedRegion(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.name = name
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.GeoReplicationRegionProvisioningState"]] = None
         self.is_primary = is_primary
 
 
@@ -2332,7 +2332,7 @@ class MHSMPrivateEndpoint(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.id = None
+        self.id: Optional[str] = None
 
 
 class MHSMPrivateEndpointConnection(ManagedHsmResource):
@@ -2594,8 +2594,8 @@ class MHSMPrivateLinkResource(ManagedHsmResource):
         :paramtype required_zone_names: list[str]
         """
         super().__init__(location=location, sku=sku, tags=tags, **kwargs)
-        self.group_id = None
-        self.required_members = None
+        self.group_id: Optional[str] = None
+        self.required_members: Optional[List[str]] = None
         self.required_zone_names = required_zone_names
 
 
@@ -2718,7 +2718,7 @@ class MHSMVirtualNetworkRule(_serialization.Model):
     def __init__(self, *, id: str, **kwargs: Any) -> None:  # pylint: disable=redefined-builtin
         """
         :keyword id: Full resource id of a vnet subnet, such as
-         '/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/subnet1'.  # pylint: disable=line-too-long
+         '/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/subnet1'.
          Required.
         :paramtype id: str
         """
@@ -2978,7 +2978,7 @@ class PrivateEndpoint(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.id = None
+        self.id: Optional[str] = None
 
 
 class PrivateEndpointConnection(Resource):
@@ -3205,8 +3205,8 @@ class PrivateLinkResource(Resource):
         :paramtype required_zone_names: list[str]
         """
         super().__init__(**kwargs)
-        self.group_id = None
-        self.required_members = None
+        self.group_id: Optional[str] = None
+        self.required_members: Optional[List[str]] = None
         self.required_zone_names = required_zone_names
 
 
@@ -3588,8 +3588,8 @@ class SecretProperties(_serialization.Model):
         self.value = value
         self.content_type = content_type
         self.attributes = attributes
-        self.secret_uri = None
-        self.secret_uri_with_version = None
+        self.secret_uri: Optional[str] = None
+        self.secret_uri_with_version: Optional[str] = None
 
 
 class ServiceSpecification(_serialization.Model):
@@ -3817,12 +3817,12 @@ class Vault(_serialization.Model):
         :paramtype properties: ~azure.mgmt.keyvault.v2023_02_01.models.VaultProperties
         """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
         self.location = location
         self.tags = tags
-        self.system_data = None
+        self.system_data: Optional["_models.SystemData"] = None
         self.properties = properties
 
 
@@ -3867,10 +3867,10 @@ class VaultAccessPolicyParameters(_serialization.Model):
         :paramtype properties: ~azure.mgmt.keyvault.v2023_02_01.models.VaultAccessPolicyProperties
         """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
-        self.location = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
+        self.location: Optional[str] = None
         self.properties = properties
 
 
@@ -4377,7 +4377,7 @@ class VaultProperties(_serialization.Model):
         self.sku = sku
         self.access_policies = access_policies
         self.vault_uri = vault_uri
-        self.hsm_pool_resource_id = None
+        self.hsm_pool_resource_id: Optional[str] = None
         self.enabled_for_deployment = enabled_for_deployment
         self.enabled_for_disk_encryption = enabled_for_disk_encryption
         self.enabled_for_template_deployment = enabled_for_template_deployment
@@ -4388,7 +4388,7 @@ class VaultProperties(_serialization.Model):
         self.enable_purge_protection = enable_purge_protection
         self.network_acls = network_acls
         self.provisioning_state = provisioning_state
-        self.private_endpoint_connections = None
+        self.private_endpoint_connections: Optional[List["_models.PrivateEndpointConnectionItem"]] = None
         self.public_network_access = public_network_access
 
 
@@ -4424,7 +4424,7 @@ class VirtualNetworkRule(_serialization.Model):
     ) -> None:
         """
         :keyword id: Full resource id of a vnet subnet, such as
-         '/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/subnet1'.  # pylint: disable=line-too-long
+         '/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/subnet1'.
          Required.
         :paramtype id: str
         :keyword ignore_missing_vnet_service_endpoint: Property to specify whether NRP will ignore the
