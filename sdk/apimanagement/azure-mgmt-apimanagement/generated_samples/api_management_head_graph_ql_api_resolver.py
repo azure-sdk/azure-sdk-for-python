@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -27,7 +28,7 @@ from azure.mgmt.apimanagement import ApiManagementClient
 def main():
     client = ApiManagementClient(
         credential=DefaultAzureCredential(),
-        subscription_id="subid",
+        subscription_id="00000000-0000-0000-0000-000000000000",
     )
 
     response = client.graph_ql_api_resolver.get_entity_tag(
@@ -39,6 +40,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementHeadGraphQLApiResolver.json
+# x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2024-05-01/examples/ApiManagementHeadGraphQLApiResolver.json
 if __name__ == "__main__":
     main()
