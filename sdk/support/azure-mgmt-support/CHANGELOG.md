@@ -1,5 +1,45 @@
 # Release History
 
+## 8.0.0b1 (2025-04-22)
+
+### Features Added
+
+  - Model `MicrosoftSupport` added property `service_classifications_no_subscription`
+  - Model `MicrosoftSupport` added property `service_classifications`
+  - Model `MicrosoftSupport` added property `problem_classifications_no_subscription`
+  - Model `MicrosoftSupport` added property `look_up_resource_id`
+  - Model `ProblemClassification` added property `metadata`
+  - Model `ProblemClassification` added property `parent_problem_classification`
+  - Model `Service` added property `metadata`
+  - Added model `ClassificationService`
+  - Added model `LookUpResourceIdRequest`
+  - Added model `LookUpResourceIdResponse`
+  - Added model `ProblemClassificationsClassificationInput`
+  - Added model `ProblemClassificationsClassificationOutput`
+  - Added model `ProblemClassificationsClassificationResult`
+  - Added model `ServiceClassificationAnswer`
+  - Added model `ServiceClassificationOutput`
+  - Added model `ServiceClassificationRequest`
+  - Model `ProblemClassificationsOperations` added method `classify_problems`
+  - Added model `LookUpResourceIdOperations`
+  - Added model `ProblemClassificationsNoSubscriptionOperations`
+  - Added model `ServiceClassificationsNoSubscriptionOperations`
+  - Added model `ServiceClassificationsOperations`
+  - Method `ProblemClassificationsOperations.classify_problems` has a new overload `def classify_problems(self: None, problem_service_name: str, problem_classifications_classification_input: ProblemClassificationsClassificationInput, content_type: str)`
+  - Method `ProblemClassificationsOperations.classify_problems` has a new overload `def classify_problems(self: None, problem_service_name: str, problem_classifications_classification_input: IO[bytes], content_type: str)`
+  - Method `LookUpResourceIdOperations.post` has a new overload `def post(self: None, look_up_resource_id_request: LookUpResourceIdRequest, content_type: str)`
+  - Method `LookUpResourceIdOperations.post` has a new overload `def post(self: None, look_up_resource_id_request: IO[bytes], content_type: str)`
+  - Method `ProblemClassificationsNoSubscriptionOperations.classify_problems` has a new overload `def classify_problems(self: None, problem_service_name: str, problem_classifications_classification_input: ProblemClassificationsClassificationInput, content_type: str)`
+  - Method `ProblemClassificationsNoSubscriptionOperations.classify_problems` has a new overload `def classify_problems(self: None, problem_service_name: str, problem_classifications_classification_input: IO[bytes], content_type: str)`
+  - Method `ServiceClassificationsNoSubscriptionOperations.classify_services` has a new overload `def classify_services(self: None, service_classification_request: ServiceClassificationRequest, content_type: str)`
+  - Method `ServiceClassificationsNoSubscriptionOperations.classify_services` has a new overload `def classify_services(self: None, service_classification_request: IO[bytes], content_type: str)`
+  - Method `ServiceClassificationsOperations.classify_services` has a new overload `def classify_services(self: None, service_classification_request: ServiceClassificationRequest, content_type: str)`
+  - Method `ServiceClassificationsOperations.classify_services` has a new overload `def classify_services(self: None, service_classification_request: IO[bytes], content_type: str)`
+
+### Breaking Changes
+
+  - Method `MessageProperties.__init__` removed default value `None` from its parameter `body`
+
 ## 7.0.0 (2024-04-22)
 
 ### Features Added
