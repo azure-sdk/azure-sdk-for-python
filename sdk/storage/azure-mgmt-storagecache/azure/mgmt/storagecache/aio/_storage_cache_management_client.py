@@ -7,12 +7,15 @@
 # --------------------------------------------------------------------------
 
 from copy import deepcopy
-from typing import Any, Awaitable, TYPE_CHECKING
+from typing import Any, Awaitable, Optional, TYPE_CHECKING, cast
+from typing_extensions import Self
 
 from azure.core.pipeline import policies
 from azure.core.rest import AsyncHttpResponse, HttpRequest
+from azure.core.settings import settings
 from azure.mgmt.core import AsyncARMPipelineClient
 from azure.mgmt.core.policies import AsyncARMAutoResourceProviderRegistrationPolicy
+from azure.mgmt.core.tools import get_arm_endpoints
 
 from .. import models as _models
 from .._serialization import Deserializer, Serializer
@@ -21,6 +24,8 @@ from .operations import (
     AmlFilesystemsOperations,
     AscOperationsOperations,
     AscUsagesOperations,
+    AutoExportJobsOperations,
+    AutoImportJobsOperations,
     CachesOperations,
     ImportJobsOperations,
     Operations,
@@ -32,21 +37,24 @@ from .operations import (
 )
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from azure.core.credentials_async import AsyncTokenCredential
 
 
 class StorageCacheManagementClient(
     StorageCacheManagementClientOperationsMixin
-):  # pylint: disable=client-accepts-api-version-keyword,too-many-instance-attributes
+):  # pylint: disable=too-many-instance-attributes
     """Azure Managed Lustre provides a fully managed Lustre® file system, integrated with Blob
     storage, for use on demand. These operations create and manage Azure Managed Lustre file
     systems.
 
     :ivar aml_filesystems: AmlFilesystemsOperations operations
     :vartype aml_filesystems: azure.mgmt.storagecache.aio.operations.AmlFilesystemsOperations
+    :ivar auto_export_jobs: AutoExportJobsOperations operations
+    :vartype auto_export_jobs: azure.mgmt.storagecache.aio.operations.AutoExportJobsOperations
     :ivar import_jobs: ImportJobsOperations operations
     :vartype import_jobs: azure.mgmt.storagecache.aio.operations.ImportJobsOperations
+    :ivar auto_import_jobs: AutoImportJobsOperations operations
+    :vartype auto_import_jobs: azure.mgmt.storagecache.aio.operations.AutoImportJobsOperations
     :ivar operations: Operations operations
     :vartype operations: azure.mgmt.storagecache.aio.operations.Operations
     :ivar skus: SkusOperations operations
@@ -67,9 +75,9 @@ class StorageCacheManagementClient(
     :type credential: ~azure.core.credentials_async.AsyncTokenCredential
     :param subscription_id: The ID of the target subscription. Required.
     :type subscription_id: str
-    :param base_url: Service URL. Default value is "https://management.azure.com".
+    :param base_url: Service URL. Default value is None.
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2024-03-01". Note that overriding this
+    :keyword api_version: Api Version. Default value is "2025-07-01". Note that overriding this
      default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
@@ -77,15 +85,17 @@ class StorageCacheManagementClient(
     """
 
     def __init__(
-        self,
-        credential: "AsyncTokenCredential",
-        subscription_id: str,
-        base_url: str = "https://management.azure.com",
-        **kwargs: Any
+        self, credential: "AsyncTokenCredential", subscription_id: str, base_url: Optional[str] = None, **kwargs: Any
     ) -> None:
+        _cloud = kwargs.pop("cloud_setting", None) or settings.current.azure_cloud  # type: ignore
+        _endpoints = get_arm_endpoints(_cloud)
+        if not base_url:
+            base_url = _endpoints["resource_manager"]
+        credential_scopes = kwargs.pop("credential_scopes", _endpoints["credential_scopes"])
         self._config = StorageCacheManagementClientConfiguration(
-            credential=credential, subscription_id=subscription_id, **kwargs
+            credential=credential, subscription_id=subscription_id, credential_scopes=credential_scopes, **kwargs
         )
+
         _policies = kwargs.pop("policies", None)
         if _policies is None:
             _policies = [
@@ -104,14 +114,18 @@ class StorageCacheManagementClient(
                 policies.SensitiveHeaderCleanupPolicy(**kwargs) if self._config.redirect_policy else None,
                 self._config.http_logging_policy,
             ]
-        self._client: AsyncARMPipelineClient = AsyncARMPipelineClient(base_url=base_url, policies=_policies, **kwargs)
+        self._client: AsyncARMPipelineClient = AsyncARMPipelineClient(
+            base_url=cast(str, base_url), policies=_policies, **kwargs
+        )
 
         client_models = {k: v for k, v in _models.__dict__.items() if isinstance(v, type)}
         self._serialize = Serializer(client_models)
         self._deserialize = Deserializer(client_models)
         self._serialize.client_side_validation = False
         self.aml_filesystems = AmlFilesystemsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.auto_export_jobs = AutoExportJobsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.import_jobs = ImportJobsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.auto_import_jobs = AutoImportJobsOperations(self._client, self._config, self._serialize, self._deserialize)
         self.operations = Operations(self._client, self._config, self._serialize, self._deserialize)
         self.skus = SkusOperations(self._client, self._config, self._serialize, self._deserialize)
         self.usage_models = UsageModelsOperations(self._client, self._config, self._serialize, self._deserialize)
@@ -148,7 +162,7 @@ class StorageCacheManagementClient(
     async def close(self) -> None:
         await self._client.close()
 
-    async def __aenter__(self) -> "StorageCacheManagementClient":
+    async def __aenter__(self) -> Self:
         await self._client.__aenter__()
         return self
 
