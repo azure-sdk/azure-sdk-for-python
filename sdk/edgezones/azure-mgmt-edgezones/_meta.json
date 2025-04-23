@@ -1,6 +1,13 @@
 {
-  "commit": "3db6867b8e524ea6d1bc7a3bbb989fe50dd2f184",
+  "commit": "451d3a928d2b680e6ee9ae79311cb85e153d3bfc",
   "repository_url": "https://github.com/Azure/azure-rest-api-specs",
   "typespec_src": "specification/edgezones/EdgeZones.Management",
-  "@azure-tools/typespec-python": "0.41.0"
+  "@azure-tools/typespec-python": "0.41.0",
+  "autorest": "3.10.2",
+  "use": [
+    "@autorest/python@6.33.0",
+    "@autorest/modelerfour@4.27.0"
+  ],
+  "autorest_command": "autorest specification/edgezones/resource-manager/readme.md --generate-sample=True --generate-test=True --include-x-ms-examples-original-file=True --python --python-sdks-folder=/mnt/vss/_work/1/s/azure-sdk-for-python/sdk --use=@autorest/python@6.33.0 --use=@autorest/modelerfour@4.27.0 --version=3.10.2 --version-tolerant=False",
+  "readme": "specification/edgezones/resource-manager/readme.md"
 }

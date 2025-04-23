@@ -1,5 +1,210 @@
 # Release History
 
+## 1.0.0b3 (2025-04-23)
+
+### Features Added
+
+  - Model `ErrorAdditionalInfo` added parameter `kwargs` in method `as_dict`
+  - Model `ErrorAdditionalInfo` added method `deserialize`
+  - Model `ErrorAdditionalInfo` added method `enable_additional_properties_sending`
+  - Model `ErrorAdditionalInfo` added method `from_dict`
+  - Model `ErrorAdditionalInfo` added method `is_xml_model`
+  - Model `ErrorAdditionalInfo` added method `serialize`
+  - Model `ErrorAdditionalInfo` added property `additional_properties`
+  - Model `ErrorDetail` added parameter `kwargs` in method `as_dict`
+  - Model `ErrorDetail` added method `deserialize`
+  - Model `ErrorDetail` added method `enable_additional_properties_sending`
+  - Model `ErrorDetail` added method `from_dict`
+  - Model `ErrorDetail` added method `is_xml_model`
+  - Model `ErrorDetail` added method `serialize`
+  - Model `ErrorDetail` added property `additional_properties`
+  - Model `ErrorResponse` added parameter `kwargs` in method `as_dict`
+  - Model `ErrorResponse` added method `deserialize`
+  - Model `ErrorResponse` added method `enable_additional_properties_sending`
+  - Model `ErrorResponse` added method `from_dict`
+  - Model `ErrorResponse` added method `is_xml_model`
+  - Model `ErrorResponse` added method `serialize`
+  - Model `ErrorResponse` added property `additional_properties`
+  - Model `ExtendedZone` added parameter `kwargs` in method `as_dict`
+  - Model `ExtendedZone` added method `deserialize`
+  - Model `ExtendedZone` added method `enable_additional_properties_sending`
+  - Model `ExtendedZone` added method `from_dict`
+  - Model `ExtendedZone` added method `is_xml_model`
+  - Model `ExtendedZone` added method `serialize`
+  - Model `ExtendedZone` added property `additional_properties`
+  - Model `ExtendedZoneProperties` added parameter `kwargs` in method `as_dict`
+  - Model `ExtendedZoneProperties` added method `deserialize`
+  - Model `ExtendedZoneProperties` added method `enable_additional_properties_sending`
+  - Model `ExtendedZoneProperties` added method `from_dict`
+  - Model `ExtendedZoneProperties` added method `is_xml_model`
+  - Model `ExtendedZoneProperties` added method `serialize`
+  - Model `ExtendedZoneProperties` added property `additional_properties`
+  - Model `Operation` added parameter `kwargs` in method `as_dict`
+  - Model `Operation` added method `deserialize`
+  - Model `Operation` added method `enable_additional_properties_sending`
+  - Model `Operation` added method `from_dict`
+  - Model `Operation` added method `is_xml_model`
+  - Model `Operation` added method `serialize`
+  - Model `Operation` added property `additional_properties`
+  - Model `OperationDisplay` added parameter `kwargs` in method `as_dict`
+  - Model `OperationDisplay` added method `deserialize`
+  - Model `OperationDisplay` added method `enable_additional_properties_sending`
+  - Model `OperationDisplay` added method `from_dict`
+  - Model `OperationDisplay` added method `is_xml_model`
+  - Model `OperationDisplay` added method `serialize`
+  - Model `OperationDisplay` added property `additional_properties`
+  - Model `ProxyResource` added parameter `kwargs` in method `as_dict`
+  - Model `ProxyResource` added method `deserialize`
+  - Model `ProxyResource` added method `enable_additional_properties_sending`
+  - Model `ProxyResource` added method `from_dict`
+  - Model `ProxyResource` added method `is_xml_model`
+  - Model `ProxyResource` added method `serialize`
+  - Model `ProxyResource` added property `additional_properties`
+  - Model `Resource` added parameter `kwargs` in method `as_dict`
+  - Model `Resource` added method `deserialize`
+  - Model `Resource` added method `enable_additional_properties_sending`
+  - Model `Resource` added method `from_dict`
+  - Model `Resource` added method `is_xml_model`
+  - Model `Resource` added method `serialize`
+  - Model `Resource` added property `additional_properties`
+  - Model `SystemData` added parameter `kwargs` in method `as_dict`
+  - Model `SystemData` added method `deserialize`
+  - Model `SystemData` added method `enable_additional_properties_sending`
+  - Model `SystemData` added method `from_dict`
+  - Model `SystemData` added method `is_xml_model`
+  - Model `SystemData` added method `serialize`
+  - Model `SystemData` added property `additional_properties`
+  - Added model `ExtendedZoneListResult`
+  - Added model `OperationListResult`
+
+### Breaking Changes
+
+  - Deleted or renamed client method `EdgeZonesMgmtClient.send_request`
+  - Method `ErrorAdditionalInfo.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `ErrorAdditionalInfo.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `ErrorAdditionalInfo.clear`
+  - Deleted or renamed method `ErrorAdditionalInfo.copy`
+  - Deleted or renamed method `ErrorAdditionalInfo.get`
+  - Deleted or renamed method `ErrorAdditionalInfo.items`
+  - Deleted or renamed method `ErrorAdditionalInfo.keys`
+  - Deleted or renamed method `ErrorAdditionalInfo.pop`
+  - Deleted or renamed method `ErrorAdditionalInfo.popitem`
+  - Deleted or renamed method `ErrorAdditionalInfo.setdefault`
+  - Deleted or renamed method `ErrorAdditionalInfo.update`
+  - Deleted or renamed method `ErrorAdditionalInfo.values`
+  - Method `ErrorDetail.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `ErrorDetail.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `ErrorDetail.clear`
+  - Deleted or renamed method `ErrorDetail.copy`
+  - Deleted or renamed method `ErrorDetail.get`
+  - Deleted or renamed method `ErrorDetail.items`
+  - Deleted or renamed method `ErrorDetail.keys`
+  - Deleted or renamed method `ErrorDetail.pop`
+  - Deleted or renamed method `ErrorDetail.popitem`
+  - Deleted or renamed method `ErrorDetail.setdefault`
+  - Deleted or renamed method `ErrorDetail.update`
+  - Deleted or renamed method `ErrorDetail.values`
+  - Method `ErrorResponse.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `ErrorResponse.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `ErrorResponse.clear`
+  - Deleted or renamed method `ErrorResponse.copy`
+  - Deleted or renamed method `ErrorResponse.get`
+  - Deleted or renamed method `ErrorResponse.items`
+  - Deleted or renamed method `ErrorResponse.keys`
+  - Deleted or renamed method `ErrorResponse.pop`
+  - Deleted or renamed method `ErrorResponse.popitem`
+  - Deleted or renamed method `ErrorResponse.setdefault`
+  - Deleted or renamed method `ErrorResponse.update`
+  - Deleted or renamed method `ErrorResponse.values`
+  - Method `ExtendedZone.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `ExtendedZone.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `ExtendedZone.clear`
+  - Deleted or renamed method `ExtendedZone.copy`
+  - Deleted or renamed method `ExtendedZone.get`
+  - Deleted or renamed method `ExtendedZone.items`
+  - Deleted or renamed method `ExtendedZone.keys`
+  - Deleted or renamed method `ExtendedZone.pop`
+  - Deleted or renamed method `ExtendedZone.popitem`
+  - Deleted or renamed method `ExtendedZone.setdefault`
+  - Deleted or renamed method `ExtendedZone.update`
+  - Deleted or renamed method `ExtendedZone.values`
+  - Method `ExtendedZoneProperties.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `ExtendedZoneProperties.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `ExtendedZoneProperties.clear`
+  - Deleted or renamed method `ExtendedZoneProperties.copy`
+  - Deleted or renamed method `ExtendedZoneProperties.get`
+  - Deleted or renamed method `ExtendedZoneProperties.items`
+  - Deleted or renamed method `ExtendedZoneProperties.keys`
+  - Deleted or renamed method `ExtendedZoneProperties.pop`
+  - Deleted or renamed method `ExtendedZoneProperties.popitem`
+  - Deleted or renamed method `ExtendedZoneProperties.setdefault`
+  - Deleted or renamed method `ExtendedZoneProperties.update`
+  - Deleted or renamed method `ExtendedZoneProperties.values`
+  - Method `Operation.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `Operation.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `Operation.clear`
+  - Deleted or renamed method `Operation.copy`
+  - Deleted or renamed method `Operation.get`
+  - Deleted or renamed method `Operation.items`
+  - Deleted or renamed method `Operation.keys`
+  - Deleted or renamed method `Operation.pop`
+  - Deleted or renamed method `Operation.popitem`
+  - Deleted or renamed method `Operation.setdefault`
+  - Deleted or renamed method `Operation.update`
+  - Deleted or renamed method `Operation.values`
+  - Method `OperationDisplay.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `OperationDisplay.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `OperationDisplay.clear`
+  - Deleted or renamed method `OperationDisplay.copy`
+  - Deleted or renamed method `OperationDisplay.get`
+  - Deleted or renamed method `OperationDisplay.items`
+  - Deleted or renamed method `OperationDisplay.keys`
+  - Deleted or renamed method `OperationDisplay.pop`
+  - Deleted or renamed method `OperationDisplay.popitem`
+  - Deleted or renamed method `OperationDisplay.setdefault`
+  - Deleted or renamed method `OperationDisplay.update`
+  - Deleted or renamed method `OperationDisplay.values`
+  - Method `ProxyResource.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `ProxyResource.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `ProxyResource.clear`
+  - Deleted or renamed method `ProxyResource.copy`
+  - Deleted or renamed method `ProxyResource.get`
+  - Deleted or renamed method `ProxyResource.items`
+  - Deleted or renamed method `ProxyResource.keys`
+  - Deleted or renamed method `ProxyResource.pop`
+  - Deleted or renamed method `ProxyResource.popitem`
+  - Deleted or renamed method `ProxyResource.setdefault`
+  - Deleted or renamed method `ProxyResource.update`
+  - Deleted or renamed method `ProxyResource.values`
+  - Method `Resource.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `Resource.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `Resource.clear`
+  - Deleted or renamed method `Resource.copy`
+  - Deleted or renamed method `Resource.get`
+  - Deleted or renamed method `Resource.items`
+  - Deleted or renamed method `Resource.keys`
+  - Deleted or renamed method `Resource.pop`
+  - Deleted or renamed method `Resource.popitem`
+  - Deleted or renamed method `Resource.setdefault`
+  - Deleted or renamed method `Resource.update`
+  - Deleted or renamed method `Resource.values`
+  - Method `SystemData.as_dict` inserted a `positional_or_keyword` parameter `keep_readonly`
+  - Method `SystemData.as_dict` inserted a `positional_or_keyword` parameter `key_transformer`
+  - Deleted or renamed method `SystemData.clear`
+  - Deleted or renamed method `SystemData.copy`
+  - Deleted or renamed method `SystemData.get`
+  - Deleted or renamed method `SystemData.items`
+  - Deleted or renamed method `SystemData.keys`
+  - Deleted or renamed method `SystemData.pop`
+  - Deleted or renamed method `SystemData.popitem`
+  - Deleted or renamed method `SystemData.setdefault`
+  - Deleted or renamed method `SystemData.update`
+  - Deleted or renamed method `SystemData.values`
+  - `ErrorResponse.__init__` had all overloads removed
+  - `ExtendedZone.__init__` had all overloads removed
+  - `Operation.__init__` had all overloads removed
+  - `SystemData.__init__` had all overloads removed
+
 ## 1.0.0b2 (2025-04-01)
 
 ### Other Changes
