@@ -1,5 +1,23 @@
 # Release History
 
+## 36.0.0 (2025-04-23)
+
+### Features Added
+
+  - Added operation group NamespacesOperations
+  - Model AgentPoolUpgradeSettings has a new parameter undrainable_node_behavior
+  - Model AutoScaleProfile has a new parameter size
+  - Model ManualScaleProfile has a new parameter size
+
+### Breaking Changes
+
+  - Model AutoScaleProfile no longer has parameter os_disk_size_gb
+  - Model AutoScaleProfile no longer has parameter os_disk_type
+  - Model AutoScaleProfile no longer has parameter sizes
+  - Model ManualScaleProfile no longer has parameter os_disk_size_gb
+  - Model ManualScaleProfile no longer has parameter os_disk_type
+  - Model ManualScaleProfile no longer has parameter sizes
+
 ## 35.0.0 (2025-04-14)
 
 ### Features Added
