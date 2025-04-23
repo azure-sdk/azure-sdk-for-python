@@ -1,5 +1,5 @@
+# pylint: disable=line-too-long,useless-suppression,too-many-lines
 # coding=utf-8
-# pylint: disable=too-many-lines
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -13,11 +13,10 @@ from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 from .. import _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
-class ConfigurationData(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class ConfigurationData(_serialization.Model):
     """The SAP instance specific configuration data.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -87,17 +86,17 @@ class ConfigurationData(_serialization.Model):  # pylint: disable=too-many-insta
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.saps = None
-        self.cpu = None
-        self.cpu_type = None
-        self.cpu_in_mhz = None
-        self.ram = None
-        self.hardware_manufacturer = None
-        self.model = None
-        self.total_disk_size_gb = None
-        self.total_disk_iops = None
-        self.database_type = None
-        self.target_hana_ram_size_gb = None
+        self.saps: Optional[int] = None
+        self.cpu: Optional[int] = None
+        self.cpu_type: Optional[str] = None
+        self.cpu_in_mhz: Optional[int] = None
+        self.ram: Optional[int] = None
+        self.hardware_manufacturer: Optional[str] = None
+        self.model: Optional[str] = None
+        self.total_disk_size_gb: Optional[int] = None
+        self.total_disk_iops: Optional[int] = None
+        self.database_type: Optional[Union[str, "_models.DatabaseType"]] = None
+        self.target_hana_ram_size_gb: Optional[int] = None
 
 
 class ErrorAdditionalInfo(_serialization.Model):
@@ -124,8 +123,8 @@ class ErrorAdditionalInfo(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.type = None
-        self.info = None
+        self.type: Optional[str] = None
+        self.info: Optional[JSON] = None
 
 
 class ErrorDefinition(_serialization.Model):
@@ -160,10 +159,10 @@ class ErrorDefinition(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.code = None
-        self.message = None
-        self.recommendation = None
-        self.details = None
+        self.code: Optional[str] = None
+        self.message: Optional[str] = None
+        self.recommendation: Optional[str] = None
+        self.details: Optional[List["_models.ErrorDefinition"]] = None
 
 
 class ErrorDetail(_serialization.Model):
@@ -202,11 +201,11 @@ class ErrorDetail(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.code = None
-        self.message = None
-        self.target = None
-        self.details = None
-        self.additional_info = None
+        self.code: Optional[str] = None
+        self.message: Optional[str] = None
+        self.target: Optional[str] = None
+        self.details: Optional[List["_models.ErrorDetail"]] = None
+        self.additional_info: Optional[List["_models.ErrorAdditionalInfo"]] = None
 
 
 class ErrorResponse(_serialization.Model):
@@ -236,7 +235,7 @@ class PerformanceData(_serialization.Model):
     You probably want to use the sub-classes and not this class directly. Known sub-classes are:
     ExcelPerformanceData, NativePerformanceData
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar data_source: The data source of the performance data. Required. Known values are: "Excel"
      and "Native".
@@ -264,7 +263,7 @@ class ExcelPerformanceData(PerformanceData):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar data_source: The data source of the performance data. Required. Known values are: "Excel"
      and "Native".
@@ -293,14 +292,14 @@ class ExcelPerformanceData(PerformanceData):
         """ """
         super().__init__(**kwargs)
         self.data_source: str = "Excel"
-        self.max_cpu_load = None
-        self.total_source_db_size_gb = None
+        self.max_cpu_load: Optional[int] = None
+        self.total_source_db_size_gb: Optional[int] = None
 
 
 class ExtendedLocation(_serialization.Model):
     """The extended location definition.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar type: The extended location type. Required.
     :vartype type: str
@@ -333,7 +332,7 @@ class ExtendedLocation(_serialization.Model):
 class NativePerformanceData(PerformanceData):
     """The SAP instance specific performance data for native discovery.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar data_source: The data source of the performance data. Required. Known values are: "Excel"
      and "Native".
@@ -397,11 +396,11 @@ class Operation(_serialization.Model):
         :paramtype display: ~azure.mgmt.migrationdiscoverysap.models.OperationDisplay
         """
         super().__init__(**kwargs)
-        self.name = None
-        self.is_data_action = None
+        self.name: Optional[str] = None
+        self.is_data_action: Optional[bool] = None
         self.display = display
-        self.origin = None
-        self.action_type = None
+        self.origin: Optional[Union[str, "_models.Origin"]] = None
+        self.action_type: Optional[Union[str, "_models.ActionType"]] = None
 
 
 class OperationDisplay(_serialization.Model):
@@ -440,10 +439,10 @@ class OperationDisplay(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.provider = None
-        self.resource = None
-        self.operation = None
-        self.description = None
+        self.provider: Optional[str] = None
+        self.resource: Optional[str] = None
+        self.operation: Optional[str] = None
+        self.description: Optional[str] = None
 
 
 class OperationListResult(_serialization.Model):
@@ -471,14 +470,14 @@ class OperationListResult(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.value = None
-        self.next_link = None
+        self.value: Optional[List["_models.Operation"]] = None
+        self.next_link: Optional[str] = None
 
 
 class OperationStatusResult(_serialization.Model):
     """The current status of an async operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified ID for the async operation.
     :vartype id: str
@@ -591,10 +590,10 @@ class Resource(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
-        self.system_data = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
+        self.system_data: Optional["_models.SystemData"] = None
 
 
 class ProxyResource(Resource):
@@ -616,24 +615,6 @@ class ProxyResource(Resource):
     :vartype system_data: ~azure.mgmt.migrationdiscoverysap.models.SystemData
     """
 
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-        "system_data": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "system_data": {"key": "systemData", "type": "SystemData"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-
 
 class TrackedResource(Resource):
     """The resource model definition for an Azure Resource Manager tracked top level resource which
@@ -641,7 +622,7 @@ class TrackedResource(Resource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
@@ -694,7 +675,7 @@ class SAPDiscoverySite(TrackedResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
@@ -763,7 +744,7 @@ class SAPDiscoverySite(TrackedResource):
 class SAPDiscoverySiteListResult(_serialization.Model):
     """The response of a SAPDiscoverySite list operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: The SAPDiscoverySite items on this page. Required.
     :vartype value: list[~azure.mgmt.migrationdiscoverysap.models.SAPDiscoverySite]
@@ -834,8 +815,8 @@ class SAPDiscoverySiteProperties(_serialization.Model):
         super().__init__(**kwargs)
         self.master_site_id = master_site_id
         self.migrate_project_id = migrate_project_id
-        self.provisioning_state = None
-        self.errors = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
+        self.errors: Optional["_models.SAPMigrateError"] = None
 
 
 class SAPDiscoverySiteTagsUpdate(_serialization.Model):
@@ -863,7 +844,7 @@ class SAPInstance(TrackedResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
@@ -925,7 +906,7 @@ class SAPInstance(TrackedResource):
 class SAPInstanceListResult(_serialization.Model):
     """The response of a SAPInstance list operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: The SAPInstance items on this page. Required.
     :vartype value: list[~azure.mgmt.migrationdiscoverysap.models.SAPInstance]
@@ -1001,12 +982,12 @@ class SAPInstanceProperties(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.system_sid = None
-        self.environment = None
-        self.landscape_sid = None
-        self.application = None
-        self.provisioning_state = None
-        self.errors = None
+        self.system_sid: Optional[str] = None
+        self.environment: Optional[Union[str, "_models.SapInstanceEnvironment"]] = None
+        self.landscape_sid: Optional[str] = None
+        self.application: Optional[str] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
+        self.errors: Optional["_models.SAPMigrateError"] = None
 
 
 class SAPInstanceTagsUpdate(_serialization.Model):
@@ -1096,7 +1077,7 @@ class ServerInstance(ProxyResource):
 class ServerInstanceListResult(_serialization.Model):
     """The response of a ServerInstance list operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: The ServerInstance items on this page. Required.
     :vartype value: list[~azure.mgmt.migrationdiscoverysap.models.ServerInstance]
@@ -1192,16 +1173,16 @@ class ServerInstanceProperties(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.server_name = None
-        self.sap_instance_type = None
-        self.instance_sid = None
-        self.sap_product = None
-        self.sap_product_version = None
-        self.operating_system = None
-        self.configuration_data = None
-        self.performance_data = None
-        self.provisioning_state = None
-        self.errors = None
+        self.server_name: Optional[str] = None
+        self.sap_instance_type: Optional[Union[str, "_models.SapInstanceType"]] = None
+        self.instance_sid: Optional[str] = None
+        self.sap_product: Optional[str] = None
+        self.sap_product_version: Optional[str] = None
+        self.operating_system: Optional[Union[str, "_models.OperatingSystem"]] = None
+        self.configuration_data: Optional["_models.ConfigurationData"] = None
+        self.performance_data: Optional["_models.PerformanceData"] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
+        self.errors: Optional["_models.SAPMigrateError"] = None
 
 
 class SystemData(_serialization.Model):
