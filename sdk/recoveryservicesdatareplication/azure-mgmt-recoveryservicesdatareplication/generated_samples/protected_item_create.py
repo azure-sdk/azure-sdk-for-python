@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,6 +8,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.recoveryservicesdatareplication import RecoveryServicesDataReplicationMgmtClient
 
 """
@@ -33,10 +35,17 @@ def main():
         resource_group_name="rgrecoveryservicesdatareplication",
         vault_name="4",
         protected_item_name="d",
+        body={
+            "properties": {
+                "customProperties": {"instanceType": "ProtectedItemModelCustomProperties"},
+                "policyName": "tjoeiynplt",
+                "replicationExtensionName": "jwxdo",
+            }
+        },
     ).result()
     print(response)
 
 
-# x-ms-original-file: specification/recoveryservicesdatareplication/resource-manager/Microsoft.DataReplication/preview/2021-02-16-preview/examples/ProtectedItem_Create.json
+# x-ms-original-file: specification/recoveryservicesdatareplication/resource-manager/Microsoft.DataReplication/stable/2024-09-01/examples/ProtectedItem_Create.json
 if __name__ == "__main__":
     main()

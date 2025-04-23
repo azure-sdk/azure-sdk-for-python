@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,6 +8,7 @@
 # --------------------------------------------------------------------------
 
 from azure.identity import DefaultAzureCredential
+
 from azure.mgmt.recoveryservicesdatareplication import RecoveryServicesDataReplicationMgmtClient
 
 """
@@ -29,7 +31,7 @@ def main():
         subscription_id="930CEC23-4430-4513-B855-DBA237E2F3BF",
     )
 
-    response = client.recovery_points.get(
+    response = client.recovery_point.get(
         resource_group_name="rgrecoveryservicesdatareplication",
         vault_name="4",
         protected_item_name="d",
@@ -38,6 +40,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/recoveryservicesdatareplication/resource-manager/Microsoft.DataReplication/preview/2021-02-16-preview/examples/RecoveryPoints_Get.json
+# x-ms-original-file: specification/recoveryservicesdatareplication/resource-manager/Microsoft.DataReplication/stable/2024-09-01/examples/RecoveryPoints_Get.json
 if __name__ == "__main__":
     main()
