@@ -21,9 +21,9 @@ class TestManagementGroupsAPIManagementGroupsOperationsAsync(AzureMgmtRecordedTe
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list(self, resource_group):
+    async def test_management_groups_list(self, resource_group):
         response = self.client.management_groups.list(
-            api_version="2021-04-01",
+            api_version="2023-04-01",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -31,10 +31,10 @@ class TestManagementGroupsAPIManagementGroupsOperationsAsync(AzureMgmtRecordedTe
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get(self, resource_group):
+    async def test_management_groups_get(self, resource_group):
         response = await self.client.management_groups.get(
             group_id="str",
-            api_version="2021-04-01",
+            api_version="2023-04-01",
         )
 
         # please add some check logic here by yourself
@@ -42,7 +42,7 @@ class TestManagementGroupsAPIManagementGroupsOperationsAsync(AzureMgmtRecordedTe
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_create_or_update(self, resource_group):
+    async def test_management_groups_begin_create_or_update(self, resource_group):
         response = await (
             await self.client.management_groups.begin_create_or_update(
                 group_id="str",
@@ -60,7 +60,7 @@ class TestManagementGroupsAPIManagementGroupsOperationsAsync(AzureMgmtRecordedTe
                     "tenantId": "str",
                     "type": "str",
                 },
-                api_version="2021-04-01",
+                api_version="2023-04-01",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -69,11 +69,11 @@ class TestManagementGroupsAPIManagementGroupsOperationsAsync(AzureMgmtRecordedTe
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_update(self, resource_group):
+    async def test_management_groups_update(self, resource_group):
         response = await self.client.management_groups.update(
             group_id="str",
             patch_group_request={"displayName": "str", "parentGroupId": "str"},
-            api_version="2021-04-01",
+            api_version="2023-04-01",
         )
 
         # please add some check logic here by yourself
@@ -81,11 +81,11 @@ class TestManagementGroupsAPIManagementGroupsOperationsAsync(AzureMgmtRecordedTe
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_delete(self, resource_group):
+    async def test_management_groups_begin_delete(self, resource_group):
         response = await (
             await self.client.management_groups.begin_delete(
                 group_id="str",
-                api_version="2021-04-01",
+                api_version="2023-04-01",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -94,10 +94,10 @@ class TestManagementGroupsAPIManagementGroupsOperationsAsync(AzureMgmtRecordedTe
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get_descendants(self, resource_group):
+    async def test_management_groups_get_descendants(self, resource_group):
         response = self.client.management_groups.get_descendants(
             group_id="str",
-            api_version="2021-04-01",
+            api_version="2023-04-01",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself

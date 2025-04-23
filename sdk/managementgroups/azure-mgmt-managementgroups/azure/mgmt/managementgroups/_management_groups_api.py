@@ -7,13 +7,15 @@
 # --------------------------------------------------------------------------
 
 from copy import deepcopy
-from typing import Any, TYPE_CHECKING
+from typing import Any, Optional, TYPE_CHECKING, cast
 from typing_extensions import Self
 
 from azure.core.pipeline import policies
 from azure.core.rest import HttpRequest, HttpResponse
+from azure.core.settings import settings
 from azure.mgmt.core import ARMPipelineClient
 from azure.mgmt.core.policies import ARMAutoResourceProviderRegistrationPolicy
+from azure.mgmt.core.tools import get_arm_endpoints
 
 from . import models as _models
 from ._configuration import ManagementGroupsAPIConfiguration
@@ -28,11 +30,10 @@ from .operations import (
 )
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from azure.core.credentials import TokenCredential
 
 
-class ManagementGroupsAPI(ManagementGroupsAPIOperationsMixin):  # pylint: disable=client-accepts-api-version-keyword
+class ManagementGroupsAPI(ManagementGroupsAPIOperationsMixin):
     """The Azure Management Groups API enables consolidation of multiple
     subscriptions/resources into an organizational hierarchy and centrally
     manage access control, policies, alerting and reporting for those resources.
@@ -50,19 +51,25 @@ class ManagementGroupsAPI(ManagementGroupsAPIOperationsMixin):  # pylint: disabl
     :vartype entities: azure.mgmt.managementgroups.operations.EntitiesOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials.TokenCredential
-    :param base_url: Service URL. Default value is "https://management.azure.com".
+    :param base_url: Service URL. Default value is None.
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2021-04-01". Note that overriding this
+    :keyword api_version: Api Version. Default value is "2023-04-01". Note that overriding this
      default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
      Retry-After header is present.
     """
 
-    def __init__(
-        self, credential: "TokenCredential", base_url: str = "https://management.azure.com", **kwargs: Any
-    ) -> None:
-        self._config = ManagementGroupsAPIConfiguration(credential=credential, **kwargs)
+    def __init__(self, credential: "TokenCredential", base_url: Optional[str] = None, **kwargs: Any) -> None:
+        _cloud = kwargs.pop("cloud_setting", None) or settings.current.azure_cloud  # type: ignore
+        _endpoints = get_arm_endpoints(_cloud)
+        if not base_url:
+            base_url = _endpoints["resource_manager"]
+        credential_scopes = kwargs.pop("credential_scopes", _endpoints["credential_scopes"])
+        self._config = ManagementGroupsAPIConfiguration(
+            credential=credential, credential_scopes=credential_scopes, **kwargs
+        )
+
         _policies = kwargs.pop("policies", None)
         if _policies is None:
             _policies = [
@@ -81,7 +88,7 @@ class ManagementGroupsAPI(ManagementGroupsAPIOperationsMixin):  # pylint: disabl
                 policies.SensitiveHeaderCleanupPolicy(**kwargs) if self._config.redirect_policy else None,
                 self._config.http_logging_policy,
             ]
-        self._client: ARMPipelineClient = ARMPipelineClient(base_url=base_url, policies=_policies, **kwargs)
+        self._client: ARMPipelineClient = ARMPipelineClient(base_url=cast(str, base_url), policies=_policies, **kwargs)
 
         client_models = {k: v for k, v in _models.__dict__.items() if isinstance(v, type)}
         self._serialize = Serializer(client_models)
