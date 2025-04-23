@@ -1,5 +1,5 @@
+# pylint: disable=line-too-long,useless-suppression,too-many-lines
 # coding=utf-8
-# pylint: disable=too-many-lines
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -13,7 +13,6 @@ from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 from .. import _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
@@ -41,8 +40,8 @@ class ErrorAdditionalInfo(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.type = None
-        self.info = None
+        self.type: Optional[str] = None
+        self.info: Optional[JSON] = None
 
 
 class ErrorDetail(_serialization.Model):
@@ -81,11 +80,11 @@ class ErrorDetail(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.code = None
-        self.message = None
-        self.target = None
-        self.details = None
-        self.additional_info = None
+        self.code: Optional[str] = None
+        self.message: Optional[str] = None
+        self.target: Optional[str] = None
+        self.details: Optional[List["_models.ErrorDetail"]] = None
+        self.additional_info: Optional[List["_models.ErrorAdditionalInfo"]] = None
 
 
 class ErrorResponse(_serialization.Model):
@@ -114,7 +113,7 @@ class LiftrBaseDataOrganizationProperties(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar marketplace: Marketplace details of the resource. Required.
     :vartype marketplace: ~azure.mgmt.astro.models.LiftrBaseMarketplaceDetails
@@ -164,14 +163,14 @@ class LiftrBaseDataOrganizationProperties(_serialization.Model):
         super().__init__(**kwargs)
         self.marketplace = marketplace
         self.user = user
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ResourceProvisioningState"]] = None
         self.partner_organization_properties = partner_organization_properties
 
 
-class LiftrBaseDataPartnerOrganizationProperties(_serialization.Model):
+class LiftrBaseDataPartnerOrganizationProperties(_serialization.Model):  # pylint: disable=name-too-long
     """Properties specific to Partner's organization.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar organization_id: Organization Id in partner's system.
     :vartype organization_id: str
@@ -233,7 +232,7 @@ class LiftrBaseDataPartnerOrganizationProperties(_serialization.Model):
         self.single_sign_on_properties = single_sign_on_properties
 
 
-class LiftrBaseDataPartnerOrganizationPropertiesUpdate(_serialization.Model):
+class LiftrBaseDataPartnerOrganizationPropertiesUpdate(_serialization.Model):  # pylint: disable=name-too-long
     """Properties specific to Partner's organization.
 
     :ivar organization_id: Organization Id in partner's system.
@@ -294,10 +293,9 @@ class LiftrBaseDataPartnerOrganizationPropertiesUpdate(_serialization.Model):
 class LiftrBaseMarketplaceDetails(_serialization.Model):
     """Marketplace details for an organization.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar subscription_id: Azure subscription id for the the marketplace offer is purchased from.
-     Required.
     :vartype subscription_id: str
     :ivar subscription_status: Marketplace subscription status. Known values are:
      "PendingFulfillmentStart", "Subscribed", "Suspended", and "Unsubscribed".
@@ -307,7 +305,6 @@ class LiftrBaseMarketplaceDetails(_serialization.Model):
     """
 
     _validation = {
-        "subscription_id": {"required": True},
         "offer_details": {"required": True},
     }
 
@@ -320,14 +317,14 @@ class LiftrBaseMarketplaceDetails(_serialization.Model):
     def __init__(
         self,
         *,
-        subscription_id: str,
         offer_details: "_models.LiftrBaseOfferDetails",
+        subscription_id: Optional[str] = None,
         subscription_status: Optional[Union[str, "_models.MarketplaceSubscriptionStatus"]] = None,
         **kwargs: Any
     ) -> None:
         """
         :keyword subscription_id: Azure subscription id for the the marketplace offer is purchased
-         from. Required.
+         from.
         :paramtype subscription_id: str
         :keyword subscription_status: Marketplace subscription status. Known values are:
          "PendingFulfillmentStart", "Subscribed", "Suspended", and "Unsubscribed".
@@ -342,10 +339,54 @@ class LiftrBaseMarketplaceDetails(_serialization.Model):
         self.offer_details = offer_details
 
 
+class LiftrBaseMarketplaceDetailsUpdate(_serialization.Model):
+    """Marketplace details for an organization.
+
+    :ivar subscription_id: Azure subscription id for the the marketplace offer is purchased from.
+    :vartype subscription_id: str
+    :ivar subscription_status: Marketplace subscription status. Known values are:
+     "PendingFulfillmentStart", "Subscribed", "Suspended", and "Unsubscribed".
+    :vartype subscription_status: str or ~azure.mgmt.astro.models.MarketplaceSubscriptionStatus
+    :ivar offer_details: Offer details for the marketplace that is selected by the user.
+    :vartype offer_details: ~azure.mgmt.astro.models.LiftrBaseOfferDetailsUpdate
+    """
+
+    _attribute_map = {
+        "subscription_id": {"key": "subscriptionId", "type": "str"},
+        "subscription_status": {"key": "subscriptionStatus", "type": "str"},
+        "offer_details": {"key": "offerDetails", "type": "LiftrBaseOfferDetailsUpdate"},
+    }
+
+    def __init__(
+        self,
+        *,
+        subscription_id: Optional[str] = None,
+        subscription_status: Optional[Union[str, "_models.MarketplaceSubscriptionStatus"]] = None,
+        offer_details: Optional["_models.LiftrBaseOfferDetailsUpdate"] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword subscription_id: Azure subscription id for the the marketplace offer is purchased
+         from.
+        :paramtype subscription_id: str
+        :keyword subscription_status: Marketplace subscription status. Known values are:
+         "PendingFulfillmentStart", "Subscribed", "Suspended", and "Unsubscribed".
+        :paramtype subscription_status: str or ~azure.mgmt.astro.models.MarketplaceSubscriptionStatus
+        :keyword offer_details: Offer details for the marketplace that is selected by the user.
+        :paramtype offer_details: ~azure.mgmt.astro.models.LiftrBaseOfferDetailsUpdate
+        """
+        super().__init__(**kwargs)
+        self.subscription_id = subscription_id
+        self.subscription_status = subscription_status
+        self.offer_details = offer_details
+
+
 class LiftrBaseOfferDetails(_serialization.Model):
     """Offer details for the marketplace that is selected by the user.
 
-    All required parameters must be populated in order to send to Azure.
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
 
     :ivar publisher_id: Publisher Id for the marketplace offer. Required.
     :vartype publisher_id: str
@@ -359,12 +400,17 @@ class LiftrBaseOfferDetails(_serialization.Model):
     :vartype term_unit: str
     :ivar term_id: Plan Display Name for the marketplace offer.
     :vartype term_id: str
+    :ivar renewal_mode: Subscription renewal mode. Known values are: "Auto" and "Manual".
+    :vartype renewal_mode: str or ~azure.mgmt.astro.models.RenewalMode
+    :ivar end_date: Current subscription end date and time.
+    :vartype end_date: ~datetime.datetime
     """
 
     _validation = {
         "publisher_id": {"required": True},
         "offer_id": {"required": True},
         "plan_id": {"required": True},
+        "end_date": {"readonly": True},
     }
 
     _attribute_map = {
@@ -374,6 +420,8 @@ class LiftrBaseOfferDetails(_serialization.Model):
         "plan_name": {"key": "planName", "type": "str"},
         "term_unit": {"key": "termUnit", "type": "str"},
         "term_id": {"key": "termId", "type": "str"},
+        "renewal_mode": {"key": "renewalMode", "type": "str"},
+        "end_date": {"key": "endDate", "type": "iso-8601"},
     }
 
     def __init__(
@@ -385,6 +433,7 @@ class LiftrBaseOfferDetails(_serialization.Model):
         plan_name: Optional[str] = None,
         term_unit: Optional[str] = None,
         term_id: Optional[str] = None,
+        renewal_mode: Optional[Union[str, "_models.RenewalMode"]] = None,
         **kwargs: Any
     ) -> None:
         """
@@ -400,6 +449,8 @@ class LiftrBaseOfferDetails(_serialization.Model):
         :paramtype term_unit: str
         :keyword term_id: Plan Display Name for the marketplace offer.
         :paramtype term_id: str
+        :keyword renewal_mode: Subscription renewal mode. Known values are: "Auto" and "Manual".
+        :paramtype renewal_mode: str or ~azure.mgmt.astro.models.RenewalMode
         """
         super().__init__(**kwargs)
         self.publisher_id = publisher_id
@@ -408,6 +459,75 @@ class LiftrBaseOfferDetails(_serialization.Model):
         self.plan_name = plan_name
         self.term_unit = term_unit
         self.term_id = term_id
+        self.renewal_mode = renewal_mode
+        self.end_date: Optional[datetime.datetime] = None
+
+
+class LiftrBaseOfferDetailsUpdate(_serialization.Model):
+    """Offer details for the marketplace that is selected by the user.
+
+    :ivar publisher_id: Publisher Id for the marketplace offer.
+    :vartype publisher_id: str
+    :ivar offer_id: Offer Id for the marketplace offer.
+    :vartype offer_id: str
+    :ivar plan_id: Plan Id for the marketplace offer.
+    :vartype plan_id: str
+    :ivar plan_name: Plan Name for the marketplace offer.
+    :vartype plan_name: str
+    :ivar term_unit: Plan Display Name for the marketplace offer.
+    :vartype term_unit: str
+    :ivar term_id: Plan Display Name for the marketplace offer.
+    :vartype term_id: str
+    :ivar renewal_mode: Subscription renewal mode. Known values are: "Auto" and "Manual".
+    :vartype renewal_mode: str or ~azure.mgmt.astro.models.RenewalMode
+    """
+
+    _attribute_map = {
+        "publisher_id": {"key": "publisherId", "type": "str"},
+        "offer_id": {"key": "offerId", "type": "str"},
+        "plan_id": {"key": "planId", "type": "str"},
+        "plan_name": {"key": "planName", "type": "str"},
+        "term_unit": {"key": "termUnit", "type": "str"},
+        "term_id": {"key": "termId", "type": "str"},
+        "renewal_mode": {"key": "renewalMode", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        publisher_id: Optional[str] = None,
+        offer_id: Optional[str] = None,
+        plan_id: Optional[str] = None,
+        plan_name: Optional[str] = None,
+        term_unit: Optional[str] = None,
+        term_id: Optional[str] = None,
+        renewal_mode: Optional[Union[str, "_models.RenewalMode"]] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword publisher_id: Publisher Id for the marketplace offer.
+        :paramtype publisher_id: str
+        :keyword offer_id: Offer Id for the marketplace offer.
+        :paramtype offer_id: str
+        :keyword plan_id: Plan Id for the marketplace offer.
+        :paramtype plan_id: str
+        :keyword plan_name: Plan Name for the marketplace offer.
+        :paramtype plan_name: str
+        :keyword term_unit: Plan Display Name for the marketplace offer.
+        :paramtype term_unit: str
+        :keyword term_id: Plan Display Name for the marketplace offer.
+        :paramtype term_id: str
+        :keyword renewal_mode: Subscription renewal mode. Known values are: "Auto" and "Manual".
+        :paramtype renewal_mode: str or ~azure.mgmt.astro.models.RenewalMode
+        """
+        super().__init__(**kwargs)
+        self.publisher_id = publisher_id
+        self.offer_id = offer_id
+        self.plan_id = plan_id
+        self.plan_name = plan_name
+        self.term_unit = term_unit
+        self.term_id = term_id
+        self.renewal_mode = renewal_mode
 
 
 class LiftrBaseSingleSignOnProperties(_serialization.Model):
@@ -468,13 +588,13 @@ class LiftrBaseSingleSignOnProperties(_serialization.Model):
         self.enterprise_app_id = enterprise_app_id
         self.single_sign_on_url = single_sign_on_url
         self.aad_domains = aad_domains
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ResourceProvisioningState"]] = None
 
 
 class LiftrBaseUserDetails(_serialization.Model):
     """User details for an organization.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar first_name: First name of the user. Required.
     :vartype first_name: str
@@ -594,7 +714,7 @@ class ManagedServiceIdentity(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar principal_id: The service principal ID of the system assigned identity. This property
      will only be provided for a system assigned identity.
@@ -645,8 +765,8 @@ class ManagedServiceIdentity(_serialization.Model):
         :paramtype user_assigned_identities: dict[str, ~azure.mgmt.astro.models.UserAssignedIdentity]
         """
         super().__init__(**kwargs)
-        self.principal_id = None
-        self.tenant_id = None
+        self.principal_id: Optional[str] = None
+        self.tenant_id: Optional[str] = None
         self.type = type
         self.user_assigned_identities = user_assigned_identities
 
@@ -694,11 +814,11 @@ class Operation(_serialization.Model):
         :paramtype display: ~azure.mgmt.astro.models.OperationDisplay
         """
         super().__init__(**kwargs)
-        self.name = None
-        self.is_data_action = None
+        self.name: Optional[str] = None
+        self.is_data_action: Optional[bool] = None
         self.display = display
-        self.origin = None
-        self.action_type = None
+        self.origin: Optional[Union[str, "_models.Origin"]] = None
+        self.action_type: Optional[Union[str, "_models.ActionType"]] = None
 
 
 class OperationDisplay(_serialization.Model):
@@ -737,10 +857,10 @@ class OperationDisplay(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.provider = None
-        self.resource = None
-        self.operation = None
-        self.description = None
+        self.provider: Optional[str] = None
+        self.resource: Optional[str] = None
+        self.operation: Optional[str] = None
+        self.description: Optional[str] = None
 
 
 class OperationListResult(_serialization.Model):
@@ -768,8 +888,8 @@ class OperationListResult(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.value = None
-        self.next_link = None
+        self.value: Optional[List["_models.Operation"]] = None
+        self.next_link: Optional[str] = None
 
 
 class Resource(_serialization.Model):
@@ -807,10 +927,10 @@ class Resource(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
-        self.system_data = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
+        self.system_data: Optional["_models.SystemData"] = None
 
 
 class TrackedResource(Resource):
@@ -819,7 +939,7 @@ class TrackedResource(Resource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
@@ -872,7 +992,7 @@ class OrganizationResource(TrackedResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
@@ -941,7 +1061,7 @@ class OrganizationResource(TrackedResource):
 class OrganizationResourceListResult(_serialization.Model):
     """The response of a OrganizationResource list operation.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: The OrganizationResource items on this page. Required.
     :vartype value: list[~azure.mgmt.astro.models.OrganizationResource]
@@ -979,7 +1099,7 @@ class OrganizationResourceUpdate(_serialization.Model):
     :vartype identity: ~azure.mgmt.astro.models.ManagedServiceIdentity
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
-    :ivar properties: The updatable properties of the OrganizationResource.
+    :ivar properties: The resource-specific properties for this resource.
     :vartype properties: ~azure.mgmt.astro.models.OrganizationResourceUpdateProperties
     """
 
@@ -1002,7 +1122,7 @@ class OrganizationResourceUpdate(_serialization.Model):
         :paramtype identity: ~azure.mgmt.astro.models.ManagedServiceIdentity
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
-        :keyword properties: The updatable properties of the OrganizationResource.
+        :keyword properties: The resource-specific properties for this resource.
         :paramtype properties: ~azure.mgmt.astro.models.OrganizationResourceUpdateProperties
         """
         super().__init__(**kwargs)
@@ -1014,6 +1134,8 @@ class OrganizationResourceUpdate(_serialization.Model):
 class OrganizationResourceUpdateProperties(_serialization.Model):
     """The updatable properties of the OrganizationResource.
 
+    :ivar marketplace: Marketplace details of the resource.
+    :vartype marketplace: ~azure.mgmt.astro.models.LiftrBaseMarketplaceDetailsUpdate
     :ivar user: Details of the user.
     :vartype user: ~azure.mgmt.astro.models.LiftrBaseUserDetailsUpdate
     :ivar partner_organization_properties: Organization properties.
@@ -1022,6 +1144,7 @@ class OrganizationResourceUpdateProperties(_serialization.Model):
     """
 
     _attribute_map = {
+        "marketplace": {"key": "marketplace", "type": "LiftrBaseMarketplaceDetailsUpdate"},
         "user": {"key": "user", "type": "LiftrBaseUserDetailsUpdate"},
         "partner_organization_properties": {
             "key": "partnerOrganizationProperties",
@@ -1032,11 +1155,14 @@ class OrganizationResourceUpdateProperties(_serialization.Model):
     def __init__(
         self,
         *,
+        marketplace: Optional["_models.LiftrBaseMarketplaceDetailsUpdate"] = None,
         user: Optional["_models.LiftrBaseUserDetailsUpdate"] = None,
         partner_organization_properties: Optional["_models.LiftrBaseDataPartnerOrganizationPropertiesUpdate"] = None,
         **kwargs: Any
     ) -> None:
         """
+        :keyword marketplace: Marketplace details of the resource.
+        :paramtype marketplace: ~azure.mgmt.astro.models.LiftrBaseMarketplaceDetailsUpdate
         :keyword user: Details of the user.
         :paramtype user: ~azure.mgmt.astro.models.LiftrBaseUserDetailsUpdate
         :keyword partner_organization_properties: Organization properties.
@@ -1044,6 +1170,7 @@ class OrganizationResourceUpdateProperties(_serialization.Model):
          ~azure.mgmt.astro.models.LiftrBaseDataPartnerOrganizationPropertiesUpdate
         """
         super().__init__(**kwargs)
+        self.marketplace = marketplace
         self.user = user
         self.partner_organization_properties = partner_organization_properties
 
@@ -1136,5 +1263,5 @@ class UserAssignedIdentity(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.principal_id = None
-        self.client_id = None
+        self.principal_id: Optional[str] = None
+        self.client_id: Optional[str] = None
