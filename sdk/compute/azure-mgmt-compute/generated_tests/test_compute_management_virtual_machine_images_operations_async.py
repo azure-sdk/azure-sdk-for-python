@@ -6,7 +6,7 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 import pytest
-from azure.mgmt.compute.aio import ComputeManagementClient
+from azure.mgmt.compute.v2024_11_01.aio import ComputeManagementClient
 
 from devtools_testutils import AzureMgmtRecordedTestCase, RandomNameResourceGroupPreparer
 from devtools_testutils.aio import recorded_by_proxy_async
@@ -99,7 +99,7 @@ class TestComputeManagementVirtualMachineImagesOperationsAsync(AzureMgmtRecorded
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
     async def test_virtual_machine_images_list_with_properties(self, resource_group):
-        response = self.client.virtual_machine_images.list_with_properties(
+        response = await self.client.virtual_machine_images.list_with_properties(
             location="str",
             publisher_name="str",
             offer="str",
@@ -107,6 +107,6 @@ class TestComputeManagementVirtualMachineImagesOperationsAsync(AzureMgmtRecorded
             expand="str",
             api_version="2024-11-01",
         )
-        result = [r async for r in response]
+
         # please add some check logic here by yourself
         # ...
