@@ -20,7 +20,7 @@ class TestAVSVirtualMachinesOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list(self, resource_group):
+    def test_virtual_machines_list(self, resource_group):
         response = self.client.virtual_machines.list(
             resource_group_name=resource_group.name,
             private_cloud_name="str",
@@ -33,7 +33,7 @@ class TestAVSVirtualMachinesOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_virtual_machines_get(self, resource_group):
         response = self.client.virtual_machines.get(
             resource_group_name=resource_group.name,
             private_cloud_name="str",
@@ -47,7 +47,7 @@ class TestAVSVirtualMachinesOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_restrict_movement(self, resource_group):
+    def test_virtual_machines_begin_restrict_movement(self, resource_group):
         response = self.client.virtual_machines.begin_restrict_movement(
             resource_group_name=resource_group.name,
             private_cloud_name="str",

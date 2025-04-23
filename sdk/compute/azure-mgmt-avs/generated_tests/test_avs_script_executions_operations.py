@@ -20,7 +20,7 @@ class TestAVSScriptExecutionsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list(self, resource_group):
+    def test_script_executions_list(self, resource_group):
         response = self.client.script_executions.list(
             resource_group_name=resource_group.name,
             private_cloud_name="str",
@@ -32,7 +32,7 @@ class TestAVSScriptExecutionsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_script_executions_get(self, resource_group):
         response = self.client.script_executions.get(
             resource_group_name=resource_group.name,
             private_cloud_name="str",
@@ -45,7 +45,7 @@ class TestAVSScriptExecutionsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_create_or_update(self, resource_group):
+    def test_script_executions_begin_create_or_update(self, resource_group):
         response = self.client.script_executions.begin_create_or_update(
             resource_group_name=resource_group.name,
             private_cloud_name="str",
@@ -86,7 +86,7 @@ class TestAVSScriptExecutionsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_delete(self, resource_group):
+    def test_script_executions_begin_delete(self, resource_group):
         response = self.client.script_executions.begin_delete(
             resource_group_name=resource_group.name,
             private_cloud_name="str",
@@ -99,7 +99,7 @@ class TestAVSScriptExecutionsOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get_execution_logs(self, resource_group):
+    def test_script_executions_get_execution_logs(self, resource_group):
         response = self.client.script_executions.get_execution_logs(
             resource_group_name=resource_group.name,
             private_cloud_name="str",
