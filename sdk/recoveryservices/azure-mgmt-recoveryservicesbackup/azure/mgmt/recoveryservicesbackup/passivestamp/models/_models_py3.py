@@ -10,7 +10,7 @@
 import datetime
 from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 
-from .. import _serialization
+from .._utils import serialization as _serialization
 
 if TYPE_CHECKING:
     from .. import models as _models
@@ -121,9 +121,9 @@ class Resource(_serialization.Model):
         :paramtype e_tag: str
         """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
         self.location = location
         self.tags = tags
         self.e_tag = e_tag
@@ -638,8 +638,8 @@ class AzureFileshareProtectedItemExtendedInfo(_serialization.Model):
         self.oldest_recovery_point = oldest_recovery_point
         self.recovery_point_count = recovery_point_count
         self.policy_state = policy_state
-        self.resource_state = None
-        self.resource_state_sync_time = None
+        self.resource_state: Optional[str] = None
+        self.resource_state_sync_time: Optional[datetime.datetime] = None
 
 
 class RecoveryPoint(_serialization.Model):
@@ -720,10 +720,10 @@ class AzureFileShareRecoveryPoint(RecoveryPoint):
         """ """
         super().__init__(**kwargs)
         self.object_type: str = "AzureFileShareRecoveryPoint"
-        self.recovery_point_type = None
-        self.recovery_point_time = None
-        self.file_share_snapshot_uri = None
-        self.recovery_point_size_in_gb = None
+        self.recovery_point_type: Optional[str] = None
+        self.recovery_point_time: Optional[datetime.datetime] = None
+        self.file_share_snapshot_uri: Optional[str] = None
+        self.recovery_point_size_in_gb: Optional[int] = None
 
 
 class RestoreRequest(_serialization.Model):
@@ -1666,10 +1666,10 @@ class AzureIaaSVMErrorInfo(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.error_code = None
-        self.error_title = None
-        self.error_string = None
-        self.recommendations = None
+        self.error_code: Optional[int] = None
+        self.error_title: Optional[str] = None
+        self.error_string: Optional[str] = None
+        self.recommendations: Optional[List[str]] = None
 
 
 class ResourceHealthDetails(_serialization.Model):
@@ -1704,10 +1704,10 @@ class ResourceHealthDetails(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.code = None
-        self.title = None
-        self.message = None
-        self.recommendations = None
+        self.code: Optional[int] = None
+        self.title: Optional[str] = None
+        self.message: Optional[str] = None
+        self.recommendations: Optional[List[str]] = None
 
 
 class AzureIaaSVMHealthDetails(ResourceHealthDetails):
@@ -4049,8 +4049,8 @@ class AzureWorkloadRecoveryPoint(RecoveryPoint):
         """
         super().__init__(**kwargs)
         self.object_type: str = "AzureWorkloadRecoveryPoint"
-        self.recovery_point_time_in_utc = None
-        self.type = None
+        self.recovery_point_time_in_utc: Optional[datetime.datetime] = None
+        self.type: Optional[Union[str, "_models.RestorePointType"]] = None
         self.recovery_point_tier_details = recovery_point_tier_details
         self.recovery_point_move_readiness_info = recovery_point_move_readiness_info
 
@@ -5100,8 +5100,8 @@ class AzureWorkloadSQLRecoveryPointExtendedInfo(_serialization.Model):  # pylint
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.data_directory_time_in_utc = None
-        self.data_directory_paths = None
+        self.data_directory_time_in_utc: Optional[datetime.datetime] = None
+        self.data_directory_paths: Optional[List["_models.SQLDataDirectory"]] = None
 
 
 class BackupManagementUsage(_serialization.Model):
@@ -6694,8 +6694,8 @@ class ErrorAdditionalInfo(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.type = None
-        self.info = None
+        self.type: Optional[str] = None
+        self.info: Optional[JSON] = None
 
 
 class ErrorDetail(_serialization.Model):
@@ -6726,9 +6726,9 @@ class ErrorDetail(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.code = None
-        self.message = None
-        self.recommendations = None
+        self.code: Optional[str] = None
+        self.message: Optional[str] = None
+        self.recommendations: Optional[List[str]] = None
 
 
 class ExtendedProperties(_serialization.Model):
@@ -7149,11 +7149,11 @@ class IaasVMRecoveryPoint(RecoveryPoint):
         """
         super().__init__(**kwargs)
         self.object_type: str = "IaasVMRecoveryPoint"
-        self.recovery_point_type = None
-        self.recovery_point_time = None
-        self.recovery_point_additional_info = None
-        self.source_vm_storage_type = None
-        self.is_source_vm_encrypted = None
+        self.recovery_point_type: Optional[str] = None
+        self.recovery_point_time: Optional[datetime.datetime] = None
+        self.recovery_point_additional_info: Optional[str] = None
+        self.source_vm_storage_type: Optional[str] = None
+        self.is_source_vm_encrypted: Optional[bool] = None
         self.key_and_secret = key_and_secret
         self.is_instant_ilr_session_active = is_instant_ilr_session_active
         self.recovery_point_tier_details = recovery_point_tier_details
@@ -7806,8 +7806,8 @@ class MabErrorInfo(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.error_string = None
-        self.recommendations = None
+        self.error_string: Optional[str] = None
+        self.recommendations: Optional[List[str]] = None
 
 
 class MabFileFolderProtectedItem(ProtectedItem):
@@ -8391,11 +8391,11 @@ class NewErrorResponseError(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.code = None
-        self.message = None
-        self.target = None
-        self.details = None
-        self.additional_info = None
+        self.code: Optional[str] = None
+        self.message: Optional[str] = None
+        self.target: Optional[str] = None
+        self.details: Optional[List["_models.NewErrorResponse"]] = None
+        self.additional_info: Optional[List["_models.ErrorAdditionalInfo"]] = None
 
 
 class OperationStatus(_serialization.Model):

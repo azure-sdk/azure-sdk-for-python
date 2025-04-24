@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=line-too-long,useless-suppression,too-many-lines
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -10,7 +10,7 @@
 import datetime
 from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 
-from .. import _serialization
+from .._utils import serialization as _serialization
 
 if TYPE_CHECKING:
     from .. import models as _models
@@ -1130,8 +1130,8 @@ class ProtectedItem(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.protected_item_type: Optional[str] = None
-        self.backup_management_type = None
-        self.workload_type = None
+        self.backup_management_type: Optional[Union[str, "_models.BackupManagementType"]] = None
+        self.workload_type: Optional[Union[str, "_models.DataSourceType"]] = None
         self.container_name = container_name
         self.source_resource_id = source_resource_id
         self.policy_id = policy_id
@@ -1147,7 +1147,7 @@ class ProtectedItem(_serialization.Model):
         self.is_archive_enabled = is_archive_enabled
         self.policy_name = policy_name
         self.soft_delete_retention_period_in_days = soft_delete_retention_period_in_days
-        self.vault_id = None
+        self.vault_id: Optional[str] = None
 
 
 class AzureFileshareProtectedItem(ProtectedItem):
@@ -1432,8 +1432,8 @@ class AzureFileshareProtectedItemExtendedInfo(_serialization.Model):
         self.oldest_recovery_point = oldest_recovery_point
         self.recovery_point_count = recovery_point_count
         self.policy_state = policy_state
-        self.resource_state = None
-        self.resource_state_sync_time = None
+        self.resource_state: Optional[str] = None
+        self.resource_state_sync_time: Optional[datetime.datetime] = None
 
 
 class ProtectionPolicy(_serialization.Model):
@@ -2590,19 +2590,19 @@ class AzureIaaSVMProtectedItem(ProtectedItem):
             **kwargs
         )
         self.protected_item_type: str = "AzureIaaSVMProtectedItem"
-        self.friendly_name = None
-        self.virtual_machine_id = None
+        self.friendly_name: Optional[str] = None
+        self.virtual_machine_id: Optional[str] = None
         self.protection_status = protection_status
         self.protection_state = protection_state
-        self.health_status = None
+        self.health_status: Optional[Union[str, "_models.HealthStatus"]] = None
         self.health_details = health_details
         self.kpis_healths = kpis_healths
         self.last_backup_status = last_backup_status
-        self.last_backup_time = None
-        self.protected_item_data_id = None
+        self.last_backup_time: Optional[datetime.datetime] = None
+        self.protected_item_data_id: Optional[str] = None
         self.extended_info = extended_info
         self.extended_properties = extended_properties
-        self.policy_type = None
+        self.policy_type: Optional[str] = None
 
 
 class AzureIaaSClassicComputeVMProtectedItem(AzureIaaSVMProtectedItem):
@@ -3351,10 +3351,10 @@ class AzureIaaSVMErrorInfo(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.error_code = None
-        self.error_title = None
-        self.error_string = None
-        self.recommendations = None
+        self.error_code: Optional[int] = None
+        self.error_title: Optional[str] = None
+        self.error_string: Optional[str] = None
+        self.recommendations: Optional[List[str]] = None
 
 
 class ResourceHealthDetails(_serialization.Model):
@@ -3389,10 +3389,10 @@ class ResourceHealthDetails(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.code = None
-        self.title = None
-        self.message = None
-        self.recommendations = None
+        self.code: Optional[int] = None
+        self.title: Optional[str] = None
+        self.message: Optional[str] = None
+        self.recommendations: Optional[List[str]] = None
 
 
 class AzureIaaSVMHealthDetails(ResourceHealthDetails):
@@ -5456,8 +5456,8 @@ class ProtectableContainer(_serialization.Model):
 
 
      #. Compute Azure VM is Microsoft.Compute/virtualMachines
-     #. Classic Compute Azure VM is Microsoft.ClassicCompute/virtualMachines. Required. Known
-     values are: "Invalid", "Unknown", "IaasVMContainer", "IaasVMServiceContainer", "DPMContainer",
+     #. Classic Compute Azure VM is Microsoft.ClassicCompute/virtualMachines. Required. Known values
+     are: "Invalid", "Unknown", "IaasVMContainer", "IaasVMServiceContainer", "DPMContainer",
      "AzureBackupServerContainer", "MABContainer", "Cluster", "AzureSqlContainer", "Windows",
      "VCenter", "VMAppContainer", "SQLAGWorkLoadContainer", "StorageContainer", "GenericContainer",
      "Microsoft.ClassicCompute/virtualMachines", "Microsoft.Compute/virtualMachines", and
@@ -5535,8 +5535,8 @@ class AzureStorageProtectableContainer(ProtectableContainer):
 
 
      #. Compute Azure VM is Microsoft.Compute/virtualMachines
-     #. Classic Compute Azure VM is Microsoft.ClassicCompute/virtualMachines. Required. Known
-     values are: "Invalid", "Unknown", "IaasVMContainer", "IaasVMServiceContainer", "DPMContainer",
+     #. Classic Compute Azure VM is Microsoft.ClassicCompute/virtualMachines. Required. Known values
+     are: "Invalid", "Unknown", "IaasVMContainer", "IaasVMServiceContainer", "DPMContainer",
      "AzureBackupServerContainer", "MABContainer", "Cluster", "AzureSqlContainer", "Windows",
      "VCenter", "VMAppContainer", "SQLAGWorkLoadContainer", "StorageContainer", "GenericContainer",
      "Microsoft.ClassicCompute/virtualMachines", "Microsoft.Compute/virtualMachines", and
@@ -5609,8 +5609,8 @@ class AzureVMAppContainerProtectableContainer(ProtectableContainer):
 
 
      #. Compute Azure VM is Microsoft.Compute/virtualMachines
-     #. Classic Compute Azure VM is Microsoft.ClassicCompute/virtualMachines. Required. Known
-     values are: "Invalid", "Unknown", "IaasVMContainer", "IaasVMServiceContainer", "DPMContainer",
+     #. Classic Compute Azure VM is Microsoft.ClassicCompute/virtualMachines. Required. Known values
+     are: "Invalid", "Unknown", "IaasVMContainer", "IaasVMServiceContainer", "DPMContainer",
      "AzureBackupServerContainer", "MABContainer", "Cluster", "AzureSqlContainer", "Windows",
      "VCenter", "VMAppContainer", "SQLAGWorkLoadContainer", "StorageContainer", "GenericContainer",
      "Microsoft.ClassicCompute/virtualMachines", "Microsoft.Compute/virtualMachines", and
@@ -6480,11 +6480,11 @@ class AzureVmWorkloadProtectedItem(ProtectedItem):
             **kwargs
         )
         self.protected_item_type: str = "AzureVmWorkloadProtectedItem"
-        self.friendly_name = None
+        self.friendly_name: Optional[str] = None
         self.server_name = server_name
         self.parent_name = parent_name
         self.parent_type = parent_type
-        self.protection_status = None
+        self.protection_status: Optional[str] = None
         self.protection_state = protection_state
         self.last_backup_status = last_backup_status
         self.last_backup_time = last_backup_time
@@ -12821,9 +12821,9 @@ class Resource(_serialization.Model):
         :paramtype e_tag: str
         """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
         self.location = location
         self.tags = tags
         self.e_tag = e_tag
@@ -14702,11 +14702,11 @@ class CloudErrorBody(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.code = None
-        self.message = None
-        self.target = None
-        self.details = None
-        self.additional_info = None
+        self.code: Optional[str] = None
+        self.message: Optional[str] = None
+        self.target: Optional[str] = None
+        self.details: Optional[List["_models.CloudErrorBody"]] = None
+        self.additional_info: Optional[List["_models.ErrorAdditionalInfo"]] = None
 
 
 class ContainerIdentityInfo(_serialization.Model):
@@ -15780,8 +15780,8 @@ class ErrorAdditionalInfo(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.type = None
-        self.info = None
+        self.type: Optional[str] = None
+        self.info: Optional[JSON] = None
 
 
 class ErrorDetail(_serialization.Model):
@@ -15812,9 +15812,9 @@ class ErrorDetail(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.code = None
-        self.message = None
-        self.recommendations = None
+        self.code: Optional[str] = None
+        self.message: Optional[str] = None
+        self.recommendations: Optional[List[str]] = None
 
 
 class OperationResultInfoBase(_serialization.Model):
@@ -17903,8 +17903,8 @@ class InquiryValidation(_serialization.Model):
         super().__init__(**kwargs)
         self.status = status
         self.error_detail = error_detail
-        self.additional_detail = None
-        self.protectable_item_count = None
+        self.additional_detail: Optional[str] = None
+        self.protectable_item_count: Optional[JSON] = None
 
 
 class InstantItemRecoveryTarget(_serialization.Model):
@@ -18745,8 +18745,8 @@ class MabErrorInfo(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.error_string = None
-        self.recommendations = None
+        self.error_string: Optional[str] = None
+        self.recommendations: Optional[List[str]] = None
 
 
 class MabFileFolderProtectedItem(ProtectedItem):
@@ -19515,11 +19515,11 @@ class NewErrorResponseError(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.code = None
-        self.message = None
-        self.target = None
-        self.details = None
-        self.additional_info = None
+        self.code: Optional[str] = None
+        self.message: Optional[str] = None
+        self.target: Optional[str] = None
+        self.details: Optional[List["_models.NewErrorResponse"]] = None
+        self.additional_info: Optional[List["_models.ErrorAdditionalInfo"]] = None
 
 
 class OperationResultInfo(OperationResultInfoBase):
