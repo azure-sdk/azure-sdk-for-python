@@ -11,14 +11,13 @@
 import datetime
 from typing import Any, Dict, List, Mapping, Optional, TYPE_CHECKING, Union, overload
 
-from .. import _model_base
-from .._model_base import rest_field
+from .._utils.model_base import Model as _Model, rest_field
 
 if TYPE_CHECKING:
     from .. import models as _models
 
 
-class ErrorAdditionalInfo(_model_base.Model):
+class ErrorAdditionalInfo(_Model):
     """The resource management error additional info.
 
     :ivar type: The additional info type.
@@ -33,7 +32,7 @@ class ErrorAdditionalInfo(_model_base.Model):
     """The additional info."""
 
 
-class ErrorDetail(_model_base.Model):
+class ErrorDetail(_Model):
     """The error detail.
 
     :ivar code: The error code.
@@ -62,7 +61,7 @@ class ErrorDetail(_model_base.Model):
     """The error additional info."""
 
 
-class ErrorResponse(_model_base.Model):
+class ErrorResponse(_Model):
     """Common error response for all Azure Resource Manager APIs to return error details for failed
     operations.
 
@@ -91,7 +90,7 @@ class ErrorResponse(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class Operation(_model_base.Model):
+class Operation(_Model):
     """Details of a REST API operation, returned from the Resource Provider Operations API.
 
     :ivar name: The name of the operation, as per Resource-Based Access Control (RBAC). Examples:
@@ -148,7 +147,7 @@ class Operation(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class OperationDisplay(_model_base.Model):
+class OperationDisplay(_Model):
     """Localized display information for and operation.
 
     :ivar provider: The localized friendly form of the resource provider name, e.g. "Microsoft
@@ -179,7 +178,7 @@ class OperationDisplay(_model_base.Model):
      views."""
 
 
-class Resource(_model_base.Model):
+class Resource(_Model):
     """Common fields that are returned in the response for all Azure Resource Manager resources.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
@@ -223,6 +222,128 @@ class ProxyResource(Resource):
      information.
     :vartype system_data: ~azure.mgmt.durabletask.models.SystemData
     """
+
+
+class RetentionPolicy(ProxyResource):
+    """A retention policy resource belonging to the scheduler.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.durabletask.models.SystemData
+    :ivar properties: The resource-specific properties for this resource.
+    :vartype properties: ~azure.mgmt.durabletask.models.RetentionPolicyProperties
+    """
+
+    properties: Optional["_models.RetentionPolicyProperties"] = rest_field(
+        visibility=["read", "create", "update", "delete", "query"]
+    )
+    """The resource-specific properties for this resource."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        properties: Optional["_models.RetentionPolicyProperties"] = None,
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+
+
+class RetentionPolicyDetails(_Model):
+    """The properties of a retention policy.
+
+    :ivar retention_period_in_days: The retention period in days after which the orchestration will
+     be purged automatically. Required.
+    :vartype retention_period_in_days: int
+    :ivar orchestration_state: The orchestration state to which this policy applies. If omitted,
+     the policy applies to all purgeable orchestration states. Known values are: "Completed",
+     "Failed", "Terminated", and "Canceled".
+    :vartype orchestration_state: str or ~azure.mgmt.durabletask.models.PurgeableOrchestrationState
+    """
+
+    retention_period_in_days: int = rest_field(
+        name="retentionPeriodInDays", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """The retention period in days after which the orchestration will be purged automatically.
+     Required."""
+    orchestration_state: Optional[Union[str, "_models.PurgeableOrchestrationState"]] = rest_field(
+        name="orchestrationState", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """The orchestration state to which this policy applies. If omitted, the policy applies to all
+     purgeable orchestration states. Known values are: \"Completed\", \"Failed\", \"Terminated\",
+     and \"Canceled\"."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        retention_period_in_days: int,
+        orchestration_state: Optional[Union[str, "_models.PurgeableOrchestrationState"]] = None,
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
+
+
+class RetentionPolicyProperties(_Model):
+    """The retention policy settings for the resource.
+
+    :ivar provisioning_state: The status of the last operation. Known values are: "Succeeded",
+     "Failed", "Canceled", "Provisioning", "Updating", "Deleting", and "Accepted".
+    :vartype provisioning_state: str or ~azure.mgmt.durabletask.models.ProvisioningState
+    :ivar retention_policies: The orchestration retention policies.
+    :vartype retention_policies: list[~azure.mgmt.durabletask.models.RetentionPolicyDetails]
+    """
+
+    provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = rest_field(
+        name="provisioningState", visibility=["read"]
+    )
+    """The status of the last operation. Known values are: \"Succeeded\", \"Failed\", \"Canceled\",
+     \"Provisioning\", \"Updating\", \"Deleting\", and \"Accepted\"."""
+    retention_policies: Optional[List["_models.RetentionPolicyDetails"]] = rest_field(
+        name="retentionPolicies", visibility=["read", "create", "update", "delete", "query"]
+    )
+    """The orchestration retention policies."""
+
+    @overload
+    def __init__(
+        self,
+        *,
+        retention_policies: Optional[List["_models.RetentionPolicyDetails"]] = None,
+    ) -> None: ...
+
+    @overload
+    def __init__(self, mapping: Mapping[str, Any]) -> None:
+        """
+        :param mapping: raw JSON to initialize the model.
+        :type mapping: Mapping[str, Any]
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        super().__init__(*args, **kwargs)
 
 
 class TrackedResource(Resource):
@@ -317,7 +438,7 @@ class Scheduler(TrackedResource):
         super().__init__(*args, **kwargs)
 
 
-class SchedulerProperties(_model_base.Model):
+class SchedulerProperties(_Model):
     """Details of the Scheduler.
 
     :ivar provisioning_state: The status of the last operation. Known values are: "Succeeded",
@@ -363,7 +484,7 @@ class SchedulerProperties(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class SchedulerPropertiesUpdate(_model_base.Model):
+class SchedulerPropertiesUpdate(_Model):
     """The Scheduler resource properties to be updated.
 
     :ivar provisioning_state: The status of the last operation. Known values are: "Succeeded",
@@ -410,7 +531,7 @@ class SchedulerPropertiesUpdate(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class SchedulerSku(_model_base.Model):
+class SchedulerSku(_Model):
     """The SKU (Stock Keeping Unit) assigned to this durable task scheduler.
 
     :ivar name: The name of the SKU. Required.
@@ -452,7 +573,7 @@ class SchedulerSku(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class SchedulerSkuUpdate(_model_base.Model):
+class SchedulerSkuUpdate(_Model):
     """The SKU (Stock Keeping Unit) properties to be updated.
 
     :ivar name: The name of the SKU.
@@ -494,7 +615,7 @@ class SchedulerSkuUpdate(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class SchedulerUpdate(_model_base.Model):
+class SchedulerUpdate(_Model):
     """The update request model for the Scheduler resource.
 
     :ivar properties: The resource-specific properties for this resource.
@@ -529,7 +650,7 @@ class SchedulerUpdate(_model_base.Model):
         super().__init__(*args, **kwargs)
 
 
-class SystemData(_model_base.Model):
+class SystemData(_Model):
     """Metadata pertaining to creation and last modification of the resource.
 
     :ivar created_by: The identity that created the resource.
@@ -637,7 +758,7 @@ class TaskHub(ProxyResource):
         super().__init__(*args, **kwargs)
 
 
-class TaskHubProperties(_model_base.Model):
+class TaskHubProperties(_Model):
     """The properties of Task Hub.
 
     :ivar provisioning_state: The status of the last operation. Known values are: "Succeeded",
