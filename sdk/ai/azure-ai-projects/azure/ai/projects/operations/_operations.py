@@ -29,11 +29,11 @@ from azure.core.rest import HttpRequest, HttpResponse
 from azure.core.tracing.decorator import distributed_trace
 from azure.core.utils import case_insensitive_dict
 
-from .. import _model_base, models as _models
+from .. import models as _models
 from .._configuration import AIProjectClientConfiguration
-from .._model_base import SdkJSONEncoder, _deserialize
-from .._serialization import Deserializer, Serializer
-from .._vendor import prepare_multipart_form_data
+from .._utils.model_base import Model as _Model, SdkJSONEncoder, _deserialize
+from .._utils.serialization import Deserializer, Serializer
+from .._utils.utils import prepare_multipart_form_data
 
 if TYPE_CHECKING:
     from .. import _types
@@ -362,7 +362,7 @@ def build_agents_list_messages_request(
     # Construct parameters
     _params["api-version"] = _SERIALIZER.query("api_version", api_version, "str")
     if run_id is not None:
-        _params["run_id"] = _SERIALIZER.query("run_id", run_id, "str")
+        _params["runId"] = _SERIALIZER.query("run_id", run_id, "str")
     if limit is not None:
         _params["limit"] = _SERIALIZER.query("limit", limit, "int")
     if order is not None:
@@ -4898,7 +4898,7 @@ class AgentsOperations:  # pylint: disable=too-many-public-methods
 
         cls: ClsType[_models.OpenAIFile] = kwargs.pop("cls", None)
 
-        _body = body.as_dict() if isinstance(body, _model_base.Model) else body
+        _body = body.as_dict() if isinstance(body, _Model) else body
         _file_fields: List[str] = ["file"]
         _data_fields: List[str] = ["purpose", "filename"]
         _files, _data = prepare_multipart_form_data(_body, _file_fields, _data_fields)
