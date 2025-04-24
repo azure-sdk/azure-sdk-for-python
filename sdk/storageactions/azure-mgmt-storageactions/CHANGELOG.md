@@ -1,5 +1,14 @@
 # Release History
 
+## 1.0.0 (2025-04-24)
+
+### Features Added
+
+  - Added enum `OnFailure`
+  - Added enum `OnSuccess`
+  - Added model `StorageTaskListResult`
+  - Added model `StorageTaskUpdateProperties`
+
 ## 1.0.0b2 (2025-04-20)
 
 ### Features Added
