@@ -1,0 +1,6 @@
+{
+  "commit": "6fd4e014b2469d6f910c65915f0847b8e13c8a2a",
+  "repository_url": "https://github.com/Azure/azure-rest-api-specs",
+  "typespec_src": "specification/ai/Azure.AI.Agents",
+  "@azure-tools/typespec-python": "0.44.1"
+}
