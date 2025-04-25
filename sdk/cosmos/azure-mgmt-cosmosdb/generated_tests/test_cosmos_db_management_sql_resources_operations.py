@@ -24,7 +24,7 @@ class TestCosmosDBManagementSqlResourcesOperations(AzureMgmtRecordedTestCase):
         response = self.client.sql_resources.list_sql_databases(
             resource_group_name=resource_group.name,
             account_name="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -37,7 +37,7 @@ class TestCosmosDBManagementSqlResourcesOperations(AzureMgmtRecordedTestCase):
             resource_group_name=resource_group.name,
             account_name="str",
             database_name="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -73,7 +73,7 @@ class TestCosmosDBManagementSqlResourcesOperations(AzureMgmtRecordedTestCase):
                 "tags": {"str": "str"},
                 "type": "str",
             },
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -86,7 +86,7 @@ class TestCosmosDBManagementSqlResourcesOperations(AzureMgmtRecordedTestCase):
             resource_group_name=resource_group.name,
             account_name="str",
             database_name="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -99,7 +99,7 @@ class TestCosmosDBManagementSqlResourcesOperations(AzureMgmtRecordedTestCase):
             resource_group_name=resource_group.name,
             account_name="str",
             database_name="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -138,7 +138,7 @@ class TestCosmosDBManagementSqlResourcesOperations(AzureMgmtRecordedTestCase):
                 "tags": {"str": "str"},
                 "type": "str",
             },
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -151,7 +151,7 @@ class TestCosmosDBManagementSqlResourcesOperations(AzureMgmtRecordedTestCase):
             resource_group_name=resource_group.name,
             account_name="str",
             database_name="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -164,7 +164,7 @@ class TestCosmosDBManagementSqlResourcesOperations(AzureMgmtRecordedTestCase):
             resource_group_name=resource_group.name,
             account_name="str",
             database_name="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -177,7 +177,7 @@ class TestCosmosDBManagementSqlResourcesOperations(AzureMgmtRecordedTestCase):
             resource_group_name=resource_group.name,
             account_name="str",
             database_name="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -191,7 +191,7 @@ class TestCosmosDBManagementSqlResourcesOperations(AzureMgmtRecordedTestCase):
             account_name="str",
             database_name="str",
             client_encryption_key_name="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -213,7 +213,7 @@ class TestCosmosDBManagementSqlResourcesOperations(AzureMgmtRecordedTestCase):
                     "wrappedDataEncryptionKey": bytes("bytes", encoding="utf-8"),
                 }
             },
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -226,7 +226,7 @@ class TestCosmosDBManagementSqlResourcesOperations(AzureMgmtRecordedTestCase):
             resource_group_name=resource_group.name,
             account_name="str",
             database_name="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -240,7 +240,7 @@ class TestCosmosDBManagementSqlResourcesOperations(AzureMgmtRecordedTestCase):
             account_name="str",
             database_name="str",
             container_name="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -277,6 +277,7 @@ class TestCosmosDBManagementSqlResourcesOperations(AzureMgmtRecordedTestCase):
                     },
                     "createMode": "Default",
                     "defaultTtl": 0,
+                    "fullTextPolicy": {"defaultLanguage": "str", "fullTextPaths": [{"path": "str", "language": "str"}]},
                     "indexingPolicy": {
                         "automatic": bool,
                         "compositeIndexes": [[{"order": "str", "path": "str"}]],
@@ -293,6 +294,7 @@ class TestCosmosDBManagementSqlResourcesOperations(AzureMgmtRecordedTestCase):
                         "sourceCollectionId": "str",
                         "sourceCollectionRid": "str",
                     },
+                    "materializedViews": [{"_rid": "str", "id": "str"}],
                     "partitionKey": {"kind": "Hash", "paths": ["str"], "systemKey": bool, "version": 0},
                     "restoreParameters": {
                         "restoreSource": "str",
@@ -319,7 +321,7 @@ class TestCosmosDBManagementSqlResourcesOperations(AzureMgmtRecordedTestCase):
                 "tags": {"str": "str"},
                 "type": "str",
             },
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -333,7 +335,7 @@ class TestCosmosDBManagementSqlResourcesOperations(AzureMgmtRecordedTestCase):
             account_name="str",
             database_name="str",
             container_name="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -347,7 +349,7 @@ class TestCosmosDBManagementSqlResourcesOperations(AzureMgmtRecordedTestCase):
             account_name="str",
             database_name="str",
             merge_parameters={"isDryRun": bool},
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -362,7 +364,7 @@ class TestCosmosDBManagementSqlResourcesOperations(AzureMgmtRecordedTestCase):
             database_name="str",
             container_name="str",
             merge_parameters={"isDryRun": bool},
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -376,7 +378,7 @@ class TestCosmosDBManagementSqlResourcesOperations(AzureMgmtRecordedTestCase):
             account_name="str",
             database_name="str",
             container_name="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -416,7 +418,7 @@ class TestCosmosDBManagementSqlResourcesOperations(AzureMgmtRecordedTestCase):
                 "tags": {"str": "str"},
                 "type": "str",
             },
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -430,7 +432,7 @@ class TestCosmosDBManagementSqlResourcesOperations(AzureMgmtRecordedTestCase):
             account_name="str",
             database_name="str",
             container_name="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -444,7 +446,7 @@ class TestCosmosDBManagementSqlResourcesOperations(AzureMgmtRecordedTestCase):
             account_name="str",
             database_name="str",
             container_name="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -471,7 +473,7 @@ class TestCosmosDBManagementSqlResourcesOperations(AzureMgmtRecordedTestCase):
                 "tags": {"str": "str"},
                 "type": "str",
             },
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -486,8 +488,12 @@ class TestCosmosDBManagementSqlResourcesOperations(AzureMgmtRecordedTestCase):
             database_name="str",
             redistribute_throughput_parameters={
                 "resource": {
-                    "sourcePhysicalPartitionThroughputInfo": [{"id": "str", "throughput": 0.0}],
-                    "targetPhysicalPartitionThroughputInfo": [{"id": "str", "throughput": 0.0}],
+                    "sourcePhysicalPartitionThroughputInfo": [
+                        {"id": "str", "targetThroughput": 0.0, "throughput": 0.0}
+                    ],
+                    "targetPhysicalPartitionThroughputInfo": [
+                        {"id": "str", "targetThroughput": 0.0, "throughput": 0.0}
+                    ],
                     "throughputPolicy": "str",
                 },
                 "id": "str",
@@ -502,7 +508,7 @@ class TestCosmosDBManagementSqlResourcesOperations(AzureMgmtRecordedTestCase):
                 "tags": {"str": "str"},
                 "type": "str",
             },
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -530,7 +536,7 @@ class TestCosmosDBManagementSqlResourcesOperations(AzureMgmtRecordedTestCase):
                 "tags": {"str": "str"},
                 "type": "str",
             },
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -546,8 +552,12 @@ class TestCosmosDBManagementSqlResourcesOperations(AzureMgmtRecordedTestCase):
             container_name="str",
             redistribute_throughput_parameters={
                 "resource": {
-                    "sourcePhysicalPartitionThroughputInfo": [{"id": "str", "throughput": 0.0}],
-                    "targetPhysicalPartitionThroughputInfo": [{"id": "str", "throughput": 0.0}],
+                    "sourcePhysicalPartitionThroughputInfo": [
+                        {"id": "str", "targetThroughput": 0.0, "throughput": 0.0}
+                    ],
+                    "targetPhysicalPartitionThroughputInfo": [
+                        {"id": "str", "targetThroughput": 0.0, "throughput": 0.0}
+                    ],
                     "throughputPolicy": "str",
                 },
                 "id": "str",
@@ -562,7 +572,7 @@ class TestCosmosDBManagementSqlResourcesOperations(AzureMgmtRecordedTestCase):
                 "tags": {"str": "str"},
                 "type": "str",
             },
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -576,7 +586,7 @@ class TestCosmosDBManagementSqlResourcesOperations(AzureMgmtRecordedTestCase):
             account_name="str",
             database_name="str",
             container_name="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -591,7 +601,7 @@ class TestCosmosDBManagementSqlResourcesOperations(AzureMgmtRecordedTestCase):
             database_name="str",
             container_name="str",
             stored_procedure_name="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -621,7 +631,7 @@ class TestCosmosDBManagementSqlResourcesOperations(AzureMgmtRecordedTestCase):
                 "tags": {"str": "str"},
                 "type": "str",
             },
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -636,7 +646,7 @@ class TestCosmosDBManagementSqlResourcesOperations(AzureMgmtRecordedTestCase):
             database_name="str",
             container_name="str",
             stored_procedure_name="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -650,7 +660,7 @@ class TestCosmosDBManagementSqlResourcesOperations(AzureMgmtRecordedTestCase):
             account_name="str",
             database_name="str",
             container_name="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -665,7 +675,7 @@ class TestCosmosDBManagementSqlResourcesOperations(AzureMgmtRecordedTestCase):
             database_name="str",
             container_name="str",
             user_defined_function_name="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -695,7 +705,7 @@ class TestCosmosDBManagementSqlResourcesOperations(AzureMgmtRecordedTestCase):
                 "tags": {"str": "str"},
                 "type": "str",
             },
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -710,7 +720,7 @@ class TestCosmosDBManagementSqlResourcesOperations(AzureMgmtRecordedTestCase):
             database_name="str",
             container_name="str",
             user_defined_function_name="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -724,7 +734,7 @@ class TestCosmosDBManagementSqlResourcesOperations(AzureMgmtRecordedTestCase):
             account_name="str",
             database_name="str",
             container_name="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -739,7 +749,7 @@ class TestCosmosDBManagementSqlResourcesOperations(AzureMgmtRecordedTestCase):
             database_name="str",
             container_name="str",
             trigger_name="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -769,7 +779,7 @@ class TestCosmosDBManagementSqlResourcesOperations(AzureMgmtRecordedTestCase):
                 "tags": {"str": "str"},
                 "type": "str",
             },
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -784,7 +794,7 @@ class TestCosmosDBManagementSqlResourcesOperations(AzureMgmtRecordedTestCase):
             database_name="str",
             container_name="str",
             trigger_name="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -797,7 +807,7 @@ class TestCosmosDBManagementSqlResourcesOperations(AzureMgmtRecordedTestCase):
             role_definition_id="str",
             resource_group_name=resource_group.name,
             account_name="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -816,7 +826,7 @@ class TestCosmosDBManagementSqlResourcesOperations(AzureMgmtRecordedTestCase):
                 "roleName": "str",
                 "type": "str",
             },
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -829,7 +839,7 @@ class TestCosmosDBManagementSqlResourcesOperations(AzureMgmtRecordedTestCase):
             role_definition_id="str",
             resource_group_name=resource_group.name,
             account_name="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -841,7 +851,7 @@ class TestCosmosDBManagementSqlResourcesOperations(AzureMgmtRecordedTestCase):
         response = self.client.sql_resources.list_sql_role_definitions(
             resource_group_name=resource_group.name,
             account_name="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -854,7 +864,7 @@ class TestCosmosDBManagementSqlResourcesOperations(AzureMgmtRecordedTestCase):
             role_assignment_id="str",
             resource_group_name=resource_group.name,
             account_name="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -872,7 +882,7 @@ class TestCosmosDBManagementSqlResourcesOperations(AzureMgmtRecordedTestCase):
                 "roleDefinitionId": "str",
                 "scope": "str",
             },
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -885,7 +895,7 @@ class TestCosmosDBManagementSqlResourcesOperations(AzureMgmtRecordedTestCase):
             role_assignment_id="str",
             resource_group_name=resource_group.name,
             account_name="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -897,7 +907,7 @@ class TestCosmosDBManagementSqlResourcesOperations(AzureMgmtRecordedTestCase):
         response = self.client.sql_resources.list_sql_role_assignments(
             resource_group_name=resource_group.name,
             account_name="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -912,7 +922,7 @@ class TestCosmosDBManagementSqlResourcesOperations(AzureMgmtRecordedTestCase):
             database_name="str",
             container_name="str",
             location={"location": "str"},
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself

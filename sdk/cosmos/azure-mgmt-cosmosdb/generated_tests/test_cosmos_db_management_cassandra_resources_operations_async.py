@@ -25,7 +25,7 @@ class TestCosmosDBManagementCassandraResourcesOperationsAsync(AzureMgmtRecordedT
         response = self.client.cassandra_resources.list_cassandra_keyspaces(
             resource_group_name=resource_group.name,
             account_name="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -38,7 +38,7 @@ class TestCosmosDBManagementCassandraResourcesOperationsAsync(AzureMgmtRecordedT
             resource_group_name=resource_group.name,
             account_name="str",
             keyspace_name="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -67,7 +67,7 @@ class TestCosmosDBManagementCassandraResourcesOperationsAsync(AzureMgmtRecordedT
                     "tags": {"str": "str"},
                     "type": "str",
                 },
-                api_version="2024-12-01-preview",
+                api_version="2025-05-01-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -82,7 +82,7 @@ class TestCosmosDBManagementCassandraResourcesOperationsAsync(AzureMgmtRecordedT
                 resource_group_name=resource_group.name,
                 account_name="str",
                 keyspace_name="str",
-                api_version="2024-12-01-preview",
+                api_version="2025-05-01-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -96,7 +96,7 @@ class TestCosmosDBManagementCassandraResourcesOperationsAsync(AzureMgmtRecordedT
             resource_group_name=resource_group.name,
             account_name="str",
             keyspace_name="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -136,7 +136,7 @@ class TestCosmosDBManagementCassandraResourcesOperationsAsync(AzureMgmtRecordedT
                     "tags": {"str": "str"},
                     "type": "str",
                 },
-                api_version="2024-12-01-preview",
+                api_version="2025-05-01-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -151,7 +151,7 @@ class TestCosmosDBManagementCassandraResourcesOperationsAsync(AzureMgmtRecordedT
                 resource_group_name=resource_group.name,
                 account_name="str",
                 keyspace_name="str",
-                api_version="2024-12-01-preview",
+                api_version="2025-05-01-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -166,7 +166,7 @@ class TestCosmosDBManagementCassandraResourcesOperationsAsync(AzureMgmtRecordedT
                 resource_group_name=resource_group.name,
                 account_name="str",
                 keyspace_name="str",
-                api_version="2024-12-01-preview",
+                api_version="2025-05-01-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -180,7 +180,7 @@ class TestCosmosDBManagementCassandraResourcesOperationsAsync(AzureMgmtRecordedT
             resource_group_name=resource_group.name,
             account_name="str",
             keyspace_name="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -194,7 +194,7 @@ class TestCosmosDBManagementCassandraResourcesOperationsAsync(AzureMgmtRecordedT
             account_name="str",
             keyspace_name="str",
             table_name="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -233,7 +233,7 @@ class TestCosmosDBManagementCassandraResourcesOperationsAsync(AzureMgmtRecordedT
                     "tags": {"str": "str"},
                     "type": "str",
                 },
-                api_version="2024-12-01-preview",
+                api_version="2025-05-01-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -249,7 +249,7 @@ class TestCosmosDBManagementCassandraResourcesOperationsAsync(AzureMgmtRecordedT
                 account_name="str",
                 keyspace_name="str",
                 table_name="str",
-                api_version="2024-12-01-preview",
+                api_version="2025-05-01-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -264,7 +264,7 @@ class TestCosmosDBManagementCassandraResourcesOperationsAsync(AzureMgmtRecordedT
             account_name="str",
             keyspace_name="str",
             table_name="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -305,7 +305,7 @@ class TestCosmosDBManagementCassandraResourcesOperationsAsync(AzureMgmtRecordedT
                     "tags": {"str": "str"},
                     "type": "str",
                 },
-                api_version="2024-12-01-preview",
+                api_version="2025-05-01-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -321,7 +321,7 @@ class TestCosmosDBManagementCassandraResourcesOperationsAsync(AzureMgmtRecordedT
                 account_name="str",
                 keyspace_name="str",
                 table_name="str",
-                api_version="2024-12-01-preview",
+                api_version="2025-05-01-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -337,7 +337,7 @@ class TestCosmosDBManagementCassandraResourcesOperationsAsync(AzureMgmtRecordedT
                 account_name="str",
                 keyspace_name="str",
                 table_name="str",
-                api_version="2024-12-01-preview",
+                api_version="2025-05-01-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -351,7 +351,7 @@ class TestCosmosDBManagementCassandraResourcesOperationsAsync(AzureMgmtRecordedT
             resource_group_name=resource_group.name,
             account_name="str",
             keyspace_name="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -365,7 +365,7 @@ class TestCosmosDBManagementCassandraResourcesOperationsAsync(AzureMgmtRecordedT
             account_name="str",
             keyspace_name="str",
             view_name="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -395,7 +395,7 @@ class TestCosmosDBManagementCassandraResourcesOperationsAsync(AzureMgmtRecordedT
                     "tags": {"str": "str"},
                     "type": "str",
                 },
-                api_version="2024-12-01-preview",
+                api_version="2025-05-01-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -411,7 +411,7 @@ class TestCosmosDBManagementCassandraResourcesOperationsAsync(AzureMgmtRecordedT
                 account_name="str",
                 keyspace_name="str",
                 view_name="str",
-                api_version="2024-12-01-preview",
+                api_version="2025-05-01-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -426,7 +426,7 @@ class TestCosmosDBManagementCassandraResourcesOperationsAsync(AzureMgmtRecordedT
             account_name="str",
             keyspace_name="str",
             view_name="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -467,7 +467,7 @@ class TestCosmosDBManagementCassandraResourcesOperationsAsync(AzureMgmtRecordedT
                     "tags": {"str": "str"},
                     "type": "str",
                 },
-                api_version="2024-12-01-preview",
+                api_version="2025-05-01-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -483,7 +483,7 @@ class TestCosmosDBManagementCassandraResourcesOperationsAsync(AzureMgmtRecordedT
                 account_name="str",
                 keyspace_name="str",
                 view_name="str",
-                api_version="2024-12-01-preview",
+                api_version="2025-05-01-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -499,9 +499,152 @@ class TestCosmosDBManagementCassandraResourcesOperationsAsync(AzureMgmtRecordedT
                 account_name="str",
                 keyspace_name="str",
                 view_name="str",
-                api_version="2024-12-01-preview",
+                api_version="2025-05-01-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy_async
+    async def test_cassandra_resources_get_cassandra_role_definition(self, resource_group):
+        response = await self.client.cassandra_resources.get_cassandra_role_definition(
+            resource_group_name=resource_group.name,
+            account_name="str",
+            role_definition_id="str",
+            api_version="2025-05-01-preview",
+        )
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy_async
+    async def test_cassandra_resources_begin_create_update_cassandra_role_definition(self, resource_group):
+        response = await (
+            await self.client.cassandra_resources.begin_create_update_cassandra_role_definition(
+                resource_group_name=resource_group.name,
+                account_name="str",
+                role_definition_id="str",
+                create_update_cassandra_role_definition_parameters={
+                    "assignableScopes": ["str"],
+                    "id": "str",
+                    "name": "str",
+                    "permissions": [{"dataActions": ["str"], "id": "str", "notDataActions": ["str"]}],
+                    "roleName": "str",
+                    "systemData": {
+                        "createdAt": "2020-02-20 00:00:00",
+                        "createdBy": "str",
+                        "createdByType": "str",
+                        "lastModifiedAt": "2020-02-20 00:00:00",
+                        "lastModifiedBy": "str",
+                        "lastModifiedByType": "str",
+                    },
+                    "type": "str",
+                },
+                api_version="2025-05-01-preview",
+            )
+        ).result()  # call '.result()' to poll until service return final result
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy_async
+    async def test_cassandra_resources_begin_delete_cassandra_role_definition(self, resource_group):
+        response = await (
+            await self.client.cassandra_resources.begin_delete_cassandra_role_definition(
+                resource_group_name=resource_group.name,
+                account_name="str",
+                role_definition_id="str",
+                api_version="2025-05-01-preview",
+            )
+        ).result()  # call '.result()' to poll until service return final result
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy_async
+    async def test_cassandra_resources_list_cassandra_role_definitions(self, resource_group):
+        response = self.client.cassandra_resources.list_cassandra_role_definitions(
+            resource_group_name=resource_group.name,
+            account_name="str",
+            api_version="2025-05-01-preview",
+        )
+        result = [r async for r in response]
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy_async
+    async def test_cassandra_resources_get_cassandra_role_assignment(self, resource_group):
+        response = await self.client.cassandra_resources.get_cassandra_role_assignment(
+            resource_group_name=resource_group.name,
+            account_name="str",
+            role_assignment_id="str",
+            api_version="2025-05-01-preview",
+        )
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy_async
+    async def test_cassandra_resources_begin_create_update_cassandra_role_assignment(self, resource_group):
+        response = await (
+            await self.client.cassandra_resources.begin_create_update_cassandra_role_assignment(
+                resource_group_name=resource_group.name,
+                account_name="str",
+                role_assignment_id="str",
+                create_update_cassandra_role_assignment_parameters={
+                    "id": "str",
+                    "name": "str",
+                    "principalId": "str",
+                    "provisioningState": "str",
+                    "roleDefinitionId": "str",
+                    "scope": "str",
+                    "systemData": {
+                        "createdAt": "2020-02-20 00:00:00",
+                        "createdBy": "str",
+                        "createdByType": "str",
+                        "lastModifiedAt": "2020-02-20 00:00:00",
+                        "lastModifiedBy": "str",
+                        "lastModifiedByType": "str",
+                    },
+                    "type": "str",
+                },
+                api_version="2025-05-01-preview",
+            )
+        ).result()  # call '.result()' to poll until service return final result
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy_async
+    async def test_cassandra_resources_begin_delete_cassandra_role_assignment(self, resource_group):
+        response = await (
+            await self.client.cassandra_resources.begin_delete_cassandra_role_assignment(
+                resource_group_name=resource_group.name,
+                account_name="str",
+                role_assignment_id="str",
+                api_version="2025-05-01-preview",
+            )
+        ).result()  # call '.result()' to poll until service return final result
+
+        # please add some check logic here by yourself
+        # ...
+
+    @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
+    @recorded_by_proxy_async
+    async def test_cassandra_resources_list_cassandra_role_assignments(self, resource_group):
+        response = self.client.cassandra_resources.list_cassandra_role_assignments(
+            resource_group_name=resource_group.name,
+            account_name="str",
+            api_version="2025-05-01-preview",
+        )
+        result = [r async for r in response]
         # please add some check logic here by yourself
         # ...

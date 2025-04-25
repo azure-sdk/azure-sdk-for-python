@@ -24,7 +24,7 @@ class TestCosmosDBManagementMongoDBResourcesOperations(AzureMgmtRecordedTestCase
         response = self.client.mongo_db_resources.list_mongo_db_databases(
             resource_group_name=resource_group.name,
             account_name="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -37,7 +37,7 @@ class TestCosmosDBManagementMongoDBResourcesOperations(AzureMgmtRecordedTestCase
             resource_group_name=resource_group.name,
             account_name="str",
             database_name="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -73,7 +73,7 @@ class TestCosmosDBManagementMongoDBResourcesOperations(AzureMgmtRecordedTestCase
                 "tags": {"str": "str"},
                 "type": "str",
             },
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -86,7 +86,7 @@ class TestCosmosDBManagementMongoDBResourcesOperations(AzureMgmtRecordedTestCase
             resource_group_name=resource_group.name,
             account_name="str",
             database_name="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -99,7 +99,7 @@ class TestCosmosDBManagementMongoDBResourcesOperations(AzureMgmtRecordedTestCase
             resource_group_name=resource_group.name,
             account_name="str",
             database_name="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -138,7 +138,7 @@ class TestCosmosDBManagementMongoDBResourcesOperations(AzureMgmtRecordedTestCase
                 "tags": {"str": "str"},
                 "type": "str",
             },
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -151,7 +151,7 @@ class TestCosmosDBManagementMongoDBResourcesOperations(AzureMgmtRecordedTestCase
             resource_group_name=resource_group.name,
             account_name="str",
             database_name="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -164,7 +164,7 @@ class TestCosmosDBManagementMongoDBResourcesOperations(AzureMgmtRecordedTestCase
             resource_group_name=resource_group.name,
             account_name="str",
             database_name="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -191,7 +191,7 @@ class TestCosmosDBManagementMongoDBResourcesOperations(AzureMgmtRecordedTestCase
                 "tags": {"str": "str"},
                 "type": "str",
             },
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -206,8 +206,12 @@ class TestCosmosDBManagementMongoDBResourcesOperations(AzureMgmtRecordedTestCase
             database_name="str",
             redistribute_throughput_parameters={
                 "resource": {
-                    "sourcePhysicalPartitionThroughputInfo": [{"id": "str", "throughput": 0.0}],
-                    "targetPhysicalPartitionThroughputInfo": [{"id": "str", "throughput": 0.0}],
+                    "sourcePhysicalPartitionThroughputInfo": [
+                        {"id": "str", "targetThroughput": 0.0, "throughput": 0.0}
+                    ],
+                    "targetPhysicalPartitionThroughputInfo": [
+                        {"id": "str", "targetThroughput": 0.0, "throughput": 0.0}
+                    ],
                     "throughputPolicy": "str",
                 },
                 "id": "str",
@@ -222,7 +226,7 @@ class TestCosmosDBManagementMongoDBResourcesOperations(AzureMgmtRecordedTestCase
                 "tags": {"str": "str"},
                 "type": "str",
             },
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -250,7 +254,7 @@ class TestCosmosDBManagementMongoDBResourcesOperations(AzureMgmtRecordedTestCase
                 "tags": {"str": "str"},
                 "type": "str",
             },
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -266,8 +270,12 @@ class TestCosmosDBManagementMongoDBResourcesOperations(AzureMgmtRecordedTestCase
             collection_name="str",
             redistribute_throughput_parameters={
                 "resource": {
-                    "sourcePhysicalPartitionThroughputInfo": [{"id": "str", "throughput": 0.0}],
-                    "targetPhysicalPartitionThroughputInfo": [{"id": "str", "throughput": 0.0}],
+                    "sourcePhysicalPartitionThroughputInfo": [
+                        {"id": "str", "targetThroughput": 0.0, "throughput": 0.0}
+                    ],
+                    "targetPhysicalPartitionThroughputInfo": [
+                        {"id": "str", "targetThroughput": 0.0, "throughput": 0.0}
+                    ],
                     "throughputPolicy": "str",
                 },
                 "id": "str",
@@ -282,7 +290,7 @@ class TestCosmosDBManagementMongoDBResourcesOperations(AzureMgmtRecordedTestCase
                 "tags": {"str": "str"},
                 "type": "str",
             },
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -295,7 +303,7 @@ class TestCosmosDBManagementMongoDBResourcesOperations(AzureMgmtRecordedTestCase
             resource_group_name=resource_group.name,
             account_name="str",
             database_name="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -309,7 +317,7 @@ class TestCosmosDBManagementMongoDBResourcesOperations(AzureMgmtRecordedTestCase
             account_name="str",
             database_name="str",
             collection_name="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -349,7 +357,7 @@ class TestCosmosDBManagementMongoDBResourcesOperations(AzureMgmtRecordedTestCase
                 "tags": {"str": "str"},
                 "type": "str",
             },
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -363,7 +371,7 @@ class TestCosmosDBManagementMongoDBResourcesOperations(AzureMgmtRecordedTestCase
             account_name="str",
             database_name="str",
             collection_name="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -377,7 +385,7 @@ class TestCosmosDBManagementMongoDBResourcesOperations(AzureMgmtRecordedTestCase
             account_name="str",
             database_name="str",
             merge_parameters={"isDryRun": bool},
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -392,7 +400,7 @@ class TestCosmosDBManagementMongoDBResourcesOperations(AzureMgmtRecordedTestCase
             database_name="str",
             collection_name="str",
             merge_parameters={"isDryRun": bool},
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -406,7 +414,7 @@ class TestCosmosDBManagementMongoDBResourcesOperations(AzureMgmtRecordedTestCase
             account_name="str",
             database_name="str",
             collection_name="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -446,7 +454,7 @@ class TestCosmosDBManagementMongoDBResourcesOperations(AzureMgmtRecordedTestCase
                 "tags": {"str": "str"},
                 "type": "str",
             },
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -460,7 +468,7 @@ class TestCosmosDBManagementMongoDBResourcesOperations(AzureMgmtRecordedTestCase
             account_name="str",
             database_name="str",
             collection_name="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -474,7 +482,7 @@ class TestCosmosDBManagementMongoDBResourcesOperations(AzureMgmtRecordedTestCase
             account_name="str",
             database_name="str",
             collection_name="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -487,7 +495,7 @@ class TestCosmosDBManagementMongoDBResourcesOperations(AzureMgmtRecordedTestCase
             mongo_role_definition_id="str",
             resource_group_name=resource_group.name,
             account_name="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -507,7 +515,7 @@ class TestCosmosDBManagementMongoDBResourcesOperations(AzureMgmtRecordedTestCase
                 "roles": [{"db": "str", "role": "str"}],
                 "type": "str",
             },
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -520,7 +528,7 @@ class TestCosmosDBManagementMongoDBResourcesOperations(AzureMgmtRecordedTestCase
             mongo_role_definition_id="str",
             resource_group_name=resource_group.name,
             account_name="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -532,7 +540,7 @@ class TestCosmosDBManagementMongoDBResourcesOperations(AzureMgmtRecordedTestCase
         response = self.client.mongo_db_resources.list_mongo_role_definitions(
             resource_group_name=resource_group.name,
             account_name="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -545,7 +553,7 @@ class TestCosmosDBManagementMongoDBResourcesOperations(AzureMgmtRecordedTestCase
             mongo_user_definition_id="str",
             resource_group_name=resource_group.name,
             account_name="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -566,7 +574,7 @@ class TestCosmosDBManagementMongoDBResourcesOperations(AzureMgmtRecordedTestCase
                 "roles": [{"db": "str", "role": "str"}],
                 "userName": "str",
             },
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -579,7 +587,7 @@ class TestCosmosDBManagementMongoDBResourcesOperations(AzureMgmtRecordedTestCase
             mongo_user_definition_id="str",
             resource_group_name=resource_group.name,
             account_name="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -591,7 +599,7 @@ class TestCosmosDBManagementMongoDBResourcesOperations(AzureMgmtRecordedTestCase
         response = self.client.mongo_db_resources.list_mongo_user_definitions(
             resource_group_name=resource_group.name,
             account_name="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -606,7 +614,7 @@ class TestCosmosDBManagementMongoDBResourcesOperations(AzureMgmtRecordedTestCase
             database_name="str",
             collection_name="str",
             location={"location": "str"},
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself

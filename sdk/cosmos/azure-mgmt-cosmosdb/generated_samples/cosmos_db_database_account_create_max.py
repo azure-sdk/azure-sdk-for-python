@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -65,6 +66,7 @@ def main():
                 "databaseAccountOfferType": "Standard",
                 "defaultIdentity": "FirstPartyIdentity",
                 "defaultPriorityLevel": "Low",
+                "enableAllVersionsAndDeletesChangeFeed": False,
                 "enableAnalyticalStorage": True,
                 "enableBurstCapacity": True,
                 "enableFreeTier": False,
@@ -97,6 +99,6 @@ def main():
     print(response)
 
 
-# x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2024-12-01-preview/examples/CosmosDBDatabaseAccountCreateMax.json
+# x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2025-05-01-preview/examples/CosmosDBDatabaseAccountCreateMax.json
 if __name__ == "__main__":
     main()

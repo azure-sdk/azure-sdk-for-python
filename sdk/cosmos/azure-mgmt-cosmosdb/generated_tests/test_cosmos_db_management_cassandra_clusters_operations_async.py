@@ -23,7 +23,7 @@ class TestCosmosDBManagementCassandraClustersOperationsAsync(AzureMgmtRecordedTe
     @recorded_by_proxy_async
     async def test_cassandra_clusters_list_by_subscription(self, resource_group):
         response = self.client.cassandra_clusters.list_by_subscription(
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -34,7 +34,7 @@ class TestCosmosDBManagementCassandraClustersOperationsAsync(AzureMgmtRecordedTe
     async def test_cassandra_clusters_list_by_resource_group(self, resource_group):
         response = self.client.cassandra_clusters.list_by_resource_group(
             resource_group_name=resource_group.name,
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -46,7 +46,7 @@ class TestCosmosDBManagementCassandraClustersOperationsAsync(AzureMgmtRecordedTe
         response = await self.client.cassandra_clusters.get(
             resource_group_name=resource_group.name,
             cluster_name="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -59,7 +59,7 @@ class TestCosmosDBManagementCassandraClustersOperationsAsync(AzureMgmtRecordedTe
             await self.client.cassandra_clusters.begin_delete(
                 resource_group_name=resource_group.name,
                 cluster_name="str",
-                api_version="2024-12-01-preview",
+                api_version="2025-05-01-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -114,7 +114,7 @@ class TestCosmosDBManagementCassandraClustersOperationsAsync(AzureMgmtRecordedTe
                     "tags": {"str": "str"},
                     "type": "str",
                 },
-                api_version="2024-12-01-preview",
+                api_version="2025-05-01-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -169,7 +169,7 @@ class TestCosmosDBManagementCassandraClustersOperationsAsync(AzureMgmtRecordedTe
                     "tags": {"str": "str"},
                     "type": "str",
                 },
-                api_version="2024-12-01-preview",
+                api_version="2025-05-01-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -190,7 +190,7 @@ class TestCosmosDBManagementCassandraClustersOperationsAsync(AzureMgmtRecordedTe
                     "cassandra-stop-start": bool,
                     "readwrite": bool,
                 },
-                api_version="2024-12-01-preview",
+                api_version="2025-05-01-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -211,7 +211,7 @@ class TestCosmosDBManagementCassandraClustersOperationsAsync(AzureMgmtRecordedTe
                     "cassandra-stop-start": bool,
                     "readWrite": bool,
                 },
-                api_version="2024-12-01-preview",
+                api_version="2025-05-01-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -224,7 +224,7 @@ class TestCosmosDBManagementCassandraClustersOperationsAsync(AzureMgmtRecordedTe
         response = self.client.cassandra_clusters.list_command(
             resource_group_name=resource_group.name,
             cluster_name="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -237,7 +237,7 @@ class TestCosmosDBManagementCassandraClustersOperationsAsync(AzureMgmtRecordedTe
             resource_group_name=resource_group.name,
             cluster_name="str",
             command_id="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -249,7 +249,7 @@ class TestCosmosDBManagementCassandraClustersOperationsAsync(AzureMgmtRecordedTe
         response = self.client.cassandra_clusters.list_backups(
             resource_group_name=resource_group.name,
             cluster_name="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         )
         result = [r async for r in response]
         # please add some check logic here by yourself
@@ -262,7 +262,7 @@ class TestCosmosDBManagementCassandraClustersOperationsAsync(AzureMgmtRecordedTe
             resource_group_name=resource_group.name,
             cluster_name="str",
             backup_id="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -275,7 +275,7 @@ class TestCosmosDBManagementCassandraClustersOperationsAsync(AzureMgmtRecordedTe
             await self.client.cassandra_clusters.begin_deallocate(
                 resource_group_name=resource_group.name,
                 cluster_name="str",
-                api_version="2024-12-01-preview",
+                api_version="2025-05-01-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -289,7 +289,7 @@ class TestCosmosDBManagementCassandraClustersOperationsAsync(AzureMgmtRecordedTe
             await self.client.cassandra_clusters.begin_start(
                 resource_group_name=resource_group.name,
                 cluster_name="str",
-                api_version="2024-12-01-preview",
+                api_version="2025-05-01-preview",
             )
         ).result()  # call '.result()' to poll until service return final result
 
@@ -302,7 +302,7 @@ class TestCosmosDBManagementCassandraClustersOperationsAsync(AzureMgmtRecordedTe
         response = await self.client.cassandra_clusters.status(
             resource_group_name=resource_group.name,
             cluster_name="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         )
 
         # please add some check logic here by yourself

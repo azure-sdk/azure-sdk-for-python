@@ -24,7 +24,7 @@ class TestCosmosDBManagementDatabaseAccountsOperations(AzureMgmtRecordedTestCase
         response = self.client.database_accounts.get(
             resource_group_name=resource_group.name,
             account_name="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -64,6 +64,7 @@ class TestCosmosDBManagementDatabaseAccountsOperations(AzureMgmtRecordedTestCase
                 "diagnosticLogSettings": {"enableFullTextQuery": "str"},
                 "disableKeyBasedMetadataWriteAccess": bool,
                 "disableLocalAuth": bool,
+                "enableAllVersionsAndDeletesChangeFeed": bool,
                 "enableAnalyticalStorage": bool,
                 "enableAutomaticFailover": bool,
                 "enableBurstCapacity": bool,
@@ -107,7 +108,7 @@ class TestCosmosDBManagementDatabaseAccountsOperations(AzureMgmtRecordedTestCase
                 "tags": {"str": "str"},
                 "virtualNetworkRules": [{"id": "str", "ignoreMissingVNetServiceEndpoint": bool}],
             },
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -159,6 +160,7 @@ class TestCosmosDBManagementDatabaseAccountsOperations(AzureMgmtRecordedTestCase
                 "diagnosticLogSettings": {"enableFullTextQuery": "str"},
                 "disableKeyBasedMetadataWriteAccess": bool,
                 "disableLocalAuth": bool,
+                "enableAllVersionsAndDeletesChangeFeed": bool,
                 "enableAnalyticalStorage": bool,
                 "enableAutomaticFailover": bool,
                 "enableBurstCapacity": bool,
@@ -206,7 +208,7 @@ class TestCosmosDBManagementDatabaseAccountsOperations(AzureMgmtRecordedTestCase
                 "type": "str",
                 "virtualNetworkRules": [{"id": "str", "ignoreMissingVNetServiceEndpoint": bool}],
             },
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -218,7 +220,7 @@ class TestCosmosDBManagementDatabaseAccountsOperations(AzureMgmtRecordedTestCase
         response = self.client.database_accounts.begin_delete(
             resource_group_name=resource_group.name,
             account_name="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -231,7 +233,7 @@ class TestCosmosDBManagementDatabaseAccountsOperations(AzureMgmtRecordedTestCase
             resource_group_name=resource_group.name,
             account_name="str",
             failover_parameters={"failoverPolicies": [{"failoverPriority": 0, "id": "str", "locationName": "str"}]},
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -241,7 +243,7 @@ class TestCosmosDBManagementDatabaseAccountsOperations(AzureMgmtRecordedTestCase
     @recorded_by_proxy
     def test_database_accounts_list(self, resource_group):
         response = self.client.database_accounts.list(
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -252,7 +254,7 @@ class TestCosmosDBManagementDatabaseAccountsOperations(AzureMgmtRecordedTestCase
     def test_database_accounts_list_by_resource_group(self, resource_group):
         response = self.client.database_accounts.list_by_resource_group(
             resource_group_name=resource_group.name,
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -264,7 +266,7 @@ class TestCosmosDBManagementDatabaseAccountsOperations(AzureMgmtRecordedTestCase
         response = self.client.database_accounts.list_keys(
             resource_group_name=resource_group.name,
             account_name="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -276,7 +278,7 @@ class TestCosmosDBManagementDatabaseAccountsOperations(AzureMgmtRecordedTestCase
         response = self.client.database_accounts.list_connection_strings(
             resource_group_name=resource_group.name,
             account_name="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -289,7 +291,7 @@ class TestCosmosDBManagementDatabaseAccountsOperations(AzureMgmtRecordedTestCase
             resource_group_name=resource_group.name,
             account_name="str",
             region_parameter_for_offline={"region": "str"},
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -302,7 +304,7 @@ class TestCosmosDBManagementDatabaseAccountsOperations(AzureMgmtRecordedTestCase
             resource_group_name=resource_group.name,
             account_name="str",
             region_parameter_for_online={"region": "str"},
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -314,7 +316,7 @@ class TestCosmosDBManagementDatabaseAccountsOperations(AzureMgmtRecordedTestCase
         response = self.client.database_accounts.get_read_only_keys(
             resource_group_name=resource_group.name,
             account_name="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -326,7 +328,7 @@ class TestCosmosDBManagementDatabaseAccountsOperations(AzureMgmtRecordedTestCase
         response = self.client.database_accounts.list_read_only_keys(
             resource_group_name=resource_group.name,
             account_name="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -339,7 +341,7 @@ class TestCosmosDBManagementDatabaseAccountsOperations(AzureMgmtRecordedTestCase
             resource_group_name=resource_group.name,
             account_name="str",
             key_to_regenerate={"keyKind": "str"},
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         ).result()  # call '.result()' to poll until service return final result
 
         # please add some check logic here by yourself
@@ -350,7 +352,7 @@ class TestCosmosDBManagementDatabaseAccountsOperations(AzureMgmtRecordedTestCase
     def test_database_accounts_check_name_exists(self, resource_group):
         response = self.client.database_accounts.check_name_exists(
             account_name="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         )
 
         # please add some check logic here by yourself
@@ -363,7 +365,7 @@ class TestCosmosDBManagementDatabaseAccountsOperations(AzureMgmtRecordedTestCase
             resource_group_name=resource_group.name,
             account_name="str",
             filter="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -375,7 +377,7 @@ class TestCosmosDBManagementDatabaseAccountsOperations(AzureMgmtRecordedTestCase
         response = self.client.database_accounts.list_usages(
             resource_group_name=resource_group.name,
             account_name="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
@@ -387,7 +389,7 @@ class TestCosmosDBManagementDatabaseAccountsOperations(AzureMgmtRecordedTestCase
         response = self.client.database_accounts.list_metric_definitions(
             resource_group_name=resource_group.name,
             account_name="str",
-            api_version="2024-12-01-preview",
+            api_version="2025-05-01-preview",
         )
         result = [r for r in response]
         # please add some check logic here by yourself
