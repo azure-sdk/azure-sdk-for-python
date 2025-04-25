@@ -8,7 +8,7 @@
 
 from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 
-from ... import _serialization
+from .._utils import serialization as _serialization
 
 if TYPE_CHECKING:
     from .. import models as _models
@@ -105,9 +105,9 @@ class WebtestsResource(_serialization.Model):
         :paramtype tags: dict[str, str]
         """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
         self.location = location
         self.tags = tags
 
@@ -269,7 +269,7 @@ class WebTest(WebtestsResource):
         self.retry_enabled = retry_enabled
         self.locations = locations
         self.configuration = configuration
-        self.provisioning_state = None
+        self.provisioning_state: Optional[str] = None
         self.request = request
         self.validation_rules = validation_rules
 

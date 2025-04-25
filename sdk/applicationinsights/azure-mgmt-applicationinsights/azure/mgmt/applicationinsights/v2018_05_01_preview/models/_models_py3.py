@@ -1,4 +1,4 @@
-# pylint: disable=too-many-lines
+# pylint: disable=line-too-long,useless-suppression,too-many-lines
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -7,19 +7,14 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
-import sys
+from collections.abc import MutableMapping
 from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 
-from ... import _serialization
-
-if sys.version_info >= (3, 9):
-    from collections.abc import MutableMapping
-else:
-    from typing import MutableMapping  # type: ignore
+from .._utils import serialization as _serialization
 
 if TYPE_CHECKING:
     from .. import models as _models
-JSON = MutableMapping[str, Any]  # pylint: disable=unsubscriptable-object
+JSON = MutableMapping[str, Any]
 
 
 class ComponentsResource(_serialization.Model):
@@ -64,9 +59,9 @@ class ComponentsResource(_serialization.Model):
         :paramtype tags: dict[str, str]
         """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
         self.location = location
         self.tags = tags
 
@@ -273,23 +268,23 @@ class ApplicationInsightsComponent(ComponentsResource):
         """
         super().__init__(location=location, tags=tags, **kwargs)
         self.kind = kind
-        self.application_id = None
-        self.app_id = None
+        self.application_id: Optional[str] = None
+        self.app_id: Optional[str] = None
         self.application_type = application_type
         self.flow_type = flow_type
         self.request_source = request_source
-        self.instrumentation_key = None
-        self.creation_date = None
-        self.tenant_id = None
+        self.instrumentation_key: Optional[str] = None
+        self.creation_date: Optional[datetime.datetime] = None
+        self.tenant_id: Optional[str] = None
         self.hockey_app_id = hockey_app_id
-        self.hockey_app_token = None
-        self.provisioning_state = None
+        self.hockey_app_token: Optional[str] = None
+        self.provisioning_state: Optional[str] = None
         self.sampling_percentage = sampling_percentage
-        self.connection_string = None
+        self.connection_string: Optional[str] = None
         self.retention_in_days = retention_in_days
         self.disable_ip_masking = disable_ip_masking
         self.immediate_purge_data_on30_days = immediate_purge_data_on30_days
-        self.private_link_scoped_resources = None
+        self.private_link_scoped_resources: Optional[List["_models.PrivateLinkScopedResource"]] = None
         self.public_network_access_for_ingestion = public_network_access_for_ingestion
         self.public_network_access_for_query = public_network_access_for_query
         self.ingestion_mode = ingestion_mode
@@ -362,7 +357,7 @@ class ApplicationInsightsComponentProactiveDetectionConfiguration(
     :ivar rule_definitions: Static definitions of the ProactiveDetection configuration rule (same
      values for all components).
     :vartype rule_definitions:
-     ~azure.mgmt.applicationinsights.v2018_05_01_preview.models.ApplicationInsightsComponentProactiveDetectionConfigurationPropertiesRuleDefinitions  # pylint: disable=line-too-long
+     ~azure.mgmt.applicationinsights.v2018_05_01_preview.models.ApplicationInsightsComponentProactiveDetectionConfigurationPropertiesRuleDefinitions
     """
 
     _validation = {
@@ -416,18 +411,18 @@ class ApplicationInsightsComponentProactiveDetectionConfiguration(
         :keyword rule_definitions: Static definitions of the ProactiveDetection configuration rule
          (same values for all components).
         :paramtype rule_definitions:
-         ~azure.mgmt.applicationinsights.v2018_05_01_preview.models.ApplicationInsightsComponentProactiveDetectionConfigurationPropertiesRuleDefinitions  # pylint: disable=line-too-long
+         ~azure.mgmt.applicationinsights.v2018_05_01_preview.models.ApplicationInsightsComponentProactiveDetectionConfigurationPropertiesRuleDefinitions
         """
         super().__init__(**kwargs)
-        self.id = None
+        self.id: Optional[str] = None
         self.name = name
-        self.type = None
+        self.type: Optional[str] = None
         self.location = location
-        self.name_properties_name = None
+        self.name_properties_name: Optional[str] = None
         self.enabled = enabled
         self.send_emails_to_subscription_owners = send_emails_to_subscription_owners
         self.custom_emails = custom_emails
-        self.last_updated_time = None
+        self.last_updated_time: Optional[str] = None
         self.rule_definitions = rule_definitions
 
 
@@ -894,9 +889,9 @@ class WebtestsResource(_serialization.Model):
         :paramtype tags: dict[str, str]
         """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
         self.location = location
         self.tags = tags
 
@@ -1063,7 +1058,7 @@ class WebTest(WebtestsResource):
         self.retry_enabled = retry_enabled
         self.locations = locations
         self.configuration = configuration
-        self.provisioning_state = None
+        self.provisioning_state: Optional[str] = None
         self.request = request
         self.validation_rules = validation_rules
 
