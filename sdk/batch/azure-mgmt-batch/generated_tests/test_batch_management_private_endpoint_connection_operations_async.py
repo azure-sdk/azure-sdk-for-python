@@ -21,7 +21,7 @@ class TestBatchManagementPrivateEndpointConnectionOperationsAsync(AzureMgmtRecor
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_list_by_batch_account(self, resource_group):
+    async def test_private_endpoint_connection_list_by_batch_account(self, resource_group):
         response = self.client.private_endpoint_connection.list_by_batch_account(
             resource_group_name=resource_group.name,
             account_name="str",
@@ -33,7 +33,7 @@ class TestBatchManagementPrivateEndpointConnectionOperationsAsync(AzureMgmtRecor
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_get(self, resource_group):
+    async def test_private_endpoint_connection_get(self, resource_group):
         response = await self.client.private_endpoint_connection.get(
             resource_group_name=resource_group.name,
             account_name="str",
@@ -46,7 +46,7 @@ class TestBatchManagementPrivateEndpointConnectionOperationsAsync(AzureMgmtRecor
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_update(self, resource_group):
+    async def test_private_endpoint_connection_begin_update(self, resource_group):
         response = await (
             await self.client.private_endpoint_connection.begin_update(
                 resource_group_name=resource_group.name,
@@ -76,7 +76,7 @@ class TestBatchManagementPrivateEndpointConnectionOperationsAsync(AzureMgmtRecor
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy_async
-    async def test_begin_delete(self, resource_group):
+    async def test_private_endpoint_connection_begin_delete(self, resource_group):
         response = await (
             await self.client.private_endpoint_connection.begin_delete(
                 resource_group_name=resource_group.name,

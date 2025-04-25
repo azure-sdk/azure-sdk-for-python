@@ -20,7 +20,7 @@ class TestBatchManagementPoolOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_by_batch_account(self, resource_group):
+    def test_pool_list_by_batch_account(self, resource_group):
         response = self.client.pool.list_by_batch_account(
             resource_group_name=resource_group.name,
             account_name="str",
@@ -32,7 +32,7 @@ class TestBatchManagementPoolOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_create(self, resource_group):
+    def test_pool_create(self, resource_group):
         response = self.client.pool.create(
             resource_group_name=resource_group.name,
             account_name="str",
@@ -268,7 +268,7 @@ class TestBatchManagementPoolOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_update(self, resource_group):
+    def test_pool_update(self, resource_group):
         response = self.client.pool.update(
             resource_group_name=resource_group.name,
             account_name="str",
@@ -504,7 +504,7 @@ class TestBatchManagementPoolOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_delete(self, resource_group):
+    def test_pool_begin_delete(self, resource_group):
         response = self.client.pool.begin_delete(
             resource_group_name=resource_group.name,
             account_name="str",
@@ -517,7 +517,7 @@ class TestBatchManagementPoolOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get(self, resource_group):
+    def test_pool_get(self, resource_group):
         response = self.client.pool.get(
             resource_group_name=resource_group.name,
             account_name="str",
@@ -530,7 +530,7 @@ class TestBatchManagementPoolOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_disable_auto_scale(self, resource_group):
+    def test_pool_disable_auto_scale(self, resource_group):
         response = self.client.pool.disable_auto_scale(
             resource_group_name=resource_group.name,
             account_name="str",
@@ -543,7 +543,7 @@ class TestBatchManagementPoolOperations(AzureMgmtRecordedTestCase):
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_stop_resize(self, resource_group):
+    def test_pool_stop_resize(self, resource_group):
         response = self.client.pool.stop_resize(
             resource_group_name=resource_group.name,
             account_name="str",

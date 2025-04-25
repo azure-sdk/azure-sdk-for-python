@@ -20,7 +20,7 @@ class TestBatchManagementNetworkSecurityPerimeterOperations(AzureMgmtRecordedTes
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_list_configurations(self, resource_group):
+    def test_network_security_perimeter_list_configurations(self, resource_group):
         response = self.client.network_security_perimeter.list_configurations(
             resource_group_name=resource_group.name,
             account_name="str",
@@ -32,7 +32,7 @@ class TestBatchManagementNetworkSecurityPerimeterOperations(AzureMgmtRecordedTes
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_get_configuration(self, resource_group):
+    def test_network_security_perimeter_get_configuration(self, resource_group):
         response = self.client.network_security_perimeter.get_configuration(
             resource_group_name=resource_group.name,
             account_name="str",
@@ -45,7 +45,7 @@ class TestBatchManagementNetworkSecurityPerimeterOperations(AzureMgmtRecordedTes
 
     @RandomNameResourceGroupPreparer(location=AZURE_LOCATION)
     @recorded_by_proxy
-    def test_begin_reconcile_configuration(self, resource_group):
+    def test_network_security_perimeter_begin_reconcile_configuration(self, resource_group):
         response = self.client.network_security_perimeter.begin_reconcile_configuration(
             resource_group_name=resource_group.name,
             account_name="str",
