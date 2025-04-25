@@ -1,5 +1,5 @@
+# pylint: disable=line-too-long,useless-suppression,too-many-lines
 # coding=utf-8
-# pylint: disable=too-many-lines
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -10,10 +10,9 @@
 import datetime
 from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 
-from .. import _serialization
+from .._utils import serialization as _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
@@ -23,7 +22,7 @@ class Resource(_serialization.Model):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -52,10 +51,10 @@ class Resource(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
-        self.system_data = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
+        self.system_data: Optional["_models.SystemData"] = None
 
 
 class TrackedResource(Resource):
@@ -67,7 +66,7 @@ class TrackedResource(Resource):
     All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -121,7 +120,7 @@ class AzureLargeInstance(TrackedResource):
     All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -293,12 +292,12 @@ class AzureLargeInstanceProperties(_serialization.Model):
         self.storage_profile = storage_profile
         self.os_profile = os_profile
         self.network_profile = network_profile
-        self.azure_large_instance_id = None
-        self.power_state = None
-        self.proximity_placement_group = None
-        self.hw_revision = None
+        self.azure_large_instance_id: Optional[str] = None
+        self.power_state: Optional[Union[str, "_models.AzureLargeInstancePowerStateEnum"]] = None
+        self.proximity_placement_group: Optional[str] = None
+        self.hw_revision: Optional[str] = None
         self.partner_node_id = partner_node_id
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.AzureLargeInstanceProvisioningStatesEnum"]] = None
 
 
 class AzureLargeInstanceTagsUpdate(_serialization.Model):
@@ -330,7 +329,7 @@ class AzureLargeStorageInstance(TrackedResource):
     All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
-     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".  # pylint: disable=line-too-long
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -513,7 +512,7 @@ class Disk(_serialization.Model):
         super().__init__(**kwargs)
         self.name = name
         self.disk_size_gb = disk_size_gb
-        self.lun = None
+        self.lun: Optional[int] = None
 
 
 class ErrorAdditionalInfo(_serialization.Model):
@@ -540,8 +539,8 @@ class ErrorAdditionalInfo(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.type = None
-        self.info = None
+        self.type: Optional[str] = None
+        self.info: Optional[JSON] = None
 
 
 class ErrorDetail(_serialization.Model):
@@ -580,11 +579,11 @@ class ErrorDetail(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.code = None
-        self.message = None
-        self.target = None
-        self.details = None
-        self.additional_info = None
+        self.code: Optional[str] = None
+        self.message: Optional[str] = None
+        self.target: Optional[str] = None
+        self.details: Optional[List["_models.ErrorDetail"]] = None
+        self.additional_info: Optional[List["_models.ErrorAdditionalInfo"]] = None
 
 
 class ErrorResponse(_serialization.Model):
@@ -666,8 +665,8 @@ class HardwareProfile(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.hardware_type = None
-        self.azure_large_instance_size = None
+        self.hardware_type: Optional[Union[str, "_models.AzureLargeInstanceHardwareTypeNamesEnum"]] = None
+        self.azure_large_instance_size: Optional[Union[str, "_models.AzureLargeInstanceSizeNamesEnum"]] = None
 
 
 class IpAddress(_serialization.Model):
@@ -717,7 +716,7 @@ class NetworkProfile(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.network_interfaces = network_interfaces
-        self.circuit_id = None
+        self.circuit_id: Optional[str] = None
 
 
 class Operation(_serialization.Model):
@@ -763,11 +762,11 @@ class Operation(_serialization.Model):
         :paramtype display: ~azure.mgmt.largeinstance.models.OperationDisplay
         """
         super().__init__(**kwargs)
-        self.name = None
-        self.is_data_action = None
+        self.name: Optional[str] = None
+        self.is_data_action: Optional[bool] = None
         self.display = display
-        self.origin = None
-        self.action_type = None
+        self.origin: Optional[Union[str, "_models.Origin"]] = None
+        self.action_type: Optional[Union[str, "_models.ActionType"]] = None
 
 
 class OperationDisplay(_serialization.Model):
@@ -806,10 +805,10 @@ class OperationDisplay(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.provider = None
-        self.resource = None
-        self.operation = None
-        self.description = None
+        self.provider: Optional[str] = None
+        self.resource: Optional[str] = None
+        self.operation: Optional[str] = None
+        self.description: Optional[str] = None
 
 
 class OperationListResult(_serialization.Model):
@@ -837,8 +836,8 @@ class OperationListResult(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.value = None
-        self.next_link = None
+        self.value: Optional[List["_models.Operation"]] = None
+        self.next_link: Optional[str] = None
 
 
 class OperationStatusResult(_serialization.Model):
@@ -920,7 +919,7 @@ class OperationStatusResult(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.id = id
-        self.resource_id = None
+        self.resource_id: Optional[str] = None
         self.name = name
         self.status = status
         self.percent_complete = percent_complete
@@ -968,8 +967,8 @@ class OsProfile(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.computer_name = computer_name
-        self.os_type = None
-        self.version = None
+        self.os_type: Optional[str] = None
+        self.version: Optional[str] = None
         self.ssh_public_key = ssh_public_key
 
 
@@ -1027,7 +1026,7 @@ class StorageProfile(_serialization.Model):
         :paramtype os_disks: list[~azure.mgmt.largeinstance.models.Disk]
         """
         super().__init__(**kwargs)
-        self.nfs_ip_address = None
+        self.nfs_ip_address: Optional[str] = None
         self.os_disks = os_disks
 
 
@@ -1099,7 +1098,7 @@ class StorageProperties(_serialization.Model):
          ~azure.mgmt.largeinstance.models.StorageBillingProperties
         """
         super().__init__(**kwargs)
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
         self.offering_type = offering_type
         self.storage_type = storage_type
         self.generation = generation

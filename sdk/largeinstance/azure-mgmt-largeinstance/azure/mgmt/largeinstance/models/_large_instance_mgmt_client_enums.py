@@ -82,7 +82,7 @@ class AzureLargeInstanceProvisioningStatesEnum(str, Enum, metaclass=CaseInsensit
 class AzureLargeInstanceSizeNamesEnum(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Enum of available model types (each of which have their own storage / memory sizes) for an
     Azure Large Instance type. See
-    https://docs.microsoft.com/azure/sap/large-instances/hana-available-skus.
+    https://learn.microsoft.com/azure/sap/large-instances/hana-available-skus.
     """
 
     S72_M = "S72m"
@@ -247,10 +247,3 @@ class ProvisioningState(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     """Cancelled means resource operation has been cancelled"""
     MIGRATING = "Migrating"
     """Migrating means resource is being migrated from one subscription or resource group to another"""
-
-
-class Versions(str, Enum, metaclass=CaseInsensitiveEnumMeta):
-    """Azure Large Instance api versions."""
-
-    V2023_07_20_PREVIEW = "2023-07-20-preview"
-    """Azure Large Instance api version 2023-07-20-preview."""
