@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long,useless-suppression
 # coding=utf-8
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
@@ -48,12 +49,13 @@ def main():
                 "isIPv6Enabled": "Enabled",
                 "publicNetworkAccess": "Enabled",
                 "restrictOutboundNetworkAccess": "Enabled",
+                "retentionDays": 7,
             },
         },
     ).result()
     print(response)
 
 
-# x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2024-05-01-preview/examples/ServerCreate.json
+# x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/ServerCreate.json
 if __name__ == "__main__":
     main()
