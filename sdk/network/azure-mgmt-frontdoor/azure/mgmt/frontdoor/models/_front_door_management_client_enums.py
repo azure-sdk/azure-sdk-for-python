@@ -19,6 +19,7 @@ class ActionType(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     REDIRECT = "Redirect"
     ANOMALY_SCORING = "AnomalyScoring"
     JS_CHALLENGE = "JSChallenge"
+    CAPTCHA = "CAPTCHA"
 
 
 class AggregationInterval(str, Enum, metaclass=CaseInsensitiveEnumMeta):
@@ -260,8 +261,9 @@ class MatchProcessingBehavior(str, Enum, metaclass=CaseInsensitiveEnumMeta):
     If not present, defaults to Continue.
     """
 
-    CONTINUE_ENUM = "Continue"
+    CONTINUE = "Continue"
     STOP = "Stop"
+    CONTINUE_ENUM = "Continue"
 
 
 class MatchVariable(str, Enum, metaclass=CaseInsensitiveEnumMeta):
