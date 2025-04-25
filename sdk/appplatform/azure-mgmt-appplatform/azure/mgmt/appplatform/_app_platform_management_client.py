@@ -7,17 +7,19 @@
 # --------------------------------------------------------------------------
 
 from copy import deepcopy
-from typing import Any, TYPE_CHECKING
+from typing import Any, Optional, TYPE_CHECKING, cast
 from typing_extensions import Self
 
 from azure.core.pipeline import policies
 from azure.core.rest import HttpRequest, HttpResponse
+from azure.core.settings import settings
 from azure.mgmt.core import ARMPipelineClient
 from azure.mgmt.core.policies import ARMAutoResourceProviderRegistrationPolicy
+from azure.mgmt.core.tools import get_arm_endpoints
 
 from . import models as _models
 from ._configuration import AppPlatformManagementClientConfiguration
-from ._serialization import Deserializer, Serializer
+from ._utils.serialization import Deserializer, Serializer
 from .operations import (
     ApiPortalCustomDomainsOperations,
     ApiPortalsOperations,
@@ -38,9 +40,14 @@ from .operations import (
     CustomizedAcceleratorsOperations,
     DeploymentsOperations,
     DevToolPortalsOperations,
+    EurekaServersOperations,
     GatewayCustomDomainsOperations,
     GatewayRouteConfigsOperations,
     GatewaysOperations,
+    JobExecutionOperations,
+    JobExecutionsOperations,
+    JobOperations,
+    JobsOperations,
     MonitoringSettingsOperations,
     Operations,
     PredefinedAcceleratorsOperations,
@@ -52,17 +59,18 @@ from .operations import (
 )
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from azure.core.credentials import TokenCredential
 
 
-class AppPlatformManagementClient:  # pylint: disable=client-accepts-api-version-keyword,too-many-instance-attributes
+class AppPlatformManagementClient:  # pylint: disable=too-many-instance-attributes
     """REST API for Azure Spring Apps.
 
     :ivar services: ServicesOperations operations
     :vartype services: azure.mgmt.appplatform.operations.ServicesOperations
     :ivar apms: ApmsOperations operations
     :vartype apms: azure.mgmt.appplatform.operations.ApmsOperations
+    :ivar eureka_servers: EurekaServersOperations operations
+    :vartype eureka_servers: azure.mgmt.appplatform.operations.EurekaServersOperations
     :ivar config_servers: ConfigServersOperations operations
     :vartype config_servers: azure.mgmt.appplatform.operations.ConfigServersOperations
     :ivar configuration_services: ConfigurationServicesOperations operations
@@ -127,30 +135,40 @@ class AppPlatformManagementClient:  # pylint: disable=client-accepts-api-version
     :ivar predefined_accelerators: PredefinedAcceleratorsOperations operations
     :vartype predefined_accelerators:
      azure.mgmt.appplatform.operations.PredefinedAcceleratorsOperations
+    :ivar jobs: JobsOperations operations
+    :vartype jobs: azure.mgmt.appplatform.operations.JobsOperations
+    :ivar job: JobOperations operations
+    :vartype job: azure.mgmt.appplatform.operations.JobOperations
+    :ivar job_execution: JobExecutionOperations operations
+    :vartype job_execution: azure.mgmt.appplatform.operations.JobExecutionOperations
+    :ivar job_executions: JobExecutionsOperations operations
+    :vartype job_executions: azure.mgmt.appplatform.operations.JobExecutionsOperations
     :param credential: Credential needed for the client to connect to Azure. Required.
     :type credential: ~azure.core.credentials.TokenCredential
     :param subscription_id: Gets subscription ID which uniquely identify the Microsoft Azure
      subscription. The subscription ID forms part of the URI for every service call. Required.
     :type subscription_id: str
-    :param base_url: Service URL. Default value is "https://management.azure.com".
+    :param base_url: Service URL. Default value is None.
     :type base_url: str
-    :keyword api_version: Api Version. Default value is "2023-12-01". Note that overriding this
-     default value may result in unsupported behavior.
+    :keyword api_version: Api Version. Default value is "2024-05-01-preview". Note that overriding
+     this default value may result in unsupported behavior.
     :paramtype api_version: str
     :keyword int polling_interval: Default waiting time between two polls for LRO operations if no
      Retry-After header is present.
     """
 
     def __init__(
-        self,
-        credential: "TokenCredential",
-        subscription_id: str,
-        base_url: str = "https://management.azure.com",
-        **kwargs: Any
+        self, credential: "TokenCredential", subscription_id: str, base_url: Optional[str] = None, **kwargs: Any
     ) -> None:
+        _cloud = kwargs.pop("cloud_setting", None) or settings.current.azure_cloud  # type: ignore
+        _endpoints = get_arm_endpoints(_cloud)
+        if not base_url:
+            base_url = _endpoints["resource_manager"]
+        credential_scopes = kwargs.pop("credential_scopes", _endpoints["credential_scopes"])
         self._config = AppPlatformManagementClientConfiguration(
-            credential=credential, subscription_id=subscription_id, **kwargs
+            credential=credential, subscription_id=subscription_id, credential_scopes=credential_scopes, **kwargs
         )
+
         _policies = kwargs.pop("policies", None)
         if _policies is None:
             _policies = [
@@ -169,7 +187,7 @@ class AppPlatformManagementClient:  # pylint: disable=client-accepts-api-version
                 policies.SensitiveHeaderCleanupPolicy(**kwargs) if self._config.redirect_policy else None,
                 self._config.http_logging_policy,
             ]
-        self._client: ARMPipelineClient = ARMPipelineClient(base_url=base_url, policies=_policies, **kwargs)
+        self._client: ARMPipelineClient = ARMPipelineClient(base_url=cast(str, base_url), policies=_policies, **kwargs)
 
         client_models = {k: v for k, v in _models.__dict__.items() if isinstance(v, type)}
         self._serialize = Serializer(client_models)
@@ -177,6 +195,7 @@ class AppPlatformManagementClient:  # pylint: disable=client-accepts-api-version
         self._serialize.client_side_validation = False
         self.services = ServicesOperations(self._client, self._config, self._serialize, self._deserialize)
         self.apms = ApmsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.eureka_servers = EurekaServersOperations(self._client, self._config, self._serialize, self._deserialize)
         self.config_servers = ConfigServersOperations(self._client, self._config, self._serialize, self._deserialize)
         self.configuration_services = ConfigurationServicesOperations(
             self._client, self._config, self._serialize, self._deserialize
@@ -235,6 +254,10 @@ class AppPlatformManagementClient:  # pylint: disable=client-accepts-api-version
         self.predefined_accelerators = PredefinedAcceleratorsOperations(
             self._client, self._config, self._serialize, self._deserialize
         )
+        self.jobs = JobsOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.job = JobOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.job_execution = JobExecutionOperations(self._client, self._config, self._serialize, self._deserialize)
+        self.job_executions = JobExecutionsOperations(self._client, self._config, self._serialize, self._deserialize)
 
     def _send_request(self, request: HttpRequest, *, stream: bool = False, **kwargs: Any) -> HttpResponse:
         """Runs the network request through the client's chained policies.
