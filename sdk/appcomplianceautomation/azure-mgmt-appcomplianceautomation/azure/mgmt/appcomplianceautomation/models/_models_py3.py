@@ -1,5 +1,5 @@
+# pylint: disable=line-too-long,useless-suppression,too-many-lines
 # coding=utf-8
-# pylint: disable=too-many-lines
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -10,10 +10,9 @@
 import datetime
 from typing import Any, List, Optional, TYPE_CHECKING, Union
 
-from .. import _serialization
+from .._utils import serialization as _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
@@ -46,9 +45,9 @@ class Category(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.category_name = None
-        self.category_status = None
-        self.control_families = None
+        self.category_name: Optional[str] = None
+        self.category_status: Optional[Union[str, "_models.CategoryStatus"]] = None
+        self.control_families: Optional[List["_models.ControlFamily"]] = None
 
 
 class CertSyncRecord(_serialization.Model):
@@ -169,7 +168,7 @@ class CheckNameAvailabilityResponse(_serialization.Model):
         self.message = message
 
 
-class ComplianceReportItem(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class ComplianceReportItem(_serialization.Model):
     """Object that includes all the content for single compliance result.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -234,18 +233,18 @@ class ComplianceReportItem(_serialization.Model):  # pylint: disable=too-many-in
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.category_name = None
-        self.control_family_name = None
-        self.control_id = None
-        self.control_name = None
-        self.control_status = None
-        self.responsibility_title = None
-        self.responsibility_description = None
-        self.resource_id = None
-        self.resource_type = None
-        self.resource_origin = None
-        self.resource_status = None
-        self.resource_status_change_date = None
+        self.category_name: Optional[str] = None
+        self.control_family_name: Optional[str] = None
+        self.control_id: Optional[str] = None
+        self.control_name: Optional[str] = None
+        self.control_status: Optional[Union[str, "_models.ControlStatus"]] = None
+        self.responsibility_title: Optional[str] = None
+        self.responsibility_description: Optional[str] = None
+        self.resource_id: Optional[str] = None
+        self.resource_type: Optional[str] = None
+        self.resource_origin: Optional[Union[str, "_models.ResourceOrigin"]] = None
+        self.resource_status: Optional[Union[str, "_models.ResourceStatus"]] = None
+        self.resource_status_change_date: Optional[datetime.datetime] = None
 
 
 class ComplianceResult(_serialization.Model):
@@ -272,8 +271,8 @@ class ComplianceResult(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.compliance_name = None
-        self.categories = None
+        self.compliance_name: Optional[str] = None
+        self.categories: Optional[List["_models.Category"]] = None
 
 
 class Control(_serialization.Model):
@@ -322,13 +321,13 @@ class Control(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.control_id = None
-        self.control_name = None
-        self.control_full_name = None
-        self.control_description = None
-        self.control_description_hyper_link = None
-        self.control_status = None
-        self.responsibilities = None
+        self.control_id: Optional[str] = None
+        self.control_name: Optional[str] = None
+        self.control_full_name: Optional[str] = None
+        self.control_description: Optional[str] = None
+        self.control_description_hyper_link: Optional[str] = None
+        self.control_status: Optional[Union[str, "_models.ControlStatus"]] = None
+        self.responsibilities: Optional[List["_models.Responsibility"]] = None
 
 
 class ControlFamily(_serialization.Model):
@@ -362,9 +361,9 @@ class ControlFamily(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.control_family_name = None
-        self.control_family_status = None
-        self.controls = None
+        self.control_family_name: Optional[str] = None
+        self.control_family_status: Optional[Union[str, "_models.ControlFamilyStatus"]] = None
+        self.controls: Optional[List["_models.Control"]] = None
 
 
 class ControlSyncRecord(_serialization.Model):
@@ -433,10 +432,10 @@ class DownloadResponse(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.resource_list = None
-        self.compliance_report = None
-        self.compliance_pdf_report = None
-        self.compliance_detailed_pdf_report = None
+        self.resource_list: Optional[List["_models.ResourceItem"]] = None
+        self.compliance_report: Optional[List["_models.ComplianceReportItem"]] = None
+        self.compliance_pdf_report: Optional["_models.DownloadResponseCompliancePdfReport"] = None
+        self.compliance_detailed_pdf_report: Optional["_models.DownloadResponseComplianceDetailedPdfReport"] = None
 
 
 class DownloadResponseComplianceDetailedPdfReport(_serialization.Model):  # pylint: disable=name-too-long
@@ -459,7 +458,7 @@ class DownloadResponseComplianceDetailedPdfReport(_serialization.Model):  # pyli
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.sas_uri = None
+        self.sas_uri: Optional[str] = None
 
 
 class DownloadResponseCompliancePdfReport(_serialization.Model):
@@ -482,7 +481,7 @@ class DownloadResponseCompliancePdfReport(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.sas_uri = None
+        self.sas_uri: Optional[str] = None
 
 
 class ErrorAdditionalInfo(_serialization.Model):
@@ -509,8 +508,8 @@ class ErrorAdditionalInfo(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.type = None
-        self.info = None
+        self.type: Optional[str] = None
+        self.info: Optional[JSON] = None
 
 
 class ErrorDetail(_serialization.Model):
@@ -549,11 +548,11 @@ class ErrorDetail(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.code = None
-        self.message = None
-        self.target = None
-        self.details = None
-        self.additional_info = None
+        self.code: Optional[str] = None
+        self.message: Optional[str] = None
+        self.target: Optional[str] = None
+        self.details: Optional[List["_models.ErrorDetail"]] = None
+        self.additional_info: Optional[List["_models.ErrorAdditionalInfo"]] = None
 
 
 class ErrorResponse(_serialization.Model):
@@ -630,7 +629,7 @@ class EvidenceFileDownloadResponse(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.evidence_file = None
+        self.evidence_file: Optional["_models.EvidenceFileDownloadResponseEvidenceFile"] = None
 
 
 class EvidenceFileDownloadResponseEvidenceFile(_serialization.Model):
@@ -653,7 +652,7 @@ class EvidenceFileDownloadResponseEvidenceFile(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.url = None
+        self.url: Optional[str] = None
 
 
 class EvidenceProperties(_serialization.Model):
@@ -723,7 +722,7 @@ class EvidenceProperties(_serialization.Model):
         self.extra_data = extra_data
         self.control_id = control_id
         self.responsibility_id = responsibility_id
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class Resource(_serialization.Model):
@@ -732,7 +731,7 @@ class Resource(_serialization.Model):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -761,10 +760,10 @@ class Resource(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
-        self.system_data = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
+        self.system_data: Optional["_models.SystemData"] = None
 
 
 class ProxyResource(Resource):
@@ -774,7 +773,7 @@ class ProxyResource(Resource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -795,7 +794,7 @@ class EvidenceResource(ProxyResource):
     All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1081,11 +1080,11 @@ class Operation(_serialization.Model):
         :paramtype display: ~azure.mgmt.appcomplianceautomation.models.OperationDisplay
         """
         super().__init__(**kwargs)
-        self.name = None
-        self.is_data_action = None
+        self.name: Optional[str] = None
+        self.is_data_action: Optional[bool] = None
         self.display = display
-        self.origin = None
-        self.action_type = None
+        self.origin: Optional[Union[str, "_models.Origin"]] = None
+        self.action_type: Optional[Union[str, "_models.ActionType"]] = None
 
 
 class OperationDisplay(_serialization.Model):
@@ -1124,10 +1123,10 @@ class OperationDisplay(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.provider = None
-        self.resource = None
-        self.operation = None
-        self.description = None
+        self.provider: Optional[str] = None
+        self.resource: Optional[str] = None
+        self.operation: Optional[str] = None
+        self.description: Optional[str] = None
 
 
 class OperationListResult(_serialization.Model):
@@ -1155,8 +1154,8 @@ class OperationListResult(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.value = None
-        self.next_link = None
+        self.value: Optional[List["_models.Operation"]] = None
+        self.next_link: Optional[str] = None
 
 
 class OverviewStatus(_serialization.Model):
@@ -1195,11 +1194,11 @@ class OverviewStatus(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.passed_count = None
-        self.failed_count = None
-        self.manual_count = None
-        self.not_applicable_count = None
-        self.pending_count = None
+        self.passed_count: Optional[int] = None
+        self.failed_count: Optional[int] = None
+        self.manual_count: Optional[int] = None
+        self.not_applicable_count: Optional[int] = None
+        self.pending_count: Optional[int] = None
 
 
 class QuickAssessment(_serialization.Model):
@@ -1246,13 +1245,13 @@ class QuickAssessment(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.resource_id = None
-        self.responsibility_id = None
-        self.timestamp = None
-        self.resource_status = None
-        self.display_name = None
-        self.description = None
-        self.remediation_link = None
+        self.resource_id: Optional[str] = None
+        self.responsibility_id: Optional[str] = None
+        self.timestamp: Optional[datetime.datetime] = None
+        self.resource_status: Optional[Union[str, "_models.ResourceStatus"]] = None
+        self.display_name: Optional[str] = None
+        self.description: Optional[str] = None
+        self.remediation_link: Optional[str] = None
 
 
 class Recommendation(_serialization.Model):
@@ -1285,9 +1284,9 @@ class Recommendation(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.recommendation_id = None
-        self.recommendation_short_name = None
-        self.recommendation_solutions = None
+        self.recommendation_id: Optional[str] = None
+        self.recommendation_short_name: Optional[str] = None
+        self.recommendation_solutions: Optional[List["_models.RecommendationSolution"]] = None
 
 
 class RecommendationSolution(_serialization.Model):
@@ -1320,9 +1319,9 @@ class RecommendationSolution(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.recommendation_solution_index = None
-        self.recommendation_solution_content = None
-        self.is_recommend_solution = None
+        self.recommendation_solution_index: Optional[str] = None
+        self.recommendation_solution_content: Optional[str] = None
+        self.is_recommend_solution: Optional[Union[str, "_models.IsRecommendSolution"]] = None
 
 
 class ReportComplianceStatus(_serialization.Model):
@@ -1345,7 +1344,7 @@ class ReportComplianceStatus(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.m365 = None
+        self.m365: Optional["_models.OverviewStatus"] = None
 
 
 class ReportFixResult(_serialization.Model):
@@ -1373,11 +1372,11 @@ class ReportFixResult(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.result = None
-        self.reason = None
+        self.result: Optional[Union[str, "_models.Result"]] = None
+        self.reason: Optional[str] = None
 
 
-class ReportPatchProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class ReportPatchProperties(_serialization.Model):
     """Patch Report's properties.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1479,20 +1478,20 @@ class ReportPatchProperties(_serialization.Model):  # pylint: disable=too-many-i
         self.trigger_time = trigger_time
         self.time_zone = time_zone
         self.resources = resources
-        self.status = None
-        self.errors = None
-        self.tenant_id = None
+        self.status: Optional[Union[str, "_models.ReportStatus"]] = None
+        self.errors: Optional[List[str]] = None
+        self.tenant_id: Optional[str] = None
         self.offer_guid = offer_guid
-        self.next_trigger_time = None
-        self.last_trigger_time = None
-        self.subscriptions = None
-        self.compliance_status = None
+        self.next_trigger_time: Optional[datetime.datetime] = None
+        self.last_trigger_time: Optional[datetime.datetime] = None
+        self.subscriptions: Optional[List[str]] = None
+        self.compliance_status: Optional["_models.ReportComplianceStatus"] = None
         self.storage_info = storage_info
-        self.cert_records = None
-        self.provisioning_state = None
+        self.cert_records: Optional[List["_models.CertSyncRecord"]] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
-class ReportProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class ReportProperties(_serialization.Model):
     """Create Report's properties.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1599,17 +1598,17 @@ class ReportProperties(_serialization.Model):  # pylint: disable=too-many-instan
         self.trigger_time = trigger_time
         self.time_zone = time_zone
         self.resources = resources
-        self.status = None
-        self.errors = None
-        self.tenant_id = None
+        self.status: Optional[Union[str, "_models.ReportStatus"]] = None
+        self.errors: Optional[List[str]] = None
+        self.tenant_id: Optional[str] = None
         self.offer_guid = offer_guid
-        self.next_trigger_time = None
-        self.last_trigger_time = None
-        self.subscriptions = None
-        self.compliance_status = None
+        self.next_trigger_time: Optional[datetime.datetime] = None
+        self.last_trigger_time: Optional[datetime.datetime] = None
+        self.subscriptions: Optional[List[str]] = None
+        self.compliance_status: Optional["_models.ReportComplianceStatus"] = None
         self.storage_info = storage_info
-        self.cert_records = None
-        self.provisioning_state = None
+        self.cert_records: Optional[List["_models.CertSyncRecord"]] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class ReportResource(ProxyResource):
@@ -1620,7 +1619,7 @@ class ReportResource(ProxyResource):
     All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -1738,8 +1737,8 @@ class ReportVerificationResult(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.result = None
-        self.reason = None
+        self.result: Optional[Union[str, "_models.Result"]] = None
+        self.reason: Optional[str] = None
 
 
 class ResourceItem(_serialization.Model):
@@ -1755,7 +1754,7 @@ class ResourceItem(_serialization.Model):
      "Microsoft.SignalRService/SignalR".
     :vartype resource_type: str
     :ivar resource_id: The resource Id - e.g.
-     "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Compute/virtualMachines/vm1".  # pylint: disable=line-too-long
+     "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Compute/virtualMachines/vm1".
     :vartype resource_id: str
     """
 
@@ -1776,10 +1775,10 @@ class ResourceItem(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.subscription_id = None
-        self.resource_group = None
-        self.resource_type = None
-        self.resource_id = None
+        self.subscription_id: Optional[str] = None
+        self.resource_group: Optional[str] = None
+        self.resource_type: Optional[str] = None
+        self.resource_id: Optional[str] = None
 
 
 class ResourceMetadata(_serialization.Model):
@@ -1788,7 +1787,7 @@ class ResourceMetadata(_serialization.Model):
     All required parameters must be populated in order to send to server.
 
     :ivar resource_id: Resource Id - e.g.
-     "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Compute/virtualMachines/vm1".  # pylint: disable=line-too-long
+     "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Compute/virtualMachines/vm1".
      Required.
     :vartype resource_id: str
     :ivar resource_type: Resource type. e.g. "Microsoft.Compute/virtualMachines".
@@ -1825,7 +1824,7 @@ class ResourceMetadata(_serialization.Model):
     ) -> None:
         """
         :keyword resource_id: Resource Id - e.g.
-         "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Compute/virtualMachines/vm1".  # pylint: disable=line-too-long
+         "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Compute/virtualMachines/vm1".
          Required.
         :paramtype resource_id: str
         :keyword resource_type: Resource type. e.g. "Microsoft.Compute/virtualMachines".
@@ -1845,7 +1844,7 @@ class ResourceMetadata(_serialization.Model):
         self.account_id = account_id
 
 
-class Responsibility(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class Responsibility(_serialization.Model):
     """A class represent the customer responsibility.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -1936,19 +1935,19 @@ class Responsibility(_serialization.Model):  # pylint: disable=too-many-instance
         :paramtype evidence_files: list[str]
         """
         super().__init__(**kwargs)
-        self.responsibility_id = None
-        self.responsibility_title = None
-        self.responsibility_description = None
-        self.responsibility_type = None
-        self.responsibility_severity = None
-        self.responsibility_status = None
-        self.responsibility_environment = None
+        self.responsibility_id: Optional[str] = None
+        self.responsibility_title: Optional[str] = None
+        self.responsibility_description: Optional[str] = None
+        self.responsibility_type: Optional[Union[str, "_models.ResponsibilityType"]] = None
+        self.responsibility_severity: Optional[Union[str, "_models.ResponsibilitySeverity"]] = None
+        self.responsibility_status: Optional[Union[str, "_models.ResponsibilityStatus"]] = None
+        self.responsibility_environment: Optional[Union[str, "_models.ResponsibilityEnvironment"]] = None
         self.failed_resource_count = failed_resource_count
         self.total_resource_count = total_resource_count
-        self.resource_list = None
-        self.recommendation_list = None
-        self.guidance = None
-        self.justification = None
+        self.resource_list: Optional[List["_models.ResponsibilityResource"]] = None
+        self.recommendation_list: Optional[List["_models.Recommendation"]] = None
+        self.guidance: Optional[str] = None
+        self.justification: Optional[str] = None
         self.evidence_files = evidence_files
 
 
@@ -1998,12 +1997,12 @@ class ResponsibilityResource(_serialization.Model):
         :paramtype recommendation_ids: list[str]
         """
         super().__init__(**kwargs)
-        self.resource_id = None
-        self.account_id = None
-        self.resource_type = None
-        self.resource_origin = None
-        self.resource_status = None
-        self.resource_status_change_date = None
+        self.resource_id: Optional[str] = None
+        self.account_id: Optional[str] = None
+        self.resource_type: Optional[str] = None
+        self.resource_origin: Optional[Union[str, "_models.ResourceOrigin"]] = None
+        self.resource_status: Optional[Union[str, "_models.ResourceStatus"]] = None
+        self.resource_status_change_date: Optional[datetime.datetime] = None
         self.recommendation_ids = recommendation_ids
 
 
@@ -2069,7 +2068,7 @@ class ScopingConfigurationProperties(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.answers = answers
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class ScopingConfigurationResource(ProxyResource):
@@ -2080,7 +2079,7 @@ class ScopingConfigurationResource(ProxyResource):
     All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -2199,12 +2198,12 @@ class ScopingQuestion(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.question_id = None
-        self.superior_question_id = None
-        self.input_type = None
-        self.option_ids = None
-        self.rules = None
-        self.show_sub_questions_value = None
+        self.question_id: Optional[str] = None
+        self.superior_question_id: Optional[str] = None
+        self.input_type: Optional[Union[str, "_models.InputType"]] = None
+        self.option_ids: Optional[List[str]] = None
+        self.rules: Optional[List[Union[str, "_models.Rule"]]] = None
+        self.show_sub_questions_value: Optional[str] = None
 
 
 class ScopingQuestions(_serialization.Model):
@@ -2318,12 +2317,12 @@ class SnapshotProperties(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.snapshot_name = None
-        self.created_at = None
-        self.provisioning_state = None
-        self.report_properties = None
-        self.report_system_data = None
-        self.compliance_results = None
+        self.snapshot_name: Optional[str] = None
+        self.created_at: Optional[datetime.datetime] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
+        self.report_properties: Optional["_models.ReportProperties"] = None
+        self.report_system_data: Optional["_models.SystemData"] = None
+        self.compliance_results: Optional[List["_models.ComplianceResult"]] = None
 
 
 class SnapshotResource(ProxyResource):
@@ -2332,7 +2331,7 @@ class SnapshotResource(ProxyResource):
     Variables are only populated by the server, and will be ignored when sending a request.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
@@ -2629,8 +2628,8 @@ class TriggerEvaluationProperty(_serialization.Model):
         :paramtype quick_assessments: list[~azure.mgmt.appcomplianceautomation.models.QuickAssessment]
         """
         super().__init__(**kwargs)
-        self.trigger_time = None
-        self.evaluation_end_time = None
+        self.trigger_time: Optional[datetime.datetime] = None
+        self.evaluation_end_time: Optional[datetime.datetime] = None
         self.resource_ids = resource_ids
         self.quick_assessments = quick_assessments
 
@@ -2681,7 +2680,7 @@ class TriggerEvaluationResponse(_serialization.Model):
         self.properties = properties
 
 
-class WebhookProperties(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class WebhookProperties(_serialization.Model):
     """Webhook properties.
 
     Variables are only populated by the server, and will be ignored when sending a request.
@@ -2786,19 +2785,19 @@ class WebhookProperties(_serialization.Model):  # pylint: disable=too-many-insta
          ~azure.mgmt.appcomplianceautomation.models.EnableSslVerification
         """
         super().__init__(**kwargs)
-        self.webhook_id = None
+        self.webhook_id: Optional[str] = None
         self.status = status
-        self.tenant_id = None
+        self.tenant_id: Optional[str] = None
         self.send_all_events = send_all_events
         self.events = events
         self.payload_url = payload_url
         self.content_type = content_type
         self.webhook_key = webhook_key
         self.update_webhook_key = update_webhook_key
-        self.webhook_key_enabled = None
+        self.webhook_key_enabled: Optional[Union[str, "_models.WebhookKeyEnabled"]] = None
         self.enable_ssl_verification = enable_ssl_verification
-        self.delivery_status = None
-        self.provisioning_state = None
+        self.delivery_status: Optional[Union[str, "_models.DeliveryStatus"]] = None
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
 
 
 class WebhookResource(ProxyResource):
@@ -2809,7 +2808,7 @@ class WebhookResource(ProxyResource):
     All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
-     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.  # pylint: disable=line-too-long
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
     :vartype id: str
     :ivar name: The name of the resource.
     :vartype name: str
