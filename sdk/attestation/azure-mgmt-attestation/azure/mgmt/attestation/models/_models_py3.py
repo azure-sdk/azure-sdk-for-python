@@ -1,5 +1,5 @@
+# pylint: disable=line-too-long,useless-suppression,too-many-lines
 # coding=utf-8
-# pylint: disable=too-many-lines
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -8,12 +8,11 @@
 # --------------------------------------------------------------------------
 
 import datetime
-from typing import Dict, List, Optional, TYPE_CHECKING, Union
+from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 
-from .. import _serialization
+from .._utils import serialization as _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
 
 
@@ -44,20 +43,21 @@ class Resource(_serialization.Model):
         "type": {"key": "type", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
 
 
 class TrackedResource(Resource):
-    """The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location'.
+    """The resource model definition for an Azure Resource Manager tracked top level resource which
+    has 'tags' and a 'location'.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
@@ -88,7 +88,7 @@ class TrackedResource(Resource):
         "location": {"key": "location", "type": "str"},
     }
 
-    def __init__(self, *, location: str, tags: Optional[Dict[str, str]] = None, **kwargs):
+    def __init__(self, *, location: str, tags: Optional[Dict[str, str]] = None, **kwargs: Any) -> None:
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
@@ -105,7 +105,7 @@ class AttestationProvider(TrackedResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. Ex -
      /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
@@ -128,10 +128,17 @@ class AttestationProvider(TrackedResource):
     :vartype status: str or ~azure.mgmt.attestation.models.AttestationServiceStatus
     :ivar attest_uri: Gets the uri of attestation service.
     :vartype attest_uri: str
+    :ivar public_network_access: Controls whether traffic from the public network is allowed to
+     access the Attestation Provider APIs. Known values are: "Enabled" and "Disabled".
+    :vartype public_network_access: str or ~azure.mgmt.attestation.models.PublicNetworkAccessType
     :ivar private_endpoint_connections: List of private endpoint connections associated with the
      attestation provider.
     :vartype private_endpoint_connections:
      list[~azure.mgmt.attestation.models.PrivateEndpointConnection]
+    :ivar tpm_attestation_authentication: The setting that controls whether authentication is
+     enabled or disabled for TPM Attestation REST APIs. Known values are: "Enabled" and "Disabled".
+    :vartype tpm_attestation_authentication: str or
+     ~azure.mgmt.attestation.models.TpmAttestationAuthenticationType
     """
 
     _validation = {
@@ -153,10 +160,12 @@ class AttestationProvider(TrackedResource):
         "trust_model": {"key": "properties.trustModel", "type": "str"},
         "status": {"key": "properties.status", "type": "str"},
         "attest_uri": {"key": "properties.attestUri", "type": "str"},
+        "public_network_access": {"key": "properties.publicNetworkAccess", "type": "str"},
         "private_endpoint_connections": {
             "key": "properties.privateEndpointConnections",
             "type": "[PrivateEndpointConnection]",
         },
+        "tpm_attestation_authentication": {"key": "properties.tpmAttestationAuthentication", "type": "str"},
     }
 
     def __init__(
@@ -167,8 +176,10 @@ class AttestationProvider(TrackedResource):
         trust_model: Optional[str] = None,
         status: Optional[Union[str, "_models.AttestationServiceStatus"]] = None,
         attest_uri: Optional[str] = None,
-        **kwargs
-    ):
+        public_network_access: Union[str, "_models.PublicNetworkAccessType"] = "Enabled",
+        tpm_attestation_authentication: Union[str, "_models.TpmAttestationAuthenticationType"] = "Enabled",
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
@@ -181,13 +192,22 @@ class AttestationProvider(TrackedResource):
         :paramtype status: str or ~azure.mgmt.attestation.models.AttestationServiceStatus
         :keyword attest_uri: Gets the uri of attestation service.
         :paramtype attest_uri: str
+        :keyword public_network_access: Controls whether traffic from the public network is allowed to
+         access the Attestation Provider APIs. Known values are: "Enabled" and "Disabled".
+        :paramtype public_network_access: str or ~azure.mgmt.attestation.models.PublicNetworkAccessType
+        :keyword tpm_attestation_authentication: The setting that controls whether authentication is
+         enabled or disabled for TPM Attestation REST APIs. Known values are: "Enabled" and "Disabled".
+        :paramtype tpm_attestation_authentication: str or
+         ~azure.mgmt.attestation.models.TpmAttestationAuthenticationType
         """
         super().__init__(tags=tags, location=location, **kwargs)
-        self.system_data = None
+        self.system_data: Optional["_models.SystemData"] = None
         self.trust_model = trust_model
         self.status = status
         self.attest_uri = attest_uri
-        self.private_endpoint_connections = None
+        self.public_network_access = public_network_access
+        self.private_endpoint_connections: Optional[List["_models.PrivateEndpointConnection"]] = None
+        self.tpm_attestation_authentication = tpm_attestation_authentication
 
 
 class AttestationProviderListResult(_serialization.Model):
@@ -210,20 +230,20 @@ class AttestationProviderListResult(_serialization.Model):
         "value": {"key": "value", "type": "[AttestationProvider]"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.AttestationProvider"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.AttestationProvider"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: Attestation Provider array.
         :paramtype value: list[~azure.mgmt.attestation.models.AttestationProvider]
         """
         super().__init__(**kwargs)
-        self.system_data = None
+        self.system_data: Optional["_models.SystemData"] = None
         self.value = value
 
 
 class AttestationServiceCreationParams(_serialization.Model):
     """Parameters for creating an attestation provider.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar location: The supported Azure location where the attestation provider should be created.
      Required.
@@ -251,8 +271,8 @@ class AttestationServiceCreationParams(_serialization.Model):
         location: str,
         properties: "_models.AttestationServiceCreationSpecificParams",
         tags: Optional[Dict[str, str]] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword location: The supported Azure location where the attestation provider should be
          created. Required.
@@ -271,24 +291,49 @@ class AttestationServiceCreationParams(_serialization.Model):
 class AttestationServiceCreationSpecificParams(_serialization.Model):
     """Client supplied parameters used to create a new attestation provider.
 
+    :ivar public_network_access: Controls whether traffic from the public network is allowed to
+     access the Attestation Provider APIs. Known values are: "Enabled" and "Disabled".
+    :vartype public_network_access: str or ~azure.mgmt.attestation.models.PublicNetworkAccessType
     :ivar policy_signing_certificates: JSON Web Key Set defining a set of X.509 Certificates that
      will represent the parent certificate for the signing certificate used for policy operations.
     :vartype policy_signing_certificates: ~azure.mgmt.attestation.models.JSONWebKeySet
+    :ivar tpm_attestation_authentication: The setting that controls whether authentication is
+     enabled or disabled for TPM Attestation REST APIs. Known values are: "Enabled" and "Disabled".
+    :vartype tpm_attestation_authentication: str or
+     ~azure.mgmt.attestation.models.TpmAttestationAuthenticationType
     """
 
     _attribute_map = {
+        "public_network_access": {"key": "publicNetworkAccess", "type": "str"},
         "policy_signing_certificates": {"key": "policySigningCertificates", "type": "JSONWebKeySet"},
+        "tpm_attestation_authentication": {"key": "tpmAttestationAuthentication", "type": "str"},
     }
 
-    def __init__(self, *, policy_signing_certificates: Optional["_models.JSONWebKeySet"] = None, **kwargs):
+    def __init__(
+        self,
+        *,
+        public_network_access: Union[str, "_models.PublicNetworkAccessType"] = "Enabled",
+        policy_signing_certificates: Optional["_models.JSONWebKeySet"] = None,
+        tpm_attestation_authentication: Union[str, "_models.TpmAttestationAuthenticationType"] = "Enabled",
+        **kwargs: Any
+    ) -> None:
         """
+        :keyword public_network_access: Controls whether traffic from the public network is allowed to
+         access the Attestation Provider APIs. Known values are: "Enabled" and "Disabled".
+        :paramtype public_network_access: str or ~azure.mgmt.attestation.models.PublicNetworkAccessType
         :keyword policy_signing_certificates: JSON Web Key Set defining a set of X.509 Certificates
          that will represent the parent certificate for the signing certificate used for policy
          operations.
         :paramtype policy_signing_certificates: ~azure.mgmt.attestation.models.JSONWebKeySet
+        :keyword tpm_attestation_authentication: The setting that controls whether authentication is
+         enabled or disabled for TPM Attestation REST APIs. Known values are: "Enabled" and "Disabled".
+        :paramtype tpm_attestation_authentication: str or
+         ~azure.mgmt.attestation.models.TpmAttestationAuthenticationType
         """
         super().__init__(**kwargs)
+        self.public_network_access = public_network_access
         self.policy_signing_certificates = policy_signing_certificates
+        self.tpm_attestation_authentication = tpm_attestation_authentication
 
 
 class AttestationServicePatchParams(_serialization.Model):
@@ -296,19 +341,69 @@ class AttestationServicePatchParams(_serialization.Model):
 
     :ivar tags: The tags that will be assigned to the attestation provider.
     :vartype tags: dict[str, str]
+    :ivar properties: Properties of the attestation provider.
+    :vartype properties: ~azure.mgmt.attestation.models.AttestationServicePatchSpecificParams
     """
 
     _attribute_map = {
         "tags": {"key": "tags", "type": "{str}"},
+        "properties": {"key": "properties", "type": "AttestationServicePatchSpecificParams"},
     }
 
-    def __init__(self, *, tags: Optional[Dict[str, str]] = None, **kwargs):
+    def __init__(
+        self,
+        *,
+        tags: Optional[Dict[str, str]] = None,
+        properties: Optional["_models.AttestationServicePatchSpecificParams"] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword tags: The tags that will be assigned to the attestation provider.
         :paramtype tags: dict[str, str]
+        :keyword properties: Properties of the attestation provider.
+        :paramtype properties: ~azure.mgmt.attestation.models.AttestationServicePatchSpecificParams
         """
         super().__init__(**kwargs)
         self.tags = tags
+        self.properties = properties
+
+
+class AttestationServicePatchSpecificParams(_serialization.Model):
+    """Client supplied parameters used to patch an existing attestation provider.
+
+    :ivar public_network_access: Controls whether traffic from the public network is allowed to
+     access the Attestation Provider APIs. Known values are: "Enabled" and "Disabled".
+    :vartype public_network_access: str or ~azure.mgmt.attestation.models.PublicNetworkAccessType
+    :ivar tpm_attestation_authentication: The setting that controls whether authentication is
+     enabled or disabled for TPM Attestation REST APIs. Known values are: "Enabled" and "Disabled".
+    :vartype tpm_attestation_authentication: str or
+     ~azure.mgmt.attestation.models.TpmAttestationAuthenticationType
+    """
+
+    _attribute_map = {
+        "public_network_access": {"key": "publicNetworkAccess", "type": "str"},
+        "tpm_attestation_authentication": {"key": "tpmAttestationAuthentication", "type": "str"},
+    }
+
+    def __init__(
+        self,
+        *,
+        public_network_access: Union[str, "_models.PublicNetworkAccessType"] = "Enabled",
+        tpm_attestation_authentication: Union[str, "_models.TpmAttestationAuthenticationType"] = "Enabled",
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword public_network_access: Controls whether traffic from the public network is allowed to
+         access the Attestation Provider APIs. Known values are: "Enabled" and "Disabled".
+        :paramtype public_network_access: str or ~azure.mgmt.attestation.models.PublicNetworkAccessType
+        :keyword tpm_attestation_authentication: The setting that controls whether authentication is
+         enabled or disabled for TPM Attestation REST APIs. Known values are: "Enabled" and "Disabled".
+        :paramtype tpm_attestation_authentication: str or
+         ~azure.mgmt.attestation.models.TpmAttestationAuthenticationType
+        """
+        super().__init__(**kwargs)
+        self.public_network_access = public_network_access
+        self.tpm_attestation_authentication = tpm_attestation_authentication
 
 
 class CloudErrorBody(_serialization.Model):
@@ -327,7 +422,7 @@ class CloudErrorBody(_serialization.Model):
         "message": {"key": "message", "type": "str"},
     }
 
-    def __init__(self, *, code: Optional[str] = None, message: Optional[str] = None, **kwargs):
+    def __init__(self, *, code: Optional[str] = None, message: Optional[str] = None, **kwargs: Any) -> None:
         """
         :keyword code: An identifier for the error. Codes are invariant and are intended to be consumed
          programmatically.
@@ -341,10 +436,10 @@ class CloudErrorBody(_serialization.Model):
         self.message = message
 
 
-class JSONWebKey(_serialization.Model):  # pylint: disable=too-many-instance-attributes
+class JSONWebKey(_serialization.Model):
     """JSONWebKey.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar alg: The "alg" (algorithm) parameter identifies the algorithm intended for
      use with the key.  The values used should either be registered in the
@@ -451,8 +546,8 @@ class JSONWebKey(_serialization.Model):  # pylint: disable=too-many-instance-att
         x: Optional[str] = None,
         x5_c: Optional[List[str]] = None,
         y: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword alg: The "alg" (algorithm) parameter identifies the algorithm intended for
          use with the key.  The values used should either be registered in the
@@ -549,7 +644,7 @@ class JSONWebKeySet(_serialization.Model):
         "keys": {"key": "keys", "type": "[JSONWebKey]"},
     }
 
-    def __init__(self, *, keys: Optional[List["_models.JSONWebKey"]] = None, **kwargs):
+    def __init__(self, *, keys: Optional[List["_models.JSONWebKey"]] = None, **kwargs: Any) -> None:
         """
         :keyword keys: The value of the "keys" parameter is an array of JWK values.  By
          default, the order of the JWK values within the array does not imply
@@ -560,6 +655,32 @@ class JSONWebKeySet(_serialization.Model):
         """
         super().__init__(**kwargs)
         self.keys = keys
+
+
+class LogSpecification(_serialization.Model):
+    """Specifications of the Log for Microsoft Azure Attestation.
+
+    :ivar name: Name of the log.
+    :vartype name: str
+    :ivar display_name: Localized friendly display name of the log.
+    :vartype display_name: str
+    """
+
+    _attribute_map = {
+        "name": {"key": "name", "type": "str"},
+        "display_name": {"key": "displayName", "type": "str"},
+    }
+
+    def __init__(self, *, name: Optional[str] = None, display_name: Optional[str] = None, **kwargs: Any) -> None:
+        """
+        :keyword name: Name of the log.
+        :paramtype name: str
+        :keyword display_name: Localized friendly display name of the log.
+        :paramtype display_name: str
+        """
+        super().__init__(**kwargs)
+        self.name = name
+        self.display_name = display_name
 
 
 class OperationList(_serialization.Model):
@@ -582,14 +703,36 @@ class OperationList(_serialization.Model):
         "value": {"key": "value", "type": "[OperationsDefinition]"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.OperationsDefinition"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.OperationsDefinition"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: List of supported operations.
         :paramtype value: list[~azure.mgmt.attestation.models.OperationsDefinition]
         """
         super().__init__(**kwargs)
-        self.system_data = None
+        self.system_data: Optional["_models.SystemData"] = None
         self.value = value
+
+
+class OperationProperties(_serialization.Model):
+    """Extra Operation properties.
+
+    :ivar service_specification: Service specifications of the operation.
+    :vartype service_specification: ~azure.mgmt.attestation.models.ServiceSpecification
+    """
+
+    _attribute_map = {
+        "service_specification": {"key": "serviceSpecification", "type": "ServiceSpecification"},
+    }
+
+    def __init__(
+        self, *, service_specification: Optional["_models.ServiceSpecification"] = None, **kwargs: Any
+    ) -> None:
+        """
+        :keyword service_specification: Service specifications of the operation.
+        :paramtype service_specification: ~azure.mgmt.attestation.models.ServiceSpecification
+        """
+        super().__init__(**kwargs)
+        self.service_specification = service_specification
 
 
 class OperationsDefinition(_serialization.Model):
@@ -599,25 +742,36 @@ class OperationsDefinition(_serialization.Model):
     :vartype name: str
     :ivar display: Display object with properties of the operation.
     :vartype display: ~azure.mgmt.attestation.models.OperationsDisplayDefinition
+    :ivar properties: Properties of the operation.
+    :vartype properties: ~azure.mgmt.attestation.models.OperationProperties
     """
 
     _attribute_map = {
         "name": {"key": "name", "type": "str"},
         "display": {"key": "display", "type": "OperationsDisplayDefinition"},
+        "properties": {"key": "properties", "type": "OperationProperties"},
     }
 
     def __init__(
-        self, *, name: Optional[str] = None, display: Optional["_models.OperationsDisplayDefinition"] = None, **kwargs
-    ):
+        self,
+        *,
+        name: Optional[str] = None,
+        display: Optional["_models.OperationsDisplayDefinition"] = None,
+        properties: Optional["_models.OperationProperties"] = None,
+        **kwargs: Any
+    ) -> None:
         """
         :keyword name: Name of the operation.
         :paramtype name: str
         :keyword display: Display object with properties of the operation.
         :paramtype display: ~azure.mgmt.attestation.models.OperationsDisplayDefinition
+        :keyword properties: Properties of the operation.
+        :paramtype properties: ~azure.mgmt.attestation.models.OperationProperties
         """
         super().__init__(**kwargs)
         self.name = name
         self.display = display
+        self.properties = properties
 
 
 class OperationsDisplayDefinition(_serialization.Model):
@@ -647,8 +801,8 @@ class OperationsDisplayDefinition(_serialization.Model):
         resource: Optional[str] = None,
         operation: Optional[str] = None,
         description: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword provider: Resource provider of the operation.
         :paramtype provider: str
@@ -683,10 +837,10 @@ class PrivateEndpoint(_serialization.Model):
         "id": {"key": "id", "type": "str"},
     }
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.id = None
+        self.id: Optional[str] = None
 
 
 class PrivateEndpointConnection(Resource):
@@ -738,8 +892,8 @@ class PrivateEndpointConnection(Resource):
         *,
         private_endpoint: Optional["_models.PrivateEndpoint"] = None,
         private_link_service_connection_state: Optional["_models.PrivateLinkServiceConnectionState"] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword private_endpoint: The resource of private end point.
         :paramtype private_endpoint: ~azure.mgmt.attestation.models.PrivateEndpoint
@@ -751,7 +905,7 @@ class PrivateEndpointConnection(Resource):
         super().__init__(**kwargs)
         self.private_endpoint = private_endpoint
         self.private_link_service_connection_state = private_link_service_connection_state
-        self.provisioning_state = None
+        self.provisioning_state: Optional[Union[str, "_models.PrivateEndpointConnectionProvisioningState"]] = None
 
 
 class PrivateEndpointConnectionListResult(_serialization.Model):
@@ -765,7 +919,7 @@ class PrivateEndpointConnectionListResult(_serialization.Model):
         "value": {"key": "value", "type": "[PrivateEndpointConnection]"},
     }
 
-    def __init__(self, *, value: Optional[List["_models.PrivateEndpointConnection"]] = None, **kwargs):
+    def __init__(self, *, value: Optional[List["_models.PrivateEndpointConnection"]] = None, **kwargs: Any) -> None:
         """
         :keyword value: Array of private endpoint connections.
         :paramtype value: list[~azure.mgmt.attestation.models.PrivateEndpointConnection]
@@ -774,8 +928,78 @@ class PrivateEndpointConnectionListResult(_serialization.Model):
         self.value = value
 
 
+class PrivateLinkResource(Resource):
+    """A private link resource.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. Ex -
+     /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}.
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar group_id: The private link resource group id.
+    :vartype group_id: str
+    :ivar required_members: The private link resource required member names.
+    :vartype required_members: list[str]
+    :ivar required_zone_names: The private link resource Private link DNS zone name.
+    :vartype required_zone_names: list[str]
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "group_id": {"readonly": True},
+        "required_members": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "group_id": {"key": "properties.groupId", "type": "str"},
+        "required_members": {"key": "properties.requiredMembers", "type": "[str]"},
+        "required_zone_names": {"key": "properties.requiredZoneNames", "type": "[str]"},
+    }
+
+    def __init__(self, *, required_zone_names: Optional[List[str]] = None, **kwargs: Any) -> None:
+        """
+        :keyword required_zone_names: The private link resource Private link DNS zone name.
+        :paramtype required_zone_names: list[str]
+        """
+        super().__init__(**kwargs)
+        self.group_id: Optional[str] = None
+        self.required_members: Optional[List[str]] = None
+        self.required_zone_names = required_zone_names
+
+
+class PrivateLinkResourceListResult(_serialization.Model):
+    """A list of private link resources.
+
+    :ivar value: Array of private link resources.
+    :vartype value: list[~azure.mgmt.attestation.models.PrivateLinkResource]
+    """
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[PrivateLinkResource]"},
+    }
+
+    def __init__(self, *, value: Optional[List["_models.PrivateLinkResource"]] = None, **kwargs: Any) -> None:
+        """
+        :keyword value: Array of private link resources.
+        :paramtype value: list[~azure.mgmt.attestation.models.PrivateLinkResource]
+        """
+        super().__init__(**kwargs)
+        self.value = value
+
+
 class PrivateLinkServiceConnectionState(_serialization.Model):
-    """A collection of information about the state of the connection between service consumer and provider.
+    """A collection of information about the state of the connection between service consumer and
+    provider.
 
     :ivar status: Indicates whether the connection has been Approved/Rejected/Removed by the owner
      of the service. Known values are: "Pending", "Approved", and "Rejected".
@@ -799,8 +1023,8 @@ class PrivateLinkServiceConnectionState(_serialization.Model):
         status: Optional[Union[str, "_models.PrivateEndpointServiceConnectionStatus"]] = None,
         description: Optional[str] = None,
         actions_required: Optional[str] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword status: Indicates whether the connection has been Approved/Rejected/Removed by the
          owner of the service. Known values are: "Pending", "Approved", and "Rejected".
@@ -815,6 +1039,26 @@ class PrivateLinkServiceConnectionState(_serialization.Model):
         self.status = status
         self.description = description
         self.actions_required = actions_required
+
+
+class ServiceSpecification(_serialization.Model):
+    """Service specification payload.
+
+    :ivar log_specifications: Specifications of the Log for Microsoft Azure Attestation.
+    :vartype log_specifications: list[~azure.mgmt.attestation.models.LogSpecification]
+    """
+
+    _attribute_map = {
+        "log_specifications": {"key": "logSpecifications", "type": "[LogSpecification]"},
+    }
+
+    def __init__(self, *, log_specifications: Optional[List["_models.LogSpecification"]] = None, **kwargs: Any) -> None:
+        """
+        :keyword log_specifications: Specifications of the Log for Microsoft Azure Attestation.
+        :paramtype log_specifications: list[~azure.mgmt.attestation.models.LogSpecification]
+        """
+        super().__init__(**kwargs)
+        self.log_specifications = log_specifications
 
 
 class SystemData(_serialization.Model):
@@ -854,8 +1098,8 @@ class SystemData(_serialization.Model):
         last_modified_by: Optional[str] = None,
         last_modified_by_type: Optional[Union[str, "_models.CreatedByType"]] = None,
         last_modified_at: Optional[datetime.datetime] = None,
-        **kwargs
-    ):
+        **kwargs: Any
+    ) -> None:
         """
         :keyword created_by: The identity that created the resource.
         :paramtype created_by: str
