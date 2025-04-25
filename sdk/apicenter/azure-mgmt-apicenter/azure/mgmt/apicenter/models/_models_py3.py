@@ -1,5 +1,5 @@
+# pylint: disable=line-too-long,useless-suppression,too-many-lines
 # coding=utf-8
-# pylint: disable=too-many-lines
 # --------------------------------------------------------------------------
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License. See License.txt in the project root for license information.
@@ -7,21 +7,15 @@
 # Changes may cause incorrect behavior and will be lost if the code is regenerated.
 # --------------------------------------------------------------------------
 
+from collections.abc import MutableMapping
 import datetime
-import sys
 from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union
 
-from .. import _serialization
-
-if sys.version_info >= (3, 9):
-    from collections.abc import MutableMapping
-else:
-    from typing import MutableMapping  # type: ignore  # pylint: disable=ungrouped-imports
+from .._utils import serialization as _serialization
 
 if TYPE_CHECKING:
-    # pylint: disable=unused-import,ungrouped-imports
     from .. import models as _models
-JSON = MutableMapping[str, Any]  # pylint: disable=unsubscriptable-object
+JSON = MutableMapping[str, Any]
 
 
 class Resource(_serialization.Model):
@@ -59,10 +53,10 @@ class Resource(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.id = None
-        self.name = None
-        self.type = None
-        self.system_data = None
+        self.id: Optional[str] = None
+        self.name: Optional[str] = None
+        self.type: Optional[str] = None
+        self.system_data: Optional["_models.SystemData"] = None
 
 
 class ProxyResource(Resource):
@@ -84,24 +78,6 @@ class ProxyResource(Resource):
     :vartype system_data: ~azure.mgmt.apicenter.models.SystemData
     """
 
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-        "system_data": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "system_data": {"key": "systemData", "type": "SystemData"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-
 
 class Api(ProxyResource):
     """API entity.
@@ -119,8 +95,28 @@ class Api(ProxyResource):
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
     :vartype system_data: ~azure.mgmt.apicenter.models.SystemData
-    :ivar properties: The resource-specific properties for this resource.
-    :vartype properties: ~azure.mgmt.apicenter.models.ApiProperties
+    :ivar title: API title.
+    :vartype title: str
+    :ivar kind: Kind of API. For example, REST or GraphQL. Known values are: "rest", "graphql",
+     "grpc", "soap", "webhook", and "websocket".
+    :vartype kind: str or ~azure.mgmt.apicenter.models.ApiKind
+    :ivar description: Description of the API.
+    :vartype description: str
+    :ivar summary: Short description of the API.
+    :vartype summary: str
+    :ivar lifecycle_stage: Current lifecycle stage of the API. Known values are: "design",
+     "development", "testing", "preview", "production", "deprecated", and "retired".
+    :vartype lifecycle_stage: str or ~azure.mgmt.apicenter.models.LifecycleStage
+    :ivar terms_of_service: Terms of service for the API.
+    :vartype terms_of_service: ~azure.mgmt.apicenter.models.TermsOfService
+    :ivar external_documentation: The set of external documentation.
+    :vartype external_documentation: list[~azure.mgmt.apicenter.models.ExternalDocumentation]
+    :ivar contacts: The set of contacts.
+    :vartype contacts: list[~azure.mgmt.apicenter.models.Contact]
+    :ivar license: The license information for the API.
+    :vartype license: ~azure.mgmt.apicenter.models.License
+    :ivar custom_properties: The custom metadata defined for API catalog entities.
+    :vartype custom_properties: JSON
     """
 
     _validation = {
@@ -128,6 +124,11 @@ class Api(ProxyResource):
         "name": {"readonly": True},
         "type": {"readonly": True},
         "system_data": {"readonly": True},
+        "title": {"max_length": 50, "min_length": 1},
+        "description": {"max_length": 1000},
+        "summary": {"max_length": 200},
+        "lifecycle_stage": {"readonly": True},
+        "external_documentation": {"max_items": 20, "min_items": 0},
     }
 
     _attribute_map = {
@@ -135,16 +136,64 @@ class Api(ProxyResource):
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
         "system_data": {"key": "systemData", "type": "SystemData"},
-        "properties": {"key": "properties", "type": "ApiProperties"},
+        "title": {"key": "properties.title", "type": "str"},
+        "kind": {"key": "properties.kind", "type": "str"},
+        "description": {"key": "properties.description", "type": "str"},
+        "summary": {"key": "properties.summary", "type": "str"},
+        "lifecycle_stage": {"key": "properties.lifecycleStage", "type": "str"},
+        "terms_of_service": {"key": "properties.termsOfService", "type": "TermsOfService"},
+        "external_documentation": {"key": "properties.externalDocumentation", "type": "[ExternalDocumentation]"},
+        "contacts": {"key": "properties.contacts", "type": "[Contact]"},
+        "license": {"key": "properties.license", "type": "License"},
+        "custom_properties": {"key": "properties.customProperties", "type": "object"},
     }
 
-    def __init__(self, *, properties: Optional["_models.ApiProperties"] = None, **kwargs: Any) -> None:
+    def __init__(
+        self,
+        *,
+        title: Optional[str] = None,
+        kind: Optional[Union[str, "_models.ApiKind"]] = None,
+        description: Optional[str] = None,
+        summary: Optional[str] = None,
+        terms_of_service: Optional["_models.TermsOfService"] = None,
+        external_documentation: Optional[List["_models.ExternalDocumentation"]] = None,
+        contacts: Optional[List["_models.Contact"]] = None,
+        license: Optional["_models.License"] = None,
+        custom_properties: Optional[JSON] = None,
+        **kwargs: Any
+    ) -> None:
         """
-        :keyword properties: The resource-specific properties for this resource.
-        :paramtype properties: ~azure.mgmt.apicenter.models.ApiProperties
+        :keyword title: API title.
+        :paramtype title: str
+        :keyword kind: Kind of API. For example, REST or GraphQL. Known values are: "rest", "graphql",
+         "grpc", "soap", "webhook", and "websocket".
+        :paramtype kind: str or ~azure.mgmt.apicenter.models.ApiKind
+        :keyword description: Description of the API.
+        :paramtype description: str
+        :keyword summary: Short description of the API.
+        :paramtype summary: str
+        :keyword terms_of_service: Terms of service for the API.
+        :paramtype terms_of_service: ~azure.mgmt.apicenter.models.TermsOfService
+        :keyword external_documentation: The set of external documentation.
+        :paramtype external_documentation: list[~azure.mgmt.apicenter.models.ExternalDocumentation]
+        :keyword contacts: The set of contacts.
+        :paramtype contacts: list[~azure.mgmt.apicenter.models.Contact]
+        :keyword license: The license information for the API.
+        :paramtype license: ~azure.mgmt.apicenter.models.License
+        :keyword custom_properties: The custom metadata defined for API catalog entities.
+        :paramtype custom_properties: JSON
         """
         super().__init__(**kwargs)
-        self.properties = properties
+        self.title = title
+        self.kind = kind
+        self.description = description
+        self.summary = summary
+        self.lifecycle_stage: Optional[Union[str, "_models.LifecycleStage"]] = None
+        self.terms_of_service = terms_of_service
+        self.external_documentation = external_documentation
+        self.contacts = contacts
+        self.license = license
+        self.custom_properties = custom_properties
 
 
 class ApiDefinition(ProxyResource):
@@ -163,8 +212,12 @@ class ApiDefinition(ProxyResource):
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
     :vartype system_data: ~azure.mgmt.apicenter.models.SystemData
-    :ivar properties: The resource-specific properties for this resource.
-    :vartype properties: ~azure.mgmt.apicenter.models.ApiDefinitionProperties
+    :ivar title: API definition title.
+    :vartype title: str
+    :ivar description: API definition description.
+    :vartype description: str
+    :ivar specification: API specification details.
+    :vartype specification: ~azure.mgmt.apicenter.models.ApiDefinitionPropertiesSpecification
     """
 
     _validation = {
@@ -172,6 +225,8 @@ class ApiDefinition(ProxyResource):
         "name": {"readonly": True},
         "type": {"readonly": True},
         "system_data": {"readonly": True},
+        "title": {"max_length": 50, "min_length": 1},
+        "specification": {"readonly": True},
     }
 
     _attribute_map = {
@@ -179,16 +234,22 @@ class ApiDefinition(ProxyResource):
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
         "system_data": {"key": "systemData", "type": "SystemData"},
-        "properties": {"key": "properties", "type": "ApiDefinitionProperties"},
+        "title": {"key": "properties.title", "type": "str"},
+        "description": {"key": "properties.description", "type": "str"},
+        "specification": {"key": "properties.specification", "type": "ApiDefinitionPropertiesSpecification"},
     }
 
-    def __init__(self, *, properties: Optional["_models.ApiDefinitionProperties"] = None, **kwargs: Any) -> None:
+    def __init__(self, *, title: Optional[str] = None, description: Optional[str] = None, **kwargs: Any) -> None:
         """
-        :keyword properties: The resource-specific properties for this resource.
-        :paramtype properties: ~azure.mgmt.apicenter.models.ApiDefinitionProperties
+        :keyword title: API definition title.
+        :paramtype title: str
+        :keyword description: API definition description.
+        :paramtype description: str
         """
         super().__init__(**kwargs)
-        self.properties = properties
+        self.title = title
+        self.description = description
+        self.specification: Optional["_models.ApiDefinitionPropertiesSpecification"] = None
 
 
 class ApiDefinitionListResult(_serialization.Model):
@@ -196,7 +257,7 @@ class ApiDefinitionListResult(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: The ApiDefinition items on this page. Required.
     :vartype value: list[~azure.mgmt.apicenter.models.ApiDefinition]
@@ -217,47 +278,8 @@ class ApiDefinitionListResult(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.value = None
-        self.next_link = None
-
-
-class ApiDefinitionProperties(_serialization.Model):
-    """API definition properties entity.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar title: API definition title. Required.
-    :vartype title: str
-    :ivar description: API definition description.
-    :vartype description: str
-    :ivar specification: API specification details.
-    :vartype specification: ~azure.mgmt.apicenter.models.ApiDefinitionPropertiesSpecification
-    """
-
-    _validation = {
-        "title": {"required": True, "max_length": 50, "min_length": 1},
-        "specification": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "title": {"key": "title", "type": "str"},
-        "description": {"key": "description", "type": "str"},
-        "specification": {"key": "specification", "type": "ApiDefinitionPropertiesSpecification"},
-    }
-
-    def __init__(self, *, title: str, description: Optional[str] = None, **kwargs: Any) -> None:
-        """
-        :keyword title: API definition title. Required.
-        :paramtype title: str
-        :keyword description: API definition description.
-        :paramtype description: str
-        """
-        super().__init__(**kwargs)
-        self.title = title
-        self.description = description
-        self.specification = None
+        self.value: Optional[List["_models.ApiDefinition"]] = None
+        self.next_link: Optional[str] = None
 
 
 class ApiDefinitionPropertiesSpecification(_serialization.Model):
@@ -291,7 +313,7 @@ class ApiListResult(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: The Api items on this page. Required.
     :vartype value: list[~azure.mgmt.apicenter.models.Api]
@@ -312,109 +334,120 @@ class ApiListResult(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.value = None
-        self.next_link = None
+        self.value: Optional[List["_models.Api"]] = None
+        self.next_link: Optional[str] = None
 
 
-class ApiProperties(_serialization.Model):
-    """API properties.
+class ApiSource(ProxyResource):
+    """API source entity.
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar title: API title. Required.
-    :vartype title: str
-    :ivar kind: Kind of API. For example, REST or GraphQL. Required. Known values are: "rest",
-     "graphql", "grpc", "soap", "webhook", and "websocket".
-    :vartype kind: str or ~azure.mgmt.apicenter.models.ApiKind
-    :ivar description: Description of the API.
-    :vartype description: str
-    :ivar summary: Short description of the API.
-    :vartype summary: str
-    :ivar lifecycle_stage: Current lifecycle stage of the API. Known values are: "design",
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.apicenter.models.SystemData
+    :ivar import_specification: Indicates if the specification should be imported along with
+     metadata. Known values are: "never", "ondemand", and "always".
+    :vartype import_specification: str or ~azure.mgmt.apicenter.models.ImportSpecificationOptions
+    :ivar azure_api_management_source: API source configuration for Azure API Management.
+    :vartype azure_api_management_source: ~azure.mgmt.apicenter.models.AzureApiManagementSource
+    :ivar target_environment_id: The target environment resource ID.
+    :vartype target_environment_id: str
+    :ivar target_lifecycle_stage: The target lifecycle stage. Known values are: "design",
      "development", "testing", "preview", "production", "deprecated", and "retired".
-    :vartype lifecycle_stage: str or ~azure.mgmt.apicenter.models.LifecycleStage
-    :ivar terms_of_service: Terms of service for the API.
-    :vartype terms_of_service: ~azure.mgmt.apicenter.models.TermsOfService
-    :ivar external_documentation: The set of external documentation.
-    :vartype external_documentation: list[~azure.mgmt.apicenter.models.ExternalDocumentation]
-    :ivar contacts: The set of contacts.
-    :vartype contacts: list[~azure.mgmt.apicenter.models.Contact]
-    :ivar license: The license information for the API.
-    :vartype license: ~azure.mgmt.apicenter.models.License
-    :ivar custom_properties: The custom metadata defined for API catalog entities.
-    :vartype custom_properties: JSON
+    :vartype target_lifecycle_stage: str or ~azure.mgmt.apicenter.models.LifecycleStage
+    :ivar link_state: The state of the API source link.
+    :vartype link_state: ~azure.mgmt.apicenter.models.LinkState
     """
 
     _validation = {
-        "title": {"required": True, "max_length": 50, "min_length": 1},
-        "kind": {"required": True},
-        "description": {"max_length": 1000},
-        "summary": {"max_length": 200},
-        "lifecycle_stage": {"readonly": True},
-        "external_documentation": {"max_items": 20, "min_items": 0},
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+        "link_state": {"readonly": True},
     }
 
     _attribute_map = {
-        "title": {"key": "title", "type": "str"},
-        "kind": {"key": "kind", "type": "str"},
-        "description": {"key": "description", "type": "str"},
-        "summary": {"key": "summary", "type": "str"},
-        "lifecycle_stage": {"key": "lifecycleStage", "type": "str"},
-        "terms_of_service": {"key": "termsOfService", "type": "TermsOfService"},
-        "external_documentation": {"key": "externalDocumentation", "type": "[ExternalDocumentation]"},
-        "contacts": {"key": "contacts", "type": "[Contact]"},
-        "license": {"key": "license", "type": "License"},
-        "custom_properties": {"key": "customProperties", "type": "object"},
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "import_specification": {"key": "properties.importSpecification", "type": "str"},
+        "azure_api_management_source": {
+            "key": "properties.azureApiManagementSource",
+            "type": "AzureApiManagementSource",
+        },
+        "target_environment_id": {"key": "properties.targetEnvironmentId", "type": "str"},
+        "target_lifecycle_stage": {"key": "properties.targetLifecycleStage", "type": "str"},
+        "link_state": {"key": "properties.linkState", "type": "LinkState"},
     }
 
     def __init__(
         self,
         *,
-        title: str,
-        kind: Union[str, "_models.ApiKind"],
-        description: Optional[str] = None,
-        summary: Optional[str] = None,
-        terms_of_service: Optional["_models.TermsOfService"] = None,
-        external_documentation: Optional[List["_models.ExternalDocumentation"]] = None,
-        contacts: Optional[List["_models.Contact"]] = None,
-        license: Optional["_models.License"] = None,
-        custom_properties: Optional[JSON] = None,
+        import_specification: Optional[Union[str, "_models.ImportSpecificationOptions"]] = None,
+        azure_api_management_source: Optional["_models.AzureApiManagementSource"] = None,
+        target_environment_id: Optional[str] = None,
+        target_lifecycle_stage: Optional[Union[str, "_models.LifecycleStage"]] = None,
         **kwargs: Any
     ) -> None:
         """
-        :keyword title: API title. Required.
-        :paramtype title: str
-        :keyword kind: Kind of API. For example, REST or GraphQL. Required. Known values are: "rest",
-         "graphql", "grpc", "soap", "webhook", and "websocket".
-        :paramtype kind: str or ~azure.mgmt.apicenter.models.ApiKind
-        :keyword description: Description of the API.
-        :paramtype description: str
-        :keyword summary: Short description of the API.
-        :paramtype summary: str
-        :keyword terms_of_service: Terms of service for the API.
-        :paramtype terms_of_service: ~azure.mgmt.apicenter.models.TermsOfService
-        :keyword external_documentation: The set of external documentation.
-        :paramtype external_documentation: list[~azure.mgmt.apicenter.models.ExternalDocumentation]
-        :keyword contacts: The set of contacts.
-        :paramtype contacts: list[~azure.mgmt.apicenter.models.Contact]
-        :keyword license: The license information for the API.
-        :paramtype license: ~azure.mgmt.apicenter.models.License
-        :keyword custom_properties: The custom metadata defined for API catalog entities.
-        :paramtype custom_properties: JSON
+        :keyword import_specification: Indicates if the specification should be imported along with
+         metadata. Known values are: "never", "ondemand", and "always".
+        :paramtype import_specification: str or ~azure.mgmt.apicenter.models.ImportSpecificationOptions
+        :keyword azure_api_management_source: API source configuration for Azure API Management.
+        :paramtype azure_api_management_source: ~azure.mgmt.apicenter.models.AzureApiManagementSource
+        :keyword target_environment_id: The target environment resource ID.
+        :paramtype target_environment_id: str
+        :keyword target_lifecycle_stage: The target lifecycle stage. Known values are: "design",
+         "development", "testing", "preview", "production", "deprecated", and "retired".
+        :paramtype target_lifecycle_stage: str or ~azure.mgmt.apicenter.models.LifecycleStage
         """
         super().__init__(**kwargs)
-        self.title = title
-        self.kind = kind
-        self.description = description
-        self.summary = summary
-        self.lifecycle_stage = None
-        self.terms_of_service = terms_of_service
-        self.external_documentation = external_documentation
-        self.contacts = contacts
-        self.license = license
-        self.custom_properties = custom_properties
+        self.import_specification = import_specification
+        self.azure_api_management_source = azure_api_management_source
+        self.target_environment_id = target_environment_id
+        self.target_lifecycle_stage = target_lifecycle_stage
+        self.link_state: Optional["_models.LinkState"] = None
+
+
+class ApiSourceListResult(_serialization.Model):
+    """The response of a ApiSource list operation.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar value: The ApiSource items on this page. Required.
+    :vartype value: list[~azure.mgmt.apicenter.models.ApiSource]
+    :ivar next_link: The link to the next page of items.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "value": {"required": True, "readonly": True},
+        "next_link": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[ApiSource]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.value: Optional[List["_models.ApiSource"]] = None
+        self.next_link: Optional[str] = None
 
 
 class ApiSpecExportResult(_serialization.Model):
@@ -530,8 +563,11 @@ class ApiVersion(ProxyResource):
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
     :vartype system_data: ~azure.mgmt.apicenter.models.SystemData
-    :ivar properties: The resource-specific properties for this resource.
-    :vartype properties: ~azure.mgmt.apicenter.models.ApiVersionProperties
+    :ivar title: API version title.
+    :vartype title: str
+    :ivar lifecycle_stage: Current lifecycle stage of the API. Known values are: "design",
+     "development", "testing", "preview", "production", "deprecated", and "retired".
+    :vartype lifecycle_stage: str or ~azure.mgmt.apicenter.models.LifecycleStage
     """
 
     _validation = {
@@ -539,6 +575,7 @@ class ApiVersion(ProxyResource):
         "name": {"readonly": True},
         "type": {"readonly": True},
         "system_data": {"readonly": True},
+        "title": {"max_length": 50, "min_length": 1},
     }
 
     _attribute_map = {
@@ -546,16 +583,27 @@ class ApiVersion(ProxyResource):
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
         "system_data": {"key": "systemData", "type": "SystemData"},
-        "properties": {"key": "properties", "type": "ApiVersionProperties"},
+        "title": {"key": "properties.title", "type": "str"},
+        "lifecycle_stage": {"key": "properties.lifecycleStage", "type": "str"},
     }
 
-    def __init__(self, *, properties: Optional["_models.ApiVersionProperties"] = None, **kwargs: Any) -> None:
+    def __init__(
+        self,
+        *,
+        title: Optional[str] = None,
+        lifecycle_stage: Optional[Union[str, "_models.LifecycleStage"]] = None,
+        **kwargs: Any
+    ) -> None:
         """
-        :keyword properties: The resource-specific properties for this resource.
-        :paramtype properties: ~azure.mgmt.apicenter.models.ApiVersionProperties
+        :keyword title: API version title.
+        :paramtype title: str
+        :keyword lifecycle_stage: Current lifecycle stage of the API. Known values are: "design",
+         "development", "testing", "preview", "production", "deprecated", and "retired".
+        :paramtype lifecycle_stage: str or ~azure.mgmt.apicenter.models.LifecycleStage
         """
         super().__init__(**kwargs)
-        self.properties = properties
+        self.title = title
+        self.lifecycle_stage = lifecycle_stage
 
 
 class ApiVersionListResult(_serialization.Model):
@@ -563,7 +611,7 @@ class ApiVersionListResult(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: The ApiVersion items on this page. Required.
     :vartype value: list[~azure.mgmt.apicenter.models.ApiVersion]
@@ -584,43 +632,42 @@ class ApiVersionListResult(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.value = None
-        self.next_link = None
+        self.value: Optional[List["_models.ApiVersion"]] = None
+        self.next_link: Optional[str] = None
 
 
-class ApiVersionProperties(_serialization.Model):
-    """API version properties entity.
+class AzureApiManagementSource(_serialization.Model):
+    """API source configuration for Azure API Management.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
-    :ivar title: API version title. Required.
-    :vartype title: str
-    :ivar lifecycle_stage: Current lifecycle stage of the API. Required. Known values are:
-     "design", "development", "testing", "preview", "production", "deprecated", and "retired".
-    :vartype lifecycle_stage: str or ~azure.mgmt.apicenter.models.LifecycleStage
+    :ivar resource_id: API Management service resource ID. Required.
+    :vartype resource_id: str
+    :ivar msi_resource_id: The resource ID of the managed identity that has access to the API
+     Management instance.
+    :vartype msi_resource_id: str
     """
 
     _validation = {
-        "title": {"required": True, "max_length": 50, "min_length": 1},
-        "lifecycle_stage": {"required": True},
+        "resource_id": {"required": True},
     }
 
     _attribute_map = {
-        "title": {"key": "title", "type": "str"},
-        "lifecycle_stage": {"key": "lifecycleStage", "type": "str"},
+        "resource_id": {"key": "resourceId", "type": "str"},
+        "msi_resource_id": {"key": "msiResourceId", "type": "str"},
     }
 
-    def __init__(self, *, title: str, lifecycle_stage: Union[str, "_models.LifecycleStage"], **kwargs: Any) -> None:
+    def __init__(self, *, resource_id: str, msi_resource_id: Optional[str] = None, **kwargs: Any) -> None:
         """
-        :keyword title: API version title. Required.
-        :paramtype title: str
-        :keyword lifecycle_stage: Current lifecycle stage of the API. Required. Known values are:
-         "design", "development", "testing", "preview", "production", "deprecated", and "retired".
-        :paramtype lifecycle_stage: str or ~azure.mgmt.apicenter.models.LifecycleStage
+        :keyword resource_id: API Management service resource ID. Required.
+        :paramtype resource_id: str
+        :keyword msi_resource_id: The resource ID of the managed identity that has access to the API
+         Management instance.
+        :paramtype msi_resource_id: str
         """
         super().__init__(**kwargs)
-        self.title = title
-        self.lifecycle_stage = lifecycle_stage
+        self.resource_id = resource_id
+        self.msi_resource_id = msi_resource_id
 
 
 class Contact(_serialization.Model):
@@ -663,6 +710,98 @@ class Contact(_serialization.Model):
         self.email = email
 
 
+class DeletedService(ProxyResource):
+    """Soft-deleted service entity.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    :ivar id: Fully qualified resource ID for the resource. E.g.
+     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
+    :vartype id: str
+    :ivar name: The name of the resource.
+    :vartype name: str
+    :ivar type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+     "Microsoft.Storage/storageAccounts".
+    :vartype type: str
+    :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
+     information.
+    :vartype system_data: ~azure.mgmt.apicenter.models.SystemData
+    :ivar scheduled_purge_date: UTC date and time when the service will be automatically purged.
+     The date conforms to the following format: yyyy-MM-ddTHH:mm:ssZ as specified by the ISO 8601
+     standard.
+    :vartype scheduled_purge_date: ~datetime.datetime
+    :ivar soft_deletion_date: UTC date and time when the service was soft-deleted. The date
+     conforms to the following format: yyyy-MM-ddTHH:mm:ssZ as specified by the ISO 8601 standard.
+    :vartype soft_deletion_date: ~datetime.datetime
+    """
+
+    _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "scheduled_purge_date": {"key": "properties.scheduledPurgeDate", "type": "iso-8601"},
+        "soft_deletion_date": {"key": "properties.softDeletionDate", "type": "iso-8601"},
+    }
+
+    def __init__(
+        self,
+        *,
+        scheduled_purge_date: Optional[datetime.datetime] = None,
+        soft_deletion_date: Optional[datetime.datetime] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword scheduled_purge_date: UTC date and time when the service will be automatically purged.
+         The date conforms to the following format: yyyy-MM-ddTHH:mm:ssZ as specified by the ISO 8601
+         standard.
+        :paramtype scheduled_purge_date: ~datetime.datetime
+        :keyword soft_deletion_date: UTC date and time when the service was soft-deleted. The date
+         conforms to the following format: yyyy-MM-ddTHH:mm:ssZ as specified by the ISO 8601 standard.
+        :paramtype soft_deletion_date: ~datetime.datetime
+        """
+        super().__init__(**kwargs)
+        self.scheduled_purge_date = scheduled_purge_date
+        self.soft_deletion_date = soft_deletion_date
+
+
+class DeletedServiceListResult(_serialization.Model):
+    """The response of a DeletedService list operation.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar value: The DeletedService items on this page. Required.
+    :vartype value: list[~azure.mgmt.apicenter.models.DeletedService]
+    :ivar next_link: The link to the next page of items.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "value": {"required": True, "readonly": True},
+        "next_link": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[DeletedService]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.value: Optional[List["_models.DeletedService"]] = None
+        self.next_link: Optional[str] = None
+
+
 class Deployment(ProxyResource):
     """API deployment entity.
 
@@ -679,67 +818,6 @@ class Deployment(ProxyResource):
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
     :vartype system_data: ~azure.mgmt.apicenter.models.SystemData
-    :ivar properties: The resource-specific properties for this resource.
-    :vartype properties: ~azure.mgmt.apicenter.models.DeploymentProperties
-    """
-
-    _validation = {
-        "id": {"readonly": True},
-        "name": {"readonly": True},
-        "type": {"readonly": True},
-        "system_data": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "id": {"key": "id", "type": "str"},
-        "name": {"key": "name", "type": "str"},
-        "type": {"key": "type", "type": "str"},
-        "system_data": {"key": "systemData", "type": "SystemData"},
-        "properties": {"key": "properties", "type": "DeploymentProperties"},
-    }
-
-    def __init__(self, *, properties: Optional["_models.DeploymentProperties"] = None, **kwargs: Any) -> None:
-        """
-        :keyword properties: The resource-specific properties for this resource.
-        :paramtype properties: ~azure.mgmt.apicenter.models.DeploymentProperties
-        """
-        super().__init__(**kwargs)
-        self.properties = properties
-
-
-class DeploymentListResult(_serialization.Model):
-    """The response of a Deployment list operation.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar value: The Deployment items on this page. Required.
-    :vartype value: list[~azure.mgmt.apicenter.models.Deployment]
-    :ivar next_link: The link to the next page of items.
-    :vartype next_link: str
-    """
-
-    _validation = {
-        "value": {"required": True, "readonly": True},
-        "next_link": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "value": {"key": "value", "type": "[Deployment]"},
-        "next_link": {"key": "nextLink", "type": "str"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-        self.value = None
-        self.next_link = None
-
-
-class DeploymentProperties(_serialization.Model):
-    """API deployment entity properties.
-
     :ivar title: API deployment title.
     :vartype title: str
     :ivar description: Description of the deployment.
@@ -757,18 +835,26 @@ class DeploymentProperties(_serialization.Model):
     """
 
     _validation = {
+        "id": {"readonly": True},
+        "name": {"readonly": True},
+        "type": {"readonly": True},
+        "system_data": {"readonly": True},
         "title": {"max_length": 50, "min_length": 1},
         "description": {"max_length": 500},
     }
 
     _attribute_map = {
-        "title": {"key": "title", "type": "str"},
-        "description": {"key": "description", "type": "str"},
-        "environment_id": {"key": "environmentId", "type": "str"},
-        "definition_id": {"key": "definitionId", "type": "str"},
-        "state": {"key": "state", "type": "str"},
-        "server": {"key": "server", "type": "DeploymentServer"},
-        "custom_properties": {"key": "customProperties", "type": "object"},
+        "id": {"key": "id", "type": "str"},
+        "name": {"key": "name", "type": "str"},
+        "type": {"key": "type", "type": "str"},
+        "system_data": {"key": "systemData", "type": "SystemData"},
+        "title": {"key": "properties.title", "type": "str"},
+        "description": {"key": "properties.description", "type": "str"},
+        "environment_id": {"key": "properties.environmentId", "type": "str"},
+        "definition_id": {"key": "properties.definitionId", "type": "str"},
+        "state": {"key": "properties.state", "type": "str"},
+        "server": {"key": "properties.server", "type": "DeploymentServer"},
+        "custom_properties": {"key": "properties.customProperties", "type": "object"},
     }
 
     def __init__(
@@ -809,6 +895,36 @@ class DeploymentProperties(_serialization.Model):
         self.custom_properties = custom_properties
 
 
+class DeploymentListResult(_serialization.Model):
+    """The response of a Deployment list operation.
+
+    Variables are only populated by the server, and will be ignored when sending a request.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar value: The Deployment items on this page. Required.
+    :vartype value: list[~azure.mgmt.apicenter.models.Deployment]
+    :ivar next_link: The link to the next page of items.
+    :vartype next_link: str
+    """
+
+    _validation = {
+        "value": {"required": True, "readonly": True},
+        "next_link": {"readonly": True},
+    }
+
+    _attribute_map = {
+        "value": {"key": "value", "type": "[Deployment]"},
+        "next_link": {"key": "nextLink", "type": "str"},
+    }
+
+    def __init__(self, **kwargs: Any) -> None:
+        """ """
+        super().__init__(**kwargs)
+        self.value: Optional[List["_models.Deployment"]] = None
+        self.next_link: Optional[str] = None
+
+
 class DeploymentServer(_serialization.Model):
     """Server.
 
@@ -845,8 +961,19 @@ class Environment(ProxyResource):
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
     :vartype system_data: ~azure.mgmt.apicenter.models.SystemData
-    :ivar properties: The resource-specific properties for this resource.
-    :vartype properties: ~azure.mgmt.apicenter.models.EnvironmentProperties
+    :ivar title: Environment title.
+    :vartype title: str
+    :ivar description: The environment description.
+    :vartype description: str
+    :ivar kind: Environment kind. Known values are: "development", "testing", "staging", and
+     "production".
+    :vartype kind: str or ~azure.mgmt.apicenter.models.EnvironmentKind
+    :ivar server: Server information of the environment.
+    :vartype server: ~azure.mgmt.apicenter.models.EnvironmentServer
+    :ivar onboarding: Environment onboarding information.
+    :vartype onboarding: ~azure.mgmt.apicenter.models.Onboarding
+    :ivar custom_properties: The custom metadata defined for API catalog entities.
+    :vartype custom_properties: JSON
     """
 
     _validation = {
@@ -854,6 +981,7 @@ class Environment(ProxyResource):
         "name": {"readonly": True},
         "type": {"readonly": True},
         "system_data": {"readonly": True},
+        "title": {"max_length": 50, "min_length": 1},
     }
 
     _attribute_map = {
@@ -861,16 +989,47 @@ class Environment(ProxyResource):
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
         "system_data": {"key": "systemData", "type": "SystemData"},
-        "properties": {"key": "properties", "type": "EnvironmentProperties"},
+        "title": {"key": "properties.title", "type": "str"},
+        "description": {"key": "properties.description", "type": "str"},
+        "kind": {"key": "properties.kind", "type": "str"},
+        "server": {"key": "properties.server", "type": "EnvironmentServer"},
+        "onboarding": {"key": "properties.onboarding", "type": "Onboarding"},
+        "custom_properties": {"key": "properties.customProperties", "type": "object"},
     }
 
-    def __init__(self, *, properties: Optional["_models.EnvironmentProperties"] = None, **kwargs: Any) -> None:
+    def __init__(
+        self,
+        *,
+        title: Optional[str] = None,
+        description: Optional[str] = None,
+        kind: Optional[Union[str, "_models.EnvironmentKind"]] = None,
+        server: Optional["_models.EnvironmentServer"] = None,
+        onboarding: Optional["_models.Onboarding"] = None,
+        custom_properties: Optional[JSON] = None,
+        **kwargs: Any
+    ) -> None:
         """
-        :keyword properties: The resource-specific properties for this resource.
-        :paramtype properties: ~azure.mgmt.apicenter.models.EnvironmentProperties
+        :keyword title: Environment title.
+        :paramtype title: str
+        :keyword description: The environment description.
+        :paramtype description: str
+        :keyword kind: Environment kind. Known values are: "development", "testing", "staging", and
+         "production".
+        :paramtype kind: str or ~azure.mgmt.apicenter.models.EnvironmentKind
+        :keyword server: Server information of the environment.
+        :paramtype server: ~azure.mgmt.apicenter.models.EnvironmentServer
+        :keyword onboarding: Environment onboarding information.
+        :paramtype onboarding: ~azure.mgmt.apicenter.models.Onboarding
+        :keyword custom_properties: The custom metadata defined for API catalog entities.
+        :paramtype custom_properties: JSON
         """
         super().__init__(**kwargs)
-        self.properties = properties
+        self.title = title
+        self.description = description
+        self.kind = kind
+        self.server = server
+        self.onboarding = onboarding
+        self.custom_properties = custom_properties
 
 
 class EnvironmentListResult(_serialization.Model):
@@ -878,7 +1037,7 @@ class EnvironmentListResult(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: The Environment items on this page. Required.
     :vartype value: list[~azure.mgmt.apicenter.models.Environment]
@@ -899,77 +1058,8 @@ class EnvironmentListResult(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.value = None
-        self.next_link = None
-
-
-class EnvironmentProperties(_serialization.Model):
-    """Environment properties entity.
-
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar title: Environment title. Required.
-    :vartype title: str
-    :ivar description: The environment description.
-    :vartype description: str
-    :ivar kind: Environment kind. Required. Known values are: "development", "testing", "staging",
-     and "production".
-    :vartype kind: str or ~azure.mgmt.apicenter.models.EnvironmentKind
-    :ivar server: Server information of the environment.
-    :vartype server: ~azure.mgmt.apicenter.models.EnvironmentServer
-    :ivar onboarding: Environment onboarding information.
-    :vartype onboarding: ~azure.mgmt.apicenter.models.Onboarding
-    :ivar custom_properties: The custom metadata defined for API catalog entities.
-    :vartype custom_properties: JSON
-    """
-
-    _validation = {
-        "title": {"required": True, "max_length": 50, "min_length": 1},
-        "kind": {"required": True},
-    }
-
-    _attribute_map = {
-        "title": {"key": "title", "type": "str"},
-        "description": {"key": "description", "type": "str"},
-        "kind": {"key": "kind", "type": "str"},
-        "server": {"key": "server", "type": "EnvironmentServer"},
-        "onboarding": {"key": "onboarding", "type": "Onboarding"},
-        "custom_properties": {"key": "customProperties", "type": "object"},
-    }
-
-    def __init__(
-        self,
-        *,
-        title: str,
-        kind: Union[str, "_models.EnvironmentKind"],
-        description: Optional[str] = None,
-        server: Optional["_models.EnvironmentServer"] = None,
-        onboarding: Optional["_models.Onboarding"] = None,
-        custom_properties: Optional[JSON] = None,
-        **kwargs: Any
-    ) -> None:
-        """
-        :keyword title: Environment title. Required.
-        :paramtype title: str
-        :keyword description: The environment description.
-        :paramtype description: str
-        :keyword kind: Environment kind. Required. Known values are: "development", "testing",
-         "staging", and "production".
-        :paramtype kind: str or ~azure.mgmt.apicenter.models.EnvironmentKind
-        :keyword server: Server information of the environment.
-        :paramtype server: ~azure.mgmt.apicenter.models.EnvironmentServer
-        :keyword onboarding: Environment onboarding information.
-        :paramtype onboarding: ~azure.mgmt.apicenter.models.Onboarding
-        :keyword custom_properties: The custom metadata defined for API catalog entities.
-        :paramtype custom_properties: JSON
-        """
-        super().__init__(**kwargs)
-        self.title = title
-        self.description = description
-        self.kind = kind
-        self.server = server
-        self.onboarding = onboarding
-        self.custom_properties = custom_properties
+        self.value: Optional[List["_models.Environment"]] = None
+        self.next_link: Optional[str] = None
 
 
 class EnvironmentServer(_serialization.Model):
@@ -1036,8 +1126,8 @@ class ErrorAdditionalInfo(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.type = None
-        self.info = None
+        self.type: Optional[str] = None
+        self.info: Optional[JSON] = None
 
 
 class ErrorDetail(_serialization.Model):
@@ -1076,11 +1166,11 @@ class ErrorDetail(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.code = None
-        self.message = None
-        self.target = None
-        self.details = None
-        self.additional_info = None
+        self.code: Optional[str] = None
+        self.message: Optional[str] = None
+        self.target: Optional[str] = None
+        self.details: Optional[List["_models.ErrorDetail"]] = None
+        self.additional_info: Optional[List["_models.ErrorAdditionalInfo"]] = None
 
 
 class ErrorResponse(_serialization.Model):
@@ -1107,7 +1197,7 @@ class ErrorResponse(_serialization.Model):
 class ExternalDocumentation(_serialization.Model):
     """Additional, external documentation for the API.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar title: Title of the documentation.
     :vartype title: str
@@ -1190,12 +1280,59 @@ class License(_serialization.Model):
         self.identifier = identifier
 
 
+class LinkState(_serialization.Model):
+    """The link state.
+
+    All required parameters must be populated in order to send to server.
+
+    :ivar state: The state of the link. Known values are: "initializing", "syncing", "error", and
+     "deleting".
+    :vartype state: str or ~azure.mgmt.apicenter.models.ApiSourceLinkState
+    :ivar message: The state message.
+    :vartype message: str
+    :ivar last_updated_on: The timestamp of the last update of the link state. Required.
+    :vartype last_updated_on: ~datetime.datetime
+    """
+
+    _validation = {
+        "last_updated_on": {"required": True},
+    }
+
+    _attribute_map = {
+        "state": {"key": "state", "type": "str"},
+        "message": {"key": "message", "type": "str"},
+        "last_updated_on": {"key": "lastUpdatedOn", "type": "iso-8601"},
+    }
+
+    def __init__(
+        self,
+        *,
+        last_updated_on: datetime.datetime,
+        state: Optional[Union[str, "_models.ApiSourceLinkState"]] = None,
+        message: Optional[str] = None,
+        **kwargs: Any
+    ) -> None:
+        """
+        :keyword state: The state of the link. Known values are: "initializing", "syncing", "error",
+         and "deleting".
+        :paramtype state: str or ~azure.mgmt.apicenter.models.ApiSourceLinkState
+        :keyword message: The state message.
+        :paramtype message: str
+        :keyword last_updated_on: The timestamp of the last update of the link state. Required.
+        :paramtype last_updated_on: ~datetime.datetime
+        """
+        super().__init__(**kwargs)
+        self.state = state
+        self.message = message
+        self.last_updated_on = last_updated_on
+
+
 class ManagedServiceIdentity(_serialization.Model):
     """Managed service identity (system assigned and/or user assigned identities).
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar principal_id: The service principal ID of the system assigned identity. This property
      will only be provided for a system assigned identity.
@@ -1247,8 +1384,8 @@ class ManagedServiceIdentity(_serialization.Model):
          ~azure.mgmt.apicenter.models.UserAssignedIdentity]
         """
         super().__init__(**kwargs)
-        self.principal_id = None
-        self.tenant_id = None
+        self.principal_id: Optional[str] = None
+        self.tenant_id: Optional[str] = None
         self.type = type
         self.user_assigned_identities = user_assigned_identities
 
@@ -1310,8 +1447,10 @@ class MetadataSchema(ProxyResource):
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
     :vartype system_data: ~azure.mgmt.apicenter.models.SystemData
-    :ivar properties: The resource-specific properties for this resource.
-    :vartype properties: ~azure.mgmt.apicenter.models.MetadataSchemaProperties
+    :ivar schema: The schema defining the type.
+    :vartype schema: str
+    :ivar assigned_to: The assignees.
+    :vartype assigned_to: list[~azure.mgmt.apicenter.models.MetadataAssignment]
     """
 
     _validation = {
@@ -1326,16 +1465,26 @@ class MetadataSchema(ProxyResource):
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
         "system_data": {"key": "systemData", "type": "SystemData"},
-        "properties": {"key": "properties", "type": "MetadataSchemaProperties"},
+        "schema": {"key": "properties.schema", "type": "str"},
+        "assigned_to": {"key": "properties.assignedTo", "type": "[MetadataAssignment]"},
     }
 
-    def __init__(self, *, properties: Optional["_models.MetadataSchemaProperties"] = None, **kwargs: Any) -> None:
+    def __init__(
+        self,
+        *,
+        schema: Optional[str] = None,
+        assigned_to: Optional[List["_models.MetadataAssignment"]] = None,
+        **kwargs: Any
+    ) -> None:
         """
-        :keyword properties: The resource-specific properties for this resource.
-        :paramtype properties: ~azure.mgmt.apicenter.models.MetadataSchemaProperties
+        :keyword schema: The schema defining the type.
+        :paramtype schema: str
+        :keyword assigned_to: The assignees.
+        :paramtype assigned_to: list[~azure.mgmt.apicenter.models.MetadataAssignment]
         """
         super().__init__(**kwargs)
-        self.properties = properties
+        self.schema = schema
+        self.assigned_to = assigned_to
 
 
 class MetadataSchemaExportRequest(_serialization.Model):
@@ -1399,7 +1548,7 @@ class MetadataSchemaListResult(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: The MetadataSchema items on this page. Required.
     :vartype value: list[~azure.mgmt.apicenter.models.MetadataSchema]
@@ -1420,42 +1569,8 @@ class MetadataSchemaListResult(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.value = None
-        self.next_link = None
-
-
-class MetadataSchemaProperties(_serialization.Model):
-    """Metadata schema properties.
-
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar schema: The schema defining the type. Required.
-    :vartype schema: str
-    :ivar assigned_to: The assignees.
-    :vartype assigned_to: list[~azure.mgmt.apicenter.models.MetadataAssignment]
-    """
-
-    _validation = {
-        "schema": {"required": True},
-    }
-
-    _attribute_map = {
-        "schema": {"key": "schema", "type": "str"},
-        "assigned_to": {"key": "assignedTo", "type": "[MetadataAssignment]"},
-    }
-
-    def __init__(
-        self, *, schema: str, assigned_to: Optional[List["_models.MetadataAssignment"]] = None, **kwargs: Any
-    ) -> None:
-        """
-        :keyword schema: The schema defining the type. Required.
-        :paramtype schema: str
-        :keyword assigned_to: The assignees.
-        :paramtype assigned_to: list[~azure.mgmt.apicenter.models.MetadataAssignment]
-        """
-        super().__init__(**kwargs)
-        self.schema = schema
-        self.assigned_to = assigned_to
+        self.value: Optional[List["_models.MetadataSchema"]] = None
+        self.next_link: Optional[str] = None
 
 
 class Onboarding(_serialization.Model):
@@ -1533,11 +1648,11 @@ class Operation(_serialization.Model):
         :paramtype display: ~azure.mgmt.apicenter.models.OperationDisplay
         """
         super().__init__(**kwargs)
-        self.name = None
-        self.is_data_action = None
+        self.name: Optional[str] = None
+        self.is_data_action: Optional[bool] = None
         self.display = display
-        self.origin = None
-        self.action_type = None
+        self.origin: Optional[Union[str, "_models.Origin"]] = None
+        self.action_type: Optional[Union[str, "_models.ActionType"]] = None
 
 
 class OperationDisplay(_serialization.Model):
@@ -1576,10 +1691,10 @@ class OperationDisplay(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.provider = None
-        self.resource = None
-        self.operation = None
-        self.description = None
+        self.provider: Optional[str] = None
+        self.resource: Optional[str] = None
+        self.operation: Optional[str] = None
+        self.description: Optional[str] = None
 
 
 class OperationListResult(_serialization.Model):
@@ -1607,8 +1722,8 @@ class OperationListResult(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.value = None
-        self.next_link = None
+        self.value: Optional[List["_models.Operation"]] = None
+        self.next_link: Optional[str] = None
 
 
 class TrackedResource(Resource):
@@ -1617,7 +1732,7 @@ class TrackedResource(Resource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
@@ -1670,7 +1785,7 @@ class Service(TrackedResource):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar id: Fully qualified resource ID for the resource. E.g.
      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}".
@@ -1687,10 +1802,14 @@ class Service(TrackedResource):
     :vartype tags: dict[str, str]
     :ivar location: The geo-location where the resource lives. Required.
     :vartype location: str
-    :ivar properties: The resource-specific properties for this resource.
-    :vartype properties: ~azure.mgmt.apicenter.models.ServiceProperties
     :ivar identity: The managed service identities assigned to this resource.
     :vartype identity: ~azure.mgmt.apicenter.models.ManagedServiceIdentity
+    :ivar provisioning_state: Provisioning state of the service. Known values are: "Succeeded",
+     "Failed", and "Canceled".
+    :vartype provisioning_state: str or ~azure.mgmt.apicenter.models.ProvisioningState
+    :ivar restore: Flag used to restore soft-deleted API Center service. If specified and set to
+     'true' all other properties will be ignored.
+    :vartype restore: bool
     """
 
     _validation = {
@@ -1699,6 +1818,7 @@ class Service(TrackedResource):
         "type": {"readonly": True},
         "system_data": {"readonly": True},
         "location": {"required": True},
+        "provisioning_state": {"readonly": True},
     }
 
     _attribute_map = {
@@ -1708,8 +1828,9 @@ class Service(TrackedResource):
         "system_data": {"key": "systemData", "type": "SystemData"},
         "tags": {"key": "tags", "type": "{str}"},
         "location": {"key": "location", "type": "str"},
-        "properties": {"key": "properties", "type": "ServiceProperties"},
         "identity": {"key": "identity", "type": "ManagedServiceIdentity"},
+        "provisioning_state": {"key": "properties.provisioningState", "type": "str"},
+        "restore": {"key": "properties.restore", "type": "bool"},
     }
 
     def __init__(
@@ -1717,8 +1838,8 @@ class Service(TrackedResource):
         *,
         location: str,
         tags: Optional[Dict[str, str]] = None,
-        properties: Optional["_models.ServiceProperties"] = None,
         identity: Optional["_models.ManagedServiceIdentity"] = None,
+        restore: bool = False,
         **kwargs: Any
     ) -> None:
         """
@@ -1726,14 +1847,16 @@ class Service(TrackedResource):
         :paramtype tags: dict[str, str]
         :keyword location: The geo-location where the resource lives. Required.
         :paramtype location: str
-        :keyword properties: The resource-specific properties for this resource.
-        :paramtype properties: ~azure.mgmt.apicenter.models.ServiceProperties
         :keyword identity: The managed service identities assigned to this resource.
         :paramtype identity: ~azure.mgmt.apicenter.models.ManagedServiceIdentity
+        :keyword restore: Flag used to restore soft-deleted API Center service. If specified and set to
+         'true' all other properties will be ignored.
+        :paramtype restore: bool
         """
         super().__init__(tags=tags, location=location, **kwargs)
-        self.properties = properties
         self.identity = identity
+        self.provisioning_state: Optional[Union[str, "_models.ProvisioningState"]] = None
+        self.restore = restore
 
 
 class ServiceListResult(_serialization.Model):
@@ -1741,7 +1864,7 @@ class ServiceListResult(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: The Service items on this page. Required.
     :vartype value: list[~azure.mgmt.apicenter.models.Service]
@@ -1762,32 +1885,8 @@ class ServiceListResult(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.value = None
-        self.next_link = None
-
-
-class ServiceProperties(_serialization.Model):
-    """The properties of the service.
-
-    Variables are only populated by the server, and will be ignored when sending a request.
-
-    :ivar provisioning_state: Provisioning state of the service. Known values are: "Succeeded",
-     "Failed", and "Canceled".
-    :vartype provisioning_state: str or ~azure.mgmt.apicenter.models.ProvisioningState
-    """
-
-    _validation = {
-        "provisioning_state": {"readonly": True},
-    }
-
-    _attribute_map = {
-        "provisioning_state": {"key": "provisioningState", "type": "str"},
-    }
-
-    def __init__(self, **kwargs: Any) -> None:
-        """ """
-        super().__init__(**kwargs)
-        self.provisioning_state = None
+        self.value: Optional[List["_models.Service"]] = None
+        self.next_link: Optional[str] = None
 
 
 class ServiceUpdate(_serialization.Model):
@@ -1797,11 +1896,15 @@ class ServiceUpdate(_serialization.Model):
     :vartype identity: ~azure.mgmt.apicenter.models.ManagedServiceIdentity
     :ivar tags: Resource tags.
     :vartype tags: dict[str, str]
+    :ivar restore: Flag used to restore soft-deleted API Center service. If specified and set to
+     'true' all other properties will be ignored.
+    :vartype restore: bool
     """
 
     _attribute_map = {
         "identity": {"key": "identity", "type": "ManagedServiceIdentity"},
         "tags": {"key": "tags", "type": "{str}"},
+        "restore": {"key": "properties.restore", "type": "bool"},
     }
 
     def __init__(
@@ -1809,6 +1912,7 @@ class ServiceUpdate(_serialization.Model):
         *,
         identity: Optional["_models.ManagedServiceIdentity"] = None,
         tags: Optional[Dict[str, str]] = None,
+        restore: bool = False,
         **kwargs: Any
     ) -> None:
         """
@@ -1816,10 +1920,14 @@ class ServiceUpdate(_serialization.Model):
         :paramtype identity: ~azure.mgmt.apicenter.models.ManagedServiceIdentity
         :keyword tags: Resource tags.
         :paramtype tags: dict[str, str]
+        :keyword restore: Flag used to restore soft-deleted API Center service. If specified and set to
+         'true' all other properties will be ignored.
+        :paramtype restore: bool
         """
         super().__init__(**kwargs)
         self.identity = identity
         self.tags = tags
+        self.restore = restore
 
 
 class SystemData(_serialization.Model):
@@ -1889,7 +1997,7 @@ class SystemData(_serialization.Model):
 class TermsOfService(_serialization.Model):
     """Terms of service for the API.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar url: URL pointing to the terms of service. Required.
     :vartype url: str
@@ -1936,8 +2044,8 @@ class UserAssignedIdentity(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.principal_id = None
-        self.client_id = None
+        self.principal_id: Optional[str] = None
+        self.client_id: Optional[str] = None
 
 
 class Workspace(ProxyResource):
@@ -1956,8 +2064,10 @@ class Workspace(ProxyResource):
     :ivar system_data: Azure Resource Manager metadata containing createdBy and modifiedBy
      information.
     :vartype system_data: ~azure.mgmt.apicenter.models.SystemData
-    :ivar properties: The resource-specific properties for this resource.
-    :vartype properties: ~azure.mgmt.apicenter.models.WorkspaceProperties
+    :ivar title: Workspace title.
+    :vartype title: str
+    :ivar description: Workspace description.
+    :vartype description: str
     """
 
     _validation = {
@@ -1965,6 +2075,7 @@ class Workspace(ProxyResource):
         "name": {"readonly": True},
         "type": {"readonly": True},
         "system_data": {"readonly": True},
+        "title": {"max_length": 50, "min_length": 1},
     }
 
     _attribute_map = {
@@ -1972,16 +2083,20 @@ class Workspace(ProxyResource):
         "name": {"key": "name", "type": "str"},
         "type": {"key": "type", "type": "str"},
         "system_data": {"key": "systemData", "type": "SystemData"},
-        "properties": {"key": "properties", "type": "WorkspaceProperties"},
+        "title": {"key": "properties.title", "type": "str"},
+        "description": {"key": "properties.description", "type": "str"},
     }
 
-    def __init__(self, *, properties: Optional["_models.WorkspaceProperties"] = None, **kwargs: Any) -> None:
+    def __init__(self, *, title: Optional[str] = None, description: Optional[str] = None, **kwargs: Any) -> None:
         """
-        :keyword properties: The resource-specific properties for this resource.
-        :paramtype properties: ~azure.mgmt.apicenter.models.WorkspaceProperties
+        :keyword title: Workspace title.
+        :paramtype title: str
+        :keyword description: Workspace description.
+        :paramtype description: str
         """
         super().__init__(**kwargs)
-        self.properties = properties
+        self.title = title
+        self.description = description
 
 
 class WorkspaceListResult(_serialization.Model):
@@ -1989,7 +2104,7 @@ class WorkspaceListResult(_serialization.Model):
 
     Variables are only populated by the server, and will be ignored when sending a request.
 
-    All required parameters must be populated in order to send to Azure.
+    All required parameters must be populated in order to send to server.
 
     :ivar value: The Workspace items on this page. Required.
     :vartype value: list[~azure.mgmt.apicenter.models.Workspace]
@@ -2010,37 +2125,5 @@ class WorkspaceListResult(_serialization.Model):
     def __init__(self, **kwargs: Any) -> None:
         """ """
         super().__init__(**kwargs)
-        self.value = None
-        self.next_link = None
-
-
-class WorkspaceProperties(_serialization.Model):
-    """Workspace properties.
-
-    All required parameters must be populated in order to send to Azure.
-
-    :ivar title: Workspace title. Required.
-    :vartype title: str
-    :ivar description: Workspace description.
-    :vartype description: str
-    """
-
-    _validation = {
-        "title": {"required": True, "max_length": 50, "min_length": 1},
-    }
-
-    _attribute_map = {
-        "title": {"key": "title", "type": "str"},
-        "description": {"key": "description", "type": "str"},
-    }
-
-    def __init__(self, *, title: str, description: Optional[str] = None, **kwargs: Any) -> None:
-        """
-        :keyword title: Workspace title. Required.
-        :paramtype title: str
-        :keyword description: Workspace description.
-        :paramtype description: str
-        """
-        super().__init__(**kwargs)
-        self.title = title
-        self.description = description
+        self.value: Optional[List["_models.Workspace"]] = None
+        self.next_link: Optional[str] = None
